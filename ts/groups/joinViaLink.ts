@@ -20,6 +20,7 @@ import type { ConversationAttributesType } from '../model-types.d';
 import type { ConversationModel } from '../models/conversations';
 import type { PreJoinConversationType } from '../state/ducks/conversations';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 export async function joinViaLink(hash: string): Promise<void> {
   let inviteLinkPassword: string;
@@ -28,7 +29,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     ({ inviteLinkPassword, masterKey } = parseGroupLink(hash));
   } catch (error) {
     const errorString = error && error.stack ? error.stack : error;
-    window.log.error(`joinViaLink: Failed to parse group link ${errorString}`);
+    log.error(`joinViaLink: Failed to parse group link ${errorString}`);
     if (error && error.name === LINK_VERSION_ERROR) {
       showErrorDialog(
         window.i18n('GroupV2--join--unknown-link-version'),
@@ -58,7 +59,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     existingConversation &&
     existingConversation.hasMember(ourConversationId)
   ) {
-    window.log.warn(
+    log.warn(
       `joinViaLink/${logId}: Already a member of group, opening conversation`
     );
     window.reduxActions.conversations.openConversationInternal({
@@ -84,7 +85,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     });
   } catch (error) {
     const errorString = error && error.stack ? error.stack : error;
-    window.log.error(
+    log.error(
       `joinViaLink/${logId}: Failed to fetch group info - ${errorString}`
     );
 
@@ -104,7 +105,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     result.addFromInviteLink !== ACCESS_ENUM.ADMINISTRATOR &&
     result.addFromInviteLink !== ACCESS_ENUM.ANY
   ) {
-    window.log.error(
+    log.error(
       `joinViaLink/${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );
     showErrorDialog(
@@ -136,7 +137,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     existingConversation &&
     existingConversation.isMemberAwaitingApproval(ourConversationId)
   ) {
-    window.log.warn(
+    log.warn(
       `joinViaLink/${logId}: Already awaiting approval, opening conversation`
     );
     window.reduxActions.conversations.openConversationInternal({
@@ -226,7 +227,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               (approvalRequired &&
                 targetConversation.isMemberAwaitingApproval(ourConversationId)))
           ) {
-            window.log.warn(
+            log.warn(
               `joinViaLink/${logId}: User is part of group on second check, opening conversation`
             );
             window.reduxActions.conversations.openConversationInternal({
@@ -339,7 +340,7 @@ export async function joinViaLink(hash: string): Promise<void> {
     getPreJoinConversation()
   );
 
-  window.log.info(`joinViaLink/${logId}: Showing modal`);
+  log.info(`joinViaLink/${logId}: Showing modal`);
 
   let groupV2InfoDialog:
     | Backbone.View

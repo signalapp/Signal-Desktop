@@ -14,7 +14,11 @@ import { getStringForProfileChange } from './getStringForProfileChange';
 import { getTextWithMentions } from './getTextWithMentions';
 import { getUserAgent } from './getUserAgent';
 import { hasExpired } from './hasExpired';
-import { incrementMessageCounter } from './incrementMessageCounter';
+import {
+  initializeMessageCounter,
+  incrementMessageCounter,
+  flushMessageCounter,
+} from './incrementMessageCounter';
 import { isFileDangerous } from './isFileDangerous';
 import { makeLookup } from './makeLookup';
 import {
@@ -50,6 +54,7 @@ export {
   createWaitBatcher,
   deleteForEveryone,
   downloadAttachment,
+  flushMessageCounter,
   fromWebSafeBase64,
   generateSecurityNumber,
   getStringForProfileChange,
@@ -57,6 +62,7 @@ export {
   getUserAgent,
   hasExpired,
   incrementMessageCounter,
+  initializeMessageCounter,
   isFileDangerous,
   longRunningTaskWrapper,
   makeLookup,

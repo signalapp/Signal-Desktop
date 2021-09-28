@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Diese Unterhaltungen sind archiviert und werden nur dann im Eingang erscheinen, falls neue Nachrichten empfangen werden.",
+        "message": "Diese Unterhaltungen sind archiviert und erscheinen nur dann im Eingang, wenn neue Nachrichten eingehen.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -258,7 +258,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Du hast gerade den Exportierungsprozess durchlaufen, und deine Kontakte und Nachrichten warten geduldig auf deinem Computer. Wähle nun den Ordner aus, der deine gespeicherten Signal-Daten enthält.",
+        "message": "Du hast gerade den Exportvorgang abgeschlossen. Deine Kontakte und Nachrichten warten geduldig auf deinem Computer. Wähle nun den Ordner aus, der deine gespeicherten Signal-Daten enthält.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -414,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "Die folgenden Personen haben Signal vielleicht erneut installiert oder das Gerät gewechselt. Verifiziert eure gemeinsame Sicherheitsnummer zur Sicherstellung der Privatsphäre.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Ausstehende Nachricht senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "$count$ ausstehende Nachrichten senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "Deine Sicherheitsnummer mit $name1$ hat sich geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber $name2$ hat Signal einfach erneut installiert. Vielleicht möchtest du die neue Sicherheitsnummer mit diesem Kontakt verifizieren.",
@@ -774,7 +788,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS-Kontakte sind auf Signal Desktop nicht verfügbar.",
+        "message": "SMS-/MMS-Kontakte sind auf Signal Desktop nicht verfügbar.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -916,7 +930,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Die maximale Dauer von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, falls du zu einer anderen App wechselst.",
+        "message": "Die maximale Dauer von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, wenn du zu einer anderen App wechselst.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -1108,7 +1122,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellte Nummer mit jener auf dem Gerät deines Kontakts.",
+        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellten Zahlen mit jenen auf dem Gerät deines Kontakts.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1402,7 +1416,7 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Gruppe ist zu groß, um die Teilnehmer anzuklingeln.",
+        "message": "Gruppe ist zu groß, um bei den Teilnehmern zu klingeln.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -1528,7 +1542,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal wird bei $first$, $second$ und $others$ weiteren Personen klingeln",
+        "message": "Signal wird bei $first$, $second$ und $others$ weiteren Personen klingeln",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1634,7 +1648,7 @@
         }
     },
     "calling__block-info": {
-        "message": "Weder wirst du Audio- oder Videodaten dieses Teilnehmers empfangen, noch wird er deine empfangen.",
+        "message": "Du wirst weder Audio- oder Videodaten dieses Teilnehmers empfangen, noch wird er deine empfangen.",
         "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
     },
     "calling__overflow__scroll-up": {
@@ -1792,7 +1806,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Verbindung wird getrennt und alle Daten gelöscht",
+        "message": "Verbindung wird getrennt und alle Daten werden gelöscht",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -2518,7 +2532,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Hier werden Sticker eingehender Nachrichten erscheinen",
+        "message": "Hier werden Sticker eingehender Nachrichten angezeigt",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2586,7 +2600,7 @@
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hier werden die zuletzt verwendeten Sticker erscheinen.",
+        "message": "Hier werden die zuletzt verwendeten Sticker angezeigt.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2824,7 +2838,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Senden (in erweitertem Nachrichteneingabefeld)",
+        "message": "Senden (im erweiterten Nachrichteneingabefeld)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2992,7 +3006,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Sticker müssen das PNG‑, APNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlener Rand beträgt 16 px.",
+        "message": "Sticker müssen das PNG-, APNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlener Rand beträgt 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -3165,11 +3179,15 @@
         "message": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Gestalter zu verwenden",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Reaktion entfernen",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Reaktion konnte nicht versendet werden. Bitte versuche es erneut.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mehr",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ hat dich zur Gruppe hinzugefügt.",
@@ -3768,7 +3768,7 @@
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Für 8 Stunden stummschalten",
+        "message": "Für 8 Stunden",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
@@ -3780,7 +3780,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Immer stummschalten",
+        "message": "Für immer",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3792,7 +3792,7 @@
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "Stumm bis $duration$",
+        "message": "Stumm bis $duration$ Uhr",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -5006,11 +5006,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Du hast die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "Du hast die Gruppeneinstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "$memberName$ hat die Gruppeneinstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5020,15 +5020,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Die Gruppen-Einstellungen wurden geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "Die Gruppeneinstellungen wurden geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Du hast die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "Du hast die Gruppeneinstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "$memberName$ hat die Gruppeneinstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5038,7 +5038,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Die Gruppen-Einstellungen wurden geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "Die Gruppeneinstellungen wurden geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5370,7 +5370,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Nicht benachrichtigen falls stumm",
+        "message": "Bei Stummschaltung nicht benachrichtigen",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Kontakt auswählen",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Kontakt abwählen",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Kontakt kann nicht ausgewählt werden",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Bereits Mitglied",
@@ -5872,7 +5890,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Möchtest du alle Unterhaltungsfarben überschreiben? ",
+        "message": "Möchtest du alle Unterhaltungsfarben überschreiben?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Unterhaltungen",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Anrufe",
@@ -6200,7 +6218,7 @@
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
-        "message": "Erweiterte Einstellungen",
+        "message": "Weitere Einstellungen",
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
@@ -6279,6 +6297,14 @@
         "message": "Aktualisierungen automatisch herunterladen",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Benachrichtigungen aktivieren",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Geräte",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Aktualisierung auf Version $version$ verfügbar",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Wenn du während eines Anrufs mit der Maus über die Anrufschaltflächen fährst, bleiben diese sichtbar und verschwinden nicht. Nichts verbirgt sich vor deinem Adlerauge, nicht einmal diese Schaltflächen! ",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Probiere die neue Berechtigung »Nachrichten senden« aus, um einzuschränken, wer in deinen Gruppen Nachrichten senden darf. Großartig, um eine Veranstaltung zu organisieren, eine Ankündigung zu machen oder einfach nur von den Dächern zu schreien. Alle Gruppenmitglieder müssen die neueste Version von Signal verwenden, damit die Einstellung angezeigt wird. ",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Du kannst nun Nachrichten versenden, wo und wann immer du bist: in einem Flugzeug, einem Tunnel oder einem dieser traurigen Momente, wenn gerade deine Internetverbindung zusammenbricht. Irgendwann wird sie durchkommen, denn Nachrichten werden nun für bis zu 24 Stunden automatisch erneut versendet.",
+        "description": "Release notes for v5.17"
     }
 }

@@ -37,7 +37,7 @@ import {
 
 import * as OS from '../OS';
 import { LocalizerType, ScrollBehavior } from '../types/Util';
-import { usePrevious } from '../util/hooks';
+import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ConversationList } from './ConversationList';

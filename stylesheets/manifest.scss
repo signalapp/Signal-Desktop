@@ -26,6 +26,7 @@
 @import 'options';
 
 // New style: components
+@import './components/About.scss';
 @import './components/AddGroupMembersModal.scss';
 @import './components/AnnouncementsOnlyGroupBanner.scss';
 @import './components/App.scss';
@@ -44,6 +45,7 @@
 @import './components/ChatColorPicker.scss';
 @import './components/Checkbox.scss';
 @import './components/CompositionArea.scss';
+@import './components/ContactModal.scss';
 @import './components/ContactName.scss';
 @import './components/ContactPill.scss';
 @import './components/ContactPills.scss';
@@ -51,6 +53,7 @@
 @import './components/ContactSpoofingReviewDialogPerson.scss';
 @import './components/ConversationHeader.scss';
 @import './components/CustomColorEditor.scss';
+@import './components/CustomizingPreferredReactionsModal.scss';
 @import './components/DisappearingTimeDialog.scss';
 @import './components/DisappearingTimerSelect.scss';
 @import './components/EditConversationAttributesModal.scss';
@@ -67,9 +70,10 @@
 @import './components/MessageAudio.scss';
 @import './components/MessageDetail.scss';
 @import './components/Modal.scss';
+@import './components/PermissionsPopup.scss';
 @import './components/Preferences.scss';
 @import './components/ProfileEditor.scss';
-@import './components/ReactionPicker.scss';
+@import './components/ReactionPickerPicker.scss';
 @import './components/SafetyNumberChangeDialog.scss';
 @import './components/SafetyNumberViewer.scss';
 @import './components/SearchInput.scss';

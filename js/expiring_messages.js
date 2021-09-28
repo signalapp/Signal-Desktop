@@ -13,11 +13,13 @@
 
   async function destroyExpiredMessages() {
     try {
-      window.log.info('destroyExpiredMessages: Loading messages...');
+      window.SignalWindow.log.info(
+        'destroyExpiredMessages: Loading messages...'
+      );
       const messages = await window.Signal.Data.getExpiredMessages({
         MessageCollection: Whisper.MessageCollection,
       });
-      window.log.info(
+      window.SignalWindow.log.info(
         `destroyExpiredMessages: found ${messages.length} messages to expire`
       );
 
@@ -38,7 +40,7 @@
       await Promise.all(messageCleanup);
 
       inMemoryMessages.forEach(message => {
-        window.log.info('Message expired', {
+        window.SignalWindow.log.info('Message expired', {
           sentAt: message.get('sent_at'),
         });
 
@@ -50,23 +52,27 @@
         }
       });
     } catch (error) {
-      window.log.error(
+      window.SignalWindow.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
         error && error.stack ? error.stack : error
       );
     }
 
-    window.log.info('destroyExpiredMessages: complete');
+    window.SignalWindow.log.info('destroyExpiredMessages: complete');
     checkExpiringMessages();
   }
 
   let timeout;
   async function checkExpiringMessages() {
-    window.log.info('checkExpiringMessages: checking for expiring messages');
+    window.SignalWindow.log.info(
+      'checkExpiringMessages: checking for expiring messages'
+    );
 
     const soonestExpiry = await window.Signal.Data.getSoonestMessageExpiry();
     if (!soonestExpiry) {
-      window.log.info('checkExpiringMessages: found no messages to expire');
+      window.SignalWindow.log.info(
+        'checkExpiringMessages: found no messages to expire'
+      );
       return;
     }
 
@@ -82,7 +88,7 @@
       wait = 2147483647;
     }
 
-    window.log.info(
+    window.SignalWindow.log.info(
       `checkExpiringMessages: next message expires ${new Date(
         soonestExpiry
       ).toISOString()}; waiting ${wait} ms before clearing`

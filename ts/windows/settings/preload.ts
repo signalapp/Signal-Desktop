@@ -1,20 +1,16 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import url from 'url';
-import { ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 
 // It is important to call this as early as possible
 import '../context';
 
+import { SignalWindow } from '../configure';
 import * as Settings from '../../types/Settings';
-import i18n from '../../../js/modules/i18n';
-import {
-  Preferences,
-  PropsType as PreferencesPropsType,
-} from '../../components/Preferences';
+import { Preferences } from '../../components/Preferences';
 import {
   SystemTraySetting,
   parseSystemTraySetting,
@@ -22,27 +18,7 @@ import {
 } from '../../types/SystemTraySetting';
 import { awaitObject } from '../../util/awaitObject';
 import { createSetting, createCallback } from '../../util/preload';
-import {
-  getEnvironment,
-  setEnvironment,
-  parseEnvironment,
-} from '../../environment';
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
-import { strictAssert } from '../../util/assert';
 
-const config = url.parse(window.location.toString(), true).query;
-const { locale } = config;
-strictAssert(locale, 'locale could not be parsed from config');
-strictAssert(typeof locale === 'string', 'locale is not a string');
-
-const localeMessages = ipcRenderer.sendSync('locale-data');
-setEnvironment(parseEnvironment(config.environment));
-
-window.React = React;
-window.ReactDOM = ReactDOM;
-window.getEnvironment = getEnvironment;
-window.getVersion = () => String(config.version);
-window.i18n = i18n.setup(locale, localeMessages);
 function doneRendering() {
   ipcRenderer.send('settings-done-rendering');
 }
@@ -130,16 +106,6 @@ const ipcSetGlobalDefaultConversationColor = createCallback(
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
-let renderComponent: (
-  component: typeof Preferences,
-  props: PreferencesPropsType
-) => void;
-window.SignalModule = {
-  registerReactRenderer: f => {
-    renderComponent = f;
-  },
-};
-
 function getSystemTraySettingValues(
   systemTraySetting: SystemTraySetting
 ): {
@@ -161,11 +127,6 @@ function getSystemTraySettingValues(
 }
 
 const renderPreferences = async () => {
-  if (!renderComponent) {
-    setTimeout(window.renderPreferences, 100);
-    return;
-  }
-
   const {
     blockedCount,
     deviceName,
@@ -300,7 +261,7 @@ const renderPreferences = async () => {
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
-      config.appStartInitialSpellcheckSetting === 'true',
+      SignalWindow.config.appStartInitialSpellcheckSetting === 'true',
     makeSyncRequest: ipcMakeSyncRequest,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,
@@ -316,7 +277,9 @@ const renderPreferences = async () => {
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(),
     isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
-    isSystemTraySupported: Settings.isSystemTraySupported(window.getVersion()),
+    isSystemTraySupported: Settings.isSystemTraySupported(
+      SignalWindow.getVersion()
+    ),
 
     // Change handlers
     onAudioNotificationsChange: reRender(settingAudioNotification.setValue),
@@ -381,7 +344,7 @@ const renderPreferences = async () => {
     //    rerender.
     onZoomFactorChange: settingZoomFactor.setValue,
 
-    i18n: window.i18n,
+    i18n: SignalWindow.i18n,
   };
 
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
@@ -391,10 +354,15 @@ const renderPreferences = async () => {
     };
   }
 
-  renderComponent(Preferences, props);
+  ReactDOM.render(
+    React.createElement(Preferences, props),
+    document.getElementById('app')
+  );
 };
-window.renderPreferences = renderPreferences;
-
-initializeLogging();
 
 ipcRenderer.on('render', () => renderPreferences());
+
+contextBridge.exposeInMainWorld('SignalWindow', {
+  ...SignalWindow,
+  renderWindow: renderPreferences,
+});

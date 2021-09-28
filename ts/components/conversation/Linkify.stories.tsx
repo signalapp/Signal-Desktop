@@ -66,9 +66,10 @@ story.add('Blocked Protocols', () => {
   return <Linkify {...props} />;
 });
 
-story.add('Missing Protocol', () => {
+story.add('Missing protocols', () => {
   const props = createProps({
-    text: 'github.com is a place for things',
+    text:
+      'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
 
   return <Linkify {...props} />;

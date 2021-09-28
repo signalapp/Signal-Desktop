@@ -23,7 +23,7 @@ import {
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { MessageAudio } from './MessageAudio';
 import { computePeaks } from '../GlobalAudioContext';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
@@ -46,6 +46,8 @@ const renderEmojiPicker: Props['renderEmojiPicker'] = ({
     onPickEmoji={onPickEmoji}
   />
 );
+
+const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
 
 const MessageAudioContainer: React.FC<AudioAttachmentProps> = props => {
   const [active, setActive] = React.useState<{
@@ -135,6 +137,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       ? ReadStatus.Read
       : overrideProps.readStatus,
   renderEmojiPicker,
+  renderReactionPicker,
   renderAudioAttachment,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
@@ -474,6 +477,19 @@ story.add('Deleted', () => {
   const props = createProps({
     conversationType: 'group',
     deletedForEveryone: true,
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+});
+
+story.add('Deleted with expireTimer', () => {
+  const props = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    deletedForEveryone: true,
+    expirationLength: 5 * 60 * 1000,
+    expirationTimestamp: Date.now() + 3 * 60 * 1000,
     status: 'sent',
   });
 

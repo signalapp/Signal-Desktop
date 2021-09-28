@@ -10,7 +10,7 @@ import { number } from '@storybook/addon-knobs';
 import enMessages from '../../_locales/en/messages.json';
 import { Lightbox, PropsType } from './Lightbox';
 import { MediaItemType } from '../types/MediaItem';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,

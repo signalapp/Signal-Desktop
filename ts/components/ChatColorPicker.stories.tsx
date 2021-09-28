@@ -10,7 +10,7 @@ import { select } from '@storybook/addon-knobs';
 import enMessages from '../../_locales/en/messages.json';
 import { ChatColorPicker, PropsType } from './ChatColorPicker';
 import { ConversationColors } from '../types/Colors';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 
 const story = storiesOf('Components/ChatColorPicker', module);
 

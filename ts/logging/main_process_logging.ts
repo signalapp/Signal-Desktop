@@ -340,7 +340,7 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>) {
   if (globalLogger) {
     const levelString = getLogLevelString(level);
     globalLogger[levelString](cleanArgs(args));
-  } else if (isRunningFromConsole) {
+  } else if (isRunningFromConsole && !process.stdout.destroyed) {
     console._log(...args);
   }
 }

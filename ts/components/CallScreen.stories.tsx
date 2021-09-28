@@ -18,7 +18,7 @@ import {
 import { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';

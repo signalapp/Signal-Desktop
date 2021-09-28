@@ -75,6 +75,7 @@ import {
   maxStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
+import * as log from '../../logging/log';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -135,9 +136,7 @@ export function getSource(
     return message.source;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
-      'message.getSource: Called for non-incoming/non-outoing message'
-    );
+    log.warn('message.getSource: Called for non-incoming/non-outoing message');
   }
 
   return ourNumber;
@@ -153,7 +152,7 @@ export function getSourceDevice(
     return sourceDevice;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
+    log.warn(
       'message.getSourceDevice: Called for non-incoming/non-outoing message'
     );
   }
@@ -169,7 +168,7 @@ export function getSourceUuid(
     return message.sourceUuid;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
+    log.warn(
       'message.getSourceUuid: Called for non-incoming/non-outoing message'
     );
   }
@@ -1079,7 +1078,7 @@ export function getPropsForCallHistory(
       const creator = conversationSelector(callHistoryDetails.creatorUuid);
       let call = callSelector(conversationId);
       if (call && call.callMode !== CallMode.Group) {
-        window.log.error(
+        log.error(
           'getPropsForCallHistory: there is an unexpected non-group call; pretending it does not exist'
         );
         call = undefined;

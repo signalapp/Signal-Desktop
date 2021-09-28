@@ -12,7 +12,7 @@ import { MessageDetail, Props } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -75,6 +75,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   reactToMessage: action('reactToMessage'),
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   renderEmojiPicker: () => <div />,
+  renderReactionPicker: () => <div />,
   replyToMessage: action('replyToMessage'),
   retrySend: action('retrySend'),
   showContactDetail: action('showContactDetail'),

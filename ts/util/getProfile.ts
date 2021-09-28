@@ -3,6 +3,9 @@
 
 import { ProfileKeyCredentialRequestContext } from 'zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import {
   base64ToArrayBuffer,
   stringFromBytes,
@@ -16,6 +19,7 @@ import {
 } from './zkgroup';
 import { getSendOptions } from './getSendOptions';
 import { isMe } from './whatTypeOfConversation';
+import * as log from '../logging/log';
 
 export async function getProfile(
   providedUuid?: string,
@@ -33,7 +37,7 @@ export async function getProfile(
   });
   const c = window.ConversationController.get(id);
   if (!c) {
-    window.log.error('getProfile: failed to find conversation; doing nothing');
+    log.error('getProfile: failed to find conversation; doing nothing');
     return;
   }
 
@@ -54,6 +58,7 @@ export async function getProfile(
     const uuid = c.get('uuid')!;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const identifier = c.getSendTarget()!;
+    const targetUuid = UUID.checkedLookup(identifier);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const profileKeyVersionHex = c.get('profileKeyVersion')!;
     const existingProfileKeyCredential = c.get('profileKeyCredential');
@@ -69,7 +74,7 @@ export async function getProfile(
       profileKeyVersionHex &&
       !existingProfileKeyCredential
     ) {
-      window.log.info('Generating request...');
+      log.info('Generating request...');
       ({
         requestHex: profileKeyCredentialRequestHex,
         context: profileCredentialRequestContext,
@@ -94,7 +99,7 @@ export async function getProfile(
         });
       } catch (error) {
         if (error.code === 401 || error.code === 403) {
-          window.log.info(
+          log.info(
             `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
           );
           c.set({ sealedSender: SEALED_SENDER.DISABLED });
@@ -115,21 +120,22 @@ export async function getProfile(
 
     const identityKey = base64ToArrayBuffer(profile.identityKey);
     const changed = await window.textsecure.storage.protocol.saveIdentity(
-      `${identifier}.1`,
+      new Address(targetUuid, 1),
       identityKey,
       false
     );
     if (changed) {
       // save identity will close all sessions except for .1, so we
       // must close that one manually.
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
       await window.textsecure.storage.protocol.archiveSession(
-        `${identifier}.1`
+        new QualifiedAddress(ourUuid, new Address(targetUuid, 1))
       );
     }
 
     const accessKey = c.get('accessKey');
     if (profile.unrestrictedUnidentifiedAccess && profile.unidentifiedAccess) {
-      window.log.info(
+      log.info(
         `Setting sealedSender to UNRESTRICTED for conversation ${c.idForLogging()}`
       );
       c.set({
@@ -142,14 +148,14 @@ export async function getProfile(
       );
 
       if (haveCorrectKey) {
-        window.log.info(
+        log.info(
           `Setting sealedSender to ENABLED for conversation ${c.idForLogging()}`
         );
         c.set({
           sealedSender: SEALED_SENDER.ENABLED,
         });
       } else {
-        window.log.info(
+        log.info(
           `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
         );
         c.set({
@@ -157,7 +163,7 @@ export async function getProfile(
         });
       }
     } else {
-      window.log.info(
+      log.info(
         `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
       );
       c.set({
@@ -220,14 +226,14 @@ export async function getProfile(
       case 403:
         throw error;
       case 404:
-        window.log.warn(
+        log.warn(
           `getProfile failure: failed to find a profile for ${c.idForLogging()}`,
           error && error.stack ? error.stack : error
         );
         c.setUnregistered();
         return;
       default:
-        window.log.warn(
+        log.warn(
           'getProfile failure:',
           c.idForLogging(),
           error && error.stack ? error.stack : error
@@ -239,7 +245,7 @@ export async function getProfile(
   try {
     await c.setEncryptedProfileName(profile.name);
   } catch (error) {
-    window.log.warn(
+    log.warn(
       'getProfile decryption failure:',
       c.idForLogging(),
       error && error.stack ? error.stack : error
@@ -254,9 +260,7 @@ export async function getProfile(
     await c.setProfileAvatar(profile.avatar);
   } catch (error) {
     if (error.code === 403 || error.code === 404) {
-      window.log.info(
-        `Clearing profile avatar for conversation ${c.idForLogging()}`
-      );
+      log.info(`Clearing profile avatar for conversation ${c.idForLogging()}`);
       c.set({
         profileAvatar: null,
       });

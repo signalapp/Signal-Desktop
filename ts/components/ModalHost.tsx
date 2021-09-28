@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { Theme, themeClassName } from '../util/theme';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
   readonly noMouseClose?: boolean;
@@ -30,25 +31,7 @@ export const ModalHost = React.memo(
       };
     }, []);
 
-    useEffect(() => {
-      const handler = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          if (onEscape) {
-            onEscape();
-          } else {
-            onClose();
-          }
-
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      };
-      document.addEventListener('keydown', handler);
-
-      return () => {
-        document.removeEventListener('keydown', handler);
-      };
-    }, [onEscape, onClose]);
+    useEscapeHandling(onEscape || onClose);
 
     // This makes it easier to write dialogs to be hosted here; they won't have to worry
     //   as much about preventing propagation of mouse events.

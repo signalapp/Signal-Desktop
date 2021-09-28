@@ -14,6 +14,7 @@ import {
   getImageDimensions,
   defaultBlurHash,
 } from '../../types/Attachment';
+import * as log from '../../logging/log';
 
 const MAX_GIF_REPEAT = 4;
 const MAX_GIF_TIME = 8;
@@ -87,7 +88,7 @@ export const GIF: React.FC<Props> = props => {
 
     if (isPlaying) {
       video.play().catch(error => {
-        window.log.info(
+        log.info(
           "Failed to match GIF playback to window's state",
           (error && error.stack) || error
         );

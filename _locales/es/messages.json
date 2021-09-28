@@ -415,6 +415,20 @@
         "message": "Las siguientes personas pueden haber reinstalado Signal o cambiado su dispositivo. Verifica tus cifras de seguridad con ellas para asegurar vuestra privacidad.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Enviar mensaje pendiente",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Enviar $count$ mensajes pendientes",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Tus cifras de seguridad con $name1$ han cambiado, lo que significaría que alguien ha tratado de interceptar la comunicación o que $name2$ símplemente ha reinstalado Signal.  Tal vez desees verificar las cifras de seguridad con esta persona.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -2014,7 +2028,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Un(a) participante ha fijado la desaparición de mensajes en $time$.",
+        "message": "Un@ participante ha fijado la desaparición de mensajes en $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2050,7 +2064,7 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Un(a) participante ha desactivado la desaparición de mensajes.",
+        "message": "Un@ participante ha desactivado la desaparición de mensajes.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Haz clic para volver a enlazar Signal Desktop con tu dispositivo móvil para continuar enviando mensajes.",
+        "message": "Haz clic para volver a enlazar Signal Desktop con tu dispositivo móvil y continuar enviando mensajes.",
         "description": ""
     },
     "unlinked": {
@@ -2490,7 +2504,7 @@
         "description": "Shown in notifications and in the left pane when a message is a view once video. Also shown when quoting a view once video."
     },
     "message--deletedForEveryone": {
-        "message": "Mensaje borrado.",
+        "message": "Mensaje eliminado.",
         "description": "Shown in a message's bubble when the message has been deleted for everyone."
     },
     "stickers--toast--InstallFailed": {
@@ -3165,11 +3179,15 @@
         "message": "Por favor, configura Signal en tu teléfono y enlázalo con Signal Desktop para usar el Creador de Paquetes de Stickers",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Eliminar reacción",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Fallo al enviar la reacción. Inténtalo de nuevo.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Más",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Participa en «$group1$», «$group2$», «$group3$» y $remainingCount$ más",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ te ha añadido al grupo.",
@@ -3846,7 +3846,7 @@
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "Ya eres participante del grupo.",
+        "message": "Ya participas en el grupo.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
@@ -3870,7 +3870,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "Un(a) admin del grupo debe aprobar tu solicitud antes de poder unirte al grupo. Al unirte, tu nombre y foto se compartirán con sus participantes.",
+        "message": "Un@ admin del grupo debe aprobar tu solicitud antes de poder unirte al grupo. Al unirte, tu nombre y foto se compartirán con sus participantes.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
@@ -3992,7 +3992,7 @@
         }
     },
     "GroupV2--title--change--unknown": {
-        "message": "Un(a) participante ha modificado el nombre del grupo a «$newTitle$».",
+        "message": "Un@ participante ha modificado el nombre del grupo a «$newTitle$».",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4016,7 +4016,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "Un(a) participante ha eliminado el nombre del grupo.",
+        "message": "Un@ participante ha eliminado el nombre del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -4034,7 +4034,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--unknown": {
-        "message": "Un(a) participante ha modificado la imagen del grupo.",
+        "message": "Un@ participante ha modificado la imagen del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--other": {
@@ -4052,7 +4052,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
-        "message": "Un(a) participante ha eliminado la imagen del grupo.",
+        "message": "Un@ participante ha eliminado la imagen del grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--other": {
@@ -4070,7 +4070,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Un(a) admin ha actualizado quién puede editar los detalles del grupo a «solo admins».",
+        "message": "Un@ admin ha actualizado quién puede editar los detalles del grupo a «solo admins».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -4088,7 +4088,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--unknown": {
-        "message": "Un(a) admin ha actualizado quién puede editar los detalles del grupo a «cualquiera».",
+        "message": "Un@ admin ha actualizado quién puede editar los detalles del grupo a «cualquiera».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--other": {
@@ -4106,7 +4106,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "Un(a) admin ha actualizado quién puede editar la lista de participantes del grupo a «solo admins».",
+        "message": "Un@ admin ha actualizado quién puede editar la lista de participantes del grupo a «solo admins».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
@@ -4124,7 +4124,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--unknown": {
-        "message": "Un(a) admin ha actualizado quién puede editar la lista de participantes del grupo a «cualquiera».",
+        "message": "Un@ admin ha actualizado quién puede editar la lista de participantes del grupo a «cualquiera».",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
@@ -4188,7 +4188,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "Un(a) participante ha añadido a $inviteeName$ como invitad@.",
+        "message": "Un@ participante ha añadido a $inviteeName$ como invitad@.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4270,7 +4270,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Un(a) participante ha añadido a $memberName$.",
+        "message": "Un@ participante ha añadido a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4394,7 +4394,7 @@
         }
     },
     "GroupV2--member-remove--other--unknown": {
-        "message": "Un(a) participante ha expulsado a $memberName$.",
+        "message": "Un@ participante ha expulsado a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4446,7 +4446,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--unknown": {
-        "message": "Un(a) admin ha promovido a $memberName$ a admin.",
+        "message": "Un@ admin ha promovido a $memberName$ a admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4466,7 +4466,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--unknown": {
-        "message": "Un(a) admin te ha promovido a admin.",
+        "message": "Un@ admin te ha promovido a admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--other--other": {
@@ -4494,7 +4494,7 @@
         }
     },
     "GroupV2--member-privilege--demote--other--unknown": {
-        "message": "Un(a) admin ha retirado los permisos de admin a $memberName$.",
+        "message": "Un@ admin ha retirado los permisos de admin a $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--demote--you--other": {
@@ -4508,7 +4508,7 @@
         }
     },
     "GroupV2--member-privilege--demote--you--unknown": {
-        "message": "Un(a) admin te ha retirado los permisos de admin.",
+        "message": "Un@ admin te ha retirado los permisos de admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-add--one--other--other": {
@@ -4658,7 +4658,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--unknown": {
-        "message": "Un(a) admin ha retirado la invitación para el grupo a una persona.",
+        "message": "Un@ admin ha retirado la invitación para el grupo a una persona.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4692,7 +4692,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--unknown": {
-        "message": "Un(a) admin ha retirado las invitaciones a $count$ personas para el grupo.",
+        "message": "Un@ admin ha retirado las invitaciones a $count$ personas para el grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4726,7 +4726,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Un(a) admin ha retirado la invitación a una persona para el grupo enviada por $memberName$.",
+        "message": "Un@ admin ha retirado la invitación a una persona para el grupo enviada por $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4756,7 +4756,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Un(a) admin ha retirado tu invitación a $inviteeName$ para el grupo.",
+        "message": "Un@ admin ha retirado tu invitación a $inviteeName$ para el grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4794,7 +4794,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--unknown": {
-        "message": "Un(a) admin ha retirado las invitaciones a $count$ personas para el grupo enviadas por $memberName$.",
+        "message": "Un@ admin ha retirado las invitaciones a $count$ personas para el grupo enviadas por $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4832,7 +4832,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Un(a) admin ha retirado las invitaciones al grupo que has enviado a $count$ personas.",
+        "message": "Un@ admin ha retirado las invitaciones al grupo que has enviado a $count$ personas.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4860,7 +4860,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Un(a) admin ha denegado tu solicitud para unirte al grupo.",
+        "message": "Un@ admin ha denegado tu solicitud para unirte al grupo.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -5288,7 +5288,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Antes de abandonar, selecciona un(a) nuev@ admin para este grupo.",
+        "message": "Antes de abandonar, selecciona un@ nuev@ admin para este grupo.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5394,7 +5394,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Un(a) admin debe aprobar las solicitudes para unirse al grupo vía enlace",
+        "message": "Un@ admin debe aprobar las solicitudes para unirse al grupo vía enlace",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Seleccionar persona",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Descartar persona",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Imposible seleccionar persona",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Ya participa en el grupo",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Chats",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Llamadas",
@@ -6279,6 +6297,14 @@
         "message": "Descargar actualizaciones automáticamente",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Activar notificaciones",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Dispositivos",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "La actualización a la versión $version$ está disponible",
         "description": "Tooltip for new update available",
@@ -6318,11 +6344,19 @@
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Hemos arreglado un fallo en las reacciones a mensajes. Ahora puedes 😮 y ❤️ esos mensajes especiales.",
+        "message": "Hemos arreglado un fallo en las reacciones a mensajes. Ahora puedes reaccionar con 😮 ó ❤️ a esos mensajes especiales.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
         "message": "Durante una llamada puedes mover tu puntero sobre los botones de control sin que desaparezcan.",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Permite solo a l@s admins enviar mensajes en tu grupo con la nueva opción de «enviar mensajes». Ideal para organizar un evento, hacer un anuncio, o solo para gritar desde los tejados. Tod@s l@s participantes deben usar la versión más actual de Signal para poder activar esta opción.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Ahora puedes enviar mensajes sin importar dónde estás: En un avión, en un túnel o en ese momento en el que internet se ha cortado. El mensaje se enviará una vez que vuelvas a tener conexión: Signal hará múltiples intentos hasta un máximo de 24 horas.",
+        "description": "Release notes for v5.17"
     }
 }

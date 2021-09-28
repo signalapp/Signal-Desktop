@@ -24,7 +24,6 @@ import {
   IPCRequest as IPCChallengeRequest,
 } from './challenge';
 import { WebAPIConnectType } from './textsecure/WebAPI';
-import { uploadDebugLogs } from './logging/debuglogs';
 import { CallingClass } from './services/calling';
 import * as Groups from './groups';
 import * as Crypto from './Crypto';
@@ -44,7 +43,6 @@ import { createStore } from './state/createStore';
 import { createApp } from './state/roots/createApp';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
 import { createCompositionArea } from './state/roots/createCompositionArea';
-import { createContactModal } from './state/roots/createContactModal';
 import { createConversationDetails } from './state/roots/createConversationDetails';
 import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
@@ -85,10 +83,6 @@ import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
-import {
-  CallingScreenSharingController,
-  PropsType as CallingScreenSharingControllerProps,
-} from './components/CallingScreenSharingController';
 import { CaptionEditor } from './components/CaptionEditor';
 import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
@@ -117,9 +111,15 @@ import { MessageController } from './util/MessageController';
 import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
+import { UUID } from './types/UUID';
+import { Address } from './types/Address';
+import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
-import { IPCEventsType } from './util/createIPCEvents';
+import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
+import { DebugLogView } from './views/debug_log_view';
+import { LoggerType } from './types/Logging';
+import { SettingType } from './util/preload';
 
 export { Long } from 'long';
 
@@ -138,25 +138,17 @@ type ConfirmationDialogViewProps = {
   resolve: () => void;
 };
 
-// This is the subset of `window.FontFace` that we need. We should delete this after
-//   upgrading to TypeScript 4.4, which will include a full declaration in [its official
-//   DOM type definitions][0].
-//
-// [0]: https://github.com/microsoft/TypeScript/blob/03dff41c9f2038f66fb358e5c23ebd7271145978/lib/lib.dom.d.ts#L5343-L5364
-declare class FontFace {
-  constructor(
-    family: string,
-    source: string | ArrayBuffer | ArrayBufferView,
-    descriptors?: unknown
-  );
-  load(): Promise<FontFace>;
-}
-
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
   interface Window {
     startApp: () => void;
+
+    QRCode: any;
+    WebAudioRecorder: any;
+    closeDebugLog: () => unknown;
+    removeSetupMenuItems: () => unknown;
+    showPermissionsPopup: () => unknown;
 
     FontFace: typeof FontFace;
     _: typeof Underscore;
@@ -178,13 +170,6 @@ declare global {
 
     WhatIsThis: WhatIsThis;
 
-    registerScreenShareControllerRenderer: (
-      f: (
-        component: typeof CallingScreenSharingController,
-        props: CallingScreenSharingControllerProps
-      ) => void
-    ) => void;
-
     addSetupMenuItems: () => void;
     attachmentDownloadQueue: Array<MessageModel> | undefined;
     startupProcessingQueue: StartupQueue | undefined;
@@ -196,9 +181,11 @@ declare global {
     getAccountManager: () => AccountManager;
     getBuiltInImages: () => Promise<Array<string>>;
     getConversations: () => ConversationModelCollectionType;
+    getBuildCreation: () => number;
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
     getGuid: () => string;
+    getHostName: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getInteractionMode: () => 'mouse' | 'keyboard';
     getLocale: () => ElectronLocaleType;
@@ -239,7 +226,6 @@ declare global {
       getRegionCodeForNumber: (number: string) => string;
       format: (number: string, format: PhoneNumberFormat) => string;
     };
-    log: LoggerType;
     nodeSetImmediate: typeof setImmediate;
     onFullScreenChange: (fullScreen: boolean) => void;
     platform: string;
@@ -396,6 +382,9 @@ declare global {
           path: string;
         };
         VisualAttachment: any;
+        UUID: typeof UUID;
+        Address: typeof Address;
+        QualifiedAddress: typeof QualifiedAddress;
       };
       Util: typeof Util;
       GroupChange: {
@@ -434,7 +423,6 @@ declare global {
           createApp: typeof createApp;
           createChatColorPicker: typeof createChatColorPicker;
           createCompositionArea: typeof createCompositionArea;
-          createContactModal: typeof createContactModal;
           createConversationDetails: typeof createConversationDetails;
           createConversationHeader: typeof createConversationHeader;
           createForwardMessageModal: typeof createForwardMessageModal;
@@ -471,7 +459,6 @@ declare global {
           search: typeof searchSelectors;
         };
       };
-      Logs: WhatIsThis;
       conversationControllerStart: WhatIsThis;
       Emojis: {
         getInitialState: () => WhatIsThis;
@@ -505,16 +492,20 @@ declare global {
 
     RETRY_DELAY: boolean;
 
-    // These elements are only available in the Settings window
-    SignalModule: {
-      registerReactRenderer: (
-        f: <P extends {}>(
-          component: FunctionComponent<P> | ComponentClass<P>,
-          props?: (Attributes & P) | null
-        ) => void
-      ) => void;
+    // Context Isolation
+    SignalWindow: {
+      Settings: {
+        themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+      };
+      config: string;
+      context: SignalContext;
+      getAppInstance: () => string | undefined;
+      getEnvironment: () => string;
+      getVersion: () => string;
+      i18n: LocalizerType;
+      log: LoggerType;
+      renderWindow: () => void;
     };
-    renderPreferences: () => unknown;
   }
 
   // We want to extend `Error`, so we need an interface.
@@ -564,19 +555,6 @@ export type DeliveryReceiptBatcherItemType = {
   timestamp: number;
 };
 
-export type LoggerType = {
-  fatal: LogFunctionType;
-  info: LogFunctionType;
-  warn: LogFunctionType;
-  error: LogFunctionType;
-  debug: LogFunctionType;
-  trace: LogFunctionType;
-  fetch: () => Promise<string>;
-  publish: typeof uploadDebugLogs;
-};
-
-export type LogFunctionType = (...args: Array<unknown>) => void;
-
 export class AnyViewClass extends window.Backbone.View<any> {
   public headerTitle?: string;
   static show(view: typeof AnyViewClass, element: Element): void;
@@ -591,11 +569,11 @@ export class BasicReactWrapperViewClass extends AnyViewClass {
 export type WhisperType = {
   Conversation: typeof ConversationModel;
   ConversationCollection: typeof ConversationModelCollectionType;
+  DebugLogView: typeof DebugLogView;
   Message: typeof MessageModel;
   MessageCollection: typeof MessageModelCollectionType;
 
   GroupMemberConversation: WhatIsThis;
-  KeyChangeListener: WhatIsThis;
   RotateSignedPreKeyListener: WhatIsThis;
   WallClockListener: WhatIsThis;
 

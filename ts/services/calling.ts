@@ -53,6 +53,7 @@ import {
   ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
 import { LocalizerType } from '../types/Util';
+import { UUID } from '../types/UUID';
 import { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import {
@@ -60,7 +61,6 @@ import {
   arrayBufferToUuid,
   typedArrayToArrayBuffer,
 } from '../Crypto';
-import { assert } from '../util/assert';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
 import * as durations from '../util/durations';
@@ -83,6 +83,7 @@ import { notify } from './notify';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import dataInterface from '../sql/Client';
+import * as log from '../logging/log';
 
 const {
   processGroupCallRingRequest,
@@ -262,7 +263,7 @@ export class CallingClass {
   }
 
   private attemptToGiveOurUuidToRingRtc(): void {
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     if (!ourUuid) {
       // This can happen if we're not linked. It's okay if we hit this case.
       return;
@@ -275,11 +276,11 @@ export class CallingClass {
     conversationId: string,
     isVideoCall: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startCallingLobby()');
+    log.info('CallingClass.startCallingLobby()');
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error('Could not find conversation, cannot start call lobby');
+      log.error('Could not find conversation, cannot start call lobby');
       return;
     }
 
@@ -287,15 +288,11 @@ export class CallingClass {
     const callMode = getConversationCallMode(conversationProps);
     switch (callMode) {
       case CallMode.None:
-        window.log.error(
-          'Conversation does not support calls, new call not allowed.'
-        );
+        log.error('Conversation does not support calls, new call not allowed.');
         return;
       case CallMode.Direct:
         if (!this.getRemoteUserIdFromConversation(conversation)) {
-          window.log.error(
-            'Missing remote user identifier, new call not allowed.'
-          );
+          log.error('Missing remote user identifier, new call not allowed.');
           return;
         }
         break;
@@ -306,24 +303,22 @@ export class CallingClass {
     }
 
     if (!this.uxActions) {
-      window.log.error('Missing uxActions, new call not allowed.');
+      log.error('Missing uxActions, new call not allowed.');
       return;
     }
 
     if (!this.localDeviceId) {
-      window.log.error(
-        'Missing local device identifier, new call not allowed.'
-      );
+      log.error('Missing local device identifier, new call not allowed.');
       return;
     }
 
     const haveMediaPermissions = await this.requestPermissions(isVideoCall);
     if (!haveMediaPermissions) {
-      window.log.info('Permissions were denied, new call not allowed.');
+      log.info('Permissions were denied, new call not allowed.');
       return;
     }
 
-    window.log.info('CallingClass.startCallingLobby(): Starting lobby');
+    log.info('CallingClass.startCallingLobby(): Starting lobby');
 
     // It's important that this function comes before any calls to
     //   `videoCapturer.enableCapture` or `videoCapturer.enableCaptureAndSend` because of
@@ -358,7 +353,7 @@ export class CallingClass {
           !conversationProps.publicParams ||
           !conversationProps.secretParams
         ) {
-          window.log.error(
+          log.error(
             'Conversation is missing required parameters. Cannot connect group call'
           );
           return;
@@ -406,7 +401,7 @@ export class CallingClass {
     hasLocalAudio: boolean,
     hasLocalVideo: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startOutgoingDirectCall()');
+    log.info('CallingClass.startOutgoingDirectCall()');
 
     if (!this.uxActions) {
       throw new Error('Redux actions not available');
@@ -415,41 +410,37 @@ export class CallingClass {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
-      window.log.error('Could not find conversation, cannot start call');
+      log.error('Could not find conversation, cannot start call');
       this.stopCallingLobby();
       return;
     }
 
     const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
     if (!remoteUserId || !this.localDeviceId) {
-      window.log.error('Missing identifier, new call not allowed.');
+      log.error('Missing identifier, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
-      window.log.info('Permissions were denied, new call not allowed.');
+      log.info('Permissions were denied, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
-    window.log.info(
-      'CallingClass.startOutgoingDirectCall(): Getting call settings'
-    );
+    log.info('CallingClass.startOutgoingDirectCall(): Getting call settings');
 
     const callSettings = await this.getCallSettings(conversation);
 
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
-      window.log.info('Call already in progress, new call not allowed.');
+      log.info('Call already in progress, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
-    window.log.info(
-      'CallingClass.startOutgoingDirectCall(): Starting in RingRTC'
-    );
+    log.info('CallingClass.startOutgoingDirectCall(): Starting in RingRTC');
 
     // We could make this faster by getting the call object
     // from the RingRTC before we lookup the ICE servers.
@@ -655,7 +646,7 @@ export class CallingClass {
             groupCall.setMembershipProof(Buffer.from(Bytes.fromString(proof)));
           }
         } catch (err) {
-          window.log.error('Failed to fetch membership proof', err);
+          log.error('Failed to fetch membership proof', err);
         } finally {
           isRequestingMembershipProof = false;
         }
@@ -689,7 +680,7 @@ export class CallingClass {
       conversationId
     )?.format();
     if (!conversation) {
-      window.log.error('Missing conversation; not joining group call');
+      log.error('Missing conversation; not joining group call');
       return;
     }
 
@@ -698,7 +689,7 @@ export class CallingClass {
       !conversation.publicParams ||
       !conversation.secretParams
     ) {
-      window.log.error(
+      log.error(
         'Conversation is missing required parameters. Cannot join group call'
       );
       return;
@@ -782,7 +773,7 @@ export class CallingClass {
       uuids: peekInfo.joinedMembers.map(uuidBuffer => {
         let uuid = arrayBufferToUuid(typedArrayToArrayBuffer(uuidBuffer));
         if (!uuid) {
-          window.log.error(
+          log.error(
             'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID ArrayBuffer to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
@@ -832,7 +823,7 @@ export class CallingClass {
           typedArrayToArrayBuffer(remoteDeviceState.userId)
         );
         if (!uuid) {
-          window.log.error(
+          log.error(
             'Calling.formatGroupCallForRedux: could not convert remote participant UUID ArrayBuffer to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
@@ -891,7 +882,7 @@ export class CallingClass {
   ): Promise<void> {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error(
+      log.error(
         'Unable to send group call update message for non-existent conversation'
       );
       return;
@@ -900,7 +891,7 @@ export class CallingClass {
     const groupV2 = conversation.getGroupV2Info();
     const sendOptions = await getSendOptions(conversation.attributes);
     if (!groupV2) {
-      window.log.error(
+      log.error(
         'Unable to send group call update message for conversation that lacks groupV2 info'
       );
       return;
@@ -926,7 +917,7 @@ export class CallingClass {
       sendType: 'callingMessage',
       timestamp,
     }).catch(err => {
-      window.log.error(
+      log.error(
         'Failed to send group call update:',
         err && err.stack ? err.stack : err
       );
@@ -937,11 +928,11 @@ export class CallingClass {
     conversationId: string,
     asVideoCall: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.acceptDirectCall()');
+    log.info('CallingClass.acceptDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
-      window.log.warn('Trying to accept a non-existent call');
+      log.warn('Trying to accept a non-existent call');
       return;
     }
 
@@ -952,19 +943,17 @@ export class CallingClass {
       RingRTC.setVideoRenderer(callId, this.videoRenderer);
       RingRTC.accept(callId, asVideoCall);
     } else {
-      window.log.info('Permissions were denied, call not allowed, hanging up.');
+      log.info('Permissions were denied, call not allowed, hanging up.');
       RingRTC.hangup(callId);
     }
   }
 
   declineDirectCall(conversationId: string): void {
-    window.log.info('CallingClass.declineDirectCall()');
+    log.info('CallingClass.declineDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
-      window.log.warn(
-        'declineDirectCall: Trying to decline a non-existent call'
-      );
+      log.warn('declineDirectCall: Trying to decline a non-existent call');
       return;
     }
 
@@ -972,13 +961,13 @@ export class CallingClass {
   }
 
   declineGroupCall(conversationId: string, ringId: bigint): void {
-    window.log.info('CallingClass.declineGroupCall()');
+    log.info('CallingClass.declineGroupCall()');
 
     const groupId = window.ConversationController.get(conversationId)?.get(
       'groupId'
     );
     if (!groupId) {
-      window.log.error(
+      log.error(
         'declineGroupCall: could not find the group ID for that conversation'
       );
       return;
@@ -993,11 +982,11 @@ export class CallingClass {
   }
 
   hangup(conversationId: string): void {
-    window.log.info('CallingClass.hangup()');
+    log.info('CallingClass.hangup()');
 
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to hang up a non-existent call');
+      log.warn('Trying to hang up a non-existent call');
       return;
     }
 
@@ -1018,7 +1007,7 @@ export class CallingClass {
   setOutgoingAudio(conversationId: string, enabled: boolean): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set outgoing audio for a non-existent call');
+      log.warn('Trying to set outgoing audio for a non-existent call');
       return;
     }
 
@@ -1034,7 +1023,7 @@ export class CallingClass {
   setOutgoingVideo(conversationId: string, enabled: boolean): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set outgoing video for a non-existent call');
+      log.warn('Trying to set outgoing video for a non-existent call');
       return;
     }
 
@@ -1099,7 +1088,7 @@ export class CallingClass {
   ): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set presenting for a non-existent call');
+      log.warn('Trying to set presenting for a non-existent call');
       return;
     }
 
@@ -1243,7 +1232,7 @@ export class CallingClass {
     if (
       !this.mediaDeviceSettingsEqual(this.lastMediaDeviceSettings, newSettings)
     ) {
-      window.log.info(
+      log.info(
         'MediaDevice: available devices changed (from->to)',
         this.lastMediaDeviceSettings,
         newSettings
@@ -1354,13 +1343,13 @@ export class CallingClass {
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
-    window.log.info('MediaDevice: setPreferredMicrophone', device);
+    log.info('MediaDevice: setPreferredMicrophone', device);
     window.Events.setPreferredAudioInputDevice(device);
     RingRTC.setAudioInput(device.index);
   }
 
   setPreferredSpeaker(device: AudioDevice): void {
-    window.log.info('MediaDevice: setPreferredSpeaker', device);
+    log.info('MediaDevice: setPreferredSpeaker', device);
     window.Events.setPreferredAudioOutputDevice(device);
     RingRTC.setAudioOutput(device.index);
   }
@@ -1374,7 +1363,7 @@ export class CallingClass {
   }
 
   async setPreferredCamera(device: string): Promise<void> {
-    window.log.info('MediaDevice: setPreferredCamera', device);
+    log.info('MediaDevice: setPreferredCamera', device);
     window.Events.setPreferredVideoInputDevice(device);
     await this.videoCapturer.setPreferredDevice(device);
   }
@@ -1383,57 +1372,50 @@ export class CallingClass {
     envelope: ProcessedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
-    window.log.info('CallingClass.handleCallingMessage()');
+    log.info('CallingClass.handleCallingMessage()');
 
     const enableIncomingCalls = window.Events.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
-      window.log.info('Incoming calls are disabled, ignoring call offer.');
+      log.info('Incoming calls are disabled, ignoring call offer.');
       return;
     }
 
-    const remoteUserId = envelope.sourceUuid || envelope.source;
+    const remoteUserId = envelope.sourceUuid;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
-      window.log.error('Missing identifier, ignoring call message.');
+      log.error('Missing identifier, ignoring call message.');
       return;
     }
 
-    const senderIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      remoteUserId
+    const { storage } = window.textsecure;
+
+    const senderIdentityRecord = await storage.protocol.getOrMigrateIdentityRecord(
+      new UUID(remoteUserId)
     );
     if (!senderIdentityRecord) {
-      window.log.error(
-        'Missing sender identity record; ignoring call message.'
-      );
+      log.error('Missing sender identity record; ignoring call message.');
       return;
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
-    const ourIdentifier =
-      window.textsecure.storage.user.getUuid() ||
-      window.textsecure.storage.user.getNumber();
-    assert(ourIdentifier, 'We should have either uuid or number');
+    const ourUuid = storage.user.getCheckedUuid();
 
-    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      ourIdentifier
-    );
+    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourUuid);
     if (!receiverIdentityRecord) {
-      window.log.error(
-        'Missing receiver identity record; ignoring call message.'
-      );
+      log.error('Missing receiver identity record; ignoring call message.');
       return;
     }
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
-      window.log.error('Missing conversation; ignoring call message.');
+      log.error('Missing conversation; ignoring call message.');
       return;
     }
 
     if (callingMessage.offer && !conversation.getAccepted()) {
-      window.log.info(
+      log.info(
         'Conversation was not approved by user; rejecting call message.'
       );
 
@@ -1463,7 +1445,7 @@ export class CallingClass {
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
-    window.log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
+    log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
 
     RingRTC.handleCallingMessage(
       remoteUserId,
@@ -1486,14 +1468,14 @@ export class CallingClass {
         settings.selectedCamera &&
         this.lastMediaDeviceSettings.selectedCamera !== settings.selectedCamera)
     ) {
-      window.log.info('MediaDevice: selecting camera', settings.selectedCamera);
+      log.info('MediaDevice: selecting camera', settings.selectedCamera);
       await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
     }
 
     // Assume that the MediaDeviceSettings have been obtained very recently and
     // the index is still valid (no devices have been plugged in in between).
     if (settings.selectedMicrophone) {
-      window.log.info(
+      log.info(
         'MediaDevice: selecting microphone',
         settings.selectedMicrophone
       );
@@ -1501,10 +1483,7 @@ export class CallingClass {
     }
 
     if (settings.selectedSpeaker) {
-      window.log.info(
-        'MediaDevice: selecting speaker',
-        settings.selectedSpeaker
-      );
+      log.info('MediaDevice: selecting speaker', settings.selectedSpeaker);
       RingRTC.setAudioOutput(settings.selectedSpeaker.index);
     }
   }
@@ -1553,7 +1532,7 @@ export class CallingClass {
   ): Promise<boolean> {
     const userId = arrayBufferToUuid(typedArrayToArrayBuffer(recipient));
     if (!userId) {
-      window.log.error('handleSendCallMessage(): bad recipient UUID');
+      log.error('handleSendCallMessage(): bad recipient UUID');
       return false;
     }
     const message = new CallingMessage();
@@ -1570,9 +1549,7 @@ export class CallingClass {
     const groupId = groupIdBytes.toString('base64');
     const conversation = window.ConversationController.get(groupId);
     if (!conversation) {
-      window.log.error(
-        'handleSendCallMessageToGroup(): could not find conversation'
-      );
+      log.error('handleSendCallMessageToGroup(): could not find conversation');
       return;
     }
 
@@ -1612,21 +1589,19 @@ export class CallingClass {
     ringerBytes: Buffer,
     update: RingUpdate
   ): Promise<void> {
-    window.log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
+    log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
 
     const groupId = groupIdBytes.toString('base64');
 
     const ringerUuid = arrayBufferToUuid(typedArrayToArrayBuffer(ringerBytes));
     if (!ringerUuid) {
-      window.log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
+      log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
       return;
     }
 
     const conversation = window.ConversationController.get(groupId);
     if (!conversation) {
-      window.log.error(
-        'handleGroupCallRingUpdate(): could not find conversation'
-      );
+      log.error('handleGroupCallRingUpdate(): could not find conversation');
       return;
     }
     const conversationId = conversation.id;
@@ -1653,14 +1628,14 @@ export class CallingClass {
     }
 
     if (shouldRing) {
-      window.log.info('handleGroupCallRingUpdate: ringing');
+      log.info('handleGroupCallRingUpdate: ringing');
       this.uxActions?.receiveIncomingGroupCall({
         conversationId,
         ringId,
         ringerUuid,
       });
     } else {
-      window.log.info('handleGroupCallRingUpdate: canceling any existing ring');
+      log.info('handleGroupCallRingUpdate: canceling any existing ring');
       this.uxActions?.cancelIncomingGroupCallRing({
         conversationId,
         ringId,
@@ -1679,7 +1654,7 @@ export class CallingClass {
       : undefined;
 
     if (!window.textsecure.messaging) {
-      window.log.warn('handleOutgoingSignaling() returning false; offline');
+      log.warn('handleOutgoingSignaling() returning false; offline');
       return false;
     }
 
@@ -1697,15 +1672,13 @@ export class CallingClass {
         throw result.errors[0];
       }
 
-      window.log.info('handleOutgoingSignaling() completed successfully');
+      log.info('handleOutgoingSignaling() completed successfully');
       return true;
     } catch (err) {
       if (err && err.errors && err.errors.length > 0) {
-        window.log.error(
-          `handleOutgoingSignaling() failed: ${err.errors[0].reason}`
-        );
+        log.error(`handleOutgoingSignaling() failed: ${err.errors[0].reason}`);
       } else {
-        window.log.error('handleOutgoingSignaling() failed');
+        log.error('handleOutgoingSignaling() failed');
       }
       return false;
     }
@@ -1713,16 +1686,16 @@ export class CallingClass {
 
   // If we return null here, we hang up the call.
   private async handleIncomingCall(call: Call): Promise<CallSettings | null> {
-    window.log.info('CallingClass.handleIncomingCall()');
+    log.info('CallingClass.handleIncomingCall()');
 
     if (!this.uxActions || !this.localDeviceId) {
-      window.log.error('Missing required objects, ignoring incoming call.');
+      log.error('Missing required objects, ignoring incoming call.');
       return null;
     }
 
     const conversation = window.ConversationController.get(call.remoteUserId);
     if (!conversation) {
-      window.log.error('Missing conversation, ignoring incoming call.');
+      log.error('Missing conversation, ignoring incoming call.');
       return null;
     }
 
@@ -1735,7 +1708,7 @@ export class CallingClass {
         verifiedEnum ===
         window.textsecure.storage.protocol.VerifiedStatus.UNVERIFIED
       ) {
-        window.log.info(
+        log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
         this.addCallHistoryForFailedIncomingCall(
@@ -1753,11 +1726,11 @@ export class CallingClass {
         isVideoCall: call.isVideoCall,
       });
 
-      window.log.info('CallingClass.handleIncomingCall(): Proceeding');
+      log.info('CallingClass.handleIncomingCall(): Proceeding');
 
       return await this.getCallSettings(conversation);
     } catch (err) {
-      window.log.error(`Ignoring incoming call: ${err.stack}`);
+      log.error(`Ignoring incoming call: ${err.stack}`);
       this.addCallHistoryForFailedIncomingCall(
         conversation,
         call.isVideoCall,
@@ -1834,13 +1807,13 @@ export class CallingClass {
   ) {
     switch (level) {
       case CallLogLevel.Info:
-        window.log.info(`${fileName}:${line} ${message}`);
+        log.info(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Warn:
-        window.log.warn(`${fileName}:${line} ${message}`);
+        log.warn(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Error:
-        window.log.error(`${fileName}:${line} ${message}`);
+        log.error(`${fileName}:${line} ${message}`);
         break;
       default:
         break;
@@ -1883,7 +1856,7 @@ export class CallingClass {
         // it an empty one.
         RingRTC.receivedHttpResponse(requestId, err.code, Buffer.alloc(0));
       } else {
-        window.log.error('handleSendHttpRequest: fetch failed with error', err);
+        log.error('handleSendHttpRequest: fetch failed with error', err);
         RingRTC.httpRequestFailed(requestId, String(err));
       }
       return;
@@ -1929,7 +1902,7 @@ export class CallingClass {
       throw new Error('getCallSettings: offline!');
     }
 
-    const iceServerJson = await window.textsecure.messaging.server.getIceServers();
+    const iceServer = await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
@@ -1937,7 +1910,7 @@ export class CallingClass {
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
     return {
-      iceServer: JSON.parse(iceServerJson),
+      iceServer,
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
     };
@@ -2020,15 +1993,13 @@ export class CallingClass {
       typedArrayToArrayBuffer(peekInfo.creator)
     );
     if (!creatorUuid) {
-      window.log.error('updateCallHistoryForGroupCall(): bad creator UUID');
+      log.error('updateCallHistoryForGroupCall(): bad creator UUID');
       return;
     }
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error(
-        'updateCallHistoryForGroupCall(): could not find conversation'
-      );
+      log.error('updateCallHistoryForGroupCall(): could not find conversation');
       return;
     }
 

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { App } from '../../components/App';
 import { SmartCallManager } from './CallManager';
+import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { StateType } from '../reducer';
@@ -14,6 +15,7 @@ import {
   getConversationsStoppingMessageSendBecauseOfVerification,
   getNumberOfMessagesPendingBecauseOfVerification,
 } from '../selectors/conversations';
+import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
 
@@ -24,10 +26,14 @@ const mapStateToProps = (state: StateType) => {
       state
     ),
     i18n: getIntl(state),
+    isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
     numberOfMessagesPendingBecauseOfVerification: getNumberOfMessagesPendingBecauseOfVerification(
       state
     ),
     renderCallManager: () => <SmartCallManager />,
+    renderCustomizingPreferredReactionsModal: () => (
+      <SmartCustomizingPreferredReactionsModal />
+    ),
     renderGlobalModalContainer: () => <SmartGlobalModalContainer />,
     renderSafetyNumber: (props: SafetyNumberProps) => (
       <SmartSafetyNumberViewer {...props} />

@@ -3,13 +3,14 @@
 
 import { Environment, getEnvironment } from '../environment';
 import { isInPast } from './timestamp';
+import * as log from '../logging/log';
 
 const ONE_DAY_MS = 86400 * 1000;
 const NINETY_ONE_DAYS = 91 * ONE_DAY_MS;
 const THIRTY_ONE_DAYS = 31 * ONE_DAY_MS;
 
 export function hasExpired(): boolean {
-  const { getExpiration, log } = window;
+  const { getExpiration } = window;
 
   let buildExpiration = 0;
 

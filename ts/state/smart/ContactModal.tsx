@@ -5,33 +5,18 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import {
   ContactModal,
-  PropsType,
+  PropsDataType,
 } from '../../components/conversation/ContactModal';
 import { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getConversationSelector } from '../selectors/conversations';
 
-export type SmartContactModalProps = {
-  contactId: string;
-  currentConversationId: string;
-  readonly onClose: () => unknown;
-  readonly openConversation: (conversationId: string) => void;
-  readonly removeMember: (conversationId: string) => void;
-  readonly showSafetyNumber: (conversationId: string) => void;
-  readonly toggleAdmin: (conversationId: string) => void;
-  readonly updateSharedGroups: () => void;
-};
+const mapStateToProps = (state: StateType): PropsDataType => {
+  const { contactId, conversationId } =
+    state.globalModals.contactModalState || {};
 
-const mapStateToProps = (
-  state: StateType,
-  props: SmartContactModalProps
-): PropsType => {
-  const { contactId, currentConversationId } = props;
-
-  const currentConversation = getConversationSelector(state)(
-    currentConversationId
-  );
+  const currentConversation = getConversationSelector(state)(conversationId);
   const contact = getConversationSelector(state)(contactId);
 
   const areWeAdmin =
@@ -51,9 +36,9 @@ const mapStateToProps = (
   }
 
   return {
-    ...props,
     areWeAdmin,
     contact,
+    conversationId,
     i18n: getIntl(state),
     isAdmin,
     isMember,

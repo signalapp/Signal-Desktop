@@ -13,7 +13,7 @@ import { JobError } from '../../jobs/JobError';
 import { TestJobQueueStore } from './TestJobQueueStore';
 import { missingCaseError } from '../../util/missingCaseError';
 import { assertRejects } from '../helpers';
-import type { LoggerType } from '../../logging/log';
+import type { LoggerType } from '../../types/Logging';
 
 import { JobQueue } from '../../jobs/JobQueue';
 import { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';

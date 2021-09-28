@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
-import type { LoggerType } from '../../logging/log';
+import type { LoggerType } from '../../types/Logging';
 import { getSendOptions } from '../../util/getSendOptions';
 import { handleMessageSend, SendTypesType } from '../../util/handleMessageSend';
 import { isNotNil } from '../../util/isNotNil';

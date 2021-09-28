@@ -225,13 +225,27 @@
   text-align: inherit;
 }
 
+@mixin staged-attachment-close-button {
+  @include button-reset;
+
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  z-index: 2;
+}
+
 @mixin calling-text-shadow {
   text-shadow: 0 0 4px $color-black-alpha-40;
 }
 
 @mixin lonely-local-video-preview {
-  object-fit: cover;
-  opacity: 0.6;
+  max-height: calc(100% - 24px);
+  height: auto;
+  transform: rotateY(180deg);
+  width: calc(100% - 24px);
+  border-radius: 8px;
 }
 
 // --- Buttons
@@ -567,5 +581,32 @@
         }
       }
     }
+  }
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    visibility: hidden;
+    width: 6px;
+
+    @include light-theme {
+      background: $color-black-alpha-40;
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
   }
 }

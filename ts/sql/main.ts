@@ -1,48 +1,63 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 import { join } from 'path';
 import { Worker } from 'worker_threads';
+import { format } from 'util';
+
+import { strictAssert } from '../util/assert';
+import { explodePromise } from '../util/explodePromise';
+import type { LoggerType } from '../types/Logging';
+import { isCorruptionError } from './errors';
 
 const ASAR_PATTERN = /app\.asar$/;
 const MIN_TRACE_DURATION = 40;
 
-export type InitializeOptions = {
-  readonly configDir: string;
-  readonly key: string;
-};
+export type InitializeOptions = Readonly<{
+  configDir: string;
+  key: string;
+  logger: LoggerType;
+}>;
 
-export type WorkerRequest =
+export type WorkerRequest = Readonly<
   | {
-      readonly type: 'init';
-      readonly options: InitializeOptions;
+      type: 'init';
+      options: Omit<InitializeOptions, 'logger'>;
     }
   | {
-      readonly type: 'close';
+      type: 'close';
     }
   | {
-      readonly type: 'removeDB';
+      type: 'removeDB';
     }
   | {
-      readonly type: 'sqlCall';
-      readonly method: string;
+      type: 'sqlCall';
+      method: string;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      readonly args: ReadonlyArray<any>;
-    };
+      args: ReadonlyArray<any>;
+    }
+>;
 
-export type WrappedWorkerRequest = {
-  readonly seq: number;
-  readonly request: WorkerRequest;
-};
+export type WrappedWorkerRequest = Readonly<{
+  seq: number;
+  request: WorkerRequest;
+}>;
 
-export type WrappedWorkerResponse = {
-  readonly seq: number;
-  readonly error: string | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly response: any;
-};
+export type WrappedWorkerLogEntry = Readonly<{
+  type: 'log';
+  level: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';
+  args: ReadonlyArray<unknown>;
+}>;
+
+export type WrappedWorkerResponse =
+  | Readonly<{
+      type: 'response';
+      seq: number;
+      error: string | undefined;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      response: any;
+    }>
+  | WrappedWorkerLogEntry;
 
 type PromisePair<T> = {
   resolve: (response: T) => void;
@@ -58,7 +73,13 @@ export class MainSQL {
 
   private readonly onExit: Promise<void>;
 
+  // This promise is resolved when any of the queries that we run against the
+  // database reject with a corruption error (see `isCorruptionError`)
+  private readonly onCorruption: Promise<Error>;
+
   private seq = 0;
+
+  private logger?: LoggerType;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private onResponse = new Map<number, PromisePair<any>>();
@@ -77,7 +98,20 @@ export class MainSQL {
       join(scriptDir, isBundled ? 'mainWorker.bundle.js' : 'mainWorker.js')
     );
 
+    const {
+      promise: onCorruption,
+      resolve: resolveCorruption,
+    } = explodePromise<Error>();
+    this.onCorruption = onCorruption;
+
     this.worker.on('message', (wrappedResponse: WrappedWorkerResponse) => {
+      if (wrappedResponse.type === 'log') {
+        const { level, args } = wrappedResponse;
+        strictAssert(this.logger !== undefined, 'Logger not initialized');
+        this.logger[level](`MainSQL: ${format(...args)}`);
+        return;
+      }
+
       const { seq, error, response } = wrappedResponse;
 
       const pair = this.onResponse.get(seq);
@@ -87,7 +121,12 @@ export class MainSQL {
       }
 
       if (error) {
-        pair.reject(new Error(error));
+        const errorObj = new Error(error);
+        if (isCorruptionError(errorObj)) {
+          resolveCorruption(errorObj);
+        }
+
+        pair.reject(errorObj);
       } else {
         pair.resolve(response);
       }
@@ -98,17 +137,30 @@ export class MainSQL {
     });
   }
 
-  public async initialize(options: InitializeOptions): Promise<void> {
+  public async initialize({
+    configDir,
+    key,
+    logger,
+  }: InitializeOptions): Promise<void> {
     if (this.isReady || this.onReady) {
       throw new Error('Already initialized');
     }
 
-    this.onReady = this.send({ type: 'init', options });
+    this.logger = logger;
+
+    this.onReady = this.send({
+      type: 'init',
+      options: { configDir, key },
+    });
 
     await this.onReady;
 
     this.onReady = undefined;
     this.isReady = true;
+  }
+
+  public whenCorrupted(): Promise<Error> {
+    return this.onCorruption;
   }
 
   public async close(): Promise<void> {
@@ -141,7 +193,8 @@ export class MainSQL {
     });
 
     if (duration > MIN_TRACE_DURATION) {
-      console.log(`ts/sql/main: slow query ${method} duration=${duration}ms`);
+      strictAssert(this.logger !== undefined, 'Logger not initialized');
+      this.logger.info(`MainSQL: slow query ${method} duration=${duration}ms`);
     }
 
     return result;

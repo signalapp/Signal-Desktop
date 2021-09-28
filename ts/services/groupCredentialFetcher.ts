@@ -14,6 +14,7 @@ import { GroupCredentialType } from '../textsecure/WebAPI';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
+import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
 
@@ -38,7 +39,7 @@ export async function initializeGroupCredentialFetcher(): Promise<void> {
     return;
   }
 
-  window.log.info('initializeGroupCredentialFetcher: starting...');
+  log.info('initializeGroupCredentialFetcher: starting...');
   started = true;
 
   // Because we fetch eight days of credentials at a time, we really only need to run
@@ -71,7 +72,7 @@ export async function runWithRetry(
       return;
     } catch (error) {
       const wait = backOff.getAndIncrement();
-      window.log.info(
+      log.info(
         `runWithRetry: ${fn.name} failed. Waiting ${wait}ms for retry. Error: ${error.stack}`
       );
       // eslint-disable-next-line no-await-in-loop
@@ -83,7 +84,7 @@ export async function runWithRetry(
   //   could end up with multiple endlessly-retrying runs.
   const duration = options.scheduleAnother;
   if (duration) {
-    window.log.info(
+    log.info(
       `runWithRetry: scheduling another run with a setTimeout duration of ${duration}ms`
     );
     setTimeout(async () => runWithRetry(fn, options), duration);
@@ -115,9 +116,9 @@ export function getCredentialsForToday(
 }
 
 export async function maybeFetchNewCredentials(): Promise<void> {
-  const uuid = window.textsecure.storage.user.getUuid();
+  const uuid = window.textsecure.storage.user.getUuid()?.toString();
   if (!uuid) {
-    window.log.info('maybeFetchCredentials: no UUID, returning early');
+    log.info('maybeFetchCredentials: no UUID, returning early');
     return;
   }
   const previous: CredentialsDataType | undefined = window.storage.get(
@@ -125,18 +126,18 @@ export async function maybeFetchNewCredentials(): Promise<void> {
   );
   const requestDates = getDatesForRequest(previous);
   if (!requestDates) {
-    window.log.info('maybeFetchCredentials: no new credentials needed');
+    log.info('maybeFetchCredentials: no new credentials needed');
     return;
   }
 
   const accountManager = window.getAccountManager();
   if (!accountManager) {
-    window.log.info('maybeFetchCredentials: unable to get AccountManager');
+    log.info('maybeFetchCredentials: unable to get AccountManager');
     return;
   }
 
   const { startDay, endDay } = requestDates;
-  window.log.info(
+  log.info(
     `maybeFetchCredentials: fetching credentials for ${startDay} through ${endDay}`
   );
 
@@ -168,10 +169,10 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     : [];
   const finalCredentials = [...previousCleaned, ...newCredentials];
 
-  window.log.info('maybeFetchCredentials: Saving new credentials...');
+  log.info('maybeFetchCredentials: Saving new credentials...');
   // Note: we don't wait for this to finish
   window.storage.put(GROUP_CREDENTIALS_KEY, finalCredentials);
-  window.log.info('maybeFetchCredentials: Save complete.');
+  log.info('maybeFetchCredentials: Save complete.');
 }
 
 export function getDatesForRequest(

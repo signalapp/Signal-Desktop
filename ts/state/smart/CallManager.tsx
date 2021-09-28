@@ -32,6 +32,7 @@ import {
   bounceAppIconStart,
   bounceAppIconStop,
 } from '../../shims/bounceAppIcon';
+import * as log from '../../logging/log';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -84,16 +85,14 @@ const mapStateToActiveCallProp = (
 
   const call = getActiveCall(calling);
   if (!call) {
-    window.log.error(
-      'There was an active call state but no corresponding call'
-    );
+    log.error('There was an active call state but no corresponding call');
     return undefined;
   }
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(activeCallState.conversationId);
   if (!conversation) {
-    window.log.error('The active call has no corresponding conversation');
+    log.error('The active call has no corresponding conversation');
     return undefined;
   }
 
@@ -160,7 +159,7 @@ const mapStateToActiveCallProp = (
         const member = conversationSelectorByUuid(conversationId);
 
         if (!member) {
-          window.log.error('Group member has no corresponding conversation');
+          log.error('Group member has no corresponding conversation');
           continue;
         }
 
@@ -174,9 +173,7 @@ const mapStateToActiveCallProp = (
           remoteParticipant.uuid
         );
         if (!remoteConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -201,9 +198,7 @@ const mapStateToActiveCallProp = (
 
         const remoteConversation = conversationSelectorByUuid(uuid);
         if (!remoteConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -217,9 +212,7 @@ const mapStateToActiveCallProp = (
           peekedParticipantUuid
         );
         if (!peekedConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -252,7 +245,7 @@ const mapStateToIncomingCallProp = (state: StateType) => {
 
   const conversation = getConversationSelector(state)(call.conversationId);
   if (!conversation) {
-    window.log.error('The incoming call has no corresponding conversation');
+    log.error('The incoming call has no corresponding conversation');
     return undefined;
   }
 
@@ -265,7 +258,7 @@ const mapStateToIncomingCallProp = (state: StateType) => {
       };
     case CallMode.Group: {
       if (!call.ringerUuid) {
-        window.log.error('The incoming group call has no ring state');
+        log.error('The incoming group call has no ring state');
         return undefined;
       }
 

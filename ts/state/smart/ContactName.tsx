@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -33,10 +33,6 @@ export const SmartContactName: React.ComponentType<ExternalProps> = props => {
   return (
     <ContactName
       firstName={conversation.firstName}
-      i18n={i18n}
-      name={conversation.name}
-      phoneNumber={conversation.phoneNumber}
-      profileName={conversation.profileName}
       title={conversation.title}
     />
   );

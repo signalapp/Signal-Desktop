@@ -21,7 +21,7 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 
-import { WebAPIType } from './WebAPI';
+import type { WebAPIType } from './WebAPI';
 import { SendMetadataType, SendOptionsType } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
@@ -29,14 +29,19 @@ import {
   SendMessageNetworkError,
   SendMessageChallengeError,
   UnregisteredUserError,
+  HTTPError,
 } from './Errors';
 import { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { typedArrayToArrayBuffer as toArrayBuffer } from '../Crypto';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 export const enum SenderCertificateMode {
   WithE164,
@@ -217,7 +222,7 @@ export default class OutgoingMessage {
   ): void {
     let error = providedError;
 
-    if (!error || (error.name === 'HTTPError' && error.code !== 404)) {
+    if (!error || (error instanceof HTTPError && error.code !== 404)) {
       if (error && error.code === 428) {
         error = new SendMessageChallengeError(identifier, error);
       } else {
@@ -237,9 +242,11 @@ export default class OutgoingMessage {
     recurse?: boolean
   ): () => Promise<void> {
     return async () => {
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        identifier
-      );
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+        ourUuid,
+        identifier,
+      });
       if (deviceIds.length === 0) {
         this.registerError(
           identifier,
@@ -307,7 +314,7 @@ export default class OutgoingMessage {
     }
 
     return promise.catch(e => {
-      if (e.name === 'HTTPError' && e.code !== 409 && e.code !== 410) {
+      if (e instanceof HTTPError && e.code !== 409 && e.code !== 410) {
         // 409 and 410 should bubble and be handled by doSendMessage
         // 404 should throw UnregisteredUserError
         // 428 should throw SendMessageChallengeError
@@ -377,7 +384,7 @@ export default class OutgoingMessage {
     const { accessKey, senderCertificate } = sendMetadata?.[identifier] || {};
 
     if (accessKey && !senderCertificate) {
-      window.log.warn(
+      log.warn(
         'OutgoingMessage.doSendMessage: accessKey was provided, but senderCertificate was not'
       );
     }
@@ -386,9 +393,12 @@ export default class OutgoingMessage {
 
     // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = window.textsecure.storage.user.getNumber();
-    const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
-    if ((identifier === ourNumber || identifier === ourUuid) && !sealedSender) {
+    if (
+      (identifier === ourNumber || identifier === ourUuid.toString()) &&
+      !sealedSender
+    ) {
       deviceIds = reject(
         deviceIds,
         deviceId =>
@@ -399,18 +409,22 @@ export default class OutgoingMessage {
       );
     }
 
-    const sessionStore = new Sessions();
-    const identityKeyStore = new IdentityKeys();
+    const sessionStore = new Sessions({ ourUuid });
+    const identityKeyStore = new IdentityKeys({ ourUuid });
 
     return Promise.all(
       deviceIds.map(async destinationDeviceId => {
-        const address = `${identifier}.${destinationDeviceId}`;
+        const theirUuid = UUID.checkedLookup(identifier);
+        const address = new QualifiedAddress(
+          ourUuid,
+          new Address(theirUuid, destinationDeviceId)
+        );
 
         return window.textsecure.storage.protocol.enqueueSessionJob<SendMetadata>(
           address,
           async () => {
             const protocolAddress = ProtocolAddress.new(
-              identifier,
+              theirUuid.toString(),
               destinationDeviceId
             );
 
@@ -498,13 +512,16 @@ export default class OutgoingMessage {
                   deviceIds,
                 });
               } else if (this.successfulIdentifiers.length > 1) {
-                window.log.warn(
+                log.warn(
                   `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
                 );
               }
             },
             async (error: Error) => {
-              if (error.code === 401 || error.code === 403) {
+              if (
+                error instanceof HTTPError &&
+                (error.code === 401 || error.code === 403)
+              ) {
                 if (this.failoverIdentifiers.indexOf(identifier) === -1) {
                   this.failoverIdentifiers.push(identifier);
                 }
@@ -534,7 +551,7 @@ export default class OutgoingMessage {
                 deviceIds,
               });
             } else if (this.successfulIdentifiers.length > 1) {
-              window.log.warn(
+              log.warn(
                 `OutgoingMessage.doSendMessage: no sendLogCallback provided for message ${this.timestamp}, but multiple recipients`
               );
             }
@@ -543,8 +560,7 @@ export default class OutgoingMessage {
       })
       .catch(async error => {
         if (
-          error instanceof Error &&
-          error.name === 'HTTPError' &&
+          error instanceof HTTPError &&
           (error.code === 410 || error.code === 409)
         ) {
           if (!recurse) {
@@ -556,17 +572,25 @@ export default class OutgoingMessage {
             return undefined;
           }
 
+          const response = error.response as {
+            extraDevices?: Array<number>;
+            staleDevices?: Array<number>;
+            missingDevices?: Array<number>;
+          };
           let p: Promise<any> = Promise.resolve();
           if (error.code === 409) {
             p = this.removeDeviceIdsForIdentifier(
               identifier,
-              error.response.extraDevices || []
+              response.extraDevices || []
             );
           } else {
             p = Promise.all(
-              error.response.staleDevices.map(async (deviceId: number) => {
+              (response.staleDevices || []).map(async (deviceId: number) => {
                 await window.textsecure.storage.protocol.archiveSession(
-                  `${identifier}.${deviceId}`
+                  new QualifiedAddress(
+                    ourUuid,
+                    new Address(UUID.checkedLookup(identifier), deviceId)
+                  )
                 );
               })
             );
@@ -575,8 +599,8 @@ export default class OutgoingMessage {
           return p.then(async () => {
             const resetDevices =
               error.code === 410
-                ? error.response.staleDevices
-                : error.response.missingDevices;
+                ? response.staleDevices
+                : response.missingDevices;
             return this.getKeysForIdentifier(identifier, resetDevices).then(
               // We continue to retry as long as the error code was 409; the assumption is
               //   that we'll request new device info and the next request will succeed.
@@ -587,21 +611,21 @@ export default class OutgoingMessage {
         if (error?.message?.includes('untrusted identity for address')) {
           // eslint-disable-next-line no-param-reassign
           error.timestamp = this.timestamp;
-          window.log.error(
+          log.error(
             'Got "key changed" error from encrypt - no identityKey for application layer',
             identifier,
             deviceIds
           );
 
-          window.log.info('closing all sessions for', identifier);
+          log.info('closing all sessions for', identifier);
           window.textsecure.storage.protocol
-            .archiveAllSessions(identifier)
+            .archiveAllSessions(UUID.checkedLookup(identifier))
             .then(
               () => {
                 throw error;
               },
               innerError => {
-                window.log.error(
+                log.error(
                   `doSendMessage: Error closing sessions: ${innerError.stack}`
                 );
                 throw error;
@@ -623,10 +647,13 @@ export default class OutgoingMessage {
     identifier: string,
     deviceIdsToRemove: Array<number>
   ): Promise<void> {
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    const theirUuid = UUID.checkedLookup(identifier);
+
     await Promise.all(
       deviceIdsToRemove.map(async deviceId => {
         await window.textsecure.storage.protocol.archiveSession(
-          `${identifier}.${deviceId}`
+          new QualifiedAddress(ourUuid, new Address(theirUuid, deviceId))
         );
       })
     );
@@ -659,12 +686,15 @@ export default class OutgoingMessage {
           if (!uuid) {
             throw new UnregisteredUserError(
               identifier,
-              new Error('User is not registered')
+              new HTTPError('User is not registered', {
+                code: -1,
+                headers: {},
+              })
             );
           }
           identifier = uuid;
         } catch (error) {
-          window.log.error(
+          log.error(
             `sendToIdentifier: Failed to fetch UUID for identifier ${identifier}`,
             error && error.stack ? error.stack : error
           );
@@ -675,9 +705,11 @@ export default class OutgoingMessage {
         );
       }
 
-      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds(
-        identifier
-      );
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
+        ourUuid,
+        identifier,
+      });
       if (deviceIds.length === 0) {
         await this.getKeysForIdentifier(identifier);
       }

@@ -9,6 +9,7 @@ import { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { isIncoming } from '../state/selectors/message';
+import * as log from '../logging/log';
 
 type ViewSyncAttributesType = {
   senderId: string;
@@ -43,7 +44,7 @@ export class ViewSyncs extends Collection {
       );
     });
     if (syncs.length) {
-      window.log.info(
+      log.info(
         `Found ${syncs.length} early view sync(s) for message ${message.get(
           'sent_at'
         )}`
@@ -72,7 +73,7 @@ export class ViewSyncs extends Collection {
       });
 
       if (!found) {
-        window.log.info(
+        log.info(
           'Nothing found for view sync',
           sync.get('senderId'),
           sync.get('senderE164'),
@@ -92,7 +93,7 @@ export class ViewSyncs extends Collection {
 
       this.remove(sync);
     } catch (error) {
-      window.log.error(
+      log.error(
         'ViewSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );

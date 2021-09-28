@@ -33,6 +33,7 @@ import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRi
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
 import type { ConversationChangedActionType } from './conversations';
+import * as log from '../../logging/log';
 
 // State
 
@@ -506,7 +507,7 @@ function acceptCall(
 
     const call = getOwn(getState().calling.callsByConversation, conversationId);
     if (!call) {
-      window.log.error('Trying to accept a non-existent call');
+      log.error('Trying to accept a non-existent call');
       return;
     }
 
@@ -611,7 +612,7 @@ function declineCall(
 
     const call = getOwn(getState().calling.callsByConversation, conversationId);
     if (!call) {
-      window.log.error('Trying to decline a non-existent call');
+      log.error('Trying to decline a non-existent call');
       return;
     }
 
@@ -626,7 +627,7 @@ function declineCall(
       case CallMode.Group: {
         const { ringId } = call;
         if (ringId === undefined) {
-          window.log.error('Trying to decline a group call without a ring ID');
+          log.error('Trying to decline a group call without a ring ID');
         } else {
           calling.declineGroupCall(conversationId, ringId);
           dispatch({
@@ -861,7 +862,7 @@ function peekNotConnectedGroupCall(
       try {
         peekInfo = await calling.peekGroupCall(conversationId);
       } catch (err) {
-        window.log.error('Group call peeking failed', err);
+        log.error('Group call peeking failed', err);
         return;
       }
 
@@ -938,7 +939,7 @@ function setLocalAudio(
   return (dispatch, getState) => {
     const activeCall = getActiveCall(getState().calling);
     if (!activeCall) {
-      window.log.warn('Trying to set local audio when no call is active');
+      log.warn('Trying to set local audio when no call is active');
       return;
     }
 
@@ -957,7 +958,7 @@ function setLocalVideo(
   return async (dispatch, getState) => {
     const activeCall = getActiveCall(getState().calling);
     if (!activeCall) {
-      window.log.warn('Trying to set local video when no call is active');
+      log.warn('Trying to set local video when no call is active');
       return;
     }
 
@@ -1012,7 +1013,7 @@ function setPresenting(
     const { activeCallState } = callingState;
     const activeCall = getActiveCall(callingState);
     if (!activeCall || !activeCallState) {
-      window.log.warn('Trying to present when no call is active');
+      log.warn('Trying to present when no call is active');
       return;
     }
 
@@ -1314,7 +1315,7 @@ export function reducer(
 
   if (action.type === ACCEPT_CALL_PENDING) {
     if (!has(state.callsByConversation, action.payload.conversationId)) {
-      window.log.warn('Unable to accept a non-existent call');
+      log.warn('Unable to accept a non-existent call');
       return state;
     }
 
@@ -1341,7 +1342,7 @@ export function reducer(
   ) {
     const activeCall = getActiveCall(state);
     if (!activeCall) {
-      window.log.warn('No active call to remove');
+      log.warn('No active call to remove');
       return state;
     }
     switch (activeCall.callMode) {
@@ -1421,11 +1422,11 @@ export function reducer(
     const existingGroupCall = getGroupCall(conversationId, state);
     if (existingGroupCall) {
       if (existingGroupCall.ringerUuid) {
-        window.log.info('Group call was already ringing');
+        log.info('Group call was already ringing');
         return state;
       }
       if (existingGroupCall.joinState !== GroupCallJoinState.NotJoined) {
-        window.log.info("Got a ring for a call we're already in");
+        log.info("Got a ring for a call we're already in");
         return state;
       }
 
@@ -1503,7 +1504,7 @@ export function reducer(
       action.payload.conversationId
     );
     if (call?.callMode !== CallMode.Direct) {
-      window.log.warn('Cannot update state for a non-direct call');
+      log.warn('Cannot update state for a non-direct call');
       return state;
     }
 
@@ -1676,7 +1677,7 @@ export function reducer(
     const { conversationId, isSharingScreen } = action.payload;
     const call = getOwn(state.callsByConversation, conversationId);
     if (call?.callMode !== CallMode.Direct) {
-      window.log.warn('Cannot update remote video for a non-direct call');
+      log.warn('Cannot update remote video for a non-direct call');
       return state;
     }
 
@@ -1696,7 +1697,7 @@ export function reducer(
     const { conversationId, hasVideo } = action.payload;
     const call = getOwn(state.callsByConversation, conversationId);
     if (call?.callMode !== CallMode.Direct) {
-      window.log.warn('Cannot update remote video for a non-direct call');
+      log.warn('Cannot update remote video for a non-direct call');
       return state;
     }
 
@@ -1715,9 +1716,7 @@ export function reducer(
   if (action.type === RETURN_TO_ACTIVE_CALL) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot return to active call if there is no active call'
-      );
+      log.warn('Cannot return to active call if there is no active call');
       return state;
     }
 
@@ -1732,7 +1731,7 @@ export function reducer(
 
   if (action.type === SET_LOCAL_AUDIO_FULFILLED) {
     if (!state.activeCallState) {
-      window.log.warn('Cannot set local audio with no active call');
+      log.warn('Cannot set local audio with no active call');
       return state;
     }
 
@@ -1747,7 +1746,7 @@ export function reducer(
 
   if (action.type === SET_LOCAL_VIDEO_FULFILLED) {
     if (!state.activeCallState) {
-      window.log.warn('Cannot set local video with no active call');
+      log.warn('Cannot set local video with no active call');
       return state;
     }
 
@@ -1802,7 +1801,7 @@ export function reducer(
   if (action.type === TOGGLE_SETTINGS) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn('Cannot toggle settings when there is no active call');
+      log.warn('Cannot toggle settings when there is no active call');
       return state;
     }
 
@@ -1818,9 +1817,7 @@ export function reducer(
   if (action.type === TOGGLE_PARTICIPANTS) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot toggle participants list when there is no active call'
-      );
+      log.warn('Cannot toggle participants list when there is no active call');
       return state;
     }
 
@@ -1836,7 +1833,7 @@ export function reducer(
   if (action.type === TOGGLE_PIP) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn('Cannot toggle PiP when there is no active call');
+      log.warn('Cannot toggle PiP when there is no active call');
       return state;
     }
 
@@ -1852,7 +1849,7 @@ export function reducer(
   if (action.type === SET_PRESENTING) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn('Cannot toggle presenting when there is no active call');
+      log.warn('Cannot toggle presenting when there is no active call');
       return state;
     }
 
@@ -1869,9 +1866,7 @@ export function reducer(
   if (action.type === SET_PRESENTING_SOURCES) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot set presenting sources when there is no active call'
-      );
+      log.warn('Cannot set presenting sources when there is no active call');
       return state;
     }
 
@@ -1887,7 +1882,7 @@ export function reducer(
   if (action.type === SET_OUTGOING_RING) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn('Cannot set outgoing ring when there is no active call');
+      log.warn('Cannot set outgoing ring when there is no active call');
       return state;
     }
 
@@ -1903,9 +1898,7 @@ export function reducer(
   if (action.type === TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot set presenting sources when there is no active call'
-      );
+      log.warn('Cannot set presenting sources when there is no active call');
       return state;
     }
 
@@ -1921,9 +1914,7 @@ export function reducer(
   if (action.type === TOGGLE_SPEAKER_VIEW) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot toggle speaker view when there is no active call'
-      );
+      log.warn('Cannot toggle speaker view when there is no active call');
       return state;
     }
 
@@ -1939,9 +1930,7 @@ export function reducer(
   if (action.type === MARK_CALL_UNTRUSTED) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot mark call as untrusted when there is no active call'
-      );
+      log.warn('Cannot mark call as untrusted when there is no active call');
       return state;
     }
 
@@ -1962,9 +1951,7 @@ export function reducer(
   if (action.type === MARK_CALL_TRUSTED) {
     const { activeCallState } = state;
     if (!activeCallState) {
-      window.log.warn(
-        'Cannot mark call as trusted when there is no active call'
-      );
+      log.warn('Cannot mark call as trusted when there is no active call');
       return state;
     }
 

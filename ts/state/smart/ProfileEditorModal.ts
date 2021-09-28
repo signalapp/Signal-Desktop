@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
-import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import {
   ProfileEditorModal,
@@ -11,12 +10,14 @@ import {
 import { PropsDataType } from '../../components/ProfileEditor';
 import { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
+import { getEmojiSkinTone } from '../selectors/items';
 import { getMe } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
 
 function mapStateToProps(
   state: StateType
-): PropsDataType & ProfileEditorModalPropsType {
+): Omit<PropsDataType, 'onEditStateChange' | 'onProfileChanged'> &
+  ProfileEditorModalPropsType {
   const {
     avatarPath,
     avatars: userAvatarData = [],
@@ -28,7 +29,7 @@ function mapStateToProps(
     id: conversationId,
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
-  const skinTone = get(state, ['items', 'skinTone'], 0);
+  const skinTone = getEmojiSkinTone(state);
 
   return {
     aboutEmoji,

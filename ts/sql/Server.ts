@@ -4,7 +4,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { join } from 'path';
@@ -30,6 +29,7 @@ import {
 } from 'lodash';
 
 import { ReadStatus } from '../messages/MessageReadStatus';
+import Helpers from '../textsecure/Helpers';
 import { GroupV2MemberType } from '../model-types.d';
 import { ReactionType } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
@@ -40,12 +40,15 @@ import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
 import { missingCaseError } from '../util/missingCaseError';
+import { isValidGuid } from '../util/isValidGuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import type { LoggerType } from '../types/Logging';
+import * as log from '../logging/log';
 
 import {
   AllItemsType,
@@ -55,6 +58,7 @@ import {
   DeleteSentProtoRecipientOptionsType,
   EmojiType,
   IdentityKeyType,
+  IdentityKeyIdType,
   ItemKeyType,
   ItemType,
   LastConversationMessagesServerType,
@@ -62,8 +66,10 @@ import {
   MessageType,
   MessageTypeUnhydrated,
   PreKeyType,
+  PreKeyIdType,
   SearchResultMessageType,
   SenderKeyType,
+  SenderKeyIdType,
   SentMessageDBType,
   SentMessagesType,
   SentProtoType,
@@ -72,7 +78,9 @@ import {
   SentRecipientsType,
   ServerInterface,
   SessionType,
+  SessionIdType,
   SignedPreKeyType,
+  SignedPreKeyIdType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -215,7 +223,6 @@ const dataInterface: ServerInterface = {
 
   getUnprocessedCount,
   getAllUnprocessed,
-  updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   getUnprocessedById,
@@ -260,6 +267,8 @@ const dataInterface: ServerInterface = {
   processGroupCallRingRequest,
   processGroupCallRingCancelation,
   cleanExpiredGroupCallRings,
+
+  getMaxMessageCounter,
 
   getStatisticsForLogging,
 
@@ -374,25 +383,6 @@ function getSQLCipherVersion(db: Database): string | undefined {
   return db.pragma('cipher_version', { simple: true });
 }
 
-function getSQLCipherIntegrityCheck(db: Database): Array<string> | undefined {
-  const rows: Array<{ cipher_integrity_check: string }> = db.pragma(
-    'cipher_integrity_check'
-  );
-  if (rows.length === 0) {
-    return undefined;
-  }
-  return rows.map(row => row.cipher_integrity_check);
-}
-
-function getSQLIntegrityCheck(db: Database): string | undefined {
-  const checkResult = db.pragma('quick_check', { simple: true });
-  if (checkResult !== 'ok') {
-    return checkResult;
-  }
-
-  return undefined;
-}
-
 function migrateSchemaVersion(db: Database): void {
   const userVersion = getUserVersion(db);
   if (userVersion > 0) {
@@ -401,7 +391,7 @@ function migrateSchemaVersion(db: Database): void {
 
   const schemaVersion = getSchemaVersion(db);
   const newUserVersion = schemaVersion > 18 ? 16 : schemaVersion;
-  console.log(
+  logger.info(
     'migrateSchemaVersion: Migrating from schema_version ' +
       `${schemaVersion} to user_version ${newUserVersion}`
   );
@@ -424,7 +414,7 @@ function openAndMigrateDatabase(filePath: string, key: string) {
     if (db) {
       db.close();
     }
-    console.log('migrateDatabase: Migration without cipher change failed');
+    logger.info('migrateDatabase: Migration without cipher change failed');
   }
 
   // If that fails, we try to open the database with 3.x compatibility to extract the
@@ -468,7 +458,7 @@ function updateToSchemaVersion1(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion1: starting...');
+  logger.info('updateToSchemaVersion1: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -540,7 +530,7 @@ function updateToSchemaVersion1(currentVersion: number, db: Database): void {
     db.pragma('user_version = 1');
   })();
 
-  console.log('updateToSchemaVersion1: success!');
+  logger.info('updateToSchemaVersion1: success!');
 }
 
 function updateToSchemaVersion2(currentVersion: number, db: Database): void {
@@ -548,7 +538,7 @@ function updateToSchemaVersion2(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion2: starting...');
+  logger.info('updateToSchemaVersion2: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -574,7 +564,7 @@ function updateToSchemaVersion2(currentVersion: number, db: Database): void {
     `);
     db.pragma('user_version = 2');
   })();
-  console.log('updateToSchemaVersion2: success!');
+  logger.info('updateToSchemaVersion2: success!');
 }
 
 function updateToSchemaVersion3(currentVersion: number, db: Database): void {
@@ -582,7 +572,7 @@ function updateToSchemaVersion3(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion3: starting...');
+  logger.info('updateToSchemaVersion3: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -606,7 +596,7 @@ function updateToSchemaVersion3(currentVersion: number, db: Database): void {
     db.pragma('user_version = 3');
   })();
 
-  console.log('updateToSchemaVersion3: success!');
+  logger.info('updateToSchemaVersion3: success!');
 }
 
 function updateToSchemaVersion4(currentVersion: number, db: Database): void {
@@ -614,7 +604,7 @@ function updateToSchemaVersion4(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion4: starting...');
+  logger.info('updateToSchemaVersion4: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -640,14 +630,14 @@ function updateToSchemaVersion4(currentVersion: number, db: Database): void {
     db.pragma('user_version = 4');
   })();
 
-  console.log('updateToSchemaVersion4: success!');
+  logger.info('updateToSchemaVersion4: success!');
 }
 
 function updateToSchemaVersion6(currentVersion: number, db: Database): void {
   if (currentVersion >= 6) {
     return;
   }
-  console.log('updateToSchemaVersion6: starting...');
+  logger.info('updateToSchemaVersion6: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -687,14 +677,14 @@ function updateToSchemaVersion6(currentVersion: number, db: Database): void {
     db.pragma('user_version = 6');
   })();
 
-  console.log('updateToSchemaVersion6: success!');
+  logger.info('updateToSchemaVersion6: success!');
 }
 
 function updateToSchemaVersion7(currentVersion: number, db: Database): void {
   if (currentVersion >= 7) {
     return;
   }
-  console.log('updateToSchemaVersion7: starting...');
+  logger.info('updateToSchemaVersion7: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -718,14 +708,14 @@ function updateToSchemaVersion7(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 7');
   })();
-  console.log('updateToSchemaVersion7: success!');
+  logger.info('updateToSchemaVersion7: success!');
 }
 
 function updateToSchemaVersion8(currentVersion: number, db: Database): void {
   if (currentVersion >= 8) {
     return;
   }
-  console.log('updateToSchemaVersion8: starting...');
+  logger.info('updateToSchemaVersion8: starting...');
   db.transaction(() => {
     db.exec(`
       -- First, we pull a new body field out of the message table's json blob
@@ -771,14 +761,14 @@ function updateToSchemaVersion8(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 8');
   })();
-  console.log('updateToSchemaVersion8: success!');
+  logger.info('updateToSchemaVersion8: success!');
 }
 
 function updateToSchemaVersion9(currentVersion: number, db: Database): void {
   if (currentVersion >= 9) {
     return;
   }
-  console.log('updateToSchemaVersion9: starting...');
+  logger.info('updateToSchemaVersion9: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -802,14 +792,14 @@ function updateToSchemaVersion9(currentVersion: number, db: Database): void {
     db.pragma('user_version = 9');
   })();
 
-  console.log('updateToSchemaVersion9: success!');
+  logger.info('updateToSchemaVersion9: success!');
 }
 
 function updateToSchemaVersion10(currentVersion: number, db: Database): void {
   if (currentVersion >= 10) {
     return;
   }
-  console.log('updateToSchemaVersion10: starting...');
+  logger.info('updateToSchemaVersion10: starting...');
   db.transaction(() => {
     db.exec(`
       DROP INDEX unprocessed_id;
@@ -862,14 +852,14 @@ function updateToSchemaVersion10(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 10');
   })();
-  console.log('updateToSchemaVersion10: success!');
+  logger.info('updateToSchemaVersion10: success!');
 }
 
 function updateToSchemaVersion11(currentVersion: number, db: Database): void {
   if (currentVersion >= 11) {
     return;
   }
-  console.log('updateToSchemaVersion11: starting...');
+  logger.info('updateToSchemaVersion11: starting...');
 
   db.transaction(() => {
     db.exec(`
@@ -878,7 +868,7 @@ function updateToSchemaVersion11(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 11');
   })();
-  console.log('updateToSchemaVersion11: success!');
+  logger.info('updateToSchemaVersion11: success!');
 }
 
 function updateToSchemaVersion12(currentVersion: number, db: Database): void {
@@ -886,7 +876,7 @@ function updateToSchemaVersion12(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion12: starting...');
+  logger.info('updateToSchemaVersion12: starting...');
   db.transaction(() => {
     db.exec(`
       CREATE TABLE sticker_packs(
@@ -939,7 +929,7 @@ function updateToSchemaVersion12(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 12');
   })();
-  console.log('updateToSchemaVersion12: success!');
+  logger.info('updateToSchemaVersion12: success!');
 }
 
 function updateToSchemaVersion13(currentVersion: number, db: Database): void {
@@ -947,7 +937,7 @@ function updateToSchemaVersion13(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion13: starting...');
+  logger.info('updateToSchemaVersion13: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE sticker_packs ADD COLUMN attemptedStatus STRING;
@@ -955,7 +945,7 @@ function updateToSchemaVersion13(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 13');
   })();
-  console.log('updateToSchemaVersion13: success!');
+  logger.info('updateToSchemaVersion13: success!');
 }
 
 function updateToSchemaVersion14(currentVersion: number, db: Database): void {
@@ -963,7 +953,7 @@ function updateToSchemaVersion14(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion14: starting...');
+  logger.info('updateToSchemaVersion14: starting...');
   db.transaction(() => {
     db.exec(`
       CREATE TABLE emojis(
@@ -980,7 +970,7 @@ function updateToSchemaVersion14(currentVersion: number, db: Database): void {
     db.pragma('user_version = 14');
   })();
 
-  console.log('updateToSchemaVersion14: success!');
+  logger.info('updateToSchemaVersion14: success!');
 }
 
 function updateToSchemaVersion15(currentVersion: number, db: Database): void {
@@ -988,7 +978,7 @@ function updateToSchemaVersion15(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion15: starting...');
+  logger.info('updateToSchemaVersion15: starting...');
   db.transaction(() => {
     db.exec(`
       -- SQLite has again coerced our STRINGs into numbers, so we force it with TEXT
@@ -1015,7 +1005,7 @@ function updateToSchemaVersion15(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 15');
   })();
-  console.log('updateToSchemaVersion15: success!');
+  logger.info('updateToSchemaVersion15: success!');
 }
 
 function updateToSchemaVersion16(currentVersion: number, db: Database): void {
@@ -1023,7 +1013,7 @@ function updateToSchemaVersion16(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion16: starting...');
+  logger.info('updateToSchemaVersion16: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE messages
@@ -1078,7 +1068,7 @@ function updateToSchemaVersion16(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 16');
   })();
-  console.log('updateToSchemaVersion16: success!');
+  logger.info('updateToSchemaVersion16: success!');
 }
 
 function updateToSchemaVersion17(currentVersion: number, db: Database): void {
@@ -1086,7 +1076,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion17: starting...');
+  logger.info('updateToSchemaVersion17: starting...');
   db.transaction(() => {
     try {
       db.exec(`
@@ -1096,7 +1086,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
         DROP INDEX messages_message_timer;
       `);
     } catch (error) {
-      console.log(
+      logger.info(
         'updateToSchemaVersion17: Message table already had isViewOnce column'
       );
     }
@@ -1104,7 +1094,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
     try {
       db.exec('DROP INDEX messages_view_once;');
     } catch (error) {
-      console.log(
+      logger.info(
         'updateToSchemaVersion17: Index messages_view_once did not already exist'
       );
     }
@@ -1146,7 +1136,7 @@ function updateToSchemaVersion17(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 17');
   })();
-  console.log('updateToSchemaVersion17: success!');
+  logger.info('updateToSchemaVersion17: success!');
 }
 
 function updateToSchemaVersion18(currentVersion: number, db: Database): void {
@@ -1154,7 +1144,7 @@ function updateToSchemaVersion18(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion18: starting...');
+  logger.info('updateToSchemaVersion18: starting...');
   db.transaction(() => {
     db.exec(`
       -- Delete and rebuild full-text search index to capture everything
@@ -1197,7 +1187,7 @@ function updateToSchemaVersion18(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 18');
   })();
-  console.log('updateToSchemaVersion18: success!');
+  logger.info('updateToSchemaVersion18: success!');
 }
 
 function updateToSchemaVersion19(currentVersion: number, db: Database): void {
@@ -1205,7 +1195,7 @@ function updateToSchemaVersion19(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion19: starting...');
+  logger.info('updateToSchemaVersion19: starting...');
   db.transaction(() => {
     db.exec(`
       ALTER TABLE conversations
@@ -1220,7 +1210,7 @@ function updateToSchemaVersion19(currentVersion: number, db: Database): void {
     db.pragma('user_version = 19');
   })();
 
-  console.log('updateToSchemaVersion19: success!');
+  logger.info('updateToSchemaVersion19: success!');
 }
 
 function updateToSchemaVersion20(currentVersion: number, db: Database): void {
@@ -1228,7 +1218,7 @@ function updateToSchemaVersion20(currentVersion: number, db: Database): void {
     return;
   }
 
-  console.log('updateToSchemaVersion20: starting...');
+  logger.info('updateToSchemaVersion20: starting...');
   db.transaction(() => {
     // The triggers on the messages table slow down this migration
     // significantly, so we drop them and recreate them later.
@@ -1432,7 +1422,7 @@ function updateToSchemaVersion20(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 20');
   })();
-  console.log('updateToSchemaVersion20: success!');
+  logger.info('updateToSchemaVersion20: success!');
 }
 
 function updateToSchemaVersion21(currentVersion: number, db: Database): void {
@@ -1457,7 +1447,7 @@ function updateToSchemaVersion21(currentVersion: number, db: Database): void {
     `);
     db.pragma('user_version = 21');
   })();
-  console.log('updateToSchemaVersion21: success!');
+  logger.info('updateToSchemaVersion21: success!');
 }
 
 function updateToSchemaVersion22(currentVersion: number, db: Database): void {
@@ -1473,7 +1463,7 @@ function updateToSchemaVersion22(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 22');
   })();
-  console.log('updateToSchemaVersion22: success!');
+  logger.info('updateToSchemaVersion22: success!');
 }
 
 function updateToSchemaVersion23(currentVersion: number, db: Database): void {
@@ -1491,7 +1481,7 @@ function updateToSchemaVersion23(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 23');
   })();
-  console.log('updateToSchemaVersion23: success!');
+  logger.info('updateToSchemaVersion23: success!');
 }
 
 function updateToSchemaVersion24(currentVersion: number, db: Database): void {
@@ -1507,7 +1497,7 @@ function updateToSchemaVersion24(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 24');
   })();
-  console.log('updateToSchemaVersion24: success!');
+  logger.info('updateToSchemaVersion24: success!');
 }
 
 async function updateToSchemaVersion25(currentVersion: number, db: Database) {
@@ -1670,7 +1660,7 @@ async function updateToSchemaVersion25(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 25');
   })();
-  console.log('updateToSchemaVersion25: success!');
+  logger.info('updateToSchemaVersion25: success!');
 }
 
 async function updateToSchemaVersion26(currentVersion: number, db: Database) {
@@ -1706,7 +1696,7 @@ async function updateToSchemaVersion26(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 26');
   })();
-  console.log('updateToSchemaVersion26: success!');
+  logger.info('updateToSchemaVersion26: success!');
 }
 
 async function updateToSchemaVersion27(currentVersion: number, db: Database) {
@@ -1744,7 +1734,7 @@ async function updateToSchemaVersion27(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 27');
   })();
-  console.log('updateToSchemaVersion27: success!');
+  logger.info('updateToSchemaVersion27: success!');
 }
 
 function updateToSchemaVersion28(currentVersion: number, db: Database) {
@@ -1766,7 +1756,7 @@ function updateToSchemaVersion28(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 28');
   })();
-  console.log('updateToSchemaVersion28: success!');
+  logger.info('updateToSchemaVersion28: success!');
 }
 
 function updateToSchemaVersion29(currentVersion: number, db: Database) {
@@ -1800,7 +1790,7 @@ function updateToSchemaVersion29(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 29');
   })();
-  console.log('updateToSchemaVersion29: success!');
+  logger.info('updateToSchemaVersion29: success!');
 }
 
 function updateToSchemaVersion30(currentVersion: number, db: Database) {
@@ -1821,14 +1811,14 @@ function updateToSchemaVersion30(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 30');
   })();
-  console.log('updateToSchemaVersion30: success!');
+  logger.info('updateToSchemaVersion30: success!');
 }
 
 function updateToSchemaVersion31(currentVersion: number, db: Database): void {
   if (currentVersion >= 31) {
     return;
   }
-  console.log('updateToSchemaVersion31: starting...');
+  logger.info('updateToSchemaVersion31: starting...');
   db.transaction(() => {
     db.exec(`
       DROP INDEX unprocessed_id;
@@ -1865,7 +1855,7 @@ function updateToSchemaVersion31(currentVersion: number, db: Database): void {
 
     db.pragma('user_version = 31');
   })();
-  console.log('updateToSchemaVersion31: success!');
+  logger.info('updateToSchemaVersion31: success!');
 }
 
 function updateToSchemaVersion32(currentVersion: number, db: Database) {
@@ -1884,7 +1874,7 @@ function updateToSchemaVersion32(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 32');
   })();
-  console.log('updateToSchemaVersion32: success!');
+  logger.info('updateToSchemaVersion32: success!');
 }
 
 function updateToSchemaVersion33(currentVersion: number, db: Database) {
@@ -1916,7 +1906,7 @@ function updateToSchemaVersion33(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 33');
   })();
-  console.log('updateToSchemaVersion33: success!');
+  logger.info('updateToSchemaVersion33: success!');
 }
 
 function updateToSchemaVersion34(currentVersion: number, db: Database) {
@@ -1937,7 +1927,7 @@ function updateToSchemaVersion34(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 34');
   })();
-  console.log('updateToSchemaVersion34: success!');
+  logger.info('updateToSchemaVersion34: success!');
 }
 
 function updateToSchemaVersion35(currentVersion: number, db: Database) {
@@ -1959,7 +1949,7 @@ function updateToSchemaVersion35(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 35');
   })();
-  console.log('updateToSchemaVersion35: success!');
+  logger.info('updateToSchemaVersion35: success!');
 }
 
 // Reverted
@@ -1969,7 +1959,7 @@ function updateToSchemaVersion36(currentVersion: number, db: Database) {
   }
 
   db.pragma('user_version = 36');
-  console.log('updateToSchemaVersion36: success!');
+  logger.info('updateToSchemaVersion36: success!');
 }
 
 function updateToSchemaVersion37(currentVersion: number, db: Database) {
@@ -2047,7 +2037,7 @@ function updateToSchemaVersion37(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 37');
   })();
-  console.log('updateToSchemaVersion37: success!');
+  logger.info('updateToSchemaVersion37: success!');
 }
 
 function updateToSchemaVersion38(currentVersion: number, db: Database) {
@@ -2083,7 +2073,7 @@ function updateToSchemaVersion38(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 38');
   })();
-  console.log('updateToSchemaVersion38: success!');
+  logger.info('updateToSchemaVersion38: success!');
 }
 
 function updateToSchemaVersion39(currentVersion: number, db: Database) {
@@ -2096,7 +2086,7 @@ function updateToSchemaVersion39(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 39');
   })();
-  console.log('updateToSchemaVersion39: success!');
+  logger.info('updateToSchemaVersion39: success!');
 }
 
 function updateToSchemaVersion40(currentVersion: number, db: Database) {
@@ -2117,10 +2107,430 @@ function updateToSchemaVersion40(currentVersion: number, db: Database) {
 
     db.pragma('user_version = 40');
   })();
-  console.log('updateToSchemaVersion40: success!');
+  logger.info('updateToSchemaVersion40: success!');
 }
 
-const SCHEMA_VERSIONS = [
+function updateToSchemaVersion41(currentVersion: number, db: Database) {
+  if (currentVersion >= 41) {
+    return;
+  }
+
+  const getConversationUuid = db
+    .prepare<Query>(
+      `
+      SELECT uuid
+      FROM
+        conversations
+      WHERE
+        id = $conversationId
+      `
+    )
+    .pluck();
+
+  const getConversationStats = db.prepare<Query>(
+    `
+      SELECT uuid, e164, active_at
+      FROM
+        conversations
+      WHERE
+        id = $conversationId
+      `
+  );
+
+  const compareConvoRecency = (a: string, b: string): number => {
+    const aStats = getConversationStats.get({ conversationId: a });
+    const bStats = getConversationStats.get({ conversationId: b });
+
+    const isAComplete = Boolean(aStats?.uuid && aStats?.e164);
+    const isBComplete = Boolean(bStats?.uuid && bStats?.e164);
+
+    if (!isAComplete && !isBComplete) {
+      return 0;
+    }
+    if (!isAComplete) {
+      return -1;
+    }
+    if (!isBComplete) {
+      return 1;
+    }
+
+    return aStats.active_at - bStats.active_at;
+  };
+
+  const clearSessionsAndKeys = () => {
+    // ts/background.ts will ask user to relink so all that matters here is
+    // to maintain an invariant:
+    //
+    // After this migration all sessions and keys are prefixed by
+    // "uuid:".
+    db.exec(
+      `
+      DELETE FROM senderKeys;
+      DELETE FROM sessions;
+      DELETE FROM signedPreKeys;
+      DELETE FROM preKeys;
+      `
+    );
+
+    assertSync(removeById<string>('items', 'identityKey', db));
+    assertSync(removeById<string>('items', 'registrationId', db));
+  };
+
+  const moveIdentityKeyToMap = (ourUuid: string) => {
+    type IdentityKeyType = {
+      privKey: string;
+      publicKey: string;
+    };
+
+    const identityKey = assertSync(
+      getById<string, { value: IdentityKeyType }>('items', 'identityKey', db)
+    );
+
+    type RegistrationId = number;
+
+    const registrationId = assertSync(
+      getById<string, { value: RegistrationId }>('items', 'registrationId', db)
+    );
+
+    if (identityKey) {
+      assertSync(
+        createOrUpdateSync<ItemKeyType>(
+          'items',
+          {
+            id: 'identityKeyMap',
+            value: {
+              [ourUuid]: identityKey.value,
+            },
+          },
+          db
+        )
+      );
+    }
+
+    if (registrationId) {
+      assertSync(
+        createOrUpdateSync<ItemKeyType>(
+          'items',
+          {
+            id: 'registrationIdMap',
+            value: {
+              [ourUuid]: registrationId.value,
+            },
+          },
+          db
+        )
+      );
+    }
+
+    assertSync(removeById<string>('items', 'identityKey', db));
+    assertSync(removeById<string>('items', 'registrationId', db));
+  };
+
+  const prefixKeys = (ourUuid: string) => {
+    for (const table of ['signedPreKeys', 'preKeys']) {
+      // Update id to include suffix, add `ourUuid` and `keyId` fields.
+      db.prepare<Query>(
+        `
+        UPDATE ${table}
+        SET
+          id = $ourUuid || ':' || id,
+          json = json_set(
+            json,
+            '$.id',
+            $ourUuid || ':' || json_extract(json, '$.id'),
+            '$.keyId',
+            json_extract(json, '$.id'),
+            '$.ourUuid',
+            $ourUuid
+          )
+        `
+      ).run({ ourUuid });
+    }
+  };
+
+  const updateSenderKeys = (ourUuid: string) => {
+    const senderKeys: ReadonlyArray<{
+      id: string;
+      senderId: string;
+      lastUpdatedDate: number;
+    }> = db
+      .prepare<EmptyQuery>(
+        'SELECT id, senderId, lastUpdatedDate FROM senderKeys'
+      )
+      .all();
+
+    logger.info(`Updating ${senderKeys.length} sender keys`);
+
+    const updateSenderKey = db.prepare<Query>(
+      `
+      UPDATE senderKeys
+      SET
+        id = $newId,
+        senderId = $newSenderId
+      WHERE
+        id = $id
+      `
+    );
+
+    const deleteSenderKey = db.prepare<Query>(
+      'DELETE FROM senderKeys WHERE id = $id'
+    );
+
+    const pastKeys = new Map<
+      string,
+      {
+        conversationId: string;
+        lastUpdatedDate: number;
+      }
+    >();
+
+    let updated = 0;
+    let deleted = 0;
+    let skipped = 0;
+    for (const { id, senderId, lastUpdatedDate } of senderKeys) {
+      const [conversationId] = Helpers.unencodeNumber(senderId);
+      const uuid = getConversationUuid.get({ conversationId });
+
+      if (!uuid) {
+        deleted += 1;
+        deleteSenderKey.run({ id });
+        continue;
+      }
+
+      const newId = `${ourUuid}:${id.replace(conversationId, uuid)}`;
+
+      const existing = pastKeys.get(newId);
+
+      // We are going to delete on of the keys anyway
+      if (existing) {
+        skipped += 1;
+      } else {
+        updated += 1;
+      }
+
+      const isOlder =
+        existing &&
+        (lastUpdatedDate < existing.lastUpdatedDate ||
+          compareConvoRecency(conversationId, existing.conversationId) < 0);
+      if (isOlder) {
+        deleteSenderKey.run({ id });
+        continue;
+      } else if (existing) {
+        deleteSenderKey.run({ id: newId });
+      }
+
+      pastKeys.set(newId, { conversationId, lastUpdatedDate });
+
+      updateSenderKey.run({
+        id,
+        newId,
+        newSenderId: `${senderId.replace(conversationId, uuid)}`,
+      });
+    }
+
+    logger.info(
+      `Updated ${senderKeys.length} sender keys: ` +
+        `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
+    );
+  };
+
+  const updateSessions = (ourUuid: string) => {
+    // Use uuid instead of conversation id in existing sesions and prefix id
+    // with ourUuid.
+    //
+    // Set ourUuid column and field in json
+    const allSessions = db
+      .prepare<EmptyQuery>('SELECT id, conversationId FROM SESSIONS')
+      .all();
+
+    logger.info(`Updating ${allSessions.length} sessions`);
+
+    const updateSession = db.prepare<Query>(
+      `
+      UPDATE sessions
+      SET
+        id = $newId,
+        ourUuid = $ourUuid,
+        uuid = $uuid,
+        json = json_set(
+          sessions.json,
+          '$.id',
+          $newId,
+          '$.uuid',
+          $uuid,
+          '$.ourUuid',
+          $ourUuid
+        )
+      WHERE
+        id = $id
+      `
+    );
+
+    const deleteSession = db.prepare<Query>(
+      'DELETE FROM sessions WHERE id = $id'
+    );
+
+    const pastSessions = new Map<
+      string,
+      {
+        conversationId: string;
+      }
+    >();
+
+    let updated = 0;
+    let deleted = 0;
+    let skipped = 0;
+    for (const { id, conversationId } of allSessions) {
+      const uuid = getConversationUuid.get({ conversationId });
+      if (!uuid) {
+        deleted += 1;
+        deleteSession.run({ id });
+        continue;
+      }
+
+      const newId = `${ourUuid}:${id.replace(conversationId, uuid)}`;
+
+      const existing = pastSessions.get(newId);
+
+      // We are going to delete on of the keys anyway
+      if (existing) {
+        skipped += 1;
+      } else {
+        updated += 1;
+      }
+
+      const isOlder =
+        existing &&
+        compareConvoRecency(conversationId, existing.conversationId) < 0;
+      if (isOlder) {
+        deleteSession.run({ id });
+        continue;
+      } else if (existing) {
+        deleteSession.run({ id: newId });
+      }
+
+      pastSessions.set(newId, { conversationId });
+
+      updateSession.run({
+        id,
+        newId,
+        uuid,
+        ourUuid,
+      });
+    }
+
+    logger.info(
+      `Updated ${allSessions.length} sessions: ` +
+        `updated: ${updated}, deleted: ${deleted}, skipped: ${skipped}`
+    );
+  };
+
+  const updateIdentityKeys = () => {
+    const identityKeys: ReadonlyArray<{
+      id: string;
+    }> = db.prepare<EmptyQuery>('SELECT id FROM identityKeys').all();
+
+    logger.info(`Updating ${identityKeys.length} identity keys`);
+
+    const updateIdentityKey = db.prepare<Query>(
+      `
+      UPDATE identityKeys
+      SET
+        id = $newId,
+        json = json_set(
+          identityKeys.json,
+          '$.id',
+          $newId
+        )
+      WHERE
+        id = $id
+      `
+    );
+
+    let migrated = 0;
+    for (const { id } of identityKeys) {
+      const uuid = getConversationUuid.get({ conversationId: id });
+
+      let newId: string;
+      if (uuid) {
+        migrated += 1;
+        newId = uuid;
+      } else {
+        newId = `conversation:${id}`;
+      }
+
+      updateIdentityKey.run({ id, newId });
+    }
+
+    logger.info(`Migrated ${migrated} identity keys`);
+  };
+
+  db.transaction(() => {
+    db.exec(
+      `
+      -- Change type of 'id' column from INTEGER to STRING
+
+      ALTER TABLE preKeys
+      RENAME TO old_preKeys;
+
+      ALTER TABLE signedPreKeys
+      RENAME TO old_signedPreKeys;
+
+      CREATE TABLE preKeys(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+      CREATE TABLE signedPreKeys(
+        id STRING PRIMARY KEY ASC,
+        json TEXT
+      );
+
+      -- sqlite handles the type conversion
+      INSERT INTO preKeys SELECT * FROM old_preKeys;
+      INSERT INTO signedPreKeys SELECT * FROM old_signedPreKeys;
+
+      DROP TABLE old_preKeys;
+      DROP TABLE old_signedPreKeys;
+
+      -- Alter sessions
+
+      ALTER TABLE sessions
+        ADD COLUMN ourUuid STRING;
+
+      ALTER TABLE sessions
+        ADD COLUMN uuid STRING;
+      `
+    );
+
+    const ourUuid = getOurUuid(db);
+
+    if (!isValidGuid(ourUuid)) {
+      logger.error(
+        'updateToSchemaVersion41: no uuid is available clearing sessions'
+      );
+
+      clearSessionsAndKeys();
+
+      db.pragma('user_version = 41');
+      return;
+    }
+
+    prefixKeys(ourUuid);
+
+    updateSenderKeys(ourUuid);
+
+    updateSessions(ourUuid);
+
+    moveIdentityKeyToMap(ourUuid);
+
+    updateIdentityKeys();
+
+    db.pragma('user_version = 41');
+  })();
+  logger.info('updateToSchemaVersion41: success!');
+}
+
+export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
   updateToSchemaVersion3,
@@ -2161,16 +2571,17 @@ const SCHEMA_VERSIONS = [
   updateToSchemaVersion38,
   updateToSchemaVersion39,
   updateToSchemaVersion40,
+  updateToSchemaVersion41,
 ];
 
-function updateSchema(db: Database): void {
+export function updateSchema(db: Database) {
   const sqliteVersion = getSQLiteVersion(db);
   const sqlcipherVersion = getSQLCipherVersion(db);
   const userVersion = getUserVersion(db);
   const maxUserVersion = SCHEMA_VERSIONS.length;
   const schemaVersion = getSchemaVersion(db);
 
-  console.log(
+  logger.info(
     'updateSchema:\n',
     ` Current user_version: ${userVersion};\n`,
     ` Most recent db schema: ${maxUserVersion};\n`,
@@ -2181,7 +2592,8 @@ function updateSchema(db: Database): void {
 
   if (userVersion > maxUserVersion) {
     throw new Error(
-      `SQL: User version is ${userVersion} but the expected maximum version is ${maxUserVersion}. Did you try to start an old version of Signal?`
+      `SQL: User version is ${userVersion} but the expected maximum version ` +
+        `is ${maxUserVersion}. Did you try to start an old version of Signal?`
     );
   }
 
@@ -2192,7 +2604,46 @@ function updateSchema(db: Database): void {
   }
 }
 
+function getOurUuid(db: Database): string | undefined {
+  const UUID_ID: ItemKeyType = 'uuid_id';
+
+  const row: { json: string } | undefined = db
+    .prepare<Query>('SELECT json FROM items WHERE id = $id;')
+    .get({ id: UUID_ID });
+
+  if (!row) {
+    return undefined;
+  }
+
+  const { value } = JSON.parse(row.json);
+
+  const [ourUuid] = Helpers.unencodeNumber(String(value).toLowerCase());
+  return ourUuid;
+}
+
 let globalInstance: Database | undefined;
+/* eslint-disable no-console */
+let logger: LoggerType = {
+  fatal(...args: Array<unknown>) {
+    console.error(...args);
+  },
+  error(...args: Array<unknown>) {
+    console.error(...args);
+  },
+  warn(...args: Array<unknown>) {
+    console.warn(...args);
+  },
+  info(...args: Array<unknown>) {
+    console.info(...args);
+  },
+  debug(...args: Array<unknown>) {
+    console.debug(...args);
+  },
+  trace(...args: Array<unknown>) {
+    console.log(...args);
+  },
+};
+/* eslint-enable no-console */
 let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
@@ -2200,9 +2651,11 @@ let indexedDBPath: string | undefined;
 async function initialize({
   configDir,
   key,
+  logger: suppliedLogger,
 }: {
   configDir: string;
   key: string;
+  logger: LoggerType;
 }) {
   if (globalInstance) {
     throw new Error('Cannot initialize more than once!');
@@ -2214,6 +2667,8 @@ async function initialize({
   if (!isString(key)) {
     throw new Error('initialize: key is required!');
   }
+
+  logger = suppliedLogger;
 
   indexedDBPath = join(configDir, 'IndexedDB');
 
@@ -2232,31 +2687,13 @@ async function initialize({
 
     updateSchema(db);
 
-    // test database
-
-    const cipherIntegrityResult = getSQLCipherIntegrityCheck(db);
-    if (cipherIntegrityResult) {
-      console.log(
-        'Database cipher integrity check failed:',
-        cipherIntegrityResult
-      );
-      throw new Error(
-        `Cipher integrity check failed: ${cipherIntegrityResult}`
-      );
-    }
-    const integrityResult = getSQLIntegrityCheck(db);
-    if (integrityResult) {
-      console.log('Database integrity check failed:', integrityResult);
-      throw new Error(`Integrity check failed: ${integrityResult}`);
-    }
-
     // At this point we can allow general access to the database
     globalInstance = db;
 
     // test database
     await getMessageCount();
   } catch (error) {
-    console.log('Database startup error:', error.stack);
+    logger.error('Database startup error:', error.stack);
     if (db) {
       db.close();
     }
@@ -2305,7 +2742,7 @@ async function initializeRenderer({
     // test database
     await getMessageCount();
   } catch (error) {
-    window.log.error('Database startup error:', error.stack);
+    log.error('Database startup error:', error.stack);
     throw error;
   }
 }
@@ -2325,7 +2762,12 @@ async function close(): Promise<void> {
 
 async function removeDB(): Promise<void> {
   if (globalInstance) {
-    throw new Error('removeDB: Cannot erase database when it is open!');
+    try {
+      globalInstance.close();
+    } catch (error) {
+      logger.error('removeDB: Failed to close database:', error.stack);
+    }
+    globalInstance = undefined;
   }
   if (!databaseFilePath) {
     throw new Error(
@@ -2402,13 +2844,15 @@ const IDENTITY_KEYS_TABLE = 'identityKeys';
 function createOrUpdateIdentityKey(data: IdentityKeyType): Promise<void> {
   return createOrUpdate(IDENTITY_KEYS_TABLE, data);
 }
-function getIdentityKeyById(id: string): Promise<IdentityKeyType | undefined> {
+async function getIdentityKeyById(
+  id: IdentityKeyIdType
+): Promise<IdentityKeyType | undefined> {
   return getById(IDENTITY_KEYS_TABLE, id);
 }
 function bulkAddIdentityKeys(array: Array<IdentityKeyType>): Promise<void> {
   return bulkAdd(IDENTITY_KEYS_TABLE, array);
 }
-function removeIdentityKeyById(id: string): Promise<void> {
+async function removeIdentityKeyById(id: IdentityKeyIdType): Promise<void> {
   return removeById(IDENTITY_KEYS_TABLE, id);
 }
 function removeAllIdentityKeys(): Promise<void> {
@@ -2422,13 +2866,15 @@ const PRE_KEYS_TABLE = 'preKeys';
 function createOrUpdatePreKey(data: PreKeyType): Promise<void> {
   return createOrUpdate(PRE_KEYS_TABLE, data);
 }
-function getPreKeyById(id: number): Promise<PreKeyType | undefined> {
+async function getPreKeyById(
+  id: PreKeyIdType
+): Promise<PreKeyType | undefined> {
   return getById(PRE_KEYS_TABLE, id);
 }
 function bulkAddPreKeys(array: Array<PreKeyType>): Promise<void> {
   return bulkAdd(PRE_KEYS_TABLE, array);
 }
-function removePreKeyById(id: number): Promise<void> {
+async function removePreKeyById(id: PreKeyIdType): Promise<void> {
   return removeById(PRE_KEYS_TABLE, id);
 }
 function removeAllPreKeys(): Promise<void> {
@@ -2442,15 +2888,15 @@ const SIGNED_PRE_KEYS_TABLE = 'signedPreKeys';
 function createOrUpdateSignedPreKey(data: SignedPreKeyType): Promise<void> {
   return createOrUpdate(SIGNED_PRE_KEYS_TABLE, data);
 }
-function getSignedPreKeyById(
-  id: number
+async function getSignedPreKeyById(
+  id: SignedPreKeyIdType
 ): Promise<SignedPreKeyType | undefined> {
   return getById(SIGNED_PRE_KEYS_TABLE, id);
 }
 function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>): Promise<void> {
   return bulkAdd(SIGNED_PRE_KEYS_TABLE, array);
 }
-function removeSignedPreKeyById(id: number): Promise<void> {
+async function removeSignedPreKeyById(id: SignedPreKeyIdType): Promise<void> {
   return removeById(SIGNED_PRE_KEYS_TABLE, id);
 }
 function removeAllSignedPreKeys(): Promise<void> {
@@ -2477,7 +2923,7 @@ function createOrUpdateItem<K extends ItemKeyType>(
 ): Promise<void> {
   return createOrUpdate(ITEMS_TABLE, data);
 }
-function getItemById<K extends ItemKeyType>(
+async function getItemById<K extends ItemKeyType>(
   id: K
 ): Promise<ItemType<K> | undefined> {
   return getById(ITEMS_TABLE, id);
@@ -2499,7 +2945,7 @@ async function getAllItems(): Promise<AllItemsType> {
 
   return result;
 }
-function removeItemById(id: ItemKeyType): Promise<void> {
+async function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(ITEMS_TABLE, id);
 }
 function removeAllItems(): Promise<void> {
@@ -2529,7 +2975,7 @@ async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
   ).run(key);
 }
 async function getSenderKeyById(
-  id: string
+  id: SenderKeyIdType
 ): Promise<SenderKeyType | undefined> {
   const db = getInstance();
   const row = prepare(db, 'SELECT * FROM senderKeys WHERE id = $id').get({
@@ -2548,7 +2994,7 @@ async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
 
   return rows;
 }
-async function removeSenderKeyById(id: string): Promise<void> {
+async function removeSenderKeyById(id: SenderKeyIdType): Promise<void> {
   const db = getInstance();
   prepare(db, 'DELETE FROM senderKeys WHERE id = $id').run({ id });
 }
@@ -2742,7 +3188,7 @@ async function deleteSentProtoRecipient(
         continue;
       }
       if (rows.length > 1) {
-        console.warn(
+        logger.warn(
           'deleteSentProtoRecipient: More than one payload matches ' +
             `recipient and timestamp ${timestamp}. Using the first.`
         );
@@ -2782,7 +3228,7 @@ async function deleteSentProtoRecipient(
       }
 
       // 4. Delete the entire payload if there are no more recipients left.
-      console.info(
+      logger.info(
         'deleteSentProtoRecipient: ' +
           `Deleting proto payload for timestamp ${timestamp}`
       );
@@ -2872,7 +3318,7 @@ async function _getAllSentProtoMessageIds(): Promise<Array<SentMessageDBType>> {
 const SESSIONS_TABLE = 'sessions';
 function createOrUpdateSessionSync(data: SessionType): void {
   const db = getInstance();
-  const { id, conversationId } = data;
+  const { id, conversationId, ourUuid, uuid } = data;
   if (!id) {
     throw new Error(
       'createOrUpdateSession: Provided data did not have a truthy id'
@@ -2890,16 +3336,22 @@ function createOrUpdateSessionSync(data: SessionType): void {
     INSERT OR REPLACE INTO sessions (
       id,
       conversationId,
+      ourUuid,
+      uuid,
       json
     ) values (
       $id,
       $conversationId,
+      $ourUuid,
+      $uuid,
       $json
     )
     `
   ).run({
     id,
     conversationId,
+    ourUuid,
+    uuid,
     json: objectToJSON(data),
   });
 }
@@ -2942,7 +3394,7 @@ async function commitSessionsAndUnprocessed({
 function bulkAddSessions(array: Array<SessionType>): Promise<void> {
   return bulkAdd(SESSIONS_TABLE, array);
 }
-function removeSessionById(id: string): Promise<void> {
+async function removeSessionById(id: SessionIdType): Promise<void> {
   return removeById(SESSIONS_TABLE, id);
 }
 async function removeSessionsByConversation(
@@ -2965,11 +3417,11 @@ function getAllSessions(): Promise<Array<SessionType>> {
   return getAllFromTable(SESSIONS_TABLE);
 }
 
-function createOrUpdateSync(
+function createOrUpdateSync<Key extends string | number>(
   table: string,
-  data: Record<string, unknown> & { id: string | number }
+  data: Record<string, unknown> & { id: Key },
+  db = getInstance()
 ): void {
-  const db = getInstance();
   const { id } = data;
   if (!id) {
     throw new Error('createOrUpdate: Provided data did not have a truthy id');
@@ -3011,11 +3463,11 @@ async function bulkAdd(
   })();
 }
 
-async function getById<T>(
+function getById<Key extends string | number, Result = unknown>(
   table: string,
-  id: string | number
-): Promise<T | undefined> {
-  const db = getInstance();
+  id: Key,
+  db = getInstance()
+): Result | undefined {
   const row = db
     .prepare<Query>(
       `
@@ -3035,12 +3487,11 @@ async function getById<T>(
   return jsonToObject(row.json);
 }
 
-async function removeById(
+function removeById<Key extends string | number>(
   table: string,
-  id: string | number | Array<string | number>
-): Promise<void> {
-  const db = getInstance();
-
+  id: Key | Array<Key>,
+  db = getInstance()
+): void {
   if (!Array.isArray(id)) {
     db.prepare<Query>(
       `
@@ -4366,6 +4817,10 @@ function getLastConversationPreview({
       WHERE
         conversationId = $conversationId AND
         (
+          expiresAt IS NULL OR
+          (expiresAt > $now)
+        ) AND
+        (
           type IS NULL
           OR
           type NOT IN (
@@ -4390,6 +4845,7 @@ function getLastConversationPreview({
   ).get({
     conversationId,
     ourConversationId,
+    now: Date.now(),
   });
 
   if (!row) {
@@ -4666,6 +5122,8 @@ async function getTapToViewMessagesNeedingErase(): Promise<Array<MessageType>> {
   return rows.map(row => jsonToObject(row.json));
 }
 
+const MAX_UNPROCESSED_ATTEMPTS = 3;
+
 function saveUnprocessedSync(data: UnprocessedType): string {
   const db = getInstance();
   const {
@@ -4683,6 +5141,11 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   } = data;
   if (!id) {
     throw new Error('saveUnprocessedSync: id was falsey');
+  }
+
+  if (attempts >= MAX_UNPROCESSED_ATTEMPTS) {
+    removeUnprocessedSync(id);
+    return id;
   }
 
   prepare(
@@ -4729,23 +5192,6 @@ function saveUnprocessedSync(data: UnprocessedType): string {
   });
 
   return id;
-}
-
-async function updateUnprocessedAttempts(
-  id: string,
-  attempts: number
-): Promise<void> {
-  const db = getInstance();
-  db.prepare<Query>(
-    `
-    UPDATE unprocessed
-    SET attempts = $attempts
-    WHERE id = $id;
-    `
-  ).run({
-    id,
-    attempts,
-  });
 }
 
 function updateUnprocessedWithDataSync(
@@ -4847,7 +5293,7 @@ function removeUnprocessedsSync(ids: Array<string>): void {
   ).run(ids);
 }
 
-async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+function removeUnprocessedSync(id: string | Array<string>): void {
   if (!Array.isArray(id)) {
     const db = getInstance();
 
@@ -4857,10 +5303,14 @@ async function removeUnprocessed(id: string | Array<string>): Promise<void> {
   }
 
   if (!id.length) {
-    throw new Error('removeUnprocessed: No ids to delete!');
+    throw new Error('removeUnprocessedSync: No ids to delete!');
   }
 
-  batchMultiVarQuery(id, removeUnprocessedsSync);
+  assertSync(batchMultiVarQuery(id, removeUnprocessedsSync));
+}
+
+async function removeUnprocessed(id: string | Array<string>): Promise<void> {
+  removeUnprocessedSync(id);
 }
 
 async function removeAllUnprocessed(): Promise<void> {
@@ -4954,7 +5404,7 @@ async function resetAttachmentDownloadPending(): Promise<void> {
     `
   ).run();
 }
-function removeAttachmentDownloadJob(id: string): Promise<void> {
+async function removeAttachmentDownloadJob(id: string): Promise<void> {
   return removeById(ATTACHMENT_DOWNLOADS_TABLE, id);
 }
 function removeAllAttachmentDownloadJobs(): Promise<void> {
@@ -5279,7 +5729,7 @@ async function deleteStickerPackReference(
         )
         .get({ packId });
       if (!packRow) {
-        console.log('deleteStickerPackReference: did not find referenced pack');
+        logger.warn('deleteStickerPackReference: did not find referenced pack');
         return undefined;
       }
       const { status } = packRow;
@@ -5735,7 +6185,7 @@ async function removeKnownAttachments(
   const chunkSize = 50;
 
   const total = await getMessageCount();
-  console.log(
+  logger.info(
     `removeKnownAttachments: About to iterate through ${total} messages`
   );
 
@@ -5776,7 +6226,7 @@ async function removeKnownAttachments(
     count += messages.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} messages`);
+  logger.info(`removeKnownAttachments: Done processing ${count} messages`);
 
   complete = false;
   count = 0;
@@ -5785,7 +6235,7 @@ async function removeKnownAttachments(
   id = 0;
 
   const conversationTotal = await getConversationCount();
-  console.log(
+  logger.info(
     `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
   );
 
@@ -5822,7 +6272,7 @@ async function removeKnownAttachments(
     count += conversations.length;
   }
 
-  console.log(`removeKnownAttachments: Done processing ${count} conversations`);
+  logger.info(`removeKnownAttachments: Done processing ${count} conversations`);
 
   return Object.keys(lookup);
 }
@@ -5837,7 +6287,7 @@ async function removeKnownStickers(
   const chunkSize = 50;
 
   const total = await getStickerCount();
-  console.log(
+  logger.info(
     `removeKnownStickers: About to iterate through ${total} stickers`
   );
 
@@ -5873,7 +6323,7 @@ async function removeKnownStickers(
     count += rows.length;
   }
 
-  console.log(`removeKnownStickers: Done processing ${count} stickers`);
+  logger.info(`removeKnownStickers: Done processing ${count} stickers`);
 
   return Object.keys(lookup);
 }
@@ -5888,7 +6338,7 @@ async function removeKnownDraftAttachments(
   const chunkSize = 50;
 
   const total = await getConversationCount();
-  console.log(
+  logger.info(
     `removeKnownDraftAttachments: About to iterate through ${total} conversations`
   );
 
@@ -5931,7 +6381,7 @@ async function removeKnownDraftAttachments(
     count += conversations.length;
   }
 
-  console.log(
+  logger.info(
     `removeKnownDraftAttachments: Done processing ${count} conversations`
   );
 
@@ -6068,6 +6518,25 @@ async function cleanExpiredGroupCallRings(): Promise<void> {
   ).run({
     expiredRingTime: Date.now() - MAX_GROUP_CALL_RING_AGE,
   });
+}
+
+async function getMaxMessageCounter(): Promise<number | undefined> {
+  const db = getInstance();
+
+  return db
+    .prepare<EmptyQuery>(
+      `
+    SELECT MAX(counter)
+    FROM
+      (
+        SELECT MAX(received_at) AS counter FROM messages
+        UNION
+        SELECT MAX(timestamp) AS counter FROM unprocessed
+      )
+    `
+    )
+    .pluck()
+    .get();
 }
 
 async function getStatisticsForLogging(): Promise<Record<string, string>> {

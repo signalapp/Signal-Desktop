@@ -11,6 +11,8 @@ import { LocalizerType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
+import * as log from '../../logging/log';
+import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser';
 
 export type Props = {
   about?: string;
@@ -19,7 +21,7 @@ export type Props = {
   i18n: LocalizerType;
   isMe: boolean;
   membersCount?: number;
-  onHeightChange?: () => unknown;
+  onHeightChange: () => unknown;
   phoneNumber?: string;
   sharedGroupNames?: Array<string>;
   unblurAvatar: () => void;
@@ -133,8 +135,8 @@ export const ConversationHero = ({
       return;
     }
 
-    window.log.info('ConversationHero: calling onHeightChange');
-    onHeightChange?.();
+    log.info('ConversationHero: calling onHeightChange');
+    onHeightChange();
   }, [
     about,
     conversationType,
@@ -192,17 +194,7 @@ export const ConversationHero = ({
           title={title}
         />
         <h1 className="module-conversation-hero__profile-name">
-          {isMe ? (
-            i18n('noteToSelf')
-          ) : (
-            <ContactName
-              title={title}
-              name={name}
-              profileName={profileName}
-              phoneNumber={phoneNumber}
-              i18n={i18n}
-            />
-          )}
+          {isMe ? i18n('noteToSelf') : <ContactName title={title} />}
         </h1>
         {about && !isMe && (
           <div className="module-about__container">
@@ -246,8 +238,9 @@ export const ConversationHero = ({
             {
               text: i18n('MessageRequestWarning__dialog__learn-even-more'),
               action: () => {
-                window.location.href =
-                  'https://support.signal.org/hc/articles/360007459591';
+                openLinkInWebBrowser(
+                  'https://support.signal.org/hc/articles/360007459591'
+                );
                 closeMessageRequestWarning();
               },
             },

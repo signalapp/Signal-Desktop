@@ -415,6 +415,20 @@
         "message": "Personat vijues mund të kenë riinstaluar ose ndryshuar pajisjet. Për të siguruar privatësi, verifikoni me ta numrin tuaj të sigurisë.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Dërgo mesazhe të mbajtur pezull",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Dërgo $count$ mesazhe të mbajtur pezull",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numri juaj i sigurisë me $name1$ ka ndryshuar. Kjo do të mund të thoshte se dikush po rreket të përgjojë komunikimin tuaj, ose se$name2$ thjesht ka riinstaluar Signal-in. Mund të donit të verifikonit numrin tuaj të sigurisë me këtë kontakt.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Ju lutemi, ujdisni Signal-in në telefonin dhe desktopin tuaj që të përdorë Krijues Paketash Ngjitësish",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Hiqe reagimin",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "S’u arrit të dërgohej reagim. Ju lutemi, riprovoni.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Më tepër",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Anëtar i $group1$, $group2$, $group3$ dhe $remainingCount$ të tjerëve",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ ju shtoi te grupi.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Përzgjidhni kontakt",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Shpërzgjidhni kontakte",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "S’mund të përzgjidhet kontakt",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Tashmë anëtar",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Fjalosje",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Thirrje",
@@ -6279,6 +6297,14 @@
         "message": "Përditësimet shkarkoji vetvetiu",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Aktivizo njoftime",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Pajisje",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Ka të gatshëm përditësim me versionin $version$",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Nëse kaloni kursorin sipër butonave, teksa jeni në një thirrje, mbeten të dukshëm, në vend se të zhduken. Syve tuaj shqiponjë nuk u fshihet asgjë, as madje këta butona!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Provoni lejen e re “të dërgojë mesazhe”, për të kufizuar se cilët mund të dërgojnë mesazhe te grupi juaj. E shkëlqyer për organizim veprimtarish, bërje lajmërimesh, ose thjesht për të bërtitur që prej çatisë. Që kjo të shfaqet, krejt anëtarët duhet të jenë nën versionin më të ri të Signal-it.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Tani mund të dërgoni mesazhe kurdo dhe kudo që gjendeni: në avion, në tunel, ose në atë çastin e trishtuar kur interneti juaj u ndërpre. Tek e fundit do të dërgohet; për mesazhet tanimë riprovohet automatikisht deri në 24 orë.",
+        "description": "Release notes for v5.17"
     }
 }

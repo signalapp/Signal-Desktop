@@ -1,11 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as pino from 'pino';
+import pino from 'pino';
 import { isRecord } from '../util/isRecord';
 import { redactAll } from '../util/privacy';
 import { missingCaseError } from '../util/missingCaseError';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
+import { LogLevel } from '../types/Logging';
+
+export { LogLevel };
 
 export type FetchLogIpcData = {
   capabilities: Record<string, unknown>;
@@ -29,17 +32,6 @@ export const isFetchLogIpcData = (data: unknown): data is FetchLogIpcData =>
   isRecord(data.statistics) &&
   isRecord(data.user) &&
   Array.isArray(data.logEntries);
-
-// These match [Pino's recommendations][0].
-// [0]: https://getpino.io/#/docs/api?id=loggerlevels-object
-export enum LogLevel {
-  Fatal = 60,
-  Error = 50,
-  Warn = 40,
-  Info = 30,
-  Debug = 20,
-  Trace = 10,
-}
 
 // These match [Pino's core fields][1].
 // [1]: https://getpino.io/#/?id=usage
@@ -106,3 +98,10 @@ export function cleanArgs(args: ReadonlyArray<unknown>): string {
       .join(' ')
   );
 }
+
+// To make it easier to visually scan logs, we make all levels the same length
+const levelFromName = pino().levels.values;
+export const levelMaxLength: number = Object.keys(levelFromName).reduce(
+  (maxLength, level) => Math.max(maxLength, level.length),
+  0
+);

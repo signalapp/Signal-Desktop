@@ -5,6 +5,7 @@ import { ConversationAttributesType } from '../model-types.d';
 import { sendReadReceiptsFor } from './sendReadReceiptsFor';
 import { hasErrors } from '../state/selectors/message';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
+import * as log from '../logging/log';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
@@ -27,7 +28,7 @@ export async function markConversationRead(
     ),
   ]);
 
-  window.log.info('markConversationRead', {
+  log.info('markConversationRead', {
     conversationId,
     newestUnreadId,
     unreadMessages: unreadMessages.length,
@@ -102,11 +103,11 @@ export async function markConversationRead(
   }> = [...unreadMessagesSyncData, ...unreadReactionSyncData.values()];
 
   if (readSyncs.length && options.sendReadReceipts) {
-    window.log.info(`Sending ${readSyncs.length} read syncs`);
+    log.info(`Sending ${readSyncs.length} read syncs`);
     // Because syncReadMessages sends to our other devices, and sendReadReceipts goes
     //   to a contact, we need accessKeys for both.
     if (window.ConversationController.areWePrimaryDevice()) {
-      window.log.warn(
+      log.warn(
         'markConversationRead: We are primary device; not sending read syncs'
       );
     } else {

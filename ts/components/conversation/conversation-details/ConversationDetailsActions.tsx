@@ -33,6 +33,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
   const [confirmingBlock, setConfirmingBlock] = React.useState<boolean>(false);
 
   let leaveGroupNode: ReactNode;
+  let blockGroupNode: ReactNode;
   if (!left) {
     leaveGroupNode = (
       <PanelRow
@@ -72,24 +73,41 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
     }
   }
 
+  blockGroupNode = (
+    <PanelRow
+      disabled={cannotLeaveBecauseYouAreLastAdmin}
+      onClick={() => setConfirmingBlock(true)}
+      icon={
+        <ConversationDetailsIcon
+          ariaLabel={i18n('ConversationDetailsActions--block-group')}
+          icon="block"
+        />
+      }
+      label={
+        <div className="module-conversation-details__block-group">
+          {i18n('ConversationDetailsActions--block-group')}
+        </div>
+      }
+    />
+  );
+  if (cannotLeaveBecauseYouAreLastAdmin) {
+    blockGroupNode = (
+      <Tooltip
+        content={i18n(
+          'ConversationDetailsActions--leave-group-must-choose-new-admin'
+        )}
+        direction={TooltipPlacement.Top}
+      >
+        {blockGroupNode}
+      </Tooltip>
+    );
+  }
+
   return (
     <>
       <PanelSection>
         {leaveGroupNode}
-        <PanelRow
-          onClick={() => setConfirmingBlock(true)}
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('ConversationDetailsActions--block-group')}
-              icon="block"
-            />
-          }
-          label={
-            <div className="module-conversation-details__block-group">
-              {i18n('ConversationDetailsActions--block-group')}
-            </div>
-          }
-        />
+        {blockGroupNode}
       </PanelSection>
 
       {confirmingLeave && (

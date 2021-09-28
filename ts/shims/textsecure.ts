@@ -3,13 +3,14 @@
 
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
+import * as log from '../logging/log';
 
 export async function sendStickerPackSync(
   packId: string,
   packKey: string,
   installed: boolean
 ): Promise<void> {
-  const { ConversationController, textsecure, log } = window;
+  const { ConversationController, textsecure } = window;
   const ourConversation = ConversationController.getOurConversationOrThrow();
   const sendOptions = await getSendOptions(ourConversation.attributes, {
     syncMessage: true,
@@ -24,7 +25,7 @@ export async function sendStickerPackSync(
   }
 
   if (window.ConversationController.areWePrimaryDevice()) {
-    window.log.warn(
+    log.warn(
       'shims/sendStickerPackSync: We are primary device; not sending sync'
     );
     return;

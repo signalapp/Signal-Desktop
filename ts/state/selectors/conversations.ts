@@ -51,6 +51,7 @@ import {
   getCallSelector,
 } from './calling';
 import { getAccountSelector, AccountSelectorType } from './accounts';
+import * as log from '../../logging/log';
 
 let placeholderContact: ConversationType;
 export const getPlaceholderContact = (): ConversationType => {
@@ -635,9 +636,7 @@ export const getConversationSelector = createSelector(
   ): GetConversationByIdType => {
     return (id?: string) => {
       if (!id) {
-        window.log.warn(
-          `getConversationSelector: Called with a falsey id ${id}`
-        );
+        log.warn(`getConversationSelector: Called with a falsey id ${id}`);
         // This will return a placeholder contact
         return selector(undefined);
       }
@@ -659,9 +658,7 @@ export const getConversationSelector = createSelector(
         return selector(onId);
       }
 
-      window.log.warn(
-        `getConversationSelector: No conversation found for id ${id}`
-      );
+      log.warn(`getConversationSelector: No conversation found for id ${id}`);
       // This will return a placeholder contact
       return selector(undefined);
     };
@@ -743,7 +740,7 @@ export const getContactNameColorSelector = createSelector(
       );
       const color = contactNameColors.get(contactId);
       if (!color) {
-        window.log.warn(`No color generated for contact ${contactId}`);
+        log.warn(`No color generated for contact ${contactId}`);
         return ContactNameColors[0];
       }
       return color;
@@ -888,10 +885,19 @@ export const getConversationMessagesSelector = createSelector(
     conversationMessagesSelector: CachedConversationMessagesSelectorType,
     messagesByConversation: MessagesByConversationType
   ) => {
-    return (id: string): TimelinePropsType | undefined => {
+    return (id: string): TimelinePropsType => {
       const conversation = messagesByConversation[id];
       if (!conversation) {
-        return undefined;
+        // TODO: DESKTOP-2340
+        return {
+          haveNewest: false,
+          haveOldest: false,
+          isLoadingMessages: false,
+          resetCounter: 0,
+          scrollToIndexCounter: 0,
+          totalUnread: 0,
+          items: [],
+        };
       }
 
       return conversationMessagesSelector(conversation);

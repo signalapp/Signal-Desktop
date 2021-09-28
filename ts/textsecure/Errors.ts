@@ -1,7 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
 import { parseRetryAfter } from '../util/parseRetryAfter';
@@ -102,14 +101,14 @@ export class OutgoingIdentityKeyError extends ReplayableError {
 export class OutgoingMessageError extends ReplayableError {
   identifier: string;
 
-  code?: any;
+  code?: number;
 
   // Note: Data to resend message is no longer captured
   constructor(
     incomingIdentifier: string,
     _m: unknown,
     _t: unknown,
-    httpError?: Error
+    httpError?: HTTPError
   ) {
     const identifier = incomingIdentifier.split('.')[0];
 
@@ -128,11 +127,13 @@ export class OutgoingMessageError extends ReplayableError {
 }
 
 export class SendMessageNetworkError extends ReplayableError {
+  code: number;
+
   identifier: string;
 
   responseHeaders?: HeaderListType | undefined;
 
-  constructor(identifier: string, _m: unknown, httpError: Error) {
+  constructor(identifier: string, _m: unknown, httpError: HTTPError) {
     super({
       name: 'SendMessageNetworkError',
       message: httpError.message,
@@ -152,13 +153,15 @@ export type SendMessageChallengeData = {
 };
 
 export class SendMessageChallengeError extends ReplayableError {
+  public code: number;
+
   public identifier: string;
 
   public readonly data: SendMessageChallengeData | undefined;
 
   public readonly retryAfter: number;
 
-  constructor(identifier: string, httpError: Error) {
+  constructor(identifier: string, httpError: HTTPError) {
     super({
       name: 'SendMessageChallengeError',
       message: httpError.message,
@@ -166,7 +169,7 @@ export class SendMessageChallengeError extends ReplayableError {
 
     [this.identifier] = identifier.split('.');
     this.code = httpError.code;
-    this.data = httpError.response;
+    this.data = httpError.response as SendMessageChallengeData;
 
     const headers = httpError.responseHeaders || {};
 
@@ -241,9 +244,9 @@ export class SignedPreKeyRotationError extends ReplayableError {
 }
 
 export class MessageError extends ReplayableError {
-  code?: any;
+  code: number;
 
-  constructor(_m: unknown, httpError: Error) {
+  constructor(_m: unknown, httpError: HTTPError) {
     super({
       name: 'MessageError',
       message: httpError.message,
@@ -258,9 +261,9 @@ export class MessageError extends ReplayableError {
 export class UnregisteredUserError extends Error {
   identifier: string;
 
-  code?: any;
+  code: number;
 
-  constructor(identifier: string, httpError: Error) {
+  constructor(identifier: string, httpError: HTTPError) {
     const { message } = httpError;
 
     super(message);
@@ -282,3 +285,5 @@ export class UnregisteredUserError extends Error {
 }
 
 export class ConnectTimeoutError extends Error {}
+
+export class WarnOnlyError extends Error {}

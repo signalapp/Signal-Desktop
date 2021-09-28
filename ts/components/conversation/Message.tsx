@@ -34,6 +34,7 @@ import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
+import * as log from '../../logging/log';
 
 import {
   AttachmentType,
@@ -63,7 +64,7 @@ import {
 } from '../../types/Colors';
 import { createRefMerger } from '../_util';
 import { emojiToData } from '../emoji/lib';
-import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 
@@ -197,6 +198,9 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   collapseMetadata?: boolean;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
 };
 
 export type PropsActions = {
@@ -383,7 +387,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public handleImageError = (): void => {
     const { id } = this.props;
-    window.log.info(
+    log.info(
       `Message ${id}: Image failed to load; failing over to placeholder`
     );
     this.setState({
@@ -489,7 +493,7 @@ export class Message extends React.PureComponent<Props, State> {
         timestamp,
         delta,
       });
-      window.log.info(
+      log.info(
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
@@ -587,6 +591,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       collapseMetadata,
+      deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -613,6 +618,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <MessageMetadata
+        deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
         expirationTimestamp={expirationTimestamp}
@@ -637,7 +643,6 @@ export class Message extends React.PureComponent<Props, State> {
       contactNameColor,
       conversationType,
       direction,
-      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -668,11 +673,7 @@ export class Message extends React.PureComponent<Props, State> {
         <ContactName
           contactNameColor={contactNameColor}
           title={author.title}
-          phoneNumber={author.phoneNumber}
-          name={author.name}
-          profileName={author.profileName}
           module={moduleName}
-          i18n={i18n}
         />
       </div>
     );
@@ -803,7 +804,7 @@ export class Message extends React.PureComponent<Props, State> {
           played = readStatus === ReadStatus.Viewed;
           break;
         default:
-          window.log.error(missingCaseError(direction));
+          log.error(missingCaseError(direction));
           played = false;
           break;
       }
@@ -1093,9 +1094,6 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         rawAttachment={quote.rawAttachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={quote.authorPhoneNumber}
-        authorProfileName={quote.authorProfileName}
-        authorName={quote.authorName}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
@@ -1317,6 +1315,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       reactToMessage,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       selectedReaction,
     } = this.props;
@@ -1449,7 +1448,6 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
-            // eslint-disable-next-line consistent-return
             <Popper
               placement="top"
               modifiers={[
@@ -1457,22 +1455,22 @@ export class Message extends React.PureComponent<Props, State> {
                 this.popperPreventOverflowModifier(),
               ]}
             >
-              {({ ref, style }) => (
-                <SmartReactionPicker
-                  ref={ref}
-                  style={style}
-                  selected={selectedReaction}
-                  onClose={this.toggleReactionPicker}
-                  onPick={emoji => {
+              {({ ref, style }) =>
+                renderReactionPicker({
+                  ref,
+                  style,
+                  selected: selectedReaction,
+                  onClose: this.toggleReactionPicker,
+                  onPick: emoji => {
                     this.toggleReactionPicker(true);
                     reactToMessage(id, {
                       emoji,
                       remove: emoji === selectedReaction,
                     });
-                  }}
-                  renderEmojiPicker={renderEmojiPicker}
-                />
-              )}
+                  },
+                  renderEmojiPicker,
+                })
+              }
             </Popper>,
             reactionPickerRoot
           )}
@@ -1760,7 +1758,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return, no-nested-ternary
+    // eslint-disable-next-line no-nested-ternary
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'
@@ -2080,7 +2078,12 @@ export class Message extends React.PureComponent<Props, State> {
     const { isTapToView, deletedForEveryone } = this.props;
 
     if (deletedForEveryone) {
-      return this.renderText();
+      return (
+        <>
+          {this.renderText()}
+          {this.renderMetadata()}
+        </>
+      );
     }
 
     if (isTapToView) {
@@ -2129,7 +2132,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (isTapToView) {
       if (isAttachmentPending) {
-        window.log.info(
+        log.info(
           '<Message> handleOpen: tap-to-view attachment is pending; not showing the lightbox'
         );
         return;

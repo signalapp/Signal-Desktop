@@ -1,6 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as log from '../logging/log';
+
 export type SoundOpts = {
   loop?: boolean;
   src: string;
@@ -29,7 +31,7 @@ export class Sound {
         const decodedBuffer = await this.context.decodeAudioData(buffer);
         Sound.sounds.set(this.src, decodedBuffer);
       } catch (err) {
-        window.log.error(`Sound error: ${err}`);
+        log.error(`Sound error: ${err}`);
         return;
       }
     }

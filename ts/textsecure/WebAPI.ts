@@ -64,6 +64,7 @@ import { HTTPError } from './Errors';
 import MessageSender from './SendMessage';
 import { WebAPICredentials, IRequestHandler } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
+import * as log from '../logging/log';
 
 // TODO: remove once we move away from ArrayBuffers
 const FIXMEU8 = Uint8Array;
@@ -397,9 +398,9 @@ async function _promiseAjax(
 
   const unauthLabel = options.unauthenticated ? ' (unauth)' : '';
   if (options.redactUrl) {
-    window.log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
+    log.info(`${options.type} ${options.redactUrl(url)}${unauthLabel}`);
   } else {
-    window.log.info(`${options.type} ${url}${unauthLabel}`);
+    log.info(`${options.type} ${url}${unauthLabel}`);
   }
 
   const timeout = typeof options.timeout === 'number' ? options.timeout : 10000;
@@ -411,7 +412,7 @@ async function _promiseAjax(
   const { timestamp } = agents[cacheKey] || { timestamp: null };
   if (!timestamp || timestamp + FIVE_MINUTES < Date.now()) {
     if (timestamp) {
-      window.log.info(`Cycling agent for type ${cacheKey}`);
+      log.info(`Cycling agent for type ${cacheKey}`);
     }
     agents[cacheKey] = {
       agent: proxyUrl
@@ -481,7 +482,7 @@ async function _promiseAjax(
       await handleStatusCode(response.status);
 
       if (!unauthenticated && response.status === 401) {
-        window.log.error('Got 401 from Signal Server. We might be unlinked.');
+        log.error('Got 401 from Signal Server. We might be unlinked.');
         window.Whisper.events.trigger('mightBeUnlinked');
       }
     }
@@ -506,9 +507,9 @@ async function _promiseAjax(
     }
   } catch (e) {
     if (options.redactUrl) {
-      window.log.error(options.type, options.redactUrl(url), 0, 'Error');
+      log.error(options.type, options.redactUrl(url), 0, 'Error');
     } else {
-      window.log.error(options.type, url, 0, 'Error');
+      log.error(options.type, url, 0, 'Error');
     }
     const stack = `${e.stack}\nInitial stack:\n${options.stack}`;
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
@@ -516,14 +517,9 @@ async function _promiseAjax(
 
   if (!isSuccess(response.status)) {
     if (options.redactUrl) {
-      window.log.info(
-        options.type,
-        options.redactUrl(url),
-        response.status,
-        'Error'
-      );
+      log.info(options.type, options.redactUrl(url), response.status, 'Error');
     } else {
-      window.log.error(options.type, url, response.status, 'Error');
+      log.error(options.type, url, response.status, 'Error');
     }
 
     throw makeHTTPError(
@@ -542,14 +538,14 @@ async function _promiseAjax(
     if (options.validateResponse) {
       if (!_validateResponse(result, options.validateResponse)) {
         if (options.redactUrl) {
-          window.log.info(
+          log.info(
             options.type,
             options.redactUrl(url),
             response.status,
             'Error'
           );
         } else {
-          window.log.error(options.type, url, response.status, 'Error');
+          log.error(options.type, url, response.status, 'Error');
         }
         throw makeHTTPError(
           'promiseAjax: invalid response',
@@ -563,14 +559,9 @@ async function _promiseAjax(
   }
 
   if (options.redactUrl) {
-    window.log.info(
-      options.type,
-      options.redactUrl(url),
-      response.status,
-      'Success'
-    );
+    log.info(options.type, options.redactUrl(url), response.status, 'Success');
   } else {
-    window.log.info(options.type, url, response.status, 'Success');
+    log.info(options.type, url, response.status, 'Success');
   }
 
   if (options.responseType === 'arraybufferwithdetails') {
@@ -607,7 +598,7 @@ async function _retryAjax(
   const limit = providedLimit || 3;
 
   return _promiseAjax(url, options).catch(async (e: Error) => {
-    if (e.name === 'HTTPError' && e.code === -1 && count < limit) {
+    if (e instanceof HTTPError && e.code === -1 && count < limit) {
       return new Promise(resolve => {
         setTimeout(() => {
           resolve(_retryAjax(url, options, limit, count));
@@ -622,17 +613,6 @@ async function _outerAjax(url: string | null, options: PromiseAjaxOptionsType) {
   options.stack = new Error().stack; // just in case, save stack here.
 
   return _retryAjax(url, options);
-}
-
-declare global {
-  // We want to extend `Error`, so we need an interface.
-  // eslint-disable-next-line no-restricted-syntax
-  interface Error {
-    code?: number | string;
-    response?: any;
-    responseHeaders?: HeaderListType;
-    warn?: boolean;
-  }
 }
 
 function makeHTTPError(
@@ -731,7 +711,7 @@ type InitializeOptionsType = {
   version: string;
 };
 
-type MessageType = any;
+type MessageType = unknown;
 
 type AjaxOptionsType = {
   accessKey?: string;
@@ -746,7 +726,7 @@ type AjaxOptionsType = {
   password?: string;
   redactUrl?: RedactUrl;
   responseType?: 'json' | 'arraybuffer' | 'arraybufferwithdetails';
-  schema?: any;
+  schema?: unknown;
   timeout?: number;
   unauthenticated?: boolean;
   urlParameters?: string;
@@ -755,7 +735,7 @@ type AjaxOptionsType = {
 };
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
-  disableWebSockets?: boolean;
+  useWebSocket?: boolean;
 };
 
 export type WebAPIConnectType = {
@@ -767,15 +747,17 @@ export type CapabilitiesType = {
   gv2: boolean;
   'gv1-migration': boolean;
   senderKey: boolean;
+  changeNumber: boolean;
 };
 export type CapabilitiesUploadType = {
   announcementGroup: true;
   'gv2-3': true;
   'gv1-migration': true;
   senderKey: true;
+  changeNumber: true;
 };
 
-type StickerPackManifestType = any;
+type StickerPackManifestType = ArrayBuffer;
 
 export type GroupCredentialType = {
   credential: string;
@@ -815,6 +797,20 @@ const uploadAvatarHeadersZod = z
   .passthrough();
 export type UploadAvatarHeadersType = z.infer<typeof uploadAvatarHeadersZod>;
 
+export type ProfileType = Readonly<{
+  identityKey?: string;
+  name?: string;
+  about?: string;
+  aboutEmoji?: string;
+  avatar?: string;
+  unidentifiedAccess?: string;
+  unrestrictedUnidentifiedAccess?: string;
+  username?: string;
+  uuid?: string;
+  credential?: string;
+  capabilities?: unknown;
+}>;
+
 export type WebAPIType = {
   confirmCode: (
     number: string,
@@ -823,14 +819,21 @@ export type WebAPIType = {
     registrationId: number,
     deviceName?: string | null,
     options?: { accessKey?: ArrayBuffer; uuid?: string }
-  ) => Promise<any>;
+  ) => Promise<{ uuid?: string; deviceId: number }>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
   ) => Promise<void>;
-  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<any>;
-  getAvatar: (path: string) => Promise<any>;
-  getDevices: () => Promise<any>;
+  getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<ArrayBuffer>;
+  getAvatar: (path: string) => Promise<ArrayBuffer>;
+  getDevices: () => Promise<
+    Array<{
+      id: number;
+      name: string;
+      lastSeen: number;
+      created: number;
+    }>
+  >;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
     inviteLinkPassword: string,
@@ -848,7 +851,11 @@ export type WebAPIType = {
     startVersion: number,
     options: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
-  getIceServers: () => Promise<any>;
+  getIceServers: () => Promise<{
+    username: string;
+    password: string;
+    urls: Array<string>;
+  }>;
   getKeysForIdentifier: (
     identifier: string,
     deviceId?: number
@@ -865,7 +872,7 @@ export type WebAPIType = {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
     }
-  ) => Promise<any>;
+  ) => Promise<ProfileType>;
   getProfileUnauth: (
     identifier: string,
     options: {
@@ -873,7 +880,7 @@ export type WebAPIType = {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
     }
-  ) => Promise<any>;
+  ) => Promise<ProfileType>;
   getProvisioningResource: (
     handler: IRequestHandler
   ) => Promise<WebSocketResource>;
@@ -899,7 +906,13 @@ export type WebAPIType = {
   makeProxiedRequest: (
     targetUrl: string,
     options?: ProxiedRequestOptionsType
-  ) => Promise<any>;
+  ) => Promise<
+    | ArrayBufferWithDetailsType
+    | {
+        result: ArrayBufferWithDetailsType;
+        totalSize: number;
+      }
+  >;
   makeSfuRequest: (
     targetUrl: string,
     type: HTTPCodeType,
@@ -912,7 +925,7 @@ export type WebAPIType = {
     inviteLinkBase64?: string
   ) => Promise<Proto.IGroupChange>;
   modifyStorageRecords: MessageSender['modifyStorageRecords'];
-  putAttachment: (encryptedBin: ArrayBuffer) => Promise<any>;
+  putAttachment: (encryptedBin: ArrayBuffer) => Promise<string>;
   putProfile: (
     jsonData: ProfileRequestDataType
   ) => Promise<UploadAvatarHeadersType | undefined>;
@@ -923,10 +936,10 @@ export type WebAPIType = {
     onProgress?: () => void
   ) => Promise<string>;
   registerKeys: (genKeys: KeysType) => Promise<void>;
-  registerSupportForUnauthenticatedDelivery: () => Promise<any>;
+  registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
-  requestVerificationSMS: (number: string) => Promise<any>;
-  requestVerificationVoice: (number: string) => Promise<any>;
+  requestVerificationSMS: (number: string) => Promise<void>;
+  requestVerificationVoice: (number: string) => Promise<void>;
   sendMessages: (
     destination: string,
     messageArray: Array<MessageType>,
@@ -956,12 +969,16 @@ export type WebAPIType = {
     avatarData: Uint8Array,
     options: GroupCredentialsType
   ) => Promise<string>;
-  whoami: () => Promise<any>;
-  sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<any>;
+  whoami: () => Promise<{
+    uuid?: string;
+    number?: string;
+  }>;
+  sendChallengeResponse: (challengeResponse: ChallengeType) => Promise<void>;
   getConfig: () => Promise<
     Array<{ name: string; enabled: boolean; value: string | null }>
   >;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
+  logout: () => Promise<void>;
   getSocketStatus: () => SocketStatus;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
@@ -1076,7 +1093,7 @@ export function initialize({
   function connect({
     username: initialUsername,
     password: initialPassword,
-    disableWebSockets = false,
+    useWebSocket = true,
   }: WebAPIConnectOptionsType) {
     let username = initialUsername;
     let password = initialPassword;
@@ -1090,11 +1107,15 @@ export function initialize({
       proxyUrl,
     });
 
+    socketManager.on('statusChange', () => {
+      window.Whisper.events.trigger('socketStatusChange');
+    });
+
     socketManager.on('authError', () => {
       window.Whisper.events.trigger('unlinkAndDisconnect');
     });
 
-    if (!disableWebSockets) {
+    if (useWebSocket) {
       socketManager.authenticate({ username, password });
     }
 
@@ -1107,6 +1128,7 @@ export function initialize({
       registerRequestHandler,
       unregisterRequestHandler,
       authenticate,
+      logout,
       confirmCode,
       createGroup,
       fetchLinkPreviewImage,
@@ -1164,11 +1186,11 @@ export function initialize({
         param.urlParameters = '';
       }
 
-      const useWebSocket =
-        !disableWebSockets && WEBSOCKET_CALLS.has(param.call);
+      const useWebSocketForEndpoint =
+        useWebSocket && WEBSOCKET_CALLS.has(param.call);
 
       return _outerAjax(null, {
-        socketManager: useWebSocket ? socketManager : undefined,
+        socketManager: useWebSocketForEndpoint ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
         contentType: param.contentType || 'application/json; charset=utf-8',
@@ -1189,6 +1211,9 @@ export function initialize({
         unauthenticated: param.unauthenticated,
         accessKey: param.accessKey,
       }).catch((e: Error) => {
+        if (!(e instanceof HTTPError)) {
+          throw e;
+        }
         const translatedError = translateError(e);
         if (translatedError) {
           throw translatedError;
@@ -1219,8 +1244,17 @@ export function initialize({
       username = newUsername;
       password = newPassword;
 
-      if (!disableWebSockets) {
+      if (useWebSocket) {
         await socketManager.authenticate({ username, password });
+      }
+    }
+
+    async function logout() {
+      username = '';
+      password = '';
+
+      if (useWebSocket) {
+        await socketManager.logout();
       }
     }
 
@@ -1450,7 +1484,7 @@ export function initialize({
     async function getAvatar(path: string) {
       // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
       //   attachment CDN, it uses our self-signed certificate, so we pass it in.
-      return _outerAjax(`${cdnUrlObject['0']}/${path}`, {
+      return (await _outerAjax(`${cdnUrlObject['0']}/${path}`, {
         certificateAuthority,
         contentType: 'application/octet-stream',
         proxyUrl,
@@ -1462,7 +1496,7 @@ export function initialize({
           return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
         },
         version,
-      });
+      })) as ArrayBuffer;
     }
 
     async function reportMessage(
@@ -1506,6 +1540,7 @@ export function initialize({
         'gv2-3': true,
         'gv1-migration': true,
         senderKey: true,
+        changeNumber: true,
       };
 
       const { accessKey, uuid } = options;
@@ -1527,10 +1562,7 @@ export function initialize({
       // Reset old websocket credentials and disconnect.
       // AccountManager is our only caller and it will trigger
       // `registration_done` which will update credentials.
-      await socketManager.authenticate({
-        username: '',
-        password: '',
-      });
+      await logout();
 
       // Update REST credentials, though. We need them for the call below
       username = number;
@@ -1565,6 +1597,7 @@ export function initialize({
       return _ajax({
         call: 'getIceServers',
         httpType: 'GET',
+        responseType: 'json',
       });
     }
 
@@ -1826,7 +1859,7 @@ export function initialize({
       if (!isPackIdValid(packId)) {
         throw new Error('getSticker: pack ID was invalid');
       }
-      return _outerAjax(
+      return (await _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/full/${stickerId}`,
         {
           certificateAuthority,
@@ -1836,14 +1869,14 @@ export function initialize({
           redactUrl: redactStickerUrl,
           version,
         }
-      );
+      )) as ArrayBuffer;
     }
 
     async function getStickerPackManifest(packId: string) {
       if (!isPackIdValid(packId)) {
         throw new Error('getStickerPackManifest: pack ID was invalid');
       }
-      return _outerAjax(
+      return (await _outerAjax(
         `${cdnUrlObject['0']}/stickers/${packId}/manifest.proto`,
         {
           certificateAuthority,
@@ -1853,7 +1886,7 @@ export function initialize({
           redactUrl: redactStickerUrl,
           version,
         }
-      );
+      )) as ArrayBuffer;
     }
 
     type ServerAttachmentType = {
@@ -1983,7 +2016,7 @@ export function initialize({
         ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
         : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
-      return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
+      return (await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
         proxyUrl,
         responseType: 'arraybuffer',
@@ -1991,7 +2024,7 @@ export function initialize({
         type: 'GET',
         redactUrl: _createRedactor(cdnKey),
         version,
-      });
+      })) as ArrayBuffer;
     }
 
     async function putAttachment(encryptedBin: ArrayBuffer) {
@@ -2060,7 +2093,7 @@ export function initialize({
         headers.Range = `bytes=${start}-${end}`;
       }
 
-      const result = await _outerAjax(targetUrl, {
+      const result = (await _outerAjax(targetUrl, {
         responseType: returnArrayBuffer ? 'arraybufferwithdetails' : undefined,
         proxyUrl: contentProxyUrl,
         type: 'GET',
@@ -2068,7 +2101,7 @@ export function initialize({
         redactUrl: () => '[REDACTED_URL]',
         headers,
         version,
-      });
+      })) as ArrayBufferWithDetailsType;
 
       if (!returnArrayBuffer) {
         return result;

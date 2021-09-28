@@ -15,7 +15,8 @@ import {
 
 import { MessageModel } from '../models/messages';
 import { AttachmentType } from '../types/Attachment';
-import { LoggerType } from '../window.d';
+import { LoggerType } from '../types/Logging';
+import * as log from '../logging/log';
 
 const {
   getMessageById,
@@ -179,7 +180,7 @@ async function _maybeStartJob(): Promise<void> {
 
 async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
   if (!job) {
-    window.log.warn('_runJob: Job was missing!');
+    log.warn('_runJob: Job was missing!');
     return;
   }
 

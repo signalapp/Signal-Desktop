@@ -9,7 +9,7 @@ import { Modal } from '../Modal';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 
-import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 import { LocalizerType } from '../../types/Util';
 

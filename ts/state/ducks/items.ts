@@ -6,7 +6,7 @@ import { v4 as getGuid } from 'uuid';
 import { ThunkAction } from 'redux-thunk';
 import { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
-import { useBoundActions } from '../../util/hooks';
+import { useBoundActions } from '../../hooks/useBoundActions';
 import {
   ConversationColors,
   ConversationColorType,
@@ -29,6 +29,8 @@ export type ItemsStateType = {
   readonly defaultConversationColor?: DefaultConversationColorType;
 
   readonly customColors?: CustomColorsItemType;
+
+  readonly preferredReactionEmoji?: Array<string>;
 };
 
 // Actions

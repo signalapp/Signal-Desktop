@@ -9,7 +9,7 @@ import { storiesOf } from '@storybook/react';
 
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { ContactModal, PropsType } from './ContactModal';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { ConversationType } from '../../state/ducks/conversations';
 
@@ -28,15 +28,17 @@ const defaultContact: ConversationType = getDefaultConversation({
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
   contact: overrideProps.contact || defaultContact,
+  hideContactModal: action('hideContactModal'),
   i18n,
   isAdmin: boolean('isAdmin', overrideProps.isAdmin || false),
   isMember: boolean('isMember', overrideProps.isMember || true),
-  onClose: action('onClose'),
-  openConversation: action('openConversation'),
-  removeMember: action('removeMember'),
-  showSafetyNumber: action('showSafetyNumber'),
+  openConversationInternal: action('openConversationInternal'),
+  removeMemberFromGroup: action('removeMemberFromGroup'),
+  showSafetyNumberInConversation: action('showSafetyNumberInConversation'),
   toggleAdmin: action('toggleAdmin'),
-  updateSharedGroups: action('updateSharedGroups'),
+  updateConversationModelSharedGroups: action(
+    'updateConversationModelSharedGroups'
+  ),
 });
 
 story.add('As non-admin', () => {

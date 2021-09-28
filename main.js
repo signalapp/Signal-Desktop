@@ -20,6 +20,7 @@ const packageJson = require('./package.json');
 const GlobalErrors = require('./app/global_errors');
 const { setup: setupSpellChecker } = require('./app/spell_check');
 const { redactAll, addSensitivePath } = require('./ts/util/privacy');
+const { strictAssert } = require('./ts/util/assert');
 const removeUserConfig = require('./app/user_config').remove;
 
 GlobalErrors.addHandler();
@@ -253,6 +254,7 @@ function prepareUrl(
     name: packageJson.productName,
     locale: locale.name,
     version: app.getVersion(),
+    buildCreation: config.get('buildCreation'),
     buildExpiration: config.get('buildExpiration'),
     serverUrl: config.get('serverUrl'),
     storageUrl: config.get('storageUrl'),
@@ -313,7 +315,7 @@ function handleCommonWindowEvents(window) {
   // Works only for mainWindow because it has `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
   const onZoomChanged = () => {
-    const zoomFactor = mainWindow.webContents.getZoomFactor();
+    const zoomFactor = window.webContents.getZoomFactor();
     if (lastZoomFactor === zoomFactor) {
       return;
     }
@@ -823,8 +825,14 @@ function showScreenShareWindow(sourceName) {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'screenShare_preload.js'),
+      contextIsolation: true,
+      preload: path.join(
+        __dirname,
+        'ts',
+        'windows',
+        'screenShare',
+        'preload.js'
+      ),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -868,8 +876,8 @@ function showAbout() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'about_preload.js'),
+      contextIsolation: true,
+      preload: path.join(__dirname, 'ts', 'windows', 'about', 'preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -910,7 +918,7 @@ function showSettingsWindow() {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
+      contextIsolation: true,
       enableRemoteModule: true,
       preload: path.join(__dirname, 'ts', 'windows', 'settings', 'preload.js'),
       nativeWindowOpen: true,
@@ -1095,9 +1103,15 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
         ...defaultWebPrefs,
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
-        contextIsolation: false,
+        contextIsolation: true,
         enableRemoteModule: true,
-        preload: path.join(__dirname, 'permissions_popup_preload.js'),
+        preload: path.join(
+          __dirname,
+          'ts',
+          'windows',
+          'permissions',
+          'preload.js'
+        ),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -1142,11 +1156,14 @@ async function initializeSQL() {
     userConfig.set('key', key);
   }
 
+  strictAssert(logger !== undefined, 'Logger must be initialized before sql');
+
   sqlInitTimeStart = Date.now();
   try {
     await sql.initialize({
       configDir: userDataPath,
       key,
+      logger,
     });
   } catch (error) {
     return { ok: false, error };
@@ -1157,9 +1174,16 @@ async function initializeSQL() {
   return { ok: true };
 }
 
-const sqlInitPromise = initializeSQL();
-
 const onDatabaseError = async error => {
+  // Prevent window from re-opening
+  ready = false;
+
+  if (mainWindow) {
+    mainWindow.webContents.send('callbacks:call:closeDB', []);
+    mainWindow.close();
+  }
+  mainWindow = undefined;
+
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
       locale.messages.copyErrorAndQuit.message,
@@ -1183,15 +1207,30 @@ const onDatabaseError = async error => {
   app.exit(1);
 };
 
-ipc.on('database-error', (event, error) => {
-  if (mainWindow) {
-    mainWindow.close();
+const runSQLCorruptionHandler = async () => {
+  // This is a glorified event handler. Normally, this promise never resolves,
+  // but if there is a corruption error triggered by any query that we run
+  // against the database - the promise will resolve and we will call
+  // `onDatabaseError`.
+  const error = await sql.whenCorrupted();
+
+  const message =
+    'Detected sql corruption in main process. ' +
+    `Restarting the application immediately. Error: ${error.message}`;
+  if (logger) {
+    logger.error(message);
+  } else {
+    console.error(message);
   }
-  mainWindow = undefined;
 
-  // Prevent window from re-opening
-  ready = false;
+  await onDatabaseError(error.stack);
+};
 
+runSQLCorruptionHandler();
+
+let sqlInitPromise;
+
+ipc.on('database-error', (event, error) => {
   onDatabaseError(error);
 });
 
@@ -1200,6 +1239,10 @@ ipc.on('database-error', (event, error) => {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  logger = await logging.initialize(getMainWindow);
+
+  sqlInitPromise = initializeSQL();
+
   const startTime = Date.now();
 
   settingsChannel = new SettingsChannel();
@@ -1252,7 +1295,6 @@ app.on('ready', async () => {
     protocol: electronProtocol,
   });
 
-  logger = await logging.initialize(getMainWindow);
   logger.info('app ready');
   logger.info(`starting version ${packageJson.version}`);
 
@@ -1304,7 +1346,7 @@ app.on('ready', async () => {
       webPreferences: {
         ...defaultWebPrefs,
         nodeIntegration: false,
-        contextIsolation: false,
+        contextIsolation: true,
         preload: path.join(__dirname, 'ts', 'windows', 'loading', 'preload.js'),
       },
       icon: windowIcon,

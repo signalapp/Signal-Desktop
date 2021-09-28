@@ -10,7 +10,6 @@ const {
   start: conversationControllerStart,
 } = require('../../ts/ConversationController');
 const Data = require('../../ts/sql/Client').default;
-const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
 const Groups = require('../../ts/groups');
 const GroupChange = require('../../ts/groupChange');
@@ -68,9 +67,6 @@ const {
 const {
   createCompositionArea,
 } = require('../../ts/state/roots/createCompositionArea');
-const {
-  createContactModal,
-} = require('../../ts/state/roots/createContactModal');
 const {
   createConversationDetails,
 } = require('../../ts/state/roots/createConversationDetails');
@@ -142,6 +138,9 @@ const Errors = require('../../ts/types/errors');
 const MessageType = require('./types/message');
 const MIME = require('../../ts/types/MIME');
 const SettingsType = require('../../ts/types/Settings');
+const { UUID } = require('../../ts/types/UUID');
+const { Address } = require('../../ts/types/Address');
+const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 
 // Views
 const Initialization = require('./views/initialization');
@@ -361,7 +360,6 @@ exports.setup = (options = {}) => {
     createApp,
     createChatColorPicker,
     createCompositionArea,
-    createContactModal,
     createConversationDetails,
     createConversationHeader,
     createForwardMessageModal,
@@ -430,6 +428,9 @@ exports.setup = (options = {}) => {
     MIME,
     Settings: SettingsType,
     VisualAttachment,
+    UUID,
+    Address,
+    QualifiedAddress,
   };
 
   const Views = {
@@ -448,7 +449,6 @@ exports.setup = (options = {}) => {
     Curve,
     conversationControllerStart,
     Data,
-    Emojis,
     EmojiLib,
     Groups,
     GroupChange,

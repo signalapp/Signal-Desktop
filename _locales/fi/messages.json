@@ -415,6 +415,20 @@
         "message": "Seuraavat henkilöt ovat saattaneet uudelleenasentaa tai vaihtaneet laitteita. Varmenna turvanumerosi heidän kanssaan yksityisyyden takaamiseksi.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Lähetä odottava viesti",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Lähetä $count$ odottavaa viestiä",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Turvanumerosi yhteystiedon $name1$ kanssa on vaihtunut. Tämä voi tarkoittaa joko sitä, että joku yrittää kaapata viestiliikennettänne, tai sitä, että $name2$ on yksinkertaisesti uudelleenasentanut Signalin. Saatat haluta varmentaa turvanumerosi tämän yhteystiedon kanssa.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -1298,7 +1312,7 @@
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
-        "message": "Viimeistele yhdistys puhelimeen",
+        "message": "Viimeistele puhelinyhteys",
         "description": "The text on the button to finish the linking process, after choosing the device name"
     },
     "initialSync": {
@@ -1314,7 +1328,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Päivitä Signal tällä laitteella linkittääksesi puhelimesi.",
+        "message": "Tämän laitteen Signal on päivitettävä ennen puhelimen yhdistämistä.",
         "description": ""
     },
     "installErrorHeader": {
@@ -2316,7 +2330,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Napsauta linkittääksesi Signal Desktopin uudelleen mobiililaitteeseesi jatkaaksesi viestien lähettämistä.",
+        "message": "Yhdistä mobiililaite tähän tietokoneeseen napsauttamalla",
         "description": ""
     },
     "unlinked": {
@@ -3165,11 +3179,15 @@
         "message": "Asenna Signal puhelimeesi ja tietokoneelle, jotta voit käyttää tarrapakettiluojaa",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Poista reaktio",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Reaktion lähetys epäonnistui. Yritä uudelleen.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Lisää",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "Jäsen ryhmissä $group1$, $group2$, $group3$ ja $remainingCount$ muussa",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ lisäsi sinut ryhmään.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Valitse kontakti",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Poista yhteystieto valinnasta",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Yhteystietoa ei voi valita",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Jo jäsen",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Keskustelut",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Puhelut",
@@ -6279,6 +6297,14 @@
         "message": "Lataa päivitykset automaattisesti",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Käytä ilmoituksia",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Laitteet",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Päivitä saatavilla olevaan versioon $version$ ",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jos viet hiiren painikkeiden päälle puhelun aikana, ne pysyvät näkyvissä katoamisen sijasta. Mikään ei piiloutu kotkasilmäsi edestä, eivät edes nämä painikkeet!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Kokeile uutta \"Lähetä viestejä\"-oikeutta, jonka avulla on mahdollista rajoittaa kenellä on oikeus lähettää viestejä ryhmissäsi. Loistava ominaisuus tapahtumien järjestämiseen, ilmoitusten tekemiseen tai ihan vain huuteluun yläpuolelta. Kaikkien jäsenten tulee käyttää Signalin uusinta versiota, jotta asetusta on mahdollista käyttää.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Voit nyt lähettää viestejä missä hyvänsä: lentokoneessa, tunnelissa tai sen ikävän hetken aikana, kun internetyhteys ei ole käytettävissä. Viesti toimitetaan lopulta eteenpäin; viestien lähetystä yritetään automaattisesti 24 tunnin ajan.",
+        "description": "Release notes for v5.17"
     }
 }

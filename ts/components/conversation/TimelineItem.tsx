@@ -69,6 +69,7 @@ import {
   ProfileChangeNotification,
   PropsType as ProfileChangeNotificationPropsType,
 } from './ProfileChangeNotification';
+import * as log from '../../logging/log';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -165,6 +166,8 @@ type PropsLocalType = {
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
+  previousItem: undefined | TimelineItemType;
+  nextItem: undefined | TimelineItemType;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -176,7 +179,10 @@ type PropsActionsType = MessageActionsType &
 
 export type PropsType = PropsLocalType &
   PropsActionsType &
-  Pick<AllMessageProps, 'renderEmojiPicker' | 'renderAudioAttachment'>;
+  Pick<
+    AllMessageProps,
+    'renderEmojiPicker' | 'renderAudioAttachment' | 'renderReactionPicker'
+  >;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render(): JSX.Element | null {
@@ -189,6 +195,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       i18n,
       theme,
       messageSizeChanged,
+      nextItem,
       renderContact,
       renderUniversalTimerNotification,
       returnToActiveCall,
@@ -197,7 +204,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } = this.props;
 
     if (!item) {
-      window.log.warn(`TimelineItem: item ${id} provided was falsey`);
+      log.warn(`TimelineItem: item ${id} provided was falsey`);
 
       return null;
     }
@@ -228,6 +235,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           i18n={i18n}
           messageId={id}
           messageSizeChanged={messageSizeChanged}
+          nextItem={nextItem}
           returnToActiveCall={returnToActiveCall}
           startCallingLobby={startCallingLobby}
           {...item.data}

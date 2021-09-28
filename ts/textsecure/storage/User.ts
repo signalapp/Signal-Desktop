@@ -5,6 +5,8 @@ import { WebAPICredentials } from '../Types.d';
 
 import { strictAssert } from '../../util/assert';
 import { StorageInterface } from '../../types/Storage.d';
+import { UUID } from '../../types/UUID';
+import * as log from '../../logging/log';
 
 import Helpers from '../Helpers';
 
@@ -25,7 +27,7 @@ export class User {
   ): Promise<void> {
     await this.storage.put('uuid_id', `${uuid}.${deviceId}`);
 
-    window.log.info('storage.user: uuid and device id changed');
+    log.info('storage.user: uuid and device id changed');
   }
 
   public async setNumber(number: string): Promise<void> {
@@ -39,7 +41,7 @@ export class User {
       'Cannot update device number without knowing device id'
     );
 
-    window.log.info('storage.user: number changed');
+    log.info('storage.user: number changed');
 
     await Promise.all([
       this.storage.put('number_id', `${number}.${deviceId}`),
@@ -56,10 +58,16 @@ export class User {
     return Helpers.unencodeNumber(numberId)[0];
   }
 
-  public getUuid(): string | undefined {
+  public getUuid(): UUID | undefined {
     const uuid = this.storage.get('uuid_id');
     if (uuid === undefined) return undefined;
-    return Helpers.unencodeNumber(uuid.toLowerCase())[0];
+    return new UUID(Helpers.unencodeNumber(uuid.toLowerCase())[0]);
+  }
+
+  public getCheckedUuid(): UUID {
+    const uuid = this.getUuid();
+    strictAssert(uuid !== undefined, 'Must have our own uuid');
+    return uuid;
   }
 
   public getDeviceId(): number | undefined {
@@ -102,7 +110,7 @@ export class User {
   }
 
   public async removeCredentials(): Promise<void> {
-    window.log.info('storage.user: removeCredentials');
+    log.info('storage.user: removeCredentials');
 
     await Promise.all([
       this.storage.remove('number_id'),

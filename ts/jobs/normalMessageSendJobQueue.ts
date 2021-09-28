@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 
 import PQueue from 'p-queue';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sleepFor413RetryAfterTimeIfApplicable } from './helpers/sleepFor413RetryAfterTimeIfApplicable';
@@ -20,9 +20,11 @@ import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
 import { handleMessageSend } from '../util/handleMessageSend';
 import type { CallbackResultType } from '../textsecure/Types.d';
+import { HTTPError } from '../textsecure/Errors';
 import { isSent } from '../messages/MessageSendState';
 import { getLastChallengeError, isOutgoing } from '../state/selectors/message';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
+import * as Errors from '../types/errors';
 import type {
   AttachmentType,
   GroupV1InfoType,
@@ -233,6 +235,10 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         const dataMessage = await window.textsecure.messaging.getDataMessage({
           attachments,
           body,
+          groupV2: updateRecipients(
+            conversation.getGroupV2Info(),
+            recipientIdentifiersWithoutMe
+          ),
           deletedForEveryoneTimestamp,
           expireTimer,
           preview,
@@ -330,10 +336,29 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         throw new Error('message did not fully send');
       }
     } catch (err: unknown) {
-      const serverAskedUsToStop: boolean = messageSendErrors.some(
-        (messageSendError: unknown) =>
-          messageSendError instanceof Error &&
-          parseIntWithFallback(messageSendError.code, -1) === 508
+      const formattedMessageSendErrors: Array<string> = [];
+      let serverAskedUsToStop = false;
+      let maybe413Error: undefined | Error;
+      messageSendErrors.forEach((messageSendError: unknown) => {
+        formattedMessageSendErrors.push(Errors.toLogFormat(messageSendError));
+        if (!(messageSendError instanceof HTTPError)) {
+          return;
+        }
+        switch (parseIntWithFallback(messageSendError.code, -1)) {
+          case 413:
+            maybe413Error ||= messageSendError;
+            break;
+          case 508:
+            serverAskedUsToStop = true;
+            break;
+          default:
+            break;
+        }
+      });
+      log.info(
+        `${
+          messageSendErrors.length
+        } message send error(s): ${formattedMessageSendErrors.join(',')}`
       );
 
       if (isFinalAttempt || serverAskedUsToStop) {
@@ -346,10 +371,6 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
       }
 
       if (!isFinalAttempt) {
-        const maybe413Error: undefined | Error = messageSendErrors.find(
-          (messageSendError: unknown) =>
-            messageSendError instanceof Error && messageSendError.code === 413
-        );
         await sleepFor413RetryAfterTimeIfApplicable({
           err: maybe413Error,
           log,

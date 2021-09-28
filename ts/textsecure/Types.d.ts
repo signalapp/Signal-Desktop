@@ -6,9 +6,14 @@ import type { IncomingWebSocketRequest } from './WebsocketResources';
 
 export {
   IdentityKeyType,
+  IdentityKeyIdType,
+  PreKeyIdType,
   PreKeyType,
+  SenderKeyIdType,
   SenderKeyType,
+  SessionIdType,
   SessionType,
+  SignedPreKeyIdType,
   SignedPreKeyType,
   UnprocessedType,
   UnprocessedUpdateType,

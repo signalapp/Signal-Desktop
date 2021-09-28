@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'buffer';
@@ -8,6 +8,7 @@ import Long from 'long';
 import { HKDF } from '@signalapp/signal-client';
 
 import { calculateAgreement, generateKeyPair } from './Curve';
+import * as log from './logging/log';
 
 import {
   CipherType,
@@ -406,11 +407,7 @@ export async function encryptAes256CbcPkcsPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesCbcParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CBC", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['encrypt']
   );
@@ -432,11 +429,7 @@ export async function decryptAes256CbcPkcsPadding(
   const cryptoKey = await window.crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesCbcParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-CBC", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['decrypt']
   );
@@ -477,11 +470,7 @@ export async function encryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesGcmParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-GCM", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['encrypt']
   );
@@ -506,11 +495,7 @@ export async function decryptAesGcm(
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
-    // `algorithm` appears to be an instance of AesGcmParams,
-    // which is not in the param's types, so we need to pass as `any`.
-    // TODO: just pass the string "AES-GCM", per the docs?
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    algorithm as any,
+    algorithm,
     extractable,
     ['decrypt']
   );
@@ -728,7 +713,7 @@ export async function encryptCdsDiscoveryRequest(
 
 export function uuidToArrayBuffer(uuid: string): ArrayBuffer {
   if (uuid.length !== 36) {
-    window.log.warn(
+    log.warn(
       'uuidToArrayBuffer: received a string of invalid length. Returning an empty ArrayBuffer'
     );
     return new ArrayBuffer(0);
@@ -745,7 +730,7 @@ export function arrayBufferToUuid(
   arrayBuffer: ArrayBuffer
 ): undefined | string {
   if (arrayBuffer.byteLength !== 16) {
-    window.log.warn(
+    log.warn(
       'arrayBufferToUuid: received an ArrayBuffer of invalid length. Returning undefined'
     );
     return undefined;

@@ -1,11 +1,11 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, VerificationNotification } from './VerificationNotification';
 
@@ -16,11 +16,7 @@ const story = storiesOf(
   module
 );
 
-const contact = {
-  title: 'Mr. Fire',
-  phoneNumber: '(202) 555-0003',
-  profileName: 'Mr. Fire',
-};
+const contact = { title: 'Mr. Fire' };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
@@ -58,11 +54,7 @@ story.add('Long name', () => {
 
   const props = createProps({
     type: 'markVerified',
-    contact: {
-      ...contact,
-      profileName: longName,
-      title: longName,
-    },
+    contact: { title: longName },
   });
 
   return <VerificationNotification {...props} />;

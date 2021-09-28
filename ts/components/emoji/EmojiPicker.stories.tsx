@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -6,7 +6,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 import { EmojiPicker } from './EmojiPicker';
@@ -65,6 +65,19 @@ storiesOf('Components/Emoji/EmojiPicker', module)
         i18n={i18n}
         onPickEmoji={action('onPickEmoji')}
         onSetSkinTone={action('onSetSkinTone')}
+        onClose={action('onClose')}
+        skinTone={0}
+        recentEmojis={[]}
+      />
+    );
+  })
+  .add('With settings button', () => {
+    return (
+      <EmojiPicker
+        i18n={i18n}
+        onPickEmoji={action('onPickEmoji')}
+        onSetSkinTone={action('onSetSkinTone')}
+        onClickSettings={action('onClickSettings')}
         onClose={action('onClose')}
         skinTone={0}
         recentEmojis={[]}

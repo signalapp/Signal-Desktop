@@ -1,15 +1,18 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as log from '../logging/log';
+import { HTTPError } from './Errors';
+
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {
-    window.log.error('Got 499 from Signal Server. Build is expired.');
+    log.error('Got 499 from Signal Server. Build is expired.');
     await window.storage.put('remoteBuildExpiration', Date.now());
     window.reduxActions.expiration.hydrateExpirationStatus(true);
   }
 }
 
-export function translateError(error: Error): Error | undefined {
+export function translateError(error: HTTPError): HTTPError | undefined {
   const { code } = error;
   if (code === 200) {
     // Happens sometimes when we get no response. Might be nice to get 204 instead.

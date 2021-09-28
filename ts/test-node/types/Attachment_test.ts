@@ -6,7 +6,7 @@ import { assert } from 'chai';
 import * as Attachment from '../../types/Attachment';
 import * as MIME from '../../types/MIME';
 import { SignalService } from '../../protobuf';
-import { stringToArrayBuffer } from '../../../js/modules/string_to_array_buffer';
+import { stringToArrayBuffer } from '../../util/stringToArrayBuffer';
 import * as logger from '../../logging/log';
 
 describe('Attachment', () => {

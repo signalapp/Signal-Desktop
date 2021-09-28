@@ -33,6 +33,7 @@ import { SmartHeroRow } from './HeroRow';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
@@ -62,21 +63,34 @@ const createBoundOnHeightChange = memoizee(
   { max: 500 }
 );
 
-function renderItem(
-  messageId: string,
-  conversationId: string,
-  onHeightChange: (messageId: string) => unknown,
-  actionProps: TimelineActionsType,
-  containerElementRef: RefObject<HTMLElement>
-): JSX.Element {
+function renderItem({
+  actionProps,
+  containerElementRef,
+  conversationId,
+  messageId,
+  nextMessageId,
+  onHeightChange,
+  previousMessageId,
+}: {
+  actionProps: TimelineActionsType;
+  containerElementRef: RefObject<HTMLElement>;
+  conversationId: string;
+  messageId: string;
+  nextMessageId: undefined | string;
+  onHeightChange: (messageId: string) => unknown;
+  previousMessageId: undefined | string;
+}): JSX.Element {
   return (
     <SmartTimelineItem
       {...actionProps}
       containerElementRef={containerElementRef}
       conversationId={conversationId}
-      id={messageId}
+      messageId={messageId}
+      previousMessageId={previousMessageId}
+      nextMessageId={nextMessageId}
       onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
       renderEmojiPicker={renderEmojiPicker}
+      renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}
     />
   );
@@ -229,6 +243,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id, ...actions } = props;
 
   const conversation = getConversationSelector(state)(id);
+
   const conversationMessages = getConversationMessagesSelector(state)(id);
   const selectedMessage = getSelectedMessage(state);
 
@@ -265,5 +280,4 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const SmartTimeline = smart(Timeline as any);
+export const SmartTimeline = smart(Timeline);

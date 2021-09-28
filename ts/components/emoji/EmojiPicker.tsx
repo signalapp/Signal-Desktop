@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -32,8 +32,9 @@ export type OwnProps = {
   readonly onPickEmoji: (o: EmojiPickDataType) => unknown;
   readonly doSend?: () => unknown;
   readonly skinTone?: number;
-  readonly onSetSkinTone?: (tone: number) => unknown;
+  readonly onSetSkinTone: (tone: number) => unknown;
   readonly recentEmojis?: Array<string>;
+  readonly onClickSettings?: () => unknown;
   readonly onClose?: () => unknown;
 };
 
@@ -70,6 +71,7 @@ export const EmojiPicker = React.memo(
         onSetSkinTone,
         recentEmojis = [],
         style,
+        onClickSettings,
         onClose,
       }: Props,
       ref
@@ -383,24 +385,38 @@ export const EmojiPicker = React.memo(
             </div>
           )}
           <footer className="module-emoji-picker__footer">
-            {[0, 1, 2, 3, 4, 5].map(tone => (
+            {Boolean(onClickSettings) && (
               <button
+                aria-label={i18n('CustomizingPreferredReactions__title')}
+                className="module-emoji-picker__button module-emoji-picker__button--footer module-emoji-picker__button--settings"
+                onClick={onClickSettings}
+                title={i18n('CustomizingPreferredReactions__title')}
                 type="button"
-                key={tone}
-                data-tone={tone}
-                onClick={handlePickTone}
-                title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
-                className={classNames(
-                  'module-emoji-picker__button',
-                  'module-emoji-picker__button--footer',
-                  selectedTone === tone
-                    ? 'module-emoji-picker__button--selected'
-                    : null
-                )}
-              >
-                <Emoji shortName="hand" skinTone={tone} size={20} />
-              </button>
-            ))}
+              />
+            )}
+            <div className="module-emoji-picker__footer__skin-tones">
+              {[0, 1, 2, 3, 4, 5].map(tone => (
+                <button
+                  type="button"
+                  key={tone}
+                  data-tone={tone}
+                  onClick={handlePickTone}
+                  title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
+                  className={classNames(
+                    'module-emoji-picker__button',
+                    'module-emoji-picker__button--footer',
+                    selectedTone === tone
+                      ? 'module-emoji-picker__button--selected'
+                      : null
+                  )}
+                >
+                  <Emoji shortName="hand" skinTone={tone} size={20} />
+                </button>
+              ))}
+            </div>
+            {Boolean(onClickSettings) && (
+              <div className="module-emoji-picker__footer__settings-spacer" />
+            )}
           </footer>
         </div>
       );

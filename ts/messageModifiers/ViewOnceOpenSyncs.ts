@@ -5,6 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
+import * as log from '../logging/log';
 
 type ViewOnceOpenSyncAttributesType = {
   source?: string;
@@ -33,7 +34,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
       );
     });
     if (syncBySourceUuid) {
-      window.log.info('Found early view once open sync for message');
+      log.info('Found early view once open sync for message');
       this.remove(syncBySourceUuid);
       return syncBySourceUuid;
     }
@@ -45,7 +46,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
       );
     });
     if (syncBySource) {
-      window.log.info('Found early view once open sync for message');
+      log.info('Found early view once open sync for message');
       this.remove(syncBySource);
       return syncBySource;
     }
@@ -80,7 +81,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
       const syncSourceUuid = sync.get('sourceUuid');
       const syncTimestamp = sync.get('timestamp');
       const wasMessageFound = Boolean(found);
-      window.log.info('Receive view once open sync:', {
+      log.info('Receive view once open sync:', {
         syncSource,
         syncSourceUuid,
         syncTimestamp,
@@ -96,7 +97,7 @@ export class ViewOnceOpenSyncs extends Collection<ViewOnceOpenSyncModel> {
 
       this.remove(sync);
     } catch (error) {
-      window.log.error(
+      log.error(
         'ViewOnceOpenSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );

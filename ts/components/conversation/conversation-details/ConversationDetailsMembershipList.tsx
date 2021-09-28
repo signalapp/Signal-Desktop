@@ -19,10 +19,11 @@ export type GroupV2Membership = {
 
 export type Props = {
   canAddNewMembers: boolean;
+  conversationId: string;
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: Array<GroupV2Membership>;
-  showContactModal: (conversationId: string) => void;
+  showContactModal: (contactId: string, conversationId: string) => void;
   startAddingNewMembers?: () => void;
 };
 
@@ -67,6 +68,7 @@ function sortMemberships(
 
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   canAddNewMembers,
+  conversationId,
   i18n,
   maxShownMemberCount = 5,
   memberships,
@@ -101,7 +103,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
       {sortedMemberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
         <PanelRow
           key={member.id}
-          onClick={() => showContactModal(member.id)}
+          onClick={() => showContactModal(member.id, conversationId)}
           icon={
             <Avatar
               conversationType="direct"

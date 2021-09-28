@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useEffect } from 'react';
-import { usePrevious } from '../util/hooks';
+import { usePrevious } from './usePrevious';
 
 type RemoteParticipant = {
   hasRemoteVideo: boolean;

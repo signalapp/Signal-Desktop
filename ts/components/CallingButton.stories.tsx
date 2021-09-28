@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { CallingButton, CallingButtonType, PropsType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -19,6 +19,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     select('buttonType', CallingButtonType, CallingButtonType.HANG_UP),
   i18n,
   onClick: action('on-click'),
+  onMouseEnter: action('on-mouse-enter'),
+  onMouseLeave: action('on-mouse-leave'),
   tooltipDirection: select(
     'tooltipDirection',
     TooltipPlacement,

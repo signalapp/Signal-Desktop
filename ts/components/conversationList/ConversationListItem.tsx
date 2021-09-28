@@ -91,72 +91,50 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     const headerName = isMe ? (
       i18n('noteToSelf')
     ) : (
-      <ContactName
-        phoneNumber={phoneNumber}
-        name={name}
-        profileName={profileName}
-        title={title}
-        i18n={i18n}
-      />
+      <ContactName title={title} />
     );
 
     let messageText: ReactNode = null;
     let messageStatusIcon: ReactNode = null;
 
-    if (lastMessage || typingContact) {
-      const messageBody = lastMessage ? lastMessage.text : '';
-      const showingDraft = shouldShowDraft && draftPreview;
-      const deletedForEveryone = Boolean(
-        lastMessage && lastMessage.deletedForEveryone
+    if (!acceptedMessageRequest) {
+      messageText = (
+        <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
+          {i18n('ConversationListItem--message-request')}
+        </span>
       );
-
-      /* eslint-disable no-nested-ternary */
+    } else if (typingContact) {
+      messageText = <TypingAnimation i18n={i18n} />;
+    } else if (shouldShowDraft && draftPreview) {
       messageText = (
         <>
-          {muteExpiresAt && Date.now() < muteExpiresAt ? (
-            <span className={`${MESSAGE_TEXT_CLASS_NAME}__muted`} />
-          ) : null}
-          {!acceptedMessageRequest ? (
-            <span className={`${MESSAGE_TEXT_CLASS_NAME}__message-request`}>
-              {i18n('ConversationListItem--message-request')}
-            </span>
-          ) : typingContact ? (
-            <TypingAnimation i18n={i18n} />
-          ) : (
-            <>
-              {showingDraft ? (
-                <>
-                  <span className={`${MESSAGE_TEXT_CLASS_NAME}__draft-prefix`}>
-                    {i18n('ConversationListItem--draft-prefix')}
-                  </span>
-                  <MessageBody
-                    text={truncateMessageText(draftPreview)}
-                    disableJumbomoji
-                    disableLinks
-                    i18n={i18n}
-                  />
-                </>
-              ) : deletedForEveryone ? (
-                <span
-                  className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}
-                >
-                  {i18n('message--deletedForEveryone')}
-                </span>
-              ) : (
-                <MessageBody
-                  text={truncateMessageText(messageBody)}
-                  disableJumbomoji
-                  disableLinks
-                  i18n={i18n}
-                />
-              )}
-            </>
-          )}
+          <span className={`${MESSAGE_TEXT_CLASS_NAME}__draft-prefix`}>
+            {i18n('ConversationListItem--draft-prefix')}
+          </span>
+          <MessageBody
+            text={truncateMessageText(draftPreview)}
+            disableJumbomoji
+            disableLinks
+            i18n={i18n}
+          />
         </>
       );
-      /* eslint-enable no-nested-ternary */
-
-      if (!showingDraft && lastMessage && lastMessage.status) {
+    } else if (lastMessage?.deletedForEveryone) {
+      messageText = (
+        <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
+          {i18n('message--deletedForEveryone')}
+        </span>
+      );
+    } else if (lastMessage) {
+      messageText = (
+        <MessageBody
+          text={truncateMessageText(lastMessage.text)}
+          disableJumbomoji
+          disableLinks
+          i18n={i18n}
+        />
+      );
+      if (lastMessage.status) {
         messageStatusIcon = (
           <div
             className={classNames(
@@ -166,6 +144,16 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           />
         );
       }
+    }
+
+    const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
+    if (isMuted) {
+      messageText = (
+        <>
+          <span className={`${MESSAGE_TEXT_CLASS_NAME}__muted`} />
+          {messageText}
+        </>
+      );
     }
 
     const onClickItem = useCallback(() => onClick(id), [onClick, id]);

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Camelcase disabled due to emoji-datasource using snake_case
@@ -21,6 +21,7 @@ import Fuse from 'fuse.js';
 import PQueue from 'p-queue';
 import is from '@sindresorhus/is';
 import { getOwn } from '../../util/getOwn';
+import * as log from '../../logging/log';
 
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
@@ -63,9 +64,7 @@ export type EmojiData = {
   has_img_apple: boolean;
   has_img_google: boolean;
   has_img_twitter: boolean;
-  has_img_emojione: boolean;
   has_img_facebook: boolean;
-  has_img_messenger: boolean;
   skin_variations?: {
     [key: string]: EmojiSkinVariation;
   };
@@ -110,7 +109,7 @@ export const preloadImages = async (): Promise<void> => {
       setTimeout(reject, 5000);
     });
 
-  window.log.info('Preloading emoji images');
+  log.info('Preloading emoji images');
   const start = Date.now();
 
   data.forEach(emoji => {
@@ -126,7 +125,7 @@ export const preloadImages = async (): Promise<void> => {
   await imageQueue.onEmpty();
 
   const end = Date.now();
-  window.log.info(`Done preloading emoji images in ${end - start}ms`);
+  log.info(`Done preloading emoji images in ${end - start}ms`);
 };
 
 const dataByShortName = keyBy(data, 'short_name');

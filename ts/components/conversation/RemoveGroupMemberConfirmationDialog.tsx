@@ -38,13 +38,7 @@ export const RemoveGroupMemberConfirmationDialog: FunctionComponent<PropsType> =
         i18n={i18n}
         id="RemoveGroupMemberConfirmation__description"
         components={{
-          name: (
-            <ContactName
-              firstName={conversation.firstName}
-              i18n={i18n}
-              title={conversation.title}
-            />
-          ),
+          name: <ContactName title={conversation.title} />,
         }}
       />
     }

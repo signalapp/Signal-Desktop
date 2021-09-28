@@ -5,6 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
+import * as log from '../logging/log';
 
 type DeleteAttributesType = {
   targetSentTimestamp: number;
@@ -34,7 +35,7 @@ export class Deletes extends Collection<DeleteModel> {
     });
 
     if (matchingDeletes.length > 0) {
-      window.log.info('Found early DOE for message');
+      log.info('Found early DOE for message');
       this.remove(matchingDeletes);
       return matchingDeletes;
     }
@@ -52,7 +53,7 @@ export class Deletes extends Collection<DeleteModel> {
       );
 
       if (!targetConversation) {
-        window.log.info(
+        log.info(
           'No target conversation for DOE',
           del.get('fromId'),
           del.get('targetSentTimestamp')
@@ -63,7 +64,7 @@ export class Deletes extends Collection<DeleteModel> {
 
       // Do not await, since this can deadlock the queue
       targetConversation.queueJob('Deletes.onDelete', async () => {
-        window.log.info('Handling DOE for', del.get('targetSentTimestamp'));
+        log.info('Handling DOE for', del.get('targetSentTimestamp'));
 
         const messages = await window.Signal.Data.getMessagesBySentAt(
           del.get('targetSentTimestamp'),
@@ -77,7 +78,7 @@ export class Deletes extends Collection<DeleteModel> {
         );
 
         if (!targetMessage) {
-          window.log.info(
+          log.info(
             'No message for DOE',
             del.get('fromId'),
             del.get('targetSentTimestamp')
@@ -96,7 +97,7 @@ export class Deletes extends Collection<DeleteModel> {
         this.remove(del);
       });
     } catch (error) {
-      window.log.error(
+      log.error(
         'Deletes.onDelete error:',
         error && error.stack ? error.stack : error
       );

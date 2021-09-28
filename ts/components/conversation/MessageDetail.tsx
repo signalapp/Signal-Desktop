@@ -18,6 +18,7 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
+import * as log from '../../logging/log';
 
 export type Contact = Pick<
   ConversationType,
@@ -68,6 +69,7 @@ export type PropsBackboneActions = Pick<
   | 'reactToMessage'
   | 'renderAudioAttachment'
   | 'renderEmojiPicker'
+  | 'renderReactionPicker'
   | 'replyToMessage'
   | 'retrySend'
   | 'showContactDetail'
@@ -167,13 +169,7 @@ export class MessageDetail extends React.Component<Props> {
         {this.renderAvatar(contact)}
         <div className="module-message-detail__contact__text">
           <div className="module-message-detail__contact__name">
-            <ContactName
-              phoneNumber={contact.phoneNumber}
-              name={contact.name}
-              profileName={contact.profileName}
-              title={contact.title}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </div>
           {errors.map(error => (
             <div
@@ -271,6 +267,7 @@ export class MessageDetail extends React.Component<Props> {
       reactToMessage,
       renderAudioAttachment,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       retrySend,
       showContactDetail,
@@ -296,16 +293,16 @@ export class MessageDetail extends React.Component<Props> {
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
             deleteMessage={() =>
-              window.log.warn('MessageDetail: deleteMessage called!')
+              log.warn('MessageDetail: deleteMessage called!')
             }
             deleteMessageForEveryone={() =>
-              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
             }
             disableMenu
             disableScroll
             displayTapToViewMessage={displayTapToViewMessage}
             downloadAttachment={() =>
-              window.log.warn('MessageDetail: deleteMessageForEveryone called!')
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
             }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             i18n={i18n}
@@ -319,11 +316,12 @@ export class MessageDetail extends React.Component<Props> {
             reactToMessage={reactToMessage}
             renderAudioAttachment={renderAudioAttachment}
             renderEmojiPicker={renderEmojiPicker}
+            renderReactionPicker={renderReactionPicker}
             replyToMessage={replyToMessage}
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
-              window.log.warn('MessageDetail: scrollToQuotedMessage called!');
+              log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
             showContactDetail={showContactDetail}
             showContactModal={showContactModal}
@@ -334,9 +332,7 @@ export class MessageDetail extends React.Component<Props> {
               showExpiredOutgoingTapToViewToast
             }
             showMessageDetail={() => {
-              window.log.warn(
-                'MessageDetail: deleteMessageForEveryone called!'
-              );
+              log.warn('MessageDetail: deleteMessageForEveryone called!');
             }}
             showVisualAttachment={showVisualAttachment}
           />

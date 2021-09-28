@@ -10,25 +10,18 @@ import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
-
-type Contact = {
-  phoneNumber?: string;
-  profileName?: string;
-  name?: string;
-  title: string;
-  isMe?: boolean;
-};
+import { ConversationType } from '../../state/ducks/conversations';
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 
 type Change = {
   type: ChangeType;
   newName?: string;
-  contacts?: Array<Contact>;
+  contacts?: Array<ConversationType>;
 };
 
 export type PropsData = {
-  from: Contact;
+  from: ConversationType;
   changes: Array<Change>;
 };
 
@@ -41,7 +34,7 @@ export type Props = PropsData & PropsHousekeeping;
 export class GroupNotification extends React.Component<Props> {
   public renderChange(
     change: Change,
-    from: Contact
+    from: ConversationType
   ): JSX.Element | string | null | undefined {
     const { contacts, type, newName } = change;
     const { i18n } = this.props;
@@ -54,16 +47,10 @@ export class GroupNotification extends React.Component<Props> {
 
         return (
           <span
-            key={`external-${contact.phoneNumber}`}
+            key={`external-${contact.id}`}
             className="module-group-notification__contact"
           >
-            <ContactName
-              title={contact.title}
-              phoneNumber={contact.phoneNumber}
-              profileName={contact.profileName}
-              name={contact.name}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </span>
         );
       })
@@ -126,7 +113,6 @@ export class GroupNotification extends React.Component<Props> {
           <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
         );
       case 'general':
-        // eslint-disable-next-line consistent-return
         return;
       default:
         throw missingCaseError(type);
@@ -144,20 +130,14 @@ export class GroupNotification extends React.Component<Props> {
     const firstChange: undefined | Change = changes[0];
     const isLeftOnly = changes.length === 1 && firstChange?.type === 'remove';
 
-    const fromContact = (
-      <ContactName
-        title={from.title}
-        phoneNumber={from.phoneNumber}
-        profileName={from.profileName}
-        name={from.name}
-        i18n={i18n}
-      />
-    );
-
     const fromLabel = from.isMe ? (
       <Intl i18n={i18n} id="youUpdatedTheGroup" />
     ) : (
-      <Intl i18n={i18n} id="updatedTheGroup" components={[fromContact]} />
+      <Intl
+        i18n={i18n}
+        id="updatedTheGroup"
+        components={[<ContactName title={from.title} />]}
+      />
     );
 
     let contents: ReactNode;

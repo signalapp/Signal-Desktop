@@ -9,6 +9,7 @@ import {
   CompatPreKeyType,
   CompatSignedPreKeyType,
 } from './textsecure/Types.d';
+import * as log from './logging/log';
 
 export function isNonNegativeInteger(n: unknown): n is number {
   return typeof n === 'number' && n % 1 === 0 && n >= 0;
@@ -82,7 +83,7 @@ export function createKeyPair(incomingKey: ArrayBuffer): KeyPairType {
   const copy = copyArrayBuffer(incomingKey);
   clampPrivateKey(copy);
   if (!constantTimeEqual(copy, incomingKey)) {
-    window.log.warn('createKeyPair: incoming private key was not clamped!');
+    log.warn('createKeyPair: incoming private key was not clamped!');
   }
 
   const incomingKeyBuffer = Buffer.from(incomingKey);

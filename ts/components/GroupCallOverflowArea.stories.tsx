@@ -8,7 +8,7 @@ import { storiesOf } from '@storybook/react';
 import { number } from '@storybook/addon-knobs';
 
 import { GroupCallOverflowArea } from './GroupCallOverflowArea';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';

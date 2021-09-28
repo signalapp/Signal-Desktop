@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 
 import { Modal } from './Modal';
-import { Intl } from './Intl';
+import { Intl, IntlComponentsType } from './Intl';
 import { Emojify } from './conversation/Emojify';
 import { LocalizerType } from '../types/Util';
 
@@ -16,7 +16,7 @@ export type PropsType = {
 type ReleaseNotesType = {
   date: Date;
   version: string;
-  features: Array<string>;
+  features: Array<{ key: string; components: IntlComponentsType }>;
 };
 
 export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
@@ -26,9 +26,27 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
 
   const viewReleaseNotes = () => {
     setReleaseNotes({
-      date: new Date('09/02/2021'),
+      date: new Date(window.getBuildCreation?.() || Date.now()),
       version: window.getVersion(),
-      features: ['WhatsNew__v5.17--1', 'WhatsNew__v5.17--2'],
+      features: [
+        {
+          key: 'WhatsNew__v5.18--1',
+          components: {
+            hiqua: <a href="https://github.com/hiqua">@hiqua</a>,
+          },
+        },
+        {
+          key: 'WhatsNew__v5.18--2',
+          components: {
+            gov: <a href="http://gov.ai">gov.ai</a>,
+            brain: <a href="https://brain.ai">brain.ai</a>,
+            signal: <a href="https://signal.org">signal.org</a>,
+            jojomatik: <a href="https://github.com/jojomatik">@jojomatik</a>,
+          },
+        },
+        { key: 'WhatsNew__v5.18--3', components: undefined },
+        { key: 'WhatsNew__v5.18--4', components: undefined },
+      ],
     });
   };
 
@@ -47,14 +65,15 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
               {releaseNotes.version}
             </span>
             <ul>
-              {releaseNotes.features.map(featureKey => (
-                <li key={featureKey}>
+              {releaseNotes.features.map(({ key, components }) => (
+                <li key={key}>
                   <Intl
                     i18n={i18n}
-                    id={featureKey}
-                    renderText={({ key, text }) => (
-                      <Emojify key={key} text={text} />
+                    id={key}
+                    renderText={({ key: innerKey, text }) => (
+                      <Emojify key={innerKey} text={text} />
                     )}
+                    components={components}
                   />
                 </li>
               ))}

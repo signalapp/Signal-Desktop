@@ -62,12 +62,8 @@ export const UnsupportedMessage = ({
               className="module-unsupported-message__contact"
             >
               <ContactName
-                name={contact.name}
-                profileName={contact.profileName}
-                phoneNumber={contact.phoneNumber}
                 title={contact.title}
                 module="module-unsupported-message__contact"
-                i18n={i18n}
               />
             </span>,
           ]}

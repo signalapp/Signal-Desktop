@@ -7,9 +7,10 @@ import classNames from 'classnames';
 import { ContactName } from './ContactName';
 import { Avatar, Props as AvatarProps } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
-import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import { ConversationType } from '../../state/ducks/conversations';
 import { emojiToData, EmojiData } from '../emoji/lib';
+import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 
 export type Reaction = {
   emoji: string;
@@ -124,20 +125,9 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       selectedReactionCategory,
       setSelectedReactionCategory,
     ] = React.useState(pickedReaction || 'all');
+
     // Handle escape key
-    React.useEffect(() => {
-      const handler = (e: KeyboardEvent) => {
-        if (onClose && e.key === 'Escape') {
-          onClose();
-        }
-      };
-
-      document.addEventListener('keydown', handler);
-
-      return () => {
-        document.removeEventListener('keydown', handler);
-      };
-    }, [onClose]);
+    useEscapeHandling(onClose);
 
     // Focus first button and restore focus on unmount
     const [focusRef] = useRestoreFocus();
@@ -233,11 +223,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                 ) : (
                   <ContactName
                     module="module-reaction-viewer__body__row__name__contact-name"
-                    name={from.name}
-                    profileName={from.profileName}
-                    phoneNumber={from.phoneNumber}
                     title={from.title}
-                    i18n={i18n}
                   />
                 )}
               </div>

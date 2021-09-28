@@ -58,6 +58,7 @@ import {
 import { AvatarDataType, getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
+import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 
 import { NoopActionType } from './noop';
 
@@ -116,11 +117,13 @@ export type ConversationType = {
   timestamp?: number;
   inboxPosition?: number;
   left?: boolean;
-  lastMessage?: {
-    status: LastMessageStatus;
-    text: string;
-    deletedForEveryone?: boolean;
-  };
+  lastMessage?:
+    | {
+        status?: LastMessageStatus;
+        text: string;
+        deletedForEveryone: false;
+      }
+    | { deletedForEveryone: true };
   markedUnread?: boolean;
   phoneNumber?: string;
   membersCount?: number;
@@ -778,6 +781,7 @@ export const actions = {
   openConversationInternal,
   removeAllConversations,
   removeCustomColorOnConversations,
+  removeMemberFromGroup,
   repairNewestMessage,
   repairOldestMessage,
   replaceAvatar,
@@ -801,11 +805,14 @@ export const actions = {
   showArchivedConversations,
   showChooseGroupMembers,
   showInbox,
+  showSafetyNumberInConversation,
   startComposing,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
+  toggleAdmin,
   toggleConversationInChooseMembers,
   toggleComposeEditingAvatar,
+  updateConversationModelSharedGroups,
   verifyConversationsStoppingMessageSend,
 };
 
@@ -861,7 +868,7 @@ function deleteAvatarFromDisk(
     if (avatarData.imagePath) {
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
-      window.log.info(
+      log.info(
         'No imagePath for avatarData. Removing from userAvatarData, but not disk'
       );
     }
@@ -1155,7 +1162,7 @@ function composeDeleteAvatarFromDisk(
     if (avatarData.imagePath) {
       await window.Signal.Migrations.deleteAvatar(avatarData.imagePath);
     } else {
-      window.log.info(
+      log.info(
         'No imagePath for avatarData. Removing from userAvatarData, but not disk'
       );
     }
@@ -1325,10 +1332,7 @@ function createGroup(): ThunkAction<
         switchToAssociatedView: true,
       })(dispatch, getState, ...args);
     } catch (err) {
-      window.log.error(
-        'Failed to create group',
-        err && err.stack ? err.stack : err
-      );
+      log.error('Failed to create group', err && err.stack ? err.stack : err);
       dispatch({ type: 'CREATE_GROUP_REJECTED' });
     }
   };
@@ -1718,6 +1722,73 @@ function openConversationExternal(
       id,
       messageId,
     },
+  };
+}
+
+function removeMemberFromGroup(
+  conversationId: string,
+  contactId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      const idForLogging = conversationModel.idForLogging();
+      longRunningTaskWrapper({
+        name: 'removeMemberFromGroup',
+        idForLogging,
+        task: () => conversationModel.removeFromGroupV2(contactId),
+      });
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function toggleAdmin(
+  conversationId: string,
+  contactId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversationModel = window.ConversationController.get(conversationId);
+    if (conversationModel) {
+      conversationModel.toggleAdmin(contactId);
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function updateConversationModelSharedGroups(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (conversation && conversation.throttledUpdateSharedGroups) {
+      conversation.throttledUpdateSharedGroups();
+    }
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function showSafetyNumberInConversation(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return dispatch => {
+    window.Whisper.events.trigger(
+      'showSafetyNumberInConversation',
+      conversationId
+    );
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 

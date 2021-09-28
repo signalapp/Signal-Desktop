@@ -34,6 +34,7 @@ import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import * as log from '../logging/log';
 
 import {
   ConversationModelCollectionType,
@@ -50,14 +51,17 @@ import {
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
   IdentityKeyType,
+  IdentityKeyIdType,
   ItemKeyType,
   ItemType,
   LastConversationMessagesType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyType,
+  PreKeyIdType,
   SearchResultMessageType,
   SenderKeyType,
+  SenderKeyIdType,
   SentMessageDBType,
   SentMessagesType,
   SentProtoType,
@@ -66,7 +70,9 @@ import {
   SentRecipientsType,
   ServerInterface,
   SessionType,
+  SessionIdType,
   SignedPreKeyType,
+  SignedPreKeyIdType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
@@ -74,6 +80,7 @@ import {
   UnprocessedUpdateType,
 } from './Interface';
 import Server from './Server';
+import { isCorruptionError } from './errors';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 
@@ -82,7 +89,7 @@ import { ConversationModel } from '../models/conversations';
 if (ipcRenderer && ipcRenderer.setMaxListeners) {
   ipcRenderer.setMaxListeners(0);
 } else {
-  window.log.warn('sql/Client: ipcRenderer is not available!');
+  log.warn('sql/Client: ipcRenderer is not available!');
 }
 
 const DATABASE_UPDATE_TIMEOUT = 2 * durations.MINUTE;
@@ -226,7 +233,6 @@ const dataInterface: ClientInterface = {
   getUnprocessedCount,
   getAllUnprocessed,
   getUnprocessedById,
-  updateUnprocessedAttempts,
   updateUnprocessedWithData,
   updateUnprocessedsWithData,
   removeUnprocessed,
@@ -271,6 +277,8 @@ const dataInterface: ClientInterface = {
   processGroupCallRingCancelation,
   cleanExpiredGroupCallRings,
 
+  getMaxMessageCounter,
+
   getStatisticsForLogging,
 
   // Test-only
@@ -297,14 +305,12 @@ export default dataInterface;
 
 async function goBackToMainProcess(): Promise<void> {
   if (!shouldUseRendererProcess) {
-    window.log.info(
-      'data.goBackToMainProcess: already switched to main process'
-    );
+    log.info('data.goBackToMainProcess: already switched to main process');
     return;
   }
 
   // We don't need to wait for pending queries since they are synchronous.
-  window.log.info('data.goBackToMainProcess: switching to main process');
+  log.info('data.goBackToMainProcess: switching to main process');
 
   // Close the database in the renderer process.
   const closePromise = close();
@@ -323,7 +329,7 @@ async function goBackToMainProcess(): Promise<void> {
     .sort((a, b) => b[1] - a[1])
     .filter(([_, duration]) => duration > MIN_TRACE_DURATION)
     .forEach(([query, duration]) => {
-      window.log.info(`startup query: ${query} ${duration}ms`);
+      log.info(`startup query: ${query} ${duration}ms`);
     });
 }
 
@@ -347,7 +353,7 @@ function _cleanData(
   const { cleaned, pathsChanged } = cleanDataForIpc(data);
 
   if (pathsChanged.length) {
-    window.log.info(
+    log.info(
       `_cleanData cleaned the following paths: ${pathsChanged.join(', ')}`
     );
   }
@@ -366,7 +372,7 @@ function _cleanMessageData(data: MessageType): MessageType {
 
 async function _shutdown() {
   const jobKeys = Object.keys(_jobs);
-  window.log.info(
+  log.info(
     `data.shutdown: shutdown requested. ${jobKeys.length} jobs outstanding`
   );
 
@@ -386,7 +392,7 @@ async function _shutdown() {
   // Outstanding jobs; we need to wait until the last one is done
   _shutdownPromise = new Promise<void>((resolve, reject) => {
     _shutdownCallback = (error: Error) => {
-      window.log.info('data.shutdown: process complete');
+      log.info('data.shutdown: process complete');
       if (error) {
         reject(error);
 
@@ -411,7 +417,7 @@ function _makeJob(fnName: string) {
   const id = _jobCounter;
 
   if (_DEBUG) {
-    window.log.info(`SQL channel job ${id} (${fnName}) started`);
+    log.info(`SQL channel job ${id} (${fnName}) started`);
   }
   _jobs[id] = {
     fnName,
@@ -432,7 +438,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
       _removeJob(id);
       const end = Date.now();
       if (_DEBUG) {
-        window.log.info(
+        log.info(
           `SQL channel job ${id} (${fnName}) succeeded in ${end - start}ms`
         );
       }
@@ -442,21 +448,7 @@ function _updateJob(id: number, data: ClientJobUpdateType) {
     reject: (error: Error) => {
       _removeJob(id);
       const end = Date.now();
-      window.log.info(
-        `SQL channel job ${id} (${fnName}) failed in ${end - start}ms`
-      );
-
-      if (
-        error &&
-        error.message &&
-        (error.message.includes('SQLITE_CORRUPT') ||
-          error.message.includes('database disk image is malformed'))
-      ) {
-        window.log.error(
-          `Detected corruption. Restarting the application immediately. Error: ${error.message}`
-        );
-        ipcRenderer?.send('database-error', error.message);
-      }
+      log.info(`SQL channel job ${id} (${fnName}) failed in ${end - start}ms`);
 
       return reject(error);
     },
@@ -515,7 +507,7 @@ if (ipcRenderer && ipcRenderer.on) {
     }
   );
 } else {
-  window.log.warn('sql/Client: ipcRenderer.on is not available!');
+  log.warn('sql/Client: ipcRenderer.on is not available!');
 }
 
 function makeChannel(fnName: string) {
@@ -528,25 +520,37 @@ function makeChannel(fnName: string) {
       const serverFnName = fnName as keyof ServerInterface;
       const start = Date.now();
 
-      // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const result = Server[serverFnName](...args);
-
-      const duration = Date.now() - start;
-
-      startupQueries.set(
-        serverFnName,
-        (startupQueries.get(serverFnName) || 0) + duration
-      );
-
-      if (duration > MIN_TRACE_DURATION || _DEBUG) {
-        window.log.info(
-          `Renderer SQL channel job (${fnName}) succeeded in ${duration}ms`
+      try {
+        // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return await Server[serverFnName](...args);
+      } catch (error) {
+        if (isCorruptionError(error)) {
+          log.error(
+            'Detected sql corruption in renderer process. ' +
+              `Restarting the application immediately. Error: ${error.message}`
+          );
+          ipcRenderer?.send('database-error', error.stack);
+        }
+        log.error(
+          `Renderer SQL channel job (${fnName}) error ${error.message}`
         );
-      }
+        throw error;
+      } finally {
+        const duration = Date.now() - start;
 
-      return result;
+        startupQueries.set(
+          serverFnName,
+          (startupQueries.get(serverFnName) || 0) + duration
+        );
+
+        if (duration > MIN_TRACE_DURATION || _DEBUG) {
+          log.info(
+            `Renderer SQL channel job (${fnName}) completed in ${duration}ms`
+          );
+        }
+      }
     }
 
     const jobId = _makeJob(fnName);
@@ -633,17 +637,10 @@ async function removeIndexedDBFiles() {
 
 const IDENTITY_KEY_KEYS = ['publicKey'];
 async function createOrUpdateIdentityKey(data: IdentityKeyType) {
-  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, {
-    ...data,
-    id: window.ConversationController.getConversationId(data.id),
-  });
+  const updated = keysFromArrayBuffer(IDENTITY_KEY_KEYS, data);
   await channels.createOrUpdateIdentityKey(updated);
 }
-async function getIdentityKeyById(identifier: string) {
-  const id = window.ConversationController.getConversationId(identifier);
-  if (!id) {
-    throw new Error('getIdentityKeyById: unable to find conversationId');
-  }
+async function getIdentityKeyById(id: IdentityKeyIdType) {
   const data = await channels.getIdentityKeyById(id);
 
   return keysToArrayBuffer(IDENTITY_KEY_KEYS, data);
@@ -654,11 +651,7 @@ async function bulkAddIdentityKeys(array: Array<IdentityKeyType>) {
   );
   await channels.bulkAddIdentityKeys(updated);
 }
-async function removeIdentityKeyById(identifier: string) {
-  const id = window.ConversationController.getConversationId(identifier);
-  if (!id) {
-    throw new Error('removeIdentityKeyById: unable to find conversationId');
-  }
+async function removeIdentityKeyById(id: IdentityKeyIdType) {
   await channels.removeIdentityKeyById(id);
 }
 async function removeAllIdentityKeys() {
@@ -676,7 +669,7 @@ async function createOrUpdatePreKey(data: PreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdatePreKey(updated);
 }
-async function getPreKeyById(id: number) {
+async function getPreKeyById(id: PreKeyIdType) {
   const data = await channels.getPreKeyById(id);
 
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
@@ -685,7 +678,7 @@ async function bulkAddPreKeys(array: Array<PreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddPreKeys(updated);
 }
-async function removePreKeyById(id: number) {
+async function removePreKeyById(id: PreKeyIdType) {
   await channels.removePreKeyById(id);
 }
 async function removeAllPreKeys() {
@@ -704,7 +697,7 @@ async function createOrUpdateSignedPreKey(data: SignedPreKeyType) {
   const updated = keysFromArrayBuffer(PRE_KEY_KEYS, data);
   await channels.createOrUpdateSignedPreKey(updated);
 }
-async function getSignedPreKeyById(id: number) {
+async function getSignedPreKeyById(id: SignedPreKeyIdType) {
   const data = await channels.getSignedPreKeyById(id);
 
   return keysToArrayBuffer(PRE_KEY_KEYS, data);
@@ -720,7 +713,7 @@ async function bulkAddSignedPreKeys(array: Array<SignedPreKeyType>) {
   const updated = map(array, data => keysFromArrayBuffer(PRE_KEY_KEYS, data));
   await channels.bulkAddSignedPreKeys(updated);
 }
-async function removeSignedPreKeyById(id: number) {
+async function removeSignedPreKeyById(id: SignedPreKeyIdType) {
   await channels.removeSignedPreKeyById(id);
 }
 async function removeAllSignedPreKeys() {
@@ -730,7 +723,6 @@ async function removeAllSignedPreKeys() {
 // Items
 
 const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
-  identityKey: ['value.pubKey', 'value.privKey'],
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
   profileKey: ['value'],
@@ -748,7 +740,9 @@ async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {
 
   await channels.createOrUpdateItem(updated);
 }
-async function getItemById<K extends ItemKeyType>(id: K): Promise<ItemType<K>> {
+async function getItemById<K extends ItemKeyType>(
+  id: K
+): Promise<ItemType<K> | undefined> {
   const keys = ITEM_KEYS[id];
   const data = await channels.getItemById(id);
 
@@ -787,7 +781,7 @@ async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
   await channels.createOrUpdateSenderKey(key);
 }
 async function getSenderKeyById(
-  id: string
+  id: SenderKeyIdType
 ): Promise<SenderKeyType | undefined> {
   return channels.getSenderKeyById(id);
 }
@@ -797,7 +791,7 @@ async function removeAllSenderKeys(): Promise<void> {
 async function getAllSenderKeys(): Promise<Array<SenderKeyType>> {
   return channels.getAllSenderKeys();
 }
-async function removeSenderKeyById(id: string): Promise<void> {
+async function removeSenderKeyById(id: SenderKeyIdType): Promise<void> {
   return channels.removeSenderKeyById(id);
 }
 
@@ -878,7 +872,7 @@ async function commitSessionsAndUnprocessed(options: {
 async function bulkAddSessions(array: Array<SessionType>) {
   await channels.bulkAddSessions(array);
 }
-async function removeSessionById(id: string) {
+async function removeSessionById(id: SessionIdType) {
   await channels.removeSessionById(id);
 }
 
@@ -1341,7 +1335,7 @@ async function removeAllMessagesInConversation(
   let messages;
   do {
     const chunkSize = 20;
-    window.log.info(
+    log.info(
       `removeAllMessagesInConversation/${logId}: Fetching chunk of ${chunkSize} messages`
     );
     // Yes, we really want the await in the loop. We're deleting a chunk at a
@@ -1357,7 +1351,7 @@ async function removeAllMessagesInConversation(
 
     const ids = messages.map((message: MessageModel) => message.id);
 
-    window.log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
+    log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
@@ -1366,7 +1360,7 @@ async function removeAllMessagesInConversation(
     );
     await queue.onIdle();
 
-    window.log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
+    log.info(`removeAllMessagesInConversation/${logId}: Deleting...`);
     await channels.removeMessages(ids);
   } while (messages.length > 0);
 }
@@ -1427,9 +1421,6 @@ async function getUnprocessedById(id: string) {
   return channels.getUnprocessedById(id);
 }
 
-async function updateUnprocessedAttempts(id: string, attempts: number) {
-  await channels.updateUnprocessedAttempts(id, attempts);
-}
 async function updateUnprocessedWithData(
   id: string,
   data: UnprocessedUpdateType
@@ -1658,6 +1649,10 @@ async function updateAllConversationColors(
     conversationColor,
     customColorData
   );
+}
+
+function getMaxMessageCounter(): Promise<number | undefined> {
+  return channels.getMaxMessageCounter();
 }
 
 function getStatisticsForLogging(): Promise<Record<string, string>> {

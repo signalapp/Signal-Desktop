@@ -9,7 +9,7 @@ import { Inbox } from './Inbox';
 import { Install } from './Install';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
-import { usePageVisibility } from '../util/hooks';
+import { usePageVisibility } from '../hooks/usePageVisibility';
 
 type PropsType = {
   appView: AppViewType;
@@ -24,8 +24,10 @@ export const App = ({
   conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
   i18n,
+  isCustomizingPreferredReactions,
   numberOfMessagesPendingBecauseOfVerification,
   renderCallManager,
+  renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
   renderSafetyNumber,
   theme,
@@ -48,8 +50,12 @@ export const App = ({
         }
         hasInitialLoadCompleted={hasInitialLoadCompleted}
         i18n={i18n}
+        isCustomizingPreferredReactions={isCustomizingPreferredReactions}
         numberOfMessagesPendingBecauseOfVerification={
           numberOfMessagesPendingBecauseOfVerification
+        }
+        renderCustomizingPreferredReactionsModal={
+          renderCustomizingPreferredReactionsModal
         }
         renderSafetyNumber={renderSafetyNumber}
         verifyConversationsStoppingMessageSend={

@@ -29,6 +29,8 @@ export type PropsType = {
   i18n: LocalizerType;
   isVisible?: boolean;
   onClick: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   tooltipDirection?: TooltipPlacement;
 };
 
@@ -37,6 +39,8 @@ export const CallingButton = ({
   i18n,
   isVisible = true,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   tooltipDirection,
 }: PropsType): JSX.Element => {
   const uniqueButtonId = useMemo(() => uuid(), []);
@@ -128,6 +132,8 @@ export const CallingButton = ({
           disabled={disabled}
           id={uniqueButtonId}
           onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           type="button"
         >
           <div />

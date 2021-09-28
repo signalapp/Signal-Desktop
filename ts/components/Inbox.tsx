@@ -24,7 +24,9 @@ export type PropsType = {
   conversationsStoppingMessageSendBecauseOfVerification: Array<ConversationType>;
   hasInitialLoadCompleted: boolean;
   i18n: LocalizerType;
+  isCustomizingPreferredReactions: boolean;
   numberOfMessagesPendingBecauseOfVerification: number;
+  renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   verifyConversationsStoppingMessageSend: () => void;
 };
@@ -34,7 +36,9 @@ export const Inbox = ({
   conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
   i18n,
+  isCustomizingPreferredReactions,
   numberOfMessagesPendingBecauseOfVerification,
+  renderCustomizingPreferredReactionsModal,
   renderSafetyNumber,
   verifyConversationsStoppingMessageSend,
 }: PropsType): JSX.Element => {
@@ -67,7 +71,7 @@ export const Inbox = ({
     }
   }, [hasInitialLoadCompleted, viewRef]);
 
-  let safetyNumberChangeDialog: ReactNode;
+  let activeModal: ReactNode;
   if (conversationsStoppingMessageSendBecauseOfVerification.length) {
     const confirmText: string =
       numberOfMessagesPendingBecauseOfVerification === 1
@@ -75,7 +79,7 @@ export const Inbox = ({
         : i18n('safetyNumberChangeDialog__pending-messages--many', [
             numberOfMessagesPendingBecauseOfVerification.toString(),
           ]);
-    safetyNumberChangeDialog = (
+    activeModal = (
       <SafetyNumberChangeDialog
         confirmText={confirmText}
         contacts={conversationsStoppingMessageSendBecauseOfVerification}
@@ -86,11 +90,14 @@ export const Inbox = ({
       />
     );
   }
+  if (!activeModal && isCustomizingPreferredReactions) {
+    activeModal = renderCustomizingPreferredReactionsModal();
+  }
 
   return (
     <>
       <div className="inbox index" ref={hostRef} />
-      {safetyNumberChangeDialog}
+      {activeModal}
     </>
   );
 };

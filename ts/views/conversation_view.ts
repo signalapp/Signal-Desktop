@@ -39,6 +39,7 @@ import {
 import { MessageModel } from '../models/messages';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
+import { replaceIndex } from '../util/replaceIndex';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
@@ -82,6 +83,8 @@ import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import { isNotNil } from '../util/isNotNil';
 import { dropNull } from '../util/dropNull';
 import { CompositionAPIType } from '../components/CompositionArea';
+import * as log from '../logging/log';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
 
 type AttachmentOptions = {
   messageId: string;
@@ -309,7 +312,7 @@ Whisper.DecryptionErrorToast = Whisper.ToastView.extend({
   render() {
     const toasts = document.getElementsByClassName('decryption-error');
     if (toasts.length > 1) {
-      window.log.info(
+      log.info(
         'DecryptionErrorToast: We are second decryption error toast. Closing.'
       );
       this.close();
@@ -643,24 +646,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return this;
   }
 
-  getMuteExpirationLabel(): string | undefined {
-    const muteExpiresAt = this.model.get('muteExpiresAt');
-    if (!this.model.isMuted()) {
-      return;
-    }
-
-    const today = window.moment(Date.now());
-    const expires = window.moment(muteExpiresAt);
-
-    if (today.isSame(expires, 'day')) {
-      // eslint-disable-next-line consistent-return
-      return expires.format('hh:mm A');
-    }
-
-    // eslint-disable-next-line consistent-return
-    return expires.format('M/D/YY, hh:mm A');
-  }
-
   setMuteExpiration(ms = 0): void {
     this.model.setMuteExpiration(
       ms >= Number.MAX_SAFE_INTEGER ? ms : Date.now() + ms
@@ -709,32 +694,30 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           // These are view only and don't update the Conversation model, so they
           //   need a manual update call.
           onOutgoingAudioCallInConversation: async () => {
-            window.log.info(
+            log.info(
               'onOutgoingAudioCallInConversation: about to start an audio call'
             );
 
             const isVideoCall = false;
 
             if (await this.isCallSafe()) {
-              window.log.info(
+              log.info(
                 'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
                 this.model.id,
                 isVideoCall
               );
-              window.log.info(
-                'onOutgoingAudioCallInConversation: started the call'
-              );
+              log.info('onOutgoingAudioCallInConversation: started the call');
             } else {
-              window.log.info(
+              log.info(
                 'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
               );
             }
           },
 
           onOutgoingVideoCallInConversation: async () => {
-            window.log.info(
+            log.info(
               'onOutgoingVideoCallInConversation: about to start a video call'
             );
             const isVideoCall = true;
@@ -748,18 +731,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             }
 
             if (await this.isCallSafe()) {
-              window.log.info(
+              log.info(
                 'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
               );
               await window.Signal.Services.calling.startCallingLobby(
                 this.model.id,
                 isVideoCall
               );
-              window.log.info(
-                'onOutgoingVideoCallInConversation: started the call'
-              );
+              log.info('onOutgoingVideoCallInConversation: started the call');
             } else {
-              window.log.info(
+              log.info(
                 'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
               );
             }
@@ -1050,25 +1031,19 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const showIdentity = (conversationId: string) => {
       this.showSafetyNumber(conversationId);
     };
-    const openLink = (url: string) => {
-      this.navigateTo(url);
-    };
+    const openLink = openLinkInWebBrowser;
     const downloadNewVersion = () => {
-      this.downloadNewVersion();
+      openLinkInWebBrowser('https://signal.org/download');
     };
     const showSafetyNumber = (contactId: string) => {
       this.showSafetyNumber(contactId);
     };
     const showExpiredIncomingTapToViewToast = () => {
-      window.log.info(
-        'Showing expired tap-to-view toast for an incoming message'
-      );
+      log.info('Showing expired tap-to-view toast for an incoming message');
       this.showToast(Whisper.TapToViewExpiredIncomingToast);
     };
     const showExpiredOutgoingTapToViewToast = () => {
-      window.log.info(
-        'Showing expired tap-to-view toast for an outgoing message'
-      );
+      log.info('Showing expired tap-to-view toast for an outgoing message');
       this.showToast(Whisper.TapToViewExpiredOutgoingToast);
     };
 
@@ -1110,11 +1085,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const supportLocale = window.Signal.Util.mapToSupportLocale(locale);
       const url = baseUrl.replace('LOCALE', supportLocale);
 
-      this.navigateTo(url);
+      openLinkInWebBrowser(url);
     };
 
     const learnMoreAboutDeliveryIssue = () => {
-      this.navigateTo('https://support.signal.org/hc/articles/4404859745690');
+      openLinkInWebBrowser(
+        'https://support.signal.org/hc/articles/4404859745690'
+      );
     };
 
     const scrollToQuotedMessage = async (
@@ -1177,9 +1154,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
 
         if (models.length < 1) {
-          window.log.warn(
-            'loadOlderMessages: requested, but loaded no messages'
-          );
+          log.warn('loadOlderMessages: requested, but loaded no messages');
           repairOldestMessage(conversationId);
           return;
         }
@@ -1232,9 +1207,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
 
         if (models.length < 1) {
-          window.log.warn(
-            'loadNewerMessages: requested, but loaded no messages'
-          );
+          log.warn('loadNewerMessages: requested, but loaded no messages');
           repairNewestMessage(conversationId);
           return;
         }
@@ -1277,7 +1250,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     ): ((conversationId: string) => void) => conversationId => {
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
-        window.log.error(
+        log.error(
           `createMessageRequestResponseHandler: Expected a conversation to be found in ${name}. Doing nothing`
         );
         return;
@@ -1313,7 +1286,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             conversationId
           );
           if (!conversation) {
-            window.log.error(
+            log.error(
               `onBlockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
             );
             return;
@@ -1380,9 +1353,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const eliminated = collection.length - result.length;
     if (eliminated > 0) {
-      window.log.warn(
-        `cleanModels: Eliminated ${eliminated} messages without an id`
-      );
+      log.warn(`cleanModels: Eliminated ${eliminated} messages without an id`);
     }
 
     for (let max = result.length, i = 0; i < max; i += 1) {
@@ -1540,7 +1511,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             scrollToLatestUnread = false;
           }
         } else {
-          window.log.warn(
+          log.warn(
             `loadNewestMessages: did not find message ${newestMessageId}`
           );
         }
@@ -1670,7 +1641,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   unload(reason: string): void {
-    window.log.info(
+    log.info(
       'unloading conversation',
       this.model.idForLogging(),
       'due to:',
@@ -1733,15 +1704,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.disableLinkPreviews = true;
 
     this.remove();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  navigateTo(url: string): void {
-    window.location.href = url;
-  }
-
-  downloadNewVersion(): void {
-    this.navigateTo('https://signal.org/download');
   }
 
   async onDrop(e: JQuery.TriggeredEvent): Promise<void> {
@@ -1918,17 +1880,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       draftAttachment => draftAttachment.path === attachment.path
     );
     if (index < 0) {
-      window.log.warn(
+      log.warn(
         `addAttachment: Failed to find pending attachment with path ${attachment.path}`
       );
       this.model.set({
         draftAttachments: [...draftAttachments, onDisk],
       });
     } else {
-      const toUpdate = [...draftAttachments];
-      toUpdate.splice(index, 1, onDisk);
       this.model.set({
-        draftAttachments: toUpdate,
+        draftAttachments: replaceIndex(draftAttachments, index, onDisk),
       });
     }
     this.updateAttachmentsView();
@@ -1950,7 +1910,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     } else if (attachment.path) {
       url = getAbsoluteDraftPath(attachment.path);
     } else {
-      window.log.warn(
+      log.warn(
         'resolveOnDiskAttachment: Attachment was missing both screenshotPath and path fields'
       );
     }
@@ -2009,9 +1969,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     ]);
   }
 
-  hasFiles(): boolean {
+  hasFiles(options: { includePending: boolean }): boolean {
     const draftAttachments = this.model.get('draftAttachments') || [];
-    return draftAttachments.length > 0;
+    if (options.includePending) {
+      return draftAttachments.length > 0;
+    }
+
+    return draftAttachments.some(item => !item.pending);
   }
 
   async getFiles(): Promise<Array<AttachmentType>> {
@@ -2038,7 +2002,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const data = await readDraftData(attachment.path);
     if (data.byteLength !== attachment.size) {
-      window.log.error(
+      log.error(
         `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`
       );
       return;
@@ -2092,7 +2056,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       )
     );
     this.toggleMicrophone();
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       this.removeLinkPreview();
     }
   }
@@ -2211,7 +2175,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         };
       }
     } catch (e) {
-      window.log.error(
+      log.error(
         `Was unable to generate thumbnail for fileType ${fileType}`,
         e && e.stack ? e.stack : e
       );
@@ -2231,7 +2195,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.removeDraftAttachment(attachment);
       }
     } catch (error) {
-      window.log.error(
+      log.error(
         'Error ensuring that image is properly sized:',
         error && error.stack ? error.stack : error
       );
@@ -2244,7 +2208,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     try {
       await this.addAttachment(attachment);
     } catch (error) {
-      window.log.error(
+      log.error(
         'Error saving draft attachment:',
         error && error.stack ? error.stack : error
       );
@@ -2287,7 +2251,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const screenshotBlob = await VisualAttachment.makeVideoScreenshot({
         objectUrl,
         contentType: screenshotContentType,
-        logger: window.log,
+        logger: log,
       });
       const screenshotData = await VisualAttachment.blobToArrayBuffer(
         screenshotBlob
@@ -2333,7 +2297,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   toggleMicrophone(): void {
-    this.compositionApi.current?.setShowMic(!this.hasFiles());
+    this.compositionApi.current?.setShowMic(
+      !this.hasFiles({ includePending: true })
+    );
   }
 
   captureAudio(e?: Event): void {
@@ -2345,7 +2311,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
 
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       this.showToast(Whisper.VoiceNoteMustBeOnlyAttachmentToast);
       return;
     }
@@ -2388,7 +2354,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
   }
   async handleAudioCapture(blob: Blob): Promise<void> {
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       throw new Error('A voice note cannot be sent with other attachments');
     }
 
@@ -2428,7 +2394,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         return;
       }
 
-      window.log.warn(`onOpened: Did not find message ${messageId}`);
+      log.warn(`onOpened: Did not find message ${messageId}`);
     }
 
     const { retryPlaceholders } = window.Signal.Services;
@@ -2479,9 +2445,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async showForwardMessageModal(messageId: string): Promise<void> {
     const messageFromCache = window.MessageController.getById(messageId);
     if (!messageFromCache) {
-      window.log.info(
-        'showForwardMessageModal: Fetching message from database'
-      );
+      log.info('showForwardMessageModal: Fetching message from database');
     }
     const message =
       messageFromCache ||
@@ -2519,10 +2483,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
                 this.forwardMessageModal = undefined;
               }
             } catch (err) {
-              window.log.warn(
-                'doForwardMessage',
-                err && err.stack ? err.stack : err
-              );
+              log.warn('doForwardMessage', err && err.stack ? err.stack : err);
             }
           },
           isSticker: Boolean(message.get('sticker')),
@@ -2562,9 +2523,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ): Promise<boolean> {
-    window.log.info(
-      `maybeForwardMessage/${message.idForLogging()}: Starting...`
-    );
+    log.info(`maybeForwardMessage/${message.idForLogging()}: Starting...`);
     const attachmentLookup = new Set();
     if (attachments) {
       attachments.forEach(attachment => {
@@ -3024,7 +2983,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async displayTapToViewMessage(messageId: string): Promise<void> {
-    window.log.info('displayTapToViewMessage: attempting to display message');
+    log.info('displayTapToViewMessage: attempting to display message');
 
     const message = window.MessageController.getById(messageId);
     if (!message) {
@@ -3060,10 +3019,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     await message.markViewOnceMessageViewed();
 
     const closeLightbox = async () => {
-      window.log.info('displayTapToViewMessage: attempting to close lightbox');
+      log.info('displayTapToViewMessage: attempting to close lightbox');
 
       if (!this.lightboxView) {
-        window.log.info('displayTapToViewMessage: lightbox was already closed');
+        log.info('displayTapToViewMessage: lightbox was already closed');
         return;
       }
 
@@ -3121,7 +3080,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     window.Signal.Backbone.Views.Lightbox.show(this.lightboxView.el);
 
-    window.log.info('displayTapToViewMessage: showed lightbox');
+    log.info('displayTapToViewMessage: showed lightbox');
   }
 
   deleteMessage(messageId: string): void {
@@ -3168,7 +3127,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
             timestamp: message.get('sent_at'),
           });
         } catch (error) {
-          window.log.error(
+          log.error(
             'Error sending delete-for-everyone',
             error && error.stack,
             messageId
@@ -3323,81 +3282,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showContactModal(contactId: string): void {
-    if (this.contactModalView) {
-      this.contactModalView.remove();
-      this.contactModalView = undefined;
-    }
-
-    this.previousFocus = document.activeElement as HTMLElement;
-
-    const hideContactModal = () => {
-      if (this.contactModalView) {
-        this.contactModalView.remove();
-        this.contactModalView = undefined;
-        if (this.previousFocus && this.previousFocus.focus) {
-          this.previousFocus.focus();
-          this.previousFocus = undefined;
-        }
-      }
-    };
-
-    this.contactModalView = new Whisper.ReactWrapperView({
-      JSX: window.Signal.State.Roots.createContactModal(window.reduxStore, {
-        contactId,
-        currentConversationId: this.model.id,
-        onClose: hideContactModal,
-        openConversation: (conversationId: string) => {
-          hideContactModal();
-          this.openConversation(conversationId);
-        },
-        removeMember: (conversationId: string) => {
-          hideContactModal();
-          this.model.removeFromGroupV2(conversationId);
-        },
-        showSafetyNumber: (conversationId: string) => {
-          hideContactModal();
-          this.showSafetyNumber(conversationId);
-        },
-        toggleAdmin: (conversationId: string) => {
-          hideContactModal();
-
-          const isAdmin = this.model.isAdmin(conversationId);
-          const conversationModel = window.ConversationController.get(
-            conversationId
-          );
-
-          if (!conversationModel) {
-            window.log.info(
-              'conversation_view/toggleAdmin: Could not find conversation to toggle admin privileges'
-            );
-            return;
-          }
-
-          window.showConfirmationDialog({
-            cancelText: window.i18n('cancel'),
-            message: isAdmin
-              ? window.i18n('ContactModal--rm-admin-info', [
-                  conversationModel.getTitle(),
-                ])
-              : window.i18n('ContactModal--make-admin-info', [
-                  conversationModel.getTitle(),
-                ]),
-            okText: isAdmin
-              ? window.i18n('ContactModal--rm-admin')
-              : window.i18n('ContactModal--make-admin'),
-            resolve: () => this.model.toggleAdmin(conversationId),
-          });
-        },
-        updateSharedGroups: () => {
-          const conversation = window.ConversationController.get(contactId);
-          if (conversation && conversation.throttledUpdateSharedGroups) {
-            conversation.throttledUpdateSharedGroups();
-          }
-        },
-      }),
-    });
-
-    this.contactModalView.render();
+    window.reduxActions.globalModals.showContactModal(contactId, this.model.id);
   }
 
   showGroupLinkManagement(): void {
@@ -3865,7 +3750,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       },
       reject: () => {
-        window.log.info('destroyMessages: User canceled delete');
+        log.info('destroyMessages: User canceled delete');
       },
     });
   }
@@ -3878,7 +3763,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.i18n('callAnyway')
       );
       if (!callAnyway) {
-        window.log.info(
+        log.info(
           'Safety number change dialog not accepted, new call not allowed.'
         );
         return false;
@@ -3934,7 +3819,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         targetTimestamp: messageModel.get('sent_at'),
       });
     } catch (error) {
-      window.log.error('Error sending reaction', error, messageId, reaction);
+      log.error('Error sending reaction', error, messageId, reaction);
       this.showToast(Whisper.ReactionFailedToast);
     }
   }
@@ -3965,10 +3850,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const { packId, stickerId } = options;
       model.sendStickerMessage(packId, stickerId);
     } catch (error) {
-      window.log.error(
-        'clickSend error:',
-        error && error.stack ? error.stack : error
-      );
+      log.error('clickSend error:', error && error.stack ? error.stack : error);
     }
   }
 
@@ -4147,7 +4029,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     } catch (error) {
       this.enableMessageField();
-      window.log.error(
+      log.error(
         'sendMessage error:',
         error && error.stack ? error.stack : error
       );
@@ -4162,7 +4044,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     try {
-      if (!message.length && !this.hasFiles() && !this.voiceNoteAttachment) {
+      if (
+        !message.length &&
+        !this.hasFiles({ includePending: false }) &&
+        !this.voiceNoteAttachment
+      ) {
         return;
       }
 
@@ -4172,7 +4058,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore.getState().composer.shouldSendHighQualityAttachments;
       const sendDelta = Date.now() - this.sendStart;
 
-      window.log.info('Send pre-checks took', sendDelta, 'milliseconds');
+      log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
       batchedUpdates(() => {
         model.enqueueMessageForSend(
@@ -4196,7 +4082,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxActions.composer.resetComposer();
       });
     } catch (error) {
-      window.log.error(
+      log.error(
         'Error pulling attached files before send',
         error && error.stack ? error.stack : error
       );
@@ -4255,7 +4141,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return;
     }
     // If we have attachments, don't add link preview
-    if (this.hasFiles()) {
+    if (this.hasFiles({ includePending: true })) {
       return;
     }
     // If we're behind a user-configured proxy, we don't support link previews
@@ -4392,7 +4278,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         url,
       };
     } catch (error) {
-      window.log.error(
+      log.error(
         'getStickerPackPreview error:',
         error && error.stack ? error.stack : error
       );
@@ -4432,7 +4318,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const logId = `groupv2(${id})`;
     const secretParams = Bytes.toBase64(fields.secretParams);
 
-    window.log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
+    log.info(`getGroupPreview/${logId}: Fetching pre-join state`);
     const result = await window.Signal.Groups.getPreJoinGroupInfo(
       inviteLinkPassword,
       masterKey
@@ -4471,7 +4357,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         };
       } catch (error) {
         const errorString = error && error.stack ? error.stack : error;
-        window.log.error(
+        log.error(
           `getGroupPreview/${logId}: Failed to fetch avatar ${errorString}`
         );
       }
@@ -4547,7 +4433,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
         const dimensions = await VisualAttachment.getImageDimensions({
           objectUrl,
-          logger: window.log,
+          logger: log,
         });
 
         image = {
@@ -4559,7 +4445,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         };
       } catch (error) {
         // We still want to show the preview if we failed to get an image
-        window.log.error(
+        log.error(
           'getPreview failed to get image for link preview:',
           error.message
         );
@@ -4585,7 +4471,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async addLinkPreview(url: string): Promise<void> {
     if (this.currentlyMatchedLink === url) {
-      window.log.warn(
+      log.warn(
         'addLinkPreview should not be called with the same URL like this'
       );
       return;
@@ -4601,7 +4487,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // Cancel other in-flight link preview requests.
     if (this.linkPreviewAbortController) {
-      window.log.info(
+      log.info(
         'addLinkPreview: canceling another in-flight link preview request'
       );
       this.linkPreviewAbortController.abort();
@@ -4624,7 +4510,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       );
 
       if (!result) {
-        window.log.info(
+        log.info(
           'addLinkPreview: failed to load preview (not necessarily a problem)'
         );
 
@@ -4663,7 +4549,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.preview = [result];
       this.renderLinkPreview();
     } catch (error) {
-      window.log.error(
+      log.error(
         'Problem loading link preview, disabling.',
         error && error.stack ? error.stack : error
       );

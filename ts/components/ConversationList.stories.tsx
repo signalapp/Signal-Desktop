@@ -16,7 +16,7 @@ import {
 } from './conversationList/ConversationListItem';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -230,6 +230,7 @@ story.add('Contact checkboxes: disabled', () => (
         MessageStatuses.reduce((m, s) => ({ ...m, [s]: s }), {}),
         'read'
       ),
+      deletedForEveryone: false,
     },
     lastUpdated: date(
       'lastUpdated',
@@ -264,6 +265,7 @@ story.add('Contact checkboxes: disabled', () => (
       lastMessage: {
         text: 'Just a second',
         status: 'read',
+        deletedForEveryone: false,
       },
       name: 'Myself',
       title: 'Myself',
@@ -277,7 +279,7 @@ story.add('Contact checkboxes: disabled', () => (
         MessageStatuses.map(status => ({
           type: RowType.Conversation,
           conversation: createConversation({
-            lastMessage: { text: status, status },
+            lastMessage: { text: status, status, deletedForEveryone: false },
           }),
         }))
       )}
@@ -302,11 +304,7 @@ story.add('Contact checkboxes: disabled', () => (
 
   story.add('Conversation: Deleted for everyone', () =>
     renderConversation({
-      lastMessage: {
-        status: 'sent',
-        text: 'You should not see this!',
-        deletedForEveryone: true,
-      },
+      lastMessage: { deletedForEveryone: true },
     })
   );
 
@@ -316,6 +314,7 @@ story.add('Contact checkboxes: disabled', () => (
       lastMessage: {
         text: 'A Message',
         status: 'delivered',
+        deletedForEveryone: false,
       },
     })
   );
@@ -326,7 +325,11 @@ story.add('Contact checkboxes: disabled', () => (
         [4, 10, 250].map(unreadCount => ({
           type: RowType.Conversation,
           conversation: createConversation({
-            lastMessage: { text: 'Hey there!', status: 'delivered' },
+            lastMessage: {
+              text: 'Hey there!',
+              status: 'delivered',
+              deletedForEveryone: false,
+            },
             unreadCount,
           }),
         }))
@@ -343,6 +346,7 @@ story.add('Contact checkboxes: disabled', () => (
       lastMessage: {
         text: 'Hey there!',
         status: 'read',
+        deletedForEveryone: false,
       },
       isSelected: true,
     })
@@ -353,6 +357,7 @@ story.add('Contact checkboxes: disabled', () => (
       lastMessage: {
         text: '🔥',
         status: 'read',
+        deletedForEveryone: false,
       },
     })
   );
@@ -362,6 +367,7 @@ story.add('Contact checkboxes: disabled', () => (
       lastMessage: {
         text: 'Download at http://signal.org',
         status: 'read',
+        deletedForEveryone: false,
       },
     })
   );
@@ -394,6 +400,7 @@ Line 4, well.`,
               lastMessage: {
                 text: messageText,
                 status: 'read',
+                deletedForEveryone: false,
               },
             }),
           }))
@@ -420,6 +427,7 @@ Line 4, well.`,
               lastMessage: {
                 text: messageText,
                 status: 'read',
+                deletedForEveryone: false,
               },
             }),
           }))
@@ -449,9 +457,9 @@ Line 4, well.`,
   story.add('Conversation: Missing Text', () =>
     renderConversation({
       lastMessage: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        text: undefined as any,
+        text: '',
         status: 'sent',
+        deletedForEveryone: false,
       },
     })
   );
@@ -469,6 +477,7 @@ Line 4, well.`,
       lastMessage: {
         text: '@Leia Organa I know',
         status: 'read',
+        deletedForEveryone: false,
       },
     })
   );

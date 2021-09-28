@@ -13,12 +13,17 @@ import { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 import { getContactNameColorSelector } from '../selectors/conversations';
 
 export { Contact } from '../../components/conversation/MessageDetail';
 export type OwnProps = Omit<
   MessageDetailProps,
-  'i18n' | 'interactionMode' | 'renderAudioAttachment' | 'renderEmojiPicker'
+  | 'i18n'
+  | 'interactionMode'
+  | 'renderAudioAttachment'
+  | 'renderEmojiPicker'
+  | 'renderReactionPicker'
 >;
 
 const mapStateToProps = (
@@ -81,6 +86,7 @@ const mapStateToProps = (
     reactToMessage,
     renderAudioAttachment,
     renderEmojiPicker,
+    renderReactionPicker,
     replyToMessage,
     retrySend,
     showContactDetail,

@@ -78,16 +78,17 @@ before(async () => {
 
   await deleteIndexedDB();
   try {
-    window.log.info('Initializing SQL in renderer');
+    window.SignalWindow.log.info('Initializing SQL in renderer');
     const isTesting = true;
     await window.sqlInitializer.initialize(isTesting);
-    window.log.info('SQL initialized in renderer');
+    window.SignalWindow.log.info('SQL initialized in renderer');
   } catch (err) {
-    window.log.error(
+    window.SignalWindow.log.error(
       'SQL failed to initialize',
       err && err.stack ? err.stack : err
     );
   }
+  await window.Signal.Util.initializeMessageCounter();
   await window.Signal.Data.removeAll();
   await window.storage.fetch();
 });

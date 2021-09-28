@@ -4,6 +4,7 @@
 import PQueue from 'p-queue';
 
 import { sleep } from './sleep';
+import * as log from '../logging/log';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
@@ -19,12 +20,12 @@ declare global {
 window.waitBatchers = [];
 
 window.flushAllWaitBatchers = async () => {
-  window.log.info('waitBatcher#flushAllWaitBatchers');
+  log.info('waitBatcher#flushAllWaitBatchers');
   await Promise.all(window.waitBatchers.map(item => item.flushAndWait()));
 };
 
 window.waitForAllWaitBatchers = async () => {
-  window.log.info('waitBatcher#waitForAllWaitBatchers');
+  log.info('waitBatcher#waitForAllWaitBatchers');
   await Promise.all(window.waitBatchers.map(item => item.onIdle()));
 };
 
@@ -150,7 +151,7 @@ export function createWaitBatcher<ItemType>(
   }
 
   async function flushAndWait() {
-    window.log.info(
+    log.info(
       `Flushing start ${options.name} for waitBatcher ` +
         `items.length=${items.length}`
     );
@@ -169,7 +170,7 @@ export function createWaitBatcher<ItemType>(
       }
     }
 
-    window.log.info(`Flushing complete ${options.name} for waitBatcher`);
+    log.info(`Flushing complete ${options.name} for waitBatcher`);
   }
 
   waitBatcher = {

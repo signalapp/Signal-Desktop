@@ -53,7 +53,7 @@ function buildAvatarUpdater({ field }) {
     const { hash, path } = avatar;
     const exists = await doesAttachmentExist(path);
     if (!exists) {
-      window.log.warn(
+      window.SignalWindow.log.warn(
         `Conversation.buildAvatarUpdater: attachment ${path} did not exist`
       );
     }

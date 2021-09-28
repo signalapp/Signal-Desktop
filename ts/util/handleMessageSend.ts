@@ -4,6 +4,7 @@
 import { isNumber } from 'lodash';
 import { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
+import * as log from '../logging/log';
 
 const { insertSentProto } = dataInterface;
 
@@ -105,7 +106,7 @@ async function handleMessageSendResult(
         conversation &&
         conversation.get('sealedSender') !== SEALED_SENDER.DISABLED
       ) {
-        window.log.info(
+        log.info(
           `Setting sealedSender to DISABLED for conversation ${conversation.idForLogging()}`
         );
         conversation.set({
@@ -125,14 +126,14 @@ async function handleMessageSendResult(
         conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN
       ) {
         if (conversation.get('accessKey')) {
-          window.log.info(
+          log.info(
             `Setting sealedSender to ENABLED for conversation ${conversation.idForLogging()}`
           );
           conversation.set({
             sealedSender: SEALED_SENDER.ENABLED,
           });
         } else {
-          window.log.info(
+          log.info(
             `Setting sealedSender to UNRESTRICTED for conversation ${conversation.idForLogging()}`
           );
           conversation.set({
@@ -162,7 +163,7 @@ async function maybeSaveToSendLog(
   }
 
   if (!isNumber(contentHint) || !contentProto || !recipients || !timestamp) {
-    window.log.warn(
+    log.warn(
       `handleMessageSend: Missing necessary information to save to log for ${sendType} message ${timestamp}`
     );
     return;
@@ -170,7 +171,7 @@ async function maybeSaveToSendLog(
 
   const identifiers = Object.keys(recipients);
   if (identifiers.length === 0) {
-    window.log.warn(
+    log.warn(
       `handleMessageSend: ${sendType} message ${timestamp} had no recipients`
     );
     return;

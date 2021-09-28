@@ -5,7 +5,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { UniversalTimerNotification } from './UniversalTimerNotification';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 import { EXPIRE_TIMERS } from '../../test-both/util/expireTimers';
@@ -14,8 +14,8 @@ const story = storiesOf('Components/UniversalTimerNotification', module);
 
 const i18n = setupI18n('en', enMessages);
 
-EXPIRE_TIMERS.forEach(({ value, label }) => {
+EXPIRE_TIMERS.forEach(({ value: ms, label }) => {
   story.add(`Initial value: ${label}`, () => {
-    return <UniversalTimerNotification i18n={i18n} expireTimer={value} />;
+    return <UniversalTimerNotification i18n={i18n} expireTimer={ms / 1000} />;
   });
 });

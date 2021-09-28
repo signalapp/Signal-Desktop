@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { EmojiPicker } from '../emoji/EmojiPicker';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType as TimelineItemProps, TimelineItem } from './TimelineItem';
 import { UniversalTimerNotification } from './UniversalTimerNotification';
@@ -30,6 +30,10 @@ const renderEmojiPicker: TimelineItemProps['renderEmojiPicker'] = ({
     onClose={onClose}
     onPickEmoji={onPickEmoji}
   />
+);
+
+const renderReactionPicker: TimelineItemProps['renderReactionPicker'] = () => (
+  <div />
 );
 
 const renderContact = (conversationId: string) => (
@@ -82,10 +86,13 @@ const getDefaultProps = () => ({
   messageSizeChanged: action('messageSizeChanged'),
   startCallingLobby: action('startCallingLobby'),
   returnToActiveCall: action('returnToActiveCall'),
+  previousItem: undefined,
+  nextItem: undefined,
 
   renderContact,
   renderUniversalTimerNotification,
   renderEmojiPicker,
+  renderReactionPicker,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
 });
 

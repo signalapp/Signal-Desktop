@@ -113,6 +113,7 @@ import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import type { PreviewType as OutgoingPreviewType } from '../textsecure/SendMessage';
+import * as log from '../logging/log';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -198,7 +199,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.set(
         TypedMessage.initializeSchemaVersion({
           message: attributes,
-          logger: window.log,
+          logger: log,
         })
       );
     }
@@ -221,7 +222,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
     this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
-    this.OUR_UUID = window.textsecure.storage.user.getUuid();
+    this.OUR_UUID = window.textsecure.storage.user.getUuid()?.toString();
 
     this.on('change', this.notifyRedux);
   }
@@ -630,7 +631,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
       const { emoji } = sticker || {};
       if (!emoji) {
-        window.log.warn('Unable to get emoji for sticker');
+        log.warn('Unable to get emoji for sticker');
       }
       return {
         text: window.i18n('message--getNotificationText--stickers'),
@@ -651,9 +652,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         };
       }
 
-      window.log.error(
-        "This call history message doesn't have valid call history"
-      );
+      log.error("This call history message doesn't have valid call history");
     }
     if (isExpirationTimerUpdate(attributes)) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -674,7 +673,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const conversation = window.ConversationController.get(identifier);
       return {
         text: window.i18n('safetyNumberChangedGroup', [
-          conversation ? conversation.getTitle() : null,
+          conversation ? conversation.getTitle() : '',
         ]),
       };
     }
@@ -756,7 +755,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const required = ['conversationId', 'received_at', 'sent_at'];
     const missing = _.filter(required, attr => !attributes[attr]);
     if (missing.length) {
-      window.log.warn(`Message missing attributes: ${missing}`);
+      log.warn(`Message missing attributes: ${missing}`);
     }
   }
 
@@ -846,13 +845,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const { fromSync } = options || {};
 
     if (!this.isValidTapToView()) {
-      window.log.warn(
+      log.warn(
         `markViewOnceMessageViewed: Message ${this.idForLogging()} is not a valid tap to view message!`
       );
       return;
     }
     if (this.isErased()) {
-      window.log.warn(
+      log.warn(
         `markViewOnceMessageViewed: Message ${this.idForLogging()} is already erased!`
       );
       return;
@@ -879,7 +878,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
 
       if (window.ConversationController.areWePrimaryDevice()) {
-        window.log.warn(
+        log.warn(
           'markViewOnceMessageViewed: We are primary device; not sending view once open sync'
         );
         return;
@@ -901,9 +900,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const logId = this.idForLogging();
     const quote = this.get('quote');
     if (!quote) {
-      window.log.warn(
-        `doubleCheckMissingQuoteReference/${logId}: Missing quote!`
-      );
+      log.warn(`doubleCheckMissingQuoteReference/${logId}: Missing quote!`);
       return;
     }
 
@@ -913,7 +910,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // Is the quote really without a reference? Check with our in memory store
     // first to make sure it's not there.
     if (referencedMessageNotFound && contact) {
-      window.log.info(
+      log.info(
         `doubleCheckMissingQuoteReference/${logId}: Verifying reference to ${sentAt}`
       );
       const inMemoryMessages = window.MessageController.filterBySentAt(
@@ -923,7 +920,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         isQuoteAMatch(message, this.get('conversationId'), quote)
       );
       if (!matchingMessage) {
-        window.log.info(
+        log.info(
           `doubleCheckMissingQuoteReference/${logId}: No match for ${sentAt}.`
         );
 
@@ -937,7 +934,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         },
       });
 
-      window.log.info(
+      log.info(
         `doubleCheckMissingQuoteReference/${logId}: Found match for ${sentAt}, updating.`
       );
 
@@ -960,7 +957,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     additionalProperties = {},
     shouldPersist = true
   ): Promise<void> {
-    window.log.info(`Erasing data for message ${this.idForLogging()}`);
+    log.info(`Erasing data for message ${this.idForLogging()}`);
 
     // Note: There are cases where we want to re-erase a given message. For example, when
     //   a viewed (or outgoing) View-Once message is deleted for everyone.
@@ -968,7 +965,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     try {
       await this.deleteData();
     } catch (error) {
-      window.log.error(
+      log.error(
         `Error erasing data for message ${this.idForLogging()}:`,
         error && error.stack ? error.stack : error
       );
@@ -1075,7 +1072,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return this.get('source');
     }
     if (!isOutgoing(this.attributes)) {
-      window.log.warn(
+      log.warn(
         'Message.getSource: Called for non-incoming/non-outoing message'
       );
     }
@@ -1090,7 +1087,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return sourceDevice;
     }
     if (!isOutgoing(this.attributes)) {
-      window.log.warn(
+      log.warn(
         'Message.getSourceDevice: Called for non-incoming/non-outoing message'
       );
     }
@@ -1103,7 +1100,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return this.get('sourceUuid');
     }
     if (!isOutgoing(this.attributes)) {
-      window.log.warn(
+      log.warn(
         'Message.getSourceUuid: Called for non-incoming/non-outoing message'
       );
     }
@@ -1145,7 +1142,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     errors.forEach(e => {
-      window.log.error(
+      log.error(
         'Message.saveErrors:',
         e && e.reason ? e.reason : null,
         e && e.stack ? e.stack : e
@@ -1207,7 +1204,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const retryOptions = this.get('retryOptions');
     if (retryOptions) {
       if (!window.textsecure.messaging) {
-        window.log.error('retrySend: Cannot retry since we are offline!');
+        log.error('retrySend: Cannot retry since we are offline!');
         return;
       }
       this.unset('errors');
@@ -1323,7 +1320,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async send(
     promise: Promise<CallbackResultType | void | null>,
     saveErrors?: (errors: Array<Error>) => void
-  ): Promise<void | Array<void>> {
+  ): Promise<void> {
     const updateLeftPane =
       this.getConversation()?.debouncedUpdateLastMessage || noop;
 
@@ -1611,7 +1608,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
 
     if (window.ConversationController.areWePrimaryDevice()) {
-      window.log.warn(
+      log.warn(
         'sendSyncMessage: We are primary device; not sending sync message'
       );
       this.set({ dataMessage: undefined });
@@ -1832,7 +1829,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let count = 0;
     let bodyPending;
 
-    window.log.info(
+    log.info(
       `Queueing ${
         attachmentsToQueue.length
       } attachment downloads for message ${this.idForLogging()}`
@@ -1846,12 +1843,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     if (longMessageAttachments.length > 1) {
-      window.log.error(
+      log.error(
         `Received more than one long message attachment in message ${this.idForLogging()}`
       );
     }
 
-    window.log.info(
+    log.info(
       `Queueing ${
         longMessageAttachments.length
       } long message attachment downloads for message ${this.idForLogging()}`
@@ -1867,7 +1864,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       });
     }
 
-    window.log.info(
+    log.info(
       `Queueing ${
         normalAttachments.length
       } normal attachment downloads for message ${this.idForLogging()}`
@@ -1879,7 +1876,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
         // We've already downloaded this!
         if (attachment.path) {
-          window.log.info(
+          log.info(
             `Normal attachment already downloaded for message ${this.idForLogging()}`
           );
           return attachment;
@@ -1896,7 +1893,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     const previewsToQueue = this.get('preview') || [];
-    window.log.info(
+    log.info(
       `Queueing ${
         previewsToQueue.length
       } preview attachment downloads for message ${this.idForLogging()}`
@@ -1908,7 +1905,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
         // We've already downloaded this!
         if (item.image.path) {
-          window.log.info(
+          log.info(
             `Preview attachment already downloaded for message ${this.idForLogging()}`
           );
           return item;
@@ -1927,7 +1924,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     const contactsToQueue = this.get('contact') || [];
-    window.log.info(
+    log.info(
       `Queueing ${
         contactsToQueue.length
       } contact attachment downloads for message ${this.idForLogging()}`
@@ -1939,7 +1936,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
         // We've already downloaded this!
         if (item.avatar.avatar.path) {
-          window.log.info(
+          log.info(
             `Contact attachment already downloaded for message ${this.idForLogging()}`
           );
           return item;
@@ -1964,7 +1961,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let quote = this.get('quote')!;
     const quoteAttachmentsToQueue =
       quote && quote.attachments ? quote.attachments : [];
-    window.log.info(
+    log.info(
       `Queueing ${
         quoteAttachmentsToQueue.length
       } quote attachment downloads for message ${this.idForLogging()}`
@@ -1979,7 +1976,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             }
             // We've already downloaded this!
             if (item.thumbnail.path) {
-              window.log.info(
+              log.info(
                 `Quote attachment already downloaded for message ${this.idForLogging()}`
               );
               return item;
@@ -2002,13 +1999,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     let sticker = this.get('sticker')!;
     if (sticker && sticker.data && sticker.data.path) {
-      window.log.info(
+      log.info(
         `Sticker attachment already downloaded for message ${this.idForLogging()}`
       );
     } else if (sticker) {
-      window.log.info(
-        `Queueing sticker download for message ${this.idForLogging()}`
-      );
+      log.info(`Queueing sticker download for message ${this.idForLogging()}`);
       count += 1;
       const { packId, stickerId, packKey } = sticker;
 
@@ -2026,7 +2021,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             contentType: IMAGE_WEBP,
           };
         } catch (error) {
-          window.log.error(
+          log.error(
             `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
             error && error.stack ? error.stack : error
           );
@@ -2059,7 +2054,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       };
     }
 
-    window.log.info(
+    log.info(
       `Queued ${count} total attachment downloads for message ${this.idForLogging()}`
     );
 
@@ -2111,9 +2106,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    window.log.info(
-      'markAttachmentAsCorrupted: marking an attachment as corrupted'
-    );
+    log.info('markAttachmentAsCorrupted: marking an attachment as corrupted');
 
     this.set({
       attachments: newAttachments,
@@ -2171,7 +2164,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     if (matchingMessage) {
       queryMessage = matchingMessage;
     } else {
-      window.log.info('copyFromQuotedMessage: db lookup needed', id);
+      log.info('copyFromQuotedMessage: db lookup needed', id);
       const collection = await window.Signal.Data.getMessagesBySentAt(id, {
         MessageCollection: window.Whisper.MessageCollection,
       });
@@ -2252,7 +2245,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         await window.Signal.Data.saveMessage(upgradedMessage);
       }
     } catch (error) {
-      window.log.error(
+      log.error(
         'Problem upgrading message quoted message from database',
         Errors.toLogFormat(error)
       );
@@ -2322,7 +2315,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
     return conversation.queueJob('handleDataMessage', async () => {
-      window.log.info(
+      log.info(
         `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
       );
 
@@ -2331,12 +2324,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.getSenderIdentifier()
       );
       if (inMemoryMessage) {
-        window.log.info(
-          'handleDataMessage: cache hit',
-          this.getSenderIdentifier()
-        );
+        log.info('handleDataMessage: cache hit', this.getSenderIdentifier());
       } else {
-        window.log.info(
+        log.info(
           'handleDataMessage: duplicate check db lookup needed',
           this.getSenderIdentifier()
         );
@@ -2349,13 +2339,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       const isUpdate = Boolean(data && data.isRecipientUpdate);
 
       if (existingMessage && type === 'incoming') {
-        window.log.warn('Received duplicate message', this.idForLogging());
+        log.warn('Received duplicate message', this.idForLogging());
         confirm();
         return;
       }
       if (type === 'outgoing') {
         if (isUpdate && existingMessage) {
-          window.log.info(
+          log.info(
             `handleDataMessage: Updating message ${message.idForLogging()} with received transcript`
           );
 
@@ -2431,7 +2421,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return;
         }
         if (isUpdate) {
-          window.log.warn(
+          log.warn(
             `handleDataMessage: Received update transcript, but no existing entry for message ${message.idForLogging()}. Dropping.`
           );
 
@@ -2439,7 +2429,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return;
         }
         if (existingMessage) {
-          window.log.warn(
+          log.warn(
             `handleDataMessage: Received duplicate transcript for message ${message.idForLogging()}, but it was not an update transcript. Dropping.`
           );
 
@@ -2494,7 +2484,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               });
             } catch (error) {
               const errorText = error && error.stack ? error.stack : error;
-              window.log.error(
+              log.error(
                 `handleDataMessage: Failed to process group update for ${conversation.idForLogging()} as part of message ${message.idForLogging()}: ${errorText}`
               );
               throw error;
@@ -2525,7 +2515,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           !conversation.hasMember(ourConversationId) ||
           !conversation.hasMember(senderId))
       ) {
-        window.log.warn(
+        log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we or the sender are not a part of. Dropping.`
         );
         confirm();
@@ -2545,7 +2535,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversation.get('members') &&
         (conversation.get('left') || !conversation.hasMember(ourConversationId))
       ) {
-        window.log.warn(
+        log.warn(
           `Received message destined for group ${conversation.idForLogging()}, which we're not a part of. Dropping.`
         );
         confirm();
@@ -2555,7 +2545,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       // Because GroupV1 messages can now be multiplexed into GroupV2 conversations, we
       //   drop GroupV1 updates in GroupV2 groups.
       if (isV1GroupUpdate && isGroupV2(conversation.attributes)) {
-        window.log.warn(
+        log.warn(
           `Received GroupV1 update in GroupV2 conversation ${conversation.idForLogging()}. Dropping.`
         );
         confirm();
@@ -2615,7 +2605,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             LinkPreview.isLinkSafeToPreview(item.url)
         );
         if (preview.length < incomingPreview.length) {
-          window.log.info(
+          log.info(
             `${message.idForLogging()}: Eliminated ${
               preview.length - incomingPreview.length
             } previews with invalid urls'`
@@ -2705,9 +2695,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                     );
                   }
                 } catch (err) {
-                  window.log.info(
-                    'handleDataMessage: group avatar download failed'
-                  );
+                  log.info('handleDataMessage: group avatar download failed');
                 }
               }
 
@@ -2747,7 +2735,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
                 pendingGroupUpdate.avatarUpdated = true;
               } else {
-                window.log.info(
+                log.info(
                   'handleDataMessage: Group avatar hash matched; not replacing group avatar'
                 );
               }
@@ -2766,7 +2754,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 pendingGroupUpdate.joined = [...e164s];
               }
               if (conversation.get('left')) {
-                window.log.warn('re-added to a left group');
+                log.warn('re-added to a left group');
                 attributes.left = false;
                 conversation.set({ addedBy: message.getContactId() });
               }
@@ -2779,7 +2767,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               );
               if (!inGroup) {
                 const senderString = sender ? sender.idForLogging() : null;
-                window.log.info(
+                log.info(
                   `Got 'left' message from someone not in group: ${senderString}. Dropping.`
                 );
                 return;
@@ -2806,7 +2794,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           // message.set call and after GroupV1 processing to make sure all possible
           // properties are set before we determine that a message is empty.
           if (message.isEmpty()) {
-            window.log.info(
+            log.info(
               `handleDataMessage: Dropping empty message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
             );
             confirm();
@@ -2840,7 +2828,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             const shouldLogExpireTimerChange =
               isExpirationTimerUpdate(message.attributes) || expireTimer;
             if (shouldLogExpireTimerChange) {
-              window.log.info("Update conversation 'expireTimer'", {
+              log.info("Update conversation 'expireTimer'", {
                 id: conversation.idForLogging(),
                 expireTimer,
                 source: 'handleDataMessage',
@@ -2881,7 +2869,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             const profileKey = dataMessage.profileKey.toString('base64');
             if (
               source === window.textsecure.storage.user.getNumber() ||
-              sourceUuid === window.textsecure.storage.user.getUuid()
+              sourceUuid ===
+                window.textsecure.storage.user.getUuid()?.toString()
             ) {
               conversation.set({ profileSharing: true });
             } else if (isDirectConversation(conversation.attributes)) {
@@ -2907,7 +2896,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             isTapToView(message.attributes) &&
             !message.isValidTapToView()
           ) {
-            window.log.warn(
+            log.warn(
               `Received tap to view message ${message.idForLogging()} with invalid data. Erasing contents.`
             );
             message.set({
@@ -2948,7 +2937,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ) {
           if (window.attachmentDownloadQueue) {
             window.attachmentDownloadQueue.unshift(message);
-            window.log.info(
+            log.info(
               'Adding to attachmentDownloadQueue',
               message.get('sent_at')
             );
@@ -2960,14 +2949,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         const isFirstRun = true;
         await this.modifyTargetMessage(conversation, isFirstRun);
 
-        window.log.info(
+        log.info(
           'handleDataMessage: Batching save for',
           message.get('sent_at')
         );
         this.saveAndNotify(conversation, confirm);
       } catch (error) {
         const errorForLog = error && error.stack ? error.stack : error;
-        window.log.error(
+        log.error(
           'handleDataMessage',
           message.idForLogging(),
           'error:',
@@ -2984,7 +2973,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   ): Promise<void> {
     await window.Signal.Util.saveNewMessageBatcher.add(this.attributes);
 
-    window.log.info('Message saved', this.get('sent_at'));
+    log.info('Message saved', this.get('sent_at'));
 
     conversation.trigger('newmessage', this);
 
@@ -3056,7 +3045,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ) => {
           const oldSendState = getOwn(result, destinationConversationId);
           if (!oldSendState) {
-            window.log.warn(
+            log.warn(
               `Got a receipt for a conversation (${destinationConversationId}), but we have no record of sending to them`
             );
             return result;
@@ -3176,7 +3165,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
 
     if (changed && !isFirstRun) {
-      window.log.info(
+      log.info(
         `modifyTargetMessage/${this.idForLogging()}: Changes in second run; saving.`
       );
       await window.Signal.Data.saveMessage(this.attributes);
@@ -3218,7 +3207,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     let oldReaction: ReactionAttributesType | undefined;
     if (reaction.get('remove')) {
-      window.log.info('Removing reaction for message', messageId);
+      log.info('Removing reaction for message', messageId);
       const newReactions = reactions.filter(
         re =>
           re.emoji !== reaction.get('emoji') ||
@@ -3239,7 +3228,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         targetTimestamp: reaction.get('targetTimestamp'),
       });
     } else {
-      window.log.info('Adding reaction for message', messageId);
+      log.info('Adding reaction for message', messageId);
       const newReactions = reactions.filter(
         re => re.fromId !== reaction.get('fromId')
       );
@@ -3280,7 +3269,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     const newCount = (this.get('reactions') || []).length;
-    window.log.info(
+    log.info(
       `Done processing reaction for message ${messageId}. Went from ${count} to ${newCount} reactions.`
     );
 
@@ -3295,7 +3284,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     del: typeof window.WhatIsThis,
     shouldPersist = true
   ): Promise<void> {
-    window.log.info('Handling DOE.', {
+    log.info('Handling DOE.', {
       fromId: del.get('fromId'),
       targetSentTimestamp: del.get('targetSentTimestamp'),
       messageServerTimestamp: this.get('serverTimestamp'),

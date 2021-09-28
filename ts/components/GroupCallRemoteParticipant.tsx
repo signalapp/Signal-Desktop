@@ -22,7 +22,7 @@ import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
-import { useIntersectionObserver } from '../util/hooks';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_SIZE } from '../calling/constants';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
@@ -249,14 +249,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
                 <Intl
                   i18n={i18n}
                   id="calling__you-have-blocked"
-                  components={[
-                    <ContactName
-                      key="name"
-                      profileName={profileName}
-                      title={title}
-                      i18n={i18n}
-                    />,
-                  ]}
+                  components={[<ContactName key="name" title={title} />]}
                 />
               </div>
             }
@@ -283,9 +276,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             >
               <ContactName
                 module="module-ongoing-call__group-call-remote-participant--contact-name"
-                profileName={profileName}
                 title={title}
-                i18n={i18n}
               />
             </div>
           )}

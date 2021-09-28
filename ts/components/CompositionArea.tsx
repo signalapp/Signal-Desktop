@@ -50,39 +50,42 @@ export type CompositionAPIType = {
   resetEmojiResults: InputApi['resetEmojiResults'];
 };
 
-export type OwnProps = {
-  readonly i18n: LocalizerType;
-  readonly areWePending?: boolean;
-  readonly areWePendingApproval?: boolean;
-  readonly announcementsOnly?: boolean;
-  readonly areWeAdmin?: boolean;
-  readonly groupAdmins: Array<ConversationType>;
-  readonly groupVersion?: 1 | 2;
-  readonly isGroupV1AndDisabled?: boolean;
-  readonly isMissingMandatoryProfileSharing?: boolean;
-  readonly isSMSOnly?: boolean;
-  readonly isFetchingUUID?: boolean;
-  readonly left?: boolean;
-  readonly messageRequestsEnabled?: boolean;
-  readonly acceptedMessageRequest?: boolean;
-  readonly compositionApi?: React.MutableRefObject<CompositionAPIType>;
-  readonly micCellEl?: HTMLElement;
-  readonly draftAttachments: Array<AttachmentType>;
-  readonly shouldSendHighQualityAttachments: boolean;
+export type OwnProps = Readonly<{
+  i18n: LocalizerType;
+  areWePending?: boolean;
+  areWePendingApproval?: boolean;
+  announcementsOnly?: boolean;
+  areWeAdmin?: boolean;
+  groupAdmins: Array<ConversationType>;
+  groupVersion?: 1 | 2;
+  isGroupV1AndDisabled?: boolean;
+  isMissingMandatoryProfileSharing?: boolean;
+  isSMSOnly?: boolean;
+  isFetchingUUID?: boolean;
+  left?: boolean;
+  messageRequestsEnabled?: boolean;
+  acceptedMessageRequest?: boolean;
+  compositionApi?: React.MutableRefObject<CompositionAPIType>;
+  micCellEl?: HTMLElement;
+  draftAttachments: ReadonlyArray<AttachmentType>;
+  shouldSendHighQualityAttachments: boolean;
   onChooseAttachment(): unknown;
   onAddAttachment(): unknown;
   onClickAttachment(): unknown;
   onCloseAttachment(): unknown;
   onClearAttachments(): unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
-  readonly quotedMessageProps?: QuoteProps;
+  quotedMessageProps?: Omit<
+    QuoteProps,
+    'i18n' | 'onClick' | 'onClose' | 'withContentAbove'
+  >;
   onClickQuotedMessage(): unknown;
   setQuotedMessage(message: undefined): unknown;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewWithDomain;
   onCloseLinkPreview(): unknown;
   openConversation(conversationId: string): unknown;
-};
+}>;
 
 export type Props = Pick<
   CompositionInputProps,
@@ -184,14 +187,11 @@ export const CompositionArea = ({
   isMissingMandatoryProfileSharing,
   left,
   messageRequestsEnabled,
-  name,
   onAccept,
   onBlock,
   onBlockAndReportSpam,
   onDelete,
   onUnblock,
-  phoneNumber,
-  profileName,
   title,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
@@ -422,9 +422,6 @@ export const CompositionArea = ({
         onUnblock={onUnblock}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );
@@ -475,9 +472,6 @@ export const CompositionArea = ({
         onBlockAndReportSpam={onBlockAndReportSpam}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );

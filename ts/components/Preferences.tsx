@@ -33,6 +33,7 @@ import {
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
 } from '../util/expirationTimer';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -280,21 +281,7 @@ export const Preferences = ({
     doneRendering();
   }, [doneRendering]);
 
-  useEffect(() => {
-    const handler = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        closeSettings();
-
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    };
-    document.addEventListener('keydown', handler);
-
-    return () => {
-      document.removeEventListener('keydown', handler);
-    };
-  }, [closeSettings]);
+  useEscapeHandling(closeSettings);
 
   const onZoomSelectChange = useCallback(
     (value: string) => {

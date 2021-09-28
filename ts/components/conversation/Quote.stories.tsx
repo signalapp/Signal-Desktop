@@ -20,7 +20,7 @@ import {
 } from '../../types/MIME';
 import { Props, Quote } from './Quote';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
@@ -66,6 +66,7 @@ const defaultMessageProps: MessagesProps = {
   reactToMessage: action('default--reactToMessage'),
   readStatus: ReadStatus.Read,
   renderEmojiPicker: () => <div />,
+  renderReactionPicker: () => <div />,
   renderAudioAttachment: () => <div>*AudioAttachment*</div>,
   replyToMessage: action('default--replyToMessage'),
   retrySend: action('default--retrySend'),
@@ -88,9 +89,6 @@ const defaultMessageProps: MessagesProps = {
 };
 
 const renderInMessage = ({
-  authorName,
-  authorPhoneNumber,
-  authorProfileName,
   authorTitle,
   conversationColor,
   isFromMe,
@@ -104,9 +102,6 @@ const renderInMessage = ({
     conversationColor,
     quote: {
       authorId: 'an-author',
-      authorName,
-      authorPhoneNumber,
-      authorProfileName,
       authorTitle,
       conversationColor,
       isFromMe,
@@ -128,15 +123,6 @@ const renderInMessage = ({
 };
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  authorName: text('authorName', overrideProps.authorName || ''),
-  authorPhoneNumber: text(
-    'authorPhoneNumber',
-    overrideProps.authorPhoneNumber || ''
-  ),
-  authorProfileName: text(
-    'authorProfileName',
-    overrideProps.authorProfileName || ''
-  ),
   authorTitle: text('authorTitle', overrideProps.authorTitle || ''),
   conversationColor: overrideProps.conversationColor || 'forest',
   doubleCheckMissingQuoteReference:

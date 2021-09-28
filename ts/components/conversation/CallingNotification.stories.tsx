@@ -5,10 +5,11 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { CallMode } from '../../types/Calling';
 import { CallingNotification } from './CallingNotification';
+import type { CallingNotificationType } from '../../util/callingNotification';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -19,6 +20,7 @@ const getCommonProps = () => ({
   i18n,
   messageId: 'fake-message-id',
   messageSizeChanged: action('messageSizeChanged'),
+  nextItem: undefined,
   returnToActiveCall: action('returnToActiveCall'),
   startCallingLobby: action('startCallingLobby'),
 });
@@ -44,6 +46,64 @@ const getCommonProps = () => ({
       ));
     });
   });
+});
+
+story.add('Two incoming direct calls back-to-back', () => {
+  const call1: CallingNotificationType = {
+    callMode: CallMode.Direct,
+    wasIncoming: true,
+    wasVideoCall: true,
+    wasDeclined: false,
+    acceptedTime: 1618894800000,
+    endedTime: 1618894800000,
+  };
+  const call2: CallingNotificationType = {
+    callMode: CallMode.Direct,
+    wasIncoming: true,
+    wasVideoCall: false,
+    wasDeclined: false,
+    endedTime: 1618894800000,
+  };
+
+  return (
+    <>
+      <CallingNotification
+        {...getCommonProps()}
+        {...call1}
+        nextItem={{ type: 'callHistory', data: call2 }}
+      />
+      <CallingNotification {...getCommonProps()} {...call2} />
+    </>
+  );
+});
+
+story.add('Two outgoing direct calls back-to-back', () => {
+  const call1: CallingNotificationType = {
+    callMode: CallMode.Direct,
+    wasIncoming: false,
+    wasVideoCall: true,
+    wasDeclined: false,
+    acceptedTime: 1618894800000,
+    endedTime: 1618894800000,
+  };
+  const call2: CallingNotificationType = {
+    callMode: CallMode.Direct,
+    wasIncoming: false,
+    wasVideoCall: false,
+    wasDeclined: false,
+    endedTime: 1618894800000,
+  };
+
+  return (
+    <>
+      <CallingNotification
+        {...getCommonProps()}
+        {...call1}
+        nextItem={{ type: 'callHistory', data: call2 }}
+      />
+      <CallingNotification {...getCommonProps()} {...call2} />
+    </>
+  );
 });
 
 [

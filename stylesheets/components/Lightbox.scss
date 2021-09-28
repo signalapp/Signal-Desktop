@@ -98,6 +98,11 @@
     width: auto;
   }
 
+  &__object--container--zoomed &__object {
+    width: 100%;
+    height: 100%;
+  }
+
   &__unsupported {
     @include button-reset;
     flex-grow: 1;

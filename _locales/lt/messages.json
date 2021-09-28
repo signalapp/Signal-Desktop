@@ -415,6 +415,20 @@
         "message": "Gali būti, kad šie žmonės iš naujo įdiegė programėlę ar pakeitė įrenginį. Patvirtinkite savo saugumo numerį su kiekvienu iš jų, kad užtikrintumėte privatumą.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Siųsti laukiančią žinutę",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Siųsti laukiančias žinutes: $count$",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Jūsų saugumo numeris su $name1$ pasikeitė. Tai gali reikšti, kad kažkas bando perimti jūsų susirašinėjimą arba, kad $name2$, tiesiog, iš naujo įdiegė Signal. Jūs, tikriausiai, norėtumėte patvirtinti savo saugumo numerį su šiuo adresatu.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -3165,11 +3179,15 @@
         "message": "Norėdami naudoti lipdukų paketo kūrėją, nusistatykite Signal savo telefone ir staliniame kompiuteryje",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Šalinti reakciją",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Nepavyko išsiųsti reakcijos. Bandykite dar kartą.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Daugiau",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3419,25 +3437,7 @@
     },
     "member-of-more-than-3-groups": {
         "message": "$group1$, $group2$, $group3$ ir dar $remainingCount$ grupių narys",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
-        "placeholders": {
-            "group1": {
-                "content": "$1",
-                "example": "NYC Rock Climbers"
-            },
-            "group2": {
-                "content": "$2",
-                "example": "Dinner Party"
-            },
-            "group3": {
-                "content": "$3",
-                "example": "Friends 🌿"
-            },
-            "remainingCount": {
-                "content": "$4",
-                "example": "3"
-            }
-        }
+        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
     },
     "ConversationHero--membership-added": {
         "message": "$name$ pridėjo jus į grupę.",
@@ -5641,15 +5641,33 @@
     },
     "selectContact": {
         "message": "Pažymėti adresatą",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
         "message": "Nebežymėti adresato",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
         "message": "Nepavyksta pažymėti adresato",
-        "description": "The label for contact checkboxes that are disabled"
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Jau narys",
@@ -6155,7 +6173,7 @@
     },
     "Preferences__button--chats": {
         "message": "Pokalbiai",
-        "description": "Button to switch the settings view"
+        "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
         "message": "Skambučiai",
@@ -6279,6 +6297,14 @@
         "message": "Automatiškai atsisiųsti atnaujinimus",
         "description": "Label for checkbox for the auto download updates setting"
     },
+    "Preferences__enable-notifications": {
+        "message": "Įjungti pranešimus",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Įrenginiai",
+        "description": "Label for Device list in call settings pane"
+    },
     "DialogUpdate--version-available": {
         "message": "Yra prieinamas atnaujinimas į versiją $version$",
         "description": "Tooltip for new update available",
@@ -6324,5 +6350,13 @@
     "WhatsNew__v5.16--3": {
         "message": "Jei skambučio metu užvesite pelę virš mygtukų, jie išliks matomi, o ne išnyks.  Niekas negali pasislėpti nuo jūsų žvilgsnio, netgi šie mygtukai!",
         "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Išbandykite naują „žinučių siuntimo“ leidimą, kad apribotumėte, kas gali siųsti žinutes grupėje. Puikiai tinka organizuojant renginį, skelbiant apie įvykius ar dalinantis džiaugsmais. Norint, kad nustatymas būtų rodomas, visi dalyviai privalo naudoti naujausią Signal versiją.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Dabar, galite siųsti žinutes bet kur ir bet kada: lėktuve, tunelyje, ar tą liūdną akimirką, kai dingo internetas. Galų gale jos bus išsiųstos; dabar, 24 valandų laikotarpyje bus bandoma išsiųsti žinutes.",
+        "description": "Release notes for v5.17"
     }
 }

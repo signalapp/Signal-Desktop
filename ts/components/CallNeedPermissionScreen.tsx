@@ -64,7 +64,7 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
         <Intl
           i18n={i18n}
           id="callNeedPermission"
-          components={[<ContactName i18n={i18n} title={title} />]}
+          components={[<ContactName title={title} />]}
         />
       </p>
 

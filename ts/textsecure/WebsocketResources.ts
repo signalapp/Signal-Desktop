@@ -34,10 +34,11 @@ import { strictAssert } from '../util/assert';
 import { normalizeNumber } from '../util/normalizeNumber';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
-const MAX_MESSAGE_SIZE = 64 * 1024;
+const MAX_MESSAGE_SIZE = 256 * 1024;
 
 export class IncomingWebSocketRequest {
   private readonly id: Long | number;
@@ -143,7 +144,7 @@ export default class WebSocketResource extends EventTarget {
       socket.on('message', () => keepalive.reset());
       socket.on('close', () => keepalive.stop());
       socket.on('error', (error: Error) => {
-        window.log.warn(
+        log.warn(
           'WebSocketResource: WebSocket error',
           Errors.toLogFormat(error)
         );
@@ -153,7 +154,7 @@ export default class WebSocketResource extends EventTarget {
     socket.on('close', (code, reason) => {
       this.closed = true;
 
-      window.log.warn('WebSocketResource: Socket closed');
+      log.warn('WebSocketResource: Socket closed');
       this.dispatchEvent(new CloseEvent(code, reason || 'normal'));
     });
 
@@ -188,6 +189,10 @@ export default class WebSocketResource extends EventTarget {
         id,
       },
     }).finish();
+    strictAssert(
+      bytes.length <= MAX_MESSAGE_SIZE,
+      'WebSocket request byte size exceeded'
+    );
 
     strictAssert(!this.shuttingDown, 'Cannot send request, shutting down');
     this.addActive(id);
@@ -210,10 +215,6 @@ export default class WebSocketResource extends EventTarget {
       });
     });
 
-    strictAssert(
-      bytes.length <= MAX_MESSAGE_SIZE,
-      'WebSocket request byte size exceeded'
-    );
     this.socket.sendBytes(Buffer.from(bytes));
 
     return promise;
@@ -231,7 +232,7 @@ export default class WebSocketResource extends EventTarget {
       return;
     }
 
-    window.log.info('WebSocketResource.close()');
+    log.info('WebSocketResource.close()');
     if (this.keepalive) {
       this.keepalive.stop();
     }
@@ -248,9 +249,7 @@ export default class WebSocketResource extends EventTarget {
         return;
       }
 
-      window.log.warn(
-        'WebSocketResource: Dispatching our own socket close event'
-      );
+      log.warn('WebSocketResource: Dispatching our own socket close event');
       this.dispatchEvent(new CloseEvent(code, reason || 'normal'));
     }, 5000);
   }
@@ -261,20 +260,20 @@ export default class WebSocketResource extends EventTarget {
     }
 
     if (this.activeRequests.size === 0) {
-      window.log.info('WebSocketResource: no active requests, closing');
+      log.info('WebSocketResource: no active requests, closing');
       this.close(3000, 'Shutdown');
       return;
     }
 
     this.shuttingDown = true;
 
-    window.log.info('WebSocketResource: shutting down');
+    log.info('WebSocketResource: shutting down');
     this.shutdownTimer = setTimeout(() => {
       if (this.closed) {
         return;
       }
 
-      window.log.warn('WebSocketResource: Failed to shutdown gracefully');
+      log.warn('WebSocketResource: Failed to shutdown gracefully');
       this.close(3000, 'Shutdown');
     }, THIRTY_SECONDS);
   }
@@ -307,7 +306,7 @@ export default class WebSocketResource extends EventTarget {
       );
 
       if (this.shuttingDown) {
-        incomingRequest.respond(500, 'Shutting down');
+        incomingRequest.respond(-1, 'Shutting down');
         return;
       }
 
@@ -343,7 +342,7 @@ export default class WebSocketResource extends EventTarget {
 
     for (const resolve of outgoing.values()) {
       resolve({
-        status: 500,
+        status: -1,
         message: 'Connection closed',
         response: undefined,
         headers: [],
@@ -357,7 +356,7 @@ export default class WebSocketResource extends EventTarget {
 
   private removeActive(request: IncomingWebSocketRequest | number): void {
     if (!this.activeRequests.has(request)) {
-      window.log.warn('WebSocketResource: removing unknown request');
+      log.warn('WebSocketResource: removing unknown request');
       return;
     }
 
@@ -374,7 +373,7 @@ export default class WebSocketResource extends EventTarget {
       this.shutdownTimer = undefined;
     }
 
-    window.log.info('WebSocketResource: shutdown complete');
+    log.info('WebSocketResource: shutdown complete');
     this.close(3000, 'Shutdown');
   }
 }
@@ -422,7 +421,7 @@ class KeepAlive {
     this.clearTimers();
 
     if (isOlderThan(this.lastAliveAt, MAX_KEEPALIVE_INTERVAL_MS)) {
-      window.log.info('WebSocketResources: disconnecting due to stale state');
+      log.info('WebSocketResources: disconnecting due to stale state');
       this.wsr.close(
         3001,
         `Last keepalive request was too far in the past: ${this.lastAliveAt}`
@@ -433,7 +432,7 @@ class KeepAlive {
     if (this.disconnect) {
       // automatically disconnect if server doesn't ack
       this.disconnectTimer = setTimeout(() => {
-        window.log.info('WebSocketResources: disconnecting due to no response');
+        log.info('WebSocketResources: disconnecting due to no response');
         this.clearTimers();
 
         this.wsr.close(3001, 'No response to keepalive request');
@@ -442,7 +441,7 @@ class KeepAlive {
       this.reset();
     }
 
-    window.log.info('WebSocketResources: Sending a keepalive message');
+    log.info('WebSocketResources: Sending a keepalive message');
     const { status } = await this.wsr.sendRequest({
       verb: 'GET',
       path: this.path,

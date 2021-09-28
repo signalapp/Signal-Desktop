@@ -13,6 +13,7 @@ import {
 import { ClientZkGroupCipher } from 'zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
+import * as log from './logging/log';
 import {
   getCredentialsForToday,
   GROUP_CREDENTIALS_KEY,
@@ -400,10 +401,7 @@ async function uploadAvatar(
       key,
     };
   } catch (error) {
-    window.log.warn(
-      `uploadAvatar/${logId} Failed to upload avatar`,
-      error.stack
-    );
+    log.warn(`uploadAvatar/${logId} Failed to upload avatar`, error.stack);
     throw error;
   }
 }
@@ -550,19 +548,12 @@ function buildGroupProto(
     );
   }
 
-  const me = window.ConversationController.get(ourConversationId);
-  if (!me) {
-    throw new Error(
-      `buildGroupProto/${logId}: unable to find our own conversation!`
-    );
-  }
+  const ourUuid = window.storage.user.getCheckedUuid();
 
-  const ourUuid = me.get('uuid');
-  if (!ourUuid) {
-    throw new Error(`buildGroupProto/${logId}: unable to find our own uuid!`);
-  }
-
-  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+  const ourUuidCipherTextBuffer = encryptUuid(
+    clientZkGroupCipher,
+    ourUuid.toString()
+  );
 
   proto.membersPendingProfileKey = (attributes.pendingMembersV2 || []).map(
     item => {
@@ -627,15 +618,11 @@ export async function buildAddMembersChange(
   );
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
 
-  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
-  const ourConversation = window.ConversationController.get(ourConversationId);
-  const ourUuid = ourConversation?.get('uuid');
-  if (!ourUuid) {
-    throw new Error(
-      `buildAddMembersChange/${logId}: unable to find our own UUID!`
-    );
-  }
-  const ourUuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, ourUuid);
+  const ourUuid = window.storage.user.getCheckedUuid();
+  const ourUuidCipherTextBuffer = encryptUuid(
+    clientZkGroupCipher,
+    ourUuid.toString()
+  );
 
   const now = Date.now();
 
@@ -1259,20 +1246,20 @@ export async function modifyGroupV2({
   const MAX_ATTEMPTS = 5;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
-    window.log.info(`modifyGroupV2/${idLog}: Starting attempt ${attempt}`);
+    log.info(`modifyGroupV2/${idLog}: Starting attempt ${attempt}`);
     try {
       // eslint-disable-next-line no-await-in-loop
       await window.waitForEmptyEventQueue();
 
-      window.log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
+      log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
 
       // eslint-disable-next-line no-await-in-loop
       await conversation.queueJob('modifyGroupV2', async () => {
-        window.log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
+        log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
 
         const actions = await createGroupChange();
         if (!actions) {
-          window.log.warn(
+          log.warn(
             `modifyGroupV2/${idLog}: No change actions. Returning early.`
           );
           return;
@@ -1357,20 +1344,20 @@ export async function modifyGroupV2({
       });
 
       // If we've gotten here with no error, we exit!
-      window.log.info(
+      log.info(
         `modifyGroupV2/${idLog}: Update complete, with attempt ${attempt}!`
       );
       break;
     } catch (error) {
       if (error.code === 409 && Date.now() <= timeoutTime) {
-        window.log.info(
+        log.info(
           `modifyGroupV2/${idLog}: Conflict while updating. Trying again...`
         );
 
         // eslint-disable-next-line no-await-in-loop
         await conversation.fetchLatestGroupV2Data({ force: true });
       } else if (error.code === 409) {
-        window.log.error(
+        log.error(
           `modifyGroupV2/${idLog}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.
@@ -1378,9 +1365,7 @@ export async function modifyGroupV2({
         throw error;
       } else {
         const errorString = error && error.stack ? error.stack : error;
-        window.log.error(
-          `modifyGroupV2/${idLog}: Error updating: ${errorString}`
-        );
+        log.error(`modifyGroupV2/${idLog}: Error updating: ${errorString}`);
         throw error;
       }
     }
@@ -1407,7 +1392,7 @@ export function deriveGroupFields(masterKey: Uint8Array): GroupFields {
     return cached;
   }
 
-  window.log.info('deriveGroupFields: cache miss');
+  log.info('deriveGroupFields: cache miss');
 
   const secretParams = deriveGroupSecretParams(masterKey);
   const publicParams = deriveGroupPublicParams(secretParams);
@@ -1459,7 +1444,7 @@ async function makeRequestWithTemporalRetry<T>({
     return await request(sender, todayOptions);
   } catch (todayError) {
     if (todayError.code === TEMPORAL_AUTH_REJECTED_CODE) {
-      window.log.warn(
+      log.warn(
         `makeRequestWithTemporalRetry/${logId}: Trying again with tomorrow's credentials`
       );
       const tomorrowOptions = getGroupCredentials({
@@ -1668,7 +1653,7 @@ export async function createGroupV2({
         hash: uploadedAvatar.hash,
       };
     } catch (err) {
-      window.log.warn(
+      log.warn(
         `createGroupV2/${logId}: avatar failed to save to disk. Continuing on`
       );
     }
@@ -1727,10 +1712,12 @@ export async function createGroupV2({
     timestamp,
   });
 
+  const ourUuid = window.storage.user.getCheckedUuid();
+
   const createdTheGroupMessage: MessageAttributesType = {
     ...generateBasicMessage(),
     type: 'group-v2-change',
-    sourceUuid: conversation.ourUuid,
+    sourceUuid: ourUuid.toString(),
     conversationId: conversation.id,
     received_at: window.Signal.Util.incrementMessageCounter(),
     received_at_ms: timestamp,
@@ -1762,7 +1749,7 @@ export async function hasV1GroupBeenMigrated(
   const logId = conversation.idForLogging();
   const isGroupV1 = getIsGroupV1(conversation.attributes);
   if (!isGroupV1) {
-    window.log.warn(
+    log.warn(
       `checkForGV2Existence/${logId}: Called for non-GroupV1 conversation!`
     );
     return false;
@@ -1896,21 +1883,21 @@ export async function getGroupMigrationMembers(
           );
         }
         if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_ADD) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_ADD flag`
           );
           return null;
         }
 
         if (!contact.get('uuid')) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - missing uuid for ${e164}, skipping.`
           );
           return null;
         }
 
         if (!contact.get('profileKey')) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - missing profileKey for member ${e164}, skipping.`
           );
           return null;
@@ -1930,19 +1917,19 @@ export async function getGroupMigrationMembers(
 
         capabilities = contact.get('capabilities');
         if (!capabilities || !capabilities.gv2) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv2 capability, skipping.`
           );
           return null;
         }
         if (!capabilities || !capabilities['gv1-migration']) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - member ${e164} is missing gv1-migration capability, skipping.`
           );
           return null;
         }
         if (!contact.get('profileKeyCredential')) {
-          window.log.warn(
+          log.warn(
             `getGroupMigrationMembers/${logId}: membersV2 - no profileKeyCredential for ${e164}, skipping.`
           );
           return null;
@@ -1983,7 +1970,7 @@ export async function getGroupMigrationMembers(
       }
 
       if (!isMe(contact.attributes) && window.GV2_MIGRATION_DISABLE_INVITE) {
-        window.log.warn(
+        log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - skipping ${e164} due to GV2_MIGRATION_DISABLE_INVITE flag`
         );
         droppedGV2MemberIds.push(conversationId);
@@ -1991,7 +1978,7 @@ export async function getGroupMigrationMembers(
       }
 
       if (!contact.get('uuid')) {
-        window.log.warn(
+        log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - missing uuid for ${e164}, skipping.`
         );
         droppedGV2MemberIds.push(conversationId);
@@ -2000,14 +1987,14 @@ export async function getGroupMigrationMembers(
 
       const capabilities = contact.get('capabilities');
       if (!capabilities || !capabilities.gv2) {
-        window.log.warn(
+        log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv2 capability, skipping.`
         );
         droppedGV2MemberIds.push(conversationId);
         return null;
       }
       if (!capabilities || !capabilities['gv1-migration']) {
-        window.log.warn(
+        log.warn(
           `getGroupMigrationMembers/${logId}: pendingMembersV2 - member ${e164} is missing gv1-migration capability, skipping.`
         );
         droppedGV2MemberIds.push(conversationId);
@@ -2071,7 +2058,7 @@ export async function initiateMigrationToGroupV2(
 
       const groupId = Bytes.toBase64(fields.id);
       const logId = `groupv2(${groupId})`;
-      window.log.info(
+      log.info(
         `initiateMigrationToGroupV2/${logId}: Migrating from ${conversation.idForLogging()}`
       );
 
@@ -2175,7 +2162,7 @@ export async function initiateMigrationToGroupV2(
           request: (sender, options) => sender.createGroup(groupProto, options),
         });
       } catch (error) {
-        window.log.error(
+        log.error(
           `initiateMigrationToGroupV2/${logId}: Error creating group:`,
           error.stack
         );
@@ -2215,7 +2202,7 @@ export async function initiateMigrationToGroupV2(
 
     const alreadyMigrated = await hasV1GroupBeenMigrated(conversation);
     if (!alreadyMigrated) {
-      window.log.error(
+      log.error(
         `initiateMigrationToGroupV2/${logId}: Group has not already been migrated, re-throwing error`
       );
       throw error;
@@ -2324,7 +2311,7 @@ export async function wrapWithSyncMessageSend({
   }
 
   if (window.ConversationController.areWePrimaryDevice()) {
-    window.log.warn(
+    log.warn(
       `wrapWithSyncMessageSend/${logId}: We are primary device; not sync message`
     );
     return;
@@ -2358,7 +2345,7 @@ export async function waitThenRespondToGroupV2Migration(
       // And finally try to migrate the group
       await respondToGroupV2Migration(options);
     } catch (error) {
-      window.log.error(
+      log.error(
         `waitThenRespondToGroupV2Migration/${conversation.idForLogging()}: respondToGroupV2Migration failure:`,
         error && error.stack ? error.stack : error
       );
@@ -2429,7 +2416,7 @@ export async function joinGroupV2ViaLinkAndMigrate({
 
   const groupId = Bytes.toBase64(fields.id);
   const logId = idForLogging(groupId);
-  window.log.info(
+  log.info(
     `joinGroupV2ViaLinkAndMigrate/${logId}: Migrating from ${conversation.idForLogging()}`
   );
 
@@ -2527,7 +2514,7 @@ export async function respondToGroupV2Migration({
 
   const groupId = Bytes.toBase64(fields.id);
   const logId = idForLogging(groupId);
-  window.log.info(
+  log.info(
     `respondToGroupV2Migration/${logId}: Migrating from ${conversation.idForLogging()}`
   );
 
@@ -2576,7 +2563,7 @@ export async function respondToGroupV2Migration({
     firstGroupState = response?.changes?.groupChanges?.[0]?.groupState;
   } catch (error) {
     if (error.code === GROUP_ACCESS_DENIED_CODE) {
-      window.log.info(
+      log.info(
         `respondToGroupV2Migration/${logId}: Failed to access log endpoint; fetching full group state`
       );
       try {
@@ -2588,7 +2575,7 @@ export async function respondToGroupV2Migration({
         });
       } catch (secondError) {
         if (secondError.code === GROUP_ACCESS_DENIED_CODE) {
-          window.log.info(
+          log.info(
             `respondToGroupV2Migration/${logId}: Failed to access state endpoint; user is no longer part of group`
           );
 
@@ -2732,7 +2719,7 @@ export async function waitThenMaybeUpdateGroup(
   const { conversation } = options;
 
   if (conversation.isBlocked()) {
-    window.log.info(
+    log.info(
       `waitThenMaybeUpdateGroup: Group ${conversation.idForLogging()} is blocked, returning early`
     );
     return;
@@ -2748,7 +2735,7 @@ export async function waitThenMaybeUpdateGroup(
     isMoreRecentThan(lastSuccessfulGroupFetch, FIVE_MINUTES)
   ) {
     const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
-    window.log.info(
+    log.info(
       `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
         `was fetched recently, skipping for ${waitTime}ms`
     );
@@ -2763,7 +2750,7 @@ export async function waitThenMaybeUpdateGroup(
 
       conversation.lastSuccessfulGroupFetch = Date.now();
     } catch (error) {
-      window.log.error(
+      log.error(
         `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,
         error && error.stack ? error.stack : error
       );
@@ -2801,7 +2788,7 @@ export async function maybeUpdateGroup(
       { viaSync }
     );
   } catch (error) {
-    window.log.error(
+    log.error(
       `maybeUpdateGroup/${logId}: Failed to update group:`,
       error && error.stack ? error.stack : error
     );
@@ -2924,7 +2911,7 @@ async function getGroupUpdates({
 }): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
 
-  window.log.info(`getGroupUpdates/${logId}: Starting...`);
+  log.info(`getGroupUpdates/${logId}: Starting...`);
 
   const currentRevision = group.revision;
   const isFirstFetch = !isNumber(group.revision);
@@ -2945,7 +2932,7 @@ async function getGroupUpdates({
     isNumber(newRevision) &&
     (isInitialCreationMessage || weAreAwaitingApproval || isOneVersionUp)
   ) {
-    window.log.info(`getGroupUpdates/${logId}: Processing just one change`);
+    log.info(`getGroupUpdates/${logId}: Processing just one change`);
     const groupChangeBuffer = Bytes.fromBase64(groupChangeBase64);
     const groupChange = Proto.GroupChange.decode(groupChangeBuffer);
     const isChangeSupported =
@@ -2961,7 +2948,7 @@ async function getGroupUpdates({
       });
     }
 
-    window.log.info(
+    log.info(
       `getGroupUpdates/${logId}: Failing over; group change unsupported`
     );
   }
@@ -2978,12 +2965,12 @@ async function getGroupUpdates({
     } catch (error) {
       if (error.code === TEMPORAL_AUTH_REJECTED_CODE) {
         // We will fail over to the updateGroupViaState call below
-        window.log.info(
+        log.info(
           `getGroupUpdates/${logId}: Temporal credential failure, now fetching full group state`
         );
       } else if (error.code === GROUP_ACCESS_DENIED_CODE) {
         // We will fail over to the updateGroupViaState call below
-        window.log.info(
+        log.info(
           `getGroupUpdates/${logId}: Log access denied, now fetching full group state`
         );
       } else {
@@ -3000,7 +2987,7 @@ async function getGroupUpdates({
     });
   }
 
-  window.log.warn(
+  log.warn(
     `getGroupUpdates/${logId}: No processing was legal! Returning empty changeset.`
   );
   return {
@@ -3034,9 +3021,7 @@ async function updateGroupViaState({
     authCredentialBase64: groupCredentials.today.credential,
   };
   try {
-    window.log.info(
-      `updateGroupViaState/${logId}: Getting full group state...`
-    );
+    log.info(`updateGroupViaState/${logId}: Getting full group state...`);
     // We await this here so our try/catch below takes effect
     const result = await getCurrentGroupState(stateOptions);
 
@@ -3046,7 +3031,7 @@ async function updateGroupViaState({
       return generateLeftGroupChanges(group);
     }
     if (error.code === TEMPORAL_AUTH_REJECTED_CODE) {
-      window.log.info(
+      log.info(
         `updateGroupViaState/${logId}: Credential for today failed, failing over to tomorrow...`
       );
       try {
@@ -3129,7 +3114,7 @@ async function updateGroupViaLogs({
     authCredentialBase64: groupCredentials.today.credential,
   };
   try {
-    window.log.info(
+    log.info(
       `updateGroupViaLogs/${logId}: Getting group delta from ${group.revision} to ${newRevision} for group groupv2(${group.groupId})...`
     );
     const result = await getGroupDelta(deltaOptions);
@@ -3137,7 +3122,7 @@ async function updateGroupViaLogs({
     return result;
   } catch (error) {
     if (error.code === TEMPORAL_AUTH_REJECTED_CODE) {
-      window.log.info(
+      log.info(
         `updateGroupViaLogs/${logId}: Credential for today failed, failing over to tomorrow...`
       );
 
@@ -3162,7 +3147,7 @@ async function generateLeftGroupChanges(
   group: ConversationAttributesType
 ): Promise<UpdatesResultType> {
   const logId = idForLogging(group.groupId);
-  window.log.info(`generateLeftGroupChanges/${logId}: Starting...`);
+  log.info(`generateLeftGroupChanges/${logId}: Starting...`);
   const ourConversationId = window.ConversationController.getOurConversationId();
   if (!ourConversationId) {
     throw new Error(
@@ -3175,7 +3160,7 @@ async function generateLeftGroupChanges(
 
   try {
     if (masterKey && groupInviteLinkPassword) {
-      window.log.info(
+      log.info(
         `generateLeftGroupChanges/${logId}: Have invite link. Attempting to fetch latest revision with it.`
       );
       const preJoinInfo = await getPreJoinGroupInfo(
@@ -3186,7 +3171,7 @@ async function generateLeftGroupChanges(
       revision = preJoinInfo.version;
     }
   } catch (error) {
-    window.log.warn(
+    log.warn(
       'generateLeftGroupChanges: Failed to fetch latest revision via group link. Code:',
       error.code
     );
@@ -3332,7 +3317,7 @@ async function integrateGroupChanges({
       const { groupChange, groupState } = changeState;
 
       if (!groupChange && !groupState) {
-        window.log.warn(
+        log.warn(
           'integrateGroupChanges: item had neither groupState nor groupChange. Skipping.'
         );
         continue;
@@ -3355,7 +3340,7 @@ async function integrateGroupChanges({
         finalMessages.push(groupChangeMessages);
         finalMembers.push(members);
       } catch (error) {
-        window.log.error(
+        log.error(
           `integrateGroupChanges/${logId}: Failed to apply change log, continuing to apply remaining change logs.`,
           error && error.stack ? error.stack : error
         );
@@ -3491,7 +3476,7 @@ async function integrateGroupChange({
       );
     }
 
-    window.log.info(
+    log.info(
       `integrateGroupChange/${logId}: Applying full group state, from version ${group.revision} to ${groupState.version}`,
       {
         isChangePresent: Boolean(groupChange),
@@ -3531,7 +3516,7 @@ async function integrateGroupChange({
     );
   }
 
-  window.log.info(
+  log.info(
     `integrateGroupChange/${logId}: Applying group change actions, from version ${group.revision} to ${groupChangeActions.version}`
   );
 
@@ -3592,7 +3577,7 @@ async function getCurrentGroupState({
 
   const oldVersion = group.revision;
   const newVersion = decryptedGroupState.version;
-  window.log.info(
+  log.info(
     `getCurrentGroupState/${logId}: Applying full group state, from version ${oldVersion} to ${newVersion}.`
   );
   const { newAttributes, newProfileKeys } = await applyGroupState({
@@ -3840,7 +3825,7 @@ function extractDiffs({
         conversationId: lastPendingConversationId,
       });
     } else {
-      window.log.warn(
+      log.warn(
         `extractDiffs/${logId}: pendingCount was 1, no last conversationId available`
       );
     }
@@ -4025,7 +4010,7 @@ function extractDiffs({
 
   const result = compact([message, timerNotification]);
 
-  window.log.info(
+  log.info(
     `extractDiffs/${logId} complete, generated ${result.length} change messages`
   );
 
@@ -4099,7 +4084,7 @@ async function applyGroupChange({
     );
 
     if (members[conversation.id]) {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to add member failed; already in members.`
       );
       return;
@@ -4113,7 +4098,7 @@ async function applyGroupChange({
     };
 
     if (pendingMembers[conversation.id]) {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Removing newly-added member from pendingMembers.`
       );
       delete pendingMembers[conversation.id];
@@ -4153,7 +4138,7 @@ async function applyGroupChange({
     if (members[conversation.id]) {
       delete members[conversation.id];
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to remove member failed; was not in members.`
       );
     }
@@ -4216,13 +4201,13 @@ async function applyGroupChange({
     );
 
     if (members[conversation.id]) {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to add pendingMember failed; was already in members.`
       );
       return;
     }
     if (pendingMembers[conversation.id]) {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to add pendingMember failed; was already in pendingMembers.`
       );
       return;
@@ -4262,7 +4247,7 @@ async function applyGroupChange({
     if (pendingMembers[conversation.id]) {
       delete pendingMembers[conversation.id];
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to remove pendingMember failed; was not in pendingMembers.`
       );
     }
@@ -4289,13 +4274,13 @@ async function applyGroupChange({
     if (pendingMembers[conversation.id]) {
       delete pendingMembers[conversation.id];
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was not in pendingMembers.`
       );
     }
 
     if (members[conversation.id]) {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was already in members.`
       );
       return;
@@ -4319,7 +4304,7 @@ async function applyGroupChange({
     if (title && title.content === 'title') {
       result.name = title.title;
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Clearing group title due to missing data.`
       );
       result.name = undefined;
@@ -4344,7 +4329,7 @@ async function applyGroupChange({
       result.expireTimer =
         disappearingMessagesTimer.disappearingMessagesDuration;
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Clearing group expireTimer due to missing data.`
       );
       result.expireTimer = undefined;
@@ -4404,19 +4389,19 @@ async function applyGroupChange({
       );
 
       if (members[conversation.id]) {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in members.`
         );
         return;
       }
       if (pendingMembers[conversation.id]) {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingMembers.`
         );
         return;
       }
       if (pendingAdminApprovalMembers[conversation.id]) {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to add pending admin approval failed; was already in pendingAdminApprovalMembers.`
         );
         return;
@@ -4456,7 +4441,7 @@ async function applyGroupChange({
       if (pendingAdminApprovalMembers[conversation.id]) {
         delete pendingAdminApprovalMembers[conversation.id];
       } else {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to remove pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
         );
       }
@@ -4483,19 +4468,19 @@ async function applyGroupChange({
       if (pendingAdminApprovalMembers[conversation.id]) {
         delete pendingAdminApprovalMembers[conversation.id];
       } else {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to promote pendingAdminApproval failed; was not in pendingAdminApprovalMembers.`
         );
       }
       if (pendingMembers[conversation.id]) {
         delete pendingAdminApprovalMembers[conversation.id];
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Deleted pendingAdminApproval from pendingMembers.`
         );
       }
 
       if (members[conversation.id]) {
-        window.log.warn(
+        log.warn(
           `applyGroupChange/${logId}: Attempt to promote pendingMember failed; was already in members.`
         );
         return;
@@ -4526,7 +4511,7 @@ async function applyGroupChange({
     if (descriptionBytes && descriptionBytes.content === 'descriptionText') {
       result.description = descriptionBytes.descriptionText;
     } else {
-      window.log.warn(
+      log.warn(
         `applyGroupChange/${logId}: Clearing group description due to missing data.`
       );
       result.description = undefined;
@@ -4617,7 +4602,7 @@ export async function applyNewAvatar(
       }
     }
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `applyNewAvatar/${logId} Failed to handle avatar, clearing it`,
       error.stack
     );
@@ -4961,14 +4946,14 @@ function decryptGroupChange(
         'actions.sourceUuid'
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptGroupChange/${logId}: Unable to decrypt sourceUuid.`,
         error && error.stack ? error.stack : error
       );
     }
 
     if (!window.isValidGuid(result.sourceUuid)) {
-      window.log.warn(
+      log.warn(
         `decryptGroupChange/${logId}: Invalid sourceUuid. Clearing sourceUuid.`
       );
       result.sourceUuid = undefined;
@@ -5016,7 +5001,7 @@ function decryptGroupChange(
           'actions.deleteMembers.deletedUserId'
         );
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt deleteMembers.deletedUserId. Dropping member.`,
           error && error.stack ? error.stack : error
         );
@@ -5024,7 +5009,7 @@ function decryptGroupChange(
       }
 
       if (!window.isValidGuid(userId)) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Dropping deleteMember due to invalid userId`
         );
 
@@ -5050,7 +5035,7 @@ function decryptGroupChange(
           'actions.modifyMemberRoles.userId'
         );
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt modifyMemberRole.userId. Dropping member.`,
           error && error.stack ? error.stack : error
         );
@@ -5058,7 +5043,7 @@ function decryptGroupChange(
       }
 
       if (!window.isValidGuid(userId)) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Dropping modifyMemberRole due to invalid userId`
         );
 
@@ -5102,7 +5087,7 @@ function decryptGroupChange(
       }
 
       if (!window.isValidGuid(decryptedPresentation.uuid)) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Dropping modifyMemberProfileKey due to invalid userId`
         );
 
@@ -5160,7 +5145,7 @@ function decryptGroupChange(
           'actions.deletePendingMembers.deletedUserId'
         );
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt deletePendingMembers.deletedUserId. Dropping member.`,
           error && error.stack ? error.stack : error
         );
@@ -5168,7 +5153,7 @@ function decryptGroupChange(
       }
 
       if (!window.isValidGuid(userId)) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Dropping deletePendingMember due to invalid deletedUserId`
         );
 
@@ -5203,7 +5188,7 @@ function decryptGroupChange(
       }
 
       if (!window.isValidGuid(decryptedPresentation.uuid)) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Dropping modifyMemberProfileKey due to invalid userId`
         );
 
@@ -5232,7 +5217,7 @@ function decryptGroupChange(
           ),
         };
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt modifyTitle.title`,
           error && error.stack ? error.stack : error
         );
@@ -5259,7 +5244,7 @@ function decryptGroupChange(
           ),
         };
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt modifyDisappearingMessagesTimer.timer`,
           error && error.stack ? error.stack : error
         );
@@ -5332,7 +5317,7 @@ function decryptGroupChange(
           logId
         );
         if (!decrypted) {
-          window.log.warn(
+          log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt addPendingAdminApproval.added. Dropping member.`
           );
           return null;
@@ -5362,14 +5347,14 @@ function decryptGroupChange(
             'actions.deleteMemberPendingAdminApprovals'
           );
         } catch (error) {
-          window.log.warn(
+          log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt deletePendingApproval.deletedUserId. Dropping member.`,
             error && error.stack ? error.stack : error
           );
           return null;
         }
         if (!window.isValidGuid(userId)) {
-          window.log.warn(
+          log.warn(
             `decryptGroupChange/${logId}: Dropping deletePendingApproval due to invalid deletedUserId`
           );
 
@@ -5400,7 +5385,7 @@ function decryptGroupChange(
             'actions.promoteMemberPendingAdminApprovals.userId'
           );
         } catch (error) {
-          window.log.warn(
+          log.warn(
             `decryptGroupChange/${logId}: Unable to decrypt promoteAdminApproval.userId. Dropping member.`,
             error && error.stack ? error.stack : error
           );
@@ -5442,7 +5427,7 @@ function decryptGroupChange(
           ),
         };
       } catch (error) {
-        window.log.warn(
+        log.warn(
           `decryptGroupChange/${logId}: Unable to decrypt modifyDescription.descriptionBytes`,
           error && error.stack ? error.stack : error
         );
@@ -5535,7 +5520,7 @@ function decryptGroupState(
         decryptGroupBlob(clientZkGroupCipher, groupState.title)
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptGroupState/${logId}: Unable to decrypt title. Clearing it.`,
         error && error.stack ? error.stack : error
       );
@@ -5558,7 +5543,7 @@ function decryptGroupState(
         )
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptGroupState/${logId}: Unable to decrypt disappearing message timer. Clearing it.`,
         error && error.stack ? error.stack : error
       );
@@ -5642,7 +5627,7 @@ function decryptGroupState(
         decryptGroupBlob(clientZkGroupCipher, groupState.descriptionBytes)
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptGroupState/${logId}: Unable to decrypt descriptionBytes. Clearing it.`,
         error && error.stack ? error.stack : error
       );
@@ -5683,7 +5668,7 @@ function decryptMember(
       'decryptMember.userId'
     );
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `decryptMember/${logId}: Unable to decrypt member userid. Dropping member.`,
       error && error.stack ? error.stack : error
     );
@@ -5691,9 +5676,7 @@ function decryptMember(
   }
 
   if (!window.isValidGuid(userId)) {
-    window.log.warn(
-      `decryptMember/${logId}: Dropping member due to invalid userId`
-    );
+    log.warn(`decryptMember/${logId}: Dropping member due to invalid userId`);
 
     return undefined;
   }
@@ -5756,7 +5739,7 @@ function decryptMemberPendingProfileKey(
       'decryptMemberPendingProfileKey.addedByUserId'
     );
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member addedByUserId. Dropping member.`,
       error && error.stack ? error.stack : error
     );
@@ -5764,7 +5747,7 @@ function decryptMemberPendingProfileKey(
   }
 
   if (!window.isValidGuid(addedByUserId)) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid addedByUserId`
     );
     return undefined;
@@ -5774,7 +5757,7 @@ function decryptMemberPendingProfileKey(
   const timestamp = normalizeTimestamp(member.timestamp);
 
   if (!member.member) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to missing member details`
     );
 
@@ -5796,7 +5779,7 @@ function decryptMemberPendingProfileKey(
       'decryptMemberPendingProfileKey.member.userId'
     );
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member userId. Dropping member.`,
       error && error.stack ? error.stack : error
     );
@@ -5804,7 +5787,7 @@ function decryptMemberPendingProfileKey(
   }
 
   if (!window.isValidGuid(decryptedUserId)) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingProfileKey/${logId}: Dropping pending member due to invalid member.userId`
     );
 
@@ -5821,14 +5804,14 @@ function decryptMemberPendingProfileKey(
         decryptedUserId
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptMemberPendingProfileKey/${logId}: Unable to decrypt pending member profileKey. Dropping profileKey.`,
         error && error.stack ? error.stack : error
       );
     }
 
     if (!isValidProfileKey(decryptedProfileKey)) {
-      window.log.warn(
+      log.warn(
         `decryptMemberPendingProfileKey/${logId}: Dropping profileKey, since it was invalid`
       );
       decryptedProfileKey = undefined;
@@ -5883,7 +5866,7 @@ function decryptMemberPendingAdminApproval(
       'decryptMemberPendingAdminApproval.userId'
     );
   } catch (error) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt pending member userId. Dropping member.`,
       error && error.stack ? error.stack : error
     );
@@ -5891,7 +5874,7 @@ function decryptMemberPendingAdminApproval(
   }
 
   if (!window.isValidGuid(decryptedUserId)) {
-    window.log.warn(
+    log.warn(
       `decryptMemberPendingAdminApproval/${logId}: Invalid userId. Dropping member.`
     );
 
@@ -5908,14 +5891,14 @@ function decryptMemberPendingAdminApproval(
         decryptedUserId
       );
     } catch (error) {
-      window.log.warn(
+      log.warn(
         `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt profileKey. Dropping profileKey.`,
         error && error.stack ? error.stack : error
       );
     }
 
     if (!isValidProfileKey(decryptedProfileKey)) {
-      window.log.warn(
+      log.warn(
         `decryptMemberPendingAdminApproval/${logId}: Dropping profileKey, since it was invalid`
       );
 
