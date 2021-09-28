@@ -31,6 +31,7 @@ import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { senderCertificateService } from './services/senderCertificate';
+import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -767,6 +768,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v5.18.0')) {
         await window.storage.remove('senderCertificate');
         await window.storage.remove('senderCertificateNoE164');
+      }
+
+      if (window.isBeforeVersion(lastVersion, 'v5.19.0')) {
+        await window.storage.remove(GROUP_CREDENTIALS_KEY);
       }
 
       // This one should always be last - it could restart the app
