@@ -15,13 +15,33 @@ export const FIBONACCI_TIMEOUTS: ReadonlyArray<number> = [
   55 * SECOND,
 ];
 
+export type BackOffOptionsType = Readonly<{
+  jitter?: number;
+
+  // Testing
+  random?: () => number;
+}>;
+
+const DEFAULT_RANDOM = () => Math.random();
+
 export class BackOff {
   private count = 0;
 
-  constructor(private readonly timeouts: ReadonlyArray<number>) {}
+  constructor(
+    private readonly timeouts: ReadonlyArray<number>,
+    private readonly options: BackOffOptionsType = {}
+  ) {}
 
   public get(): number {
-    return this.timeouts[this.count];
+    let result = this.timeouts[this.count];
+    const { jitter = 0, random = DEFAULT_RANDOM } = this.options;
+
+    // Do not apply jitter larger than the timeout value. It is supposed to be
+    // activated for longer timeouts.
+    if (jitter < result) {
+      result += random() * jitter;
+    }
+    return result;
   }
 
   public getAndIncrement(): number {

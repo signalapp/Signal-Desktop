@@ -32,6 +32,8 @@ const TEN_SECONDS = 10 * durations.SECOND;
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
+const JITTER = 5 * durations.SECOND;
+
 export type SocketManagerOptions = Readonly<{
   url: string;
   certificateAuthority: string;
@@ -54,7 +56,9 @@ export type SocketManagerOptions = Readonly<{
 // Incoming requests on unauthenticated resource are not currently supported.
 // WebSocketResource is responsible for their immediate termination.
 export class SocketManager extends EventListener {
-  private backOff = new BackOff(FIBONACCI_TIMEOUTS);
+  private backOff = new BackOff(FIBONACCI_TIMEOUTS, {
+    jitter: JITTER,
+  });
 
   private authenticated?: AbortableProcess<WebSocketResource>;
 
@@ -199,7 +203,7 @@ export class SocketManager extends EventListener {
           return;
         }
 
-        if (code !== 500 && code !== -1) {
+        if (!(code >= 500 && code <= 599) && code !== -1) {
           // No reconnect attempt should be made
           return;
         }
