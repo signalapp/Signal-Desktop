@@ -21,7 +21,7 @@ import {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 
-import type { WebAPIType } from './WebAPI';
+import type { WebAPIType, MessageType } from './WebAPI';
 import { SendMetadataType, SendOptionsType } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
@@ -51,13 +51,6 @@ export type SendLogCallbackType = (options: {
   identifier: string;
   deviceIds: Array<number>;
 }) => Promise<void>;
-
-type SendMetadata = {
-  type: number;
-  destinationDeviceId: number;
-  destinationRegistrationId: number;
-  content: string;
-};
 
 export const serializedCertificateSchema = z
   .object({
@@ -289,7 +282,7 @@ export default class OutgoingMessage {
 
   async transmitMessage(
     identifier: string,
-    jsonData: Array<unknown>,
+    jsonData: ReadonlyArray<MessageType>,
     timestamp: number,
     { accessKey }: { accessKey?: string } = {}
   ): Promise<void> {
@@ -419,7 +412,7 @@ export default class OutgoingMessage {
           new Address(theirUuid, destinationDeviceId)
         );
 
-        return window.textsecure.storage.protocol.enqueueSessionJob<SendMetadata>(
+        return window.textsecure.storage.protocol.enqueueSessionJob<MessageType>(
           address,
           async () => {
             const protocolAddress = ProtocolAddress.new(
@@ -494,7 +487,7 @@ export default class OutgoingMessage {
         );
       })
     )
-      .then(async (jsonData: Array<SendMetadata>) => {
+      .then(async (jsonData: Array<MessageType>) => {
         if (sealedSender) {
           return this.transmitMessage(identifier, jsonData, this.timestamp, {
             accessKey,

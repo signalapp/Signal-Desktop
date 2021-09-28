@@ -28,7 +28,7 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import Long from 'long';
 
-import { assert, strictAssert } from '../util/assert';
+import { assert } from '../util/assert';
 import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
@@ -101,69 +101,6 @@ function getSgxConstants() {
   };
 
   return sgxConstantCache;
-}
-
-const _call = (object: any) => Object.prototype.toString.call(object);
-
-// TODO: DESKTOP-2424
-const ArrayBufferToString = _call(new ArrayBuffer(0));
-const Uint8ArrayToString = _call(new Uint8Array());
-
-function _getString(thing: any): string {
-  if (typeof thing !== 'string') {
-    if (_call(thing) === Uint8ArrayToString) {
-      return String.fromCharCode.apply(null, thing);
-    }
-    if (_call(thing) === ArrayBufferToString) {
-      return _getString(new Uint8Array(thing));
-    }
-  }
-
-  return thing;
-}
-
-function _getStringable(thing: any) {
-  return (
-    typeof thing === 'string' ||
-    typeof thing === 'number' ||
-    typeof thing === 'boolean' ||
-    (thing === Object(thing) &&
-      (_call(thing) === ArrayBufferToString ||
-        _call(thing) === Uint8ArrayToString))
-  );
-}
-
-function _ensureStringed(thing: any): any {
-  if (_getStringable(thing)) {
-    return _getString(thing);
-  }
-  if (thing instanceof Array) {
-    const res = [];
-    for (let i = 0; i < thing.length; i += 1) {
-      res[i] = _ensureStringed(thing[i]);
-    }
-
-    return res;
-  }
-  if (thing === Object(thing)) {
-    const res: any = {};
-    for (const key in thing) {
-      res[key] = _ensureStringed(thing[key]);
-    }
-
-    return res;
-  }
-  if (thing === null) {
-    return null;
-  }
-  if (thing === undefined) {
-    return undefined;
-  }
-  throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
-}
-
-function _jsonThing(thing: any): string {
-  return JSON.stringify(_ensureStringed(thing));
 }
 
 function _createRedactor(
@@ -639,7 +576,12 @@ type InitializeOptionsType = {
   version: string;
 };
 
-type MessageType = unknown;
+export type MessageType = Readonly<{
+  type: number;
+  destinationDeviceId: number;
+  destinationRegistrationId: number;
+  content: string;
+}>;
 
 type AjaxOptionsType = {
   accessKey?: string;
@@ -882,13 +824,13 @@ export type WebAPIType = {
   requestVerificationVoice: (number: string) => Promise<void>;
   sendMessages: (
     destination: string,
-    messageArray: Array<MessageType>,
+    messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     online?: boolean
   ) => Promise<void>;
   sendMessagesUnauth: (
     destination: string,
-    messageArray: Array<MessageType>,
+    messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     online?: boolean,
     options?: { accessKey?: string }
@@ -1143,7 +1085,7 @@ export function initialize({
         contentType: param.contentType || 'application/json; charset=utf-8',
         data:
           param.data ||
-          (param.jsonData ? _jsonThing(param.jsonData) : undefined),
+          (param.jsonData ? JSON.stringify(param.jsonData) : undefined),
         headers: param.headers,
         host: param.host || url,
         password: param.password || password,
@@ -1722,15 +1664,9 @@ export function initialize({
       return handleKeys(keys);
     }
 
-    function validateMessages(messages: Array<unknown>): void {
-      for (const message of messages) {
-        strictAssert(message !== null, 'Attempting to send `null` message');
-      }
-    }
-
     async function sendMessagesUnauth(
       destination: string,
-      messages: Array<MessageType>,
+      messages: ReadonlyArray<MessageType>,
       timestamp: number,
       online?: boolean,
       { accessKey }: { accessKey?: string } = {}
@@ -1741,8 +1677,6 @@ export function initialize({
       } else {
         jsonData = { messages, timestamp };
       }
-
-      validateMessages(messages);
 
       await _ajax({
         call: 'messages',
@@ -1757,7 +1691,7 @@ export function initialize({
 
     async function sendMessages(
       destination: string,
-      messages: Array<MessageType>,
+      messages: ReadonlyArray<MessageType>,
       timestamp: number,
       online?: boolean
     ) {
@@ -1767,8 +1701,6 @@ export function initialize({
       } else {
         jsonData = { messages, timestamp };
       }
-
-      validateMessages(messages);
 
       await _ajax({
         call: 'messages',
