@@ -82,7 +82,7 @@ $audio-attachment-button-margin-small: 4px;
   }
 
   &--pending::before {
-    animation: spinner-arc-animation 1000ms linear infinite;
+    animation: rotate 1000ms linear infinite;
   }
 
   .module-message__audio-attachment--incoming & {
