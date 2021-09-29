@@ -6,7 +6,6 @@ import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
-import { canCustomizePreferredReactions } from '../../util/canCustomizePreferredReactions';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,
@@ -80,9 +79,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
 
     if (pickingOther) {
       return renderEmojiPicker({
-        onClickSettings: canCustomizePreferredReactions()
-          ? openCustomizePreferredReactionsModal
-          : undefined,
+        onClickSettings: openCustomizePreferredReactionsModal,
         onClose,
         onPickEmoji,
         onSetSkinTone,
