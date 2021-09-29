@@ -2034,6 +2034,11 @@ export class CallingClass {
     conversationId: string,
     creatorBytes: undefined | Readonly<Uint8Array>
   ): void {
+    const conversation = window.ConversationController.get(conversationId);
+    if (conversation?.isMuted()) {
+      return;
+    }
+
     const creatorUuid = creatorBytes ? bytesToUuid(creatorBytes) : undefined;
     const creatorConversation = window.ConversationController.get(creatorUuid);
     if (creatorConversation && isMe(creatorConversation.attributes)) {
@@ -2052,8 +2057,7 @@ export class CallingClass {
           'calling__call-notification__started-by-someone'
         );
         break;
-      default: {
-        const conversation = window.ConversationController.get(conversationId);
+      default:
         // These fallbacks exist just in case something unexpected goes wrong.
         notificationTitle =
           conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
@@ -2063,7 +2067,6 @@ export class CallingClass {
             ])
           : window.i18n('calling__call-notification__started-by-someone');
         break;
-      }
     }
 
     notificationService.notify({
