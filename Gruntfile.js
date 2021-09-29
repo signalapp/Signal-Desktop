@@ -59,7 +59,6 @@ module.exports = grunt => {
           'libtextsecure/storage.js',
           'libtextsecure/storage/user.js',
           'libtextsecure/storage/groups.js',
-          'libtextsecure/protobufs.js',
           'libtextsecure/helpers.js',
           'libtextsecure/stringview.js',
           'libtextsecure/event_target.js',

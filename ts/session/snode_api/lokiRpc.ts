@@ -1,8 +1,14 @@
 import { default as insecureNodeFetch } from 'node-fetch';
+import pRetry from 'p-retry';
 import { Snode } from '../../data/data';
 import { getStoragePubKey } from '../types';
 
-import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
+import {
+  ERROR_421_HANDLED_RETRY_REQUEST,
+  lokiOnionFetch,
+  snodeHttpsAgent,
+  SnodeResponse,
+} from './onions';
 
 interface FetchOptions {
   method: string;
@@ -79,6 +85,9 @@ async function lokiFetch({
   } catch (e) {
     if (e.code === 'ENOTFOUND') {
       throw new window.textsecure.NotFoundError('Failed to resolve address', e);
+    }
+    if (e.message === ERROR_421_HANDLED_RETRY_REQUEST) {
+      throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
     }
     throw e;
   }
