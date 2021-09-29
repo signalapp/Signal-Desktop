@@ -134,6 +134,27 @@ export function pushMessageDeleteForbidden() {
   pushToastError('messageDeletionForbidden', window.i18n('messageDeletionForbidden'));
 }
 
+export function pushUnableToCall() {
+  pushToastError('unableToCall', window.i18n('unableToCallTitle'), window.i18n('unableToCall'));
+}
+
+export function pushedMissedCall(conversationName: string) {
+  pushToastInfo(
+    'missedCall',
+    window.i18n('callMissedTitle'),
+    window.i18n('callMissedTitle', conversationName)
+  );
+}
+
+export function pushMicAndCameraPermissionNeeded(onClicked: () => void) {
+  pushToastInfo(
+    'micAndCameraPermissionNeeded',
+    window.i18n('micAndCameraPermissionNeededTitle'),
+    window.i18n('micAndCameraPermissionNeeded'),
+    onClicked
+  );
+}
+
 export function pushAudioPermissionNeeded(onClicked: () => void) {
   pushToastInfo(
     'audioPermissionNeeded',

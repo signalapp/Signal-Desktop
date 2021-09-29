@@ -401,7 +401,7 @@ export async function innerHandleContentMessage(
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
     if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
-      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage, messageHash);
     }
   } catch (e) {
     window?.log?.warn(e);
@@ -569,6 +569,7 @@ export async function handleDataExtractionNotification(
       },
       unread: 1, // 1 means unread
       expireTimer: 0,
+      isCall: true,
     });
     convo.updateLastMessage();
   }

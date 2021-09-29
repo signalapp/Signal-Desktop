@@ -447,5 +447,11 @@
   "incomingCall": "Incoming call",
   "accept": "Accept",
   "decline": "Decline",
-  "endCall": "End call"
+  "endCall": "End call",
+  "micAndCameraPermissionNeededTitle": "Camera and Microphone access required",
+  "micAndCameraPermissionNeeded": "You can enable microphone and camera access under: Settings (Gear icon) => Privacy",
+  "unableToCall": "Cancel your exiting call session.",
+  "unableToCallTitle": "Cannot start new call",
+  "callMissed": "Missed call from $name$",
+  "callMissedTitle": "Call missed"
 }

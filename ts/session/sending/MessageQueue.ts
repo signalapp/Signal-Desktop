@@ -131,7 +131,7 @@ export class MessageQueue {
   public async sendToPubKeyNonDurably(
     user: PubKey,
     message: ClosedGroupNewMessage | CallMessage
-  ): Promise<boolean> {
+  ): Promise<boolean | number> {
     let rawMessage;
     try {
       rawMessage = await MessageUtils.toRawMessage(user, message);
@@ -141,7 +141,7 @@ export class MessageQueue {
         effectiveTimestamp,
         wrappedEnvelope
       );
-      return !!wrappedEnvelope;
+      return effectiveTimestamp;
     } catch (error) {
       if (rawMessage) {
         await MessageSentHandler.handleMessageSentFailure(rawMessage, error);
