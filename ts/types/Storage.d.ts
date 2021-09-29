@@ -6,6 +6,7 @@ import type {
   CustomColorsItemType,
   DefaultConversationColorType,
 } from './Colors';
+import type { AudioDeviceModule } from '../calling/audioDeviceModule';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
@@ -113,6 +114,7 @@ export type StorageAccessType = {
   'preferred-video-input-device': string;
   'preferred-audio-input-device': AudioDevice;
   'preferred-audio-output-device': AudioDevice;
+  previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: Array<GroupCredentialType>;

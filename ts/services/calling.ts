@@ -53,8 +53,17 @@ import {
   PresentedSource,
   ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
+import {
+  AudioDeviceModule,
+  parseAudioDeviceModule,
+} from '../calling/audioDeviceModule';
+import {
+  findBestMatchingAudioDeviceIndex,
+  findBestMatchingCameraId,
+} from '../calling/findBestMatchingDevice';
 import { LocalizerType } from '../types/Util';
 import { UUID } from '../types/UUID';
+import * as OS from '../OS';
 import { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
@@ -63,6 +72,7 @@ import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
+import { isAlpha, isBeta } from '../util/version';
 import {
   fetchMembershipProof,
   getMembershipList,
@@ -212,6 +222,10 @@ export class CallingClass {
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
 
+  private previousAudioDeviceModule?: AudioDeviceModule;
+
+  private currentAudioDeviceModule?: AudioDeviceModule;
+
   private deviceReselectionTimer?: NodeJS.Timeout;
 
   private callsByConversation: { [conversationId: string]: Call | GroupCall };
@@ -236,6 +250,24 @@ export class CallingClass {
     }
 
     this.sfuUrl = sfuUrl;
+
+    this.previousAudioDeviceModule = parseAudioDeviceModule(
+      window.storage.get('previousAudioDeviceModule')
+    );
+    this.currentAudioDeviceModule =
+      OS.isWindows() &&
+      (isAlpha(window.getVersion()) || isBeta(window.getVersion()))
+        ? AudioDeviceModule.WindowsAdm2
+        : AudioDeviceModule.Default;
+    window.storage.put(
+      'previousAudioDeviceModule',
+      this.currentAudioDeviceModule
+    );
+
+    RingRTC.setConfig({
+      use_new_audio_device_module:
+        this.currentAudioDeviceModule === AudioDeviceModule.WindowsAdm2,
+    });
 
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
@@ -1263,6 +1295,13 @@ export class CallingClass {
   }
 
   async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+    const { previousAudioDeviceModule, currentAudioDeviceModule } = this;
+    if (!previousAudioDeviceModule || !currentAudioDeviceModule) {
+      throw new Error(
+        'Calling#getMediaDeviceSettings cannot be called before audio device settings are set'
+      );
+    }
+
     const {
       availableCameras,
       availableMicrophones,
@@ -1270,27 +1309,31 @@ export class CallingClass {
     } = await this.getAvailableIODevices();
 
     const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
-    const selectedMicIndex = this.findBestMatchingDeviceIndex(
-      availableMicrophones,
-      preferredMicrophone
-    );
+    const selectedMicIndex = findBestMatchingAudioDeviceIndex({
+      available: availableMicrophones,
+      preferred: preferredMicrophone,
+      previousAudioDeviceModule,
+      currentAudioDeviceModule,
+    });
     const selectedMicrophone =
       selectedMicIndex !== undefined
         ? availableMicrophones[selectedMicIndex]
         : undefined;
 
     const preferredSpeaker = window.Events.getPreferredAudioOutputDevice();
-    const selectedSpeakerIndex = this.findBestMatchingDeviceIndex(
-      availableSpeakers,
-      preferredSpeaker
-    );
+    const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex({
+      available: availableSpeakers,
+      preferred: preferredSpeaker,
+      previousAudioDeviceModule,
+      currentAudioDeviceModule,
+    });
     const selectedSpeaker =
       selectedSpeakerIndex !== undefined
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
     const preferredCamera = window.Events.getPreferredVideoInputDevice();
-    const selectedCamera = this.findBestMatchingCamera(
+    const selectedCamera = findBestMatchingCameraId(
       availableCameras,
       preferredCamera
     );
@@ -1303,49 +1346,6 @@ export class CallingClass {
       availableCameras,
       selectedCamera,
     };
-  }
-
-  findBestMatchingDeviceIndex(
-    available: Array<AudioDevice>,
-    preferred: AudioDevice | undefined
-  ): number | undefined {
-    if (preferred) {
-      // Match by uniqueId first, if available
-      if (preferred.uniqueId) {
-        const matchIndex = available.findIndex(
-          d => d.uniqueId === preferred.uniqueId
-        );
-        if (matchIndex !== -1) {
-          return matchIndex;
-        }
-      }
-      // Match by name second
-      const matchingNames = available.filter(d => d.name === preferred.name);
-      if (matchingNames.length > 0) {
-        return matchingNames[0].index;
-      }
-    }
-    // Nothing matches or no preference; take the first device if there are any
-    return available.length > 0 ? 0 : undefined;
-  }
-
-  findBestMatchingCamera(
-    available: Array<MediaDeviceInfo>,
-    preferred?: string
-  ): string | undefined {
-    const matchingId = available.filter(d => d.deviceId === preferred);
-    const nonInfrared = available.filter(d => !d.label.includes('IR Camera'));
-
-    // By default, pick the first non-IR camera (but allow the user to pick the
-    // infrared if they so desire)
-    if (matchingId.length > 0) {
-      return matchingId[0].deviceId;
-    }
-    if (nonInfrared.length > 0) {
-      return nonInfrared[0].deviceId;
-    }
-
-    return undefined;
   }
 
   setPreferredMicrophone(device: AudioDevice): void {
