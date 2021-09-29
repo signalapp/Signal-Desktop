@@ -241,6 +241,153 @@
     "reasonDetail": "What's being eval'd is a static string"
   },
   {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.cjs.dev.js",
+    "line": "    const instanceRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.cjs.dev.js",
+    "line": "    const observerRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.cjs.prod.js",
+    "line": "    const instanceRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.cjs.prod.js",
+    "line": "    const observerRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.esm.js",
+    "line": "    const instanceRef = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/animated/dist/react-spring-animated.esm.js",
+    "line": "    const observerRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.dev.js",
+    "line": "  const layoutId = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.dev.js",
+    "line": "  const ctrls = React.useRef([...state.ctrls]);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.dev.js",
+    "line": "  const usedTransitions = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
+    "line": "  const layoutId = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
+    "line": "  const ctrls = React.useRef([...state.ctrls]);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
+    "line": "  const usedTransitions = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
+    "line": "  const layoutId = useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
+    "line": "  const ctrls = useRef([...state.ctrls]);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
+    "line": "  const usedTransitions = useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
+    "line": "  const committed = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.dev.js",
+    "line": "  const prevRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
+    "line": "  const committed = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.cjs.prod.js",
+    "line": "  const prevRef = React.useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.esm.js",
+    "line": "  const committed = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/shared/dist/react-spring-shared.esm.js",
+    "line": "  const prevRef = useRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/@sindresorhus/is/dist/index.js",
     "line": "        'innerHTML',",

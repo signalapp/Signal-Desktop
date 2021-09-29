@@ -1,11 +1,13 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { MouseEvent, useCallback } from 'react';
 import { Button, ButtonVariant } from './Button';
 import { LocalizerType } from '../types/Util';
-import { Modal } from './Modal';
+import { ModalHost } from './ModalHost';
+import { Modal, ModalWindow } from './Modal';
 import { Theme } from '../util/theme';
+import { useAnimated } from '../hooks/useAnimated';
 
 export type ActionSpec = {
   text: string;
@@ -61,15 +63,27 @@ export const ConfirmationDialog = React.memo(
     title,
     hasXButton,
   }: Props) => {
-    const cancelAndClose = React.useCallback(() => {
+    const { close, renderAnimation } = useAnimated(
+      {
+        from: { opacity: 0, transform: 'scale(0.25)' },
+        enter: { opacity: 1, transform: 'scale(1)' },
+        leave: { opacity: 0, onRest: () => onClose() },
+        config: {
+          duration: 150,
+        },
+      },
+      onClose
+    );
+
+    const cancelAndClose = useCallback(() => {
       if (onCancel) {
         onCancel();
       }
-      onClose();
-    }, [onCancel, onClose]);
+      close();
+    }, [close, onCancel]);
 
-    const handleCancel = React.useCallback(
-      (e: React.MouseEvent) => {
+    const handleCancel = useCallback(
+      (e: MouseEvent) => {
         if (e.target === e.currentTarget) {
           cancelAndClose();
         }
@@ -80,40 +94,43 @@ export const ConfirmationDialog = React.memo(
     const hasActions = Boolean(actions.length);
 
     return (
-      <Modal
-        moduleClassName={moduleClassName}
-        i18n={i18n}
-        onClose={cancelAndClose}
-        title={title}
-        theme={theme}
-        hasXButton={hasXButton}
-      >
-        {children}
-        <Modal.ButtonFooter>
-          <Button
-            onClick={handleCancel}
-            ref={focusRef}
-            variant={
-              hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary
-            }
+      <ModalHost onClose={close} theme={theme}>
+        {renderAnimation(
+          <ModalWindow
+            hasXButton={hasXButton}
+            i18n={i18n}
+            moduleClassName={moduleClassName}
+            onClose={cancelAndClose}
+            title={title}
           >
-            {cancelText || i18n('confirmation-dialog--Cancel')}
-          </Button>
-          {actions.map((action, i) => (
-            <Button
-              key={action.text}
-              onClick={() => {
-                action.action();
-                onClose();
-              }}
-              data-action={i}
-              variant={getButtonVariant(action.style)}
-            >
-              {action.text}
-            </Button>
-          ))}
-        </Modal.ButtonFooter>
-      </Modal>
+            {children}
+            <Modal.ButtonFooter>
+              <Button
+                onClick={handleCancel}
+                ref={focusRef}
+                variant={
+                  hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary
+                }
+              >
+                {cancelText || i18n('confirmation-dialog--Cancel')}
+              </Button>
+              {actions.map((action, i) => (
+                <Button
+                  key={action.text}
+                  onClick={() => {
+                    action.action();
+                    close();
+                  }}
+                  data-action={i}
+                  variant={getButtonVariant(action.style)}
+                >
+                  {action.text}
+                </Button>
+              ))}
+            </Modal.ButtonFooter>
+          </ModalWindow>
+        )}
+      </ModalHost>
     );
   }
 );

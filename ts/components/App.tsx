@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { ComponentProps, useEffect } from 'react';
+import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
 import { AppViewType } from '../state/ducks/app';
@@ -10,6 +11,7 @@ import { Install } from './Install';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 type PropsType = {
   appView: AppViewType;
@@ -83,6 +85,14 @@ export const App = ({
   useEffect(() => {
     document.body.classList.toggle('page-is-visible', isPageVisible);
   }, [isPageVisible]);
+
+  // A11y settings for react-spring
+  const prefersReducedMotion = useReducedMotion();
+  useEffect(() => {
+    Globals.assign({
+      skipAnimation: prefersReducedMotion,
+    });
+  }, [prefersReducedMotion]);
 
   return (
     <div
