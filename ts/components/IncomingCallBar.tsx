@@ -255,16 +255,16 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
           </div>
         </div>
         <div className="IncomingCallBar__actions">
+          <CallButton
+            classSuffix="decline"
+            onClick={() => {
+              declineCall({ conversationId });
+            }}
+            tabIndex={0}
+            tooltipContent={i18n('declineCall')}
+          />
           {isVideoCall ? (
             <>
-              <CallButton
-                classSuffix="decline"
-                onClick={() => {
-                  declineCall({ conversationId });
-                }}
-                tabIndex={0}
-                tooltipContent={i18n('declineCall')}
-              />
               <CallButton
                 classSuffix="accept-video-as-audio"
                 onClick={() => {
@@ -283,24 +283,14 @@ export const IncomingCallBar = (props: PropsType): JSX.Element | null => {
               />
             </>
           ) : (
-            <>
-              <CallButton
-                classSuffix="decline"
-                onClick={() => {
-                  declineCall({ conversationId });
-                }}
-                tabIndex={0}
-                tooltipContent={i18n('declineCall')}
-              />
-              <CallButton
-                classSuffix="accept-audio"
-                onClick={() => {
-                  acceptCall({ conversationId, asVideoCall: false });
-                }}
-                tabIndex={0}
-                tooltipContent={i18n('acceptCall')}
-              />
-            </>
+            <CallButton
+              classSuffix="accept-audio"
+              onClick={() => {
+                acceptCall({ conversationId, asVideoCall: false });
+              }}
+              tabIndex={0}
+              tooltipContent={i18n('acceptCall')}
+            />
           )}
         </div>
       </div>
