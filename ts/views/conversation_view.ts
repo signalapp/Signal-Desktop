@@ -65,24 +65,18 @@ import {
   LinkPreviewWithDomain,
 } from '../types/LinkPreview';
 import * as LinkPreview from '../types/LinkPreview';
-import { SignalService as Proto } from '../protobuf';
-import { autoScale } from '../util/handleImageAttachment';
-import { ReadStatus } from '../messages/MessageReadStatus';
-import { markViewed } from '../services/MessageUpdater';
-import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
-import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
-import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import * as VisualAttachment from '../types/VisualAttachment';
-import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
-import { isNotNil } from '../util/isNotNil';
-import { dropNull } from '../util/dropNull';
-import { CompositionAPIType } from '../components/CompositionArea';
 import * as log from '../logging/log';
-import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
-import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
-import { showToast } from '../util/showToast';
+import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
+import type { EmbeddedContactType } from '../types/EmbeddedContact';
+import { AttachmentToastType } from '../types/AttachmentToastType';
+import { CompositionAPIType } from '../components/CompositionArea';
+import { ReadStatus } from '../messages/MessageReadStatus';
+import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';
 import { ToastBlockedGroup } from '../components/ToastBlockedGroup';
+import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
+import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import { ToastConversationArchived } from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
@@ -90,29 +84,34 @@ import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
 import { ToastDeleteForEveryoneFailed } from '../components/ToastDeleteForEveryoneFailed';
 import { ToastExpired } from '../components/ToastExpired';
 import { ToastFileSaved } from '../components/ToastFileSaved';
+import { ToastFileSize } from '../components/ToastFileSize';
 import { ToastInvalidConversation } from '../components/ToastInvalidConversation';
 import { ToastLeftGroup } from '../components/ToastLeftGroup';
+import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
 import { ToastMessageBodyTooLong } from '../components/ToastMessageBodyTooLong';
+import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
 import { ToastOriginalMessageNotFound } from '../components/ToastOriginalMessageNotFound';
 import { ToastPinnedConversationsFull } from '../components/ToastPinnedConversationsFull';
 import { ToastReactionFailed } from '../components/ToastReactionFailed';
 import { ToastReportedSpamAndBlocked } from '../components/ToastReportedSpamAndBlocked';
 import { ToastTapToViewExpiredIncoming } from '../components/ToastTapToViewExpiredIncoming';
 import { ToastTapToViewExpiredOutgoing } from '../components/ToastTapToViewExpiredOutgoing';
-import { ToastVoiceNoteLimit } from '../components/ToastVoiceNoteLimit';
-import { ToastVoiceNoteMustBeOnlyAttachment } from '../components/ToastVoiceNoteMustBeOnlyAttachment';
-import { copyGroupLink } from '../util/copyGroupLink';
-import { fileToBytes } from '../util/fileToBytes';
-import { AttachmentToastType } from '../types/AttachmentToastType';
-import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCannotMixImageAndNonImageAttachments';
-import { ToastFileSize } from '../components/ToastFileSize';
-import { ToastMaxAttachments } from '../components/ToastMaxAttachments';
-import { ToastOneNonImageAtATime } from '../components/ToastOneNonImageAtATime';
 import { ToastUnableToLoadAttachment } from '../components/ToastUnableToLoadAttachment';
+import { autoScale } from '../util/handleImageAttachment';
+import { copyGroupLink } from '../util/copyGroupLink';
 import { deleteDraftAttachment } from '../util/deleteDraftAttachment';
 import { markAllAsApproved } from '../util/markAllAsApproved';
 import { markAllAsVerifiedDefault } from '../util/markAllAsVerifiedDefault';
 import { retryMessageSend } from '../util/retryMessageSend';
+import { dropNull } from '../util/dropNull';
+import { fileToBytes } from '../util/fileToBytes';
+import { isNotNil } from '../util/isNotNil';
+import { markViewed } from '../services/MessageUpdater';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser';
+import { resolveAttachmentDraftData } from '../util/resolveAttachmentDraftData';
+import { showToast } from '../util/showToast';
+import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
+import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
 
 type AttachmentOptions = {
   messageId: string;
@@ -137,7 +136,6 @@ const {
   loadStickerData,
   openFileInFolder,
   readAttachmentData,
-  readDraftData,
   saveAttachmentToDisk,
   upgradeMessageSchema,
 } = window.Signal.Migrations;
@@ -230,7 +228,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     current?: CompositionAPIType;
   } = { current: undefined };
   private sendStart?: number;
-  private voiceNoteAttachment?: AttachmentType;
 
   // Quotes
   private quote?: QuotedMessageType;
@@ -245,7 +242,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // Sub-views
   private captionEditorView?: Backbone.View;
-  private captureAudioView?: Backbone.View;
   private compositionAreaView?: Backbone.View;
   private contactModalView?: Backbone.View;
   private forwardMessageModal?: Backbone.View;
@@ -291,7 +287,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     // These are triggered by background.ts for keyboard handling
     this.listenTo(this.model, 'focus-composer', this.focusMessageField);
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
-    this.listenTo(this.model, 'begin-recording', this.captureAudio);
     this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
@@ -328,7 +323,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   // eslint-disable-next-line class-methods-use-this
   events(): Record<string, string> {
     return {
-      'click .capture-audio .microphone': 'captureAudio',
       'change input.file-input': 'onChoseAttachment',
 
       drop: 'onDrop',
@@ -510,12 +504,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   setupCompositionArea(): void {
     window.reduxActions.composer.resetComposer();
 
-    const micCellEl = $(`
-        <div class="capture-audio">
-          <button class="microphone"></button>
-        </div>
-      `)[0];
-
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const props = {
@@ -524,11 +512,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onClickAddPack: () => this.showStickerManager(),
       onPickSticker: (packId: string, stickerId: number) =>
         this.sendStickerMessage({ packId, stickerId }),
-      onSubmit: (
-        message: string,
-        mentions: BodyRangesType,
-        timestamp: number
-      ) => this.sendMessage(message, mentions, { timestamp }),
       onEditorStateChange: (
         msg: string,
         bodyRanges: Array<BodyRangeType>,
@@ -537,7 +520,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onTextTooLong: () => showToast(ToastMessageBodyTooLong),
       getQuotedMessage: () => this.model.get('quotedMessageId'),
       clearQuotedMessage: () => this.setQuoteMessage(null),
-      micCellEl,
       onAccept: () => {
         this.syncMessageRequestResponse(
           'onAccept',
@@ -600,6 +582,26 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       },
 
       openConversation: this.openConversation.bind(this),
+
+      onSendMessage: ({
+        draftAttachments,
+        mentions = [],
+        message = '',
+        timestamp,
+        voiceNoteAttachment,
+      }: {
+        draftAttachments?: ReadonlyArray<AttachmentType>;
+        mentions?: BodyRangesType;
+        message?: string;
+        timestamp?: number;
+        voiceNoteAttachment?: AttachmentType;
+      }): void => {
+        this.sendMessage(message, mentions, {
+          draftAttachments,
+          timestamp,
+          voiceNoteAttachment,
+        });
+      },
     };
 
     this.compositionAreaView = new Whisper.ReactWrapperView({
@@ -1408,9 +1410,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (this.stickerPreviewModalView) {
       this.stickerPreviewModalView.remove();
     }
-    if (this.captureAudioView) {
-      this.captureAudioView.remove();
-    }
     if (this.lightboxView) {
       this.lightboxView.remove();
     }
@@ -1582,8 +1581,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async clearAttachments(): Promise<void> {
-    this.voiceNoteAttachment = undefined;
-
     const draftAttachments = this.model.get('draftAttachments') || [];
     this.model.set({
       draftAttachments: [],
@@ -1610,46 +1607,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return draftAttachments.some(item => !item.pending);
   }
 
-  async getFiles(): Promise<Array<AttachmentType>> {
-    if (this.voiceNoteAttachment) {
-      // We don't need to pull these off disk; we return them as-is
-      return [this.voiceNoteAttachment];
-    }
-
-    const draftAttachments = this.model.get('draftAttachments') || [];
-    const items = await Promise.all(
-      draftAttachments.map(attachment => this.getFile(attachment))
-    );
-
-    return items.filter(isNotNil);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  async getFile(
-    attachment?: AttachmentType
-  ): Promise<AttachmentType | undefined> {
-    if (!attachment || attachment.pending) {
-      return;
-    }
-
-    if (!attachment.path) {
-      return;
-    }
-
-    const data = await readDraftData(attachment.path);
-    if (data.byteLength !== attachment.size) {
-      log.error(
-        `Attachment size from disk ${data.byteLength} did not match attachment size ${attachment.size}`
-      );
-      return;
-    }
-
-    return {
-      ...attachment,
-      data,
-    };
-  }
-
   updateAttachmentsView(): void {
     const draftAttachments = this.model.get('draftAttachments') || [];
     window.reduxActions.composer.replaceAttachments(
@@ -1659,87 +1616,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (this.hasFiles({ includePending: true })) {
       this.removeLinkPreview();
     }
-  }
-
-  captureAudio(e?: Event): void {
-    if (e) {
-      e.preventDefault();
-    }
-
-    if (this.compositionApi.current?.isDirty()) {
-      return;
-    }
-
-    if (this.hasFiles({ includePending: true })) {
-      showToast(ToastVoiceNoteMustBeOnlyAttachment);
-      return;
-    }
-
-    showToast(ToastVoiceNoteLimit);
-
-    // Note - clicking anywhere will close the audio capture panel, due to
-    //   the onClick handler in InboxView, which calls its closeRecording method.
-
-    if (this.captureAudioView) {
-      this.captureAudioView.remove();
-      this.captureAudioView = undefined;
-    }
-
-    this.captureAudioView = new Whisper.RecorderView();
-
-    const view = this.captureAudioView;
-    view.render();
-    view.on('send', this.handleAudioCapture.bind(this));
-    view.on('confirm', this.handleAudioConfirm.bind(this));
-    view.on('closed', this.endCaptureAudio.bind(this));
-    view.$el.appendTo(this.$('.capture-audio'));
-    view.$('.finish').focus();
-    this.compositionApi.current?.setMicActive(true);
-
-    this.disableMessageField();
-    this.$('.microphone').hide();
-  }
-  handleAudioConfirm(blob: Blob, lostFocus?: boolean): void {
-    window.showConfirmationDialog({
-      confirmStyle: 'negative',
-      cancelText: window.i18n('discard'),
-      message: lostFocus
-        ? window.i18n('voiceRecordingInterruptedBlur')
-        : window.i18n('voiceRecordingInterruptedMax'),
-      okText: window.i18n('sendAnyway'),
-      resolve: async () => {
-        await this.handleAudioCapture(blob);
-      },
-    });
-  }
-  async handleAudioCapture(blob: Blob): Promise<void> {
-    if (this.hasFiles({ includePending: true })) {
-      throw new Error('A voice note cannot be sent with other attachments');
-    }
-
-    const data = await fileToBytes(blob);
-
-    // These aren't persisted to disk; they are meant to be sent immediately
-    this.voiceNoteAttachment = {
-      contentType: stringToMIMEType(blob.type),
-      data,
-      size: data.byteLength,
-      flags: Proto.AttachmentPointer.Flags.VOICE_MESSAGE,
-    };
-
-    // Note: The RecorderView removes itself on send
-    this.captureAudioView = undefined;
-
-    this.sendMessage();
-  }
-  endCaptureAudio(): void {
-    this.enableMessageField();
-    this.$('.microphone').show();
-
-    // Note: The RecorderView removes itself on close
-    this.captureAudioView = undefined;
-
-    this.compositionApi.current?.setMicActive(false);
   }
 
   async onOpened(messageId: string): Promise<void> {
@@ -3377,7 +3253,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async sendMessage(
     message = '',
     mentions: BodyRangesType = [],
-    options: { timestamp?: number; force?: boolean } = {}
+    options: {
+      draftAttachments?: ReadonlyArray<AttachmentType>;
+      force?: boolean;
+      timestamp?: number;
+      voiceNoteAttachment?: AttachmentType;
+    } = {}
   ): Promise<void> {
     const { model }: { model: ConversationModel } = this;
     const timestamp = options.timestamp || Date.now();
@@ -3418,12 +3299,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       if (
         !message.length &&
         !this.hasFiles({ includePending: false }) &&
-        !this.voiceNoteAttachment
+        !options.voiceNoteAttachment
       ) {
         return;
       }
 
-      const attachments = await this.getFiles();
+      let attachments: Array<AttachmentType> = [];
+      if (options.voiceNoteAttachment) {
+        attachments = [options.voiceNoteAttachment];
+      } else if (options.draftAttachments) {
+        attachments = (
+          await Promise.all(
+            options.draftAttachments.map(resolveAttachmentDraftData)
+          )
+        ).filter(isNotNil);
+      }
+
       const sendHQImages =
         window.reduxStore &&
         window.reduxStore.getState().composer.shouldSendHighQualityAttachments;

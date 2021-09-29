@@ -80,6 +80,10 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Base
     conversationId: id,
     i18n: getIntl(state),
+    // AudioCapture
+    errorDialogAudioRecorderType:
+      state.audioRecorder.errorDialogAudioRecorderType,
+    isRecording: state.audioRecorder.isRecording,
     // AttachmentsList
     draftAttachments,
     // MediaQualitySelector

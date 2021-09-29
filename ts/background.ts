@@ -1013,6 +1013,10 @@ export async function startApp(): Promise<void> {
         actionCreators.audioPlayer,
         store.dispatch
       ),
+      audioRecorder: bindActionCreators(
+        actionCreators.audioRecorder,
+        store.dispatch
+      ),
       calling: bindActionCreators(actionCreators.calling, store.dispatch),
       composer: bindActionCreators(actionCreators.composer, store.dispatch),
       conversations: bindActionCreators(
@@ -1407,18 +1411,7 @@ export async function startApp(): Promise<void> {
 
       // Open sticker picker - handled by component
 
-      // Begin recording voice note
-      if (
-        conversation &&
-        commandOrCtrl &&
-        shiftKey &&
-        (key === 'v' || key === 'V')
-      ) {
-        conversation.trigger('begin-recording');
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
+      // Begin recording voice note - handled by component
 
       // Archive or unarchive conversation
       if (

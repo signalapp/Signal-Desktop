@@ -5,12 +5,14 @@ import React, {
   MutableRefObject,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
-import { get, noop } from 'lodash';
+import { get } from 'lodash';
 import classNames from 'classnames';
+import type { BodyRangeType, BodyRangesType } from '../types/Util';
+import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
+import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
 import {
@@ -34,26 +36,25 @@ import {
   GroupV2PendingApprovalActions,
   PropsType as GroupV2PendingApprovalActionsPropsType,
 } from './conversation/GroupV2PendingApprovalActions';
-import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
-import { countStickers } from './stickers/lib';
-import { LocalizerType } from '../types/Util';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
-import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 import { AttachmentList } from './conversation/AttachmentList';
+import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import { AudioCapture } from './conversation/AudioCapture';
+import { CompositionUpload } from './CompositionUpload';
+import { ConversationType } from '../state/ducks/conversations';
+import { EmojiPickDataType } from './emoji/EmojiPicker';
+import { LinkPreviewWithDomain } from '../types/LinkPreview';
+import { LocalizerType } from '../types/Util';
+import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
 import { Quote, Props as QuoteProps } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import { LinkPreviewWithDomain } from '../types/LinkPreview';
-import { ConversationType } from '../state/ducks/conversations';
-import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
-import { CompositionUpload } from './CompositionUpload';
-import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
+import { countStickers } from './stickers/lib';
 
 export type CompositionAPIType = {
   focusInput: () => void;
   isDirty: () => boolean;
   setDisabled: (disabled: boolean) => void;
-  setMicActive: (micActive: boolean) => void;
   reset: InputApi['reset'];
   resetEmojiResults: InputApi['resetEmojiResults'];
 };
@@ -72,27 +73,41 @@ export type OwnProps = Readonly<{
   areWeAdmin?: boolean;
   areWePending?: boolean;
   areWePendingApproval?: boolean;
+  cancelRecording: () => unknown;
+  completeRecording: (
+    conversationId: string,
+    onSendAudioRecording?: (rec: AttachmentType) => unknown
+  ) => unknown;
   compositionApi?: MutableRefObject<CompositionAPIType>;
   conversationId: string;
   draftAttachments: ReadonlyArray<AttachmentType>;
+  errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
+  errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   groupAdmins: Array<ConversationType>;
   groupVersion?: 1 | 2;
   i18n: LocalizerType;
   isFetchingUUID?: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
+  isRecording: boolean;
   isSMSOnly?: boolean;
   left?: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewWithDomain;
   messageRequestsEnabled?: boolean;
-  micCellEl?: HTMLElement;
   onClearAttachments(): unknown;
   onClickAttachment(): unknown;
   onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
   processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
+  onSendMessage(options: {
+    draftAttachments?: ReadonlyArray<AttachmentType>;
+    mentions?: BodyRangesType;
+    message?: string;
+    timestamp?: number;
+    voiceNoteAttachment?: AttachmentType;
+  }): unknown;
   openConversation(conversationId: string): unknown;
   quotedMessageProps?: Omit<
     QuoteProps,
@@ -101,12 +116,12 @@ export type OwnProps = Readonly<{
   removeAttachment: (conversationId: string, filePath: string) => unknown;
   setQuotedMessage(message: undefined): unknown;
   shouldSendHighQualityAttachments: boolean;
+  startRecording: () => unknown;
 }>;
 
 export type Props = Pick<
   CompositionInputProps,
   | 'sortedGroupMembers'
-  | 'onSubmit'
   | 'onEditorStateChange'
   | 'onTextTooLong'
   | 'draftText'
@@ -138,19 +153,13 @@ export type Props = Pick<
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
-const emptyElement = (el: HTMLElement) => {
-  // Necessary to deal with Backbone views
-  // eslint-disable-next-line no-param-reassign
-  el.innerHTML = '';
-};
-
 export const CompositionArea = ({
   // Base props
   addAttachment,
   addPendingAttachment,
   conversationId,
   i18n,
-  micCellEl,
+  onSendMessage,
   processAttachments,
   removeAttachment,
 
@@ -158,6 +167,13 @@ export const CompositionArea = ({
   draftAttachments,
   onClearAttachments,
   onClickAttachment,
+  // AudioCapture
+  cancelRecording,
+  completeRecording,
+  errorDialogAudioRecorderType,
+  errorRecording,
+  isRecording,
+  startRecording,
   // StagedLinkPreview
   linkPreviewLoading,
   linkPreviewResult,
@@ -170,7 +186,6 @@ export const CompositionArea = ({
   onSelectMediaQuality,
   shouldSendHighQualityAttachments,
   // CompositionInput
-  onSubmit,
   compositionApi,
   onEditorStateChange,
   onTextTooLong,
@@ -227,7 +242,6 @@ export const CompositionArea = ({
   isFetchingUUID,
 }: Props): JSX.Element => {
   const [disabled, setDisabled] = useState(false);
-  const [micActive, setMicActive] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
   const inputApiRef = useRef<InputApi | undefined>();
@@ -240,12 +254,17 @@ export const CompositionArea = ({
     }
   }, [inputApiRef, setLarge]);
 
-  const handleSubmit = useCallback<typeof onSubmit>(
-    (...args) => {
+  const handleSubmit = useCallback(
+    (message: string, mentions: Array<BodyRangeType>, timestamp: number) => {
       setLarge(false);
-      onSubmit(...args);
+      onSendMessage({
+        draftAttachments,
+        mentions,
+        message,
+        timestamp,
+      });
     },
-    [setLarge, onSubmit]
+    [draftAttachments, onSendMessage, setLarge]
   );
 
   const launchAttachmentPicker = () => {
@@ -279,7 +298,6 @@ export const CompositionArea = ({
       isDirty: () => dirty,
       focusInput,
       setDisabled,
-      setMicActive,
       reset: () => {
         if (inputApiRef.current) {
           inputApiRef.current.reset();
@@ -309,19 +327,6 @@ export const CompositionArea = ({
 
   const shouldShowMicrophone = !draftAttachments.length && !draftText;
 
-  // The following is a work-around to allow react to lay-out backbone-managed
-  // dom nodes until those functions are in React
-  const micCellRef = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    const { current: micCellContainer } = micCellRef;
-    if (micCellContainer && micCellEl) {
-      emptyElement(micCellContainer);
-      micCellContainer.appendChild(micCellEl);
-    }
-
-    return noop;
-  }, [micCellRef, micCellEl, large, dirty, shouldShowMicrophone]);
-
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
   const leftHandSideButtonsFragment = (
@@ -350,16 +355,19 @@ export const CompositionArea = ({
   );
 
   const micButtonFragment = shouldShowMicrophone ? (
-    <div
-      className={classNames(
-        'CompositionArea__button-cell',
-        micActive ? 'CompositionArea__button-cell--mic-active' : null,
-        large ? 'CompositionArea__button-cell--large-right' : null,
-        micActive && large
-          ? 'CompositionArea__button-cell--large-right-mic-active'
-          : null
-      )}
-      ref={micCellRef}
+    <AudioCapture
+      cancelRecording={cancelRecording}
+      completeRecording={completeRecording}
+      conversationId={conversationId}
+      draftAttachments={draftAttachments}
+      errorDialogAudioRecorderType={errorDialogAudioRecorderType}
+      errorRecording={errorRecording}
+      i18n={i18n}
+      isRecording={isRecording}
+      onSendAudioRecording={(voiceNoteAttachment: AttachmentType) => {
+        onSendMessage({ voiceNoteAttachment });
+      }}
+      startRecording={startRecording}
     />
   ) : null;
 

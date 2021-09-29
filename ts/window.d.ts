@@ -135,6 +135,29 @@ type ConfirmationDialogViewProps = {
   resolve: () => void;
 };
 
+export declare class WebAudioRecorderClass {
+  constructor(
+    node: GainNode,
+    options: {
+      encoding: string;
+      workerDir: string;
+      options?: { timeLimit?: number };
+    }
+  );
+
+  // Callbacks
+  onComplete?: (recorder: WebAudioRecorderClass, blob: Blob) => unknown;
+  onError?: (recorder: WebAudioRecorderClass, error: Error) => unknown;
+  onTimeout?: () => unknown;
+
+  // Class properties
+  startRecording: () => unknown;
+  finishRecording: () => unknown;
+  isRecording: () => boolean;
+  cancelRecording: () => unknown;
+  worker: Worker;
+}
+
 declare global {
   // We want to extend `window`'s properties, so we need an interface.
   // eslint-disable-next-line no-restricted-syntax
@@ -142,7 +165,6 @@ declare global {
     startApp: () => void;
 
     QRCode: any;
-    WebAudioRecorder: any;
     closeDebugLog: () => unknown;
     removeSetupMenuItems: () => unknown;
     showPermissionsPopup: () => unknown;
@@ -164,6 +186,7 @@ declare global {
       render: (template: string, data: any, partials?: any) => string;
       parse: (template: string) => void;
     };
+    WebAudioRecorder: typeof WebAudioRecorderClass;
 
     WhatIsThis: WhatIsThis;
 
@@ -595,7 +618,6 @@ export type WhisperType = {
   InstallView: typeof AnyViewClass;
   KeyVerificationPanelView: typeof AnyViewClass;
   ReactWrapperView: typeof BasicReactWrapperViewClass;
-  RecorderView: typeof AnyViewClass;
   SafetyNumberChangeDialogView: typeof AnyViewClass;
   StandaloneRegistrationView: typeof AnyViewClass;
   View: typeof AnyViewClass;

@@ -12282,29 +12282,6 @@
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "ts/components/CompositionArea.js",
-    "line": "    el.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-05-20T20:10:43.540Z",
-    "reasonDetail": "Our code, no user input, only clearing out the dom"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "ts/components/CompositionArea.tsx",
-    "line": "  el.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-06-03T19:23:21.195Z",
-    "reasonDetail": "Our code, no user input, only clearing out the dom"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/CompositionArea.tsx",
-    "line": "  const micCellRef = useRef<HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-07-30T16:57:33.618Z"
-  },
-  {
     "rule": "React-useRef",
     "path": "ts/components/CompositionArea.tsx",
     "line": "  const inputApiRef = useRef<InputApi | undefined>();",
@@ -13949,76 +13926,6 @@
     "rule": "jQuery-html(",
     "path": "ts/views/phone_input_view.ts",
     "line": "  template: () => $('#phone-number').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.js",
-    "line": "    template: () => $('#recorder').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.js",
-    "line": "        $(window).on('blur', this.onSwitchAwayBound);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.js",
-    "line": "        this.$('.time').text(`${minutes}:${seconds}`);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.js",
-    "line": "        $(window).off('blur', this.onSwitchAwayBound);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/recorder_view.js",
-    "line": "    template: () => $('#recorder').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.ts",
-    "line": "  template: () => $('#recorder').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.ts",
-    "line": "    $(window).on('blur', this.onSwitchAwayBound);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.ts",
-    "line": "    this.$('.time').text(`${minutes}:${seconds}`);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/recorder_view.ts",
-    "line": "    $(window).off('blur', this.onSwitchAwayBound);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/recorder_view.ts",
-    "line": "  template: () => $('#recorder').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },

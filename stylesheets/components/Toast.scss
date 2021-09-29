@@ -11,6 +11,7 @@
   position: absolute;
   text-align: center;
   transform: translate(-50%, 0);
+  user-select: none;
   z-index: 100;
 
   @include light-theme {

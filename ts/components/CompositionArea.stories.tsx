@@ -19,23 +19,12 @@ const story = storiesOf('Components/CompositionArea', module);
 // necessary for the add attachment button to render properly
 story.addDecorator(storyFn => <div className="file-input">{storyFn()}</div>);
 
-// necessary for the mic button to render properly
-const micCellEl = new DOMParser().parseFromString(
-  `
-    <div class="capture-audio">
-      <button class="microphone"></button>
-    </div>
-  `,
-  'text/html'
-).body.firstElementChild as HTMLElement;
-
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  conversationId: '123',
-  i18n,
-  micCellEl,
-
   addAttachment: action('addAttachment'),
   addPendingAttachment: action('addPendingAttachment'),
+  conversationId: '123',
+  i18n,
+  onSendMessage: action('onSendMessage'),
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),
 
@@ -43,6 +32,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   draftAttachments: overrideProps.draftAttachments || [],
   onClearAttachments: action('onClearAttachments'),
   onClickAttachment: action('onClickAttachment'),
+  // AudioCapture
+  cancelRecording: action('cancelRecording'),
+  completeRecording: action('completeRecording'),
+  errorRecording: action('errorRecording'),
+  isRecording: Boolean(overrideProps.isRecording),
+  startRecording: action('startRecording'),
   // StagedLinkPreview
   linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
   linkPreviewResult: overrideProps.linkPreviewResult,
@@ -57,7 +52,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.shouldSendHighQualityAttachments
   ),
   // CompositionInput
-  onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
   draftText: overrideProps.draftText || undefined,
