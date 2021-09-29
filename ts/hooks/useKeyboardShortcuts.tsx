@@ -4,6 +4,8 @@
 import { useEffect } from 'react';
 import { get } from 'lodash';
 
+import * as KeyboardLayout from '../services/keyboardLayout';
+
 type KeyboardShortcutHandlerType = (ev: KeyboardEvent) => boolean;
 
 function isCmdOrCtrl(ev: KeyboardEvent): boolean {
@@ -17,7 +19,9 @@ export function getStartRecordingShortcut(
   startAudioRecording: () => unknown
 ): KeyboardShortcutHandlerType {
   return ev => {
-    const { key, shiftKey } = ev;
+    const { shiftKey } = ev;
+
+    const key = KeyboardLayout.lookup(ev);
 
     if (isCmdOrCtrl(ev) && shiftKey && (key === 'v' || key === 'V')) {
       startAudioRecording();
