@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "ਅਰਕਾਈਵ ਵੇਖੋ",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "ਚੈਟ ਦਾ ਰੰਗ",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "ਲੋਡ ਕਰ ਰਿਹਾ ਹੈ ...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "ਮੋਬਾਈਲ",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "ਈਮੇਲ",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "ਸੰਭਾਲੋ",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "ਰੀਸੈੱਟ ਕਰੋ",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "ਨਵੀਂ ਡਿਵਾਈਸ ਨੂੰ ਲਿੰਕ ਕਰੋ",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "ਡਿਵਾਈਸ ਦਾ ਨਾਂ",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "ਤੁਸੀਂ ਉਹਨਾਂ ਦੀ ਆਡੀਓ ਜਾਂ ਵੀਡੀਓ ਨਹੀਂ ਲਵੋਗੇ ਅਤੇ ਉਹ ਤੁਹਾਡੀਆਂ।",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "ਉੱਪਰ ਨੂੰ ਸਰਕਾਓ",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "ਕੁਝ ਗਲਤ ਵਾਪਰਿਆ!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "ਠੀਕ ਹੈ",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "ਅਫ਼ਸੋਸ, ਉਸ sgnl:// ਲਿੰਕ ਦਾ ਕੋਈ ਅਰਥ ਨਹੀਂ ਬਣਦਾ!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "ਚੋਣ ਕਰੋ ਕਿ ਕੌਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦਾ ਹੈ।",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "ਬੇਨਤੀਆਂ ਤੇ ਸੱਦੇ",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "\"$name$\" ਦੁਆਰਾ ਭੇਜੇ $number$ ਸੱਦਿਆਂ ਨੂੰ ਮਨਸੂਖ ਕਰੋ",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "ਇਸ ਸੂਚੀ ’ਤੇ ਮੌਜੂਦ ਲੋਕ ਗਰੁੱਪ ਲਿੰਕ ਰਾਹੀਂ \"$name$\" ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹਨ।",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "ਹਰੇਕ ਦੇ ਲਈ ਸੁਨੇਹਾ ਮਿਟਾਉਣਾ ਅਸਫ਼ਲ ਰਿਹਾ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "ਰੰਗ ਨੂੰ ਮਿਟਾਓ",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "ਨਵੀਆਂ ਚੈਟਾਂ ਲਈ ਡਿਫ਼ਾਲਟ ਟਾਈਮਰ",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "ਜਦੋਂ ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜੋਗੇ ਤਾਂ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਦਾ ਸਮਾਂ $timeValue$ ’ਤੇ ਸੈੱਟ ਹੋ ਜਾਵੇਗਾ।",

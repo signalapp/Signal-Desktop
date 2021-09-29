@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Mostra l'arxiu",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Color de la conversa",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Actualitza el Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "S'està carregant...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mòbil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "a/e",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Desa",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Restableix",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Enllaça un dispositiu nou",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Escanegeu aquest codi a l'aplicació Signal del telèfon",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Nom del dispositiu",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "No en rebreu àudio ni vídeo ni rebran el vostre.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Amunt",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Alguna cosa ha anat malament!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Torneu-ho a provar o contacteu amb l'assistència.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "D'acord",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Perdoneu, l'enllaç sgnl:// no tenia sentit!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Qui pot enviar missatges al grup",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Sol·licituds i invitacions",
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "La gent d'aquesta llista intenta afegir-se a $name$ per l'enllaç del grup.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Ha fallat suprimir el missatge per a tothom. Proveu-ho més tard.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Suprimeix el color",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Temporitzador per defecte per a les converses noves",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "El temps dels missatges efímers s'establirà a $timeValue$ quan n'envieu un.",

@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Ver arquivo",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Cor das conversas",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Atualizar o Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Carregando...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "celular",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "e-mail",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Salvar",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Redefinir",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Vincular novo aparelho",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Escaneie este código no aplicativo Signal do seu telefone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Nome do aparelho",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Você não receberá o áudio ou o vídeo dessa pessoa, e ela não receberá os seus.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Deslizar para cima",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Algo deu errado!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Por favor, tente novamente ou entre em contato com o suporte.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Ok",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Desculpe, esse link sgnl:// não funcionou!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Escolha quem pode enviar mensagens nesse grupo.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Pedidos e convites",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revogar $number$ convites enviados por \"$name$\"",
+        "message": "Revogar $number$ convites enviados por \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "As pessoas nessa lista estão tentando entrar em \"$name$\" via link do grupo.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Falha ao excluir a mensagem para todos. Tente novamente mais tarde.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Remover cor",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Cronômetro padrão para novas conversas",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "O tempo de desaparecimento das mensagens que você enviar será definido como $timeValue$.",

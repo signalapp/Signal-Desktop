@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Xem Lưu trữ",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Màu Cuộc trò chuyện",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Cập nhật Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Đang tải...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "di động",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Lưu",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Đặt lại",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Liên kết Thiết bị Mới",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Tên thiết bị",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Bạn sẽ không nhận được âm thanh hoặc video từ họ và họ sẽ không nhận được các dữ liệu này của bạn.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Kéo lên",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Đã xảy ra lỗi!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Xin hãy thử lại hoặc liên hệ hỗ trợ.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "OK",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Xin lỗi, đường dẫn sgnl:// không đúng!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Choose who can send messages to the group.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Yêu cầu & Lời mời",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Thu hồi $number$ lời mời gửi bởi \"$name$\"",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "Những người trên danh sách này đang cố tham gia \"$name$\" qua đường dẫn nhóm.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Xoá tin nhắn cho mọi người không thành công. Xin thử lại sau.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Xoá màu",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Đồng hồ mặc định cho tất cả cuộc trò chuyện mới",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Thời gian biến mất tin nhắn sẽ được cài thành $timeValue$ khi bạn nhắn tin họ.",

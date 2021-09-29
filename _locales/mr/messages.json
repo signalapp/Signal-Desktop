@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "आर्काईव्ह बघा",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "चॅट रंग",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal अद्यतनित करा",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "लोड करत आहे...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "मोबाईल",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "ईमेल",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "जतन करा",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "रीसेट करा",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "नवीन डिव्हाईस जोडा",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "डिव्हाईस नाव",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "आपल्याला त्यांचे ऑडिओ किंवा व्हिडिओ प्राप्त होणार नाहीत आणि त्यांना तुमचे प्राप्त होणार नाहीत.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "वरती स्क्रोल करा",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "काहीतरी चुकीचे झाले!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "कृपया पुन्हा प्रयत्न करा किंवा समर्थनाशी संपर्क साधा.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "ठीक आहे",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "क्षमस्व, त्या sgnl:// दुवाचा काही अर्थ निघाला नाही!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "गटात कोण संदेश पाठवू शकतो ते निवडा.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "विनंत्या आणि आमंत्रणे",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "\"$number$\" द्वारे पाठविलेले $name$आमंत्रणे रद्द करायचे?",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "या यादीवरील लोक गट लिंक द्वारे \"$name$\" मध्ये सामील होण्याचा प्रयत्न करत आहेत.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "संदेश प्रत्येकासाठी हटवण्यात अयशस्वी. कृपया पुन्हा प्रयत्न करा.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "रंग हटवा",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "नवीन चॅटसाठी पूर्वनिर्धारित टायमर",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "आपण त्यांना संदेश पाठवल्यावर हरवणारे संदेश वेळ $timeValue$ वर सेट केले जाईल.",

@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "ఆర్కైవ్ చూడండి",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "మాటామంతీ రంగు ",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal ను నవీకరించండి",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "లోడింగ్...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "చరవాణి ",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "ఇమెయిల్",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "భద్రపరుచు",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "పునరుద్ధరించు",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "కొత్త పరికరాన్ని అనుసంధానించు",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "పరికరం యొక్క పేరు ",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "మీరు వారి ఆడియో లేదా వీడియోను స్వీకరించరు మరియు వారు మీది స్వీకరించరు.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "పైకి స్క్రోల్ చేయండి",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "ఏదో తప్పు జరిగినది.",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "దయచేసి మళ్ళీ ప్రయత్నించండి లేదా మద్దతును సంప్రదించండి.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "సరే",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "క్షమించండి, ఆ sgnl: // లింక్ అర్ధవంతం కాలేదు!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Choose who can send messages to the group.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "అభ్యర్థనలు & ఆహ్వానాలు",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "\"$name$\" పంపిన $number$ ఆహ్వానాలను ఉపసంహరించుకోండి",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "ఈ జాబితాలోని వ్యక్తులు సమూహ లింక్ ద్వారా \"$name$\" లో చేరడానికి ప్రయత్నిస్తున్నారు.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "ప్రతిఒక్కరికీ సందేశాన్ని తొలగించడంలో విఫలమైంది. దయచేసి తరువాత మళ్లీ ప్రయత్నించండి.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "రంగును తొలగించండి",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "క్రొత్త చాట్‌ల కోసం అప్రమేయ టైమర్",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "మీరు వారికి సందేశం పంపినప్పుడు అదృశ్యమగు సందేశ సమయం $timeValue$ కు సెట్ చేయబడుతుంది.",

@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "காப்பகத்தைக் காண்க",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "உரையாடல் நிறம்",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal லைப் புதுப்பிக்கவும்",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "ஏற்றுதல் ...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "கைபேசி",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "மின்னஞ்சல்",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "சேமி",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "மீட்டமைக்க",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "புதிய சாதனத்தை இணைக்கவும்",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "சாதனத்தின் பெயர்",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "அவர்களின் ஆடியோ அல்லது வீடியோவை நீங்கள் பெற மாட்டீர்கள். மேலும், அவர்கள் உங்களுடையதைப் பெற மாட்டார்கள்.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "உருள் மேலே",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "ஏதோ தவறு நடைபெற்றிருக்கிறது!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "தயவு செய்து மீண்டும் முயற்சிக்கவும் அல்லது தொடர்பு கொள்ளவும் ஆதரவு.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "சரி",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "மன்னிக்கவும், அந்த sgnl:// இணைப்பு புரியவில்லை!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க அனுப்பு செய்திகள் குழு.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "கோரிக்கைகள் மற்றும் அழைப்புகள்",
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "திரும்பப் பெறு$number$ அனுப்பிய அழைப்புகள் \"$name$\"",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "மக்கள் இந்த பட்டியலில் முயற்சிக்கிறது சேர \"$name$\" வழியாக குழு இணைப்பு.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "அனைவருக்கும் செய்தியை நீக்குவதில் தோல்வி. தயவு செய்து பின்னர் மீண்டும் முயற்சிக்கவும்.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "வண்ணத்தை நீக்கு",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "இயல்புநிலை நேரக்குறிப்பான் புதிய அரட்டைகளுக்கு",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "தி மறைந்து வரும் செய்தி நேரம் இருக்கும் அமை க்கு $timeValue$ நீங்கள் அவர்களுக்கு செய்தி அனுப்பும்போது.",

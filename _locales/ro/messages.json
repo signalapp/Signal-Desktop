@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Afișați Arhiva",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Culoare conversație",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Actualizați Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Se încarcă...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Salvează",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Resetare",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Asociază dispozitiv nou",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scanați acest cod în aplicația Signal de pe telefonul dvs.",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Numele dispozitivului",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Nu-i vei auzi sau vedea pe interlocutorii tăi iar ei nu te vor auzi sau vedea pe tine.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Derulați în sus",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Ceva a funcționat greșit!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Vă rugăm încercați din nou sau contactați serviciul de asistență.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Okay",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Ne pare rău, linkul sgnl:// nu a fost înțeles!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Alegeți cine poate trimite mesaje în acest grup.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Solicitări și invitații",
@@ -5530,7 +5534,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revocați o invitație trimisă de către \"$name$\"?",
+        "message": "Revocați 1 invitație trimisă de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5540,7 +5544,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revocați $number$ invitații trimise de către \"$name$\"",
+        "message": "Revocați $number$ invitații trimise de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "Persoanele din această listă încearcă să se alăture la \"$name$\" folosind linkul grupului. ",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Nu s-a putut șterge mesajul pentru toată lumea. Vă rugăm reîncercați mai târziu.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Șterge culoarea",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Temporizator implicit pentru conversații noi",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Timpul de dispariție a mesajului va fi setat la $timeValue$ în momentul în care le trimiteți un mesaj.",

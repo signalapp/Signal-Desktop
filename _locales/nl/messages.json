@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Archief weergeven",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Standaardgesprekskleur kiezen",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal bijwerken",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Bezig met laden …",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mobiel",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "e-mail",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Opslaan",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Standaardinstelling herstellen",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Nieuw apparaat koppelen",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan deze code met de Signal app op je telefoon",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Apparaatnaam",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Je zult hen niet kunnen zien of horen en zij zullen jou niet kunnen zien of horen.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Omhoog scrollen",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Er ging iets mis!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Probeer het opnieuw of neem contact op met ondersteuning.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Oké",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Sorry, die sgnl:// verwijzing klopt niet.",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Kies wie berichten mag verzenden aan deze groep.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Verzoeken & uitnodiging",
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "Personen in deze lijst proberen via de groepsverwijzing lid te worden van “$name$”.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Het is niet gelukt om dit bericht voor alle ontvangers te wissen. Probeer het later opnieuw.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Kleur verwijderen",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Standaard tijdspanne voor nieuwe gesprekken",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Zodra je een bericht verzend zal de tijdspanne voor verlopende berichten op $timeValue$ worden ingesteld.",

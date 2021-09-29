@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Просмотреть архив",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Цвет чата",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Обновить Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Загрузка…",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "мобильный",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Сохранить",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Сбросить",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Привязать новое устройство",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Просканируйте этот код в приложении Signal на своём телефоне",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Имя устройства",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Вы не будете получать аудио и видео этого участника, и он не будет получать ваши.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Прокрутить вверх",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Что-то пошло не так!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Пожалуйста, попробуйте ещё раз или свяжитесь с поддержкой.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Хорошо",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Извините, эта ссылка sgnl:// в данный момент не поддерживается Signal Desktop.",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Выберите, кто может отправлять сообщения в этой группе.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Запросы на участие и приглашения",
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "Люди в этом списке пытаются присоединиться к «$name$» по ссылке на группу.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Не удалось удалить сообщение для всех. Пожалуйста, попробуйте ещё раз позже.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Удаление цвета",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Таймер по умолчанию для новых чатов",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Время исчезновения сообщений будет установлено на $timeValue$, когда вы отправите сообщение этому человеку.",
@@ -6368,11 +6372,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Не удалось закрыть Signal",
+        "message": "Не удалось закрыть Signal.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Пожалуйста, закройте Signal вручную и нажмите «Повторить», чтобы продолжить.",
+        "message": "Пожалуйста, закройте его вручную и нажмите «Повторить», чтобы продолжить.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {

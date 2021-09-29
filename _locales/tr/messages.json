@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Arşivi Görüntüle",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Konuşma Rengi",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Signal'i Güncelle",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Yükleniyor...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "eposta",
@@ -1269,7 +1269,7 @@
     },
     "save": {
         "message": "Kaydet",
-        "description": "Used on save buttons"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
     },
     "reset": {
         "message": "Sıfırla",
@@ -1306,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Yeni Cihaz Bağla",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Bu kodu telefonunuzdaki Signal uygulamasıyla tarayın",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Cihaz adı",
@@ -1661,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Birbirinizin sesini veya görüntüsünü alamayacaksınız.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Yukarı kaydır",
@@ -3859,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Bir şeyler ters gitti!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Tamam",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Özür dileriz, bu sgnl:// bağlantısı anlaşılamadı!",
@@ -5325,7 +5329,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Gruba kimlerin ileti gönderebileceğini seçin.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "İstekler ve Davetler",
@@ -5567,7 +5571,7 @@
     },
     "PendingRequests--info": {
         "message": "Bu listedeki kişiler grup bağlantısı ile  \"$name$\"  grubuna katılmaya çalışıyor.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5897,7 +5901,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "İletinin herkesten silinmesi başarısız oldu. Lütfen daha sonra tekrar deneyin.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Rengi sil",
@@ -6039,7 +6043,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Yeni konuşmalar için varsayılan zamanlayıcı",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Kişiye ileti gönderdiğinizde kaybolan ileti süresi $timeValue$ olarak ayarlanacaktır.",
