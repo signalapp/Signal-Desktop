@@ -19,6 +19,7 @@ import {
 } from './CallingLobbyJoinButton';
 import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import { ConversationType } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
@@ -116,10 +117,11 @@ export const CallingLobby = ({
     function handleKeyDown(event: KeyboardEvent): void {
       let eventHandled = false;
 
-      if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+      const key = KeyboardLayout.lookup(event);
+      if (event.shiftKey && (key === 'V' || key === 'v')) {
         toggleVideo();
         eventHandled = true;
-      } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
+      } else if (event.shiftKey && (key === 'M' || key === 'm')) {
         toggleAudio();
         eventHandled = true;
       }

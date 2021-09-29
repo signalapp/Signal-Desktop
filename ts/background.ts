@@ -32,6 +32,7 @@ import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
+import * as KeyboardLayout from './services/keyboardLayout';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
@@ -142,6 +143,8 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  await KeyboardLayout.initialize();
+
   window.Whisper.events = window._.clone(window.Backbone.Events);
   window.Signal.Util.MessageController.install();
   window.Signal.conversationControllerStart();
@@ -1145,7 +1148,7 @@ export async function startApp(): Promise<void> {
     };
 
     document.addEventListener('keydown', event => {
-      const { ctrlKey, key, metaKey, shiftKey } = event;
+      const { ctrlKey, metaKey, shiftKey } = event;
 
       const commandKey = window.platform === 'darwin' && metaKey;
       const controlKey = window.platform !== 'darwin' && ctrlKey;
@@ -1154,6 +1157,8 @@ export async function startApp(): Promise<void> {
       const state = store.getState();
       const selectedId = state.conversations.selectedConversationId;
       const conversation = window.ConversationController.get(selectedId);
+
+      const key = KeyboardLayout.lookup(event);
 
       // NAVIGATION
 

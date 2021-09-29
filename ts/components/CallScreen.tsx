@@ -40,6 +40,7 @@ import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 
 export type PropsType = {
@@ -205,10 +206,12 @@ export const CallScreen: React.FC<PropsType> = ({
     const handleKeyDown = (event: KeyboardEvent): void => {
       let eventHandled = false;
 
-      if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+      const key = KeyboardLayout.lookup(event);
+
+      if (event.shiftKey && (key === 'V' || key === 'v')) {
         toggleVideo();
         eventHandled = true;
-      } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
+      } else if (event.shiftKey && (key === 'M' || key === 'm')) {
         toggleAudio();
         eventHandled = true;
       }

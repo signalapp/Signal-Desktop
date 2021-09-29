@@ -67,6 +67,7 @@ import { emojiToData } from '../emoji/lib';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
+import * as KeyboardLayout from '../../services/keyboardLayout';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -2283,8 +2284,10 @@ export class Message extends React.PureComponent<Props, State> {
     // Do not allow reactions to error messages
     const { canReply } = this.props;
 
+    const key = KeyboardLayout.lookup(event.nativeEvent);
+
     if (
-      (event.key === 'E' || event.key === 'e') &&
+      (key === 'E' || key === 'e') &&
       (event.metaKey || event.ctrlKey) &&
       event.shiftKey &&
       canReply
