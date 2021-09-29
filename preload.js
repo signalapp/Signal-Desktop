@@ -13,8 +13,6 @@ const { JobQueue } = require('./js/modules/job_queue');
 const { app } = electron.remote;
 const { clipboard } = electron;
 
-window.PROTO_ROOT = 'protos';
-
 const config = require('url').parse(window.location.toString(), true).query;
 
 let title = config.name;

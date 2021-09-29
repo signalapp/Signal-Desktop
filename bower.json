@@ -4,23 +4,8 @@
   "homepage": "https://github.com/loki-project/session-desktop",
   "license": "GPLV3",
   "private": true,
-  "dependencies": {
-    "indexeddb-backbonejs-adapter": "*",
-    "protobuf": "~3.8.0"
-  },
   "devDependencies": {
     "mock-socket": "~0.3.2"
-  },
-  "preen": {
-    "indexeddb-backbonejs-adapter": [
-      "backbone-indexeddb.js"
-    ],
-    "mock-socket": [
-      "dist/mock-socket.js"
-    ],
-    "protobuf": [
-      "dist/ProtoBuf.js"
-    ]
   },
   "concat": {
     "app": [
