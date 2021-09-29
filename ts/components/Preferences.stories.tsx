@@ -9,7 +9,6 @@ import enMessages from '../../_locales/en/messages.json';
 import { Preferences, PropsType } from './Preferences';
 import { setupI18n } from '../util/setupI18n';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
-import { ThemeType } from '../types/Util';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 
@@ -93,7 +92,6 @@ const createProps = (): PropsType => ({
     'dfbe6effe70b0611ba0fdc2a9ea3f39f6cb110e6687948f7e5f016c111b7329c',
   selectedMicrophone: availableMicrophones[0],
   selectedSpeaker: availableSpeakers[1],
-  theme: ThemeType.light,
   themeSetting: 'system',
   universalExpireTimer: 3600,
   whoCanFindMe: PhoneNumberDiscoverability.Discoverable,

@@ -13,6 +13,7 @@ import {
 import { strictAssert } from '../util/assert';
 import { createSetting } from '../util/preload';
 import { initialize as initializeLogging } from '../logging/set_up_renderer_logging';
+import { waitForSettingsChange } from './waitForSettingsChange';
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -29,6 +30,7 @@ initializeLogging();
 export const SignalWindow = {
   Settings: {
     themeSetting: createSetting('themeSetting', { setter: false }),
+    waitForChange: waitForSettingsChange,
   },
   config,
   context: window.SignalContext,

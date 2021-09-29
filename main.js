@@ -61,6 +61,8 @@ let mainWindow;
 let mainWindowCreated = false;
 let loadingWindow;
 
+const activeWindows = new Set();
+
 function getMainWindow() {
   return mainWindow;
 }
@@ -311,6 +313,9 @@ function handleCommonWindowEvents(window) {
   window.webContents.on('preload-error', (event, preloadPath, error) => {
     console.error(`Preload error in ${preloadPath}: `, error.message);
   });
+
+  activeWindows.add(window);
+  window.on('closed', () => activeWindows.delete(window));
 
   // Works only for mainWindow because it has `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
@@ -1804,8 +1809,10 @@ ipc.on('get-user-data-path', event => {
 
 // Refresh the settings window whenever preferences change
 ipc.on('preferences-changed', () => {
-  if (settingsWindow && settingsWindow.webContents) {
-    settingsWindow.webContents.send('render');
+  for (const window of activeWindows) {
+    if (window.webContents) {
+      window.webContents.send('preferences-changed');
+    }
   }
 });
 

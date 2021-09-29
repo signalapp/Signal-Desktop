@@ -69,7 +69,6 @@ export type PropsType = {
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
-  theme: ThemeType;
   themeSetting: ThemeSettingType;
   universalExpireTimer: number;
   whoCanFindMe: PhoneNumberDiscoverability;
@@ -257,7 +256,6 @@ export const Preferences = ({
   selectedMicrophone,
   selectedSpeaker,
   setGlobalDefaultConversationColor,
-  theme,
   themeSetting,
   universalExpireTimer = 0,
   whoCanFindMe,
@@ -272,11 +270,6 @@ export const Preferences = ({
     showDisappearingTimerDialog,
     setShowDisappearingTimerDialog,
   ] = useState(false);
-
-  useEffect(() => {
-    document.body.classList.toggle('light-theme', theme === ThemeType.light);
-    document.body.classList.toggle('dark-theme', theme === ThemeType.dark);
-  }, [theme]);
 
   useEffect(() => {
     doneRendering();

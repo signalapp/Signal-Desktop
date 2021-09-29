@@ -246,7 +246,6 @@ const renderPreferences = async () => {
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
-    theme: themeSetting === 'system' ? window.systemTheme : themeSetting,
     themeSetting,
     universalExpireTimer,
     whoCanFindMe,
@@ -360,7 +359,7 @@ const renderPreferences = async () => {
   );
 };
 
-ipcRenderer.on('render', () => renderPreferences());
+ipcRenderer.on('preferences-changed', () => renderPreferences());
 
 contextBridge.exposeInMainWorld('SignalWindow', {
   ...SignalWindow,

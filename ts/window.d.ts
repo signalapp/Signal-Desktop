@@ -474,6 +474,7 @@ declare global {
     SignalWindow: {
       Settings: {
         themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
+        waitForChange: () => Promise<void>;
       };
       config: string;
       context: SignalContext;

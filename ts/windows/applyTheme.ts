@@ -14,7 +14,19 @@ async function applyTheme() {
   );
 }
 
+async function applyThemeLoop() {
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    // eslint-disable-next-line no-await-in-loop
+    await window.SignalWindow.Settings.waitForChange();
+
+    // eslint-disable-next-line no-await-in-loop
+    await applyTheme();
+  }
+}
+
 applyTheme();
+applyThemeLoop();
 
 window.SignalWindow.context.nativeThemeListener.subscribe(() => {
   applyTheme();
