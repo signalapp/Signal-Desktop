@@ -119,9 +119,14 @@ export const AvatarPreview = ({
   }, [avatarPreview]);
 
   let imageStatus: ImageStatus;
+  let encodedPath: string | undefined;
   if (avatarValue && !objectUrl) {
     imageStatus = ImageStatus.Loading;
-  } else if (objectUrl || avatarPath) {
+  } else if (objectUrl) {
+    encodedPath = objectUrl;
+    imageStatus = ImageStatus.HasImage;
+  } else if (avatarPath) {
+    encodedPath = encodeURI(avatarPath);
     imageStatus = ImageStatus.HasImage;
   } else {
     imageStatus = ImageStatus.Nothing;
@@ -164,10 +169,10 @@ export const AvatarPreview = ({
         className={`AvatarPreview__avatar AvatarPreview__avatar--${imageStatus}`}
         {...clickProps}
         style={
-          imageStatus === ImageStatus.HasImage
+          imageStatus === ImageStatus.HasImage && encodedPath
             ? {
                 ...componentStyle,
-                backgroundImage: `url('${objectUrl || avatarPath}')`,
+                backgroundImage: `url('${encodedPath}')`,
               }
             : componentStyle
         }

@@ -2015,7 +2015,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return true;
   }
 
-  async showAllMedia(): Promise<void> {
+  showAllMedia(): void {
+    if (this.panels && this.panels.length) {
+      return;
+    }
+
     // We fetch more documents than media as they don’t require to be loaded
     // into memory right away. Revisit this once we have infinite scrolling:
     const DEFAULT_MEDIA_FETCH_COUNT = 50;
@@ -2174,20 +2178,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       };
     };
 
-    const view = new Whisper.ReactWrapperView({
-      className: 'panel',
-      Component: window.Signal.Components.MediaGallery,
-      props: await getProps(),
-      onClose: () => {
-        unsubscribe();
-      },
-    });
-    view.headerTitle = window.i18n('allMedia');
-
-    const update = async () => {
-      view.update(await getProps());
-    };
-
     function getMessageIds(): Array<string | undefined> | undefined {
       const state = window.reduxStore.getState();
       const byConversation = state?.conversations?.messagesByConversation;
@@ -2211,7 +2201,22 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     });
 
+    const view = new Whisper.ReactWrapperView({
+      className: 'panel',
+      Component: window.Signal.Components.MediaGallery,
+      onClose: () => {
+        unsubscribe();
+      },
+    });
+    view.headerTitle = window.i18n('allMedia');
+
+    const update = async () => {
+      view.update(await getProps());
+    };
+
     this.listenBack(view);
+
+    update();
   }
 
   focusMessageField(): void {
@@ -2835,7 +2840,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onClose,
     });
 
-    const update = () => view.update(getProps());
+    const update = () =>
+      view.update(
+        window.Signal.State.Roots.createMessageDetail(
+          window.reduxStore,
+          getProps()
+        )
+      );
     this.listenTo(message, 'change', update);
     this.listenTo(message, 'expired', onClose);
     // We could listen to all involved contacts, but we'll call that overkill
