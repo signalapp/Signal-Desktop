@@ -186,6 +186,8 @@ export class ConversationModel extends window.Backbone
 
   private hasAddedHistoryDisclaimer?: boolean;
 
+  private lastIsTyping?: boolean;
+
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
     return {
@@ -1185,11 +1187,15 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
+    // Coalesce multiple sendTypingMessage calls into one.
+    //
+    // `lastIsTyping` is set to the last `isTyping` value passed to the
+    // `sendTypingMessage`. The first 'sendTypingMessage' job to run will
+    // pick it and reset it back to `undefined` so that later jobs will
+    // in effect be ignored.
+    this.lastIsTyping = isTyping;
+
     await this.queueJob('sendTypingMessage', async () => {
-      const recipientId = isDirectConversation(this.attributes)
-        ? this.getSendTarget()
-        : undefined;
-      const groupId = this.getGroupIdBuffer();
       const groupMembers = this.getRecipients();
 
       // We don't send typing messages if our recipients list is empty
@@ -1197,15 +1203,32 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
+      if (this.lastIsTyping === undefined) {
+        log.info(`sendTypingMessage(${this.idForLogging()}): ignoring`);
+        return;
+      }
+
+      const recipientId = isDirectConversation(this.attributes)
+        ? this.getSendTarget()
+        : undefined;
+      const groupId = this.getGroupIdBuffer();
       const timestamp = Date.now();
+
+      const content = {
+        recipientId,
+        groupId,
+        groupMembers,
+        isTyping: this.lastIsTyping,
+        timestamp,
+      };
+      this.lastIsTyping = undefined;
+
+      log.info(
+        `sendTypingMessage(${this.idForLogging()}): sending ${content.isTyping}`
+      );
+
       const contentMessage = window.textsecure.messaging.getTypingContentMessage(
-        {
-          recipientId,
-          groupId,
-          groupMembers,
-          isTyping,
-          timestamp,
-        }
+        content
       );
 
       const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
