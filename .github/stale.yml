@@ -15,6 +15,7 @@ exemptLabels:
   - Accessibility
   - Bug
   - Regression
+  - "Feature Request"
   - "Good starter task"
   - "Upstream Change Needed"
   - "PR: Needs Review"
