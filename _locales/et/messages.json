@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Näita arhiivi",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Vestluse värv",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Uuenda Signalit",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Laadimine...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mobiil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "e-post",
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Salvesta",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Lähtesta",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Faili ikoon",
@@ -1302,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Ühenda uus seade",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Seadme nimi",
@@ -1346,6 +1354,14 @@
     "calling": {
         "message": "Helistamine",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Helista tagasi",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Helista uuesti",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Alusta kõnet",
@@ -1649,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Sina ei saa nende heli või videot ja nemad ei saa sinu oma.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Keri üles",
@@ -2363,6 +2379,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Hiljem",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignoreeri uuendust",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3425,7 @@
     },
     "member-of-2-groups": {
         "message": "Gruppide $group1$ ja $group2$ liige",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3439,7 @@
     },
     "member-of-3-groups": {
         "message": "Gruppide $group1$, $group2$ ja $group3$ liige",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3455,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Gruppide $group1$, $group2$, $group3$ ja veel ühe liige",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Gruppide $group1$, $group2$, $group3$ ja $remainingCount$ muu grupi liige",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ lisas sind gruppi.",
@@ -3714,7 +3770,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Jaga ekraani",
+        "message": "Alusta jagamist",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3807,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Midagi läks valesti!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Palun proovi uuesti või võta ühendust kasutajatoega.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Sobib",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Vabandust, see sgnl:// link ei ole arusaadav!",
@@ -4495,7 +4551,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Administraator eemaldas administraatoriõigused liikmelt $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ eemaldas sinu administraatoriõigused.",
@@ -5214,7 +5276,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Eemalda $contact$ grupi administraatorite hulgast",
+        "message": "Kas eemaldada $contact$ grupi administraatorite hulgast?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5273,7 +5335,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Vali, kes saavad gruppi sõnumeid saata.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Taotlused ja kutsed",
@@ -5488,7 +5550,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Kas tühistada $number$ isiku \"$name$\" poolt saadetud kutset?",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5515,7 +5577,7 @@
     },
     "PendingRequests--info": {
         "message": "Selles nimekirjas olevad isikud püüavad grupilingi kaudu grupiga \"$name$\" liituda.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5640,7 +5702,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Vali kontakt",
+        "message": "Vali kontakt $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5712,7 @@
         }
     },
     "deselectContact": {
-        "message": "Eemalda kontakti valik",
+        "message": "Ära vali kontakti $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5722,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Kontakti ei saa valida",
+        "message": "Ei saa valida kontakti $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5845,7 +5907,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Sõnumi kustutamine kõigi jaoks ei õnnestunud. Palun proovi hiljem uuesti.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Kustuta värv",
@@ -5987,7 +6049,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Uute gruppide sõnumite vaikimisi kestus",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Kui saadad kaduva sõnumi, siis määratakse selle kestuseks $timeValue$",
@@ -6315,29 +6377,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signalit ei saa sulgeda.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Palun sulge see käsitsi ja klõpsa jätkamiseks \"Proovi uuesti\".",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Kohanda reaktsioone",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klõpsa emoji asendamiseks",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Sätete salvestamisel tekkis tõrge. Palun proovi uuesti.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Mis on uut",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Ei, see pole tolmukübe, mida pead kuvarilt maha pühkima, see on nüüd täpp saabunud kuid esitamata helisõnumite märgistamiseks.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Helistamisruum sai mõned muudatused ja ümbertegemised ning me ei pidanud isegi refinantseerima.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Uus sätete aken on parem ja kiirem. Mine edasi ja muuda suumitaset, lülita välimuse teema sisse/välja ja määra kohandatud sõnumi kadumise kestus.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Nüüd saad valida, millal Signali uuendusi alla laadida ja paigaldada. Ka dialoogid said väikese muutuse. Kontrollige sätet uues eelistuste aknas.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Purustasime palju vigu ja on ka mõningaid jõudluse parandusi. Täname teid kõiki vearaportite eest!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "Täiustatud valguskast tähendab vähem üllatusi piltide või videote galeriis liikudes. Ja sul on võimalik teeselda, et tõesti oled pimikus, eemaldades suumides need tüütud nuppud.",
@@ -6358,5 +6420,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Nüüd saad sõnumeid saata kõikjalt ja igal ajal: lennukis, tunnelis või kurval hetkel, kui su internet just katkes. Need tulevad lõpuks läbi, sest sõnumid proovivad nüüd end kuni 24 tundi automaatselt uuesti saata.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
+        "description": "Release notes for v5.18"
     }
 }

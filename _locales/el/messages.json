@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Προβολή αρχείου",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Χρώμα συνομιλίας",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Αναβάθμιση του Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Φορτώνει...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "κινητό",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Αποθήκευση",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Επαναφορά",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Εικονίδιο αρχείου",
@@ -1302,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Σύνδεση νέας συσκεύης",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Όνομα συσκεύης",
@@ -1346,6 +1354,14 @@
     "calling": {
         "message": "Κλήσεις",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Επανάκληση",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Επανάκληση",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Έναρξη κλήσης",
@@ -1649,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Δεν θα μπορείς να λάβεις τον ήχο ή την εικόνα του/της και αυτός/ή δεν θα λαμβάνει τα δικά σου.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Κύλιση πάνω",
@@ -2363,6 +2379,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Αργότερα",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Παράλειψη αναβάθμισης",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3425,7 @@
     },
     "member-of-2-groups": {
         "message": "Μέλος του $group1$ και $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3439,7 @@
     },
     "member-of-3-groups": {
         "message": "Μέλος του $group1$, $group2$, και $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3455,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
-        "message": "Μέλος του $group1$, $group2$, $group3$ και $remainingCount$ ακόμα",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Μέλος των $group1$, $group2$, $group3$ και μίας ακόμα",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
+        "message": "Μέλος των $group1$, $group2$, $group3$ και $remainingCount$ ακόμα",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "Ο/Η $name$ σε πρόσθεσε στην ομάδα.",
@@ -3714,7 +3770,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Διαμοιρασμός οθόνης",
+        "message": "Έναρξη διαμοιρασμού",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3807,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Κάτι πήγε στραβά!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Παρακαλώ δοκίμασε ξανά ή επικοινώνησε με την υποστήριξη.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Εντάξει",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Συγγνώμη, αυτός ο σύνδεσμος sgnl:// δεν βγάζει νόημα!",
@@ -4495,7 +4551,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Ένας διαχειριστής ανακάλεσε τα δικαιώματα διαχείρισης του/της $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "Ο/Η $adminName$ ανακάλεσε τα δικαιώματα διαχείρισής σου.",
@@ -5214,7 +5276,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Αφαίρεση των δικαιωμάτων διαχείρισης της ομάδας από τον/την $contact$",
+        "message": "Αφαίρεση του/της $contact$ από διαχειριστή της ομάδας;",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5273,7 +5335,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Αιτήματα & Προσκλήσεις",
@@ -5488,7 +5550,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Ανάκληση $number$ προσκλήσεων που στάλθηκαν από τον/την \"$name$\";",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5515,7 +5577,7 @@
     },
     "PendingRequests--info": {
         "message": "Τα άτομα σε αυτή τη λίστα προσπαθούν να μπουν στο \"$name$\" μέσω του συνδέσμου της ομάδας.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5640,7 +5702,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Επιλογή επαφής",
+        "message": "Επιλογή επαφής $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5712,7 @@
         }
     },
     "deselectContact": {
-        "message": "Αποεπιλογή επαφής",
+        "message": "Απο-επιλογή επαφής$name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5722,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Αδυναμία επιλογής επαφής",
+        "message": "Η επαφή $name$ δεν μπορεί να επιλεχθεί",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5845,7 +5907,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Αποτυχία διαγραφής του μηνύματος για όλους. Παρακαλώ προσπάθησε ξανά αργότερα.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Διαγραφή χρώματος",
@@ -5987,7 +6049,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Προκαθορισμένο χρονόμετρο για νέες συνομιλίες",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Ο χρόνος εξαφάνισης μηνυμάτων θα οριστεί σε $timeValue$ όταν του/της στείλεις μήνυμα.",
@@ -6315,29 +6377,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Το Signal δεν μπορεί να κλείσει.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Παρακαλώ κλείστο χειροκίνητα και πάτα Δοκιμή Ξανά για να συνεχίσεις.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Προσαρμογή αντιδράσεων",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Πάτα για αντικατάσταση κάποιου emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Υπήρξε κάποιο σφάλμα με την αποθήκευση των ρυθμίσεών σου. Παρακαλώ ξαναπροσπάθησε αργότερα.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Νέες δυνατότητες",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Όχι, δεν θέλει καθάρισμα η οθόνη σου. Υπάρχει πλέον μια κουκίδα για τα εισερχόμενα ηχητικά μηνύματα που δεν έχεις ακούσει.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Κάναμε ανακαίνιση και επανασχεδίαση στο λομπι των κλήσεων.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Το νεο παράθυρο προτιμήσεων είναι καλύτερο και γρηγορότερο. Μπορείς να αλλάξεις το επίπεδο zoom, το θέμα και να ορίσεις ένα προσαρμοσμένο χρόνο εξαφάνισης μηνυμάτων.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Μπορείς να επιλέξεις πότε να κατεβάσεις και να εγκαταστήσεις νέες αναβαθμίσεις του Signal. Οι διάλογοι έλαβαν επίσης κάποιες μικρές αλλαγές. Δες τα στο νέο παράθυρο προτιμήσεων.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Αντιμετωπίσαμε πολλά bugs και βελτιώσαμε την απόδοση. Ευχαριστούμε για όλες τις αναφορές!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
@@ -6358,5 +6420,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Μπορείς πλέον να στείλεις μηνύματα ανεξάρτητα από το αν είσαι συνδεμένος/η στο διαδίκτυο. Τα μηνύματα θα ξαναδοκιμάζουν να σταλθούν αυτόματα για 24 ώρες.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Νιώθεις ❤️‍🔥 ή 😶‍🌫️; Μπορείς να εκφραστείς με μια νέα συλλογή από emoji, κάνοντας αναζήτηση για το κατάλληλο emoji :χαρούμενα ή και :ΦΩΝΑΖΟΝΤΑΣ. Ευχαριστούμε $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Διορθώσαμε τα top level domains της Ανγουίλας, οπότε πλέον μπορείς να πατάς στα $gov$ και $brain$ όπως πατάς και στο $signal$. Ευχαριστούμε $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Προσθέσαμε τη δυνατότητα να ζουμάρεις φωτογραφίες.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Ήξερες πως αν τα μηνύματα που εξαφανίζονται είναι ενεργοποιημένα, ακόμα και η ειδοποίηση \"Αυτό το μήνυμα διαγράφτηκε\" επίσης εξαφανίζεται μόλις λήξει; Πλέον θα εμφανίζεται ένα χρονόμετρο λήξης δίπλα σε αυτό το μήνυμα.",
+        "description": "Release notes for v5.18"
     }
 }

@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Visa arkiv",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Chattfärg",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "Uppdatera Signal",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Läser in...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "e-post",
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "Spara",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Återställ",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Filikon",
@@ -1302,6 +1306,10 @@
     "linkNewDevice": {
         "message": "Länka ny enhet",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Skanna den här koden i Signal-appen på din telefon",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "Enhetsnamn",
@@ -1346,6 +1354,14 @@
     "calling": {
         "message": "Samtal",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Ring tillbaka",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Ring igen",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Starta samtal",
@@ -1649,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "Du kommer inte att ta emot deras ljud eller video och de kommer inte att ta emot dina.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Rulla upp",
@@ -2363,6 +2379,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Senare",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignorera uppdatering",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3425,7 @@
     },
     "member-of-2-groups": {
         "message": "Medlem i $group1$ och $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3439,7 @@
     },
     "member-of-3-groups": {
         "message": "Medlem i $group1$, $group2$ och $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3455,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Medlem i $group1$, $group2$, $group3$ och en till",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ fler",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ lade dig till gruppen.",
@@ -3714,7 +3770,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Dela skärm",
+        "message": "Starta delning",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3807,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "Något gick fel!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Vänligen försök igen eller kontakta support.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Okej",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Tyvärr, sgnl://-länken var inte meningsfull!",
@@ -4495,7 +4551,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "En administratör återkallade administratörsbehörigheter från $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ återkallade dina administratörsbehörigheter.",
@@ -5214,7 +5276,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Ta bort $contact$ som gruppadministratör",
+        "message": "Ta bort $contact$ som gruppadministratör?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5273,7 +5335,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Välj vem som kan skicka meddelanden till gruppen.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Förfrågningar & inbjudningar",
@@ -5488,7 +5550,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Återkalla $number$ inbjudningar skickade av \"$name$\"",
+        "message": "Återkalla $number$ inbjudningar skickade av \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5515,7 +5577,7 @@
     },
     "PendingRequests--info": {
         "message": "Personer på den här listan försöker gå med \"$name$\" via grupplänken.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5640,7 +5702,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Välj kontakt",
+        "message": "Välj kontakten $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5712,7 @@
         }
     },
     "deselectContact": {
-        "message": "Avmarkera kontakt",
+        "message": "Avmarkera kontakten $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5722,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Det går inte att välja kontakt",
+        "message": "Det går inte att välja kontakten $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5845,7 +5907,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Det gick inte att ta bort meddelandet för alla. Vänligen försök igen senare.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Ta bort färg",
@@ -5987,7 +6049,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Standardtidsgräns för nya chattar",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Tiden för att meddelanden försvinner ställs in till $timeValue$ när du meddelar dem.",
@@ -6315,29 +6377,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal går inte att stängas.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Vänligen stäng det manuellt och klicka på Försök igen för att fortsätta.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Anpassa reaktioner",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klicka för att ersätta en emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Det uppstod ett fel när du sparade dina inställningar. Vänligen försök igen.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "Nej, det är inget damm som du behöver för att få bort din bildskärm, det finns nu en prick för ouppspelade inkommande ljudmeddelanden.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "Den uppringande lobbyn fick lite ombyggnationer och renoveringar och vi behövde inte ens refinansiera.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "Det nya inställningsfönstret är bättre och snabbare. Fortsätt och ändra din zoomnivå, växla temat, ställ in en anpassad försvinnande tid.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "Du kan nu välja när du vill hämta och tillämpa nya uppdateringar för Signal. Dialogrutorna fick också en liten uppdatering. Kolla in inställningen i det nya inställningsfönstret.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Krossade massor av buggar och det finns några prestandaförbättringar också. Tack alla för era rapporter!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "En förbättrad medieljuslåda innebär inga överraskningar när du går igenom ett galleri med bilder eller videor, och du kan låtsas att du verkligen är i ett mörkt rum genom att zooma för att dölja de irriterande knapparna.",
@@ -6358,5 +6420,45 @@
     "WhatsNew__v5.17--2": {
         "message": "Du kan nu skicka meddelanden var och när du är: på ett flygplan, i en tunnel, eller det sorgliga ögonblicket när ditt internet bara stängdes av. Det kommer så småningom att komma fram; meddelanden försöker nu automatiskt skicka igen i upp till 24 timmar.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Känns ❤️‍🔥 or 😶‍🌫️? Du kan uttrycka dig själv med en ny uppsättning emojier, oavsett om du :viskar eller :SKRIKER medan du skriver. Tack $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Om du är i Anguilla, har du kanske känt dig utelämnad. Vi vänder nu alla toppdomäner på plats sedan 2010 i länkar - så både $gov$ och $brain$ kommer att vara klickbara precis som $signal$. Tack $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Vi hörde att du gillar att zooma in på bilder. Vi lade till oomph till din zoom, så även små bilder kan gå hela vägen helskärm.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Visste du att när försvinnande meddelanden är aktiverade, kommer även aviseringen \"det här meddelandet togs bort\" att försvinna när den löper ut? Det är inte längre ett mysterium - du får se nedräkningen och tidsstämpel direkt på meddelandet.",
+        "description": "Release notes for v5.18"
     }
 }

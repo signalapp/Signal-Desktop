@@ -177,15 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "مشاهده بایگانی",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "رنگ گفتگو",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
         "message": "به‌روزرسانی سیگنال",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "درحال بارگذاری...",
@@ -875,7 +875,7 @@
     },
     "mobile": {
         "message": "موبایل",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "ایمیل",
@@ -1269,7 +1269,11 @@
     },
     "save": {
         "message": "ذخیره",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "بازنشانی",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "آیکون فایل",
@@ -1302,6 +1306,10 @@
     "linkNewDevice": {
         "message": "لینک کردن دستگاه جدید",
         "description": "The menu option shown in Signal iOS to add a new linked device"
+    },
+    "LinkScreen__scan-this-code": {
+        "message": "Scan this code in the Signal app on your phone",
+        "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
         "message": "نام دستگاه",
@@ -1346,6 +1354,14 @@
     "calling": {
         "message": "درحال تماس",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "تماس",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "تماس دوباره",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "شروع تماس",
@@ -1649,7 +1665,7 @@
     },
     "calling__block-info": {
         "message": "شما صدا و تصویر آ‌ن‌ها را دریافت نمی‌کنید و آن‌ها هم صدا و تصویر شما را دریافت نخواهند کرد.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "بالا بکشید",
@@ -2363,6 +2379,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "بعدا",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignore update",
         "description": ""
     },
     "leftTheGroup": {
@@ -3405,7 +3425,7 @@
     },
     "member-of-2-groups": {
         "message": "عضو $group1$ و $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3419,7 +3439,7 @@
     },
     "member-of-3-groups": {
         "message": "عضو $group1$، $group2$ و $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3435,9 +3455,45 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "عضو $group1$، $group2$، $group3$ و $remainingCount$ نفر بیشتر",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups"
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            },
+            "remainingCount": {
+                "content": "$4",
+                "example": "3"
+            }
+        }
     },
     "ConversationHero--membership-added": {
         "message": "$name$ شما را به گروه اضافه کرد. ",
@@ -3714,7 +3770,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "اشتراک صفحه",
+        "message": "Start sharing",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3807,15 +3863,15 @@
     },
     "ErrorModal--title": {
         "message": "خطایی رخ داد!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "خوب",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "متأسفیم، آن پیوند sgnl:// پشتیبانی نمی‌شود",
@@ -4495,7 +4551,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "یک مدیر امتیازات مدیریتی $memberName$ را لغو کرد.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ امتیازات مدیریتی شما را لغو کرد.",
@@ -5214,7 +5276,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "حذف $contact$ به عنوان مدیر گروه",
+        "message": "Remove $contact$ as group admin?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5273,7 +5335,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "انتخاب کنید چه کسی می‌تواند به گروه پیام ارسال کند.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "درخواست‌ها و دعوتنامه‌ها",
@@ -5488,7 +5550,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "لغو $number$ دعوت ارسالی از «$name$»",
+        "message": "Revoke $number$ invites sent by \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5515,7 +5577,7 @@
     },
     "PendingRequests--info": {
         "message": "افراد در این فهرست در حال تلاش برای پیوستن به «$name$» از طریق پیوند گروه هستند.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5640,7 +5702,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "انتخاب مخاطب",
+        "message": "Select contact $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5650,7 +5712,7 @@
         }
     },
     "deselectContact": {
-        "message": "لغو انتخاب مخاطب",
+        "message": "De-select contact $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5660,7 +5722,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "انتخاب مخاطب ممکن نیست",
+        "message": "Cannot select contact $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5845,7 +5907,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "حذف پیام برای همه ناموفق بود. لطفاً بعداً دوباره سعی کنید.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "حذف رنگ",
@@ -5987,7 +6049,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "زمان‌سنج پیش‌فرض برای گفتگوهای جدید",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "زمان پیام ناپدید شونده هنگامی که به آن‌ها پیام می‌دهید روی $timeValue$ تنظیم خواهد شد.",
@@ -6315,29 +6377,29 @@
             }
         }
     },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal cannot be closed.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Please close it manually and click Retry to continue.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "سفارشی‌سازی واکنش‌ها",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Click to replace an emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "There was an error when saving your settings. Please try again.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
     "WhatsNew__modal-title": {
         "message": "تازه‌ها",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.15--1": {
-        "message": "No that's not speck of dust you need to flick off your monitor, there's now a dot for unplayed incoming audio messages.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--2": {
-        "message": "The calling lobby got some remodeling and renovations done and we didn't even have to refinance.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--3": {
-        "message": "The new preferences window is better and faster. Go ahead and change your zoom level, toggle the theme, set a custom disappearing timer.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--4": {
-        "message": "You can now choose when to download and apply new updates for Signal. The dialogs got a small makeover too. Check out the setting in the new preferences window.",
-        "description": "Release notes for v5.15"
-    },
-    "WhatsNew__v5.15--5": {
-        "message": "Squashed lots of bugs and there are some performance improvements as well. Thank you all for your reports!",
-        "description": "Release notes for v5.15"
     },
     "WhatsNew__v5.16--1": {
         "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
@@ -6358,5 +6420,45 @@
     "WhatsNew__v5.17--2": {
         "message": "شما حالا می‌توانید هر جا و هر لحظه‌ای که هستید پیام بفرستید: روی یک هواپیما، در یک تونل، یا آن لحظهٔ ناراحت‌کننده‌ای که اینترنت شما قطع شد. در نهایت به مقصد می‌رسد؛ پیام‌ها حالا به صورت خودکار تا ۲۴ ساعت دوباره ارسال می‌شوند.",
         "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
+        "description": "Release notes for v5.18"
     }
 }
