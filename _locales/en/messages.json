@@ -6461,7 +6461,11 @@
     "description": "Release notes for v5.19"
   },
   "WhatsNew__v5.19--3": {
-    "message": "Silence (and your preferences) is golden, so muted conversations will no longer display 'group call started' notifications!",
+    "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
+    "description": "Release notes for v5.19"
+  },
+  "WhatsNew__v5.19--4": {
+    "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
     "description": "Release notes for v5.19"
   }
 }
