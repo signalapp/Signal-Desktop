@@ -93,6 +93,6 @@ export async function autoScale({
   return {
     contentType: IMAGE_JPEG,
     file: blob,
-    fileName: `${name}.jpeg`,
+    fileName: `${name}.jpg`,
   };
 }
