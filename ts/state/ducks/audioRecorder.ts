@@ -14,6 +14,7 @@ import { useBoundActions } from '../../hooks/useBoundActions';
 
 export enum ErrorDialogAudioRecorderType {
   Blur,
+  ErrorRecording,
   Timeout,
 }
 
@@ -69,14 +70,22 @@ function startRecording(): ThunkAction<
   void,
   RootStateType,
   unknown,
-  StartRecordingAction
+  StartRecordingAction | ErrorRecordingAction
 > {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     if (getState().composer.attachments.length) {
       return;
     }
 
-    recorder.start();
+    try {
+      await recorder.start();
+    } catch (err) {
+      dispatch({
+        type: ERROR_RECORDING,
+        payload: ErrorDialogAudioRecorderType.ErrorRecording,
+      });
+      return;
+    }
 
     dispatch({
       type: START_RECORDING,

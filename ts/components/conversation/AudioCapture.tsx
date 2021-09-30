@@ -147,16 +147,50 @@ export const AudioCapture = ({
     );
   }
 
-  let confirmationDialogText: string | undefined;
-  if (errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Blur) {
-    confirmationDialogText = i18n('voiceRecordingInterruptedBlur');
-  } else if (
+  let confirmationDialog: JSX.Element | undefined;
+  if (
+    errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Blur ||
     errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Timeout
   ) {
-    confirmationDialogText = i18n('voiceRecordingInterruptedMax');
+    const confirmationDialogText =
+      errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Blur
+        ? i18n('voiceRecordingInterruptedBlur')
+        : i18n('voiceRecordingInterruptedMax');
+
+    confirmationDialog = (
+      <ConfirmationDialog
+        i18n={i18n}
+        onCancel={clickCancel}
+        onClose={noop}
+        cancelText={i18n('discard')}
+        actions={[
+          {
+            text: i18n('sendAnyway'),
+            style: 'affirmative',
+            action: clickSend,
+          },
+        ]}
+      >
+        {confirmationDialogText}
+      </ConfirmationDialog>
+    );
+  } else if (
+    errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.ErrorRecording
+  ) {
+    confirmationDialog = (
+      <ConfirmationDialog
+        i18n={i18n}
+        onCancel={clickCancel}
+        onClose={noop}
+        cancelText={i18n('ok')}
+        actions={[]}
+      >
+        {i18n('voiceNoteError')}
+      </ConfirmationDialog>
+    );
   }
 
-  if (isRecording && !confirmationDialogText) {
+  if (isRecording && !confirmationDialog) {
     return (
       <>
         <div className="AudioCapture">
@@ -203,23 +237,7 @@ export const AudioCapture = ({
           title={i18n('voiceRecording--start')}
           type="button"
         />
-        {confirmationDialogText ? (
-          <ConfirmationDialog
-            i18n={i18n}
-            onCancel={clickCancel}
-            onClose={noop}
-            cancelText={i18n('discard')}
-            actions={[
-              {
-                text: i18n('sendAnyway'),
-                style: 'affirmative',
-                action: clickSend,
-              },
-            ]}
-          >
-            {confirmationDialogText}
-          </ConfirmationDialog>
-        ) : null}
+        {confirmationDialog}
       </div>
       {toastElement}
     </>

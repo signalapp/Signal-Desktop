@@ -68,8 +68,12 @@ export class RecorderClass {
       this.source = this.context.createMediaStreamSource(stream);
       this.source.connect(this.input);
     } catch (err) {
-      log.error('Recorder.onGetUserMediaError:', err);
+      log.error(
+        'Recorder.onGetUserMediaError:',
+        err && err.stack ? err.stack : err
+      );
       this.clear();
+      throw err;
     }
 
     if (this.recorder) {
