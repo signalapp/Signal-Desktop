@@ -29,23 +29,9 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
       date: new Date(window.getBuildCreation?.() || Date.now()),
       version: window.getVersion(),
       features: [
-        {
-          key: 'WhatsNew__v5.18--1',
-          components: {
-            hiqua: <a href="https://github.com/hiqua">@hiqua</a>,
-          },
-        },
-        {
-          key: 'WhatsNew__v5.18--2',
-          components: {
-            gov: <a href="http://gov.ai">gov.ai</a>,
-            brain: <a href="https://brain.ai">brain.ai</a>,
-            signal: <a href="https://signal.org">signal.org</a>,
-            jojomatik: <a href="https://github.com/jojomatik">@jojomatik</a>,
-          },
-        },
-        { key: 'WhatsNew__v5.18--3', components: undefined },
-        { key: 'WhatsNew__v5.18--4', components: undefined },
+        { key: 'WhatsNew__v5.19--1', components: undefined },
+        { key: 'WhatsNew__v5.19--2', components: undefined },
+        { key: 'WhatsNew__v5.19--3', components: undefined },
       ],
     });
   };

@@ -6451,5 +6451,17 @@
   "WhatsNew__v5.18--4": {
     "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
     "description": "Release notes for v5.18"
+  },
+  "WhatsNew__v5.19--1": {
+    "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
+    "description": "Release notes for v5.19"
+  },
+  "WhatsNew__v5.19--2": {
+    "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+    "description": "Release notes for v5.19"
+  },
+  "WhatsNew__v5.19--3": {
+    "message": "Silence (and your preferences) is golden, so muted conversations will no longer display 'group call started' notifications!",
+    "description": "Release notes for v5.19"
   }
 }
