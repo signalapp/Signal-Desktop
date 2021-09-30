@@ -165,7 +165,7 @@
     "underscore": "1.12.1",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
-    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#4864f2f50a363bdf0147158e52aa1d93a9e70633",
+    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672",
     "zod": "3.5.1"
   },
   "devDependencies": {

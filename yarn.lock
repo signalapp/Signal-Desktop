@@ -19227,9 +19227,9 @@ zip-stream@^1.2.0:
     lodash "^4.8.0"
     readable-stream "^2.0.0"
 
-"zkgroup@https://github.com/signalapp/signal-zkgroup-node.git#4864f2f50a363bdf0147158e52aa1d93a9e70633":
-  version "0.8.1"
-  resolved "https://github.com/signalapp/signal-zkgroup-node.git#4864f2f50a363bdf0147158e52aa1d93a9e70633"
+"zkgroup@https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672":
+  version "0.8.2"
+  resolved "https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672"
   dependencies:
     "@types/ffi-napi" "^4.0.1"
     "@types/ref-napi" "^3.0.1"
