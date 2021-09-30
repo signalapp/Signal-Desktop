@@ -32,6 +32,7 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
         { key: 'WhatsNew__v5.19--1', components: undefined },
         { key: 'WhatsNew__v5.19--2', components: undefined },
         { key: 'WhatsNew__v5.19--3', components: undefined },
+        { key: 'WhatsNew__v5.19--4', components: undefined },
       ],
     });
   };
