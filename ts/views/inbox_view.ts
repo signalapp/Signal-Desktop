@@ -115,7 +115,6 @@ Whisper.InboxView = Whisper.View.extend({
       }
 
       this.conversation_stack.open(conversation, messageId);
-      this.focusConversation();
     });
 
     window.Whisper.events.on('showSafetyNumberInConversation', id => {
@@ -216,14 +215,6 @@ Whisper.InboxView = Whisper.View.extend({
       ) as HTMLElement;
       searchInput?.focus?.();
     }
-  },
-  focusConversation(e: MouseEvent) {
-    if (e && this.$(e.target).closest('.placeholder').length) {
-      return;
-    }
-
-    this.$('#header, .gutter').addClass('inactive');
-    this.$('.conversation-stack').removeClass('inactive');
   },
   closeRecording(e: MouseEvent) {
     if (e && this.$(e.target).closest('.capture-audio').length > 0) {

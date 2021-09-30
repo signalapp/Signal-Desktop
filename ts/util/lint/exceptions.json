@@ -13533,27 +13533,6 @@
   {
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.js",
-    "line": "        if (e && this.$(e.target).closest('.placeholder').length) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.js",
-    "line": "        this.$('#header, .gutter').addClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.js",
-    "line": "        this.$('.conversation-stack').removeClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.js",
     "line": "        if (e && this.$(e.target).closest('.capture-audio').length > 0) {",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
@@ -13646,27 +13625,6 @@
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.ts",
     "line": "    this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
-    "line": "    if (e && this.$(e.target).closest('.placeholder').length) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('#header, .gutter').addClass('inactive');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('.conversation-stack').removeClass('inactive');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
