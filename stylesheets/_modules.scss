@@ -322,6 +322,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-width: 0;
 }
 .module-message__container {
   position: relative;
@@ -9269,7 +9270,12 @@ button.module-image__border-overlay:focus {
 @media (min-width: 835px) and (max-width: 925px) {
   .module-message {
     // Add 2px for 1px border
-    max-width: 376px;
+    max-width: 360px;
+
+    &--with-avatar {
+      // Remove 36px from avatar
+      max-width: 324px;
+    }
   }
 
   // Spec: container < 438px

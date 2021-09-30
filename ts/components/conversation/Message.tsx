@@ -1170,21 +1170,20 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAvatar(): JSX.Element | undefined {
-    const {
-      author,
-      collapseMetadata,
-      conversationType,
-      direction,
-      i18n,
-      showContactModal,
-    } = this.props;
+  public hasAvatar(): boolean {
+    const { collapseMetadata, conversationType, direction } = this.props;
 
-    if (
-      collapseMetadata ||
-      conversationType !== 'group' ||
-      direction === 'outgoing'
-    ) {
+    return Boolean(
+      !collapseMetadata &&
+        conversationType === 'group' &&
+        direction !== 'outgoing'
+    );
+  }
+
+  public renderAvatar(): JSX.Element | undefined {
+    const { author, i18n, showContactModal } = this.props;
+
+    if (!this.hasAvatar()) {
       return undefined;
     }
 
@@ -2409,7 +2408,8 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message',
           `module-message--${direction}`,
           isSelected ? 'module-message--selected' : null,
-          expiring ? 'module-message--expired' : null
+          expiring ? 'module-message--expired' : null,
+          this.hasAvatar() ? 'module-message--with-avatar' : null
         )}
         tabIndex={0}
         // We pretend to be a button because we sometimes contain buttons and a button
