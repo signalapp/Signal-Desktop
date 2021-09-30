@@ -77,6 +77,8 @@ export function Lightbox({
     | undefined
   >();
 
+  const isZoomed = zoomType !== ZoomType.None;
+
   const onPrevious = useCallback(
     (
       event: KeyboardEvent | React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -84,9 +86,13 @@ export function Lightbox({
       event.preventDefault();
       event.stopPropagation();
 
+      if (isZoomed) {
+        return;
+      }
+
       setSelectedIndex(prevSelectedIndex => Math.max(prevSelectedIndex - 1, 0));
     },
-    []
+    [isZoomed]
   );
 
   const onNext = useCallback(
@@ -96,11 +102,15 @@ export function Lightbox({
       event.preventDefault();
       event.stopPropagation();
 
+      if (isZoomed) {
+        return;
+      }
+
       setSelectedIndex(prevSelectedIndex =>
         Math.min(prevSelectedIndex + 1, media.length - 1)
       );
     },
-    [media]
+    [isZoomed, media]
   );
 
   const onTimeUpdate = useCallback(() => {
@@ -233,17 +243,38 @@ export function Lightbox({
       zoomCoords.y = ev.clientY;
     }
 
-    const scaleX =
-      (-1 / zoomCoords.screenWidth) *
-      (imageNode.offsetWidth - zoomCoords.screenWidth);
-    const scaleY =
-      (-1 / zoomCoords.screenHeight) *
-      (imageNode.offsetHeight - zoomCoords.screenHeight);
+    const shouldTransformX = imageNode.naturalWidth > zoomCoords.screenWidth;
+    const shouldTransformY = imageNode.naturalHeight > zoomCoords.screenHeight;
+
+    const nextImagePanStyle: CSSProperties = {
+      left: '50%',
+      top: '50%',
+    };
+
+    let translateX = '-50%';
+    let translateY = '-50%';
+
+    if (shouldTransformX) {
+      const scaleX =
+        (-1 / zoomCoords.screenWidth) *
+        (imageNode.offsetWidth - zoomCoords.screenWidth);
+
+      translateX = `${zoomCoords.x * scaleX}px`;
+      nextImagePanStyle.left = 0;
+    }
+
+    if (shouldTransformY) {
+      const scaleY =
+        (-1 / zoomCoords.screenHeight) *
+        (imageNode.offsetHeight - zoomCoords.screenHeight);
+
+      translateY = `${zoomCoords.y * scaleY}px`;
+      nextImagePanStyle.top = 0;
+    }
 
     setImagePanStyle({
-      transform: `translate(${zoomCoords.x * scaleX}px, ${
-        zoomCoords.y * scaleY
-      }px)`,
+      ...nextImagePanStyle,
+      transform: `translate(${translateX}, ${translateY})`,
     });
   }, []);
 
@@ -404,10 +435,8 @@ export function Lightbox({
     }
   }
 
-  const isZoomed = zoomType !== ZoomType.None;
-
-  const hasNext = isZoomed && selectedIndex < media.length - 1;
-  const hasPrevious = isZoomed && selectedIndex > 0;
+  const hasNext = !isZoomed && selectedIndex < media.length - 1;
+  const hasPrevious = !isZoomed && selectedIndex > 0;
 
   return root
     ? createPortal(
