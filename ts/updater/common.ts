@@ -354,9 +354,17 @@ export function setUpdateListener(performUpdateCallback: () => void): void {
   ipcMain.once('start-update', performUpdateCallback);
 }
 
-export function getAutoDownloadUpdateSetting(
-  mainWindow: BrowserWindow
+export async function getAutoDownloadUpdateSetting(
+  mainWindow: BrowserWindow | undefined,
+  logger: LoggerType
 ): Promise<boolean> {
+  if (!mainWindow) {
+    logger.warn(
+      'getAutoDownloadUpdateSetting: No main window, returning false'
+    );
+    return false;
+  }
+
   return new Promise((resolve, reject) => {
     ipcMain.once(
       'settings:get-success:autoDownloadUpdate',

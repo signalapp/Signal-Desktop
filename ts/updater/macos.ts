@@ -30,7 +30,7 @@ import { DialogType } from '../types/Dialogs';
 const INTERVAL = 30 * durations.MINUTE;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType
 ): Promise<UpdaterInterface> {
   logger.info('macos/start: starting checks...');
@@ -61,7 +61,7 @@ let updateFilePath: string;
 let loggerForQuitHandler: LoggerType;
 
 async function checkForUpdatesMaybeInstall(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   force = false
 ) {
@@ -75,12 +75,13 @@ async function checkForUpdatesMaybeInstall(
 
   if (fileName !== newFileName || !version || gt(newVersion, version)) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
-      getMainWindow()
+      getMainWindow(),
+      logger
     );
     if (!autoDownloadUpdates) {
       setUpdateListener(async () => {
         logger.info(
-          'performUpdate: have not downloaded update, going to download'
+          'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
         );
         await downloadAndInstall(
           newFileName,
@@ -90,14 +91,22 @@ async function checkForUpdatesMaybeInstall(
           true
         );
       });
-      getMainWindow().webContents.send(
-        'show-update-dialog',
-        DialogType.DownloadReady,
-        {
-          downloadSize: result.size,
-          version: result.version,
-        }
-      );
+      const mainWindow = getMainWindow();
+
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          'show-update-dialog',
+          DialogType.DownloadReady,
+          {
+            downloadSize: result.size,
+            version: result.version,
+          }
+        );
+      } else {
+        logger.warn(
+          'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
+        );
+      }
       return;
     }
     await downloadAndInstall(newFileName, newVersion, getMainWindow, logger);
@@ -107,7 +116,7 @@ async function checkForUpdatesMaybeInstall(
 async function downloadAndInstall(
   newFileName: string,
   newVersion: string,
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   updateOnProgress?: boolean
 ) {
@@ -151,19 +160,24 @@ async function downloadAndInstall(
     } catch (error) {
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
-      if (message.includes(readOnly)) {
+      const mainWindow = getMainWindow();
+      if (mainWindow && message.includes(readOnly)) {
         logger.info('downloadAndInstall: showing read-only dialog...');
-        getMainWindow().webContents.send(
+        mainWindow.webContents.send(
           'show-update-dialog',
           DialogType.MacOS_Read_Only
         );
-      } else {
+      } else if (mainWindow) {
         logger.info(
           'downloadAndInstall: showing general update failure dialog...'
         );
-        getMainWindow().webContents.send(
+        mainWindow.webContents.send(
           'show-update-dialog',
           DialogType.Cannot_Update
+        );
+      } else {
+        logger.warn(
+          'downloadAndInstall: no mainWindow, cannot show update dialog'
         );
       }
 
@@ -179,9 +193,17 @@ async function downloadAndInstall(
       markShouldQuit();
       autoUpdater.quitAndInstall();
     });
-    getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
-      version,
-    });
+    const mainWindow = getMainWindow();
+
+    if (mainWindow) {
+      mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
+        version,
+      });
+    } else {
+      logger.warn(
+        'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
+      );
+    }
   } catch (error) {
     logger.error(`downloadAndInstall: ${getPrintableError(error)}`);
   }

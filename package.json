@@ -10,7 +10,7 @@
     "name": "Open Whisper Systems",
     "email": "support@signal.org"
   },
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "postinstall": "yarn build:acknowledgments && yarn build:fuses && snyk protect && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
     "postuninstall": "yarn build:acknowledgments",
@@ -188,7 +188,7 @@
     "@types/chai": "4.2.18",
     "@types/chai-as-promised": "7.1.4",
     "@types/classnames": "2.2.3",
-    "@types/config": "0.0.34",
+    "@types/config": "0.0.39",
     "@types/dashdash": "1.14.0",
     "@types/filesize": "3.6.0",
     "@types/fs-extra": "5.0.5",

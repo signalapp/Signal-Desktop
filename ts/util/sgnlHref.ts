@@ -51,7 +51,7 @@ export function isSignalHttpsLink(
 }
 
 type ParsedSgnlHref =
-  | { command: null; args: Map<never, never> }
+  | { command: null; args: Map<never, never>; hash: undefined }
   | { command: string; args: Map<string, string>; hash: string | undefined };
 export function parseSgnlHref(
   href: string,
@@ -59,7 +59,7 @@ export function parseSgnlHref(
 ): ParsedSgnlHref {
   const url = parseUrl(href, logger);
   if (!url || !isSgnlHref(url, logger)) {
-    return { command: null, args: new Map<never, never>() };
+    return { command: null, args: new Map<never, never>(), hash: undefined };
   }
 
   const args = new Map<string, string>();
@@ -99,7 +99,7 @@ export function parseSignalHttpsLink(
 ): ParsedSgnlHref {
   const url = parseUrl(href, logger);
   if (!url || !isSignalHttpsLink(url, logger)) {
-    return { command: null, args: new Map<never, never>() };
+    return { command: null, args: new Map<never, never>(), hash: undefined };
   }
 
   if (url.host === 'signal.art') {
@@ -114,7 +114,7 @@ export function parseSignalHttpsLink(
     });
 
     if (!args.get('pack_id') || !args.get('pack_key')) {
-      return { command: null, args: new Map<never, never>() };
+      return { command: null, args: new Map<never, never>(), hash: undefined };
     }
 
     return {
@@ -132,7 +132,7 @@ export function parseSignalHttpsLink(
     };
   }
 
-  return { command: null, args: new Map<never, never>() };
+  return { command: null, args: new Map<never, never>(), hash: undefined };
 }
 
 export function parseE164FromSignalDotMeHash(hash: string): undefined | string {

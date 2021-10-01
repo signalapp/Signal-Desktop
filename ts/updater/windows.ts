@@ -37,7 +37,7 @@ let installing: boolean;
 let loggerForQuitHandler: LoggerType;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType
 ): Promise<UpdaterInterface> {
   logger.info('windows/start: starting checks...');
@@ -64,7 +64,7 @@ export async function start(
 }
 
 async function checkForUpdatesMaybeInstall(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   force = false
 ) {
@@ -78,12 +78,13 @@ async function checkForUpdatesMaybeInstall(
 
   if (fileName !== newFileName || !version || gt(newVersion, version)) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
-      getMainWindow()
+      getMainWindow(),
+      logger
     );
     if (!autoDownloadUpdates) {
       setUpdateListener(async () => {
         logger.info(
-          'performUpdate: have not downloaded update, going to download'
+          'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
         );
         await downloadAndInstall(
           newFileName,
@@ -93,14 +94,21 @@ async function checkForUpdatesMaybeInstall(
           true
         );
       });
-      getMainWindow().webContents.send(
-        'show-update-dialog',
-        DialogType.DownloadReady,
-        {
-          downloadSize: result.size,
-          version: result.version,
-        }
-      );
+      const mainWindow = getMainWindow();
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          'show-update-dialog',
+          DialogType.DownloadReady,
+          {
+            downloadSize: result.size,
+            version: result.version,
+          }
+        );
+      } else {
+        logger.warn(
+          'checkForUpdatesMaybeInstall: No mainWindow, not showing update dialog'
+        );
+      }
       return;
     }
     await downloadAndInstall(newFileName, newVersion, getMainWindow, logger);
@@ -110,7 +118,7 @@ async function checkForUpdatesMaybeInstall(
 async function downloadAndInstall(
   newFileName: string,
   newVersion: string,
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   updateOnProgress?: boolean
 ) {
@@ -151,11 +159,18 @@ async function downloadAndInstall(
         await verifyAndInstall(updateFilePath, newVersion, logger);
         installing = true;
       } catch (error) {
-        logger.info('createUpdater: showing general update failure dialog...');
-        getMainWindow().webContents.send(
-          'show-update-dialog',
-          DialogType.Cannot_Update
-        );
+        const mainWindow = getMainWindow();
+        if (mainWindow) {
+          logger.info(
+            'createUpdater: showing general update failure dialog...'
+          );
+          mainWindow.webContents.send(
+            'show-update-dialog',
+            DialogType.Cannot_Update
+          );
+        } else {
+          logger.warn('createUpdater: no mainWindow, just failing over...');
+        }
 
         throw error;
       }
@@ -163,9 +178,17 @@ async function downloadAndInstall(
       markShouldQuit();
       app.quit();
     });
-    getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
-      version,
-    });
+
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
+        version,
+      });
+    } else {
+      logger.warn(
+        'downloadAndInstall: no mainWindow, cannot show update dialog'
+      );
+    }
   } catch (error) {
     logger.error(`downloadAndInstall: ${getPrintableError(error)}`);
   }

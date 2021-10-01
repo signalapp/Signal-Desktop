@@ -14,7 +14,7 @@ let initialized = false;
 let updater: UpdaterInterface | undefined;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger?: LoggerType
 ): Promise<void> {
   const { platform } = process;

@@ -6,7 +6,7 @@
 
 import { session as ElectronSession } from 'electron';
 
-import { ConfigType } from './config';
+import type { ConfigType } from './base_config';
 
 const PERMISSIONS: Record<string, boolean> = {
   // Allowed

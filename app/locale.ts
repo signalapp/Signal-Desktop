@@ -32,17 +32,19 @@ function getLocaleMessages(locale: string): LocaleMessagesType {
   return JSON.parse(readFileSync(targetFile, 'utf-8'));
 }
 
+export type LocaleType = {
+  i18n: LocalizerType;
+  name: string;
+  messages: LocaleMessagesType;
+};
+
 export function load({
   appLocale,
   logger,
 }: {
   appLocale: string;
   logger: LoggerType;
-}): {
-  i18n: LocalizerType;
-  name: string;
-  messages: LocaleMessagesType;
-} {
+}): LocaleType {
   if (!appLocale) {
     throw new TypeError('`appLocale` is required');
   }

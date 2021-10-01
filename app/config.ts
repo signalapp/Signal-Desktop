@@ -4,6 +4,8 @@
 import { join } from 'path';
 import { app } from 'electron';
 
+import type { IConfig } from 'config';
+
 import {
   Environment,
   getEnvironment,
@@ -34,21 +36,9 @@ if (getEnvironment() === Environment.Production) {
   process.env.SIGNAL_ENABLE_HTTP = '';
 }
 
-export type ConfigType = {
-  get: (key: string) => unknown;
-  has: (key: string) => unknown;
-  [key: string]: unknown;
-  util: {
-    getEnv: (keY: string) => string | undefined;
-  };
-};
-
 // We load config after we've made our modifications to NODE_ENV
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const config: ConfigType = require('config');
-
-config.environment = getEnvironment();
-config.enableHttp = process.env.SIGNAL_ENABLE_HTTP;
+// eslint-disable-next-line import/order, import/first
+import config from 'config';
 
 // Log resulting env vars in use by config
 [
@@ -65,3 +55,4 @@ config.enableHttp = process.env.SIGNAL_ENABLE_HTTP;
 });
 
 export default config;
+export type { IConfig as ConfigType };

@@ -10,3 +10,13 @@ export function markShouldQuit(): void {
 export function shouldQuit(): boolean {
   return shouldQuitFlag;
 }
+
+let isReadyForShutdown = false;
+
+export function markReadyForShutdown(): void {
+  isReadyForShutdown = true;
+}
+
+export function readyForShutdown(): boolean {
+  return isReadyForShutdown;
+}

@@ -8,7 +8,7 @@ import { LocaleMessagesType } from '../ts/types/I18N';
 
 export type MenuListType = Array<MenuItemConstructorOptions>;
 
-type OptionsType = {
+export type MenuOptionsType = {
   // options
   development: boolean;
   devTools: boolean;
@@ -17,6 +17,7 @@ type OptionsType = {
   platform: string;
 
   // actions
+  forceUpdate: () => unknown;
   openContactUs: () => unknown;
   openForums: () => unknown;
   openJoinTheBeta: () => unknown;
@@ -24,7 +25,6 @@ type OptionsType = {
   openSupportPage: () => unknown;
   setupAsNewDevice: () => unknown;
   setupAsStandalone: () => unknown;
-  forceUpdate: () => unknown;
   showAbout: () => unknown;
   showDebugLog: () => unknown;
   showKeyboardShortcuts: () => unknown;
@@ -34,7 +34,7 @@ type OptionsType = {
 };
 
 export const createTemplate = (
-  options: OptionsType,
+  options: MenuOptionsType,
   messages: LocaleMessagesType
 ): MenuListType => {
   if (!isString(options.platform)) {
@@ -265,7 +265,7 @@ export const createTemplate = (
 function updateForMac(
   template: MenuListType,
   messages: LocaleMessagesType,
-  options: OptionsType
+  options: MenuOptionsType
 ): MenuListType {
   const { showAbout, showSettings, showWindow } = options;
 

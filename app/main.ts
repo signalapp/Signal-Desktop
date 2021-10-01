@@ -1,138 +1,121 @@
 // Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
+import { join, normalize } from 'path';
+import { pathToFileURL } from 'url';
+import * as os from 'os';
+import { chmod, realpath } from 'fs-extra';
+import { randomBytes } from 'crypto';
 
-const path = require('path');
-const { pathToFileURL } = require('url');
-const os = require('os');
-const fs = require('fs-extra');
-const crypto = require('crypto');
-const normalizePath = require('normalize-path');
-const fg = require('fast-glob');
-const PQueue = require('p-queue').default;
-
-const _ = require('lodash');
-const pify = require('pify');
-const electron = require('electron');
-
-const packageJson = require('./package.json');
-const GlobalErrors = require('./app/global_errors');
-const { setup: setupSpellChecker } = require('./app/spell_check');
-const { redactAll, addSensitivePath } = require('./ts/util/privacy');
-const { strictAssert } = require('./ts/util/assert');
-const removeUserConfig = require('./app/user_config').remove;
-
-GlobalErrors.addHandler();
-
-// Set umask early on in the process lifecycle to ensure file permissions are
-// set such that only we have read access to our files
-process.umask(0o077);
-
-const getRealPath = pify(fs.realpath);
-const {
+import pify from 'pify';
+import normalizePath from 'normalize-path';
+import fastGlob from 'fast-glob';
+import PQueue from 'p-queue';
+import { get, pick, isNumber, isBoolean, some, debounce, noop } from 'lodash';
+import {
   app,
   BrowserWindow,
   clipboard,
   dialog,
-  ipcMain: ipc,
+  ipcMain as ipc,
   Menu,
-  protocol: electronProtocol,
+  protocol as electronProtocol,
+  screen,
   shell,
   systemPreferences,
-} = electron;
+} from 'electron';
+import { z } from 'zod';
 
-const animationSettings = systemPreferences.getAnimationSettings();
+import packageJson from '../package.json';
+import * as GlobalErrors from './global_errors';
+import { setup as setupSpellChecker } from './spell_check';
+import { redactAll, addSensitivePath } from '../ts/util/privacy';
+import { remove as removeUserConfig } from './user_config';
 
-const appUserModelId = `org.whispersystems.${packageJson.name}`;
-console.log('Set Windows Application User Model ID (AUMID)', {
-  appUserModelId,
-});
-app.setAppUserModelId(appUserModelId);
+import './startup_config';
 
-// We don't navigate, but this is the way of the future
-//   https://github.com/electron/electron/issues/18397
-// TODO: Make ringrtc-node context-aware and change this to true.
-app.allowRendererProcessReuse = false;
-
-// Keep a global reference of the window object, if you don't, the window will
-//   be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-let mainWindowCreated = false;
-let loadingWindow;
-
-const activeWindows = new Set();
-
-function getMainWindow() {
-  return mainWindow;
-}
-
-const config = require('./app/config').default;
+import config, { ConfigType } from './config';
+import {
+  Environment,
+  getEnvironment,
+  isTestEnvironment,
+} from '../ts/environment';
 
 // Very important to put before the single instance check, since it is based on the
-//   userData directory.
-const userConfig = require('./app/user_config');
-
-const importMode =
-  process.argv.some(arg => arg === '--import') || config.get('import');
-
-const development =
-  config.environment === 'development' || config.environment === 'staging';
-
-const enableCI = Boolean(config.get('enableCI'));
+//   userData directory. (see requestSingleInstanceLock below)
+import * as userConfig from './user_config';
 
 // We generally want to pull in our own modules after this point, after the user
 //   data directory has been set.
-const attachments = require('./app/attachments');
-const attachmentChannel = require('./app/attachment_channel');
-const bounce = require('./ts/services/bounce');
-const updater = require('./ts/updater/index');
-const { SystemTrayService } = require('./app/SystemTrayService');
-const { SystemTraySettingCache } = require('./app/SystemTraySettingCache');
-const {
+import * as attachments from './attachments';
+import * as attachmentChannel from './attachment_channel';
+import * as bounce from '../ts/services/bounce';
+import * as updater from '../ts/updater/index';
+import { SystemTrayService } from './SystemTrayService';
+import { SystemTraySettingCache } from './SystemTraySettingCache';
+import {
   SystemTraySetting,
   shouldMinimizeToSystemTray,
   parseSystemTraySetting,
-} = require('./ts/types/SystemTraySetting');
-const ephemeralConfig = require('./app/ephemeral_config');
-const logging = require('./ts/logging/main_process_logging');
-const { MainSQL } = require('./ts/sql/main');
-const sqlChannels = require('./app/sql_channel');
-const windowState = require('./app/window_state');
-const { createTemplate } = require('./app/menu');
-const {
-  installFileHandler,
-  installWebHandler,
-} = require('./app/protocol_filter');
-const OS = require('./ts/OS');
-const { isProduction } = require('./ts/util/version');
-const {
+} from '../ts/types/SystemTraySetting';
+import * as ephemeralConfig from './ephemeral_config';
+import * as logging from '../ts/logging/main_process_logging';
+import { MainSQL } from '../ts/sql/main';
+import * as sqlChannels from './sql_channel';
+import * as windowState from './window_state';
+import { createTemplate, MenuOptionsType } from './menu';
+import { installFileHandler, installWebHandler } from './protocol_filter';
+import * as OS from '../ts/OS';
+import { isProduction } from '../ts/util/version';
+import {
   isSgnlHref,
   isCaptchaHref,
   isSignalHttpsLink,
   parseSgnlHref,
   parseCaptchaHref,
   parseSignalHttpsLink,
-} = require('./ts/util/sgnlHref');
-const {
-  toggleMaximizedBrowserWindow,
-} = require('./ts/util/toggleMaximizedBrowserWindow');
-const {
+} from '../ts/util/sgnlHref';
+import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
+import {
   getTitleBarVisibility,
   TitleBarVisibility,
-} = require('./ts/types/Settings');
-const { Environment, isTestEnvironment } = require('./ts/environment');
-const { ChallengeMainHandler } = require('./ts/main/challengeMain');
-const { NativeThemeNotifier } = require('./ts/main/NativeThemeNotifier');
-const { PowerChannel } = require('./ts/main/powerChannel');
-const { SettingsChannel } = require('./ts/main/settingsChannel');
-const { maybeParseUrl, setUrlSearchParams } = require('./ts/util/url');
-const { getHeicConverter } = require('./ts/workers/heicConverterMain');
+} from '../ts/types/Settings';
+import { ChallengeMainHandler } from '../ts/main/challengeMain';
+import { NativeThemeNotifier } from '../ts/main/NativeThemeNotifier';
+import { PowerChannel } from '../ts/main/powerChannel';
+import { SettingsChannel } from '../ts/main/settingsChannel';
+import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url';
+import { getHeicConverter } from '../ts/workers/heicConverterMain';
+
+import { load as loadLocale, LocaleType } from './locale';
+
+import type { LoggerType } from '../ts/types/Logging';
+
+const animationSettings = systemPreferences.getAnimationSettings();
+const getRealPath = pify(realpath);
+
+// Keep a global reference of the window object, if you don't, the window will
+//   be closed automatically when the JavaScript object is garbage collected.
+let mainWindow: BrowserWindow | undefined;
+let mainWindowCreated = false;
+let loadingWindow: BrowserWindow | undefined;
+
+const activeWindows = new Set<BrowserWindow>();
+
+function getMainWindow() {
+  return mainWindow;
+}
+
+const development =
+  getEnvironment() === Environment.Development ||
+  getEnvironment() === Environment.Staging;
+
+const enableCI = config.get<boolean>('enableCI');
 
 const sql = new MainSQL();
 const heicConverter = getHeicConverter();
 
-let systemTrayService;
+let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   sql,
   process.argv,
@@ -152,14 +135,14 @@ let appStartInitialSpellcheckSetting = true;
 const defaultWebPrefs = {
   devTools:
     process.argv.some(arg => arg === '--enable-dev-tools') ||
-    config.environment !== Environment.Production ||
+    getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
 };
 
 async function getSpellCheckSetting() {
   const fastValue = ephemeralConfig.get('spell-check');
   if (fastValue !== undefined) {
-    console.log('got fast spellcheck setting', fastValue);
+    getLogger().info('got fast spellcheck setting', fastValue);
     return fastValue;
   }
 
@@ -170,7 +153,7 @@ async function getSpellCheckSetting() {
 
   ephemeralConfig.set('spell-check', slowValue);
 
-  console.log('got slow spellcheck setting', slowValue);
+  getLogger().info('got slow spellcheck setting', slowValue);
 
   return slowValue;
 }
@@ -191,6 +174,10 @@ function showWindow() {
   }
 }
 
+// This code runs before the 'ready' event fires, so we don't have our logging
+//   infrastructure in place yet. So we use console.log directly.
+/* eslint-disable no-console */
+
 if (!process.mas) {
   console.log('making app single instance');
   const gotLock = app.requestSingleInstanceLock();
@@ -198,7 +185,7 @@ if (!process.mas) {
     console.log('quitting; we are the second instance');
     app.exit();
   } else {
-    app.on('second-instance', (e, argv) => {
+    app.on('second-instance', (_e: Electron.Event, argv: Array<string>) => {
       // Someone tried to run a second instance, we should focus our window
       if (mainWindow) {
         if (mainWindow.isMinimized()) {
@@ -209,7 +196,7 @@ if (!process.mas) {
       }
       const incomingCaptchaHref = getIncomingCaptchaHref(argv);
       if (incomingCaptchaHref) {
-        const { captcha } = parseCaptchaHref(incomingCaptchaHref, logger);
+        const { captcha } = parseCaptchaHref(incomingCaptchaHref, getLogger());
         challengeHandler.handleCaptcha(captcha);
         return true;
       }
@@ -223,67 +210,99 @@ if (!process.mas) {
     });
   }
 }
+/* eslint-enable no-console */
 
 const windowFromUserConfig = userConfig.get('window');
 const windowFromEphemeral = ephemeralConfig.get('window');
-let windowConfig = windowFromEphemeral || windowFromUserConfig;
+export const windowConfigSchema = z.object({
+  maximized: z.boolean().optional(),
+  autoHideMenuBar: z.boolean().optional(),
+  fullscreen: z.boolean().optional(),
+  width: z.number(),
+  height: z.number(),
+  x: z.number(),
+  y: z.number(),
+});
+type WindowConfigType = z.infer<typeof windowConfigSchema>;
+
+let windowConfig: WindowConfigType | undefined;
+const windowConfigParsed = windowConfigSchema.safeParse(
+  windowFromEphemeral || windowFromUserConfig
+);
+if (windowConfigParsed.success) {
+  windowConfig = windowConfigParsed.data;
+}
+
 if (windowFromUserConfig) {
   userConfig.set('window', null);
   ephemeralConfig.set('window', windowConfig);
 }
 
-const loadLocale = require('./app/locale').load;
+// These will be set after app fires the 'ready' event
+let logger: LoggerType | undefined;
+let locale: LocaleType | undefined;
+let settingsChannel: SettingsChannel | undefined;
 
-// Both of these will be set after app fires the 'ready' event
-let logger;
-let locale;
-let settingsChannel;
+function getLogger(): LoggerType {
+  if (!logger) {
+    throw new Error('getLogger: Logger not yet initialized!');
+  }
+
+  return logger;
+}
+
+function getLocale(): LocaleType {
+  if (!locale) {
+    throw new Error('getLocale: Locale not yet initialized!');
+  }
+
+  return locale;
+}
 
 function prepareFileUrl(
-  pathSegments /* : ReadonlyArray<string> */,
-  moreKeys /* : undefined | Record<string, unknown> */
-) /* : string */ {
-  const filePath = path.join(...pathSegments);
+  pathSegments: ReadonlyArray<string>,
+  moreKeys?: undefined | Record<string, unknown>
+): string {
+  const filePath = join(...pathSegments);
   const fileUrl = pathToFileURL(filePath);
   return prepareUrl(fileUrl, moreKeys);
 }
 
 function prepareUrl(
-  url /* : URL */,
-  moreKeys = {} /* : undefined | Record<string, unknown> */
-) /* : string */ {
+  url: URL,
+  moreKeys?: undefined | Record<string, unknown>
+): string {
   return setUrlSearchParams(url, {
     name: packageJson.productName,
-    locale: locale.name,
+    locale: locale ? locale.name : undefined,
     version: app.getVersion(),
-    buildCreation: config.get('buildCreation'),
-    buildExpiration: config.get('buildExpiration'),
-    serverUrl: config.get('serverUrl'),
-    storageUrl: config.get('storageUrl'),
-    directoryUrl: config.get('directoryUrl'),
-    directoryEnclaveId: config.get('directoryEnclaveId'),
-    directoryTrustAnchor: config.get('directoryTrustAnchor'),
-    cdnUrl0: config.get('cdn').get('0'),
-    cdnUrl2: config.get('cdn').get('2'),
-    certificateAuthority: config.get('certificateAuthority'),
-    environment: enableCI ? 'production' : config.environment,
+    buildCreation: config.get<number | undefined>('buildCreation'),
+    buildExpiration: config.get<number | undefined>('buildExpiration'),
+    serverUrl: config.get<string>('serverUrl'),
+    storageUrl: config.get<string>('storageUrl'),
+    directoryUrl: config.get<string>('directoryUrl'),
+    directoryEnclaveId: config.get<string>('directoryEnclaveId'),
+    directoryTrustAnchor: config.get<string>('directoryTrustAnchor'),
+    cdnUrl0: config.get<ConfigType>('cdn').get<string>('0'),
+    cdnUrl2: config.get<ConfigType>('cdn').get<string>('2'),
+    certificateAuthority: config.get<string>('certificateAuthority'),
+    environment: enableCI ? 'production' : getEnvironment(),
     enableCI: enableCI ? 'true' : '',
     node_version: process.versions.node,
     hostname: os.hostname(),
     appInstance: process.env.NODE_APP_INSTANCE,
     proxyUrl: process.env.HTTPS_PROXY || process.env.https_proxy,
-    contentProxyUrl: config.contentProxyUrl,
+    contentProxyUrl: config.get<string>('contentProxyUrl'),
     sfuUrl: config.get('sfuUrl'),
-    importMode: importMode ? 'true' : '',
     reducedMotionSetting: animationSettings.prefersReducedMotion ? 'true' : '',
-    serverPublicParams: config.get('serverPublicParams'),
-    serverTrustRoot: config.get('serverTrustRoot'),
+    serverPublicParams: config.get<string>('serverPublicParams'),
+    serverTrustRoot: config.get<string>('serverTrustRoot'),
     appStartInitialSpellcheckSetting,
     ...moreKeys,
   }).href;
 }
 
-async function handleUrl(event, target) {
+async function handleUrl(event: Electron.Event, target: string) {
   event.preventDefault();
   const parsedUrl = maybeParseUrl(target);
   if (!parsedUrl) {
@@ -291,9 +310,13 @@ async function handleUrl(event, target) {
   }
 
   const { protocol, hostname } = parsedUrl;
-  const isDevServer = config.enableHttp && hostname === 'localhost';
+  const isDevServer =
+    process.env.SIGNAL_ENABLE_HTTP && hostname === 'localhost';
   // We only want to specially handle urls that aren't requesting the dev server
-  if (isSgnlHref(target) || isSignalHttpsLink(target)) {
+  if (
+    isSgnlHref(target, getLogger()) ||
+    isSignalHttpsLink(target, getLogger())
+  ) {
     handleSgnlHref(target);
     return;
   }
@@ -302,17 +325,20 @@ async function handleUrl(event, target) {
     try {
       await shell.openExternal(target);
     } catch (error) {
-      console.log(`Failed to open url: ${error.stack}`);
+      getLogger().error(`Failed to open url: ${error.stack}`);
     }
   }
 }
 
-function handleCommonWindowEvents(window) {
+function handleCommonWindowEvents(window: BrowserWindow) {
   window.webContents.on('will-navigate', handleUrl);
   window.webContents.on('new-window', handleUrl);
-  window.webContents.on('preload-error', (event, preloadPath, error) => {
-    console.error(`Preload error in ${preloadPath}: `, error.message);
-  });
+  window.webContents.on(
+    'preload-error',
+    (_event: Electron.Event, preloadPath: string, error: Error) => {
+      getLogger().error(`Preload error in ${preloadPath}: `, error.message);
+    }
+  );
 
   activeWindows.add(window);
   window.on('closed', () => activeWindows.delete(window));
@@ -348,11 +374,18 @@ const MIN_WIDTH = 680;
 const MIN_HEIGHT = 550;
 const BOUNDS_BUFFER = 100;
 
-function isVisible(window, bounds) {
-  const boundsX = _.get(bounds, 'x') || 0;
-  const boundsY = _.get(bounds, 'y') || 0;
-  const boundsWidth = _.get(bounds, 'width') || DEFAULT_WIDTH;
-  const boundsHeight = _.get(bounds, 'height') || DEFAULT_HEIGHT;
+type BoundsType = {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+};
+
+function isVisible(window: BoundsType, bounds: BoundsType) {
+  const boundsX = get(bounds, 'x') || 0;
+  const boundsY = get(bounds, 'y') || 0;
+  const boundsWidth = get(bounds, 'width') || DEFAULT_WIDTH;
+  const boundsHeight = get(bounds, 'height') || DEFAULT_HEIGHT;
 
   // requiring BOUNDS_BUFFER pixels on the left or right side
   const rightSideClearOfLeftBound =
@@ -373,19 +406,18 @@ function isVisible(window, bounds) {
   );
 }
 
-let windowIcon;
+let windowIcon: string;
 
 if (OS.isWindows()) {
-  windowIcon = path.join(__dirname, 'build', 'icons', 'win', 'icon.ico');
+  windowIcon = join(__dirname, '../build/icons/win/icon.ico');
 } else if (OS.isLinux()) {
-  windowIcon = path.join(__dirname, 'images', 'signal-logo-desktop-linux.png');
+  windowIcon = join(__dirname, '../images/signal-logo-desktop-linux.png');
 } else {
-  windowIcon = path.join(__dirname, 'build', 'icons', 'png', '512x512.png');
+  windowIcon = join(__dirname, '../build/icons/png/512x512.png');
 }
 
 async function createWindow() {
-  const { screen } = electron;
-  const windowOptions = {
+  const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
@@ -394,10 +426,10 @@ async function createWindow() {
     autoHideMenuBar: false,
     titleBarStyle:
       getTitleBarVisibility() === TitleBarVisibility.Hidden &&
-      !isTestEnvironment(config.environment)
+      !isTestEnvironment(getEnvironment())
         ? 'hidden'
         : 'default',
-    backgroundColor: isTestEnvironment(config.environment)
+    backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
       : '#3a76f0',
     webPreferences: {
@@ -406,11 +438,11 @@ async function createWindow() {
       nodeIntegrationInWorker: false,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(
+      preload: join(
         __dirname,
-        enableCI || config.environment === 'production'
-          ? 'preload.bundle.js'
-          : 'preload.js'
+        enableCI || getEnvironment() === Environment.Production
+          ? '../preload.bundle.js'
+          : '../preload.js'
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
@@ -421,16 +453,16 @@ async function createWindow() {
       enablePreferredSizeMode: true,
     },
     icon: windowIcon,
-    ..._.pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),
+    ...pick(windowConfig, ['autoHideMenuBar', 'width', 'height', 'x', 'y']),
   };
 
-  if (!_.isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
+  if (!isNumber(windowOptions.width) || windowOptions.width < MIN_WIDTH) {
     windowOptions.width = DEFAULT_WIDTH;
   }
-  if (!_.isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
+  if (!isNumber(windowOptions.height) || windowOptions.height < MIN_HEIGHT) {
     windowOptions.height = DEFAULT_HEIGHT;
   }
-  if (!_.isBoolean(windowOptions.autoHideMenuBar)) {
+  if (!isBoolean(windowOptions.autoHideMenuBar)) {
     delete windowOptions.autoHideMenuBar;
   }
 
@@ -438,30 +470,40 @@ async function createWindow() {
     (await systemTraySettingCache.get()) ===
     SystemTraySetting.MinimizeToAndStartInSystemTray;
 
-  const visibleOnAnyScreen = _.some(screen.getAllDisplays(), display => {
-    if (!_.isNumber(windowOptions.x) || !_.isNumber(windowOptions.y)) {
-      return false;
+  const visibleOnAnyScreen = some(screen.getAllDisplays(), display => {
+    if (
+      isNumber(windowOptions.x) &&
+      isNumber(windowOptions.y) &&
+      isNumber(windowOptions.width) &&
+      isNumber(windowOptions.height)
+    ) {
+      return isVisible(windowOptions as BoundsType, get(display, 'bounds'));
     }
 
-    return isVisible(windowOptions, _.get(display, 'bounds'));
+    getLogger().error(
+      "visibleOnAnyScreen: windowOptions didn't have valid bounds fields"
+    );
+    return false;
   });
   if (!visibleOnAnyScreen) {
-    console.log('Location reset needed');
+    getLogger().info('Location reset needed');
     delete windowOptions.x;
     delete windowOptions.y;
   }
 
-  logger.info(
-    'Initializing BrowserWindow config: %s',
+  getLogger().info(
+    'Initializing BrowserWindow config:',
     JSON.stringify(windowOptions)
   );
 
   // Create the browser window.
   mainWindow = new BrowserWindow(windowOptions);
-  settingsChannel.setMainWindow(mainWindow);
+  if (settingsChannel) {
+    settingsChannel.setMainWindow(mainWindow);
+  }
 
   mainWindowCreated = true;
-  setupSpellChecker(mainWindow, locale.messages);
+  setupSpellChecker(mainWindow, getLocale().messages);
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
@@ -491,14 +533,14 @@ async function createWindow() {
       y: position[1],
     };
 
-    logger.info(
+    getLogger().info(
       'Updating BrowserWindow config: %s',
       JSON.stringify(windowConfig)
     );
     ephemeralConfig.set('window', windowConfig);
   }
 
-  const debouncedCaptureStats = _.debounce(captureAndSaveWindowStats, 500);
+  const debouncedCaptureStats = debounce(captureAndSaveWindowStats, 500);
   mainWindow.on('resize', debouncedCaptureStats);
   mainWindow.on('move', debouncedCaptureStats);
 
@@ -518,24 +560,21 @@ async function createWindow() {
     isFullScreen: String(Boolean(mainWindow.isFullScreen())),
   };
 
-  if (config.environment === 'test') {
+  if (getEnvironment() === Environment.Test) {
     mainWindow.loadURL(
-      prepareFileUrl([__dirname, 'test', 'index.html'], moreKeys)
+      prepareFileUrl([__dirname, '../test/index.html'], moreKeys)
     );
-  } else if (config.environment === 'test-lib') {
+  } else if (getEnvironment() === Environment.TestLib) {
     mainWindow.loadURL(
-      prepareFileUrl(
-        [__dirname, 'libtextsecure', 'test', 'index.html'],
-        moreKeys
-      )
+      prepareFileUrl([__dirname, '../libtextsecure/test/index.html'], moreKeys)
     );
   } else {
     mainWindow.loadURL(
-      prepareFileUrl([__dirname, 'background.html'], moreKeys)
+      prepareFileUrl([__dirname, '../background.html'], moreKeys)
     );
   }
 
-  if (!enableCI && config.get('openDevTools')) {
+  if (!enableCI && config.get<boolean>('openDevTools')) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   }
@@ -549,14 +588,19 @@ async function createWindow() {
   // Note: We do most of our shutdown logic here because all windows are closed by
   //   Electron before the app quits.
   mainWindow.on('close', async e => {
-    console.log('close event', {
-      readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
+    if (!mainWindow) {
+      getLogger().info('close event: no main window');
+      return;
+    }
+
+    getLogger().info('close event', {
+      readyForShutdown: windowState.readyForShutdown(),
       shouldQuit: windowState.shouldQuit(),
     });
     // If the application is terminating, just do the default
     if (
-      isTestEnvironment(config.environment) ||
-      (mainWindow.readyForShutdown && windowState.shouldQuit())
+      isTestEnvironment(getEnvironment()) ||
+      (windowState.readyForShutdown() && windowState.shouldQuit())
     ) {
       return;
     }
@@ -573,7 +617,7 @@ async function createWindow() {
      */
 
     if (mainWindow.isFullScreen()) {
-      mainWindow.once('leave-full-screen', () => mainWindow.hide());
+      mainWindow.once('leave-full-screen', () => mainWindow?.hide());
       mainWindow.setFullScreen(false);
     } else {
       mainWindow.hide();
@@ -589,9 +633,8 @@ async function createWindow() {
     }
 
     await requestShutdown();
-    if (mainWindow) {
-      mainWindow.readyForShutdown = true;
-    }
+    windowState.markReadyForShutdown();
+
     await sql.close();
     app.quit();
   });
@@ -602,21 +645,27 @@ async function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = undefined;
-    settingsChannel.setMainWindow(mainWindow);
+    if (settingsChannel) {
+      settingsChannel.setMainWindow(mainWindow);
+    }
     if (systemTrayService) {
       systemTrayService.setMainWindow(mainWindow);
     }
   });
 
   mainWindow.on('enter-full-screen', () => {
-    mainWindow.webContents.send('full-screen-change', true);
+    if (mainWindow) {
+      mainWindow.webContents.send('full-screen-change', true);
+    }
   });
   mainWindow.on('leave-full-screen', () => {
-    mainWindow.webContents.send('full-screen-change', false);
+    if (mainWindow) {
+      mainWindow.webContents.send('full-screen-change', false);
+    }
   });
 
   mainWindow.once('ready-to-show', async () => {
-    console.log('main window is ready-to-show');
+    getLogger().info('main window is ready-to-show');
 
     // Ignore sql errors and show the window anyway
     await sqlInitPromise;
@@ -626,7 +675,7 @@ async function createWindow() {
     }
 
     if (!startInTray) {
-      console.log('showing main window');
+      getLogger().info('showing main window');
       mainWindow.show();
     }
   });
@@ -634,16 +683,21 @@ async function createWindow() {
 
 // Renderer asks if we are done with the database
 ipc.on('database-ready', async event => {
+  if (!sqlInitPromise) {
+    getLogger().error('database-ready requested, but sqlInitPromise is falsey');
+    return;
+  }
+
   const { error } = await sqlInitPromise;
   if (error) {
-    console.log(
+    getLogger().error(
       'database-ready requested, but got sql error',
       error && error.stack
     );
     return;
   }
 
-  console.log('sending `database-ready`');
+  getLogger().info('sending `database-ready`');
   event.sender.send('database-ready');
 });
 
@@ -689,12 +743,12 @@ ipc.on('set-is-call-active', (_event, isCallActive) => {
     return;
   }
 
-  let backgroundThrottling;
+  let backgroundThrottling: boolean;
   if (isCallActive) {
-    console.log('Background throttling disabled because a call is active');
+    getLogger().info('Background throttling disabled because a call is active');
     backgroundThrottling = false;
   } else {
-    console.log('Background throttling enabled because no call is active');
+    getLogger().info('Background throttling enabled because no call is active');
     backgroundThrottling = true;
   }
 
@@ -722,9 +776,9 @@ async function readyForUpdates() {
 
   // Second, start checking for app updates
   try {
-    await updater.start(getMainWindow, logger);
+    await updater.start(getMainWindow, getLogger());
   } catch (error) {
-    logger.error(
+    getLogger().error(
       'Error starting update checks:',
       error && error.stack ? error.stack : error
     );
@@ -733,10 +787,10 @@ async function readyForUpdates() {
 
 async function forceUpdate() {
   try {
-    logger.info('starting force update');
+    getLogger().info('starting force update');
     await updater.force();
   } catch (error) {
-    logger.error(
+    getLogger().error(
       'Error during force update:',
       error && error.stack ? error.stack : error
     );
@@ -833,8 +887,8 @@ function setupAsStandalone() {
   }
 }
 
-let screenShareWindow;
-function showScreenShareWindow(sourceName) {
+let screenShareWindow: BrowserWindow | undefined;
+function showScreenShareWindow(sourceName: string) {
   if (screenShareWindow) {
     screenShareWindow.showInactive();
     return;
@@ -842,7 +896,6 @@ function showScreenShareWindow(sourceName) {
 
   const width = 480;
 
-  const { screen } = electron;
   const display = screen.getPrimaryDisplay();
   const options = {
     alwaysOnTop: true,
@@ -856,20 +909,14 @@ function showScreenShareWindow(sourceName) {
     minimizable: false,
     resizable: false,
     show: false,
-    title: locale.messages.screenShareWindow.message,
+    title: getLocale().i18n('screenShareWindow'),
     width,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: true,
-      preload: path.join(
-        __dirname,
-        'ts',
-        'windows',
-        'screenShare',
-        'preload.js'
-      ),
+      preload: join(__dirname, '../ts/windows/screenShare/preload.js'),
     },
     x: Math.floor(display.size.width / 2) - width / 2,
     y: 24,
@@ -879,22 +926,24 @@ function showScreenShareWindow(sourceName) {
 
   handleCommonWindowEvents(screenShareWindow);
 
-  screenShareWindow.loadURL(prepareFileUrl([__dirname, 'screenShare.html']));
+  screenShareWindow.loadURL(prepareFileUrl([__dirname, '../screenShare.html']));
 
   screenShareWindow.on('closed', () => {
-    screenShareWindow = null;
+    screenShareWindow = undefined;
   });
 
   screenShareWindow.once('ready-to-show', () => {
-    screenShareWindow.showInactive();
-    screenShareWindow.webContents.send(
-      'render-screen-sharing-controller',
-      sourceName
-    );
+    if (screenShareWindow) {
+      screenShareWindow.showInactive();
+      screenShareWindow.webContents.send(
+        'render-screen-sharing-controller',
+        sourceName
+      );
+    }
   });
 }
 
-let aboutWindow;
+let aboutWindow: BrowserWindow | undefined;
 function showAbout() {
   if (aboutWindow) {
     aboutWindow.show();
@@ -905,7 +954,7 @@ function showAbout() {
     width: 500,
     height: 500,
     resizable: false,
-    title: locale.messages.aboutSignalDesktop.message,
+    title: getLocale().i18n('aboutSignalDesktop'),
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
@@ -914,7 +963,7 @@ function showAbout() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'ts', 'windows', 'about', 'preload.js'),
+      preload: join(__dirname, '../ts/windows/about/preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -923,18 +972,20 @@ function showAbout() {
 
   handleCommonWindowEvents(aboutWindow);
 
-  aboutWindow.loadURL(prepareFileUrl([__dirname, 'about.html']));
+  aboutWindow.loadURL(prepareFileUrl([__dirname, '../about.html']));
 
   aboutWindow.on('closed', () => {
-    aboutWindow = null;
+    aboutWindow = undefined;
   });
 
   aboutWindow.once('ready-to-show', () => {
-    aboutWindow.show();
+    if (aboutWindow) {
+      aboutWindow.show();
+    }
   });
 }
 
-let settingsWindow;
+let settingsWindow: BrowserWindow | undefined;
 function showSettingsWindow() {
   if (settingsWindow) {
     settingsWindow.show();
@@ -946,7 +997,7 @@ function showSettingsWindow() {
     height: 700,
     frame: true,
     resizable: false,
-    title: locale.messages.signalDesktopPreferences.message,
+    title: getLocale().i18n('signalDesktopPreferences'),
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
@@ -957,7 +1008,7 @@ function showSettingsWindow() {
       nodeIntegrationInWorker: false,
       contextIsolation: true,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'ts', 'windows', 'settings', 'preload.js'),
+      preload: join(__dirname, '../ts/windows/settings/preload.js'),
       nativeWindowOpen: true,
     },
   };
@@ -966,15 +1017,15 @@ function showSettingsWindow() {
 
   handleCommonWindowEvents(settingsWindow);
 
-  settingsWindow.loadURL(prepareFileUrl([__dirname, 'settings.html']));
+  settingsWindow.loadURL(prepareFileUrl([__dirname, '../settings.html']));
 
   settingsWindow.on('closed', () => {
-    settingsWindow = null;
+    settingsWindow = undefined;
   });
 
   ipc.once('settings-done-rendering', () => {
     if (!settingsWindow) {
-      console.warn('settings-done-rendering: no settingsWindow available!');
+      getLogger().warn('settings-done-rendering: no settingsWindow available!');
       return;
     }
 
@@ -992,12 +1043,10 @@ async function getIsLinked() {
   }
 }
 
-let stickerCreatorWindow;
+let stickerCreatorWindow: BrowserWindow | undefined;
 async function showStickerCreator() {
   if (!(await getIsLinked())) {
-    const { message } = locale.messages[
-      'StickerCreator--Authentication--error'
-    ];
+    const message = getLocale().i18n('StickerCreator--Authentication--error');
 
     dialog.showMessageBox({
       type: 'warning',
@@ -1020,7 +1069,7 @@ async function showStickerCreator() {
     width: 800,
     minWidth: 800,
     height: 650,
-    title: locale.messages.signalDesktopStickerCreator.message,
+    title: getLocale().i18n('signalDesktopStickerCreator'),
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
@@ -1030,53 +1079,59 @@ async function showStickerCreator() {
       nodeIntegrationInWorker: false,
       contextIsolation: false,
       enableRemoteModule: true,
-      preload: path.join(__dirname, 'sticker-creator/preload.js'),
+      preload: join(__dirname, '../sticker-creator/preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
     },
   };
 
   stickerCreatorWindow = new BrowserWindow(options);
-  setupSpellChecker(stickerCreatorWindow, locale.messages);
+  setupSpellChecker(stickerCreatorWindow, getLocale().messages);
 
   handleCommonWindowEvents(stickerCreatorWindow);
 
-  const appUrl = config.enableHttp
+  const appUrl = process.env.SIGNAL_ENABLE_HTTP
     ? prepareUrl(
         new URL('http://localhost:6380/sticker-creator/dist/index.html')
       )
-    : prepareFileUrl([__dirname, 'sticker-creator/dist/index.html']);
+    : prepareFileUrl([__dirname, '../sticker-creator/dist/index.html']);
 
   stickerCreatorWindow.loadURL(appUrl);
 
   stickerCreatorWindow.on('closed', () => {
-    stickerCreatorWindow = null;
+    stickerCreatorWindow = undefined;
   });
 
   stickerCreatorWindow.once('ready-to-show', () => {
+    if (!stickerCreatorWindow) {
+      return;
+    }
+
     stickerCreatorWindow.show();
 
-    if (config.get('openDevTools')) {
+    if (config.get<boolean>('openDevTools')) {
       // Open the DevTools.
       stickerCreatorWindow.webContents.openDevTools();
     }
   });
 }
 
-let debugLogWindow;
+let debugLogWindow: BrowserWindow | undefined;
 async function showDebugLogWindow() {
   if (debugLogWindow) {
     debugLogWindow.show();
     return;
   }
 
-  const theme = await settingsChannel.getSettingFromMainWindow('themeSetting');
-  const size = mainWindow.getSize();
+  const theme = settingsChannel
+    ? await settingsChannel.getSettingFromMainWindow('themeSetting')
+    : undefined;
+  const size = getMainWindow()?.getSize();
   const options = {
-    width: Math.max(size[0] - 100, MIN_WIDTH),
-    height: Math.max(size[1] - 100, MIN_HEIGHT),
+    width: size ? Math.max(size[0] - 100, MIN_WIDTH) : MIN_WIDTH,
+    height: size ? Math.max(size[1] - 100, MIN_HEIGHT) : MIN_HEIGHT,
     resizable: false,
-    title: locale.messages.debugLog.message,
+    title: getLocale().i18n('debugLog'),
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
@@ -1086,7 +1141,7 @@ async function showDebugLogWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      preload: path.join(__dirname, 'debug_log_preload.js'),
+      preload: join(__dirname, '../debug_log_preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -1097,41 +1152,45 @@ async function showDebugLogWindow() {
   handleCommonWindowEvents(debugLogWindow);
 
   debugLogWindow.loadURL(
-    prepareFileUrl([__dirname, 'debug_log.html'], { theme })
+    prepareFileUrl([__dirname, '../debug_log.html'], { theme })
   );
 
   debugLogWindow.on('closed', () => {
     removeDarkOverlay();
-    debugLogWindow = null;
+    debugLogWindow = undefined;
   });
 
   debugLogWindow.once('ready-to-show', () => {
-    addDarkOverlay();
-    debugLogWindow.show();
+    if (debugLogWindow) {
+      addDarkOverlay();
+      debugLogWindow.show();
+    }
   });
 }
 
-let permissionsPopupWindow;
-function showPermissionsPopupWindow(forCalling, forCamera) {
+let permissionsPopupWindow: BrowserWindow | undefined;
+function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
   // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
+  return new Promise<void>(async (resolve, reject) => {
     if (permissionsPopupWindow) {
       permissionsPopupWindow.show();
       reject(new Error('Permission window already showing'));
+      return;
     }
     if (!mainWindow) {
       reject(new Error('No main window'));
+      return;
     }
 
-    const theme = await settingsChannel.getSettingFromMainWindow(
-      'themeSetting'
-    );
+    const theme = settingsChannel
+      ? await settingsChannel.getSettingFromMainWindow('themeSetting')
+      : undefined;
     const size = mainWindow.getSize();
     const options = {
       width: Math.min(400, size[0]),
       height: Math.min(150, size[1]),
       resizable: false,
-      title: locale.messages.allowAccess.message,
+      title: getLocale().i18n('allowAccess'),
       autoHideMenuBar: true,
       backgroundColor: '#3a76f0',
       show: false,
@@ -1142,13 +1201,7 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
         nodeIntegrationInWorker: false,
         contextIsolation: true,
         enableRemoteModule: true,
-        preload: path.join(
-          __dirname,
-          'ts',
-          'windows',
-          'permissions',
-          'preload.js'
-        ),
+        preload: join(__dirname, '../ts/windows/permissions/preload.js'),
         nativeWindowOpen: true,
       },
       parent: mainWindow,
@@ -1159,7 +1212,7 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
     handleCommonWindowEvents(permissionsPopupWindow);
 
     permissionsPopupWindow.loadURL(
-      prepareFileUrl([__dirname, 'permissions_popup.html'], {
+      prepareFileUrl([__dirname, '../permissions_popup.html'], {
         theme,
         forCalling,
         forCamera,
@@ -1168,50 +1221,67 @@ function showPermissionsPopupWindow(forCalling, forCamera) {
 
     permissionsPopupWindow.on('closed', () => {
       removeDarkOverlay();
-      permissionsPopupWindow = null;
+      permissionsPopupWindow = undefined;
 
       resolve();
     });
 
     permissionsPopupWindow.once('ready-to-show', () => {
-      addDarkOverlay();
-      permissionsPopupWindow.show();
+      if (permissionsPopupWindow) {
+        addDarkOverlay();
+        permissionsPopupWindow.show();
+      }
     });
   });
 }
 
-async function initializeSQL() {
+async function initializeSQL(): Promise<
+  { ok: true; error: undefined } | { ok: false; error: Error }
+> {
   const userDataPath = await getRealPath(app.getPath('userData'));
 
-  let key = userConfig.get('key');
+  let key: string | undefined;
+  const keyFromConfig = userConfig.get('key');
+  if (typeof keyFromConfig === 'string') {
+    key = keyFromConfig;
+  } else if (keyFromConfig) {
+    getLogger().warn(
+      "initializeSQL: got key from config, but it wasn't a string"
+    );
+  }
   if (!key) {
-    console.log(
+    getLogger().info(
       'key/initialize: Generating new encryption key, since we did not find it on disk'
     );
     // https://www.zetetic.net/sqlcipher/sqlcipher-api/#key
-    key = crypto.randomBytes(32).toString('hex');
+    key = randomBytes(32).toString('hex');
     userConfig.set('key', key);
   }
-
-  strictAssert(logger !== undefined, 'Logger must be initialized before sql');
 
   sqlInitTimeStart = Date.now();
   try {
     await sql.initialize({
       configDir: userDataPath,
       key,
-      logger,
+      logger: getLogger(),
     });
-  } catch (error) {
-    return { ok: false, error };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { ok: false, error };
+    }
+
+    return {
+      ok: false,
+      error: new Error(`initializeSQL: Caught a non-error '${error}'`),
+    };
   } finally {
     sqlInitTimeEnd = Date.now();
   }
 
-  return { ok: true };
+  return { ok: true, error: undefined };
 }
 
-const onDatabaseError = async error => {
+const onDatabaseError = async (error: string) => {
   // Prevent window from re-opening
   ready = false;
 
@@ -1223,12 +1293,12 @@ const onDatabaseError = async error => {
 
   const buttonIndex = dialog.showMessageBoxSync({
     buttons: [
-      locale.messages.copyErrorAndQuit.message,
-      locale.messages.deleteAndRestart.message,
+      getLocale().i18n('copyErrorAndQuit'),
+      getLocale().i18n('deleteAndRestart'),
     ],
     defaultId: 0,
     detail: redactAll(error),
-    message: locale.messages.databaseError.message,
+    message: getLocale().i18n('databaseError'),
     noLink: true,
     type: 'error',
   });
@@ -1251,23 +1321,21 @@ const runSQLCorruptionHandler = async () => {
   // `onDatabaseError`.
   const error = await sql.whenCorrupted();
 
-  const message =
+  getLogger().error(
     'Detected sql corruption in main process. ' +
-    `Restarting the application immediately. Error: ${error.message}`;
-  if (logger) {
-    logger.error(message);
-  } else {
-    console.error(message);
-  }
+      `Restarting the application immediately. Error: ${error.message}`
+  );
 
-  await onDatabaseError(error.stack);
+  await onDatabaseError(error.stack || error.message);
 };
 
 runSQLCorruptionHandler();
 
-let sqlInitPromise;
+let sqlInitPromise:
+  | Promise<{ ok: true; error: undefined } | { ok: false; error: Error }>
+  | undefined;
 
-ipc.on('database-error', (event, error) => {
+ipc.on('database-error', (_event: Electron.Event, error: string) => {
   onDatabaseError(error);
 });
 
@@ -1296,12 +1364,13 @@ app.on('ready', async () => {
     const messageTime = loadTime - preloadTime - connectTime;
     const messagesPerSec = (processedCount * 1000) / messageTime;
 
-    console.log('App loaded - time:', loadTime);
-    console.log('SQL init - time:', sqlInitTime);
-    console.log('Preload - time:', preloadTime);
-    console.log('WebSocket connect - time:', connectTime);
-    console.log('Processed count:', processedCount);
-    console.log('Messages per second:', messagesPerSec);
+    const innerLogger = getLogger();
+    innerLogger.info('App loaded - time:', loadTime);
+    innerLogger.info('SQL init - time:', sqlInitTime);
+    innerLogger.info('Preload - time:', preloadTime);
+    innerLogger.info('WebSocket connect - time:', connectTime);
+    innerLogger.info('Processed count:', processedCount);
+    innerLogger.info('Messages per second:', messagesPerSec);
 
     event.sender.send('ci:event', 'app-loaded', {
       loadTime,
@@ -1318,7 +1387,10 @@ app.on('ready', async () => {
 
   addSensitivePath(userDataPath);
 
-  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'test-lib') {
+  if (
+    getEnvironment() !== Environment.Test &&
+    getEnvironment() !== Environment.TestLib
+  ) {
     installFileHandler({
       protocol: electronProtocol,
       userDataPath,
@@ -1328,7 +1400,7 @@ app.on('ready', async () => {
   }
 
   installWebHandler({
-    enableHttp: config.enableHttp,
+    enableHttp: Boolean(process.env.SIGNAL_ENABLE_HTTP),
     protocol: electronProtocol,
   });
 
@@ -1344,7 +1416,7 @@ app.on('ready', async () => {
         systemPreferences
       );
     } else {
-      getMediaAccessStatus = _.noop;
+      getMediaAccessStatus = noop;
     }
     logger.info(
       'media access status',
@@ -1354,7 +1426,8 @@ app.on('ready', async () => {
   }
 
   if (!locale) {
-    const appLocale = process.env.NODE_ENV === 'test' ? 'en' : app.getLocale();
+    const appLocale =
+      getEnvironment() === Environment.Test ? 'en' : app.getLocale();
     locale = loadLocale({ appLocale, logger });
   }
 
@@ -1369,7 +1442,7 @@ app.on('ready', async () => {
       return;
     }
 
-    console.log(
+    getLogger().info(
       'sql.initialize is taking more than three seconds; showing loading dialog'
     );
 
@@ -1384,20 +1457,23 @@ app.on('ready', async () => {
         ...defaultWebPrefs,
         nodeIntegration: false,
         contextIsolation: true,
-        preload: path.join(__dirname, 'ts', 'windows', 'loading', 'preload.js'),
+        preload: join(__dirname, '../ts/windows/loading/preload.js'),
       },
       icon: windowIcon,
     });
 
     loadingWindow.once('ready-to-show', async () => {
+      if (!loadingWindow) {
+        return;
+      }
       loadingWindow.show();
       // Wait for sql initialization to complete, but ignore errors
       await sqlInitPromise;
       loadingWindow.destroy();
-      loadingWindow = null;
+      loadingWindow = undefined;
     });
 
-    loadingWindow.loadURL(prepareFileUrl([__dirname, 'loading.html']));
+    loadingWindow.loadURL(prepareFileUrl([__dirname, '../loading.html']));
   });
 
   try {
@@ -1430,9 +1506,9 @@ app.on('ready', async () => {
 
   const { error: sqlError } = await sqlInitPromise;
   if (sqlError) {
-    console.log('sql.initialize was unsuccessful; returning early');
+    getLogger().error('sql.initialize was unsuccessful; returning early');
 
-    await onDatabaseError(sqlError.stack);
+    await onDatabaseError(sqlError.stack || sqlError.message);
 
     return;
   }
@@ -1448,7 +1524,7 @@ app.on('ready', async () => {
       await sql.sqlCall('removeItemById', [IDB_KEY]);
     }
   } catch (err) {
-    console.log(
+    getLogger().error(
       '(ready event handler) error deleting IndexedDB:',
       err && err.stack ? err.stack : err
     );
@@ -1504,30 +1580,36 @@ app.on('ready', async () => {
   ]);
 });
 
-function setupMenu(options) {
+function setupMenu(options?: Partial<MenuOptionsType>) {
   const { platform } = process;
   const menuOptions = {
-    ...options,
+    // options
     development,
-    isProduction: isProduction(app.getVersion()),
     devTools: defaultWebPrefs.devTools,
-    showDebugLog: showDebugLogWindow,
-    showKeyboardShortcuts,
-    showWindow,
-    showAbout,
-    showSettings: showSettingsWindow,
-    showStickerCreator,
+    includeSetup: false,
+    isProduction: isProduction(app.getVersion()),
+    platform,
+
+    // actions
+    forceUpdate,
     openContactUs,
+    openForums,
     openJoinTheBeta,
     openReleaseNotes,
     openSupportPage,
-    openForums,
-    platform,
     setupAsNewDevice,
     setupAsStandalone,
-    forceUpdate,
+    showAbout,
+    showDebugLog: showDebugLogWindow,
+    showKeyboardShortcuts,
+    showSettings: showSettingsWindow,
+    showStickerCreator,
+    showWindow,
+
+    // overrides
+    ...options,
   };
-  const template = createTemplate(menuOptions, locale.messages);
+  const template = createTemplate(menuOptions, getLocale().messages);
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
@@ -1537,25 +1619,36 @@ async function requestShutdown() {
     return;
   }
 
-  console.log('requestShutdown: Requesting close of mainWindow...');
-  const request = new Promise((resolve, reject) => {
+  getLogger().info('requestShutdown: Requesting close of mainWindow...');
+  const request = new Promise<void>((resolve, reject) => {
+    let timeout: NodeJS.Timeout | undefined;
+
+    if (!mainWindow) {
+      resolve();
+      return;
+    }
+
     ipc.once('now-ready-for-shutdown', (_event, error) => {
-      console.log('requestShutdown: Response received');
+      getLogger().info('requestShutdown: Response received');
 
       if (error) {
         return reject(error);
       }
+      if (timeout) {
+        clearTimeout(timeout);
+      }
 
-      return resolve();
+      resolve();
     });
+
     mainWindow.webContents.send('get-ready-for-shutdown');
 
     // We'll wait two minutes, then force the app to go down. This can happen if someone
     //   exits the app before we've set everything up in preload() (so the browser isn't
     //   yet listening for these events), or if there are a whole lot of stacked-up tasks.
     // Note: two minutes is also our timeout for SQL tasks in data.js in the browser.
-    setTimeout(() => {
-      console.log(
+    timeout = setTimeout(() => {
+      getLogger().error(
         'requestShutdown: Response never received; forcing shutdown.'
       );
       resolve();
@@ -1565,7 +1658,7 @@ async function requestShutdown() {
   try {
     await request;
   } catch (error) {
-    console.log(
+    getLogger().error(
       'requestShutdown error:',
       error && error.stack ? error.stack : error
     );
@@ -1573,8 +1666,8 @@ async function requestShutdown() {
 }
 
 app.on('before-quit', () => {
-  console.log('before-quit event', {
-    readyForShutdown: mainWindow ? mainWindow.readyForShutdown : null,
+  getLogger().info('before-quit event', {
+    readyForShutdown: windowState.readyForShutdown(),
     shouldQuit: windowState.shouldQuit(),
   });
 
@@ -1583,11 +1676,10 @@ app.on('before-quit', () => {
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  console.log('main process handling window-all-closed');
+  getLogger().info('main process handling window-all-closed');
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  const shouldAutoClose =
-    !OS.isMacOS() || isTestEnvironment(config.environment);
+  const shouldAutoClose = !OS.isMacOS() || isTestEnvironment(getEnvironment());
 
   // Only automatically quit if the main window has been created
   // This is necessary because `window-all-closed` can be triggered by the
@@ -1612,14 +1704,17 @@ app.on('activate', () => {
 });
 
 // Defense in depth. We never intend to open webviews or windows. Prevent it completely.
-app.on('web-contents-created', (createEvent, contents) => {
-  contents.on('will-attach-webview', attachEvent => {
-    attachEvent.preventDefault();
-  });
-  contents.on('new-window', newEvent => {
-    newEvent.preventDefault();
-  });
-});
+app.on(
+  'web-contents-created',
+  (_createEvent: Electron.Event, contents: Electron.WebContents) => {
+    contents.on('will-attach-webview', attachEvent => {
+      attachEvent.preventDefault();
+    });
+    contents.on('new-window', newEvent => {
+      newEvent.preventDefault();
+    });
+  }
+);
 
 app.setAsDefaultProtocolClient('sgnl');
 app.setAsDefaultProtocolClient('signalcaptcha');
@@ -1629,8 +1724,8 @@ app.on('will-finish-launching', () => {
   app.on('open-url', (event, incomingHref) => {
     event.preventDefault();
 
-    if (isCaptchaHref(incomingHref, logger)) {
-      const { captcha } = parseCaptchaHref(incomingHref, logger);
+    if (isCaptchaHref(incomingHref, getLogger())) {
+      const { captcha } = parseCaptchaHref(incomingHref, getLogger());
       challengeHandler.handleCaptcha(captcha);
       return;
     }
@@ -1639,7 +1734,7 @@ app.on('will-finish-launching', () => {
   });
 });
 
-ipc.on('set-badge-count', (event, count) => {
+ipc.on('set-badge-count', (_event: Electron.Event, count: number) => {
   app.badgeCount = count;
 });
 
@@ -1664,7 +1759,7 @@ ipc.on('draw-attention', () => {
 });
 
 ipc.on('restart', () => {
-  console.log('Relaunching application');
+  getLogger().info('Relaunching application');
   app.relaunch();
   app.quit();
 });
@@ -1672,17 +1767,23 @@ ipc.on('shutdown', () => {
   app.quit();
 });
 
-ipc.on('set-auto-hide-menu-bar', (event, autoHide) => {
-  if (mainWindow) {
-    mainWindow.autoHideMenuBar = autoHide;
+ipc.on(
+  'set-auto-hide-menu-bar',
+  (_event: Electron.Event, autoHide: boolean) => {
+    if (mainWindow) {
+      mainWindow.autoHideMenuBar = autoHide;
+    }
   }
-});
+);
 
-ipc.on('set-menu-bar-visibility', (event, visibility) => {
-  if (mainWindow) {
-    mainWindow.setMenuBarVisibility(visibility);
+ipc.on(
+  'set-menu-bar-visibility',
+  (_event: Electron.Event, visibility: boolean) => {
+    if (mainWindow) {
+      mainWindow.setMenuBarVisibility(visibility);
+    }
   }
-});
+);
 
 ipc.on('update-system-tray-setting', (
   _event,
@@ -1715,11 +1816,11 @@ ipc.on('stop-screen-share', () => {
   }
 });
 
-ipc.on('show-screen-share', (event, sourceName) => {
+ipc.on('show-screen-share', (_event: Electron.Event, sourceName: string) => {
   showScreenShareWindow(sourceName);
 });
 
-ipc.on('update-tray-icon', (_event, unreadCount) => {
+ipc.on('update-tray-icon', (_event: Electron.Event, unreadCount: number) => {
   if (systemTrayService) {
     systemTrayService.setUnreadCount(unreadCount);
   }
@@ -1739,16 +1840,19 @@ ipc.on('close-debug-log', () => {
 ipc.on('show-permissions-popup', () => {
   showPermissionsPopupWindow(false, false);
 });
-ipc.handle('show-calling-permissions-popup', async (event, forCamera) => {
-  try {
-    await showPermissionsPopupWindow(true, forCamera);
-  } catch (error) {
-    console.error(
-      'show-calling-permissions-popup error:',
-      error && error.stack ? error.stack : error
-    );
+ipc.handle(
+  'show-calling-permissions-popup',
+  async (_event: Electron.Event, forCamera: boolean) => {
+    try {
+      await showPermissionsPopupWindow(true, forCamera);
+    } catch (error) {
+      getLogger().error(
+        'show-calling-permissions-popup error:',
+        error && error.stack ? error.stack : error
+      );
+    }
   }
-});
+);
 ipc.on('close-permissions-popup', () => {
   if (permissionsPopupWindow) {
     permissionsPopupWindow.close();
@@ -1785,6 +1889,11 @@ ipc.on('delete-all-data', () => {
 });
 
 ipc.on('get-built-in-images', async () => {
+  if (!mainWindow) {
+    getLogger().warn('ipc/get-built-in-images: No mainWindow!');
+    return;
+  }
+
   try {
     const images = await attachments.getBuiltInImages();
     mainWindow.webContents.send('get-success-built-in-images', null, images);
@@ -1792,7 +1901,7 @@ ipc.on('get-built-in-images', async () => {
     if (mainWindow && mainWindow.webContents) {
       mainWindow.webContents.send('get-success-built-in-images', error.message);
     } else {
-      console.error('Error handling get-built-in-images:', error.stack);
+      getLogger().error('Error handling get-built-in-images:', error.stack);
     }
   }
 });
@@ -1800,7 +1909,7 @@ ipc.on('get-built-in-images', async () => {
 // Ingested in preload.js via a sendSync call
 ipc.on('locale-data', event => {
   // eslint-disable-next-line no-param-reassign
-  event.returnValue = locale.messages;
+  event.returnValue = getLocale().messages;
 });
 
 ipc.on('user-config-key', event => {
@@ -1822,52 +1931,54 @@ ipc.on('preferences-changed', () => {
   }
 });
 
-function getIncomingHref(argv) {
-  return argv.find(arg => isSgnlHref(arg, logger));
+function getIncomingHref(argv: Array<string>) {
+  return argv.find(arg => isSgnlHref(arg, getLogger()));
 }
 
-function getIncomingCaptchaHref(argv) {
-  return argv.find(arg => isCaptchaHref(arg, logger));
+function getIncomingCaptchaHref(argv: Array<string>) {
+  return argv.find(arg => isCaptchaHref(arg, getLogger()));
 }
 
-function handleSgnlHref(incomingHref) {
+function handleSgnlHref(incomingHref: string) {
   let command;
   let args;
   let hash;
 
-  if (isSgnlHref(incomingHref)) {
-    ({ command, args, hash } = parseSgnlHref(incomingHref, logger));
-  } else if (isSignalHttpsLink(incomingHref)) {
-    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, logger));
+  if (isSgnlHref(incomingHref, getLogger())) {
+    ({ command, args, hash } = parseSgnlHref(incomingHref, getLogger()));
+  } else if (isSignalHttpsLink(incomingHref, getLogger())) {
+    ({ command, args, hash } = parseSignalHttpsLink(incomingHref, getLogger()));
   }
 
   if (mainWindow && mainWindow.webContents) {
     if (command === 'addstickers') {
-      console.log('Opening sticker pack from sgnl protocol link');
-      const packId = args.get('pack_id');
-      const packKeyHex = args.get('pack_key');
+      getLogger().info('Opening sticker pack from sgnl protocol link');
+      const packId = args?.get('pack_id');
+      const packKeyHex = args?.get('pack_key');
       const packKey = packKeyHex
         ? Buffer.from(packKeyHex, 'hex').toString('base64')
         : '';
       mainWindow.webContents.send('show-sticker-pack', { packId, packKey });
     } else if (command === 'signal.group' && hash) {
-      console.log('Showing group from sgnl protocol link');
+      getLogger().info('Showing group from sgnl protocol link');
       mainWindow.webContents.send('show-group-via-link', { hash });
     } else if (command === 'signal.me' && hash) {
-      console.log('Showing conversation from sgnl protocol link');
+      getLogger().info('Showing conversation from sgnl protocol link');
       mainWindow.webContents.send('show-conversation-via-signal.me', { hash });
     } else {
-      console.log('Showing warning that we cannot process link');
+      getLogger().info('Showing warning that we cannot process link');
       mainWindow.webContents.send('unknown-sgnl-link');
     }
   } else {
-    console.error('Unhandled sgnl link');
+    getLogger().error('Unhandled sgnl link');
   }
 }
 
 ipc.on('install-sticker-pack', (_event, packId, packKeyHex) => {
   const packKey = Buffer.from(packKeyHex, 'hex').toString('base64');
-  mainWindow.webContents.send('install-sticker-pack', { packId, packKey });
+  if (mainWindow) {
+    mainWindow.webContents.send('install-sticker-pack', { packId, packKey });
+  }
 });
 
 ipc.on('ensure-file-permissions', async event => {
@@ -1881,24 +1992,24 @@ ipc.on('ensure-file-permissions', async event => {
  *
  * @param {string[]} [onlyFiles] - Only ensure permissions on these given files
  */
-async function ensureFilePermissions(onlyFiles) {
-  console.log('Begin ensuring permissions');
+async function ensureFilePermissions(onlyFiles?: Array<string>) {
+  getLogger().info('Begin ensuring permissions');
 
   const start = Date.now();
   const userDataPath = await getRealPath(app.getPath('userData'));
   // fast-glob uses `/` for all platforms
-  const userDataGlob = normalizePath(path.join(userDataPath, '**', '*'));
+  const userDataGlob = normalizePath(join(userDataPath, '**', '*'));
 
   // Determine files to touch
   const files = onlyFiles
-    ? onlyFiles.map(f => path.join(userDataPath, f))
-    : await fg(userDataGlob, {
+    ? onlyFiles.map(f => join(userDataPath, f))
+    : await fastGlob(userDataGlob, {
         markDirectories: true,
         onlyFiles: false,
         ignore: ['**/Singleton*'],
       });
 
-  console.log(`Ensuring file permissions for ${files.length} files`);
+  getLogger().info(`Ensuring file permissions for ${files.length} files`);
 
   // Touch each file in a queue
   const q = new PQueue({ concurrency: 5, timeout: 1000 * 60 * 2 });
@@ -1906,14 +2017,17 @@ async function ensureFilePermissions(onlyFiles) {
     files.map(f => async () => {
       const isDir = f.endsWith('/');
       try {
-        await fs.chmod(path.normalize(f), isDir ? 0o700 : 0o600);
+        await chmod(normalize(f), isDir ? 0o700 : 0o600);
       } catch (error) {
-        console.error('ensureFilePermissions: Error from chmod', error.message);
+        getLogger().error(
+          'ensureFilePermissions: Error from chmod',
+          error.message
+        );
       }
     })
   );
 
   await q.onEmpty();
 
-  console.log(`Finish ensuring permissions in ${Date.now() - start}ms`);
+  getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }

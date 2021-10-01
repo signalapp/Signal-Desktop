@@ -3,6 +3,7 @@
 
 import { LocaleMessagesType } from '../types/I18N';
 import { LocalizerType } from '../types/Util';
+import * as log from '../logging/log';
 
 export function setupI18n(
   locale: string,
@@ -16,9 +17,6 @@ export function setupI18n(
   }
 
   const getMessage: LocalizerType = (key, substitutions) => {
-    // eslint-disable-next-line no-console
-    const log = window?.SignalWindow?.log || console;
-
     const entry = messages[key];
     if (!entry) {
       log.error(

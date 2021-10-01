@@ -170,6 +170,7 @@ describe('sgnlHref', () => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: null,
           args: new Map<never, never>(),
+          hash: undefined,
         });
       });
     });
@@ -329,6 +330,7 @@ describe('sgnlHref', () => {
         assert.deepEqual(parseSignalHttpsLink(href, explodingLogger), {
           command: null,
           args: new Map<never, never>(),
+          hash: undefined,
         });
       });
     });
