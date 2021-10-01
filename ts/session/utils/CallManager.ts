@@ -1,4 +1,8 @@
 import _ from 'lodash';
+import { ToastUtils } from '.';
+import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { getConversationById } from '../../data/data';
+import { MessageModelType } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import {
   answerCall,
@@ -7,6 +11,8 @@ import {
   incomingCall,
   startingCallWith,
 } from '../../state/ducks/conversations';
+import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
+import { getConversationController } from '../conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
@@ -33,6 +39,7 @@ const ENABLE_VIDEO = true;
 let makingOffer = false;
 let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
+let lastOutgoingOfferTimestamp = -Infinity;
 
 const configuration = {
   configuration: {
@@ -61,14 +68,16 @@ export async function USER_callRecipient(recipient: string) {
 
   let mediaDevices: any;
   try {
-    const mediaDevices = await openMediaDevices();
-    mediaDevices.getTracks().map(track => {
+    mediaDevices = await openMediaDevices();
+    mediaDevices.getTracks().map((track: any) => {
       window.log.info('USER_callRecipient adding track: ', track);
       peerConnection?.addTrack(track, mediaDevices);
     });
   } catch (err) {
-    console.error('Failed to open media devices. Check camera and mic app permissions');
-    // TODO: implement toast popup
+    ToastUtils.pushMicAndCameraPermissionNeeded(() => {
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+    });
   }
   peerConnection.addEventListener('connectionstatechange', _event => {
     window.log.info('peerConnection?.connectionState caller :', peerConnection?.connectionState);
@@ -77,7 +86,7 @@ export async function USER_callRecipient(recipient: string) {
     }
   });
   peerConnection.addEventListener('ontrack', event => {
-    console.warn('ontrack:', event);
+    window.log?.warn('ontrack:', event);
   });
   peerConnection.addEventListener('icecandidate', event => {
     // window.log.warn('event.candidate', event.candidate);
@@ -89,42 +98,33 @@ export async function USER_callRecipient(recipient: string) {
   });
   // peerConnection.addEventListener('negotiationneeded', async event => {
   peerConnection.onnegotiationneeded = async event => {
-    console.warn('negotiationneeded:', event);
+    window.log?.warn('negotiationneeded:', event);
     try {
       makingOffer = true;
-      // const offerDescription = await peerConnection?.createOffer({
-      //   offerToReceiveAudio: true,
-      //   offerToReceiveVideo: true,
-      // });
-      // if (!offerDescription) {
-      //   console.error('Failed to create offer for negotiation');
-      //   return;
-      // }
-      // await peerConnection?.setLocalDescription(offerDescription);
-      // if (!offerDescription || !offerDescription.sdp || !offerDescription.sdp.length) {
-      //   // window.log.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
-      //   console.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
-      //   return;
-      // }
-
       // @ts-ignore
       await peerConnection?.setLocalDescription();
-      let offer = await peerConnection?.createOffer();
-      console.warn(offer);
+      const offer = await peerConnection?.createOffer();
+      window.log?.warn(offer);
 
       if (offer && offer.sdp) {
-        const callOfferMessage = new CallMessage({
+        const negotationOfferMessage = new CallMessage({
           timestamp: Date.now(),
           type: SignalService.CallMessage.Type.OFFER,
-          // sdps: [offerDescription.sdp],
           sdps: [offer.sdp],
         });
 
         window.log.info('sending OFFER MESSAGE');
-        await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callOfferMessage);
+        const negotationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
+          PubKey.cast(recipient),
+          negotationOfferMessage
+        );
+        if (typeof negotationOfferSendResult === 'number') {
+          window.log?.warn('setting last sent timestamp');
+          lastOutgoingOfferTimestamp = negotationOfferSendResult;
+        }
+        // debug: await new Promise(r => setTimeout(r, 10000)); adding artificial wait for offer debugging
       }
     } catch (err) {
-      console.error(err);
       window.log?.error(`Error on handling negotiation needed ${err}`);
     } finally {
       makingOffer = false;
@@ -154,14 +154,21 @@ export async function USER_callRecipient(recipient: string) {
     return;
   }
   await peerConnection.setLocalDescription(offerDescription);
-  const callOfferMessage = new CallMessage({
+  const offerMessage = new CallMessage({
     timestamp: Date.now(),
     type: SignalService.CallMessage.Type.OFFER,
     sdps: [offerDescription.sdp],
   });
 
   window.log.info('sending OFFER MESSAGE');
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callOfferMessage);
+  const offerSendResult = await getMessageQueue().sendToPubKeyNonDurably(
+    PubKey.cast(recipient),
+    offerMessage
+  );
+  if (typeof offerSendResult === 'number') {
+    window.log?.warn('setting timestamp');
+    lastOutgoingOfferTimestamp = offerSendResult;
+  }
   // FIXME audric dispatch UI update to show the calling UI
 }
 
@@ -255,13 +262,13 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const remoteStream = new MediaStream();
 
   peerConnection.addEventListener('icecandidate', event => {
-    console.warn('icecandidateerror:', event);
+    window.log?.warn('icecandidateerror:', event);
     // TODO: ICE stuff
     // signaler.send({candidate}); // probably event.candidate
   });
 
   peerConnection.addEventListener('signalingstatechange', event => {
-    console.warn('signalingstatechange:', event);
+    window.log?.warn('signalingstatechange:', event);
   });
 
   if (videoEventsListener) {
@@ -363,37 +370,26 @@ export function handleEndCallMessage(sender: string) {
 
 export async function handleOfferCallMessage(
   sender: string,
-  callMessage: SignalService.CallMessage
+  callMessage: SignalService.CallMessage,
+  incomingOfferTimestamp: number
 ) {
   try {
-    console.warn({ callMessage });
-    const readyForOffer =
-      !makingOffer && (peerConnection?.signalingState == 'stable' || isSettingRemoteAnswerPending);
-    // TODO: How should politeness be decided between client / recipient?
-    ignoreOffer = !true && !readyForOffer;
-    if (ignoreOffer) {
-      // window.log?.warn('Received offer when unready for offer; Ignoring offer.');
-      console.warn('Received offer when unready for offer; Ignoring offer.');
+    const convos = getConversationController().getConversations();
+    if (convos.some(convo => convo.callState !== undefined)) {
+      await handleMissedCall(sender, incomingOfferTimestamp);
       return;
     }
 
-    // const description =  await peerConnection?.createOffer({
-    // const description =  await peerConnection?.createOffer({
-    //     offerToReceiveVideo: true,
-    //     offerToReceiveAudio: true,
-    //   })
-
-    // @ts-ignore
-    await peerConnection?.setLocalDescription();
-    console.warn(peerConnection?.localDescription);
-
-    const message = new CallMessage({
-      type: SignalService.CallMessage.Type.ANSWER,
-      timestamp: Date.now(),
-    });
-
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(sender), message);
-    // TODO: send via our signalling with the sdp of our pc.localDescription
+    const readyForOffer =
+      !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
+    const polite = lastOutgoingOfferTimestamp < incomingOfferTimestamp;
+    ignoreOffer = !polite && !readyForOffer;
+    if (ignoreOffer) {
+      // window.log?.warn('Received offer when unready for offer; Ignoring offer.');
+      window.log?.warn('Received offer when unready for offer; Ignoring offer.');
+      return;
+    }
+    // don't need to do the sending here as we dispatch an answer in a
   } catch (err) {
     window.log?.error(`Error handling offer message ${err}`);
   }
@@ -403,6 +399,24 @@ export async function handleOfferCallMessage(
   }
   callCache.get(sender)?.push(callMessage);
   window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
+}
+
+async function handleMissedCall(sender: string, incomingOfferTimestamp: number) {
+  const incomingCallConversation = await getConversationById(sender);
+  ToastUtils.pushedMissedCall(incomingCallConversation?.getNickname() || 'Unknown');
+
+  await incomingCallConversation?.addSingleMessage({
+    conversationId: incomingCallConversation.id,
+    source: sender,
+    type: 'incoming' as MessageModelType,
+    sent_at: incomingOfferTimestamp,
+    received_at: Date.now(),
+    expireTimer: 0,
+    body: 'Missed call',
+    unread: 1,
+  });
+  incomingCallConversation?.updateLastMessage();
+  return;
 }
 
 export async function handleCallAnsweredMessage(
@@ -421,7 +435,7 @@ export async function handleCallAnsweredMessage(
   window.inboxStore?.dispatch(answerCall({ pubkey: sender }));
   const remoteDesc = new RTCSessionDescription({ type: 'answer', sdp: callMessage.sdps[0] });
   if (peerConnection) {
-    console.warn('Setting remote answer pending');
+    window.log?.warn('Setting remote answer pending');
     isSettingRemoteAnswerPending = true;
     await peerConnection.setRemoteDescription(remoteDesc);
     isSettingRemoteAnswerPending = false;
@@ -455,6 +469,7 @@ export async function handleIceCandidatesMessage(
         await peerConnection.addIceCandidate(candicate);
       } catch (err) {
         if (!ignoreOffer) {
+          window.log?.warn('Error handling ICE candidates message');
         }
       }
     }

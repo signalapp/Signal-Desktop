@@ -135,6 +135,7 @@ export const CallContainer = () => {
           <CallWindowHeader>Call with: {ongoingCallProps.name}</CallWindowHeader>
 
           <CallWindowInner>
+            <div>{hasIncomingCall}</div>
             <VideoContainer>
               <VideoContainerRemote ref={videoRefRemote} autoPlay={true} />
               <VideoContainerLocal ref={videoRefLocal} autoPlay={true} />

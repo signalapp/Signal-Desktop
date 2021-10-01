@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
+import {
+  getHasIncomingCall,
+  getHasOngoingCall,
+  getNumberOfPinnedConversations,
+} from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Item, Submenu } from 'react-contexify';
 import {
@@ -319,32 +323,27 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
 }
 
 export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
-  // TODO: possibly conditionally show options?
-  // const callOptions = [
-  //   {
-  //     name: 'Video call',
-  //     value: 'video-call',
-  //   },
-  //   // {
-  //   //   name: 'Audio call',
-  //   //   value: 'audio-call',
-  //   // },
-  // ];
-
+  const canCall = !(useSelector(getHasIncomingCall) || useSelector(getHasOngoingCall));
   return (
     <Item
       onClick={async () => {
         // TODO: either pass param to callRecipient or call different call methods based on item selected.
+        // TODO: one time redux-persisted permission modal?
         const convo = getConversationController().get(conversationId);
+
+        if (!canCall) {
+          ToastUtils.pushUnableToCall();
+          return;
+        }
+
         if (convo) {
           convo.callState = 'connecting';
           await convo.commit();
-
           await CallManager.USER_callRecipient(convo.id);
         }
       }}
     >
-      {'video call'}
+      {'Video Call'}
     </Item>
   );
 }
