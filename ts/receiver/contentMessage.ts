@@ -569,7 +569,6 @@ export async function handleDataExtractionNotification(
       },
       unread: 1, // 1 means unread
       expireTimer: 0,
-      isCall: true,
     });
     convo.updateLastMessage();
   }

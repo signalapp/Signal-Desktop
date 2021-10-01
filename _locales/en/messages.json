@@ -450,7 +450,7 @@
   "endCall": "End call",
   "micAndCameraPermissionNeededTitle": "Camera and Microphone access required",
   "micAndCameraPermissionNeeded": "You can enable microphone and camera access under: Settings (Gear icon) => Privacy",
-  "unableToCall": "Cancel your exiting call session.",
+  "unableToCall": "cancel your ongoing call first",
   "unableToCallTitle": "Cannot start new call",
   "callMissed": "Missed call from $name$",
   "callMissedTitle": "Call missed"

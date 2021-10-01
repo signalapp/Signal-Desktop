@@ -177,7 +177,6 @@ export interface MessageAttributesOptionals {
   direction?: any;
   messageHash?: string;
   isDeleted?: boolean;
-  isCall?: boolean;
 }
 
 /**

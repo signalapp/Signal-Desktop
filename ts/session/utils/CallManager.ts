@@ -414,7 +414,6 @@ async function handleMissedCall(sender: string, incomingOfferTimestamp: number) 
     expireTimer: 0,
     body: 'Missed call',
     unread: 1,
-    isCall: false,
   });
   incomingCallConversation?.updateLastMessage();
   return;
