@@ -4545,13 +4545,20 @@ button.module-image__border-overlay:focus {
 }
 
 .module-message-body__at-mention {
-  background-color: $color-black-alpha-40;
   border-radius: 4px;
   cursor: pointer;
   display: inline-block;
   padding-left: 4px;
   padding-right: 4px;
   border: 1px solid transparent;
+
+  @include light-theme {
+    background-color: $color-gray-20;
+  }
+
+  @include dark-theme {
+    background-color: $color-black-alpha-40;
+  }
 
   &:focus {
     border: 1px solid $color-black;
