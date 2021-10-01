@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // This file is meant to be run frequently, so it doesn't check the license year. See the
@@ -8,6 +8,7 @@ import { assert } from 'chai';
 
 import {
   forEachRelevantFile,
+  getExtension,
   readFirstLines,
 } from '../util/lint/license_comments';
 
@@ -17,7 +18,15 @@ describe('license comments', () => {
     this.timeout(10000);
 
     await forEachRelevantFile(async file => {
-      const [firstLine, secondLine] = await readFirstLines(file, 2);
+      let firstLine: string;
+      let secondLine: string;
+
+      if (getExtension(file) === '.sh') {
+        const firstThreeLines = await readFirstLines(file, 3);
+        [, firstLine, secondLine] = firstThreeLines;
+      } else {
+        [firstLine, secondLine] = await readFirstLines(file, 2);
+      }
 
       const { groups = {} } =
         firstLine.match(
