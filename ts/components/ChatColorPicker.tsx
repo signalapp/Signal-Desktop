@@ -223,7 +223,7 @@ export const ChatColorPicker = ({
         })}
         <div
           aria-label={i18n('ChatColorPicker__custom-color--label')}
-          className="ChatColorPicker__bubble"
+          className="ChatColorPicker__bubble ChatColorPicker__bubble--custom"
           onClick={() =>
             setCustomColorToEdit({ id: undefined, value: undefined })
           }
