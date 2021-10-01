@@ -46,7 +46,7 @@ export async function handleCallMessage(
     }
     await removeFromCache(envelope);
 
-    CallManager.handleOfferCallMessage(sender, callMessage, sentTimestamp);
+    await CallManager.handleOfferCallMessage(sender, callMessage, sentTimestamp);
 
     return;
   }

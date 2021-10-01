@@ -401,7 +401,7 @@ export async function innerHandleContentMessage(
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
     if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
-      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage, messageHash);
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
   } catch (e) {
     window?.log?.warn(e);
