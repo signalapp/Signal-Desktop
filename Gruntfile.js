@@ -202,6 +202,7 @@ module.exports = grunt => {
         NODE_ENV: environment,
       },
       requireName: 'unused',
+      startTimeout: 30000,
     });
 
     function getMochaResults() {
