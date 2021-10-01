@@ -186,6 +186,7 @@ export const ProfileEditor = ({
     }
 
     focusNode.focus();
+    focusNode.setSelectionRange(focusNode.value.length, focusNode.value.length);
   }, [editState]);
 
   useEffect(() => {
@@ -328,7 +329,7 @@ export const ProfileEditor = ({
               setStagedProfile(profileData => ({
                 ...profileData,
                 aboutEmoji: stagedProfile.aboutEmoji,
-                aboutText: value,
+                aboutText: value.replace(/(\r\n|\n|\r)/gm, ''),
               }));
             } else {
               setStagedProfile(profileData => ({
