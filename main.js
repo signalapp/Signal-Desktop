@@ -315,14 +315,20 @@ function handleCommonWindowEvents(window) {
   // Works only for mainWindow because it has `enablePreferredSizeMode`
   let lastZoomFactor = window.webContents.getZoomFactor();
   const onZoomChanged = () => {
+    if (
+      window.isDestroyed() ||
+      !window.webContents ||
+      window.webContents.isDestroyed()
+    ) {
+      return;
+    }
+
     const zoomFactor = window.webContents.getZoomFactor();
     if (lastZoomFactor === zoomFactor) {
       return;
     }
 
-    if (window.webContents) {
-      window.webContents.send('callbacks:call:persistZoomFactor', [zoomFactor]);
-    }
+    window.webContents.send('callbacks:call:persistZoomFactor', [zoomFactor]);
 
     lastZoomFactor = zoomFactor;
   };
