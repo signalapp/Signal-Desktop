@@ -62,7 +62,7 @@ import {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import { createRefMerger } from '../_util';
+import { createRefMerger } from '../../util/refMerger';
 import { emojiToData } from '../emoji/lib';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
