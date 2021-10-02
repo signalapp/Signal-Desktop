@@ -809,6 +809,10 @@ async function processManifest(
     });
   });
 
+  if (!remoteOnlyRecords.size) {
+    return false;
+  }
+
   const conflictCount = await processRemoteRecords(remoteOnlyRecords);
 
   // Post-merge, if our local records contain any storage IDs that were not
