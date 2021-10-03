@@ -530,9 +530,8 @@ async function handle421InvalidSwarm({
     // this does not make much sense to have a 421 without a publicKey set.
     throw new Error('status 421 without a final destination or no associatedWith makes no sense');
   }
-  window?.log?.info(`Invalidating swarm for ${associatedWith}`);
+  window?.log?.info(`Invalidating swarm for ${ed25519Str(associatedWith)}`);
 
-  const exceptionMessage = '421 handled. Retry this request with a new targetNode';
   try {
     const parsedBody = JSON.parse(body);
 
@@ -545,12 +544,12 @@ async function handle421InvalidSwarm({
       );
 
       await updateSwarmFor(associatedWith, parsedBody.snodes);
-      throw new pRetry.AbortError(exceptionMessage);
+      throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
     }
     // remove this node from the swarm of this pubkey
     await dropSnodeFromSwarmIfNeeded(associatedWith, snodeEd25519);
   } catch (e) {
-    if (e.message !== exceptionMessage) {
+    if (e.message !== ERROR_421_HANDLED_RETRY_REQUEST) {
       window?.log?.warn(
         'Got error while parsing 421 result. Dropping this snode from the swarm of this pubkey',
         e

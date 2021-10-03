@@ -19,13 +19,14 @@ async function lokiFetch({
   url,
   associatedWith,
   targetNode,
+  timeout,
 }: {
   url: string;
   options: FetchOptions;
   targetNode?: Snode;
   associatedWith?: string;
+  timeout: number;
 }): Promise<undefined | SnodeResponse> {
-  const timeout = 10000;
   const method = options.method || 'GET';
 
   const fetchOptions = {
@@ -97,11 +98,13 @@ export async function snodeRpc(
     params,
     targetNode,
     associatedWith,
+    timeout = 10000,
   }: {
     method: string;
     params: any;
     targetNode: Snode;
     associatedWith?: string;
+    timeout?: number;
   } //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
@@ -135,5 +138,6 @@ export async function snodeRpc(
     options: fetchOptions,
     targetNode,
     associatedWith,
+    timeout,
   });
 }

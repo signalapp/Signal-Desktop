@@ -453,5 +453,6 @@
   "unableToCall": "cancel your ongoing call first",
   "unableToCallTitle": "Cannot start new call",
   "callMissed": "Missed call from $name$",
-  "callMissedTitle": "Call missed"
+  "callMissedTitle": "Call missed",
+  "startVideoCall": "Start Video Call"
 }

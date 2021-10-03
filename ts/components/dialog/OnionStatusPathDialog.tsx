@@ -1,7 +1,6 @@
 import React from 'react';
 
-import Electron from 'electron';
-const { shell } = Electron;
+import { shell } from 'electron';
 
 import { useDispatch, useSelector } from 'react-redux';
 

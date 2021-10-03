@@ -465,7 +465,13 @@ export async function retrieveNextMessages(
 
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-  const result = await snodeRpc({ method: 'retrieve', params, targetNode, associatedWith });
+  const result = await snodeRpc({
+    method: 'retrieve',
+    params,
+    targetNode,
+    associatedWith,
+    timeout: 4000,
+  });
 
   if (!result) {
     window?.log?.warn(
@@ -662,7 +668,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
         minTimeout: exports.TEST_getMinTimeout(),
         onFailedAttempt: e => {
           window?.log?.warn(
-            `delete_all OUTER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...`
+            `delete_all OUTER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.message}`
           );
         },
       }
@@ -770,6 +776,12 @@ export const networkDeleteMessages = async (hashes: Array<string>): Promise<any>
                           snodeToMakeRequestTo.pubkey_ed25519
                         )} due to error: ${reason}: ${statusCode}`
                       );
+                      // if we tried to make the delete on a snode not in our swarm, just trigger a pRetry error so the outer block here finds new snodes to make the request to.
+                      if (statusCode === 421) {
+                        throw new pRetry.AbortError(
+                          '421 error on network delete_all. Retrying with a new snode'
+                        );
+                      }
                     } else {
                       window?.log?.warn(
                         `Could not delete data from ${ed25519Str(

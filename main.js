@@ -597,12 +597,10 @@ async function showDebugLogWindow() {
   debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
-    removeDarkOverlay();
     debugLogWindow = null;
   });
 
   debugLogWindow.once('ready-to-show', () => {
-    addDarkOverlay();
     debugLogWindow.show();
   });
 }
@@ -820,14 +818,6 @@ ipc.on('locale-data', event => {
   event.returnValue = locale.messages;
 });
 
-ipc.on('set-badge-count', (event, count) => {
-  app.setBadgeCount(count);
-});
-
-ipc.on('remove-setup-menu-items', () => {
-  setupMenu();
-});
-
 ipc.on('add-setup-menu-items', () => {
   setupMenu({
     includeSetup: false,
@@ -956,19 +946,6 @@ ipc.on('close-debug-log', () => {
     debugLogWindow.close();
   }
 });
-
-// Settings-related IPC calls
-
-function addDarkOverlay() {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('add-dark-overlay');
-  }
-}
-function removeDarkOverlay() {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('remove-dark-overlay');
-  }
-}
 
 // This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {

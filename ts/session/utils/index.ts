@@ -2,7 +2,6 @@ import * as MessageUtils from './Messages';
 import * as GroupUtils from './Groups';
 import * as StringUtils from './String';
 import * as PromiseUtils from './Promise';
-import * as ProtobufUtils from './Protobuf';
 import * as MenuUtils from '../../components/session/menu/Menu';
 import * as ToastUtils from './Toast';
 import * as UserUtils from './User';
@@ -20,7 +19,6 @@ export {
   GroupUtils,
   StringUtils,
   PromiseUtils,
-  ProtobufUtils,
   MenuUtils,
   ToastUtils,
   UserUtils,

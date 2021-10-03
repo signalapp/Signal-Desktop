@@ -1,6 +1,5 @@
-import Electron from 'electron';
+import { ipcRenderer } from 'electron';
 
-const { ipcRenderer } = Electron;
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 
 import _ from 'lodash';
