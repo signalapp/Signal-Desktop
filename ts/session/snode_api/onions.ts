@@ -494,6 +494,9 @@ export async function processOnionResponse({
   }
 }
 
+export const ERROR_421_HANDLED_RETRY_REQUEST =
+  '421 handled. Retry this request with a new targetNode';
+
 export const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -561,7 +564,7 @@ async function handle421InvalidSwarm({
   await Onions.incrementBadSnodeCountOrDrop({ snodeEd25519, associatedWith });
 
   // this is important we throw so another retry is made and we exit the handling of that reponse
-  throw new pRetry.AbortError(exceptionMessage);
+  throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
 }
 
 /**
