@@ -320,13 +320,18 @@ textarea {
   margin-inline-start: 10px;
 }
 
+pre {
+  backdrop-filter: brightness(0.8);
+  padding: $session-margin-xs;
+}
+
 .module-message__container {
   position: relative;
   display: inline-block;
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
-  max-width: 300px;
+  max-width: calc(100vw - 380px - 100px);
   align-items: center;
 }
 label {

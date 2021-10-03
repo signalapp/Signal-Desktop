@@ -110,6 +110,11 @@ export class MessageBody extends React.Component<Props> {
       );
     }
 
+    if (text && text.startsWith('```') && text.endsWith('```')) {
+      const length = text.length;
+      return <pre className="text-selectable">{text.substring(4, length - 3)}</pre>;
+    }
+
     return this.renderJsxSelectable(
       <Linkify
         text={text}
