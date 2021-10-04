@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import { Theme, themeClassName } from '../util/theme';
-import { multiRef } from '../util/multiRef';
+import { refMerger } from '../util/refMerger';
 import { offsetDistanceModifier } from '../util/popperUtil';
 
 type EventWrapperPropsType = {
@@ -52,7 +52,7 @@ const TooltipEventWrapper = React.forwardRef<
     <span
       onFocus={on}
       onBlur={off}
-      ref={multiRef<HTMLSpanElement>(ref, wrapperRef)}
+      ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
     >
       {children}
     </span>

@@ -1,9 +1,18 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Ref } from 'react';
+import type { MutableRefObject, Ref } from 'react';
+import memoizee from 'memoizee';
 
-export function multiRef<T>(...refs: Array<Ref<T>>): (topLevelRef: T) => void {
+/**
+ * Merges multiple refs.
+ *
+ * Returns a new function each time, which may cause unnecessary re-renders. Try
+ * `createRefMerger` if you want to cache the function.
+ */
+export function refMerger<T>(
+  ...refs: Array<Ref<unknown>>
+): (topLevelRef: T) => void {
   return (el: T) => {
     refs.forEach(ref => {
       // This is a simplified version of [what React does][0] to set a ref.
@@ -15,8 +24,12 @@ export function multiRef<T>(...refs: Array<Ref<T>>): (topLevelRef: T) => void {
         //   not be `readonly`. That's why we do this cast. See [the React source][1].
         // [1]: https://github.com/facebook/react/blob/29b7b775f2ecf878eaf605be959d959030598b07/packages/shared/ReactTypes.js#L78-L80
         // eslint-disable-next-line no-param-reassign
-        (ref as React.MutableRefObject<T>).current = el;
+        (ref as MutableRefObject<T>).current = el;
       }
     });
   };
+}
+
+export function createRefMerger(): typeof refMerger {
+  return memoizee(refMerger, { length: false, max: 1 });
 }

@@ -11,6 +11,7 @@ import { ModalHost } from './ModalHost';
 import { Theme } from '../util/theme';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useHasWrapped } from '../hooks/useHasWrapped';
+import { useRefMerger } from '../hooks/useRefMerger';
 
 type PropsType = {
   children: ReactNode;
@@ -38,6 +39,9 @@ export function Modal({
   theme,
 }: Readonly<PropsType>): ReactElement {
   const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const refMerger = useRefMerger();
+
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
@@ -112,10 +116,7 @@ export function Modal({
                 const scrollTop = bodyRef.current?.scrollTop || 0;
                 setScrolled(scrollTop > 2);
               }}
-              ref={bodyEl => {
-                measureRef(bodyEl);
-                bodyRef.current = bodyEl;
-              }}
+              ref={refMerger(measureRef, bodyRef)}
             >
               {children}
             </div>

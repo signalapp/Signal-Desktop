@@ -15,7 +15,7 @@ import classNames from 'classnames';
 import * as grapheme from '../util/grapheme';
 import { LocalizerType } from '../types/Util';
 import { getClassNamesFor } from '../util/getClassNamesFor';
-import { multiRef } from '../util/multiRef';
+import { refMerger } from '../util/refMerger';
 
 export type PropsType = {
   countLength?: (value: string) => number;
@@ -173,7 +173,7 @@ export const Input = forwardRef<
       onKeyDown: handleKeyDown,
       onPaste: handlePaste,
       placeholder,
-      ref: multiRef<HTMLInputElement | HTMLTextAreaElement | null>(
+      ref: refMerger<HTMLInputElement | HTMLTextAreaElement | null>(
         ref,
         innerRef
       ),
