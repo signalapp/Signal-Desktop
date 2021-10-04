@@ -78,7 +78,7 @@
     padding: 0 16px;
     position: absolute;
     width: 100%;
-    z-index: 0;
+    visibility: hidden;
   }
 
   &__object {
