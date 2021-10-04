@@ -73,7 +73,14 @@ export function Lightbox({
   const imageRef = useRef<HTMLImageElement | null>(null);
   const [imagePanStyle, setImagePanStyle] = useState<CSSProperties>({});
   const zoomCoordsRef = useRef<
-    | { screenWidth: number; screenHeight: number; x: number; y: number }
+    | {
+        initX: number;
+        initY: number;
+        screenWidth: number;
+        screenHeight: number;
+        x: number;
+        y: number;
+      }
     | undefined
   >();
 
@@ -231,52 +238,66 @@ export function Lightbox({
     };
   }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
 
-  const positionImage = useCallback((ev?: MouseEvent) => {
-    const imageNode = imageRef.current;
-    const zoomCoords = zoomCoordsRef.current;
-    if (!imageNode || !zoomCoords) {
-      return;
-    }
+  const positionImage = useCallback(
+    (ev?: { clientX: number; clientY: number }) => {
+      const imageNode = imageRef.current;
+      const zoomCoords = zoomCoordsRef.current;
+      if (!imageNode || !zoomCoords) {
+        return;
+      }
 
-    if (ev) {
-      zoomCoords.x = ev.clientX;
-      zoomCoords.y = ev.clientY;
-    }
+      if (ev) {
+        zoomCoords.x = ev.clientX;
+        zoomCoords.y = ev.clientY;
+      }
 
-    const shouldTransformX = imageNode.naturalWidth > zoomCoords.screenWidth;
-    const shouldTransformY = imageNode.naturalHeight > zoomCoords.screenHeight;
+      const shouldTransformX = imageNode.naturalWidth > zoomCoords.screenWidth;
+      const shouldTransformY =
+        imageNode.naturalHeight > zoomCoords.screenHeight;
 
-    const nextImagePanStyle: CSSProperties = {
-      left: '50%',
-      top: '50%',
-    };
+      const nextImagePanStyle: CSSProperties = {
+        left: '50%',
+        top: '50%',
+      };
 
-    let translateX = '-50%';
-    let translateY = '-50%';
+      let translateX = '-50%';
+      let translateY = '-50%';
 
-    if (shouldTransformX) {
-      const scaleX =
-        (-1 / zoomCoords.screenWidth) *
-        (imageNode.offsetWidth - zoomCoords.screenWidth);
+      if (shouldTransformX) {
+        const offset = imageNode.offsetWidth - zoomCoords.screenWidth;
 
-      translateX = `${zoomCoords.x * scaleX}px`;
-      nextImagePanStyle.left = 0;
-    }
+        const scaleX = (-1 / zoomCoords.screenWidth) * offset;
 
-    if (shouldTransformY) {
-      const scaleY =
-        (-1 / zoomCoords.screenHeight) *
-        (imageNode.offsetHeight - zoomCoords.screenHeight);
+        const posX = Math.max(
+          0,
+          Math.min(zoomCoords.screenWidth, zoomCoords.x)
+        );
 
-      translateY = `${zoomCoords.y * scaleY}px`;
-      nextImagePanStyle.top = 0;
-    }
+        translateX = `${posX * scaleX}px`;
+        nextImagePanStyle.left = 0;
+      }
 
-    setImagePanStyle({
-      ...nextImagePanStyle,
-      transform: `translate(${translateX}, ${translateY})`,
-    });
-  }, []);
+      if (shouldTransformY) {
+        const offset = imageNode.offsetHeight - zoomCoords.screenHeight;
+
+        const scaleY = (-1 / zoomCoords.screenHeight) * offset;
+
+        const posY = Math.max(
+          0,
+          Math.min(zoomCoords.screenHeight, zoomCoords.y)
+        );
+
+        translateY = `${posY * scaleY}px`;
+        nextImagePanStyle.top = 0;
+      }
+
+      setImagePanStyle({
+        ...nextImagePanStyle,
+        transform: `translate(${translateX}, ${translateY})`,
+      });
+    },
+    []
+  );
 
   function canPanImage(): boolean {
     const imageNode = imageRef.current;
@@ -288,6 +309,29 @@ export function Lightbox({
     );
   }
 
+  const handleTouchMove = useCallback(
+    (ev: TouchEvent) => {
+      const imageNode = imageRef.current;
+      const zoomCoords = zoomCoordsRef.current;
+
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if (!imageNode || !zoomCoords) {
+        return;
+      }
+
+      const [touch] = ev.touches;
+      const { initX, initY } = zoomCoords;
+
+      positionImage({
+        clientX: initX + (initX - touch.clientX),
+        clientY: initY + (initY - touch.clientY),
+      });
+    },
+    [positionImage]
+  );
+
   useEffect(() => {
     const imageNode = imageRef.current;
     let hasListener = false;
@@ -295,14 +339,16 @@ export function Lightbox({
     if (imageNode && zoomType !== ZoomType.None && canPanImage()) {
       hasListener = true;
       document.addEventListener('mousemove', positionImage);
+      document.addEventListener('touchmove', handleTouchMove);
     }
 
     return () => {
       if (hasListener) {
         document.removeEventListener('mousemove', positionImage);
+        document.removeEventListener('touchmove', handleTouchMove);
       }
     };
-  }, [positionImage, zoomType]);
+  }, [handleTouchMove, positionImage, zoomType]);
 
   const caption = attachment?.caption;
 
@@ -346,8 +392,10 @@ export function Lightbox({
                 if (canPanImage()) {
                   setZoomType(ZoomType.ZoomAndPan);
                   zoomCoordsRef.current = {
-                    screenWidth: document.documentElement.clientWidth,
+                    initX: event.clientX,
+                    initY: event.clientY,
                     screenHeight: document.documentElement.clientHeight,
+                    screenWidth: document.documentElement.clientWidth,
                     x: event.clientX,
                     y: event.clientY,
                   };
