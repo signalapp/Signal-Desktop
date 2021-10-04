@@ -68,6 +68,7 @@ import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 import * as KeyboardLayout from '../../services/keyboardLayout';
+import { StopPropagation } from '../StopPropagation';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -1448,30 +1449,32 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
-            <Popper
-              placement="top"
-              modifiers={[
-                offsetDistanceModifier(4),
-                this.popperPreventOverflowModifier(),
-              ]}
-            >
-              {({ ref, style }) =>
-                renderReactionPicker({
-                  ref,
-                  style,
-                  selected: selectedReaction,
-                  onClose: this.toggleReactionPicker,
-                  onPick: emoji => {
-                    this.toggleReactionPicker(true);
-                    reactToMessage(id, {
-                      emoji,
-                      remove: emoji === selectedReaction,
-                    });
-                  },
-                  renderEmojiPicker,
-                })
-              }
-            </Popper>,
+            <StopPropagation>
+              <Popper
+                placement="top"
+                modifiers={[
+                  offsetDistanceModifier(4),
+                  this.popperPreventOverflowModifier(),
+                ]}
+              >
+                {({ ref, style }) =>
+                  renderReactionPicker({
+                    ref,
+                    style,
+                    selected: selectedReaction,
+                    onClose: this.toggleReactionPicker,
+                    onPick: emoji => {
+                      this.toggleReactionPicker(true);
+                      reactToMessage(id, {
+                        emoji,
+                        remove: emoji === selectedReaction,
+                      });
+                    },
+                    renderEmojiPicker,
+                  })
+                }
+              </Popper>
+            </StopPropagation>,
             reactionPickerRoot
           )}
       </Manager>
@@ -2050,24 +2053,26 @@ export class Message extends React.PureComponent<Props, State> {
         </Reference>
         {reactionViewerRoot &&
           createPortal(
-            <Popper
-              placement={popperPlacement}
-              strategy="fixed"
-              modifiers={[this.popperPreventOverflowModifier()]}
-            >
-              {({ ref, style }) => (
-                <ReactionViewer
-                  ref={ref}
-                  style={{
-                    ...style,
-                    zIndex: 2,
-                  }}
-                  reactions={reactions}
-                  i18n={i18n}
-                  onClose={this.toggleReactionViewer}
-                />
-              )}
-            </Popper>,
+            <StopPropagation>
+              <Popper
+                placement={popperPlacement}
+                strategy="fixed"
+                modifiers={[this.popperPreventOverflowModifier()]}
+              >
+                {({ ref, style }) => (
+                  <ReactionViewer
+                    ref={ref}
+                    style={{
+                      ...style,
+                      zIndex: 2,
+                    }}
+                    reactions={reactions}
+                    i18n={i18n}
+                    onClose={this.toggleReactionViewer}
+                  />
+                )}
+              </Popper>
+            </StopPropagation>,
             reactionViewerRoot
           )}
       </Manager>
