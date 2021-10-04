@@ -921,6 +921,18 @@
         "message": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "音声メッセージの録音を開始",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "音声メッセージを送信",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "キャンセル",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "制限時間がきたので音声メッセージの録音は停止されました。",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -1308,7 +1320,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "スマートフォンのSignalアプリで、このQRコードを読み取ってください",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1762,11 +1774,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "マイクへのアクセスを許可する",
+        "message": "マイクへのアクセスを許可",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "カメラへのアクセスを許可する",
+        "message": "カメラへのアクセスを許可",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1786,11 +1798,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "システムトレイへ最小化する",
+        "message": "システムトレイへ最小化",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "トレイに最小化した状態で起動する",
+        "message": "トレイに最小化した状態で起動",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -5544,7 +5556,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "「$name$」による$number$件の招待を取り消しますか？",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6310,7 +6322,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "これらの設定の変更は、スマートフォン版Signalの 設定 > チャット から行ってください",
+        "message": "これらの設定の変更は、スマートフォン版Signalの 設定 > チャット から行ってください。",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6454,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "消えるメッセージを有効にすると、「このメッセージは削除されました」という通知でさえ、期限が切れると消えてしまうことをご存知ですか？メッセージの上にカウントダウンとタイムスタンプが表示されるので、もう迷うことはありません。",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "ダイアログやポップアップのアニメーションを変更しました。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "キーボードレイアウトの切り替えにはちょっとしたコツが必要ですが、キーボードショートカットは押した文字だけでなく、その意図を汲んで追従してくれます。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "グループ通話が始まると通知します。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "「👍」よりも「💅」でリアクションする人に向けけて、メッセージにリアクションしたいときにデフォルトで表示される絵文字をカスタマイズできるようになりました。",
+        "description": "Release notes for v5.19"
     }
 }
