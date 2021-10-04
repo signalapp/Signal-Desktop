@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -58,8 +58,8 @@ export const DropZone: React.ComponentType<Props> = props => {
       {!inner ? (
         <p className={styles.text}>
           {isDragActive
-            ? i18n('StickerCreator--DropZone--staticText')
-            : i18n('StickerCreator--DropZone--activeText')}
+            ? i18n('StickerCreator--DropZone--activeText')
+            : i18n('StickerCreator--DropZone--staticText')}
         </p>
       ) : null}
     </div>
