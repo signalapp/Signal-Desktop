@@ -3,6 +3,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import FocusTrap from 'focus-trap-react';
+
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import { LocalizerType } from '../../types/Util';
@@ -146,187 +148,193 @@ export const StickerPicker = React.memo(
       const showLongText = showPickerHint;
 
       return (
-        <div className="module-sticker-picker" ref={ref} style={style}>
-          <div className="module-sticker-picker__header">
-            <div className="module-sticker-picker__header__packs">
-              <div
-                className="module-sticker-picker__header__packs__slider"
-                style={{
-                  transform: `translateX(-${getPacksPageOffset(
-                    packsPage,
-                    packs.length
-                  )}px)`,
-                }}
-              >
-                {hasPacks ? (
-                  <button
-                    type="button"
-                    onClick={recentsHandler}
-                    className={classNames({
-                      'module-sticker-picker__header__button': true,
-                      'module-sticker-picker__header__button--recents': true,
-                      'module-sticker-picker__header__button--selected':
-                        currentTab === 'recents',
-                    })}
-                    aria-label={i18n('stickers--StickerPicker--Recents')}
-                  />
-                ) : null}
-                {packs.map((pack, i) => (
-                  <button
-                    type="button"
-                    key={pack.id}
-                    onClick={packsHandlers[i]}
-                    className={classNames(
-                      'module-sticker-picker__header__button',
-                      {
-                        'module-sticker-picker__header__button--selected':
-                          currentTab === pack.id,
-                        'module-sticker-picker__header__button--error':
-                          pack.status === 'error',
-                      }
-                    )}
-                  >
-                    {pack.cover ? (
-                      <img
-                        className="module-sticker-picker__header__button__image"
-                        src={pack.cover.url}
-                        alt={pack.title}
-                        title={pack.title}
-                      />
-                    ) : (
-                      <div className="module-sticker-picker__header__button__image-placeholder" />
-                    )}
-                  </button>
-                ))}
-              </div>
-              {!isUsingKeyboard && packsPage > 0 ? (
-                <button
-                  type="button"
-                  className={classNames(
-                    'module-sticker-picker__header__button',
-                    'module-sticker-picker__header__button--prev-page'
-                  )}
-                  onClick={onClickPrevPackPage}
-                  aria-label={i18n('stickers--StickerPicker--PrevPage')}
-                />
-              ) : null}
-              {!isUsingKeyboard && !isLastPacksPage(packsPage, packs.length) ? (
-                <button
-                  type="button"
-                  className={classNames(
-                    'module-sticker-picker__header__button',
-                    'module-sticker-picker__header__button--next-page'
-                  )}
-                  onClick={onClickNextPackPage}
-                  aria-label={i18n('stickers--StickerPicker--NextPage')}
-                />
-              ) : null}
-            </div>
-            <button
-              type="button"
-              ref={addPackRef}
-              className={classNames(
-                'module-sticker-picker__header__button',
-                'module-sticker-picker__header__button--add-pack',
-                {
-                  'module-sticker-picker__header__button--hint': showPickerHint,
-                }
-              )}
-              onClick={onClickAddPack}
-              aria-label={i18n('stickers--StickerPicker--AddPack')}
-            />
-          </div>
-          <div
-            className={classNames('module-sticker-picker__body', {
-              'module-sticker-picker__body--empty': isEmpty,
-            })}
-          >
-            {showPickerHint ? (
-              <div
-                className={classNames(
-                  'module-sticker-picker__body__text',
-                  'module-sticker-picker__body__text--hint',
-                  {
-                    'module-sticker-picker__body__text--pin': showEmptyText,
-                  }
-                )}
-              >
-                {i18n('stickers--StickerPicker--Hint')}
-              </div>
-            ) : null}
-            {!hasPacks ? (
-              <div className="module-sticker-picker__body__text">
-                {i18n('stickers--StickerPicker--NoPacks')}
-              </div>
-            ) : null}
-            {pendingCount > 0 ? (
-              <div className="module-sticker-picker__body__text">
-                {i18n('stickers--StickerPicker--DownloadPending')}
-              </div>
-            ) : null}
-            {downloadError ? (
-              <div
-                className={classNames(
-                  'module-sticker-picker__body__text',
-                  'module-sticker-picker__body__text--error'
-                )}
-              >
-                {stickers.length > 0
-                  ? i18n('stickers--StickerPicker--DownloadError')
-                  : i18n('stickers--StickerPicker--Empty')}
-              </div>
-            ) : null}
-            {hasPacks && showEmptyText ? (
-              <div
-                className={classNames('module-sticker-picker__body__text', {
-                  'module-sticker-picker__body__text--error': !isRecents,
-                })}
-              >
-                {isRecents
-                  ? i18n('stickers--StickerPicker--NoRecents')
-                  : i18n('stickers--StickerPicker--Empty')}
-              </div>
-            ) : null}
-            {!isEmpty ? (
-              <div
-                className={classNames('module-sticker-picker__body__content', {
-                  'module-sticker-picker__body__content--under-text': showText,
-                  'module-sticker-picker__body__content--under-long-text': showLongText,
-                })}
-              >
-                {stickers.map(({ packId, id, url }, index: number) => {
-                  const maybeFocusRef = index === 0 ? focusRef : undefined;
-
-                  return (
+        <FocusTrap>
+          <div className="module-sticker-picker" ref={ref} style={style}>
+            <div className="module-sticker-picker__header">
+              <div className="module-sticker-picker__header__packs">
+                <div
+                  className="module-sticker-picker__header__packs__slider"
+                  style={{
+                    transform: `translateX(-${getPacksPageOffset(
+                      packsPage,
+                      packs.length
+                    )}px)`,
+                  }}
+                >
+                  {hasPacks ? (
                     <button
                       type="button"
-                      ref={maybeFocusRef}
-                      key={`${packId}-${id}`}
-                      className="module-sticker-picker__body__cell"
-                      onClick={() => onPickSticker(packId, id)}
-                    >
-                      <img
-                        className="module-sticker-picker__body__cell__image"
-                        src={url}
-                        alt={packTitle}
-                      />
-                    </button>
-                  );
-                })}
-                {Array(pendingCount)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={i}
-                      className="module-sticker-picker__body__cell__placeholder"
-                      role="presentation"
+                      onClick={recentsHandler}
+                      className={classNames({
+                        'module-sticker-picker__header__button': true,
+                        'module-sticker-picker__header__button--recents': true,
+                        'module-sticker-picker__header__button--selected':
+                          currentTab === 'recents',
+                      })}
+                      aria-label={i18n('stickers--StickerPicker--Recents')}
                     />
+                  ) : null}
+                  {packs.map((pack, i) => (
+                    <button
+                      type="button"
+                      key={pack.id}
+                      onClick={packsHandlers[i]}
+                      className={classNames(
+                        'module-sticker-picker__header__button',
+                        {
+                          'module-sticker-picker__header__button--selected':
+                            currentTab === pack.id,
+                          'module-sticker-picker__header__button--error':
+                            pack.status === 'error',
+                        }
+                      )}
+                    >
+                      {pack.cover ? (
+                        <img
+                          className="module-sticker-picker__header__button__image"
+                          src={pack.cover.url}
+                          alt={pack.title}
+                          title={pack.title}
+                        />
+                      ) : (
+                        <div className="module-sticker-picker__header__button__image-placeholder" />
+                      )}
+                    </button>
                   ))}
+                </div>
+                {!isUsingKeyboard && packsPage > 0 ? (
+                  <button
+                    type="button"
+                    className={classNames(
+                      'module-sticker-picker__header__button',
+                      'module-sticker-picker__header__button--prev-page'
+                    )}
+                    onClick={onClickPrevPackPage}
+                    aria-label={i18n('stickers--StickerPicker--PrevPage')}
+                  />
+                ) : null}
+                {!isUsingKeyboard &&
+                !isLastPacksPage(packsPage, packs.length) ? (
+                  <button
+                    type="button"
+                    className={classNames(
+                      'module-sticker-picker__header__button',
+                      'module-sticker-picker__header__button--next-page'
+                    )}
+                    onClick={onClickNextPackPage}
+                    aria-label={i18n('stickers--StickerPicker--NextPage')}
+                  />
+                ) : null}
               </div>
-            ) : null}
+              <button
+                type="button"
+                ref={addPackRef}
+                className={classNames(
+                  'module-sticker-picker__header__button',
+                  'module-sticker-picker__header__button--add-pack',
+                  {
+                    'module-sticker-picker__header__button--hint': showPickerHint,
+                  }
+                )}
+                onClick={onClickAddPack}
+                aria-label={i18n('stickers--StickerPicker--AddPack')}
+              />
+            </div>
+            <div
+              className={classNames('module-sticker-picker__body', {
+                'module-sticker-picker__body--empty': isEmpty,
+              })}
+            >
+              {showPickerHint ? (
+                <div
+                  className={classNames(
+                    'module-sticker-picker__body__text',
+                    'module-sticker-picker__body__text--hint',
+                    {
+                      'module-sticker-picker__body__text--pin': showEmptyText,
+                    }
+                  )}
+                >
+                  {i18n('stickers--StickerPicker--Hint')}
+                </div>
+              ) : null}
+              {!hasPacks ? (
+                <div className="module-sticker-picker__body__text">
+                  {i18n('stickers--StickerPicker--NoPacks')}
+                </div>
+              ) : null}
+              {pendingCount > 0 ? (
+                <div className="module-sticker-picker__body__text">
+                  {i18n('stickers--StickerPicker--DownloadPending')}
+                </div>
+              ) : null}
+              {downloadError ? (
+                <div
+                  className={classNames(
+                    'module-sticker-picker__body__text',
+                    'module-sticker-picker__body__text--error'
+                  )}
+                >
+                  {stickers.length > 0
+                    ? i18n('stickers--StickerPicker--DownloadError')
+                    : i18n('stickers--StickerPicker--Empty')}
+                </div>
+              ) : null}
+              {hasPacks && showEmptyText ? (
+                <div
+                  className={classNames('module-sticker-picker__body__text', {
+                    'module-sticker-picker__body__text--error': !isRecents,
+                  })}
+                >
+                  {isRecents
+                    ? i18n('stickers--StickerPicker--NoRecents')
+                    : i18n('stickers--StickerPicker--Empty')}
+                </div>
+              ) : null}
+              {!isEmpty ? (
+                <div
+                  className={classNames(
+                    'module-sticker-picker__body__content',
+                    {
+                      'module-sticker-picker__body__content--under-text': showText,
+                      'module-sticker-picker__body__content--under-long-text': showLongText,
+                    }
+                  )}
+                >
+                  {stickers.map(({ packId, id, url }, index: number) => {
+                    const maybeFocusRef = index === 0 ? focusRef : undefined;
+
+                    return (
+                      <button
+                        type="button"
+                        ref={maybeFocusRef}
+                        key={`${packId}-${id}`}
+                        className="module-sticker-picker__body__cell"
+                        onClick={() => onPickSticker(packId, id)}
+                      >
+                        <img
+                          className="module-sticker-picker__body__cell__image"
+                          src={url}
+                          alt={packTitle}
+                        />
+                      </button>
+                    );
+                  })}
+                  {Array(pendingCount)
+                    .fill(0)
+                    .map((_, i) => (
+                      <div
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={i}
+                        className="module-sticker-picker__body__cell__placeholder"
+                        role="presentation"
+                      />
+                    ))}
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
+        </FocusTrap>
       );
     }
   )

@@ -4,6 +4,8 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
+import FocusTrap from 'focus-trap-react';
+
 import { Theme, themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
@@ -56,17 +58,19 @@ export const ModalHost = React.memo(
 
     return root
       ? createPortal(
-          <div
-            role="presentation"
-            className={classNames(
-              'module-modal-host__overlay',
-              theme ? themeClassName(theme) : undefined
-            )}
-            onMouseDown={noMouseClose ? undefined : handleMouseDown}
-            onMouseUp={noMouseClose ? undefined : handleMouseUp}
-          >
-            {children}
-          </div>,
+          <FocusTrap>
+            <div
+              role="presentation"
+              className={classNames(
+                'module-modal-host__overlay',
+                theme ? themeClassName(theme) : undefined
+              )}
+              onMouseDown={noMouseClose ? undefined : handleMouseDown}
+              onMouseUp={noMouseClose ? undefined : handleMouseUp}
+            >
+              {children}
+            </div>
+          </FocusTrap>,
           root
         )
       : null;

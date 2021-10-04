@@ -18,6 +18,8 @@ import {
   last,
   zipObject,
 } from 'lodash';
+import FocusTrap from 'focus-trap-react';
+
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
 import { LocalizerType } from '../../types/Util';
@@ -301,124 +303,126 @@ export const EmojiPicker = React.memo(
       );
 
       return (
-        <div className="module-emoji-picker" ref={ref} style={style}>
-          <header className="module-emoji-picker__header">
-            <button
-              type="button"
-              onClick={handleToggleSearch}
-              title={i18n('EmojiPicker--search-placeholder')}
-              className={classNames(
-                'module-emoji-picker__button',
-                'module-emoji-picker__button--icon',
-                searchMode
-                  ? 'module-emoji-picker__button--icon--close'
-                  : 'module-emoji-picker__button--icon--search'
+        <FocusTrap>
+          <div className="module-emoji-picker" ref={ref} style={style}>
+            <header className="module-emoji-picker__header">
+              <button
+                type="button"
+                onClick={handleToggleSearch}
+                title={i18n('EmojiPicker--search-placeholder')}
+                className={classNames(
+                  'module-emoji-picker__button',
+                  'module-emoji-picker__button--icon',
+                  searchMode
+                    ? 'module-emoji-picker__button--icon--close'
+                    : 'module-emoji-picker__button--icon--search'
+                )}
+                aria-label={i18n('EmojiPicker--search-placeholder')}
+              />
+              {searchMode ? (
+                <div className="module-emoji-picker__header__search-field">
+                  <input
+                    ref={focusOnRender}
+                    className="module-emoji-picker__header__search-field__input"
+                    placeholder={i18n('EmojiPicker--search-placeholder')}
+                    onChange={handleSearchChange}
+                  />
+                </div>
+              ) : (
+                categories.map(cat =>
+                  cat === 'recents' && firstRecent.length === 0 ? null : (
+                    <button
+                      type="button"
+                      key={cat}
+                      data-category={cat}
+                      title={cat}
+                      onClick={handleSelectCategory}
+                      className={classNames(
+                        'module-emoji-picker__button',
+                        'module-emoji-picker__button--icon',
+                        `module-emoji-picker__button--icon--${cat}`,
+                        selectedCategory === cat
+                          ? 'module-emoji-picker__button--selected'
+                          : null
+                      )}
+                      aria-label={i18n(`EmojiPicker__button--${cat}`)}
+                    />
+                  )
+                )
               )}
-              aria-label={i18n('EmojiPicker--search-placeholder')}
-            />
-            {searchMode ? (
-              <div className="module-emoji-picker__header__search-field">
-                <input
-                  ref={focusOnRender}
-                  className="module-emoji-picker__header__search-field__input"
-                  placeholder={i18n('EmojiPicker--search-placeholder')}
-                  onChange={handleSearchChange}
-                />
+            </header>
+            {emojiGrid.length > 0 ? (
+              <div>
+                <AutoSizer>
+                  {({ width, height }) => (
+                    <Grid
+                      key={searchText}
+                      className="module-emoji-picker__body"
+                      width={width}
+                      height={height}
+                      columnCount={COL_COUNT}
+                      columnWidth={38}
+                      rowHeight={getRowHeight}
+                      rowCount={emojiGrid.length}
+                      cellRenderer={cellRenderer}
+                      scrollToRow={scrollToRow}
+                      scrollToAlignment="start"
+                      onSectionRendered={onSectionRendered}
+                    />
+                  )}
+                </AutoSizer>
               </div>
             ) : (
-              categories.map(cat =>
-                cat === 'recents' && firstRecent.length === 0 ? null : (
+              <div
+                className={classNames(
+                  'module-emoji-picker__body',
+                  'module-emoji-picker__body--empty'
+                )}
+              >
+                {i18n('EmojiPicker--empty')}
+                <Emoji
+                  shortName="slightly_frowning_face"
+                  size={16}
+                  style={{ marginLeft: '4px' }}
+                />
+              </div>
+            )}
+            <footer className="module-emoji-picker__footer">
+              {Boolean(onClickSettings) && (
+                <button
+                  aria-label={i18n('CustomizingPreferredReactions__title')}
+                  className="module-emoji-picker__button module-emoji-picker__button--footer module-emoji-picker__button--settings"
+                  onClick={onClickSettings}
+                  title={i18n('CustomizingPreferredReactions__title')}
+                  type="button"
+                />
+              )}
+              <div className="module-emoji-picker__footer__skin-tones">
+                {[0, 1, 2, 3, 4, 5].map(tone => (
                   <button
                     type="button"
-                    key={cat}
-                    data-category={cat}
-                    title={cat}
-                    onClick={handleSelectCategory}
+                    key={tone}
+                    data-tone={tone}
+                    onClick={handlePickTone}
+                    title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
                     className={classNames(
                       'module-emoji-picker__button',
-                      'module-emoji-picker__button--icon',
-                      `module-emoji-picker__button--icon--${cat}`,
-                      selectedCategory === cat
+                      'module-emoji-picker__button--footer',
+                      selectedTone === tone
                         ? 'module-emoji-picker__button--selected'
                         : null
                     )}
-                    aria-label={i18n(`EmojiPicker__button--${cat}`)}
-                  />
-                )
-              )
-            )}
-          </header>
-          {emojiGrid.length > 0 ? (
-            <div>
-              <AutoSizer>
-                {({ width, height }) => (
-                  <Grid
-                    key={searchText}
-                    className="module-emoji-picker__body"
-                    width={width}
-                    height={height}
-                    columnCount={COL_COUNT}
-                    columnWidth={38}
-                    rowHeight={getRowHeight}
-                    rowCount={emojiGrid.length}
-                    cellRenderer={cellRenderer}
-                    scrollToRow={scrollToRow}
-                    scrollToAlignment="start"
-                    onSectionRendered={onSectionRendered}
-                  />
-                )}
-              </AutoSizer>
-            </div>
-          ) : (
-            <div
-              className={classNames(
-                'module-emoji-picker__body',
-                'module-emoji-picker__body--empty'
+                  >
+                    <Emoji shortName="hand" skinTone={tone} size={20} />
+                  </button>
+                ))}
+              </div>
+              {Boolean(onClickSettings) && (
+                <div className="module-emoji-picker__footer__settings-spacer" />
               )}
-            >
-              {i18n('EmojiPicker--empty')}
-              <Emoji
-                shortName="slightly_frowning_face"
-                size={16}
-                style={{ marginLeft: '4px' }}
-              />
-            </div>
-          )}
-          <footer className="module-emoji-picker__footer">
-            {Boolean(onClickSettings) && (
-              <button
-                aria-label={i18n('CustomizingPreferredReactions__title')}
-                className="module-emoji-picker__button module-emoji-picker__button--footer module-emoji-picker__button--settings"
-                onClick={onClickSettings}
-                title={i18n('CustomizingPreferredReactions__title')}
-                type="button"
-              />
-            )}
-            <div className="module-emoji-picker__footer__skin-tones">
-              {[0, 1, 2, 3, 4, 5].map(tone => (
-                <button
-                  type="button"
-                  key={tone}
-                  data-tone={tone}
-                  onClick={handlePickTone}
-                  title={i18n('EmojiPicker--skin-tone', [`${tone}`])}
-                  className={classNames(
-                    'module-emoji-picker__button',
-                    'module-emoji-picker__button--footer',
-                    selectedTone === tone
-                      ? 'module-emoji-picker__button--selected'
-                      : null
-                  )}
-                >
-                  <Emoji shortName="hand" skinTone={tone} size={20} />
-                </button>
-              ))}
-            </div>
-            {Boolean(onClickSettings) && (
-              <div className="module-emoji-picker__footer__settings-spacer" />
-            )}
-          </footer>
-        </div>
+            </footer>
+          </div>
+        </FocusTrap>
       );
     }
   )

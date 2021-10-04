@@ -1689,6 +1689,20 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/focus-trap-react/dist/focus-trap-react.js",
+    "line": "        var focusTrapElementDOMNodes = this.focusTrapElements.map( // NOTE: `findDOMNode()` does not support CSS selectors; it'll just return",
+    "reasonCategory": "exampleCode",
+    "updated": "2021-10-01T23:53:26.107Z"
+  },
+  {
+    "rule": "React-findDOMNode",
+    "path": "node_modules/focus-trap-react/src/focus-trap-react.js",
+    "line": "        // NOTE: `findDOMNode()` does not support CSS selectors; it'll just return",
+    "reasonCategory": "exampleCode",
+    "updated": "2021-10-01T23:53:26.107Z"
+  },
+  {
     "rule": "jQuery-load(",
     "path": "node_modules/foreground-child/node_modules/signal-exit/index.js",
     "line": "    load()",
