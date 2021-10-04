@@ -13,7 +13,7 @@ import Measure, { MeasuredComponentProps } from 'react-measure';
 import { LocalizerType } from '../../../../types/Util';
 import { assert } from '../../../../util/assert';
 import { getOwn } from '../../../../util/getOwn';
-import { multiRef } from '../../../../util/multiRef';
+import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
 import { filterAndSortConversationsByTitle } from '../../../../util/filterAndSortConversations';
@@ -146,7 +146,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
               confirmAdds();
             }
           }}
-          ref={multiRef<HTMLInputElement>(inputRef, focusRef)}
+          ref={refMerger<HTMLInputElement>(inputRef, focusRef)}
           value={searchTerm}
         />
         {Boolean(selectedContacts.length) && (
