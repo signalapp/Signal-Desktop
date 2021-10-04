@@ -328,13 +328,17 @@
   position: relative;
   display: inline-block;
   border-radius: 16px;
-  padding-right: 12px;
-  padding-left: 12px;
-  padding-top: 10px;
-  padding-bottom: 7px;
   min-width: 0px;
   width: 100%;
   overflow: hidden;
+
+  // These should match the margins in .module-message__attachment-container.
+  padding: {
+    left: 12px;
+    right: 12px;
+    top: 10px;
+    bottom: 7px;
+  }
 
   @include light-theme {
     border: 1px solid $color-white;
@@ -582,7 +586,7 @@
     left: -12px;
     right: -12px;
     top: -10px;
-    bottom: -10px;
+    bottom: -7px;
   }
 
   line-height: 0;
@@ -3491,7 +3495,6 @@ button.module-conversation-details__action-button {
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  overflow: hidden;
 }
 
 .module-image--tap-to-play,
@@ -3697,17 +3700,20 @@ button.module-conversation-details__action-button {
   }
 }
 
-.module-message:focus
-  .module-message__container--with-sticker
-  .module-image__border-overlay {
-  @include keyboard-mode {
-    top: 1px;
-    bottom: 1px;
-    left: 1px;
-    right: 1px;
-    border-radius: 10px;
+.module-message:focus .module-message__container--with-sticker {
+  $border-radius: 10px;
 
-    box-shadow: 0 0 0 3px $color-ultramarine;
+  .module-image__image {
+    @include keyboard-mode {
+      border-radius: $border-radius;
+    }
+  }
+
+  .module-image__border-overlay {
+    @include keyboard-mode {
+      border-radius: $border-radius;
+      box-shadow: 0 0 0 3px $color-ultramarine;
+    }
   }
 }
 
