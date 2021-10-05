@@ -921,6 +921,18 @@
         "message": "Původní zpráva byla nalezena, ale nebyla načtena. Posuňte nahoru pro načtení.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Spustit nahrávání hlasové zprávy",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Dokončit hlasovou zprávu a odeslat",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Zrušit hlasovou zprávu",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Nahrávání zvukové zprávy bylo ukončeno, protože byl dosažen maximální časový limit.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -1308,7 +1320,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "Naskenujte tento kód v aplikaci Signal ve svém telefonu.",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -5550,7 +5562,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Odebrat $number$ pozvánek odeslaných  \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6460,5 +6472,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Věděli jste, že pokud je povoleno mizení zpráv, zmizí po vypršení platnosti i oznámení \"Tato zpráva byla smazána\"? Už to není žádná záhada - přímo na zprávě uvidíte odpočet a časové razítko.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Nadechněte se a nechte se unášet novými animacemi dialogových oken a vyskakovacích oken. Uvolněte se. Uvolněte se. Uvolněte se. Uvolněte se.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Přepínání rozložení klávesnice je vždy trochu složitější, ale klávesové zkratky nyní jsou s vámi a jdou za konkrétní stisknuté písmeno, aby respektovaly váš záměr.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Při zahájení skupinového hovoru se vám nyní zobrazí oznámení. Už nikdy nepřijdete pozdě, pokud nebudete chtít.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Tato funkce je určena všem, kteří reagují pomocí 💅 více než 👍: nyní si můžete přizpůsobit emotikony, které se ve výchozím nastavení zobrazí, když chcete reagovat na zprávu.",
+        "description": "Release notes for v5.19"
     }
 }

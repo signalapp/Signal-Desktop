@@ -921,6 +921,18 @@
         "message": "Znaleziono oryginalną wiadomość, ale nie została załadowana. Przewiń w górę, aby załadować.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Zacznij nagrywać wiadomość głosową",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Zakończ i wyślij wiadomość głosową",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Anuluj wiadomość głosową",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Nagrywanie wiadomości głosowej zostało zatrzymane, ponieważ osiągnięto limit czasu.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -6460,5 +6472,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Czy wiesz, że gdy włączone są znikające wiadomości, nawet komunikat \"Ta wiadomość została usunięta\" zniknie po pewnym czasie? Teraz to nie tajemnica - przy komunikacie znajdziesz stempel czasowy i znacznik wygasającej wiadomości.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Weź głęboki oddech i relaksuj się dzięki nowym animacjom dla okien dialogowych i pop-upów.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Przełączanie układu klawiatury zawsze jest trochę uciążliwe, ale skróty klawiszowe nadążają teraz za Tobą, dbając o ducha, zamiast litery naciśniętego klawisza, aby uszanować Twoje intencje.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Gdy rozpocznie się połączenie grupowe, otrzymasz powiadomienie. Teraz już nigdy się nie spóźnisz (chyba, że masz na to ochotę).",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Oto funkcja dla wszystkich, którzy wolą reagować, używając 💅 zamiast 👍: możesz teraz dostosować emotikony wyświetlane domyślnie, gdy chcesz zareagować na wiadomość.",
+        "description": "Release notes for v5.19"
     }
 }

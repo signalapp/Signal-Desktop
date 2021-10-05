@@ -921,6 +921,18 @@
         "message": "Orijinal mesaj tapıldı, ancaq yüklənmədi. Yükləmək üçün yuxarı çək.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Səsli mesaj yazmağa başla",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Səsli mesajı tamamlayıb göndər",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Səsli mesajı ləğv et",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Vaxt limitinə çatdığı üçün səsyazma dayandırıldı.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -6460,5 +6472,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Yox olan mesajlar fəal olanda, \"Bu mesaj silindi\" bildirişinin də vaxtı bitəndə yox olacağını bilirdiniz? Bu artıq sir deyil - geri sayım və vaxt möhürünü mesajın üzərində görəcəksiniz.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Bir nəfəs alın və dialoq və açılan pəncərələr üçün yeni animasiyalara keçin. Artıq daha asandır.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Klaviatura düzülüşlərini dəyişdirmək hər zaman bir az çətin olur, ancaq klaviatura qısayolları artıq sizi izləyir, məqsədə çatmaq üçün basılan müəyyən bir hərfdən daha çoxunu edir.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Artıq qrup zəngi başladanda, bir bildiriş alacaqsınız. İstəmədiyiniz müddətcə, artıq heç vaxt gec qalmayacaqsınız.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Bu özəllik, 👍-dən daha çox 💅 ilə reaksiya verən hər kəsə gedir: Artıq bir mesaja reaksiya vermək istəyəndə ilkin olaraq görünən ifadələri özəlləşdirə bilərsiniz.",
+        "description": "Release notes for v5.19"
     }
 }

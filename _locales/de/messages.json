@@ -274,7 +274,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Achte darauf, dass du das korrekte Verzeichnis gewählt hast, das deine gespeicherten Signal-Daten enthält. Dessen Name sollte mit »Signal Export« beginnen. Auch kannst du eine neue Kopie deiner Daten aus der Chrome-App heraus speichern.",
+        "message": "Achte darauf, dass du das korrekte Verzeichnis gewählt hast, das deine gespeicherten Signal-Daten enthält. Dessen Name sollte mit »Signal Export« beginnen. Du kannst auch eine neue Kopie deiner Daten aus der Chrome-App heraus speichern.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -672,7 +672,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Zum erneuten Verbinden anklicken.",
+        "message": "Anklicken, um Signal erneut zu verbinden",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
@@ -920,6 +920,18 @@
     "messageFoundButNotLoaded": {
         "message": "Originalnachricht gefunden, aber nicht geladen. Scrolle zum Laden nach oben.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecording--start": {
+        "message": "Aufnahme einer Sprachnachricht starten",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Sprachnachricht abschließen und senden",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Sprachnachricht abbrechen",
+        "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
         "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da die maximale Aufnahmedauer erreicht wurde.",
@@ -1308,7 +1320,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scanne diesen Code mit der Signal-App deines Telefons ein",
+        "message": "Scanne diesen Code mit der auf deinem Telefon installierten Signal-App ein",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1936,7 +1948,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Zum Aufruf von signal.org/download anklicken",
+        "message": "Anklicken, um signal.org/download aufzurufen",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2362,11 +2374,11 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Zum Neustarten von Signal anklicken",
+        "message": "Anklicken, um Signal neu zu starten",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Zum Herunterladen der Aktualisierung anklicken",
+        "message": "Anklicken, um die Aktualisierung herunterzuladen",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2850,7 +2862,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Zeilenvorschub zu Nachricht hinzufügen",
+        "message": "Zeilenvorschub zur Nachricht hinzufügen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2874,7 +2886,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Zu Unterhaltung springen",
+        "message": "Zur Unterhaltung springen",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2890,7 +2902,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "Shift",
+        "message": "Umschalt",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
@@ -3278,7 +3290,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Gruppenmitglieder werden dich wieder zu dieser Gruppe hinzufügen können.",
+        "message": "Gruppenmitglieder können dich wieder zu dieser Gruppe hinzufügen.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -3306,7 +3318,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blockierte Personen werden dich nicht anrufen oder dir Nachrichten senden können.",
+        "message": "Blockierte Personen können dich nicht mehr anrufen oder dir Nachrichten senden.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -3320,7 +3332,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Du wirst von dieser Gruppe keine Nachrichten oder Aktualisierungen mehr erhalten, und Mitglieder werden dich nicht wieder zu dieser Gruppe hinzufügen können.",
+        "message": "Du wirst von dieser Gruppe keine Nachrichten oder Aktualisierungen mehr erhalten, und Mitglieder können dich nicht wieder zu dieser Gruppe hinzufügen.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3332,7 +3344,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Diese Unterhaltung wird von all deinen Geräten gelöscht werden.",
+        "message": "Diese Unterhaltung wird von all deinen Geräten gelöscht.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -3354,7 +3366,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Du wirst diese Gruppe verlassen und sie wird von all deinen Geräten gelöscht werden.",
+        "message": "Du verlässt diese Gruppe und sie wird von all deinen Geräten gelöscht.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3456,7 +3468,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Mitglied von $group1$, $group2$, $group3$ und einer weiteren",
+        "message": "Mitglied von $group1$, $group2$, $group3$ und einer weiteren Gruppe",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3474,7 +3486,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren",
+        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren Gruppe",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -6250,7 +6262,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Letzter Import: $date$ $time$",
+        "message": "Letzter Import: $date$ $time$ Uhr",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6292,7 +6304,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ Nutzer",
+        "message": "$num$ Kontakt",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6302,7 +6314,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ Nutzer",
+        "message": "$num$ Kontakte",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6390,7 +6402,7 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Zum Ersetzen eines Emojis anklicken",
+        "message": "Anklicken, um ein Emoji zu ersetzen",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
@@ -6460,5 +6472,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Wusstest du, dass, wenn die Funktion zum Löschen von Nachrichten aktiviert ist, sogar die Benachrichtigung »Diese Nachricht wurde gelöscht« verschwindet, wenn sie abläuft? Es ist kein Geheimnis mehr - du siehst den Countdown und den Zeitstempel direkt in der Nachricht.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Hol tief Luft und mach dich mit den neuen Animationen für Dialoge und  Pop-ups vertraut. Atme ein. Atme aus. Atme ein. Atme aus.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Das Ändern der Tastaturbelegung war schon immer eine heikle Angelegenheit. Nun aber eröffnet sich mit Tastaturkürzeln eine neue Welt an Möglichkeiten deinem Willen stets Ausdruck zu verleihen.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Wenn ein Gruppenanruf getätigt wird, erhältst du nun eine Benachrichtigung. Daher wirst du nie wieder zu spät sein, es sein du willst es.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Diese Funktion richtet sich an all diejenigen, die häufiger mit 💅 als mit 👍 reagieren. Du kannst ab jetzt die Emojis ändern, die standardmäßig beim Reagieren auf eine Nachricht angezeigt werden.",
+        "description": "Release notes for v5.19"
     }
 }

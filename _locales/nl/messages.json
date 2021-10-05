@@ -506,7 +506,7 @@
         "description": "Label for a button to accept a new safety number"
     },
     "verify": {
-        "message": "Als geverifieerd markeren.",
+        "message": "Als geverifieerd markeren",
         "description": ""
     },
     "unverify": {
@@ -920,6 +920,18 @@
     "messageFoundButNotLoaded": {
         "message": "Oorspronkelijk bericht gevonden, maar niet opgehaald. Scroll naar boven om het op te halen.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecording--start": {
+        "message": "Opname audiobericht beginnen",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Audiobericht afronden en verzenden",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Audiobericht annuleren",
+        "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
         "message": "Het opnemen van een audiobericht is gestopt omdat het maximumlengte-limiet was bereikt.",
@@ -6460,5 +6472,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Wist je al dat als je een verlopent bericht wist dat het bericht “Dit bericht is gewist” dan ook verloopt? Vanaf nu zie je dat ook duidelijk, want het klokje wordt nu ook weergegeven op dat bericht.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Nieuwe animaties voor pop-up vensters",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Als je naar een andere toetsenbord-layout overstapt dan veranderen de sneltoetsen met je mee",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Vanaf nu krijg je een melding als er een groepsoproep wordt gestart",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Je kunt vanaf nu zelf de standaard emoji-reacties instellen",
+        "description": "Release notes for v5.19"
     }
 }
