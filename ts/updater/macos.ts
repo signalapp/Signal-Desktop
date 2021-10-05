@@ -73,7 +73,12 @@ async function checkForUpdatesMaybeInstall(
 
   const { fileName: newFileName, version: newVersion } = result;
 
-  if (fileName !== newFileName || !version || gt(newVersion, version)) {
+  if (
+    force ||
+    fileName !== newFileName ||
+    !version ||
+    gt(newVersion, version)
+  ) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
       getMainWindow()
     );
