@@ -262,6 +262,21 @@
       );
     }
   }
+
+  &--container {
+    border-radius: 4px;
+    height: 24px;
+    // the z-index here is so that this container is above the message and when
+    // clicked on, doesn't propagate the click event to the message.
+    z-index: 2;
+
+    @include light-theme {
+      background-color: $color-white;
+    }
+    @include dark-theme {
+      background-color: $color-gray-95;
+    }
+  }
 }
 
 .module-message__buttons__menu--incoming {

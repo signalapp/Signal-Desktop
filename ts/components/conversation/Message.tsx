@@ -1407,22 +1407,24 @@ export class Message extends React.PureComponent<Props, State> {
           const maybePopperRef = !isWide ? popperRef : undefined;
 
           return (
-            <ContextMenuTrigger
-              id={triggerId}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ref={this.captureMenuTrigger as any}
-            >
-              <div
-                ref={maybePopperRef}
-                role="button"
-                onClick={this.showMenu}
-                aria-label={i18n('messageContextMenuButton')}
-                className={classNames(
-                  'module-message__buttons__menu',
-                  `module-message__buttons__download--${direction}`
-                )}
-              />
-            </ContextMenuTrigger>
+            <StopPropagation className="module-message__buttons__menu--container">
+              <ContextMenuTrigger
+                id={triggerId}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ref={this.captureMenuTrigger as any}
+              >
+                <div
+                  ref={maybePopperRef}
+                  role="button"
+                  onClick={this.showMenu}
+                  aria-label={i18n('messageContextMenuButton')}
+                  className={classNames(
+                    'module-message__buttons__menu',
+                    `module-message__buttons__download--${direction}`
+                  )}
+                />
+              </ContextMenuTrigger>
+            </StopPropagation>
           );
         }}
       </Reference>
