@@ -138,7 +138,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           />
           {isUnread && (
             <div className={`${BASE_CLASS_NAME}__unread-count`}>
-              {unreadCount || ''}
+              {formatUnreadCount(unreadCount)}
             </div>
           )}
         </div>
@@ -233,3 +233,13 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     );
   }
 );
+
+function formatUnreadCount(count: undefined | number): string {
+  if (!count) {
+    return '';
+  }
+  if (count >= 99) {
+    return '99+';
+  }
+  return String(count);
+}
