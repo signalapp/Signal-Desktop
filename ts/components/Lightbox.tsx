@@ -489,7 +489,9 @@ export function Lightbox({
   return root
     ? createPortal(
         <div
-          className="Lightbox Lightbox__container"
+          className={classNames('Lightbox Lightbox__container', {
+            'Lightbox__container--zoom': zoomType === ZoomType.ZoomAndPan,
+          })}
           onClick={(event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
             event.preventDefault();

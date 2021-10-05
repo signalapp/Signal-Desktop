@@ -13,6 +13,10 @@
     right: 0;
     top: 0;
     z-index: 10;
+
+    &--zoom {
+      padding: 0;
+    }
   }
 
   &__main-container {
@@ -75,7 +79,7 @@
   &__shadow-container {
     display: flex;
     height: 100%;
-    padding: 0 16px;
+    padding: 0;
     position: absolute;
     width: 100%;
     visibility: hidden;
@@ -107,20 +111,20 @@
   &__shadow-container &__object {
     max-height: 200%;
     max-width: 200%;
-    padding: 0;
+    padding: 10%;
     visibility: hidden;
+  }
+
+  &__object--container--zoom &__object {
+    max-height: 200%;
+    max-width: 200%;
+    padding: 10%;
   }
 
   &__object--container--fill &__object {
     height: 100%;
     padding: 0;
     width: 100%;
-  }
-
-  &__object--container--zoom &__object {
-    max-height: 200%;
-    max-width: 200%;
-    padding: 0;
   }
 
   &__unsupported {
