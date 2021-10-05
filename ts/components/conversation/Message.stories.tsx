@@ -30,6 +30,19 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 
 const i18n = setupI18n('en', enMessages);
 
+function getJoyReaction() {
+  return {
+    emoji: '😂',
+    from: getDefaultConversation({
+      id: '+14155552674',
+      phoneNumber: '+14155552674',
+      name: 'Amelia Briggs',
+      title: 'Amelia',
+    }),
+    timestamp: Date.now() - 10,
+  };
+}
+
 const story = storiesOf('Components/Conversation/Message', module);
 
 const renderEmojiPicker: Props['renderEmojiPicker'] = ({
@@ -307,16 +320,6 @@ story.add('Reactions (wider message)', () => {
         timestamp: Date.now() - 10,
       },
       {
-        emoji: '😂',
-        from: getDefaultConversation({
-          id: '+14155552676',
-          phoneNumber: '+14155552676',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now() - 10,
-      },
-      {
         emoji: '😡',
         from: getDefaultConversation({
           id: '+14155552677',
@@ -352,11 +355,14 @@ story.add('Reactions (wider message)', () => {
   return renderBothDirections(props);
 });
 
+const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
+
 story.add('Reactions (short message)', () => {
   const props = createProps({
     text: 'h',
     timestamp: Date.now(),
     reactions: [
+      ...joyReactions,
       {
         emoji: '👍',
         from: getDefaultConversation({
@@ -383,26 +389,6 @@ story.add('Reactions (short message)', () => {
         from: getDefaultConversation({
           id: '+14155552673',
           phoneNumber: '+14155552673',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '😂',
-        from: getDefaultConversation({
-          id: '+14155552674',
-          phoneNumber: '+14155552674',
-          name: 'Amelia Briggs',
-          title: 'Amelia',
-        }),
-        timestamp: Date.now(),
-      },
-      {
-        emoji: '😂',
-        from: getDefaultConversation({
-          id: '+14155552676',
-          phoneNumber: '+14155552676',
           name: 'Amelia Briggs',
           title: 'Amelia',
         }),
