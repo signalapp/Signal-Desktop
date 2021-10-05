@@ -46,7 +46,9 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
-import { CallContainer } from './calling/CallContainer';
+import { DraggableCallContainer } from './calling/CallContainer';
+import { IncomingCallDialog } from './calling/IncomingCallDialog';
+
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
@@ -288,7 +290,8 @@ export const ActionsPanel = () => {
     <>
       <ModalContainer />
 
-      <CallContainer />
+      <DraggableCallContainer />
+      <IncomingCallDialog />
 
       <div className="module-left-pane__sections-container">
         <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />

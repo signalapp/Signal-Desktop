@@ -1,7 +1,7 @@
-import { isNumber, omit } from 'lodash';
-import _ from 'lodash';
+import { filter, isNumber, omit } from 'lodash';
 // tslint:disable-next-line: no-submodule-imports
 import { default as getGuid } from 'uuid/v4';
+import * as Constants from '../constants';
 import {
   getMessageById,
   getNextAttachmentDownloadJobs,
@@ -17,16 +17,13 @@ import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receive
 // this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const HOUR = MINUTE * 60;
-const TICK_INTERVAL = MINUTE;
+const TICK_INTERVAL = Constants.DURATION.MINUTES;
 // tslint:disable: function-name
 
 const RETRY_BACKOFF = {
-  1: SECOND * 30,
-  2: MINUTE * 30,
-  3: HOUR * 6,
+  1: Constants.DURATION.SECONDS * 30,
+  2: Constants.DURATION.MINUTES * 30,
+  3: Constants.DURATION.HOURS * 6,
 };
 
 let enabled = false;
@@ -113,7 +110,7 @@ async function _maybeStartJob() {
     return;
   }
 
-  const nextJobsWithoutCurrentlyRunning = _.filter(
+  const nextJobsWithoutCurrentlyRunning = filter(
     nextJobs,
     j => _activeAttachmentDownloadJobs[j.id] === undefined
   );

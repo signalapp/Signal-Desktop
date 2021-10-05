@@ -43,6 +43,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
+import { InConversationCallContainer } from '../calling/CallContainer';
 
 interface State {
   showRecordingView: boolean;
@@ -263,6 +264,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
+            <InConversationCallContainer />
             <UnreadAboveIndicator />
 
             <SessionMessagesListContainer messageContainerRef={this.messageContainerRef} />

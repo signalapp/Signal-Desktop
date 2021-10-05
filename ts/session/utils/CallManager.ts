@@ -25,6 +25,9 @@ let videoEventsListener: CallManagerListener;
 
 export function setVideoEventsListener(listener: CallManagerListener) {
   videoEventsListener = listener;
+  if (videoEventsListener) {
+    videoEventsListener(mediaDevices, remoteStream);
+  }
 }
 
 /**
@@ -33,6 +36,8 @@ export function setVideoEventsListener(listener: CallManagerListener) {
 const callCache = new Map<string, Array<SignalService.CallMessage>>();
 
 let peerConnection: RTCPeerConnection | null;
+let remoteStream: MediaStream | null;
+let mediaDevices: MediaStream | null;
 
 const ENABLE_VIDEO = true;
 
@@ -66,12 +71,13 @@ export async function USER_callRecipient(recipient: string) {
   }
   peerConnection = new RTCPeerConnection(configuration);
 
-  let mediaDevices: any;
   try {
     mediaDevices = await openMediaDevices();
     mediaDevices.getTracks().map((track: any) => {
       window.log.info('USER_callRecipient adding track: ', track);
-      peerConnection?.addTrack(track, mediaDevices);
+      if (mediaDevices) {
+        peerConnection?.addTrack(track, mediaDevices);
+      }
     });
   } catch (err) {
     ToastUtils.pushMicAndCameraPermissionNeeded(() => {
@@ -131,7 +137,7 @@ export async function USER_callRecipient(recipient: string) {
     }
   };
 
-  const remoteStream = new MediaStream();
+  remoteStream = new MediaStream();
 
   if (videoEventsListener) {
     videoEventsListener(mediaDevices, remoteStream);
@@ -141,7 +147,9 @@ export async function USER_callRecipient(recipient: string) {
     if (videoEventsListener) {
       videoEventsListener(mediaDevices, remoteStream);
     }
-    remoteStream.addTrack(event.track);
+    if (remoteStream) {
+      remoteStream.addTrack(event.track);
+    }
   });
 
   const offerDescription = await peerConnection.createOffer({
@@ -254,12 +262,14 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     peerConnection = null;
   }
   peerConnection = new RTCPeerConnection(configuration);
-  const mediaDevices = await openMediaDevices();
+  mediaDevices = await openMediaDevices();
   mediaDevices.getTracks().map(track => {
     // window.log.info('USER_acceptIncomingCallRequest adding track ', track);
-    peerConnection?.addTrack(track, mediaDevices);
+    if (mediaDevices) {
+      peerConnection?.addTrack(track, mediaDevices);
+    }
   });
-  const remoteStream = new MediaStream();
+  remoteStream = new MediaStream();
 
   peerConnection.addEventListener('icecandidate', event => {
     window.log?.warn('icecandidateerror:', event);
@@ -279,7 +289,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     if (videoEventsListener) {
       videoEventsListener(mediaDevices, remoteStream);
     }
-    remoteStream.addTrack(event.track);
+    remoteStream?.addTrack(event.track);
   });
   peerConnection.addEventListener('connectionstatechange', _event => {
     window.log.info(
@@ -363,6 +373,8 @@ export function handleEndCallMessage(sender: string) {
   if (videoEventsListener) {
     videoEventsListener(null, null);
   }
+  mediaDevices = null;
+  remoteStream = null;
   //
   // FIXME audric trigger UI cleanup
   window.inboxStore?.dispatch(endCall({ pubkey: sender }));

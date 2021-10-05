@@ -279,7 +279,6 @@ export const Lightbox = (props: Props) => {
   };
 
   const onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    debugger;
     if (renderedRef && event.target === renderedRef.current) {
       return;
     }

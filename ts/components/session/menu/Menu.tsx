@@ -324,7 +324,9 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
 
 export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
   if (window?.lokiFeatureFlags.useCallMessage) {
-    const canCall = !(useSelector(getHasIncomingCall) || useSelector(getHasOngoingCall));
+    const hasIncomingCall = useSelector(getHasIncomingCall);
+    const hasOngoingCall = useSelector(getHasOngoingCall);
+    const canCall = !(hasIncomingCall || hasOngoingCall);
     return (
       <Item
         onClick={async () => {

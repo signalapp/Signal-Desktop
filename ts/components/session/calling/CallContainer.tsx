@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 // tslint:disable-next-line: no-submodule-imports
 import useMountedState from 'react-use/lib/useMountedState';
@@ -8,66 +8,44 @@ import styled from 'styled-components';
 import _ from 'underscore';
 import { CallManager } from '../../../session/utils';
 import {
-  getHasIncomingCall,
-  getHasIncomingCallFrom,
   getHasOngoingCall,
   getHasOngoingCallWith,
+  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
-import { SessionButton, SessionButtonColor } from '../SessionButton';
-import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton } from '../SessionButton';
 
-export const CallWindow = styled.div`
+export const DraggableCallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  padding: 1rem;
-  top: 50vh;
-  left: 50vw;
-  transform: translate(-50%, -50%);
+  box-shadow: var(--color-session-shadow);
+  max-height: 300px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   background-color: var(--color-modal-background);
   border: var(--session-border);
 `;
 
-// similar styling to modal header
-const CallWindowHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: center;
-
-  padding: $session-margin-lg;
-
-  font-family: $session-font-default;
-  text-align: center;
-  line-height: 18px;
-  font-size: $session-font-md;
-  font-weight: 700;
+const StyledVideoElement = styled.video`
+  padding: 0 1rem;
+  height: 100%;
+  width: 100%;
 `;
 
-const VideoContainer = styled.div`
-  position: relative;
-  max-height: 60vh;
-`;
-
-const VideoContainerRemote = styled.video`
-  max-height: inherit;
-`;
-const VideoContainerLocal = styled.video`
-  max-height: 45%;
-  max-width: 45%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
-const CallWindowInner = styled.div`
-  text-align: center;
-  padding: 1rem;
+const StyledDraggableVideoElement = styled(StyledVideoElement)`
+  padding: 0 0;
 `;
 
 const CallWindowControls = styled.div`
   padding: 5px;
+  flex-shrink: 0;
+`;
+
+const DraggableCallWindowInner = styled.div``;
+
+const VideoContainer = styled.div`
+  height: 100%;
+  width: 50%;
 `;
 
 // TODO:
@@ -75,94 +53,144 @@ const CallWindowControls = styled.div`
  * Add mute input, deafen, end call, possibly add person to call
  * duration - look at how duration calculated for recording.
  */
-export const CallContainer = () => {
-  const hasIncomingCall = useSelector(getHasIncomingCall);
-  const incomingCallProps = useSelector(getHasIncomingCallFrom);
+export const DraggableCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
+  const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  const ongoingOrIncomingPubkey = ongoingCallProps?.id || incomingCallProps?.id;
+  const [positionX, setPositionX] = useState(0);
+  const [positionY, setPositionY] = useState(0);
+
+  const ongoingCallPubkey = ongoingCallProps?.id;
+  const videoRefRemote = useRef<any>(undefined);
+  const mountedState = useMountedState();
+
+  function onWindowResize() {
+    if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
+      setPositionX(window.innerWidth / 2);
+      setPositionY(window.innerHeight / 2);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', onWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+    };
+  }, [positionX, positionY]);
+
+  useEffect(() => {
+    if (ongoingCallPubkey !== selectedConversationKey) {
+      CallManager.setVideoEventsListener(
+        (_localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+          if (mountedState() && videoRefRemote?.current) {
+            videoRefRemote.current.srcObject = remoteStream;
+          }
+        }
+      );
+    }
+
+    return () => {
+      CallManager.setVideoEventsListener(null);
+    };
+  }, [ongoingCallPubkey, selectedConversationKey]);
+
+  const handleEndCall = async () => {
+    // call method to end call connection
+    if (ongoingCallPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
+    }
+  };
+
+  if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
+    return null;
+  }
+
+  console.warn('rendering with pos', positionX, positionY);
+
+  return (
+    <Draggable
+      handle=".dragHandle"
+      position={{ x: positionX, y: positionY }}
+      onStop={(_e: DraggableEvent, data: DraggableData) => {
+        console.warn('setting position ', { x: data.x, y: data.y });
+        setPositionX(data.x);
+        setPositionY(data.y);
+      }}
+    >
+      <DraggableCallWindow className="dragHandle">
+        <DraggableCallWindowInner>
+          <StyledDraggableVideoElement ref={videoRefRemote} autoPlay={true} />
+        </DraggableCallWindowInner>
+        <CallWindowControls>
+          <SessionButton text={window.i18n('endCall')} onClick={handleEndCall} />
+        </CallWindowControls>
+      </DraggableCallWindow>
+    </Draggable>
+  );
+};
+
+export const InConvoCallWindow = styled.div`
+  padding: 1rem;
+  display: flex;
+  height: 50%;
+
+  /* background-color: var(--color-background-primary); */
+
+  background: radial-gradient(black, #505050);
+
+  flex-shrink: 0;
+  min-height: 200px;
+  align-items: center;
+`;
+
+export const InConversationCallContainer = () => {
+  const ongoingCallProps = useSelector(getHasOngoingCallWith);
+  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const hasOngoingCall = useSelector(getHasOngoingCall);
+
+  const ongoingCallPubkey = ongoingCallProps?.id;
   const videoRefRemote = useRef<any>();
   const videoRefLocal = useRef<any>();
   const mountedState = useMountedState();
 
   useEffect(() => {
-    CallManager.setVideoEventsListener(
-      (localStream: MediaStream | null, remoteStream: MediaStream | null) => {
-        if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
-          videoRefLocal.current.srcObject = localStream;
-          videoRefRemote.current.srcObject = remoteStream;
+    if (ongoingCallPubkey === selectedConversationKey) {
+      CallManager.setVideoEventsListener(
+        (localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+          if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
+            videoRefLocal.current.srcObject = localStream;
+            videoRefRemote.current.srcObject = remoteStream;
+          }
         }
-      }
-    );
+      );
+    }
 
     return () => {
       CallManager.setVideoEventsListener(null);
     };
-  }, []);
-
-  //#region input handlers
-  const handleAcceptIncomingCall = async () => {
-    if (incomingCallProps?.id) {
-      await CallManager.USER_acceptIncomingCallRequest(incomingCallProps.id);
-    }
-  };
-
-  const handleDeclineIncomingCall = async () => {
-    // close the modal
-    if (incomingCallProps?.id) {
-      await CallManager.USER_rejectIncomingCallRequest(incomingCallProps.id);
-    }
-  };
+  }, [ongoingCallPubkey, selectedConversationKey]);
 
   const handleEndCall = async () => {
     // call method to end call connection
-    if (ongoingOrIncomingPubkey) {
-      await CallManager.USER_rejectIncomingCallRequest(ongoingOrIncomingPubkey);
+    if (ongoingCallPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
     }
   };
 
-  //#endregion
-
-  if (!hasOngoingCall && !hasIncomingCall) {
+  if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey !== selectedConversationKey) {
     return null;
   }
 
-  if (hasOngoingCall && ongoingCallProps) {
-    return (
-      <Draggable handle=".dragHandle">
-        <CallWindow className="dragHandle">
-          <CallWindowHeader>Call with: {ongoingCallProps.name}</CallWindowHeader>
-
-          <CallWindowInner>
-            <div>{hasIncomingCall}</div>
-            <VideoContainer>
-              <VideoContainerRemote ref={videoRefRemote} autoPlay={true} />
-              <VideoContainerLocal ref={videoRefLocal} autoPlay={true} />
-            </VideoContainer>
-          </CallWindowInner>
-          <CallWindowControls>
-            <SessionButton text={window.i18n('endCall')} onClick={handleEndCall} />
-          </CallWindowControls>
-        </CallWindow>
-      </Draggable>
-    );
-  }
-
-  if (hasIncomingCall) {
-    return (
-      <SessionWrapperModal title={window.i18n('incomingCall')}>
-        <div className="session-modal__button-group">
-          <SessionButton text={window.i18n('decline')} onClick={handleDeclineIncomingCall} />
-          <SessionButton
-            text={window.i18n('accept')}
-            onClick={handleAcceptIncomingCall}
-            buttonColor={SessionButtonColor.Green}
-          />
-        </div>
-      </SessionWrapperModal>
-    );
-  }
-  // display spinner while connecting
-  return null;
+  return (
+    <InConvoCallWindow>
+      <VideoContainer>
+        <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
+      </VideoContainer>
+      <VideoContainer>
+        <StyledVideoElement ref={videoRefLocal} autoPlay={true} />
+      </VideoContainer>
+    </InConvoCallWindow>
+  );
 };
