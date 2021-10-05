@@ -6182,7 +6182,7 @@ async function removeKnownAttachments(
   const lookup: Dictionary<boolean> = fromPairs(
     map(allAttachments, file => [file, true])
   );
-  const chunkSize = 50;
+  const chunkSize = 500;
 
   const total = await getMessageCount();
   logger.info(
@@ -6193,20 +6193,20 @@ async function removeKnownAttachments(
   let complete = false;
   let id: string | number = '';
 
+  const fetchMessages = db.prepare<Query>(
+    `
+      SELECT json FROM messages
+      WHERE id > $id
+      ORDER BY id ASC
+      LIMIT $chunkSize;
+    `
+  );
+
   while (!complete) {
-    const rows: JSONRows = db
-      .prepare<Query>(
-        `
-        SELECT json FROM messages
-        WHERE id > $id
-        ORDER BY id ASC
-        LIMIT $chunkSize;
-        `
-      )
-      .all({
-        id,
-        chunkSize,
-      });
+    const rows: JSONRows = fetchMessages.all({
+      id,
+      chunkSize,
+    });
 
     const messages: Array<MessageType> = rows.map(row =>
       jsonToObject(row.json)
@@ -6239,20 +6239,20 @@ async function removeKnownAttachments(
     `removeKnownAttachments: About to iterate through ${conversationTotal} conversations`
   );
 
+  const fetchConversations = db.prepare<Query>(
+    `
+      SELECT json FROM conversations
+      WHERE id > $id
+      ORDER BY id ASC
+      LIMIT $chunkSize;
+    `
+  );
+
   while (!complete) {
-    const rows = db
-      .prepare<Query>(
-        `
-        SELECT json FROM conversations
-        WHERE id > $id
-        ORDER BY id ASC
-        LIMIT $chunkSize;
-        `
-      )
-      .all({
-        id,
-        chunkSize,
-      });
+    const rows = fetchConversations.all({
+      id,
+      chunkSize,
+    });
 
     const conversations: Array<ConversationType> = map(rows, row =>
       jsonToObject(row.json)
