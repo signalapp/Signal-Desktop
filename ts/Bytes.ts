@@ -37,6 +37,10 @@ export function toString(data: Uint8Array): string {
   return bytes.toString(data);
 }
 
+export function byteLength(value: string): number {
+  return bytes.byteLength(value);
+}
+
 export function concatenate(list: ReadonlyArray<Uint8Array>): Uint8Array {
   return bytes.concatenate(list);
 }

@@ -161,20 +161,6 @@ export const ProfileEditor = ({
     [onProfileChanged, stagedProfile]
   );
 
-  const getTextEncoder = useCallback(() => new TextEncoder(), []);
-
-  const countByteLength = useCallback(
-    (str: string) => getTextEncoder().encode(str).byteLength,
-    [getTextEncoder]
-  );
-
-  const calculateLengthCount = useCallback(
-    (name = '') => {
-      return 256 - countByteLength(name);
-    },
-    [countByteLength]
-  );
-
   const getFullNameText = () => {
     return [fullName.firstName, fullName.familyName].filter(Boolean).join(' ');
   };
@@ -225,9 +211,9 @@ export const ProfileEditor = ({
     content = (
       <>
         <Input
-          countLength={countByteLength}
           i18n={i18n}
-          maxLengthCount={calculateLengthCount(stagedProfile.familyName)}
+          maxLengthCount={26}
+          maxByteCount={128}
           whenToShowRemainingCount={0}
           onChange={newFirstName => {
             setStagedProfile(profileData => ({
@@ -240,9 +226,9 @@ export const ProfileEditor = ({
           value={stagedProfile.firstName}
         />
         <Input
-          countLength={countByteLength}
           i18n={i18n}
-          maxLengthCount={calculateLengthCount(stagedProfile.firstName)}
+          maxLengthCount={26}
+          maxByteCount={128}
           whenToShowRemainingCount={0}
           onChange={newFamilyName => {
             setStagedProfile(profileData => ({
@@ -323,6 +309,7 @@ export const ProfileEditor = ({
             </div>
           }
           maxLengthCount={140}
+          maxByteCount={512}
           moduleClassName="ProfileEditor__about-input"
           onChange={value => {
             if (value) {
