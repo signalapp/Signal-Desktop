@@ -578,7 +578,6 @@ export const CompositionArea = ({
                 // and this is for conversation_view.
                 clearQuotedMessage();
               }}
-              withContentAbove
             />
           </div>
         )}

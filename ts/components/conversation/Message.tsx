@@ -1061,7 +1061,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
-      conversationType,
       customColor,
       direction,
       disableScroll,
@@ -1076,8 +1075,6 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
     const { isViewOnce, referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
@@ -1103,7 +1100,6 @@ export class Message extends React.PureComponent<Props, State> {
         isViewOnce={isViewOnce}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
-        withContentAbove={withContentAbove}
         doubleCheckMissingQuoteReference={() =>
           doubleCheckMissingQuoteReference(id)
         }

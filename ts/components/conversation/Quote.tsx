@@ -23,7 +23,6 @@ export type Props = {
   i18n: LocalizerType;
   isFromMe: boolean;
   isIncoming?: boolean;
-  withContentAbove: boolean;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
@@ -440,7 +439,6 @@ export class Quote extends React.Component<Props, State> {
       isIncoming,
       onClick,
       referencedMessageNotFound,
-      withContentAbove,
     } = this.props;
 
     if (!validateQuote(this.props)) {
@@ -448,12 +446,7 @@ export class Quote extends React.Component<Props, State> {
     }
 
     return (
-      <div
-        className={classNames(
-          'module-quote-container',
-          withContentAbove ? 'module-quote-container--with-content-above' : null
-        )}
-      >
+      <div className="module-quote-container">
         <button
           type="button"
           onClick={this.handleClick}
@@ -465,7 +458,6 @@ export class Quote extends React.Component<Props, State> {
               ? `module-quote--incoming-${conversationColor}`
               : `module-quote--outgoing-${conversationColor}`,
             !onClick ? 'module-quote--no-click' : null,
-            withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound
               ? 'module-quote--with-reference-warning'
               : null

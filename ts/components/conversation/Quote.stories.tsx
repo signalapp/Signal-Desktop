@@ -145,10 +145,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
       ? overrideProps.text
       : 'A sample message from a pal'
   ),
-  withContentAbove: boolean(
-    'withContentAbove',
-    overrideProps.withContentAbove || false
-  ),
 });
 
 story.add('Outgoing by Another Author', () => {
@@ -192,19 +188,6 @@ story.add('Incoming/Outgoing Colors', () => {
       {ConversationColors.map(color =>
         renderInMessage({ ...props, conversationColor: color })
       )}
-    </>
-  );
-});
-
-story.add('Content Above', () => {
-  const props = createProps({
-    withContentAbove: true,
-  });
-
-  return (
-    <>
-      <div>Content Above</div>
-      <Quote {...props} />
     </>
   );
 });

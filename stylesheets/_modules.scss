@@ -1442,13 +1442,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin: {
     left: -6px;
     right: -6px;
-    top: -4px;
+    top: 3px;
     bottom: 5px;
   }
-}
-
-.module-quote-container--with-content-above {
-  margin-top: 3px;
 }
 
 .module-quote {
@@ -1457,8 +1453,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   position: relative;
   border-radius: 4px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -1479,11 +1473,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   cursor: auto;
 }
 
-.module-quote--with-content-above {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
 .module-quote--with-reference-warning {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -1492,6 +1481,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote--outgoing {
   border-left-color: $color-steel;
   background-color: $color-steel;
+  margin-top: -4px;
 
   // To preserve contrast
   @include keyboard-mode {
