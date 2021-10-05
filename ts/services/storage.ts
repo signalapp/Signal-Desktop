@@ -32,7 +32,6 @@ import { storageJobQueue } from '../util/JobQueue';
 import { sleep } from '../util/sleep';
 import { isMoreRecentThan } from '../util/timestamp';
 import { normalizeNumber } from '../util/normalizeNumber';
-import { isStorageWriteFeatureEnabled } from '../storage/isFeatureEnabled';
 import { ourProfileKeyService } from './ourProfileKey';
 import {
   ConversationTypes,
@@ -1019,12 +1018,6 @@ async function processRemoteRecords(
 async function sync(
   ignoreConflicts = false
 ): Promise<Proto.ManifestRecord | undefined> {
-  if (!isStorageWriteFeatureEnabled()) {
-    log.info('storageService.sync: Not starting desktop.storage is falsey');
-
-    return undefined;
-  }
-
   if (!window.storage.get('storageKey')) {
     throw new Error('storageService.sync: Cannot start; no storage key!');
   }
@@ -1081,14 +1074,6 @@ async function sync(
 }
 
 async function upload(fromSync = false): Promise<void> {
-  if (!isStorageWriteFeatureEnabled()) {
-    log.info(
-      'storageService.upload: Not starting because the feature is not enabled'
-    );
-
-    return;
-  }
-
   if (!window.textsecure.messaging) {
     throw new Error('storageService.upload: We are offline!');
   }

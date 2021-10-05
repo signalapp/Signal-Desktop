@@ -19,7 +19,6 @@ import {
   GROUP_CREDENTIALS_KEY,
   maybeFetchNewCredentials,
 } from './services/groupCredentialFetcher';
-import { isStorageWriteFeatureEnabled } from './storage/isFeatureEnabled';
 import dataInterface from './sql/Client';
 import { toWebSafeBase64, fromWebSafeBase64 } from './util/webSafeBase64';
 import { assert, strictAssert } from './util/assert';
@@ -1499,12 +1498,6 @@ export async function createGroupV2({
 }>): Promise<ConversationModel> {
   // Ensure we have the credentials we need before attempting GroupsV2 operations
   await maybeFetchNewCredentials();
-
-  if (!isStorageWriteFeatureEnabled()) {
-    throw new Error(
-      'createGroupV2: storage service write is not enabled. Cannot create the group'
-    );
-  }
 
   const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
   const MEMBER_ROLE_ENUM = Proto.Member.Role;

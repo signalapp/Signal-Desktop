@@ -16,7 +16,6 @@ import {
 } from '../../util/libphonenumberInstance';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isStorageWriteFeatureEnabled } from '../../storage/isFeatureEnabled';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemPropsType>;
@@ -229,7 +228,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     if (this.phoneNumber) {
       return TopButton.StartNewConversation;
     }
-    if (this.searchTerm || !isStorageWriteFeatureEnabled()) {
+    if (this.searchTerm) {
       return TopButton.None;
     }
     return TopButton.CreateNewGroup;
