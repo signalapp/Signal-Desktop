@@ -2007,10 +2007,10 @@ export class CallingClass {
     });
   }
 
-  public updateCallHistoryForGroupCall(
+  public async updateCallHistoryForGroupCall(
     conversationId: string,
     peekInfo: undefined | PeekInfo
-  ): void {
+  ): Promise<void> {
     // If we don't have the necessary pieces to peek, bail. (It's okay if we don't.)
     if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
       return;
@@ -2020,6 +2020,7 @@ export class CallingClass {
       log.error('updateCallHistoryForGroupCall(): bad creator UUID');
       return;
     }
+    const creatorConversation = window.ConversationController.get(creatorUuid);
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -2027,24 +2028,24 @@ export class CallingClass {
       return;
     }
 
-    conversation.updateCallHistoryForGroupCall(peekInfo.eraId, creatorUuid);
+    const isNewCall = await conversation.updateCallHistoryForGroupCall(
+      peekInfo.eraId,
+      creatorUuid
+    );
+    const wasStartedByMe = Boolean(
+      creatorConversation && isMe(creatorConversation.attributes)
+    );
+    const isAnybodyElseInGroupCall = Boolean(peekInfo.joinedMembers.length);
+
+    if (isNewCall && !wasStartedByMe && isAnybodyElseInGroupCall) {
+      this.notifyForGroupCall(conversation, creatorConversation);
+    }
   }
 
-  public notifyForGroupCall(
-    conversationId: string,
-    creatorBytes: undefined | Readonly<Uint8Array>
+  private notifyForGroupCall(
+    conversation: Readonly<ConversationModel>,
+    creatorConversation: undefined | Readonly<ConversationModel>
   ): void {
-    const conversation = window.ConversationController.get(conversationId);
-    if (conversation?.isMuted()) {
-      return;
-    }
-
-    const creatorUuid = creatorBytes ? bytesToUuid(creatorBytes) : undefined;
-    const creatorConversation = window.ConversationController.get(creatorUuid);
-    if (creatorConversation && isMe(creatorConversation.attributes)) {
-      return;
-    }
-
     let notificationTitle: string;
     let notificationMessage: string;
 
@@ -2074,7 +2075,7 @@ export class CallingClass {
       message: notificationMessage,
       onNotificationClick: () => {
         this.uxActions?.startCallingLobby({
-          conversationId,
+          conversationId: conversation.id,
           isVideoCall: true,
         });
       },

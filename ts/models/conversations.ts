@@ -2722,10 +2722,16 @@ export class ConversationModel extends window.Backbone
     this.trigger('newmessage', model);
   }
 
+  /**
+   * Adds a group call history message if one is needed. It won't add history messages for
+   * the same group call era ID.
+   *
+   * Resolves with `true` if a new message was added, and `false` otherwise.
+   */
   async updateCallHistoryForGroupCall(
     eraId: string,
     creatorUuid: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     // We want to update the cache quickly in case this function is called multiple times.
     const oldCachedEraId = this.cachedLatestGroupCallEraId;
     this.cachedLatestGroupCallEraId = eraId;
@@ -2734,14 +2740,17 @@ export class ConversationModel extends window.Backbone
       (oldCachedEraId && oldCachedEraId === eraId) ||
       (await window.Signal.Data.hasGroupCallHistoryMessage(this.id, eraId));
 
-    if (!alreadyHasMessage) {
-      this.addCallHistory({
-        callMode: CallMode.Group,
-        creatorUuid,
-        eraId,
-        startedTime: Date.now(),
-      });
+    if (alreadyHasMessage) {
+      return false;
     }
+
+    await this.addCallHistory({
+      callMode: CallMode.Group,
+      creatorUuid,
+      eraId,
+      startedTime: Date.now(),
+    });
+    return true;
   }
 
   async addProfileChange(

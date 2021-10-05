@@ -859,7 +859,6 @@ function peekNotConnectedGroupCall(
 
     queue.add(async () => {
       const state = getState();
-      const { ourUuid } = state.user;
 
       // We make sure we're not trying to peek at a connected (or connecting, or
       //   reconnecting) call. Because this is asynchronous, it's possible that the call
@@ -893,7 +892,7 @@ function peekNotConnectedGroupCall(
         return;
       }
 
-      calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
+      await calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
 
       const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(
         peekInfo
@@ -907,22 +906,6 @@ function peekNotConnectedGroupCall(
           ourConversationId: state.user.ourConversationId,
         },
       });
-
-      // We want to show "Alice started a group call" only if a call isn't ringing or
-      //   active. We wait a moment to make sure that we don't accidentally show a ring
-      //   notification followed swiftly by a less urgent notification.
-      if (!isAnybodyElseInGroupCall(formattedPeekInfo, ourUuid)) {
-        return;
-      }
-      await sleep(1000);
-      const newCallingState = getState().calling;
-      if (
-        getActiveCall(newCallingState)?.conversationId === conversationId ||
-        getIncomingCall(newCallingState.callsByConversation, ourUuid)
-      ) {
-        return;
-      }
-      calling.notifyForGroupCall(conversationId, peekInfo.creator);
     });
   };
 }
