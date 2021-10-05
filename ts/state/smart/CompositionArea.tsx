@@ -4,7 +4,10 @@
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
-import { CompositionArea } from '../../components/CompositionArea';
+import {
+  CompositionArea,
+  Props as ComponentPropsType,
+} from '../../components/CompositionArea';
 import { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
@@ -29,11 +32,13 @@ import {
 
 type ExternalProps = {
   id: string;
-  onClickQuotedMessage: (id: string) => unknown;
+  handleClickQuotedMessage: (id: string) => unknown;
 };
 
+export type CompositionAreaPropsType = ExternalProps & ComponentPropsType;
+
 const mapStateToProps = (state: StateType, props: ExternalProps) => {
-  const { id, onClickQuotedMessage } = props;
+  const { id, handleClickQuotedMessage } = props;
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(id);
@@ -101,7 +106,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     onClickQuotedMessage: () => {
       const messageId = quotedMessage?.quote?.messageId;
       if (messageId) {
-        onClickQuotedMessage(messageId);
+        handleClickQuotedMessage(messageId);
       }
     },
     // Emojis

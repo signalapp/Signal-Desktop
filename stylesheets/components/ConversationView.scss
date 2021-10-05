@@ -1,0 +1,56 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ConversationView {
+  display: flex;
+  flex-direction: column;
+  overflow: initial;
+
+  &__pane {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: initial;
+    position: absolute;
+    width: 100%;
+  }
+
+  &__timeline {
+    &--container {
+      flex-grow: 1;
+      margin: 0;
+      max-width: 100%;
+      position: relative;
+    }
+
+    -webkit-padding-start: 0px;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  &__composition-area {
+    margin-bottom: 6px;
+
+    // We need to use the wrapper because the conversation view calculates the height of all
+    //   things in the composition area. A margin on an inner div won't be included in that
+    //   height calculation.
+    .quote-wrapper {
+      margin-left: 18px;
+      margin-right: 18px;
+      margin-top: 3px;
+    }
+
+    .preview-wrapper {
+      margin-top: 3px;
+      margin-left: 12px;
+      margin-right: 12px;
+      margin-bottom: 2px;
+    }
+  }
+}

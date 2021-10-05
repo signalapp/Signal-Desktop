@@ -216,13 +216,4 @@ Whisper.InboxView = Whisper.View.extend({
       searchInput?.focus?.();
     }
   },
-  closeRecording(e: MouseEvent) {
-    if (e && this.$(e.target).closest('.capture-audio').length > 0) {
-      return;
-    }
-    this.$('.conversation:first .recorder').trigger('close');
-  },
-  onClick(e: MouseEvent) {
-    this.closeRecording(e);
-  },
 });

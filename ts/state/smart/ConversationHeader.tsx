@@ -26,8 +26,11 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 export type OwnProps = {
   id: string;
 
+  onArchive: () => void;
   onDeleteMessages: () => void;
   onGoBack: () => void;
+  onMarkUnread: () => void;
+  onMoveToInbox: () => void;
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
   onResetSession: () => void;
@@ -38,13 +41,9 @@ export type OwnProps = {
   onShowAllMedia: () => void;
   onShowChatColorEditor: () => void;
   onShowContactModal: (contactId: string) => void;
-  onShowGroupMembers: () => void;
-
-  onArchive: () => void;
-  onMarkUnread: () => void;
-  onMoveToInbox: () => void;
-  onShowSafetyNumber: () => void;
   onShowConversationDetails: () => void;
+  onShowGroupMembers: () => void;
+  onShowSafetyNumber: () => void;
 };
 
 const getOutgoingCallButtonStyle = (

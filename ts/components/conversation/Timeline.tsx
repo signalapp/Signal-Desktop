@@ -157,7 +157,7 @@ export type PropsActionsType = {
   clearSelectedMessage: () => unknown;
   unblurAvatar: () => void;
   updateSharedGroups: () => unknown;
-} & MessageActionsType &
+} & Omit<MessageActionsType, 'onHeightChange'> &
   SafetyNumberActionsType &
   UnsupportedMessageActionsType &
   ChatSessionRefreshedNotificationActionsType;
@@ -251,7 +251,6 @@ const getActions = createSelector(
       'updateSharedGroups',
 
       'doubleCheckMissingQuoteReference',
-      'onHeightChange',
       'checkForAccount',
       'reactToMessage',
       'replyToMessage',

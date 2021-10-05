@@ -69,6 +69,7 @@ import * as VisualAttachment from '../types/VisualAttachment';
 import * as log from '../logging/log';
 import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
+import { createConversationView } from '../state/roots/createConversationView';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { CompositionAPIType } from '../components/CompositionArea';
 import { ReadStatus } from '../messages/MessageReadStatus';
@@ -225,7 +226,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // Composing messages
   private compositionApi: {
-    current?: CompositionAPIType;
+    current: CompositionAPIType;
   } = { current: undefined };
   private sendStart?: number;
 
@@ -242,14 +243,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // Sub-views
   private captionEditorView?: Backbone.View;
-  private compositionAreaView?: Backbone.View;
   private contactModalView?: Backbone.View;
+  private conversationView?: BasicReactWrapperViewClass;
   private forwardMessageModal?: Backbone.View;
   private lightboxView?: BasicReactWrapperViewClass;
   private migrationDialog?: Backbone.View;
   private stickerPreviewModalView?: Backbone.View;
-  private timelineView?: Backbone.View;
-  private titleView?: Backbone.View;
 
   // Panel support
   private panels: Array<AnyViewClass> = [];
@@ -314,17 +313,13 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.render();
 
-    this.setupHeader();
-    this.setupTimeline();
-    this.setupCompositionArea();
+    this.setupConversationView();
     this.updateAttachmentsView();
   }
 
   // eslint-disable-next-line class-methods-use-this
   events(): Record<string, string> {
     return {
-      'change input.file-input': 'onChoseAttachment',
-
       drop: 'onDrop',
       paste: 'onPaste',
     };
@@ -382,407 +377,116 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
-  setupHeader(): void {
-    this.titleView = new Whisper.ReactWrapperView({
-      className: 'title-wrapper',
-      JSX: window.Signal.State.Roots.createConversationHeader(
-        window.reduxStore,
-        {
-          id: this.model.id,
-
-          onShowContactModal: this.showContactModal.bind(this),
-          onSetDisappearingMessages: (seconds: number) =>
-            this.setDisappearingMessages(seconds),
-          onDeleteMessages: () => this.destroyMessages(),
-          onResetSession: () => this.endSession(),
-          onSearchInConversation: () => {
-            const { searchInConversation } = window.reduxActions.search;
-            const name = isMe(this.model.attributes)
-              ? window.i18n('noteToSelf')
-              : this.model.getTitle();
-            searchInConversation(this.model.id, name);
-          },
-          onSetMuteNotifications: this.setMuteExpiration.bind(this),
-          onSetPin: this.setPin.bind(this),
-          // These are view only and don't update the Conversation model, so they
-          //   need a manual update call.
-          onOutgoingAudioCallInConversation: async () => {
-            log.info(
-              'onOutgoingAudioCallInConversation: about to start an audio call'
-            );
-
-            const isVideoCall = false;
-
-            if (await this.isCallSafe()) {
-              log.info(
-                'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
-              );
-              await window.Signal.Services.calling.startCallingLobby(
-                this.model.id,
-                isVideoCall
-              );
-              log.info('onOutgoingAudioCallInConversation: started the call');
-            } else {
-              log.info(
-                'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
-              );
-            }
-          },
-
-          onOutgoingVideoCallInConversation: async () => {
-            log.info(
-              'onOutgoingVideoCallInConversation: about to start a video call'
-            );
-            const isVideoCall = true;
-
-            if (
-              this.model.get('announcementsOnly') &&
-              !this.model.areWeAdmin()
-            ) {
-              showToast(ToastCannotStartGroupCall);
-              return;
-            }
-
-            if (await this.isCallSafe()) {
-              log.info(
-                'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
-              );
-              await window.Signal.Services.calling.startCallingLobby(
-                this.model.id,
-                isVideoCall
-              );
-              log.info('onOutgoingVideoCallInConversation: started the call');
-            } else {
-              log.info(
-                'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
-              );
-            }
-          },
-
-          onShowChatColorEditor: () => {
-            this.showChatColorEditor();
-          },
-          onShowConversationDetails: () => {
-            this.showConversationDetails();
-          },
-          onShowSafetyNumber: () => {
-            this.showSafetyNumber();
-          },
-          onShowAllMedia: () => {
-            this.showAllMedia();
-          },
-          onShowGroupMembers: () => {
-            this.showGV1Members();
-          },
-          onGoBack: () => {
-            this.resetPanel();
-          },
-
-          onArchive: () => {
-            this.model.setArchived(true);
-            this.model.trigger('unload', 'archive');
-
-            showToast(ToastConversationArchived);
-          },
-          onMarkUnread: () => {
-            this.model.setMarkedUnread(true);
-
-            showToast(ToastConversationMarkedUnread);
-          },
-          onMoveToInbox: () => {
-            this.model.setArchived(false);
-
-            showToast(ToastConversationUnarchived);
-          },
-        }
-      ),
-    });
-    this.$('.conversation-header').append(this.titleView.el);
-    window.reduxActions.conversations.setSelectedConversationHeaderTitle();
-  }
-
-  setupCompositionArea(): void {
-    window.reduxActions.composer.resetComposer();
-
-    const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
-
-    const props = {
+  setupConversationView(): void {
+    // setupHeader
+    const conversationHeaderProps = {
       id: this.model.id,
-      compositionApi: this.compositionApi,
-      onClickAddPack: () => this.showStickerManager(),
-      onPickSticker: (packId: string, stickerId: number) =>
-        this.sendStickerMessage({ packId, stickerId }),
-      onEditorStateChange: (
-        msg: string,
-        bodyRanges: Array<BodyRangeType>,
-        caretLocation?: number
-      ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
-      onTextTooLong: () => showToast(ToastMessageBodyTooLong),
-      getQuotedMessage: () => this.model.get('quotedMessageId'),
-      clearQuotedMessage: () => this.setQuoteMessage(null),
-      onAccept: () => {
-        this.syncMessageRequestResponse(
-          'onAccept',
-          this.model,
-          messageRequestEnum.ACCEPT
+
+      onShowContactModal: this.showContactModal.bind(this),
+      onSetDisappearingMessages: (seconds: number) =>
+        this.setDisappearingMessages(seconds),
+      onDeleteMessages: () => this.destroyMessages(),
+      onResetSession: () => this.endSession(),
+      onSearchInConversation: () => {
+        const { searchInConversation } = window.reduxActions.search;
+        const name = isMe(this.model.attributes)
+          ? window.i18n('noteToSelf')
+          : this.model.getTitle();
+        searchInConversation(this.model.id, name);
+      },
+      onSetMuteNotifications: this.setMuteExpiration.bind(this),
+      onSetPin: this.setPin.bind(this),
+      // These are view only and don't update the Conversation model, so they
+      //   need a manual update call.
+      onOutgoingAudioCallInConversation: async () => {
+        log.info(
+          'onOutgoingAudioCallInConversation: about to start an audio call'
         );
+
+        const isVideoCall = false;
+
+        if (await this.isCallSafe()) {
+          log.info(
+            'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
+          );
+          await window.Signal.Services.calling.startCallingLobby(
+            this.model.id,
+            isVideoCall
+          );
+          log.info('onOutgoingAudioCallInConversation: started the call');
+        } else {
+          log.info(
+            'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
+          );
+        }
       },
-      onBlock: () => {
-        this.syncMessageRequestResponse(
-          'onBlock',
-          this.model,
-          messageRequestEnum.BLOCK
+
+      onOutgoingVideoCallInConversation: async () => {
+        log.info(
+          'onOutgoingVideoCallInConversation: about to start a video call'
         );
-      },
-      onUnblock: () => {
-        this.syncMessageRequestResponse(
-          'onUnblock',
-          this.model,
-          messageRequestEnum.ACCEPT
-        );
-      },
-      onDelete: () => {
-        this.syncMessageRequestResponse(
-          'onDelete',
-          this.model,
-          messageRequestEnum.DELETE
-        );
-      },
-      onBlockAndReportSpam: () => {
-        this.blockAndReportSpam(this.model);
-      },
-      onStartGroupMigration: () => this.startMigrationToGV2(),
-      onCancelJoinRequest: async () => {
-        await window.showConfirmationDialog({
-          message: window.i18n(
-            'GroupV2--join--cancel-request-to-join--confirmation'
-          ),
-          okText: window.i18n('GroupV2--join--cancel-request-to-join--yes'),
-          cancelText: window.i18n('GroupV2--join--cancel-request-to-join--no'),
-          resolve: () => {
-            this.longRunningTaskWrapper({
-              name: 'onCancelJoinRequest',
-              task: async () => this.model.cancelJoinRequest(),
-            });
-          },
-        });
+        const isVideoCall = true;
+
+        if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
+          showToast(ToastCannotStartGroupCall);
+          return;
+        }
+
+        if (await this.isCallSafe()) {
+          log.info(
+            'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
+          );
+          await window.Signal.Services.calling.startCallingLobby(
+            this.model.id,
+            isVideoCall
+          );
+          log.info('onOutgoingVideoCallInConversation: started the call');
+        } else {
+          log.info(
+            'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
+          );
+        }
       },
 
-      onClickAttachment: this.onClickAttachment.bind(this),
-      onClearAttachments: this.clearAttachments.bind(this),
-      onSelectMediaQuality: (isHQ: boolean) => {
-        window.reduxActions.composer.setMediaQualitySetting(isHQ);
+      onShowChatColorEditor: () => {
+        this.showChatColorEditor();
+      },
+      onShowConversationDetails: () => {
+        this.showConversationDetails();
+      },
+      onShowSafetyNumber: () => {
+        this.showSafetyNumber();
+      },
+      onShowAllMedia: () => {
+        this.showAllMedia();
+      },
+      onShowGroupMembers: () => {
+        this.showGV1Members();
+      },
+      onGoBack: () => {
+        this.resetPanel();
       },
 
-      onClickQuotedMessage: (id: string) => this.scrollToMessage(id),
+      onArchive: () => {
+        this.model.setArchived(true);
+        this.model.trigger('unload', 'archive');
 
-      onCloseLinkPreview: () => {
-        this.disableLinkPreviews = true;
-        this.removeLinkPreview();
+        showToast(ToastConversationArchived);
       },
+      onMarkUnread: () => {
+        this.model.setMarkedUnread(true);
 
-      openConversation: this.openConversation.bind(this),
+        showToast(ToastConversationMarkedUnread);
+      },
+      onMoveToInbox: () => {
+        this.model.setArchived(false);
 
-      onSendMessage: ({
-        draftAttachments,
-        mentions = [],
-        message = '',
-        timestamp,
-        voiceNoteAttachment,
-      }: {
-        draftAttachments?: ReadonlyArray<AttachmentType>;
-        mentions?: BodyRangesType;
-        message?: string;
-        timestamp?: number;
-        voiceNoteAttachment?: AttachmentType;
-      }): void => {
-        this.sendMessage(message, mentions, {
-          draftAttachments,
-          timestamp,
-          voiceNoteAttachment,
-        });
+        showToast(ToastConversationUnarchived);
       },
     };
+    window.reduxActions.conversations.setSelectedConversationHeaderTitle();
 
-    this.compositionAreaView = new Whisper.ReactWrapperView({
-      className: 'composition-area-wrapper',
-      JSX: window.Signal.State.Roots.createCompositionArea(
-        window.reduxStore,
-        props
-      ),
-    });
-
-    // Finally, add it to the DOM
-    this.$('.CompositionArea__placeholder').append(this.compositionAreaView.el);
-  }
-
-  async longRunningTaskWrapper<T>({
-    name,
-    task,
-  }: {
-    name: string;
-    task: () => Promise<T>;
-  }): Promise<T> {
-    const idForLogging = this.model.idForLogging();
-    return window.Signal.Util.longRunningTaskWrapper({
-      name,
-      idForLogging,
-      task,
-    });
-  }
-
-  getMessageActions(): MessageActionsType {
-    const reactToMessage = (
-      messageId: string,
-      reaction: { emoji: string; remove: boolean }
-    ) => {
-      this.sendReactionMessage(messageId, reaction);
-    };
-    const replyToMessage = (messageId: string) => {
-      this.setQuoteMessage(messageId);
-    };
-    const retrySend = retryMessageSend;
-    const deleteMessage = (messageId: string) => {
-      this.deleteMessage(messageId);
-    };
-    const deleteMessageForEveryone = (messageId: string) => {
-      this.deleteMessageForEveryone(messageId);
-    };
-    const showMessageDetail = (messageId: string) => {
-      this.showMessageDetail(messageId);
-    };
-    const showContactModal = (contactId: string) => {
-      this.showContactModal(contactId);
-    };
-    const openConversation = (conversationId: string, messageId?: string) => {
-      this.openConversation(conversationId, messageId);
-    };
-    const showContactDetail = (options: {
-      contact: EmbeddedContactType;
-      signalAccount?: string;
-    }) => {
-      this.showContactDetail(options);
-    };
-    const kickOffAttachmentDownload = async (
-      options: Readonly<{ messageId: string }>
-    ) => {
-      const message = window.MessageController.getById(options.messageId);
-      if (!message) {
-        throw new Error(
-          `kickOffAttachmentDownload: Message ${options.messageId} missing!`
-        );
-      }
-      await message.queueAttachmentDownloads();
-    };
-    const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
-      const message = window.MessageController.getById(options.messageId);
-      if (!message) {
-        throw new Error(
-          `markAttachmentAsCorrupted: Message ${options.messageId} missing!`
-        );
-      }
-      message.markAttachmentAsCorrupted(options.attachment);
-    };
-    const onMarkViewed = (messageId: string): void => {
-      const message = window.MessageController.getById(messageId);
-      if (!message) {
-        throw new Error(`onMarkViewed: Message ${messageId} missing!`);
-      }
-
-      if (message.get('readStatus') === ReadStatus.Viewed) {
-        return;
-      }
-
-      const senderE164 = message.get('source');
-      const senderUuid = message.get('sourceUuid');
-      const timestamp = message.get('sent_at');
-
-      message.set(markViewed(message.attributes, Date.now()));
-
-      viewedReceiptsJobQueue.add({
-        viewedReceipt: {
-          messageId,
-          senderE164,
-          senderUuid,
-          timestamp,
-        },
-      });
-
-      viewSyncJobQueue.add({
-        viewSyncs: [
-          {
-            messageId,
-            senderE164,
-            senderUuid,
-            timestamp,
-          },
-        ],
-      });
-    };
-    const showVisualAttachment = (options: {
-      attachment: AttachmentType;
-      messageId: string;
-      showSingle?: boolean;
-    }) => {
-      this.showLightbox(options);
-    };
-    const downloadAttachment = (options: {
-      attachment: AttachmentType;
-      timestamp: number;
-      isDangerous: boolean;
-    }) => {
-      this.downloadAttachment(options);
-    };
-    const displayTapToViewMessage = (messageId: string) =>
-      this.displayTapToViewMessage(messageId);
-    const showIdentity = (conversationId: string) => {
-      this.showSafetyNumber(conversationId);
-    };
-    const openLink = openLinkInWebBrowser;
-    const downloadNewVersion = () => {
-      openLinkInWebBrowser('https://signal.org/download');
-    };
-    const showSafetyNumber = (contactId: string) => {
-      this.showSafetyNumber(contactId);
-    };
-    const showExpiredIncomingTapToViewToast = () => {
-      log.info('Showing expired tap-to-view toast for an incoming message');
-      showToast(ToastTapToViewExpiredIncoming);
-    };
-    const showExpiredOutgoingTapToViewToast = () => {
-      log.info('Showing expired tap-to-view toast for an outgoing message');
-      showToast(ToastTapToViewExpiredOutgoing);
-    };
-
-    const showForwardMessageModal = this.showForwardMessageModal.bind(this);
-
-    return {
-      deleteMessage,
-      deleteMessageForEveryone,
-      displayTapToViewMessage,
-      downloadAttachment,
-      downloadNewVersion,
-      kickOffAttachmentDownload,
-      markAttachmentAsCorrupted,
-      markViewed: onMarkViewed,
-      openConversation,
-      openLink,
-      reactToMessage,
-      replyToMessage,
-      retrySend,
-      showContactDetail,
-      showContactModal,
-      showSafetyNumber,
-      showExpiredIncomingTapToViewToast,
-      showExpiredOutgoingTapToViewToast,
-      showForwardMessageModal,
-      showIdentity,
-      showMessageDetail,
-      showVisualAttachment,
-    };
-  }
-
-  setupTimeline(): void {
+    // setupTimeline
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
     const contactSupport = () => {
@@ -965,65 +669,335 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.syncMessageRequestResponse(name, conversation, enumValue);
     };
 
-    this.timelineView = new Whisper.ReactWrapperView({
-      className: 'timeline-wrapper',
-      JSX: window.Signal.State.Roots.createTimeline(window.reduxStore, {
-        id: this.model.id,
+    const timelineProps = {
+      id: this.model.id,
 
-        ...this.getMessageActions(),
+      ...this.getMessageActions(),
 
-        acknowledgeGroupMemberNameCollisions: (
-          groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
-        ): void => {
-          this.model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
-        },
-        contactSupport,
-        learnMoreAboutDeliveryIssue,
-        loadNewerMessages,
-        loadNewestMessages: this.loadNewestMessages.bind(this),
-        loadAndScroll: this.loadAndScroll.bind(this),
-        loadOlderMessages,
-        markMessageRead,
-        onBlock: createMessageRequestResponseHandler(
-          'onBlock',
-          messageRequestEnum.BLOCK
-        ),
-        onBlockAndReportSpam: (conversationId: string) => {
-          const conversation = window.ConversationController.get(
-            conversationId
+      acknowledgeGroupMemberNameCollisions: (
+        groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
+      ): void => {
+        this.model.acknowledgeGroupMemberNameCollisions(groupNameCollisions);
+      },
+      contactSupport,
+      learnMoreAboutDeliveryIssue,
+      loadNewerMessages,
+      loadNewestMessages: this.loadNewestMessages.bind(this),
+      loadAndScroll: this.loadAndScroll.bind(this),
+      loadOlderMessages,
+      markMessageRead,
+      onBlock: createMessageRequestResponseHandler(
+        'onBlock',
+        messageRequestEnum.BLOCK
+      ),
+      onBlockAndReportSpam: (conversationId: string) => {
+        const conversation = window.ConversationController.get(conversationId);
+        if (!conversation) {
+          log.error(
+            `onBlockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
           );
-          if (!conversation) {
-            log.error(
-              `onBlockAndReportSpam: Expected a conversation to be found for ${conversationId}. Doing nothing.`
-            );
-            return;
-          }
-          this.blockAndReportSpam(conversation);
-        },
-        onDelete: createMessageRequestResponseHandler(
-          'onDelete',
-          messageRequestEnum.DELETE
-        ),
-        onUnblock: createMessageRequestResponseHandler(
-          'onUnblock',
+          return;
+        }
+        this.blockAndReportSpam(conversation);
+      },
+      onDelete: createMessageRequestResponseHandler(
+        'onDelete',
+        messageRequestEnum.DELETE
+      ),
+      onUnblock: createMessageRequestResponseHandler(
+        'onUnblock',
+        messageRequestEnum.ACCEPT
+      ),
+      removeMember: (conversationId: string) => {
+        this.longRunningTaskWrapper({
+          name: 'removeMember',
+          task: () => this.model.removeFromGroupV2(conversationId),
+        });
+      },
+      scrollToQuotedMessage,
+      unblurAvatar: () => {
+        this.model.unblurAvatar();
+      },
+      updateSharedGroups: () => this.model.throttledUpdateSharedGroups?.(),
+    };
+
+    // setupCompositionArea
+    window.reduxActions.composer.resetComposer();
+
+    const compositionAreaProps = {
+      id: this.model.id,
+      compositionApi: this.compositionApi,
+      onClickAddPack: () => this.showStickerManager(),
+      onPickSticker: (packId: string, stickerId: number) =>
+        this.sendStickerMessage({ packId, stickerId }),
+      onEditorStateChange: (
+        msg: string,
+        bodyRanges: Array<BodyRangeType>,
+        caretLocation?: number
+      ) => this.onEditorStateChange(msg, bodyRanges, caretLocation),
+      onTextTooLong: () => showToast(ToastMessageBodyTooLong),
+      getQuotedMessage: () => this.model.get('quotedMessageId'),
+      clearQuotedMessage: () => this.setQuoteMessage(null),
+      onAccept: () => {
+        this.syncMessageRequestResponse(
+          'onAccept',
+          this.model,
           messageRequestEnum.ACCEPT
-        ),
-        onShowContactModal: this.showContactModal.bind(this),
-        removeMember: (conversationId: string) => {
-          this.longRunningTaskWrapper({
-            name: 'removeMember',
-            task: () => this.model.removeFromGroupV2(conversationId),
-          });
-        },
-        scrollToQuotedMessage,
-        unblurAvatar: () => {
-          this.model.unblurAvatar();
-        },
-        updateSharedGroups: this.model.throttledUpdateSharedGroups,
-      }),
+        );
+      },
+      onBlock: () => {
+        this.syncMessageRequestResponse(
+          'onBlock',
+          this.model,
+          messageRequestEnum.BLOCK
+        );
+      },
+      onUnblock: () => {
+        this.syncMessageRequestResponse(
+          'onUnblock',
+          this.model,
+          messageRequestEnum.ACCEPT
+        );
+      },
+      onDelete: () => {
+        this.syncMessageRequestResponse(
+          'onDelete',
+          this.model,
+          messageRequestEnum.DELETE
+        );
+      },
+      onBlockAndReportSpam: () => {
+        this.blockAndReportSpam(this.model);
+      },
+      onStartGroupMigration: () => this.startMigrationToGV2(),
+      onCancelJoinRequest: async () => {
+        await window.showConfirmationDialog({
+          message: window.i18n(
+            'GroupV2--join--cancel-request-to-join--confirmation'
+          ),
+          okText: window.i18n('GroupV2--join--cancel-request-to-join--yes'),
+          cancelText: window.i18n('GroupV2--join--cancel-request-to-join--no'),
+          resolve: () => {
+            this.longRunningTaskWrapper({
+              name: 'onCancelJoinRequest',
+              task: async () => this.model.cancelJoinRequest(),
+            });
+          },
+        });
+      },
+
+      onClickAttachment: this.onClickAttachment.bind(this),
+      onClearAttachments: this.clearAttachments.bind(this),
+      onSelectMediaQuality: (isHQ: boolean) => {
+        window.reduxActions.composer.setMediaQualitySetting(isHQ);
+      },
+
+      handleClickQuotedMessage: (id: string) => this.scrollToMessage(id),
+
+      onCloseLinkPreview: () => {
+        this.disableLinkPreviews = true;
+        this.removeLinkPreview();
+      },
+
+      openConversation: this.openConversation.bind(this),
+
+      onSendMessage: ({
+        draftAttachments,
+        mentions = [],
+        message = '',
+        timestamp,
+        voiceNoteAttachment,
+      }: {
+        draftAttachments?: ReadonlyArray<AttachmentType>;
+        mentions?: BodyRangesType;
+        message?: string;
+        timestamp?: number;
+        voiceNoteAttachment?: AttachmentType;
+      }): void => {
+        this.sendMessage(message, mentions, {
+          draftAttachments,
+          timestamp,
+          voiceNoteAttachment,
+        });
+      },
+    };
+
+    // createConversationView root
+
+    const JSX = createConversationView(window.reduxStore, {
+      compositionAreaProps,
+      conversationHeaderProps,
+      timelineProps,
     });
 
-    this.$('.timeline-placeholder').append(this.timelineView.el);
+    this.conversationView = new Whisper.ReactWrapperView({ JSX });
+    this.$('.ConversationView__template').append(this.conversationView.el);
+  }
+
+  async longRunningTaskWrapper<T>({
+    name,
+    task,
+  }: {
+    name: string;
+    task: () => Promise<T>;
+  }): Promise<T> {
+    const idForLogging = this.model.idForLogging();
+    return window.Signal.Util.longRunningTaskWrapper({
+      name,
+      idForLogging,
+      task,
+    });
+  }
+
+  getMessageActions(): MessageActionsType {
+    const reactToMessage = (
+      messageId: string,
+      reaction: { emoji: string; remove: boolean }
+    ) => {
+      this.sendReactionMessage(messageId, reaction);
+    };
+    const replyToMessage = (messageId: string) => {
+      this.setQuoteMessage(messageId);
+    };
+    const retrySend = retryMessageSend;
+    const deleteMessage = (messageId: string) => {
+      this.deleteMessage(messageId);
+    };
+    const deleteMessageForEveryone = (messageId: string) => {
+      this.deleteMessageForEveryone(messageId);
+    };
+    const showMessageDetail = (messageId: string) => {
+      this.showMessageDetail(messageId);
+    };
+    const showContactModal = (contactId: string) => {
+      this.showContactModal(contactId);
+    };
+    const openConversation = (conversationId: string, messageId?: string) => {
+      this.openConversation(conversationId, messageId);
+    };
+    const showContactDetail = (options: {
+      contact: EmbeddedContactType;
+      signalAccount?: string;
+    }) => {
+      this.showContactDetail(options);
+    };
+    const kickOffAttachmentDownload = async (
+      options: Readonly<{ messageId: string }>
+    ) => {
+      const message = window.MessageController.getById(options.messageId);
+      if (!message) {
+        throw new Error(
+          `kickOffAttachmentDownload: Message ${options.messageId} missing!`
+        );
+      }
+      await message.queueAttachmentDownloads();
+    };
+    const markAttachmentAsCorrupted = (options: AttachmentOptions) => {
+      const message = window.MessageController.getById(options.messageId);
+      if (!message) {
+        throw new Error(
+          `markAttachmentAsCorrupted: Message ${options.messageId} missing!`
+        );
+      }
+      message.markAttachmentAsCorrupted(options.attachment);
+    };
+    const onMarkViewed = (messageId: string): void => {
+      const message = window.MessageController.getById(messageId);
+      if (!message) {
+        throw new Error(`onMarkViewed: Message ${messageId} missing!`);
+      }
+
+      if (message.get('readStatus') === ReadStatus.Viewed) {
+        return;
+      }
+
+      const senderE164 = message.get('source');
+      const senderUuid = message.get('sourceUuid');
+      const timestamp = message.get('sent_at');
+
+      message.set(markViewed(message.attributes, Date.now()));
+
+      viewedReceiptsJobQueue.add({
+        viewedReceipt: {
+          messageId,
+          senderE164,
+          senderUuid,
+          timestamp,
+        },
+      });
+
+      viewSyncJobQueue.add({
+        viewSyncs: [
+          {
+            messageId,
+            senderE164,
+            senderUuid,
+            timestamp,
+          },
+        ],
+      });
+    };
+    const showVisualAttachment = (options: {
+      attachment: AttachmentType;
+      messageId: string;
+      showSingle?: boolean;
+    }) => {
+      this.showLightbox(options);
+    };
+    const downloadAttachment = (options: {
+      attachment: AttachmentType;
+      timestamp: number;
+      isDangerous: boolean;
+    }) => {
+      this.downloadAttachment(options);
+    };
+    const displayTapToViewMessage = (messageId: string) =>
+      this.displayTapToViewMessage(messageId);
+    const showIdentity = (conversationId: string) => {
+      this.showSafetyNumber(conversationId);
+    };
+    const openLink = openLinkInWebBrowser;
+    const downloadNewVersion = () => {
+      openLinkInWebBrowser('https://signal.org/download');
+    };
+    const showSafetyNumber = (contactId: string) => {
+      this.showSafetyNumber(contactId);
+    };
+    const showExpiredIncomingTapToViewToast = () => {
+      log.info('Showing expired tap-to-view toast for an incoming message');
+      showToast(ToastTapToViewExpiredIncoming);
+    };
+    const showExpiredOutgoingTapToViewToast = () => {
+      log.info('Showing expired tap-to-view toast for an outgoing message');
+      showToast(ToastTapToViewExpiredOutgoing);
+    };
+
+    const showForwardMessageModal = this.showForwardMessageModal.bind(this);
+
+    return {
+      deleteMessage,
+      deleteMessageForEveryone,
+      displayTapToViewMessage,
+      downloadAttachment,
+      downloadNewVersion,
+      kickOffAttachmentDownload,
+      markAttachmentAsCorrupted,
+      markViewed: onMarkViewed,
+      openConversation,
+      openLink,
+      reactToMessage,
+      replyToMessage,
+      retrySend,
+      showContactDetail,
+      showContactModal,
+      showSafetyNumber,
+      showExpiredIncomingTapToViewToast,
+      showExpiredOutgoingTapToViewToast,
+      showForwardMessageModal,
+      showIdentity,
+      showMessageDetail,
+      showVisualAttachment,
+    };
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -1397,9 +1371,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       this.model.updateLastMessage();
     }
 
-    this.titleView?.remove();
-    this.timelineView?.remove();
-    this.compositionAreaView?.remove();
+    this.conversationView?.remove();
 
     if (this.captionEditorView) {
       this.captionEditorView.remove();

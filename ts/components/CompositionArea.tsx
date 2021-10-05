@@ -51,13 +51,15 @@ import { Quote, Props as QuoteProps } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { countStickers } from './stickers/lib';
 
-export type CompositionAPIType = {
-  focusInput: () => void;
-  isDirty: () => boolean;
-  setDisabled: (disabled: boolean) => void;
-  reset: InputApi['reset'];
-  resetEmojiResults: InputApi['resetEmojiResults'];
-};
+export type CompositionAPIType =
+  | {
+      focusInput: () => void;
+      isDirty: () => boolean;
+      setDisabled: (disabled: boolean) => void;
+      reset: InputApi['reset'];
+      resetEmojiResults: InputApi['resetEmojiResults'];
+    }
+  | undefined;
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
@@ -96,7 +98,7 @@ export type OwnProps = Readonly<{
   linkPreviewResult?: LinkPreviewWithDomain;
   messageRequestsEnabled?: boolean;
   onClearAttachments(): unknown;
-  onClickAttachment(): unknown;
+  onClickAttachment(att: AttachmentType): unknown;
   onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
   processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
@@ -325,7 +327,7 @@ export const CompositionArea = ({
     setLarge(l => !l);
   }, [setLarge]);
 
-  const shouldShowMicrophone = !draftAttachments.length && !draftText;
+  const shouldShowMicrophone = !large && !draftAttachments.length && !draftText;
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
@@ -373,14 +375,12 @@ export const CompositionArea = ({
 
   const attButton = (
     <div className="CompositionArea__button-cell">
-      <div className="choose-file">
-        <button
-          type="button"
-          className="paperclip thumbnail"
-          onClick={launchAttachmentPicker}
-          aria-label={i18n('CompositionArea--attach-file')}
-        />
-      </div>
+      <button
+        type="button"
+        className="CompositionArea__attach-file"
+        onClick={launchAttachmentPicker}
+        aria-label={i18n('CompositionArea--attach-file')}
+      />
     </div>
   );
 

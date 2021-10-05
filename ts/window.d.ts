@@ -40,9 +40,7 @@ import { ReduxActions } from './state/types';
 import { createStore } from './state/createStore';
 import { createApp } from './state/roots/createApp';
 import { createChatColorPicker } from './state/roots/createChatColorPicker';
-import { createCompositionArea } from './state/roots/createCompositionArea';
 import { createConversationDetails } from './state/roots/createConversationDetails';
-import { createConversationHeader } from './state/roots/createConversationHeader';
 import { createForwardMessageModal } from './state/roots/createForwardMessageModal';
 import { createGroupLinkManagement } from './state/roots/createGroupLinkManagement';
 import { createGroupV1MigrationModal } from './state/roots/createGroupV1MigrationModal';
@@ -56,7 +54,6 @@ import { createSafetyNumberViewer } from './state/roots/createSafetyNumberViewer
 import { createShortcutGuideModal } from './state/roots/createShortcutGuideModal';
 import { createStickerManager } from './state/roots/createStickerManager';
 import { createStickerPreviewModal } from './state/roots/createStickerPreviewModal';
-import { createTimeline } from './state/roots/createTimeline';
 import * as appDuck from './state/ducks/app';
 import * as callingDuck from './state/ducks/calling';
 import * as conversationsDuck from './state/ducks/conversations';
@@ -423,9 +420,7 @@ declare global {
         Roots: {
           createApp: typeof createApp;
           createChatColorPicker: typeof createChatColorPicker;
-          createCompositionArea: typeof createCompositionArea;
           createConversationDetails: typeof createConversationDetails;
-          createConversationHeader: typeof createConversationHeader;
           createForwardMessageModal: typeof createForwardMessageModal;
           createGroupLinkManagement: typeof createGroupLinkManagement;
           createGroupV1MigrationModal: typeof createGroupV1MigrationModal;
@@ -439,7 +434,6 @@ declare global {
           createShortcutGuideModal: typeof createShortcutGuideModal;
           createStickerManager: typeof createStickerManager;
           createStickerPreviewModal: typeof createStickerPreviewModal;
-          createTimeline: typeof createTimeline;
         };
         Ducks: {
           app: typeof appDuck;

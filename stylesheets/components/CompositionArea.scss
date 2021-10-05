@@ -183,4 +183,34 @@
       }
     }
   }
+
+  &__attach-file {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    opacity: 0.5;
+    border: none;
+    background: transparent;
+
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+
+    outline: none;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-75);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-15);
+      }
+    }
+  }
 }

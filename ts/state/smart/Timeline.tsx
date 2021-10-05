@@ -12,6 +12,7 @@ import {
   ContactSpoofingReviewPropType,
   Timeline,
   WarningType as TimelineWarningType,
+  PropsType as ComponentPropsType,
 } from '../../components/conversation/Timeline';
 import { StateType } from '../reducer';
 import { ConversationType } from '../ducks/conversations';
@@ -52,6 +53,48 @@ type ExternalProps = {
   // Note: most action creators are not wired into redux; for now they
   //   are provided by ConversationView in setupTimeline().
 };
+
+export type TimelinePropsType = ExternalProps &
+  Pick<
+    ComponentPropsType,
+    | 'acknowledgeGroupMemberNameCollisions'
+    | 'contactSupport'
+    | 'deleteMessage'
+    | 'deleteMessageForEveryone'
+    | 'displayTapToViewMessage'
+    | 'downloadAttachment'
+    | 'downloadNewVersion'
+    | 'kickOffAttachmentDownload'
+    | 'learnMoreAboutDeliveryIssue'
+    | 'loadAndScroll'
+    | 'loadNewerMessages'
+    | 'loadNewestMessages'
+    | 'loadOlderMessages'
+    | 'markAttachmentAsCorrupted'
+    | 'markMessageRead'
+    | 'markViewed'
+    | 'onBlock'
+    | 'onBlockAndReportSpam'
+    | 'onDelete'
+    | 'onUnblock'
+    | 'openConversation'
+    | 'openLink'
+    | 'reactToMessage'
+    | 'removeMember'
+    | 'replyToMessage'
+    | 'retrySend'
+    | 'scrollToQuotedMessage'
+    | 'showContactDetail'
+    | 'showContactModal'
+    | 'showExpiredIncomingTapToViewToast'
+    | 'showExpiredOutgoingTapToViewToast'
+    | 'showForwardMessageModal'
+    | 'showIdentity'
+    | 'showMessageDetail'
+    | 'showVisualAttachment'
+    | 'unblurAvatar'
+    | 'updateSharedGroups'
+  >;
 
 const createBoundOnHeightChange = memoizee(
   (

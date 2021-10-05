@@ -59,19 +59,12 @@ const {
 const { WhatsNew } = require('../../ts/components/WhatsNew');
 
 // State
-const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createChatColorPicker,
 } = require('../../ts/state/roots/createChatColorPicker');
 const {
-  createCompositionArea,
-} = require('../../ts/state/roots/createCompositionArea');
-const {
   createConversationDetails,
 } = require('../../ts/state/roots/createConversationDetails');
-const {
-  createConversationHeader,
-} = require('../../ts/state/roots/createConversationHeader');
 const { createApp } = require('../../ts/state/roots/createApp');
 const {
   createForwardMessageModal,
@@ -352,9 +345,7 @@ exports.setup = (options = {}) => {
   const Roots = {
     createApp,
     createChatColorPicker,
-    createCompositionArea,
     createConversationDetails,
-    createConversationHeader,
     createForwardMessageModal,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
@@ -368,7 +359,6 @@ exports.setup = (options = {}) => {
     createShortcutGuideModal,
     createStickerManager,
     createStickerPreviewModal,
-    createTimeline,
   };
 
   const Ducks = {
