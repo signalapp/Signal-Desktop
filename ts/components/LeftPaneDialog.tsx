@@ -59,6 +59,17 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
     onClick?.();
   };
 
+  const onKeyDownWrap = (e: React.KeyboardEvent) => {
+    if (e.key !== 'Enter' && e.key !== ' ') {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    onClick?.();
+  };
+
   const onCloseWrap = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -109,6 +120,7 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
   const className = classNames([
     BASE_CLASS_NAME,
     type === undefined ? undefined : `${BASE_CLASS_NAME}--${type}`,
+    onClick === undefined ? undefined : `${BASE_CLASS_NAME}--clickable`,
   ]);
 
   const content = (
@@ -128,16 +140,17 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
 
   if (onClick) {
     return (
-      <button
+      <div
         className={className}
-        type="button"
+        role="button"
         onClick={onClickWrap}
+        onKeyDown={onKeyDownWrap}
         aria-label={clickLabel}
         title={hoverText}
         tabIndex={0}
       >
         {content}
-      </button>
+      </div>
     );
   }
 

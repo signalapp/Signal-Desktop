@@ -11,8 +11,6 @@
 }
 
 .LeftPaneDialog {
-  @include button-reset;
-
   align-items: center;
   background: $color-ultramarine;
   color: $color-white;
@@ -22,6 +20,10 @@
   padding: 12px 18px;
   user-select: none;
   cursor: inherit;
+
+  &--clickable {
+    cursor: pointer;
+  }
 
   &__container {
     display: flex;
