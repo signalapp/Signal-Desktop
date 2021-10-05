@@ -5,8 +5,6 @@ const path = require('path');
 const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
 const semver = require('semver');
 
-const { deferredToPromise } = require('./js/modules/deferred_to_promise');
-
 const { app } = remote;
 
 const config = require('url').parse(window.location.toString(), true).query;
@@ -73,8 +71,6 @@ window.versionInfo = {
   commitHash: window.getCommitHash(),
   appInstance: window.getAppInstance(),
 };
-
-window.wrapDeferred = deferredToPromise;
 
 const ipc = ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
