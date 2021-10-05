@@ -25,6 +25,7 @@ export function getPendingAttachment(file: File): AttachmentType | undefined {
   return {
     contentType: fileType,
     fileName,
+    size: file.size,
     path: file.name,
     pending: true,
   };

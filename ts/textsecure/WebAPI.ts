@@ -678,7 +678,8 @@ export type ProfileType = Readonly<{
   username?: string;
   uuid?: string;
   credential?: string;
-  capabilities?: unknown;
+  capabilities?: CapabilitiesType;
+  paymentAddress?: string;
 }>;
 
 export type GetIceServersResultType = Readonly<{

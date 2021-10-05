@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { IMAGE_JPEG, VIDEO_MP4 } from '../../types/MIME';
-import { AttachmentType } from '../../types/Attachment';
+import { VIDEO_MP4 } from '../../types/MIME';
+
+import { fakeAttachment } from '../helpers/fakeAttachment';
 
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 
@@ -14,17 +15,6 @@ describe('shouldUseFullSizeLinkPreviewImage', () => {
     url: 'https://example.com/foo.html',
     isStickerPack: false,
   };
-
-  const fakeAttachment = (
-    overrides: Partial<AttachmentType> = {}
-  ): AttachmentType => ({
-    contentType: IMAGE_JPEG,
-    fileName: 'foo.jpg',
-    url: '/tmp/foo.jpg',
-    width: 800,
-    height: 600,
-    ...overrides,
-  });
 
   it('returns false if there is no image', () => {
     assert.isFalse(

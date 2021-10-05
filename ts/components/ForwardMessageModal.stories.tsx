@@ -23,6 +23,7 @@ const createAttachment = (
   fileName: text('attachment fileName', props.fileName || ''),
   screenshot: props.screenshot,
   url: text('attachment url', props.url || ''),
+  size: 3433,
 });
 
 const story = storiesOf('Components/ForwardMessageModal', module);

@@ -52,6 +52,7 @@ export async function downloadAttachment(
   return {
     ...omit(attachment, 'digest', 'key'),
 
+    size,
     contentType: contentType
       ? MIME.stringToMIMEType(contentType)
       : MIME.APPLICATION_OCTET_STREAM,

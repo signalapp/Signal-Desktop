@@ -14,17 +14,21 @@ import { ThemeType } from '../../types/Util';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/Image', module);
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   alt: text('alt', overrideProps.alt || ''),
-  attachment: overrideProps.attachment || {
-    contentType: IMAGE_PNG,
-    fileName: 'sax.png',
-    url: pngUrl,
-  },
+  attachment:
+    overrideProps.attachment ||
+    fakeAttachment({
+      contentType: IMAGE_PNG,
+      fileName: 'sax.png',
+      url: pngUrl,
+    }),
   blurHash: text('blurHash', overrideProps.blurHash || ''),
   bottomOverlay: boolean('bottomOverlay', overrideProps.bottomOverlay || false),
   closeButton: boolean('closeButton', overrideProps.closeButton || false),
@@ -99,11 +103,11 @@ story.add('Close Button', () => {
 
 story.add('No Border or Background', () => {
   const props = createProps({
-    attachment: {
+    attachment: fakeAttachment({
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       url: pngUrl,
-    },
+    }),
     noBackground: true,
     noBorder: true,
     url: pngUrl,

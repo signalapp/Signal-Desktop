@@ -19,6 +19,8 @@ import {
   stringToMIMEType,
 } from '../types/MIME';
 
+import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Lightbox', module);
@@ -29,12 +31,12 @@ function createMediaItem(
   overrideProps: OverridePropsMediaItemType
 ): MediaItemType {
   return {
-    attachment: {
+    attachment: fakeAttachment({
       caption: overrideProps.caption || '',
       contentType: IMAGE_JPEG,
       fileName: overrideProps.objectURL,
       url: overrideProps.objectURL,
-    },
+    }),
     contentType: IMAGE_JPEG,
     index: 0,
     message: {
@@ -63,13 +65,13 @@ story.add('Multimedia', () => {
   const props = createProps({
     media: [
       {
-        attachment: {
+        attachment: fakeAttachment({
           contentType: IMAGE_JPEG,
           fileName: 'tina-rolf-269345-unsplash.jpg',
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           caption:
             'Still from The Lighthouse, starring Robert Pattinson and Willem Defoe.',
-        },
+        }),
         contentType: IMAGE_JPEG,
         index: 0,
         message: {
@@ -83,11 +85,11 @@ story.add('Multimedia', () => {
         objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
       },
       {
-        attachment: {
+        attachment: fakeAttachment({
           contentType: VIDEO_MP4,
           fileName: 'pixabay-Soap-Bubble-7141.mp4',
           url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-        },
+        }),
         contentType: VIDEO_MP4,
         index: 1,
         message: {
@@ -122,11 +124,11 @@ story.add('Missing Media', () => {
   const props = createProps({
     media: [
       {
-        attachment: {
+        attachment: fakeAttachment({
           contentType: IMAGE_JPEG,
           fileName: 'tina-rolf-269345-unsplash.jpg',
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
-        },
+        }),
         contentType: IMAGE_JPEG,
         index: 0,
         message: {

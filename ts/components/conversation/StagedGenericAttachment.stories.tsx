@@ -33,6 +33,7 @@ const createAttachment = (
   ),
   fileName: text('attachment fileName', props.fileName || ''),
   url: '',
+  size: 14243,
 });
 
 story.add('Text File', () => {

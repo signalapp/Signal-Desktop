@@ -45,7 +45,7 @@ import * as Errors from '../types/errors';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 import { AttachmentType, isImage, isVideo } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
-import { IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
+import { stringToMIMEType } from '../types/MIME';
 import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import {
@@ -117,7 +117,7 @@ import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import { notificationService } from '../services/notifications';
-import type { PreviewType as OutgoingPreviewType } from '../textsecure/SendMessage';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import { computeHash } from '../Crypto';
@@ -188,7 +188,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   syncPromise?: Promise<CallbackResultType | void>;
 
-  cachedOutgoingPreviewData?: Array<OutgoingPreviewType>;
+  cachedOutgoingPreviewData?: Array<LinkPreviewType>;
 
   cachedOutgoingQuoteData?: WhatIsThis;
 
@@ -2012,14 +2012,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       if (status && (status === 'downloaded' || status === 'installed')) {
         try {
-          const copiedSticker = await copyStickerToAttachments(
-            packId,
-            stickerId
-          );
-          data = {
-            ...copiedSticker,
-            contentType: IMAGE_WEBP,
-          };
+          data = await copyStickerToAttachments(packId, stickerId);
         } catch (error) {
           log.error(
             `Problem copying sticker (${packId}, ${stickerId}) to attachments:`,

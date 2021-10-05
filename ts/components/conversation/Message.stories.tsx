@@ -28,6 +28,8 @@ import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+
 const i18n = setupI18n('en', enMessages);
 
 function getJoyReaction() {
@@ -444,13 +446,13 @@ story.add('Avatar in Group', () => {
 story.add('Sticker', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/512x515-thumbs-up-lincoln.webp',
         fileName: '512x515-thumbs-up-lincoln.webp',
         contentType: IMAGE_WEBP,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     isSticker: true,
     status: 'sent',
@@ -524,13 +526,13 @@ story.add('Link Preview', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 240,
           url: pngUrl,
           width: 320,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description:
@@ -551,13 +553,13 @@ story.add('Link Preview with Small Image', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 50,
           url: pngUrl,
           width: 50,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description:
@@ -639,13 +641,13 @@ story.add('Link Preview with small image, long description', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 50,
           url: pngUrl,
           width: 50,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description: Array(10)
@@ -669,13 +671,13 @@ story.add('Link Preview with no date', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 240,
           url: pngUrl,
           width: 320,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description:
@@ -695,13 +697,13 @@ story.add('Link Preview with too new a date', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 240,
           url: pngUrl,
           width: 320,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description:
@@ -720,13 +722,13 @@ story.add('Link Preview with too new a date', () => {
 story.add('Image', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -738,41 +740,41 @@ for (let i = 2; i <= 5; i += 1) {
   story.add(`Multiple Images x${i}`, () => {
     const props = createProps({
       attachments: [
-        {
+        fakeAttachment({
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           fileName: 'tina-rolf-269345-unsplash.jpg',
           contentType: IMAGE_JPEG,
           width: 128,
           height: 128,
-        },
-        {
+        }),
+        fakeAttachment({
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           fileName: 'tina-rolf-269345-unsplash.jpg',
           contentType: IMAGE_JPEG,
           width: 128,
           height: 128,
-        },
-        {
+        }),
+        fakeAttachment({
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           fileName: 'tina-rolf-269345-unsplash.jpg',
           contentType: IMAGE_JPEG,
           width: 128,
           height: 128,
-        },
-        {
+        }),
+        fakeAttachment({
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           fileName: 'tina-rolf-269345-unsplash.jpg',
           contentType: IMAGE_JPEG,
           width: 128,
           height: 128,
-        },
-        {
+        }),
+        fakeAttachment({
           url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           fileName: 'tina-rolf-269345-unsplash.jpg',
           contentType: IMAGE_JPEG,
           width: 128,
           height: 128,
-        },
+        }),
       ].slice(0, i),
       status: 'sent',
     });
@@ -784,13 +786,13 @@ for (let i = 2; i <= 5; i += 1) {
 story.add('Image with Caption', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     status: 'sent',
     text: 'This is my home.',
@@ -802,14 +804,14 @@ story.add('Image with Caption', () => {
 story.add('GIF', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
         url: '/fixtures/cat-gif.mp4',
         width: 400,
         height: 332,
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -820,14 +822,14 @@ story.add('GIF', () => {
 story.add('GIF in a group', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
         url: '/fixtures/cat-gif.mp4',
         width: 400,
         height: 332,
-      },
+      }),
     ],
     conversationType: 'group',
     status: 'sent',
@@ -839,7 +841,7 @@ story.add('GIF in a group', () => {
 story.add('Not Downloaded GIF', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
@@ -847,7 +849,7 @@ story.add('Not Downloaded GIF', () => {
         blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         width: 400,
         height: 332,
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -858,7 +860,7 @@ story.add('Not Downloaded GIF', () => {
 story.add('Pending GIF', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         pending: true,
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
@@ -867,7 +869,7 @@ story.add('Pending GIF', () => {
         blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
         width: 400,
         height: 332,
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -881,11 +883,11 @@ story.add('Audio', () => {
 
     const messageProps = createProps({
       attachments: [
-        {
+        fakeAttachment({
           contentType: AUDIO_MP3,
           fileName: 'incompetech-com-Agnus-Dei-X.mp3',
           url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-        },
+        }),
       ],
       ...(isPlayed
         ? {
@@ -923,11 +925,11 @@ story.add('Audio', () => {
 story.add('Long Audio', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: AUDIO_MP3,
         fileName: 'long-audio.mp3',
         url: '/fixtures/long-audio.mp3',
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -938,11 +940,11 @@ story.add('Long Audio', () => {
 story.add('Audio with Caption', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
         url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      },
+      }),
     ],
     status: 'sent',
     text: 'This is what I sound like.',
@@ -954,10 +956,10 @@ story.add('Audio with Caption', () => {
 story.add('Audio with Not Downloaded Attachment', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -968,11 +970,11 @@ story.add('Audio with Not Downloaded Attachment', () => {
 story.add('Audio with Pending Attachment', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
         pending: true,
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -983,11 +985,11 @@ story.add('Audio with Pending Attachment', () => {
 story.add('Other File Type', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -998,11 +1000,11 @@ story.add('Other File Type', () => {
 story.add('Other File Type with Caption', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: stringToMIMEType('text/plain'),
         fileName: 'my-resume.txt',
         url: 'my-resume.txt',
-      },
+      }),
     ],
     status: 'sent',
     text: 'This is what I have done.',
@@ -1014,12 +1016,12 @@ story.add('Other File Type with Caption', () => {
 story.add('Other File Type with Long Filename', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: stringToMIMEType('text/plain'),
         fileName:
           'INSERT-APP-NAME_INSERT-APP-APPLE-ID_AppStore_AppsGamesWatch.psd.zip',
         url: 'a2/a2334324darewer4234',
-      },
+      }),
     ],
     status: 'sent',
     text: 'This is what I have done.',
@@ -1031,13 +1033,13 @@ story.add('Other File Type with Long Filename', () => {
 story.add('TapToView Image', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     isTapToView: true,
     status: 'sent',
@@ -1049,13 +1051,13 @@ story.add('TapToView Image', () => {
 story.add('TapToView Video', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         fileName: 'pixabay-Soap-Bubble-7141.mp4',
         height: 128,
         url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
         width: 128,
-      },
+      }),
     ],
     isTapToView: true,
     status: 'sent',
@@ -1067,14 +1069,14 @@ story.add('TapToView Video', () => {
 story.add('TapToView GIF', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         flags: SignalService.AttachmentPointer.Flags.GIF,
         fileName: 'cat-gif.mp4',
         url: '/fixtures/cat-gif.mp4',
         width: 400,
         height: 332,
-      },
+      }),
     ],
     isTapToView: true,
     status: 'sent',
@@ -1086,13 +1088,13 @@ story.add('TapToView GIF', () => {
 story.add('TapToView Expired', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     isTapToView: true,
     isTapToViewExpired: true,
@@ -1105,13 +1107,13 @@ story.add('TapToView Expired', () => {
 story.add('TapToView Error', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     isTapToView: true,
     isTapToViewError: true,
@@ -1124,13 +1126,13 @@ story.add('TapToView Error', () => {
 story.add('Dangerous File Type', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: stringToMIMEType(
           'application/vnd.microsoft.portable-executable'
         ),
         fileName: 'terrible.exe',
         url: 'terrible.exe',
-      },
+      }),
     ],
     status: 'sent',
   });
@@ -1174,13 +1176,13 @@ story.add('@Mentions', () => {
 story.add('All the context menus', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         fileName: 'tina-rolf-269345-unsplash.jpg',
         contentType: IMAGE_JPEG,
         width: 128,
         height: 128,
-      },
+      }),
     ],
     status: 'partial-sent',
     canDeleteForEveryone: true,
@@ -1194,13 +1196,13 @@ story.add('Not approved, with link preview', () => {
     previews: [
       {
         domain: 'signal.org',
-        image: {
+        image: fakeAttachment({
           contentType: IMAGE_PNG,
           fileName: 'the-sax.png',
           height: 240,
           url: pngUrl,
           width: 320,
-        },
+        }),
         isStickerPack: false,
         title: 'Signal',
         description:

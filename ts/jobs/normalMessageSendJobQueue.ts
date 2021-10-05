@@ -27,8 +27,8 @@ import type {
   AttachmentType,
   GroupV1InfoType,
   GroupV2InfoType,
-  PreviewType,
 } from '../textsecure/SendMessage';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { BodyRangesType } from '../types/Util';
 import type { WhatIsThis } from '../window.d';
 
@@ -299,7 +299,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
             quote,
             preview,
             sticker,
-            reaction: null,
+            reaction: undefined,
             deletedForEveryoneTimestamp,
             timestamp: messageTimestamp,
             expireTimer,
@@ -464,7 +464,7 @@ async function getMessageSendData({
   expireTimer: undefined | number;
   mentions: undefined | BodyRangesType;
   messageTimestamp: number;
-  preview: Array<PreviewType>;
+  preview: Array<LinkPreviewType>;
   profileKey: undefined | Uint8Array;
   quote: WhatIsThis;
   sticker: WhatIsThis;

@@ -15,6 +15,7 @@ import {
   getName,
   parseAndWriteAvatar,
 } from '../../types/EmbeddedContact';
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 describe('Contact', () => {
   const NUMBER = '+12025550099';
@@ -127,10 +128,10 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: {
           isProfile: true,
-          avatar: {
+          avatar: fakeAttachment({
             error: true,
             contentType: IMAGE_GIF,
-          },
+          }),
         },
       };
       const expected = {
@@ -164,10 +165,10 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: {
           isProfile: true,
-          avatar: {
+          avatar: fakeAttachment({
             pending: true,
             contentType: IMAGE_GIF,
-          },
+          }),
         },
       };
       const expected = {
@@ -179,11 +180,11 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: {
           isProfile: true,
-          avatar: {
+          avatar: fakeAttachment({
             pending: true,
             path: undefined,
             contentType: IMAGE_GIF,
-          },
+          }),
         },
         firstNumber,
         isNumberOnSignal,
@@ -208,10 +209,10 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: {
           isProfile: true,
-          avatar: {
+          avatar: fakeAttachment({
             path: 'somewhere',
             contentType: IMAGE_GIF,
-          },
+          }),
         },
       };
       const expected = {
@@ -223,10 +224,10 @@ describe('Contact', () => {
         organization: 'Somewhere, Inc.',
         avatar: {
           isProfile: true,
-          avatar: {
+          avatar: fakeAttachment({
             path: 'absolute:somewhere',
             contentType: IMAGE_GIF,
-          },
+          }),
         },
         firstNumber,
         isNumberOnSignal: true,
@@ -363,10 +364,10 @@ describe('Contact', () => {
 
     it('writes avatar to disk', async () => {
       const upgradeAttachment = async () => {
-        return {
+        return fakeAttachment({
           path: 'abc/abcdefg',
           contentType: IMAGE_PNG,
-        };
+        });
       };
       const upgradeVersion = parseAndWriteAvatar(upgradeAttachment);
 
@@ -430,10 +431,10 @@ describe('Contact', () => {
         avatar: {
           otherKey: 'otherValue',
           isProfile: false,
-          avatar: {
+          avatar: fakeAttachment({
             contentType: IMAGE_PNG,
             path: 'abc/abcdefg',
-          },
+          }),
         },
       };
 

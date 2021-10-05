@@ -42,7 +42,7 @@ export type AttachmentType = {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url?: string;
-  size?: number;
+  size: number;
   fileSize?: string;
   pending?: boolean;
   width?: number;
@@ -95,6 +95,7 @@ export type InMemoryAttachmentDraftType =
       fileName: string;
       path: string;
       pending: true;
+      size: number;
     };
 
 export type AttachmentDraftType =
@@ -109,6 +110,7 @@ export type AttachmentDraftType =
       fileName: string;
       path: string;
       pending: true;
+      size: number;
     };
 
 export type ThumbnailType = {
@@ -621,7 +623,9 @@ export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   );
 }
 
-export function isImageAttachment(attachment?: AttachmentType): boolean {
+export function isImageAttachment(
+  attachment?: Pick<AttachmentType, 'contentType'>
+): boolean {
   return Boolean(
     attachment &&
       attachment.contentType &&
@@ -630,8 +634,8 @@ export function isImageAttachment(attachment?: AttachmentType): boolean {
 }
 
 export function canBeTranscoded(
-  attachment?: AttachmentType
-): attachment is AttachmentType {
+  attachment?: Pick<AttachmentType, 'contentType'>
+): boolean {
   return Boolean(
     attachment &&
       isImageAttachment(attachment) &&

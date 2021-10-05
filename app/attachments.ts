@@ -168,14 +168,16 @@ export const createDoesExist = (
 
 export const copyIntoAttachmentsDirectory = (
   root: string
-): ((sourcePath: string) => Promise<string>) => {
+): ((sourcePath: string) => Promise<{ path: string; size: number }>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
   const userDataPath = getApp().getPath('userData');
 
-  return async (sourcePath: string): Promise<string> => {
+  return async (
+    sourcePath: string
+  ): Promise<{ path: string; size: number }> => {
     if (!isString(sourcePath)) {
       throw new TypeError('sourcePath must be a string');
     }
@@ -196,7 +198,12 @@ export const copyIntoAttachmentsDirectory = (
 
     await fse.ensureFile(normalized);
     await fse.copy(sourcePath, normalized);
-    return relativePath;
+    const { size } = await fse.stat(normalized);
+
+    return {
+      path: relativePath,
+      size,
+    };
   };
 };
 

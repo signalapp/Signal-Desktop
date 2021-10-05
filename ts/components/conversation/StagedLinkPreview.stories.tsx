@@ -32,6 +32,7 @@ const createAttachment = (
   ),
   fileName: text('attachment fileName', props.fileName || ''),
   url: text('attachment url', props.url || ''),
+  size: 24325,
 });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({

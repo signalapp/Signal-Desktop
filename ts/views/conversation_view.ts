@@ -20,6 +20,7 @@ import {
   MIMEType,
   stringToMIMEType,
 } from '../types/MIME';
+import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { ConversationModel } from '../models/conversations';
 import {
   GroupV2PendingMemberType,
@@ -3499,6 +3500,17 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         return null;
       }
 
+      let contentType: MIMEType;
+      const sniffedMimeType = sniffImageMimeType(data);
+      if (sniffedMimeType) {
+        contentType = sniffedMimeType;
+      } else {
+        log.warn(
+          'getStickerPackPreview: Unable to sniff sticker MIME type; falling back to WebP'
+        );
+        contentType = IMAGE_WEBP;
+      }
+
       return {
         date: null,
         description: null,
@@ -3506,7 +3518,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           ...sticker,
           data,
           size: data.byteLength,
-          contentType: IMAGE_WEBP,
+          contentType,
         },
         title,
         url,

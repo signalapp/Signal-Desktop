@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const fs = require('fs');
@@ -222,14 +222,14 @@ describe('Attachments', () => {
         });
     });
 
-    it('returns a function that copies the source path into the attachments directory', async function thisNeeded() {
+    it('returns a function that copies the source path into the attachments directory and returns its path and size', async function thisNeeded() {
       const attachmentsPath = await this.getFakeAttachmentsDirectory();
       const someOtherPath = path.join(app.getPath('userData'), 'somethingElse');
       await fse.outputFile(someOtherPath, 'hello world');
       this.filesToRemove.push(someOtherPath);
 
       const copier = Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
-      const relativePath = await copier(someOtherPath);
+      const { path: relativePath, size } = await copier(someOtherPath);
 
       const absolutePath = path.join(attachmentsPath, relativePath);
       assert.notEqual(someOtherPath, absolutePath);
@@ -237,6 +237,8 @@ describe('Attachments', () => {
         await fs.promises.readFile(absolutePath, 'utf8'),
         'hello world'
       );
+
+      assert.strictEqual(size, 'hello world'.length);
     });
   });
 

@@ -13,6 +13,8 @@ import enMessages from '../../../_locales/en/messages.json';
 import { ContactFormType } from '../../types/EmbeddedContact';
 import { IMAGE_GIF } from '../../types/MIME';
 
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/EmbeddedContact', module);
@@ -35,10 +37,10 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 const fullContact = {
   avatar: {
-    avatar: {
+    avatar: fakeAttachment({
       path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
       contentType: IMAGE_GIF,
-    },
+    }),
     isProfile: true,
   },
   email: [
@@ -134,10 +136,10 @@ story.add('Loading Avatar', () => {
         displayName: 'Jerry Jordan',
       },
       avatar: {
-        avatar: {
+        avatar: fakeAttachment({
           pending: true,
           contentType: IMAGE_GIF,
-        },
+        }),
         isProfile: true,
       },
     },

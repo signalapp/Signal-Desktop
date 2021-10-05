@@ -329,7 +329,9 @@ declare global {
           width: number;
           height: number;
         };
-        copyIntoAttachmentsDirectory: (path: string) => Promise<string>;
+        copyIntoAttachmentsDirectory: (
+          path: string
+        ) => Promise<{ path: string; size: number }>;
         upgradeMessageSchema: (attributes: unknown) => WhatIsThis;
         processNewAttachment: (
           attachment: DownloadedAttachmentType

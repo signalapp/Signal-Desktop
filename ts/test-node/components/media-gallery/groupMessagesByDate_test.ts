@@ -10,6 +10,7 @@ import {
   Section,
 } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
 import { MediaItemType } from '../../../types/MediaItem';
+import { fakeAttachment } from '../../../test-both/helpers/fakeAttachment';
 
 const testDate = (
   year: number,
@@ -31,11 +32,11 @@ const toMediaItem = (date: Date): MediaItemType => ({
     attachments: [],
     sent_at: date.getTime(),
   },
-  attachment: {
+  attachment: fakeAttachment({
     fileName: 'fileName',
     contentType: IMAGE_JPEG,
     url: 'url',
-  },
+  }),
 });
 
 describe('groupMediaItemsByDate', () => {
@@ -74,11 +75,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1523534400000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
           {
             objectURL: 'Thu, 12 Apr 2018 00:01:00 GMT',
@@ -91,11 +92,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1523491260000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },
@@ -113,11 +114,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1523491140000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },
@@ -135,11 +136,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1523232060000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },
@@ -157,11 +158,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1523231940000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
           {
             objectURL: 'Sun, 01 Apr 2018 00:01:00 GMT',
@@ -174,11 +175,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1522540860000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },
@@ -198,11 +199,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1522540740000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
           {
             objectURL: 'Thu, 01 Mar 2018 14:00:00 GMT',
@@ -215,11 +216,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1519912800000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },
@@ -239,11 +240,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1298937540000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
           {
             objectURL: 'Tue, 01 Feb 2011 10:00:00 GMT',
@@ -256,11 +257,11 @@ describe('groupMediaItemsByDate', () => {
               attachments: [],
               sent_at: 1296554400000,
             },
-            attachment: {
+            attachment: fakeAttachment({
               fileName: 'fileName',
               contentType: IMAGE_JPEG,
               url: 'url',
-            },
+            }),
           },
         ],
       },

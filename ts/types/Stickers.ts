@@ -11,6 +11,9 @@ import { makeLookup } from '../util/makeLookup';
 import { maybeParseUrl } from '../util/url';
 import * as Bytes from '../Bytes';
 import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
+import { IMAGE_WEBP, MIMEType } from './MIME';
+import { sniffImageMimeType } from '../util/sniffImageMimeType';
+import type { AttachmentType } from './Attachment';
 import type {
   StickerType,
   StickerPackType,
@@ -749,21 +752,41 @@ export function getSticker(
 export async function copyStickerToAttachments(
   packId: string,
   stickerId: number
-): Promise<StickerType | undefined> {
+): Promise<AttachmentType> {
   const sticker = getSticker(packId, stickerId);
   if (!sticker) {
-    return undefined;
+    throw new Error(
+      `copyStickerToAttachments: Failed to find sticker ${packId}/${stickerId}`
+    );
   }
 
-  const { path } = sticker;
-  const absolutePath = window.Signal.Migrations.getAbsoluteStickerPath(path);
-  const newPath = await window.Signal.Migrations.copyIntoAttachmentsDirectory(
-    absolutePath
+  const { path: stickerPath } = sticker;
+  const absolutePath = window.Signal.Migrations.getAbsoluteStickerPath(
+    stickerPath
   );
+  const {
+    path,
+    size,
+  } = await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
+
+  const data = window.Signal.Migrations.loadAttachmentData(path);
+
+  let contentType: MIMEType;
+  const sniffedMimeType = sniffImageMimeType(data);
+  if (sniffedMimeType) {
+    contentType = sniffedMimeType;
+  } else {
+    log.warn(
+      'copyStickerToAttachments: Unable to sniff sticker MIME type; falling back to WebP'
+    );
+    contentType = IMAGE_WEBP;
+  }
 
   return {
     ...sticker,
-    path: newPath,
+    contentType,
+    path,
+    size,
   };
 }
 

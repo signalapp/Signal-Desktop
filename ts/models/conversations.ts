@@ -23,6 +23,7 @@ import { CapabilityError } from '../types/errors';
 import type {
   GroupV1InfoType,
   GroupV2InfoType,
+  StickerType,
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import { CallbackResultType } from '../textsecure/Types.d';
@@ -60,6 +61,7 @@ import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendState, SendStatus } from '../messages/MessageSendState';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as durations from '../util/durations';
 import {
   concat,
@@ -3279,8 +3281,8 @@ export class ConversationModel extends window.Backbone
     }
 
     const { key } = packData;
-    const { path, width, height } = stickerData;
-    const arrayBuffer = await readStickerData(path);
+    const { emoji, path, width, height } = stickerData;
+    const data = await readStickerData(path);
 
     // We need this content type to be an image so we can display an `<img>` instead of a
     //   `<video>` or an error, but it's not critical that we get the full type correct.
@@ -3289,11 +3291,13 @@ export class ConversationModel extends window.Backbone
     //   the MIME type here, but it's okay if we have to use a possibly-incorrect
     //   fallback.
     let contentType: MIMEType;
-    const sniffedMimeType = sniffImageMimeType(arrayBuffer);
+    const sniffedMimeType = sniffImageMimeType(data);
     if (sniffedMimeType) {
       contentType = sniffedMimeType;
     } else {
-      log.warn('Unable to sniff sticker MIME type; falling back to WebP');
+      log.warn(
+        'sendStickerMessage: Unable to sniff sticker MIME type; falling back to WebP'
+      );
       contentType = IMAGE_WEBP;
     }
 
@@ -3301,9 +3305,10 @@ export class ConversationModel extends window.Backbone
       packId,
       stickerId,
       packKey: key,
+      emoji,
       data: {
-        size: arrayBuffer.byteLength,
-        data: arrayBuffer,
+        size: data.byteLength,
+        data,
         contentType,
         width,
         height,
@@ -3630,8 +3635,8 @@ export class ConversationModel extends window.Backbone
     body: string | undefined,
     attachments: Array<AttachmentType>,
     quote?: QuotedMessageType,
-    preview?: WhatIsThis,
-    sticker?: WhatIsThis,
+    preview?: Array<LinkPreviewType>,
+    sticker?: StickerType,
     mentions?: BodyRangesType,
     {
       dontClearDraft,

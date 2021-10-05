@@ -114,19 +114,21 @@ export async function getProfile(
       });
     }
 
-    const identityKey = Bytes.fromBase64(profile.identityKey);
-    const changed = await window.textsecure.storage.protocol.saveIdentity(
-      new Address(targetUuid, 1),
-      identityKey,
-      false
-    );
-    if (changed) {
-      // save identity will close all sessions except for .1, so we
-      // must close that one manually.
-      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-      await window.textsecure.storage.protocol.archiveSession(
-        new QualifiedAddress(ourUuid, new Address(targetUuid, 1))
+    if (profile.identityKey) {
+      const identityKey = Bytes.fromBase64(profile.identityKey);
+      const changed = await window.textsecure.storage.protocol.saveIdentity(
+        new Address(targetUuid, 1),
+        identityKey,
+        false
       );
+      if (changed) {
+        // save identity will close all sessions except for .1, so we
+        // must close that one manually.
+        const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+        await window.textsecure.storage.protocol.archiveSession(
+          new QualifiedAddress(ourUuid, new Address(targetUuid, 1))
+        );
+      }
     }
 
     const accessKey = c.get('accessKey');
@@ -238,15 +240,22 @@ export async function getProfile(
     }
   }
 
-  try {
-    await c.setEncryptedProfileName(profile.name);
-  } catch (error) {
-    log.warn(
-      'getProfile decryption failure:',
-      c.idForLogging(),
-      error && error.stack ? error.stack : error
-    );
-    await c.set({
+  if (profile.name) {
+    try {
+      await c.setEncryptedProfileName(profile.name);
+    } catch (error) {
+      log.warn(
+        'getProfile decryption failure:',
+        c.idForLogging(),
+        error && error.stack ? error.stack : error
+      );
+      await c.set({
+        profileName: undefined,
+        profileFamilyName: undefined,
+      });
+    }
+  } else {
+    c.set({
       profileName: undefined,
       profileFamilyName: undefined,
     });

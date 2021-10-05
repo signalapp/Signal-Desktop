@@ -12,6 +12,9 @@ import { CompositionArea, Props } from './CompositionArea';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
+import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { landscapeGreenUrl } from '../storybook/Fixtures';
+
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/CompositionArea', module);
@@ -154,9 +157,10 @@ story.add('SMS-only', () => {
 story.add('Attachments', () => {
   const props = createProps({
     draftAttachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_JPEG,
-      },
+        url: landscapeGreenUrl,
+      }),
     ],
   });
 

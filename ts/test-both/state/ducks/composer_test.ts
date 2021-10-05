@@ -10,6 +10,7 @@ import { reducer as rootReducer } from '../../../state/reducer';
 
 import { IMAGE_JPEG } from '../../../types/MIME';
 import { AttachmentType } from '../../../types/Attachment';
+import { fakeAttachment } from '../../helpers/fakeAttachment';
 
 describe('both/state/ducks/composer', () => {
   const QUOTED_MESSAGE = {
@@ -40,7 +41,7 @@ describe('both/state/ducks/composer', () => {
       const dispatch = sinon.spy();
 
       const attachments: Array<AttachmentType> = [
-        { contentType: IMAGE_JPEG, pending: false, url: '' },
+        { contentType: IMAGE_JPEG, pending: false, url: '', size: 2433 },
       ];
       replaceAttachments('123', attachments)(
         dispatch,
@@ -82,7 +83,7 @@ describe('both/state/ducks/composer', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();
 
-      const attachments: Array<AttachmentType> = [{ contentType: IMAGE_JPEG }];
+      const attachments = [fakeAttachment()];
       replaceAttachments('123', attachments)(
         dispatch,
         getRootStateFunction('456'),

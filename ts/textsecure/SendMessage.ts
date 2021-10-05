@@ -5,7 +5,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable more/no-then */
 /* eslint-disable no-bitwise */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
 import { Dictionary } from 'lodash';
@@ -23,6 +22,9 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import { SenderKeys } from '../LibSignalStores';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import { MIMETypeToString } from '../types/MIME';
+import * as Attachment from '../types/Attachment';
 import {
   ChallengeType,
   GroupCredentialsType,
@@ -77,12 +79,6 @@ export type SendOptionsType = {
   online?: boolean;
 };
 
-export type PreviewType = {
-  url: string;
-  title: string;
-  image?: AttachmentType;
-};
-
 type QuoteAttachmentType = {
   thumbnail?: AttachmentType;
   attachmentPointer?: Proto.IAttachmentPointer;
@@ -103,21 +99,64 @@ type GroupCallUpdateType = {
   eraId: string;
 };
 
+export type StickerType = {
+  packId: string;
+  stickerId: number;
+  packKey: string;
+  data: Readonly<AttachmentType>;
+  emoji?: string;
+
+  attachmentPointer?: Proto.IAttachmentPointer;
+};
+
+export type QuoteType = {
+  id?: number;
+  authorUuid?: string;
+  text?: string;
+  attachments?: Array<AttachmentType>;
+  bodyRanges?: BodyRangesType;
+};
+
+export type ReactionType = {
+  emoji?: string;
+  remove?: boolean;
+  targetAuthorUuid?: string;
+  targetTimestamp?: number;
+};
+
 export type AttachmentType = {
   size: number;
   data: Uint8Array;
   contentType: string;
 
-  fileName: string;
-  flags: number;
-  width: number;
-  height: number;
-  caption: string;
+  fileName?: string;
+  flags?: number;
+  width?: number;
+  height?: number;
+  caption?: string;
 
   attachmentPointer?: Proto.IAttachmentPointer;
 
   blurHash?: string;
 };
+
+function makeAttachmentSendReady(
+  attachment: Attachment.AttachmentType
+): AttachmentType | undefined {
+  const { data } = attachment;
+
+  if (!data) {
+    throw new Error(
+      'makeAttachmentSendReady: Missing data, returning undefined'
+    );
+  }
+
+  return {
+    ...attachment,
+    contentType: MIMETypeToString(attachment.contentType),
+    data,
+  };
+}
 
 export type MessageOptionsType = {
   attachments?: ReadonlyArray<AttachmentType> | null;
@@ -130,12 +169,12 @@ export type MessageOptionsType = {
   };
   groupV2?: GroupV2InfoType;
   needsSync?: boolean;
-  preview?: ReadonlyArray<PreviewType> | null;
+  preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
-  quote?: any;
+  quote?: QuoteType;
   recipients: ReadonlyArray<string>;
-  sticker?: any;
-  reaction?: any;
+  sticker?: StickerType;
+  reaction?: ReactionType;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
   mentions?: BodyRangesType;
@@ -147,11 +186,11 @@ export type GroupSendOptionsType = {
   groupV2?: GroupV2InfoType;
   groupV1?: GroupV1InfoType;
   messageText?: string;
-  preview?: any;
+  preview?: ReadonlyArray<LinkPreviewType>;
   profileKey?: Uint8Array;
-  quote?: any;
-  reaction?: any;
-  sticker?: any;
+  quote?: QuoteType;
+  reaction?: ReactionType;
+  sticker?: StickerType;
   deletedForEveryoneTimestamp?: number;
   timestamp: number;
   mentions?: BodyRangesType;
@@ -159,7 +198,7 @@ export type GroupSendOptionsType = {
 };
 
 class Message {
-  attachments: ReadonlyArray<any>;
+  attachments: ReadonlyArray<AttachmentType>;
 
   body?: string;
 
@@ -176,28 +215,17 @@ class Message {
 
   needsSync?: boolean;
 
-  preview: any;
+  preview?: ReadonlyArray<LinkPreviewType>;
 
   profileKey?: Uint8Array;
 
-  quote?: {
-    id?: number;
-    authorUuid?: string;
-    text?: string;
-    attachments?: Array<AttachmentType>;
-    bodyRanges?: BodyRangesType;
-  };
+  quote?: QuoteType;
 
   recipients: ReadonlyArray<string>;
 
-  sticker?: any;
+  sticker?: StickerType;
 
-  reaction?: {
-    emoji?: string;
-    remove?: boolean;
-    targetAuthorUuid?: string;
-    targetTimestamp?: number;
-  };
+  reaction?: ReactionType;
 
   timestamp: number;
 
@@ -325,6 +353,7 @@ class Message {
       proto.sticker.packId = Bytes.fromHex(this.sticker.packId);
       proto.sticker.packKey = Bytes.fromBase64(this.sticker.packKey);
       proto.sticker.stickerId = this.sticker.stickerId;
+      proto.sticker.emoji = this.sticker.emoji;
 
       if (this.sticker.attachmentPointer) {
         proto.sticker.data = this.sticker.attachmentPointer;
@@ -345,7 +374,9 @@ class Message {
         item.url = preview.url;
         item.description = preview.description || null;
         item.date = preview.date || null;
-        item.image = preview.image || null;
+        if (preview.attachmentPointer) {
+          item.image = preview.attachmentPointer;
+        }
         return item;
       });
     }
@@ -364,7 +395,9 @@ class Message {
           const quotedAttachment = new QuotedAttachment();
 
           quotedAttachment.contentType = attachment.contentType;
-          quotedAttachment.fileName = attachment.fileName;
+          if (attachment.fileName) {
+            quotedAttachment.fileName = attachment.fileName;
+          }
           if (attachment.attachmentPointer) {
             quotedAttachment.thumbnail = attachment.attachmentPointer;
           }
@@ -442,10 +475,10 @@ export default class MessageSender {
     this.pendingMessages = {};
   }
 
-  async queueJobForIdentifier(
+  async queueJobForIdentifier<T>(
     identifier: string,
-    runJob: () => Promise<any>
-  ): Promise<void> {
+    runJob: () => Promise<T>
+  ): Promise<T> {
     const { id } = await window.ConversationController.getOrCreateAndWait(
       identifier,
       'private'
@@ -546,8 +579,10 @@ export default class MessageSender {
   }
 
   async uploadAttachments(message: Message): Promise<void> {
-    return Promise.all(
-      message.attachments.map(this.makeAttachmentPointer.bind(this))
+    await Promise.all(
+      message.attachments.map(attachment =>
+        this.makeAttachmentPointer(attachment)
+      )
     )
       .then(attachmentPointers => {
         // eslint-disable-next-line no-param-reassign
@@ -565,12 +600,20 @@ export default class MessageSender {
   async uploadLinkPreviews(message: Message): Promise<void> {
     try {
       const preview = await Promise.all(
-        (message.preview || []).map(async (item: PreviewType) => ({
-          ...item,
-          image: item.image
-            ? await this.makeAttachmentPointer(item.image)
-            : undefined,
-        }))
+        (message.preview || []).map(async (item: Readonly<LinkPreviewType>) => {
+          if (!item.image) {
+            return item;
+          }
+          const attachment = makeAttachmentSendReady(item.image);
+          if (!attachment) {
+            return item;
+          }
+
+          return {
+            ...item,
+            attachmentPointer: await this.makeAttachmentPointer(attachment),
+          };
+        })
       );
       // eslint-disable-next-line no-param-reassign
       message.preview = preview;
@@ -968,10 +1011,10 @@ export default class MessageSender {
     identifier: string;
     messageText: string | undefined;
     attachments: ReadonlyArray<AttachmentType> | undefined;
-    quote: unknown;
-    preview: ReadonlyArray<PreviewType> | undefined;
-    sticker: unknown;
-    reaction: unknown;
+    quote?: QuoteType;
+    preview?: ReadonlyArray<LinkPreviewType> | undefined;
+    sticker?: StickerType;
+    reaction?: ReactionType;
     deletedForEveryoneTimestamp: number | undefined;
     timestamp: number;
     expireTimer: number | undefined;
@@ -2080,7 +2123,7 @@ export default class MessageSender {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
     }> = {}
-  ): Promise<any> {
+  ): Promise<ReturnType<WebAPIType['getProfile']>> {
     const { accessKey } = options;
 
     if (accessKey) {
@@ -2100,15 +2143,20 @@ export default class MessageSender {
     return this.server.getUuidsForE164s(numbers);
   }
 
-  async getAvatar(path: string): Promise<any> {
+  async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {
     return this.server.getAvatar(path);
   }
 
-  async getSticker(packId: string, stickerId: number): Promise<any> {
+  async getSticker(
+    packId: string,
+    stickerId: number
+  ): Promise<ReturnType<WebAPIType['getSticker']>> {
     return this.server.getSticker(packId, stickerId);
   }
 
-  async getStickerPackManifest(packId: string): Promise<any> {
+  async getStickerPackManifest(
+    packId: string
+  ): Promise<ReturnType<WebAPIType['getStickerPackManifest']>> {
     return this.server.getStickerPackManifest(packId);
   }
 
@@ -2184,7 +2232,7 @@ export default class MessageSender {
   async makeProxiedRequest(
     url: string,
     options?: Readonly<ProxiedRequestOptionsType>
-  ): Promise<any> {
+  ): Promise<ReturnType<WebAPIType['makeProxiedRequest']>> {
     return this.server.makeProxiedRequest(url, options);
   }
 
