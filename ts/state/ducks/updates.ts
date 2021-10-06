@@ -4,8 +4,8 @@
 import { ThunkAction } from 'redux-thunk';
 import * as updateIpc from '../../shims/updateIpc';
 import { DialogType } from '../../types/Dialogs';
+import { DAY } from '../../util/durations';
 import { StateType as RootStateType } from '../reducer';
-import { onTimeout } from '../../services/timers';
 
 // State
 
@@ -85,8 +85,6 @@ function showUpdateDialog(
   };
 }
 
-const ONE_DAY = 24 * 60 * 60 * 1000;
-
 function snoozeUpdate(): ThunkAction<
   void,
   RootStateType,
@@ -95,12 +93,12 @@ function snoozeUpdate(): ThunkAction<
 > {
   return (dispatch, getState) => {
     const { dialogType } = getState().updates;
-    onTimeout(Date.now() + ONE_DAY, () => {
+    setTimeout(() => {
       dispatch({
         type: UNSNOOZE_UPDATE,
         payload: dialogType,
       });
-    });
+    }, DAY);
 
     dispatch({
       type: SNOOZE_UPDATE,

@@ -4,7 +4,6 @@
 import React, { KeyboardEvent, MouseEvent, ReactNode, useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
-import { onTimeout, removeTimeout } from '../services/timers';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 export type PropsType = {
@@ -48,11 +47,11 @@ export const Toast = ({
       return;
     }
 
-    const timeoutId = onTimeout(Date.now() + timeout, onClose);
+    const timeoutId = setTimeout(onClose, timeout);
 
     return () => {
       if (timeoutId) {
-        removeTimeout(timeoutId);
+        clearTimeout(timeoutId);
       }
     };
   }, [autoDismissDisabled, onClose, root, timeout]);

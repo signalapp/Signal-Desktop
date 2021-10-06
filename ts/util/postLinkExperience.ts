@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { onTimeout } from '../services/timers';
+import { MINUTE } from './durations';
 
 class PostLinkExperience {
   private hasNotFinishedSync: boolean;
@@ -15,9 +15,9 @@ class PostLinkExperience {
 
     // timeout "post link" after 10 minutes in case the syncs don't complete
     // in time or are never called.
-    onTimeout(Date.now() + 60 * 60 * 10 * 1000, () => {
+    setTimeout(() => {
       this.stop();
-    });
+    }, 10 * MINUTE);
   }
 
   stop() {

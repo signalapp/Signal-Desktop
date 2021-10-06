@@ -54,7 +54,10 @@ export function start(): void {
       this.on('add remove change:unreadCount', debouncedUpdateUnreadCount);
       window.Whisper.events.on('updateUnreadCount', debouncedUpdateUnreadCount);
       this.on('add', (model: ConversationModel): void => {
-        this.initMuteExpirationTimer(model);
+        // If the conversation is muted we set a timeout so when the mute expires
+        // we can reset the mute state on the model. If the mute has already expired
+        // then we reset the state right away.
+        model.startMuteTimer();
       });
     },
     addActive(model: ConversationModel) {
@@ -62,25 +65,6 @@ export function start(): void {
         this.add(model);
       } else {
         this.remove(model);
-      }
-    },
-    // If the conversation is muted we set a timeout so when the mute expires
-    // we can reset the mute state on the model. If the mute has already expired
-    // then we reset the state right away.
-    initMuteExpirationTimer(model: ConversationModel): void {
-      const muteExpiresAt = model.get('muteExpiresAt');
-      // This check for `muteExpiresAt` is likely redundant, but is needed to appease
-      //   TypeScript.
-      if (model.isMuted() && muteExpiresAt) {
-        window.Signal.Services.onTimeout(
-          muteExpiresAt,
-          () => {
-            model.set({ muteExpiresAt: undefined });
-          },
-          model.getMuteTimeoutId()
-        );
-      } else if (muteExpiresAt) {
-        model.set({ muteExpiresAt: undefined });
       }
     },
     updateUnreadCount() {

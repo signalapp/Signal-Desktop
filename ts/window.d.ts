@@ -291,8 +291,6 @@ declare global {
         initializeGroupCredentialFetcher: () => void;
         initializeNetworkObserver: (network: ReduxActions['network']) => void;
         initializeUpdateListener: (updates: ReduxActions['updates']) => void;
-        onTimeout: (timestamp: number, cb: () => void, id?: string) => string;
-        removeTimeout: (uuid: string) => void;
         retryPlaceholders?: Util.RetryPlaceholders;
         lightSessionResetQueue?: PQueue;
         runStorageServiceSyncJob: () => Promise<void>;

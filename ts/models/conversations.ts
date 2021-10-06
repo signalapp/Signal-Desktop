@@ -3,7 +3,7 @@
 
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
-import { compact } from 'lodash';
+import { compact, isNumber } from 'lodash';
 import {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -189,6 +189,8 @@ export class ConversationModel extends window.Backbone
   private hasAddedHistoryDisclaimer?: boolean;
 
   private lastIsTyping?: boolean;
+
+  private muteTimer?: NodeJS.Timer;
 
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
@@ -1593,7 +1595,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const temporaryMemberCount = this.get('temporaryMemberCount');
-    if (window._.isNumber(temporaryMemberCount)) {
+    if (isNumber(temporaryMemberCount)) {
       return temporaryMemberCount;
     }
 
@@ -4826,6 +4828,24 @@ export class ConversationModel extends window.Backbone
     });
   }
 
+  startMuteTimer(): void {
+    if (this.muteTimer !== undefined) {
+      clearTimeout(this.muteTimer);
+      this.muteTimer = undefined;
+    }
+
+    const muteExpiresAt = this.get('muteExpiresAt');
+    if (isNumber(muteExpiresAt) && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
+      const delay = muteExpiresAt - Date.now();
+      if (delay <= 0) {
+        this.setMuteExpiration(0);
+        return;
+      }
+
+      this.muteTimer = setTimeout(() => this.setMuteExpiration(0), delay);
+    }
+  }
+
   setMuteExpiration(
     muteExpiresAt = 0,
     { viaStorageServiceSync = false } = {}
@@ -4836,26 +4856,8 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    // we use a timeoutId here so that we can reference the mute that was
-    // potentially set in the ConversationController. Specifically for a
-    // scenario where a conversation is already muted and we boot up the app,
-    // a timeout will be already set. But if we change the mute to a later
-    // date a new timeout would need to be set and the old one cleared. With
-    // this ID we can reference the existing timeout.
-    const timeoutId = this.getMuteTimeoutId();
-    window.Signal.Services.removeTimeout(timeoutId);
-
-    if (muteExpiresAt && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
-      window.Signal.Services.onTimeout(
-        muteExpiresAt,
-        () => {
-          this.setMuteExpiration(0);
-        },
-        timeoutId
-      );
-    }
-
     this.set({ muteExpiresAt });
+    this.startMuteTimer();
     if (!viaStorageServiceSync) {
       this.captureChange('mutedUntilTimestamp');
     }
@@ -4864,10 +4866,6 @@ export class ConversationModel extends window.Backbone
 
   isMuted(): boolean {
     return isMuted(this.get('muteExpiresAt'));
-  }
-
-  getMuteTimeoutId(): string {
-    return `mute(${this.get('id')})`;
   }
 
   async notify(

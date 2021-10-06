@@ -383,11 +383,6 @@ try {
     version: config.version,
   });
 
-  // Linux seems to periodically let the event loop stop, so this is a global workaround
-  setInterval(() => {
-    window.nodeSetImmediate(() => {});
-  }, 1000);
-
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
   const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
