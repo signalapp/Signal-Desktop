@@ -1623,12 +1623,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
 .module-quote__primary__text--incoming {
@@ -6038,12 +6032,6 @@ button.module-image__border-overlay:focus {
               white-space: initial;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-
-              // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-              //   ... as the truncation indicator. That's not a solution that works well for
-              //   all languages. More resources:
-              //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-              //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
             }
 
             &__start-new-conversation {
