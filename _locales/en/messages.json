@@ -6489,5 +6489,9 @@
   "WhatsNew__v5.19--4": {
     "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
     "description": "Release notes for v5.19"
+  },
+  "WhatsNew__v5.20": {
+    "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+    "description": "Release notes for v5.20"
   }
 }
