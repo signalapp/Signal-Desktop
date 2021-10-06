@@ -4,10 +4,12 @@
 .Toast {
   @include font-body-2;
 
+  align-items: center;
   border-radius: 4px;
   bottom: 62px;
+  display: flex;
+  justify-content: space-between;
   left: 50%;
-  padding: 8px 16px;
   position: absolute;
   text-align: center;
   transform: translate(-50%, 0);
@@ -15,18 +17,40 @@
   z-index: 100;
 
   @include light-theme {
-    background-color: $color-gray-75;
+    background-color: $color-gray-80;
     color: $color-white;
     box-shadow: 0 4px 16px 0 $color-black-alpha-20,
       0 0 0 0.5px $color-black-alpha-05;
   }
   @include dark-theme {
-    background-color: $color-gray-45;
-    color: $color-white;
+    background-color: $color-gray-75;
+    color: $color-gray-05;
     box-shadow: 0 4px 16px 0 $color-white-alpha-20;
   }
 
-  &--clickable {
+  &__content {
+    padding: 8px 12px;
+  }
+
+  &__button {
+    @include font-body-2-bold;
     cursor: pointer;
+    padding: 8px 12px;
+
+    @include light-theme {
+      border-left: 1px solid $color-gray-65;
+    }
+    @include dark-theme {
+      border-left: 1px solid $color-gray-60;
+    }
+
+    &:hover {
+      @include light-theme {
+        background-color: $color-gray-65;
+      }
+      @include dark-theme {
+        background-color: $color-gray-60;
+      }
+    }
   }
 }

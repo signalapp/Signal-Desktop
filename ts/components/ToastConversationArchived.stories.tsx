@@ -14,6 +14,7 @@ const i18n = setupI18n('en', enMessages);
 const defaultProps = {
   i18n,
   onClose: action('onClose'),
+  undo: action('undo'),
 };
 
 const story = storiesOf('Components/ToastConversationArchived', module);

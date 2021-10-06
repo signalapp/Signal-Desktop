@@ -1,19 +1,23 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { KeyboardEvent, ReactNode, useEffect } from 'react';
+import React, { KeyboardEvent, MouseEvent, ReactNode, useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { onTimeout, removeTimeout } from '../services/timers';
+import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
 export type PropsType = {
   autoDismissDisabled?: boolean;
   children: ReactNode;
   className?: string;
   disableCloseOnClick?: boolean;
-  onClick?: () => unknown;
   onClose: () => unknown;
   timeout?: number;
+  toastAction?: {
+    label: string;
+    onClick: () => unknown;
+  };
 };
 
 export const Toast = ({
@@ -21,11 +25,12 @@ export const Toast = ({
   children,
   className,
   disableCloseOnClick = false,
-  onClick,
   onClose,
   timeout = 8000,
+  toastAction,
 }: PropsType): JSX.Element | null => {
   const [root, setRoot] = React.useState<HTMLElement | null>(null);
+  const [focusRef] = useRestoreFocus();
 
   useEffect(() => {
     const div = document.createElement('div');
@@ -52,38 +57,49 @@ export const Toast = ({
     };
   }, [autoDismissDisabled, onClose, root, timeout]);
 
-  let interactivityProps = {};
-  if (onClick) {
-    interactivityProps = {
-      role: 'button',
-      onClick() {
-        onClick();
-        if (!disableCloseOnClick) {
-          onClose();
-        }
-      },
-      onKeyDown(ev: KeyboardEvent<HTMLDivElement>) {
-        if (ev.key === 'Enter' || ev.key === ' ') {
-          onClick();
-          if (!disableCloseOnClick) {
-            onClose();
-          }
-        }
-      },
-    };
-  }
-
   return root
     ? createPortal(
         <div
-          className={classNames(
-            'Toast',
-            onClick ? 'Toast--clickable' : null,
-            className
-          )}
-          {...interactivityProps}
+          aria-live="assertive"
+          className={classNames('Toast', className)}
+          onClick={() => {
+            if (!disableCloseOnClick) {
+              onClose();
+            }
+          }}
+          onKeyDown={(ev: KeyboardEvent<HTMLDivElement>) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+              if (!disableCloseOnClick) {
+                onClose();
+              }
+            }
+          }}
+          role="button"
+          tabIndex={0}
         >
-          {children}
+          <div className="Toast__content">{children}</div>
+          {toastAction && (
+            <div
+              className="Toast__button"
+              onClick={(ev: MouseEvent<HTMLDivElement>) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+                toastAction.onClick();
+              }}
+              onKeyDown={(ev: KeyboardEvent<HTMLDivElement>) => {
+                if (ev.key === 'Enter' || ev.key === ' ') {
+                  ev.stopPropagation();
+                  ev.preventDefault();
+                  toastAction.onClick();
+                }
+              }}
+              ref={focusRef}
+              role="button"
+              tabIndex={0}
+            >
+              {toastAction.label}
+            </div>
+          )}
         </div>,
         root
       )

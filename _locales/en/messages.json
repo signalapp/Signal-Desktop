@@ -640,8 +640,12 @@
     }
   },
   "decryptionErrorToast": {
-    "message": "Desktop ran into a decryption error. Click to submit a debug log.",
+    "message": "Desktop ran into a decryption error.",
     "description": "An error popup when we haven't added an error for decryption error."
+  },
+  "decryptionErrorToastAction": {
+    "message": "Submit log",
+    "description": "Label for the decryption error toast button"
   },
   "oneNonImageAtATimeToast": {
     "message": "When including a non-image attachment, the limit is one attachment per message.",
@@ -950,14 +954,12 @@
     "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
   },
   "attachmentSaved": {
-    "message": "Attachment saved. Click to show in folder.",
-    "description": "Shown after user selects to save to downloads",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "proof.jpg"
-      }
-    }
+    "message": "Attachment saved.",
+    "description": "Shown after user selects to save to downloads"
+  },
+  "attachmentSavedShow": {
+    "message": "Show in folder",
+    "description": "Button label for showing the attachment in your file system"
   },
   "you": {
     "message": "You",
@@ -2948,6 +2950,10 @@
   "conversationArchived": {
     "message": "Conversation archived",
     "description": "A toast that shows up when user archives a conversation"
+  },
+  "conversationArchivedUndo": {
+    "message": "Undo",
+    "description": "Undo button for archiving a conversation"
   },
   "conversationReturnedToInbox": {
     "message": "Conversation returned to inbox",

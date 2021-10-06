@@ -472,7 +472,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         this.model.setArchived(true);
         this.model.trigger('unload', 'archive');
 
-        showToast(ToastConversationArchived);
+        showToast(ToastConversationArchived, {
+          undo: () => {
+            this.model.setArchived(false);
+            this.openConversation(this.model.get('id'));
+          },
+        });
       },
       onMarkUnread: () => {
         this.model.setMarkedUnread(true);

@@ -20,7 +20,13 @@ export const ToastFileSaved = ({
   onOpenFile,
 }: PropsType): JSX.Element => {
   return (
-    <Toast onClick={onOpenFile} onClose={onClose}>
+    <Toast
+      onClose={onClose}
+      toastAction={{
+        label: i18n('attachmentSavedShow'),
+        onClick: onOpenFile,
+      }}
+    >
       {i18n('attachmentSaved')}
     </Toast>
   );

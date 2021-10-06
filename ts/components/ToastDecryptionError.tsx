@@ -23,8 +23,11 @@ export const ToastDecryptionError = ({
     <Toast
       autoDismissDisabled
       className="decryption-error"
-      onClick={onShowDebugLog}
       onClose={onClose}
+      toastAction={{
+        label: i18n('decryptionErrorToastAction'),
+        onClick: onShowDebugLog,
+      }}
     >
       {i18n('decryptionErrorToast')}
     </Toast>

@@ -1428,7 +1428,15 @@ export async function startApp(): Promise<void> {
       ) {
         conversation.setArchived(true);
         conversation.trigger('unload', 'keyboard shortcut archive');
-        showToast(ToastConversationArchived);
+        showToast(ToastConversationArchived, {
+          undo: () => {
+            conversation.setArchived(false);
+            window.Whisper.events.trigger(
+              'showConversation',
+              conversation.get('id')
+            );
+          },
+        });
 
         // It's very likely that the act of archiving a conversation will set focus to
         //   'none,' or the top-level body element. This resets it to the left pane.

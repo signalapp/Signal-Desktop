@@ -14,9 +14,5 @@ export const ToastReactionFailed = ({
   i18n,
   onClose,
 }: PropsType): JSX.Element => {
-  return (
-    <Toast onClick={onClose} onClose={onClose}>
-      {i18n('Reactions--error')}
-    </Toast>
-  );
+  return <Toast onClose={onClose}>{i18n('Reactions--error')}</Toast>;
 };

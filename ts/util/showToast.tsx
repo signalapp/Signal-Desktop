@@ -12,7 +12,10 @@ import { ToastCannotMixImageAndNonImageAttachments } from '../components/ToastCa
 import { ToastCannotStartGroupCall } from '../components/ToastCannotStartGroupCall';
 import { ToastCaptchaFailed } from '../components/ToastCaptchaFailed';
 import { ToastCaptchaSolved } from '../components/ToastCaptchaSolved';
-import { ToastConversationArchived } from '../components/ToastConversationArchived';
+import {
+  ToastConversationArchived,
+  ToastPropsType as ToastConversationArchivedPropsType,
+} from '../components/ToastConversationArchived';
 import { ToastConversationMarkedUnread } from '../components/ToastConversationMarkedUnread';
 import { ToastConversationUnarchived } from '../components/ToastConversationUnarchived';
 import { ToastDangerousFileType } from '../components/ToastDangerousFileType';
@@ -59,7 +62,10 @@ export function showToast(
 export function showToast(Toast: typeof ToastCannotStartGroupCall): void;
 export function showToast(Toast: typeof ToastCaptchaFailed): void;
 export function showToast(Toast: typeof ToastCaptchaSolved): void;
-export function showToast(Toast: typeof ToastConversationArchived): void;
+export function showToast(
+  Toast: typeof ToastConversationArchived,
+  props: ToastConversationArchivedPropsType
+): void;
 export function showToast(Toast: typeof ToastConversationMarkedUnread): void;
 export function showToast(Toast: typeof ToastConversationUnarchived): void;
 export function showToast(Toast: typeof ToastDangerousFileType): void;
