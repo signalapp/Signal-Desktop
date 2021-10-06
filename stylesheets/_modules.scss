@@ -5656,9 +5656,10 @@ button.module-image__border-overlay:focus {
     &--archive-button {
       @include button-reset;
 
-      @include font-body-1-bold;
-
+      align-items: center;
+      display: flex;
       height: 64px;
+      justify-content: center;
       line-height: 64px;
       text-align: center;
       width: 100%;
@@ -5677,6 +5678,34 @@ button.module-image__border-overlay:focus {
         &:focus {
           background-color: $color-gray-75;
         }
+      }
+
+      &__icon {
+        &::before {
+          display: block;
+          content: '';
+          width: 24px;
+          height: 24px;
+
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v2/archive-outline-16.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v2/archive-solid-16.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+
+      &__text {
+        @include font-body-1-bold;
+        margin-left: 8px;
+        margin-right: 8px;
       }
 
       &__archived-count {

@@ -197,7 +197,10 @@ export const ConversationList: React.FC<PropsType> = ({
               onClick={onClickArchiveButton}
               type="button"
             >
-              {i18n('archivedConversations')}{' '}
+              <div className="module-conversation-list__item--archive-button__icon" />
+              <span className="module-conversation-list__item--archive-button__text">
+                {i18n('archivedConversations')}
+              </span>
               <span className="module-conversation-list__item--archive-button__archived-count">
                 {row.archivedConversationsCount}
               </span>
