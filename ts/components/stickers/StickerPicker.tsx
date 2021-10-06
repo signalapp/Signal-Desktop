@@ -148,7 +148,11 @@ export const StickerPicker = React.memo(
       const showLongText = showPickerHint;
 
       return (
-        <FocusTrap>
+        <FocusTrap
+          focusTrapOptions={{
+            allowOutsideClick: true,
+          }}
+        >
           <div className="module-sticker-picker" ref={ref} style={style}>
             <div className="module-sticker-picker__header">
               <div className="module-sticker-picker__header__packs">

@@ -58,7 +58,12 @@ export const ModalHost = React.memo(
 
     return root
       ? createPortal(
-          <FocusTrap>
+          <FocusTrap
+            focusTrapOptions={{
+              // This is alright because the overlay covers the entire screen
+              allowOutsideClick: false,
+            }}
+          >
             <div
               role="presentation"
               className={classNames(

@@ -303,7 +303,11 @@ export const EmojiPicker = React.memo(
       );
 
       return (
-        <FocusTrap>
+        <FocusTrap
+          focusTrapOptions={{
+            allowOutsideClick: true,
+          }}
+        >
           <div className="module-emoji-picker" ref={ref} style={style}>
             <header className="module-emoji-picker__header">
               <button
