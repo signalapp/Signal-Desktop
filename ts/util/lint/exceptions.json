@@ -891,6 +891,13 @@
   },
   {
     "rule": "jQuery-wrap(",
+    "path": "node_modules/cacheable-lookup/source/index.js",
+    "line": "\t\t].map(promise => wrap(promise)));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-10-06T15:40:12.124Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
     "path": "node_modules/caching-transform/index.js",
     "line": "function wrap(opts) {",
     "reasonCategory": "falseMatch",
@@ -3689,18 +3696,32 @@
     "reasonDetail": "Part of their google closure 'debug loader'"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/got/node_modules/@sindresorhus/is/dist/index.js",
-    "line": "        'innerHTML',",
+    "rule": "jQuery-append(",
+    "path": "node_modules/got/dist/source/core/index.js",
+    "line": "                            searchParameters.append(key, '');",
     "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "updated": "2021-10-06T15:40:12.124Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/got/dist/source/core/index.js",
+    "line": "                            searchParameters.append(key, value);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-10-06T15:40:12.124Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/got/dist/source/core/index.js",
+    "line": "                        searchParameters.append(key, value);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-10-06T15:40:12.124Z"
   },
   {
     "rule": "DOM-innerHTML",
-    "path": "node_modules/got/node_modules/@sindresorhus/is/dist/source/index.js",
-    "line": "        'innerHTML',",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
+    "path": "node_modules/got/node_modules/@sindresorhus/is/dist/index.js",
+    "line": "    'innerHTML',",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-06T15:40:12.124Z"
   },
   {
     "rule": "jQuery-$(",

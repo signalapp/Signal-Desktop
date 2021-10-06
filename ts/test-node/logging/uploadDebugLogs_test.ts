@@ -45,7 +45,7 @@ describe('upload', () => {
 
     sinon.assert.calledOnce(this.fakeGet);
     sinon.assert.calledWith(this.fakeGet, 'https://debuglogs.org', {
-      json: true,
+      responseType: 'json',
       headers: { 'User-Agent': 'Signal-Desktop/1.2.3 Linux' },
     });
 

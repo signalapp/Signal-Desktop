@@ -144,7 +144,7 @@ const FIVE_MINUTES = 5 * durations.MINUTE;
 type AgentCacheType = {
   [name: string]: {
     timestamp: number;
-    agent: ProxyAgent | Agent;
+    agent: ReturnType<typeof ProxyAgent> | Agent;
   };
 };
 const agents: AgentCacheType = {};

@@ -68,7 +68,7 @@ export class SocketManager extends EventListener {
 
   private credentials?: WebAPICredentials;
 
-  private readonly proxyAgent?: ProxyAgent;
+  private readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
 
   private status = SocketStatus.CLOSED;
 

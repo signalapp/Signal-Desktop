@@ -16,7 +16,7 @@ import ProxyAgent from 'proxy-agent';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt } from 'semver';
 import config from 'config';
-import { get, GotOptions, stream } from 'got';
+import got, { StrictOptions as GotOptions } from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
@@ -133,11 +133,11 @@ export async function downloadUpdate(
     validatePath(tempDir, targetSignaturePath);
 
     logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
-    const { body } = await get(signatureUrl, getGotOptions());
+    const { body } = await got.get(signatureUrl, getGotOptions());
     await writeFile(targetSignaturePath, body);
 
     logger.info(`downloadUpdate: Downloading update ${updateFileUrl}`);
-    const downloadStream = stream(updateFileUrl, getGotOptions());
+    const downloadStream = got.stream(updateFileUrl, getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
     await new Promise<void>((resolve, reject) => {
@@ -265,28 +265,34 @@ export function parseYaml(yaml: string): JSONUpdateSchema {
 
 async function getUpdateYaml(): Promise<string> {
   const targetUrl = getUpdateCheckUrl();
-  const { body } = await get(targetUrl, getGotOptions());
+  const body = await got(targetUrl, getGotOptions()).text();
 
   if (!body) {
     throw new Error('Got unexpected response back from update check');
   }
 
-  return body.toString('utf8');
+  return body;
 }
 
-function getGotOptions(): GotOptions<null> {
-  const ca = getCertificateAuthority();
+function getGotOptions(): GotOptions {
+  const certificateAuthority = getCertificateAuthority();
   const proxyUrl = getProxyUrl();
-  const agent = proxyUrl ? new ProxyAgent(proxyUrl) : undefined;
+  const agent = proxyUrl
+    ? {
+        http: new ProxyAgent(proxyUrl),
+        https: new ProxyAgent(proxyUrl),
+      }
+    : undefined;
 
   return {
     agent,
-    ca,
+    https: {
+      certificateAuthority,
+    },
     headers: {
       'Cache-Control': 'no-cache',
       'User-Agent': getUserAgent(packageJson.version),
     },
-    useElectronNet: false,
     timeout: {
       connect: GOT_CONNECT_TIMEOUT,
       lookup: GOT_LOOKUP_TIMEOUT,

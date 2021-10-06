@@ -55,7 +55,7 @@ export const upload = async (
 ): Promise<string> => {
   const headers = { 'User-Agent': getUserAgent(appVersion) };
 
-  const signedForm = await got.get(BASE_URL, { json: true, headers });
+  const signedForm = await got.get(BASE_URL, { responseType: 'json', headers });
   const { fields, url } = parseTokenBody(signedForm.body);
 
   const uploadKey = `${fields.key}.gz`;
