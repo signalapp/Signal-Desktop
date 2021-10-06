@@ -6,11 +6,9 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
-            child-src 'self';
-            connect-src 'self' https: wss:;
-            font-src 'self';
-            form-action 'self';
             frame-src 'none';
+            form-action 'none';
+            font-src 'self';
             img-src 'self' blob: data:;
             media-src 'self' blob:;
             object-src 'none';
@@ -23,40 +21,13 @@
       type="text/css"
     />
     <link href="stylesheets/manifest.css" rel="stylesheet" type="text/css" />
-    <style></style>
   </head>
-  <body class="debug-log-window"></body>
-  <script type="text/x-tmpl-mustache" id="debug-log">
-    <div class='content'>
-      <div>
-        <a class='x close' alt='close debug log' href='#'></a>
-        <h1> {{ title }} </h1>
-        <p> {{ debugLogExplanation }}</p>
-      </div>
-      <textarea class='textarea' spellcheck='false' rows='5'></textarea>
-      <div class='buttons'>
-        <button class='grey submit'>{{ submit }}</button>
-      </div>
-      <div class='result'>
-      </div>
-    </div>
-  </script>
-  <script type="text/x-tmpl-mustache" id="debug-log-link">
-    <div class='input-group clearfix'>
-      <input type='text' class='link' readonly value='{{ url }}' />
-      <a class='copy' alt='{{ debugLogCopyAlt }}' target='_blank' href='{{ url }}'>{{ debugLogCopy }}</a>
-    </div>
-    <p>
-      <a class='report-link' target='_blank'
-          href='https://support.signal.org/hc/requests/new'>
-          {{ reportIssue }}
-      </a>
-    </p>
-  </script>
-  <script type="text/x-tmpl-mustache" id="toast">
-    {{ toastMessage }}
-  </script>
-  <script type="text/javascript" src="js/components.js"></script>
-  <script type="text/javascript" src="ts/backboneJquery.js"></script>
-  <script type="text/javascript" src="js/debug_log_start.js"></script>
+  <body>
+    <div id="app"></div>
+    <script
+      type="application/javascript"
+      src="ts/windows/applyTheme.js"
+    ></script>
+    <script type="application/javascript" src="ts/windows/init.js"></script>
+  </body>
 </html>

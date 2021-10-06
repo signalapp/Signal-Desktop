@@ -9,7 +9,7 @@ describe('i18n', () => {
       assert.strictEqual(i18n('random'), '');
     });
     it('returns message for given string', () => {
-      assert.equal(i18n('reportIssue'), ['Report an issue']);
+      assert.equal(i18n('reportIssue'), ['Contact Support']);
     });
     it('returns message with single substitution', () => {
       const actual = i18n('cannotUpdateDetail', [

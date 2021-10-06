@@ -4,6 +4,18 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none';
+            frame-src 'none';
+            form-action 'none';
+            font-src 'self';
+            img-src 'self' blob: data:;
+            media-src 'self' blob:;
+            object-src 'none';
+            script-src 'self';
+            style-src 'self' 'unsafe-inline';"
+    />
     <link
       href="node_modules/sanitize.css/sanitize.css"
       rel="stylesheet"

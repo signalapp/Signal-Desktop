@@ -111,7 +111,6 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
 import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
-import { DebugLogView } from './views/debug_log_view';
 import { LoggerType } from './types/Logging';
 import { SettingType } from './util/preload';
 
@@ -162,7 +161,6 @@ declare global {
     startApp: () => void;
 
     QRCode: any;
-    closeDebugLog: () => unknown;
     removeSetupMenuItems: () => unknown;
     showPermissionsPopup: () => unknown;
 
@@ -209,7 +207,6 @@ declare global {
     getLocale: () => ElectronLocaleType;
     getMediaCameraPermissions: () => Promise<boolean>;
     getMediaPermissions: () => Promise<boolean>;
-    getNodeVersion: () => string;
     getServerPublicParams: () => string;
     getSfuUrl: () => string;
     getSocketStatus: () => SocketStatus;
@@ -499,6 +496,7 @@ declare global {
       context: SignalContext;
       getAppInstance: () => string | undefined;
       getEnvironment: () => string;
+      getNodeVersion: () => string;
       getVersion: () => string;
       i18n: LocalizerType;
       log: LoggerType;
@@ -567,7 +565,6 @@ export class BasicReactWrapperViewClass extends AnyViewClass {
 export type WhisperType = {
   Conversation: typeof ConversationModel;
   ConversationCollection: typeof ConversationModelCollectionType;
-  DebugLogView: typeof DebugLogView;
   Message: typeof MessageModel;
   MessageCollection: typeof MessageModelCollectionType;
 

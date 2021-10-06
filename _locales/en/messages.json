@@ -470,25 +470,33 @@
     "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
   },
   "debugLogExplanation": {
-    "message": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting."
+    "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting."
   },
   "debugLogError": {
-    "message": "Something went wrong with the upload! Please consider manually adding your log to the bug you file."
+    "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file."
+  },
+  "debugLogSuccess": {
+    "message": "Debug log submitted",
+    "description": "Title of the success page for submitting a debug log"
+  },
+  "debugLogSuccessNextSteps": {
+    "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+    "description": "Explanation of next steps to take when submitting debug log"
   },
   "debugLogCopy": {
-    "message": "Copy",
+    "message": "Copy Link",
     "description": "Shown as the text for the copy button on the debug log screen"
   },
-  "debugLogCopyAlt": {
-    "message": "Copy link to your clipboard",
-    "description": "Shown as the alt text for the copy button on the debug log screen"
+  "debugLogSave": {
+    "message": "Download",
+    "description": "Shown as the text for the download button on the debug log screen"
   },
   "debugLogLinkCopied": {
     "message": "Link Copied to Your Clipboard",
     "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
   },
   "reportIssue": {
-    "message": "Report an issue",
+    "message": "Contact Support",
     "description": "Link to open the issue tracker"
   },
   "gotIt": {

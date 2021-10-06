@@ -114,19 +114,23 @@ const headerSection = (
   ].join('\n');
 };
 
-const getHeader = ({
-  capabilities,
-  remoteConfig,
-  statistics,
-  user,
-}: Omit<FetchLogIpcData, 'logEntries'>): string =>
+const getHeader = (
+  {
+    capabilities,
+    remoteConfig,
+    statistics,
+    user,
+  }: Omit<FetchLogIpcData, 'logEntries'>,
+  nodeVersion: string,
+  appVersion: string
+): string =>
   [
     headerSection('System info', {
       Time: Date.now(),
       'User agent': window.navigator.userAgent,
-      'Node version': window.getNodeVersion(),
+      'Node version': nodeVersion,
       Environment: getEnvironment(),
-      'App version': window.getVersion(),
+      'App version': appVersion,
     }),
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
@@ -154,7 +158,10 @@ function formatLine(mightBeEntry: unknown): string {
   return `${getLevel(entry.level)} ${entry.time} ${entry.msg}`;
 }
 
-export function fetch(): Promise<string> {
+export function fetch(
+  nodeVersion: string,
+  appVersion: string
+): Promise<string> {
   return new Promise(resolve => {
     ipc.send('fetch-log');
 
@@ -163,7 +170,7 @@ export function fetch(): Promise<string> {
       let body: string;
       if (isFetchLogIpcData(data)) {
         const { logEntries } = data;
-        header = getHeader(data);
+        header = getHeader(data, nodeVersion, appVersion);
         body = logEntries.map(formatLine).join('\n');
       } else {
         header = headerSectionTitle('Partial logs');

@@ -4,7 +4,7 @@
 import { join, normalize } from 'path';
 import { pathToFileURL } from 'url';
 import * as os from 'os';
-import { chmod, realpath } from 'fs-extra';
+import { chmod, realpath, writeFile } from 'fs-extra';
 import { randomBytes } from 'crypto';
 
 import pify from 'pify';
@@ -1001,7 +1001,6 @@ function showSettingsWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
-    modal: false,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
@@ -1135,13 +1134,12 @@ async function showDebugLogWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#3a76f0',
     show: false,
-    modal: true,
     webPreferences: {
       ...defaultWebPrefs,
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
-      contextIsolation: false,
-      preload: join(__dirname, '../debug_log_preload.js'),
+      contextIsolation: true,
+      preload: join(__dirname, '../ts/windows/debuglog/preload.js'),
       nativeWindowOpen: true,
     },
     parent: mainWindow,
@@ -1156,13 +1154,11 @@ async function showDebugLogWindow() {
   );
 
   debugLogWindow.on('closed', () => {
-    removeDarkOverlay();
     debugLogWindow = undefined;
   });
 
   debugLogWindow.once('ready-to-show', () => {
     if (debugLogWindow) {
-      addDarkOverlay();
       debugLogWindow.show();
     }
   });
@@ -1834,6 +1830,17 @@ ipc.on('close-debug-log', () => {
     debugLogWindow.close();
   }
 });
+ipc.on(
+  'show-debug-log-save-dialog',
+  async (_event: Electron.Event, logText: string) => {
+    const { filePath } = await dialog.showSaveDialog({
+      defaultPath: 'debuglog.txt',
+    });
+    if (filePath) {
+      await writeFile(filePath, logText);
+    }
+  }
+);
 
 // Permissions Popup-related IPC calls
 

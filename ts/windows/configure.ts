@@ -37,6 +37,7 @@ export const SignalWindow = {
   getAppInstance: (): string | undefined =>
     config.appInstance ? String(config.appInstance) : undefined,
   getEnvironment,
+  getNodeVersion: (): string => String(config.node_version),
   getVersion: (): string => String(config.version),
   i18n: setupI18n(locale, localeMessages),
   log: window.SignalWindow.log,

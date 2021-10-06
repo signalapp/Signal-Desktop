@@ -76,7 +76,6 @@ try {
     }
     return localBuildExpiration;
   };
-  window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;
   window.getServerTrustRoot = () => config.serverTrustRoot;
   window.getServerPublicParams = () => config.serverPublicParams;

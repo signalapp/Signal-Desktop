@@ -10,7 +10,6 @@
 // Old style: components
 @import 'progress';
 @import 'modal';
-@import 'debugLog';
 @import 'recorder';
 @import 'emoji';
 @import 'settings';
@@ -56,6 +55,7 @@
 @import './components/ConversationView.scss';
 @import './components/CustomColorEditor.scss';
 @import './components/CustomizingPreferredReactionsModal.scss';
+@import './components/DebugLogWindow.scss';
 @import './components/DisappearingTimeDialog.scss';
 @import './components/DisappearingTimerSelect.scss';
 @import './components/EditConversationAttributesModal.scss';
