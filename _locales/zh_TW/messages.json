@@ -921,6 +921,18 @@
         "message": "找到了原始訊息，但未載入，向上滑動以載入。",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "開始錄製語音訊息",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "完成錄製語音訊息並傳送",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "取消語音訊息",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "語音訊息錄音已停止，因為已達到最大時間限制。",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "附檔已經被儲存。點擊以在資料夾中顯示。",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "你",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "你是否知道如果啟用了自動銷毀訊息，即使“此訊息已被刪除”通知也會在到期時消失？ 這不再是一個謎 - 你會在訊息上看到倒計時和時間戳。",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "休息一下並放鬆進入對話框和彈出視窗的新動畫。 吸氣呼氣。 吸氣呼氣。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "切換鍵盤佈局總是有點棘手，但鍵盤快捷鍵現在會與你一起移動，按下的特定字母來滿足你的要求。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "當群組通話開始時，你現在會收到通知。 你不會再太遲加入，除非你想遲到。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "此功能適用於對 💅 做出反應超過 👍 的每個人：你現在可以自定義當你想對訊息做出回應時預設顯示的表情符號。",
+        "description": "Release notes for v5.19"
     }
 }

@@ -921,6 +921,18 @@
         "message": "Mesaj original a fost găsit, dar nu a fost încărcat. Derulați în sus pentru a-l încărca.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Începeți înregistrarea unui mesaj vocal",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Încheiați mesajul vocal și trimiteți",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Anulați mesajul vocal",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Înregistrarea mesajului vocal s-a oprit deoarece a fost atinsă limita maximă de timp.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Atașamentul a fost salvat. Click pentru a-l afișa din dosar.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Dvs.",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Știați că dacă este activată dispariția mesajelor, chiar și notificarea „Acest mesaj a fost șters” va dispărea atunci când expiră? Acum nu mai este un mister, veți vedea numărătoarea inversă și data chiar în cadrul mesajului.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Trageți aer în piept și relaxați-vă cu noile animații pentru dialoguri și meniuri tip pop-up. Inspirați. Expirați. Inspirați. Expirați.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Schimbarea aspectului tastaturii este mereu puțin complicată, dar acum comenzile rapide merg un pas mai departe decât prima literă apăsată pentru a onora intenția dvs.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Acum veți primi o notificare atunci când un apel de grup este început. Nu veți mai întârzia niciodată, decât dacă doriți să întârziați.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Această funcție este pentru toți cei care reacționează mai des cu 💅 decât cu 👍: acum puteți personaliza emoji-urile ce apar în mod implicit atunci când doriți sa reacționați la un mesaj.",
+        "description": "Release notes for v5.19"
     }
 }

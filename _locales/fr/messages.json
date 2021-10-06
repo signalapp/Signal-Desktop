@@ -921,6 +921,18 @@
         "message": "Le message original a été trouvé, mais n’a pas été chargé. Faites défiler vers le haut pour le charger.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Commencer l’enregistrement d’un message vocal",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Terminer le message vocal et l’envoyer",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Annuler le message vocal",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "L’enregistrement du message vocal s’est arrêté, car vous avez atteint la limite de temps maximale.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Le fichier joint a été enregistré. Cliquez pour l’afficher dans le dossier.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Vous",
@@ -1774,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Vérifier l’orthographe du texte saisi dans la fenêtre de rédaction des messages",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1798,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "Supprimer les données de l’application",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1936,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Cliquez pour aller sur signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -3584,7 +3590,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ vous appelle avec $otherMember$.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3598,7 +3604,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ vous appelle avec $first$ et $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3616,7 +3622,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ vous appelle avec $first$, $second$ et 1 autre",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3634,7 +3640,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ vous appelle avec $first$, $second$ et $remaining$ autres",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3770,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "Commencer à partager",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5276,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Supprimer $contact$ en tant qu’administrateur du groupe ?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5550,7 +5556,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Révoquer $number$ invitations envoyées par « $name$ » ?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5702,7 +5708,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "Sélectionner le contact $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5712,7 +5718,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "Désélectionner le contact $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5722,7 +5728,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "Impossible de sélectionner le contact $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6062,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Impossible d’afficher ce message. Cliquez pour transmettre un journal de débogage.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6218,7 +6224,7 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Choisir une couleur",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
@@ -6250,7 +6256,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Dernier import le $date$ à $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6268,7 +6274,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Niveau de zoom",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6276,7 +6282,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Pour modifier ce paramètre, ouvrez l’application Signal sur votre appareil mobile et naviguez dans Paramètres > Conversations",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6360,7 +6366,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Activer les notifications",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6378,11 +6384,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal ne peut pas être fermé.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "Veuillez le fermer manuellement puis cliquez sur Réessayer pour continuer.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6390,11 +6396,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "Cliquez pour remplacer un émoji",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "Une erreur est survenue lors de l’enregistrement de vos paramètres. Veuillez réessayer.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "WhatsNew__modal-title": {
@@ -6402,27 +6408,27 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
+        "message": "Avec la visionneuse de médias améliorée, plus de surprises lorsque vous parcourrez une galerie d’images ou de vidéos, et vous pouvez faire semblant d’être dans une pièce sombre en zoomant pour masquer ces boutons gênants.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--2": {
-        "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
+        "message": "Correction d’un problème qui rendait la réaction à un message délicate, car nous avions mis le sélecteur hors de l’écran. C’est maintenant corrigé, et vous ajouter du 😮 à vos contenus ❤️.",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.16--3": {
-        "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
+        "message": "Si vous survolez les boutons pendant un appel, ils restent visibles au lieu de disparaître. Rien ne se cache de votre œil d’aigle, pas même ces boutons !",
         "description": "Release notes for v5.16"
     },
     "WhatsNew__v5.17--1": {
-        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
+        "message": "Essayez la nouvelle option « Envoyer des messages » pour limiter les personnes autorisées à envoyer des messages dans vos groupes. Idéal pour organiser un événement, faire une annonce ou simplement crier sur les toits. Tous les membres doivent être sur la dernière version de Signal pour que le paramètre apparaisse.",
         "description": "Release notes for v5.17"
     },
     "WhatsNew__v5.17--2": {
-        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
+        "message": "Vous pouvez désormais envoyer des messages où que vous soyez et à n’importe quel moment : dans un avion, un tunnel, ou à ce moment triste où l’Internet vient de se couper. Ils finiront par y arriver ; les messages seront automatiquement renvoyés pendant 24 heures.",
         "description": "Release notes for v5.17"
     },
     "WhatsNew__v5.18--1": {
-        "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
+        "message": "D’humeur ❤️‍🔥 ou 😶‍🌫️ ? Vous pouvez vous exprimer avec un nouveau lot d’émojis à rechercher en :murmurant ou en :CRIANT. Merci $hiqua$ !",
         "description": "Release notes for v5.18",
         "placeholders": {
             "hiqua": {
@@ -6432,7 +6438,7 @@
         }
     },
     "WhatsNew__v5.18--2": {
-        "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
+        "message": "Si vous êtes à Anguilla, vous vous êtes peut-être senti exclu. Nous transformons maintenant tous les domaines de premier niveau en place depuis 2010 en liens, de telle façon que $gov$ et $brain$ seront cliquables à l’instar de $signal$. Merci $jojomatik$ !",
         "description": "Release notes for v5.18",
         "placeholders": {
             "gov": {
@@ -6454,11 +6460,27 @@
         }
     },
     "WhatsNew__v5.18--3": {
-        "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
+        "message": "Nous avons entendu que vous aimiez zoomer sur les images. Nous avons ajouté de la puissance à votre zoom, de sorte que même les petites images peuvent être affichées en plein écran.",
         "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--4": {
-        "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
+        "message": "Saviez-vous que si la fonction de disparition des messages est activée, même la notification « Ce message a été supprimé » disparaît à l’expiration du message ? Ce n’est plus un mystère ; le compte à rebours et l’horodatage s’affichent directement sur le message.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Respirez et détendez-vous devant les nouvelles animations des boîtes de dialogue et des fenêtres contextuelles. Fondu à l’ouverture, fondu à la fermeture, etc.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Le changement de la configuration du clavier est toujours un peu délicat, mais les raccourcis-clavier vous suivent désormais à la trace, allant au-delà de la lettre spécifique sur laquelle vous appuyez pour honorer vos intentions.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Lorsqu’un appel de groupe commence, vous recevez désormais une notification. Vous ne serez plus jamais en retard, à moins que vous ne le vouliez.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Cette fonctionnalité s’adresse à tous ceux qui réagissent plus avec des 💅 qu’avec des 👍 : vous pouvez désormais personnaliser les émojis qui apparaissent par défaut pour réagir à un message.",
+        "description": "Release notes for v5.19"
     }
 }

@@ -921,6 +921,18 @@
         "message": "Исходное сообщение найдено, но не загружено. Прокрутите вверх, чтобы загрузить его.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Начать запись голосового сообщения",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Завершить и отправить голосовое сообщение",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Отменить голосовое сообщение",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Запись голосового сообщения остановилась, потому что был достигнут максимальный порог длительности.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Вложение сохранено. Нажмите, чтобы показать в папке.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Вы",
@@ -3816,7 +3822,7 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Звуки включены",
+        "message": "Уведомления включены",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Знали ли вы, что если включены исчезающие сообщения, даже уведомления «Это сообщение было удалено» исчезают, когда истекает таймер? Теперь это не тайна — вы увидите и обратный отсчёт, и отметку времени прямо на сообщении.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Добавлены новые анимации к диалогам и всплывающим окнам.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Горячие клавиши теперь работают вне зависимости от раскладки клавиатуры.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Теперь вы будете получать уведомления о начале групповых звонков.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Теперь вы можете изменить набор эмодзи, который появляется по умолчанию, когда вы хотите отреагировать на сообщение.",
+        "description": "Release notes for v5.19"
     }
 }

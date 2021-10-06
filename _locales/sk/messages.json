@@ -921,6 +921,18 @@
         "message": "Pôvodná správa sa našla, ale ešte nebola načítaná. Pre načítanie sa posuňte vyššie.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Začnite nahrávať hlasovú správu",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Dokončite hlasovú správu a odošlite",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Zrušiť hlasovú správu",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Nahrávanie hlasovej správy sa zastavilo, lebo bol dosiahnutý maximálny čas nahrávania.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Príloha uložená. Kliknite pre zobrazenie v priečinku.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Vy",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Vedeli ste, že ak sú povolené miznúce správy, dokonca aj upozornenie „Táto správa bola odstránená“ zmizne, keď vyprší jeho platnosť? Už to nie je žiadna záhada - odpočítavanie a časovú pečiatku uvidíte priamo v správe.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Nadýchnite sa a relaxujte v nových animáciách pre dialógy a vyskakovacie okná. Uvoľnite sa. Uvoľnite sa.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Prepínanie rozložení klávesnice je vždy trochu ošemetné, ale klávesové skratky sa teraz dajú sledovať spolu s vami a presahujú konkrétne písmeno, ktoré bolo stlačené, aby sa dodržal váš zámer.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Teraz keď začne skupinový hovor dostanete upozornenie. Už nikdy nebudete meškať, pokiaľ nebudete chcieť.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Táto funkcia je k dispozícii všetkým, ktorí reagujú s 💅 viac ako 👍: emodži, ktoré sa predvolene zobrazujú, keď chcete reagovať na správu, môžete teraz prispôsobiť.",
+        "description": "Release notes for v5.19"
     }
 }

@@ -921,6 +921,18 @@
         "message": "İletinin aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Sesli ileti kaydına başla",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Sesli iletiyi tamamla ve gönder",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Sesli iletiyi iptal et",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Süre sınırına erişildiği için sesli ileti kaydı durduruldu.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Eklenti kaydedildi. Klasörde görüntülemek için tıklayın.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Siz",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Kaybolan iletileri etkinleştirdiğinizde, \"Bu ileti silindi\" bildiriminin de süresi dolduğunda kaybolduğunu biliyor muydunuz? Bu artık bir sır değil, iletinin sağında bir geriye sayım ve tarih damgası göreceksiniz.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Bir nefes alın ve diyaloglardaki ve açılır pencerelerdeki yeni animasyonlarla rahatlayın. Yavaşça. Hızlıca. Yavaşça. Hızlıca.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Klavye düzenini değiştirmek her zaman biraz zor olmuştur, ancak klavye kısayolları şimdi tam olarak sizi takip ediyor, niyetinizi yerine getirmek için basılan belirli harfin ötesine geçiyor.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Şimdi bir grup araması başladığında bir bildirim alacaksınız. Artık geç kalmayacaksınız, eğer niyetiniz geç kalmak değilse.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Bu özellik, 👍 yerine daha çok 💅 ile etkileşim kuranlar için: şimdi artık bir iletiye bırakmak istediğiniz tepkinin varsayılan olarak nasıl gözükebileceğini düzenleyebiliyorsunuz.",
+        "description": "Release notes for v5.19"
     }
 }

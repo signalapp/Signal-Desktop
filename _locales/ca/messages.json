@@ -921,6 +921,18 @@
         "message": "S'ha trobat el missatge original, però no s'ha carregat. Desplaceu-vos amunt per carregar-lo.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Inicia la gravació del missatge de veu",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Acaba la gravació del missatge de veu i envia'l",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Cancel·la el missatge de veu",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "S'ha interromput la gravació del missatge de veu perquè s'ha arribat al límit màxim.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "S'ha desat l'adjunt. Cliqueu per veure'l a la carpeta.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Vós",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Sabíeu que si els missatges efímers estan activats, fins i tot la notificació \"Aquest missatge s'ha suprimit\" desapareixerà quan caduqui? Ja no és un misteri: veureu el compte enrere i la marca de temps al missatge.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Respireu i relaxeu-vos amb les noves animacions per a diàlegs i finestres emergents. Entrada fàcil. Sortida fàcil...",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Canviar la disposició del teclat sempre és una mica complicat, però ara les dreceres de teclat van bé i arriben més enllà de la lletra específica premuda per honorar la vostra intenció.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Quan s'iniciï una trucada de grup, rebreu una notificació. Mai no tornareu a arribar tard, tret que vulgueu arribar-hi.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Aquesta característica s'aplica a tothom que reaccioni amb 💅 més de 👍: ara podeu personalitzar les emoticones que apareixen per defecte quan vulgueu reaccionar a un missatge.",
+        "description": "Release notes for v5.19"
     }
 }

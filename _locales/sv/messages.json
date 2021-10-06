@@ -836,7 +836,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "vad är nytt",
+        "message": "vad som är nytt",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -921,6 +921,18 @@
         "message": "Originalmeddelande hittades, men lästes inte in. Rulla upp för att läsa in den.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Börja spela in röstmeddelande",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Slutför röstmeddelandet och skicka",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Avbryt röstmeddelandet",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Röstmeddelandeinspelning stoppades eftersom den maximala tidsgränsen uppnåddes.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Bilagan sparad. Klicka för att visa i mappen.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Du",
@@ -1168,7 +1174,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Vill du ta bort denna konversation för alltid?",
+        "message": "Vill du ta bort den här konversationen för alltid?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1416,7 +1422,7 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presentera inaktiverat",
+        "message": "Presentation inaktiverad",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
@@ -5242,7 +5248,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop stöder inte sändning av meddelanden till Signal-kontakter. Be den här personen att installera Signal för en säkrare meddelandeupplevelse.",
+        "message": "Signal Desktop stöder inte sändning av meddelanden till icke Signal-kontakter. Be den här personen att installera Signal för en säkrare meddelandeupplevelse.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Visste du att när försvinnande meddelanden är aktiverade, kommer även aviseringen \"det här meddelandet togs bort\" att försvinna när den löper ut? Det är inte längre ett mysterium - du får se nedräkningen och tidsstämpel direkt på meddelandet.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Ta ett andetag och koppla av i de nya animationerna för dialoger och popup-fönster. Lätt in. Lätt ut. Lätt in. Lätt ut.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Att byta tangentbordslayout är alltid lite knepigt, men tangentbordsgenvägar spårar nu rätt tillsammans med dig och når längre än den specifika bokstaven som trycks för att hedra din avsikt.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "När ett gruppsamtal startar får du nu ett meddelande. Du kommer aldrig att vara sen igen, om du inte vill vara det.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Denna funktion går ut till alla som reagerar med 💅 mer än 👍: du kan nu anpassa emojier som visas som standard när du vill reagera på ett meddelande.",
+        "description": "Release notes for v5.19"
     }
 }

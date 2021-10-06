@@ -921,6 +921,18 @@
         "message": "Neges wreiddiol wedi'i darganfod, ond heb ei llwytho. Sgroliwch i fyny i'w llwytho.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Dechrau recordio neges lais",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Gorffen y neges lais a'i hanfon",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Diddymu'r neges llais",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Daeth recordio neges llais i ben oherwydd bod y terfyn amser hiraf wedi'i gyrraedd.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Atodiad wedi'i gadw. Cliciwch i ddangos yn y ffolder.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Chi",
@@ -1308,7 +1314,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "Sganio'r cod hwn yn yr ap Signal ar eich ffôn",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -5550,7 +5556,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Dirymu $number$ gwahoddiad a anfonwyd gan \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "Wyddoch chi, os yw negeseuon sy'n diflannu yn cael eu galluogi, bydd hyd yn oed yr hysbysiad 'Cafodd y neges hon ei dileu' yn diflannu pan ddaw i ben? Nid yw'n ddirgelwch mwyach - fe welwch y cyfrif i lawr a'r stamp amser ar y neges.",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Cymerwch hoe ac ymlacio i'r animeiddiadau newydd ar gyfer deialogau a ffenestri newydd. Anadlu i fewn. Anadlu allan. Anadlu i fewn. Anadlu allan.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Mae newid cynlluniau bysellfyrddau bob amser ychydig yn anodd, ond mae llwybrau byr bysellfwrdd bellach yn mynd i'r dde gyda chi, gan gyrraedd y tu hwnt i'r llythyr penodol sydd wedi'i wasgu i gydnabod eich bwriad.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Pan fydd galwad grŵp yn cychwyn, byddwch nawr yn derbyn hysbysiad. Fyddwch chi byth yn hwyr eto, oni bai eich bod chi am fod.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Mae'r nodwedd hon yn mynd i bawb sy'n ymateb gyda 💅 yn fwy na 👍: gallwch nawr gyfaddasu'r emojis sy'n ymddangos fel rhai rhagosodedig pan fyddwch am ymateb i neges.",
+        "description": "Release notes for v5.19"
     }
 }

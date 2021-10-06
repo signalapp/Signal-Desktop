@@ -921,6 +921,18 @@
         "message": "Se ha encontrado el mensaje original pero no se ha cargado. Desliza hacia arriba para cargar el mensaje.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Comienza a grabar una nota de voz",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Completa la nota de voz y envíala",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Cancela la nota de voz",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "La grabación de la nota de voz se ha detenido al alcanzar el tiempo máximo permitido. ",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -939,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Archivo adjunto guardado. Haz clic para mostrar la carpeta.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Tú",
@@ -6460,5 +6466,21 @@
     "WhatsNew__v5.18--4": {
         "message": "¿Sabías que si los mensajes que desaparecen están activados, incluso la notificación de «Mensaje eliminado» desaparecerá cuando caduque? Ya no es un misterio: Verás la cuenta atrás y la marca de tiempo en el mensaje. ",
         "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Tómate una pausa y relájate con las nuevas animaciones para los diálogos y ventanas emergentes. Inspira, espira. Inspira, espira.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Cambiar la disposición del teclado nunca es fácil, pero por lo menos, los atajos de teclado te siguen.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Al iniciarse una llamada en grupo recibirás una notificación. Ya no te retrasarás, a no ser que quieras llegar tarde.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Esta nueva característica es para tod@s l@s que quieran reaccionar con 💅 en vez de con 👍: Ahora puedes personalizar los emojis que aparecen como predefinidos a reaccionar a un mensaje.",
+        "description": "Release notes for v5.19"
     }
 }
