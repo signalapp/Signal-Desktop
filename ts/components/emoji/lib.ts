@@ -26,7 +26,13 @@ import * as log from '../../logging/log';
 export const skinTones = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF'];
 
 export type SkinToneKey = '1F3FB' | '1F3FC' | '1F3FD' | '1F3FE' | '1F3FF';
-export type SizeClassType = '' | 'small' | 'medium' | 'large' | 'jumbo';
+export type SizeClassType =
+  | ''
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'extra-large'
+  | 'max';
 
 export type EmojiSkinVariation = {
   unified: string;
@@ -315,19 +321,22 @@ export function getSizeClass(str: string): SizeClassType {
 
   const emojiCount = getEmojiCount(str);
 
-  if (emojiCount > 8) {
-    return '';
+  if (emojiCount === 1) {
+    return 'max';
   }
-  if (emojiCount > 6) {
-    return 'small';
+  if (emojiCount === 2) {
+    return 'extra-large';
   }
-  if (emojiCount > 4) {
-    return 'medium';
-  }
-  if (emojiCount > 2) {
+  if (emojiCount === 3) {
     return 'large';
   }
-  return 'jumbo';
+  if (emojiCount === 4) {
+    return 'medium';
+  }
+  if (emojiCount === 5) {
+    return 'small';
+  }
+  return '';
 }
 
 data.forEach(emoji => {

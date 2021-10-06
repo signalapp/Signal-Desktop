@@ -192,6 +192,22 @@ story.add('Plain Message', () => {
   return renderBothDirections(props);
 });
 
+story.add('Emoji Messages', () => (
+  <>
+    <Message {...createProps({ text: '😀' })} />
+    <br />
+    <Message {...createProps({ text: '😀😀' })} />
+    <br />
+    <Message {...createProps({ text: '😀😀😀' })} />
+    <br />
+    <Message {...createProps({ text: '😀😀😀😀' })} />
+    <br />
+    <Message {...createProps({ text: '😀😀😀😀😀' })} />
+    <br />
+    <Message {...createProps({ text: '😀😀😀😀😀😀😀' })} />
+  </>
+));
+
 story.add('Delivered', () => {
   const props = createProps({
     direction: 'outgoing',

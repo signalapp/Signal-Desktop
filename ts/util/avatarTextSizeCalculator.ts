@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as grapheme from './grapheme';
 import { getEmojiCount } from '../components/emoji/lib';
+import { isEmojiOnlyText } from './isEmojiOnlyText';
 
 type FontSizes = {
   diameter: number;
@@ -33,7 +33,7 @@ export function getFittedFontSize(
   const sizes = getFontSizes(bubbleSize);
 
   let candidateFontSize = sizes.text;
-  if (grapheme.count(text) === 1 && getEmojiCount(text) === 1) {
+  if (isEmojiOnlyText(text) && getEmojiCount(text) === 1) {
     candidateFontSize = sizes.singleEmoji;
   }
 

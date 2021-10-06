@@ -63,7 +63,8 @@ import {
   CustomColorType,
 } from '../../types/Colors';
 import { createRefMerger } from '../../util/refMerger';
-import { emojiToData } from '../emoji/lib';
+import { emojiToData, getEmojiCount } from '../emoji/lib';
+import { isEmojiOnlyText } from '../../util/isEmojiOnlyText';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
@@ -618,6 +619,11 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isEmojiOnly = Boolean(
+      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6
+    );
+    const isStickerLike = isSticker || isEmojiOnly;
+
     return (
       <MessageMetadata
         deletedForEveryone={deletedForEveryone}
@@ -628,7 +634,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         id={id}
         isShowingImage={this.isShowingImage()}
-        isSticker={isSticker}
+        isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         showMessageDetail={showMessageDetail}
         status={status}
@@ -2325,6 +2331,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
+      text,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -2333,17 +2340,24 @@ export class Message extends React.PureComponent<Props, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
+    const isEmojiOnly =
+      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6;
+    const isStickerLike = isSticker || isEmojiOnly;
+
     const containerClassnames = classNames(
       'module-message__container',
       isGIF(attachments) ? 'module-message__container--gif' : null,
-      isSelected && !isSticker ? 'module-message__container--selected' : null,
-      isSticker ? 'module-message__container--with-sticker' : null,
-      !isSticker ? `module-message__container--${direction}` : null,
+      isSelected && !isStickerLike
+        ? 'module-message__container--selected'
+        : null,
+      isStickerLike ? 'module-message__container--with-sticker' : null,
+      !isStickerLike ? `module-message__container--${direction}` : null,
+      isEmojiOnly ? 'module-message__container--emoji' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
       isTapToView && isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
-      !isSticker && direction === 'outgoing'
+      !isStickerLike && direction === 'outgoing'
         ? `module-message__container--outgoing-${conversationColor}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
@@ -2363,7 +2377,7 @@ export class Message extends React.PureComponent<Props, State> {
     const containerStyles = {
       width: isShowingImage ? width : undefined,
     };
-    if (!isSticker && direction === 'outgoing') {
+    if (!isStickerLike && direction === 'outgoing') {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
     }
 

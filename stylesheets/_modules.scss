@@ -418,6 +418,10 @@
   padding-bottom: 3px;
 }
 
+.module-message__container--emoji {
+  padding-top: 0;
+}
+
 .module-message__container--outgoing {
   @include light-theme {
     background-color: $color-ultramarine;

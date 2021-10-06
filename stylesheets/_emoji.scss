@@ -44,27 +44,33 @@ span.emoji-inner {
 }
 
 img.emoji {
-  width: 1.4em;
   height: 1.4em;
   margin-bottom: -5px;
+  margin-left: 2px;
+  margin-right: 2px;
   vertical-align: baseline;
+  width: 1.4em;
 }
 
 img.emoji.small {
-  width: 1.8em;
-  height: 1.8em;
+  width: 32px;
+  height: 32px;
 }
 img.emoji.medium {
-  width: 2em;
-  height: 2em;
+  width: 36px;
+  height: 36px;
 }
 img.emoji.large {
-  width: 2.5em;
-  height: 2.5em;
+  width: 40px;
+  height: 40px;
 }
-img.emoji.jumbo {
-  width: 3.5em;
-  height: 3.5em;
+img.emoji.extra-large {
+  width: 48px;
+  height: 48px;
+}
+img.emoji.max {
+  width: 56px;
+  height: 56px;
 }
 
 // we need these, or we'll make conversation items too big in the left-nav

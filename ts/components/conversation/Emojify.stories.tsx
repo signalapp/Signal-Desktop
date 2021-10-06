@@ -35,7 +35,16 @@ story.add('Skin Color Modifier', () => {
 story.add('Jumbo', () => {
   const props = createProps({
     text: '😹😹😹',
-    sizeClass: 'jumbo',
+    sizeClass: 'max',
+  });
+
+  return <Emojify {...props} />;
+});
+
+story.add('Extra Large', () => {
+  const props = createProps({
+    text: '😹😹😹',
+    sizeClass: 'extra-large',
   });
 
   return <Emojify {...props} />;
