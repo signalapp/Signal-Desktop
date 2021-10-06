@@ -13,7 +13,12 @@ const pMap = require('p-map');
 // It is important to call this as early as possible
 require('../ts/windows/context');
 
-const { deriveStickerPackKey } = require('../ts/Crypto');
+const {
+  deriveStickerPackKey,
+  encryptAttachment,
+  getRandomBytes,
+} = require('../ts/Crypto');
+const Bytes = require('../ts/Bytes');
 const { SignalService: Proto } = require('../ts/protobuf');
 const {
   getEnvironment,
@@ -190,9 +195,9 @@ window.encryptAndUpload = async (
   const { value: oldUsername } = oldUsernameItem;
   const { value: password } = passwordItem;
 
-  const packKey = window.Signal.Crypto.getRandomBytes(32);
+  const packKey = getRandomBytes(32);
   const encryptionKey = deriveStickerPackKey(packKey);
-  const iv = window.Signal.Crypto.getRandomBytes(16);
+  const iv = getRandomBytes(16);
 
   const server = WebAPI.connect({
     username: username || oldUsername,
@@ -241,7 +246,7 @@ window.encryptAndUpload = async (
     onProgress
   );
 
-  const hexKey = window.Signal.Crypto.hexFromBytes(packKey);
+  const hexKey = Bytes.toHex(packKey);
 
   ipc.send('install-sticker-pack', packId, hexKey);
 
@@ -249,11 +254,7 @@ window.encryptAndUpload = async (
 };
 
 async function encrypt(data, key, iv) {
-  const { ciphertext } = await window.textsecure.crypto.encryptAttachment(
-    data,
-    key,
-    iv
-  );
+  const { ciphertext } = await encryptAttachment(data, key, iv);
 
   return ciphertext;
 }
