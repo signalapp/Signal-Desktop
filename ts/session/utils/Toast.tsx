@@ -235,3 +235,11 @@ export function pushUserRemovedFromModerators() {
 export function pushInvalidPubKey() {
   pushToastSuccess('invalidPubKey', window.i18n('invalidPubkeyFormat'));
 }
+
+export function pushNoCameraFound() {
+  pushToastWarning('noCameraFound', window.i18n('noCameraFound'));
+}
+
+export function pushNoAudioInputFound() {
+  pushToastWarning('noAudioInputFound', window.i18n('noAudioInputFound'));
+}

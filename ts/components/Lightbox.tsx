@@ -133,7 +133,7 @@ interface IconButtonProps {
 }
 
 const IconButton = ({ onClick, type }: IconButtonProps) => {
-  const clickHandler = (_event: React.MouseEvent<HTMLAnchorElement>): void => {
+  const clickHandler = (): void => {
     if (!onClick) {
       return;
     }

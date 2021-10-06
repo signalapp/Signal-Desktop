@@ -454,5 +454,7 @@
   "unableToCallTitle": "Cannot start new call",
   "callMissed": "Missed call from $name$",
   "callMissedTitle": "Call missed",
-  "startVideoCall": "Start Video Call"
+  "startVideoCall": "Start Video Call",
+  "noCameraFound": "No camera found",
+  "noAudioInputFound": "No audio input found"
 }

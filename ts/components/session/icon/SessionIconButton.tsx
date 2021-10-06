@@ -5,7 +5,7 @@ import { SessionNotificationCount } from '../SessionNotificationCount';
 import _ from 'lodash';
 
 interface SProps extends SessionIconProps {
-  onClick?: any;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
@@ -27,10 +27,10 @@ const SessionIconButtonInner = (props: SProps) => {
     borderRadius,
     iconPadding,
   } = props;
-  const clickHandler = (e: any) => {
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
       e.stopPropagation();
-      props.onClick();
+      props.onClick(e);
     }
   };
 

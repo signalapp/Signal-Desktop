@@ -17,17 +17,27 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
+export type InputItem = { deviceId: string; label: string };
 
 type CallManagerListener =
-  | ((localStream: MediaStream | null, remoteStream: MediaStream | null) => void)
+  | ((
+      localStream: MediaStream | null,
+      remoteStream: MediaStream | null,
+      camerasList: Array<InputItem>,
+      audioInputsList: Array<InputItem>
+    ) => void)
   | null;
 let videoEventsListener: CallManagerListener;
 
+function callVideoListener() {
+  if (videoEventsListener) {
+    videoEventsListener(mediaDevices, remoteStream, camerasList, audioInputsList);
+  }
+}
+
 export function setVideoEventsListener(listener: CallManagerListener) {
   videoEventsListener = listener;
-  if (videoEventsListener) {
-    videoEventsListener(mediaDevices, remoteStream);
-  }
+  callVideoListener();
 }
 
 /**
@@ -39,8 +49,6 @@ let peerConnection: RTCPeerConnection | null;
 let remoteStream: MediaStream | null;
 let mediaDevices: MediaStream | null;
 
-const ENABLE_VIDEO = true;
-
 let makingOffer = false;
 let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
@@ -49,7 +57,7 @@ let lastOutgoingOfferTimestamp = -Infinity;
 const configuration = {
   configuration: {
     offerToReceiveAudio: true,
-    offerToReceiveVideo: ENABLE_VIDEO,
+    offerToReceiveVideo: true,
   },
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
@@ -60,8 +68,129 @@ const configuration = {
   ],
 };
 
+let selectedCameraId: string | undefined;
+let selectedAudioInputId: string | undefined;
+let camerasList: Array<InputItem> = [];
+let audioInputsList: Array<InputItem> = [];
+
+async function getConnectedDevices(type: 'videoinput' | 'audioinput') {
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return devices.filter(device => device.kind === type);
+}
+
+// Listen for changes to media devices and update the list accordingly
+navigator.mediaDevices.addEventListener('devicechange', async () => {
+  await updateInputLists();
+  callVideoListener();
+});
+
+async function updateInputLists() {
+  // Get the set of cameras connected
+  const videoCameras = await getConnectedDevices('videoinput');
+  camerasList = videoCameras.map(m => ({
+    deviceId: m.deviceId,
+    label: m.label,
+  }));
+  // Get the set of audio inputs connected
+  const audiosInput = await getConnectedDevices('audioinput');
+  audioInputsList = audiosInput.map(m => ({
+    deviceId: m.deviceId,
+    label: m.label,
+  }));
+}
+
+export async function selectCameraByDeviceId(cameraDeviceId: string) {
+  console.warn('selecting cameraDeviceId ', cameraDeviceId);
+
+  if (camerasList.some(m => m.deviceId === cameraDeviceId)) {
+    selectedCameraId = cameraDeviceId;
+
+    try {
+      mediaDevices = await openMediaDevices({
+        audioInputId: selectedAudioInputId,
+        cameraId: selectedCameraId,
+      });
+
+      mediaDevices.getTracks().map((track: MediaStreamTrack) => {
+        window.log.info('selectCameraByDeviceId adding track: ', track);
+        if (mediaDevices) {
+          peerConnection?.addTrack(track, mediaDevices);
+        }
+      });
+      callVideoListener();
+    } catch (err) {
+      console.warn('err', err);
+    }
+  }
+}
+export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
+  console.warn('selecting audioInputDeviceId', audioInputDeviceId);
+  if (audioInputsList.some(m => m.deviceId === audioInputDeviceId)) {
+    selectedAudioInputId = audioInputDeviceId;
+    try {
+      mediaDevices = await openMediaDevices({
+        audioInputId: selectedAudioInputId,
+        cameraId: selectedCameraId,
+      });
+
+      mediaDevices.getTracks().map((track: MediaStreamTrack) => {
+        window.log.info('selectAudioInputByDeviceId adding track: ', track);
+        if (mediaDevices) {
+          peerConnection?.addTrack(track, mediaDevices);
+        }
+      });
+      callVideoListener();
+    } catch (err) {
+      console.warn('err', err);
+    }
+  }
+}
+
+async function handleNegotiationNeededEvent(event: Event, recipient: string) {
+  window.log?.warn('negotiationneeded:', event);
+  try {
+    makingOffer = true;
+    const offer = await peerConnection?.createOffer();
+
+    if (!offer) {
+      throw new Error('Could not create offer in handleNegotiationNeededEvent');
+    }
+    await peerConnection?.setLocalDescription(offer);
+
+    if (offer && offer.sdp) {
+      const negotationOfferMessage = new CallMessage({
+        timestamp: Date.now(),
+        type: SignalService.CallMessage.Type.OFFER,
+        sdps: [offer.sdp],
+      });
+
+      window.log.info('sending OFFER MESSAGE');
+      const negotationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
+        PubKey.cast(recipient),
+        negotationOfferMessage
+      );
+      if (typeof negotationOfferSendResult === 'number') {
+        window.log?.warn('setting last sent timestamp');
+        lastOutgoingOfferTimestamp = negotationOfferSendResult;
+      }
+    }
+  } catch (err) {
+    window.log?.error(`Error on handling negotiation needed ${err}`);
+  } finally {
+    makingOffer = false;
+  }
+}
+
+function handleIceCandidates(event: RTCPeerConnectionIceEvent, pubkey: string) {
+  if (event.candidate) {
+    iceCandidates.push(event.candidate);
+    void iceSenderDebouncer(pubkey);
+  }
+}
+
 // tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
+  await updateInputLists();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
   window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
   if (peerConnection) {
@@ -72,7 +201,8 @@ export async function USER_callRecipient(recipient: string) {
   peerConnection = new RTCPeerConnection(configuration);
 
   try {
-    mediaDevices = await openMediaDevices();
+    mediaDevices = await openMediaDevices({});
+
     mediaDevices.getTracks().map((track: any) => {
       window.log.info('USER_callRecipient adding track: ', track);
       if (mediaDevices) {
@@ -85,99 +215,27 @@ export async function USER_callRecipient(recipient: string) {
       window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
     });
   }
-  peerConnection.addEventListener('connectionstatechange', _event => {
-    window.log.info('peerConnection?.connectionState caller :', peerConnection?.connectionState);
-    if (peerConnection?.connectionState === 'connected') {
-      window.inboxStore?.dispatch(callConnected({ pubkey: recipient }));
-    }
+  peerConnection.addEventListener('connectionstatechange', () => {
+    handleConnectionStateChanged(recipient);
   });
-  peerConnection.addEventListener('ontrack', event => {
-    window.log?.warn('ontrack:', event);
-  });
+
   peerConnection.addEventListener('icecandidate', event => {
-    // window.log.warn('event.candidate', event.candidate);
-
-    if (event.candidate) {
-      iceCandidates.push(event.candidate);
-      void iceSenderDebouncer(recipient);
-    }
+    handleIceCandidates(event, recipient);
   });
-  // peerConnection.addEventListener('negotiationneeded', async event => {
-  peerConnection.onnegotiationneeded = async event => {
-    window.log?.warn('negotiationneeded:', event);
-    try {
-      makingOffer = true;
-      // @ts-ignore
-      await peerConnection?.setLocalDescription();
-      const offer = await peerConnection?.createOffer();
-      window.log?.warn(offer);
-
-      if (offer && offer.sdp) {
-        const negotationOfferMessage = new CallMessage({
-          timestamp: Date.now(),
-          type: SignalService.CallMessage.Type.OFFER,
-          sdps: [offer.sdp],
-        });
-
-        window.log.info('sending OFFER MESSAGE');
-        const negotationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
-          PubKey.cast(recipient),
-          negotationOfferMessage
-        );
-        if (typeof negotationOfferSendResult === 'number') {
-          window.log?.warn('setting last sent timestamp');
-          lastOutgoingOfferTimestamp = negotationOfferSendResult;
-        }
-        // debug: await new Promise(r => setTimeout(r, 10000)); adding artificial wait for offer debugging
-      }
-    } catch (err) {
-      window.log?.error(`Error on handling negotiation needed ${err}`);
-    } finally {
-      makingOffer = false;
-    }
+  peerConnection.onnegotiationneeded = async (event: Event) => {
+    await handleNegotiationNeededEvent(event, recipient);
   };
 
   remoteStream = new MediaStream();
 
-  if (videoEventsListener) {
-    videoEventsListener(mediaDevices, remoteStream);
-  }
+  callVideoListener();
 
   peerConnection.addEventListener('track', event => {
-    if (videoEventsListener) {
-      videoEventsListener(mediaDevices, remoteStream);
-    }
+    callVideoListener();
     if (remoteStream) {
       remoteStream.addTrack(event.track);
     }
   });
-
-  const offerDescription = await peerConnection.createOffer({
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: ENABLE_VIDEO,
-  });
-
-  if (!offerDescription || !offerDescription.sdp || !offerDescription.sdp.length) {
-    window.log.warn(`failed to createOffer for recipient ${ed25519Str(recipient)}`);
-    return;
-  }
-  await peerConnection.setLocalDescription(offerDescription);
-  const offerMessage = new CallMessage({
-    timestamp: Date.now(),
-    type: SignalService.CallMessage.Type.OFFER,
-    sdps: [offerDescription.sdp],
-  });
-
-  window.log.info('sending OFFER MESSAGE');
-  const offerSendResult = await getMessageQueue().sendToPubKeyNonDurably(
-    PubKey.cast(recipient),
-    offerMessage
-  );
-  if (typeof offerSendResult === 'number') {
-    window.log?.warn('setting timestamp');
-    lastOutgoingOfferTimestamp = offerSendResult;
-  }
-  // FIXME audric dispatch UI update to show the calling UI
 }
 
 const iceCandidates: Array<RTCIceCandidate> = new Array();
@@ -214,10 +272,29 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
 }, 2000);
 
-const openMediaDevices = async () => {
+const openMediaDevices = async ({
+  audioInputId,
+  cameraId,
+}: {
+  cameraId?: string;
+  audioInputId?: string;
+}) => {
+  if (mediaDevices) {
+    window.log.info('stopping existing tracks in openMediaDevices');
+    mediaDevices.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+  window.log.info('openMediaDevices ', { audioInputId, cameraId });
+
   return navigator.mediaDevices.getUserMedia({
-    video: ENABLE_VIDEO,
-    audio: true,
+    audio: {
+      deviceId: audioInputId ? { exact: audioInputId } : undefined,
+      echoCancellation: true,
+    },
+    video: {
+      deviceId: cameraId ? { exact: cameraId } : undefined,
+    },
   });
 };
 
@@ -234,9 +311,57 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
   return lastOfferMessage;
 };
 
+function handleSignalingStateChangeEvent() {
+  if (peerConnection?.signalingState === 'closed') {
+    closeVideoCall();
+  }
+}
+
+function handleConnectionStateChanged(pubkey: string) {
+  window.log.info('handleConnectionStateChanged :', peerConnection?.connectionState);
+
+  if (peerConnection?.signalingState === 'closed') {
+    closeVideoCall();
+  } else if (peerConnection?.connectionState === 'connected') {
+    window.inboxStore?.dispatch(callConnected({ pubkey }));
+  }
+}
+
+function closeVideoCall() {
+  if (peerConnection) {
+    peerConnection.ontrack = null;
+    peerConnection.onicecandidate = null;
+    peerConnection.oniceconnectionstatechange = null;
+    peerConnection.onconnectionstatechange = null;
+    peerConnection.onsignalingstatechange = null;
+    peerConnection.onicegatheringstatechange = null;
+    peerConnection.onnegotiationneeded = null;
+
+    if (mediaDevices) {
+      mediaDevices.getTracks().forEach(track => {
+        track.stop();
+      });
+    }
+
+    if (remoteStream) {
+      remoteStream.getTracks().forEach(track => {
+        track.stop();
+      });
+    }
+
+    peerConnection.close();
+    peerConnection = null;
+  }
+
+  if (videoEventsListener) {
+    videoEventsListener(null, null, [], []);
+  }
+}
+
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   const msgCacheFromSender = callCache.get(fromSender);
+  await updateInputLists();
   if (!msgCacheFromSender) {
     window?.log?.info(
       'incoming call request cannot be accepted as the corresponding message is not found'
@@ -262,7 +387,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     peerConnection = null;
   }
   peerConnection = new RTCPeerConnection(configuration);
-  mediaDevices = await openMediaDevices();
+  mediaDevices = await openMediaDevices({});
   mediaDevices.getTracks().map(track => {
     // window.log.info('USER_acceptIncomingCallRequest adding track ', track);
     if (mediaDevices) {
@@ -272,35 +397,22 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   remoteStream = new MediaStream();
 
   peerConnection.addEventListener('icecandidate', event => {
-    window.log?.warn('icecandidateerror:', event);
-    // TODO: ICE stuff
-    // signaler.send({candidate}); // probably event.candidate
+    if (event.candidate) {
+      iceCandidates.push(event.candidate);
+      void iceSenderDebouncer(fromSender);
+    }
   });
 
-  peerConnection.addEventListener('signalingstatechange', event => {
-    window.log?.warn('signalingstatechange:', event);
-  });
+  peerConnection.addEventListener('signalingstatechange', handleSignalingStateChangeEvent);
 
-  if (videoEventsListener) {
-    videoEventsListener(mediaDevices, remoteStream);
-  }
+  callVideoListener();
 
   peerConnection.addEventListener('track', event => {
-    if (videoEventsListener) {
-      videoEventsListener(mediaDevices, remoteStream);
-    }
+    callVideoListener();
     remoteStream?.addTrack(event.track);
   });
-  peerConnection.addEventListener('connectionstatechange', _event => {
-    window.log.info(
-      'peerConnection?.connectionState recipient:',
-      peerConnection?.connectionState,
-      'with: ',
-      fromSender
-    );
-    if (peerConnection?.connectionState === 'connected') {
-      window.inboxStore?.dispatch(callConnected({ pubkey: fromSender }));
-    }
+  peerConnection.addEventListener('connectionstatechange', () => {
+    handleConnectionStateChanged(fromSender);
   });
 
   const { sdps } = lastOfferMessage;
@@ -320,7 +432,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 
   const answer = await peerConnection.createAnswer({
     offerToReceiveAudio: true,
-    offerToReceiveVideo: ENABLE_VIDEO,
+    offerToReceiveVideo: true,
   });
   if (!answer?.sdp || answer.sdp.length === 0) {
     window.log.warn('failed to create answer');
@@ -371,7 +483,7 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 export function handleEndCallMessage(sender: string) {
   callCache.delete(sender);
   if (videoEventsListener) {
-    videoEventsListener(null, null);
+    videoEventsListener(null, null, [], []);
   }
   mediaDevices = null;
   remoteStream = null;
@@ -387,9 +499,15 @@ export async function handleOfferCallMessage(
 ) {
   try {
     const convos = getConversationController().getConversations();
-    if (convos.some(convo => convo.callState !== undefined)) {
-      await handleMissedCall(sender, incomingOfferTimestamp);
-      return;
+    const callingConvos = convos.filter(convo => convo.callState !== undefined);
+    if (callingConvos.length > 0) {
+      // we just got a new offer from someone we are already in a call with
+      if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+        window.log.info('Got a new offer message from our ongoing call');
+      } else {
+        await handleMissedCall(sender, incomingOfferTimestamp);
+        return;
+      }
     }
 
     const readyForOffer =
@@ -481,7 +599,7 @@ export async function handleIceCandidatesMessage(
         await peerConnection.addIceCandidate(candicate);
       } catch (err) {
         if (!ignoreOffer) {
-          window.log?.warn('Error handling ICE candidates message');
+          window.log?.warn('Error handling ICE candidates message', err);
         }
       }
     }

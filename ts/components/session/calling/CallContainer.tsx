@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
@@ -6,20 +6,23 @@ import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { CallManager } from '../../../session/utils';
+import { CallManager, ToastUtils } from '../../../session/utils';
 import {
   getHasOngoingCall,
   getHasOngoingCallWith,
   getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
-import { SessionButton } from '../SessionButton';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
+import { SessionIconButton } from '../icon';
+import { animation, contextMenu, Item, Menu } from 'react-contexify';
+import { InputItem } from '../../../session/utils/CallManager';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
   z-index: 9;
   box-shadow: var(--color-session-shadow);
   max-height: 300px;
-  width: 300px;
+  width: 12vw;
   display: flex;
   flex-direction: column;
   background-color: var(--color-modal-background);
@@ -36,16 +39,57 @@ const StyledDraggableVideoElement = styled(StyledVideoElement)`
   padding: 0 0;
 `;
 
-const CallWindowControls = styled.div`
-  padding: 5px;
-  flex-shrink: 0;
+const DraggableCallWindowInner = styled.div`
+  cursor: pointer;
 `;
-
-const DraggableCallWindowInner = styled.div``;
 
 const VideoContainer = styled.div`
   height: 100%;
   width: 50%;
+`;
+
+export const InConvoCallWindow = styled.div`
+  padding: 1rem;
+  display: flex;
+  height: 50%;
+
+  background: radial-gradient(black, #505050);
+
+  flex-shrink: 0;
+  min-height: 200px;
+  align-items: center;
+`;
+
+const InConvoCallWindowControls = styled.div`
+  position: absolute;
+
+  bottom: 0px;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 10px;
+  height: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  transition: all 0.25s ease-in-out;
+
+  display: flex;
+  background-color: white;
+
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const RelativeCallWindow = styled.div`
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-grow: 1;
 `;
 
 // TODO:
@@ -58,8 +102,10 @@ export const DraggableCallContainer = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
+  const [positionX, setPositionX] = useState(window.innerWidth / 2);
+  const [positionY, setPositionY] = useState(window.innerHeight / 2);
+  const [lastPositionX, setLastPositionX] = useState(0);
+  const [lastPositionY, setLastPositionY] = useState(0);
 
   const ongoingCallPubkey = ongoingCallProps?.id;
   const videoRefRemote = useRef<any>(undefined);
@@ -96,25 +142,30 @@ export const DraggableCallContainer = () => {
     };
   }, [ongoingCallPubkey, selectedConversationKey]);
 
-  const handleEndCall = async () => {
-    // call method to end call connection
-    if (ongoingCallPubkey) {
-      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
+  const openCallingConversation = useCallback(() => {
+    if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
+      void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
     }
-  };
+  }, [ongoingCallPubkey, selectedConversationKey]);
 
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
     return null;
   }
 
-  console.warn('rendering with pos', positionX, positionY);
-
   return (
     <Draggable
       handle=".dragHandle"
       position={{ x: positionX, y: positionY }}
-      onStop={(_e: DraggableEvent, data: DraggableData) => {
-        console.warn('setting position ', { x: data.x, y: data.y });
+      onStart={(_e: DraggableEvent, data: DraggableData) => {
+        setLastPositionX(data.x);
+        setLastPositionY(data.y);
+      }}
+      onStop={(e: DraggableEvent, data: DraggableData) => {
+        e.stopPropagation();
+        if (data.x === lastPositionX && data.y === lastPositionY) {
+          // drag did not change anything. Consider this to be a click
+          openCallingConversation();
+        }
         setPositionX(data.x);
         setPositionY(data.y);
       }}
@@ -123,45 +174,93 @@ export const DraggableCallContainer = () => {
         <DraggableCallWindowInner>
           <StyledDraggableVideoElement ref={videoRefRemote} autoPlay={true} />
         </DraggableCallWindowInner>
-        <CallWindowControls>
-          <SessionButton text={window.i18n('endCall')} onClick={handleEndCall} />
-        </CallWindowControls>
       </DraggableCallWindow>
     </Draggable>
   );
 };
 
-export const InConvoCallWindow = styled.div`
-  padding: 1rem;
-  display: flex;
-  height: 50%;
+const VideoInputMenu = ({
+  triggerId,
+  camerasList,
+}: {
+  triggerId: string;
+  camerasList: Array<InputItem>;
+}) => {
+  return (
+    <Menu id={triggerId} animation={animation.fade}>
+      {camerasList.map(m => {
+        return (
+          <Item
+            key={m.deviceId}
+            onClick={() => {
+              void CallManager.selectCameraByDeviceId(m.deviceId);
+            }}
+          >
+            {m.label.substr(0, 40)}
+          </Item>
+        );
+      })}
+    </Menu>
+  );
+};
 
-  /* background-color: var(--color-background-primary); */
-
-  background: radial-gradient(black, #505050);
-
-  flex-shrink: 0;
-  min-height: 200px;
-  align-items: center;
-`;
+const AudioInputMenu = ({
+  triggerId,
+  audioInputsList,
+}: {
+  triggerId: string;
+  audioInputsList: Array<InputItem>;
+}) => {
+  return (
+    <Menu id={triggerId} animation={animation.fade}>
+      {audioInputsList.map(m => {
+        return (
+          <Item
+            key={m.deviceId}
+            onClick={() => {
+              void CallManager.selectAudioInputByDeviceId(m.deviceId);
+            }}
+          >
+            {m.label.substr(0, 40)}
+          </Item>
+        );
+      })}
+    </Menu>
+  );
+};
 
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
+  const [currentConnectedCameras, setCurrentConnectedCameras] = useState<Array<InputItem>>([]);
+  const [currentConnectedAudioInputs, setCurrentConnectedAudioInputs] = useState<Array<InputItem>>(
+    []
+  );
 
   const ongoingCallPubkey = ongoingCallProps?.id;
   const videoRefRemote = useRef<any>();
   const videoRefLocal = useRef<any>();
   const mountedState = useMountedState();
 
+  const videoTriggerId = 'video-menu-trigger-id';
+  const audioTriggerId = 'audio-menu-trigger-id';
+
   useEffect(() => {
     if (ongoingCallPubkey === selectedConversationKey) {
       CallManager.setVideoEventsListener(
-        (localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+        (
+          localStream: MediaStream | null,
+          remoteStream: MediaStream | null,
+          camerasList: Array<InputItem>,
+          audioInputList: Array<InputItem>
+        ) => {
           if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
             videoRefLocal.current.srcObject = localStream;
             videoRefRemote.current.srcObject = remoteStream;
+            setCurrentConnectedCameras(camerasList);
+
+            setCurrentConnectedAudioInputs(audioInputList);
           }
         }
       );
@@ -169,6 +268,8 @@ export const InConversationCallContainer = () => {
 
     return () => {
       CallManager.setVideoEventsListener(null);
+      setCurrentConnectedCameras([]);
+      setCurrentConnectedAudioInputs([]);
     };
   }, [ongoingCallPubkey, selectedConversationKey]);
 
@@ -185,12 +286,58 @@ export const InConversationCallContainer = () => {
 
   return (
     <InConvoCallWindow>
-      <VideoContainer>
-        <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
-      </VideoContainer>
-      <VideoContainer>
-        <StyledVideoElement ref={videoRefLocal} autoPlay={true} />
-      </VideoContainer>
+      <RelativeCallWindow>
+        <VideoContainer>
+          <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
+        </VideoContainer>
+        <VideoContainer>
+          <StyledVideoElement ref={videoRefLocal} autoPlay={true} />
+        </VideoContainer>
+
+        <InConvoCallWindowControls>
+          <SessionIconButton
+            iconSize="huge2"
+            iconPadding="10px"
+            iconType="hangup"
+            onClick={handleEndCall}
+            iconColor="red"
+          />
+          <SessionIconButton
+            iconSize="huge2"
+            iconPadding="10px"
+            iconType="videoCamera"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              if (currentConnectedCameras.length === 0) {
+                ToastUtils.pushNoCameraFound();
+                return;
+              }
+              contextMenu.show({
+                id: videoTriggerId,
+                event: e,
+              });
+            }}
+            iconColor="black"
+          />
+          <SessionIconButton
+            iconSize="huge2"
+            iconPadding="10px"
+            iconType="microphoneFull"
+            iconColor="black"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              if (currentConnectedAudioInputs.length === 0) {
+                ToastUtils.pushNoAudioInputFound();
+                return;
+              }
+              contextMenu.show({
+                id: audioTriggerId,
+                event: e,
+              });
+            }}
+          />
+        </InConvoCallWindowControls>
+        <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
+        <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />
+      </RelativeCallWindow>
     </InConvoCallWindow>
   );
 };
