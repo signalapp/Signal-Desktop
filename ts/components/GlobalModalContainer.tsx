@@ -10,6 +10,9 @@ type PropsType = {
   // ProfileEditor
   isProfileEditorVisible: boolean;
   renderProfileEditor: () => JSX.Element;
+  // SafetyNumberModal
+  safetyNumberModalContactId?: string;
+  renderSafetyNumber: () => JSX.Element;
 };
 
 export const GlobalModalContainer = ({
@@ -19,7 +22,14 @@ export const GlobalModalContainer = ({
   // ProfileEditor
   isProfileEditorVisible,
   renderProfileEditor,
+  // SafetyNumberModal
+  safetyNumberModalContactId,
+  renderSafetyNumber,
 }: PropsType): JSX.Element | null => {
+  if (safetyNumberModalContactId) {
+    return renderSafetyNumber();
+  }
+
   if (contactModalState) {
     return renderContactModal();
   }

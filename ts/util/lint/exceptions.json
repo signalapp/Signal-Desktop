@@ -107,38 +107,6 @@
     "reasonDetail": "Very limited in what HTML can be injected - dark/light options specify colors for the light/dark parts of QRCode"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "js/views/key_verification_view.js",
-    "line": "    template: () => $('#key-verification').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "js/views/key_verification_view.js",
-    "line": "      this.$('.key-verification-wrapper').append(this.view.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Adding sub-view to DOM"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "js/views/key_verification_view.js",
-    "line": "    template: () => $('#key-verification').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-02-26T18:44:56.450Z",
-    "reasonDetail": "Static selector, read-only access"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/@chanzuckerberg/axe-storybook-testing/node_modules/ansi-styles/index.js",
     "line": "\t\t\tstyles[name] = wrap(identity, offset);",

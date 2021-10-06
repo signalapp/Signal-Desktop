@@ -8,6 +8,7 @@ import { GlobalModalContainer } from '../../components/GlobalModalContainer';
 import { StateType } from '../reducer';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartContactModal } from './ContactModal';
+import { SmartSafetyNumberModal } from './SafetyNumberModal';
 
 const FilteredSmartProfileEditorModal = SmartProfileEditorModal;
 
@@ -24,6 +25,11 @@ const mapStateToProps = (state: StateType) => {
     ...state.globalModals,
     renderContactModal,
     renderProfileEditor,
+    renderSafetyNumber: () => (
+      <SmartSafetyNumberModal
+        contactID={String(state.globalModals.safetyNumberModalContactId)}
+      />
+    ),
   };
 };
 

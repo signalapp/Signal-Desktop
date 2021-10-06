@@ -2125,10 +2125,9 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       conversation = window.ConversationController.get(id);
     }
     if (conversation) {
-      const view = new Whisper.KeyVerificationPanelView({
-        model: conversation,
-      });
-      this.listenBack(view);
+      window.reduxActions.globalModals.toggleSafetyNumberModal(
+        conversation.get('id')
+      );
     }
   }
 

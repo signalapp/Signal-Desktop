@@ -50,12 +50,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   generateSafetyNumber: action('generate-safety-number'),
   i18n,
   safetyNumber: text('safetyNumber', overrideProps.safetyNumber || 'XXX'),
-  safetyNumberChanged: boolean(
-    'safetyNumberChanged',
-    overrideProps.safetyNumberChanged !== undefined
-      ? overrideProps.safetyNumberChanged
-      : false
-  ),
   toggleVerified: action('toggle-verified'),
   verificationDisabled: boolean(
     'verificationDisabled',
@@ -90,16 +84,6 @@ story.add('Verification Disabled', () => {
     <SafetyNumberViewer
       {...createProps({
         verificationDisabled: true,
-      })}
-    />
-  );
-});
-
-story.add('Safety Number Changed', () => {
-  return (
-    <SafetyNumberViewer
-      {...createProps({
-        safetyNumberChanged: true,
       })}
     />
   );
