@@ -420,6 +420,10 @@
 
 .module-message__container--emoji {
   padding-top: 0;
+
+  .module-message__text--outgoing {
+    text-align: right;
+  }
 }
 
 .module-message__container--outgoing {
