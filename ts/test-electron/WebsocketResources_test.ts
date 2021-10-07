@@ -32,6 +32,12 @@ describe('WebSocket-Resource', () => {
     this.clock = this.sandbox.useFakeTimers({
       now: NOW,
     });
+    this.sandbox
+      .stub(window.SignalContext.timers, 'setTimeout')
+      .callsFake(setTimeout);
+    this.sandbox
+      .stub(window.SignalContext.timers, 'clearTimeout')
+      .callsFake(clearTimeout);
   });
 
   afterEach(function afterEach() {
