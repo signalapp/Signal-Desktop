@@ -271,6 +271,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         setLocalPreview={setLocalPreview}
         setRendererCanvas={setRendererCanvas}
         togglePip={togglePip}
+        toggleSpeakerView={toggleSpeakerView}
       />
     );
   }
