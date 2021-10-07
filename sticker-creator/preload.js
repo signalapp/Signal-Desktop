@@ -37,8 +37,6 @@ const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
 setEnvironment(parseEnvironment(config.environment));
 
-window.sqlInitializer = require('../ts/sql/initialize');
-
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
@@ -173,7 +171,6 @@ window.encryptAndUpload = async (
   cover,
   onProgress = noop
 ) => {
-  await window.sqlInitializer.goBackToMainProcess();
   const usernameItem = await window.Signal.Data.getItemById('uuid_id');
   const oldUsernameItem = await window.Signal.Data.getItemById('number_id');
   const passwordItem = await window.Signal.Data.getItemById('password');

@@ -380,13 +380,13 @@ export function createIPCEvents(
     showKeyboardShortcuts: () => window.showKeyboardShortcuts(),
 
     deleteAllData: async () => {
-      await window.sqlInitializer.goBackToMainProcess();
+      await window.Signal.Data.goBackToMainProcess();
 
       renderClearingDataView();
     },
 
     closeDB: async () => {
-      await window.sqlInitializer.goBackToMainProcess();
+      await window.Signal.Data.goBackToMainProcess();
     },
 
     showStickerPack: (packId, key) => {

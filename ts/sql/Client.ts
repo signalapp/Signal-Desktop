@@ -7,7 +7,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
-import { ipcRenderer } from 'electron';
+import { ipcRenderer as ipc } from 'electron';
+import fs from 'fs-extra';
+import pify from 'pify';
 
 import {
   cloneDeep,
@@ -27,7 +29,7 @@ import {
 import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
-import { assert } from '../util/assert';
+import { assert, strictAssert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import { ReactionType } from '../types/Reactions';
 import { ConversationColorType, CustomColorType } from '../types/Colors';
@@ -84,13 +86,15 @@ import { isCorruptionError } from './errors';
 import { MessageModel } from '../models/messages';
 import { ConversationModel } from '../models/conversations';
 
-// We listen to a lot of events on ipcRenderer, often on the same channel. This prevents
+// We listen to a lot of events on ipc, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
-if (ipcRenderer && ipcRenderer.setMaxListeners) {
-  ipcRenderer.setMaxListeners(0);
+if (ipc && ipc.setMaxListeners) {
+  ipc.setMaxListeners(0);
 } else {
-  log.warn('sql/Client: ipcRenderer is not available!');
+  log.warn('sql/Client: ipc is not available!');
 }
+
+const getRealPath = pify(fs.realpath);
 
 const MIN_TRACE_DURATION = 10;
 
@@ -109,13 +113,20 @@ type ClientJobUpdateType = {
   args?: Array<any>;
 };
 
+enum RendererState {
+  InMain = 'InMain',
+  Opening = 'Opening',
+  InRenderer = 'InRenderer',
+  Closing = 'Closing',
+}
+
 const _jobs: { [id: string]: ClientJobType } = Object.create(null);
 const _DEBUG = false;
 let _jobCounter = 0;
 let _shuttingDown = false;
 let _shutdownCallback: Function | null = null;
 let _shutdownPromise: Promise<any> | null = null;
-let shouldUseRendererProcess = true;
+let state = RendererState.InMain;
 const startupQueries = new Map<string, number>();
 
 // Because we can't force this module to conform to an interface, we narrow our exports
@@ -294,6 +305,7 @@ const dataInterface: ClientInterface = {
 
   // Client-side only, and test-only
 
+  startInRendererProcess,
   goBackToMainProcess,
   _removeConversations,
   _jobs,
@@ -301,22 +313,49 @@ const dataInterface: ClientInterface = {
 
 export default dataInterface;
 
-async function goBackToMainProcess(): Promise<void> {
-  if (!shouldUseRendererProcess) {
-    log.info('data.goBackToMainProcess: already switched to main process');
-    return;
+async function startInRendererProcess(isTesting = false): Promise<void> {
+  strictAssert(
+    state === RendererState.InMain,
+    `startInRendererProcess: expected ${state} to be ${RendererState.InMain}`
+  );
+
+  log.info('data.startInRendererProcess: switching to renderer process');
+  state = RendererState.Opening;
+
+  if (!isTesting) {
+    ipc.send('database-ready');
+
+    await new Promise<void>(resolve => {
+      ipc.once('database-ready', () => {
+        resolve();
+      });
+    });
   }
+
+  const configDir = await getRealPath(ipc.sendSync('get-user-data-path'));
+  const key = ipc.sendSync('user-config-key');
+
+  await Server.initializeRenderer({ configDir, key });
+
+  log.info('data.startInRendererProcess: switched to renderer process');
+
+  state = RendererState.InRenderer;
+}
+
+async function goBackToMainProcess(): Promise<void> {
+  strictAssert(
+    state === RendererState.InRenderer,
+    `goBackToMainProcess: expected ${state} to be ${RendererState.InRenderer}`
+  );
 
   // We don't need to wait for pending queries since they are synchronous.
   log.info('data.goBackToMainProcess: switching to main process');
-
-  // Close the database in the renderer process.
   const closePromise = close();
 
   // It should be the last query we run in renderer process
-  shouldUseRendererProcess = false;
-
+  state = RendererState.Closing;
   await closePromise;
+  state = RendererState.InMain;
 
   // Print query statistics for whole startup
   const entries = Array.from(startupQueries.entries());
@@ -329,6 +368,8 @@ async function goBackToMainProcess(): Promise<void> {
     .forEach(([query, duration]) => {
       log.info(`startup query: ${query} ${duration}ms`);
     });
+
+  log.info('data.goBackToMainProcess: switched to main process');
 }
 
 const channelsAsUnknown = fromPairs(
@@ -474,38 +515,35 @@ function _getJob(id: number) {
   return _jobs[id];
 }
 
-if (ipcRenderer && ipcRenderer.on) {
-  ipcRenderer.on(
-    `${SQL_CHANNEL_KEY}-done`,
-    (_, jobId, errorForDisplay, result) => {
-      const job = _getJob(jobId);
-      if (!job) {
-        throw new Error(
-          `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
-        );
-      }
-
-      const { resolve, reject, fnName } = job;
-
-      if (!resolve || !reject) {
-        throw new Error(
-          `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
-        );
-      }
-
-      if (errorForDisplay) {
-        return reject(
-          new Error(
-            `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
-          )
-        );
-      }
-
-      return resolve(result);
+if (ipc && ipc.on) {
+  ipc.on(`${SQL_CHANNEL_KEY}-done`, (_, jobId, errorForDisplay, result) => {
+    const job = _getJob(jobId);
+    if (!job) {
+      throw new Error(
+        `Received SQL channel reply to job ${jobId}, but did not have it in our registry!`
+      );
     }
-  );
+
+    const { resolve, reject, fnName } = job;
+
+    if (!resolve || !reject) {
+      throw new Error(
+        `SQL channel job ${jobId} (${fnName}): didn't have a resolve or reject`
+      );
+    }
+
+    if (errorForDisplay) {
+      return reject(
+        new Error(
+          `Error received from SQL channel job ${jobId} (${fnName}): ${errorForDisplay}`
+        )
+      );
+    }
+
+    return resolve(result);
+  });
 } else {
-  log.warn('sql/Client: ipcRenderer.on is not available!');
+  log.warn('sql/Client: ipc.on is not available!');
 }
 
 function makeChannel(fnName: string) {
@@ -514,7 +552,7 @@ function makeChannel(fnName: string) {
     // the db that exists in the renderer process to be able to boot up quickly
     // once the app is running we switch back to the main process to avoid the
     // UI from locking up whenever we do costly db operations.
-    if (shouldUseRendererProcess) {
+    if (state === RendererState.InRenderer) {
       const serverFnName = fnName as keyof ServerInterface;
       const start = Date.now();
 
@@ -529,7 +567,7 @@ function makeChannel(fnName: string) {
             'Detected sql corruption in renderer process. ' +
               `Restarting the application immediately. Error: ${error.message}`
           );
-          ipcRenderer?.send('database-error', error.stack);
+          ipc?.send('database-error', error.stack);
         }
         log.error(
           `Renderer SQL channel job (${fnName}) error ${error.message}`
@@ -557,7 +595,7 @@ function makeChannel(fnName: string) {
       () =>
         new Promise((resolve, reject) => {
           try {
-            ipcRenderer.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
+            ipc.send(SQL_CHANNEL_KEY, jobId, fnName, ...args);
 
             _updateJob(jobId, {
               resolve,
@@ -1556,8 +1594,8 @@ async function callChannel(name: string) {
   return createTaskWithTimeout(
     () =>
       new Promise<void>((resolve, reject) => {
-        ipcRenderer.send(name);
-        ipcRenderer.once(`${name}-done`, (_, error) => {
+        ipc.send(name);
+        ipc.once(`${name}-done`, (_, error) => {
           if (error) {
             reject(error);
 

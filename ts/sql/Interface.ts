@@ -685,6 +685,7 @@ export type ClientInterface = DataInterface & {
   // whether we should use IPC to use the database in the main process or
   // use the db already running in the renderer.
   goBackToMainProcess: () => Promise<void>;
+  startInRendererProcess: (isTesting?: boolean) => Promise<void>;
 };
 
 export type ClientJobType = {

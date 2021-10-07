@@ -29,8 +29,6 @@ try {
   const { remote } = electron;
   const { app } = remote;
 
-  window.sqlInitializer = require('./ts/sql/initialize');
-
   const config = require('url').parse(window.location.toString(), true).query;
 
   setEnvironment(parseEnvironment(config.environment));

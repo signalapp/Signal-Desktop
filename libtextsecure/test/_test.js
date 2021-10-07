@@ -57,7 +57,7 @@ before(async () => {
   try {
     window.SignalWindow.log.info('Initializing SQL in renderer');
     const isTesting = true;
-    await window.sqlInitializer.initialize(isTesting);
+    await window.Signal.Data.startInRenderer(isTesting);
     window.SignalWindow.log.info('SQL initialized in renderer');
   } catch (err) {
     window.SignalWindow.log.error(

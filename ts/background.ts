@@ -154,13 +154,6 @@ export async function startApp(): Promise<void> {
     storage: window.storage,
   });
   window.attachmentDownloadQueue = [];
-  try {
-    log.info('Initializing SQL in renderer');
-    await window.sqlInitializer.initialize();
-    log.info('SQL initialized in renderer');
-  } catch (err) {
-    log.error('SQL failed to initialize', err && err.stack ? err.stack : err);
-  }
 
   await window.Signal.Util.initializeMessageCounter();
 
@@ -801,6 +794,12 @@ export async function startApp(): Promise<void> {
 
       // Don't block on the following operation
       window.Signal.Data.ensureFilePermissions();
+    }
+
+    try {
+      await window.Signal.Data.startInRendererProcess();
+    } catch (err) {
+      log.error('SQL failed to initialize', err && err.stack ? err.stack : err);
     }
 
     Views.Initialization.setMessage(window.i18n('loading'));
@@ -2335,7 +2334,7 @@ export async function startApp(): Promise<void> {
     );
 
     // Go back to main process before processing delayed actions
-    await window.sqlInitializer.goBackToMainProcess();
+    await window.Signal.Data.goBackToMainProcess();
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
@@ -3441,7 +3440,7 @@ export async function startApp(): Promise<void> {
 
         // If we couldn't connect during startup - we should still switch SQL to
         // the main process to avoid stalling UI.
-        window.sqlInitializer.goBackToMainProcess();
+        window.Signal.Data.goBackToMainProcess();
       }
       return;
     }

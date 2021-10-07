@@ -267,11 +267,6 @@ declare global {
     titleBarDoubleClick: () => void;
     unregisterForActive: (handler: () => void) => void;
     updateTrayIcon: (count: number) => void;
-    sqlInitializer: {
-      initialize: () => Promise<void>;
-      goBackToMainProcess: () => Promise<void>;
-    };
-
     Backbone: typeof Backbone;
     CI?: CI;
     Accessibility: {
