@@ -44,7 +44,7 @@ export const CallingHeader = ({
       <div className="module-ongoing-call__header-message">{message}</div>
     ) : null}
     <div className="module-calling-tools">
-      {participantCount ? (
+      {isGroupCall && participantCount ? (
         <div className="module-calling-tools__button">
           <Tooltip
             content={i18n('calling__participants', [String(participantCount)])}
