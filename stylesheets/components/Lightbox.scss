@@ -190,12 +190,14 @@
     bottom: 50%;
     position: absolute;
     right: 21px;
+    z-index: 2;
   }
 
   &__nav-prev {
     bottom: 50%;
     left: 21px;
     position: absolute;
+    z-index: 2;
   }
 
   &__header {
