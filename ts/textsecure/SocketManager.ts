@@ -18,6 +18,7 @@ import { sleep } from '../util/sleep';
 import { SocketStatus } from '../types/SocketStatus';
 import * as Errors from '../types/errors';
 import * as Bytes from '../Bytes';
+import * as Timers from '../Timers';
 import * as log from '../logging/log';
 
 import WebSocketResource, {
@@ -508,7 +509,7 @@ export class SocketManager extends EventListener {
 
     const { promise, resolve, reject } = explodePromise<WebSocketResource>();
 
-    const timer = setTimeout(() => {
+    const timer = Timers.setTimeout(() => {
       reject(new ConnectTimeoutError('Connection timed out'));
 
       client.abort();
@@ -516,14 +517,14 @@ export class SocketManager extends EventListener {
 
     let resource: WebSocketResource | undefined;
     client.on('connect', socket => {
-      clearTimeout(timer);
+      Timers.clearTimeout(timer);
 
       resource = new WebSocketResource(socket, resourceOptions);
       resolve(resource);
     });
 
     client.on('httpResponse', async response => {
-      clearTimeout(timer);
+      Timers.clearTimeout(timer);
 
       const statusCode = response.statusCode || -1;
       await handleStatusCode(statusCode);
@@ -547,7 +548,7 @@ export class SocketManager extends EventListener {
     });
 
     client.on('connectFailed', e => {
-      clearTimeout(timer);
+      Timers.clearTimeout(timer);
 
       reject(
         new HTTPError('connectResource: connectFailed', {
@@ -568,7 +569,7 @@ export class SocketManager extends EventListener {
             resource.close(3000, 'aborted');
           } else {
             log.warn(`SocketManager aborting connection ${path}`);
-            clearTimeout(timer);
+            Timers.clearTimeout(timer);
             client.abort();
           }
         },

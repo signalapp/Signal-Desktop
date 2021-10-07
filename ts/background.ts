@@ -18,12 +18,14 @@ import {
   ConversationAttributesType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
+import * as Timers from './Timers';
 import { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
 import { ChallengeHandler } from './challenge';
 import * as durations from './util/durations';
+import { explodePromise } from './util/explodePromise';
 import { isWindowDragElement } from './util/isWindowDragElement';
 import { assert, strictAssert } from './util/assert';
 import { dropNull } from './util/dropNull';
@@ -1925,8 +1927,8 @@ export async function startApp(): Promise<void> {
     return syncRequest;
   };
 
-  let disconnectTimer: NodeJS.Timeout | undefined;
-  let reconnectTimer: number | undefined;
+  let disconnectTimer: Timers.Timeout | undefined;
+  let reconnectTimer: Timers.Timeout | undefined;
   function onOffline() {
     log.info('offline');
 
@@ -1936,7 +1938,7 @@ export async function startApp(): Promise<void> {
     // We've received logs from Linux where we get an 'offline' event, then 30ms later
     //   we get an online event. This waits a bit after getting an 'offline' event
     //   before disconnecting the socket manually.
-    disconnectTimer = setTimeout(disconnect, 1000);
+    disconnectTimer = Timers.setTimeout(disconnect, 1000);
 
     if (challengeHandler) {
       challengeHandler.onOffline();
@@ -1951,12 +1953,12 @@ export async function startApp(): Promise<void> {
 
     if (disconnectTimer && isSocketOnline()) {
       log.warn('Already online. Had a blip in online/offline status.');
-      clearTimeout(disconnectTimer);
+      Timers.clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
       return;
     }
     if (disconnectTimer) {
-      clearTimeout(disconnectTimer);
+      Timers.clearTimeout(disconnectTimer);
       disconnectTimer = undefined;
     }
 
@@ -2004,7 +2006,7 @@ export async function startApp(): Promise<void> {
       log.info('connect', { firstRun, connectCount });
 
       if (reconnectTimer) {
-        clearTimeout(reconnectTimer);
+        Timers.clearTimeout(reconnectTimer);
         reconnectTimer = undefined;
       }
 
@@ -2291,19 +2293,17 @@ export async function startApp(): Promise<void> {
       log.info(
         'waitForEmptyEventQueue: Waiting for MessageReceiver empty event...'
       );
-      let resolve: undefined | (() => void);
-      let reject: undefined | ((error: Error) => void);
-      const promise = new Promise<void>((innerResolve, innerReject) => {
-        resolve = innerResolve;
-        reject = innerReject;
-      });
+      const { resolve, reject, promise } = explodePromise<void>();
 
-      const timeout = reject && setTimeout(reject, FIVE_MINUTES);
+      const timeout = Timers.setTimeout(() => {
+        reject(new Error('Empty queue never fired'));
+      }, FIVE_MINUTES);
+
       const onEmptyOnce = () => {
         if (messageReceiver) {
           messageReceiver.removeEventListener('empty', onEmptyOnce);
         }
-        clearTimeout(timeout);
+        Timers.clearTimeout(timeout);
         if (resolve) {
           resolve();
         }
@@ -3434,7 +3434,7 @@ export async function startApp(): Promise<void> {
         const timeout = reconnectBackOff.getAndIncrement();
 
         log.info(`retrying in ${timeout}ms`);
-        reconnectTimer = setTimeout(connect, timeout);
+        reconnectTimer = Timers.setTimeout(connect, timeout);
 
         window.Whisper.events.trigger('reconnectTimer');
 

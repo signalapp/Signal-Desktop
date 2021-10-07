@@ -35,6 +35,7 @@ import { normalizeNumber } from '../util/normalizeNumber';
 import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import * as Timers from '../Timers';
 
 const THIRTY_SECONDS = 30 * durations.SECOND;
 
@@ -118,7 +119,7 @@ export default class WebSocketResource extends EventTarget {
 
   private shuttingDown = false;
 
-  private shutdownTimer?: NodeJS.Timeout;
+  private shutdownTimer?: Timers.Timeout;
 
   // Public for tests
   public readonly keepalive?: KeepAlive;
@@ -198,7 +199,7 @@ export default class WebSocketResource extends EventTarget {
     this.addActive(id);
     const promise = new Promise<SendRequestResult>((resolve, reject) => {
       let timer = options.timeout
-        ? setTimeout(() => {
+        ? Timers.setTimeout(() => {
             this.removeActive(id);
             reject(new Error('Request timed out'));
           }, options.timeout)
@@ -206,7 +207,7 @@ export default class WebSocketResource extends EventTarget {
 
       this.outgoingMap.set(id, result => {
         if (timer !== undefined) {
-          clearTimeout(timer);
+          Timers.clearTimeout(timer);
           timer = undefined;
         }
 
@@ -244,7 +245,7 @@ export default class WebSocketResource extends EventTarget {
     // On linux the socket can wait a long time to emit its close event if we've
     //   lost the internet connection. On the order of minutes. This speeds that
     //   process up.
-    setTimeout(() => {
+    Timers.setTimeout(() => {
       if (this.closed) {
         return;
       }
@@ -268,7 +269,7 @@ export default class WebSocketResource extends EventTarget {
     this.shuttingDown = true;
 
     log.info('WebSocketResource: shutting down');
-    this.shutdownTimer = setTimeout(() => {
+    this.shutdownTimer = Timers.setTimeout(() => {
       if (this.closed) {
         return;
       }
@@ -369,7 +370,7 @@ export default class WebSocketResource extends EventTarget {
     }
 
     if (this.shutdownTimer) {
-      clearTimeout(this.shutdownTimer);
+      Timers.clearTimeout(this.shutdownTimer);
       this.shutdownTimer = undefined;
     }
 
@@ -388,9 +389,9 @@ const KEEPALIVE_INTERVAL_MS = 55000; // 55 seconds + 5 seconds for closing the
 const MAX_KEEPALIVE_INTERVAL_MS = 5 * durations.MINUTE;
 
 class KeepAlive {
-  private keepAliveTimer: NodeJS.Timeout | undefined;
+  private keepAliveTimer: Timers.Timeout | undefined;
 
-  private disconnectTimer: NodeJS.Timeout | undefined;
+  private disconnectTimer: Timers.Timeout | undefined;
 
   private path: string;
 
@@ -431,7 +432,7 @@ class KeepAlive {
 
     if (this.disconnect) {
       // automatically disconnect if server doesn't ack
-      this.disconnectTimer = setTimeout(() => {
+      this.disconnectTimer = Timers.setTimeout(() => {
         log.info('WebSocketResources: disconnecting due to no response');
         this.clearTimers();
 
@@ -457,16 +458,19 @@ class KeepAlive {
 
     this.clearTimers();
 
-    this.keepAliveTimer = setTimeout(() => this.send(), KEEPALIVE_INTERVAL_MS);
+    this.keepAliveTimer = Timers.setTimeout(
+      () => this.send(),
+      KEEPALIVE_INTERVAL_MS
+    );
   }
 
   private clearTimers(): void {
     if (this.keepAliveTimer) {
-      clearTimeout(this.keepAliveTimer);
+      Timers.clearTimeout(this.keepAliveTimer);
       this.keepAliveTimer = undefined;
     }
     if (this.disconnectTimer) {
-      clearTimeout(this.disconnectTimer);
+      Timers.clearTimeout(this.disconnectTimer);
       this.disconnectTimer = undefined;
     }
   }

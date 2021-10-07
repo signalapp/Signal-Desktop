@@ -3,6 +3,7 @@
 
 import { Bytes } from './Bytes';
 import { Crypto } from './Crypto';
+import { Timers } from './Timers';
 import {
   createNativeThemeListener,
   MinimalIPC,
@@ -12,6 +13,8 @@ export class Context {
   public readonly bytes = new Bytes();
 
   public readonly crypto = new Crypto();
+
+  public readonly timers = new Timers();
 
   public readonly nativeThemeListener;
 
