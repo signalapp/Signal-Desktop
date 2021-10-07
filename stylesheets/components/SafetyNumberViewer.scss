@@ -54,13 +54,19 @@
   }
 
   &__number {
-    background: $color-gray-02;
     border-radius: 8px;
     font-family: monospace;
     height: 100px;
     margin: 24px auto;
     padding: 24px;
     width: 240px;
+
+    @include light-theme {
+      background-color: $color-gray-02;
+    }
+    @include dark-theme {
+      background-color: $color-gray-90;
+    }
   }
 
   &__verification-status {
