@@ -303,7 +303,14 @@ declare global {
         writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
         deleteExternalMessageFiles: (attributes: unknown) => Promise<void>;
         getAbsoluteAttachmentPath: (path: string) => string;
-        loadAttachmentData: (attachment: WhatIsThis) => WhatIsThis;
+        loadAttachmentData: <T extends { path?: string }>(
+          attachment: T
+        ) => Promise<
+          T & {
+            data: Uint8Array;
+            size: number;
+          }
+        >;
         loadQuoteData: (quote: unknown) => WhatIsThis;
         loadPreviewData: (preview: unknown) => WhatIsThis;
         loadStickerData: (sticker: unknown) => WhatIsThis;
@@ -332,7 +339,9 @@ declare global {
           attachment: DownloadedAttachmentType
         ) => Promise<DownloadedAttachmentType>;
 
-        copyIntoTempDirectory: any;
+        copyIntoTempDirectory: (
+          path: string
+        ) => Promise<{ path: string; size: number }>;
         deleteDraftFile: (path: string) => Promise<void>;
         deleteTempFile: (path: string) => Promise<void>;
         getAbsoluteDraftPath: any;
