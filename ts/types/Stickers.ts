@@ -769,7 +769,9 @@ export async function copyStickerToAttachments(
     size,
   } = await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
 
-  const data = window.Signal.Migrations.loadAttachmentData(path);
+  const { data } = await window.Signal.Migrations.loadAttachmentData({
+    path,
+  });
 
   let contentType: MIMEType;
   const sniffedMimeType = sniffImageMimeType(data);

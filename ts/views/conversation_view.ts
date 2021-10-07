@@ -2222,7 +2222,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     const absolutePath = getAbsoluteAttachmentPath(firstAttachment.path);
-    const tempPath = await copyIntoTempDirectory(absolutePath);
+    const { path: tempPath } = await copyIntoTempDirectory(absolutePath);
     const tempAttachment = {
       ...firstAttachment,
       path: tempPath,
