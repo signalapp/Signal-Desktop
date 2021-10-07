@@ -31,8 +31,8 @@ type PropsActionType = {
     }>
   ) => void;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
-  showSafetyNumberInConversation: (conversationId: string) => void;
   toggleAdmin: (conversationId: string, contactId: string) => void;
+  toggleSafetyNumberModal: (conversationId: string) => unknown;
   updateConversationModelSharedGroups: (conversationId: string) => void;
 };
 
@@ -48,8 +48,8 @@ export const ContactModal = ({
   isMember,
   openConversationInternal,
   removeMemberFromGroup,
-  showSafetyNumberInConversation,
   toggleAdmin,
+  toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
 }: PropsType): JSX.Element => {
   if (!contact) {
@@ -136,7 +136,7 @@ export const ContactModal = ({
               className="ContactModal__button ContactModal__safety-number"
               onClick={() => {
                 hideContactModal();
-                showSafetyNumberInConversation(contact.id);
+                toggleSafetyNumberModal(contact.id);
               }}
             >
               <div className="ContactModal__bubble-icon">

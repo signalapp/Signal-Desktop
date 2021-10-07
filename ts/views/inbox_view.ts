@@ -117,13 +117,6 @@ Whisper.InboxView = Whisper.View.extend({
       this.conversation_stack.open(conversation, messageId);
     });
 
-    window.Whisper.events.on('showSafetyNumberInConversation', id => {
-      const conversation = window.ConversationController.get(id);
-      if (conversation) {
-        conversation.trigger('showSafetyNumber');
-      }
-    });
-
     window.Whisper.events.on('loadingProgress', count => {
       const view = this.appLoadingScreen;
       if (view) {
