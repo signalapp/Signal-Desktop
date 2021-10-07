@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { BrowserWindow, MenuItem, Tray } from 'electron';
+import { BrowserWindow, MenuItem, Tray, nativeImage } from 'electron';
 import * as path from 'path';
 
 import { SystemTrayService } from '../../../app/SystemTrayService';
@@ -208,9 +208,9 @@ describe('SystemTrayService', () => {
     // Ideally, there'd be something like `tray.getImage`, but that doesn't exist. We also
     //   can't spy on `Tray.prototype.setImage` because it's not defined that way. So we
     //   spy on the specific instance, just to get the image.
-    const setContextMenuSpy = sandbox.spy(tray, 'setImage');
+    const setImageSpy = sandbox.spy(tray, 'setImage');
     const getImagePath = (): string => {
-      const result = setContextMenuSpy.lastCall?.firstArg;
+      const result = setImageSpy.lastCall?.firstArg;
       if (!result) {
         throw new Error('Expected tray.setImage to be called at least once');
       }
@@ -229,5 +229,28 @@ describe('SystemTrayService', () => {
 
     service.setUnreadCount(0);
     assert.match(path.parse(getImagePath()).base, /^icon_\d+\.png$/);
+  });
+
+  it('uses a fallback image if the icon file cannot be found', () => {
+    const service = newService();
+    service.setEnabled(true);
+    service.setMainWindow(new BrowserWindow({ show: false }));
+
+    const tray = service._getTray();
+    if (!tray) {
+      throw new Error('Test setup failed: expected a tray');
+    }
+
+    const setImageStub = sandbox.stub(tray, 'setImage');
+    setImageStub.withArgs(sinon.match.string).throws('Failed to load');
+
+    service.setUnreadCount(4);
+
+    // Electron doesn't export this class, so we have to wrestle it out.
+    const NativeImage = nativeImage.createEmpty().constructor;
+
+    sinon.assert.calledTwice(setImageStub);
+    sinon.assert.calledWith(setImageStub, sinon.match.string);
+    sinon.assert.calledWith(setImageStub, sinon.match.instanceOf(NativeImage));
   });
 });

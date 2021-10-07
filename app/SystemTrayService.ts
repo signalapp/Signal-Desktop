@@ -2,7 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
-import { BrowserWindow, app, Menu, Tray } from 'electron';
+import {
+  BrowserWindow,
+  Menu,
+  NativeImage,
+  Tray,
+  app,
+  nativeImage,
+} from 'electron';
 import * as log from '../ts/logging/log';
 import type { LocaleMessagesType } from '../ts/types/I18N';
 
@@ -105,7 +112,14 @@ export class SystemTrayService {
     this.tray = this.tray || this.createTray();
     const { browserWindow, tray } = this;
 
-    tray.setImage(getIcon(this.unreadCount));
+    try {
+      tray.setImage(getIcon(this.unreadCount));
+    } catch (err: unknown) {
+      log.warn(
+        'System tray service: failed to set preferred image. Falling back...'
+      );
+      tray.setImage(getDefaultIcon());
+    }
 
     // NOTE: we want to have the show/hide entry available in the tray icon
     // context menu, since the 'click' event may not work on all platforms.
@@ -169,7 +183,7 @@ export class SystemTrayService {
     log.info('System tray service: creating the tray');
 
     // This icon may be swiftly overwritten.
-    const result = new Tray(getIcon(this.unreadCount));
+    const result = new Tray(getDefaultIcon());
 
     // Note: "When app indicator is used on Linux, the click event is ignored." This
     //   doesn't mean that the click event is always ignored on Linux; it depends on how
@@ -221,6 +235,12 @@ function getIcon(unreadCount: number) {
   }
 
   return join(__dirname, '..', 'images', `icon_${iconSize}.png`);
+}
+
+let defaultIcon: undefined | NativeImage;
+function getDefaultIcon(): NativeImage {
+  defaultIcon ??= nativeImage.createFromPath(getIcon(0));
+  return defaultIcon;
 }
 
 function forceOnTop(browserWindow: BrowserWindow) {
