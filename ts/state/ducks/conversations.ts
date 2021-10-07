@@ -805,7 +805,6 @@ export const actions = {
   showArchivedConversations,
   showChooseGroupMembers,
   showInbox,
-  showSafetyNumberInConversation,
   startComposing,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
@@ -1770,21 +1769,6 @@ function updateConversationModelSharedGroups(
     if (conversation && conversation.throttledUpdateSharedGroups) {
       conversation.throttledUpdateSharedGroups();
     }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
-  };
-}
-
-function showSafetyNumberInConversation(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return dispatch => {
-    window.Whisper.events.trigger(
-      'showSafetyNumberInConversation',
-      conversationId
-    );
     dispatch({
       type: 'NOOP',
       payload: null,

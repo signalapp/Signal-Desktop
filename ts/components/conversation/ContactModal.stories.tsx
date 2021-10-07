@@ -34,7 +34,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isMember: boolean('isMember', overrideProps.isMember || true),
   openConversationInternal: action('openConversationInternal'),
   removeMemberFromGroup: action('removeMemberFromGroup'),
-  showSafetyNumberInConversation: action('showSafetyNumberInConversation'),
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   toggleAdmin: action('toggleAdmin'),
   updateConversationModelSharedGroups: action(
     'updateConversationModelSharedGroups'
