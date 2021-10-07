@@ -3034,10 +3034,6 @@ Signal Desktop makes use of the following open source projects.
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 
-## sanitize-filename
-
-    License: WTFPL OR ISC
-
 ## sanitize.css
 
     License: CC0-1.0
