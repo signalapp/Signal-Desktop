@@ -9,7 +9,11 @@ import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
-import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
+import {
+  markConversationFullyRead,
+  MessageModelPropsWithoutConvoProps,
+  messagesAdded,
+} from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
 
@@ -245,6 +249,14 @@ function handleSyncedReceipts(message: MessageModel, conversation: ConversationM
   }
 
   message.set({ recipients });
+
+  // If the newly received message is from us, we assume that we've seen the messages up until that point
+  const receivedTimestamp = message.get('received_at');
+  if (receivedTimestamp) {
+    conversation.markReadBouncy(receivedTimestamp).then(() => {
+      window?.inboxStore?.dispatch(markConversationFullyRead(conversation.id));
+    });
+  }
 }
 
 async function handleRegularMessage(
