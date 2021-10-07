@@ -1365,7 +1365,16 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               scrollToIndex={scrollToIndex}
               tabIndex={-1}
               width={width}
-              style={{ overflow: 'overlay' }}
+              style={{
+                // `overlay` is [a nonstandard value][0] so it's not supported. See [this
+                //   issue][1].
+                //
+                // [0]: https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#values
+                // [1]: https://github.com/frenic/csstype/issues/62#issuecomment-937238313
+                //
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                overflowY: 'overlay' as any,
+              }}
             />
           );
         }}

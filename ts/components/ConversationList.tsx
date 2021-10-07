@@ -340,7 +340,11 @@ export const ConversationList: React.FC<PropsType> = ({
       rowHeight={calculateRowHeight}
       rowRenderer={renderRow}
       scrollToIndex={scrollToRowIndex}
-      style={{ overflow: scrollable ? 'overlay' : 'hidden' }}
+      style={{
+        // See `<Timeline>` for an explanation of this `any` cast.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        overflowY: scrollable ? ('overlay' as any) : 'hidden',
+      }}
       tabIndex={-1}
       width={width}
     />
