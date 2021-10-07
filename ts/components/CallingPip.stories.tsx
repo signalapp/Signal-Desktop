@@ -66,6 +66,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   setLocalPreview: action('set-local-preview'),
   setRendererCanvas: action('set-renderer-canvas'),
   togglePip: action('toggle-pip'),
+  toggleSpeakerView: action('toggleSpeakerView'),
 });
 
 const story = storiesOf('Components/CallingPip', module);
