@@ -113,7 +113,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private menuTriggerRef: React.RefObject<any>;
 
-  public titleContainerRef: React.RefObject<HTMLDivElement>;
+  public headerRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: PropsType) {
     super(props);
@@ -121,7 +121,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     this.state = { isNarrow: false, modalState: ModalState.NothingOpen };
 
     this.menuTriggerRef = React.createRef();
-    this.titleContainerRef = React.createRef();
+    this.headerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
   }
 
@@ -166,7 +166,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
             i18n={i18n}
-            tooltipContainerRef={this.titleContainerRef}
+            tooltipContainerRef={this.headerRef}
           />
         ) : null}
       </div>
@@ -579,16 +579,13 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     }
 
     const contents = (
-      <div
-        className="module-ConversationHeader__title-container"
-        ref={this.titleContainerRef}
-      >
+      <>
         {this.renderAvatar()}
         <div className="module-ConversationHeader__header__info">
           {this.renderHeaderInfoTitle()}
           {this.renderHeaderInfoSubtitle()}
         </div>
-      </div>
+      </>
     );
 
     if (onClick) {
@@ -603,7 +600,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       );
     }
 
-    return <div className="module-ConversationHeader__header">{contents}</div>;
+    return (
+      <div className="module-ConversationHeader__header" ref={this.headerRef}>
+        {contents}
+      </div>
+    );
   }
 
   public render(): ReactNode {

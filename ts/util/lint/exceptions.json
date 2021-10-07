@@ -12778,11 +12778,10 @@
     "updated": "2020-05-20T20:10:43.540Z",
     "reasonDetail": "Used to reference popup menu"
   },
-    {
+  {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
-    "line": "        this.titleContainerRef = react_1.default.createRef();",
-    "lineNumber": 31,
+    "line": "        this.headerRef = react_1.default.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-18T22:24:05.937Z",
     "reasonDetail": "Used to reference popup menu boundaries element"
@@ -12790,8 +12789,7 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.tsx",
-    "line": "    this.titleContainerRef = React.createRef();",
-    "lineNumber": 108,
+    "line": "    this.headerRef = React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-18T22:24:05.937Z",
     "reasonDetail": "Used to reference popup menu boundaries element"
