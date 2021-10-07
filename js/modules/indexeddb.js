@@ -12,7 +12,7 @@ module.exports = {
 };
 
 async function doesDatabaseExist() {
-  window.SignalWindow.log.info(
+  window.SignalContext.log.info(
     'Checking for the existence of IndexedDB data...'
   );
   return new Promise((resolve, reject) => {
@@ -22,7 +22,7 @@ async function doesDatabaseExist() {
     let existed = true;
 
     setTimeout(() => {
-      window.SignalWindow.log.warn(
+      window.SignalContext.log.warn(
         'doesDatabaseExist: Timed out attempting to check IndexedDB status'
       );
       return resolve(false);
@@ -43,7 +43,7 @@ async function doesDatabaseExist() {
 }
 
 function removeDatabase() {
-  window.SignalWindow.log.info(
+  window.SignalContext.log.info(
     `Deleting IndexedDB database '${Whisper.Database.id}'`
   );
   window.indexedDB.deleteDatabase(Whisper.Database.id);

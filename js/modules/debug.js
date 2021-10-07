@@ -58,7 +58,7 @@ exports.createConversation = async ({
   await Promise.all(
     range(0, numMessages).map(async index => {
       await sleep(index * 100);
-      window.SignalWindow.log.info(`Create message ${index + 1}`);
+      window.SignalContext.log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
       return Signal.Data.saveMessage(message);
     })
@@ -110,7 +110,7 @@ const createRandomMessage = async ({ conversationId } = {}) => {
   const message = _createMessage({ commonProperties, conversationId, type });
   return Message.initializeSchemaVersion({
     message,
-    logger: window.SignalWindow.log,
+    logger: window.SignalContext.log,
   });
 };
 

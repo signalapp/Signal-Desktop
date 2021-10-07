@@ -16,22 +16,15 @@ try {
   const { parseIntWithFallback } = require('./ts/util/parseIntWithFallback');
 
   // It is important to call this as early as possible
-  require('./ts/windows/context');
+  const { SignalContext } = require('./ts/windows/context');
 
-  const {
-    getEnvironment,
-    setEnvironment,
-    parseEnvironment,
-    Environment,
-  } = require('./ts/environment');
+  const { getEnvironment, Environment } = require('./ts/environment');
   const ipc = electron.ipcRenderer;
 
   const { remote } = electron;
   const { app } = remote;
 
   const config = require('url').parse(window.location.toString(), true).query;
-
-  setEnvironment(parseEnvironment(config.environment));
 
   const log = require('./ts/logging/log');
 
@@ -106,8 +99,6 @@ try {
       return true;
     }
   };
-
-  const localeMessages = ipc.sendSync('locale-data');
 
   window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
@@ -354,8 +345,6 @@ try {
 
   // We pull these dependencies in now, from here, because they have Node.js dependencies
 
-  require('./ts/logging/set_up_renderer_logging').initialize();
-
   if (config.proxyUrl) {
     log.info('Using provided proxy url');
   }
@@ -413,11 +402,10 @@ try {
   window.PQueue = require('p-queue').default;
 
   const Signal = require('./js/modules/signal');
-  const { setupI18n } = require('./ts/util/setupI18n');
   const Attachments = require('./app/attachments');
 
   const { locale } = config;
-  window.i18n = setupI18n(locale, localeMessages);
+  window.i18n = SignalContext.i18n;
   window.moment.updateLocale(locale, {
     relativeTime: {
       s: window.i18n('timestamp_s'),

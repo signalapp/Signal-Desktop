@@ -55,12 +55,12 @@ window.Whisper.events = {
 
 before(async () => {
   try {
-    window.SignalWindow.log.info('Initializing SQL in renderer');
+    window.SignalContext.log.info('Initializing SQL in renderer');
     const isTesting = true;
     await window.Signal.Data.startInRenderer(isTesting);
-    window.SignalWindow.log.info('SQL initialized in renderer');
+    window.SignalContext.log.info('SQL initialized in renderer');
   } catch (err) {
-    window.SignalWindow.log.error(
+    window.SignalContext.log.error(
       'SQL failed to initialize',
       err && err.stack ? err.stack : err
     );

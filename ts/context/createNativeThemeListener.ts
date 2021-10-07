@@ -24,7 +24,7 @@ type SystemThemeType = 'dark' | 'light';
 
 export type SystemThemeHolder = { systemTheme: SystemThemeType };
 
-type NativeThemeType = {
+export type NativeThemeType = {
   getSystemTheme: () => SystemThemeType;
   subscribe: (fn: Callback) => void;
   update: () => SystemThemeType;

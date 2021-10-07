@@ -3,9 +3,6 @@
 
 import { contextBridge } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
+import { SignalContext } from '../context';
 
-import { SignalWindow } from '../configure';
-
-contextBridge.exposeInMainWorld('SignalWindow', SignalWindow);
+contextBridge.exposeInMainWorld('SignalContext', SignalContext);

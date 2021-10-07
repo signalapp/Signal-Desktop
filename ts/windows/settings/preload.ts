@@ -5,10 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
-
-import { SignalWindow } from '../configure';
+import { SignalContext } from '../context';
 import * as Settings from '../../types/Settings';
 import { Preferences } from '../../components/Preferences';
 import {
@@ -260,7 +257,7 @@ const renderPreferences = async () => {
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
-      SignalWindow.config.appStartInitialSpellcheckSetting === 'true',
+      SignalContext.config.appStartInitialSpellcheckSetting === 'true',
     makeSyncRequest: ipcMakeSyncRequest,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,
@@ -277,7 +274,7 @@ const renderPreferences = async () => {
     isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
     isSystemTraySupported: Settings.isSystemTraySupported(
-      SignalWindow.getVersion()
+      SignalContext.getVersion()
     ),
 
     // Change handlers
@@ -343,7 +340,7 @@ const renderPreferences = async () => {
     //    rerender.
     onZoomFactorChange: settingZoomFactor.setValue,
 
-    i18n: SignalWindow.i18n,
+    i18n: SignalContext.i18n,
   };
 
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
@@ -361,7 +358,7 @@ const renderPreferences = async () => {
 
 ipcRenderer.on('preferences-changed', () => renderPreferences());
 
-contextBridge.exposeInMainWorld('SignalWindow', {
-  ...SignalWindow,
+contextBridge.exposeInMainWorld('SignalContext', {
+  ...SignalContext,
   renderWindow: renderPreferences,
 });

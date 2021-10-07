@@ -5,18 +5,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
-
-import { SignalWindow } from '../configure';
+import { SignalContext } from '../context';
 import { About } from '../../components/About';
 
-contextBridge.exposeInMainWorld('SignalWindow', {
-  ...SignalWindow,
+contextBridge.exposeInMainWorld('SignalContext', {
+  ...SignalContext,
   renderWindow: () => {
-    const environmentText: Array<string> = [SignalWindow.getEnvironment()];
+    const environmentText: Array<string> = [SignalContext.getEnvironment()];
 
-    const appInstance = SignalWindow.getAppInstance();
+    const appInstance = SignalContext.getAppInstance();
     if (appInstance) {
       environmentText.push(appInstance);
     }
@@ -25,8 +22,8 @@ contextBridge.exposeInMainWorld('SignalWindow', {
       React.createElement(About, {
         closeAbout: () => ipcRenderer.send('close-about'),
         environment: environmentText.join(' - '),
-        i18n: SignalWindow.i18n,
-        version: SignalWindow.getVersion(),
+        i18n: SignalContext.i18n,
+        version: SignalContext.getVersion(),
       }),
       document.getElementById('app')
     );

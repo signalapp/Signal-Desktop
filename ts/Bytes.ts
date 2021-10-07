@@ -1,7 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { bytes } = window.SignalContext;
+import { Bytes } from './context/Bytes';
+
+const bytes = window.SignalContext?.bytes || new Bytes();
 
 export function fromBase64(value: string): Uint8Array {
   return bytes.fromBase64(value);

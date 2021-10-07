@@ -100,8 +100,8 @@ function logAtLevel(level: LogLevel, ...args: ReadonlyArray<unknown>): void {
 
 log.setLogAtLevel(logAtLevel);
 
-window.SignalWindow = window.SignalWindow || {};
-window.SignalWindow.log = {
+window.SignalContext = window.SignalContext || {};
+window.SignalContext.log = {
   fatal: log.fatal,
   error: log.error,
   warn: log.warn,

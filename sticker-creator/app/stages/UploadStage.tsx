@@ -42,7 +42,7 @@ export const UploadStage: React.ComponentType = () => {
         actions.setPackMeta(packMeta);
         history.push('/share');
       } catch (e) {
-        window.SignalWindow.log.error('Error uploading image:', e);
+        window.SignalContext.log.error('Error uploading image:', e);
         actions.addToast({
           key: 'StickerCreator--Toasts--errorUploading',
           subs: [e.message],

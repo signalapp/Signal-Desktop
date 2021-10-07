@@ -10,6 +10,7 @@ import moment from 'moment';
 import PQueue from 'p-queue/dist';
 import { Ref } from 'react';
 import { imageToBlurHash } from './util/imageToBlurHash';
+import type { ParsedUrlQuery } from 'querystring';
 import * as Util from './util';
 import {
   ConversationModelCollectionType,
@@ -96,7 +97,6 @@ import { MIMEType } from './types/MIME';
 import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
 import { SignalProtocolStore } from './SignalProtocolStore';
-import { Context as SignalContext } from './context';
 import { StartupQueue } from './util/StartupQueue';
 import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
@@ -111,8 +111,7 @@ import { QualifiedAddress } from './types/QualifiedAddress';
 import { CI } from './CI';
 import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
-import { LoggerType } from './types/Logging';
-import { SettingType } from './util/preload';
+import type { SignalContextType } from './windows/context';
 
 export { Long } from 'long';
 
@@ -462,7 +461,6 @@ declare global {
       };
       challengeHandler: ChallengeHandler;
     };
-    SignalContext: SignalContext;
 
     ConversationController: ConversationController;
     Events: IPCEventsType;
@@ -489,21 +487,7 @@ declare global {
     RETRY_DELAY: boolean;
 
     // Context Isolation
-    SignalWindow: {
-      Settings: {
-        themeSetting: SettingType<IPCEventsValuesType['themeSetting']>;
-        waitForChange: () => Promise<void>;
-      };
-      config: string;
-      context: SignalContext;
-      getAppInstance: () => string | undefined;
-      getEnvironment: () => string;
-      getNodeVersion: () => string;
-      getVersion: () => string;
-      i18n: LocalizerType;
-      log: LoggerType;
-      renderWindow: () => void;
-    };
+    SignalContext: SignalContextType;
   }
 
   // We want to extend `Error`, so we need an interface.

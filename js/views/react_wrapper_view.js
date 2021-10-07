@@ -49,7 +49,7 @@
           try {
             cb();
           } catch (error) {
-            window.SignalWindow.log.error(
+            window.SignalContext.log.error(
               'ReactWrapperView.update error:',
               error && error.stack ? error.stack : error
             );

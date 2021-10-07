@@ -45,7 +45,7 @@ exports.processNext = async ({
       }
     );
   } catch (error) {
-    window.SignalWindow.log.error(
+    window.SignalContext.log.error(
       'processNext error:',
       error && error.stack ? error.stack : error
     );

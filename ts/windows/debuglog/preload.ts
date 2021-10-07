@@ -5,19 +5,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
-
-import { SignalWindow } from '../configure';
+import { SignalContext } from '../context';
 import { DebugLogWindow } from '../../components/DebugLogWindow';
 import * as debugLog from '../../logging/debuglogs';
 
-contextBridge.exposeInMainWorld('SignalWindow', {
-  ...SignalWindow,
+contextBridge.exposeInMainWorld('SignalContext', {
+  ...SignalContext,
   renderWindow: () => {
-    const environmentText: Array<string> = [SignalWindow.getEnvironment()];
+    const environmentText: Array<string> = [SignalContext.getEnvironment()];
 
-    const appInstance = SignalWindow.getAppInstance();
+    const appInstance = SignalContext.getAppInstance();
     if (appInstance) {
       environmentText.push(appInstance);
     }
@@ -27,15 +24,15 @@ contextBridge.exposeInMainWorld('SignalWindow', {
         closeWindow: () => ipcRenderer.send('close-debug-log'),
         downloadLog: (logText: string) =>
           ipcRenderer.send('show-debug-log-save-dialog', logText),
-        i18n: SignalWindow.i18n,
+        i18n: SignalContext.i18n,
         fetchLogs() {
           return debugLog.fetch(
-            SignalWindow.getNodeVersion(),
-            SignalWindow.getVersion()
+            SignalContext.getNodeVersion(),
+            SignalContext.getVersion()
           );
         },
         uploadLogs(logs: string) {
-          return debugLog.upload(logs, SignalWindow.getVersion());
+          return debugLog.upload(logs, SignalContext.getVersion());
         },
       }),
       document.getElementById('app')

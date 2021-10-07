@@ -322,7 +322,7 @@ class NotificationService extends EventEmitter {
   }
 
   public clear(): void {
-    window.SignalWindow.log.info('Removing notification');
+    window.SignalContext.log.info('Removing notification');
     this.notificationData = null;
     this.update();
   }

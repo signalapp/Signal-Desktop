@@ -14058,14 +14058,14 @@
   {
     "rule": "DOM-innerHTML",
     "path": "ts/windows/loading/start.js",
-    "line": "    message.innerHTML = window.SignalWindow.i18n('optimizingApplication');",
+    "line": "    message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
   },
   {
     "rule": "DOM-innerHTML",
     "path": "ts/windows/loading/start.ts",
-    "line": "  message.innerHTML = window.SignalWindow.i18n('optimizingApplication');",
+    "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
   }

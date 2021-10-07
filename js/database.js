@@ -11,7 +11,7 @@
   window.Whisper.Database.nolog = true;
 
   Whisper.Database.handleDOMException = (prefix, error, reject) => {
-    window.SignalWindow.log.error(
+    window.SignalContext.log.error(
       `${prefix}:`,
       error && error.name,
       error && error.message,

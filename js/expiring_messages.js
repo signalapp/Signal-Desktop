@@ -13,13 +13,13 @@
 
   async function destroyExpiredMessages() {
     try {
-      window.SignalWindow.log.info(
+      window.SignalContext.log.info(
         'destroyExpiredMessages: Loading messages...'
       );
       const messages = await window.Signal.Data.getExpiredMessages({
         MessageCollection: Whisper.MessageCollection,
       });
-      window.SignalWindow.log.info(
+      window.SignalContext.log.info(
         `destroyExpiredMessages: found ${messages.length} messages to expire`
       );
 
@@ -40,7 +40,7 @@
       await Promise.all(messageCleanup);
 
       inMemoryMessages.forEach(message => {
-        window.SignalWindow.log.info('Message expired', {
+        window.SignalContext.log.info('Message expired', {
           sentAt: message.get('sent_at'),
         });
 
@@ -52,25 +52,25 @@
         }
       });
     } catch (error) {
-      window.SignalWindow.log.error(
+      window.SignalContext.log.error(
         'destroyExpiredMessages: Error deleting expired messages',
         error && error.stack ? error.stack : error
       );
     }
 
-    window.SignalWindow.log.info('destroyExpiredMessages: complete');
+    window.SignalContext.log.info('destroyExpiredMessages: complete');
     checkExpiringMessages();
   }
 
   let timeout;
   async function checkExpiringMessages() {
-    window.SignalWindow.log.info(
+    window.SignalContext.log.info(
       'checkExpiringMessages: checking for expiring messages'
     );
 
     const soonestExpiry = await window.Signal.Data.getSoonestMessageExpiry();
     if (!soonestExpiry) {
-      window.SignalWindow.log.info(
+      window.SignalContext.log.info(
         'checkExpiringMessages: found no messages to expire'
       );
       return;
@@ -88,7 +88,7 @@
       wait = 2147483647;
     }
 
-    window.SignalWindow.log.info(
+    window.SignalContext.log.info(
       `checkExpiringMessages: next message expires ${new Date(
         soonestExpiry
       ).toISOString()}; waiting ${wait} ms before clearing`

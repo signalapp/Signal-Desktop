@@ -5,18 +5,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
-
-import { SignalWindow } from '../configure';
+import { SignalContext } from '../context';
 import { CallingScreenSharingController } from '../../components/CallingScreenSharingController';
 
-contextBridge.exposeInMainWorld('SignalWindow', SignalWindow);
+contextBridge.exposeInMainWorld('SignalContext', SignalContext);
 
 function renderScreenSharingController(presentedSourceName: string): void {
   ReactDOM.render(
     React.createElement(CallingScreenSharingController, {
-      i18n: SignalWindow.i18n,
+      i18n: SignalContext.i18n,
       onCloseController: () =>
         ipcRenderer.send('close-screen-share-controller'),
       onStopSharing: () => ipcRenderer.send('stop-screen-share'),

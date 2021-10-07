@@ -5,11 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { contextBridge, ipcRenderer } from 'electron';
 
-// It is important to call this as early as possible
-import '../context';
+import { SignalContext } from '../context';
 
 import { createSetting } from '../../util/preload';
-import { SignalWindow } from '../configure';
 import { PermissionsPopup } from '../../components/PermissionsPopup';
 
 const mediaCameraPermissions = createSetting('mediaCameraPermissions', {
@@ -24,21 +22,21 @@ contextBridge.exposeInMainWorld(
   window.SignalContext.nativeThemeListener
 );
 
-contextBridge.exposeInMainWorld('SignalWindow', {
-  ...SignalWindow,
+contextBridge.exposeInMainWorld('SignalContext', {
+  ...SignalContext,
   renderWindow: () => {
-    const forCalling = SignalWindow.config.forCalling === 'true';
-    const forCamera = SignalWindow.config.forCamera === 'true';
+    const forCalling = SignalContext.config.forCalling === 'true';
+    const forCamera = SignalContext.config.forCamera === 'true';
 
     let message;
     if (forCalling) {
       if (forCamera) {
-        message = SignalWindow.i18n('videoCallingPermissionNeeded');
+        message = SignalContext.i18n('videoCallingPermissionNeeded');
       } else {
-        message = SignalWindow.i18n('audioCallingPermissionNeeded');
+        message = SignalContext.i18n('audioCallingPermissionNeeded');
       }
     } else {
-      message = SignalWindow.i18n('audioPermissionNeeded');
+      message = SignalContext.i18n('audioPermissionNeeded');
     }
 
     function onClose() {
@@ -47,7 +45,7 @@ contextBridge.exposeInMainWorld('SignalWindow', {
 
     ReactDOM.render(
       React.createElement(PermissionsPopup, {
-        i18n: SignalWindow.i18n,
+        i18n: SignalContext.i18n,
         message,
         onAccept: () => {
           if (!forCamera) {
