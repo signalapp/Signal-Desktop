@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
+import { Button, ButtonVariant } from './Button';
 import { ConversationType } from '../state/ducks/conversations';
-import { LocalizerType } from '../types/Util';
 import { Intl } from './Intl';
+import { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   contact?: ConversationType;
@@ -12,7 +13,6 @@ export type PropsType = {
   i18n: LocalizerType;
   onClose?: () => void;
   safetyNumber: string;
-  safetyNumberChanged?: boolean;
   toggleVerified: (contact: ConversationType) => void;
   verificationDisabled: boolean;
 };
@@ -23,7 +23,6 @@ export const SafetyNumberViewer = ({
   i18n,
   onClose,
   safetyNumber,
-  safetyNumberChanged,
   toggleVerified,
   verificationDisabled,
 }: PropsType): JSX.Element | null => {
@@ -42,9 +41,7 @@ export const SafetyNumberViewer = ({
   if (!contact.phoneNumber) {
     return (
       <div className="module-SafetyNumberViewer">
-        <div className="module-SafetyNumberViewer__verify-container">
-          {i18n('cannotGenerateSafetyNumber')}
-        </div>
+        {i18n('cannotGenerateSafetyNumber')}
       </div>
     );
   }
@@ -59,9 +56,6 @@ export const SafetyNumberViewer = ({
 
   const { isVerified } = contact;
   const verifiedStatusKey = isVerified ? 'isVerified' : 'isNotVerified';
-  const safetyNumberChangedKey = safetyNumberChanged
-    ? 'changedRightAfterVerify'
-    : 'yourSafetyNumberWith';
   const verifyButtonText = isVerified ? i18n('unverify') : i18n('verify');
 
   return (
@@ -73,16 +67,6 @@ export const SafetyNumberViewer = ({
           </button>
         </div>
       )}
-      <div className="module-SafetyNumberViewer__verification-label">
-        <Intl
-          i18n={i18n}
-          id={safetyNumberChangedKey}
-          components={{
-            name1: boldName,
-            name2: boldName,
-          }}
-        />
-      </div>
       <div className="module-SafetyNumberViewer__number">
         {safetyNumber || getPlaceholder()}
       </div>
@@ -95,18 +79,16 @@ export const SafetyNumberViewer = ({
         )}
         <Intl i18n={i18n} id={verifiedStatusKey} components={[boldName]} />
       </div>
-      <div className="module-SafetyNumberViewer__verify-container">
-        <button
-          className="module-SafetyNumberViewer__button--verify"
+      <div className="module-SafetyNumberViewer__button">
+        <Button
           disabled={verificationDisabled}
           onClick={() => {
             toggleVerified(contact);
           }}
-          tabIndex={0}
-          type="button"
+          variant={ButtonVariant.Secondary}
         >
           {verifyButtonText}
-        </button>
+        </Button>
       </div>
     </div>
   );

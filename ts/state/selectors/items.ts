@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
+import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
 
@@ -12,6 +13,7 @@ import {
   CustomColorType,
   DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
+import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 
 export const getItems = (state: StateType): ItemsStateType => state.items;
 
@@ -48,4 +50,25 @@ export const getCustomColors = createSelector(
   getItems,
   (state: ItemsStateType): Record<string, CustomColorType> | undefined =>
     state.customColors?.colors
+);
+
+export const getEmojiSkinTone = createSelector(
+  getItems,
+  ({ skinTone }: Readonly<ItemsStateType>): number =>
+    typeof skinTone === 'number' &&
+    isInteger(skinTone) &&
+    skinTone >= 0 &&
+    skinTone <= 5
+      ? skinTone
+      : 0
+);
+
+export const getPreferredReactionEmoji = createSelector(
+  getItems,
+  getEmojiSkinTone,
+  (state: Readonly<ItemsStateType>, skinTone: number): Array<string> =>
+    getPreferredReactionEmojiFromStoredValue(
+      state.preferredReactionEmoji,
+      skinTone
+    )
 );

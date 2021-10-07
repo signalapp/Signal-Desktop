@@ -62,18 +62,6 @@ function ensureStringed(thing: any): any {
   throw new Error(`unsure of how to jsonify object of type ${typeof thing}`);
 }
 
-function stringToArrayBuffer(string: string): ArrayBuffer {
-  if (typeof string !== 'string') {
-    throw new TypeError("'string' must be a string");
-  }
-
-  const array = new Uint8Array(string.length);
-  for (let i = 0; i < string.length; i += 1) {
-    array[i] = string.charCodeAt(i);
-  }
-  return array.buffer;
-}
-
 // Number formatting utils
 const utils = {
   getString,
@@ -81,7 +69,6 @@ const utils = {
     number[0] === '+' && /^[0-9]+$/.test(number.substring(1)),
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   jsonThing: (thing: unknown) => JSON.stringify(ensureStringed(thing)),
-  stringToArrayBuffer,
   unencodeNumber: (number: string): Array<string> => number.split('.'),
 };
 

@@ -1,9 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-// We use `for ... of` to deal with iterables in several places in this file.
-/* eslint-disable no-restricted-syntax */
-
 import { isNil, sortBy } from 'lodash';
 import PQueue from 'p-queue';
 
@@ -56,7 +53,7 @@ export async function routineProfileRefresh({
   async function refreshConversation(
     conversation: ConversationModel
   ): Promise<void> {
-    window.log.info(
+    log.info(
       `routineProfileRefresh: refreshing profile for ${conversation.idForLogging()}`
     );
 
@@ -66,12 +63,12 @@ export async function routineProfileRefresh({
         conversation.get('uuid'),
         conversation.get('e164')
       );
-      window.log.info(
+      log.info(
         `routineProfileRefresh: refreshed profile for ${conversation.idForLogging()}`
       );
       successCount += 1;
     } catch (err) {
-      window.log.error(
+      log.error(
         `routineProfileRefresh: refreshed profile for ${conversation.idForLogging()}`,
         err?.stack || err
       );

@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
 import { CustomColorEditor, PropsType } from './CustomColorEditor';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 
 const story = storiesOf('Components/CustomColorEditor', module);
 

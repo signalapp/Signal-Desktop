@@ -4,6 +4,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten } from 'lodash';
+import type { VideoFrameSource } from 'ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
   GroupCallOverflowArea,
@@ -12,12 +13,12 @@ import {
 import {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
-  VideoFrameSource,
 } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { LocalizerType } from '../types/Util';
-import { usePageVisibility } from '../util/hooks';
+import { usePageVisibility } from '../hooks/usePageVisibility';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
+import * as log from '../logging/log';
 
 const MIN_RENDERED_HEIGHT = 180;
 const PARTICIPANT_MARGIN = 10;
@@ -197,9 +198,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       //   the LARGER of the two could cause overflow.)
       const widestRow = maxBy(rows, totalRemoteParticipantWidthAtMinHeight);
       if (!widestRow) {
-        window.log.error(
-          'Unable to find the widest row, which should be impossible'
-        );
+        log.error('Unable to find the widest row, which should be impossible');
         continue;
       }
       const widthScalar =
@@ -331,7 +330,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
       bounds
       onResize={({ bounds }) => {
         if (!bounds) {
-          window.log.error('We should be measuring the bounds');
+          log.error('We should be measuring the bounds');
           return;
         }
         setContainerDimensions(bounds);
@@ -346,7 +345,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             bounds
             onResize={({ bounds }) => {
               if (!bounds) {
-                window.log.error('We should be measuring the bounds');
+                log.error('We should be measuring the bounds');
                 return;
               }
               setGridDimensions(bounds);

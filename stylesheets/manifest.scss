@@ -10,8 +10,6 @@
 // Old style: components
 @import 'progress';
 @import 'modal';
-@import 'debugLog';
-@import 'lightbox';
 @import 'recorder';
 @import 'emoji';
 @import 'settings';
@@ -27,9 +25,11 @@
 @import 'options';
 
 // New style: components
+@import './components/About.scss';
 @import './components/AddGroupMembersModal.scss';
-@import './components/App.scss';
 @import './components/AnnouncementsOnlyGroupBanner.scss';
+@import './components/App.scss';
+@import './components/AudioCapture.scss';
 @import './components/Avatar.scss';
 @import './components/AvatarEditor.scss';
 @import './components/AvatarModalButtons.scss';
@@ -45,13 +45,17 @@
 @import './components/ChatColorPicker.scss';
 @import './components/Checkbox.scss';
 @import './components/CompositionArea.scss';
+@import './components/ContactModal.scss';
 @import './components/ContactName.scss';
 @import './components/ContactPill.scss';
 @import './components/ContactPills.scss';
 @import './components/ContactSpoofingReviewDialog.scss';
 @import './components/ContactSpoofingReviewDialogPerson.scss';
 @import './components/ConversationHeader.scss';
+@import './components/ConversationView.scss';
 @import './components/CustomColorEditor.scss';
+@import './components/CustomizingPreferredReactionsModal.scss';
+@import './components/DebugLogWindow.scss';
 @import './components/DisappearingTimeDialog.scss';
 @import './components/DisappearingTimerSelect.scss';
 @import './components/EditConversationAttributesModal.scss';
@@ -63,12 +67,15 @@
 @import './components/IncomingCallBar.scss';
 @import './components/Input.scss';
 @import './components/LeftPaneDialog.scss';
+@import './components/Lightbox.scss';
 @import './components/MediaQualitySelector.scss';
 @import './components/MessageAudio.scss';
 @import './components/MessageDetail.scss';
 @import './components/Modal.scss';
+@import './components/PermissionsPopup.scss';
 @import './components/Preferences.scss';
 @import './components/ProfileEditor.scss';
+@import './components/ReactionPickerPicker.scss';
 @import './components/SafetyNumberChangeDialog.scss';
 @import './components/SafetyNumberViewer.scss';
 @import './components/SearchInput.scss';
@@ -76,7 +83,9 @@
 @import './components/SearchResultsLoadingFakeRow.scss';
 @import './components/Select.scss';
 @import './components/Slider.scss';
+@import './components/SystemMessage.scss';
 @import './components/Tabs.scss';
+@import './components/Toast.scss';
 @import './components/TimelineWarning.scss';
 @import './components/TimelineWarnings.scss';
 @import './components/WhatsNew.scss';

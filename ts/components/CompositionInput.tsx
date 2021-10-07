@@ -35,6 +35,7 @@ import {
 import { SignalClipboard } from '../quill/signal-clipboard';
 import { DirectionalBlot } from '../quill/block/blot';
 import { getClassNamesFor } from '../util/getClassNamesFor';
+import * as log from '../logging/log';
 
 Quill.register('formats/emoji', EmojiBlot);
 Quill.register('formats/mention', MentionBlot);
@@ -231,7 +232,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
     const [text, mentions] = getTextAndMentions();
 
-    window.log.info(
+    log.info(
       `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
     );
     onSubmit(text, mentions, timestamp);

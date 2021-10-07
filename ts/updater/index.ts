@@ -1,7 +1,7 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { BrowserWindow } from 'electron';
 
 import { UpdaterInterface } from './common';
@@ -14,7 +14,7 @@ let initialized = false;
 let updater: UpdaterInterface | undefined;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger?: LoggerType
 ): Promise<void> {
   const { platform } = process;
@@ -57,8 +57,6 @@ export async function force(): Promise<void> {
 
 function autoUpdateDisabled() {
   return (
-    process.platform === 'linux' ||
-    process.mas ||
-    !getFromConfig('updatesEnabled')
+    process.platform === 'linux' || process.mas || !config.get('updatesEnabled')
   );
 }

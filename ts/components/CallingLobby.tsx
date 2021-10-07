@@ -12,14 +12,16 @@ import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
-import { CallingPreCallInfo } from './CallingPreCallInfo';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
 } from './CallingLobbyJoinButton';
 import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import { ConversationType } from '../state/ducks/conversations';
+import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -29,6 +31,7 @@ export type PropsType = {
     | 'avatarPath'
     | 'color'
     | 'isMe'
+    | 'memberships'
     | 'name'
     | 'phoneNumber'
     | 'profileName'
@@ -37,23 +40,27 @@ export type PropsType = {
     | 'type'
     | 'unblurredAvatarPath'
   >;
-  groupMembers?: Array<Pick<ConversationType, 'title'>>;
+  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hasLocalAudio: boolean;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   isGroupCall: boolean;
+  isGroupCallOutboundRingEnabled: boolean;
   isCallFull?: boolean;
   me: {
     avatarPath?: string;
+    id: string;
     color?: AvatarColorType;
     uuid: string;
   };
   onCallCanceled: () => void;
   onJoinCall: () => void;
+  outgoingRing: boolean;
   peekedParticipants: Array<ConversationType>;
   setLocalAudio: (_: SetLocalAudioType) => void;
   setLocalVideo: (_: SetLocalVideoType) => void;
   setLocalPreview: (_: SetLocalPreviewType) => void;
+  setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;
   toggleParticipants: () => void;
   toggleSettings: () => void;
@@ -67,6 +74,7 @@ export const CallingLobby = ({
   hasLocalVideo,
   i18n,
   isGroupCall = false,
+  isGroupCallOutboundRingEnabled,
   isCallFull = false,
   me,
   onCallCanceled,
@@ -75,9 +83,11 @@ export const CallingLobby = ({
   setLocalAudio,
   setLocalPreview,
   setLocalVideo,
+  setOutgoingRing,
   showParticipantsList,
   toggleParticipants,
   toggleSettings,
+  outgoingRing,
 }: PropsType): JSX.Element => {
   const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
 
@@ -91,6 +101,10 @@ export const CallingLobby = ({
     setLocalVideo({ enabled: !hasLocalVideo });
   }, [hasLocalVideo, setLocalVideo]);
 
+  const toggleOutgoingRing = React.useCallback((): void => {
+    setOutgoingRing(!outgoingRing);
+  }, [outgoingRing, setOutgoingRing]);
+
   React.useEffect(() => {
     setLocalPreview({ element: localVideoRef });
 
@@ -103,10 +117,11 @@ export const CallingLobby = ({
     function handleKeyDown(event: KeyboardEvent): void {
       let eventHandled = false;
 
-      if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+      const key = KeyboardLayout.lookup(event);
+      if (event.shiftKey && (key === 'V' || key === 'v')) {
         toggleVideo();
         eventHandled = true;
-      } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
+      } else if (event.shiftKey && (key === 'M' || key === 'm')) {
         toggleAudio();
         eventHandled = true;
       }
@@ -132,9 +147,44 @@ export const CallingLobby = ({
     : availableCameras.length === 0
     ? CallingButtonType.VIDEO_DISABLED
     : CallingButtonType.VIDEO_OFF;
+
   const audioButtonType = hasLocalAudio
     ? CallingButtonType.AUDIO_ON
     : CallingButtonType.AUDIO_OFF;
+
+  const isGroupTooLargeToRing = isConversationTooBigToRing(conversation);
+
+  const isRingButtonVisible: boolean =
+    isGroupCall &&
+    isGroupCallOutboundRingEnabled &&
+    peekedParticipants.length === 0 &&
+    (groupMembers || []).length > 1;
+
+  let preCallInfoRingMode: RingMode;
+  if (isGroupCall) {
+    preCallInfoRingMode =
+      outgoingRing && !isGroupTooLargeToRing
+        ? RingMode.WillRing
+        : RingMode.WillNotRing;
+  } else {
+    preCallInfoRingMode = RingMode.WillRing;
+  }
+
+  let ringButtonType:
+    | CallingButtonType.RING_DISABLED
+    | CallingButtonType.RING_ON
+    | CallingButtonType.RING_OFF;
+  if (isRingButtonVisible) {
+    if (isGroupTooLargeToRing) {
+      ringButtonType = CallingButtonType.RING_DISABLED;
+    } else if (outgoingRing) {
+      ringButtonType = CallingButtonType.RING_ON;
+    } else {
+      ringButtonType = CallingButtonType.RING_OFF;
+    }
+  } else {
+    ringButtonType = CallingButtonType.RING_DISABLED;
+  }
 
   const canJoin = !isCallFull && !isCallConnecting;
 
@@ -182,6 +232,7 @@ export const CallingLobby = ({
         isCallFull={isCallFull}
         me={me}
         peekedParticipants={peekedParticipants}
+        ringMode={preCallInfoRingMode}
       />
 
       <div
@@ -206,6 +257,13 @@ export const CallingLobby = ({
           buttonType={audioButtonType}
           i18n={i18n}
           onClick={toggleAudio}
+          tooltipDirection={TooltipPlacement.Top}
+        />
+        <CallingButton
+          buttonType={ringButtonType}
+          i18n={i18n}
+          isVisible={isRingButtonVisible}
+          onClick={toggleOutgoingRing}
           tooltipDirection={TooltipPlacement.Top}
         />
       </div>

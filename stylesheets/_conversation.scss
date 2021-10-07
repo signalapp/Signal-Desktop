@@ -6,12 +6,10 @@
 @keyframes panel--in {
   from {
     transform: translateX(500px);
-    opacity: 0;
   }
 
   to {
     transform: translateX(0);
-    opacity: 1;
   }
 }
 
@@ -32,12 +30,12 @@
 
   .panel {
     height: calc(100% - #{$header-height} - var(--title-bar-drag-area-height));
-    overflow-y: scroll;
-    z-index: 1;
-    position: absolute;
     left: 0;
+    overflow-y: overlay;
+    position: absolute;
     top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
+    z-index: 1;
 
     @include light-theme() {
       background-color: $color-white;
@@ -50,7 +48,7 @@
 
   .panel {
     &:not(.main) {
-      animation: panel--in 250ms ease-out;
+      animation: panel--in 350ms cubic-bezier(0.17, 0.17, 0, 1);
     }
 
     &--static {
@@ -58,43 +56,8 @@
     }
 
     &--remove {
-      transform: translateX(500px);
-      opacity: 0;
-      transition: all 250ms ease-out;
-    }
-
-    .container {
-      padding-top: 20px;
-      max-width: 750px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-  }
-
-  .main.panel {
-    display: flex;
-    flex-direction: column;
-    overflow: initial;
-  }
-
-  .main.panel {
-    .timeline-placeholder {
-      flex-grow: 1;
-      position: relative;
-      max-width: 100%;
-      margin: 0;
-
-      .timeline-wrapper {
-        -webkit-padding-start: 0px;
-        position: absolute;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
+      transform: translateX(100%);
+      transition: transform 350ms cubic-bezier(0.17, 0.17, 0, 1);
     }
   }
 }
@@ -110,16 +73,6 @@
   overflow-y: auto;
 }
 
-.discussion-container {
-  @include light-theme {
-    background-color: $color-white;
-  }
-
-  @include dark-theme {
-    background-color: $color-gray-95;
-  }
-}
-
 .typing-bubble-wrapper {
   margin-bottom: 20px;
 }
@@ -128,130 +81,6 @@
   overflow-y: scroll;
   padding-top: 40px;
   padding-bottom: 40px;
-}
-
-// We need to use the wrapper because the conversation view calculates the height of all
-//   things in the composition area. A margin on an inner div won't be included in that
-//   height calculation.
-.bottom-bar .quote-wrapper {
-  margin-left: 18px;
-  margin-right: 18px;
-  margin-top: 3px;
-}
-
-.bottom-bar .preview-wrapper {
-  margin-top: 3px;
-  margin-left: 12px;
-  margin-right: 12px;
-  margin-bottom: 2px;
-}
-
-.bottom-bar {
-  box-sizing: content-box;
-  $button-width: 36px;
-
-  form.active {
-    textarea {
-      border: solid 1px $color-ultramarine;
-    }
-  }
-
-  form.send {
-    margin-bottom: 0px;
-    @include light-theme {
-      background: $color-white;
-    }
-    @include dark-theme {
-      background-color: $color-gray-95;
-    }
-  }
-
-  .flex {
-    display: flex;
-    flex-direction: row;
-
-    .send-message {
-      flex-grow: 1;
-    }
-  }
-
-  .choose-file {
-    float: left;
-    height: 36px;
-  }
-  .send-message {
-    display: block;
-    max-height: 100px;
-    padding: 10px;
-    margin-top: 3px;
-    margin-bottom: 6px;
-    border-radius: 20px;
-
-    resize: none;
-    font-size: 1em;
-    font-family: inherit;
-
-    @include light-theme {
-      background-color: $color-gray-02;
-      color: $color-gray-95;
-      border: 1px solid $color-black-alpha-20;
-      outline: 0;
-    }
-
-    @include dark-theme {
-      background-color: $color-gray-90;
-      color: $color-gray-02;
-      border: 1px solid $color-gray-60;
-      outline: 0;
-    }
-
-    &[disabled='disabled'] {
-      background: transparent;
-    }
-  }
-  .capture-audio {
-    float: right;
-    height: 36px;
-  }
-  .android-length-warning {
-    padding: 10px;
-    max-width: 150px;
-  }
-}
-
-.toast {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  bottom: 62px;
-
-  text-align: center;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 4px;
-  z-index: 100;
-
-  font-size: 13px;
-  line-height: 18px;
-  letter-spacing: 0;
-
-  @include light-theme {
-    background-color: $color-gray-75;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 $color-black-alpha-20,
-      0 0 0 0.5px $color-black-alpha-05;
-  }
-  @include dark-theme {
-    background-color: $color-gray-45;
-    color: $color-white;
-    box-shadow: 0 4px 16px 0 $color-white-alpha-20;
-  }
-}
-
-.toast-clickable {
-  cursor: pointer;
 }
 
 .permissions-popup,

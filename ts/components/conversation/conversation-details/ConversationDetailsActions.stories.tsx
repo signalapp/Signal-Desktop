@@ -7,7 +7,7 @@ import { isBoolean } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import {
   ConversationDetailsActions,
@@ -28,6 +28,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     ? overrideProps.cannotLeaveBecauseYouAreLastAdmin
     : false,
   conversationTitle: overrideProps.conversationTitle || '',
+  left: isBoolean(overrideProps.left) ? overrideProps.left : false,
   onBlock: action('onBlock'),
   onLeave: action('onLeave'),
   i18n,
@@ -35,6 +36,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 story.add('Basic', () => {
   const props = createProps();
+
+  return <ConversationDetailsActions {...props} />;
+});
+
+story.add('Left the group', () => {
+  const props = createProps({ left: true });
 
   return <ConversationDetailsActions {...props} />;
 });

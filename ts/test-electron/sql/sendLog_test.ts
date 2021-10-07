@@ -6,11 +6,7 @@ import { v4 as getGuid } from 'uuid';
 import { assert } from 'chai';
 
 import dataInterface from '../../sql/Client';
-import {
-  constantTimeEqual,
-  getRandomBytes,
-  typedArrayToArrayBuffer,
-} from '../../Crypto';
+import { constantTimeEqual, getRandomBytes } from '../../Crypto';
 
 const {
   _getAllSentProtoMessageIds,
@@ -33,7 +29,7 @@ describe('sendLog', () => {
   });
 
   it('roundtrips with insertSentProto/getAllSentProtos', async () => {
-    const bytes = Buffer.from(getRandomBytes(128));
+    const bytes = getRandomBytes(128);
     const timestamp = Date.now();
     const proto = {
       contentHint: 1,
@@ -52,12 +48,7 @@ describe('sendLog', () => {
     const actual = allProtos[0];
 
     assert.strictEqual(actual.contentHint, proto.contentHint);
-    assert.isTrue(
-      constantTimeEqual(
-        typedArrayToArrayBuffer(actual.proto),
-        typedArrayToArrayBuffer(proto.proto)
-      )
-    );
+    assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
     assert.strictEqual(actual.timestamp, proto.timestamp);
 
     await removeAllSentProtos();
@@ -70,7 +61,7 @@ describe('sendLog', () => {
     assert.lengthOf(await _getAllSentProtoMessageIds(), 0);
     assert.lengthOf(await _getAllSentProtoRecipients(), 0);
 
-    const bytes = Buffer.from(getRandomBytes(128));
+    const bytes = getRandomBytes(128);
     const timestamp = Date.now();
     const proto = {
       contentHint: 1,
@@ -114,7 +105,7 @@ describe('sendLog', () => {
       { forceSave: true }
     );
 
-    const bytes = Buffer.from(getRandomBytes(128));
+    const bytes = getRandomBytes(128);
     const proto = {
       contentHint: 1,
       proto: bytes,
@@ -148,12 +139,12 @@ describe('sendLog', () => {
       };
       const proto1 = {
         contentHint: 7,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       const proto2 = {
         contentHint: 9,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
 
@@ -182,7 +173,7 @@ describe('sendLog', () => {
       const messageIds = [getGuid()];
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
 
@@ -220,17 +211,17 @@ describe('sendLog', () => {
 
       const proto1 = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp: timestamp + 10,
       };
       const proto2 = {
         contentHint: 2,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       const proto3 = {
         contentHint: 0,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp: timestamp - 15,
       };
       await insertSentProto(proto1, {
@@ -261,22 +252,12 @@ describe('sendLog', () => {
 
       const actual1 = allProtos[0];
       assert.strictEqual(actual1.contentHint, proto1.contentHint);
-      assert.isTrue(
-        constantTimeEqual(
-          typedArrayToArrayBuffer(actual1.proto),
-          typedArrayToArrayBuffer(proto1.proto)
-        )
-      );
+      assert.isTrue(constantTimeEqual(actual1.proto, proto1.proto));
       assert.strictEqual(actual1.timestamp, proto1.timestamp);
 
       const actual2 = allProtos[1];
       assert.strictEqual(actual2.contentHint, proto2.contentHint);
-      assert.isTrue(
-        constantTimeEqual(
-          typedArrayToArrayBuffer(actual2.proto),
-          typedArrayToArrayBuffer(proto2.proto)
-        )
-      );
+      assert.isTrue(constantTimeEqual(actual2.proto, proto2.proto));
       assert.strictEqual(actual2.timestamp, proto2.timestamp);
     });
   });
@@ -291,17 +272,17 @@ describe('sendLog', () => {
       const timestamp = Date.now();
       const proto1 = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       const proto2 = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp: timestamp - 10,
       };
       const proto3 = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp: timestamp - 20,
       };
       await insertSentProto(proto1, {
@@ -344,7 +325,7 @@ describe('sendLog', () => {
       const recipientUuid2 = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -375,7 +356,7 @@ describe('sendLog', () => {
       const recipientUuid2 = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -416,6 +397,49 @@ describe('sendLog', () => {
       assert.lengthOf(await getAllSentProtos(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);
     });
+
+    it('deletes multiple recipients in a single transaction', async () => {
+      const timestamp = Date.now();
+
+      const recipientUuid1 = getGuid();
+      const recipientUuid2 = getGuid();
+      const proto = {
+        contentHint: 1,
+        proto: getRandomBytes(128),
+        timestamp,
+      };
+      await insertSentProto(proto, {
+        messageIds: [getGuid()],
+        recipients: {
+          [recipientUuid1]: [1, 2],
+          [recipientUuid2]: [1],
+        },
+      });
+
+      assert.lengthOf(await getAllSentProtos(), 1);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 3);
+
+      await deleteSentProtoRecipient([
+        {
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 1,
+        },
+        {
+          timestamp,
+          recipientUuid: recipientUuid1,
+          deviceId: 2,
+        },
+        {
+          timestamp,
+          recipientUuid: recipientUuid2,
+          deviceId: 1,
+        },
+      ]);
+
+      assert.lengthOf(await getAllSentProtos(), 0);
+      assert.lengthOf(await _getAllSentProtoRecipients(), 0);
+    });
   });
 
   describe('#getSentProtoByRecipient', () => {
@@ -426,7 +450,7 @@ describe('sendLog', () => {
       const messageIds = [getGuid(), getGuid()];
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -450,12 +474,7 @@ describe('sendLog', () => {
         throw new Error('Failed to fetch proto!');
       }
       assert.strictEqual(actual.contentHint, proto.contentHint);
-      assert.isTrue(
-        constantTimeEqual(
-          typedArrayToArrayBuffer(actual.proto),
-          typedArrayToArrayBuffer(proto.proto)
-        )
-      );
+      assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
       assert.strictEqual(actual.timestamp, proto.timestamp);
       assert.sameMembers(actual.messageIds, messageIds);
     });
@@ -466,7 +485,7 @@ describe('sendLog', () => {
       const recipientUuid = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -490,12 +509,7 @@ describe('sendLog', () => {
         throw new Error('Failed to fetch proto!');
       }
       assert.strictEqual(actual.contentHint, proto.contentHint);
-      assert.isTrue(
-        constantTimeEqual(
-          typedArrayToArrayBuffer(actual.proto),
-          typedArrayToArrayBuffer(proto.proto)
-        )
-      );
+      assert.isTrue(constantTimeEqual(actual.proto, proto.proto));
       assert.strictEqual(actual.timestamp, proto.timestamp);
       assert.deepEqual(actual.messageIds, []);
     });
@@ -506,7 +520,7 @@ describe('sendLog', () => {
       const recipientUuid = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -534,7 +548,7 @@ describe('sendLog', () => {
       const recipientUuid = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
@@ -563,7 +577,7 @@ describe('sendLog', () => {
       const recipientUuid = getGuid();
       const proto = {
         contentHint: 1,
-        proto: Buffer.from(getRandomBytes(128)),
+        proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {

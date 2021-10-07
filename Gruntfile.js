@@ -8,6 +8,7 @@ const mkdirp = require('mkdirp');
 const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
+const os = require('os');
 const assert = require('assert');
 const sass = require('node-sass');
 const packageJson = require('./package.json');
@@ -15,6 +16,21 @@ const packageJson = require('./package.json');
 /* eslint-disable more/no-then, no-console  */
 
 module.exports = grunt => {
+  async function promiseToAsyncGruntTask(promise, gruntDone) {
+    let succeeded = false;
+    try {
+      await promise;
+      succeeded = true;
+    } catch (err) {
+      grunt.log.error(err);
+    }
+    if (succeeded) {
+      gruntDone();
+    } else {
+      gruntDone(false);
+    }
+  }
+
   const bower = grunt.file.readJSON('bower.json');
   const components = [];
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
@@ -158,10 +174,11 @@ module.exports = grunt => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
     const committed = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
+    const buildCreation = Date.parse(committed);
+    const buildExpiration = buildCreation + 1000 * 60 * 60 * 24 * 90;
     grunt.file.write(
       'config/local-production.json',
-      `${JSON.stringify({ buildExpiration: time })}\n`
+      `${JSON.stringify({ buildCreation, buildExpiration })}\n`
     );
   });
 
@@ -170,15 +187,14 @@ module.exports = grunt => {
     mkdirp.sync('release');
   });
 
-  function runTests(environment, cb) {
-    let failure;
+  async function runTests(environment) {
     const { Application } = spectron;
     const electronBinary =
       process.platform === 'win32' ? 'electron.cmd' : 'electron';
 
     const path = join(__dirname, 'node_modules', '.bin', electronBinary);
-    const args = [join(__dirname, 'main.js')];
-    console.log('Starting path', path, 'with args', args);
+    const args = [join(__dirname, 'app', 'main.js')];
+    grunt.log.writeln('Starting path', path, 'with args', args);
     const app = new Application({
       path,
       args,
@@ -186,6 +202,7 @@ module.exports = grunt => {
         NODE_ENV: environment,
       },
       requireName: 'unused',
+      startTimeout: 30000,
     });
 
     function getMochaResults() {
@@ -193,78 +210,81 @@ module.exports = grunt => {
       return window.mochaResults;
     }
 
-    app
-      .start()
-      .then(() => {
-        console.log('App started. Now waiting for test results...');
-        return app.client.waitUntil(
-          () =>
-            app.client
-              .execute(getMochaResults)
-              .then(data => Boolean(data.value)),
-          25000,
-          'Expected to find window.mochaResults set!'
-        );
-      })
-      .then(() => app.client.execute(getMochaResults))
-      .then(data => {
-        const results = data.value;
-        if (!results) {
-          failure = () => grunt.fail.fatal("Couldn't extract test results.");
-          return app.client.log('browser');
-        }
-        if (results.failures > 0) {
-          console.error(results.reports);
-          failure = () =>
-            grunt.fail.fatal(`Found ${results.failures} failing unit tests.`);
-          return app.client.log('browser');
-        }
-        grunt.log.ok(`${results.passes} tests passed.`);
-        return null;
-      })
-      .then(logs => {
-        if (logs) {
-          console.error();
-          console.error('Because tests failed, printing browser logs:');
-          console.error(logs);
-        }
-      })
-      .catch(error => {
-        failure = () =>
-          grunt.fail.fatal(
-            `Something went wrong: ${error.message} ${error.stack}`
-          );
-      })
-      .then(() => {
-        // We need to use the failure variable and this early stop to clean up before
-        // shutting down. Grunt's fail methods are the only way to set the return value,
-        // but they shut the process down immediately!
-        if (failure) {
-          console.log();
-          console.log('Main process logs:');
-          return app.client.getMainProcessLogs().then(logs => {
-            logs.forEach(log => {
-              console.log(log);
-            });
+    async function logForFailure() {
+      const temporaryDirectory = join(
+        os.tmpdir(),
+        `Signal-Desktop-tests--${Date.now()}-${Math.random()
+          .toString()
+          .slice(2)}`
+      );
+      const renderProcessLogPath = join(
+        temporaryDirectory,
+        'render-process.log'
+      );
+      const mainProcessLogPath = join(temporaryDirectory, 'main-process.log');
 
-            return app.stop();
-          });
-        }
-        return app.stop();
-      })
-      .then(() => {
-        if (failure) {
-          failure();
-        }
-        cb();
-      })
-      .catch(error => {
-        console.error('Second-level error:', error.message, error.stack);
-        if (failure) {
-          failure();
-        }
-        cb();
-      });
+      await fs.promises.mkdir(temporaryDirectory, { recursive: true });
+
+      await Promise.all([
+        (async () => {
+          const logs = await app.client.getRenderProcessLogs();
+          await fs.promises.writeFile(
+            renderProcessLogPath,
+            logs.map(log => JSON.stringify(log)).join('\n')
+          );
+        })(),
+        (async () => {
+          const logs = await app.client.getMainProcessLogs();
+          await fs.promises.writeFile(mainProcessLogPath, logs.join('\n'));
+        })(),
+      ]);
+
+      console.error();
+      grunt.log.error(
+        `Renderer process logs written to ${renderProcessLogPath}`
+      );
+      grunt.log.error(`Renderer process logs written to ${mainProcessLogPath}`);
+      grunt.log.error(
+        `For easier debugging, try NODE_ENV='${environment}' yarn start`
+      );
+      console.error();
+    }
+
+    try {
+      await app.start();
+
+      grunt.log.writeln('App started. Now waiting for test results...');
+      await app.client.waitUntil(
+        () =>
+          app.client.execute(getMochaResults).then(data => Boolean(data.value)),
+        25000,
+        'Expected to find window.mochaResults set!'
+      );
+
+      const results = (await app.client.execute(getMochaResults)).value;
+      if (!results) {
+        await logForFailure();
+        throw new Error("Couldn't extract test results");
+      }
+
+      if (results.failures > 0) {
+        const errorMessage = `Found ${results.failures} failing test${
+          results.failures === 1 ? '' : 's'
+        }.`;
+        grunt.log.error(errorMessage);
+        results.reports.forEach(report => {
+          grunt.log.error(JSON.stringify(report, null, 2));
+        });
+        await logForFailure();
+        throw new Error(errorMessage);
+      }
+
+      grunt.log.ok(`${results.passes} tests passed.`);
+    } finally {
+      if (app.isRunning()) {
+        await app.stop();
+      }
+    }
   }
 
   grunt.registerTask(
@@ -272,9 +292,7 @@ module.exports = grunt => {
     'Run unit tests w/Electron',
     function thisNeeded() {
       const environment = grunt.option('env') || 'test';
-      const done = this.async();
-
-      runTests(environment, done);
+      promiseToAsyncGruntTask(runTests(environment), this.async());
     }
   );
 
@@ -283,9 +301,7 @@ module.exports = grunt => {
     'Run libtextsecure unit tests w/Electron',
     function thisNeeded() {
       const environment = grunt.option('env') || 'test-lib';
-      const done = this.async();
-
-      runTests(environment, done);
+      promiseToAsyncGruntTask(runTests(environment), this.async());
     }
   );
 

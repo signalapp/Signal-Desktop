@@ -12,6 +12,8 @@ try {
   const electron = require('electron');
   const semver = require('semver');
   const _ = require('lodash');
+  const { strictAssert } = require('./ts/util/assert');
+  const { parseIntWithFallback } = require('./ts/util/parseIntWithFallback');
 
   // It is important to call this as early as possible
   require('./ts/windows/context');
@@ -32,6 +34,8 @@ try {
   const config = require('url').parse(window.location.toString(), true).query;
 
   setEnvironment(parseEnvironment(config.environment));
+
+  const log = require('./ts/logging/log');
 
   let title = config.name;
   if (getEnvironment() !== Environment.Production) {
@@ -57,16 +61,21 @@ try {
   window.getEnvironment = getEnvironment;
   window.getAppInstance = () => config.appInstance;
   window.getVersion = () => config.version;
+  window.getBuildCreation = () => parseIntWithFallback(config.buildCreation, 0);
   window.getExpiration = () => {
+    const sixtyDays = 60 * 86400 * 1000;
     const remoteBuildExpiration = window.storage.get('remoteBuildExpiration');
+    const localBuildExpiration = window.Events.getAutoDownloadUpdate()
+      ? config.buildExpiration
+      : config.buildExpiration - sixtyDays;
+
     if (remoteBuildExpiration) {
       return remoteBuildExpiration < config.buildExpiration
         ? remoteBuildExpiration
-        : config.buildExpiration;
+        : localBuildExpiration;
     }
-    return config.buildExpiration;
+    return localBuildExpiration;
   };
-  window.getNodeVersion = () => config.node_version;
   window.getHostName = () => config.hostname;
   window.getServerTrustRoot = () => config.serverTrustRoot;
   window.getServerPublicParams = () => config.serverPublicParams;
@@ -81,7 +90,7 @@ try {
     try {
       return semver.lt(toCheck, baseVersion);
     } catch (error) {
-      window.log.error(
+      log.error(
         `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
         error && error.stack ? error.stack : error
       );
@@ -92,7 +101,7 @@ try {
     try {
       return semver.gt(toCheck, baseVersion);
     } catch (error) {
-      window.log.error(
+      log.error(
         `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
         error && error.stack ? error.stack : error
       );
@@ -125,11 +134,11 @@ try {
   window.eval = global.eval = () => null;
 
   window.drawAttention = () => {
-    window.log.info('draw attention');
+    log.info('draw attention');
     ipc.send('draw-attention');
   };
   window.showWindow = () => {
-    window.log.info('show window');
+    log.info('show window');
     ipc.send('show-window');
   };
 
@@ -150,15 +159,15 @@ try {
   };
 
   window.restart = () => {
-    window.log.info('restart');
+    log.info('restart');
     ipc.send('restart');
   };
   window.shutdown = () => {
-    window.log.info('shutdown');
+    log.info('shutdown');
     ipc.send('shutdown');
   };
   window.showDebugLog = () => {
-    window.log.info('showDebugLog');
+    log.info('showDebugLog');
     ipc.send('show-debug-log');
   };
 
@@ -183,6 +192,8 @@ try {
       statistics = {};
     }
 
+    const ourUuid = window.textsecure.storage.user.getUuid();
+
     event.sender.send('additional-log-data-response', {
       capabilities: ourCapabilities || {},
       remoteConfig: _.mapValues(remoteConfig, ({ value, enabled }) => {
@@ -194,7 +205,7 @@ try {
       user: {
         deviceId: window.textsecure.storage.user.getDeviceId(),
         e164: window.textsecure.storage.user.getNumber(),
-        uuid: window.textsecure.storage.user.getUuid(),
+        uuid: ourUuid && ourUuid.toString(),
         conversationId: ourConversation && ourConversation.id,
       },
     });
@@ -276,7 +287,7 @@ try {
     try {
       await deleteAllData();
     } catch (error) {
-      window.log.error('delete-all-data: error', error && error.stack);
+      log.error('delete-all-data: error', error && error.stack);
     }
   });
 
@@ -293,6 +304,16 @@ try {
     const { showGroupViaLink } = window.Events;
     if (showGroupViaLink) {
       showGroupViaLink(hash);
+    }
+  });
+
+  ipc.on('show-conversation-via-signal.me', (_event, info) => {
+    const { hash } = info;
+    strictAssert(typeof hash === 'string', 'Got an invalid hash over IPC');
+
+    const { showConversationViaSignalDotMe } = window.Events;
+    if (showConversationViaSignalDotMe) {
+      showConversationViaSignalDotMe(hash);
     }
   });
 
@@ -314,7 +335,7 @@ try {
   ipc.on('get-ready-for-shutdown', async () => {
     const { shutdown } = window.Events || {};
     if (!shutdown) {
-      window.log.error('preload shutdown handler: shutdown method not found');
+      log.error('preload shutdown handler: shutdown method not found');
       ipc.send('now-ready-for-shutdown');
       return;
     }
@@ -338,14 +359,13 @@ try {
   require('./ts/logging/set_up_renderer_logging').initialize();
 
   if (config.proxyUrl) {
-    window.log.info('Using provided proxy url');
+    log.info('Using provided proxy url');
   }
 
   window.nodeSetImmediate = setImmediate;
 
   window.Backbone = require('backbone');
   window.textsecure = require('./ts/textsecure').default;
-  window.synchronousCrypto = require('./ts/util/synchronousCrypto');
 
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
@@ -376,7 +396,6 @@ try {
   window.emojiData = require('emoji-datasource');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
-  window.loadImage = require('blueimp-load-image');
   window.getGuid = require('uuid/v4');
 
   const activeWindowService = new ActiveWindowService();
@@ -394,8 +413,6 @@ try {
   };
 
   window.isValidGuid = isValidGuid;
-  // https://stackoverflow.com/a/23299989
-  window.isValidE164 = maybeE164 => /^\+?[1-9]\d{1,14}$/.test(maybeE164);
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
@@ -403,11 +420,11 @@ try {
   window.PQueue = require('p-queue').default;
 
   const Signal = require('./js/modules/signal');
-  const i18n = require('./js/modules/i18n');
+  const { setupI18n } = require('./ts/util/setupI18n');
   const Attachments = require('./app/attachments');
 
   const { locale } = config;
-  window.i18n = i18n.setup(locale, localeMessages);
+  window.i18n = setupI18n(locale, localeMessages);
   window.moment.updateLocale(locale, {
     relativeTime: {
       s: window.i18n('timestamp_s'),
@@ -431,7 +448,7 @@ try {
     Attachments,
     userDataPath,
     getRegionCode: () => window.storage.get('regionCode'),
-    logger: window.log,
+    logger: log,
   });
 
   if (config.enableCI) {
@@ -445,14 +462,15 @@ try {
   require('./ts/models/conversations');
 
   require('./ts/backbone/views/whisper_view');
-  require('./ts/backbone/views/toast_view');
   require('./ts/views/conversation_view');
+  require('./ts/views/inbox_view');
+  require('./ts/views/install_view');
+  require('./ts/views/standalone_registration_view');
   require('./ts/SignalProtocolStore');
   require('./ts/background');
 
   // Pulling these in separately since they access filesystem, electron
   window.Signal.Debug = require('./js/modules/debug');
-  window.Signal.Logs = require('./js/modules/logs');
 
   window.addEventListener('contextmenu', e => {
     const editable = e.target.closest(
@@ -460,7 +478,7 @@ try {
     );
     const link = e.target.closest('a');
     const selection = Boolean(window.getSelection().toString());
-    const image = e.target.closest('.module-lightbox img');
+    const image = e.target.closest('.Lightbox img');
     if (!editable && !selection && !link && !image) {
       e.preventDefault();
     }
@@ -469,6 +487,7 @@ try {
   if (config.environment === 'test') {
     require('./preload_test');
   }
+  log.info('preload complete');
 } catch (error) {
   /* eslint-disable no-console */
   if (console._log) {
@@ -482,4 +501,3 @@ try {
 }
 
 preloadEndTime = Date.now();
-window.log.info('preload complete');

@@ -408,7 +408,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       innerRef={ref}
                       i18n={i18n}
                       isMe
-                      style={{ ...style, zIndex: 1 }}
+                      style={{ ...style, zIndex: 10 }}
                       color={color}
                       conversationType="direct"
                       name={name}

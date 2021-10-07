@@ -1,12 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const env = window.getEnvironment();
+import { Environment, getEnvironment } from '../environment';
+import { isInPast } from './timestamp';
+import * as log from '../logging/log';
 
-const NINETY_ONE_DAYS = 86400 * 91 * 1000;
+const ONE_DAY_MS = 86400 * 1000;
+const NINETY_ONE_DAYS = 91 * ONE_DAY_MS;
+const THIRTY_ONE_DAYS = 31 * ONE_DAY_MS;
 
 export function hasExpired(): boolean {
-  const { getExpiration, log } = window;
+  const { getExpiration } = window;
 
   let buildExpiration = 0;
 
@@ -21,18 +25,23 @@ export function hasExpired(): boolean {
     return true;
   }
 
-  const tooFarIntoFuture = Date.now() + NINETY_ONE_DAYS < buildExpiration;
+  if (getEnvironment() === Environment.Production) {
+    const safeExpirationMs = window.Events.getAutoDownloadUpdate()
+      ? NINETY_ONE_DAYS
+      : THIRTY_ONE_DAYS;
 
-  if (tooFarIntoFuture) {
-    log.error(
-      'Build expiration is set too far into the future',
-      buildExpiration
-    );
+    const buildExpirationDuration = buildExpiration - Date.now();
+    const tooFarIntoFuture = buildExpirationDuration > safeExpirationMs;
+
+    if (tooFarIntoFuture) {
+      log.error(
+        'Build expiration is set too far into the future',
+        buildExpiration
+      );
+    }
+
+    return tooFarIntoFuture || isInPast(buildExpiration);
   }
 
-  if (env === 'production') {
-    return Date.now() > buildExpiration && tooFarIntoFuture;
-  }
-
-  return buildExpiration !== 0 && Date.now() > buildExpiration;
+  return buildExpiration !== 0 && isInPast(buildExpiration);
 }

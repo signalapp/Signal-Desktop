@@ -37,7 +37,7 @@ import {
 
 import * as OS from '../OS';
 import { LocalizerType, ScrollBehavior } from '../types/Util';
-import { usePrevious } from '../util/hooks';
+import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 
 import { ConversationList } from './ConversationList';
@@ -102,7 +102,7 @@ export type PropsType = {
     switchToAssociatedView?: boolean;
   }) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
-  setComposeGroupAvatar: (_: undefined | ArrayBuffer) => void;
+  setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
   setComposeGroupName: (_: string) => void;
   setComposeGroupExpireTimer: (_: number) => void;
   showArchivedConversations: () => void;

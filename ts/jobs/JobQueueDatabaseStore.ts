@@ -1,10 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { pick, noop } from 'lodash';
+import { noop } from 'lodash';
 import { AsyncQueue } from '../util/AsyncQueue';
 import { concat, wrapPromise } from '../util/asyncIterables';
 import { JobQueueStore, StoredJob } from './types';
+import { formatJobForInsert } from './formatJobForInsert';
 import databaseInterface from '../sql/Client';
 import * as log from '../logging/log';
 
@@ -23,7 +24,12 @@ export class JobQueueDatabaseStore implements JobQueueStore {
 
   constructor(private readonly db: Database) {}
 
-  async insert(job: Readonly<StoredJob>): Promise<void> {
+  async insert(
+    job: Readonly<StoredJob>,
+    {
+      shouldInsertIntoDatabase = true,
+    }: Readonly<{ shouldInsertIntoDatabase?: boolean }> = {}
+  ): Promise<void> {
     log.info(
       `JobQueueDatabaseStore adding job ${job.id} to queue ${JSON.stringify(
         job.queueType
@@ -40,9 +46,9 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     }
     await initialFetchPromise;
 
-    await this.db.insertJob(
-      pick(job, ['id', 'timestamp', 'queueType', 'data'])
-    );
+    if (shouldInsertIntoDatabase) {
+      await this.db.insertJob(formatJobForInsert(job));
+    }
 
     this.getQueue(job.queueType).add(job);
   }

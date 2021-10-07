@@ -26,19 +26,6 @@
       </div>
     </script>
 
-    <script type="text/x-tmpl-mustache" id="conversation-loading-screen">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='content'>
-        <div class="module-splash-screen__logo module-img--128"></div>
-        <div class='container'>
-          <span class='dot'></span>
-          <span class='dot'></span>
-          <span class='dot'></span>
-        </div>
-      </div>
-    </script>
-
     <script type="text/x-tmpl-mustache" id="two-column">
       <div class='module-title-bar-drag-area'></div>
 
@@ -63,64 +50,14 @@
       </div>
     </script>
 
-    <script type="text/x-tmpl-mustache" id="scroll-down-button-view">
-      <button class='text module-scroll-down__button {{ buttonClass }}' alt='{{ moreBelow }}'>
-        <div class='module-scroll-down__icon'></div>
-      </button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="last-seen-indicator-view">
-      <div class='module-last-seen-indicator__bar'/>
-      <div class='module-last-seen-indicator__text'>
-        {{ unreadMessages }}
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="banner">
-      <div class='body'>
-        <span class='icon warning'></span>
-        {{ message }}
-        <span class='icon dismiss'></span>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="toast">
-      {{ toastMessage }}
-    </script>
-
     <script type="text/x-tmpl-mustache" id="conversation">
-      <div class='conversation-header'></div>
-      <div class='main panel'>
-        <div class='timeline-placeholder' aria-live='polite'></div>
-        <div class='bottom-bar' id='footer'>
-          <div class='compose'>
-            <form class='send clearfix file-input'>
-              <input type="file" class="file-input" multiple="multiple">
-              <div class='CompositionArea__placeholder'></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="message-list">
-      <div class='messages'></div>
-      <div class='typing-container'></div>
+      <div id="ConversationView__template"></div>
     </script>
 
     <script type="text/x-tmpl-mustache" id="recorder">
       <button class='finish'><span class='icon'></span></button>
       <span class='time'>0:00</span>
       <button class='close'><span class='icon'></span></button>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="identicon-svg">
-      <svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
-         <circle cx='50' cy='50' r='40' fill='{{ color }}' />
-          <text text-anchor='middle' fill='white' font-family='sans-serif' font-size='24px' x='50' y='50' baseline-shift='-8px'>
-              {{ content }}
-          </text>
-      </svg>
     </script>
 
     <script type="text/x-tmpl-mustache" id="phone-number">
@@ -136,55 +73,10 @@
       ({{ limit }}{{ units }})
     </script>
 
-    <script type="text/x-tmpl-mustache" id="attachment-type-modal">
-      Sorry, your attachment has a type, {{type}}, that is not currently supported.
-    </script>
-
     <script type="text/x-tmpl-mustache" id="group-member-list">
       <div class='container'>
         {{ #summary }} <div class='summary'>{{ summary }}</div>{{ /summary }}
       </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="key-verification">
-      <div class="container" tabindex="0">
-        <div class="key-verification-wrapper"></div>
-      </div>
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="clear-data">
-      {{#isStep1}}
-      <div class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon alert-outline-red'></span>
-            <div class='header'>{{ header }}</div>
-            <div class='body-text-wide'>{{ body }}</div>
-          </div>
-          <div class='nav'>
-            <div>
-              <a class='button neutral cancel'>{{ cancelButton }}</a>
-              <a class='button destructive delete-all-data'>{{ deleteButton }}</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/isStep1}}
-      {{#isStep2}}
-      <div id='step2' class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <span class='banner-icon delete'></span>
-            <div class='header'>{{ deleting }}</div>
-          </div>
-          <div class='progress'>
-            <div class='bar-container'>
-              <div class='bar progress-bar progress-bar-striped active'></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {{/isStep2}}
     </script>
 
     <script type="text/x-tmpl-mustache" id="link-flow-template">
@@ -337,11 +229,6 @@
     <script type="text/javascript" src="../js/libphonenumber-util.js"></script>
     <script
       type="text/javascript"
-      src="../js/keychange_listener.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
       src="../js/expiring_messages.js"
       data-cover
     ></script>
@@ -372,17 +259,7 @@
     ></script>
     <script
       type="text/javascript"
-      src="../js/views/key_verification_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
       src="../js/views/group_member_list_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/recorder_view.js"
       data-cover
     ></script>
     <script
@@ -392,24 +269,14 @@
     ></script>
     <script
       type="text/javascript"
-      src="../js/views/identicon_svg_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
       src="../js/views/banner_view.js"
       data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/clear_data_view.js"
     ></script>
 
     <script type="text/javascript" src="views/whisper_view_test.js"></script>
     <script type="text/javascript" src="views/list_view_test.js"></script>
 
     <script type="text/javascript" src="libphonenumber_util_test.js"></script>
-    <script type="text/javascript" src="keychange_listener_test.js"></script>
     <script type="text/javascript" src="reliable_trigger_test.js"></script>
     <script type="text/javascript" src="database_test.js"></script>
     <script type="text/javascript" src="i18n_test.js"></script>

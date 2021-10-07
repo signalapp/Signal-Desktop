@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import * as Errors from '../types/errors';
+import * as log from '../logging/log';
 
 type EntryType = Readonly<{
   value: number;
@@ -22,7 +22,7 @@ export class StartupQueue {
   }
 
   public flush(): void {
-    window.log.info('StartupQueue: Processing', this.map.size, 'actions');
+    log.info('StartupQueue: Processing', this.map.size, 'actions');
 
     const values = Array.from(this.map.values());
     this.map.clear();
@@ -31,7 +31,7 @@ export class StartupQueue {
       try {
         callback();
       } catch (error) {
-        window.log.error(
+        log.error(
           'StartupQueue: Failed to process item due to error',
           Errors.toLogFormat(error)
         );

@@ -3,6 +3,7 @@
 
 import type { MessageAttributesType } from '../model-types.d';
 import { ReadStatus, maxReadStatus } from '../messages/MessageReadStatus';
+import { notificationService } from './notifications';
 
 function markReadOrViewed(
   messageAttrs: Readonly<MessageAttributesType>,
@@ -27,7 +28,7 @@ function markReadOrViewed(
     );
   }
 
-  window.Whisper.Notifications.removeBy({ messageId });
+  notificationService.removeBy({ messageId });
 
   if (!skipSave) {
     window.Signal.Util.queueUpdateMessage(nextMessageAttributes);

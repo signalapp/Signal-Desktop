@@ -8,9 +8,8 @@ import { dropNull } from '../util/dropNull';
 import { DownloadedAttachmentType } from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import * as Bytes from '../Bytes';
-import { typedArrayToArrayBuffer } from '../Crypto';
+import { getFirstBytes, decryptAttachment } from '../Crypto';
 
-import Crypto from './Crypto';
 import { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
 
@@ -36,10 +35,10 @@ export async function downloadAttachment(
   strictAssert(key, 'attachment has no key');
   strictAssert(digest, 'attachment has no digest');
 
-  const paddedData = await Crypto.decryptAttachment(
+  const paddedData = decryptAttachment(
     encrypted,
-    typedArrayToArrayBuffer(Bytes.fromBase64(key)),
-    typedArrayToArrayBuffer(Bytes.fromBase64(digest))
+    Bytes.fromBase64(key),
+    Bytes.fromBase64(digest)
   );
 
   if (!isNumber(size)) {
@@ -48,11 +47,12 @@ export async function downloadAttachment(
     );
   }
 
-  const data = window.Signal.Crypto.getFirstBytes(paddedData, size);
+  const data = getFirstBytes(paddedData, size);
 
   return {
     ...omit(attachment, 'digest', 'key'),
 
+    size,
     contentType: contentType
       ? MIME.stringToMIMEType(contentType)
       : MIME.APPLICATION_OCTET_STREAM,

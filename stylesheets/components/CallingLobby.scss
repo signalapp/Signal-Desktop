@@ -3,15 +3,17 @@
 
 .module-CallingLobby {
   &__local-preview {
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
     position: absolute;
-    width: 100%;
     z-index: -1;
 
     &--camera-is-on {
-      transform: rotateY(180deg);
+      @include lonely-local-video-preview;
+      opacity: 0.6;
+    }
+
+    &--camera-is-off {
+      height: 100%;
+      width: 100%;
     }
   }
 

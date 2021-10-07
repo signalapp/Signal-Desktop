@@ -98,7 +98,13 @@ message CallingMessage {
   }
 
   message Opaque {
-    optional bytes data = 1;
+    enum Urgency {
+      DROPPABLE          = 0;
+      HANDLE_IMMEDIATELY = 1;
+    }
+
+    optional bytes   data    = 1;
+    optional Urgency urgency = 2;
   }
 
   optional Offer        offer               = 1;
@@ -214,6 +220,7 @@ message DataMessage {
     optional bytes             packKey   = 2;
     optional uint32            stickerId = 3;
     optional AttachmentPointer data      = 4;
+    optional string            emoji     = 5;
   }
 
   message Reaction {

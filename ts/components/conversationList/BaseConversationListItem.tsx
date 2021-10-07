@@ -80,6 +80,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     unblurredAvatarPath,
     unreadCount,
   }) {
+    const identifier = id ? cleanId(id) : undefined;
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -92,11 +93,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     if (isCheckbox) {
       let ariaLabel: string;
       if (disabled) {
-        ariaLabel = i18n('cannotSelectContact');
+        ariaLabel = i18n('cannotSelectContact', [title]);
       } else if (checked) {
-        ariaLabel = i18n('deselectContact');
+        ariaLabel = i18n('deselectContact', [title]);
       } else {
-        ariaLabel = i18n('selectContact');
+        ariaLabel = i18n('selectContact', [title]);
       }
       checkboxNode = (
         <input
@@ -104,6 +105,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           checked={checked}
           className={CHECKBOX_CLASS_NAME}
           disabled={disabled}
+          id={identifier}
           onChange={onClick}
           onKeyDown={event => {
             if (onClick && !disabled && event.key === 'Enter') {
@@ -136,7 +138,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           />
           {isUnread && (
             <div className={`${BASE_CLASS_NAME}__unread-count`}>
-              {unreadCount || ''}
+              {formatUnreadCount(unreadCount)}
             </div>
           )}
         </div>
@@ -195,7 +197,8 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             `${BASE_CLASS_NAME}--is-checkbox`,
             { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
           )}
-          data-id={id ? cleanId(id) : undefined}
+          data-id={identifier}
+          htmlFor={identifier}
           // `onClick` is will double-fire if we're enabled. We want it to fire when we're
           //   disabled so we can show any "can't add contact" modals, etc. This won't
           //   work for keyboard users, though, because labels are not tabbable.
@@ -213,7 +216,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             commonClassNames,
             `${BASE_CLASS_NAME}--is-button`
           )}
-          data-id={id ? cleanId(id) : undefined}
+          data-id={identifier}
           disabled={disabled}
           onClick={onClick}
           type="button"
@@ -224,9 +227,19 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     }
 
     return (
-      <div className={commonClassNames} data-id={id ? cleanId(id) : undefined}>
+      <div className={commonClassNames} data-id={identifier}>
         {contents}
       </div>
     );
   }
 );
+
+function formatUnreadCount(count: undefined | number): string {
+  if (!count) {
+    return '';
+  }
+  if (count >= 99) {
+    return '99+';
+  }
+  return String(count);
+}

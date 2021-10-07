@@ -159,55 +159,6 @@ a {
   color: $color-ultramarine;
 }
 
-.file-input {
-  position: relative;
-  .choose-file {
-    cursor: pointer;
-  }
-
-  .paperclip {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    opacity: 0.5;
-    border: none;
-    background: transparent;
-
-    &:focus,
-    &:hover {
-      opacity: 1;
-    }
-
-    outline: none;
-
-    &:before {
-      content: '';
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-
-      @include light-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-75);
-      }
-      @include dark-theme {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-15);
-      }
-    }
-  }
-
-  input[type='file'] {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    z-index: 1;
-  }
-}
-
 .group-member-list {
   .container {
     outline: none;

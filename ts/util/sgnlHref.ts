@@ -3,6 +3,9 @@
 
 import { LoggerType } from '../types/Logging';
 import { maybeParseUrl } from './url';
+import { isValidE164 } from './isValidE164';
+
+const SIGNAL_DOT_ME_HASH_PREFIX = 'p/';
 
 function parseUrl(value: string | URL, logger: LoggerType): undefined | URL {
   if (value instanceof URL) {
@@ -41,12 +44,14 @@ export function isSignalHttpsLink(
       !url.password &&
       !url.port &&
       url.protocol === 'https:' &&
-      (url.host === 'signal.group' || url.host === 'signal.art')
+      (url.host === 'signal.group' ||
+        url.host === 'signal.art' ||
+        url.host === 'signal.me')
   );
 }
 
 type ParsedSgnlHref =
-  | { command: null; args: Map<never, never> }
+  | { command: null; args: Map<never, never>; hash: undefined }
   | { command: string; args: Map<string, string>; hash: string | undefined };
 export function parseSgnlHref(
   href: string,
@@ -54,7 +59,7 @@ export function parseSgnlHref(
 ): ParsedSgnlHref {
   const url = parseUrl(href, logger);
   if (!url || !isSgnlHref(url, logger)) {
-    return { command: null, args: new Map<never, never>() };
+    return { command: null, args: new Map<never, never>(), hash: undefined };
   }
 
   const args = new Map<string, string>();
@@ -94,7 +99,7 @@ export function parseSignalHttpsLink(
 ): ParsedSgnlHref {
   const url = parseUrl(href, logger);
   if (!url || !isSignalHttpsLink(url, logger)) {
-    return { command: null, args: new Map<never, never>() };
+    return { command: null, args: new Map<never, never>(), hash: undefined };
   }
 
   if (url.host === 'signal.art') {
@@ -109,7 +114,7 @@ export function parseSignalHttpsLink(
     });
 
     if (!args.get('pack_id') || !args.get('pack_key')) {
-      return { command: null, args: new Map<never, never>() };
+      return { command: null, args: new Map<never, never>(), hash: undefined };
     }
 
     return {
@@ -119,7 +124,7 @@ export function parseSignalHttpsLink(
     };
   }
 
-  if (url.host === 'signal.group') {
+  if (url.host === 'signal.group' || url.host === 'signal.me') {
     return {
       command: url.host,
       args: new Map<string, string>(),
@@ -127,5 +132,14 @@ export function parseSignalHttpsLink(
     };
   }
 
-  return { command: null, args: new Map<never, never>() };
+  return { command: null, args: new Map<never, never>(), hash: undefined };
+}
+
+export function parseE164FromSignalDotMeHash(hash: string): undefined | string {
+  if (!hash.startsWith(SIGNAL_DOT_ME_HASH_PREFIX)) {
+    return;
+  }
+
+  const maybeE164 = hash.slice(SIGNAL_DOT_ME_HASH_PREFIX.length);
+  return isValidE164(maybeE164, true) ? maybeE164 : undefined;
 }

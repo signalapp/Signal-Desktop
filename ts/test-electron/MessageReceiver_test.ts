@@ -6,6 +6,7 @@
      */
 
 import { assert } from 'chai';
+import { v4 as getGuid } from 'uuid';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
@@ -14,16 +15,30 @@ import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
-
 describe('MessageReceiver', () => {
   const number = '+19999999999';
   const uuid = 'aaaaaaaa-bbbb-4ccc-9ddd-eeeeeeeeeeee';
   const deviceId = 1;
 
+  let oldUuid: string | undefined;
+  let oldDeviceId: number | undefined;
+
+  beforeEach(async () => {
+    oldUuid = window.storage.user.getUuid()?.toString();
+    oldDeviceId = window.storage.user.getDeviceId();
+    await window.storage.user.setUuidAndDeviceId(getGuid(), 2);
+    await window.storage.protocol.hydrateCaches();
+  });
+
+  afterEach(async () => {
+    if (oldUuid !== undefined && oldDeviceId !== undefined) {
+      await window.storage.user.setUuidAndDeviceId(oldUuid, oldDeviceId);
+    }
+    await window.storage.protocol.removeAllUnprocessed();
+  });
+
   describe('connecting', () => {
-    it('generates decryption-error event when it cannot decrypt', done => {
+    it('generates decryption-error event when it cannot decrypt', async () => {
       const messageReceiver = new MessageReceiver({
         server: {} as WebAPIType,
         storage: window.storage,
@@ -36,7 +51,7 @@ describe('MessageReceiver', () => {
         sourceUuid: uuid,
         sourceDevice: deviceId,
         timestamp: Date.now(),
-        content: new FIXMEU8(Crypto.getRandomBytes(200)),
+        content: Crypto.getRandomBytes(200),
       }).finish();
 
       messageReceiver.handleRequest(
@@ -52,14 +67,18 @@ describe('MessageReceiver', () => {
         )
       );
 
-      messageReceiver.addEventListener(
-        'decryption-error',
-        (error: DecryptionErrorEvent) => {
-          assert.strictEqual(error.decryptionError.senderUuid, uuid);
-          assert.strictEqual(error.decryptionError.senderDevice, deviceId);
-          done();
-        }
-      );
+      await new Promise<void>(resolve => {
+        messageReceiver.addEventListener(
+          'decryption-error',
+          (error: DecryptionErrorEvent) => {
+            assert.strictEqual(error.decryptionError.senderUuid, uuid);
+            assert.strictEqual(error.decryptionError.senderDevice, deviceId);
+            resolve();
+          }
+        );
+      });
+
+      await messageReceiver.drain();
     });
   });
 });

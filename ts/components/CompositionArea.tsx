@@ -1,9 +1,18 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
-import { get, noop } from 'lodash';
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { get } from 'lodash';
 import classNames from 'classnames';
+import type { BodyRangeType, BodyRangesType } from '../types/Util';
+import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
+import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
 import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
 import {
@@ -27,65 +36,94 @@ import {
   GroupV2PendingApprovalActions,
   PropsType as GroupV2PendingApprovalActionsPropsType,
 } from './conversation/GroupV2PendingApprovalActions';
-import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
-import { countStickers } from './stickers/lib';
-import { LocalizerType } from '../types/Util';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
-import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 import { AttachmentList } from './conversation/AttachmentList';
+import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import { AudioCapture } from './conversation/AudioCapture';
+import { CompositionUpload } from './CompositionUpload';
+import { ConversationType } from '../state/ducks/conversations';
+import { EmojiPickDataType } from './emoji/EmojiPicker';
+import { LinkPreviewWithDomain } from '../types/LinkPreview';
+import { LocalizerType } from '../types/Util';
+import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
 import { Quote, Props as QuoteProps } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
-import { LinkPreviewWithDomain } from '../types/LinkPreview';
-import { ConversationType } from '../state/ducks/conversations';
-import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
+import { countStickers } from './stickers/lib';
 
-export type OwnProps = {
-  readonly i18n: LocalizerType;
-  readonly areWePending?: boolean;
-  readonly areWePendingApproval?: boolean;
-  readonly announcementsOnly?: boolean;
-  readonly areWeAdmin?: boolean;
-  readonly groupAdmins: Array<ConversationType>;
-  readonly groupVersion?: 1 | 2;
-  readonly isGroupV1AndDisabled?: boolean;
-  readonly isMissingMandatoryProfileSharing?: boolean;
-  readonly isSMSOnly?: boolean;
-  readonly isFetchingUUID?: boolean;
-  readonly left?: boolean;
-  readonly messageRequestsEnabled?: boolean;
-  readonly acceptedMessageRequest?: boolean;
-  readonly compositionApi?: React.MutableRefObject<{
-    focusInput: () => void;
-    isDirty: () => boolean;
-    setDisabled: (disabled: boolean) => void;
-    setShowMic: (showMic: boolean) => void;
-    setMicActive: (micActive: boolean) => void;
-    reset: InputApi['reset'];
-    resetEmojiResults: InputApi['resetEmojiResults'];
-  }>;
-  readonly micCellEl?: HTMLElement;
-  readonly draftAttachments: Array<AttachmentType>;
-  readonly shouldSendHighQualityAttachments: boolean;
-  onChooseAttachment(): unknown;
-  onAddAttachment(): unknown;
-  onClickAttachment(): unknown;
-  onCloseAttachment(): unknown;
-  onClearAttachments(): unknown;
-  onSelectMediaQuality(isHQ: boolean): unknown;
-  readonly quotedMessageProps?: QuoteProps;
-  onClickQuotedMessage(): unknown;
-  setQuotedMessage(message: undefined): unknown;
+export type CompositionAPIType =
+  | {
+      focusInput: () => void;
+      isDirty: () => boolean;
+      setDisabled: (disabled: boolean) => void;
+      reset: InputApi['reset'];
+      resetEmojiResults: InputApi['resetEmojiResults'];
+    }
+  | undefined;
+
+export type OwnProps = Readonly<{
+  acceptedMessageRequest?: boolean;
+  addAttachment: (
+    conversationId: string,
+    attachment: AttachmentType
+  ) => unknown;
+  addPendingAttachment: (
+    conversationId: string,
+    pendingAttachment: AttachmentType
+  ) => unknown;
+  announcementsOnly?: boolean;
+  areWeAdmin?: boolean;
+  areWePending?: boolean;
+  areWePendingApproval?: boolean;
+  cancelRecording: () => unknown;
+  completeRecording: (
+    conversationId: string,
+    onSendAudioRecording?: (rec: AttachmentType) => unknown
+  ) => unknown;
+  compositionApi?: MutableRefObject<CompositionAPIType>;
+  conversationId: string;
+  draftAttachments: ReadonlyArray<AttachmentType>;
+  errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
+  errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
+  groupAdmins: Array<ConversationType>;
+  groupVersion?: 1 | 2;
+  i18n: LocalizerType;
+  isFetchingUUID?: boolean;
+  isGroupV1AndDisabled?: boolean;
+  isMissingMandatoryProfileSharing?: boolean;
+  isRecording: boolean;
+  isSMSOnly?: boolean;
+  left?: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewWithDomain;
+  messageRequestsEnabled?: boolean;
+  onClearAttachments(): unknown;
+  onClickAttachment(att: AttachmentType): unknown;
+  onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
+  processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
+  onSelectMediaQuality(isHQ: boolean): unknown;
+  onSendMessage(options: {
+    draftAttachments?: ReadonlyArray<AttachmentType>;
+    mentions?: BodyRangesType;
+    message?: string;
+    timestamp?: number;
+    voiceNoteAttachment?: AttachmentType;
+  }): unknown;
   openConversation(conversationId: string): unknown;
-};
+  quotedMessageProps?: Omit<
+    QuoteProps,
+    'i18n' | 'onClick' | 'onClose' | 'withContentAbove'
+  >;
+  removeAttachment: (conversationId: string, filePath: string) => unknown;
+  setQuotedMessage(message: undefined): unknown;
+  shouldSendHighQualityAttachments: boolean;
+  startRecording: () => unknown;
+}>;
 
 export type Props = Pick<
   CompositionInputProps,
   | 'sortedGroupMembers'
-  | 'onSubmit'
   | 'onEditorStateChange'
   | 'onTextTooLong'
   | 'draftText'
@@ -117,22 +155,27 @@ export type Props = Pick<
   Pick<GroupV2PendingApprovalActionsPropsType, 'onCancelJoinRequest'> &
   OwnProps;
 
-const emptyElement = (el: HTMLElement) => {
-  // Necessary to deal with Backbone views
-  // eslint-disable-next-line no-param-reassign
-  el.innerHTML = '';
-};
-
 export const CompositionArea = ({
+  // Base props
+  addAttachment,
+  addPendingAttachment,
+  conversationId,
   i18n,
-  micCellEl,
-  onChooseAttachment,
+  onSendMessage,
+  processAttachments,
+  removeAttachment,
+
   // AttachmentList
   draftAttachments,
-  onAddAttachment,
   onClearAttachments,
   onClickAttachment,
-  onCloseAttachment,
+  // AudioCapture
+  cancelRecording,
+  completeRecording,
+  errorDialogAudioRecorderType,
+  errorRecording,
+  isRecording,
+  startRecording,
   // StagedLinkPreview
   linkPreviewLoading,
   linkPreviewResult,
@@ -145,7 +188,6 @@ export const CompositionArea = ({
   onSelectMediaQuality,
   shouldSendHighQualityAttachments,
   // CompositionInput
-  onSubmit,
   compositionApi,
   onEditorStateChange,
   onTextTooLong,
@@ -182,14 +224,11 @@ export const CompositionArea = ({
   isMissingMandatoryProfileSharing,
   left,
   messageRequestsEnabled,
-  name,
   onAccept,
   onBlock,
   onBlockAndReportSpam,
   onDelete,
   onUnblock,
-  phoneNumber,
-  profileName,
   title,
   // GroupV1 Disabled Actions
   isGroupV1AndDisabled,
@@ -204,29 +243,43 @@ export const CompositionArea = ({
   isSMSOnly,
   isFetchingUUID,
 }: Props): JSX.Element => {
-  const [disabled, setDisabled] = React.useState(false);
-  const [showMic, setShowMic] = React.useState(!draftText);
-  const [micActive, setMicActive] = React.useState(false);
-  const [dirty, setDirty] = React.useState(false);
-  const [large, setLarge] = React.useState(false);
-  const inputApiRef = React.useRef<InputApi | undefined>();
+  const [disabled, setDisabled] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [large, setLarge] = useState(false);
+  const inputApiRef = useRef<InputApi | undefined>();
+  const fileInputRef = useRef<null | HTMLInputElement>(null);
 
-  const handleForceSend = React.useCallback(() => {
+  const handleForceSend = useCallback(() => {
     setLarge(false);
     if (inputApiRef.current) {
       inputApiRef.current.submit();
     }
   }, [inputApiRef, setLarge]);
 
-  const handleSubmit = React.useCallback<typeof onSubmit>(
-    (...args) => {
+  const handleSubmit = useCallback(
+    (message: string, mentions: Array<BodyRangeType>, timestamp: number) => {
       setLarge(false);
-      onSubmit(...args);
+      onSendMessage({
+        draftAttachments,
+        mentions,
+        message,
+        timestamp,
+      });
     },
-    [setLarge, onSubmit]
+    [draftAttachments, onSendMessage, setLarge]
   );
 
-  const focusInput = React.useCallback(() => {
+  const launchAttachmentPicker = () => {
+    const fileInput = fileInputRef.current;
+    if (fileInput) {
+      // Setting the value to empty so that onChange always fires in case
+      // you add multiple photos.
+      fileInput.value = '';
+      fileInput.click();
+    }
+  };
+
+  const focusInput = useCallback(() => {
     if (inputApiRef.current) {
       inputApiRef.current.focus();
     }
@@ -247,8 +300,6 @@ export const CompositionArea = ({
       isDirty: () => dirty,
       focusInput,
       setDisabled,
-      setShowMic,
-      setMicActive,
       reset: () => {
         if (inputApiRef.current) {
           inputApiRef.current.reset();
@@ -262,7 +313,7 @@ export const CompositionArea = ({
     };
   }
 
-  const insertEmoji = React.useCallback(
+  const insertEmoji = useCallback(
     (e: EmojiPickDataType) => {
       if (inputApiRef.current) {
         inputApiRef.current.insertEmoji(e);
@@ -272,22 +323,11 @@ export const CompositionArea = ({
     [inputApiRef, onPickEmoji]
   );
 
-  const handleToggleLarge = React.useCallback(() => {
+  const handleToggleLarge = useCallback(() => {
     setLarge(l => !l);
   }, [setLarge]);
 
-  // The following is a work-around to allow react to lay-out backbone-managed
-  // dom nodes until those functions are in React
-  const micCellRef = React.useRef<HTMLDivElement>(null);
-  React.useLayoutEffect(() => {
-    const { current: micCellContainer } = micCellRef;
-    if (micCellContainer && micCellEl) {
-      emptyElement(micCellContainer);
-      micCellContainer.appendChild(micCellEl);
-    }
-
-    return noop;
-  }, [micCellRef, micCellEl, large, dirty, showMic]);
+  const shouldShowMicrophone = !large && !draftAttachments.length && !draftText;
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 
@@ -316,30 +356,31 @@ export const CompositionArea = ({
     </>
   );
 
-  const micButtonFragment = showMic ? (
-    <div
-      className={classNames(
-        'CompositionArea__button-cell',
-        micActive ? 'CompositionArea__button-cell--mic-active' : null,
-        large ? 'CompositionArea__button-cell--large-right' : null,
-        micActive && large
-          ? 'CompositionArea__button-cell--large-right-mic-active'
-          : null
-      )}
-      ref={micCellRef}
+  const micButtonFragment = shouldShowMicrophone ? (
+    <AudioCapture
+      cancelRecording={cancelRecording}
+      completeRecording={completeRecording}
+      conversationId={conversationId}
+      draftAttachments={draftAttachments}
+      errorDialogAudioRecorderType={errorDialogAudioRecorderType}
+      errorRecording={errorRecording}
+      i18n={i18n}
+      isRecording={isRecording}
+      onSendAudioRecording={(voiceNoteAttachment: AttachmentType) => {
+        onSendMessage({ voiceNoteAttachment });
+      }}
+      startRecording={startRecording}
     />
   ) : null;
 
   const attButton = (
     <div className="CompositionArea__button-cell">
-      <div className="choose-file">
-        <button
-          type="button"
-          className="paperclip thumbnail"
-          onClick={onChooseAttachment}
-          aria-label={i18n('CompositionArea--attach-file')}
-        />
-      </div>
+      <button
+        type="button"
+        className="CompositionArea__attach-file"
+        onClick={launchAttachmentPicker}
+        aria-label={i18n('CompositionArea--attach-file')}
+      />
     </div>
   );
 
@@ -382,7 +423,7 @@ export const CompositionArea = ({
   ) : null;
 
   // Listen for cmd/ctrl-shift-x to toggle large composition mode
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const { key, shiftKey, ctrlKey, metaKey } = e;
       // When using the ctrl key, `key` is `'X'`. When using the cmd key, `key` is `'x'`
@@ -420,9 +461,6 @@ export const CompositionArea = ({
         onUnblock={onUnblock}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );
@@ -473,9 +511,6 @@ export const CompositionArea = ({
         onBlockAndReportSpam={onBlockAndReportSpam}
         onDelete={onDelete}
         onAccept={onAccept}
-        name={name}
-        profileName={profileName}
-        phoneNumber={phoneNumber}
         title={title}
       />
     );
@@ -543,7 +578,6 @@ export const CompositionArea = ({
                 // and this is for conversation_view.
                 clearQuotedMessage();
               }}
-              withContentAbove
             />
           </div>
         )}
@@ -561,10 +595,14 @@ export const CompositionArea = ({
             <AttachmentList
               attachments={draftAttachments}
               i18n={i18n}
-              onAddAttachment={onAddAttachment}
+              onAddAttachment={launchAttachmentPicker}
               onClickAttachment={onClickAttachment}
               onClose={onClearAttachments}
-              onCloseAttachment={onCloseAttachment}
+              onCloseAttachment={attachment => {
+                if (attachment.path) {
+                  removeAttachment(conversationId, attachment.path);
+                }
+              }}
             />
           </div>
         ) : null}
@@ -614,9 +652,19 @@ export const CompositionArea = ({
           {stickerButtonFragment}
           {attButton}
           {!dirty ? micButtonFragment : null}
-          {dirty || !showMic ? sendButtonFragment : null}
+          {dirty || !shouldShowMicrophone ? sendButtonFragment : null}
         </div>
       ) : null}
+      <CompositionUpload
+        addAttachment={addAttachment}
+        addPendingAttachment={addPendingAttachment}
+        conversationId={conversationId}
+        draftAttachments={draftAttachments}
+        i18n={i18n}
+        processAttachments={processAttachments}
+        removeAttachment={removeAttachment}
+        ref={fileInputRef}
+      />
     </div>
   );
 };

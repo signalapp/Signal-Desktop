@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 
 import EventEmitter, { once } from 'events';

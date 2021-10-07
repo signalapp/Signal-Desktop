@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { RefObject } from 'react';
 import { omit } from 'lodash';
 
 import { LocalizerType, ThemeType } from '../../types/Util';
@@ -26,6 +26,7 @@ import {
   PropsActionsType as DeliveryIssueActionProps,
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
+import { LinkNotification } from './LinkNotification';
 import {
   ChangeNumberNotification,
   PropsData as ChangeNumberNotificationProps,
@@ -68,6 +69,7 @@ import {
   ProfileChangeNotification,
   PropsType as ProfileChangeNotificationPropsType,
 } from './ProfileChangeNotification';
+import * as log from '../../logging/log';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -153,6 +155,7 @@ export type TimelineItemType =
   | VerificationNotificationType;
 
 type PropsLocalType = {
+  containerElementRef: RefObject<HTMLElement>;
   conversationId: string;
   item?: TimelineItemType;
   id: string;
@@ -163,6 +166,8 @@ type PropsLocalType = {
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
+  previousItem: undefined | TimelineItemType;
+  nextItem: undefined | TimelineItemType;
 };
 
 type PropsActionsType = MessageActionsType &
@@ -174,11 +179,15 @@ type PropsActionsType = MessageActionsType &
 
 export type PropsType = PropsLocalType &
   PropsActionsType &
-  Pick<AllMessageProps, 'renderEmojiPicker' | 'renderAudioAttachment'>;
+  Pick<
+    AllMessageProps,
+    'renderEmojiPicker' | 'renderAudioAttachment' | 'renderReactionPicker'
+  >;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
   public render(): JSX.Element | null {
     const {
+      containerElementRef,
       conversationId,
       id,
       isSelected,
@@ -186,6 +195,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
       i18n,
       theme,
       messageSizeChanged,
+      nextItem,
       renderContact,
       renderUniversalTimerNotification,
       returnToActiveCall,
@@ -194,7 +204,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     } = this.props;
 
     if (!item) {
-      window.log.warn(`TimelineItem: item ${id} provided was falsey`);
+      log.warn(`TimelineItem: item ${id} provided was falsey`);
 
       return null;
     }
@@ -204,6 +214,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <Message
           {...omit(this.props, ['item'])}
           {...item.data}
+          containerElementRef={containerElementRef}
           i18n={i18n}
           theme={theme}
           renderingContext="conversation/TimelineItem"
@@ -224,6 +235,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           i18n={i18n}
           messageId={id}
           messageSizeChanged={messageSizeChanged}
+          nextItem={nextItem}
           returnToActiveCall={returnToActiveCall}
           startCallingLobby={startCallingLobby}
           {...item.data}
@@ -242,12 +254,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         <DeliveryIssueNotification {...item.data} {...this.props} i18n={i18n} />
       );
     } else if (item.type === 'linkNotification') {
-      notification = (
-        <div className="module-message-unsynced">
-          <div className="module-message-unsynced__icon" />
-          {i18n('messageHistoryUnsynced')}
-        </div>
-      );
+      notification = <LinkNotification i18n={i18n} />;
     } else if (item.type === 'timerNotification') {
       notification = (
         <TimerNotification {...this.props} {...item.data} i18n={i18n} />

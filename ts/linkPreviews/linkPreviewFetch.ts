@@ -13,6 +13,7 @@ import {
   MIMEType,
   stringToMIMEType,
 } from '../types/MIME';
+import * as log from '../logging/log';
 
 const USER_AGENT = 'WhatsApp/2';
 
@@ -63,7 +64,7 @@ export type LinkPreviewMetadata = {
 };
 
 export type LinkPreviewImage = {
-  data: ArrayBuffer;
+  data: Uint8Array;
   contentType: MIMEType;
 };
 
@@ -82,7 +83,7 @@ async function fetchWithRedirects(
   let nextHrefToLoad = href;
   for (let i = 0; i < MAX_REQUEST_COUNT_WITH_REDIRECTS; i += 1) {
     if (urlsSeen.has(nextHrefToLoad)) {
-      window.log.warn('fetchWithRedirects: found a redirect loop');
+      log.warn('fetchWithRedirects: found a redirect loop');
       throw new Error('redirect loop');
     }
     urlsSeen.add(nextHrefToLoad);
@@ -100,7 +101,7 @@ async function fetchWithRedirects(
 
     const location = response.headers.get('location');
     if (!location) {
-      window.log.warn(
+      log.warn(
         'fetchWithRedirects: got a redirect status code but no Location header; bailing'
       );
       throw new Error('no location with redirect');
@@ -108,7 +109,7 @@ async function fetchWithRedirects(
 
     const newUrl = maybeParseUrl(location, nextHrefToLoad);
     if (newUrl?.protocol !== 'https:') {
-      window.log.warn(
+      log.warn(
         'fetchWithRedirects: got a redirect status code and an invalid Location header'
       );
       throw new Error('invalid location');
@@ -117,7 +118,7 @@ async function fetchWithRedirects(
     nextHrefToLoad = newUrl.href;
   }
 
-  window.log.warn('fetchWithRedirects: too many redirects');
+  log.warn('fetchWithRedirects: too many redirects');
   throw new Error('too many redirects');
 }
 
@@ -289,12 +290,10 @@ const getHtmlDocument = async (
   let result: HTMLDocument = emptyHtmlDocument();
 
   const maxHtmlBytesToLoad = Math.min(contentLength, MAX_HTML_BYTES_TO_LOAD);
-  const buffer = new Uint8Array(new ArrayBuffer(maxHtmlBytesToLoad));
+  const buffer = new Uint8Array(maxHtmlBytesToLoad);
   let bytesLoadedSoFar = 0;
 
   try {
-    // `for ... of` is much cleaner here, so we allow it.
-    /* eslint-disable no-restricted-syntax */
     for await (let chunk of body) {
       if (abortSignal.aborted) {
         break;
@@ -322,9 +321,8 @@ const getHtmlDocument = async (
         break;
       }
     }
-    /* eslint-enable no-restricted-syntax */
   } catch (err) {
-    window.log.warn(
+    log.warn(
       'getHtmlDocument: error when reading body; continuing with what we got'
     );
   }
@@ -373,9 +371,7 @@ const parseMetadata = (
   const title =
     getOpenGraphContent(document, ['og:title']) || document.title.trim();
   if (!title) {
-    window.log.warn(
-      "parseMetadata: HTML document doesn't have a title; bailing"
-    );
+    log.warn("parseMetadata: HTML document doesn't have a title; bailing");
     return null;
   }
 
@@ -452,28 +448,28 @@ export async function fetchLinkPreviewMetadata(
       signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
-    window.log.warn(
+    log.warn(
       'fetchLinkPreviewMetadata: failed to fetch link preview HTML; bailing'
     );
     return null;
   }
 
   if (!response.ok) {
-    window.log.warn(
+    log.warn(
       `fetchLinkPreviewMetadata: got a ${response.status} status code; bailing`
     );
     return null;
   }
 
   if (!response.body) {
-    window.log.warn('fetchLinkPreviewMetadata: no response body; bailing');
+    log.warn('fetchLinkPreviewMetadata: no response body; bailing');
     return null;
   }
 
   if (
     !isInlineContentDisposition(response.headers.get('Content-Disposition'))
   ) {
-    window.log.warn(
+    log.warn(
       'fetchLinkPreviewMetadata: Content-Disposition header is not inline; bailing'
     );
     return null;
@@ -487,17 +483,13 @@ export async function fetchLinkPreviewMetadata(
     response.headers.get('Content-Length')
   );
   if (contentLength < MIN_HTML_CONTENT_LENGTH) {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: Content-Length is too short; bailing'
-    );
+    log.warn('fetchLinkPreviewMetadata: Content-Length is too short; bailing');
     return null;
   }
 
   const contentType = parseContentType(response.headers.get('Content-Type'));
   if (contentType.type !== 'text/html') {
-    window.log.warn(
-      'fetchLinkPreviewMetadata: Content-Type is not HTML; bailing'
-    );
+    log.warn('fetchLinkPreviewMetadata: Content-Type is not HTML; bailing');
     return null;
   }
 
@@ -549,7 +541,7 @@ export async function fetchLinkPreviewImage(
       signal: abortSignal as AbortSignalForNodeFetch,
     });
   } catch (err) {
-    window.log.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
+    log.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
     return null;
   }
 
@@ -558,7 +550,7 @@ export async function fetchLinkPreviewImage(
   }
 
   if (!response.ok) {
-    window.log.warn(
+    log.warn(
       `fetchLinkPreviewImage: got a ${response.status} status code; bailing`
     );
     return null;
@@ -568,13 +560,11 @@ export async function fetchLinkPreviewImage(
     response.headers.get('Content-Length')
   );
   if (contentLength < MIN_IMAGE_CONTENT_LENGTH) {
-    window.log.warn(
-      'fetchLinkPreviewImage: Content-Length is too short; bailing'
-    );
+    log.warn('fetchLinkPreviewImage: Content-Length is too short; bailing');
     return null;
   }
   if (contentLength > MAX_IMAGE_CONTENT_LENGTH) {
-    window.log.warn(
+    log.warn(
       'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
     );
     return null;
@@ -584,17 +574,15 @@ export async function fetchLinkPreviewImage(
     response.headers.get('Content-Type')
   );
   if (!contentType || !VALID_IMAGE_MIME_TYPES.has(contentType)) {
-    window.log.warn(
-      'fetchLinkPreviewImage: Content-Type is not an image; bailing'
-    );
+    log.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
     return null;
   }
 
-  let data: ArrayBuffer;
+  let data: Uint8Array;
   try {
-    data = await response.arrayBuffer();
+    data = await response.buffer();
   } catch (err) {
-    window.log.warn('fetchLinkPreviewImage: failed to read body; bailing');
+    log.warn('fetchLinkPreviewImage: failed to read body; bailing');
     return null;
   }
 

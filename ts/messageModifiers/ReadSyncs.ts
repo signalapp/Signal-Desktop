@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -8,6 +8,8 @@ import { Collection, Model } from 'backbone';
 import { MessageModel } from '../models/messages';
 import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
+import { notificationService } from '../services/notifications';
+import * as log from '../logging/log';
 
 type ReadSyncAttributesType = {
   senderId: string;
@@ -28,7 +30,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
   );
 
   if (!readReaction) {
-    window.log.info(
+    log.info(
       'Nothing found for read sync',
       sync.get('senderId'),
       sync.get('sender'),
@@ -38,7 +40,7 @@ async function maybeItIsAReactionReadSync(sync: ReadSyncModel): Promise<void> {
     return;
   }
 
-  window.Whisper.Notifications.removeBy({
+  notificationService.removeBy({
     conversationId: readReaction.conversationId,
     emoji: readReaction.emoji,
     targetAuthorUuid: readReaction.targetAuthorUuid,
@@ -67,9 +69,7 @@ export class ReadSyncs extends Collection {
       );
     });
     if (sync) {
-      window.log.info(
-        `Found early read sync for message ${sync.get('timestamp')}`
-      );
+      log.info(`Found early read sync for message ${sync.get('timestamp')}`);
       this.remove(sync);
       return sync;
     }
@@ -100,7 +100,7 @@ export class ReadSyncs extends Collection {
         return;
       }
 
-      window.Whisper.Notifications.removeBy({ messageId: found.id });
+      notificationService.removeBy({ messageId: found.id });
 
       const message = window.MessageController.register(found.id, found);
       const readAt = Math.min(sync.get('readAt'), Date.now());
@@ -145,7 +145,7 @@ export class ReadSyncs extends Collection {
 
       this.remove(sync);
     } catch (error) {
-      window.log.error(
+      log.error(
         'ReadSyncs.onSync error:',
         error && error.stack ? error.stack : error
       );

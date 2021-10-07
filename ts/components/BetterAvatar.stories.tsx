@@ -11,7 +11,7 @@ import { AvatarColors } from '../types/Colors';
 import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
 import { BetterAvatar, PropsType } from './BetterAvatar';
 import { createAvatarData } from '../util/createAvatarData';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);
 

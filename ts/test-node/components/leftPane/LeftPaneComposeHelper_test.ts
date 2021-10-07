@@ -5,24 +5,15 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
-import * as remoteConfig from '../../../RemoteConfig';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneComposeHelper } from '../../../components/leftPane/LeftPaneComposeHelper';
 
 describe('LeftPaneComposeHelper', () => {
   let sinonSandbox: sinon.SinonSandbox;
-  let remoteConfigStub: sinon.SinonStub;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
-
-    remoteConfigStub = sinonSandbox
-      .stub(remoteConfig, 'isEnabled')
-      .withArgs('desktop.storage')
-      .returns(true)
-      .withArgs('desktop.storageWrite3')
-      .returns(true);
   });
 
   afterEach(() => {
@@ -222,38 +213,6 @@ describe('LeftPaneComposeHelper', () => {
         type: RowType.Conversation,
         conversation: composeGroups[1],
       });
-    });
-
-    it("doesn't let you create new groups if storage service write is disabled", () => {
-      remoteConfigStub
-        .withArgs('desktop.storage')
-        .returns(false)
-        .withArgs('desktop.storageWrite3')
-        .returns(false);
-
-      assert.isUndefined(
-        new LeftPaneComposeHelper({
-          composeContacts: [],
-          composeGroups: [],
-          regionCode: 'US',
-          searchTerm: '',
-        }).getRow(0)
-      );
-
-      remoteConfigStub
-        .withArgs('desktop.storage')
-        .returns(true)
-        .withArgs('desktop.storageWrite3')
-        .returns(false);
-
-      assert.isUndefined(
-        new LeftPaneComposeHelper({
-          composeContacts: [],
-          composeGroups: [],
-          regionCode: 'US',
-          searchTerm: '',
-        }).getRow(0)
-      );
     });
 
     it('returns no rows if searching and there are no results', () => {

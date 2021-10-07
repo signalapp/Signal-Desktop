@@ -1,0 +1,248 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-ReactionPickerPicker {
+  $button-size: 40px;
+  $button-content-size: 28px;
+  $max-expected-buttons: 7;
+
+  $emoji-size-from-component: 48px;
+  $big-emoji-size: 42px;
+
+  $root-selector: &;
+
+  @include rounded-corners;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 4px $color-black-alpha-05, 0 10px 16px $color-black-alpha-20;
+  display: inline-flex;
+  flex-direction: row;
+  padding: 3px 7px;
+  position: relative;
+  user-select: none;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: {
+      name: module-ReactionPickerPicker__appear;
+      duration: 400ms;
+      timing-function: $ease-out-expo;
+      fill-mode: forwards;
+    }
+  }
+
+  @include light-theme {
+    background: $color-white;
+    border-color: $color-black-alpha-05;
+  }
+
+  @include dark-theme {
+    background: $color-gray-75;
+    border-color: $color-gray-80;
+  }
+
+  &__button {
+    @include button-reset;
+    align-items: center;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    &--emoji {
+      $emoji-button-selector: &;
+
+      height: $button-size;
+      width: $button-size;
+      @media (prefers-reduced-motion: no-preference) {
+        transition: background 200ms $ease-out-expo;
+      }
+
+      .module-emoji {
+        transform: scale($button-content-size / $emoji-size-from-component);
+        @media (prefers-reduced-motion: no-preference) {
+          transition: transform 400ms $ease-out-expo;
+        }
+      }
+    }
+
+    &--more {
+      // The margin makes the button take up the same space as the other buttons, while
+      //   not actually being as large.
+      height: $button-content-size;
+      margin: ($button-size - $button-content-size) / 2;
+      width: $button-content-size;
+      @media (prefers-reduced-motion: no-preference) {
+        transition: background 200ms $ease-out-expo;
+      }
+
+      @include light-theme {
+        background: $color-gray-02;
+
+        &:hover {
+          background: $color-gray-05;
+        }
+        @include keyboard-mode {
+          &:focus {
+            background: $color-gray-05;
+          }
+        }
+      }
+
+      @include dark-theme {
+        background: $color-gray-60;
+
+        &:hover {
+          background: $color-gray-45;
+        }
+        @include dark-keyboard-mode {
+          &:focus {
+            background: $color-gray-45;
+          }
+        }
+      }
+
+      &__dot {
+        border-radius: 50%;
+        height: 3px;
+        margin-right: 4px;
+        width: 3px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        @include light-theme {
+          background: $color-gray-45;
+        }
+
+        @include dark-theme {
+          background: $color-gray-15;
+        }
+      }
+    }
+  }
+
+  &--picker-style {
+    z-index: 2;
+
+    #{$root-selector}__button {
+      @media (prefers-reduced-motion: no-preference) {
+        // Prevent animation jank
+        opacity: 0;
+
+        animation: {
+          name: module-ReactionPickerPicker__button-appear;
+          duration: 400ms;
+          timing-function: $ease-out-expo;
+          fill-mode: forwards;
+          // This delay is a fallback in case there are more than the expected number of
+          //   buttons.
+          delay: #{$max-expected-buttons * 10ms};
+        }
+      }
+
+      @for $i from 0 through $max-expected-buttons {
+        &:nth-of-type(#{$i + 1}) {
+          animation-delay: #{$i * 10ms};
+        }
+      }
+
+      &--emoji {
+        @mixin focus-or-hover-styles {
+          .module-emoji {
+            transform: scale($big-emoji-size / $emoji-size-from-component)
+              translateY(-16px);
+          }
+        }
+        &:hover {
+          @include focus-or-hover-styles;
+        }
+        @include keyboard-mode {
+          &:focus {
+            @include focus-or-hover-styles;
+          }
+        }
+      }
+
+      &--selected {
+        @include light-theme {
+          background: $color-black-alpha-20;
+        }
+
+        @include dark-theme {
+          background: $color-white-alpha-20;
+        }
+      }
+    }
+  }
+
+  &--menu-style {
+    #{$root-selector}__button {
+      @include keyboard-mode {
+        &:focus {
+          background: $color-black-alpha-20;
+        }
+      }
+      @include dark-keyboard-mode {
+        &:focus {
+          background: $color-white-alpha-40;
+        }
+      }
+
+      &--selected {
+        opacity: 1;
+
+        .module-emoji {
+          transform: scale($big-emoji-size / $emoji-size-from-component);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          animation: module-ReactionPickerPicker__button-selected 200ms
+            ease-in-out infinite alternate;
+        }
+      }
+    }
+
+    // These selectors are unpleasant, but we want to match "menu style" and "something is
+    //   selected" classes on the same element.
+    @at-root #{&}#{$root-selector}--something-selected {
+      #{$root-selector}__button:not(#{$root-selector}__button--selected) {
+        opacity: 0.4;
+        transform: scale(0.9);
+      }
+    }
+  }
+}
+
+@keyframes module-ReactionPickerPicker__appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes module-ReactionPickerPicker__button-appear {
+  from {
+    transform: translate3d(0, 24px, 0);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes module-ReactionPickerPicker__button-selected {
+  from {
+    transform: rotate(-8deg);
+  }
+
+  to {
+    transform: rotate(8deg);
+  }
+}

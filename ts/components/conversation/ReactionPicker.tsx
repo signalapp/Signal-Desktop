@@ -1,16 +1,23 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import classNames from 'classnames';
-import { Emoji } from '../emoji/Emoji';
 import { convertShortName } from '../emoji/lib';
 import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
-import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 import { LocalizerType } from '../../types/Util';
+import {
+  ReactionPickerPicker,
+  ReactionPickerPickerEmojiButton,
+  ReactionPickerPickerMoreButton,
+  ReactionPickerPickerStyle,
+} from '../ReactionPickerPicker';
 
 export type RenderEmojiPickerProps = Pick<Props, 'onClose' | 'style'> &
-  Pick<EmojiPickerProps, 'onPickEmoji'> & {
+  Pick<
+    EmojiPickerProps,
+    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone'
+  > & {
     ref: React.Ref<HTMLDivElement>;
   };
 
@@ -19,24 +26,27 @@ export type OwnProps = {
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
+  onSetSkinTone: (tone: number) => unknown;
+  openCustomizePreferredReactionsModal?: () => unknown;
+  preferredReactionEmoji: Array<string>;
   renderEmojiPicker: (props: RenderEmojiPickerProps) => React.ReactElement;
-  skinTone: number;
 };
 
 export type Props = OwnProps & Pick<React.HTMLProps<HTMLDivElement>, 'style'>;
 
-const DEFAULT_EMOJI_LIST = [
-  'heart',
-  'thumbsup',
-  'thumbsdown',
-  'joy',
-  'open_mouth',
-  'cry',
-];
-
 export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
   (
-    { i18n, selected, onClose, skinTone, onPick, renderEmojiPicker, style },
+    {
+      i18n,
+      onClose,
+      onPick,
+      onSetSkinTone,
+      openCustomizePreferredReactionsModal,
+      preferredReactionEmoji,
+      renderEmojiPicker,
+      selected,
+      style,
+    },
     ref
   ) => {
     const [pickingOther, setPickingOther] = React.useState(false);
@@ -64,71 +74,81 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       [onPick]
     );
 
-    const emojis = DEFAULT_EMOJI_LIST.map(shortName =>
-      convertShortName(shortName, skinTone)
-    );
-
     // Focus first button and restore focus on unmount
     const [focusRef] = useRestoreFocus();
 
-    const otherSelected = selected && !emojis.includes(selected);
+    if (pickingOther) {
+      return renderEmojiPicker({
+        onClickSettings: openCustomizePreferredReactionsModal,
+        onClose,
+        onPickEmoji,
+        onSetSkinTone,
+        ref,
+        style,
+      });
+    }
 
-    return pickingOther ? (
-      renderEmojiPicker({ onPickEmoji, onClose, style, ref })
-    ) : (
-      <div ref={ref} style={style} className="module-reaction-picker">
-        {emojis.map((emoji, index) => {
+    const otherSelected =
+      selected && !preferredReactionEmoji.includes(selected);
+
+    let moreButton: React.ReactNode;
+    if (otherSelected) {
+      moreButton = (
+        <ReactionPickerPickerEmojiButton
+          emoji={selected}
+          onClick={() => {
+            onPick(selected);
+          }}
+          isSelected
+          title={i18n('Reactions--remove')}
+        />
+      );
+    } else {
+      moreButton = (
+        <ReactionPickerPickerMoreButton
+          i18n={i18n}
+          onClick={() => {
+            setPickingOther(true);
+          }}
+        />
+      );
+    }
+
+    // This logic is here to avoid selecting duplicate emoji.
+    let hasSelectedSomething = false;
+
+    return (
+      <ReactionPickerPicker
+        isSomethingSelected={typeof selected === 'number'}
+        pickerStyle={ReactionPickerPickerStyle.Picker}
+        ref={ref}
+        style={style}
+      >
+        {preferredReactionEmoji.map((emoji, index) => {
           const maybeFocusRef = index === 0 ? focusRef : undefined;
 
+          const isSelected = !hasSelectedSomething && emoji === selected;
+          if (isSelected) {
+            hasSelectedSomething = true;
+          }
+
           return (
-            <button
-              type="button"
-              key={emoji}
-              ref={maybeFocusRef}
-              tabIndex={0}
-              className={classNames(
-                'module-reaction-picker__emoji-btn',
-                emoji === selected
-                  ? 'module-reaction-picker__emoji-btn--selected'
-                  : null
-              )}
-              onClick={e => {
-                e.stopPropagation();
+            <ReactionPickerPickerEmojiButton
+              emoji={emoji}
+              isSelected={isSelected}
+              // The index is the only thing that uniquely identifies the emoji, because
+              //   there can be duplicates in the list.
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+              onClick={() => {
                 onPick(emoji);
               }}
-              title={emoji}
-            >
-              <div className="module-reaction-picker__emoji-btn__emoji">
-                <Emoji size={48} emoji={emoji} />
-              </div>
-            </button>
+              ref={maybeFocusRef}
+            />
           );
         })}
-        <button
-          type="button"
-          className={classNames(
-            'module-reaction-picker__emoji-btn',
-            otherSelected
-              ? 'module-reaction-picker__emoji-btn--selected'
-              : 'module-reaction-picker__emoji-btn--more'
-          )}
-          onClick={e => {
-            e.stopPropagation();
-            if (otherSelected && selected) {
-              onPick(selected);
-            } else {
-              setPickingOther(true);
-            }
-          }}
-          title={i18n('ReactionsViewer--more')}
-        >
-          {otherSelected ? (
-            <div className="module-reaction-picker__emoji-btn__emoji">
-              <Emoji size={48} emoji={selected} />
-            </div>
-          ) : null}
-        </button>
-      </div>
+        {moreButton}
+      </ReactionPickerPicker>
     );
   }
 );

@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Archiv anzeigen",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Unterhaltungsfarbe",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Signal aktualisieren",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Wird geladen …",
@@ -214,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Diese Unterhaltungen sind archiviert und werden nur dann im Eingang erscheinen, falls neue Nachrichten empfangen werden.",
+        "message": "Diese Unterhaltungen sind archiviert und erscheinen nur dann im Eingang, wenn neue Nachrichten eingehen.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -254,7 +258,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Du hast gerade den Exportierungsprozess durchlaufen, und deine Kontakte und Nachrichten warten geduldig auf deinem Computer. Wähle nun den Ordner aus, der deine gespeicherten Signal-Daten enthält.",
+        "message": "Du hast gerade den Exportvorgang abgeschlossen. Deine Kontakte und Nachrichten warten geduldig auf deinem Computer. Wähle nun den Ordner aus, der deine gespeicherten Signal-Daten enthält.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -270,7 +274,7 @@
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
-        "message": "Achte darauf, dass du das korrekte Verzeichnis gewählt hast, das deine gespeicherten Signal-Daten enthält. Dessen Name sollte mit »Signal Export« beginnen. Auch kannst du eine neue Kopie deiner Daten aus der Chrome-App heraus speichern.",
+        "message": "Achte darauf, dass du das korrekte Verzeichnis gewählt hast, das deine gespeicherten Signal-Daten enthält. Dessen Name sollte mit »Signal Export« beginnen. Du kannst auch eine neue Kopie deiner Daten aus der Chrome-App heraus speichern.",
         "description": "Message shown if the import went wrong; first paragraph"
     },
     "importErrorSecond": {
@@ -410,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "Die folgenden Personen haben Signal vielleicht erneut installiert oder das Gerät gewechselt. Verifiziert eure gemeinsame Sicherheitsnummer zur Sicherstellung der Privatsphäre.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Ausstehende Nachricht senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "$count$ ausstehende Nachrichten senden",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "Deine Sicherheitsnummer mit $name1$ hat sich geändert. Dies könnte bedeuten, dass jemand versucht, eure Kommunikation abzuhören, oder aber $name2$ hat Signal einfach erneut installiert. Vielleicht möchtest du die neue Sicherheitsnummer mit diesem Kontakt verifizieren.",
@@ -654,7 +672,7 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Verbinden",
+        "message": "Anklicken, um Signal erneut zu verbinden",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
@@ -770,7 +788,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS-Kontakte sind auf Signal Desktop nicht verfügbar.",
+        "message": "SMS-/MMS-Kontakte sind auf Signal Desktop nicht verfügbar.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -806,6 +824,20 @@
     "welcomeToSignal": {
         "message": "Willkommen bei Signal",
         "description": ""
+    },
+    "whatsNew": {
+        "message": "$whatsNew$ in dieser Aktualisierung",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "Was ist neu",
+        "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
         "message": "Wähle einen Kontakt oder eine Gruppe aus, um eine Unterhaltung zu beginnen.",
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "Mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "E-Mail",
@@ -889,6 +921,18 @@
         "message": "Originalnachricht gefunden, aber nicht geladen. Scrolle zum Laden nach oben.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Aufnahme einer Sprachnachricht starten",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Sprachnachricht abschließen und senden",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Sprachnachricht abbrechen",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Die Aufnahme der Sprachnachricht wurde gestoppt, da die maximale Aufnahmedauer erreicht wurde.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -898,7 +942,7 @@
         "description": "Confirmation dialog message for when the voice recording is interrupted due to app losing focus"
     },
     "voiceNoteLimit": {
-        "message": "Die maximale Dauer von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, falls du zu einer anderen App wechselst.",
+        "message": "Die maximale Dauer von Sprachnachrichten ist auf 5 Minuten begrenzt. Die Aufnahme stoppt, wenn du zu einer anderen App wechselst.",
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
@@ -907,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Anhang gespeichert. Anklicken zur Anzeige im Ordner.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Du",
@@ -1090,7 +1128,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellte Nummer mit jener auf dem Gerät deines Kontakts.",
+        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellten Zahlen mit jenen auf dem Gerät deines Kontakts.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1116,7 +1154,7 @@
         "description": "Shown on the drop-down menu for an individual message, takes you to message detail screen"
     },
     "retrySend": {
-        "message": "Erneut zu senden versuchen",
+        "message": "Senden erneut versuchen",
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "forwardMessage": {
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "Speichern",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Zurücksetzen",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Dateisymbol",
@@ -1271,7 +1313,11 @@
         "message": "Neues Gerät koppeln",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "Scanne diesen Code mit der auf deinem Telefon installierten Signal-App ein",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "Gerätename",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "Erneut versuchen",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Design",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "Anrufe",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Zurückrufen",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Erneut anrufen",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Anruf starten",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "Anruf ist voll",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Kamera",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Kamera deaktiviert",
@@ -1343,6 +1401,10 @@
         "message": "Kamera einschalten",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Stumm​",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Mikrofon deaktiviert",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "Mikro ein",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Teilen",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Präsentationen deaktiviert",
@@ -1367,33 +1433,213 @@
         "message": "Präsentation stoppen",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Klingeln",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Gruppe ist zu groß, um bei den Teilnehmern zu klingeln.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Benachrichtigen, nicht klingeln",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Klingeln aktivieren",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Deine Kamera ist ausgeschaltet",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Niemand anderes ist hier",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ nimmt an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Eines deiner anderen Geräte nimmt an diesem Anruf teil",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ und $second$ nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ und $third$ nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
     },
-    "calling__lobby-summary--many": {
-        "message": "$first$, $second$ und $others$ Weitere nehmen an diesem Anruf teil",
-        "description": "Shown in the calling lobby to describe who is in the call"
+    "calling__pre-call-info--many-people-in-call": {
+        "message": "$first$, $second$ und $others$ weitere Personen nehmen an diesem Anruf teil",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal wird bei $person$ klingeln",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal wird bei $first$ und $second$ klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal wird bei $first$, $second$ und $third$ klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal wird bei $first$, $second$ und $others$ weiteren Personen klingeln",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ wird benachrichtigt werden",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ und $second$ werden benachrichtigt werden",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ und $third$ werden benachrichtigt werden",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ und $others$ weitere Personen werden benachrichtigt werden",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
     },
     "calling__in-this-call--zero": {
         "message": "Niemand anderes ist hier",
@@ -1424,8 +1670,8 @@
         }
     },
     "calling__block-info": {
-        "message": "Weder wirst du Audio- oder Videodaten dieses Teilnehmers empfangen, noch wird er deine empfangen.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "message": "Du wirst weder Audio- oder Videodaten dieses Teilnehmers empfangen, noch wird er deine empfangen.",
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Hochscrollen",
@@ -1558,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Daten löschen",
+        "message": "Anwendungsdaten löschen",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1582,7 +1828,7 @@
         "description": "Text of the button that deletes all data"
     },
     "deleteAllDataProgress": {
-        "message": "Verbindung wird getrennt und alle Daten gelöscht",
+        "message": "Verbindung wird getrennt und alle Daten werden gelöscht",
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
@@ -1696,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Aktualisieren",
+        "message": "Anklicken, um signal.org/download aufzurufen",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1708,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontakte",
+        "message": "Kontakte importieren",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1868,7 +2114,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Benachrichtigungston wiedergeben",
+        "message": "Benachrichtigungstöne wiedergeben",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2106,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Kopple Signal Desktop erneut mit deinem Mobilgerät, um weiter zu kommunizieren.",
+        "message": "Anklicken, um Signal Desktop erneut mit deinem Mobilgerät zu koppeln und so weiterhin Nachrichten austauschen zu können.",
         "description": ""
     },
     "unlinked": {
@@ -2118,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Aktualisierung für Signal verfügbar",
+        "message": "Aktualisierung verfügbar",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Eine neue Signal-Version ist verfügbar.",
+        "message": "Anklicken, um Signal neu zu starten",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Anklicken, um die Aktualisierung herunterzuladen",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2135,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Später",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Aktualisierung ignorieren",
         "description": ""
     },
     "leftTheGroup": {
@@ -2304,7 +2558,7 @@
         "description": "Shown in the sticker pack manager above sticker packs which you have received in messages."
     },
     "stickers--StickerManager--ReceivedPacks--Empty": {
-        "message": "Hier werden Sticker eingehender Nachrichten erscheinen",
+        "message": "Hier werden Sticker eingehender Nachrichten angezeigt",
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
@@ -2372,7 +2626,7 @@
         "description": "Shown in the sticker picker when there are no installed sticker packs."
     },
     "stickers--StickerPicker--NoRecents": {
-        "message": "Hier werden die zuletzt verwendeten Sticker erscheinen.",
+        "message": "Hier werden die zuletzt verwendeten Sticker angezeigt.",
         "description": "Shown in the sticker picker when there are no recent stickers to show."
     },
     "stickers--StickerPreview--Title": {
@@ -2602,7 +2856,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Zeilenvorschub zu Nachricht hinzufügen",
+        "message": "Zeilenvorschub zur Nachricht hinzufügen",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2610,7 +2864,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Senden (in erweitertem Nachrichteneingabefeld)",
+        "message": "Senden (im erweiterten Nachrichteneingabefeld)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2626,7 +2880,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Zu Unterhaltung springen",
+        "message": "Zur Unterhaltung springen",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -2642,7 +2896,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--shift": {
-        "message": "Shift",
+        "message": "Umschalt",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
@@ -2778,7 +3032,7 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--help": {
-        "message": "Sticker müssen das PNG‑, APNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlener Rand beträgt 16 px.",
+        "message": "Sticker müssen das PNG-, APNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlene Rand beträgt 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
@@ -2951,11 +3205,15 @@
         "message": "Bitte richte Signal auf deinem Mobiltelefon und deinem Computer ein, um den Sticker-Set-Gestalter zu verwenden",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Reaktion entfernen",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Reaktion konnte nicht versendet werden. Bitte versuche es erneut.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mehr",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3026,7 +3284,7 @@
         }
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Gruppenmitglieder werden dich wieder zu dieser Gruppe hinzufügen können.",
+        "message": "Gruppenmitglieder können dich wieder zu dieser Gruppe hinzufügen.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request",
         "placeholders": {
             "name": {
@@ -3054,7 +3312,7 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Blockierte Personen werden dich nicht anrufen oder dir Nachrichten senden können.",
+        "message": "Blockierte Personen können dich nicht mehr anrufen oder dir Nachrichten senden.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
@@ -3068,7 +3326,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Du wirst von dieser Gruppe keine Nachrichten oder Aktualisierungen mehr erhalten, und Mitglieder werden dich nicht wieder zu dieser Gruppe hinzufügen können.",
+        "message": "Du wirst von dieser Gruppe keine Nachrichten oder Aktualisierungen mehr erhalten, und Mitglieder können dich nicht wieder zu dieser Gruppe hinzufügen.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3080,7 +3338,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Diese Unterhaltung wird von all deinen Geräten gelöscht werden.",
+        "message": "Diese Unterhaltung wird von all deinen Geräten gelöscht.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -3102,7 +3360,7 @@
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Du wirst diese Gruppe verlassen und sie wird von all deinen Geräten gelöscht werden.",
+        "message": "Du verlässt diese Gruppe und sie wird von all deinen Geräten gelöscht.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3173,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "Mitglied von $group1$ und $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3187,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "Mitglied von $group1$, $group2$ und $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3203,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
-        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Mitglied von $group1$, $group2$, $group3$ und einer weiteren Gruppe",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
+        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren Gruppe",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3303,9 +3579,87 @@
         "message": "Eingehender Videoanruf …",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Anrufen …",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ ruft dich gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ ruft dich und $otherMember$ gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ ruft dich, $first$ und $second$ gerade an",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ ruft dich, $first$, $second$ und 1 weitere Person gerade an ",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ ruft dich, $first$, $second$ und $remaining$ weitere Personen gerade an ",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Klingeln …",
@@ -3422,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Bildschirm teilen",
+        "message": "Teilen starten",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3476,7 +3830,7 @@
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Für 8 Stunden stummschalten",
+        "message": "Für 8 Stunden",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
@@ -3488,7 +3842,7 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Immer stummschalten",
+        "message": "Für immer",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3500,7 +3854,7 @@
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "Stumm bis $duration$",
+        "message": "Stumm bis $duration$ Uhr",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -3515,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "Etwas ist schiefgelaufen!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Bitte versuche es erneut oder kontaktiere den Support.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "OK",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Sorry, dieser sgnl://-Link ergab keinen Sinn.",
@@ -4203,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Ein Admin hat die Adminrechte von $memberName$ widerrufen.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ hat deine Adminrechte widerrufen.",
@@ -4714,11 +5074,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Du hast die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "Du hast die Gruppeneinstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "$memberName$ hat die Gruppeneinstellungen geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4728,15 +5088,15 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "Die Gruppen-Einstellungen wurden geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
+        "message": "Die Gruppeneinstellungen wurden geändert, um nur Admins das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Du hast die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "Du hast die Gruppeneinstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ hat die Gruppen-Einstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "$memberName$ hat die Gruppeneinstellungen geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4746,7 +5106,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Die Gruppen-Einstellungen wurden geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
+        "message": "Die Gruppeneinstellungen wurden geändert, um allen Mitgliedern das Senden von Nachrichten zu erlauben.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -4922,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$ als Gruppen-Admin entfernen",
+        "message": "$contact$ als Gruppen-Admin entfernen?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4976,12 +5336,12 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Wer kann Nachrichten senden",
+        "message": "Wer darf Nachrichten senden",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
         "message": "Wähle aus, wer Nachrichten an diese Gruppe senden kann.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Anfragen & Einladungen",
@@ -5078,7 +5438,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Nicht benachrichtigen falls stumm",
+        "message": "Bei Stummschaltung nicht benachrichtigen",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5223,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "Personen auf dieser Liste möchten der Gruppe »$name$« über den Gruppen-Link beitreten.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5348,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Kontakt auswählen",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "Kontakt $name$ auswählen",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "Kontakt abwählen",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "Kontakt $name$ abwählen",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "Kontakt kann nicht ausgewählt werden",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "Kontakt $name$ kann nicht ausgewählt werden",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Bereits Mitglied",
@@ -5535,7 +5913,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Die Nachricht konnte nicht für alle Teilnehmer gelöscht werden. Bitte versuche es später erneut.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Farbe löschen",
@@ -5580,7 +5958,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Möchtest du alle Unterhaltungsfarben überschreiben? ",
+        "message": "Möchtest du alle Unterhaltungsfarben überschreiben?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -5677,7 +6055,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Standardablaufzeit für neue Unterhaltungen",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Die Ablaufzeit für verschwindende Nachrichten wird auf $timeValue$ festgelegt, sobald du dem Nutzer eine Nachricht sendest.",
@@ -5690,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Nachricht konnte aufgrund eines internen Fehlers nicht angezeigt werden. Bitte anklicken, um ein Diagnoseprotokoll zu übermitteln.",
+        "message": "Nachricht konnte nicht angezeigt werden. Bitte anklicken, um ein Diagnoseprotokoll zu übermitteln.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5828,7 +6206,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Nur $admins$ können Nachrichten senden",
+        "message": "Nur $admins$ dürfen Nachrichten senden",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -5852,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Gruppenavatar",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Allgemein",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Darstellung",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Unterhaltungen",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "Anrufe",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Benachrichtigungen",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Datenschutz",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Letzter Import: $date$ $time$ Uhr",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "System",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Vergrößerungsstufe",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Link-Vorschauen erzeugen",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« → »Unterhaltungen«",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Weitere Einstellungen",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Benachrichtigungsinhalt",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Blockiert",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ Kontakt",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ Kontakte",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Wer kann …",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Um diese Einstellung zu ändern, öffne die Signal-App auf deinem Mobilgerät und gehe dort zu »Einstellungen« → »Datenschutz«",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Jeder",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Meine Kontakte",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Niemand",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Nachrichtenübermittlung",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "meine Rufnummer sehen",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "mich über meine Rufnummer finden",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Lesebestätigungen",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Tipp-Indikatoren",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Aktualisierungen",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Aktualisierungen automatisch herunterladen",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Benachrichtigungen aktivieren",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Geräte",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Aktualisierung auf Version $version$ verfügbar",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal kann nicht geschlossen werden.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Schließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Reaktionen anpassen",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Anklicken, um ein Emoji zu ersetzen",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Beim Speichern deiner Einstellungen ist ein Fehler aufgetreten. Versuche es bitte erneut.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "Was ist neu",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Eine verbesserte Medien-Lightbox bedeutet keine Überraschungen, während du dich durch eine Galerie von Bildern oder Videos bewegst. Und du kannst so tun, als ob du dich wirklich in einem dunklen Raum befindest, indem du heranzoomst, um diese lästigen Schaltflächen auszublenden.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Ein Fehler wurde behoben, bei dem sich das Reagieren auf eine Nachricht schwierig gestaltete, da die Reaktionsauswahl nicht zu sehen war. Dies wurde nun behoben, sodass du nach ❤️-lust 😮 kannst.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Wenn du während eines Anrufs mit der Maus über die Anrufschaltflächen fährst, bleiben diese sichtbar und verschwinden nicht. Nichts verbirgt sich vor deinem Adlerauge, nicht einmal diese Schaltflächen! ",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Probiere die neue Berechtigung »Nachrichten senden« aus, um einzuschränken, wer in deinen Gruppen Nachrichten senden darf. Großartig, um eine Veranstaltung zu organisieren, eine Ankündigung zu machen oder einfach nur von den Dächern zu schreien. Alle Gruppenmitglieder müssen die neueste Version von Signal verwenden, damit die Einstellung angezeigt wird. ",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Du kannst nun Nachrichten versenden, wo und wann immer du bist: in einem Flugzeug, einem Tunnel oder einem dieser traurigen Momente, wenn gerade deine Internetverbindung zusammenbricht. Irgendwann wird sie durchkommen, denn Nachrichten werden nun für bis zu 24 Stunden automatisch erneut versendet.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Fühlst du dich ❤️🔥 oder 😶🌫️? Du kannst dich mit einer neuen Ladung Emojis ausdrücken, egal ob du bei deiner Suche :flüsterst oder :SCHREIST. Danke, $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Falls du in Anguilla bist, fühltest du dich vielleicht ausgeschlossen. Wir wandeln jetzt alle seit 2010 existierenden Top-Level-Domains in Links um – so werden sowohl $gov$ als auch $brain$ wie $signal$ anklickbar sein. Danke, $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Wir haben gehört, dass du gerne in Bilder hineinzoomst. Wir haben den Zoom verstärkt, sodass selbst kleine Bilder bildschirmfüllend angezeigt werden können.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Wusstest du, dass, wenn die Funktion zum Löschen von Nachrichten aktiviert ist, sogar die Benachrichtigung »Diese Nachricht wurde gelöscht« verschwindet, wenn sie abläuft? Es ist kein Geheimnis mehr - du siehst den Countdown und den Zeitstempel direkt in der Nachricht.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Hol tief Luft und mach dich mit den neuen Animationen für Dialoge und  Pop-ups vertraut. Atme ein. Atme aus. Atme ein. Atme aus.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Das Ändern der Tastaturbelegung war schon immer eine heikle Angelegenheit. Nun aber eröffnet sich mit Tastaturkürzeln eine neue Welt an Möglichkeiten deinem Willen stets Ausdruck zu verleihen.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Wenn ein Gruppenanruf getätigt wird, erhältst du nun eine Benachrichtigung. Daher wirst du nie wieder zu spät sein, es sein du willst es.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Diese Funktion richtet sich an all diejenigen, die häufiger mit 💅 als mit 👍 reagieren. Du kannst ab jetzt die Emojis ändern, die standardmäßig beim Reagieren auf eine Nachricht angezeigt werden.",
+        "description": "Release notes for v5.19"
     }
 }

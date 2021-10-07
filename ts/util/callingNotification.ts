@@ -4,6 +4,7 @@
 import { LocalizerType } from '../types/Util';
 import { CallMode } from '../types/Calling';
 import { missingCaseError } from './missingCaseError';
+import * as log from '../logging/log';
 
 type DirectCallNotificationType = {
   callMode: CallMode.Direct;
@@ -102,11 +103,61 @@ export function getCallingNotificationText(
     case CallMode.Group:
       return getGroupCallNotificationText(notification, i18n);
     default:
-      window.log.error(
+      log.error(
         `getCallingNotificationText: missing case ${missingCaseError(
           notification
         )}`
       );
       return '';
+  }
+}
+
+type CallingIconType =
+  | 'audio-incoming'
+  | 'audio-missed'
+  | 'audio-outgoing'
+  | 'phone'
+  | 'video'
+  | 'video-incoming'
+  | 'video-missed'
+  | 'video-outgoing';
+
+function getDirectCallingIcon({
+  wasIncoming,
+  wasVideoCall,
+  acceptedTime,
+}: DirectCallNotificationType): CallingIconType {
+  const wasAccepted = Boolean(acceptedTime);
+
+  // video
+  if (wasVideoCall) {
+    if (wasAccepted) {
+      return wasIncoming ? 'video-incoming' : 'video-outgoing';
+    }
+    return 'video-missed';
+  }
+
+  if (wasAccepted) {
+    return wasIncoming ? 'audio-incoming' : 'audio-outgoing';
+  }
+
+  return 'audio-missed';
+}
+
+export function getCallingIcon(
+  notification: CallingNotificationType
+): CallingIconType {
+  switch (notification.callMode) {
+    case CallMode.Direct:
+      return getDirectCallingIcon(notification);
+    case CallMode.Group:
+      return 'video';
+    default:
+      log.error(
+        `getCallingNotificationText: missing case ${missingCaseError(
+          notification
+        )}`
+      );
+      return 'phone';
   }
 }

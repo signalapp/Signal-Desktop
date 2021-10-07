@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -9,8 +9,9 @@ import {
   CallsByConversationType,
   DirectCallStateType,
   GroupCallStateType,
+  getIncomingCall as getIncomingCallHelper,
 } from '../ducks/calling';
-import { CallMode, CallState } from '../../types/Calling';
+import { getUserUuid } from './user';
 import { getOwn } from '../../util/getOwn';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
@@ -55,20 +56,12 @@ export const isInCall = createSelector(
   (call: CallStateType | undefined): boolean => Boolean(call)
 );
 
-// In theory, there could be multiple incoming calls. In practice, neither RingRTC nor the
-//   UI are ready to handle this.
 export const getIncomingCall = createSelector(
   getCallsByConversation,
+  getUserUuid,
   (
-    callsByConversation: CallsByConversationType
-  ): undefined | DirectCallStateType => {
-    const result = Object.values(callsByConversation).find(
-      call =>
-        call.callMode === CallMode.Direct &&
-        call.isIncoming &&
-        call.callState === CallState.Ringing
-    );
-    // TypeScript needs a little help to be sure that this is a direct call.
-    return result?.callMode === CallMode.Direct ? result : undefined;
-  }
+    callsByConversation: CallsByConversationType,
+    ourUuid: string
+  ): undefined | DirectCallStateType | GroupCallStateType =>
+    getIncomingCallHelper(callsByConversation, ourUuid)
 );

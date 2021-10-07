@@ -15,7 +15,7 @@ import {
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
-import { MediaItemType } from '../../components/LightboxGallery';
+import { MediaItemType } from '../../types/MediaItem';
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 
@@ -25,7 +25,6 @@ export type SmartConversationDetailsProps = {
   loadRecentMediaItems: (limit: number) => void;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
-  showContactModal: (conversationId: string) => void;
   showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
@@ -37,7 +36,7 @@ export type SmartConversationDetailsProps = {
   ) => void;
   updateGroupAttributes: (
     _: Readonly<{
-      avatar?: undefined | ArrayBuffer;
+      avatar?: undefined | Uint8Array;
       title?: string;
     }>
   ) => Promise<void>;

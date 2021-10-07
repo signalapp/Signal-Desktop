@@ -18,12 +18,12 @@ export type PropsDataType = {
 type PropsType = {
   myProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: ArrayBuffer
+    avatarBuffer?: Uint8Array
   ) => unknown;
   toggleProfileEditor: () => unknown;
   toggleProfileEditorHasError: () => unknown;
 } & PropsDataType &
-  ProfileEditorPropsType;
+  Omit<ProfileEditorPropsType, 'onEditStateChanged' | 'onProfileChanged'>;
 
 export const ProfileEditorModal = ({
   hasError,

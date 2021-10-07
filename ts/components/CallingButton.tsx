@@ -16,6 +16,9 @@ export enum CallingButtonType {
   PRESENTING_DISABLED = 'PRESENTING_DISABLED',
   PRESENTING_OFF = 'PRESENTING_OFF',
   PRESENTING_ON = 'PRESENTING_ON',
+  RING_DISABLED = 'RING_DISABLED',
+  RING_OFF = 'RING_OFF',
+  RING_ON = 'RING_ON',
   VIDEO_DISABLED = 'VIDEO_DISABLED',
   VIDEO_OFF = 'VIDEO_OFF',
   VIDEO_ON = 'VIDEO_ON',
@@ -24,14 +27,20 @@ export enum CallingButtonType {
 export type PropsType = {
   buttonType: CallingButtonType;
   i18n: LocalizerType;
+  isVisible?: boolean;
   onClick: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   tooltipDirection?: TooltipPlacement;
 };
 
 export const CallingButton = ({
   buttonType,
   i18n,
+  isVisible = true,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   tooltipDirection,
 }: PropsType): JSX.Element => {
   const uniqueButtonId = useMemo(() => uuid(), []);
@@ -70,6 +79,21 @@ export const CallingButton = ({
     classNameSuffix = 'hangup';
     tooltipContent = i18n('calling__hangup');
     label = i18n('calling__hangup');
+  } else if (buttonType === CallingButtonType.RING_DISABLED) {
+    classNameSuffix = 'ring--disabled';
+    disabled = true;
+    tooltipContent = i18n(
+      'calling__button--ring__disabled-because-group-is-too-large'
+    );
+    label = i18n('calling__button--ring__label');
+  } else if (buttonType === CallingButtonType.RING_OFF) {
+    classNameSuffix = 'ring--off';
+    tooltipContent = i18n('calling__button--ring__on');
+    label = i18n('calling__button--ring__label');
+  } else if (buttonType === CallingButtonType.RING_ON) {
+    classNameSuffix = 'ring--on';
+    tooltipContent = i18n('calling__button--ring__off');
+    label = i18n('calling__button--ring__label');
   } else if (buttonType === CallingButtonType.PRESENTING_DISABLED) {
     classNameSuffix = 'presenting--disabled';
     tooltipContent = i18n('calling__button--presenting-disabled');
@@ -96,13 +120,20 @@ export const CallingButton = ({
       direction={tooltipDirection}
       theme={Theme.Dark}
     >
-      <div className="module-calling-button__container">
+      <div
+        className={classNames(
+          'module-calling-button__container',
+          !isVisible && 'module-calling-button__container--hidden'
+        )}
+      >
         <button
           aria-label={tooltipContent}
           className={className}
           disabled={disabled}
           id={uniqueButtonId}
           onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           type="button"
         >
           <div />

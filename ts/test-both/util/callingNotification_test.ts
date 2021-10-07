@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { getCallingNotificationText } from '../../util/callingNotification';
 import { CallMode } from '../../types/Calling';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 describe('calling notification helpers', () => {

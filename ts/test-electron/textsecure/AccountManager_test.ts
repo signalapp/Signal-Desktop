@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { v4 as getGuid } from 'uuid';
 
 import { getRandomBytes } from '../../Crypto';
 import AccountManager from '../../textsecure/AccountManager';
 import { OuterSignedPrekeyType } from '../../textsecure/Types.d';
+import { UUID } from '../../types/UUID';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -21,15 +23,18 @@ describe('AccountManager', () => {
     let originalGetIdentityKeyPair: any;
     let originalLoadSignedPreKeys: any;
     let originalRemoveSignedPreKey: any;
+    let originalGetUuid: any;
     let signedPreKeys: Array<OuterSignedPrekeyType>;
     const DAY = 1000 * 60 * 60 * 24;
 
     const pubKey = getRandomBytes(33);
     const privKey = getRandomBytes(32);
+    const identityKey = window.Signal.Curve.generateKeyPair();
 
     beforeEach(async () => {
-      const identityKey = window.Signal.Curve.generateKeyPair();
+      const ourUuid = new UUID(getGuid());
 
+      originalGetUuid = window.textsecure.storage.user.getUuid;
       originalGetIdentityKeyPair =
         window.textsecure.storage.protocol.getIdentityKeyPair;
       originalLoadSignedPreKeys =
@@ -37,12 +42,15 @@ describe('AccountManager', () => {
       originalRemoveSignedPreKey =
         window.textsecure.storage.protocol.removeSignedPreKey;
 
+      window.textsecure.storage.user.getUuid = () => ourUuid;
+
       window.textsecure.storage.protocol.getIdentityKeyPair = async () =>
         identityKey;
       window.textsecure.storage.protocol.loadSignedPreKeys = async () =>
         signedPreKeys;
     });
     afterEach(() => {
+      window.textsecure.storage.user.getUuid = originalGetUuid;
       window.textsecure.storage.protocol.getIdentityKeyPair = originalGetIdentityKeyPair;
       window.textsecure.storage.protocol.loadSignedPreKeys = originalLoadSignedPreKeys;
       window.textsecure.storage.protocol.removeSignedPreKey = originalRemoveSignedPreKey;
@@ -51,7 +59,10 @@ describe('AccountManager', () => {
     describe('encrypted device name', () => {
       it('roundtrips', async () => {
         const deviceName = 'v2.5.0 on Ubunto 20.04';
-        const encrypted = await accountManager.encryptDeviceName(deviceName);
+        const encrypted = accountManager.encryptDeviceName(
+          deviceName,
+          identityKey
+        );
         if (!encrypted) {
           throw new Error('failed to encrypt!');
         }
@@ -61,8 +72,8 @@ describe('AccountManager', () => {
         assert.strictEqual(decrypted, deviceName);
       });
 
-      it('handles falsey deviceName', async () => {
-        const encrypted = await accountManager.encryptDeviceName('');
+      it('handles falsey deviceName', () => {
+        const encrypted = accountManager.encryptDeviceName('', identityKey);
         assert.strictEqual(encrypted, null);
       });
     });
@@ -146,7 +157,10 @@ describe('AccountManager', () => {
       ];
 
       let count = 0;
-      window.textsecure.storage.protocol.removeSignedPreKey = async keyId => {
+      window.textsecure.storage.protocol.removeSignedPreKey = async (
+        _,
+        keyId
+      ) => {
         if (keyId !== 4) {
           throw new Error(`Wrong keys were eliminated! ${keyId}`);
         }

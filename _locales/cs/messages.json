@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Zobrazit archiv",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Barva chatu",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Aktualizovat Signal",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Nahrávání...",
@@ -410,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "Následující lidé možná přeinstalovali nebo změnili zařízení. Ověřte s nimi své bezpečnostní číslo pro zajištění soukromí.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Odeslat čekající zprávu",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Odeslat $count$ čekající(ch) zpráv",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "Vaše bezpečnostní číslo s $name1$ se změnilo. To může znamenat, že se někdo pokouší odposlouchávat vaši komunikaci nebo že $name2$ prostě jen přeinstaloval Signal. Doporučujeme ověřit vaše bezpečnostní číslo s tímto kontaktem.",
@@ -650,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Připojování",
+        "message": "Probíhá připojování...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Připojit",
+        "message": "Kliknutím obnovíte připojení.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Nemělo by to trvat dlouho...",
+        "message": "Nemělo by to trvat dlouho",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -807,6 +825,20 @@
         "message": "Vítejte v Signal",
         "description": ""
     },
+    "whatsNew": {
+        "message": "Prohlédněte si $whatsNew$ v této aktualizaci",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "co je nového",
+        "description": "Clickable link that displays the latest release notes"
+    },
     "selectAContact": {
         "message": "Vyberte si kontakt nebo skupinu a začněte si povídat.",
         "description": ""
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "e-mail",
@@ -889,6 +921,18 @@
         "message": "Původní zpráva byla nalezena, ale nebyla načtena. Posuňte nahoru pro načtení.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Spustit nahrávání hlasové zprávy",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Dokončit hlasovou zprávu a odeslat",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Zrušit hlasovou zprávu",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Nahrávání zvukové zprávy bylo ukončeno, protože byl dosažen maximální časový limit.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -907,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Příloha uložena. Klikněte pro zobrazení ve složce.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Vy",
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "Uložit",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Obnovit",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Ikona souboru",
@@ -1271,7 +1313,11 @@
         "message": "Propojit nové zařízení",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "Naskenujte tento kód v aplikaci Signal ve svém telefonu.",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "Název zařízení",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "Zkusit znovu",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Motiv",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "Volání",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Zavolat zpět",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Zavolat znovu",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Zahájit hovor",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "Hovor je plný",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Fotoaparát",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Kamera zakázána",
@@ -1343,6 +1401,10 @@
         "message": "Zapnout kameru",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Ztlumit",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Mikrofon zakázán",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "Zrušit ztlumení mikrofonu",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Sdílet",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Prezentování zakázáno",
@@ -1367,15 +1433,31 @@
         "message": "Zastavit prezentování",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Volat",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Skupina je pro volání příliš velká",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Upozornit, nezvonit",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Povolit zvonění",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Vaše kamera je vypnutá",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Nikdo další tady není",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ se účastní tohoto hovoru",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1385,11 +1467,11 @@
             }
         }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Jiné vaše zařízení se účastní tohoto hovoru",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ a $second$ se účastní tohoto hovoru",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1403,7 +1485,7 @@
             }
         }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ a $third$ se účastní tohoto hovoru",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
@@ -1421,11 +1503,131 @@
             }
         }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$ a $others$ dalších se účastní tohoto hovoru",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal zavolá $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal bude zvonit $first$ a $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal bude zvonit $first$, $second$ a $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal bude zvonit $first$, $second$ a $others$ dalším",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ uvidí oznámení",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ a $second$ uvidí oznámení",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ a $third$ uvidí oznámení",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ a $others$ další uvidí oznámení",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
                 "content": "$1",
                 "example": "Sam"
             },
@@ -1469,7 +1671,7 @@
     },
     "calling__block-info": {
         "message": "Nebudete přijímat jejich audio ani video a oni vaše.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Posunout nahoru",
@@ -1578,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Povolit kontrolu pravopisu",
+        "message": "Kontrola pravopisu textu zadaného do pole pro napsání zprávy",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1598,11 +1800,11 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Otevřít pro přihlášení k počítači",
+        "message": "Otevřít po přihlášení k počítači",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Vymazat data",
+        "message": "Vymazat data aplikace",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1740,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Aktualizovat",
+        "message": "Kliknutím přejedete na signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1752,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kontakty",
+        "message": "Importovat kontakty",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1912,7 +2114,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Přehrát zvukové upozornění",
+        "message": "Přehrát zvuk oznámení",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2150,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Pro pokračování prosím znovu propojte Signal Desktop s mobilním telefonem.",
+        "message": "Klikněte pro opakované připojení Signal Desktop k mobilnímu zařízení pro pokračování v komunikaci.",
         "description": ""
     },
     "unlinked": {
@@ -2162,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Dostupná aktualizace Signal",
+        "message": "K dispozici je aktualizace",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Je k dispozici nová verze aplikace Signal.",
+        "message": "Klikněte pro restartování aplikace Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Kliknutím stáhnete aktualizaci",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2179,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Později",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignorovat aktualizaci",
         "description": ""
     },
     "leftTheGroup": {
@@ -2995,11 +3205,15 @@
         "message": "Pokude chcete využít Tvůrce balíčku nálepek, nastavte nejdřív svůj telefon a desktop jako propojená zařízení.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Odebrat reakci",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Nepodařilo se zaslat reakci. Prosím, zkuste to znovu.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Víc",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3217,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "Člen skupin $group1$ a $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3231,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "Člen skupin $group1$, $group2$ a $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3247,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Člen skupiny $group1$, $group2$, $group3$ a jedné další",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Člen skupin $group1$, $group2$, $group3$ a dalších $remainingCount$ skupin",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3347,9 +3579,87 @@
         "message": "Příchozí videohovor...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Volám...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ vám volá",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ volá vám a $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ volá vám, $first$ a $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ volá vám, $first$, $second$ a 1 dalšímu",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ volá vám, $first$, $second$, and $remaining$ dalším",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Vyzvání...",
@@ -3466,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Sdílet obrazovku",
+        "message": "Začít sdílení",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3559,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "Něco se pokazilo!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Zkuste to prosím znova nebo kontaktujte podporu.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "V pořádku",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Omlouváme se, ale ten sgnl:// odkaz nedával žádný smysl.",
@@ -4247,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Správce odebral oprávnění správce uživateli $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ vám odebral(a) oprávnění správce.",
@@ -4940,7 +5256,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Počet ztišených konverzací",
+        "message": "Zahrnout ztišené konverzace v počtu na odznáčku",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4966,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Odstranit $contact$ jako správce skupiny",
+        "message": "Odstranit $contact$ jako správce skupiny?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5025,7 +5341,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Zvolte, kdo může skupině posílat zprávy.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Požadavky a pozvánky",
@@ -5240,7 +5556,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Zrušit $number$ pozvánek od \"$name$\"",
+        "message": "Odebrat $number$ pozvánek odeslaných  \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5267,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "Lidé na tomto seznamu se snaží připojit ke skupině \"$name$\" pomocí odkazu skupiny.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5392,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Zvolit kontakt",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "Zvolit kontakt $name$",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "Zrušit volbu kontaktu",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "Zrušit volbu kontaktu $name$",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "Nelze zvolit kontakt",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "Nebylo možné zvolit kontakt $name$",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Již je členem",
@@ -5579,7 +5913,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Nepodařilo se smazat zprávu pro všehcny. Zkuste to prosím později.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Odstranit barvu",
@@ -5721,7 +6055,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Výchozí časovač pro nové konverzace",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Čas zmizení zprávy bude nastaven na $timeValue$, když jim napíšete.",
@@ -5734,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Zprávu se nepodařilo zobrazit z důvodu vnitřní chyby. Kliknutím nám odešlete log.",
+        "message": "Tuto zprávu nebylo možné zobrazit. Klikněte pro odeslání ladící zprávy.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5896,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Avatar skupiny",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Obecné",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Vzhled",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Konverzace",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "Volání",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Upozornění",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Soukromí",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Poslední import $date$ v $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Systémový",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Úroveň přiblížení",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Vygenerovat náhledy odkazů",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Pro změnu tohoto nastavení otevřete aplikaci Signal na mobilním zařízení a běžte do Nastavení > Konverzace",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Rozšířené možnosti",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Obsah oznámení",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Blokován(a)",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ kontakt",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ kontakty/kontaktů",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Kdo může...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Pro změnu těchto nastavení otevřete Signal na mobilním telefonu a běžte do Nastavení > Soukromí",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Všichni",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Moje kontakty",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Nikdo",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Odesílání zpráv",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Zobrazit mé telefonní číslo",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Najít mě podle telefonního čísla",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Potvrzení o přečtení",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Indikátory psaní",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Aktualizace",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Automaticky stahovat aktualizace",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Povolit oznámení",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Zařízení",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Aktualizace na verzi $version$ je k dispozici",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Aplikaci Signal se nepodařilo zavřít.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Zavřete ji ručně a poté klikněte na Opakovat pro pokračování.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Přizpůsobení reakcí",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Klepněte pro nahrazení smajlíka",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Objevila se chyba při ukládání nastavení. Zkuste to prosím znovu.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "Co je nového",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Vylepšený lightbox médií znamená, že vás při procházení galerie obrázků nebo videí nečeká žádné překvapení a můžete předstírat, že jste skutečně v tmavé místnosti a přiblížením skrýt ta otravná tlačítka.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Byla opravena chyba, kdy bylo obtížné reagovat na zprávu, protože jsme umístili vybírací tlačítko mimo obrazovku. To je nyní opraveno a vy se můžete 😮 věnovat ❤️.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Pokud na tlačítka během hovoru najedete, zůstanou viditelná, místo aby zmizela. Nic se neschová před vaším okem, ani tato tlačítka!",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Vyzkoušejte nové oprávnění \"posílat zprávy\", které omezuje, kdo může posílat zprávy ve vašich skupinách. Skvěle se hodí pro organizování událostí, oznámení nebo jen pro křik ze střech. Aby se toto nastavení zobrazilo, musí mít všichni členové nejnovější verzi aplikace Signal.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Nyní můžete posílat zprávy kdekoli a kdykoli: v letadle, v tunelu nebo ve smutné chvíli, kdy vám právě vypadl internet. Nakonec se to podaří; zprávy se nyní automaticky opakují až 24 hodin.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Cítíte ❤️‍🔥 nebo 😶‍🌫️? Nyní se můžete lépe vyjádřit s novou dávkou smajlíků. Díky $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Pokud jste v Anguille, možná jste se cítili odstrčení. Nyní měníme všechny domény nejvyšší úrovně zavedené od roku 2010 na odkazy - takže jak $gov$, tak i $brain$ budou klikatelné stejně jako $signal$. Díky $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Slyšeli jsme, že rádi přibližujete obrázky. Přidali jsme do přiblížení sílu, takže i malé obrázky můžete zobrazit přes celou obrazovku.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Věděli jste, že pokud je povoleno mizení zpráv, zmizí po vypršení platnosti i oznámení \"Tato zpráva byla smazána\"? Už to není žádná záhada - přímo na zprávě uvidíte odpočet a časové razítko.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Nadechněte se a nechte se unášet novými animacemi dialogových oken a vyskakovacích oken. Uvolněte se. Uvolněte se. Uvolněte se. Uvolněte se.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Přepínání rozložení klávesnice je vždy trochu složitější, ale klávesové zkratky nyní jsou s vámi a jdou za konkrétní stisknuté písmeno, aby respektovaly váš záměr.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Při zahájení skupinového hovoru se vám nyní zobrazí oznámení. Už nikdy nepřijdete pozdě, pokud nebudete chtít.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Tato funkce je určena všem, kteří reagují pomocí 💅 více než 👍: nyní si můžete přizpůsobit emotikony, které se ve výchozím nastavení zobrazí, když chcete reagovat na zprávu.",
+        "description": "Release notes for v5.19"
     }
 }

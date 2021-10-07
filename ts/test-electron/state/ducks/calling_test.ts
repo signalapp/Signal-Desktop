@@ -46,6 +46,7 @@ describe('calling duck', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -95,6 +96,20 @@ describe('calling duck', () => {
     },
   };
 
+  const stateWithIncomingGroupCall = {
+    ...stateWithGroupCall,
+    callsByConversation: {
+      ...stateWithGroupCall.callsByConversation,
+      'fake-group-call-conversation-id': {
+        ...stateWithGroupCall.callsByConversation[
+          'fake-group-call-conversation-id'
+        ],
+        ringId: BigInt(123),
+        ringerUuid: '789',
+      },
+    },
+  };
+
   const stateWithActiveGroupCall = {
     ...stateWithGroupCall,
     activeCallState: {
@@ -104,6 +119,7 @@ describe('calling duck', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: false,
       pip: false,
       settingsDialogOpen: false,
     },
@@ -318,81 +334,192 @@ describe('calling duck', () => {
 
       beforeEach(function beforeEach() {
         this.callingServiceAccept = this.sandbox
-          .stub(callingService, 'accept')
+          .stub(callingService, 'acceptDirectCall')
+          .resolves();
+        this.callingServiceJoin = this.sandbox
+          .stub(callingService, 'joinGroupCall')
           .resolves();
       });
 
-      it('dispatches an ACCEPT_CALL_PENDING action', async () => {
-        const dispatch = sinon.spy();
+      describe('accepting a direct call', () => {
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: stateWithIncomingDirectCall,
+        });
 
-        await acceptCall({
-          conversationId: '123',
-          asVideoCall: true,
-        })(dispatch, getEmptyRootState, null);
+        it('dispatches an ACCEPT_CALL_PENDING action', async () => {
+          const dispatch = sinon.spy();
 
-        sinon.assert.calledOnce(dispatch);
-        sinon.assert.calledWith(dispatch, {
-          type: 'calling/ACCEPT_CALL_PENDING',
-          payload: {
-            conversationId: '123',
+          await acceptCall({
+            conversationId: 'fake-direct-call-conversation-id',
             asVideoCall: true,
-          },
-        });
+          })(dispatch, getState, null);
 
-        await acceptCall({
-          conversationId: '456',
-          asVideoCall: false,
-        })(dispatch, getEmptyRootState, null);
+          sinon.assert.calledOnce(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/ACCEPT_CALL_PENDING',
+            payload: {
+              conversationId: 'fake-direct-call-conversation-id',
+              asVideoCall: true,
+            },
+          });
 
-        sinon.assert.calledTwice(dispatch);
-        sinon.assert.calledWith(dispatch, {
-          type: 'calling/ACCEPT_CALL_PENDING',
-          payload: {
-            conversationId: '456',
+          await acceptCall({
+            conversationId: 'fake-direct-call-conversation-id',
             asVideoCall: false,
-          },
+          })(dispatch, getState, null);
+
+          sinon.assert.calledTwice(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/ACCEPT_CALL_PENDING',
+            payload: {
+              conversationId: 'fake-direct-call-conversation-id',
+              asVideoCall: false,
+            },
+          });
+        });
+
+        it('asks the calling service to accept the call', async function test() {
+          const dispatch = sinon.spy();
+
+          await acceptCall({
+            conversationId: 'fake-direct-call-conversation-id',
+            asVideoCall: true,
+          })(dispatch, getState, null);
+
+          sinon.assert.calledOnce(this.callingServiceAccept);
+          sinon.assert.calledWith(
+            this.callingServiceAccept,
+            'fake-direct-call-conversation-id',
+            true
+          );
+
+          await acceptCall({
+            conversationId: 'fake-direct-call-conversation-id',
+            asVideoCall: false,
+          })(dispatch, getState, null);
+
+          sinon.assert.calledTwice(this.callingServiceAccept);
+          sinon.assert.calledWith(
+            this.callingServiceAccept,
+            'fake-direct-call-conversation-id',
+            false
+          );
+        });
+
+        it('updates the active call state with ACCEPT_CALL_PENDING', async () => {
+          const dispatch = sinon.spy();
+          await acceptCall({
+            conversationId: 'fake-direct-call-conversation-id',
+            asVideoCall: true,
+          })(dispatch, getState, null);
+          const action = dispatch.getCall(0).args[0];
+
+          const result = reducer(stateWithIncomingDirectCall, action);
+
+          assert.deepEqual(result.activeCallState, {
+            conversationId: 'fake-direct-call-conversation-id',
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            isInSpeakerView: false,
+            showParticipantsList: false,
+            safetyNumberChangedUuids: [],
+            outgoingRing: false,
+            pip: false,
+            settingsDialogOpen: false,
+          });
         });
       });
 
-      it('asks the calling service to accept the call', async function test() {
-        const dispatch = sinon.spy();
+      describe('accepting a group call', () => {
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: stateWithIncomingGroupCall,
+        });
 
-        await acceptCall({
-          conversationId: '123',
-          asVideoCall: true,
-        })(dispatch, getEmptyRootState, null);
+        it('dispatches an ACCEPT_CALL_PENDING action', async () => {
+          const dispatch = sinon.spy();
 
-        sinon.assert.calledOnce(this.callingServiceAccept);
-        sinon.assert.calledWith(this.callingServiceAccept, '123', true);
+          await acceptCall({
+            conversationId: 'fake-group-call-conversation-id',
+            asVideoCall: true,
+          })(dispatch, getState, null);
 
-        await acceptCall({
-          conversationId: '456',
-          asVideoCall: false,
-        })(dispatch, getEmptyRootState, null);
+          sinon.assert.calledOnce(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/ACCEPT_CALL_PENDING',
+            payload: {
+              conversationId: 'fake-group-call-conversation-id',
+              asVideoCall: true,
+            },
+          });
 
-        sinon.assert.calledTwice(this.callingServiceAccept);
-        sinon.assert.calledWith(this.callingServiceAccept, '456', false);
-      });
+          await acceptCall({
+            conversationId: 'fake-group-call-conversation-id',
+            asVideoCall: false,
+          })(dispatch, getState, null);
 
-      it('updates the active call state with ACCEPT_CALL_PENDING', async () => {
-        const dispatch = sinon.spy();
-        await acceptCall({
-          conversationId: 'fake-direct-call-conversation-id',
-          asVideoCall: true,
-        })(dispatch, getEmptyRootState, null);
-        const action = dispatch.getCall(0).args[0];
+          sinon.assert.calledTwice(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/ACCEPT_CALL_PENDING',
+            payload: {
+              conversationId: 'fake-group-call-conversation-id',
+              asVideoCall: false,
+            },
+          });
+        });
 
-        const result = reducer(stateWithIncomingDirectCall, action);
+        it('asks the calling service to join the call', async function test() {
+          const dispatch = sinon.spy();
 
-        assert.deepEqual(result.activeCallState, {
-          conversationId: 'fake-direct-call-conversation-id',
-          hasLocalAudio: true,
-          hasLocalVideo: true,
-          isInSpeakerView: false,
-          showParticipantsList: false,
-          safetyNumberChangedUuids: [],
-          pip: false,
-          settingsDialogOpen: false,
+          await acceptCall({
+            conversationId: 'fake-group-call-conversation-id',
+            asVideoCall: true,
+          })(dispatch, getState, null);
+
+          sinon.assert.calledOnce(this.callingServiceJoin);
+          sinon.assert.calledWith(
+            this.callingServiceJoin,
+            'fake-group-call-conversation-id',
+            true,
+            true
+          );
+
+          await acceptCall({
+            conversationId: 'fake-group-call-conversation-id',
+            asVideoCall: false,
+          })(dispatch, getState, null);
+
+          sinon.assert.calledTwice(this.callingServiceJoin);
+          sinon.assert.calledWith(
+            this.callingServiceJoin,
+            'fake-group-call-conversation-id',
+            true,
+            false
+          );
+        });
+
+        it('updates the active call state with ACCEPT_CALL_PENDING', async () => {
+          const dispatch = sinon.spy();
+          await acceptCall({
+            conversationId: 'fake-group-call-conversation-id',
+            asVideoCall: true,
+          })(dispatch, getState, null);
+          const action = dispatch.getCall(0).args[0];
+
+          const result = reducer(stateWithIncomingGroupCall, action);
+
+          assert.deepEqual(result.activeCallState, {
+            conversationId: 'fake-group-call-conversation-id',
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            isInSpeakerView: false,
+            showParticipantsList: false,
+            safetyNumberChangedUuids: [],
+            outgoingRing: false,
+            pip: false,
+            settingsDialogOpen: false,
+          });
         });
       });
     });
@@ -441,6 +568,201 @@ describe('calling duck', () => {
       });
     });
 
+    describe('cancelIncomingGroupCallRing', () => {
+      const { cancelIncomingGroupCallRing } = actions;
+
+      it('does nothing if there is no associated group call', () => {
+        const state = getEmptyState();
+        const action = cancelIncomingGroupCallRing({
+          conversationId: 'garbage',
+          ringId: BigInt(1),
+        });
+
+        const result = reducer(state, action);
+
+        assert.strictEqual(result, state);
+      });
+
+      it("does nothing if the ring to cancel isn't the same one", () => {
+        const action = cancelIncomingGroupCallRing({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(999),
+        });
+
+        const result = reducer(stateWithIncomingGroupCall, action);
+
+        assert.strictEqual(result, stateWithIncomingGroupCall);
+      });
+
+      it("removes the call from the state if it's not connected", () => {
+        const state = {
+          ...stateWithGroupCall,
+          callsByConversation: {
+            ...stateWithGroupCall.callsByConversation,
+            'fake-group-call-conversation-id': {
+              ...stateWithGroupCall.callsByConversation[
+                'fake-group-call-conversation-id'
+              ],
+              connectionState: GroupCallConnectionState.NotConnected,
+              ringId: BigInt(123),
+              ringerUuid: '789',
+            },
+          },
+        };
+        const action = cancelIncomingGroupCallRing({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(123),
+        });
+
+        const result = reducer(state, action);
+
+        assert.notProperty(
+          result.callsByConversation,
+          'fake-group-call-conversation-id'
+        );
+      });
+
+      it("removes the ring state, but not the call, if it's connected", () => {
+        const action = cancelIncomingGroupCallRing({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(123),
+        });
+
+        const result = reducer(stateWithIncomingGroupCall, action);
+        const call =
+          result.callsByConversation['fake-group-call-conversation-id'];
+        // It'd be nice to do this with an assert, but Chai doesn't understand it.
+        if (call?.callMode !== CallMode.Group) {
+          throw new Error('Expected to find a group call');
+        }
+
+        assert.isUndefined(call.ringId);
+        assert.isUndefined(call.ringerUuid);
+      });
+    });
+
+    describe('declineCall', () => {
+      const { declineCall } = actions;
+
+      let declineDirectCall: sinon.SinonStub;
+      let declineGroupCall: sinon.SinonStub;
+
+      beforeEach(function beforeEach() {
+        declineDirectCall = this.sandbox.stub(
+          callingService,
+          'declineDirectCall'
+        );
+        declineGroupCall = this.sandbox.stub(
+          callingService,
+          'declineGroupCall'
+        );
+      });
+
+      describe('declining a direct call', () => {
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: stateWithIncomingDirectCall,
+        });
+
+        it('dispatches a DECLINE_DIRECT_CALL action', () => {
+          const dispatch = sinon.spy();
+
+          declineCall({ conversationId: 'fake-direct-call-conversation-id' })(
+            dispatch,
+            getState,
+            null
+          );
+
+          sinon.assert.calledOnce(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/DECLINE_DIRECT_CALL',
+            payload: {
+              conversationId: 'fake-direct-call-conversation-id',
+            },
+          });
+        });
+
+        it('asks the calling service to decline the call', () => {
+          const dispatch = sinon.spy();
+
+          declineCall({ conversationId: 'fake-direct-call-conversation-id' })(
+            dispatch,
+            getState,
+            null
+          );
+
+          sinon.assert.calledOnce(declineDirectCall);
+          sinon.assert.calledWith(
+            declineDirectCall,
+            'fake-direct-call-conversation-id'
+          );
+        });
+
+        it('removes the call from the state', () => {
+          const dispatch = sinon.spy();
+          declineCall({ conversationId: 'fake-direct-call-conversation-id' })(
+            dispatch,
+            getState,
+            null
+          );
+          const action = dispatch.getCall(0).args[0];
+
+          const result = reducer(stateWithIncomingGroupCall, action);
+
+          assert.notProperty(
+            result.callsByConversation,
+            'fake-direct-call-conversation-id'
+          );
+        });
+      });
+
+      describe('declining a group call', () => {
+        const getState = () => ({
+          ...getEmptyRootState(),
+          calling: stateWithIncomingGroupCall,
+        });
+
+        it('dispatches a CANCEL_INCOMING_GROUP_CALL_RING action', () => {
+          const dispatch = sinon.spy();
+
+          declineCall({ conversationId: 'fake-group-call-conversation-id' })(
+            dispatch,
+            getState,
+            null
+          );
+
+          sinon.assert.calledOnce(dispatch);
+          sinon.assert.calledWith(dispatch, {
+            type: 'calling/CANCEL_INCOMING_GROUP_CALL_RING',
+            payload: {
+              conversationId: 'fake-group-call-conversation-id',
+              ringId: BigInt(123),
+            },
+          });
+        });
+
+        it('asks the calling service to decline the call', () => {
+          const dispatch = sinon.spy();
+
+          declineCall({ conversationId: 'fake-group-call-conversation-id' })(
+            dispatch,
+            getState,
+            null
+          );
+
+          sinon.assert.calledOnce(declineGroupCall);
+          sinon.assert.calledWith(
+            declineGroupCall,
+            'fake-group-call-conversation-id',
+            BigInt(123)
+          );
+        });
+
+        // NOTE: The state effects of this action are tested with
+        //   `cancelIncomingGroupCallRing`.
+      });
+    });
+
     describe('groupCallStateChange', () => {
       const { groupCallStateChange } = actions;
 
@@ -475,7 +797,7 @@ describe('calling duck', () => {
         assert.deepEqual(result, getEmptyState());
       });
 
-      it('removes the call from the map of conversations if the call is not connected and has no peeked participants', () => {
+      it('removes the call from the map of conversations if the call is not connected and has no peeked participants or ringer', () => {
         const result = reducer(
           stateWithGroupCall,
           getAction({
@@ -659,6 +981,29 @@ describe('calling duck', () => {
         );
       });
 
+      it('saves a call to the map of conversations if the call had a ringer, even if it was otherwise ignorable', () => {
+        const result = reducer(
+          stateWithIncomingGroupCall,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.NotConnected,
+            joinState: GroupCallJoinState.NotJoined,
+            hasLocalAudio: false,
+            hasLocalVideo: false,
+            peekInfo: {
+              uuids: [],
+              maxDevices: 16,
+              deviceCount: 0,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isDefined(
+          result.callsByConversation['fake-group-call-conversation-id']
+        );
+      });
+
       it('updates a call in the map of conversations', () => {
         const result = reducer(
           stateWithGroupCall,
@@ -711,6 +1056,108 @@ describe('calling duck', () => {
               },
             ],
           }
+        );
+      });
+
+      it("keeps the existing ring state if you haven't joined the call", () => {
+        const state = {
+          ...stateWithGroupCall,
+          callsByConversation: {
+            ...stateWithGroupCall.callsByConversation,
+            'fake-group-call-conversation-id': {
+              ...stateWithGroupCall.callsByConversation[
+                'fake-group-call-conversation-id'
+              ],
+              ringId: BigInt(456),
+              ringerUuid: '55addfd8-09ed-4f5b-b42e-01058898d13b',
+            },
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.NotJoined,
+            hasLocalAudio: true,
+            hasLocalVideo: false,
+            peekInfo: {
+              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [
+              {
+                uuid: '123',
+                demuxId: 456,
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.include(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          {
+            callMode: CallMode.Group,
+            ringId: BigInt(456),
+            ringerUuid: '55addfd8-09ed-4f5b-b42e-01058898d13b',
+          }
+        );
+      });
+
+      it("removes the ring state if you've joined the call", () => {
+        const state = {
+          ...stateWithGroupCall,
+          callsByConversation: {
+            ...stateWithGroupCall.callsByConversation,
+            'fake-group-call-conversation-id': {
+              ...stateWithGroupCall.callsByConversation[
+                'fake-group-call-conversation-id'
+              ],
+              ringId: BigInt(456),
+              ringerUuid: '55addfd8-09ed-4f5b-b42e-01058898d13b',
+            },
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: false,
+            peekInfo: {
+              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [
+              {
+                uuid: '123',
+                demuxId: 456,
+                hasRemoteAudio: false,
+                hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
+                videoAspectRatio: 16 / 9,
+              },
+            ],
+          })
+        );
+
+        assert.notProperty(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          'ringId'
+        );
+        assert.notProperty(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          'ringerUuid'
         );
       });
 
@@ -780,6 +1227,7 @@ describe('calling duck', () => {
           isInSpeakerView: false,
           showParticipantsList: false,
           safetyNumberChangedUuids: [],
+          outgoingRing: false,
           pip: false,
           settingsDialogOpen: false,
         });
@@ -819,6 +1267,62 @@ describe('calling duck', () => {
         );
         assert.isTrue(result.activeCallState?.hasLocalAudio);
         assert.isTrue(result.activeCallState?.hasLocalVideo);
+      });
+
+      it("doesn't stop ringing if nobody is in the call", () => {
+        const state = {
+          ...stateWithActiveGroupCall,
+          activeCallState: {
+            ...stateWithActiveGroupCall.activeCallState,
+            outgoingRing: true,
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              uuids: [],
+              maxDevices: 16,
+              deviceCount: 0,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isTrue(result.activeCallState?.outgoingRing);
+      });
+
+      it('stops ringing if someone enters the call', () => {
+        const state = {
+          ...stateWithActiveGroupCall,
+          activeCallState: {
+            ...stateWithActiveGroupCall.activeCallState,
+            outgoingRing: true,
+          },
+        };
+        const result = reducer(
+          state,
+          getAction({
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.Joined,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            peekInfo: {
+              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [],
+          })
+        );
+
+        assert.isFalse(result.activeCallState?.outgoingRing);
       });
     });
 
@@ -910,6 +1414,88 @@ describe('calling duck', () => {
       });
     });
 
+    describe('receiveIncomingGroupCall', () => {
+      const { receiveIncomingGroupCall } = actions;
+
+      it('does nothing if the call was already ringing', () => {
+        const action = receiveIncomingGroupCall({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(456),
+          ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+        });
+        const result = reducer(stateWithIncomingGroupCall, action);
+
+        assert.strictEqual(result, stateWithIncomingGroupCall);
+      });
+
+      it('does nothing if the call was already joined', () => {
+        const state = {
+          ...stateWithGroupCall,
+          callsByConversation: {
+            ...stateWithGroupCall.callsByConversation,
+            'fake-group-call-conversation-id': {
+              ...stateWithGroupCall.callsByConversation[
+                'fake-group-call-conversation-id'
+              ],
+              joinState: GroupCallJoinState.Joined,
+            },
+          },
+        };
+        const action = receiveIncomingGroupCall({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(456),
+          ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+        });
+        const result = reducer(state, action);
+
+        assert.strictEqual(result, state);
+      });
+
+      it('creates a new group call if one did not exist', () => {
+        const action = receiveIncomingGroupCall({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(456),
+          ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+        });
+        const result = reducer(getEmptyState(), action);
+
+        assert.deepEqual(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          {
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            connectionState: GroupCallConnectionState.NotConnected,
+            joinState: GroupCallJoinState.NotJoined,
+            peekInfo: {
+              uuids: [],
+              maxDevices: Infinity,
+              deviceCount: 0,
+            },
+            remoteParticipants: [],
+            ringId: BigInt(456),
+            ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+          }
+        );
+      });
+
+      it('attaches ring state to an existing call', () => {
+        const action = receiveIncomingGroupCall({
+          conversationId: 'fake-group-call-conversation-id',
+          ringId: BigInt(456),
+          ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+        });
+        const result = reducer(stateWithGroupCall, action);
+
+        assert.include(
+          result.callsByConversation['fake-group-call-conversation-id'],
+          {
+            ringId: BigInt(456),
+            ringerUuid: '208b8ce6-3a73-48ee-9c8a-32e6196f6e96',
+          }
+        );
+      });
+    });
+
     describe('setLocalAudio', () => {
       const { setLocalAudio } = actions;
 
@@ -993,6 +1579,24 @@ describe('calling duck', () => {
       });
     });
 
+    describe('setOutgoingRing', () => {
+      const { setOutgoingRing } = actions;
+
+      it('enables a desire to ring', () => {
+        const action = setOutgoingRing(true);
+        const result = reducer(stateWithActiveGroupCall, action);
+
+        assert.isTrue(result.activeCallState?.outgoingRing);
+      });
+
+      it('disables a desire to ring', () => {
+        const action = setOutgoingRing(false);
+        const result = reducer(stateWithActiveDirectCall, action);
+
+        assert.isFalse(result.activeCallState?.outgoingRing);
+      });
+    });
+
     describe('showCallLobby', () => {
       const { showCallLobby } = actions;
 
@@ -1022,6 +1626,7 @@ describe('calling duck', () => {
           safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
+          outgoingRing: true,
         });
       });
 
@@ -1033,6 +1638,7 @@ describe('calling duck', () => {
             conversationId: 'fake-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
@@ -1084,6 +1690,7 @@ describe('calling duck', () => {
           result.activeCallState?.conversationId,
           'fake-conversation-id'
         );
+        assert.isFalse(result.activeCallState?.outgoingRing);
       });
 
       it('chooses fallback peek info if none is sent and there is no existing call', () => {
@@ -1094,6 +1701,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: undefined,
@@ -1118,6 +1726,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: undefined,
@@ -1154,6 +1763,7 @@ describe('calling duck', () => {
             conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
+            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
@@ -1187,6 +1797,56 @@ describe('calling duck', () => {
           deviceCount: 1,
         });
       });
+
+      it("doesn't overwrite an existing group call's ring state if it was set previously", () => {
+        const result = reducer(
+          {
+            ...stateWithGroupCall,
+            callsByConversation: {
+              'fake-group-call-conversation-id': {
+                ...stateWithGroupCall.callsByConversation[
+                  'fake-group-call-conversation-id'
+                ],
+                ringId: BigInt(987),
+                ringerUuid: 'd59f05f7-3be8-4d44-a1e8-0d7cb5677ed8',
+              },
+            },
+          },
+          showCallLobby({
+            callMode: CallMode.Group,
+            conversationId: 'fake-group-call-conversation-id',
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+            isConversationTooBigToRing: false,
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.NotJoined,
+            peekInfo: undefined,
+            remoteParticipants: [
+              {
+                uuid: '123',
+                demuxId: 123,
+                hasRemoteAudio: true,
+                hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
+                videoAspectRatio: 4 / 3,
+              },
+            ],
+          })
+        );
+        const call =
+          result.callsByConversation['fake-group-call-conversation-id'];
+        // It'd be nice to do this with an assert, but Chai doesn't understand it.
+        if (call?.callMode !== CallMode.Group) {
+          throw new Error('Expected to find a group call');
+        }
+
+        assert.strictEqual(call.ringId, BigInt(987));
+        assert.strictEqual(
+          call.ringerUuid,
+          'd59f05f7-3be8-4d44-a1e8-0d7cb5677ed8'
+        );
+      });
     });
 
     describe('startCall', () => {
@@ -1197,15 +1857,14 @@ describe('calling duck', () => {
           callingService,
           'startOutgoingDirectCall'
         );
-        this.callingJoinGroupCall = this.sandbox.stub(
-          callingService,
-          'joinGroupCall'
-        );
+        this.callingJoinGroupCall = this.sandbox
+          .stub(callingService, 'joinGroupCall')
+          .resolves();
       });
 
-      it('asks the calling service to start an outgoing direct call', function test() {
+      it('asks the calling service to start an outgoing direct call', async function test() {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Direct,
           conversationId: '123',
           hasLocalAudio: true,
@@ -1223,9 +1882,9 @@ describe('calling duck', () => {
         sinon.assert.notCalled(this.callingJoinGroupCall);
       });
 
-      it('asks the calling service to join a group call', function test() {
+      it('asks the calling service to join a group call', async function test() {
         const dispatch = sinon.spy();
-        startCall({
+        await startCall({
           callMode: CallMode.Group,
           conversationId: '123',
           hasLocalAudio: true,
@@ -1266,6 +1925,7 @@ describe('calling duck', () => {
           safetyNumberChangedUuids: [],
           pip: false,
           settingsDialogOpen: false,
+          outgoingRing: true,
         });
       });
 

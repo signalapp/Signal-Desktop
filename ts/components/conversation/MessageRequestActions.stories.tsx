@@ -10,7 +10,7 @@ import {
   MessageRequestActions,
   Props as MessageRequestActionsProps,
 } from './MessageRequestActions';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);
@@ -22,9 +22,6 @@ const getBaseProps = (isGroup = false): MessageRequestActionsProps => ({
   title: isGroup
     ? text('title', 'NYC Rock Climbers')
     : text('title', 'Cayce Bollard'),
-  name: isGroup
-    ? text('name', 'NYC Rock Climbers')
-    : text('name', 'Cayce Bollard'),
   onBlock: action('block'),
   onDelete: action('delete'),
   onBlockAndReportSpam: action('blockAndReportSpam'),

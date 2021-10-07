@@ -23,7 +23,7 @@ import {
 import { GroupNameCollisionsWithIdsByTitle } from './util/groupMemberNameCollisions';
 import { ConversationColorType } from './types/Colors';
 import { AttachmentType, ThumbnailType } from './types/Attachment';
-import { ContactType } from './types/Contact';
+import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
 
@@ -90,7 +90,7 @@ export type MessageAttributesType = {
   bodyRanges?: BodyRangesType;
   callHistoryDetails?: CallHistoryDetailsFromDiskType;
   changedId?: string;
-  dataMessage?: ArrayBuffer | null;
+  dataMessage?: Uint8Array | null;
   decrypted_at?: number;
   deletedForEveryone?: boolean;
   deletedForEveryoneTimestamp?: number;
@@ -156,7 +156,7 @@ export type MessageAttributesType = {
   };
   sent_at: number;
   unidentifiedDeliveries?: Array<string>;
-  contact?: Array<ContactType>;
+  contact?: Array<EmbeddedContactType>;
   conversationId: string;
   reaction?: WhatIsThis;
 
@@ -209,12 +209,8 @@ export type ConversationAttributesType = {
   customColor?: CustomColorType;
   customColorId?: string;
   discoveredUnregisteredAt?: number;
-  draftAttachments?: Array<{
-    fileName?: string;
-    path?: string;
-    pending?: boolean;
-    screenshotPath?: string;
-  }>;
+  draftChanged?: boolean;
+  draftAttachments?: Array<AttachmentType>;
   draftBodyRanges?: Array<BodyRangeType>;
   draftTimestamp?: number | null;
   inbox_position: number;
@@ -355,7 +351,7 @@ export type GroupV2PendingAdminApprovalType = {
 };
 
 export type VerificationOptions = {
-  key?: null | ArrayBuffer;
+  key?: null | Uint8Array;
   viaContactSync?: boolean;
   viaStorageServiceSync?: boolean;
   viaSyncMessage?: boolean;

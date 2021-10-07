@@ -8,7 +8,8 @@ import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
 import { LocalizerType } from '../../../types/Util';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
+import { CapabilityError } from '../../../types/errors';
 import { missingCaseError } from '../../../util/missingCaseError';
 
 import { DisappearingTimerSelect } from '../../DisappearingTimerSelect';
@@ -60,7 +61,6 @@ export type StateProps = {
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
-  showContactModal: (conversationId: string) => void;
   showGroupChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
@@ -72,7 +72,7 @@ export type StateProps = {
   showConversationNotificationsSettings: () => void;
   updateGroupAttributes: (
     _: Readonly<{
-      avatar?: undefined | ArrayBuffer;
+      avatar?: undefined | Uint8Array;
       description?: string;
       title?: string;
     }>
@@ -86,6 +86,7 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
+  showContactModal: (contactId: string, conversationId: string) => void;
 };
 
 export type Props = StateProps & ActionProps;
@@ -168,7 +169,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           }
           makeRequest={async (
             options: Readonly<{
-              avatar?: undefined | ArrayBuffer;
+              avatar?: undefined | Uint8Array;
               description?: string;
               title?: string;
             }>
@@ -224,7 +225,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               setModalState(ModalState.NothingOpen);
               setAddGroupMembersRequestState(RequestState.Inactive);
             } catch (err) {
-              if (err.code === 'E_NO_CAPABILITY') {
+              if (err instanceof CapabilityError) {
                 setMembersMissingCapability(true);
                 setAddGroupMembersRequestState(RequestState.InactiveWithError);
               } else {
@@ -329,6 +330,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
 
       <ConversationDetailsMembershipList
         canAddNewMembers={canEditGroupInfo}
+        conversationId={conversation.id}
         i18n={i18n}
         memberships={memberships}
         showContactModal={showContactModal}
@@ -388,6 +390,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         i18n={i18n}
         cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
         conversationTitle={conversation.title}
+        left={Boolean(conversation.left)}
         onLeave={onLeave}
         onBlock={onBlock}
       />

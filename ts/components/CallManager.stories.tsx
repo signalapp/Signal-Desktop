@@ -18,7 +18,7 @@ import { ConversationTypeType } from '../state/ducks/conversations';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -48,25 +48,18 @@ const getCommonActiveCallData = () => ({
   hasLocalAudio: boolean('hasLocalAudio', true),
   hasLocalVideo: boolean('hasLocalVideo', false),
   isInSpeakerView: boolean('isInSpeakerView', false),
+  outgoingRing: boolean('outgoingRing', true),
   pip: boolean('pip', false),
   settingsDialogOpen: boolean('settingsDialogOpen', false),
   showParticipantsList: boolean('showParticipantsList', false),
-});
-
-const getIncomingCallState = (extraProps = {}) => ({
-  ...extraProps,
-  callMode: CallMode.Direct as CallMode.Direct,
-  conversationId: '3051234567',
-  callState: CallState.Ringing,
-  isIncoming: true,
-  isVideoCall: boolean('isVideoCall', true),
-  hasRemoteVideo: true,
 });
 
 const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   ...storyProps,
   availableCameras: [],
   acceptCall: action('accept-call'),
+  bounceAppIconStart: action('bounce-app-icon-start'),
+  bounceAppIconStop: action('bounce-app-icon-stop'),
   cancelCall: action('cancel-call'),
   closeNeedPermissionScreen: action('close-need-permission-screen'),
   declineCall: action('decline-call'),
@@ -75,6 +68,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
+  isGroupCallOutboundRingEnabled: true,
   keyChangeOk: action('key-change-ok'),
   me: {
     ...getDefaultConversation({
@@ -87,16 +81,21 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     }),
     uuid: 'cb0dd0c8-7393-41e9-a0aa-d631c4109541',
   },
+  notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),
+  playRingtone: action('play-ringtone'),
   renderDeviceSelection: () => <div />,
   renderSafetyNumberViewer: (_: SafetyNumberViewerProps) => <div />,
   setGroupCallVideoRequest: action('set-group-call-video-request'),
+  setIsCallActive: action('set-is-call-active'),
   setLocalAudio: action('set-local-audio'),
   setLocalPreview: action('set-local-preview'),
   setLocalVideo: action('set-local-video'),
   setPresenting: action('toggle-presenting'),
   setRendererCanvas: action('set-renderer-canvas'),
+  setOutgoingRing: action('set-outgoing-ring'),
   startCall: action('start-call'),
+  stopRingtone: action('stop-ringtone'),
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(
@@ -145,12 +144,33 @@ story.add('Ongoing Group Call', () => (
   />
 ));
 
-story.add('Ringing', () => (
+story.add('Ringing (direct call)', () => (
   <CallManager
     {...createProps({
       incomingCall: {
-        call: getIncomingCallState(),
+        callMode: CallMode.Direct as const,
         conversation: getConversation(),
+        isVideoCall: true,
+      },
+    })}
+  />
+));
+
+story.add('Ringing (group call)', () => (
+  <CallManager
+    {...createProps({
+      incomingCall: {
+        callMode: CallMode.Group as const,
+        conversation: {
+          ...getConversation(),
+          type: 'group',
+          title: 'Tahoe Trip',
+        },
+        otherMembersRung: [
+          { firstName: 'Morty', title: 'Morty Smith' },
+          { firstName: 'Summer', title: 'Summer Smith' },
+        ],
+        ringer: { firstName: 'Rick', title: 'Rick Sanchez' },
       },
     })}
   />

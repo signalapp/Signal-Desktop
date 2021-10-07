@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as log from '../logging/log';
+
 export async function longRunningTaskWrapper<T>({
   name,
   idForLogging,
@@ -16,10 +18,10 @@ export async function longRunningTaskWrapper<T>({
   const ONE_SECOND = 1000;
   const TWO_SECONDS = 2000;
 
-  let progressView: typeof window.Whisper.ReactWrapperView | undefined;
+  let progressView: Backbone.View | undefined;
   let spinnerStart;
   let progressTimeout: NodeJS.Timeout | undefined = setTimeout(() => {
-    window.log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
+    log.info(`longRunningTaskWrapper/${idLog}: Creating spinner`);
 
     // Note: this component uses a portal to render itself into the top-level DOM. No
     //   need to attach it to the DOM here.
@@ -33,11 +35,9 @@ export async function longRunningTaskWrapper<T>({
   // Note: any task we put here needs to have its own safety valve; this function will
   //   show a spinner until it's done
   try {
-    window.log.info(`longRunningTaskWrapper/${idLog}: Starting task`);
+    log.info(`longRunningTaskWrapper/${idLog}: Starting task`);
     const result = await task();
-    window.log.info(
-      `longRunningTaskWrapper/${idLog}: Task completed successfully`
-    );
+    log.info(`longRunningTaskWrapper/${idLog}: Task completed successfully`);
 
     if (progressTimeout) {
       clearTimeout(progressTimeout);
@@ -46,7 +46,7 @@ export async function longRunningTaskWrapper<T>({
     if (progressView) {
       const now = Date.now();
       if (spinnerStart && now - spinnerStart < ONE_SECOND) {
-        window.log.info(
+        log.info(
           `longRunningTaskWrapper/${idLog}: Spinner shown for less than second, showing for another second`
         );
         await window.Signal.Util.sleep(ONE_SECOND);
@@ -57,7 +57,7 @@ export async function longRunningTaskWrapper<T>({
 
     return result;
   } catch (error) {
-    window.log.error(
+    log.error(
       `longRunningTaskWrapper/${idLog}: Error!`,
       error && error.stack ? error.stack : error
     );
@@ -72,15 +72,17 @@ export async function longRunningTaskWrapper<T>({
     }
 
     if (!suppressErrorDialog) {
-      window.log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
+      log.info(`longRunningTaskWrapper/${idLog}: Showing error dialog`);
 
       // Note: this component uses a portal to render itself into the top-level DOM. No
       //   need to attach it to the DOM here.
-      const errorView = new window.Whisper.ReactWrapperView({
+      const errorView: Backbone.View = new window.Whisper.ReactWrapperView({
         className: 'error-modal-wrapper',
         Component: window.Signal.Components.ErrorModal,
         props: {
-          onClose: () => errorView.remove(),
+          onClose: (): void => {
+            errorView.remove();
+          },
         },
       });
     }

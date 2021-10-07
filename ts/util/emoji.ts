@@ -1,12 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import emojiRegex from 'emoji-regex/es2015/RGI_Emoji';
 
 import { assert } from './assert';
+import { take } from './iterables';
 
 const REGEXP = emojiRegex();
+const MAX_EMOJI_TO_MATCH = 5000;
 
 export function replaceEmojiWithSpaces(value: string): string {
   return value.replace(REGEXP, ' ');
@@ -18,19 +19,26 @@ export type SplitElement = Readonly<{
 }>;
 
 export function splitByEmoji(value: string): ReadonlyArray<SplitElement> {
-  const emojis = value.matchAll(REGEXP);
+  const emojis = take(value.matchAll(REGEXP), MAX_EMOJI_TO_MATCH);
 
   const result: Array<SplitElement> = [];
   let lastIndex = 0;
   for (const match of emojis) {
-    result.push({ type: 'text', value: value.slice(lastIndex, match.index) });
+    const nonEmojiText = value.slice(lastIndex, match.index);
+    if (nonEmojiText) {
+      result.push({ type: 'text', value: nonEmojiText });
+    }
+
     result.push({ type: 'emoji', value: match[0] });
 
     assert(match.index !== undefined, '`matchAll` should provide indices');
     lastIndex = match.index + match[0].length;
   }
 
-  result.push({ type: 'text', value: value.slice(lastIndex) });
+  const finalNonEmojiText = value.slice(lastIndex);
+  if (finalNonEmojiText) {
+    result.push({ type: 'text', value: finalNonEmojiText });
+  }
 
   return result;
 }

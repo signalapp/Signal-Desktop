@@ -46,13 +46,7 @@ export const ConfirmAdditionsModal: FunctionComponent<PropsType> = ({
         i18n={i18n}
         id="AddGroupMembersModal--confirm-title--one"
         components={{
-          person: (
-            <ContactName
-              profileName={firstContact.profileName}
-              title={firstContact.title}
-              i18n={i18n}
-            />
-          ),
+          person: <ContactName title={firstContact.title} />,
           group: groupTitleNode,
         }}
       />

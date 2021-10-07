@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
+import type { AudioDevice } from 'ringrtc';
 
-import { AudioDevice } from '../types/Calling';
 import { ZoomFactorType } from '../types/Storage.d';
 import {
   DEFAULT_CONVERSATION_COLOR,
@@ -21,13 +21,18 @@ import { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';
+import { trigger } from '../shims/events';
 import { themeChanged } from '../shims/themeChanged';
+import { renderClearingDataView } from '../shims/renderClearingDataView';
 
 import * as universalExpireTimer from './universalExpireTimer';
 import { PhoneNumberDiscoverability } from './phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from './phoneNumberSharingMode';
 import { assert } from './assert';
+import * as durations from './durations';
 import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
+import { parseE164FromSignalDotMeHash } from './sgnlHref';
+import * as log from '../logging/log';
 
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -80,6 +85,7 @@ export type IPCEventsCallbacksType = {
   addCustomColor: (customColor: CustomColorType) => void;
   addDarkOverlay: () => void;
   deleteAllData: () => Promise<void>;
+  closeDB: () => Promise<void>;
   editCustomColor: (colorId: string, customColor: CustomColorType) => void;
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
@@ -90,6 +96,7 @@ export type IPCEventsCallbacksType = {
   removeDarkOverlay: () => void;
   resetAllChatColors: () => void;
   resetDefaultChatColor: () => void;
+  showConversationViaSignalDotMe: (hash: string) => void;
   showKeyboardShortcuts: () => void;
   showGroupViaLink: (x: string) => Promise<void>;
   showStickerPack: (packId: string, key: string) => void;
@@ -102,6 +109,7 @@ export type IPCEventsCallbacksType = {
     customColor?: { id: string; value: CustomColorType }
   ) => void;
   getDefaultConversationColor: () => DefaultConversationColorType;
+  persistZoomFactor: (factor: number) => Promise<void>;
 };
 
 type ValuesWithGetters = Omit<
@@ -161,10 +169,8 @@ export function createIPCEvents(
     getDeviceName: () => window.textsecure.storage.user.getDeviceName(),
 
     getZoomFactor: () => window.storage.get('zoomFactor', 1),
-    setZoomFactor: (zoomFactor: ZoomFactorType) => {
-      const numZoomFactor = zoomFactor;
-      webFrame.setZoomFactor(numZoomFactor);
-      return window.storage.put('zoomFactor', numZoomFactor);
+    setZoomFactor: async (zoomFactor: ZoomFactorType) => {
+      webFrame.setZoomFactor(zoomFactor);
     },
 
     getPreferredAudioInputDevice: () =>
@@ -332,7 +338,7 @@ export function createIPCEvents(
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
     syncRequest: () =>
       new Promise<void>((resolve, reject) => {
-        const FIVE_MINUTES = 5 * 60 * 60 * 1000;
+        const FIVE_MINUTES = 5 * durations.MINUTE;
         const syncRequest = window.getSyncRequest(FIVE_MINUTES);
         syncRequest.addEventListener('success', () => resolve());
         syncRequest.addEventListener('timeout', () =>
@@ -376,20 +382,21 @@ export function createIPCEvents(
     deleteAllData: async () => {
       await window.sqlInitializer.goBackToMainProcess();
 
-      const clearDataView = new window.Whisper.ClearDataView().render();
-      $('body').append(clearDataView.el);
+      renderClearingDataView();
+    },
+
+    closeDB: async () => {
+      await window.sqlInitializer.goBackToMainProcess();
     },
 
     showStickerPack: (packId, key) => {
       // We can get these events even if the user has never linked this instance.
       if (!window.Signal.Util.Registration.everDone()) {
-        window.log.warn('showStickerPack: Not registered, returning early');
+        log.warn('showStickerPack: Not registered, returning early');
         return;
       }
       if (window.isShowingModal) {
-        window.log.warn(
-          'showStickerPack: Already showing modal, returning early'
-        );
+        log.warn('showStickerPack: Already showing modal, returning early');
         return;
       }
       try {
@@ -416,7 +423,7 @@ export function createIPCEvents(
         });
       } catch (error) {
         window.isShowingModal = false;
-        window.log.error(
+        log.error(
           'showStickerPack: Ran into an error!',
           error && error.stack ? error.stack : error
         );
@@ -434,19 +441,17 @@ export function createIPCEvents(
     showGroupViaLink: async hash => {
       // We can get these events even if the user has never linked this instance.
       if (!window.Signal.Util.Registration.everDone()) {
-        window.log.warn('showGroupViaLink: Not registered, returning early');
+        log.warn('showGroupViaLink: Not registered, returning early');
         return;
       }
       if (window.isShowingModal) {
-        window.log.warn(
-          'showGroupViaLink: Already showing modal, returning early'
-        );
+        log.warn('showGroupViaLink: Already showing modal, returning early');
         return;
       }
       try {
         await window.Signal.Groups.joinViaLink(hash);
       } catch (error) {
-        window.log.error(
+        log.error(
           'showGroupViaLink: Ran into an error!',
           error && error.stack ? error.stack : error
         );
@@ -464,19 +469,33 @@ export function createIPCEvents(
       }
       window.isShowingModal = false;
     },
+    showConversationViaSignalDotMe(hash: string) {
+      if (!window.Signal.Util.Registration.everDone()) {
+        log.info(
+          'showConversationViaSignalDotMe: Not registered, returning early'
+        );
+        return;
+      }
+
+      const maybeE164 = parseE164FromSignalDotMeHash(hash);
+      if (maybeE164) {
+        trigger('showConversation', maybeE164);
+        return;
+      }
+
+      log.info('showConversationViaSignalDotMe: invalid E164');
+      if (window.isShowingModal) {
+        log.info(
+          'showConversationViaSignalDotMe: a modal is already showing. Doing nothing'
+        );
+      } else {
+        showUnknownSgnlLinkModal();
+      }
+    },
 
     unknownSignalLink: () => {
-      window.log.warn('unknownSignalLink: Showing error dialog');
-      const errorView = new window.Whisper.ReactWrapperView({
-        className: 'error-modal-wrapper',
-        Component: window.Signal.Components.ErrorModal,
-        props: {
-          description: window.i18n('unknown-sgnl-link'),
-          onClose: () => {
-            errorView.remove();
-          },
-        },
-      });
+      log.warn('unknownSignalLink: Showing error dialog');
+      showUnknownSgnlLinkModal();
     },
 
     installStickerPack: async (packId, key) => {
@@ -490,6 +509,22 @@ export function createIPCEvents(
     getMediaPermissions: window.getMediaPermissions,
     getMediaCameraPermissions: window.getMediaCameraPermissions,
 
+    persistZoomFactor: zoomFactor =>
+      window.storage.put('zoomFactor', zoomFactor),
+
     ...overrideEvents,
   };
+}
+
+function showUnknownSgnlLinkModal(): void {
+  const errorView = new window.Whisper.ReactWrapperView({
+    className: 'error-modal-wrapper',
+    Component: window.Signal.Components.ErrorModal,
+    props: {
+      description: window.i18n('unknown-sgnl-link'),
+      onClose: () => {
+        errorView.remove();
+      },
+    },
+  });
 }

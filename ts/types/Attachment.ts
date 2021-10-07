@@ -6,12 +6,12 @@ import moment from 'moment';
 import {
   isNumber,
   padStart,
-  isArrayBuffer,
+  isTypedArray,
   isFunction,
   isUndefined,
   omit,
 } from 'lodash';
-import { arrayBufferToBlob, blobToArrayBuffer } from 'blob-util';
+import { blobToArrayBuffer } from 'blob-util';
 
 import { LoggerType } from './Logging';
 import * as MIME from './MIME';
@@ -42,7 +42,7 @@ export type AttachmentType = {
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url?: string;
-  size?: number;
+  size: number;
   fileSize?: string;
   pending?: boolean;
   width?: number;
@@ -55,6 +55,7 @@ export type AttachmentType = {
     contentType: MIME.MIMEType;
     path: string;
   };
+  screenshotData?: Uint8Array;
   screenshotPath?: string;
   flags?: number;
   thumbnail?: ThumbnailType;
@@ -63,38 +64,54 @@ export type AttachmentType = {
   cdnNumber?: number;
   cdnId?: string;
   cdnKey?: string;
-  data?: ArrayBuffer;
+  data?: Uint8Array;
 
   /** Legacy field. Used only for downloading old attachments */
   id?: number;
 };
 
 export type DownloadedAttachmentType = AttachmentType & {
-  data: ArrayBuffer;
+  data: Uint8Array;
 };
 
-type BaseAttachmentDraftType = {
+export type BaseAttachmentDraftType = {
   blurHash?: string;
   contentType: MIME.MIMEType;
   fileName: string;
+  path: string;
   screenshotContentType?: string;
   screenshotSize?: number;
   size: number;
 };
 
-export type InMemoryAttachmentDraftType = {
-  data?: ArrayBuffer;
-  screenshotData?: ArrayBuffer;
-} & BaseAttachmentDraftType;
+export type InMemoryAttachmentDraftType =
+  | ({
+      data?: Uint8Array;
+      pending: false;
+      screenshotData?: Uint8Array;
+    } & BaseAttachmentDraftType)
+  | {
+      contentType: MIME.MIMEType;
+      fileName: string;
+      path: string;
+      pending: true;
+      size: number;
+    };
 
-export type OnDiskAttachmentDraftType = {
-  path?: string;
-  screenshotPath?: string;
-} & BaseAttachmentDraftType;
-
-export type AttachmentDraftType = {
-  url: string;
-} & BaseAttachmentDraftType;
+export type AttachmentDraftType =
+  | ({
+      url: string;
+      screenshotPath?: string;
+      caption?: string;
+      pending: false;
+    } & BaseAttachmentDraftType)
+  | {
+      contentType: MIME.MIMEType;
+      fileName: string;
+      path: string;
+      pending: true;
+      size: number;
+    };
 
 export type ThumbnailType = {
   height: number;
@@ -111,7 +128,7 @@ export async function migrateDataToFileSystem(
   {
     writeNewAttachmentData,
   }: {
-    writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
   }
 ): Promise<AttachmentType> {
   if (!isFunction(writeNewAttachmentData)) {
@@ -125,9 +142,9 @@ export async function migrateDataToFileSystem(
     return attachment;
   }
 
-  if (!isArrayBuffer(data)) {
+  if (!isTypedArray(data)) {
     throw new TypeError(
-      'Expected `attachment.data` to be an array buffer;' +
+      'Expected `attachment.data` to be a typed array;' +
         ` got: ${typeof attachment.data}`
     );
   }
@@ -142,19 +159,19 @@ export async function migrateDataToFileSystem(
 // {
 //   id: string
 //   contentType: MIMEType
-//   data: ArrayBuffer
-//   digest: ArrayBuffer
+//   data: Uint8Array
+//   digest: Uint8Array
 //   fileName?: string
 //   flags: null
-//   key: ArrayBuffer
+//   key: Uint8Array
 //   size: integer
-//   thumbnail: ArrayBuffer
+//   thumbnail: Uint8Array
 // }
 
 // // Outgoing message attachment fields
 // {
 //   contentType: MIMEType
-//   data: ArrayBuffer
+//   data: Uint8Array
 //   fileName: string
 //   size: integer
 // }
@@ -205,14 +222,17 @@ export async function autoOrientJPEG(
     return attachment;
   }
 
-  const dataBlob = await arrayBufferToBlob(
-    attachment.data,
-    attachment.contentType
+  const dataBlob = new Blob([attachment.data], {
+    type: attachment.contentType,
+  });
+  const { blob: xcodedDataBlob } = await scaleImageToLevel(
+    dataBlob,
+    attachment.contentType,
+    isIncoming
   );
-  const xcodedDataBlob = await scaleImageToLevel(dataBlob, isIncoming);
   const xcodedDataArrayBuffer = await blobToArrayBuffer(xcodedDataBlob);
 
-  // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
+  // IMPORTANT: We overwrite the existing `data` `Uint8Array` losing the original
   // image data. Ideally, we’d preserve the original image data for users who want to
   // retain it but due to reports of data loss, we don’t want to overburden IndexedDB
   // by potentially doubling stored image data.
@@ -220,7 +240,7 @@ export async function autoOrientJPEG(
   const xcodedAttachment = {
     // `digest` is no longer valid for auto-oriented image data, so we discard it:
     ...omit(attachment, 'digest'),
-    data: xcodedDataArrayBuffer,
+    data: new Uint8Array(xcodedDataArrayBuffer),
     size: xcodedDataArrayBuffer.byteLength,
   };
 
@@ -304,14 +324,11 @@ export function removeSchemaVersion({
 }
 
 export function hasData(attachment: AttachmentType): boolean {
-  return (
-    attachment.data instanceof ArrayBuffer ||
-    ArrayBuffer.isView(attachment.data)
-  );
+  return attachment.data instanceof Uint8Array;
 }
 
 export function loadData(
-  readAttachmentData: (path: string) => Promise<ArrayBuffer>
+  readAttachmentData: (path: string) => Promise<Uint8Array>
 ): (attachment?: AttachmentType) => Promise<AttachmentType> {
   if (!is.function_(readAttachmentData)) {
     throw new TypeError("'readAttachmentData' must be a function");
@@ -369,9 +386,12 @@ const THUMBNAIL_CONTENT_TYPE = MIME.IMAGE_PNG;
 export async function captureDimensionsAndScreenshot(
   attachment: AttachmentType,
   params: {
-    writeNewAttachmentData: (data: ArrayBuffer) => Promise<string>;
+    writeNewAttachmentData: (data: Uint8Array) => Promise<string>;
     getAbsoluteAttachmentPath: (path: string) => Promise<string>;
-    makeObjectUrl: (data: ArrayBuffer, contentType: MIME.MIMEType) => string;
+    makeObjectUrl: (
+      data: Uint8Array | ArrayBuffer,
+      contentType: MIME.MIMEType
+    ) => string;
     revokeObjectUrl: (path: string) => void;
     getImageDimensions: (params: {
       objectUrl: string;
@@ -433,7 +453,9 @@ export async function captureDimensionsAndScreenshot(
         })
       );
 
-      const thumbnailPath = await writeNewAttachmentData(thumbnailBuffer);
+      const thumbnailPath = await writeNewAttachmentData(
+        new Uint8Array(thumbnailBuffer)
+      );
       return {
         ...attachment,
         width,
@@ -472,7 +494,9 @@ export async function captureDimensionsAndScreenshot(
       objectUrl: screenshotObjectUrl,
       logger,
     });
-    const screenshotPath = await writeNewAttachmentData(screenshotBuffer);
+    const screenshotPath = await writeNewAttachmentData(
+      new Uint8Array(screenshotBuffer)
+    );
 
     const thumbnailBuffer = await blobToArrayBuffer(
       await makeImageThumbnail({
@@ -483,7 +507,9 @@ export async function captureDimensionsAndScreenshot(
       })
     );
 
-    const thumbnailPath = await writeNewAttachmentData(thumbnailBuffer);
+    const thumbnailPath = await writeNewAttachmentData(
+      new Uint8Array(thumbnailBuffer)
+    );
 
     return {
       ...attachment,
@@ -544,7 +570,7 @@ export function getExtensionForDisplay({
   return undefined;
 }
 
-export function isAudio(attachments?: Array<AttachmentType>): boolean {
+export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -554,7 +580,9 @@ export function isAudio(attachments?: Array<AttachmentType>): boolean {
   );
 }
 
-export function canDisplayImage(attachments?: Array<AttachmentType>): boolean {
+export function canDisplayImage(
+  attachments?: ReadonlyArray<AttachmentType>
+): boolean {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
@@ -586,7 +614,7 @@ export function getUrl(attachment: AttachmentType): string | undefined {
   return attachment.url;
 }
 
-export function isImage(attachments?: Array<AttachmentType>): boolean {
+export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -596,8 +624,8 @@ export function isImage(attachments?: Array<AttachmentType>): boolean {
 }
 
 export function isImageAttachment(
-  attachment?: AttachmentType
-): attachment is AttachmentType {
+  attachment?: Pick<AttachmentType, 'contentType'>
+): boolean {
   return Boolean(
     attachment &&
       attachment.contentType &&
@@ -606,14 +634,16 @@ export function isImageAttachment(
 }
 
 export function canBeTranscoded(
-  attachment?: AttachmentType
-): attachment is AttachmentType {
+  attachment?: Pick<AttachmentType, 'contentType'>
+): boolean {
   return Boolean(
-    isImageAttachment(attachment) && !MIME.isGif(attachment.contentType)
+    attachment &&
+      isImageAttachment(attachment) &&
+      !MIME.isGif(attachment.contentType)
   );
 }
 
-export function hasImage(attachments?: Array<AttachmentType>): boolean {
+export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
       attachments[0] &&
@@ -621,7 +651,7 @@ export function hasImage(attachments?: Array<AttachmentType>): boolean {
   );
 }
 
-export function isVideo(attachments?: Array<AttachmentType>): boolean {
+export function isVideo(attachments?: ReadonlyArray<AttachmentType>): boolean {
   if (!attachments || attachments.length === 0) {
     return false;
   }
@@ -701,7 +731,7 @@ export function getImageDimensions(
 }
 
 export function areAllAttachmentsVisual(
-  attachments?: Array<AttachmentType>
+  attachments?: ReadonlyArray<AttachmentType>
 ): boolean {
   if (!attachments) {
     return false;
@@ -719,7 +749,7 @@ export function areAllAttachmentsVisual(
 }
 
 export function getGridDimensions(
-  attachments?: Array<AttachmentType>
+  attachments?: ReadonlyArray<AttachmentType>
 ): null | DimensionsType {
   if (!attachments || !attachments.length) {
     return null;
@@ -843,14 +873,14 @@ export const save = async ({
 }: {
   attachment: AttachmentType;
   index?: number;
-  readAttachmentData: (relativePath: string) => Promise<ArrayBuffer>;
+  readAttachmentData: (relativePath: string) => Promise<Uint8Array>;
   saveAttachmentToDisk: (options: {
-    data: ArrayBuffer;
+    data: Uint8Array;
     name: string;
-  }) => Promise<{ name: string; fullPath: string }>;
+  }) => Promise<{ name: string; fullPath: string } | null>;
   timestamp?: number;
 }): Promise<string | null> => {
-  let data: ArrayBuffer;
+  let data: Uint8Array;
   if (attachment.path) {
     data = await readAttachmentData(attachment.path);
   } else if (attachment.data) {

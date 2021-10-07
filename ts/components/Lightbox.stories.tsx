@@ -1,13 +1,16 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 
-import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import { number } from '@storybook/addon-knobs';
 
-import { Lightbox, Props } from './Lightbox';
+import enMessages from '../../_locales/en/messages.json';
+import { Lightbox, PropsType } from './Lightbox';
+import { MediaItemType } from '../types/MediaItem';
+import { setupI18n } from '../util/setupI18n';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,
@@ -15,123 +18,244 @@ import {
   VIDEO_QUICKTIME,
   stringToMIMEType,
 } from '../types/MIME';
-import { setup as setupI18n } from '../../js/modules/i18n';
-import enMessages from '../../_locales/en/messages.json';
+
+import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Lightbox', module);
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  caption: text('caption', overrideProps.caption || ''),
+type OverridePropsMediaItemType = Partial<MediaItemType> & { caption?: string };
+
+function createMediaItem(
+  overrideProps: OverridePropsMediaItemType
+): MediaItemType {
+  return {
+    attachment: fakeAttachment({
+      caption: overrideProps.caption || '',
+      contentType: IMAGE_JPEG,
+      fileName: overrideProps.objectURL,
+      url: overrideProps.objectURL,
+    }),
+    contentType: IMAGE_JPEG,
+    index: 0,
+    message: {
+      attachments: [],
+      conversationId: '1234',
+      id: 'image-msg',
+      received_at: 0,
+      received_at_ms: Date.now(),
+      sent_at: Date.now(),
+    },
+    objectURL: '',
+    ...overrideProps,
+  };
+}
+
+const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   close: action('close'),
-  contentType: overrideProps.contentType || IMAGE_JPEG,
   i18n,
-  isViewOnce: boolean('isViewOnce', overrideProps.isViewOnce || false),
-  objectURL: text('objectURL', overrideProps.objectURL || ''),
-  onNext: overrideProps.onNext,
-  onPrevious: overrideProps.onPrevious,
-  onSave: overrideProps.onSave,
+  isViewOnce: Boolean(overrideProps.isViewOnce),
+  media: overrideProps.media || [],
+  onSave: action('onSave'),
+  selectedIndex: number('selectedIndex', overrideProps.selectedIndex || 0),
 });
 
-story.add('Image', () => {
+story.add('Multimedia', () => {
   const props = createProps({
-    objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+    media: [
+      {
+        attachment: fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+          caption:
+            'Still from The Lighthouse, starring Robert Pattinson and Willem Defoe.',
+        }),
+        contentType: IMAGE_JPEG,
+        index: 0,
+        message: {
+          attachments: [],
+          conversationId: '1234',
+          id: 'image-msg',
+          received_at: 1,
+          received_at_ms: Date.now(),
+          sent_at: Date.now(),
+        },
+        objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+      },
+      {
+        attachment: fakeAttachment({
+          contentType: VIDEO_MP4,
+          fileName: 'pixabay-Soap-Bubble-7141.mp4',
+          url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+        }),
+        contentType: VIDEO_MP4,
+        index: 1,
+        message: {
+          attachments: [],
+          conversationId: '1234',
+          id: 'video-msg',
+          received_at: 2,
+          received_at_ms: Date.now(),
+          sent_at: Date.now(),
+        },
+        objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+      },
+      createMediaItem({
+        contentType: IMAGE_JPEG,
+        index: 2,
+        thumbnailObjectUrl: '/fixtures/kitten-1-64-64.jpg',
+        objectURL: '/fixtures/kitten-1-64-64.jpg',
+      }),
+      createMediaItem({
+        contentType: IMAGE_JPEG,
+        index: 3,
+        thumbnailObjectUrl: '/fixtures/kitten-2-64-64.jpg',
+        objectURL: '/fixtures/kitten-2-64-64.jpg',
+      }),
+    ],
   });
 
   return <Lightbox {...props} />;
 });
 
-story.add('Image with Caption (normal image)', () => {
+story.add('Missing Media', () => {
   const props = createProps({
-    caption:
-      'This is the user-provided caption. It can get long and wrap onto multiple lines.',
-    objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+    media: [
+      {
+        attachment: fakeAttachment({
+          contentType: IMAGE_JPEG,
+          fileName: 'tina-rolf-269345-unsplash.jpg',
+          url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        }),
+        contentType: IMAGE_JPEG,
+        index: 0,
+        message: {
+          attachments: [],
+          conversationId: '1234',
+          id: 'image-msg',
+          received_at: 3,
+          received_at_ms: Date.now(),
+          sent_at: Date.now(),
+        },
+        objectURL: undefined,
+      },
+    ],
   });
 
   return <Lightbox {...props} />;
 });
 
-story.add('Image with Caption (all-white image)', () => {
-  const props = createProps({
-    caption:
-      'This is the user-provided caption. It should be visible on light backgrounds.',
-    objectURL: '/fixtures/2000x2000-white.png',
-  });
+story.add('Single Image', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        }),
+      ],
+    })}
+  />
+));
 
-  return <Lightbox {...props} />;
-});
+story.add('Image with Caption (normal image)', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          caption:
+            'This lighthouse is really cool because there are lots of rocks and there is a tower that has a light and the light is really bright because it shines so much. The day was super duper cloudy and stormy and you can see all the waves hitting against the rocks. Wait? What is that weird red hose line thingy running all the way to the tower? Those rocks look slippery! I bet that water is really cold. I am cold now, can I get a sweater? I wonder where this place is, probably somewhere cold like Coldsgar, Frozenville.',
+          objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
+        }),
+      ],
+    })}
+  />
+));
 
-story.add('Video', () => {
-  const props = createProps({
-    contentType: VIDEO_MP4,
-    objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-  });
+story.add('Image with Caption (all-white image)', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          caption:
+            'This is the user-provided caption. It should be visible on light backgrounds.',
+          objectURL: '/fixtures/2000x2000-white.png',
+        }),
+      ],
+    })}
+  />
+));
 
-  return <Lightbox {...props} />;
-});
+story.add('Single Video', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          contentType: VIDEO_MP4,
+          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+        }),
+      ],
+    })}
+  />
+));
 
-story.add('Video with Caption', () => {
-  const props = createProps({
-    caption:
-      'This is the user-provided caption. It can get long and wrap onto multiple lines.',
-    contentType: VIDEO_MP4,
-    objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-  });
+story.add('Single Video w/caption', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          caption:
+            'This is the user-provided caption. It can get long and wrap onto multiple lines.',
+          contentType: VIDEO_MP4,
+          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+        }),
+      ],
+    })}
+  />
+));
 
-  return <Lightbox {...props} />;
-});
+story.add('Unsupported Image Type', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          contentType: stringToMIMEType('image/tiff'),
+          objectURL: 'unsupported-image.tiff',
+        }),
+      ],
+    })}
+  />
+));
 
-story.add('Video (View Once)', () => {
-  const props = createProps({
-    contentType: VIDEO_MP4,
-    isViewOnce: true,
-    objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-  });
+story.add('Unsupported Video Type', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          contentType: VIDEO_QUICKTIME,
+          objectURL: 'unsupported-video.mov',
+        }),
+      ],
+    })}
+  />
+));
 
-  return <Lightbox {...props} />;
-});
-
-story.add('Unsupported Image Type', () => {
-  const props = createProps({
-    contentType: stringToMIMEType('image/tiff'),
-    objectURL: 'unsupported-image.tiff',
-  });
-
-  return <Lightbox {...props} />;
-});
-
-story.add('Unsupported Video Type', () => {
-  const props = createProps({
-    contentType: VIDEO_QUICKTIME,
-    objectURL: 'unsupported-video.mov',
-  });
-
-  return <Lightbox {...props} />;
-});
-
-story.add('Unsupported ContentType', () => {
-  const props = createProps({
-    contentType: AUDIO_MP3,
-    objectURL: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-  });
-
-  return <Lightbox {...props} />;
-});
-
-story.add('Including Next/Previous/Save Callbacks', () => {
-  const props = createProps({
-    objectURL: '/fixtures/tina-rolf-269345-unsplash.jpg',
-    onNext: action('onNext'),
-    onPrevious: action('onPrevious'),
-    onSave: action('onSave'),
-  });
-
-  return <Lightbox {...props} />;
-});
+story.add('Unsupported Content', () => (
+  <Lightbox
+    {...createProps({
+      media: [
+        createMediaItem({
+          contentType: AUDIO_MP3,
+          objectURL: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+        }),
+      ],
+    })}
+  />
+));
 
 story.add('Custom children', () => (
-  <Lightbox {...createProps({})} contentType={undefined}>
+  <Lightbox {...createProps({})} media={[]}>
     <div
       style={{
         color: 'white',
@@ -143,4 +267,46 @@ story.add('Custom children', () => (
       I am middle child
     </div>
   </Lightbox>
+));
+
+story.add('Forwarding', () => (
+  <Lightbox {...createProps({})} onForward={action('onForward')} />
+));
+
+story.add('Conversation Header', () => (
+  <Lightbox
+    {...createProps({})}
+    getConversation={() => ({
+      acceptedMessageRequest: true,
+      avatarPath: '/fixtures/kitten-1-64-64.jpg',
+      id: '1234',
+      isMe: false,
+      name: 'Test',
+      profileName: 'Test',
+      sharedGroupNames: [],
+      title: 'Test',
+      type: 'direct',
+    })}
+    media={[
+      createMediaItem({
+        contentType: VIDEO_MP4,
+        objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+      }),
+    ]}
+  />
+));
+
+story.add('View Once Video', () => (
+  <Lightbox
+    {...createProps({
+      isViewOnce: true,
+      media: [
+        createMediaItem({
+          contentType: VIDEO_MP4,
+          objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
+        }),
+      ],
+    })}
+    isViewOnce
+  />
 ));

@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import { Response } from 'node-fetch';
 import * as sinon from 'sinon';
 import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
 import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
-
-import { typedArrayToArrayBuffer } from '../../Crypto';
+import * as log from '../../logging/log';
 
 import {
   fetchLinkPreviewImage,
@@ -29,7 +29,7 @@ describe('link preview fetching', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    warn = sandbox.stub(window.log, 'warn');
+    warn = sandbox.stub(log, 'warn');
   });
 
   afterEach(() => {
@@ -1154,7 +1154,7 @@ describe('link preview fetching', () => {
             new AbortController().signal
           ),
           {
-            data: typedArrayToArrayBuffer(fixture),
+            data: fixture,
             contentType: stringToMIMEType(contentType),
           }
         );
@@ -1216,7 +1216,7 @@ describe('link preview fetching', () => {
 
       const fakeFetch = stub();
       fakeFetch.onFirstCall().resolves(
-        new Response(null, {
+        new Response(Buffer.from(''), {
           status: 301,
           headers: {
             Location: '/result.jpg',
@@ -1239,7 +1239,7 @@ describe('link preview fetching', () => {
           new AbortController().signal
         ),
         {
-          data: typedArrayToArrayBuffer(fixture),
+          data: fixture,
           contentType: IMAGE_JPEG,
         }
       );
@@ -1335,7 +1335,7 @@ describe('link preview fetching', () => {
     });
 
     it('sends WhatsApp as the User-Agent for compatibility', async () => {
-      const fakeFetch = stub().resolves(new Response(null));
+      const fakeFetch = stub().resolves(new Response(Buffer.from('')));
 
       await fetchLinkPreviewImage(
         fakeFetch,
@@ -1367,7 +1367,7 @@ describe('link preview fetching', () => {
           },
         });
         sinon
-          .stub(response, 'arrayBuffer')
+          .stub(response, 'buffer')
           .rejects(new Error('Should not be called'));
         sinon.stub(response, 'blob').rejects(new Error('Should not be called'));
         sinon.stub(response, 'text').rejects(new Error('Should not be called'));
@@ -1401,9 +1401,9 @@ describe('link preview fetching', () => {
             'Content-Length': fixture.length.toString(),
           },
         });
-        const oldArrayBufferMethod = response.arrayBuffer.bind(response);
-        sinon.stub(response, 'arrayBuffer').callsFake(async () => {
-          const data = await oldArrayBufferMethod();
+        const oldBufferMethod = response.buffer.bind(response);
+        sinon.stub(response, 'buffer').callsFake(async () => {
+          const data = await oldBufferMethod();
           abortController.abort();
           return data;
         });

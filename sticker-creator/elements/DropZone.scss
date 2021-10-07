@@ -14,11 +14,11 @@
   flex-grow: 1;
 
   @include light-theme() {
-    color: $color-gray-25;
+    color: $color-gray-60;
   }
 
   @include dark-theme() {
-    color: $color-gray-60;
+    color: $color-gray-45;
   }
 }
 
@@ -29,11 +29,11 @@
   font-weight: normal;
 
   @include light-theme() {
-    color: $color-gray-25;
+    color: $color-gray-60;
   }
 
   @include dark-theme() {
-    color: $color-gray-60;
+    color: $color-gray-45;
   }
 }
 

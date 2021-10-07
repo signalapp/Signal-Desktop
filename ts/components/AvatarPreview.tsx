@@ -9,17 +9,17 @@ import { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
-import { imagePathToArrayBuffer } from '../util/imagePathToArrayBuffer';
+import { imagePathToBytes } from '../util/imagePathToBytes';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;
   avatarPath?: string;
-  avatarValue?: ArrayBuffer;
+  avatarValue?: Uint8Array;
   conversationTitle?: string;
   i18n: LocalizerType;
   isEditable?: boolean;
   isGroup?: boolean;
-  onAvatarLoaded?: (avatarBuffer: ArrayBuffer) => unknown;
+  onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
   style?: CSSProperties;
@@ -48,10 +48,16 @@ export const AvatarPreview = ({
     avatarValue ? undefined : avatarPath
   );
 
-  const [avatarPreview, setAvatarPreview] = useState<ArrayBuffer | undefined>();
+  const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
-  // Loads the initial avatarPath if one is provided.
+  // Loads the initial avatarPath if one is provided, but only if we're in editable mode.
+  //   If we're not editable, we assume that we either have an avatarPath or we show a
+  //   default avatar.
   useEffect(() => {
+    if (!isEditable) {
+      return;
+    }
+
     const startingAvatarPath = startingAvatarPathRef.current;
     if (!startingAvatarPath) {
       return noop;
@@ -61,7 +67,7 @@ export const AvatarPreview = ({
 
     (async () => {
       try {
-        const buffer = await imagePathToArrayBuffer(startingAvatarPath);
+        const buffer = await imagePathToBytes(startingAvatarPath);
         if (shouldCancel) {
           return;
         }
@@ -84,7 +90,7 @@ export const AvatarPreview = ({
     return () => {
       shouldCancel = true;
     };
-  }, [onAvatarLoaded]);
+  }, [onAvatarLoaded, isEditable]);
 
   // Ensures that when avatarValue changes we generate new URLs
   useEffect(() => {
@@ -95,7 +101,7 @@ export const AvatarPreview = ({
     }
   }, [avatarValue]);
 
-  // Creates the object URL to render the ArrayBuffer image
+  // Creates the object URL to render the Uint8Array image
   const [objectUrl, setObjectUrl] = useState<undefined | string>();
 
   useEffect(() => {
@@ -113,9 +119,14 @@ export const AvatarPreview = ({
   }, [avatarPreview]);
 
   let imageStatus: ImageStatus;
+  let encodedPath: string | undefined;
   if (avatarValue && !objectUrl) {
     imageStatus = ImageStatus.Loading;
   } else if (objectUrl) {
+    encodedPath = objectUrl;
+    imageStatus = ImageStatus.HasImage;
+  } else if (avatarPath) {
+    encodedPath = encodeURI(avatarPath);
     imageStatus = ImageStatus.HasImage;
   } else {
     imageStatus = ImageStatus.Nothing;
@@ -131,7 +142,7 @@ export const AvatarPreview = ({
     componentStyle.cursor = 'pointer';
   }
 
-  if (!avatarPreview) {
+  if (imageStatus === ImageStatus.Nothing) {
     return (
       <div className="AvatarPreview">
         <div
@@ -158,10 +169,10 @@ export const AvatarPreview = ({
         className={`AvatarPreview__avatar AvatarPreview__avatar--${imageStatus}`}
         {...clickProps}
         style={
-          imageStatus === ImageStatus.HasImage
+          imageStatus === ImageStatus.HasImage && encodedPath
             ? {
                 ...componentStyle,
-                backgroundImage: `url(${objectUrl})`,
+                backgroundImage: `url('${encodedPath}')`,
               }
             : componentStyle
         }

@@ -5,6 +5,7 @@ import React, { ReactNode } from 'react';
 
 import { LocalizerType } from '../../types/Util';
 import * as Errors from '../../types/errors';
+import * as log from '../../logging/log';
 
 export type Props = {
   i18n: LocalizerType;
@@ -27,7 +28,7 @@ export class ErrorBoundary extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromError(error: Error): State {
-    window.log.error(
+    log.error(
       'ErrorBoundary: captured rendering error',
       Errors.toLogFormat(error)
     );

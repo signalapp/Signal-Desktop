@@ -62,23 +62,10 @@ const renderPerson = (
   i18n: LocalizerType,
   person: Readonly<{
     isMe?: boolean;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
     title: string;
   }>
 ): ReactNode =>
-  person.isMe ? (
-    i18n('you')
-  ) : (
-    <ContactName
-      phoneNumber={person.phoneNumber}
-      name={person.name}
-      profileName={person.profileName}
-      title={person.title}
-      i18n={i18n}
-    />
-  );
+  person.isMe ? i18n('you') : <ContactName title={person.title} />;
 
 // This function exists because bodyRanges tells us the character position
 // where the at-mention starts at according to the full body text. The snippet

@@ -5,17 +5,14 @@ import EventTarget from './EventTarget';
 import AccountManager from './AccountManager';
 import MessageReceiver from './MessageReceiver';
 import utils from './Helpers';
-import Crypto from './Crypto';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import SyncRequest from './SyncRequest';
 import MessageSender from './SendMessage';
-import StringView from './StringView';
 import { Storage } from './Storage';
 import * as WebAPI from './WebAPI';
 import WebSocketResource from './WebsocketResources';
 
 export const textsecure = {
-  crypto: Crypto,
   utils,
   storage: new Storage(),
 
@@ -26,7 +23,6 @@ export const textsecure = {
   MessageReceiver,
   MessageSender,
   SyncRequest,
-  StringView,
   WebAPI,
   WebSocketResource,
 };

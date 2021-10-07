@@ -15,7 +15,7 @@ import {
 export class SettingsChannel {
   private mainWindow?: BrowserWindow;
 
-  public setMainWindow(mainWindow: BrowserWindow): void {
+  public setMainWindow(mainWindow: BrowserWindow | undefined): void {
     this.mainWindow = mainWindow;
   }
 

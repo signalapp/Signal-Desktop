@@ -40,7 +40,6 @@ export const ContactSpoofingReviewDialogPerson: FunctionComponent<PropsType> = (
       />
       <div className="module-ContactSpoofingReviewDialogPerson__info">
         <ContactName
-          i18n={i18n}
           module="module-ContactSpoofingReviewDialogPerson__info__contact-name"
           title={conversation.title}
         />

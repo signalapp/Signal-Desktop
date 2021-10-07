@@ -4,11 +4,13 @@
 import { get, throttle } from 'lodash';
 
 import type { WebAPIType } from './textsecure/WebAPI';
+import * as log from './logging/log';
 
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
+  | 'desktop.groupCallOutboundRing'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
   | 'desktop.internalUser'
@@ -20,7 +22,7 @@ export type ConfigKeyType =
   | 'desktop.screensharing2'
   | 'desktop.senderKey.send'
   | 'desktop.senderKey.retry'
-  | 'desktop.sendSenderKey2'
+  | 'desktop.sendSenderKey3'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'global.calling.maxGroupCallRingSize'
@@ -90,7 +92,7 @@ export const refreshRemoteConfig = async (
     // If enablement changes at all, notify listeners
     const currentListeners = listeners[name] || [];
     if (hasChanged) {
-      window.log.info(`Remote Config: Flag ${name} has changed`);
+      log.info(`Remote Config: Flag ${name} has changed`);
       currentListeners.forEach(listener => {
         listener(configValue);
       });

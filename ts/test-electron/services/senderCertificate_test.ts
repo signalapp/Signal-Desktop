@@ -8,8 +8,8 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import Long from 'long';
+import * as durations from '../../util/durations';
 import * as Bytes from '../../Bytes';
-import { typedArrayToArrayBuffer } from '../../Crypto';
 import { SenderCertificateMode } from '../../textsecure/OutgoingMessage';
 import { SignalService as Proto } from '../../protobuf';
 
@@ -18,9 +18,10 @@ import { SenderCertificateService } from '../../services/senderCertificate';
 import SenderCertificate = Proto.SenderCertificate;
 
 describe('SenderCertificateService', () => {
-  const FIFTEEN_MINUTES = 15 * 60 * 1000;
+  const FIFTEEN_MINUTES = 15 * durations.MINUTE;
 
   let fakeValidCertificate: SenderCertificate;
+  let fakeValidEncodedCertificate: Uint8Array;
   let fakeValidCertificateExpiry: number;
   let fakeServer: any;
   let fakeNavigator: { onLine: boolean };
@@ -46,12 +47,13 @@ describe('SenderCertificateService', () => {
     fakeValidCertificate.certificate = SenderCertificate.Certificate.encode(
       certificate
     ).finish();
+    fakeValidEncodedCertificate = SenderCertificate.encode(
+      fakeValidCertificate
+    ).finish();
 
     fakeServer = {
       getSenderCertificate: sinon.stub().resolves({
-        certificate: Bytes.toBase64(
-          SenderCertificate.encode(fakeValidCertificate).finish()
-        ),
+        certificate: Bytes.toBase64(fakeValidEncodedCertificate),
       }),
     };
 
@@ -76,7 +78,7 @@ describe('SenderCertificateService', () => {
     it('returns valid yes-E164 certificates from storage if they exist', async () => {
       const cert = {
         expires: Date.now() + 123456,
-        serialized: new ArrayBuffer(2),
+        serialized: new Uint8Array(2),
       };
       fakeStorage.get.withArgs('senderCertificate').returns(cert);
 
@@ -93,7 +95,7 @@ describe('SenderCertificateService', () => {
     it('returns valid no-E164 certificates from storage if they exist', async () => {
       const cert = {
         expires: Date.now() + 123456,
-        serialized: new ArrayBuffer(2),
+        serialized: new Uint8Array(2),
       };
       fakeStorage.get.withArgs('senderCertificateNoE164').returns(cert);
 
@@ -112,16 +114,12 @@ describe('SenderCertificateService', () => {
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithE164), {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: typedArrayToArrayBuffer(
-          SenderCertificate.encode(fakeValidCertificate).finish()
-        ),
+        serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificate', {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: typedArrayToArrayBuffer(
-          SenderCertificate.encode(fakeValidCertificate).finish()
-        ),
+        serialized: Buffer.from(fakeValidEncodedCertificate),
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, false);
@@ -132,16 +130,12 @@ describe('SenderCertificateService', () => {
 
       assert.deepEqual(await service.get(SenderCertificateMode.WithoutE164), {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: typedArrayToArrayBuffer(
-          SenderCertificate.encode(fakeValidCertificate).finish()
-        ),
+        serialized: fakeValidEncodedCertificate,
       });
 
       sinon.assert.calledWithMatch(fakeStorage.put, 'senderCertificateNoE164', {
         expires: fakeValidCertificateExpiry - FIFTEEN_MINUTES,
-        serialized: typedArrayToArrayBuffer(
-          SenderCertificate.encode(fakeValidCertificate).finish()
-        ),
+        serialized: Buffer.from(fakeValidEncodedCertificate),
       });
 
       sinon.assert.calledWith(fakeServer.getSenderCertificate, true);
@@ -152,7 +146,7 @@ describe('SenderCertificateService', () => {
 
       fakeStorage.get.withArgs('senderCertificate').returns({
         expires: Date.now() - 1000,
-        serialized: new ArrayBuffer(2),
+        serialized: new Uint8Array(2),
       });
 
       await service.get(SenderCertificateMode.WithE164);
@@ -164,7 +158,7 @@ describe('SenderCertificateService', () => {
       const service = initializeTestService();
 
       fakeStorage.get.withArgs('senderCertificate').returns({
-        serialized: 'not an arraybuffer',
+        serialized: 'not an uint8array',
       });
 
       await service.get(SenderCertificateMode.WithE164);
@@ -223,6 +217,33 @@ describe('SenderCertificateService', () => {
       });
 
       assert.isUndefined(await service.get(SenderCertificateMode.WithE164));
+    });
+
+    it('clear waits for any outstanding requests then erases storage', async () => {
+      let count = 0;
+
+      fakeServer = {
+        getSenderCertificate: sinon.spy(async () => {
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          count += 1;
+          return {
+            certificate: Bytes.toBase64(fakeValidEncodedCertificate),
+          };
+        }),
+      };
+
+      const service = initializeTestService();
+
+      service.get(SenderCertificateMode.WithE164);
+      service.get(SenderCertificateMode.WithoutE164);
+
+      await service.clear();
+
+      assert.equal(count, 2);
+
+      assert.isUndefined(fakeStorage.get('senderCertificate'));
+      assert.isUndefined(fakeStorage.get('senderCertificateNoE164'));
     });
   });
 });

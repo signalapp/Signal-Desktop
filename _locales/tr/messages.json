@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Arşivi Görüntüle",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Konuşma Rengi",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Signal'i Güncelle",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Yükleniyor...",
@@ -410,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "Aşağıdaki kişiler cihazd değiştirmiş veya yeniden yükleme yapmış olabilir. Gizliliğinizden emin olmak için güvenlik numaranızı doğrulayın.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Beklemedeki iletiyi gönder",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Beklemedeki $count$ iletiyi gönder",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "$name1$ ile olan güvenlik numaranız değişti. Bu, birisinin iletişiminizi kesmeye çalıştığı ya da $name2$ Signal'i yeniden yüklemiş olduğu anlamına gelebilir. Bu kişi ile güvenlik numaranızı doğrulamak isteyebilirsiniz.",
@@ -650,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Bağlanıyor",
+        "message": "Bağlanılıyor...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Bağlan",
+        "message": "Yeniden bağlanmak için tıkla",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Uzun sürmemeli...",
+        "message": "Uzun sürmemeli",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -807,6 +825,20 @@
         "message": "Signal'e Hoşgeldin",
         "description": ""
     },
+    "whatsNew": {
+        "message": "Bu güncellemede $whatsNew$ olduğunu görün",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "nelerin yeni",
+        "description": "Clickable link that displays the latest release notes"
+    },
     "selectAContact": {
         "message": "Konuşmaya başlamak için bir kişi veya grup seçin.",
         "description": ""
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "eposta",
@@ -889,6 +921,18 @@
         "message": "İletinin aslı bulundu, ama yüklenmedi. Yüklemek için yukarıya kaydırın.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Sesli ileti kaydına başla",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Sesli iletiyi tamamla ve gönder",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Sesli iletiyi iptal et",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Süre sınırına erişildiği için sesli ileti kaydı durduruldu.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -907,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Eklenti kaydedildi. Klasörde görüntülemek için tıklayın.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Siz",
@@ -1192,7 +1230,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "Bu sohbette $sender$ tarafından gönderilen bir ileti, çıkartma, tepki, okundu bilgisi veya içerik size teslim edilemedi.",
+        "message": "Bu konuşmada $sender$ tarafından gönderilen bir ileti, çıkartma, tepki, okundu bilgisi veya içerik size teslim edilemedi.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "Kaydet",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Sıfırla",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Dosya ikonu",
@@ -1271,7 +1313,11 @@
         "message": "Yeni Cihaz Bağla",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "Bu kodu telefonunuzdaki Signal uygulamasıyla tarayın",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "Cihaz adı",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "Tekrar dene",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Tema",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "Arama",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Geri Ara",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Tekrar Ara",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Arama Başlat",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "Arama dolu",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Kamera",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Kamera devre dışı",
@@ -1343,6 +1401,10 @@
         "message": "Kamerayı aç",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Sessiz",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Mikrofon devre dışı",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "Mikrofonu aç",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Paylaş",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Sunum yapma devre dışı",
@@ -1367,33 +1433,213 @@
         "message": "Sunmayı durdur",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Ara",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Grup, katılımcıların aranması için çok büyük.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Bildirim gelsin, çalmasın",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Telefon çalmasını etkinleştir",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Kameranız kapalı",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Burada kimse yok",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Diğer cihazlarınızdan birisi bu aramada",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ ve $second$ bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$, ve $third$ bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$, ve $others$diğer kişi bu aramada",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal $person$ kişisini arayacak",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal $first$ ve $second$ kişilerini arayacak",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal $first$, $second$ ve $third$ kişilerini arayacak",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal $first$, $second$ ve $others$ diğer kişiyi arayacak",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ bildirim alacak",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ ve $second$ bildirim alacak",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ ve $third$ bildirim alacak",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ ve $others$ diğer kişi bildirim alacak",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
     },
     "calling__in-this-call--zero": {
         "message": "Burada kimse yok",
@@ -1425,7 +1671,7 @@
     },
     "calling__block-info": {
         "message": "Birbirinizin sesini veya görüntüsünü alamayacaksınız.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Yukarı kaydır",
@@ -1534,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Yazım denetimini etkinleştir",
+        "message": "İleti kutusuna girilen sözcükler denetlensin",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1558,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Verileri Temizle",
+        "message": "Uygulama verilerini temizle",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1696,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Yükselt",
+        "message": "signal.org/download adresine gitmek için tıklayın",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1708,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Kişiler",
+        "message": "Kişileri içe aktar",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1868,7 +2114,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Sesli bildirim oynat",
+        "message": "Bildirim seslerini çal",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2106,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "İletişime devam etmek için Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
+        "message": "Mesajlaşmaya devam etmek için tıklayarak Signal Desktop'ı mobil cihazınıza yeniden bağlayın.",
         "description": ""
     },
     "unlinked": {
@@ -2118,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signal güncellemesi mevcut",
+        "message": "Güncelleme mevcut",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Signal'ın yeni bir sürümü mevcut.",
+        "message": "Signal'i yeniden başlatmak için tıklayın",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Güncellemeyi indirmek için tıklayın",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2135,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Sonra",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Güncellemeyi yoksay",
         "description": ""
     },
     "leftTheGroup": {
@@ -2951,11 +3205,15 @@
         "message": "Çıkartma Paketi oluşturucusunu kullanmak için lütfen Signal'i telefonunuzda ve bilgisayarınızda kurun.",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Tepkiyi kaldır",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Karşılık gönderilemedi. Lütfen tekrar deneyin.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Daha fazla",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3173,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$ ve $group2$ grubuna üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3187,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$, $group2$ ve $group3$ grubuna üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3203,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$, $group2$, $group3$ ve 1 diğer gruba üye",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$, $group2$, $group3$ ve $remainingCount$ diğer gruba üye",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3303,9 +3579,87 @@
         "message": "Gelen görüntülü arama...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Aranıyor...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ sizi arıyor",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ kişisi, $otherMember$ ve sizi arıyor",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ kişisi, $first$, $second$ ve sizi arıyor",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ kişisi, $first$, $second$, sizi ve 1 diğer kişiyi arıyor\n",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ kişisi, $first$, $second$, sizi ve $remaining$ diğer kişiyi arıyor",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Çalıyor...",
@@ -3422,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Ekran paylaş",
+        "message": "Paylaşmaya başla",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3515,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "Bir şeyler ters gitti!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Tamam",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Özür dileriz, bu sgnl:// bağlantısı anlaşılamadı!",
@@ -4203,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Bir yönetici $memberName$ kişisinin yönetici yetkilerini iptal etti.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ yönetici yetkilerinizi iptal etti.",
@@ -4922,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$ kişisini grup yöneticiliğinden çıkart",
+        "message": "$contact$ grup yöneticiliğinden çıkartılsın mı?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4981,7 +5341,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Gruba kimlerin ileti gönderebileceğini seçin.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "İstekler ve Davetler",
@@ -5223,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "Bu listedeki kişiler grup bağlantısı ile  \"$name$\"  grubuna katılmaya çalışıyor.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5348,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Kişi seç",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "$name$ kişisini seç",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "Kişi seçimini kaldır",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "$name$ kişisi seçimini kaldır",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "Kişi seçilemiyor",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "$name$ kişisi seçilemiyor",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Zaten üye",
@@ -5535,14 +5913,14 @@
     },
     "deleteForEveryoneFailed": {
         "message": "İletinin herkesten silinmesi başarısız oldu. Lütfen daha sonra tekrar deneyin.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Rengi sil",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Bu özel renk $num$ sohbette kullanılıyor. Tüm sohbetler için silmek istiyor musunuz?",
+        "message": "Bu özel renk $num$ konuşmada kullanılıyor. Tüm konuşmalar için silmek istiyor musunuz?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5560,15 +5938,15 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Sohbet rengini sıfırla",
+        "message": "Konuşma rengini sıfırla",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Sohbet Renklerini Sıfırla",
+        "message": "Konuşma Renklerini Sıfırla",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Tüm sohbet renklerini sıfırla",
+        "message": "Tüm konuşma renklerini sıfırla",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
@@ -5580,7 +5958,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Tüm sohbet renklerini değiştirmek ister misiniz?",
+        "message": "Tüm konuşma renklerini değiştirmek ister misiniz?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -5588,7 +5966,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Sohbet renginin ön izlemesi",
+        "message": "Konuşma renginin ön izlemesi",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -5676,8 +6054,8 @@
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Yeni sohbetler için varsayılan zamanlayıcı",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "message": "Yeni konuşmalar için varsayılan zamanlayıcı",
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Kişiye ileti gönderdiğinizde kaybolan ileti süresi $timeValue$ olarak ayarlanacaktır.",
@@ -5690,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Bir iç hata nedeniyle ileti gösterilemedi. Hata ayıklama günlüğünü göndermek için tıklayın.",
+        "message": "Bu ileti görüntülenemiyor. Hata ayıklama günlüğü göndermek için tıklayın.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5852,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Grup resmi",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Genel",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Görünüm",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Konuşmalar",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "Aramalar",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Bildirimler",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Gizlilik",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Son içe aktarma: $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Sistem",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Yakınlaştırma seviyesi",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Bağlantı önizlemelerini oluştur",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Bu ayarı değiştirmek için mobil cihazınızdaki Signal uygulamasını açın ve \"Ayarlar > Konuşmalar\" yolunu izleyin",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Gelişmiş",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Bildirim içeriği",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Engellendi",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ kişi",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ kişi",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Kim...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Bu ayarları değiştirmek için mobil cihazınızdaki Signal uygulamasını açın ve \"Ayarlar > Gizlilik\" yolunu izleyin",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Herkes",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Kişilerim",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Hiçkimse",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Yazışma",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Telefon numaramı görebilir",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Numaramla bulunayım",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Okundu bilgisi",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Yazma göstergeleri",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Güncellemeler",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Güncellemeler otomaik olarak indirilsin",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Bildirimleri etkinleştir",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Cihazlar",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "$version$ sürümüne güncelleme mevcut",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal kapatılamaz.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Lütfen elle kapatın ve devam etmek için Tekrar'a tıklayın",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Tepkileri özelleştir",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Emojiyi değiştirmek için tıklayın",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Ayarlarınız kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "Neler Yeni",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Geliştirilmiş bir içerik kutusu sayesinde, bir resim veya video galerisinde ilerledikçe hiçbir sürpriz çıkmayacaktır ve sinir bozucu düğmeleri gizlemek için yakınlaştırarak gerçekten karanlık bir odadaymış gibi davranabilirsiniz.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Bir iletiye tepki vermenin zor olduğu bir hata düzeltildi, çünkü seçici ekrandan çıkıyordu. Şimdi düzeltildi ve artık ❤️'inizin içeriğine 😮 bakabilirsiniz.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Arama sırasında düğmelerin üzerine gelirseniz, kaybolmak yerine görünür kalırlar. Kartal gözünüzden hiçbir şey saklanmıyor, bu düğmeler bile!",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Gruplarınızda kimin ileti gönderebileceğini kısıtlamak için yeni 'ileti gönderme' iznini deneyin. Bir etkinlik düzenlemek, duyuru yapmak veya sadece çatılardan bağırmak için harika. Ayarın görünmesi için tüm üyelerin Signal'in en son sürümünde olması gerekir.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Artık nerede ve ne zaman olursanız olun ileti gönderebilirsiniz: uçakta, tünelde veya internetinizin kesildiği o üzücü anda. Sonunda ulaşacak; mesajlar artık 24 saate kadar otomatik olarak yeniden deneniyor.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "❤️‍🔥 veya 😶‍🌫️ mi hissediyorsunuz? Kendinizi yeni bir emoji grubuyla ifade edebilirsiniz, ararken ister :fısıldayın isterseniz :BAĞIRIN. Teşekkürler $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Anguilla'daysanız, kendinizi dışlanmış hissetmiş olabilirsiniz. Şimdi 2010'dan beri mevcut tüm üst düzey alan isimlerini bağlantılara çevirdik, böylece $gov$ ve $brain$  tam da$signal$ tıklanabilir olacak. $jojomatik$, teşekkürler!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Resimleri büyütmeyi sevdiğinizi duyduk. Büyütmenize bir canlılık kattık, böylece küçük resimler bile artık tam ekran olabilir.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Kaybolan iletileri etkinleştirdiğinizde, \"Bu ileti silindi\" bildiriminin de süresi dolduğunda kaybolduğunu biliyor muydunuz? Bu artık bir sır değil, iletinin sağında bir geriye sayım ve tarih damgası göreceksiniz.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Bir nefes alın ve diyaloglardaki ve açılır pencerelerdeki yeni animasyonlarla rahatlayın. Yavaşça. Hızlıca. Yavaşça. Hızlıca.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Klavye düzenini değiştirmek her zaman biraz zor olmuştur, ancak klavye kısayolları şimdi tam olarak sizi takip ediyor, niyetinizi yerine getirmek için basılan belirli harfin ötesine geçiyor.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Şimdi bir grup araması başladığında bir bildirim alacaksınız. Artık geç kalmayacaksınız, eğer niyetiniz geç kalmak değilse.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Bu özellik, 👍 yerine daha çok 💅 ile etkileşim kuranlar için: şimdi artık bir iletiye bırakmak istediğiniz tepkinin varsayılan olarak nasıl gözükebileceğini düzenleyebiliyorsunuz.",
+        "description": "Release notes for v5.19"
     }
 }

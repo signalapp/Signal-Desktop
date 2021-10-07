@@ -1,9 +1,8 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { get } from 'lodash';
 import { StateType } from '../reducer';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useActions as useEmojiActions } from '../ducks/emojis';
@@ -13,15 +12,19 @@ import {
   Props as EmojiPickerProps,
 } from '../../components/emoji/EmojiPicker';
 import { getIntl } from '../selectors/user';
+import { getEmojiSkinTone } from '../selectors/items';
 import { LocalizerType } from '../../types/Util';
 
 export const SmartEmojiPicker = React.forwardRef<
   HTMLDivElement,
-  Pick<EmojiPickerProps, 'onPickEmoji' | 'onSetSkinTone' | 'onClose' | 'style'>
->(({ onPickEmoji, onSetSkinTone, onClose, style }, ref) => {
+  Pick<
+    EmojiPickerProps,
+    'onClickSettings' | 'onPickEmoji' | 'onSetSkinTone' | 'onClose' | 'style'
+  >
+>(({ onClickSettings, onPickEmoji, onSetSkinTone, onClose, style }, ref) => {
   const i18n = useSelector<StateType, LocalizerType>(getIntl);
   const skinTone = useSelector<StateType, number>(state =>
-    get(state, ['items', 'skinTone'], 0)
+    getEmojiSkinTone(state)
   );
 
   const recentEmojis = useRecentEmojis();
@@ -41,6 +44,7 @@ export const SmartEmojiPicker = React.forwardRef<
       ref={ref}
       i18n={i18n}
       skinTone={skinTone}
+      onClickSettings={onClickSettings}
       onSetSkinTone={onSetSkinTone}
       onPickEmoji={handlePickEmoji}
       recentEmojis={recentEmojis}

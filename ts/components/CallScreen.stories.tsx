@@ -18,7 +18,7 @@ import {
 import { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
 import { CallScreen, PropsType } from './CallScreen';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
@@ -120,6 +120,7 @@ const createActiveCallProp = (
       'isInSpeakerView',
       overrideProps.isInSpeakerView || false
     ),
+    outgoingRing: true,
     pip: false,
     settingsDialogOpen: false,
     showParticipantsList: false,
@@ -147,9 +148,11 @@ const createProps = (
   i18n,
   me: {
     color: AvatarColors[1],
+    id: '6146087e-f7ef-457e-9a8d-47df1fdd6b25',
     name: 'Morty Smith',
     profileName: 'Morty Smith',
     title: 'Morty Smith',
+    uuid: '3c134598-eecb-42ab-9ad3-2b0873f771b2',
   },
   openSystemPreferencesAction: action('open-system-preferences-action'),
   setGroupCallVideoRequest: action('set-group-call-video-request'),

@@ -6,7 +6,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
 
@@ -44,6 +44,23 @@ storiesOf('Components/Conversation/ProfileChangeNotification', module)
           type: 'name',
           oldName: 'Mr. Fire 🔥 Old',
           newName: 'Mr. Fire 🔥 New',
+        }}
+      />
+    );
+  })
+  .add('From contact with long names before and after', () => {
+    return (
+      <ProfileChangeNotification
+        i18n={i18n}
+        changedContact={getDefaultConversation({
+          id: 'some-guid',
+          type: 'direct',
+          title: 'Mr. Fire 🔥',
+        })}
+        change={{
+          type: 'name',
+          oldName: '💅🤷🏽‍♀️🏯'.repeat(50),
+          newName: '☎️🎉🏝'.repeat(50),
         }}
       />
     );

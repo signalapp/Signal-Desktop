@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Visualizza archivio",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "Colore chat",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Aggiorna Signal",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Caricamento...",
@@ -410,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "Le seguenti persone potrebbero aver reinstallato o cambiato i dispositivi. Verifica il tuo numero di sicurezza con loro per garantire la privacy.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Invia messaggio in attesa",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Invia $count$ messaggi in attesa",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "Il numero di sicurezza con $name1$ è cambiato. Questo potrebbe significare che qualcuno sta cercando di intercettare la tua comunicazione o che $name2$ ha semplicemente reinstallato Signal. Potresti voler verificare il tuo numero di sicurezza con questo contatto.",
@@ -650,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "In collegamento",
+        "message": "Connessione in corso...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Connetti",
+        "message": "Clicca per riconnettere.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Non dovrebbe volerci molto...",
+        "message": "Non dovrebbe volerci molto",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -807,6 +825,20 @@
         "message": "Benvenuto in Signal",
         "description": ""
     },
+    "whatsNew": {
+        "message": "Vedi $whatsNew$ in questo aggiornamento",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "cosa c'è di nuovo",
+        "description": "Clickable link that displays the latest release notes"
+    },
     "selectAContact": {
         "message": "Per iniziare una chat seleziona un contatto o un gruppo.",
         "description": ""
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "telefono",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -889,6 +921,18 @@
         "message": "Messaggio originale trovato, ma non caricato. Scorri verso l'alto per caricarlo.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "Inizia a registrare un messaggio vocale",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Completa messaggio vocale e invia",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Annulla messaggio vocale",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "Registrazione del messaggio vocale interrotta poiché hai raggiunto il limite di tempo massimo.",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -907,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "Allegato salvato. Fai clic per mostrare nella cartella.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Tu",
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "Salva",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Resetta",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Icona del file",
@@ -1271,7 +1313,11 @@
         "message": "Collega un nuovo dispositivo",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "Scansiona questo codice nell'app Signal sul tuo telefono",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "Nome del dispositivo",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "Riprova",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Tema",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "Chiamate",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Richiama",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Richiama",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Inizia chiamata",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "La chiamata è piena",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Camera",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Camera disattivata",
@@ -1343,6 +1401,10 @@
         "message": "Attiva camera",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Muto",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Microfono disattivato",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "Riattiva microfono",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Condividi",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Presentazione disattivata",
@@ -1367,33 +1433,213 @@
         "message": "Interrompi la presentazione",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Squilla",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Il gruppo è troppo grande per squillare ai partecipanti.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Notifica, non squillare",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Attiva squillo",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "La tua videocamera è disattivata",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Nessun altro è qui",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ è in questa chiamata",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Uno degli altri tuoi dispositivi è in questa chiamata",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ e $second$ sono in questa chiamata",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$, e $third$ sono in questa chiamata",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$, e altri $others$ sono in questa chiamata",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal squillerà a $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal squillerà a $first$ e $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal squillerà a $first$, $second$, e $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal squillerà a $first$, $second$, e altri $others$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ sarà notificato",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ e $second$ saranno notificati",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$, e $third$ saranno notificati",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$, e altri $others$ saranno notificati",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
     },
     "calling__in-this-call--zero": {
         "message": "Nessun altro è qui",
@@ -1425,7 +1671,7 @@
     },
     "calling__block-info": {
         "message": "Non riceverai il loro audio o video e loro non riceveranno il tuo.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Scorri verso l'alto",
@@ -1534,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Attiva il controllo ortografico",
+        "message": "Controllo ortografico del testo inserito nella casella di composizione del messaggio",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1558,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Rimuovi dati",
+        "message": "Cancella i dati dell'applicazione",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1696,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Aggiorna",
+        "message": "Clicca per andare su signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1708,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contatti",
+        "message": "Importa contatti",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1868,7 +2114,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Avvia notifica audio",
+        "message": "Riprodurre suoni di notifica",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2106,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Ricollega Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
+        "message": "Clicca per ricollegare Signal Desktop al tuo dispositivo mobile per continuare a inviare messaggi.",
         "description": ""
     },
     "unlinked": {
@@ -2118,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Aggiornamento Signal disponibile",
+        "message": "Aggiornamento disponibile",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "È disponibile una nuova versione di Signal.",
+        "message": "Clicca per riavviare Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Clicca per scaricare l'aggiornamento",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2135,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Dopo",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignora aggiornamento",
         "description": ""
     },
     "leftTheGroup": {
@@ -2951,11 +3205,15 @@
         "message": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Rimuovi reazione",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Invio reazione non riuscito. Riprova.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Altre",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3173,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "Membro di $group1$ e $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3187,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "Membro di $group1$, $group2$, e $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3203,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Membro di $group1$, $group2$, $group3$ e un altro",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Membro di $group1$, $group2$, $group3$ e altri $remainingCount$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3303,9 +3579,87 @@
         "message": "Videochiamata in arrivo...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Chiamata...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ ti sta chiamando",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ sta chiamando te e $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ sta chiamando te, $first$, e $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ sta chiamando te, $first$, $second$, e 1 altro",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ sta chiamando te, $first$, $second$, e altri $remaining$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Sta squillando...",
@@ -3422,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Condividi schermo",
+        "message": "Inizia condivisione",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3515,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "Qualcosa non ha funzionato!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Riprova o contatta l'assistenza.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Ok",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Spiacenti, questo link sgnl:// non ha senso!",
@@ -4203,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Un amministratore ha revocato i privilegi di amministrazione da $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ ha revocato i tuoi privilegi di amministrazione.",
@@ -4896,7 +5256,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Conta conversazioni silenziate nel conteggio del badge",
+        "message": "Includi le conversazioni silenziate nel conteggio del badge",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4922,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Rimuovi $contact$ come amministratore del gruppo",
+        "message": "Rimuovere $contact$ come amministratore del gruppo?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4981,7 +5341,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Scegli chi può inviare messaggi al gruppo.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Richieste & inviti",
@@ -5223,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "Le persone in questo elenco vorrebbero unirsi a \"$name$\" tramite il link del gruppo.",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5348,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Seleziona contatto",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "Seleziona contatto $name$",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "Deseleziona contatto",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "Deseleziona contatto $name$",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "Impossibile selezionare contatto",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "Impossibile selezionare contatto $name$",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Già un membro",
@@ -5535,7 +5913,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Impossibile eliminare il messaggio per tutti. Riprova più tardi.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Elimina colore",
@@ -5677,7 +6055,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Timer predefinito per nuove chat",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Il tempo di scomparsa dei messaggi verrà impostato a $timeValue$ quando invii loro un messaggio.",
@@ -5690,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Impossibile visualizzare il messaggio a causa di un errore interno. Clicca per inviare un log di debug.",
+        "message": "Impossibile visualizzare questo messaggio. Clicca per inviare un log di debug.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5852,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Avatar del gruppo",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "Generale",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Aspetto",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Chat",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "Chiamate",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Notifiche",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Privacy",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Ultima importazione il $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Sistema",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Livello zoom",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Genera anteprime dei link",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni > Chat",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Avanzate",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Contenuto notifica",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Bloccati",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ contatto",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ contatti",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Chi può...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Per cambiare questa impostazione, apri l'app Signal sul tuo dispositivo mobile e vai su Impostazioni > Privacy",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Tutti",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "I miei contatti",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Nessuno",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Messaggistica",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Vedere il mio numero di telefono",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Trovarmi tramite il mio numero di telefono",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Conferme di lettura",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Indicatori di scrittura",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Aggiornamenti",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Scarica automaticamente gli aggiornamenti",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Abilita notifiche",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Dispositivi",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Aggiornamento alla versione $version$ disponibile",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal non può essere chiuso.",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Per favore, chiudilo manualmente e clicca su Riprova per continuare.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Personalizza reazioni",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Clicca per sostituire un'emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "Si è verificato un errore durante il salvataggio delle impostazioni. Si prega di riprovare.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "Cosa c'è di nuovo",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Una lightbox media migliorata significa nessuna sorpresa mentre si scorre una galleria di immagini o video, e si può far finta di essere davvero in una stanza buia con lo zoom per nascondere quei pulsanti fastidiosi.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "Risolto un bug per cui reagire a un messaggio era difficile, perché mettevamo il selezionatore fuori dallo schermo. Ora è stato risolto e puoi 😮 al tuo contenuto del ❤️.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Se passi sopra i pulsanti durante una chiamata, rimangono visibili invece di scomparire. Niente si nasconde al tuo occhio d'aquila, nemmeno questi pulsanti!",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Prova il nuovo permesso 'invia messaggi' per limitare chi può inviare messaggi nei tuoi gruppi. Ottimo per organizzare un evento, fare un annuncio o semplicemente gridare dai tetti. Tutti i membri devono avere l'ultima versione di Signal perché l'impostazione appaia.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Ora puoi inviare messaggi ovunque e in qualsiasi momento: su un aereo, in un tunnel, o in quel triste momento in cui internet è saltato. Alla fine lo invierai; i messaggi ora riprovano a inviarsi automaticamente fino a 24 ore.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Vi sentite ❤️‍🔥 o 😶‍🌫️? Puoi esprimerti con una nuova serie di emoji, sia che tu stia :whispering o :YELLING mentre cerchi. Grazie $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Se sei ad Anguilla, forse ti sei sentito escluso. Ora trasformiamo tutti i domini di primo livello in vigore dal 2010 in link - così sia $gov$ che $brain$ saranno cliccabili proprio come $signal$. Grazie $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Abbiamo sentito che ti piace ingrandire le immagini. Abbiamo aggiunto un po' di potenza al tuo zoom, così anche le immagini piccole possono andare a tutto schermo.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Sapevi che se i messaggi a scomparsa sono abilitati, anche la notifica \"Questo messaggio è stato eliminato\" sparirà alla sua scadenza? Non è più un mistero - vedrai il conto alla rovescia e il timestamp proprio sul messaggio.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Fate un bel respiro e rilassatevi con le nuove animazioni per le finestre di dialogo e i popup. Entrate con calma. Uscite con calma. Entrate con calma. Uscite con calma.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Cambiare il layout della tastiera è sempre un po' complicato, ma le scorciatoie da tastiera ora seguono l'utente, andando oltre la lettera specifica premuta per onorare il suo intento.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Quando inizia una chiamata di gruppo, ora ricevi una notifica. Non sarai mai più in ritardo, a meno che tu non lo voglia.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Questa funzione va a tutti quelli che reagiscono con 💅 più che con 👍: ora puoi personalizzare le emoji che appaiono di default quando vuoi reagire a un messaggio.",
+        "description": "Release notes for v5.19"
     }
 }

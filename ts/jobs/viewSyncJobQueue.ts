@@ -3,33 +3,30 @@
 
 /* eslint-disable class-methods-use-this */
 
-import * as z from 'zod';
-import * as moment from 'moment';
-import type { LoggerType } from '../logging/log';
+import * as durations from '../util/durations';
+import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
-import { runReadOrViewSyncJob } from './helpers/runReadOrViewSyncJob';
+import {
+  SyncType,
+  parseRawSyncDataArray,
+  runReadOrViewSyncJob,
+} from './helpers/readAndViewSyncHelpers';
+import { strictAssert } from '../util/assert';
+import { isRecord } from '../util/isRecord';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
-const MAX_RETRY_TIME = moment.duration(1, 'day').asMilliseconds();
+const MAX_RETRY_TIME = durations.DAY;
 
-const viewSyncJobDataSchema = z.object({
-  viewSyncs: z.array(
-    z.object({
-      messageId: z.string().optional(),
-      senderE164: z.string().optional(),
-      senderUuid: z.string().optional(),
-      timestamp: z.number(),
-    })
-  ),
-});
-
-export type ViewSyncJobData = z.infer<typeof viewSyncJobDataSchema>;
+export type ViewSyncJobData = {
+  viewSyncs: Array<SyncType>;
+};
 
 export class ViewSyncJobQueue extends JobQueue<ViewSyncJobData> {
   protected parseData(data: unknown): ViewSyncJobData {
-    return viewSyncJobDataSchema.parse(data);
+    strictAssert(isRecord(data), 'data is not an object');
+    return { viewSyncs: parseRawSyncDataArray(data.viewSyncs) };
   }
 
   protected async run(

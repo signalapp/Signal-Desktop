@@ -6,6 +6,9 @@ export type MIMEType = string & { _mimeTypeBrand: never };
 export const stringToMIMEType = (value: string): MIMEType => {
   return value as MIMEType;
 };
+export const MIMETypeToString = (value: MIMEType): string => {
+  return value as string;
+};
 
 export const APPLICATION_OCTET_STREAM = stringToMIMEType(
   'application/octet-stream'

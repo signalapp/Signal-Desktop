@@ -10,7 +10,7 @@ import { handleMessageSend } from '../util/handleMessageSend';
 
 export async function writeProfile(
   conversation: ConversationType,
-  avatarBuffer?: ArrayBuffer
+  avatarBuffer?: Uint8Array
 ): Promise<void> {
   // Before we write anything we request the user's profile so that we can
   // have an up-to-date paymentAddress to be able to include it when we write

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as durations from '../../util/durations';
 
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
@@ -33,12 +34,10 @@ describe('isConversationUnregistered', () => {
   });
 
   it('returns false if passed a time more than 6 hours ago', () => {
-    const oneMinute = 1000 * 60;
-    const sixHours = 1000 * 60 * 60 * 6;
-
     assert.isFalse(
       isConversationUnregistered({
-        discoveredUnregisteredAt: Date.now() - sixHours - oneMinute,
+        discoveredUnregisteredAt:
+          Date.now() - 6 * durations.HOUR - durations.MINUTE,
       })
     );
     assert.isFalse(

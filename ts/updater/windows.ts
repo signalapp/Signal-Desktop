@@ -6,7 +6,7 @@ import { spawn as spawnEmitter, SpawnOptions } from 'child_process';
 import { readdir as readdirCallback, unlink as unlinkCallback } from 'fs';
 
 import { app, BrowserWindow } from 'electron';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { gt } from 'semver';
 import pify from 'pify';
 
@@ -18,8 +18,8 @@ import {
   getPrintableError,
   setUpdateListener,
   UpdaterInterface,
-  UpdateInformationType,
 } from './common';
+import * as durations from '../util/durations';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
@@ -28,9 +28,7 @@ import { DialogType } from '../types/Dialogs';
 const readdir = pify(readdirCallback);
 const unlink = pify(unlinkCallback);
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const INTERVAL = MINUTE * 30;
+const INTERVAL = 30 * durations.MINUTE;
 
 let fileName: string;
 let version: string;
@@ -39,7 +37,7 @@ let installing: boolean;
 let loggerForQuitHandler: LoggerType;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType
 ): Promise<UpdaterInterface> {
   logger.info('windows/start: starting checks...');
@@ -66,7 +64,7 @@ export async function start(
 }
 
 async function checkForUpdatesMaybeInstall(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   force = false
 ) {
@@ -78,21 +76,44 @@ async function checkForUpdatesMaybeInstall(
 
   const { fileName: newFileName, version: newVersion } = result;
 
-  setUpdateListener(createUpdater(getMainWindow, result, logger));
-
-  if (fileName !== newFileName || !version || gt(newVersion, version)) {
+  if (
+    force ||
+    fileName !== newFileName ||
+    !version ||
+    gt(newVersion, version)
+  ) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
-      getMainWindow()
+      getMainWindow(),
+      logger
     );
     if (!autoDownloadUpdates) {
-      getMainWindow().webContents.send(
-        'show-update-dialog',
-        DialogType.DownloadReady,
-        {
-          downloadSize: result.size,
-          version: result.version,
-        }
-      );
+      setUpdateListener(async () => {
+        logger.info(
+          'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
+        );
+        await downloadAndInstall(
+          newFileName,
+          newVersion,
+          getMainWindow,
+          logger,
+          true
+        );
+      });
+      const mainWindow = getMainWindow();
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          'show-update-dialog',
+          DialogType.DownloadReady,
+          {
+            downloadSize: result.size,
+            version: result.version,
+          }
+        );
+      } else {
+        logger.warn(
+          'checkForUpdatesMaybeInstall: No mainWindow, not showing update dialog'
+        );
+      }
       return;
     }
     await downloadAndInstall(newFileName, newVersion, getMainWindow, logger);
@@ -102,7 +123,7 @@ async function checkForUpdatesMaybeInstall(
 async function downloadAndInstall(
   newFileName: string,
   newVersion: string,
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   updateOnProgress?: boolean
 ) {
@@ -127,7 +148,7 @@ async function downloadAndInstall(
       throw error;
     }
 
-    const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+    const publicKey = hexToBinary(config.get('updatesPublicKey'));
     const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually
@@ -138,9 +159,41 @@ async function downloadAndInstall(
     }
 
     logger.info('downloadAndInstall: showing dialog...');
-    getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
-      version,
+    setUpdateListener(async () => {
+      try {
+        await verifyAndInstall(updateFilePath, newVersion, logger);
+        installing = true;
+      } catch (error) {
+        const mainWindow = getMainWindow();
+        if (mainWindow) {
+          logger.info(
+            'createUpdater: showing general update failure dialog...'
+          );
+          mainWindow.webContents.send(
+            'show-update-dialog',
+            DialogType.Cannot_Update
+          );
+        } else {
+          logger.warn('createUpdater: no mainWindow, just failing over...');
+        }
+
+        throw error;
+      }
+
+      markShouldQuit();
+      app.quit();
     });
+
+    const mainWindow = getMainWindow();
+    if (mainWindow) {
+      mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
+        version,
+      });
+    } else {
+      logger.warn(
+        'downloadAndInstall: no mainWindow, cannot show update dialog'
+      );
+    }
   } catch (error) {
     logger.error(`downloadAndInstall: ${getPrintableError(error)}`);
   }
@@ -191,7 +244,7 @@ async function verifyAndInstall(
     return;
   }
 
-  const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+  const publicKey = hexToBinary(config.get('updatesPublicKey'));
   const verified = await verifySignature(updateFilePath, newVersion, publicKey);
   if (!verified) {
     throw new Error(
@@ -252,41 +305,4 @@ async function spawn(
 
     setTimeout(resolve, 200);
   });
-}
-
-function createUpdater(
-  getMainWindow: () => BrowserWindow,
-  info: Pick<UpdateInformationType, 'fileName' | 'version'>,
-  logger: LoggerType
-) {
-  return async () => {
-    if (updateFilePath) {
-      try {
-        await verifyAndInstall(updateFilePath, version, logger);
-        installing = true;
-      } catch (error) {
-        logger.info('createUpdater: showing general update failure dialog...');
-        getMainWindow().webContents.send(
-          'show-update-dialog',
-          DialogType.Cannot_Update
-        );
-
-        throw error;
-      }
-
-      markShouldQuit();
-      app.quit();
-    } else {
-      logger.info(
-        'performUpdate: have not downloaded update, going to download'
-      );
-      await downloadAndInstall(
-        info.fileName,
-        info.version,
-        getMainWindow,
-        logger,
-        true
-      );
-    }
-  };
 }

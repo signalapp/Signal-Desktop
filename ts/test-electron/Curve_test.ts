@@ -3,18 +3,12 @@
 
 import { assert } from 'chai';
 
-import {
-  arrayBufferToHex,
-  constantTimeEqual,
-  getRandomBytes,
-  hexToArrayBuffer,
-  typedArrayToArrayBuffer,
-} from '../Crypto';
+import * as Bytes from '../Bytes';
+import { constantTimeEqual } from '../Crypto';
 import {
   calculateSignature,
   clampPrivateKey,
   createKeyPair,
-  copyArrayBuffer,
   calculateAgreement,
   generateKeyPair,
   generatePreKey,
@@ -25,7 +19,7 @@ import {
 
 describe('Curve', () => {
   it('verifySignature roundtrip', () => {
-    const message = typedArrayToArrayBuffer(Buffer.from('message'));
+    const message = Buffer.from('message');
     const { pubKey, privKey } = generateKeyPair();
     const signature = calculateSignature(privKey, message);
     const verified = verifySignature(pubKey, message, signature);
@@ -87,42 +81,12 @@ describe('Curve', () => {
     });
   });
 
-  describe('#copyArrayBuffer', () => {
-    it('copy matches original', () => {
-      const data = getRandomBytes(200);
-      const dataHex = arrayBufferToHex(data);
-      const copy = copyArrayBuffer(data);
-
-      assert.equal(data.byteLength, copy.byteLength);
-      assert.isTrue(constantTimeEqual(data, copy));
-
-      assert.equal(dataHex, arrayBufferToHex(data));
-      assert.equal(dataHex, arrayBufferToHex(copy));
-    });
-
-    it('copies into new memory location', () => {
-      const data = getRandomBytes(200);
-      const dataHex = arrayBufferToHex(data);
-      const copy = copyArrayBuffer(data);
-
-      const view = new Uint8Array(copy);
-      view[0] += 1;
-      view[1] -= 1;
-
-      assert.equal(data.byteLength, copy.byteLength);
-      assert.isFalse(constantTimeEqual(data, copy));
-
-      assert.equal(dataHex, arrayBufferToHex(data));
-      assert.notEqual(dataHex, arrayBufferToHex(copy));
-    });
-  });
-
   describe('#createKeyPair', () => {
     it('does not modify unclamped private key', () => {
       const initialHex =
         'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-      const privateKey = hexToArrayBuffer(initialHex);
-      const copyOfPrivateKey = copyArrayBuffer(privateKey);
+      const privateKey = Bytes.fromHex(initialHex);
+      const copyOfPrivateKey = new Uint8Array(privateKey);
 
       assert.isTrue(
         constantTimeEqual(privateKey, copyOfPrivateKey),
@@ -143,7 +107,7 @@ describe('Curve', () => {
       // But the keypair that comes out has indeed been updated
       assert.notEqual(
         initialHex,
-        arrayBufferToHex(keyPair.privKey),
+        Bytes.toHex(keyPair.privKey),
         'keypair check'
       );
       assert.isFalse(
@@ -155,10 +119,10 @@ describe('Curve', () => {
     it('does not modify clamped private key', () => {
       const initialHex =
         'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-      const privateKey = hexToArrayBuffer(initialHex);
+      const privateKey = Bytes.fromHex(initialHex);
       clampPrivateKey(privateKey);
-      const postClampHex = arrayBufferToHex(privateKey);
-      const copyOfPrivateKey = copyArrayBuffer(privateKey);
+      const postClampHex = Bytes.toHex(privateKey);
+      const copyOfPrivateKey = new Uint8Array(privateKey);
 
       assert.notEqual(postClampHex, initialHex, 'initial clamp check');
       assert.isTrue(
@@ -178,11 +142,7 @@ describe('Curve', () => {
       );
 
       // The keypair that comes out hasn't been updated either
-      assert.equal(
-        postClampHex,
-        arrayBufferToHex(keyPair.privKey),
-        'keypair check'
-      );
+      assert.equal(postClampHex, Bytes.toHex(keyPair.privKey), 'keypair check');
       assert.isTrue(
         constantTimeEqual(privateKey, keyPair.privKey),
         'keypair vs incoming value'

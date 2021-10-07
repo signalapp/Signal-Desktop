@@ -16,9 +16,10 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl, squareStickerUrl } from '../../storybook/Fixtures';
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -26,13 +27,13 @@ const story = storiesOf('Components/Conversation/ImageGrid', module);
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments || [
-    {
+    fakeAttachment({
       contentType: IMAGE_PNG,
       fileName: 'sax.png',
       height: 1200,
       url: pngUrl,
       width: 800,
-    },
+    }),
   ],
   bottomOverlay: boolean('bottomOverlay', overrideProps.bottomOverlay || false),
   i18n,
@@ -60,20 +61,20 @@ story.add('One Image', () => {
 story.add('Two Images', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
+      }),
     ],
   });
 
@@ -83,27 +84,27 @@ story.add('Two Images', () => {
 story.add('Three Images', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
+      }),
     ],
   });
 
@@ -113,34 +114,34 @@ story.add('Three Images', () => {
 story.add('Four Images', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
+      }),
     ],
   });
 
@@ -150,41 +151,41 @@ story.add('Four Images', () => {
 story.add('Five Images', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
+      }),
     ],
   });
 
@@ -194,55 +195,55 @@ story.add('Five Images', () => {
 story.add('6+ Images', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_JPEG,
         fileName: 'tina-rolf-269345-unsplash.jpg',
         height: 1680,
         url: '/fixtures/tina-rolf-269345-unsplash.jpg',
         width: 3000,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
+      }),
     ],
   });
 
@@ -251,7 +252,7 @@ story.add('6+ Images', () => {
 story.add('Mixed Content Types', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: VIDEO_MP4,
         fileName: 'pixabay-Soap-Bubble-7141.mp4',
         height: 112,
@@ -264,24 +265,24 @@ story.add('Mixed Content Types', () => {
         },
         url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
         width: 112,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: IMAGE_PNG,
         fileName: 'sax.png',
         height: 1200,
         url: pngUrl,
         width: 800,
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: stringToMIMEType('text/plain'),
         fileName: 'lorem-ipsum.txt',
         url: '/fixtures/lorem-ipsum.txt',
-      },
-      {
+      }),
+      fakeAttachment({
         contentType: AUDIO_MP3,
         fileName: 'incompetech-com-Agnus-Dei-X.mp3',
         url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
-      },
+      }),
     ],
   });
 
@@ -291,13 +292,13 @@ story.add('Mixed Content Types', () => {
 story.add('Sticker', () => {
   const props = createProps({
     attachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_WEBP,
         fileName: 'sticker.webp',
         height: 512,
         url: squareStickerUrl,
         width: 512,
-      },
+      }),
     ],
     isSticker: true,
     stickerSize: 128,

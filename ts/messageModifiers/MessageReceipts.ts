@@ -13,12 +13,15 @@ import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
+import { createWaitBatcher } from '../util/waitBatcher';
 import {
   SendActionType,
   SendStatus,
   sendStateReducer,
 } from '../messages/MessageSendState';
+import type { DeleteSentProtoRecipientOptionsType } from '../sql/Interface';
 import dataInterface from '../sql/Client';
+import * as log from '../logging/log';
 
 const { deleteSentProtoRecipient } = dataInterface;
 
@@ -39,6 +42,18 @@ type MessageReceiptAttributesType = {
 class MessageReceiptModel extends Model<MessageReceiptAttributesType> {}
 
 let singleton: MessageReceipts | undefined;
+
+const deleteSentProtoBatcher = createWaitBatcher({
+  name: 'deleteSentProtoBatcher',
+  wait: 250,
+  maxSize: 30,
+  async processBatch(items: Array<DeleteSentProtoRecipientOptionsType>) {
+    log.info(
+      `MessageReceipts: Batching ${items.length} sent proto recipients deletes`
+    );
+    await deleteSentProtoRecipient(items);
+  },
+});
 
 async function getTargetMessage(
   sourceId: string,
@@ -111,7 +126,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         ids.includes(receipt.get('sourceConversationId'))
     );
     if (receipts.length) {
-      window.log.info('Found early receipts for message');
+      log.info('Found early receipts for message');
       this.remove(receipts);
     }
     return receipts;
@@ -132,7 +147,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       const message = await getTargetMessage(sourceConversationId, messages);
       if (!message) {
-        window.log.info(
+        log.info(
           'No message for receipt',
           type,
           sourceConversationId,
@@ -202,13 +217,13 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         const deviceId = receipt.get('sourceDevice');
 
         if (recipientUuid && deviceId) {
-          await deleteSentProtoRecipient({
+          await deleteSentProtoBatcher.add({
             timestamp: messageSentAt,
             recipientUuid,
             deviceId,
           });
         } else {
-          window.log.warn(
+          log.warn(
             `MessageReceipts.onReceipt: Missing uuid or deviceId for deliveredTo ${sourceConversationId}`
           );
         }
@@ -216,7 +231,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       this.remove(receipt);
     } catch (error) {
-      window.log.error(
+      log.error(
         'MessageReceipts.onReceipt error:',
         error && error.stack ? error.stack : error
       );

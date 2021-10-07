@@ -1,4 +1,3 @@
-
 # Copyright 2020-2021 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
@@ -16,6 +15,9 @@ jobs:
     - name: Get other system specs
       run: uname -a
 
+    - name: Configure git to use HTTPS
+      run: git config --global url."https://${{ secrets.AUTOMATED_GITHUB_PAT }}:x-oauth-basic@github.com".insteadOf ssh://git@github.com
+
     - name: Clone Desktop repo
       uses: actions/checkout@v2
     - name: Clone Mock-Server repo
@@ -31,7 +33,7 @@ jobs:
       with:
         node-version: '14.16.0'
     - name: Install global dependencies
-      run: npm install -g yarn@1.22.10 typescript@4.3.5 ts-node@10.2.0
+      run: npm install -g yarn@1.22.10 typescript@4.4.2 ts-node@10.2.1
 
     - name: Install xvfb
       run: sudo apt-get install xvfb
@@ -48,7 +50,7 @@ jobs:
       run: yarn install --frozen-lockfile
 
     - name: Install Mock-Server node_modules
-      run: npm ci
+      run: yarn install --frozen-lockfile
       working-directory: Mock-Server
 
     - name: Build typescript
@@ -91,6 +93,20 @@ jobs:
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
 
+    - name: Run group send benchmarks
+      run: |
+        set -o pipefail
+        rm -rf /tmp/mock
+        xvfb-run --auto-servernum ts-node \
+          Mock-Server/scripts/group-send-test.ts \
+          ./node_modules/.bin/electron . | tee benchmark-group-send.log || \
+          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+      timeout-minutes: 10
+      env:
+        NODE_ENV: production
+        RUN_COUNT: 100
+        ELECTRON_ENABLE_STACK_DUMPING: on
+
     - name: Clone benchmark repo
       uses: actions/checkout@v2
       with:
@@ -104,6 +120,7 @@ jobs:
         npm ci
         node ./bin/collect.js ../benchmark-startup.log data/startup.json
         node ./bin/collect.js ../benchmark-send.log data/send.json
+        node ./bin/collect.js ../benchmark-group-send.log data/group-send.json
         npm run build
         git config --global user.email "no-reply@signal.org"
         git config --global user.name "Signal Bot"

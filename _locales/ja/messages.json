@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "アーカイブを表示",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
         "message": "チャットの色",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Signalをアップデートする",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "読み込んでいます…",
@@ -410,6 +414,20 @@
     "changedVerificationWarning": {
         "message": "以下の方はアプリを再インストールしたか端末を変更した可能性があります。プライバシーを保証するために安全番号を検証してください。",
         "description": "Shown on confirmation dialog when user attempts to send a message"
+    },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "保留中のメッセージを送信",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "保留中の$count$件のメッセージを送信",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
     },
     "identityKeyErrorOnSend": {
         "message": "$name1$ に対する安全番号が変更されました。だれかが通信を傍受しようとしているかも知れませんし、$name2$ がSignalを再インストールしただけかも知れません。この連絡先に対する安全番号を検証することをお勧めします。",
@@ -650,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "接続済み",
+        "message": "接続しています…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "接続",
+        "message": "クリックして再接続",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "少しお待ちください...",
+        "message": "少々お待ちください",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -807,6 +825,20 @@
         "message": "Signalへようこそ",
         "description": ""
     },
+    "whatsNew": {
+        "message": "このアップデートの$whatsNew$をご覧ください",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "更新情報",
+        "description": "Clickable link that displays the latest release notes"
+    },
     "selectAContact": {
         "message": "チャットを始めるには連絡先かグループを選択してください",
         "description": ""
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "携帯",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "メール",
@@ -889,6 +921,18 @@
         "message": "元のメッセージを見つけたが、ロードされていません。ロードするのにスクロールアップして下さい。",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
+    "voiceRecording--start": {
+        "message": "音声メッセージの録音を開始",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "音声メッセージを送信",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "キャンセル",
+        "description": "Tooltip for red button to cancel voice message"
+    },
     "voiceRecordingInterruptedMax": {
         "message": "制限時間がきたので音声メッセージの録音は停止されました。",
         "description": "Confirmation dialog message for when the voice recording is interrupted due to max time limit"
@@ -907,13 +951,7 @@
     },
     "attachmentSaved": {
         "message": "添付ファイルを保存しました。保存したフォルダを表示する",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "あなた",
@@ -1192,7 +1230,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "このチャットで、 $sender$ からのメッセージ、ステッカー、メディア、リアクションまたは既読通知をあなたに配信できませんでした。",
+        "message": "このチャットで $sender$ からのメッセージ、ステッカー、リアクション、既読通知またはメディアを、あなたに配信できませんでした。",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1202,7 +1240,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ は、電話番号を変更しました",
+        "message": "$sender$ が電話番号を変更しました",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "保存",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "リセット",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "ファイルのアイコン",
@@ -1271,7 +1313,11 @@
         "message": "新規の端末をリンクする",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "スマートフォンのSignalアプリで、このQRコードを読み取ってください",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "端末名",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "もう一度試す",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "テーマ",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "通話",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "折り返す",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "リダイヤルする",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "通話を開始する",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "満席です",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "カメラ",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "カメラが無効になっています",
@@ -1343,6 +1401,10 @@
         "message": "カメラを使う",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "ミュート",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "マイクが無効になっています",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "ミュート解除",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "共有",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "画面の共有は無効です",
@@ -1367,33 +1433,213 @@
         "message": "画面の共有を停止する",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "呼び出し",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "グループが大きすぎるため、参加者を呼べません。",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "通知して、鳴らさない",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "呼び出し音を鳴らす",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "カメラがオフになっています。",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "誰も参加していません",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
-        "message": "$first$が参加中",
-        "description": "Shown in the calling lobby to describe who is in the call"
+    "calling__pre-call-info--1-person-in-call": {
+        "message": "$first$ が参加中",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
-    "calling__lobby-summary--self": {
-        "message": "他のデバイスでこの通話に参加中",
+    "calling__pre-call-info--another-device-in-call": {
+        "message": "他の端末でこの通話に参加しています",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
-        "message": "$first$と$second$が参加中",
-        "description": "Shown in the calling lobby to describe who is in the call"
+    "calling__pre-call-info--2-people-in-call": {
+        "message": "$first$ と $second$ が参加中",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
     },
-    "calling__lobby-summary--triple": {
-        "message": "$first$と$second$、$third$が参加中",
-        "description": "Shown in the calling lobby to describe who is in the call"
+    "calling__pre-call-info--3-people-in-call": {
+        "message": "$first$, $second$ および $third$ が参加中",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
     },
-    "calling__lobby-summary--many": {
-        "message": "$first$、$second$、$others$などが参加中",
-        "description": "Shown in the calling lobby to describe who is in the call"
+    "calling__pre-call-info--many-people-in-call": {
+        "message": "$first$, $second$ ほか$others$名が参加中",
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signalは $person$ を呼び出します",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "$first$、$second$ に発信します",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "$first$、$second$、$third$ に発信します",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "$first$、$second$、ほか $others$ 名に発信します",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ に通知されます",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ と $second$ に通知されます",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ および $third$ に通知されます",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ ほか$others$名に通知されます",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
     },
     "calling__in-this-call--zero": {
         "message": "誰も参加していません",
@@ -1425,7 +1671,7 @@
     },
     "calling__block-info": {
         "message": "相手との音声や映像の送受信を行いません。",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "上にスクロール",
@@ -1522,11 +1768,11 @@
         "description": "Header for permissions section of settings"
     },
     "mediaPermissionsDescription": {
-        "message": "マイクへのアクセスを許可する",
+        "message": "マイクへのアクセスを許可",
         "description": "Description of the media permission description"
     },
     "mediaCameraPermissionsDescription": {
-        "message": "カメラへのアクセスを許可する",
+        "message": "カメラへのアクセスを許可",
         "description": "Description of the media permission description"
     },
     "general": {
@@ -1534,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "スペルチェックを有効にする",
+        "message": "メッセージ作成ボックスでスペルチェックを行います",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1546,11 +1792,11 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "システムトレイへ最小化する",
+        "message": "システムトレイへ最小化",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "トレイに最小化した状態で起動する",
+        "message": "トレイに最小化した状態で起動",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -1558,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "データの削除",
+        "message": "アプリのデータを削除",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1696,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "アップグレードする",
+        "message": "クリックして signal.org/download にアクセス",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1708,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "連絡先",
+        "message": "連絡先をインポート",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1868,11 +2114,11 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "音声通知を有効にする",
+        "message": "通知音を鳴らす",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
-        "message": "呼び出し音を再生する",
+        "message": "呼び出し音を鳴らす",
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
@@ -2106,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "メッセージを継続するために携帯端末と再接続する。",
+        "message": "クリックすると、Signal Desktopとスマートフォンが再リンクされ、メッセージのやり取りが継続されます。",
         "description": ""
     },
     "unlinked": {
@@ -2118,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Signalのアップデートがあります",
+        "message": "アップデートがあります",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "新バージョンのSignalが利用可能です。",
+        "message": "Signalを再起動する",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "アップデートをダウンロードする",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2135,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "あとで",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "アップデートを無視",
         "description": ""
     },
     "leftTheGroup": {
@@ -2951,11 +3205,15 @@
         "message": "Sticker Pack Creatorを使うには、Signalを携帯電話とデスクトップで設定してください。",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "リアクションを削除",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "リアクションを送信に失敗しました。再度お試しください。",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "さらに",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -3173,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "$group1$と$group2$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3187,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "$group1$、$group2$、$group3$のメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3203,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "$group1$、$group2$、$group3$、他１グループのメンバー",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "$group1$、$group2$、$group3$、他$remainingCount$グループのメンバー",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3303,9 +3579,87 @@
         "message": "ビデオ通話着信中…",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "呼び出しています…",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ があなたを呼び出しています",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ があなたと $otherMember$ を呼び出しています",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ があなたと $first$、$second$を呼び出しています",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ があなたと $first$、$second$、ほか 1 名をを呼び出しています",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ があなたと $first$、$second$、ほか $remaining$ 名をを呼び出しています",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "着信中…",
@@ -3422,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "画面を共有する",
+        "message": "共有を開始",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3515,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "エラーが発生しました。",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "あとで再度試してみるか、サポートにお問い合わせください。",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "OK",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "ごめんなさい、sgnl:// リンクはまだサポートしていません！",
@@ -4203,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "管理者が$memberName$の管理者権限を削除しました。",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$があなたの管理者権限を削除しました。",
@@ -4896,7 +5256,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "バッジに表示するチャットの数にミュートしたチャットの分も含める",
+        "message": "ミュート中のチャットをバッジの数値に含める",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4922,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "$contact$ をグループ管理者から外す",
+        "message": "$contact$ をグループ管理者から外しますか？",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4981,7 +5341,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "このグループにメッセージを送信できるユーザーを選択してください。",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "申請と招待",
@@ -5078,7 +5438,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "ミュートしていても通知しない",
+        "message": "ミュート中は通知しない",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5223,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "このリストの人々が、グループリンクから「$name$」への参加を申請しています。",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5348,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "連絡先を選択",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "$name$ を選択",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "連絡先の選択を解除",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "$name$ の選択を解除",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "連絡先を選択できません",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "$name$ を選択できません",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "既存のメンバー",
@@ -5535,7 +5913,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "全員でのメッセージ削除に失敗しました。あとで再度試してください。",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "色を削除",
@@ -5677,7 +6055,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "新規チャットの既定タイマー",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "メッセージの送信時に、消えるメッセージのタイマーが$timeValue$に設定されます。",
@@ -5690,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "内部エラーのため、メッセージを表示できませんでした。クリックしてデバッグログを送信してください。",
+        "message": "このメッセージを表示できませんでした。クリックしてデバッグログを送信してください。",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5852,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "グループアバター",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "一般",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "デザイン",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "チャット",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "通話",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "通知",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "プライバシー",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "最終インポート: $date$ $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "システム",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "ズームレベル",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "リンクプレビューを生成する",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "この設定の変更は、スマートフォン版Signalの 設定 > チャット から行ってください",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "詳細設定",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "通知内容",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "ブロック中のユーザー",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$件",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$件",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "電話番号のプライバシー",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "これらの設定の変更は、スマートフォン版Signalの 設定 > チャット から行ってください。",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "全員",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "自分の連絡先のみ",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "なし",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "メッセージ送受信",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "私の電話番号を確認できる人",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "電話番号で私を検索できる人",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "既読通知",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "入力中アイコン",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "アップデート",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "アップデートを自動でダウンロードする",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "通知を有効にする",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "端末",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "バージョン$version$へのアップデートがあります",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signalが終了できません。",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "手動で閉じて、『再試行』をクリックしてください。",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "リアクションのカスタマイズ",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "クリックして絵文字を置き換えます",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "設定の保存時にエラーが発生しました。もう一度お試しください。",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "新機能",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "改良されたメディアライトボックスでは、画像や動画のギャラリーを見ても驚くことはありません。また、ズームして厄介なボタンを隠すことで、本物の暗室にいるかのように見せることができます。",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "メッセージに反応する際に、ピッカーを画面外に出してしまったために、反応しづらかったバグを修正しました。これが修正されて、あなたの❤️の内容に合わせて😮することができるようになりました。",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "通話中にボタンの上にカーソルを置くと、ボタンが消えずに表示されます。あなたの視線から隠れるものは、このボタンにもありません。",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "新しい「メッセージ送信」機能を使って、グループ内でメッセージを送信できる人を制限してみましょう。イベントを開催したり、告知をしたり、屋上から大声で叫んだりするのに最適です。この設定が表示されるには、すべてのメンバーが最新バージョンのSignalを使用している必要があります。",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "飛行機の中、トンネルの中、インターネットが切れてしまったときなど、いつでもどこでもメッセージを送ることができます。メッセージは最大24時間まで自動的に再試行されます。",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "新しい絵文字で自分の感情を表現できるようになりました。今日の気分は❤️‍🔥ですか？それとも、😶‍🌫️ですか？$hiqua$、ありがとう❤️",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "アンギラに住んでいる方は、もしかしたら取り残されていると感じているかもしれません。2010年以降に導入された $gov$ や $brain$ といったトップレベルドメインを $signal$ のようにすべてリンクに変換しました。$jojomatik$ に感謝!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "画像の拡大ができるようになりました。",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "消えるメッセージを有効にすると、「このメッセージは削除されました」という通知でさえ、期限が切れると消えてしまうことをご存知ですか？メッセージの上にカウントダウンとタイムスタンプが表示されるので、もう迷うことはありません。",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "ダイアログやポップアップのアニメーションを変更しました。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "キーボードレイアウトの切り替えにはちょっとしたコツが必要ですが、キーボードショートカットは押した文字だけでなく、その意図を汲んで追従してくれます。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "グループ通話が始まると通知します。",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "「👍」よりも「💅」でリアクションする人に向けけて、メッセージにリアクションしたいときにデフォルトで表示される絵文字をカスタマイズできるようになりました。",
+        "description": "Release notes for v5.19"
     }
 }

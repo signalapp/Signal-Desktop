@@ -7,7 +7,6 @@ import {
   SerializedCertificateType,
 } from '../textsecure/OutgoingMessage';
 import * as Bytes from '../Bytes';
-import { typedArrayToArrayBuffer } from '../Crypto';
 import { assert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeNumber } from '../util/normalizeNumber';
@@ -74,6 +73,24 @@ export class SenderCertificateService {
     }
 
     return this.fetchCertificate(mode);
+  }
+
+  // This is intended to be called when our credentials have been deleted, so any fetches
+  //   made until this function is complete would fail anyway.
+  async clear(): Promise<void> {
+    log.info(
+      'Sender certificate service: Clearing in-progress fetches and ' +
+        'deleting cached certificates'
+    );
+    await Promise.all(this.fetchPromises.values());
+
+    const { storage } = this;
+    assert(
+      storage,
+      'Sender certificate service method was called before it was initialized'
+    );
+    await storage.remove('senderCertificate');
+    await storage.remove('senderCertificateNoE164');
   }
 
   private getStoredCertificate(
@@ -177,7 +194,7 @@ export class SenderCertificateService {
 
     const serializedCertificate = {
       expires: expires - CLOCK_SKEW_THRESHOLD,
-      serialized: typedArrayToArrayBuffer(certificate),
+      serialized: certificate,
     };
 
     await storage.put(modeToStorageKey(mode), serializedCertificate);

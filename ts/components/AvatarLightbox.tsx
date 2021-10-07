@@ -26,13 +26,7 @@ export const AvatarLightbox = ({
   onClose,
 }: PropsType): JSX.Element => {
   return (
-    <Lightbox
-      contentType={undefined}
-      close={onClose}
-      i18n={i18n}
-      isViewOnce={false}
-      objectURL=""
-    >
+    <Lightbox close={onClose} i18n={i18n} media={[]}>
       <AvatarPreview
         avatarColor={avatarColor}
         avatarPath={avatarPath}

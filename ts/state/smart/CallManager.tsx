@@ -12,6 +12,7 @@ import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
+import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import {
   ActiveCallType,
   CallMode,
@@ -25,6 +26,17 @@ import {
   SmartSafetyNumberViewer,
   Props as SafetyNumberViewerProps,
 } from './SafetyNumberViewer';
+import { callingTones } from '../../util/callingTones';
+import {
+  bounceAppIconStart,
+  bounceAppIconStop,
+} from '../../shims/bounceAppIcon';
+import {
+  FALLBACK_NOTIFICATION_TITLE,
+  NotificationSetting,
+  notificationService,
+} from '../../services/notifications';
+import * as log from '../../logging/log';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -38,6 +50,52 @@ const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource
   callingService
 );
 
+async function notifyForCall(
+  title: string,
+  isVideoCall: boolean
+): Promise<void> {
+  const shouldNotify =
+    !window.isActive() && window.Events.getCallSystemNotification();
+  if (!shouldNotify) {
+    return;
+  }
+
+  let notificationTitle: string;
+
+  const notificationSetting = notificationService.getNotificationSetting();
+  switch (notificationSetting) {
+    case NotificationSetting.Off:
+    case NotificationSetting.NoNameOrMessage:
+      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+      break;
+    case NotificationSetting.NameOnly:
+    case NotificationSetting.NameAndMessage:
+      notificationTitle = title;
+      break;
+    default:
+      log.error(missingCaseError(notificationSetting));
+      notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+      break;
+  }
+
+  notificationService.notify({
+    title: notificationTitle,
+    icon: isVideoCall
+      ? 'images/icons/v2/video-solid-24.svg'
+      : 'images/icons/v2/phone-right-solid-24.svg',
+    message: window.i18n(
+      isVideoCall ? 'incomingVideoCall' : 'incomingAudioCall'
+    ),
+    onNotificationClick: () => {
+      window.showWindow();
+    },
+    silent: false,
+  });
+}
+
+const playRingtone = callingTones.playRingtone.bind(callingTones);
+const stopRingtone = callingTones.stopRingtone.bind(callingTones);
+
 const mapStateToActiveCallProp = (
   state: StateType
 ): undefined | ActiveCallType => {
@@ -50,16 +108,14 @@ const mapStateToActiveCallProp = (
 
   const call = getActiveCall(calling);
   if (!call) {
-    window.log.error(
-      'There was an active call state but no corresponding call'
-    );
+    log.error('There was an active call state but no corresponding call');
     return undefined;
   }
 
   const conversationSelector = getConversationSelector(state);
   const conversation = conversationSelector(activeCallState.conversationId);
   if (!conversation) {
-    window.log.error('The active call has no corresponding conversation');
+    log.error('The active call has no corresponding conversation');
     return undefined;
   }
 
@@ -78,6 +134,7 @@ const mapStateToActiveCallProp = (
     hasLocalVideo: activeCallState.hasLocalVideo,
     isInSpeakerView: activeCallState.isInSpeakerView,
     joinedAt: activeCallState.joinedAt,
+    outgoingRing: activeCallState.outgoingRing,
     pip: activeCallState.pip,
     presentingSource: activeCallState.presentingSource,
     presentingSourcesAvailable: activeCallState.presentingSourcesAvailable,
@@ -125,7 +182,7 @@ const mapStateToActiveCallProp = (
         const member = conversationSelectorByUuid(conversationId);
 
         if (!member) {
-          window.log.error('Group member has no corresponding conversation');
+          log.error('Group member has no corresponding conversation');
           continue;
         }
 
@@ -139,9 +196,7 @@ const mapStateToActiveCallProp = (
           remoteParticipant.uuid
         );
         if (!remoteConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -166,9 +221,7 @@ const mapStateToActiveCallProp = (
 
         const remoteConversation = conversationSelectorByUuid(uuid);
         if (!remoteConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -182,9 +235,7 @@ const mapStateToActiveCallProp = (
           peekedParticipantUuid
         );
         if (!peekedConversation) {
-          window.log.error(
-            'Remote participant has no corresponding conversation'
-          );
+          log.error('Remote participant has no corresponding conversation');
           continue;
         }
 
@@ -217,21 +268,49 @@ const mapStateToIncomingCallProp = (state: StateType) => {
 
   const conversation = getConversationSelector(state)(call.conversationId);
   if (!conversation) {
-    window.log.error('The incoming call has no corresponding conversation');
+    log.error('The incoming call has no corresponding conversation');
     return undefined;
   }
 
-  return {
-    call,
-    conversation,
-  };
+  switch (call.callMode) {
+    case CallMode.Direct:
+      return {
+        callMode: CallMode.Direct as const,
+        conversation,
+        isVideoCall: call.isVideoCall,
+      };
+    case CallMode.Group: {
+      if (!call.ringerUuid) {
+        log.error('The incoming group call has no ring state');
+        return undefined;
+      }
+
+      const conversationSelector = getConversationSelector(state);
+      const ringer = conversationSelector(call.ringerUuid);
+      const otherMembersRung = (conversation.sortedGroupMembers ?? []).filter(
+        c => c.id !== ringer.id && !c.isMe
+      );
+
+      return {
+        callMode: CallMode.Group as const,
+        conversation,
+        otherMembersRung,
+        ringer,
+      };
+    }
+    default:
+      throw missingCaseError(call);
+  }
 };
 
 const mapStateToProps = (state: StateType) => ({
   activeCall: mapStateToActiveCallProp(state),
+  bounceAppIconStart,
+  bounceAppIconStop,
   availableCameras: state.calling.availableCameras,
   getGroupCallVideoFrameSource,
   i18n: getIntl(state),
+  isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
   incomingCall: mapStateToIncomingCallProp(state),
   me: {
     ...getMe(state),
@@ -239,6 +318,9 @@ const mapStateToProps = (state: StateType) => ({
     //   according to the type. This ensures one is set.
     uuid: getUserUuid(state),
   },
+  notifyForCall,
+  playRingtone,
+  stopRingtone,
   renderDeviceSelection,
   renderSafetyNumberViewer,
 });

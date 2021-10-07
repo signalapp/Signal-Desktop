@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import PQueue from 'p-queue';
 import { v4 as uuid } from 'uuid';
 import { noop } from 'lodash';
 
@@ -10,6 +11,8 @@ import { ParsedJob, StoredJob, JobQueueStore } from './types';
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';
+import * as Errors from '../types/errors';
+import type { LoggerType } from '../types/Logging';
 
 const noopOnCompleteCallbacks = {
   resolve: noop,
@@ -37,7 +40,7 @@ type JobQueueOptions = {
   /**
    * A custom logger. Might be overwritten in test.
    */
-  logger?: log.LoggerType;
+  logger?: LoggerType;
 };
 
 export abstract class JobQueue<T> {
@@ -47,7 +50,7 @@ export abstract class JobQueue<T> {
 
   private readonly store: JobQueueStore;
 
-  private readonly logger: log.LoggerType;
+  private readonly logger: LoggerType;
 
   private readonly logPrefix: string;
 
@@ -58,6 +61,8 @@ export abstract class JobQueue<T> {
       reject: (err: unknown) => void;
     }
   >();
+
+  private readonly defaultInMemoryQueue = new PQueue();
 
   private started = false;
 
@@ -107,7 +112,7 @@ export abstract class JobQueue<T> {
    */
   protected abstract run(
     job: Readonly<ParsedJob<T>>,
-    extra?: Readonly<{ attempt?: number; log?: log.LoggerType }>
+    extra?: Readonly<{ attempt?: number; log?: LoggerType }>
   ): Promise<void>;
 
   /**
@@ -124,9 +129,6 @@ export abstract class JobQueue<T> {
     log.info(`${this.logPrefix} starting to stream jobs`);
 
     const stream = this.store.stream(this.queueType);
-    // We want to enqueue the jobs in sequence, not in parallel. `for await ... of` is a
-    //   good way to do that.
-    // eslint-disable-next-line no-restricted-syntax
     for await (const storedJob of stream) {
       this.enqueueStoredJob(storedJob);
     }
@@ -135,15 +137,26 @@ export abstract class JobQueue<T> {
   /**
    * Add a job, which should cause it to be enqueued and run.
    *
-   * If `streamJobs` has not been called yet, it will be called.
+   * If `streamJobs` has not been called yet, this will throw an error.
    */
   async add(data: Readonly<T>): Promise<Job<T>> {
+    this.throwIfNotStarted();
+
+    const job = this.createJob(data);
+    await this.store.insert(job);
+    log.info(`${this.logPrefix} added new job ${job.id}`);
+    return job;
+  }
+
+  protected throwIfNotStarted(): void {
     if (!this.started) {
       throw new Error(
         `${this.logPrefix} has not started streaming. Make sure to call streamJobs().`
       );
     }
+  }
 
+  protected createJob(data: Readonly<T>): Job<T> {
     const id = uuid();
     const timestamp = Date.now();
 
@@ -160,11 +173,11 @@ export abstract class JobQueue<T> {
       }
     })();
 
-    log.info(`${this.logPrefix} added new job ${id}`);
+    return new Job(id, timestamp, this.queueType, data, completion);
+  }
 
-    const job = new Job(id, timestamp, this.queueType, data, completion);
-    await this.store.insert(job);
-    return job;
+  protected getInMemoryQueue(_parsedJob: ParsedJob<T>): PQueue {
+    return this.defaultInMemoryQueue;
   }
 
   private async enqueueStoredJob(storedJob: Readonly<StoredJob>) {
@@ -200,36 +213,46 @@ export abstract class JobQueue<T> {
       data: parsedData,
     };
 
+    const queue: PQueue = this.getInMemoryQueue(parsedJob);
+
     const logger = new JobLogger(parsedJob, this.logger);
 
-    let result:
+    const result:
       | undefined
       | { success: true }
-      | { success: false; err: unknown };
+      | { success: false; err: unknown } = await queue.add(async () => {
+      for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
+        const isFinalAttempt = attempt === this.maxAttempts;
 
-    for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
-      logger.attempt = attempt;
+        logger.attempt = attempt;
 
-      log.info(
-        `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
-      );
-      try {
-        // We want an `await` in the loop, as we don't want a single job running more
-        //   than once at a time. Ideally, the job will succeed on the first attempt.
-        // eslint-disable-next-line no-await-in-loop
-        await this.run(parsedJob, { attempt, log: logger });
-        result = { success: true };
         log.info(
-          `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+          `${this.logPrefix} running job ${storedJob.id}, attempt ${attempt} of ${this.maxAttempts}`
         );
-        break;
-      } catch (err: unknown) {
-        result = { success: false, err };
-        log.error(
-          `${this.logPrefix} job ${storedJob.id} failed on attempt ${attempt}`
-        );
+        try {
+          // We want an `await` in the loop, as we don't want a single job running more
+          //   than once at a time. Ideally, the job will succeed on the first attempt.
+          // eslint-disable-next-line no-await-in-loop
+          await this.run(parsedJob, { attempt, log: logger });
+          log.info(
+            `${this.logPrefix} job ${storedJob.id} succeeded on attempt ${attempt}`
+          );
+          return { success: true };
+        } catch (err: unknown) {
+          log.error(
+            `${this.logPrefix} job ${
+              storedJob.id
+            } failed on attempt ${attempt}. ${Errors.toLogFormat(err)}`
+          );
+          if (isFinalAttempt) {
+            return { success: false, err };
+          }
+        }
       }
-    }
+
+      // This should never happen. See the assertion below.
+      return undefined;
+    });
 
     await this.store.delete(storedJob.id);
 

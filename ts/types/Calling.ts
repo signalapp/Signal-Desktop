@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationType } from '../state/ducks/conversations';
+import type { AudioDevice } from 'ringrtc';
+import type { ConversationType } from '../state/ducks/conversations';
 
 // These are strings (1) for the database (2) for Storybook.
 export enum CallMode {
@@ -30,6 +31,7 @@ type ActiveCallBaseType = {
   isInSpeakerView: boolean;
   isSharingScreen?: boolean;
   joinedAt?: number;
+  outgoingRing: boolean;
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: Array<PresentableSource>;
@@ -60,7 +62,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   joinState: GroupCallJoinState;
   maxDevices: number;
   deviceCount: number;
-  groupMembers: Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
+  groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
 };
@@ -133,23 +135,6 @@ export type GroupCallVideoRequest = {
   height: number;
 };
 
-// Should match RingRTC's VideoFrameSource
-export type VideoFrameSource = {
-  receiveVideoFrame(buffer: Buffer): [number, number] | undefined;
-};
-
-// Must be kept in sync with RingRTC.AudioDevice
-export type AudioDevice = {
-  // Device name.
-  name: string;
-  // Index of this device, starting from 0.
-  index: number;
-  // A unique and somewhat stable identifier of this device.
-  uniqueId: string;
-  // If present, the identifier of a localized string to substitute for the device name.
-  i18nKey?: string;
-};
-
 export enum CallingDeviceType {
   CAMERA,
   MICROPHONE,
@@ -198,3 +183,9 @@ export type ChangeIODevicePayloadType =
   | { type: CallingDeviceType.CAMERA; selectedDevice: string }
   | { type: CallingDeviceType.MICROPHONE; selectedDevice: AudioDevice }
   | { type: CallingDeviceType.SPEAKER; selectedDevice: AudioDevice };
+
+export enum ProcessGroupCallRingRequestResult {
+  ShouldRing,
+  RingWasPreviouslyCanceled,
+  ThereIsAnotherActiveRing,
+}

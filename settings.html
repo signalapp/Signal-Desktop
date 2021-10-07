@@ -6,6 +6,8 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'none';
+            frame-src 'none';
+            form-action 'none';
             font-src 'self';
             img-src 'self' blob: data:;
             media-src 'self' blob:;
@@ -24,7 +26,8 @@
     <div id="app"></div>
     <script
       type="application/javascript"
-      src="ts/windows/settings/init.js"
+      src="ts/windows/applyTheme.js"
     ></script>
+    <script type="application/javascript" src="ts/windows/init.js"></script>
   </body>
 </html>

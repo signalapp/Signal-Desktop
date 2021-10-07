@@ -5,11 +5,13 @@
 
 import { desktopCapturer, ipcRenderer } from 'electron';
 import {
+  AudioDevice,
   Call,
   CallEndedReason,
   CallId,
   CallingMessage,
   CallLogLevel,
+  CallMessageUrgency,
   CallSettings,
   CallState,
   CanvasVideoRenderer,
@@ -24,7 +26,9 @@ import {
   HangupType,
   OpaqueMessage,
   PeekInfo,
+  RingCancelReason,
   RingRTC,
+  RingUpdate,
   UserId,
   VideoFrameSource,
   VideoRequest,
@@ -37,8 +41,9 @@ import {
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
+import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
+import { isMe } from '../util/whatTypeOfConversation';
 import {
-  AudioDevice,
   AvailableIODevicesType,
   CallMode,
   GroupCallConnectionState,
@@ -46,19 +51,28 @@ import {
   MediaDeviceSettings,
   PresentableSource,
   PresentedSource,
+  ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
+import {
+  AudioDeviceModule,
+  parseAudioDeviceModule,
+} from '../calling/audioDeviceModule';
+import {
+  findBestMatchingAudioDeviceIndex,
+  findBestMatchingCameraId,
+} from '../calling/findBestMatchingDevice';
 import { LocalizerType } from '../types/Util';
+import { UUID } from '../types/UUID';
+import * as OS from '../OS';
 import { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
-import {
-  uuidToArrayBuffer,
-  arrayBufferToUuid,
-  typedArrayToArrayBuffer,
-} from '../Crypto';
-import { assert } from '../util/assert';
+import { uuidToBytes, bytesToUuid } from '../Crypto';
 import { dropNull, shallowDropNull } from '../util/dropNull';
 import { getOwn } from '../util/getOwn';
+import { isNormalNumber } from '../util/isNormalNumber';
+import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
+import { isAlpha, isBeta } from '../util/version';
 import {
   fetchMembershipProof,
   getMembershipList,
@@ -72,12 +86,22 @@ import {
   REQUESTED_VIDEO_HEIGHT,
   REQUESTED_VIDEO_FRAMERATE,
 } from '../calling/constants';
-import { notify } from './notify';
+import { callingMessageToProto } from '../util/callingMessageToProto';
 import { getSendOptions } from '../util/getSendOptions';
 import { SignalService as Proto } from '../protobuf';
+import dataInterface from '../sql/Client';
+import {
+  notificationService,
+  NotificationSetting,
+  FALLBACK_NOTIFICATION_TITLE,
+} from './notifications';
+import * as log from '../logging/log';
 
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
+const {
+  processGroupCallRingRequest,
+  processGroupCallRingCancelation,
+  cleanExpiredGroupCallRings,
+} = dataInterface;
 
 const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   HttpMethod,
@@ -88,6 +112,8 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
   [HttpMethod.Post, 'POST'],
   [HttpMethod.Delete, 'DELETE'],
 ]);
+
+const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
 
 // We send group call update messages to tell other clients to peek, which triggers
 //   notifications, timeline messages, big green "Join" buttons, and so on. This enum
@@ -185,76 +211,6 @@ function protoToCallingMessage({
   };
 }
 
-function bufferToProto(
-  value: Buffer | { toArrayBuffer(): ArrayBuffer } | undefined
-): Uint8Array | undefined {
-  if (!value) {
-    return undefined;
-  }
-  if (value instanceof Uint8Array) {
-    return value;
-  }
-
-  return new FIXMEU8(value.toArrayBuffer());
-}
-
-function callingMessageToProto({
-  offer,
-  answer,
-  iceCandidates,
-  legacyHangup,
-  busy,
-  hangup,
-  supportsMultiRing,
-  destinationDeviceId,
-  opaque,
-}: CallingMessage): Proto.ICallingMessage {
-  return {
-    offer: offer
-      ? {
-          ...offer,
-          type: offer.type as number,
-          opaque: bufferToProto(offer.opaque),
-        }
-      : undefined,
-    answer: answer
-      ? {
-          ...answer,
-          opaque: bufferToProto(answer.opaque),
-        }
-      : undefined,
-    iceCandidates: iceCandidates
-      ? iceCandidates.map(candidate => {
-          return {
-            ...candidate,
-            opaque: bufferToProto(candidate.opaque),
-          };
-        })
-      : undefined,
-    legacyHangup: legacyHangup
-      ? {
-          ...legacyHangup,
-          type: legacyHangup.type as number,
-        }
-      : undefined,
-    busy,
-    hangup: hangup
-      ? {
-          ...hangup,
-          type: hangup.type as number,
-        }
-      : undefined,
-    supportsMultiRing,
-    destinationDeviceId,
-    opaque: opaque
-      ? {
-          ...opaque,
-          data: bufferToProto(opaque.data),
-        }
-      : undefined,
-  };
-}
-
 export class CallingClass {
   readonly videoCapturer: GumVideoCapturer;
 
@@ -265,6 +221,10 @@ export class CallingClass {
   private sfuUrl?: string;
 
   private lastMediaDeviceSettings?: MediaDeviceSettings;
+
+  private previousAudioDeviceModule?: AudioDeviceModule;
+
+  private currentAudioDeviceModule?: AudioDeviceModule;
 
   private deviceReselectionTimer?: NodeJS.Timeout;
 
@@ -291,6 +251,24 @@ export class CallingClass {
 
     this.sfuUrl = sfuUrl;
 
+    this.previousAudioDeviceModule = parseAudioDeviceModule(
+      window.storage.get('previousAudioDeviceModule')
+    );
+    this.currentAudioDeviceModule =
+      OS.isWindows() &&
+      (isAlpha(window.getVersion()) || isBeta(window.getVersion()))
+        ? AudioDeviceModule.WindowsAdm2
+        : AudioDeviceModule.Default;
+    window.storage.put(
+      'previousAudioDeviceModule',
+      this.currentAudioDeviceModule
+    );
+
+    RingRTC.setConfig({
+      use_new_audio_device_module:
+        this.currentAudioDeviceModule === AudioDeviceModule.WindowsAdm2,
+    });
+
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
     RingRTC.handleAutoEndedIncomingCallRequest = this.handleAutoEndedIncomingCallRequest.bind(
@@ -299,21 +277,44 @@ export class CallingClass {
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
     RingRTC.handleSendHttpRequest = this.handleSendHttpRequest.bind(this);
     RingRTC.handleSendCallMessage = this.handleSendCallMessage.bind(this);
+    RingRTC.handleSendCallMessageToGroup = this.handleSendCallMessageToGroup.bind(
+      this
+    );
+    RingRTC.handleGroupCallRingUpdate = this.handleGroupCallRingUpdate.bind(
+      this
+    );
+
+    this.attemptToGiveOurUuidToRingRtc();
+    window.Whisper.events.on('userChanged', () => {
+      this.attemptToGiveOurUuidToRingRtc();
+    });
 
     ipcRenderer.on('stop-screen-share', () => {
       uxActions.setPresenting();
     });
+
+    this.cleanExpiredGroupCallRingsAndLoop();
+  }
+
+  private attemptToGiveOurUuidToRingRtc(): void {
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
+    if (!ourUuid) {
+      // This can happen if we're not linked. It's okay if we hit this case.
+      return;
+    }
+
+    RingRTC.setSelfUuid(Buffer.from(uuidToBytes(ourUuid)));
   }
 
   async startCallingLobby(
     conversationId: string,
     isVideoCall: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startCallingLobby()');
+    log.info('CallingClass.startCallingLobby()');
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error('Could not find conversation, cannot start call lobby');
+      log.error('Could not find conversation, cannot start call lobby');
       return;
     }
 
@@ -321,15 +322,11 @@ export class CallingClass {
     const callMode = getConversationCallMode(conversationProps);
     switch (callMode) {
       case CallMode.None:
-        window.log.error(
-          'Conversation does not support calls, new call not allowed.'
-        );
+        log.error('Conversation does not support calls, new call not allowed.');
         return;
       case CallMode.Direct:
         if (!this.getRemoteUserIdFromConversation(conversation)) {
-          window.log.error(
-            'Missing remote user identifier, new call not allowed.'
-          );
+          log.error('Missing remote user identifier, new call not allowed.');
           return;
         }
         break;
@@ -340,24 +337,22 @@ export class CallingClass {
     }
 
     if (!this.uxActions) {
-      window.log.error('Missing uxActions, new call not allowed.');
+      log.error('Missing uxActions, new call not allowed.');
       return;
     }
 
     if (!this.localDeviceId) {
-      window.log.error(
-        'Missing local device identifier, new call not allowed.'
-      );
+      log.error('Missing local device identifier, new call not allowed.');
       return;
     }
 
     const haveMediaPermissions = await this.requestPermissions(isVideoCall);
     if (!haveMediaPermissions) {
-      window.log.info('Permissions were denied, new call not allowed.');
+      log.info('Permissions were denied, new call not allowed.');
       return;
     }
 
-    window.log.info('CallingClass.startCallingLobby(): Starting lobby');
+    log.info('CallingClass.startCallingLobby(): Starting lobby');
 
     // It's important that this function comes before any calls to
     //   `videoCapturer.enableCapture` or `videoCapturer.enableCaptureAndSend` because of
@@ -392,7 +387,7 @@ export class CallingClass {
           !conversationProps.publicParams ||
           !conversationProps.secretParams
         ) {
-          window.log.error(
+          log.error(
             'Conversation is missing required parameters. Cannot connect group call'
           );
           return;
@@ -409,6 +404,9 @@ export class CallingClass {
         this.uxActions.showCallLobby({
           callMode: CallMode.Group,
           conversationId: conversationProps.id,
+          isConversationTooBigToRing: isConversationTooBigToRing(
+            conversationProps
+          ),
           ...this.formatGroupCallForRedux(groupCall),
         });
         break;
@@ -437,7 +435,7 @@ export class CallingClass {
     hasLocalAudio: boolean,
     hasLocalVideo: boolean
   ): Promise<void> {
-    window.log.info('CallingClass.startOutgoingDirectCall()');
+    log.info('CallingClass.startOutgoingDirectCall()');
 
     if (!this.uxActions) {
       throw new Error('Redux actions not available');
@@ -446,41 +444,37 @@ export class CallingClass {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
-      window.log.error('Could not find conversation, cannot start call');
+      log.error('Could not find conversation, cannot start call');
       this.stopCallingLobby();
       return;
     }
 
     const remoteUserId = this.getRemoteUserIdFromConversation(conversation);
     if (!remoteUserId || !this.localDeviceId) {
-      window.log.error('Missing identifier, new call not allowed.');
+      log.error('Missing identifier, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
     const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
-      window.log.info('Permissions were denied, new call not allowed.');
+      log.info('Permissions were denied, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
-    window.log.info(
-      'CallingClass.startOutgoingDirectCall(): Getting call settings'
-    );
+    log.info('CallingClass.startOutgoingDirectCall(): Getting call settings');
 
     const callSettings = await this.getCallSettings(conversation);
 
     // Check state after awaiting to debounce call button.
     if (RingRTC.call && RingRTC.call.state !== CallState.Ended) {
-      window.log.info('Call already in progress, new call not allowed.');
+      log.info('Call already in progress, new call not allowed.');
       this.stopCallingLobby();
       return;
     }
 
-    window.log.info(
-      'CallingClass.startOutgoingDirectCall(): Starting in RingRTC'
-    );
+    log.info('CallingClass.startOutgoingDirectCall(): Starting in RingRTC');
 
     // We could make this faster by getting the call object
     // from the RingRTC before we lookup the ICE servers.
@@ -519,7 +513,7 @@ export class CallingClass {
     return getMembershipList(conversationId).map(
       member =>
         new GroupMemberInfo(
-          Buffer.from(uuidToArrayBuffer(member.uuid)),
+          Buffer.from(uuidToBytes(member.uuid)),
           Buffer.from(member.uuidCiphertext)
         )
     );
@@ -686,7 +680,7 @@ export class CallingClass {
             groupCall.setMembershipProof(Buffer.from(Bytes.fromString(proof)));
           }
         } catch (err) {
-          window.log.error('Failed to fetch membership proof', err);
+          log.error('Failed to fetch membership proof', err);
         } finally {
           isRequestingMembershipProof = false;
         }
@@ -710,16 +704,17 @@ export class CallingClass {
     return outerGroupCall;
   }
 
-  public joinGroupCall(
+  public async joinGroupCall(
     conversationId: string,
     hasLocalAudio: boolean,
-    hasLocalVideo: boolean
-  ): void {
+    hasLocalVideo: boolean,
+    shouldRing: boolean
+  ): Promise<void> {
     const conversation = window.ConversationController.get(
       conversationId
     )?.format();
     if (!conversation) {
-      window.log.error('Missing conversation; not joining group call');
+      log.error('Missing conversation; not joining group call');
       return;
     }
 
@@ -728,11 +723,13 @@ export class CallingClass {
       !conversation.publicParams ||
       !conversation.secretParams
     ) {
-      window.log.error(
+      log.error(
         'Conversation is missing required parameters. Cannot join group call'
       );
       return;
     }
+
+    await this.startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
       groupId: conversation.groupId,
@@ -743,6 +740,10 @@ export class CallingClass {
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
     this.videoCapturer.enableCaptureAndSend(groupCall);
+
+    if (shouldRing) {
+      groupCall.ringAll();
+    }
 
     groupCall.join();
   }
@@ -806,18 +807,16 @@ export class CallingClass {
   ): GroupCallPeekInfoType {
     return {
       uuids: peekInfo.joinedMembers.map(uuidBuffer => {
-        let uuid = arrayBufferToUuid(typedArrayToArrayBuffer(uuidBuffer));
+        let uuid = bytesToUuid(uuidBuffer);
         if (!uuid) {
-          window.log.error(
-            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID ArrayBuffer to string; using fallback UUID'
+          log.error(
+            'Calling.formatGroupCallPeekInfoForRedux: could not convert peek UUID Uint8Array to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
         }
         return uuid;
       }),
-      creatorUuid:
-        peekInfo.creator &&
-        arrayBufferToUuid(typedArrayToArrayBuffer(peekInfo.creator)),
+      creatorUuid: peekInfo.creator && bytesToUuid(peekInfo.creator),
       eraId: peekInfo.eraId,
       maxDevices: peekInfo.maxDevices ?? Infinity,
       deviceCount: peekInfo.deviceCount,
@@ -854,12 +853,10 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        let uuid = arrayBufferToUuid(
-          typedArrayToArrayBuffer(remoteDeviceState.userId)
-        );
+        let uuid = bytesToUuid(remoteDeviceState.userId);
         if (!uuid) {
-          window.log.error(
-            'Calling.formatGroupCallForRedux: could not convert remote participant UUID ArrayBuffer to string; using fallback UUID'
+          log.error(
+            'Calling.formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
           );
           uuid = '00000000-0000-0000-0000-000000000000';
         }
@@ -917,7 +914,7 @@ export class CallingClass {
   ): Promise<void> {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error(
+      log.error(
         'Unable to send group call update message for non-existent conversation'
       );
       return;
@@ -926,7 +923,7 @@ export class CallingClass {
     const groupV2 = conversation.getGroupV2Info();
     const sendOptions = await getSendOptions(conversation.attributes);
     if (!groupV2) {
-      window.log.error(
+      log.error(
         'Unable to send group call update message for conversation that lacks groupV2 info'
       );
       return;
@@ -941,30 +938,39 @@ export class CallingClass {
       logId: `sendToGroup/groupCallUpdate/${conversationId}-${eraId}`,
       messageIds: [],
       send: () =>
-        window.Signal.Util.sendToGroup({
-          groupSendOptions: { groupCallUpdate: { eraId }, groupV2, timestamp },
-          conversation,
-          contentHint: ContentHint.DEFAULT,
-          messageId: undefined,
-          sendOptions,
-          sendType: 'callingMessage',
-        }),
+        conversation.queueJob('sendGroupCallUpdateMessage', () =>
+          window.Signal.Util.sendToGroup({
+            groupSendOptions: {
+              groupCallUpdate: { eraId },
+              groupV2,
+              timestamp,
+            },
+            conversation,
+            contentHint: ContentHint.DEFAULT,
+            messageId: undefined,
+            sendOptions,
+            sendType: 'callingMessage',
+          })
+        ),
       sendType: 'callingMessage',
       timestamp,
     }).catch(err => {
-      window.log.error(
+      log.error(
         'Failed to send group call update:',
         err && err.stack ? err.stack : err
       );
     });
   }
 
-  async accept(conversationId: string, asVideoCall: boolean): Promise<void> {
-    window.log.info('CallingClass.accept()');
+  async acceptDirectCall(
+    conversationId: string,
+    asVideoCall: boolean
+  ): Promise<void> {
+    log.info('CallingClass.acceptDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
-      window.log.warn('Trying to accept a non-existent call');
+      log.warn('Trying to accept a non-existent call');
       return;
     }
 
@@ -975,29 +981,50 @@ export class CallingClass {
       RingRTC.setVideoRenderer(callId, this.videoRenderer);
       RingRTC.accept(callId, asVideoCall);
     } else {
-      window.log.info('Permissions were denied, call not allowed, hanging up.');
+      log.info('Permissions were denied, call not allowed, hanging up.');
       RingRTC.hangup(callId);
     }
   }
 
-  decline(conversationId: string): void {
-    window.log.info('CallingClass.decline()');
+  declineDirectCall(conversationId: string): void {
+    log.info('CallingClass.declineDirectCall()');
 
     const callId = this.getCallIdForConversation(conversationId);
     if (!callId) {
-      window.log.warn('Trying to decline a non-existent call');
+      log.warn('declineDirectCall: Trying to decline a non-existent call');
       return;
     }
 
     RingRTC.decline(callId);
   }
 
+  declineGroupCall(conversationId: string, ringId: bigint): void {
+    log.info('CallingClass.declineGroupCall()');
+
+    const groupId = window.ConversationController.get(conversationId)?.get(
+      'groupId'
+    );
+    if (!groupId) {
+      log.error(
+        'declineGroupCall: could not find the group ID for that conversation'
+      );
+      return;
+    }
+    const groupIdBuffer = Buffer.from(Bytes.fromBase64(groupId));
+
+    RingRTC.cancelGroupRing(
+      groupIdBuffer,
+      ringId,
+      RingCancelReason.DeclinedByUser
+    );
+  }
+
   hangup(conversationId: string): void {
-    window.log.info('CallingClass.hangup()');
+    log.info('CallingClass.hangup()');
 
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to hang up a non-existent call');
+      log.warn('Trying to hang up a non-existent call');
       return;
     }
 
@@ -1018,7 +1045,7 @@ export class CallingClass {
   setOutgoingAudio(conversationId: string, enabled: boolean): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set outgoing audio for a non-existent call');
+      log.warn('Trying to set outgoing audio for a non-existent call');
       return;
     }
 
@@ -1034,7 +1061,7 @@ export class CallingClass {
   setOutgoingVideo(conversationId: string, enabled: boolean): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set outgoing video for a non-existent call');
+      log.warn('Trying to set outgoing video for a non-existent call');
       return;
     }
 
@@ -1099,7 +1126,7 @@ export class CallingClass {
   ): void {
     const call = getOwn(this.callsByConversation, conversationId);
     if (!call) {
-      window.log.warn('Trying to set presenting for a non-existent call');
+      log.warn('Trying to set presenting for a non-existent call');
       return;
     }
 
@@ -1127,7 +1154,7 @@ export class CallingClass {
 
     if (source) {
       ipcRenderer.send('show-screen-share', source.name);
-      notify({
+      notificationService.notify({
         icon: 'images/icons/v2/video-solid-24.svg',
         message: window.i18n('calling__presenting--notification-body'),
         onNotificationClick: () => {
@@ -1243,7 +1270,7 @@ export class CallingClass {
     if (
       !this.mediaDeviceSettingsEqual(this.lastMediaDeviceSettings, newSettings)
     ) {
-      window.log.info(
+      log.info(
         'MediaDevice: available devices changed (from->to)',
         this.lastMediaDeviceSettings,
         newSettings
@@ -1268,6 +1295,13 @@ export class CallingClass {
   }
 
   async getMediaDeviceSettings(): Promise<MediaDeviceSettings> {
+    const { previousAudioDeviceModule, currentAudioDeviceModule } = this;
+    if (!previousAudioDeviceModule || !currentAudioDeviceModule) {
+      throw new Error(
+        'Calling#getMediaDeviceSettings cannot be called before audio device settings are set'
+      );
+    }
+
     const {
       availableCameras,
       availableMicrophones,
@@ -1275,27 +1309,31 @@ export class CallingClass {
     } = await this.getAvailableIODevices();
 
     const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
-    const selectedMicIndex = this.findBestMatchingDeviceIndex(
-      availableMicrophones,
-      preferredMicrophone
-    );
+    const selectedMicIndex = findBestMatchingAudioDeviceIndex({
+      available: availableMicrophones,
+      preferred: preferredMicrophone,
+      previousAudioDeviceModule,
+      currentAudioDeviceModule,
+    });
     const selectedMicrophone =
       selectedMicIndex !== undefined
         ? availableMicrophones[selectedMicIndex]
         : undefined;
 
     const preferredSpeaker = window.Events.getPreferredAudioOutputDevice();
-    const selectedSpeakerIndex = this.findBestMatchingDeviceIndex(
-      availableSpeakers,
-      preferredSpeaker
-    );
+    const selectedSpeakerIndex = findBestMatchingAudioDeviceIndex({
+      available: availableSpeakers,
+      preferred: preferredSpeaker,
+      previousAudioDeviceModule,
+      currentAudioDeviceModule,
+    });
     const selectedSpeaker =
       selectedSpeakerIndex !== undefined
         ? availableSpeakers[selectedSpeakerIndex]
         : undefined;
 
     const preferredCamera = window.Events.getPreferredVideoInputDevice();
-    const selectedCamera = this.findBestMatchingCamera(
+    const selectedCamera = findBestMatchingCameraId(
       availableCameras,
       preferredCamera
     );
@@ -1310,57 +1348,14 @@ export class CallingClass {
     };
   }
 
-  findBestMatchingDeviceIndex(
-    available: Array<AudioDevice>,
-    preferred: AudioDevice | undefined
-  ): number | undefined {
-    if (preferred) {
-      // Match by uniqueId first, if available
-      if (preferred.uniqueId) {
-        const matchIndex = available.findIndex(
-          d => d.uniqueId === preferred.uniqueId
-        );
-        if (matchIndex !== -1) {
-          return matchIndex;
-        }
-      }
-      // Match by name second
-      const matchingNames = available.filter(d => d.name === preferred.name);
-      if (matchingNames.length > 0) {
-        return matchingNames[0].index;
-      }
-    }
-    // Nothing matches or no preference; take the first device if there are any
-    return available.length > 0 ? 0 : undefined;
-  }
-
-  findBestMatchingCamera(
-    available: Array<MediaDeviceInfo>,
-    preferred?: string
-  ): string | undefined {
-    const matchingId = available.filter(d => d.deviceId === preferred);
-    const nonInfrared = available.filter(d => !d.label.includes('IR Camera'));
-
-    // By default, pick the first non-IR camera (but allow the user to pick the
-    // infrared if they so desire)
-    if (matchingId.length > 0) {
-      return matchingId[0].deviceId;
-    }
-    if (nonInfrared.length > 0) {
-      return nonInfrared[0].deviceId;
-    }
-
-    return undefined;
-  }
-
   setPreferredMicrophone(device: AudioDevice): void {
-    window.log.info('MediaDevice: setPreferredMicrophone', device);
+    log.info('MediaDevice: setPreferredMicrophone', device);
     window.Events.setPreferredAudioInputDevice(device);
     RingRTC.setAudioInput(device.index);
   }
 
   setPreferredSpeaker(device: AudioDevice): void {
-    window.log.info('MediaDevice: setPreferredSpeaker', device);
+    log.info('MediaDevice: setPreferredSpeaker', device);
     window.Events.setPreferredAudioOutputDevice(device);
     RingRTC.setAudioOutput(device.index);
   }
@@ -1374,7 +1369,7 @@ export class CallingClass {
   }
 
   async setPreferredCamera(device: string): Promise<void> {
-    window.log.info('MediaDevice: setPreferredCamera', device);
+    log.info('MediaDevice: setPreferredCamera', device);
     window.Events.setPreferredVideoInputDevice(device);
     await this.videoCapturer.setPreferredDevice(device);
   }
@@ -1383,57 +1378,50 @@ export class CallingClass {
     envelope: ProcessedEnvelope,
     callingMessage: Proto.ICallingMessage
   ): Promise<void> {
-    window.log.info('CallingClass.handleCallingMessage()');
+    log.info('CallingClass.handleCallingMessage()');
 
     const enableIncomingCalls = window.Events.getIncomingCallNotification();
     if (callingMessage.offer && !enableIncomingCalls) {
       // Drop offers silently if incoming call notifications are disabled.
-      window.log.info('Incoming calls are disabled, ignoring call offer.');
+      log.info('Incoming calls are disabled, ignoring call offer.');
       return;
     }
 
-    const remoteUserId = envelope.sourceUuid || envelope.source;
+    const remoteUserId = envelope.sourceUuid;
     const remoteDeviceId = this.parseDeviceId(envelope.sourceDevice);
     if (!remoteUserId || !remoteDeviceId || !this.localDeviceId) {
-      window.log.error('Missing identifier, ignoring call message.');
+      log.error('Missing identifier, ignoring call message.');
       return;
     }
 
-    const senderIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      remoteUserId
+    const { storage } = window.textsecure;
+
+    const senderIdentityRecord = await storage.protocol.getOrMigrateIdentityRecord(
+      new UUID(remoteUserId)
     );
     if (!senderIdentityRecord) {
-      window.log.error(
-        'Missing sender identity record; ignoring call message.'
-      );
+      log.error('Missing sender identity record; ignoring call message.');
       return;
     }
     const senderIdentityKey = senderIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
-    const ourIdentifier =
-      window.textsecure.storage.user.getUuid() ||
-      window.textsecure.storage.user.getNumber();
-    assert(ourIdentifier, 'We should have either uuid or number');
+    const ourUuid = storage.user.getCheckedUuid();
 
-    const receiverIdentityRecord = window.textsecure.storage.protocol.getIdentityRecord(
-      ourIdentifier
-    );
+    const receiverIdentityRecord = storage.protocol.getIdentityRecord(ourUuid);
     if (!receiverIdentityRecord) {
-      window.log.error(
-        'Missing receiver identity record; ignoring call message.'
-      );
+      log.error('Missing receiver identity record; ignoring call message.');
       return;
     }
     const receiverIdentityKey = receiverIdentityRecord.publicKey.slice(1); // Ignore the type header, it is not used.
 
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
-      window.log.error('Missing conversation; ignoring call message.');
+      log.error('Missing conversation; ignoring call message.');
       return;
     }
 
     if (callingMessage.offer && !conversation.getAccepted()) {
-      window.log.info(
+      log.info(
         'Conversation was not approved by user; rejecting call message.'
       );
 
@@ -1458,12 +1446,12 @@ export class CallingClass {
     }
 
     const sourceUuid = envelope.sourceUuid
-      ? uuidToArrayBuffer(envelope.sourceUuid)
+      ? uuidToBytes(envelope.sourceUuid)
       : null;
 
     const messageAgeSec = envelope.messageAgeSec ? envelope.messageAgeSec : 0;
 
-    window.log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
+    log.info('CallingClass.handleCallingMessage(): Handling in RingRTC');
 
     RingRTC.handleCallingMessage(
       remoteUserId,
@@ -1486,14 +1474,14 @@ export class CallingClass {
         settings.selectedCamera &&
         this.lastMediaDeviceSettings.selectedCamera !== settings.selectedCamera)
     ) {
-      window.log.info('MediaDevice: selecting camera', settings.selectedCamera);
+      log.info('MediaDevice: selecting camera', settings.selectedCamera);
       await this.videoCapturer.setPreferredDevice(settings.selectedCamera);
     }
 
     // Assume that the MediaDeviceSettings have been obtained very recently and
     // the index is still valid (no devices have been plugged in in between).
     if (settings.selectedMicrophone) {
-      window.log.info(
+      log.info(
         'MediaDevice: selecting microphone',
         settings.selectedMicrophone
       );
@@ -1501,10 +1489,7 @@ export class CallingClass {
     }
 
     if (settings.selectedSpeaker) {
-      window.log.info(
-        'MediaDevice: selecting speaker',
-        settings.selectedSpeaker
-      );
+      log.info('MediaDevice: selecting speaker', settings.selectedSpeaker);
       RingRTC.setAudioOutput(settings.selectedSpeaker.index);
     }
   }
@@ -1548,22 +1533,128 @@ export class CallingClass {
 
   private async handleSendCallMessage(
     recipient: Uint8Array,
-    data: Uint8Array
+    data: Uint8Array,
+    urgency: CallMessageUrgency
   ): Promise<boolean> {
-    const userId = arrayBufferToUuid(typedArrayToArrayBuffer(recipient));
+    const userId = bytesToUuid(recipient);
     if (!userId) {
-      window.log.error('handleSendCallMessage(): bad recipient UUID');
+      log.error('handleSendCallMessage(): bad recipient UUID');
       return false;
     }
     const message = new CallingMessage();
     message.opaque = new OpaqueMessage();
     message.opaque.data = Buffer.from(data);
-    return this.handleOutgoingSignaling(userId, message);
+    return this.handleOutgoingSignaling(userId, message, urgency);
+  }
+
+  private async handleSendCallMessageToGroup(
+    groupIdBytes: Buffer,
+    data: Buffer,
+    urgency: CallMessageUrgency
+  ): Promise<void> {
+    const groupId = groupIdBytes.toString('base64');
+    const conversation = window.ConversationController.get(groupId);
+    if (!conversation) {
+      log.error('handleSendCallMessageToGroup(): could not find conversation');
+      return;
+    }
+
+    const timestamp = Date.now();
+
+    const callingMessage = new CallingMessage();
+    callingMessage.opaque = new OpaqueMessage();
+    callingMessage.opaque.data = data;
+    const contentMessage = new Proto.Content();
+    contentMessage.callingMessage = callingMessageToProto(
+      callingMessage,
+      urgency
+    );
+
+    // We "fire and forget" because sending this message is non-essential.
+    // We also don't sync this message.
+    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
+    await conversation.queueJob('handleSendCallMessageToGroup', async () =>
+      handleMessageSend(
+        window.Signal.Util.sendContentMessageToGroup({
+          contentHint: ContentHint.DEFAULT,
+          contentMessage,
+          conversation,
+          isPartialSend: false,
+          messageId: undefined,
+          recipients: conversation.getRecipients(),
+          sendOptions: await getSendOptions(conversation.attributes),
+          sendType: 'callingMessage',
+          timestamp,
+        }),
+        { messageIds: [], sendType: 'callingMessage' }
+      )
+    );
+  }
+
+  private async handleGroupCallRingUpdate(
+    groupIdBytes: Buffer,
+    ringId: bigint,
+    ringerBytes: Buffer,
+    update: RingUpdate
+  ): Promise<void> {
+    log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
+
+    const groupId = groupIdBytes.toString('base64');
+
+    const ringerUuid = bytesToUuid(ringerBytes);
+    if (!ringerUuid) {
+      log.error('handleGroupCallRingUpdate(): ringerUuid was invalid');
+      return;
+    }
+
+    const conversation = window.ConversationController.get(groupId);
+    if (!conversation) {
+      log.error('handleGroupCallRingUpdate(): could not find conversation');
+      return;
+    }
+    const conversationId = conversation.id;
+
+    let shouldRing = false;
+
+    if (update === RingUpdate.Requested) {
+      const processResult = await processGroupCallRingRequest(ringId);
+      switch (processResult) {
+        case ProcessGroupCallRingRequestResult.ShouldRing:
+          shouldRing = true;
+          break;
+        case ProcessGroupCallRingRequestResult.RingWasPreviouslyCanceled:
+          RingRTC.cancelGroupRing(groupIdBytes, ringId, null);
+          break;
+        case ProcessGroupCallRingRequestResult.ThereIsAnotherActiveRing:
+          RingRTC.cancelGroupRing(groupIdBytes, ringId, RingCancelReason.Busy);
+          break;
+        default:
+          throw missingCaseError(processResult);
+      }
+    } else {
+      await processGroupCallRingCancelation(ringId);
+    }
+
+    if (shouldRing) {
+      log.info('handleGroupCallRingUpdate: ringing');
+      this.uxActions?.receiveIncomingGroupCall({
+        conversationId,
+        ringId,
+        ringerUuid,
+      });
+    } else {
+      log.info('handleGroupCallRingUpdate: canceling any existing ring');
+      this.uxActions?.cancelIncomingGroupCallRing({
+        conversationId,
+        ringId,
+      });
+    }
   }
 
   private async handleOutgoingSignaling(
     remoteUserId: UserId,
-    message: CallingMessage
+    message: CallingMessage,
+    urgency?: CallMessageUrgency
   ): Promise<boolean> {
     const conversation = window.ConversationController.get(remoteUserId);
     const sendOptions = conversation
@@ -1571,7 +1662,7 @@ export class CallingClass {
       : undefined;
 
     if (!window.textsecure.messaging) {
-      window.log.warn('handleOutgoingSignaling() returning false; offline');
+      log.warn('handleOutgoingSignaling() returning false; offline');
       return false;
     }
 
@@ -1579,7 +1670,7 @@ export class CallingClass {
       const result = await handleMessageSend(
         window.textsecure.messaging.sendCallingMessage(
           remoteUserId,
-          callingMessageToProto(message),
+          callingMessageToProto(message, urgency),
           sendOptions
         ),
         { messageIds: [], sendType: 'callingMessage' }
@@ -1589,15 +1680,13 @@ export class CallingClass {
         throw result.errors[0];
       }
 
-      window.log.info('handleOutgoingSignaling() completed successfully');
+      log.info('handleOutgoingSignaling() completed successfully');
       return true;
     } catch (err) {
       if (err && err.errors && err.errors.length > 0) {
-        window.log.error(
-          `handleOutgoingSignaling() failed: ${err.errors[0].reason}`
-        );
+        log.error(`handleOutgoingSignaling() failed: ${err.errors[0].reason}`);
       } else {
-        window.log.error('handleOutgoingSignaling() failed');
+        log.error('handleOutgoingSignaling() failed');
       }
       return false;
     }
@@ -1605,16 +1694,16 @@ export class CallingClass {
 
   // If we return null here, we hang up the call.
   private async handleIncomingCall(call: Call): Promise<CallSettings | null> {
-    window.log.info('CallingClass.handleIncomingCall()');
+    log.info('CallingClass.handleIncomingCall()');
 
     if (!this.uxActions || !this.localDeviceId) {
-      window.log.error('Missing required objects, ignoring incoming call.');
+      log.error('Missing required objects, ignoring incoming call.');
       return null;
     }
 
     const conversation = window.ConversationController.get(call.remoteUserId);
     if (!conversation) {
-      window.log.error('Missing conversation, ignoring incoming call.');
+      log.error('Missing conversation, ignoring incoming call.');
       return null;
     }
 
@@ -1627,7 +1716,7 @@ export class CallingClass {
         verifiedEnum ===
         window.textsecure.storage.protocol.VerifiedStatus.UNVERIFIED
       ) {
-        window.log.info(
+        log.info(
           `Peer is not trusted, ignoring incoming call for conversation: ${conversation.idForLogging()}`
         );
         this.addCallHistoryForFailedIncomingCall(
@@ -1640,16 +1729,16 @@ export class CallingClass {
 
       this.attachToCall(conversation, call);
 
-      this.uxActions.receiveIncomingCall({
+      this.uxActions.receiveIncomingDirectCall({
         conversationId: conversation.id,
         isVideoCall: call.isVideoCall,
       });
 
-      window.log.info('CallingClass.handleIncomingCall(): Proceeding');
+      log.info('CallingClass.handleIncomingCall(): Proceeding');
 
       return await this.getCallSettings(conversation);
     } catch (err) {
-      window.log.error(`Ignoring incoming call: ${err.stack}`);
+      log.error(`Ignoring incoming call: ${err.stack}`);
       this.addCallHistoryForFailedIncomingCall(
         conversation,
         call.isVideoCall,
@@ -1661,13 +1750,27 @@ export class CallingClass {
 
   private handleAutoEndedIncomingCallRequest(
     remoteUserId: UserId,
-    reason: CallEndedReason
+    reason: CallEndedReason,
+    ageInSeconds: number
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
       return;
     }
-    this.addCallHistoryForAutoEndedIncomingCall(conversation, reason);
+
+    // This is extra defensive, just in case RingRTC passes us a bad value. (It probably
+    //   won't.)
+    const ageInMilliseconds =
+      isNormalNumber(ageInSeconds) && ageInSeconds >= 0
+        ? ageInSeconds * durations.SECOND
+        : 0;
+    const endedTime = Date.now() - ageInMilliseconds;
+
+    this.addCallHistoryForAutoEndedIncomingCall(
+      conversation,
+      reason,
+      endedTime
+    );
   }
 
   private attachToCall(conversation: ConversationModel, call: Call): void {
@@ -1726,13 +1829,13 @@ export class CallingClass {
   ) {
     switch (level) {
       case CallLogLevel.Info:
-        window.log.info(`${fileName}:${line} ${message}`);
+        log.info(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Warn:
-        window.log.warn(`${fileName}:${line} ${message}`);
+        log.warn(`${fileName}:${line} ${message}`);
         break;
       case CallLogLevel.Error:
-        window.log.error(`${fileName}:${line} ${message}`);
+        log.error(`${fileName}:${line} ${message}`);
         break;
       default:
         break;
@@ -1766,7 +1869,7 @@ export class CallingClass {
         url,
         httpMethod,
         headers,
-        body ? typedArrayToArrayBuffer(body) : undefined
+        body
       );
     } catch (err) {
       if (err.code !== -1) {
@@ -1775,7 +1878,7 @@ export class CallingClass {
         // it an empty one.
         RingRTC.receivedHttpResponse(requestId, err.code, Buffer.alloc(0));
       } else {
-        window.log.error('handleSendHttpRequest: fetch failed with error', err);
+        log.error('handleSendHttpRequest: fetch failed with error', err);
         RingRTC.httpRequestFailed(requestId, String(err));
       }
       return;
@@ -1821,7 +1924,7 @@ export class CallingClass {
       throw new Error('getCallSettings: offline!');
     }
 
-    const iceServerJson = await window.textsecure.messaging.server.getIceServers();
+    const iceServer = await window.textsecure.messaging.server.getIceServers();
 
     const shouldRelayCalls = window.Events.getAlwaysRelayCalls();
 
@@ -1829,7 +1932,10 @@ export class CallingClass {
     const isContactUnknown = !conversation.isFromOrAddedByTrustedContact();
 
     return {
-      iceServer: JSON.parse(iceServerJson),
+      iceServer: {
+        ...iceServer,
+        urls: iceServer.urls.slice(),
+      },
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
     };
@@ -1885,7 +1991,8 @@ export class CallingClass {
 
   private addCallHistoryForAutoEndedIncomingCall(
     conversation: ConversationModel,
-    _reason: CallEndedReason
+    _reason: CallEndedReason,
+    endedTime: number
   ) {
     conversation.addCallHistory({
       callMode: CallMode.Direct,
@@ -1896,35 +2003,98 @@ export class CallingClass {
       // Since the user didn't decline, make sure it shows up as a missed call instead
       wasDeclined: false,
       acceptedTime: undefined,
-      endedTime: Date.now(),
+      endedTime,
     });
   }
 
-  public updateCallHistoryForGroupCall(
+  public async updateCallHistoryForGroupCall(
     conversationId: string,
     peekInfo: undefined | PeekInfo
-  ): void {
+  ): Promise<void> {
     // If we don't have the necessary pieces to peek, bail. (It's okay if we don't.)
     if (!peekInfo || !peekInfo.eraId || !peekInfo.creator) {
       return;
     }
-    const creatorUuid = arrayBufferToUuid(
-      typedArrayToArrayBuffer(peekInfo.creator)
-    );
+    const creatorUuid = bytesToUuid(peekInfo.creator);
     if (!creatorUuid) {
-      window.log.error('updateCallHistoryForGroupCall(): bad creator UUID');
+      log.error('updateCallHistoryForGroupCall(): bad creator UUID');
       return;
     }
+    const creatorConversation = window.ConversationController.get(creatorUuid);
 
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
-      window.log.error(
-        'updateCallHistoryForGroupCall(): could not find conversation'
-      );
+      log.error('updateCallHistoryForGroupCall(): could not find conversation');
       return;
     }
 
-    conversation.updateCallHistoryForGroupCall(peekInfo.eraId, creatorUuid);
+    const isNewCall = await conversation.updateCallHistoryForGroupCall(
+      peekInfo.eraId,
+      creatorUuid
+    );
+    const wasStartedByMe = Boolean(
+      creatorConversation && isMe(creatorConversation.attributes)
+    );
+    const isAnybodyElseInGroupCall = Boolean(peekInfo.joinedMembers.length);
+
+    if (isNewCall && !wasStartedByMe && isAnybodyElseInGroupCall) {
+      this.notifyForGroupCall(conversation, creatorConversation);
+    }
+  }
+
+  private notifyForGroupCall(
+    conversation: Readonly<ConversationModel>,
+    creatorConversation: undefined | Readonly<ConversationModel>
+  ): void {
+    let notificationTitle: string;
+    let notificationMessage: string;
+
+    switch (notificationService.getNotificationSetting()) {
+      case NotificationSetting.Off:
+        return;
+      case NotificationSetting.NoNameOrMessage:
+        notificationTitle = FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = window.i18n(
+          'calling__call-notification__started-by-someone'
+        );
+        break;
+      default:
+        // These fallbacks exist just in case something unexpected goes wrong.
+        notificationTitle =
+          conversation?.getTitle() || FALLBACK_NOTIFICATION_TITLE;
+        notificationMessage = creatorConversation
+          ? window.i18n('calling__call-notification__started', [
+              creatorConversation.getTitle(),
+            ])
+          : window.i18n('calling__call-notification__started-by-someone');
+        break;
+    }
+
+    notificationService.notify({
+      icon: 'images/icons/v2/video-solid-24.svg',
+      message: notificationMessage,
+      onNotificationClick: () => {
+        this.uxActions?.startCallingLobby({
+          conversationId: conversation.id,
+          isVideoCall: true,
+        });
+      },
+      silent: false,
+      title: notificationTitle,
+    });
+  }
+
+  private async cleanExpiredGroupCallRingsAndLoop(): Promise<void> {
+    try {
+      await cleanExpiredGroupCallRings();
+    } catch (err: unknown) {
+      // These errors are ignored here. They should be logged elsewhere and it's okay if
+      //   we don't do a cleanup this time.
+    }
+
+    setTimeout(() => {
+      this.cleanExpiredGroupCallRingsAndLoop();
+    }, CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL);
   }
 }
 

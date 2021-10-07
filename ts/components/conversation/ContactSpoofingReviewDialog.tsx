@@ -101,9 +101,6 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> = props =
             onDelete={() => {
               onDelete(affectedConversation.id);
             }}
-            name={affectedConversation.name}
-            profileName={affectedConversation.profileName}
-            phoneNumber={affectedConversation.phoneNumber}
             title={affectedConversation.title}
             conversationType="direct"
             state={

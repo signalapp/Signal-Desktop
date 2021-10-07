@@ -3,7 +3,8 @@
 
 import { ConversationAttributesType } from '../model-types.d';
 import { SendMetadataType, SendOptionsType } from '../textsecure/SendMessage';
-import { arrayBufferToBase64, getRandomBytes } from '../Crypto';
+import * as Bytes from '../Bytes';
+import { getRandomBytes } from '../Crypto';
 import { getConversationMembers } from './getConversationMembers';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { isInSystemContacts } from './isInSystemContacts';
@@ -68,7 +69,7 @@ export async function getSendOptions(
   // If we've never fetched user's profile, we default to what we have
   if (sealedSender === SEALED_SENDER.UNKNOWN) {
     const identifierData = {
-      accessKey: accessKey || arrayBufferToBase64(getRandomBytes(16)),
+      accessKey: accessKey || Bytes.toBase64(getRandomBytes(16)),
       senderCertificate,
     };
     return {
@@ -89,7 +90,7 @@ export async function getSendOptions(
     accessKey:
       accessKey && sealedSender === SEALED_SENDER.ENABLED
         ? accessKey
-        : arrayBufferToBase64(getRandomBytes(16)),
+        : Bytes.toBase64(getRandomBytes(16)),
     senderCertificate,
   };
 

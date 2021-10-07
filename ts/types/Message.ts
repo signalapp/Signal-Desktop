@@ -4,7 +4,7 @@
 /* eslint-disable camelcase */
 
 import { AttachmentType } from './Attachment';
-import { ContactType } from './Contact';
+import { EmbeddedContactType } from './EmbeddedContact';
 import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = (
@@ -110,7 +110,7 @@ type MessageSchemaVersion5 = Partial<
 
 type MessageSchemaVersion6 = Partial<
   Readonly<{
-    contact: Array<ContactType>;
+    contact: Array<EmbeddedContactType>;
   }>
 >;
 

@@ -37,7 +37,7 @@ type PropsExternalType = {
   onEditStateChanged: (editState: EditState) => unknown;
   onProfileChanged: (
     profileData: ProfileDataType,
-    avatarBuffer?: ArrayBuffer
+    avatarBuffer?: Uint8Array
   ) => unknown;
 };
 
@@ -126,7 +126,7 @@ export const ProfileEditor = ({
     aboutText,
   });
 
-  const [avatarBuffer, setAvatarBuffer] = useState<ArrayBuffer | undefined>(
+  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     undefined
   );
   const [stagedProfile, setStagedProfile] = useState<ProfileDataType>({
@@ -153,26 +153,12 @@ export const ProfileEditor = ({
   );
 
   const handleAvatarChanged = useCallback(
-    (avatar: ArrayBuffer | undefined) => {
+    (avatar: Uint8Array | undefined) => {
       setAvatarBuffer(avatar);
       setEditState(EditState.None);
       onProfileChanged(stagedProfile, avatar);
     },
     [onProfileChanged, stagedProfile]
-  );
-
-  const getTextEncoder = useCallback(() => new TextEncoder(), []);
-
-  const countByteLength = useCallback(
-    (str: string) => getTextEncoder().encode(str).byteLength,
-    [getTextEncoder]
-  );
-
-  const calculateLengthCount = useCallback(
-    (name = '') => {
-      return 256 - countByteLength(name);
-    },
-    [countByteLength]
   );
 
   const getFullNameText = () => {
@@ -186,6 +172,7 @@ export const ProfileEditor = ({
     }
 
     focusNode.focus();
+    focusNode.setSelectionRange(focusNode.value.length, focusNode.value.length);
   }, [editState]);
 
   useEffect(() => {
@@ -224,9 +211,9 @@ export const ProfileEditor = ({
     content = (
       <>
         <Input
-          countLength={countByteLength}
           i18n={i18n}
-          maxLengthCount={calculateLengthCount(stagedProfile.familyName)}
+          maxLengthCount={26}
+          maxByteCount={128}
           whenToShowRemainingCount={0}
           onChange={newFirstName => {
             setStagedProfile(profileData => ({
@@ -239,9 +226,9 @@ export const ProfileEditor = ({
           value={stagedProfile.firstName}
         />
         <Input
-          countLength={countByteLength}
           i18n={i18n}
-          maxLengthCount={calculateLengthCount(stagedProfile.firstName)}
+          maxLengthCount={26}
+          maxByteCount={128}
           whenToShowRemainingCount={0}
           onChange={newFamilyName => {
             setStagedProfile(profileData => ({
@@ -322,13 +309,14 @@ export const ProfileEditor = ({
             </div>
           }
           maxLengthCount={140}
+          maxByteCount={512}
           moduleClassName="ProfileEditor__about-input"
           onChange={value => {
             if (value) {
               setStagedProfile(profileData => ({
                 ...profileData,
                 aboutEmoji: stagedProfile.aboutEmoji,
-                aboutText: value,
+                aboutText: value.replace(/(\r\n|\n|\r)/gm, ''),
               }));
             } else {
               setStagedProfile(profileData => ({

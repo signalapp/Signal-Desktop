@@ -28,25 +28,15 @@ describe('emoji', () => {
         { type: 'emoji', value: '😛' },
         { type: 'text', value: 'world' },
         { type: 'emoji', value: '😎' },
-        { type: 'text', value: '' },
         { type: 'emoji', value: '😛' },
         { type: 'text', value: '!' },
       ]);
     });
 
-    it('should return empty string after split at the end', () => {
-      assert.deepStrictEqual(splitByEmoji('hello😛'), [
-        { type: 'text', value: 'hello' },
-        { type: 'emoji', value: '😛' },
-        { type: 'text', value: '' },
-      ]);
-    });
-
-    it('should return empty string before the split at the start', () => {
-      assert.deepStrictEqual(splitByEmoji('😛hello'), [
-        { type: 'text', value: '' },
-        { type: 'emoji', value: '😛' },
-        { type: 'text', value: 'hello' },
+    it('returns emojis as text after 5,000 emojis are found', () => {
+      assert.deepStrictEqual(splitByEmoji('💬'.repeat(5002)), [
+        ...Array(5000).fill({ type: 'emoji', value: '💬' }),
+        { type: 'text', value: '💬💬' },
       ]);
     });
   });

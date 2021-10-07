@@ -1,6 +1,5 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 import {
   StorageAccessType as Access,
@@ -12,6 +11,7 @@ import { Blocked } from './storage/Blocked';
 import { assert } from '../util/assert';
 import Data from '../sql/Client';
 import { SignalProtocolStore } from '../SignalProtocolStore';
+import * as log from '../logging/log';
 
 export class Storage implements StorageInterface {
   public readonly user: User;
@@ -61,7 +61,7 @@ export class Storage implements StorageInterface {
     defaultValue?: V
   ): V | undefined {
     if (!this.ready) {
-      window.log.warn('Called storage.get before storage is ready. key:', key);
+      log.warn('Called storage.get before storage is ready. key:', key);
     }
 
     const item = this.items[key];
@@ -77,7 +77,7 @@ export class Storage implements StorageInterface {
     value: Access[K]
   ): Promise<void> {
     if (!this.ready) {
-      window.log.warn('Called storage.put before storage is ready. key:', key);
+      log.warn('Called storage.put before storage is ready. key:', key);
     }
 
     this.items[key] = value;
@@ -88,10 +88,7 @@ export class Storage implements StorageInterface {
 
   public async remove<K extends keyof Access>(key: K): Promise<void> {
     if (!this.ready) {
-      window.log.warn(
-        'Called storage.remove before storage is ready. key:',
-        key
-      );
+      log.warn('Called storage.remove before storage is ready. key:', key);
     }
 
     delete this.items[key];

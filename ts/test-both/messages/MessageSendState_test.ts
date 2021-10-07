@@ -12,6 +12,7 @@ import {
   SendStateByConversationId,
   SendStatus,
   isDelivered,
+  isFailed,
   isMessageJustForMe,
   isRead,
   isSent,
@@ -103,6 +104,20 @@ describe('message send state utilities', () => {
     it('returns false for non-sent statuses', () => {
       assert.isFalse(isSent(SendStatus.Pending));
       assert.isFalse(isSent(SendStatus.Failed));
+    });
+  });
+
+  describe('isFailed', () => {
+    it('returns true for failed statuses', () => {
+      assert.isTrue(isFailed(SendStatus.Failed));
+    });
+
+    it('returns false for non-failed statuses', () => {
+      assert.isFalse(isFailed(SendStatus.Viewed));
+      assert.isFalse(isFailed(SendStatus.Read));
+      assert.isFalse(isFailed(SendStatus.Delivered));
+      assert.isFalse(isFailed(SendStatus.Sent));
+      assert.isFalse(isFailed(SendStatus.Pending));
     });
   });
 

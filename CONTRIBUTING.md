@@ -246,7 +246,7 @@ iOS and Android apps are locked to the production servers. To test all scenarios
 staging, your best bet is to pull down the development version of the iOS or Android app,
 and register it with one of your extra phone numbers:
 
-First, build Signal for Android or iOS from source, and point its service URL to `textsecure-service-staging.whispersystems.org`:
+First, build Signal for Android or iOS from source, and point its service URL to `chat.staging.signal.org`:
 
 **on Android:** Replace the `SIGNAL_URL` value in [build.gradle](https://github.com/signalapp/Signal-Android/blob/master/build.gradle)
 

@@ -13,6 +13,7 @@ import MessageSender from './SendMessage';
 import { assert } from '../util/assert';
 import { getSendOptions } from '../util/getSendOptions';
 import { handleMessageSend } from '../util/handleMessageSend';
+import * as log from '../logging/log';
 
 class SyncRequestInner extends EventTarget {
   private started = false;
@@ -69,38 +70,36 @@ class SyncRequestInner extends EventTarget {
     });
 
     if (window.ConversationController.areWePrimaryDevice()) {
-      window.log.warn(
-        'SyncRequest.start: We are primary device; returning early'
-      );
+      log.warn('SyncRequest.start: We are primary device; returning early');
       return;
     }
 
-    window.log.info('SyncRequest created. Sending config sync request...');
+    log.info('SyncRequest created. Sending config sync request...');
     handleMessageSend(sender.sendRequestConfigurationSyncMessage(sendOptions), {
       messageIds: [],
       sendType: 'otherSync',
     });
 
-    window.log.info('SyncRequest now sending block sync request...');
+    log.info('SyncRequest now sending block sync request...');
     handleMessageSend(sender.sendRequestBlockSyncMessage(sendOptions), {
       messageIds: [],
       sendType: 'otherSync',
     });
 
-    window.log.info('SyncRequest now sending contact sync message...');
+    log.info('SyncRequest now sending contact sync message...');
     handleMessageSend(sender.sendRequestContactSyncMessage(sendOptions), {
       messageIds: [],
       sendType: 'otherSync',
     })
       .then(() => {
-        window.log.info('SyncRequest now sending group sync message...');
+        log.info('SyncRequest now sending group sync message...');
         return handleMessageSend(
           sender.sendRequestGroupSyncMessage(sendOptions),
           { messageIds: [], sendType: 'otherSync' }
         );
       })
       .catch((error: Error) => {
-        window.log.error(
+        log.error(
           'SyncRequest error:',
           error && error.stack ? error.stack : error
         );

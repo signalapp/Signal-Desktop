@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, mapValues, pick } from 'lodash';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { connect } from 'react-redux';
 import memoizee from 'memoizee';
 
@@ -12,6 +12,7 @@ import {
   ContactSpoofingReviewPropType,
   Timeline,
   WarningType as TimelineWarningType,
+  PropsType as ComponentPropsType,
 } from '../../components/conversation/Timeline';
 import { StateType } from '../reducer';
 import { ConversationType } from '../ducks/conversations';
@@ -33,6 +34,7 @@ import { SmartHeroRow } from './HeroRow';
 import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
+import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
 import { assert } from '../../util/assert';
@@ -52,6 +54,48 @@ type ExternalProps = {
   //   are provided by ConversationView in setupTimeline().
 };
 
+export type TimelinePropsType = ExternalProps &
+  Pick<
+    ComponentPropsType,
+    | 'acknowledgeGroupMemberNameCollisions'
+    | 'contactSupport'
+    | 'deleteMessage'
+    | 'deleteMessageForEveryone'
+    | 'displayTapToViewMessage'
+    | 'downloadAttachment'
+    | 'downloadNewVersion'
+    | 'kickOffAttachmentDownload'
+    | 'learnMoreAboutDeliveryIssue'
+    | 'loadAndScroll'
+    | 'loadNewerMessages'
+    | 'loadNewestMessages'
+    | 'loadOlderMessages'
+    | 'markAttachmentAsCorrupted'
+    | 'markMessageRead'
+    | 'markViewed'
+    | 'onBlock'
+    | 'onBlockAndReportSpam'
+    | 'onDelete'
+    | 'onUnblock'
+    | 'openConversation'
+    | 'openLink'
+    | 'reactToMessage'
+    | 'removeMember'
+    | 'replyToMessage'
+    | 'retrySend'
+    | 'scrollToQuotedMessage'
+    | 'showContactDetail'
+    | 'showContactModal'
+    | 'showExpiredIncomingTapToViewToast'
+    | 'showExpiredOutgoingTapToViewToast'
+    | 'showForwardMessageModal'
+    | 'showIdentity'
+    | 'showMessageDetail'
+    | 'showVisualAttachment'
+    | 'unblurAvatar'
+    | 'updateSharedGroups'
+  >;
+
 const createBoundOnHeightChange = memoizee(
   (
     onHeightChange: (messageId: string) => unknown,
@@ -62,19 +106,34 @@ const createBoundOnHeightChange = memoizee(
   { max: 500 }
 );
 
-function renderItem(
-  messageId: string,
-  conversationId: string,
-  onHeightChange: (messageId: string) => unknown,
-  actionProps: TimelineActionsType
-): JSX.Element {
+function renderItem({
+  actionProps,
+  containerElementRef,
+  conversationId,
+  messageId,
+  nextMessageId,
+  onHeightChange,
+  previousMessageId,
+}: {
+  actionProps: TimelineActionsType;
+  containerElementRef: RefObject<HTMLElement>;
+  conversationId: string;
+  messageId: string;
+  nextMessageId: undefined | string;
+  onHeightChange: (messageId: string) => unknown;
+  previousMessageId: undefined | string;
+}): JSX.Element {
   return (
     <SmartTimelineItem
       {...actionProps}
+      containerElementRef={containerElementRef}
       conversationId={conversationId}
-      id={messageId}
+      messageId={messageId}
+      previousMessageId={previousMessageId}
+      nextMessageId={nextMessageId}
       onHeightChange={createBoundOnHeightChange(onHeightChange, messageId)}
       renderEmojiPicker={renderEmojiPicker}
+      renderReactionPicker={renderReactionPicker}
       renderAudioAttachment={renderAudioAttachment}
     />
   );
@@ -227,6 +286,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const { id, ...actions } = props;
 
   const conversation = getConversationSelector(state)(id);
+
   const conversationMessages = getConversationMessagesSelector(state)(id);
   const selectedMessage = getSelectedMessage(state);
 
@@ -263,5 +323,4 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
 const smart = connect(mapStateToProps, mapDispatchToProps);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const SmartTimeline = smart(Timeline as any);
+export const SmartTimeline = smart(Timeline);

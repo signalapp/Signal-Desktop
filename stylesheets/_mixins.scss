@@ -155,10 +155,13 @@
 
 // Icons
 
-@mixin color-svg($svg, $color, $stretch: true) {
+@mixin color-svg($svg, $color, $stretch: true, $mask-origin: null) {
   -webkit-mask: url($svg) no-repeat center;
   @if $stretch {
     -webkit-mask-size: 100%;
+  }
+  @if $mask-origin {
+    -webkit-mask-origin: $mask-origin;
   }
   background-color: $color;
 }
@@ -222,8 +225,27 @@
   text-align: inherit;
 }
 
+@mixin staged-attachment-close-button {
+  @include button-reset;
+
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  z-index: 2;
+}
+
 @mixin calling-text-shadow {
   text-shadow: 0 0 4px $color-black-alpha-40;
+}
+
+@mixin lonely-local-video-preview {
+  max-height: calc(100% - 24px);
+  height: auto;
+  transform: rotateY(180deg);
+  width: calc(100% - 24px);
+  border-radius: 8px;
 }
 
 // --- Buttons
@@ -559,5 +581,32 @@
         }
       }
     }
+  }
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    visibility: hidden;
+    width: 6px;
+
+    @include light-theme {
+      background: $color-black-alpha-40;
+    }
+    @include dark-theme {
+      background: $color-white-alpha-40;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
   }
 }

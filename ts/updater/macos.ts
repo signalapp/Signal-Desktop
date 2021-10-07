@@ -8,7 +8,7 @@ import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
 import { app, autoUpdater, BrowserWindow } from 'electron';
-import { get as getFromConfig } from 'config';
+import config from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
@@ -20,19 +20,17 @@ import {
   getPrintableError,
   setUpdateListener,
   UpdaterInterface,
-  UpdateInformationType,
 } from './common';
+import * as durations from '../util/durations';
 import { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const INTERVAL = MINUTE * 30;
+const INTERVAL = 30 * durations.MINUTE;
 
 export async function start(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType
 ): Promise<UpdaterInterface> {
   logger.info('macos/start: starting checks...');
@@ -63,7 +61,7 @@ let updateFilePath: string;
 let loggerForQuitHandler: LoggerType;
 
 async function checkForUpdatesMaybeInstall(
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   force = false
 ) {
@@ -75,21 +73,45 @@ async function checkForUpdatesMaybeInstall(
 
   const { fileName: newFileName, version: newVersion } = result;
 
-  setUpdateListener(createUpdater(getMainWindow, result, logger));
-
-  if (fileName !== newFileName || !version || gt(newVersion, version)) {
+  if (
+    force ||
+    fileName !== newFileName ||
+    !version ||
+    gt(newVersion, version)
+  ) {
     const autoDownloadUpdates = await getAutoDownloadUpdateSetting(
-      getMainWindow()
+      getMainWindow(),
+      logger
     );
     if (!autoDownloadUpdates) {
-      getMainWindow().webContents.send(
-        'show-update-dialog',
-        DialogType.DownloadReady,
-        {
-          downloadSize: result.size,
-          version: result.version,
-        }
-      );
+      setUpdateListener(async () => {
+        logger.info(
+          'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
+        );
+        await downloadAndInstall(
+          newFileName,
+          newVersion,
+          getMainWindow,
+          logger,
+          true
+        );
+      });
+      const mainWindow = getMainWindow();
+
+      if (mainWindow) {
+        mainWindow.webContents.send(
+          'show-update-dialog',
+          DialogType.DownloadReady,
+          {
+            downloadSize: result.size,
+            version: result.version,
+          }
+        );
+      } else {
+        logger.warn(
+          'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
+        );
+      }
       return;
     }
     await downloadAndInstall(newFileName, newVersion, getMainWindow, logger);
@@ -99,7 +121,7 @@ async function checkForUpdatesMaybeInstall(
 async function downloadAndInstall(
   newFileName: string,
   newVersion: string,
-  getMainWindow: () => BrowserWindow,
+  getMainWindow: () => BrowserWindow | undefined,
   logger: LoggerType,
   updateOnProgress?: boolean
 ) {
@@ -128,7 +150,7 @@ async function downloadAndInstall(
       return;
     }
 
-    const publicKey = hexToBinary(getFromConfig('updatesPublicKey'));
+    const publicKey = hexToBinary(config.get('updatesPublicKey'));
     const verified = await verifySignature(updateFilePath, version, publicKey);
     if (!verified) {
       // Note: We don't delete the cache here, because we don't want to continually
@@ -143,19 +165,24 @@ async function downloadAndInstall(
     } catch (error) {
       const readOnly = 'Cannot update while running on a read-only volume';
       const message: string = error.message || '';
-      if (message.includes(readOnly)) {
+      const mainWindow = getMainWindow();
+      if (mainWindow && message.includes(readOnly)) {
         logger.info('downloadAndInstall: showing read-only dialog...');
-        getMainWindow().webContents.send(
+        mainWindow.webContents.send(
           'show-update-dialog',
           DialogType.MacOS_Read_Only
         );
-      } else {
+      } else if (mainWindow) {
         logger.info(
           'downloadAndInstall: showing general update failure dialog...'
         );
-        getMainWindow().webContents.send(
+        mainWindow.webContents.send(
           'show-update-dialog',
           DialogType.Cannot_Update
+        );
+      } else {
+        logger.warn(
+          'downloadAndInstall: no mainWindow, cannot show update dialog'
         );
       }
 
@@ -166,9 +193,22 @@ async function downloadAndInstall(
     //   because Squirrel has cached the update file and will do the right thing.
     logger.info('downloadAndInstall: showing update dialog...');
 
-    getMainWindow().webContents.send('show-update-dialog', DialogType.Update, {
-      version,
+    setUpdateListener(() => {
+      logger.info('performUpdate: calling quitAndInstall...');
+      markShouldQuit();
+      autoUpdater.quitAndInstall();
     });
+    const mainWindow = getMainWindow();
+
+    if (mainWindow) {
+      mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
+        version,
+      });
+    } else {
+      logger.warn(
+        'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
+      );
+    }
   } catch (error) {
     logger.error(`downloadAndInstall: ${getPrintableError(error)}`);
   }
@@ -379,29 +419,4 @@ function shutdown(
       `shutdown: couldn't end response ${getPrintableError(endError)}`
     );
   }
-}
-
-function createUpdater(
-  getMainWindow: () => BrowserWindow,
-  info: Pick<UpdateInformationType, 'fileName' | 'version'>,
-  logger: LoggerType
-) {
-  return async () => {
-    if (updateFilePath) {
-      logger.info('performUpdate: calling quitAndInstall...');
-      markShouldQuit();
-      autoUpdater.quitAndInstall();
-    } else {
-      logger.info(
-        'performUpdate: have not downloaded update, going to download'
-      );
-      await downloadAndInstall(
-        info.fileName,
-        info.version,
-        getMainWindow,
-        logger,
-        true
-      );
-    }
-  };
 }

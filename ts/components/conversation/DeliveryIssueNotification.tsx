@@ -3,6 +3,8 @@
 
 import React, { useCallback, useState, ReactElement } from 'react';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { SystemMessage } from './SystemMessage';
 import { ConversationType } from '../../state/ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
@@ -45,24 +47,28 @@ export function DeliveryIssueNotification(
   }
 
   return (
-    <div className="module-delivery-issue-notification">
-      <div className="module-delivery-issue-notification__first-line">
-        <span className="module-delivery-issue-notification__icon" />
-        <Intl
-          id="DeliveryIssue--notification"
-          components={{
-            sender: <Emojify text={sender.firstName || sender.title} />,
-          }}
-          i18n={i18n}
-        />
-      </div>
-      <button
-        type="button"
-        onClick={openDialog}
-        className="module-delivery-issue-notification__button"
-      >
-        {i18n('DeliveryIssue--learnMore')}
-      </button>
+    <>
+      <SystemMessage
+        contents={
+          <Intl
+            id="DeliveryIssue--notification"
+            components={{
+              sender: <Emojify text={sender.firstName || sender.title} />,
+            }}
+            i18n={i18n}
+          />
+        }
+        icon="info"
+        button={
+          <Button
+            onClick={openDialog}
+            size={ButtonSize.Small}
+            variant={ButtonVariant.SystemMessage}
+          >
+            {i18n('DeliveryIssue--learnMore')}
+          </Button>
+        }
+      />
       {isDialogOpen ? (
         <DeliveryIssueDialog
           i18n={i18n}
@@ -72,6 +78,6 @@ export function DeliveryIssueNotification(
           onClose={closeDialog}
         />
       ) : null}
-    </div>
+    </>
   );
 }

@@ -9,7 +9,7 @@ import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { PropsType, Timeline } from './Timeline';
 import { TimelineItem, TimelineItemType } from './TimelineItem';
@@ -124,7 +124,6 @@ const items: Record<string, TimelineItemType> = {
     data: {
       disabled: false,
       expireTimer: moment.duration(2, 'hours').asSeconds(),
-      phoneNumber: '(202) 555-0000',
       title: '(202) 555-0000',
       type: 'fromOther',
     },
@@ -134,8 +133,6 @@ const items: Record<string, TimelineItemType> = {
     data: {
       contact: {
         id: '+1202555000',
-        phoneNumber: '(202) 555-0000',
-        profileName: 'Mr. Fire',
         title: 'Mr. Fire',
       },
       isGroup: true,
@@ -144,11 +141,7 @@ const items: Record<string, TimelineItemType> = {
   'id-7': {
     type: 'verificationNotification',
     data: {
-      contact: {
-        name: 'Mrs. Ice',
-        phoneNumber: '(202) 555-0001',
-        title: 'Mrs. Ice',
-      },
+      contact: { title: 'Mrs. Ice' },
       isLocal: true,
       type: 'markVerified',
     },
@@ -164,25 +157,22 @@ const items: Record<string, TimelineItemType> = {
         {
           type: 'add',
           contacts: [
-            {
+            getDefaultConversation({
               phoneNumber: '(202) 555-0002',
-              profileName: 'Mr. Fire',
               title: 'Mr. Fire',
-            },
-            {
+            }),
+            getDefaultConversation({
               phoneNumber: '(202) 555-0003',
-              profileName: 'Ms. Water',
               title: 'Ms. Water',
-            },
+            }),
           ],
         },
       ],
-      from: {
+      from: getDefaultConversation({
         phoneNumber: '(202) 555-0001',
-        name: 'Mrs. Ice',
         title: 'Mrs. Ice',
         isMe: false,
-      },
+      }),
     },
   },
   'id-9': {
@@ -376,14 +366,24 @@ const actions = () => ({
   unblurAvatar: action('unblurAvatar'),
 });
 
-const renderItem = (id: string) => (
+const renderItem = ({
+  messageId,
+  containerElementRef,
+}: {
+  messageId: string;
+  containerElementRef: React.RefObject<HTMLElement>;
+}) => (
   <TimelineItem
     id=""
     isSelected={false}
     renderEmojiPicker={() => <div />}
-    item={items[id]}
+    renderReactionPicker={() => <div />}
+    item={items[messageId]}
+    previousItem={undefined}
+    nextItem={undefined}
     i18n={i18n}
     interactionMode="keyboard"
+    containerElementRef={containerElementRef}
     conversationId=""
     renderContact={() => '*ContactName*'}
     renderUniversalTimerNotification={() => (
@@ -418,6 +418,7 @@ const renderHeroRow = () => (
     profileName={getProfileName()}
     phoneNumber={getPhoneNumber()}
     conversationType="direct"
+    onHeightChange={action('onHeightChange in ConversationHero')}
     sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
     unblurAvatar={action('unblurAvatar')}
     updateSharedGroups={noop}

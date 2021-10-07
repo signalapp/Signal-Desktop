@@ -58,3 +58,6 @@ export const getTitleBarVisibility = (): TitleBarVisibility =>
 export const isSystemTraySupported = (appVersion: string): boolean =>
   // We eventually want to support Linux in production.
   OS.isWindows() || (OS.isLinux() && !isProduction(appVersion));
+
+export const isAutoDownloadUpdatesSupported = (): boolean =>
+  OS.isWindows() || OS.isMacOS();

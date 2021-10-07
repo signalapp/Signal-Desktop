@@ -3,11 +3,11 @@
 /* eslint-disable class-methods-use-this */
 
 import * as z from 'zod';
-import * as moment from 'moment';
+import * as durations from '../util/durations';
 import { strictAssert } from '../util/assert';
 import { waitForOnline } from '../util/waitForOnline';
 import { isDone as isDeviceLinked } from '../util/registration';
-import type { LoggerType } from '../logging/log';
+import type { LoggerType } from '../types/Logging';
 import { map } from '../util/iterables';
 import { sleep } from '../util/sleep';
 
@@ -15,8 +15,9 @@ import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { parseIntWithFallback } from '../util/parseIntWithFallback';
 import type { WebAPIType } from '../textsecure/WebAPI';
+import { HTTPError } from '../textsecure/Errors';
 
-const RETRY_WAIT_TIME = moment.duration(1, 'minute').asMilliseconds();
+const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
   404,
   408,
@@ -83,7 +84,7 @@ export class ReportSpamJobQueue extends JobQueue<ReportSpamJobData> {
         map(serverGuids, serverGuid => server.reportMessage(e164, serverGuid))
       );
     } catch (err: unknown) {
-      if (!(err instanceof Error)) {
+      if (!(err instanceof HTTPError)) {
         throw err;
       }
 

@@ -6,7 +6,14 @@ import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 import { Avatar, AvatarSize } from './Avatar';
 import { Emojify } from './conversation/Emojify';
+import { getParticipantName } from '../util/callingGetParticipantName';
 import { missingCaseError } from '../util/missingCaseError';
+
+export enum RingMode {
+  WillNotRing,
+  WillRing,
+  IsRinging,
+}
 
 type PropsType = {
   conversation: Pick<
@@ -24,10 +31,11 @@ type PropsType = {
     | 'unblurredAvatarPath'
   >;
   i18n: LocalizerType;
-  me: Pick<ConversationType, 'uuid'>;
+  me: Pick<ConversationType, 'id' | 'uuid'>;
+  ringMode: RingMode;
 
   // The following should only be set for group conversations.
-  groupMembers?: Array<Pick<ConversationType, 'firstName' | 'title' | 'uuid'>>;
+  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   isCallFull?: boolean;
   peekedParticipants?: Array<
     Pick<ConversationType, 'firstName' | 'title' | 'uuid'>
@@ -41,9 +49,12 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
   isCallFull = false,
   me,
   peekedParticipants = [],
+  ringMode,
 }) => {
   let subtitle: string;
-  if (isCallFull) {
+  if (ringMode === RingMode.IsRinging) {
+    subtitle = i18n('outgoingCallRinging');
+  } else if (isCallFull) {
     subtitle = i18n('calling__call-is-full');
   } else if (peekedParticipants.length) {
     // It should be rare to see yourself in this list, but it's possible if (1) you rejoin
@@ -85,45 +96,67 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
         });
         break;
     }
-  } else if (conversation.type === 'direct') {
-    subtitle = i18n('calling__pre-call-info--will-ring-1', [
-      getParticipantName(conversation),
-    ]);
-  } else if (conversation.type === 'group') {
-    const memberNames = groupMembers.map(getParticipantName);
+  } else {
+    let memberNames: Array<string>;
+    switch (conversation.type) {
+      case 'direct':
+        memberNames = [getParticipantName(conversation)];
+        break;
+      case 'group':
+        memberNames = groupMembers
+          .filter(member => member.id !== me.id)
+          .map(getParticipantName);
+        break;
+      default:
+        throw missingCaseError(conversation.type);
+    }
+
+    const ring = ringMode === RingMode.WillRing;
 
     switch (memberNames.length) {
       case 0:
         subtitle = i18n('calling__pre-call-info--empty-group');
         break;
-      case 1:
-        subtitle = i18n('calling__pre-call-info--will-notify-1', [
-          memberNames[0],
-        ]);
+      case 1: {
+        const i18nValues = [memberNames[0]];
+        subtitle = ring
+          ? i18n('calling__pre-call-info--will-ring-1', i18nValues)
+          : i18n('calling__pre-call-info--will-notify-1', i18nValues);
         break;
-      case 2:
-        subtitle = i18n('calling__pre-call-info--will-notify-2', {
+      }
+      case 2: {
+        const i18nValues = {
           first: memberNames[0],
           second: memberNames[1],
-        });
+        };
+        subtitle = ring
+          ? i18n('calling__pre-call-info--will-ring-2', i18nValues)
+          : i18n('calling__pre-call-info--will-notify-2', i18nValues);
         break;
-      case 3:
-        subtitle = i18n('calling__pre-call-info--will-notify-3', {
+      }
+      case 3: {
+        const i18nValues = {
           first: memberNames[0],
           second: memberNames[1],
           third: memberNames[2],
-        });
+        };
+        subtitle = ring
+          ? i18n('calling__pre-call-info--will-ring-3', i18nValues)
+          : i18n('calling__pre-call-info--will-notify-3', i18nValues);
         break;
-      default:
-        subtitle = i18n('calling__pre-call-info--will-notify-many', {
+      }
+      default: {
+        const i18nValues = {
           first: memberNames[0],
           second: memberNames[1],
           others: String(memberNames.length - 2),
-        });
+        };
+        subtitle = ring
+          ? i18n('calling__pre-call-info--will-ring-many', i18nValues)
+          : i18n('calling__pre-call-info--will-notify-many', i18nValues);
         break;
+      }
     }
-  } else {
-    throw missingCaseError(conversation.type);
   }
 
   return (
@@ -151,9 +184,3 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
     </div>
   );
 };
-
-function getParticipantName(
-  participant: Readonly<Pick<ConversationType, 'firstName' | 'title'>>
-): string {
-  return participant.firstName || participant.title;
-}

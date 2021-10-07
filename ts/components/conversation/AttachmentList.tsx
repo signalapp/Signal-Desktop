@@ -15,14 +15,14 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export type Props = {
-  attachments: Array<AttachmentType>;
+export type Props = Readonly<{
+  attachments: ReadonlyArray<AttachmentType>;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
   onClickAttachment?: (attachment: AttachmentType) => void;
   onClose?: () => void;
   onCloseAttachment: (attachment: AttachmentType) => void;
-};
+}>;
 
 const IMAGE_WIDTH = 120;
 const IMAGE_HEIGHT = 120;
@@ -61,17 +61,17 @@ export const AttachmentList = ({
         {(attachments || []).map((attachment, index) => {
           const url = getUrl(attachment);
 
-          const key = url || attachment.fileName || index;
+          const key = url || attachment.path || attachment.fileName || index;
 
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);
 
-          if (isImage || isVideo) {
+          if (isImage || isVideo || attachment.pending) {
             const clickCallback =
               attachments.length > 1 ? onClickAttachment : undefined;
 
             const imageUrl =
-              isVideo && !attachment.screenshot ? BLANK_VIDEO_THUMBNAIL : url;
+              url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
 
             return (
               <Image
@@ -79,6 +79,7 @@ export const AttachmentList = ({
                 alt={i18n('stagedImageAttachment', [
                   attachment.fileName || url || index.toString(),
                 ])}
+                className="module-staged-attachment"
                 i18n={i18n}
                 attachment={attachment}
                 softCorners

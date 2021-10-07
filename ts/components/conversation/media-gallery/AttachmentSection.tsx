@@ -6,7 +6,7 @@ import React from 'react';
 import { DocumentListItem } from './DocumentListItem';
 import { ItemClickEvent } from './types/ItemClickEvent';
 import { MediaGridItem } from './MediaGridItem';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
 import { getMessageTimestamp } from '../../../util/getMessageTimestamp';

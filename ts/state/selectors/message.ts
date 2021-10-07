@@ -38,10 +38,12 @@ import { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isStickerPack } from '../../types/LinkPreview';
 
-import { ContactType, contactSelector } from '../../types/Contact';
+import {
+  EmbeddedContactType,
+  embeddedContactSelector,
+} from '../../types/EmbeddedContact';
 import { AssertProps, BodyRangesType } from '../../types/Util';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
-import { ConversationColors } from '../../types/Colors';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
 import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
@@ -65,6 +67,7 @@ import {
 import {
   SendStatus,
   isDelivered,
+  isFailed,
   isMessageJustForMe,
   isRead,
   isSent,
@@ -72,6 +75,7 @@ import {
   maxStatus,
   someSendStatus,
 } from '../../messages/MessageSendState';
+import * as log from '../../logging/log';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -132,9 +136,7 @@ export function getSource(
     return message.source;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
-      'message.getSource: Called for non-incoming/non-outoing message'
-    );
+    log.warn('message.getSource: Called for non-incoming/non-outoing message');
   }
 
   return ourNumber;
@@ -150,7 +152,7 @@ export function getSourceDevice(
     return sourceDevice;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
+    log.warn(
       'message.getSourceDevice: Called for non-incoming/non-outoing message'
     );
   }
@@ -166,7 +168,7 @@ export function getSourceUuid(
     return message.sourceUuid;
   }
   if (!isOutgoing(message)) {
-    window.log.warn(
+    log.warn(
       'message.getSourceUuid: Called for non-incoming/non-outoing message'
     );
   }
@@ -425,6 +427,8 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     const firstAttachment = quote.attachments && quote.attachments[0];
     const conversation = getConversation(message, conversationSelector);
 
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
+
     return {
       authorId,
       authorName,
@@ -433,8 +437,10 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       authorTitle,
       bodyRanges: processBodyRanges(quote, { conversationSelector }),
       conversationColor:
-        conversation.conversationColor ?? ConversationColors[0],
-      customColor: conversation.customColor,
+        conversation.conversationColor || defaultConversationColor.color,
+      customColor:
+        conversation.customColor ||
+        defaultConversationColor.customColorData?.value,
       isFromMe,
       rawAttachment: firstAttachment
         ? processQuoteAttachment(firstAttachment)
@@ -543,6 +549,8 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       author.id
     );
 
+    const defaultConversationColor = window.Events.getDefaultConversationColor();
+
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),
       canDownload: canDownload(message, conversationSelector),
@@ -550,10 +558,12 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
       contactNameColor,
       conversationColor:
-        conversation?.conversationColor ?? ConversationColors[0],
+        conversation.conversationColor || defaultConversationColor.color,
       conversationId,
       conversationType: isGroup ? 'group' : 'direct',
-      customColor: conversation?.customColor,
+      customColor:
+        conversation.customColor ||
+        defaultConversationColor.customColorData?.value,
       deletedForEveryone: message.deletedForEveryone || false,
       direction: isIncoming(message) ? 'incoming' : 'outgoing',
       expirationLength,
@@ -1068,7 +1078,7 @@ export function getPropsForCallHistory(
       const creator = conversationSelector(callHistoryDetails.creatorUuid);
       let call = callSelector(conversationId);
       if (call && call.callMode !== CallMode.Group) {
-        window.log.error(
+        log.error(
           'getPropsForCallHistory: there is an unexpected non-group call; pretending it does not exist'
         );
         call = undefined;
@@ -1224,7 +1234,10 @@ export function getMessagePropStatus(
       sendStateByConversationId[ourConversationId]?.status ??
       SendStatus.Pending;
     const sent = isSent(status);
-    if (hasErrors(message)) {
+    if (
+      hasErrors(message) ||
+      someSendStatus(sendStateByConversationId, isFailed)
+    ) {
       return sent ? 'partial-sent' : 'error';
     }
     return sent ? 'viewed' : 'sending';
@@ -1238,7 +1251,10 @@ export function getMessagePropStatus(
     SendStatus.Pending
   );
 
-  if (hasErrors(message)) {
+  if (
+    hasErrors(message) ||
+    someSendStatus(sendStateByConversationId, isFailed)
+  ) {
     return isSent(highestSuccessfulStatus) ? 'partial-sent' : 'error';
   }
   if (isViewed(highestSuccessfulStatus)) {
@@ -1260,7 +1276,7 @@ export function getPropsForEmbeddedContact(
   message: MessageAttributesType,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
-): ContactType | undefined {
+): EmbeddedContactType | undefined {
   const contacts = message.contact;
   if (!contacts || !contacts.length) {
     return undefined;
@@ -1270,7 +1286,7 @@ export function getPropsForEmbeddedContact(
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
 
-  return contactSelector(firstContact, {
+  return embeddedContactSelector(firstContact, {
     regionCode,
     getAbsoluteAttachmentPath:
       window.Signal.Migrations.getAbsoluteAttachmentPath,

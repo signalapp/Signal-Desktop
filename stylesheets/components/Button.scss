@@ -156,4 +156,44 @@
       @include hover-and-active-states($background-color, $color-white);
     }
   }
+
+  &--system-message {
+    @include rounded-corners;
+
+    &.module-Button--small {
+      padding: {
+        top: 5px;
+        bottom: 5px;
+      }
+      font-weight: 500;
+    }
+
+    @include light-theme {
+      $color: $color-ultramarine;
+      $background-color: $color-gray-02;
+
+      color: $color;
+      background: $background-color;
+
+      &:disabled {
+        color: fade-out($color, 0.4);
+        background: fade-out($background-color, 0.6);
+      }
+      @include hover-and-active-states($background-color, $color-black);
+    }
+
+    @include dark-theme {
+      $color: $color-white;
+      $background-color: $color-gray-65;
+
+      color: $color;
+      background: $background-color;
+
+      &:disabled {
+        color: fade-out($color, 0.4);
+        background: fade-out($background-color, 0.6);
+      }
+      @include hover-and-active-states($background-color, $color-white);
+    }
+  }
 }

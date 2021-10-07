@@ -39,17 +39,17 @@
 
       this.hasRendered = false;
     },
-    update(props, cb) {
-      const updatedProps = this.augmentProps(props);
+    update(propsOrJSX, cb) {
       const reactElement = this.JSX
-        ? this.JSX
-        : React.createElement(this.Component, updatedProps);
+        ? propsOrJSX || this.JSX
+        : React.createElement(this.Component, this.augmentProps(propsOrJSX));
+
       ReactDOM.render(reactElement, this.el, () => {
         if (cb) {
           try {
             cb();
           } catch (error) {
-            window.log.error(
+            window.SignalWindow.log.error(
               'ReactWrapperView.update error:',
               error && error.stack ? error.stack : error
             );

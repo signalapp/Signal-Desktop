@@ -1,13 +1,16 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
 
+import { Button, ButtonSize, ButtonVariant } from '../Button';
+import { SystemMessage } from './SystemMessage';
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { Intl } from '../Intl';
 import { ContactName } from './ContactName';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
+import * as log from '../../logging/log';
 
 export type PropsDataType = {
   areWeInvited: boolean;
@@ -34,28 +37,42 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
   }, [setShowingDialog]);
 
   return (
-    <div className="module-group-v1-migration">
-      <div className="module-group-v1-migration--icon" />
-      <div className="module-group-v1-migration--text">
-        {i18n('GroupV1--Migration--was-upgraded')}
-      </div>
-      {areWeInvited ? (
-        <div className="module-group-v1-migration--text">
-          {i18n('GroupV1--Migration--invited--you')}
-        </div>
-      ) : (
-        <>
-          {renderUsers(invitedMembers, i18n, 'GroupV1--Migration--invited')}
-          {renderUsers(droppedMembers, i18n, 'GroupV1--Migration--removed')}
-        </>
-      )}
-      <button
-        type="button"
-        className="module-group-v1-migration--button"
-        onClick={showDialog}
-      >
-        {i18n('GroupV1--Migration--learn-more')}
-      </button>
+    <>
+      <SystemMessage
+        icon="group"
+        contents={
+          <>
+            <p>{i18n('GroupV1--Migration--was-upgraded')}</p>
+            <p>
+              {areWeInvited ? (
+                i18n('GroupV1--Migration--invited--you')
+              ) : (
+                <>
+                  {renderUsers(
+                    invitedMembers,
+                    i18n,
+                    'GroupV1--Migration--invited'
+                  )}
+                  {renderUsers(
+                    droppedMembers,
+                    i18n,
+                    'GroupV1--Migration--removed'
+                  )}
+                </>
+              )}
+            </p>
+          </>
+        }
+        button={
+          <Button
+            onClick={showDialog}
+            size={ButtonSize.Small}
+            variant={ButtonVariant.SystemMessage}
+          >
+            {i18n('GroupV1--Migration--learn-more')}
+          </Button>
+        }
+      />
       {showingDialog ? (
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
@@ -63,13 +80,11 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
           hasMigrated
           i18n={i18n}
           invitedMembers={invitedMembers}
-          migrate={() =>
-            window.log.warn('GroupV1Migration: Modal called migrate()')
-          }
+          migrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
           onClose={dismissDialog}
         />
       ) : null}
-    </div>
+    </>
   );
 }
 
@@ -82,23 +97,17 @@ function renderUsers(
     return null;
   }
 
-  const className = 'module-group-v1-migration--text';
-
   if (members.length === 1) {
     return (
-      <div className={className}>
+      <p>
         <Intl
           i18n={i18n}
           id={`${keyPrefix}--one`}
-          components={[<ContactName title={members[0].title} i18n={i18n} />]}
+          components={[<ContactName title={members[0].title} />]}
         />
-      </div>
+      </p>
     );
   }
 
-  return (
-    <div className={className}>
-      {i18n(`${keyPrefix}--many`, [members.length.toString()])}
-    </div>
-  );
+  return <p>{i18n(`${keyPrefix}--many`, [members.length.toString()])}</p>;
 }

@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-restricted-syntax */
 
 // `ChallengeHandler` is responsible for:
 // 1. tracking the messages that failed to send with 428 error and could be
@@ -20,6 +19,8 @@ import { isOlderThan } from './util/timestamp';
 import { parseRetryAfter } from './util/parseRetryAfter';
 import { getEnvironment, Environment } from './environment';
 import { StorageInterface } from './types/Storage.d';
+import { HTTPError } from './textsecure/Errors';
+import * as log from './logging/log';
 
 export type ChallengeResponse = {
   readonly captcha: string;
@@ -144,7 +145,7 @@ export class ChallengeHandler {
     const stored: ReadonlyArray<StoredEntity> =
       this.options.storage.get('challenge:retry-message-ids') || [];
 
-    window.log.info(`challenge: loading ${stored.length} messages`);
+    log.info(`challenge: loading ${stored.length} messages`);
 
     const entityMap = new Map<string, StoredEntity>();
     for (const entity of stored) {
@@ -163,13 +164,13 @@ export class ChallengeHandler {
 
     const messages: Array<MinimalMessage> = maybeMessages.filter(isNotNil);
 
-    window.log.info(`challenge: loaded ${messages.length} messages`);
+    log.info(`challenge: loaded ${messages.length} messages`);
 
     await Promise.all(
       messages.map(async message => {
         const entity = entityMap.get(message.id);
         if (!entity) {
-          window.log.error(
+          log.error(
             'challenge: unexpected missing entity ' +
               `for ${message.idForLogging()}`
           );
@@ -178,9 +179,7 @@ export class ChallengeHandler {
 
         const expireAfter = this.options.expireAfter || DEFAULT_EXPIRE_AFTER;
         if (isOlderThan(entity.createdAt, expireAfter)) {
-          window.log.info(
-            `challenge: expired entity for ${message.idForLogging()}`
-          );
+          log.info(`challenge: expired entity for ${message.idForLogging()}`);
           return;
         }
 
@@ -199,7 +198,7 @@ export class ChallengeHandler {
   public async onOffline(): Promise<void> {
     this.isOnline = false;
 
-    window.log.info('challenge: offline');
+    log.info('challenge: offline');
   }
 
   public async onOnline(): Promise<void> {
@@ -208,7 +207,7 @@ export class ChallengeHandler {
     const pending = Array.from(this.pendingRetries.values());
     this.pendingRetries.clear();
 
-    window.log.info(`challenge: online, retrying ${pending.length} messages`);
+    log.info(`challenge: online, retrying ${pending.length} messages`);
 
     // Retry messages that matured while we were offline
     await Promise.all(pending.map(message => this.retryOne(message)));
@@ -222,7 +221,7 @@ export class ChallengeHandler {
     entity?: StoredEntity
   ): Promise<void> {
     if (this.isRegistered(message)) {
-      window.log.info(
+      log.info(
         `challenge: message already registered ${message.idForLogging()}`
       );
       return;
@@ -236,7 +235,7 @@ export class ChallengeHandler {
 
     // Message is already retryable - initiate new send
     if (retry === RetryMode.Retry && shouldRetrySend(message)) {
-      window.log.info(
+      log.info(
         `challenge: sending message immediately ${message.idForLogging()}`
       );
       await this.retryOne(message);
@@ -245,7 +244,7 @@ export class ChallengeHandler {
 
     const error = message.getLastChallengeError();
     if (!error) {
-      window.log.error('Unexpected message without challenge error');
+      log.error('Unexpected message without challenge error');
       return;
     }
 
@@ -263,19 +262,19 @@ export class ChallengeHandler {
       }, waitTime)
     );
 
-    window.log.info(
+    log.info(
       `challenge: tracking ${message.idForLogging()} ` +
         `with waitTime=${waitTime}`
     );
 
     if (!error.data.options || !error.data.options.includes('recaptcha')) {
-      window.log.error(
+      log.error(
         `challenge: unexpected options ${JSON.stringify(error.data.options)}`
       );
     }
 
     if (!error.data.token) {
-      window.log.error(
+      log.error(
         `challenge: no token in challenge error ${JSON.stringify(error.data)}`
       );
     } else if (message.isNormalBubble()) {
@@ -286,9 +285,7 @@ export class ChallengeHandler {
       // challenge to be fully completed.
       this.solve(error.data.token);
     } else {
-      window.log.info(
-        `challenge: not a bubble message ${message.idForLogging()}`
-      );
+      log.info(`challenge: not a bubble message ${message.idForLogging()}`);
     }
   }
 
@@ -303,7 +300,7 @@ export class ChallengeHandler {
   }
 
   public async unregister(message: MinimalMessage): Promise<void> {
-    window.log.info(`challenge: unregistered ${message.idForLogging()}`);
+    log.info(`challenge: unregistered ${message.idForLogging()}`);
     this.trackedMessages.delete(message.id);
     this.pendingRetries.delete(message);
 
@@ -336,7 +333,7 @@ export class ChallengeHandler {
   }
 
   private async retrySend(force = false): Promise<void> {
-    window.log.info(`challenge: retrySend force=${force}`);
+    log.info(`challenge: retrySend force=${force}`);
 
     const retries = Array.from(this.trackedMessages.values())
       .map(({ message }) => message)
@@ -361,13 +358,13 @@ export class ChallengeHandler {
     }
 
     const retryCount = this.retryCountById.get(message.id) || 0;
-    window.log.info(
+    log.info(
       `challenge: retrying sending ${message.idForLogging()}, ` +
         `retry count: ${retryCount}`
     );
 
     if (retryCount === MAX_RETRIES) {
-      window.log.info(
+      log.info(
         `challenge: dropping message ${message.idForLogging()}, ` +
           'too many failed retries'
       );
@@ -388,7 +385,7 @@ export class ChallengeHandler {
     try {
       await message.retrySend();
     } catch (error) {
-      window.log.error(
+      log.error(
         `challenge: failed to send ${message.idForLogging()} due to ` +
           `error: ${error && error.stack}`
       );
@@ -397,13 +394,13 @@ export class ChallengeHandler {
     }
 
     if (sent) {
-      window.log.info(`challenge: message ${message.idForLogging()} sent`);
+      log.info(`challenge: message ${message.idForLogging()} sent`);
       this.retryCountById.delete(message.id);
       if (this.trackedMessages.size === 0) {
         this.options.setChallengeStatus('idle');
       }
     } else {
-      window.log.info(`challenge: message ${message.idForLogging()} not sent`);
+      log.info(`challenge: message ${message.idForLogging()} not sent`);
 
       this.retryCountById.set(message.id, retryCount + 1);
       await this.register(message, RetryMode.NoImmediateRetry);
@@ -432,7 +429,7 @@ export class ChallengeHandler {
 
     this.options.setChallengeStatus('pending');
 
-    window.log.info('challenge: sending challenge to server');
+    log.info('challenge: sending challenge to server');
 
     try {
       await this.sendChallengeResponse({
@@ -441,14 +438,12 @@ export class ChallengeHandler {
         captcha: response.captcha,
       });
     } catch (error) {
-      window.log.error(
-        `challenge: challenge failure, error: ${error && error.stack}`
-      );
+      log.error(`challenge: challenge failure, error: ${error && error.stack}`);
       this.options.setChallengeStatus('required');
       return;
     }
 
-    window.log.info('challenge: challenge success. force sending');
+    log.info('challenge: challenge success. force sending');
 
     this.options.setChallengeStatus('idle');
 
@@ -460,8 +455,7 @@ export class ChallengeHandler {
       await this.options.sendChallengeResponse(data);
     } catch (error) {
       if (
-        !(error instanceof Error) ||
-        error.name !== 'HTTPError' ||
+        !(error instanceof HTTPError) ||
         error.code !== 413 ||
         !error.responseHeaders
       ) {
@@ -469,11 +463,9 @@ export class ChallengeHandler {
         throw error;
       }
 
-      const retryAfter = parseRetryAfter(
-        error.responseHeaders['retry-after'].toString()
-      );
+      const retryAfter = parseRetryAfter(error.responseHeaders['retry-after']);
 
-      window.log.info(`challenge: retry after ${retryAfter}ms`);
+      log.info(`challenge: retry after ${retryAfter}ms`);
       this.options.onChallengeFailed(retryAfter);
       return;
     }

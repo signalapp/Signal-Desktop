@@ -40,6 +40,10 @@ export class Bytes {
     return Buffer.from(data).toString();
   }
 
+  public byteLength(value: string): number {
+    return Buffer.byteLength(value);
+  }
+
   public concatenate(list: ReadonlyArray<Uint8Array>): Uint8Array {
     return Buffer.concat(list);
   }

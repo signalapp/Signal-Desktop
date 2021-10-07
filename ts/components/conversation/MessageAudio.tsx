@@ -12,6 +12,7 @@ import type { DirectionType, MessageStatusType } from './Message';
 
 import { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
+import * as log from '../../logging/log';
 
 export type Props = {
   renderingContext: string;
@@ -180,7 +181,9 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     activeAudioID === id && activeAudioContext === renderingContext;
 
   const waveformRef = useRef<HTMLDivElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(isActive && !audio.paused);
+  const [isPlaying, setIsPlaying] = useState(
+    isActive && !(audio.paused || audio.ended)
+  );
   const [currentTime, setCurrentTime] = useState(
     isActive ? audio.currentTime : 0
   );
@@ -212,7 +215,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
       return noop;
     }
 
-    window.log.info('MessageAudio: loading audio and computing waveform');
+    log.info('MessageAudio: loading audio and computing waveform');
 
     let canceled = false;
 
@@ -236,7 +239,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         setHasPeaks(true);
         setDuration(Math.max(newDuration, 1e-23));
       } catch (err) {
-        window.log.error(
+        log.error(
           'MessageAudio: computePeaks error, marking as corrupted',
           err
         );
@@ -269,7 +272,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     // Owner of Audio instance changed
     if (!isActive) {
-      window.log.info('MessageAudio: pausing old owner', id);
+      log.info('MessageAudio: pausing old owner', id);
       setIsPlaying(false);
       setCurrentTime(0);
       return noop;
@@ -283,7 +286,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     };
 
     const onEnded = () => {
-      window.log.info('MessageAudio: ended, changing UI', id);
+      log.info('MessageAudio: ended, changing UI', id);
       setIsPlaying(false);
       setCurrentTime(0);
     };
@@ -294,7 +297,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         'Audio should have definite duration on `loadedmetadata` event'
       );
 
-      window.log.info('MessageAudio: `loadedmetadata` event', id);
+      log.info('MessageAudio: `loadedmetadata` event', id);
 
       // Sync-up audio's time in case if <audio/> loaded its source after
       // user clicked on waveform
@@ -302,7 +305,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     };
 
     const onDurationChange = () => {
-      window.log.info('MessageAudio: `durationchange` event', id);
+      log.info('MessageAudio: `durationchange` event', id);
 
       if (!Number.isNaN(audio.duration)) {
         setDuration(Math.max(audio.duration, 1e-23));
@@ -334,13 +337,13 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
         return;
       }
 
-      window.log.info('MessageAudio: resuming playback for', id);
+      log.info('MessageAudio: resuming playback for', id);
       audio.currentTime = currentTime;
       audio.play().catch(error => {
-        window.log.info('MessageAudio: resume error', id, error.stack || error);
+        log.info('MessageAudio: resume error', id, error.stack || error);
       });
     } else {
-      window.log.info('MessageAudio: pausing playback for', id);
+      log.info('MessageAudio: pausing playback for', id);
       audio.pause();
     }
   }, [id, audio, isActive, isPlaying, currentTime]);
@@ -349,7 +352,7 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
     setIsPlaying(!isPlaying);
 
     if (!isActive && !isPlaying) {
-      window.log.info('MessageAudio: changing owner', id);
+      log.info('MessageAudio: changing owner', id);
       setActiveAudioID(id, renderingContext);
 
       // Pause old audio

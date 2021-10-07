@@ -1,33 +1,27 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
+import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
 import { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
-
-type Contact = {
-  phoneNumber?: string;
-  profileName?: string;
-  name?: string;
-  title: string;
-  isMe?: boolean;
-};
+import { ConversationType } from '../../state/ducks/conversations';
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 
 type Change = {
   type: ChangeType;
   newName?: string;
-  contacts?: Array<Contact>;
+  contacts?: Array<ConversationType>;
 };
 
 export type PropsData = {
-  from: Contact;
+  from: ConversationType;
   changes: Array<Change>;
 };
 
@@ -40,7 +34,7 @@ export type Props = PropsData & PropsHousekeeping;
 export class GroupNotification extends React.Component<Props> {
   public renderChange(
     change: Change,
-    from: Contact
+    from: ConversationType
   ): JSX.Element | string | null | undefined {
     const { contacts, type, newName } = change;
     const { i18n } = this.props;
@@ -53,16 +47,10 @@ export class GroupNotification extends React.Component<Props> {
 
         return (
           <span
-            key={`external-${contact.phoneNumber}`}
+            key={`external-${contact.id}`}
             className="module-group-notification__contact"
           >
-            <ContactName
-              title={contact.title}
-              phoneNumber={contact.phoneNumber}
-              profileName={contact.profileName}
-              name={contact.name}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </span>
         );
       })
@@ -125,7 +113,6 @@ export class GroupNotification extends React.Component<Props> {
           <Intl i18n={i18n} id={leftKey} components={[otherPeopleWithCommas]} />
         );
       case 'general':
-        // eslint-disable-next-line consistent-return
         return;
       default:
         throw missingCaseError(type);
@@ -133,44 +120,43 @@ export class GroupNotification extends React.Component<Props> {
   }
 
   public render(): JSX.Element {
-    const { changes, i18n, from } = this.props;
+    const { changes: rawChanges, i18n, from } = this.props;
+
+    // This check is just to be extra careful, and can probably be removed.
+    const changes: Array<Change> = Array.isArray(rawChanges) ? rawChanges : [];
 
     // Leave messages are always from the person leaving, so we omit the fromLabel if
     //   the change is a 'leave.'
-    const isLeftOnly =
-      changes && changes.length === 1 && changes[0].type === 'remove';
-
-    const fromContact = (
-      <ContactName
-        title={from.title}
-        phoneNumber={from.phoneNumber}
-        profileName={from.profileName}
-        name={from.name}
-        i18n={i18n}
-      />
-    );
+    const firstChange: undefined | Change = changes[0];
+    const isLeftOnly = changes.length === 1 && firstChange?.type === 'remove';
 
     const fromLabel = from.isMe ? (
       <Intl i18n={i18n} id="youUpdatedTheGroup" />
     ) : (
-      <Intl i18n={i18n} id="updatedTheGroup" components={[fromContact]} />
+      <Intl
+        i18n={i18n}
+        id="updatedTheGroup"
+        components={[<ContactName title={from.title} />]}
+      />
     );
 
-    return (
-      <div className="module-group-notification">
-        {isLeftOnly ? null : (
-          <>
-            {fromLabel}
-            <br />
-          </>
-        )}
-        {(changes || []).map((change, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={i} className="module-group-notification__change">
-            {this.renderChange(change, from)}
-          </div>
-        ))}
-      </div>
-    );
+    let contents: ReactNode;
+    if (isLeftOnly) {
+      contents = this.renderChange(firstChange, from);
+    } else {
+      contents = (
+        <>
+          <p>{fromLabel}</p>
+          {changes.map((change, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <p key={i} className="module-group-notification__change">
+              {this.renderChange(change, from)}
+            </p>
+          ))}
+        </>
+      );
+    }
+
+    return <SystemMessage contents={contents} icon="group" />;
   }
 }

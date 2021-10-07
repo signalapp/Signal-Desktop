@@ -10,7 +10,7 @@ import { ConfirmationDialog } from '../ConfirmationDialog';
 import { LocalizerType } from '../../types/Util';
 import { StickerPackType } from '../../state/ducks/stickers';
 import { Spinner } from '../Spinner';
-import { useRestoreFocus } from '../../util/hooks/useRestoreFocus';
+import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
 export type OwnProps = {
   readonly onClose: () => unknown;

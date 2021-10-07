@@ -4,7 +4,7 @@
 import { isEqual, isNumber } from 'lodash';
 import Long from 'long';
 
-import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import * as Bytes from '../Bytes';
 import dataInterface from '../sql/Client';
 import {
@@ -35,12 +35,13 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
+import { UUID } from '../types/UUID';
+import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
+import * as log from '../logging/log';
 
 const { updateConversation } = dataInterface;
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
 
 type RecordClass =
   | Proto.IAccountRecord
@@ -67,7 +68,7 @@ function addUnknownFields(
   conversation: ConversationModel
 ): void {
   if (record.__unknownFields) {
-    window.log.info(
+    log.info(
       'storageService.addUnknownFields: Unknown fields found for',
       conversation.idForLogging()
     );
@@ -79,7 +80,7 @@ function addUnknownFields(
   } else if (conversation.get('storageUnknownFields')) {
     // If the record doesn't have unknown fields attached but we have them
     // saved locally then we need to clear it out
-    window.log.info(
+    log.info(
       'storageService.addUnknownFields: Clearing unknown fields for',
       conversation.idForLogging()
     );
@@ -93,7 +94,7 @@ function applyUnknownFields(
 ): void {
   const storageUnknownFields = conversation.get('storageUnknownFields');
   if (storageUnknownFields) {
-    window.log.info(
+    log.info(
       'storageService.applyUnknownFields: Applying unknown fields for',
       conversation.get('id')
     );
@@ -118,11 +119,19 @@ export async function toContactRecord(
   if (profileKey) {
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
   }
-  const identityKey = await window.textsecure.storage.protocol.loadIdentityKey(
-    conversation.id
-  );
+
+  let maybeUuid: UUID | undefined;
+  try {
+    maybeUuid = uuid ? new UUID(uuid) : undefined;
+  } catch (error) {
+    log.warn(`Invalid uuid in contact record: ${Errors.toLogFormat(error)}`);
+  }
+
+  const identityKey = maybeUuid
+    ? await window.textsecure.storage.protocol.loadIdentityKey(maybeUuid)
+    : undefined;
   if (identityKey) {
-    contactRecord.identityKey = new FIXMEU8(identityKey);
+    contactRecord.identityKey = identityKey;
   }
   const verified = conversation.get('verified');
   if (verified) {
@@ -187,6 +196,13 @@ export async function toAccountRecord(
   const accountE164 = window.storage.get('accountE164');
   if (accountE164 !== undefined) {
     accountRecord.e164 = accountE164;
+  }
+
+  const rawPreferredReactionEmoji = window.storage.get(
+    'preferredReactionEmoji'
+  );
+  if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
+    accountRecord.preferredReactionEmoji = rawPreferredReactionEmoji;
   }
 
   const universalExpireTimer = getUniversalExpireTimer();
@@ -276,7 +292,7 @@ export async function toAccountRecord(
         pinnedConversationClass !== undefined
     );
 
-  window.log.info(
+  log.info(
     'storageService.toAccountRecord: pinnedConversations',
     pinnedConversations.length
   );
@@ -374,30 +390,17 @@ function doRecordsConflict(
 ): boolean {
   const idForLogging = conversation.idForLogging();
 
-  const localKeys = Object.keys(localRecord);
-  const remoteKeys = Object.keys(remoteRecord);
-
-  if (localKeys.length !== remoteKeys.length) {
-    window.log.info(
-      'storageService.doRecordsConflict: Local keys do not match remote keys',
-      idForLogging,
-      localKeys.join(','),
-      remoteKeys.join(',')
-    );
-    return true;
-  }
-
-  return localKeys.some((key: string): boolean => {
+  return Object.keys(remoteRecord).some((key: string): boolean => {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
-    // Sometimes we have a ByteBuffer and an ArrayBuffer, this ensures that we
+    // Sometimes we have a ByteBuffer and an Uint8Array, this ensures that we
     // are comparing them both equally by converting them into base64 string.
     if (localValue instanceof Uint8Array) {
       const areEqual = Bytes.areEqual(localValue, remoteValue);
       if (!areEqual) {
-        window.log.info(
-          'storageService.doRecordsConflict: Conflict found for ArrayBuffer',
+        log.info(
+          'storageService.doRecordsConflict: Conflict found for Uint8Array',
           key,
           idForLogging
         );
@@ -415,7 +418,7 @@ function doRecordsConflict(
         Long.fromValue(remoteValue)
       );
       if (!areEqual) {
-        window.log.info(
+        log.info(
           'storageService.doRecordsConflict: Conflict found for Long',
           key,
           idForLogging
@@ -427,7 +430,7 @@ function doRecordsConflict(
     if (key === 'pinnedConversations') {
       const areEqual = arePinnedConversationsEqual(localValue, remoteValue);
       if (!areEqual) {
-        window.log.info(
+        log.info(
           'storageService.doRecordsConflict: Conflict found for pinnedConversations',
           idForLogging
         );
@@ -455,7 +458,7 @@ function doRecordsConflict(
     const areEqual = isEqual(localValue, remoteValue);
 
     if (!areEqual) {
-      window.log.info(
+      log.info(
         'storageService.doRecordsConflict: Conflict found for',
         key,
         idForLogging
@@ -519,20 +522,18 @@ export async function mergeGroupV1Record(
     // It's possible this group was migrated to a GV2 if so we attempt to
     // retrieve the master key and find the conversation locally. If we
     // are successful then we continue setting and applying state.
-    const masterKeyBuffer = await deriveMasterKeyFromGroupV1(
-      typedArrayToArrayBuffer(groupV1Record.id)
-    );
-    const fields = deriveGroupFields(new FIXMEU8(masterKeyBuffer));
+    const masterKeyBuffer = deriveMasterKeyFromGroupV1(groupV1Record.id);
+    const fields = deriveGroupFields(masterKeyBuffer);
     const derivedGroupV2Id = Bytes.toBase64(fields.id);
 
-    window.log.info(
+    log.info(
       'storageService.mergeGroupV1Record: failed to find group by v1 id ' +
         `attempting lookup by v2 groupv2(${derivedGroupV2Id})`
     );
     conversation = window.ConversationController.get(derivedGroupV2Id);
   }
   if (conversation) {
-    window.log.info(
+    log.info(
       'storageService.mergeGroupV1Record: found existing group',
       conversation.idForLogging()
     );
@@ -545,7 +546,7 @@ export async function mergeGroupV1Record(
       groupId,
       'group'
     );
-    window.log.info(
+    log.info(
       'storageService.mergeGroupV1Record: created a new group locally',
       conversation.idForLogging()
     );
@@ -580,8 +581,8 @@ export async function mergeGroupV1Record(
     // We cannot preserve unknown fields if local group is V2 and the remote is
     // still V1, because the storageItem that we'll put into manifest will have
     // a different record type.
-    window.log.info(
-      'storageService.mergeGroupV1Record marking v1 ' +
+    log.info(
+      'storageService.mergeGroupV1Record marking v1' +
         ' group for an update to v2',
       conversation.idForLogging()
     );
@@ -653,10 +654,7 @@ export async function mergeGroupV2Record(
   const masterKeyBuffer = groupV2Record.masterKey;
   const conversation = await getGroupV2Conversation(masterKeyBuffer);
 
-  window.log.info(
-    'storageService.mergeGroupV2Record:',
-    conversation.idForLogging()
-  );
+  log.info('storageService.mergeGroupV2Record:', conversation.idForLogging());
 
   conversation.set({
     isArchived: Boolean(groupV2Record.archived),
@@ -736,6 +734,11 @@ export async function mergeContactRecord(
   const e164 = contactRecord.serviceE164 || undefined;
   const uuid = contactRecord.serviceUuid || undefined;
 
+  // All contacts must have UUID
+  if (!uuid) {
+    return false;
+  }
+
   const id = window.ConversationController.ensureContactIds({
     e164,
     uuid,
@@ -751,10 +754,7 @@ export async function mergeContactRecord(
     'private'
   );
 
-  window.log.info(
-    'storageService.mergeContactRecord:',
-    conversation.idForLogging()
-  );
+  log.info('storageService.mergeContactRecord:', conversation.idForLogging());
 
   if (contactRecord.profileKey) {
     await conversation.setProfileKey(Bytes.toBase64(contactRecord.profileKey), {
@@ -766,9 +766,7 @@ export async function mergeContactRecord(
   const storageServiceVerified = contactRecord.identityState || 0;
   if (verified !== storageServiceVerified) {
     const verifiedOptions = {
-      key: contactRecord.identityKey
-        ? typedArrayToArrayBuffer(contactRecord.identityKey)
-        : undefined,
+      key: contactRecord.identityKey,
       viaStorageServiceSync: true,
     };
     const STATE_ENUM = Proto.ContactRecord.IdentityState;
@@ -832,6 +830,7 @@ export async function mergeAccountRecord(
     primarySendsSms,
     universalExpireTimer,
     e164: accountE164,
+    preferredReactionEmoji: rawPreferredReactionEmoji,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', Boolean(readReceipts));
@@ -855,6 +854,10 @@ export async function mergeAccountRecord(
   if (typeof accountE164 === 'string' && accountE164) {
     window.storage.put('accountE164', accountE164);
     window.storage.user.setNumber(accountE164);
+  }
+
+  if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
+    window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
   }
 
   setUniversalExpireTimer(universalExpireTimer || 0);
@@ -890,7 +893,7 @@ export async function mergeAccountRecord(
   window.storage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey) {
-    ourProfileKeyService.set(typedArrayToArrayBuffer(profileKey));
+    ourProfileKeyService.set(profileKey);
   }
 
   if (pinnedConversations) {
@@ -907,7 +910,7 @@ export async function mergeAccountRecord(
       .filter(id => !modelPinnedConversationIds.includes(id));
 
     if (missingStoragePinnedConversationIds.length !== 0) {
-      window.log.info(
+      log.info(
         'mergeAccountRecord: pinnedConversationIds in storage does not match pinned Conversation models'
       );
     }
@@ -923,11 +926,11 @@ export async function mergeAccountRecord(
         )
     );
 
-    window.log.info(
+    log.info(
       'storageService.mergeAccountRecord: Local pinned',
       locallyPinnedConversations.length
     );
-    window.log.info(
+    log.info(
       'storageService.mergeAccountRecord: Remote pinned',
       pinnedConversations.length
     );
@@ -948,13 +951,13 @@ export async function mergeAccountRecord(
 
           conversationId = groupId;
         } else {
-          window.log.error(
+          log.error(
             'storageService.mergeAccountRecord: Invalid identifier received'
           );
         }
 
         if (!conversationId) {
-          window.log.error(
+          log.error(
             'storageService.mergeAccountRecord: missing conversation id.'
           );
           return undefined;
@@ -979,12 +982,12 @@ export async function mergeAccountRecord(
       ({ id }) => !remotelyPinnedConversationIds.includes(id)
     );
 
-    window.log.info(
+    log.info(
       'storageService.mergeAccountRecord: unpinning',
       conversationsToUnpin.length
     );
 
-    window.log.info(
+    log.info(
       'storageService.mergeAccountRecord: pinning',
       remotelyPinnedConversations.length
     );

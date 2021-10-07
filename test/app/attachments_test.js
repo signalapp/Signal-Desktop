@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const fs = require('fs');
@@ -9,9 +9,7 @@ const { assert } = require('chai');
 const { app } = require('electron');
 
 const Attachments = require('../../app/attachments');
-const {
-  stringToArrayBuffer,
-} = require('../../js/modules/string_to_array_buffer');
+const Bytes = require('../../ts/Bytes');
 
 const PREFIX_LENGTH = 2;
 const NUM_SEPARATORS = 1;
@@ -30,7 +28,7 @@ describe('Attachments', () => {
     });
 
     it('should write file to disk and return path', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForNew'
@@ -59,7 +57,7 @@ describe('Attachments', () => {
     });
 
     it('should write file to disk on given path and return path', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForExisting'
@@ -84,7 +82,7 @@ describe('Attachments', () => {
     });
 
     it('throws if relative path goes higher than root', async () => {
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
       const tempDirectory = path.join(
         tempRootDirectory,
         'Attachments_createWriterForExisting'
@@ -126,7 +124,7 @@ describe('Attachments', () => {
         Attachments.createName()
       );
       const fullPath = path.join(tempDirectory, relativePath);
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
 
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);
@@ -224,14 +222,14 @@ describe('Attachments', () => {
         });
     });
 
-    it('returns a function that copies the source path into the attachments directory', async function thisNeeded() {
+    it('returns a function that copies the source path into the attachments directory and returns its path and size', async function thisNeeded() {
       const attachmentsPath = await this.getFakeAttachmentsDirectory();
       const someOtherPath = path.join(app.getPath('userData'), 'somethingElse');
       await fse.outputFile(someOtherPath, 'hello world');
       this.filesToRemove.push(someOtherPath);
 
       const copier = Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
-      const relativePath = await copier(someOtherPath);
+      const { path: relativePath, size } = await copier(someOtherPath);
 
       const absolutePath = path.join(attachmentsPath, relativePath);
       assert.notEqual(someOtherPath, absolutePath);
@@ -239,6 +237,8 @@ describe('Attachments', () => {
         await fs.promises.readFile(absolutePath, 'utf8'),
         'hello world'
       );
+
+      assert.strictEqual(size, 'hello world'.length);
     });
   });
 
@@ -262,7 +262,7 @@ describe('Attachments', () => {
         Attachments.createName()
       );
       const fullPath = path.join(tempDirectory, relativePath);
-      const input = stringToArrayBuffer('test string');
+      const input = Bytes.fromString('test string');
 
       const inputBuffer = Buffer.from(input);
       await fse.ensureFile(fullPath);

@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { ContactType } from '../../types/Contact';
+import { EmbeddedContactType } from '../../types/EmbeddedContact';
 
 import { LocalizerType } from '../../types/Util';
 import {
@@ -14,7 +14,7 @@ import {
 } from './_contactUtil';
 
 export type Props = {
-  contact: ContactType;
+  contact: EmbeddedContactType;
   i18n: LocalizerType;
   isIncoming: boolean;
   withContentAbove: boolean;

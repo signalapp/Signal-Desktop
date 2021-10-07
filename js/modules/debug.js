@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-env node */
-/* global log, Signal */
+/* global Signal, window */
 
 const fs = require('fs-extra');
 const path = require('path');
@@ -58,7 +58,7 @@ exports.createConversation = async ({
   await Promise.all(
     range(0, numMessages).map(async index => {
       await sleep(index * 100);
-      log.info(`Create message ${index + 1}`);
+      window.SignalWindow.log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
       return Signal.Data.saveMessage(message);
     })
@@ -108,7 +108,10 @@ const createRandomMessage = async ({ conversationId } = {}) => {
   };
 
   const message = _createMessage({ commonProperties, conversationId, type });
-  return Message.initializeSchemaVersion({ message, logger: log });
+  return Message.initializeSchemaVersion({
+    message,
+    logger: window.SignalWindow.log,
+  });
 };
 
 const _createMessage = ({ commonProperties, conversationId, type } = {}) => {

@@ -8,10 +8,12 @@ import { boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { ContactDetail, Props } from './ContactDetail';
-import { AddressType, ContactFormType } from '../../types/Contact';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { AddressType, ContactFormType } from '../../types/EmbeddedContact';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { IMAGE_GIF } from '../../types/MIME';
+
+import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -72,10 +74,10 @@ const fullContact = {
     },
   ],
   avatar: {
-    avatar: {
+    avatar: fakeAttachment({
       path: '/fixtures/giphy-GVNvOUpeYmI7e.gif',
       contentType: IMAGE_GIF,
-    },
+    }),
     isProfile: true,
   },
   email: [
@@ -209,10 +211,10 @@ story.add('Loading Avatar', () => {
   const props = createProps({
     contact: {
       avatar: {
-        avatar: {
+        avatar: fakeAttachment({
           contentType: IMAGE_GIF,
           pending: true,
-        },
+        }),
         isProfile: true,
       },
     },

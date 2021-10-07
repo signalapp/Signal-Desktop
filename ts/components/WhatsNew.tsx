@@ -1,12 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState } from 'react';
+import React, { ReactChild, ReactNode, useState } from 'react';
 import moment from 'moment';
 
 import { Modal } from './Modal';
-import { Intl } from './Intl';
-import { LocalizerType } from '../types/Util';
+import { Intl, IntlComponentsType } from './Intl';
+import { Emojify } from './conversation/Emojify';
+import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;
@@ -15,8 +16,12 @@ export type PropsType = {
 type ReleaseNotesType = {
   date: Date;
   version: string;
-  features: Array<string>;
+  features: Array<{ key: string; components: IntlComponentsType }>;
 };
+
+const renderText: RenderTextCallbackType = ({ key, text }) => (
+  <Emojify key={key} text={text} />
+);
 
 export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
   const [releaseNotes, setReleaseNotes] = useState<
@@ -25,42 +30,65 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
 
   const viewReleaseNotes = () => {
     setReleaseNotes({
-      date: new Date('08/17/2021'),
+      date: new Date(window.getBuildCreation?.() || Date.now()),
       version: window.getVersion(),
-      features: [
-        'WhatsNew__v5.15--1',
-        'WhatsNew__v5.15--2',
-        'WhatsNew__v5.15--3',
-        'WhatsNew__v5.15--4',
-        'WhatsNew__v5.15--5',
-      ],
+      features: [{ key: 'WhatsNew__v5.20', components: undefined }],
     });
   };
 
+  let modalNode: ReactNode;
+  if (releaseNotes) {
+    let contentNode: ReactChild;
+    if (releaseNotes.features.length === 1) {
+      const { key, components } = releaseNotes.features[0];
+      contentNode = (
+        <p>
+          <Intl
+            i18n={i18n}
+            id={key}
+            renderText={renderText}
+            components={components}
+          />
+        </p>
+      );
+    } else {
+      contentNode = (
+        <ul>
+          {releaseNotes.features.map(({ key, components }) => (
+            <li key={key}>
+              <Intl
+                i18n={i18n}
+                id={key}
+                renderText={renderText}
+                components={components}
+              />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    modalNode = (
+      <Modal
+        hasXButton
+        i18n={i18n}
+        onClose={() => setReleaseNotes(undefined)}
+        title={i18n('WhatsNew__modal-title')}
+      >
+        <>
+          <span>
+            {moment(releaseNotes.date).format('LL')} &middot;{' '}
+            {releaseNotes.version}
+          </span>
+          {contentNode}
+        </>
+      </Modal>
+    );
+  }
+
   return (
     <>
-      {releaseNotes && (
-        <Modal
-          hasXButton
-          i18n={i18n}
-          onClose={() => setReleaseNotes(undefined)}
-          title={i18n('WhatsNew__modal-title')}
-        >
-          <>
-            <span>
-              {moment(releaseNotes.date).format('LL')} &middot;{' '}
-              {releaseNotes.version}
-            </span>
-            <ul>
-              {releaseNotes.features.map(featureKey => (
-                <li key={featureKey}>
-                  <Intl i18n={i18n} id={featureKey} />
-                </li>
-              ))}
-            </ul>
-          </>
-        </Modal>
-      )}
+      {modalNode}
       <Intl
         i18n={i18n}
         id="whatsNew"

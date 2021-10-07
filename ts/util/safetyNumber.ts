@@ -3,14 +3,16 @@
 
 import { PublicKey, Fingerprint } from '@signalapp/signal-client';
 import { ConversationType } from '../state/ducks/conversations';
+import { UUID } from '../types/UUID';
 
 import { assert } from './assert';
+import * as log from '../logging/log';
 
 export async function generateSecurityNumber(
   ourNumber: string,
-  ourKey: ArrayBuffer,
+  ourKey: Uint8Array,
   theirNumber: string,
-  theirKey: ArrayBuffer
+  theirKey: Uint8Array
 ): Promise<string> {
   const ourNumberBuf = Buffer.from(ourNumber);
   const ourKeyObj = PublicKey.deserialize(Buffer.from(ourKey));
@@ -33,16 +35,18 @@ export async function generateSecurityNumber(
 export async function generateSecurityNumberBlock(
   contact: ConversationType
 ): Promise<Array<string>> {
-  const ourNumber = window.textsecure.storage.user.getNumber();
-  const ourUuid = window.textsecure.storage.user.getUuid();
+  const { storage } = window.textsecure;
+  const ourNumber = storage.user.getNumber();
+  const ourUuid = storage.user.getCheckedUuid();
 
-  const us = window.textsecure.storage.protocol.getIdentityRecord(
-    ourUuid || ourNumber || ''
-  );
+  const us = storage.protocol.getIdentityRecord(ourUuid);
   const ourKey = us ? us.publicKey : null;
 
-  const them = window.textsecure.storage.protocol.getIdentityRecord(contact.id);
-  const theirKey = them ? them.publicKey : null;
+  const theirUuid = UUID.lookup(contact.id);
+  const them = theirUuid
+    ? await storage.protocol.getOrMigrateIdentityRecord(theirUuid)
+    : undefined;
+  const theirKey = them?.publicKey;
 
   if (!ourKey) {
     throw new Error('Could not load our key');
@@ -53,7 +57,7 @@ export async function generateSecurityNumberBlock(
   }
 
   if (!contact.e164) {
-    window.log.error(
+    log.error(
       'generateSecurityNumberBlock: Attempted to generate security number for contact with no e164'
     );
     return [];

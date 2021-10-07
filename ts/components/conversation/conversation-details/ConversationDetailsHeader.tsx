@@ -118,6 +118,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
       {avatarLightbox}
       {avatar}
       {contents}
+      <div className={bem('subtitle')}>{subtitle}</div>
     </div>
   );
 };

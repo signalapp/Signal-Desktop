@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect } from 'react';
+import React, { ComponentProps, useEffect } from 'react';
+import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 
 import { AppViewType } from '../state/ducks/app';
@@ -9,22 +10,30 @@ import { Inbox } from './Inbox';
 import { Install } from './Install';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
-import { usePageVisibility } from '../util/hooks';
+import { usePageVisibility } from '../hooks/usePageVisibility';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
-export type PropsType = {
+type PropsType = {
   appView: AppViewType;
-  hasInitialLoadCompleted: boolean;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
   theme: ThemeType;
-};
+} & ComponentProps<typeof Inbox>;
 
 export const App = ({
   appView,
+  cancelMessagesPendingConversationVerification,
+  conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
+  i18n,
+  isCustomizingPreferredReactions,
+  numberOfMessagesPendingBecauseOfVerification,
   renderCallManager,
+  renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
+  renderSafetyNumber,
   theme,
+  verifyConversationsStoppingMessageSend,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -33,7 +42,29 @@ export const App = ({
   } else if (appView === AppViewType.Standalone) {
     contents = <StandaloneRegistration />;
   } else if (appView === AppViewType.Inbox) {
-    contents = <Inbox hasInitialLoadCompleted={hasInitialLoadCompleted} />;
+    contents = (
+      <Inbox
+        cancelMessagesPendingConversationVerification={
+          cancelMessagesPendingConversationVerification
+        }
+        conversationsStoppingMessageSendBecauseOfVerification={
+          conversationsStoppingMessageSendBecauseOfVerification
+        }
+        hasInitialLoadCompleted={hasInitialLoadCompleted}
+        i18n={i18n}
+        isCustomizingPreferredReactions={isCustomizingPreferredReactions}
+        numberOfMessagesPendingBecauseOfVerification={
+          numberOfMessagesPendingBecauseOfVerification
+        }
+        renderCustomizingPreferredReactionsModal={
+          renderCustomizingPreferredReactionsModal
+        }
+        renderSafetyNumber={renderSafetyNumber}
+        verifyConversationsStoppingMessageSend={
+          verifyConversationsStoppingMessageSend
+        }
+      />
+    );
   }
 
   // This are here so that themes are properly applied to anything that is
@@ -54,6 +85,14 @@ export const App = ({
   useEffect(() => {
     document.body.classList.toggle('page-is-visible', isPageVisible);
   }, [isPageVisible]);
+
+  // A11y settings for react-spring
+  const prefersReducedMotion = useReducedMotion();
+  useEffect(() => {
+    Globals.assign({
+      skipAnimation: prefersReducedMotion,
+    });
+  }, [prefersReducedMotion]);
 
   return (
     <div

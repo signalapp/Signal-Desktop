@@ -4,11 +4,11 @@
 import React from 'react';
 import { times, range } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
-import { CallingPreCallInfo } from './CallingPreCallInfo';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 
 const i18n = setupI18n('en', enMessages);
 const getDefaultGroupConversation = () =>
@@ -28,34 +28,28 @@ story.add('Direct conversation', () => (
     conversation={getDefaultConversation()}
     i18n={i18n}
     me={getDefaultConversation()}
-  />
-));
-
-story.add('Group conversation, empty group', () => (
-  <CallingPreCallInfo
-    conversation={getDefaultGroupConversation()}
-    groupMembers={[]}
-    i18n={i18n}
-    me={getDefaultConversation()}
-    peekedParticipants={[]}
+    ringMode={RingMode.WillRing}
   />
 ));
 
 times(5, numberOfOtherPeople => {
-  story.add(
-    `Group conversation, group has ${numberOfOtherPeople} other member${
-      numberOfOtherPeople === 1 ? '' : 's'
-    }`,
-    () => (
-      <CallingPreCallInfo
-        conversation={getDefaultGroupConversation()}
-        groupMembers={otherMembers.slice(0, numberOfOtherPeople)}
-        i18n={i18n}
-        me={getDefaultConversation()}
-        peekedParticipants={[]}
-      />
-    )
-  );
+  [true, false].forEach(willRing => {
+    story.add(
+      `Group conversation, group has ${numberOfOtherPeople} other member${
+        numberOfOtherPeople === 1 ? '' : 's'
+      }, will ${willRing ? 'ring' : 'notify'}`,
+      () => (
+        <CallingPreCallInfo
+          conversation={getDefaultGroupConversation()}
+          groupMembers={otherMembers.slice(0, numberOfOtherPeople)}
+          i18n={i18n}
+          me={getDefaultConversation()}
+          peekedParticipants={[]}
+          ringMode={willRing ? RingMode.WillRing : RingMode.WillNotRing}
+        />
+      )
+    );
+  });
 });
 
 range(1, 5).forEach(numberOfOtherPeople => {
@@ -70,6 +64,7 @@ range(1, 5).forEach(numberOfOtherPeople => {
         i18n={i18n}
         me={getDefaultConversation()}
         peekedParticipants={otherMembers.slice(0, numberOfOtherPeople)}
+        ringMode={RingMode.WillRing}
       />
     )
   );
@@ -84,6 +79,7 @@ story.add('Group conversation, you on an other device', () => {
       i18n={i18n}
       me={me}
       peekedParticipants={[me]}
+      ringMode={RingMode.WillRing}
     />
   );
 });
@@ -96,5 +92,6 @@ story.add('Group conversation, call is full', () => (
     isCallFull
     me={getDefaultConversation()}
     peekedParticipants={otherMembers}
+    ringMode={RingMode.WillRing}
   />
 ));

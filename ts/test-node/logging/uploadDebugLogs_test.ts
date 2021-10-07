@@ -8,11 +8,11 @@ import FormData from 'form-data';
 import * as util from 'util';
 import * as zlib from 'zlib';
 
-import { uploadDebugLogs } from '../../logging/debuglogs';
+import { upload } from '../../logging/debuglogs';
 
 const gzip: (_: zlib.InputType) => Promise<Buffer> = util.promisify(zlib.gzip);
 
-describe('uploadDebugLogs', () => {
+describe('upload', () => {
   beforeEach(function beforeEach() {
     this.sandbox = sinon.createSandbox();
 
@@ -39,13 +39,13 @@ describe('uploadDebugLogs', () => {
 
   it('makes a request to get the S3 bucket, then uploads it there', async function test() {
     assert.strictEqual(
-      await uploadDebugLogs('hello world', '1.2.3'),
+      await upload('hello world', '1.2.3'),
       'https://debuglogs.org/abc123.gz'
     );
 
     sinon.assert.calledOnce(this.fakeGet);
     sinon.assert.calledWith(this.fakeGet, 'https://debuglogs.org', {
-      json: true,
+      responseType: 'json',
       headers: { 'User-Agent': 'Signal-Desktop/1.2.3 Linux' },
     });
 
@@ -76,7 +76,7 @@ describe('uploadDebugLogs', () => {
 
     let err: unknown;
     try {
-      await uploadDebugLogs('hello world', '1.2.3');
+      await upload('hello world', '1.2.3');
     } catch (e) {
       err = e;
     }
@@ -95,9 +95,6 @@ describe('uploadDebugLogs', () => {
       { fields: { key: '123' }, url: 'not a valid URL' },
     ];
 
-    // We want to make sure these run serially, so we can't use `Promise.all`. They're
-    //   async, so we can't use `forEach`. `for ... of` is a reasonable option here.
-    // eslint-disable-next-line no-restricted-syntax
     for (const body of bodies) {
       this.fakeGet.resolves({ body });
 
@@ -105,7 +102,7 @@ describe('uploadDebugLogs', () => {
       try {
         // Again, these should be run serially.
         // eslint-disable-next-line no-await-in-loop
-        await uploadDebugLogs('hello world', '1.2.3');
+        await upload('hello world', '1.2.3');
       } catch (e) {
         err = e;
       }
@@ -118,7 +115,7 @@ describe('uploadDebugLogs', () => {
 
     let err: unknown;
     try {
-      await uploadDebugLogs('hello world', '1.2.3');
+      await upload('hello world', '1.2.3');
     } catch (e) {
       err = e;
     }

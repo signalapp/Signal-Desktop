@@ -1,12 +1,13 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { RefObject } from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { drop, groupBy, orderBy, take, unescape } from 'lodash';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
+import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 
 import {
   ConversationType,
@@ -33,6 +34,7 @@ import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
+import * as log from '../../logging/log';
 
 import {
   AttachmentType,
@@ -49,7 +51,7 @@ import {
   isVideo,
   isGIF,
 } from '../../types/Attachment';
-import { ContactType } from '../../types/Contact';
+import { EmbeddedContactType } from '../../types/EmbeddedContact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
@@ -60,11 +62,14 @@ import {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import { createRefMerger } from '../_util';
-import { emojiToData } from '../emoji/lib';
-import { SmartReactionPicker } from '../../state/smart/ReactionPicker';
+import { createRefMerger } from '../../util/refMerger';
+import { emojiToData, getEmojiCount } from '../emoji/lib';
+import { isEmojiOnlyText } from '../../util/isEmojiOnlyText';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 import { offsetDistanceModifier } from '../../util/popperUtil';
+import * as KeyboardLayout from '../../services/keyboardLayout';
+import { StopPropagation } from '../StopPropagation';
 
 type Trigger = {
   handleContextClick: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -129,7 +134,7 @@ export type PropsData = {
   direction: DirectionType;
   timestamp: number;
   status?: MessageStatusType;
-  contact?: ContactType;
+  contact?: EmbeddedContactType;
   author: Pick<
     ConversationType,
     | 'acceptedMessageRequest'
@@ -188,6 +193,7 @@ export type PropsData = {
 };
 
 export type PropsHousekeeping = {
+  containerElementRef: RefObject<HTMLElement>;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
@@ -195,6 +201,9 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   collapseMetadata?: boolean;
   renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => JSX.Element;
 };
 
 export type PropsActions = {
@@ -216,7 +225,7 @@ export type PropsActions = {
 
   openConversation: (conversationId: string, messageId?: string) => void;
   showContactDetail: (options: {
-    contact: ContactType;
+    contact: EmbeddedContactType;
     signalAccount?: string;
   }) => void;
   showContactModal: (contactId: string) => void;
@@ -381,7 +390,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public handleImageError = (): void => {
     const { id } = this.props;
-    window.log.info(
+    log.info(
       `Message ${id}: Image failed to load; failing over to placeholder`
     );
     this.setState({
@@ -487,7 +496,7 @@ export class Message extends React.PureComponent<Props, State> {
         timestamp,
         delta,
       });
-      window.log.info(
+      log.info(
         `Message.tsx: Rendered 'send complete' for message ${timestamp}; took ${delta}ms`
       );
     }
@@ -585,6 +594,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       collapseMetadata,
+      deletedForEveryone,
       direction,
       expirationLength,
       expirationTimestamp,
@@ -609,8 +619,14 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
+    const isEmojiOnly = Boolean(
+      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6
+    );
+    const isStickerLike = isSticker || isEmojiOnly;
+
     return (
       <MessageMetadata
+        deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
         expirationTimestamp={expirationTimestamp}
@@ -618,7 +634,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         id={id}
         isShowingImage={this.isShowingImage()}
-        isSticker={isSticker}
+        isSticker={isStickerLike}
         isTapToViewExpired={isTapToViewExpired}
         showMessageDetail={showMessageDetail}
         status={status}
@@ -635,7 +651,6 @@ export class Message extends React.PureComponent<Props, State> {
       contactNameColor,
       conversationType,
       direction,
-      i18n,
       isSticker,
       isTapToView,
       isTapToViewExpired,
@@ -666,11 +681,7 @@ export class Message extends React.PureComponent<Props, State> {
         <ContactName
           contactNameColor={contactNameColor}
           title={author.title}
-          phoneNumber={author.phoneNumber}
-          name={author.name}
-          profileName={author.profileName}
           module={moduleName}
-          i18n={i18n}
         />
       </div>
     );
@@ -801,7 +812,7 @@ export class Message extends React.PureComponent<Props, State> {
           played = readStatus === ReadStatus.Viewed;
           break;
         default:
-          window.log.error(missingCaseError(direction));
+          log.error(missingCaseError(direction));
           played = false;
           break;
       }
@@ -1056,7 +1067,6 @@ export class Message extends React.PureComponent<Props, State> {
   public renderQuote(): JSX.Element | null {
     const {
       conversationColor,
-      conversationType,
       customColor,
       direction,
       disableScroll,
@@ -1071,8 +1081,6 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const withContentAbove =
-      conversationType === 'group' && direction === 'incoming';
     const { isViewOnce, referencedMessageNotFound } = quote;
 
     const clickHandler = disableScroll
@@ -1091,9 +1099,6 @@ export class Message extends React.PureComponent<Props, State> {
         text={quote.text}
         rawAttachment={quote.rawAttachment}
         isIncoming={direction === 'incoming'}
-        authorPhoneNumber={quote.authorPhoneNumber}
-        authorProfileName={quote.authorProfileName}
-        authorName={quote.authorName}
         authorTitle={quote.authorTitle}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
@@ -1101,7 +1106,6 @@ export class Message extends React.PureComponent<Props, State> {
         isViewOnce={isViewOnce}
         referencedMessageNotFound={referencedMessageNotFound}
         isFromMe={quote.isFromMe}
-        withContentAbove={withContentAbove}
         doubleCheckMissingQuoteReference={() =>
           doubleCheckMissingQuoteReference(id)
         }
@@ -1169,21 +1173,20 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAvatar(): JSX.Element | undefined {
-    const {
-      author,
-      collapseMetadata,
-      conversationType,
-      direction,
-      i18n,
-      showContactModal,
-    } = this.props;
+  public hasAvatar(): boolean {
+    const { collapseMetadata, conversationType, direction } = this.props;
 
-    if (
-      collapseMetadata ||
-      conversationType !== 'group' ||
-      direction === 'outgoing'
-    ) {
+    return Boolean(
+      !collapseMetadata &&
+        conversationType === 'group' &&
+        direction !== 'outgoing'
+    );
+  }
+
+  public renderAvatar(): JSX.Element | undefined {
+    const { author, i18n, showContactModal } = this.props;
+
+    if (!this.hasAvatar()) {
       return undefined;
     }
 
@@ -1196,7 +1199,12 @@ export class Message extends React.PureComponent<Props, State> {
         <button
           type="button"
           className="module-message__author-avatar"
-          onClick={() => showContactModal(author.id)}
+          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            event.stopPropagation();
+            event.preventDefault();
+
+            showContactModal(author.id);
+          }}
           tabIndex={0}
         >
           <Avatar
@@ -1310,6 +1318,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       reactToMessage,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       selectedReaction,
     } = this.props;
@@ -1404,22 +1413,24 @@ export class Message extends React.PureComponent<Props, State> {
           const maybePopperRef = !isWide ? popperRef : undefined;
 
           return (
-            <ContextMenuTrigger
-              id={triggerId}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              ref={this.captureMenuTrigger as any}
-            >
-              <div
-                ref={maybePopperRef}
-                role="button"
-                onClick={this.showMenu}
-                aria-label={i18n('messageContextMenuButton')}
-                className={classNames(
-                  'module-message__buttons__menu',
-                  `module-message__buttons__download--${direction}`
-                )}
-              />
-            </ContextMenuTrigger>
+            <StopPropagation className="module-message__buttons__menu--container">
+              <ContextMenuTrigger
+                id={triggerId}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ref={this.captureMenuTrigger as any}
+              >
+                <div
+                  ref={maybePopperRef}
+                  role="button"
+                  onClick={this.showMenu}
+                  aria-label={i18n('messageContextMenuButton')}
+                  className={classNames(
+                    'module-message__buttons__menu',
+                    `module-message__buttons__download--${direction}`
+                  )}
+                />
+              </ContextMenuTrigger>
+            </StopPropagation>
           );
         }}
       </Reference>
@@ -1442,25 +1453,32 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
         {reactionPickerRoot &&
           createPortal(
-            // eslint-disable-next-line consistent-return
-            <Popper placement="top" modifiers={[offsetDistanceModifier(4)]}>
-              {({ ref, style }) => (
-                <SmartReactionPicker
-                  ref={ref}
-                  style={style}
-                  selected={selectedReaction}
-                  onClose={this.toggleReactionPicker}
-                  onPick={emoji => {
-                    this.toggleReactionPicker(true);
-                    reactToMessage(id, {
-                      emoji,
-                      remove: emoji === selectedReaction,
-                    });
-                  }}
-                  renderEmojiPicker={renderEmojiPicker}
-                />
-              )}
-            </Popper>,
+            <StopPropagation>
+              <Popper
+                placement="top"
+                modifiers={[
+                  offsetDistanceModifier(4),
+                  this.popperPreventOverflowModifier(),
+                ]}
+              >
+                {({ ref, style }) =>
+                  renderReactionPicker({
+                    ref,
+                    style,
+                    selected: selectedReaction,
+                    onClose: this.toggleReactionPicker,
+                    onPick: emoji => {
+                      this.toggleReactionPicker(true);
+                      reactToMessage(id, {
+                        emoji,
+                        remove: emoji === selectedReaction,
+                      });
+                    },
+                    renderEmojiPicker,
+                  })
+                }
+              </Popper>
+            </StopPropagation>,
             reactionPickerRoot
           )}
       </Manager>
@@ -1747,7 +1765,7 @@ export class Message extends React.PureComponent<Props, State> {
       return;
     }
 
-    // eslint-disable-next-line consistent-return, no-nested-ternary
+    // eslint-disable-next-line no-nested-ternary
     return isTapToViewError
       ? i18n('incomingError')
       : direction === 'outgoing'
@@ -1799,6 +1817,23 @@ export class Message extends React.PureComponent<Props, State> {
         </div>
       </div>
     );
+  }
+
+  private popperPreventOverflowModifier(): Partial<PreventOverflowModifier> {
+    const { containerElementRef } = this.props;
+    return {
+      name: 'preventOverflow',
+      options: {
+        altAxis: true,
+        boundary: containerElementRef.current || undefined,
+        padding: {
+          bottom: 16,
+          left: 8,
+          right: 8,
+          top: 16,
+        },
+      },
+    };
   }
 
   public toggleReactionViewer = (onlyRemove = false): void => {
@@ -2022,20 +2057,26 @@ export class Message extends React.PureComponent<Props, State> {
         </Reference>
         {reactionViewerRoot &&
           createPortal(
-            <Popper placement={popperPlacement}>
-              {({ ref, style }) => (
-                <ReactionViewer
-                  ref={ref}
-                  style={{
-                    ...style,
-                    zIndex: 2,
-                  }}
-                  reactions={reactions}
-                  i18n={i18n}
-                  onClose={this.toggleReactionViewer}
-                />
-              )}
-            </Popper>,
+            <StopPropagation>
+              <Popper
+                placement={popperPlacement}
+                strategy="fixed"
+                modifiers={[this.popperPreventOverflowModifier()]}
+              >
+                {({ ref, style }) => (
+                  <ReactionViewer
+                    ref={ref}
+                    style={{
+                      ...style,
+                      zIndex: 2,
+                    }}
+                    reactions={reactions}
+                    i18n={i18n}
+                    onClose={this.toggleReactionViewer}
+                  />
+                )}
+              </Popper>
+            </StopPropagation>,
             reactionViewerRoot
           )}
       </Manager>
@@ -2046,7 +2087,12 @@ export class Message extends React.PureComponent<Props, State> {
     const { isTapToView, deletedForEveryone } = this.props;
 
     if (deletedForEveryone) {
-      return this.renderText();
+      return (
+        <>
+          {this.renderText()}
+          {this.renderMetadata()}
+        </>
+      );
     }
 
     if (isTapToView) {
@@ -2093,14 +2139,9 @@ export class Message extends React.PureComponent<Props, State> {
 
     const isAttachmentPending = this.isAttachmentPending();
 
-    if (isGIF(attachments)) {
-      window.log.info("<Message> handleOpen: lightbox doesn't open for GIFs");
-      return;
-    }
-
     if (isTapToView) {
       if (isAttachmentPending) {
-        window.log.info(
+        log.info(
           '<Message> handleOpen: tap-to-view attachment is pending; not showing the lightbox'
         );
         return;
@@ -2251,8 +2292,10 @@ export class Message extends React.PureComponent<Props, State> {
     // Do not allow reactions to error messages
     const { canReply } = this.props;
 
+    const key = KeyboardLayout.lookup(event.nativeEvent);
+
     if (
-      (event.key === 'E' || event.key === 'e') &&
+      (key === 'E' || key === 'e') &&
       (event.metaKey || event.ctrlKey) &&
       event.shiftKey &&
       canReply
@@ -2288,6 +2331,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
+      text,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -2296,17 +2340,24 @@ export class Message extends React.PureComponent<Props, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
+    const isEmojiOnly =
+      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6;
+    const isStickerLike = isSticker || isEmojiOnly;
+
     const containerClassnames = classNames(
       'module-message__container',
       isGIF(attachments) ? 'module-message__container--gif' : null,
-      isSelected && !isSticker ? 'module-message__container--selected' : null,
-      isSticker ? 'module-message__container--with-sticker' : null,
-      !isSticker ? `module-message__container--${direction}` : null,
+      isSelected && !isStickerLike
+        ? 'module-message__container--selected'
+        : null,
+      isStickerLike ? 'module-message__container--with-sticker' : null,
+      !isStickerLike ? `module-message__container--${direction}` : null,
+      isEmojiOnly ? 'module-message__container--emoji' : null,
       isTapToView ? 'module-message__container--with-tap-to-view' : null,
       isTapToView && isTapToViewExpired
         ? 'module-message__container--with-tap-to-view-expired'
         : null,
-      !isSticker && direction === 'outgoing'
+      !isStickerLike && direction === 'outgoing'
         ? `module-message__container--outgoing-${conversationColor}`
         : null,
       isTapToView && isAttachmentPending && !isTapToViewExpired
@@ -2326,7 +2377,7 @@ export class Message extends React.PureComponent<Props, State> {
     const containerStyles = {
       width: isShowingImage ? width : undefined,
     };
-    if (!isSticker && direction === 'outgoing') {
+    if (!isStickerLike && direction === 'outgoing') {
       Object.assign(containerStyles, getCustomColorStyle(customColor));
     }
 
@@ -2374,7 +2425,8 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message',
           `module-message--${direction}`,
           isSelected ? 'module-message--selected' : null,
-          expiring ? 'module-message--expired' : null
+          expiring ? 'module-message--expired' : null,
+          this.hasAvatar() ? 'module-message--with-avatar' : null
         )}
         tabIndex={0}
         // We pretend to be a button because we sometimes contain buttons and a button

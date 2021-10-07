@@ -4,6 +4,7 @@
 import { actions as accounts } from './ducks/accounts';
 import { actions as app } from './ducks/app';
 import { actions as audioPlayer } from './ducks/audioPlayer';
+import { actions as audioRecorder } from './ducks/audioRecorder';
 import { actions as calling } from './ducks/calling';
 import { actions as composer } from './ducks/composer';
 import { actions as conversations } from './ducks/conversations';
@@ -24,6 +25,7 @@ export const actionCreators: ReduxActions = {
   accounts,
   app,
   audioPlayer,
+  audioRecorder,
   calling,
   composer,
   conversations,
@@ -44,6 +46,7 @@ export const mapDispatchToProps = {
   ...accounts,
   ...app,
   ...audioPlayer,
+  ...audioRecorder,
   ...calling,
   ...composer,
   ...conversations,

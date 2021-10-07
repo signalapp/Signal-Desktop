@@ -1,11 +1,12 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { AudioDevice } from 'ringrtc';
 import type {
   CustomColorsItemType,
   DefaultConversationColorType,
 } from './Colors';
-import type { AudioDevice } from './Calling';
+import type { AudioDeviceModule } from '../calling/audioDeviceModule';
 import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
@@ -21,15 +22,24 @@ import type {
 
 export type SerializedCertificateType = {
   expires: number;
-  serialized: ArrayBuffer;
+  serialized: Uint8Array;
 };
 
-export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2;
+export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
 
 export type ThemeSettingType = 'system' | 'light' | 'dark';
 
 export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
+export type IdentityKeyMap = Record<
+  string,
+  {
+    privKey: string;
+    pubKey: string;
+  }
+>;
+
+// This should be in sync with `STORAGE_UI_KEYS` in `ts/types/StorageUIKeys.ts`.
 export type StorageAccessType = {
   'always-relay-calls': boolean;
   'audio-notification': boolean;
@@ -54,16 +64,16 @@ export type StorageAccessType = {
   customColors: CustomColorsItemType;
   device_name: string;
   hasRegisterSupportForUnauthenticatedDelivery: boolean;
-  identityKey: KeyPairType;
+  identityKeyMap: IdentityKeyMap;
   lastHeartbeat: number;
   lastStartup: number;
   lastAttemptedToRefreshProfilesAt: number;
   maxPreKeyId: number;
   number_id: string;
   password: string;
-  profileKey: ArrayBuffer;
+  profileKey: Uint8Array;
   regionCode: string;
-  registrationId: number;
+  registrationIdMap: Record<string, number>;
   remoteBuildExpiration: number;
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
@@ -104,10 +114,12 @@ export type StorageAccessType = {
   'preferred-video-input-device': string;
   'preferred-audio-input-device': AudioDevice;
   'preferred-audio-output-device': AudioDevice;
+  previousAudioDeviceModule: AudioDeviceModule;
   remoteConfig: RemoteConfigType;
   unidentifiedDeliveryIndicators: boolean;
   groupCredentials: Array<GroupCredentialType>;
   lastReceivedAtCounter: number;
+  preferredReactionEmoji: Array<string>;
   skinTone: number;
   unreadCount: number;
   'challenge:retry-message-ids': ReadonlyArray<{

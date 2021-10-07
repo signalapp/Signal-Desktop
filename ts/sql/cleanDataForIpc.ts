@@ -37,7 +37,7 @@ type CleanedDataValue =
   | boolean
   | null
   | undefined
-  | Buffer
+  | Uint8Array
   | CleanedObject
   | CleanedArray;
 /* eslint-disable no-restricted-syntax */
@@ -111,7 +111,7 @@ function cleanDataInner(
         return undefined;
       }
 
-      if (data instanceof Buffer) {
+      if (data instanceof Uint8Array) {
         return data;
       }
 
@@ -129,9 +129,6 @@ function cleanDataInner(
         const result: CleanedArray = [];
         let index = 0;
         pathsChanged.push(path);
-        // `for ... of` is the cleanest way to go through "generic" iterables without
-        //   a helper library.
-        // eslint-disable-next-line no-restricted-syntax
         for (const value of dataAsRecord) {
           result.push(
             cleanDataInner(

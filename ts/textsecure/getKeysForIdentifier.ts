@@ -8,9 +8,13 @@ import {
   PublicKey,
 } from '@signalapp/signal-client';
 
-import { UnregisteredUserError } from './Errors';
+import { UnregisteredUserError, HTTPError } from './Errors';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
+import { Address } from '../types/Address';
+import { QualifiedAddress } from '../types/QualifiedAddress';
+import { UUID } from '../types/UUID';
 import { ServerKeysType, WebAPIType } from './WebAPI';
+import * as log from '../logging/log';
 
 export async function getKeysForIdentifier(
   identifier: string,
@@ -31,8 +35,12 @@ export async function getKeysForIdentifier(
       accessKeyFailed,
     };
   } catch (error) {
-    if (error.name === 'HTTPError' && error.code === 404) {
-      await window.textsecure.storage.protocol.archiveAllSessions(identifier);
+    if (error instanceof HTTPError && error.code === 404) {
+      const theirUuid = UUID.lookup(identifier);
+
+      if (theirUuid) {
+        await window.textsecure.storage.protocol.archiveAllSessions(theirUuid);
+      }
     }
     throw new UnregisteredUserError(identifier, error);
   }
@@ -72,8 +80,9 @@ async function handleServerKeys(
   response: ServerKeysType,
   devicesToUpdate?: Array<number>
 ): Promise<void> {
-  const sessionStore = new Sessions();
-  const identityKeyStore = new IdentityKeys();
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+  const sessionStore = new Sessions({ ourUuid });
+  const identityKeyStore = new IdentityKeys({ ourUuid });
 
   await Promise.all(
     response.devices.map(async device => {
@@ -86,7 +95,7 @@ async function handleServerKeys(
       }
 
       if (device.registrationId === 0) {
-        window.log.info(
+        log.info(
           `handleServerKeys/${identifier}: Got device registrationId zero!`
         );
       }
@@ -95,7 +104,11 @@ async function handleServerKeys(
           `getKeysForIdentifier/${identifier}: Missing signed prekey for deviceId ${deviceId}`
         );
       }
-      const protocolAddress = ProtocolAddress.new(identifier, deviceId);
+      const theirUuid = UUID.checkedLookup(identifier);
+      const protocolAddress = ProtocolAddress.new(
+        theirUuid.toString(),
+        deviceId
+      );
       const preKeyId = preKey?.keyId || null;
       const preKeyObject = preKey
         ? PublicKey.deserialize(Buffer.from(preKey.publicKey))
@@ -118,7 +131,10 @@ async function handleServerKeys(
         identityKey
       );
 
-      const address = `${identifier}.${deviceId}`;
+      const address = new QualifiedAddress(
+        ourUuid,
+        new Address(theirUuid, deviceId)
+      );
       await window.textsecure.storage.protocol
         .enqueueSessionJob(address, () =>
           processPreKeyBundle(

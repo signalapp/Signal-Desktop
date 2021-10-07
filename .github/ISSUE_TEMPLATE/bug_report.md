@@ -27,6 +27,17 @@ Lastly, be sure to preview your issue before saving. Thanks!
     https://github.com/signalapp/Signal-Desktop/issues?utf8=%E2%9C%93&q=is%3Aissue
   Replace [ ] with [X] once you've searched
 -->
+- [ ] I am using Signal-Desktop as provided by the Signal team, not a 3rd-party package.
+<!--
+  If you're using a 3rd-party package, please report it to them first.
+  For flatpak:
+  - https://github.com/flathub/org.signal.Signal/issues
+  For snap:
+  - https://github.com/flathub/org.signal.Signal/issues
+  For archlinux:
+  - https://aur.archlinux.org/packages/signal-desktop-beta/
+  etc.
+-->
 
 ---
 
@@ -69,7 +80,7 @@ Operating System:
 
 Linked Device Version:
 
-<!-- Android: Settings -> Advanced,  iOS: Settings -> General -> About -->
+<!-- Android: Settings -> Help,  iOS: Settings -> General -> About -->
 
 ### Link to Debug Log
 

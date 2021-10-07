@@ -12,12 +12,13 @@ export enum ButtonSize {
 }
 
 export enum ButtonVariant {
-  Primary,
-  Secondary,
-  SecondaryAffirmative,
-  SecondaryDestructive,
-  Destructive,
-  Calling,
+  Primary = 'Primary',
+  Secondary = 'Secondary',
+  SecondaryAffirmative = 'SecondaryAffirmative',
+  SecondaryDestructive = 'SecondaryDestructive',
+  Destructive = 'Destructive',
+  Calling = 'Calling',
+  SystemMessage = 'SystemMessage',
 }
 
 type PropsType = {
@@ -68,6 +69,7 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   ],
   [ButtonVariant.Destructive, 'module-Button--destructive'],
   [ButtonVariant.Calling, 'module-Button--calling'],
+  [ButtonVariant.SystemMessage, 'module-Button--system-message'],
 ]);
 
 export const Button = React.forwardRef<HTMLButtonElement, PropsType>(

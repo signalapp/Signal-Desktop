@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import moment from 'moment';
+import * as durations from './durations';
 import { LocalizerType } from '../types/Util';
 import { getMutedUntilText } from './getMutedUntilText';
 import { isMuted } from './isMuted';
@@ -32,19 +32,19 @@ export function getMuteOptions(
       : []),
     {
       name: i18n('muteHour'),
-      value: moment.duration(1, 'hour').as('milliseconds'),
+      value: durations.HOUR,
     },
     {
       name: i18n('muteEightHours'),
-      value: moment.duration(8, 'hour').as('milliseconds'),
+      value: 8 * durations.HOUR,
     },
     {
       name: i18n('muteDay'),
-      value: moment.duration(1, 'day').as('milliseconds'),
+      value: durations.DAY,
     },
     {
       name: i18n('muteWeek'),
-      value: moment.duration(1, 'week').as('milliseconds'),
+      value: durations.WEEK,
     },
     {
       name: i18n('muteAlways'),

@@ -26,7 +26,7 @@ describe('canvasToBlob', () => {
     const result = await canvasToBlob(canvas);
 
     assert.strictEqual(
-      sniffImageMimeType(await result.arrayBuffer()),
+      sniffImageMimeType(new Uint8Array(await result.arrayBuffer())),
       IMAGE_JPEG
     );
 
@@ -39,7 +39,7 @@ describe('canvasToBlob', () => {
     const result = await canvasToBlob(canvas, IMAGE_PNG);
 
     assert.strictEqual(
-      sniffImageMimeType(await result.arrayBuffer()),
+      sniffImageMimeType(new Uint8Array(await result.arrayBuffer())),
       IMAGE_PNG
     );
   });

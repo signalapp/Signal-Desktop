@@ -4,14 +4,24 @@
 import { assert } from 'chai';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
-import { CallMode, CallState } from '../../../types/Calling';
+import {
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+  GroupCallJoinState,
+} from '../../../types/Calling';
 import {
   getCallsByConversation,
   getCallSelector,
   getIncomingCall,
   isInCall,
 } from '../../../state/selectors/calling';
-import { getEmptyState, CallingStateType } from '../../../state/ducks/calling';
+import {
+  getEmptyState,
+  CallingStateType,
+  DirectCallStateType,
+  GroupCallStateType,
+} from '../../../state/ducks/calling';
 
 describe('state/selectors/calling', () => {
   const getEmptyRootState = () => rootReducer(undefined, noopAction());
@@ -44,22 +54,48 @@ describe('state/selectors/calling', () => {
       isInSpeakerView: false,
       showParticipantsList: false,
       safetyNumberChangedUuids: [],
+      outgoingRing: true,
       pip: false,
       settingsDialogOpen: false,
     },
   };
 
+  const incomingDirectCall: DirectCallStateType = {
+    callMode: CallMode.Direct,
+    conversationId: 'fake-direct-call-conversation-id',
+    callState: CallState.Ringing,
+    isIncoming: true,
+    isVideoCall: false,
+    hasRemoteVideo: false,
+  };
+
   const stateWithIncomingDirectCall: CallingStateType = {
     ...getEmptyState(),
     callsByConversation: {
-      'fake-direct-call-conversation-id': {
-        callMode: CallMode.Direct,
-        conversationId: 'fake-direct-call-conversation-id',
-        callState: CallState.Ringing,
-        isIncoming: true,
-        isVideoCall: false,
-        hasRemoteVideo: false,
-      },
+      'fake-direct-call-conversation-id': incomingDirectCall,
+    },
+  };
+
+  const incomingGroupCall: GroupCallStateType = {
+    callMode: CallMode.Group,
+    conversationId: 'fake-group-call-conversation-id',
+    connectionState: GroupCallConnectionState.NotConnected,
+    joinState: GroupCallJoinState.NotJoined,
+    peekInfo: {
+      uuids: ['c75b51da-d484-4674-9b2c-cc11de00e227'],
+      creatorUuid: 'c75b51da-d484-4674-9b2c-cc11de00e227',
+      maxDevices: Infinity,
+      deviceCount: 1,
+    },
+    remoteParticipants: [],
+    ringId: BigInt(123),
+    ringerUuid: 'c75b51da-d484-4674-9b2c-cc11de00e227',
+  };
+
+  const stateWithIncomingGroupCall: CallingStateType = {
+    ...getEmptyState(),
+    callsByConversation: {
+      'fake-group-call-conversation-id': incomingGroupCall,
     },
   };
 
@@ -119,17 +155,35 @@ describe('state/selectors/calling', () => {
       );
     });
 
-    it('returns the incoming call', () => {
+    it('returns undefined if there is a group call with no peeked participants', () => {
+      const state = {
+        ...stateWithIncomingGroupCall,
+        callsByConversation: {
+          'fake-group-call-conversation-id': {
+            ...incomingGroupCall,
+            peekInfo: {
+              uuids: [],
+              maxDevices: Infinity,
+              deviceCount: 1,
+            },
+          },
+        },
+      };
+
+      assert.isUndefined(getIncomingCall(getCallingState(state)));
+    });
+
+    it('returns an incoming direct call', () => {
       assert.deepEqual(
         getIncomingCall(getCallingState(stateWithIncomingDirectCall)),
-        {
-          callMode: CallMode.Direct,
-          conversationId: 'fake-direct-call-conversation-id',
-          callState: CallState.Ringing,
-          isIncoming: true,
-          isVideoCall: false,
-          hasRemoteVideo: false,
-        }
+        incomingDirectCall
+      );
+    });
+
+    it('returns an incoming group call', () => {
+      assert.deepEqual(
+        getIncomingCall(getCallingState(stateWithIncomingGroupCall)),
+        incomingGroupCall
       );
     });
   });

@@ -59,6 +59,8 @@ export const isDelivered = (status: SendStatus): boolean =>
   STATUS_NUMBERS[status] >= STATUS_NUMBERS[SendStatus.Delivered];
 export const isSent = (status: SendStatus): boolean =>
   STATUS_NUMBERS[status] >= STATUS_NUMBERS[SendStatus.Sent];
+export const isFailed = (status: SendStatus): boolean =>
+  status === SendStatus.Failed;
 
 /**
  * `SendState` combines `SendStatus` and a timestamp. You can use it to show things to the

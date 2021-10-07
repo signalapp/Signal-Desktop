@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -11,6 +11,7 @@ import {
   isSignalHttpsLink,
   parseSgnlHref,
   parseCaptchaHref,
+  parseE164FromSignalDotMeHash,
   parseSignalHttpsLink,
 } from '../../util/sgnlHref';
 
@@ -131,10 +132,16 @@ describe('sgnlHref', () => {
       );
     });
 
+    it('returns false if the URL is not a valid Signal URL', () => {
+      assert.isFalse(isSignalHttpsLink('https://signal.org', explodingLogger));
+      assert.isFalse(isSignalHttpsLink('https://example.com', explodingLogger));
+    });
+
     it('returns true if the protocol is "https:"', () => {
       assert.isTrue(isSignalHttpsLink('https://signal.group', explodingLogger));
       assert.isTrue(isSignalHttpsLink('https://signal.art', explodingLogger));
       assert.isTrue(isSignalHttpsLink('HTTPS://signal.art', explodingLogger));
+      assert.isTrue(isSignalHttpsLink('https://signal.me', explodingLogger));
     });
 
     it('returns false if username or password are set', () => {
@@ -163,6 +170,7 @@ describe('sgnlHref', () => {
         assert.deepEqual(parseSgnlHref(href, explodingLogger), {
           command: null,
           args: new Map<never, never>(),
+          hash: undefined,
         });
       });
     });
@@ -288,12 +296,41 @@ describe('sgnlHref', () => {
     });
   });
 
+  describe('parseE164FromSignalDotMeHash', () => {
+    it('returns undefined for invalid inputs', () => {
+      [
+        '',
+        ' p/+18885551234',
+        'p/+18885551234 ',
+        'x/+18885551234',
+        'p/+notanumber',
+        'p/7c7e87a0-3b74-4efd-9a00-6eb8b1dd5be8',
+        'p/+08885551234',
+        'p/18885551234',
+      ].forEach(hash => {
+        assert.isUndefined(parseE164FromSignalDotMeHash(hash));
+      });
+    });
+
+    it('returns the E164 for valid inputs', () => {
+      assert.strictEqual(
+        parseE164FromSignalDotMeHash('p/+18885551234'),
+        '+18885551234'
+      );
+      assert.strictEqual(
+        parseE164FromSignalDotMeHash('p/+441632960104'),
+        '+441632960104'
+      );
+    });
+  });
+
   describe('parseSignalHttpsLink', () => {
     it('returns a null command for invalid URLs', () => {
       ['', 'https', 'https://example/?foo=bar'].forEach(href => {
         assert.deepEqual(parseSignalHttpsLink(href, explodingLogger), {
           command: null,
           args: new Map<never, never>(),
+          hash: undefined,
         });
       });
     });
@@ -326,6 +363,20 @@ describe('sgnlHref', () => {
           command: 'signal.group',
           args: new Map<never, never>(),
           hash: 'data',
+        }
+      );
+    });
+
+    it('handles signal.me links', () => {
+      assert.deepEqual(
+        parseSignalHttpsLink(
+          'https://signal.me/#p/+18885551234',
+          explodingLogger
+        ),
+        {
+          command: 'signal.me',
+          args: new Map<never, never>(),
+          hash: 'p/+18885551234',
         }
       );
     });

@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 
 import { AttachmentType } from '../../types/Attachment';
 import { stringToMIMEType } from '../../types/MIME';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { Props, StagedLinkPreview } from './StagedLinkPreview';
 
@@ -32,6 +32,7 @@ const createAttachment = (
   ),
   fileName: text('attachment fileName', props.fileName || ''),
   url: text('attachment url', props.url || ''),
+  size: 24325,
 });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({

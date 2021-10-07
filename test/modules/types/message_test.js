@@ -6,9 +6,7 @@ const sinon = require('sinon');
 
 const Message = require('../../../js/modules/types/message');
 const { SignalService } = require('../../../ts/protobuf');
-const {
-  stringToArrayBuffer,
-} = require('../../../js/modules/string_to_array_buffer');
+const Bytes = require('../../../ts/Bytes');
 
 describe('Message', () => {
   const logger = {
@@ -62,7 +60,7 @@ describe('Message', () => {
         attachments: [
           {
             path: 'ab/abcdefghi',
-            data: stringToArrayBuffer('It’s easy if you try'),
+            data: Bytes.fromString('It’s easy if you try'),
           },
         ],
       };
@@ -80,9 +78,9 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
+        assert.strictEqual(
+          Bytes.toString(attachment.data),
+          'It’s easy if you try'
         );
       };
 
@@ -103,7 +101,7 @@ describe('Message', () => {
             {
               thumbnail: {
                 path: 'ab/abcdefghi',
-                data: stringToArrayBuffer('It’s easy if you try'),
+                data: Bytes.fromString('It’s easy if you try'),
               },
             },
           ],
@@ -128,9 +126,9 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
+        assert.strictEqual(
+          Bytes.toString(attachment.data),
+          'It’s easy if you try'
         );
       };
 
@@ -153,7 +151,7 @@ describe('Message', () => {
               isProfile: false,
               avatar: {
                 path: 'ab/abcdefghi',
-                data: stringToArrayBuffer('It’s easy if you try'),
+                data: Bytes.fromString('It’s easy if you try'),
               },
             },
           },
@@ -179,9 +177,9 @@ describe('Message', () => {
 
       const writeExistingAttachmentData = attachment => {
         assert.equal(attachment.path, 'ab/abcdefghi');
-        assert.deepEqual(
-          attachment.data,
-          stringToArrayBuffer('It’s easy if you try')
+        assert.strictEqual(
+          Bytes.toString(attachment.data),
+          'It’s easy if you try'
         );
       };
 
@@ -270,7 +268,7 @@ describe('Message', () => {
           {
             contentType: 'audio/aac',
             flags: SignalService.AttachmentPointer.Flags.VOICE_MESSAGE,
-            data: stringToArrayBuffer('It’s easy if you try'),
+            data: Bytes.fromString('It’s easy if you try'),
             fileName: 'test\u202Dfig.exe',
             size: 1111,
           },
@@ -294,12 +292,13 @@ describe('Message', () => {
         contact: [],
       };
 
-      const expectedAttachmentData = stringToArrayBuffer(
-        'It’s easy if you try'
-      );
+      const expectedAttachmentData = 'It’s easy if you try';
       const context = {
         writeNewAttachmentData: async attachmentData => {
-          assert.deepEqual(attachmentData, expectedAttachmentData);
+          assert.strictEqual(
+            Bytes.toString(attachmentData),
+            expectedAttachmentData
+          );
           return 'abc/abcdefg';
         },
         getRegionCode: () => 'US',

@@ -3,6 +3,7 @@
 
 import { z } from 'zod';
 import { groupBy } from 'lodash';
+import * as log from '../logging/log';
 
 const retryItemSchema = z
   .object({
@@ -55,7 +56,7 @@ export class RetryPlaceholders {
       window.storage.get(STORAGE_KEY, new Array<RetryItemType>())
     );
     if (!parsed.success) {
-      window.log.warn(
+      log.warn(
         `RetryPlaceholders.constructor: Data fetched from storage did not match schema: ${JSON.stringify(
           parsed.error.flatten()
         )}`
@@ -68,7 +69,7 @@ export class RetryPlaceholders {
     this.byMessage = this.makeByMessageLookup();
     this.retryReceiptLifespan = options.retryReceiptLifespan || HOUR;
 
-    window.log.info(
+    log.info(
       `RetryPlaceholders.constructor: Started with ${this.items.length} items, lifespan of ${this.retryReceiptLifespan}`
     );
   }
@@ -145,7 +146,7 @@ export class RetryPlaceholders {
       }
     }
 
-    window.log.info(
+    log.info(
       `RetryPlaceholders.getExpiredAndRemove: Found ${result.length} expired items`
     );
 
@@ -168,7 +169,7 @@ export class RetryPlaceholders {
     });
 
     if (changed > 0) {
-      window.log.info(
+      log.info(
         `RetryPlaceholders.findByConversationAndMarkOpened: Updated ${changed} items for conversation ${conversationId}`
       );
 

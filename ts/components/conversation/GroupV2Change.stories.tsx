@@ -5,7 +5,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
@@ -56,8 +56,17 @@ storiesOf('Components/Conversation/GroupV2Change', module)
               removed: false,
             },
             {
+              type: 'description',
+              description:
+                'This is a long description.\n\nWe need a dialog to view it all!\n\nIt has a link to https://example.com',
+            },
+            {
               type: 'member-add',
               conversationId: OUR_ID,
+            },
+            {
+              type: 'description',
+              description: 'Another description',
             },
             {
               type: 'member-privilege',

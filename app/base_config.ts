@@ -7,18 +7,20 @@ import { get, set } from 'lodash';
 
 const ENCODING = 'utf8';
 
-type ConfigType = Record<string, unknown>;
+type InternalConfigType = Record<string, unknown>;
+
+export type ConfigType = {
+  set: (keyPath: string, value: unknown) => void;
+  get: (keyPath: string) => unknown;
+  remove: () => void;
+};
 
 export function start(
   name: string,
   targetPath: string,
   options?: { allowMalformedOnStartup?: boolean }
-): {
-  set: (keyPath: string, value: unknown) => void;
-  get: (keyPath: string) => unknown;
-  remove: () => void;
-} {
-  let cachedValue: ConfigType | undefined;
+): ConfigType {
+  let cachedValue: InternalConfigType | undefined;
 
   try {
     const text = readFileSync(targetPath, ENCODING);

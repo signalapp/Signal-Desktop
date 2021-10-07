@@ -5,8 +5,9 @@ import { isNumber, omit } from 'lodash';
 import { v4 as getGuid } from 'uuid';
 
 import dataInterface from '../sql/Client';
+import * as durations from '../util/durations';
 import { downloadAttachment } from '../util/downloadAttachment';
-import { stringFromBytes } from '../Crypto';
+import * as Bytes from '../Bytes';
 import {
   AttachmentDownloadJobType,
   AttachmentDownloadJobTypeType,
@@ -14,7 +15,8 @@ import {
 
 import { MessageModel } from '../models/messages';
 import { AttachmentType } from '../types/Attachment';
-import { LoggerType } from '../window.d';
+import { LoggerType } from '../types/Logging';
+import * as log from '../logging/log';
 
 const {
   getMessageById,
@@ -28,15 +30,12 @@ const {
 
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
-const SECOND = 1000;
-const MINUTE = 60 * SECOND;
-const HOUR = 60 * MINUTE;
-const TICK_INTERVAL = MINUTE;
+const TICK_INTERVAL = durations.MINUTE;
 
 const RETRY_BACKOFF: Record<number, number> = {
-  1: 30 * SECOND,
-  2: 30 * MINUTE,
-  3: 6 * HOUR,
+  1: 30 * durations.SECOND,
+  2: 30 * durations.MINUTE,
+  3: 6 * durations.HOUR,
 };
 
 let enabled = false;
@@ -181,7 +180,7 @@ async function _maybeStartJob(): Promise<void> {
 
 async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
   if (!job) {
-    window.log.warn('_runJob: Job was missing!');
+    log.warn('_runJob: Job was missing!');
     return;
   }
 
@@ -245,7 +244,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
 
     if (currentAttempt >= 3) {
       logger.error(
-        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${logId} as permament error:`,
+        `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${logId} as permanent error:`,
         error && error.stack ? error.stack : error
       );
 
@@ -320,7 +319,7 @@ async function _addAttachmentToMessage(
         attachment
       );
       message.set({
-        body: attachment.error ? message.get('body') : stringFromBytes(data),
+        body: attachment.error ? message.get('body') : Bytes.toString(data),
         bodyPending: false,
       });
     } finally {

@@ -17,23 +17,19 @@ import { getCustomColorStyle } from '../../util/getCustomColorStyle';
 
 export type Props = {
   authorTitle: string;
-  authorPhoneNumber?: string;
-  authorProfileName?: string;
-  authorName?: string;
   conversationColor: ConversationColorType;
   customColor?: CustomColorType;
   bodyRanges?: BodyRangesType;
   i18n: LocalizerType;
   isFromMe: boolean;
-  isIncoming: boolean;
-  withContentAbove: boolean;
+  isIncoming?: boolean;
   onClick?: () => void;
   onClose?: () => void;
   text: string;
   rawAttachment?: QuotedAttachmentType;
   isViewOnce: boolean;
   referencedMessageNotFound: boolean;
-  doubleCheckMissingQuoteReference: () => unknown;
+  doubleCheckMissingQuoteReference?: () => unknown;
 };
 
 type State = {
@@ -133,7 +129,7 @@ export class Quote extends React.Component<Props, State> {
     } = this.props;
 
     if (referencedMessageNotFound) {
-      doubleCheckMissingQuoteReference();
+      doubleCheckMissingQuoteReference?.();
     }
   }
 
@@ -298,7 +294,12 @@ export class Quote extends React.Component<Props, State> {
             isIncoming ? 'module-quote__primary__text--incoming' : null
           )}
         >
-          <MessageBody disableLinks text={quoteText} i18n={i18n} />
+          <MessageBody
+            disableLinks
+            disableJumbomoji
+            text={quoteText}
+            i18n={i18n}
+          />
         </div>
       );
     }
@@ -372,15 +373,7 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderAuthor(): JSX.Element {
-    const {
-      authorProfileName,
-      authorPhoneNumber,
-      authorTitle,
-      authorName,
-      i18n,
-      isFromMe,
-      isIncoming,
-    } = this.props;
+    const { authorTitle, i18n, isFromMe, isIncoming } = this.props;
 
     return (
       <div
@@ -389,17 +382,7 @@ export class Quote extends React.Component<Props, State> {
           isIncoming ? 'module-quote__primary__author--incoming' : null
         )}
       >
-        {isFromMe ? (
-          i18n('you')
-        ) : (
-          <ContactName
-            phoneNumber={authorPhoneNumber}
-            name={authorName}
-            profileName={authorProfileName}
-            title={authorTitle}
-            i18n={i18n}
-          />
-        )}
+        {isFromMe ? i18n('you') : <ContactName title={authorTitle} />}
       </div>
     );
   }
@@ -456,7 +439,6 @@ export class Quote extends React.Component<Props, State> {
       isIncoming,
       onClick,
       referencedMessageNotFound,
-      withContentAbove,
     } = this.props;
 
     if (!validateQuote(this.props)) {
@@ -464,12 +446,7 @@ export class Quote extends React.Component<Props, State> {
     }
 
     return (
-      <div
-        className={classNames(
-          'module-quote-container',
-          withContentAbove ? 'module-quote-container--with-content-above' : null
-        )}
-      >
+      <div className="module-quote-container">
         <button
           type="button"
           onClick={this.handleClick}
@@ -481,7 +458,6 @@ export class Quote extends React.Component<Props, State> {
               ? `module-quote--incoming-${conversationColor}`
               : `module-quote--outgoing-${conversationColor}`,
             !onClick ? 'module-quote--no-click' : null,
-            withContentAbove ? 'module-quote--with-content-above' : null,
             referencedMessageNotFound
               ? 'module-quote--with-reference-warning'
               : null

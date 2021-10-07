@@ -15,10 +15,10 @@ import {
 } from './Message';
 import { LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
-import { assert } from '../../util/assert';
 import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
+import * as log from '../../logging/log';
 
 export type Contact = Pick<
   ConversationType,
@@ -42,7 +42,7 @@ export type Contact = Pick<
   errors?: Array<Error>;
 };
 
-export type Props = {
+export type PropsData = {
   // An undefined status means they were the sender and it's an incoming message. If
   //   `undefined` is a status, there should be no other items in the array; if there are
   //   any defined statuses, `undefined` shouldn't be present.
@@ -54,19 +54,13 @@ export type Props = {
   receivedAt: number;
   sentAt: number;
 
-  sendAnyway: (contactId: string, messageId: string) => unknown;
   showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
-} & Pick<
+} & Pick<MessagePropsType, 'interactionMode'>;
+
+export type PropsBackboneActions = Pick<
   MessagePropsType,
-  | 'checkForAccount'
-  | 'clearSelectedMessage'
-  | 'deleteMessage'
-  | 'deleteMessageForEveryone'
   | 'displayTapToViewMessage'
-  | 'downloadAttachment'
-  | 'doubleCheckMissingQuoteReference'
-  | 'interactionMode'
   | 'kickOffAttachmentDownload'
   | 'markAttachmentAsCorrupted'
   | 'markViewed'
@@ -75,6 +69,7 @@ export type Props = {
   | 'reactToMessage'
   | 'renderAudioAttachment'
   | 'renderEmojiPicker'
+  | 'renderReactionPicker'
   | 'replyToMessage'
   | 'retrySend'
   | 'showContactDetail'
@@ -85,6 +80,16 @@ export type Props = {
   | 'showVisualAttachment'
 >;
 
+export type PropsReduxActions = Pick<
+  MessagePropsType,
+  | 'clearSelectedMessage'
+  | 'doubleCheckMissingQuoteReference'
+  | 'checkForAccount'
+>;
+
+export type ExternalProps = PropsData & PropsBackboneActions;
+export type Props = PropsData & PropsBackboneActions & PropsReduxActions;
+
 const contactSortCollator = new Intl.Collator();
 
 const _keyForError = (error: Error): string => {
@@ -93,6 +98,8 @@ const _keyForError = (error: Error): string => {
 
 export class MessageDetail extends React.Component<Props> {
   private readonly focusRef = React.createRef<HTMLDivElement>();
+
+  private readonly messageContainerRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount(): void {
     // When this component is created, it's initially not part of the DOM, and then it's
@@ -139,7 +146,7 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderContact(contact: Contact): JSX.Element {
-    const { i18n, message, showSafetyNumber, sendAnyway } = this.props;
+    const { i18n, showSafetyNumber } = this.props;
     const errors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -150,13 +157,6 @@ export class MessageDetail extends React.Component<Props> {
           onClick={() => showSafetyNumber(contact.id)}
         >
           {i18n('showSafetyNumber')}
-        </button>
-        <button
-          type="button"
-          className="module-message-detail__contact__send-anyway"
-          onClick={() => sendAnyway(contact.id, message.id)}
-        >
-          {i18n('sendAnyway')}
         </button>
       </div>
     ) : null;
@@ -169,13 +169,7 @@ export class MessageDetail extends React.Component<Props> {
         {this.renderAvatar(contact)}
         <div className="module-message-detail__contact__text">
           <div className="module-message-detail__contact__name">
-            <ContactName
-              phoneNumber={contact.phoneNumber}
-              name={contact.name}
-              profileName={contact.profileName}
-              title={contact.title}
-              i18n={i18n}
-            />
+            <ContactName title={contact.title} />
           </div>
           {errors.map(error => (
             <div
@@ -261,10 +255,7 @@ export class MessageDetail extends React.Component<Props> {
       checkForAccount,
       clearSelectedMessage,
       contactNameColor,
-      deleteMessage,
-      deleteMessageForEveryone,
       displayTapToViewMessage,
-      downloadAttachment,
       doubleCheckMissingQuoteReference,
       i18n,
       interactionMode,
@@ -276,6 +267,7 @@ export class MessageDetail extends React.Component<Props> {
       reactToMessage,
       renderAudioAttachment,
       renderEmojiPicker,
+      renderReactionPicker,
       replyToMessage,
       retrySend,
       showContactDetail,
@@ -289,19 +281,29 @@ export class MessageDetail extends React.Component<Props> {
     return (
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="module-message-detail" tabIndex={0} ref={this.focusRef}>
-        <div className="module-message-detail__message-container">
+        <div
+          className="module-message-detail__message-container"
+          ref={this.messageContainerRef}
+        >
           <Message
             {...message}
             renderingContext="conversation/MessageDetail"
             checkForAccount={checkForAccount}
             clearSelectedMessage={clearSelectedMessage}
             contactNameColor={contactNameColor}
-            deleteMessage={deleteMessage}
-            deleteMessageForEveryone={deleteMessageForEveryone}
+            containerElementRef={this.messageContainerRef}
+            deleteMessage={() =>
+              log.warn('MessageDetail: deleteMessage called!')
+            }
+            deleteMessageForEveryone={() =>
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
+            }
             disableMenu
             disableScroll
             displayTapToViewMessage={displayTapToViewMessage}
-            downloadAttachment={downloadAttachment}
+            downloadAttachment={() =>
+              log.warn('MessageDetail: deleteMessageForEveryone called!')
+            }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
             i18n={i18n}
             interactionMode={interactionMode}
@@ -314,14 +316,12 @@ export class MessageDetail extends React.Component<Props> {
             reactToMessage={reactToMessage}
             renderAudioAttachment={renderAudioAttachment}
             renderEmojiPicker={renderEmojiPicker}
+            renderReactionPicker={renderReactionPicker}
             replyToMessage={replyToMessage}
             retrySend={retrySend}
             showForwardMessageModal={showForwardMessageModal}
             scrollToQuotedMessage={() => {
-              assert(
-                false,
-                'scrollToQuotedMessage should never be called because scrolling is disabled'
-              );
+              log.warn('MessageDetail: scrollToQuotedMessage called!');
             }}
             showContactDetail={showContactDetail}
             showContactModal={showContactModal}
@@ -332,10 +332,7 @@ export class MessageDetail extends React.Component<Props> {
               showExpiredOutgoingTapToViewToast
             }
             showMessageDetail={() => {
-              assert(
-                false,
-                "showMessageDetail should never be called because the menu is disabled (and we're already in the message detail!)"
-              );
+              log.warn('MessageDetail: deleteMessageForEveryone called!');
             }}
             showVisualAttachment={showVisualAttachment}
           />

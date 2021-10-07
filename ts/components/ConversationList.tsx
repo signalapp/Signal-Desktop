@@ -160,7 +160,7 @@ export const ConversationList: React.FC<PropsType> = ({
     if (shouldRecomputeRowHeights && list) {
       list.recomputeRowHeights();
     }
-  }, [shouldRecomputeRowHeights]);
+  });
 
   const calculateRowHeight = useCallback(
     ({ index }: { index: number }): number => {
@@ -197,7 +197,10 @@ export const ConversationList: React.FC<PropsType> = ({
               onClick={onClickArchiveButton}
               type="button"
             >
-              {i18n('archivedConversations')}{' '}
+              <div className="module-conversation-list__item--archive-button__icon" />
+              <span className="module-conversation-list__item--archive-button__text">
+                {i18n('archivedConversations')}
+              </span>
               <span className="module-conversation-list__item--archive-button__archived-count">
                 {row.archivedConversationsCount}
               </span>
@@ -337,7 +340,7 @@ export const ConversationList: React.FC<PropsType> = ({
       rowHeight={calculateRowHeight}
       rowRenderer={renderRow}
       scrollToIndex={scrollToRowIndex}
-      style={{ overflow: scrollable ? 'auto' : 'hidden' }}
+      style={{ overflow: scrollable ? 'overlay' : 'hidden' }}
       tabIndex={-1}
       width={width}
     />

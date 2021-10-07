@@ -1,20 +1,16 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import url from 'url';
-import { ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 
 // It is important to call this as early as possible
 import '../context';
 
+import { SignalWindow } from '../configure';
 import * as Settings from '../../types/Settings';
-import i18n from '../../../js/modules/i18n';
-import {
-  Preferences,
-  PropsType as PreferencesPropsType,
-} from '../../components/Preferences';
+import { Preferences } from '../../components/Preferences';
 import {
   SystemTraySetting,
   parseSystemTraySetting,
@@ -22,27 +18,10 @@ import {
 } from '../../types/SystemTraySetting';
 import { awaitObject } from '../../util/awaitObject';
 import { createSetting, createCallback } from '../../util/preload';
-import {
-  getEnvironment,
-  setEnvironment,
-  parseEnvironment,
-} from '../../environment';
-import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging';
-import { strictAssert } from '../../util/assert';
 
-const config = url.parse(window.location.toString(), true).query;
-const { locale } = config;
-strictAssert(locale, 'locale could not be parsed from config');
-strictAssert(typeof locale === 'string', 'locale is not a string');
-
-const localeMessages = ipcRenderer.sendSync('locale-data');
-setEnvironment(parseEnvironment(config.environment));
-
-window.React = React;
-window.ReactDOM = ReactDOM;
-window.getEnvironment = getEnvironment;
-window.getVersion = () => String(config.version);
-window.i18n = i18n.setup(locale, localeMessages);
+function doneRendering() {
+  ipcRenderer.send('settings-done-rendering');
+}
 
 const settingAudioNotification = createSetting('audioNotification');
 const settingAutoDownloadUpdate = createSetting('autoDownloadUpdate');
@@ -127,16 +106,6 @@ const ipcSetGlobalDefaultConversationColor = createCallback(
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
-let renderComponent: (
-  component: typeof Preferences,
-  props: PreferencesPropsType
-) => void;
-window.SignalModule = {
-  registerReactRenderer: f => {
-    renderComponent = f;
-  },
-};
-
 function getSystemTraySettingValues(
   systemTraySetting: SystemTraySetting
 ): {
@@ -157,12 +126,7 @@ function getSystemTraySettingValues(
   };
 }
 
-async function renderPreferences() {
-  if (!renderComponent) {
-    setTimeout(renderPreferences, 100);
-    return;
-  }
-
+const renderPreferences = async () => {
   const {
     blockedCount,
     deviceName,
@@ -282,7 +246,6 @@ async function renderPreferences() {
     selectedCamera,
     selectedMicrophone,
     selectedSpeaker,
-    theme: themeSetting === 'system' ? window.systemTheme : themeSetting,
     themeSetting,
     universalExpireTimer,
     whoCanFindMe,
@@ -291,11 +254,13 @@ async function renderPreferences() {
 
     // Actions and other props
     addCustomColor: ipcAddCustomColor,
+    closeSettings: () => ipcRenderer.send('close-settings'),
     doDeleteAllData: () => ipcRenderer.send('delete-all-data'),
+    doneRendering,
     editCustomColor: ipcEditCustomColor,
     getConversationsWithCustomColor: ipcGetConversationsWithCustomColor,
     initialSpellCheckSetting:
-      config.appStartInitialSpellcheckSetting === 'true',
+      SignalWindow.config.appStartInitialSpellcheckSetting === 'true',
     makeSyncRequest: ipcMakeSyncRequest,
     removeCustomColor: ipcRemoveCustomColor,
     removeCustomColorOnConversations: ipcRemoveCustomColorOnConversations,
@@ -305,12 +270,15 @@ async function renderPreferences() {
 
     // Limited support features
     isAudioNotificationsSupported: Settings.isAudioNotificationSupported(),
+    isAutoDownloadUpdatesSupported: Settings.isAutoDownloadUpdatesSupported(),
     isAutoLaunchSupported: Settings.isAutoLaunchSupported(),
     isHideMenuBarSupported: Settings.isHideMenuBarSupported(),
     isNotificationAttentionSupported: Settings.isDrawAttentionSupported(),
     isPhoneNumberSharingSupported,
     isSyncSupported: !isSyncNotSupported,
-    isSystemTraySupported: Settings.isSystemTraySupported(window.getVersion()),
+    isSystemTraySupported: Settings.isSystemTraySupported(
+      SignalWindow.getVersion()
+    ),
 
     // Change handlers
     onAudioNotificationsChange: reRender(settingAudioNotification.setValue),
@@ -367,9 +335,15 @@ async function renderPreferences() {
     onUniversalExpireTimerChange: reRender(
       settingUniversalExpireTimer.setValue
     ),
-    onZoomFactorChange: reRender(settingZoomFactor.setValue),
 
-    i18n: window.i18n,
+    // Zoom factor change doesn't require immediate rerender since it will:
+    // 1. Update the zoom factor in the main window
+    // 2. Trigger `preferred-size-changed` in the main process
+    // 3. Finally result in `window.storage` update which will cause the
+    //    rerender.
+    onZoomFactorChange: settingZoomFactor.setValue,
+
+    i18n: SignalWindow.i18n,
   };
 
   function reRender<Value>(f: (value: Value) => Promise<Value>) {
@@ -379,9 +353,15 @@ async function renderPreferences() {
     };
   }
 
-  renderComponent(Preferences, props);
-}
+  ReactDOM.render(
+    React.createElement(Preferences, props),
+    document.getElementById('app')
+  );
+};
 
-ipcRenderer.on('render', renderPreferences);
+ipcRenderer.on('preferences-changed', () => renderPreferences());
 
-initializeLogging();
+contextBridge.exposeInMainWorld('SignalWindow', {
+  ...SignalWindow,
+  renderWindow: renderPreferences,
+});

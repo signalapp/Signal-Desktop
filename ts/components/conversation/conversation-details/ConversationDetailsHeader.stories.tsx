@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { number, text } from '@storybook/addon-knobs';
 
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { ConversationType } from '../../../state/ducks/conversations';
 
@@ -27,6 +27,7 @@ const createConversation = (): ConversationType =>
     type: 'group',
     lastUpdated: 0,
     title: text('conversation title', 'Some Conversation'),
+    groupDescription: text('description', 'This is a group description'),
   });
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
@@ -48,4 +49,32 @@ story.add('Editable', () => {
   const props = createProps({ canEdit: true });
 
   return <ConversationDetailsHeader {...props} />;
+});
+
+story.add('Basic no-description', () => {
+  const props = createProps();
+
+  return (
+    <ConversationDetailsHeader
+      {...props}
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
+});
+
+story.add('Editable no-description', () => {
+  const props = createProps({ canEdit: true });
+
+  return (
+    <ConversationDetailsHeader
+      {...props}
+      conversation={getDefaultConversation({
+        title: 'My Group',
+        type: 'group',
+      })}
+    />
+  );
 });

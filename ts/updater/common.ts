@@ -15,8 +15,8 @@ import { createParser, ParserConfiguration } from 'dashdash';
 import ProxyAgent from 'proxy-agent';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt } from 'semver';
-import { get as getFromConfig } from 'config';
-import { get, GotOptions, stream } from 'got';
+import config from 'config';
+import got, { StrictOptions as GotOptions } from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
@@ -132,12 +132,12 @@ export async function downloadUpdate(
     validatePath(tempDir, targetUpdatePath);
     validatePath(tempDir, targetSignaturePath);
 
-    logger.info(`downloadUpdate: Downloading ${signatureUrl}`);
-    const { body } = await get(signatureUrl, getGotOptions());
+    logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
+    const { body } = await got.get(signatureUrl, getGotOptions());
     await writeFile(targetSignaturePath, body);
 
-    logger.info(`downloadUpdate: Downloading ${updateFileUrl}`);
-    const downloadStream = stream(updateFileUrl, getGotOptions());
+    logger.info(`downloadUpdate: Downloading update ${updateFileUrl}`);
+    const downloadStream = got.stream(updateFileUrl, getGotOptions());
     const writeStream = createWriteStream(targetUpdatePath);
 
     await new Promise<void>((resolve, reject) => {
@@ -188,10 +188,10 @@ export function getUpdateCheckUrl(): string {
 }
 
 export function getUpdatesBase(): string {
-  return getFromConfig('updatesUrl');
+  return config.get('updatesUrl');
 }
 export function getCertificateAuthority(): string {
-  return getFromConfig('certificateAuthority');
+  return config.get('certificateAuthority');
 }
 export function getProxyUrl(): string | undefined {
   return process.env.HTTPS_PROXY || process.env.https_proxy;
@@ -265,28 +265,34 @@ export function parseYaml(yaml: string): JSONUpdateSchema {
 
 async function getUpdateYaml(): Promise<string> {
   const targetUrl = getUpdateCheckUrl();
-  const { body } = await get(targetUrl, getGotOptions());
+  const body = await got(targetUrl, getGotOptions()).text();
 
   if (!body) {
     throw new Error('Got unexpected response back from update check');
   }
 
-  return body.toString('utf8');
+  return body;
 }
 
-function getGotOptions(): GotOptions<null> {
-  const ca = getCertificateAuthority();
+function getGotOptions(): GotOptions {
+  const certificateAuthority = getCertificateAuthority();
   const proxyUrl = getProxyUrl();
-  const agent = proxyUrl ? new ProxyAgent(proxyUrl) : undefined;
+  const agent = proxyUrl
+    ? {
+        http: new ProxyAgent(proxyUrl),
+        https: new ProxyAgent(proxyUrl),
+      }
+    : undefined;
 
   return {
     agent,
-    ca,
+    https: {
+      certificateAuthority,
+    },
     headers: {
       'Cache-Control': 'no-cache',
       'User-Agent': getUserAgent(packageJson.version),
     },
-    useElectronNet: false,
     timeout: {
       connect: GOT_CONNECT_TIMEOUT,
       lookup: GOT_LOOKUP_TIMEOUT,
@@ -350,12 +356,21 @@ export function getCliOptions<T>(options: ParserConfiguration['options']): T {
 }
 
 export function setUpdateListener(performUpdateCallback: () => void): void {
+  ipcMain.removeAllListeners('start-update');
   ipcMain.once('start-update', performUpdateCallback);
 }
 
-export function getAutoDownloadUpdateSetting(
-  mainWindow: BrowserWindow
+export async function getAutoDownloadUpdateSetting(
+  mainWindow: BrowserWindow | undefined,
+  logger: LoggerType
 ): Promise<boolean> {
+  if (!mainWindow) {
+    logger.warn(
+      'getAutoDownloadUpdateSetting: No main window, returning false'
+    );
+    return false;
+  }
+
   return new Promise((resolve, reject) => {
     ipcMain.once(
       'settings:get-success:autoDownloadUpdate',

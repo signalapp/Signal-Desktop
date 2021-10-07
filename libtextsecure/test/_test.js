@@ -46,18 +46,6 @@ mocha.reporter(SauceReporter);
 /*
  * global helpers for tests
  */
-window.assertEqualArrayBuffers = (ab1, ab2) => {
-  assert.deepEqual(new Uint8Array(ab1), new Uint8Array(ab2));
-};
-
-window.hexToArrayBuffer = str => {
-  const ret = new ArrayBuffer(str.length / 2);
-  const array = new Uint8Array(ret);
-  for (let i = 0; i < str.length / 2; i += 1) {
-    array[i] = parseInt(str.substr(i * 2, 2), 16);
-  }
-  return ret;
-};
 
 window.Whisper = window.Whisper || {};
 window.Whisper.events = {
@@ -67,14 +55,16 @@ window.Whisper.events = {
 
 before(async () => {
   try {
-    window.log.info('Initializing SQL in renderer');
+    window.SignalWindow.log.info('Initializing SQL in renderer');
     const isTesting = true;
     await window.sqlInitializer.initialize(isTesting);
-    window.log.info('SQL initialized in renderer');
+    window.SignalWindow.log.info('SQL initialized in renderer');
   } catch (err) {
-    window.log.error(
+    window.SignalWindow.log.error(
       'SQL failed to initialize',
       err && err.stack ? err.stack : err
     );
   }
+
+  await window.Signal.Util.initializeMessageCounter();
 });

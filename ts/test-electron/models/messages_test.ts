@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { setup as setupI18n } from '../../../js/modules/i18n';
+import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import MessageSender from '../../textsecure/SendMessage';
@@ -136,7 +136,7 @@ describe('Message', () => {
         },
       });
 
-      const fakeDataMessage = new ArrayBuffer(0);
+      const fakeDataMessage = new Uint8Array(0);
       const conversation1Uuid = conversation1.get('uuid');
       const ignoredUuid = window.getGuid();
 

@@ -4,10 +4,11 @@
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
-import { MediaItemType } from '../../LightboxGallery';
+import * as log from '../../../logging/log';
+import { MediaItemType } from '../../../types/MediaItem';
 import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
-// import { missingCaseError } from '../../../util/missingCaseError';
+import { missingCaseError } from '../../../util/missingCaseError';
 
 type StaticSectionType = 'today' | 'yesterday' | 'thisWeek' | 'thisMonth';
 type YearMonthSectionType = 'yearMonth';
@@ -54,13 +55,13 @@ const toSection = (
   messagesWithSection: Array<MediaItemWithSection> | undefined
 ): Section | undefined => {
   if (!messagesWithSection || messagesWithSection.length === 0) {
-    return;
+    return undefined;
   }
 
-  const firstMediaItemWithSection: MediaItemWithSection =
+  const firstMediaItemWithSection: undefined | MediaItemWithSection =
     messagesWithSection[0];
   if (!firstMediaItemWithSection) {
-    return;
+    return undefined;
   }
 
   const mediaItems = messagesWithSection.map(
@@ -71,13 +72,11 @@ const toSection = (
     case 'yesterday':
     case 'thisWeek':
     case 'thisMonth':
-      // eslint-disable-next-line consistent-return
       return {
         type: firstMediaItemWithSection.type,
         mediaItems,
       };
     case 'yearMonth':
-      // eslint-disable-next-line consistent-return
       return {
         type: firstMediaItemWithSection.type,
         year: firstMediaItemWithSection.year,
@@ -85,12 +84,8 @@ const toSection = (
         mediaItems,
       };
     default:
-      // NOTE: Investigate why we get the following error:
-      // error TS2345: Argument of type 'any' is not assignable to parameter
-      // of type 'never'.
-      // return missingCaseError(firstMediaItemWithSection.type);
-      // eslint-disable-next-line no-useless-return
-      return;
+      log.error(missingCaseError(firstMediaItemWithSection));
+      return undefined;
   }
 };
 

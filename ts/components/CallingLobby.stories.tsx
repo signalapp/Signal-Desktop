@@ -11,7 +11,7 @@ import { v4 as generateUuid } from 'uuid';
 import { AvatarColors } from '../types/Colors';
 import { ConversationType } from '../state/ducks/conversations';
 import { CallingLobby, PropsType } from './CallingLobby';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
@@ -42,9 +42,9 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
   return {
     availableCameras: overrideProps.availableCameras || [camera],
     conversation,
-    groupMembers: isGroupCall
-      ? times(3, () => getDefaultConversation())
-      : undefined,
+    groupMembers:
+      overrideProps.groupMembers ||
+      (isGroupCall ? times(3, () => getDefaultConversation()) : undefined),
     hasLocalAudio: boolean(
       'hasLocalAudio',
       overrideProps.hasLocalAudio || false
@@ -55,17 +55,21 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     ),
     i18n,
     isGroupCall,
+    isGroupCallOutboundRingEnabled: true,
     isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
     me: overrideProps.me || {
       color: AvatarColors[0],
+      id: generateUuid(),
       uuid: generateUuid(),
     },
     onCallCanceled: action('on-call-canceled'),
     onJoinCall: action('on-join-call'),
+    outgoingRing: boolean('outgoingRing', Boolean(overrideProps.outgoingRing)),
     peekedParticipants: overrideProps.peekedParticipants || [],
     setLocalAudio: action('set-local-audio'),
     setLocalPreview: action('set-local-preview'),
     setLocalVideo: action('set-local-video'),
+    setOutgoingRing: action('set-outgoing-ring'),
     showParticipantsList: boolean(
       'showParticipantsList',
       Boolean(overrideProps.showParticipantsList)
@@ -101,6 +105,7 @@ story.add('No Camera, local avatar', () => {
     me: {
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
+      id: generateUuid(),
       uuid: generateUuid(),
     },
   });
@@ -138,7 +143,10 @@ story.add('Group Call - 1 peeked participant (self)', () => {
   const uuid = generateUuid();
   const props = createProps({
     isGroupCall: true,
-    me: { uuid },
+    me: {
+      id: generateUuid(),
+      uuid,
+    },
     peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],
   });
   return <CallingLobby {...props} />;
@@ -172,6 +180,14 @@ story.add('Group Call - call full', () => {
     peekedParticipants: ['Sam', 'Cayce'].map(title =>
       fakePeekedParticipant({ title })
     ),
+  });
+  return <CallingLobby {...props} />;
+});
+
+story.add('Group Call - 0 peeked participants, big group', () => {
+  const props = createProps({
+    isGroupCall: true,
+    groupMembers: times(100, () => getDefaultConversation()),
   });
   return <CallingLobby {...props} />;
 });

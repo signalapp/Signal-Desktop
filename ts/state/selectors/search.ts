@@ -29,6 +29,7 @@ import {
 } from './conversations';
 
 import { BodyRangeType } from '../../types/Util';
+import * as log from '../../logging/log';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
@@ -187,7 +188,7 @@ export const getMessageSearchResultSelector = createSelector(
     return (id: string) => {
       const message = messageSearchResultLookup[id];
       if (!message) {
-        window.log.warn(
+        log.warn(
           `getMessageSearchResultSelector: messageSearchResultLookup was missing id ${id}`
         );
         return undefined;
@@ -207,9 +208,7 @@ export const getMessageSearchResultSelector = createSelector(
         from = conversationSelector(ourConversationId);
         to = conversationSelector(conversationId);
       } else {
-        window.log.warn(
-          `getMessageSearchResultSelector: Got unexpected type ${type}`
-        );
+        log.warn(`getMessageSearchResultSelector: Got unexpected type ${type}`);
         return undefined;
       }
 

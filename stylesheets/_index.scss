@@ -6,7 +6,6 @@
 }
 
 .conversation-stack,
-.new-conversation,
 .inbox,
 .inbox-container,
 .gutter {
@@ -29,9 +28,6 @@
   @include light-theme {
     background-color: $color-gray-02;
 
-    ::-webkit-scrollbar-track {
-      background: $color-gray-02;
-    }
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-02;
     }
@@ -39,9 +35,6 @@
   @include dark-theme {
     background-color: $color-gray-80;
 
-    ::-webkit-scrollbar-track {
-      background: $color-gray-80;
-    }
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-80;
     }

@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { times } from 'lodash';
 
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
+import { CapabilityError } from '../../../types/errors';
 import enMessages from '../../../../_locales/en/messages.json';
 import { ConversationDetails, Props } from './ConversationDetails';
 import { ConversationType } from '../../../state/ducks/conversations';
@@ -152,9 +153,7 @@ story.add('Group add with missing capabilities', () => (
     {...createProps()}
     canEditGroupInfo
     addMembers={async () => {
-      const error = new Error();
-      error.code = 'E_NO_CAPABILITY';
-      throw error;
+      throw new CapabilityError('stories');
     }}
   />
 ));

@@ -8,14 +8,12 @@ import * as remoteConfig from '../../RemoteConfig';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
-  getMaxGroupCallRingSize,
 } from '../../groups/limits';
 
 describe('group limit utilities', () => {
   let sinonSandbox: sinon.SinonSandbox;
   let getRecommendedLimitStub: sinon.SinonStub;
   let getHardLimitStub: sinon.SinonStub;
-  let getMaxGroupCallRingSizeStub: sinon.SinonStub;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
@@ -26,9 +24,6 @@ describe('group limit utilities', () => {
     );
     getHardLimitStub = getValueStub.withArgs(
       'global.groupsv2.groupSizeHardLimit'
-    );
-    getMaxGroupCallRingSizeStub = getValueStub.withArgs(
-      'global.calling.maxGroupCallRingSize'
     );
   });
 
@@ -67,23 +62,6 @@ describe('group limit utilities', () => {
     it('returns the value in remote config, parsed as an integer', () => {
       getHardLimitStub.returns('123');
       assert.strictEqual(getGroupSizeHardLimit(), 123);
-    });
-  });
-
-  describe('getMaxGroupCallRingSize', () => {
-    it('returns 16 if the value in remote config is not defined', () => {
-      getMaxGroupCallRingSizeStub.returns(undefined);
-      assert.strictEqual(getMaxGroupCallRingSize(), 16);
-    });
-
-    it('returns 16 if the value in remote config is not a parseable integer', () => {
-      getMaxGroupCallRingSizeStub.returns('uh oh');
-      assert.strictEqual(getMaxGroupCallRingSize(), 16);
-    });
-
-    it('returns the value in remote config, parsed as an integer', () => {
-      getMaxGroupCallRingSizeStub.returns('123');
-      assert.strictEqual(getMaxGroupCallRingSize(), 123);
     });
   });
 });

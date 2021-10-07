@@ -262,6 +262,21 @@
       );
     }
   }
+
+  &--container {
+    border-radius: 4px;
+    height: 24px;
+    // the z-index here is so that this container is above the message and when
+    // clicked on, doesn't propagate the click event to the message.
+    z-index: 2;
+
+    @include light-theme {
+      background-color: $color-white;
+    }
+    @include dark-theme {
+      background-color: $color-gray-95;
+    }
+  }
 }
 
 .module-message__buttons__menu--incoming {
@@ -322,18 +337,23 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-width: 0;
 }
 .module-message__container {
   position: relative;
   display: inline-block;
   border-radius: 16px;
-  padding-right: 12px;
-  padding-left: 12px;
-  padding-top: 10px;
-  padding-bottom: 7px;
   min-width: 0px;
   width: 100%;
   overflow: hidden;
+
+  // These should match the margins in .module-message__attachment-container.
+  padding: {
+    left: 12px;
+    right: 12px;
+    top: 10px;
+    bottom: 7px;
+  }
 
   @include light-theme {
     border: 1px solid $color-white;
@@ -396,6 +416,10 @@
    * .module-message__metadata
    */
   padding-bottom: 3px;
+}
+
+.module-message__container--emoji {
+  padding-top: 0;
 }
 
 .module-message__container--outgoing {
@@ -581,7 +605,7 @@
     left: -12px;
     right: -12px;
     top: -10px;
-    bottom: -10px;
+    bottom: -7px;
   }
 
   line-height: 0;
@@ -1295,6 +1319,7 @@
 
   &--with-count {
     min-width: 40px;
+    padding: 0 6px;
   }
 
   &__count {
@@ -1437,13 +1462,9 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   margin: {
     left: -6px;
     right: -6px;
-    top: -4px;
+    top: 3px;
     bottom: 5px;
   }
-}
-
-.module-quote-container--with-content-above {
-  margin-top: 3px;
 }
 
 .module-quote {
@@ -1452,8 +1473,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
   position: relative;
   border-radius: 4px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 
   display: flex;
   flex-direction: row;
@@ -1474,11 +1493,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   cursor: auto;
 }
 
-.module-quote--with-content-above {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-
 .module-quote--with-reference-warning {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -1487,6 +1501,7 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 .module-quote--outgoing {
   border-left-color: $color-steel;
   background-color: $color-steel;
+  margin-top: -4px;
 
   // To preserve contrast
   @include keyboard-mode {
@@ -1612,12 +1627,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
 .module-quote__primary__text--incoming {
@@ -2060,7 +2069,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 .module-inline-notification-wrapper {
   outline: none;
-  padding: 5px;
 
   &:focus {
     @include keyboard-mode {
@@ -2074,392 +2082,12 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 
 // Module: Group Notification
 
-.module-group-notification {
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 5px;
-  margin-bottom: 5px;
-
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-group-notification__change {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
 .module-group-notification__contact {
   font-weight: bold;
 }
 
-// Module: Reset Session Notification
-
-.module-reset-session-notification {
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-// Module: Safety Number Notification
-
-.module-safety-number-notification {
-  text-align: center;
-}
-
-.module-safety-number-notification__icon {
-  height: 24px;
-  width: 24px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 7px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-solid-24.svg',
-      $color-gray-25
-    );
-  }
-}
-
-.module-safety-number-notification__text {
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-safety-number-notification__contact {
-  font-weight: bold;
-}
-
-.module-safety-number-notification__button {
-  @include button-reset;
-
-  @include font-body-2-bold;
-
-  margin-top: 5px;
-  display: inline-block;
-
-  padding: 12px;
-  border-radius: 4px;
-
-  color: $color-ultramarine;
-
-  @include light-theme {
-    background-color: $color-gray-02;
-  }
-  @include keyboard-mode {
-    &:focus {
-      background-color: $color-gray-15;
-    }
-  }
-
-  @include dark-theme {
-    background-color: $color-gray-75;
-  }
-  @include dark-keyboard-mode {
-    &:focus {
-      background-color: $color-gray-60;
-    }
-  }
-}
-
-.module-message-calling--notification {
-  .module-message__metadata__date {
-    @include light-theme {
-      color: $color-gray-90;
-    }
-    @include dark-theme {
-      color: $color-gray-05;
-    }
-  }
-
-  &__button {
-    @include button-reset;
-    @include button-small;
-    @include button-green;
-    @include font-body-1-bold;
-
-    display: block;
-    margin: 0.5rem auto 0 auto;
-  }
-}
-
 .module-safety-number__bold-name {
   font-weight: bold;
-}
-
-.module-message-calling {
-  &--audio {
-    text-align: center;
-
-    @include light-theme {
-      color: $color-gray-60;
-    }
-    @include dark-theme {
-      color: $color-gray-05;
-    }
-  }
-
-  &--audio__icon {
-    height: 24px;
-    margin-bottom: 4px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 24px;
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-outline-24.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-outline-24.svg',
-        $color-gray-15
-      );
-    }
-  }
-
-  &--video {
-    text-align: center;
-
-    @include light-theme {
-      color: $color-gray-60;
-    }
-    @include dark-theme {
-      color: $color-gray-05;
-    }
-  }
-
-  &--video__icon {
-    height: 24px;
-    margin-bottom: 4px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 24px;
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/video-outline-24.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/video-outline-24.svg',
-        $color-gray-15
-      );
-    }
-  }
-}
-
-.module-message-unsynced {
-  padding-bottom: 24px;
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-message-unsynced__icon {
-  height: 24px;
-  margin-bottom: 4px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 24px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/info-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/info-solid-24.svg', $color-gray-25);
-  }
-}
-
-// Module: Verification Notification
-
-.module-verification-notification {
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-verification-notification__contact {
-  font-weight: bold;
-}
-
-.module-verification-notification__icon--mark-verified {
-  height: 24px;
-  width: 24px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 4px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/check-24.svg', $color-gray-25);
-  }
-}
-
-.module-verification-notification__icon--mark-not-verified {
-  height: 24px;
-  width: 24px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 7px;
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-solid-24.svg',
-      $color-gray-25
-    );
-  }
-}
-
-// Module: Timer Notification
-// Module: Universal Timer Notification
-
-.module-timer-notification,
-.module-universal-timer-notification {
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-
-  &__icon-container {
-    margin-left: auto;
-    margin-right: auto;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  &__icon {
-    height: 20px;
-    width: 20px;
-    display: inline-block;
-    opacity: 0.6;
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/timer-outline-24.svg',
-        $color-gray-60
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/timer-solid-16.svg',
-        $color-gray-05
-      );
-    }
-
-    &--disabled {
-      @include light-theme {
-        @include color-svg(
-          '../images/icons/v2/timer-disabled-outline-24.svg',
-          $color-gray-60
-        );
-      }
-      @include dark-theme {
-        @include color-svg(
-          '../images/icons/v2/timer-disabled-solid-16.svg',
-          $color-gray-05
-        );
-      }
-    }
-  }
-
-  &__icon-label {
-    margin-left: 4px;
-
-    // Didn't seem centered otherwise
-    margin-top: 1px;
-
-    opacity: 0.8;
-  }
-}
-
-// Module: Change Number Notification
-
-.module-change-number-notification {
-  @include font-body-2;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-
-  &__icon {
-    height: 16px;
-    width: 16px;
-    display: inline-block;
-    margin-right: 8px;
-
-    @include light-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-outline-24.svg',
-        $color-gray-75
-      );
-    }
-    @include dark-theme {
-      @include color-svg(
-        '../images/icons/v2/phone-right-solid-24.svg',
-        $color-gray-15
-      );
-    }
-  }
 }
 
 // Module: Error Boundary
@@ -3439,7 +3067,7 @@ button.module-conversation-details__action-button {
 
 .module-media-grid-item__image {
   height: 94px;
-  width: 94px;
+  width: 100%;
   object-fit: cover;
 }
 
@@ -3456,9 +3084,6 @@ button.module-conversation-details__action-button {
 }
 
 .module-media-grid-item__image-container {
-  height: 94px;
-  width: 94px;
-  object-fit: cover;
   position: relative;
 }
 
@@ -3874,7 +3499,6 @@ button.module-conversation-details__action-button {
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  overflow: hidden;
 }
 
 .module-image--tap-to-play,
@@ -4080,17 +3704,20 @@ button.module-conversation-details__action-button {
   }
 }
 
-.module-message:focus
-  .module-message__container--with-sticker
-  .module-image__border-overlay {
-  @include keyboard-mode {
-    top: 1px;
-    bottom: 1px;
-    left: 1px;
-    right: 1px;
-    border-radius: 10px;
+.module-message:focus .module-message__container--with-sticker {
+  $border-radius: 10px;
 
-    box-shadow: 0 0 0 3px $color-ultramarine;
+  .module-image__image {
+    @include keyboard-mode {
+      border-radius: $border-radius;
+    }
+  }
+
+  .module-image__border-overlay {
+    @include keyboard-mode {
+      border-radius: $border-radius;
+      box-shadow: 0 0 0 3px $color-ultramarine;
+    }
   }
 }
 
@@ -4195,14 +3822,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-image__close-button {
-  @include button-reset;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 16px;
-  height: 16px;
-  z-index: 2;
+  @include staged-attachment-close-button;
 
   background-image: url('../images/x-shadow-16.svg');
 
@@ -4275,7 +3895,12 @@ button.module-image__border-overlay:focus {
   }
 
   @include only-when-page-is-visible {
-    animation: typing-animation 1600ms ease infinite;
+    animation: {
+      name: typing-animation;
+      duration: 1600ms;
+      timing-function: ease;
+      iteration-count: infinite;
+    }
   }
 }
 
@@ -4368,12 +3993,34 @@ button.module-image__border-overlay:focus {
   margin-bottom: 6px;
 }
 
+.module-staged-attachment {
+  margin-right: 8px;
+
+  &.module-image::before {
+    background: linear-gradient(
+      180deg,
+      $color-black-alpha-30 0%,
+      transparent 100%
+    );
+    content: '';
+    display: block;
+    height: 40px;
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.2s ease-out;
+    width: 100%;
+  }
+
+  &.module-image:hover::before {
+    opacity: 1;
+  }
+}
+
 // Module: Staged Generic Attachment
 
 .module-staged-generic-attachment {
   height: 120px;
   width: 120px;
-  margin: 1px;
   display: inline-block;
   position: relative;
   border-radius: 4px;
@@ -4392,14 +4039,7 @@ button.module-image__border-overlay:focus {
 }
 
 .module-staged-generic-attachment__close-button {
-  @include button-reset;
-
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 16px;
-  height: 16px;
-  z-index: 2;
+  @include staged-attachment-close-button;
 
   @include light-theme {
     @include color-svg('../images/icons/v2/x-24.svg', $color-black);
@@ -4819,10 +4459,22 @@ button.module-image__border-overlay:focus {
 .module-spinner__circle--small {
   -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+
+  // For specificity
+  @include dark-theme {
+    -webkit-mask: url('../images/spinner-track-24.svg') no-repeat center;
+    -webkit-mask-size: 100%;
+  }
 }
 .module-spinner__arc--small {
   -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
   -webkit-mask-size: 100%;
+
+  // For specificity
+  @include dark-theme {
+    -webkit-mask: url('../images/spinner-24.svg') no-repeat center;
+    -webkit-mask-size: 100%;
+  }
 }
 
 .module-spinner__circle--incoming {
@@ -4903,13 +4555,20 @@ button.module-image__border-overlay:focus {
 }
 
 .module-message-body__at-mention {
-  background-color: $color-black-alpha-40;
   border-radius: 4px;
   cursor: pointer;
   display: inline-block;
   padding-left: 4px;
   padding-right: 4px;
   border: 1px solid transparent;
+
+  @include light-theme {
+    background-color: $color-gray-20;
+  }
+
+  @include dark-theme {
+    background-color: $color-black-alpha-40;
+  }
 
   &:focus {
     border: 1px solid $color-black;
@@ -5060,142 +4719,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-// Module: Reaction Picker
-
-@keyframes module-reaction-picker__background-fade {
-  from {
-    background: transparent;
-  }
-  to {
-    // This color is the same in both light and dark themes
-    background: rgba($color-black, 0.8);
-  }
-}
-
-@keyframes module-reaction-picker__emoji-fade {
-  from {
-    transform: translate3d(0, 24px, 0);
-    opacity: 0;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}
-
-.module-reaction-picker {
-  width: 320px;
-  height: 56px;
-  border-radius: 30px;
-  position: relative;
-  z-index: 2;
-
-  animation: {
-    name: module-reaction-picker__background-fade;
-    duration: 400ms;
-    timing-function: $ease-out-expo;
-    fill-mode: forwards;
-  }
-
-  &__emoji-btn {
-    @include button-reset;
-    display: flex;
-    min-width: 52px;
-    min-height: 52px;
-    border-radius: 52px;
-
-    position: absolute;
-    top: 2px;
-
-    @for $i from 0 through 6 {
-      &:nth-of-type(#{$i + 1}) {
-        left: 2px + ($i * 44px);
-
-        // Prevent animation jank
-        opacity: 0;
-
-        animation: {
-          name: module-reaction-picker__emoji-fade;
-          duration: 400ms;
-          timing-function: $ease-out-expo;
-          delay: #{$i * 10ms};
-          fill-mode: forwards;
-        }
-      }
-    }
-
-    transition: background 400ms $ease-out-expo;
-    &--selected {
-      // This color is the same in both light and dark themes
-      background: rgba($color-white, 0.3);
-    }
-    &--more {
-      @include light-theme {
-        background: url('../images/any-emoji-32-light.svg') no-repeat center;
-      }
-
-      @include dark-theme {
-        background: url('../images/any-emoji-32-dark.svg') no-repeat center;
-      }
-
-      &::after {
-        content: '';
-        display: block;
-        width: 52px;
-        height: 52px;
-        opacity: 0;
-        transition: opacity 400ms $ease-out-expo;
-
-        @include light-theme {
-          background: url('../images/any-emoji-32-light-hover.svg') no-repeat
-            center;
-        }
-
-        @include dark-theme {
-          background: url('../images/any-emoji-32-dark-hover.svg') no-repeat
-            center;
-        }
-      }
-
-      &:hover::after {
-        opacity: 1;
-      }
-    }
-
-    @include keyboard-mode {
-      &:focus:before {
-        content: '';
-        display: block;
-        width: 4px;
-        height: 4px;
-        background: $color-ultramarine;
-        border-radius: 2px;
-        position: absolute;
-        bottom: 4px;
-        left: calc(50% - 2px);
-      }
-    }
-
-    $emoji-btn: &;
-
-    &__emoji {
-      position: absolute;
-      left: 2px;
-      top: 2px;
-      transform-origin: center;
-      $scale: 32 / 48;
-      transform: scale3d($scale, $scale, $scale);
-      transition: transform 400ms $ease-out-expo;
-
-      #{$emoji-btn}:hover &,
-      .keyboard-mode #{$emoji-btn}:focus & {
-        transform: scale3d(1, 1, 1) translate3d(0, -24px, 0);
-        z-index: 1;
-      }
-    }
-  }
-}
-
 // Module: Calling
 .module-calling {
   &__container {
@@ -5301,13 +4824,15 @@ button.module-image__border-overlay:focus {
 }
 
 .module-calling-button {
-  $size: 22px;
+  @mixin icon($path) {
+    @include color-svg($path, $color-white, $mask-origin: padding-box);
+    height: 24px;
+    width: 24px;
+  }
 
   &__participants {
-    @include color-svg('../images/icons/v2/group-solid-24.svg', $color-white);
+    @include icon('../images/icons/v2/group-solid-24.svg');
     display: inline-block;
-    height: $size;
-    width: $size;
 
     &--container {
       @include button-reset;
@@ -5332,48 +4857,47 @@ button.module-image__border-overlay:focus {
   }
 
   &__settings {
-    @include color-svg(
-      '../images/icons/v2/settings-solid-16.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/settings-solid-16.svg');
   }
 
   &__grid-view {
-    @include color-svg(
-      '../images/icons/v2/grid-view-solid-24.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/grid-view-solid-24.svg');
   }
 
   &__speaker-view {
-    @include color-svg(
-      '../images/icons/v2/speaker-view-solid-24.svg',
-      $color-white
-    );
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/speaker-view-solid-24.svg');
   }
 
   &__pip {
-    @include color-svg('../images/icons/v2/pip-minimize-24.svg', $color-white);
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/pip-minimize-24.svg');
   }
 
   &__cancel {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-white);
-    height: $size;
-    width: $size;
+    @include icon('../images/icons/v2/x-24.svg');
   }
 }
 
 .module-calling-button__container {
   display: inline-flex;
   flex-direction: column;
+  margin-left: 0;
+
+  transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
+
+  &--hidden {
+    margin-left: -100px;
+    opacity: 0;
+    pointer-events: none;
+
+    // The container could be wider than 100px depending on the label. Hiding the label
+    //  ensures that the above `margin-left` will completely hide the button.
+    .module-calling-button__label {
+      display: none;
+    }
+  }
 }
 
 .module-calling-button__icon {
@@ -5441,6 +4965,19 @@ button.module-image__border-overlay:focus {
     );
   }
 
+  &--ring {
+    $icon: '../images/icons/v2/ring-28.svg';
+    &--on {
+      @include calling-button-icon-on($icon);
+    }
+    &--off {
+      @include calling-button-icon-off($icon);
+    }
+    &--disabled {
+      @include calling-button-icon-disabled($icon);
+    }
+  }
+
   &--presenting {
     $icon: '../images/icons/v2/share-screen-26.svg';
     &--on {
@@ -5503,7 +5040,7 @@ button.module-image__border-overlay:focus {
   }
 
   &__container {
-    &--direct {
+    &--direct:not(&--call-not-started) {
       .module-ongoing-call__header {
         position: absolute;
       }
@@ -5527,6 +5064,10 @@ button.module-image__border-overlay:focus {
     font-variant: tabular-nums;
     line-height: 18px;
     letter-spacing: -0.0025em;
+  }
+
+  &__direct-call-ringing-spacer {
+    flex: 1;
   }
 
   &__participants {
@@ -5689,6 +5230,7 @@ button.module-image__border-overlay:focus {
       display: flex;
       padding: 6px;
       position: absolute;
+      user-select: none;
       width: 100%;
       z-index: 2;
     }
@@ -5716,11 +5258,25 @@ button.module-image__border-overlay:focus {
   }
 
   &__local-preview-fullsize {
+    align-items: center;
+    display: flex;
     height: 100%;
+    justify-content: center;
     left: 0;
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: -1;
+
+    video {
+      @include lonely-local-video-preview;
+    }
+
+    &--presenting {
+      video {
+        transform: none;
+      }
+    }
   }
 
   &__footer {
@@ -6092,6 +5648,8 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
+  @include scrollbar;
+
   &--scroll-behavior {
     &-default {
       @include smooth-scroll;
@@ -6102,9 +5660,10 @@ button.module-image__border-overlay:focus {
     &--archive-button {
       @include button-reset;
 
-      @include font-body-1-bold;
-
+      align-items: center;
+      display: flex;
       height: 64px;
+      justify-content: center;
       line-height: 64px;
       text-align: center;
       width: 100%;
@@ -6123,6 +5682,34 @@ button.module-image__border-overlay:focus {
         &:focus {
           background-color: $color-gray-75;
         }
+      }
+
+      &__icon {
+        &::before {
+          display: block;
+          content: '';
+          width: 24px;
+          height: 24px;
+
+          @include light-theme {
+            @include color-svg(
+              '../images/icons/v2/archive-outline-16.svg',
+              $color-gray-60
+            );
+          }
+          @include dark-theme {
+            @include color-svg(
+              '../images/icons/v2/archive-solid-16.svg',
+              $color-gray-25
+            );
+          }
+        }
+      }
+
+      &__text {
+        @include font-body-1-bold;
+        margin-left: 8px;
+        margin-right: 8px;
       }
 
       &__archived-count {
@@ -6478,12 +6065,6 @@ button.module-image__border-overlay:focus {
               white-space: initial;
               -webkit-box-orient: vertical;
               -webkit-line-clamp: 2;
-
-              // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-              //   ... as the truncation indicator. That's not a solution that works well for
-              //   all languages. More resources:
-              //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-              //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
             }
 
             &__start-new-conversation {
@@ -6826,6 +6407,10 @@ button.module-image__border-overlay:focus {
 .module-timeline {
   height: 100%;
   overflow: hidden;
+
+  .ReactVirtualized__List {
+    @include scrollbar;
+  }
 }
 
 .module-timeline--disabled {
@@ -7898,6 +7483,19 @@ button.module-image__border-overlay:focus {
   &__footer {
     @extend %module-emoji-picker--ribbon;
     justify-content: center;
+
+    &__skin-tones {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    &__settings-spacer {
+      width: 28px;
+      margin-right: 12px;
+    }
   }
 
   &__button {
@@ -7916,8 +7514,43 @@ button.module-image__border-overlay:focus {
     }
 
     &--footer {
-      &:not(:first-of-type) {
-        margin-left: 4px;
+      &:not(:last-of-type) {
+        margin-right: 4px;
+      }
+    }
+
+    &--settings {
+      margin-left: 12px;
+      border-radius: 100%;
+
+      @include light-theme {
+        background: $color-white;
+        box-shadow: 0px 0px 4px $color-black-alpha-20;
+      }
+
+      @include dark-theme {
+        background: $color-gray-65;
+      }
+
+      &::before {
+        display: block;
+        width: 20px;
+        height: 20px;
+        content: '';
+
+        @include light-theme {
+          @include color-svg(
+            '../images/icons/v2/settings-outline-16.svg',
+            $color-gray-75
+          );
+        }
+
+        @include dark-theme {
+          @include color-svg(
+            '../images/icons/v2/settings-solid-16.svg',
+            $color-gray-25
+          );
+        }
       }
     }
 
@@ -8171,85 +7804,6 @@ button.module-image__border-overlay:focus {
   @include emoji-size(48px);
   @include emoji-size(64px);
   @include emoji-size(66px);
-}
-
-// Module: Unsupported Message
-
-.module-unsupported-message {
-  text-align: center;
-}
-
-.module-unsupported-message__icon {
-  height: 24px;
-  width: 24px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 7px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/error-outline-24.svg',
-      $color-gray-60
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/error-solid-24.svg', $color-gray-25);
-  }
-}
-
-.module-unsupported-message__icon--can-process {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/check-circle-outline-24.svg',
-      $color-gray-60
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/check-circle-solid-24.svg',
-      $color-gray-25
-    );
-  }
-}
-
-.module-unsupported-message__text {
-  max-width: 396px;
-  margin-left: auto;
-  margin-right: auto;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-unsupported-message__contact {
-  font-weight: bold;
-}
-
-.module-unsupported-message__button {
-  @include button-reset;
-
-  margin-top: 5px;
-  display: inline-block;
-
-  @include font-body-1-bold;
-
-  padding: 12px;
-  border-radius: 4px;
-
-  @include light-theme {
-    color: $color-ultramarine;
-    background-color: $color-gray-02;
-  }
-  @include dark-theme {
-    color: $color-ultramarine-light;
-    background-color: $color-gray-75;
-  }
 }
 
 // Module: Countdown
@@ -8923,45 +8477,6 @@ button.module-image__border-overlay:focus {
   padding-right: 0px;
 }
 
-// Module: Profile Change Notification
-
-.module-profile-change-notification {
-  @include font-body-1;
-
-  margin-left: 2em;
-  margin-right: 2em;
-
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-profile-change-notification--icon {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-outline-20.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/profile-outline-20.svg',
-      $color-gray-05
-    );
-  }
-
-  height: 20px;
-  width: 20px;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-
 /* Calling: Device Selection */
 
 .module-calling-device-selection {
@@ -9035,105 +8550,6 @@ button.module-image__border-overlay:focus {
     width: 10px;
     z-index: 2;
   }
-}
-
-// Module: GroupV2 Change
-
-.module-group-v2-change {
-  @include font-body-1;
-
-  margin-left: 2em;
-  margin-right: 2em;
-
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-group-v2-change--icon {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-05
-    );
-  }
-
-  height: 20px;
-  width: 20px;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.module-group-v2-change--button-container {
-  margin-top: 10px;
-}
-
-// Module: GV1 Migration
-
-.module-group-v1-migration {
-  @include font-body-1;
-
-  margin-left: 2em;
-  margin-right: 2em;
-
-  text-align: center;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-05;
-  }
-}
-
-.module-group-v1-migration--icon {
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-05
-    );
-  }
-
-  height: 20px;
-  width: 20px;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.module-group-v1-migration--text {
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.module-group-v1-migration--button {
-  @include button-reset;
-  @include font-body-2-bold;
-  border-radius: 4px;
-
-  padding: 8px;
-  padding-left: 40px;
-  padding-right: 40px;
-
-  @include button-light-blue-text;
 }
 
 // Module: GroupV1 Disabled Actions
@@ -9437,213 +8853,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-// Module: Group Contact Details
-
-$contact-modal-padding: 18px;
-.module-contact-modal {
-  @include font-body-2;
-
-  min-width: 280px;
-  padding: $contact-modal-padding;
-  border-radius: 8px;
-  overflow: hidden;
-  @include popper-shadow();
-
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  @include light-theme() {
-    background: $color-white;
-    color: $color-gray-90;
-  }
-
-  @include dark-theme() {
-    background: $color-gray-75;
-    color: $color-gray-05;
-  }
-
-  &__overlay {
-    background: $color-black-alpha-40;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-  }
-}
-
-.module-contact-modal__name {
-  @include font-title-2;
-
-  margin-top: 6px;
-}
-
-.module-contact-modal__info {
-  text-align: center;
-  max-width: 248px;
-  margin-top: 8px;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-
-.module-contact-modal__button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 12px 0 15px -$contact-modal-padding;
-  width: calc(100% + (#{$contact-modal-padding} * 2));
-}
-
-.module-contact-modal__button {
-  @include button-reset;
-
-  display: flex;
-  align-items: center;
-  padding: 7px $contact-modal-padding;
-  width: 100%;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  &:hover {
-    background-color: $color-gray-15;
-
-    @include dark-theme {
-      background-color: $color-gray-60;
-    }
-  }
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $color-gray-15;
-    }
-
-    @include dark-keyboard-mode {
-      background-color: $color-gray-60;
-    }
-  }
-}
-
-.module-contact-modal__bubble-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  width: 20px;
-}
-
-.module-contact-modal__send-message__bubble-icon {
-  height: 16px;
-  width: 18px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/message-outline-24.svg',
-      $color-gray-75
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/message-outline-24.svg',
-      $color-gray-15
-    );
-  }
-}
-
-.module-contact-modal__safety-number__bubble-icon {
-  height: 18px;
-  width: 17px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-outline-24.svg',
-      $color-gray-75
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/safety-number-outline-24.svg',
-      $color-gray-15
-    );
-  }
-}
-
-.module-contact-modal__make-admin__bubble-icon {
-  height: 16px;
-  width: 18px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-75
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/group-outline-24.svg',
-      $color-gray-15
-    );
-  }
-}
-
-.module-contact-modal__remove-from-group__bubble-icon {
-  height: 16px;
-  width: 16px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/leave-group-outline-16.svg',
-      $color-gray-75
-    );
-  }
-
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/leave-group-outline-16.svg',
-      $color-gray-15
-    );
-  }
-}
-
-.module-contact-modal__close-button {
-  @include button-reset;
-
-  position: absolute;
-  top: 10px;
-  right: 12px;
-
-  width: 24px;
-  height: 24px;
-
-  @include color-svg('../images/icons/v2/x-24.svg', $color-gray-75);
-
-  @include dark-theme() {
-    @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
-  }
-
-  &:focus {
-    @include keyboard-mode {
-      background-color: $color-ultramarine;
-    }
-  }
-}
-
 .module-background-color {
   &__default {
     background-color: $color-black-alpha-40;
@@ -9736,99 +8945,6 @@ $contact-modal-padding: 18px;
   }
 }
 
-// Module: Chat Session Refreshed Notification
-
-.module-chat-session-refreshed-notification {
-  @include font-body-2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.module-chat-session-refreshed-notification__first-line {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-.module-chat-session-refreshed-notification__icon {
-  height: 16px;
-  width: 16px;
-  display: inline-block;
-  margin-right: 8px;
-
-  @include light-theme {
-    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-60);
-  }
-  @include dark-theme {
-    @include color-svg('../images/icons/v2/refresh-16.svg', $color-gray-25);
-  }
-}
-.module-chat-session-refreshed-notification__button {
-  @include button-reset;
-  @include button-light-blue-text;
-  @include button-small;
-
-  @include font-body-2;
-  padding: 5px 12px;
-}
-
-// Module: Delivery Issue Notification
-
-.module-delivery-issue-notification {
-  @include font-body-2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.module-delivery-issue-notification__first-line {
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  margin-left: auto;
-  margin-right: auto;
-
-  @include light-theme {
-    color: $color-gray-60;
-  }
-  @include dark-theme {
-    color: $color-gray-25;
-  }
-}
-.module-delivery-issue-notification__icon {
-  height: 14px;
-  width: 14px;
-  display: inline-block;
-  margin-right: 8px;
-
-  @include light-theme {
-    @include color-svg(
-      '../images/icons/v2/error-outline-12.svg',
-      $color-gray-60
-    );
-  }
-  @include dark-theme {
-    @include color-svg(
-      '../images/icons/v2/error-outline-12.svg',
-      $color-gray-25
-    );
-  }
-}
-.module-delivery-issue-notification__button {
-  @include button-reset;
-  @include button-light-blue-text;
-  @include button-small;
-
-  @include font-body-2;
-  padding: 5px 12px;
-}
-
 // Module: Chat Session Refreshed Dialog
 
 .module-chat-session-refreshed-dialog {
@@ -9887,6 +9003,7 @@ $contact-modal-padding: 18px;
   padding: 6px 0;
   opacity: 0;
   user-select: none;
+  visibility: hidden;
 
   @include light-theme {
     background-color: $color-white;
@@ -9897,8 +9014,9 @@ $contact-modal-padding: 18px;
 }
 
 .react-contextmenu--visible {
-  z-index: 1000;
   opacity: 1;
+  visibility: visible;
+  z-index: 1000;
 }
 
 .react-contextmenu-item {
@@ -10192,7 +9310,12 @@ $contact-modal-padding: 18px;
 @media (min-width: 835px) and (max-width: 925px) {
   .module-message {
     // Add 2px for 1px border
-    max-width: 376px;
+    max-width: 360px;
+
+    &--with-avatar {
+      // Remove 36px from avatar
+      max-width: 324px;
+    }
   }
 
   // Spec: container < 438px

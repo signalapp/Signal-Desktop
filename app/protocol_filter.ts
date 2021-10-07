@@ -140,7 +140,7 @@ export function installWebHandler({
   enableHttp,
 }: {
   protocol: typeof ElectronProtocol;
-  enableHttp: string;
+  enableHttp: boolean;
 }): void {
   protocol.interceptFileProtocol('about', _disabledHandler);
   protocol.interceptFileProtocol('content', _disabledHandler);

@@ -45,6 +45,7 @@ const {
   closeRecommendedGroupSizeModal,
   createGroup,
   messageSizeChanged,
+  messageStoppedByMissingVerification,
   openConversationInternal,
   repairNewestMessage,
   repairOldestMessage,
@@ -644,7 +645,7 @@ describe('both/state/ducks/conversations', () => {
           ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc123'],
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([1, 2, 3]).buffer,
+          groupAvatar: new Uint8Array([1, 2, 3]),
         },
       };
 
@@ -687,7 +688,7 @@ describe('both/state/ducks/conversations', () => {
         sinon.assert.calledOnce(createGroupStub);
         sinon.assert.calledWith(createGroupStub, {
           name: 'Foo Bar Group',
-          avatar: new Uint8Array([1, 2, 3]).buffer,
+          avatar: new Uint8Array([1, 2, 3]),
           avatars: [],
           expireTimer: 0,
           conversationIds: ['abc123'],
@@ -884,6 +885,35 @@ describe('both/state/ducks/conversations', () => {
           result.messagesByConversation[conversationId]
             ?.heightChangeMessageIds || [],
           [messageId]
+        );
+      });
+    });
+
+    describe('MESSAGE_STOPPED_BY_MISSING_VERIFICATION', () => {
+      it('adds messages that need conversation verification, removing duplicates', () => {
+        const first = reducer(
+          getEmptyState(),
+          messageStoppedByMissingVerification('message 1', ['convo 1'])
+        );
+        const second = reducer(
+          first,
+          messageStoppedByMissingVerification('message 1', ['convo 2'])
+        );
+        const third = reducer(
+          second,
+          messageStoppedByMissingVerification('message 2', [
+            'convo 1',
+            'convo 3',
+          ])
+        );
+
+        assert.deepStrictEqual(
+          third.outboundMessagesPendingConversationVerification,
+          {
+            'convo 1': ['message 1', 'message 2'],
+            'convo 2': ['message 1'],
+            'convo 3': ['message 2'],
+          }
         );
       });
     });
@@ -1142,7 +1172,7 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: {
             ...defaultSetGroupMetadataComposerState,
-            groupAvatar: new ArrayBuffer(2),
+            groupAvatar: new Uint8Array(2),
           },
         };
         const action = setComposeGroupAvatar(undefined);
@@ -1155,7 +1185,7 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it("can set the composer's group avatar", () => {
-        const avatar = new Uint8Array([1, 2, 3]).buffer;
+        const avatar = new Uint8Array([1, 2, 3]);
 
         const state = {
           ...getEmptyState(),
@@ -1420,7 +1450,7 @@ describe('both/state/ducks/conversations', () => {
           composer: {
             ...defaultSetGroupMetadataComposerState,
             groupName: 'Foo Bar Group',
-            groupAvatar: new Uint8Array([4, 2]).buffer,
+            groupAvatar: new Uint8Array([4, 2]),
           },
         };
         const action = showChooseGroupMembers();
@@ -1430,7 +1460,7 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(result.composer, {
           ...defaultChooseGroupMembersComposerState,
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([4, 2]).buffer,
+          groupAvatar: new Uint8Array([4, 2]),
         });
       });
 
@@ -1488,7 +1518,7 @@ describe('both/state/ducks/conversations', () => {
             searchTerm: 'foo bar',
             selectedConversationIds: ['abc', 'def'],
             groupName: 'Foo Bar Group',
-            groupAvatar: new Uint8Array([6, 9]).buffer,
+            groupAvatar: new Uint8Array([6, 9]),
           },
         };
         const action = startSettingGroupMetadata();
@@ -1498,7 +1528,7 @@ describe('both/state/ducks/conversations', () => {
           ...defaultSetGroupMetadataComposerState,
           selectedConversationIds: ['abc', 'def'],
           groupName: 'Foo Bar Group',
-          groupAvatar: new Uint8Array([6, 9]).buffer,
+          groupAvatar: new Uint8Array([6, 9]),
         });
       });
 
@@ -1777,9 +1807,6 @@ describe('both/state/ducks/conversations', () => {
     });
 
     it('resetAllChatColors', async () => {
-      window.storage.put('defaultConversationColor', {
-        color: 'crimson',
-      });
       const dispatch = sinon.spy();
       await resetAllChatColors()(dispatch, getState, null);
 
@@ -1787,37 +1814,15 @@ describe('both/state/ducks/conversations', () => {
       const nextState = reducer(getState().conversations, action);
 
       sinon.assert.calledOnce(dispatch);
-      assert.equal(
-        nextState.conversationLookup.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationLookup.jkl.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.abc.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByUuid.def.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByE164.ghi.conversationColor,
-        'crimson'
-      );
-      assert.equal(
-        nextState.conversationsByGroupId.jkl.conversationColor,
-        'crimson'
+      assert.isUndefined(nextState.conversationLookup.abc.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.def.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
+      assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
+      assert.isUndefined(nextState.conversationsByUuid.abc.conversationColor);
+      assert.isUndefined(nextState.conversationsByUuid.def.conversationColor);
+      assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
+      assert.isUndefined(
+        nextState.conversationsByGroupId.jkl.conversationColor
       );
       window.storage.remove('defaultConversationColor');
     });

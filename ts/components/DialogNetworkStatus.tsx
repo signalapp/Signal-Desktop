@@ -1,8 +1,9 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { LeftPaneDialog } from './LeftPaneDialog';
 import { Spinner } from './Spinner';
 import { LocalizerType } from '../types/Util';
 import { SocketStatus } from '../types/SocketStatus';
@@ -16,42 +17,6 @@ export type PropsType = NetworkStateType & {
   manualReconnect: () => void;
 };
 
-type RenderDialogTypes = {
-  isConnecting?: boolean;
-  title: string;
-  subtext: string;
-  renderActionableButton?: () => JSX.Element;
-};
-
-function renderDialog({
-  isConnecting,
-  title,
-  subtext,
-  renderActionableButton,
-}: RenderDialogTypes): JSX.Element {
-  return (
-    <div className="LeftPaneDialog LeftPaneDialog--warning">
-      {isConnecting ? (
-        <div className="LeftPaneDialog__spinner-container">
-          <Spinner
-            direction="on-avatar"
-            moduleClassName="LeftPaneDialog__spinner"
-            size="22px"
-            svgSize="small"
-          />
-        </div>
-      ) : (
-        <div className="LeftPaneDialog__icon LeftPaneDialog__icon--network" />
-      )}
-      <div className="LeftPaneDialog__message">
-        <h3>{title}</h3>
-        <span>{subtext}</span>
-        <div>{renderActionableButton && renderActionableButton()}</div>
-      </div>
-    </div>
-  );
-}
-
 export const DialogNetworkStatus = ({
   hasNetworkDialog,
   i18n,
@@ -59,8 +24,10 @@ export const DialogNetworkStatus = ({
   socketStatus,
   manualReconnect,
 }: PropsType): JSX.Element | null => {
-  const [isConnecting, setIsConnecting] = React.useState<boolean>(false);
-  React.useEffect(() => {
+  const [isConnecting, setIsConnecting] = React.useState<boolean>(
+    socketStatus === SocketStatus.CONNECTING
+  );
+  useEffect(() => {
     if (!hasNetworkDialog) {
       return () => null;
     }
@@ -80,62 +47,46 @@ export const DialogNetworkStatus = ({
     };
   }, [hasNetworkDialog, isConnecting, setIsConnecting]);
 
-  if (!hasNetworkDialog) {
-    return null;
-  }
-
   const reconnect = () => {
     setIsConnecting(true);
     manualReconnect();
   };
 
-  const manualReconnectButton = (): JSX.Element => (
-    <button
-      className="LeftPaneDialog__action-text"
-      onClick={reconnect}
-      type="button"
-    >
-      {i18n('connect')}
-    </button>
-  );
+  if (!hasNetworkDialog) {
+    return null;
+  }
 
   if (isConnecting) {
-    return renderDialog({
-      isConnecting: true,
-      subtext: i18n('connectingHangOn'),
-      title: i18n('connecting'),
-    });
+    const spinner = (
+      <div className="LeftPaneDialog__spinner-container">
+        <Spinner
+          direction="on-avatar"
+          moduleClassName="LeftPaneDialog__spinner"
+          size="22px"
+          svgSize="small"
+        />
+      </div>
+    );
+
+    return (
+      <LeftPaneDialog
+        type="warning"
+        icon={spinner}
+        title={i18n('connecting')}
+        subtitle={i18n('connectingHangOn')}
+      />
+    );
   }
 
-  if (!isOnline) {
-    return renderDialog({
-      renderActionableButton: manualReconnectButton,
-      subtext: i18n('checkNetworkConnection'),
-      title: i18n('offline'),
-    });
-  }
-
-  let subtext = '';
-  let title = '';
-  let renderActionableButton;
-
-  switch (socketStatus) {
-    case SocketStatus.CONNECTING:
-      subtext = i18n('connectingHangOn');
-      title = i18n('connecting');
-      break;
-    case SocketStatus.CLOSED:
-    case SocketStatus.CLOSING:
-    default:
-      renderActionableButton = manualReconnectButton;
-      title = i18n('disconnected');
-      subtext = i18n('checkNetworkConnection');
-  }
-
-  return renderDialog({
-    isConnecting: socketStatus === SocketStatus.CONNECTING,
-    renderActionableButton,
-    subtext,
-    title,
-  });
+  return (
+    <LeftPaneDialog
+      type="warning"
+      icon="network"
+      title={isOnline ? i18n('disconnected') : i18n('offline')}
+      subtitle={i18n('checkNetworkConnection')}
+      hasAction
+      clickLabel={i18n('connect')}
+      onClick={reconnect}
+    />
+  );
 };

@@ -9,6 +9,6 @@ export type LinkPreviewType = {
   domain: string;
   url: string;
   isStickerPack: boolean;
-  image?: AttachmentType;
+  image?: Readonly<AttachmentType>;
   date?: number;
 };

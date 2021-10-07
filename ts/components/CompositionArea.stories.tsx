@@ -9,8 +9,11 @@ import { boolean } from '@storybook/addon-knobs';
 
 import { IMAGE_JPEG } from '../types/MIME';
 import { CompositionArea, Props } from './CompositionArea';
-import { setup as setupI18n } from '../../js/modules/i18n';
+import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+
+import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { landscapeGreenUrl } from '../storybook/Fixtures';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -19,26 +22,25 @@ const story = storiesOf('Components/CompositionArea', module);
 // necessary for the add attachment button to render properly
 story.addDecorator(storyFn => <div className="file-input">{storyFn()}</div>);
 
-// necessary for the mic button to render properly
-const micCellEl = new DOMParser().parseFromString(
-  `
-    <div class="capture-audio">
-      <button class="microphone"></button>
-    </div>
-  `,
-  'text/html'
-).body.firstElementChild as HTMLElement;
-
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  addAttachment: action('addAttachment'),
+  addPendingAttachment: action('addPendingAttachment'),
+  conversationId: '123',
   i18n,
-  micCellEl,
-  onChooseAttachment: action('onChooseAttachment'),
+  onSendMessage: action('onSendMessage'),
+  processAttachments: action('processAttachments'),
+  removeAttachment: action('removeAttachment'),
+
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],
-  onAddAttachment: action('onAddAttachment'),
   onClearAttachments: action('onClearAttachments'),
   onClickAttachment: action('onClickAttachment'),
-  onCloseAttachment: action('onCloseAttachment'),
+  // AudioCapture
+  cancelRecording: action('cancelRecording'),
+  completeRecording: action('completeRecording'),
+  errorRecording: action('errorRecording'),
+  isRecording: Boolean(overrideProps.isRecording),
+  startRecording: action('startRecording'),
   // StagedLinkPreview
   linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),
   linkPreviewResult: overrideProps.linkPreviewResult,
@@ -53,7 +55,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.shouldSendHighQualityAttachments
   ),
   // CompositionInput
-  onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
   onTextTooLong: action('onTextTooLong'),
   draftText: overrideProps.draftText || undefined,
@@ -156,9 +157,10 @@ story.add('SMS-only', () => {
 story.add('Attachments', () => {
   const props = createProps({
     draftAttachments: [
-      {
+      fakeAttachment({
         contentType: IMAGE_JPEG,
-      },
+        url: landscapeGreenUrl,
+      }),
     ],
   });
 

@@ -6,14 +6,13 @@ import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { setup as setupI18n } from '../../../../js/modules/i18n';
+import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 import { AttachmentType } from '../../../types/Attachment';
 import { stringToMIMEType } from '../../../types/MIME';
 
 import { MediaGridItem, Props } from './MediaGridItem';
-import { Message } from './types/Message';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -45,7 +44,14 @@ const createMediaItem = (
   ),
   index: 0,
   attachment: {} as AttachmentType, // attachment not useful in the component
-  message: {} as Message, // message not used in the component
+  message: {
+    attachments: [],
+    conversationId: '1234',
+    id: 'id',
+    received_at: Date.now(),
+    received_at_ms: Date.now(),
+    sent_at: Date.now(),
+  },
 });
 
 story.add('Image', () => {

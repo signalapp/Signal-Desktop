@@ -1,9 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  ReactNode,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import type { VideoFrameSource } from 'ringrtc';
 import {
   HangUpType,
   SetLocalAudioType,
@@ -13,6 +20,7 @@ import {
 } from '../state/ducks/calling';
 import { Avatar } from './Avatar';
 import { CallingHeader } from './CallingHeader';
+import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import {
@@ -20,33 +28,38 @@ import {
   CallMode,
   CallState,
   GroupCallConnectionState,
+  GroupCallJoinState,
   GroupCallVideoRequest,
   PresentedSource,
-  VideoFrameSource,
 } from '../types/Calling';
 import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { ConversationType } from '../state/ducks/conversations';
 import { CallingToastManager } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
+import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 
 export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
+  groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUp: (_: HangUpType) => void;
   i18n: LocalizerType;
   joinedAt?: number;
   me: {
     avatarPath?: string;
     color?: AvatarColorType;
+    id: string;
     name?: string;
     phoneNumber?: string;
     profileName?: string;
     title: string;
+    uuid: string;
   };
   openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
@@ -63,10 +76,46 @@ export type PropsType = {
   toggleSpeakerView: () => void;
 };
 
+type DirectCallHeaderMessagePropsType = {
+  i18n: LocalizerType;
+  callState: CallState;
+  joinedAt?: number;
+};
+
+function DirectCallHeaderMessage({
+  callState,
+  i18n,
+  joinedAt,
+}: DirectCallHeaderMessagePropsType): JSX.Element | null {
+  const [acceptedDuration, setAcceptedDuration] = useState<
+    number | undefined
+  >();
+
+  useEffect(() => {
+    if (!joinedAt) {
+      return noop;
+    }
+    // It's really jumpy with a value of 500ms.
+    const interval = setInterval(() => {
+      setAcceptedDuration(Date.now() - joinedAt);
+    }, 100);
+    return clearInterval.bind(null, interval);
+  }, [joinedAt]);
+
+  if (callState === CallState.Reconnecting) {
+    return <>{i18n('callReconnecting')}</>;
+  }
+  if (callState === CallState.Accepted && acceptedDuration) {
+    return <>{i18n('callDuration', [renderDuration(acceptedDuration)])}</>;
+  }
+  return null;
+}
+
 export const CallScreen: React.FC<PropsType> = ({
   activeCall,
   getGroupCallVideoFrameSource,
   getPresentingSources,
+  groupMembers,
   hangUp,
   i18n,
   joinedAt,
@@ -122,7 +171,16 @@ export const CallScreen: React.FC<PropsType> = ({
     }
   }, [getPresentingSources, presentingSource, setPresenting]);
 
-  const [acceptedDuration, setAcceptedDuration] = useState<number | null>(null);
+  const [controlsHover, setControlsHover] = useState(false);
+
+  const onControlsMouseEnter = useCallback(() => {
+    setControlsHover(true);
+  }, [setControlsHover]);
+
+  const onControlsMouseLeave = useCallback(() => {
+    setControlsHover(false);
+  }, [setControlsHover]);
+
   const [showControls, setShowControls] = useState(true);
 
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
@@ -135,34 +193,25 @@ export const CallScreen: React.FC<PropsType> = ({
   }, [setLocalPreview, setRendererCanvas]);
 
   useEffect(() => {
-    if (!joinedAt) {
-      return noop;
-    }
-    // It's really jumpy with a value of 500ms.
-    const interval = setInterval(() => {
-      setAcceptedDuration(Date.now() - joinedAt);
-    }, 100);
-    return clearInterval.bind(null, interval);
-  }, [joinedAt]);
-
-  useEffect(() => {
-    if (!showControls || stickyControls) {
+    if (!showControls || stickyControls || controlsHover) {
       return noop;
     }
     const timer = setTimeout(() => {
       setShowControls(false);
     }, 5000);
-    return clearInterval.bind(null, timer);
-  }, [showControls, stickyControls]);
+    return clearTimeout.bind(null, timer);
+  }, [showControls, stickyControls, controlsHover]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent): void => {
       let eventHandled = false;
 
-      if (event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+      const key = KeyboardLayout.lookup(event);
+
+      if (event.shiftKey && (key === 'V' || key === 'v')) {
         toggleVideo();
         eventHandled = true;
-      } else if (event.shiftKey && (event.key === 'M' || event.key === 'm')) {
+      } else if (event.shiftKey && (key === 'M' || key === 'm')) {
         toggleAudio();
         eventHandled = true;
       }
@@ -188,36 +237,53 @@ export const CallScreen: React.FC<PropsType> = ({
     remoteParticipant => remoteParticipant.hasRemoteVideo
   );
 
-  let headerMessage: string | undefined;
+  const isSendingVideo = hasLocalVideo || presentingSource;
+
+  let isRinging: boolean;
+  let hasCallStarted: boolean;
+  let headerMessage: ReactNode | undefined;
   let headerTitle: string | undefined;
   let isConnected: boolean;
   let participantCount: number;
-  let remoteParticipantsElement: JSX.Element;
+  let remoteParticipantsElement: ReactNode;
 
   switch (activeCall.callMode) {
-    case CallMode.Direct:
-      headerMessage = renderHeaderMessage(
-        i18n,
-        activeCall.callState || CallState.Prering,
-        acceptedDuration
+    case CallMode.Direct: {
+      isRinging =
+        activeCall.callState === CallState.Prering ||
+        activeCall.callState === CallState.Ringing;
+      hasCallStarted = !isRinging;
+      headerMessage = (
+        <DirectCallHeaderMessage
+          i18n={i18n}
+          callState={activeCall.callState || CallState.Prering}
+          joinedAt={joinedAt}
+        />
       );
-      headerTitle = conversation.title;
+      headerTitle = isRinging ? undefined : conversation.title;
       isConnected = activeCall.callState === CallState.Accepted;
       participantCount = isConnected ? 2 : 0;
-      remoteParticipantsElement = (
+      remoteParticipantsElement = hasCallStarted ? (
         <DirectCallRemoteParticipant
           conversation={conversation}
           hasRemoteVideo={hasRemoteVideo}
           i18n={i18n}
           setRendererCanvas={setRendererCanvas}
         />
+      ) : (
+        <div className="module-ongoing-call__direct-call-ringing-spacer" />
       );
       break;
+    }
     case CallMode.Group:
+      isRinging =
+        activeCall.outgoingRing && !activeCall.remoteParticipants.length;
+      hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
-      headerMessage = undefined;
 
-      if (currentPresenter) {
+      if (isRinging) {
+        headerTitle = undefined;
+      } else if (currentPresenter) {
         headerTitle = i18n('calling__presenting--person-ongoing', [
           currentPresenter.title,
         ]);
@@ -241,9 +307,80 @@ export const CallScreen: React.FC<PropsType> = ({
       throw missingCaseError(activeCall);
   }
 
-  const isLonelyInGroup =
+  let lonelyInGroupNode: ReactNode;
+  let localPreviewNode: ReactNode;
+  if (
     activeCall.callMode === CallMode.Group &&
-    !activeCall.remoteParticipants.length;
+    !activeCall.remoteParticipants.length
+  ) {
+    lonelyInGroupNode = (
+      <div
+        className={classNames(
+          'module-ongoing-call__local-preview-fullsize',
+          presentingSource &&
+            'module-ongoing-call__local-preview-fullsize--presenting'
+        )}
+      >
+        {isSendingVideo ? (
+          <video ref={localVideoRef} autoPlay />
+        ) : (
+          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+            <Avatar
+              acceptedMessageRequest
+              avatarPath={me.avatarPath}
+              color={me.color || AvatarColors[0]}
+              noteToSelf={false}
+              conversationType="direct"
+              i18n={i18n}
+              isMe
+              name={me.name}
+              phoneNumber={me.phoneNumber}
+              profileName={me.profileName}
+              title={me.title}
+              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
+              //   to determine blurring.
+              sharedGroupNames={[]}
+              size={80}
+            />
+            <div className="module-calling__camera-is-off">
+              {i18n('calling__your-video-is-off')}
+            </div>
+          </CallBackgroundBlur>
+        )}
+      </div>
+    );
+  } else {
+    localPreviewNode = isSendingVideo ? (
+      <video
+        className={classNames(
+          'module-ongoing-call__footer__local-preview__video',
+          presentingSource &&
+            'module-ongoing-call__footer__local-preview__video--presenting'
+        )}
+        ref={localVideoRef}
+        autoPlay
+      />
+    ) : (
+      <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
+        <Avatar
+          acceptedMessageRequest
+          avatarPath={me.avatarPath}
+          color={me.color || AvatarColors[0]}
+          noteToSelf={false}
+          conversationType="direct"
+          i18n={i18n}
+          isMe
+          name={me.name}
+          phoneNumber={me.phoneNumber}
+          profileName={me.profileName}
+          title={me.title}
+          // See comment above about `sharedGroupNames`.
+          sharedGroupNames={[]}
+          size={80}
+        />
+      </CallBackgroundBlur>
+    );
+  }
 
   let videoButtonType: CallingButtonType;
   if (presentingSource) {
@@ -268,12 +405,6 @@ export const CallScreen: React.FC<PropsType> = ({
   });
 
   const isGroupCall = activeCall.callMode === CallMode.Group;
-  const localPreviewVideoClass = classNames({
-    'module-ongoing-call__footer__local-preview__video': true,
-    'module-ongoing-call__footer__local-preview__video--presenting': Boolean(
-      presentingSource
-    ),
-  });
 
   let presentingButtonType: CallingButtonType;
   if (presentingSource) {
@@ -283,7 +414,6 @@ export const CallScreen: React.FC<PropsType> = ({
   } else {
     presentingButtonType = CallingButtonType.PRESENTING_OFF;
   }
-  const isSendingVideo = hasLocalVideo || presentingSource;
 
   return (
     <div
@@ -291,8 +421,14 @@ export const CallScreen: React.FC<PropsType> = ({
         'module-calling__container',
         `module-ongoing-call__container--${getCallModeClassSuffix(
           activeCall.callMode
-        )}`
+        )}`,
+        `module-ongoing-call__container--${
+          hasCallStarted ? 'call-started' : 'call-not-started'
+        }`
       )}
+      onFocus={() => {
+        setShowControls(true);
+      }}
       onMouseMove={() => {
         setShowControls(true);
       }}
@@ -325,42 +461,17 @@ export const CallScreen: React.FC<PropsType> = ({
           toggleSpeakerView={toggleSpeakerView}
         />
       </div>
+      {isRinging && (
+        <CallingPreCallInfo
+          conversation={conversation}
+          groupMembers={groupMembers}
+          i18n={i18n}
+          me={me}
+          ringMode={RingMode.IsRinging}
+        />
+      )}
       {remoteParticipantsElement}
-      {isSendingVideo && isLonelyInGroup ? (
-        <div className="module-ongoing-call__local-preview-fullsize">
-          <video
-            className={localPreviewVideoClass}
-            ref={localVideoRef}
-            autoPlay
-          />
-        </div>
-      ) : null}
-      {!isSendingVideo && isLonelyInGroup ? (
-        <div className="module-ongoing-call__local-preview-fullsize">
-          <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-            <Avatar
-              acceptedMessageRequest
-              avatarPath={me.avatarPath}
-              color={me.color || AvatarColors[0]}
-              noteToSelf={false}
-              conversationType="direct"
-              i18n={i18n}
-              isMe
-              name={me.name}
-              phoneNumber={me.phoneNumber}
-              profileName={me.profileName}
-              title={me.title}
-              // `sharedGroupNames` makes no sense for yourself, but `<Avatar>` needs it
-              //   to determine blurring.
-              sharedGroupNames={[]}
-              size={80}
-            />
-            <div className="module-calling__camera-is-off">
-              {i18n('calling__your-video-is-off')}
-            </div>
-          </CallBackgroundBlur>
-        </div>
-      ) : null}
+      {lonelyInGroupNode}
       <div className="module-ongoing-call__footer">
         {/* This layout-only element is not ideal.
             See the comment in _modules.css for more. */}
@@ -374,21 +485,29 @@ export const CallScreen: React.FC<PropsType> = ({
           <CallingButton
             buttonType={presentingButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={togglePresenting}
           />
           <CallingButton
             buttonType={videoButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={toggleVideo}
           />
           <CallingButton
             buttonType={audioButtonType}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={toggleAudio}
           />
           <CallingButton
             buttonType={CallingButtonType.HANG_UP}
             i18n={i18n}
+            onMouseEnter={onControlsMouseEnter}
+            onMouseLeave={onControlsMouseLeave}
             onClick={() => {
               hangUp({ conversationId: conversation.id });
             }}
@@ -399,33 +518,7 @@ export const CallScreen: React.FC<PropsType> = ({
             'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
           })}
         >
-          {isSendingVideo && !isLonelyInGroup ? (
-            <video
-              className={localPreviewVideoClass}
-              ref={localVideoRef}
-              autoPlay
-            />
-          ) : null}
-          {!isSendingVideo && !isLonelyInGroup ? (
-            <CallBackgroundBlur avatarPath={me.avatarPath} color={me.color}>
-              <Avatar
-                acceptedMessageRequest
-                avatarPath={me.avatarPath}
-                color={me.color || AvatarColors[0]}
-                noteToSelf={false}
-                conversationType="direct"
-                i18n={i18n}
-                isMe
-                name={me.name}
-                phoneNumber={me.phoneNumber}
-                profileName={me.profileName}
-                title={me.title}
-                // See comment above about `sharedGroupNames`.
-                sharedGroupNames={[]}
-                size={80}
-              />
-            </CallBackgroundBlur>
-          ) : null}
+          {localPreviewNode}
         </div>
       </div>
     </div>
@@ -443,24 +536,6 @@ function getCallModeClassSuffix(
     default:
       throw missingCaseError(callMode);
   }
-}
-
-function renderHeaderMessage(
-  i18n: LocalizerType,
-  callState: CallState,
-  acceptedDuration: null | number
-): string | undefined {
-  let message;
-  if (callState === CallState.Prering) {
-    message = i18n('outgoingCallPrering');
-  } else if (callState === CallState.Ringing) {
-    message = i18n('outgoingCallRinging');
-  } else if (callState === CallState.Reconnecting) {
-    message = i18n('callReconnecting');
-  } else if (callState === CallState.Accepted && acceptedDuration) {
-    message = i18n('callDuration', [renderDuration(acceptedDuration)]);
-  }
-  return message;
 }
 
 function renderDuration(ms: number): string {

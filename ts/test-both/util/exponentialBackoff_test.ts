@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import * as moment from 'moment';
+import * as durations from '../../util/durations';
 
 import {
   exponentialBackoffSleepTime,
@@ -20,7 +20,7 @@ describe('exponential backoff utilities', () => {
     });
 
     it('plateaus at a maximum after 15 attempts', () => {
-      const maximum = moment.duration(15, 'minutes').asMilliseconds();
+      const maximum = 15 * durations.MINUTE;
       for (let attempt = 16; attempt < 100; attempt += 1) {
         assert.strictEqual(exponentialBackoffSleepTime(attempt), maximum);
       }
@@ -39,8 +39,7 @@ describe('exponential backoff utilities', () => {
 
     it('returns 110 attempts for 1 day', () => {
       // This is a test case that is lifted from iOS's codebase.
-      const oneDay = moment.duration(24, 'hours').asMilliseconds();
-      assert.strictEqual(exponentialBackoffMaxAttempts(oneDay), 110);
+      assert.strictEqual(exponentialBackoffMaxAttempts(durations.DAY), 110);
     });
   });
 });

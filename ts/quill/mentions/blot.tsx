@@ -48,6 +48,7 @@ export class MentionBlot extends Embed {
   static buildSpan(mention: MentionBlotValue, node: HTMLElement): void {
     node.setAttribute('data-uuid', mention.uuid || '');
     node.setAttribute('data-title', mention.title || '');
+    node.setAttribute('contenteditable', 'false');
 
     const mentionSpan = document.createElement('span');
 
@@ -62,11 +63,5 @@ export class MentionBlot extends Embed {
     );
 
     node.appendChild(mentionSpan);
-  }
-
-  constructor(node: Node) {
-    super(node);
-
-    this.contentNode.setAttribute('contenteditable', 'false');
   }
 }

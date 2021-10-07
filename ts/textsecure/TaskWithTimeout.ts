@@ -1,77 +1,96 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as durations from '../util/durations';
+import { explodePromise } from '../util/explodePromise';
+import { toLogFormat } from '../types/errors';
+import * as log from '../logging/log';
+
+type TaskType = {
+  suspend(): void;
+  resume(): void;
+};
+
+const tasks = new Set<TaskType>();
+
+export function suspendTasksWithTimeout(): void {
+  log.info(`TaskWithTimeout: suspending ${tasks.size} tasks`);
+  for (const task of tasks) {
+    task.suspend();
+  }
+}
+
+export function resumeTasksWithTimeout(): void {
+  log.info(`TaskWithTimeout: resuming ${tasks.size} tasks`);
+  for (const task of tasks) {
+    task.resume();
+  }
+}
+
 export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
   task: (...args: Args) => Promise<T>,
   id: string,
   options: { timeout?: number } = {}
 ): (...args: Args) => Promise<T> {
-  const timeout = options.timeout || 1000 * 60 * 2; // two minutes
+  const timeout = options.timeout || 2 * durations.MINUTE;
 
-  const errorForStack = new Error('for stack');
+  const timeoutError = new Error(`${id || ''} task did not complete in time.`);
 
-  return async (...args: Args) =>
-    new Promise((resolve, reject) => {
-      let complete = false;
-      let timer: NodeJS.Timeout | null = setTimeout(() => {
-        if (!complete) {
-          const message = `${
-            id || ''
-          } task did not complete in time. Calling stack: ${
-            errorForStack.stack
-          }`;
+  return async (...args: Args) => {
+    let complete = false;
 
-          window.log.error(message);
-          reject(new Error(message));
+    let timer: NodeJS.Timeout | undefined;
 
-          return undefined;
+    const { promise: timerPromise, reject } = explodePromise<never>();
+
+    const startTimer = () => {
+      stopTimer();
+
+      if (complete) {
+        return;
+      }
+
+      timer = setTimeout(() => {
+        if (complete) {
+          return;
         }
+        complete = true;
+        tasks.delete(entry);
 
-        return null;
+        log.error(toLogFormat(timeoutError));
+        reject(timeoutError);
       }, timeout);
-      const clearTimer = () => {
-        try {
-          const localTimer = timer;
-          if (localTimer) {
-            timer = null;
-            clearTimeout(localTimer);
-          }
-        } catch (error) {
-          window.log.error(
-            id || '',
-            'task ran into problem canceling timer. Calling stack:',
-            errorForStack.stack
-          );
-        }
-      };
+    };
 
-      const success = (result: T) => {
-        clearTimer();
-        complete = true;
-        resolve(result);
-      };
-      const failure = (error: Error) => {
-        clearTimer();
-        complete = true;
-        reject(error);
-      };
-
-      let promise;
-      try {
-        promise = task(...args);
-      } catch (error) {
-        clearTimer();
-        throw error;
+    const stopTimer = () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = undefined;
       }
-      if (!promise || !promise.then) {
-        clearTimer();
-        complete = true;
-        resolve(promise);
+    };
 
-        return undefined;
-      }
+    const entry: TaskType = {
+      suspend: stopTimer,
+      resume: startTimer,
+    };
 
-      // eslint-disable-next-line more/no-then
-      return promise.then(success, failure);
-    });
+    tasks.add(entry);
+    startTimer();
+
+    let result: unknown;
+
+    const run = async (): Promise<void> => {
+      result = await task(...args);
+    };
+
+    try {
+      await Promise.race([run(), timerPromise]);
+
+      return result as T;
+    } finally {
+      complete = true;
+      tasks.delete(entry);
+      stopTimer();
+    }
+  };
 }

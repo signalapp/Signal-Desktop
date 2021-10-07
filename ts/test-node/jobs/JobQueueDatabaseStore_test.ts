@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-restricted-syntax */
-
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
@@ -92,6 +90,32 @@ describe('JobQueueDatabaseStore', () => {
       await streamPromise;
 
       assert.deepEqual(events, ['insert', 'yielded job']);
+    });
+
+    it('can skip the database', async () => {
+      const store = new JobQueueDatabaseStore(fakeDatabase);
+
+      const streamPromise = (async () => {
+        // We don't actually care about using the variable from the async iterable.
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        for await (const _job of store.stream('test queue')) {
+          break;
+        }
+      })();
+
+      await store.insert(
+        {
+          id: 'abc',
+          timestamp: 1234,
+          queueType: 'test queue',
+          data: { hi: 5 },
+        },
+        { shouldInsertIntoDatabase: false }
+      );
+
+      await streamPromise;
+
+      sinon.assert.notCalled(fakeDatabase.insertJob);
     });
 
     it("doesn't insert jobs until the initial fetch has completed", async () => {

@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Creeare/încărcare pachet cu autocolante",
+        "message": "Creare/încărcare pachet cu autocolante",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -96,7 +96,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Stil Lipire și Potrivire",
+        "message": "Lipire și Potrivire Stil",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -164,7 +164,7 @@
         "description": "Label for context button next to each message"
     },
     "contextMenuCopyLink": {
-        "message": "Copiază Link-ul",
+        "message": "Copiază Linkul",
         "description": "Shown in the context menu for a link to indicate that the user can copy the link"
     },
     "contextMenuCopyImage": {
@@ -177,11 +177,15 @@
     },
     "avatarMenuViewArchive": {
         "message": "Afișați Arhiva",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Culoare conversaţie",
-        "description": "One of the menu options available in the Avatar Popup menu"
+        "message": "Culoare conversație",
+        "description": "One of the menu options available in the Avatar popup menu"
+    },
+    "avatarMenuUpdateAvailable": {
+        "message": "Actualizați Signal",
+        "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
         "message": "Se încarcă...",
@@ -286,7 +290,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Începe să utlizezi Signal Desktop",
+        "message": "Începe să utilizezi Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -320,7 +324,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Acest grup este invalid. Te rugăm crează un nou grup.",
+        "message": "Acest grup este invalid. Te rugăm creează un nou grup.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -411,6 +415,20 @@
         "message": "Este posibil ca următoarele persoane să fi reinstalat sau schimbat dispozitivele. Verificați numărul de siguranță cu acestea pentru a vă asigura confidențialitatea.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
+    "safetyNumberChangeDialog__pending-messages--1": {
+        "message": "Trimite mesajul în așteptare",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
+    },
+    "safetyNumberChangeDialog__pending-messages--many": {
+        "message": "Trimite $count$ mesaje în așteptare",
+        "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": 123
+            }
+        }
+    },
     "identityKeyErrorOnSend": {
         "message": "Numărul dvs. de siguranță cu $name1$ s-a modificat. Asta ar putea să însemne fie că cineva încearcă să intercepteze comunicarea voastră fie că $name2$ pur și simplu a reinstalat Signal. Ar trebui să verificați numărul dvs. de siguranță cu acest contact.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
@@ -452,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Acest jurnal va fi publicat online pentru vizualizare de către contributori. Poţi sa-l examinezi şi să-l editezi înainte să fie publicat. ",
+        "message": "Acest jurnal va fi publicat online pentru vizualizare de către contribuitori. Poți să-l examinezi și să-l editezi înainte să fie publicat.",
         "description": ""
     },
     "debugLogError": {
@@ -464,7 +482,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogCopyAlt": {
-        "message": "Copiază link-ul în clipboard",
+        "message": "Copiază linkul în clipboard",
         "description": "Shown as the alt text for the copy button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -476,7 +494,7 @@
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
-        "message": "Am înţeles!",
+        "message": "Am înțeles!",
         "description": "Label for a button that dismisses a dialog. The user clicks it to confirm that they understand the message in the dialog."
     },
     "submit": {
@@ -560,7 +578,7 @@
         "description": "Section header in the media gallery"
     },
     "thisWeek": {
-        "message": "Saptamana asta",
+        "message": "Săptămâna asta",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
@@ -568,7 +586,7 @@
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
-        "message": "Tipul ataşamentului nu este suportat. Click pentru a salva.",
+        "message": "Tipul atașamentului nu este suportat. Click pentru a salva.",
         "description": "Displayed for incoming unsupported attachment"
     },
     "clickToSave": {
@@ -592,7 +610,7 @@
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Miniatură ciornă a previzualizări pentru $domain$",
+        "message": "Miniatură schiță a previzualizări pentru $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -612,7 +630,7 @@
         }
     },
     "stagedImageAttachment": {
-        "message": "Ciornă atașament imagine: $path$",
+        "message": "Schiță atașament imagine: $path$",
         "description": "Alt text for staged attachments",
         "placeholders": {
             "path": {
@@ -638,7 +656,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "fileSizeWarning": {
-        "message": "Ne pare rău, fişierul selectat depăşeşte restricţia de mărime a mesajului.",
+        "message": "Ne pare rău, fișierul selectat depășește restricția de mărime a mesajului.",
         "description": ""
     },
     "unableToLoadAttachment": {
@@ -650,15 +668,15 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Se conectează",
+        "message": "Se conectează...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Conectare",
+        "message": "Apăsați pentru reconectare",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Nu ar trebui să dureze mult...",
+        "message": "Nu ar trebui să dureze mult",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -807,6 +825,20 @@
         "message": "Bun venit la Signal",
         "description": ""
     },
+    "whatsNew": {
+        "message": "Vedeți $whatsNew$ în această actualizare",
+        "description": "Shown in the main window",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "what's new"
+            }
+        }
+    },
+    "viewReleaseNotes": {
+        "message": "ce este nou",
+        "description": "Clickable link that displays the latest release notes"
+    },
     "selectAContact": {
         "message": "Alege un contact sau un grup pentru a discuta.",
         "description": ""
@@ -843,7 +875,7 @@
     },
     "mobile": {
         "message": "mobil",
-        "description": "Shown on contact detail screen as a label for aa phone or email"
+        "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {
         "message": "email",
@@ -886,8 +918,20 @@
         "description": "Shown in toast if user clicks on quote that references message no longer in database"
     },
     "messageFoundButNotLoaded": {
-        "message": "Mesaj original găsit, dar neîncărcat. Scroll-ează în sus pentru a-l încărca.",
+        "message": "Mesaj original a fost găsit, dar nu a fost încărcat. Derulați în sus pentru a-l încărca.",
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
+    },
+    "voiceRecording--start": {
+        "message": "Începeți înregistrarea unui mesaj vocal",
+        "description": "Tooltip for microphone button to start voice message"
+    },
+    "voiceRecording--complete": {
+        "message": "Încheiați mesajul vocal și trimiteți",
+        "description": "Tooltip for green complete voice message and send"
+    },
+    "voiceRecording--cancel": {
+        "message": "Anulați mesajul vocal",
+        "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
         "message": "Înregistrarea mesajului vocal s-a oprit deoarece a fost atinsă limita maximă de timp.",
@@ -902,18 +946,12 @@
         "description": "Shown in toast to warn user about limited time and that window must be in focus"
     },
     "voiceNoteMustBeOnlyAttachment": {
-        "message": "Un mesaj vocal trebuie sa aibe doar un singur atașament.",
+        "message": "Un mesaj vocal trebuie sa aibă doar un singur atașament.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "attachmentSaved": {
         "message": "Atașamentul a fost salvat. Click pentru a-l afișa din dosar.",
-        "description": "Shown after user selects to save to downloads",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "proof.jpg"
-            }
-        }
+        "description": "Shown after user selects to save to downloads"
     },
     "you": {
         "message": "Dvs.",
@@ -1136,7 +1174,7 @@
         "description": "Menu item for deleting messages, title case."
     },
     "deleteConversationConfirmation": {
-        "message": "Şterg permanent acestă conversație?",
+        "message": "Șterg permanent această conversație?",
         "description": "Confirmation dialog text that asks the user if they really wish to delete the conversation. Answer buttons use the strings 'ok' and 'cancel'. The deletion is permanent, i.e. it cannot be undone."
     },
     "sessionEnded": {
@@ -1202,7 +1240,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ și-a schimbat numărul de telefon",
+        "message": "$sender$ și-a schimbat numărul de telefon cu unul nou",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1237,7 +1275,11 @@
     },
     "save": {
         "message": "Salvează",
-        "description": "Used as a 'commit changes' button in the Caption Editor for outgoing image attachments"
+        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    },
+    "reset": {
+        "message": "Resetare",
+        "description": "Used on reset buttons"
     },
     "fileIconAlt": {
         "message": "Icoană fișier",
@@ -1271,7 +1313,11 @@
         "message": "Asociază dispozitiv nou",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "deviceName": {
+    "LinkScreen__scan-this-code": {
+        "message": "Scanați acest cod în aplicația Signal de pe telefonul dvs.",
+        "description": "Alt text for the QR code on the device link screen"
+    },
+    "Preferences--device-name": {
         "message": "Numele dispozitivului",
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
@@ -1307,13 +1353,21 @@
         "message": "Încercați din nou",
         "description": ""
     },
-    "theme": {
+    "Preferences--theme": {
         "message": "Temă",
         "description": "Header for theme settings"
     },
     "calling": {
         "message": "Apel în curs",
         "description": "Header for calling options on the settings screen"
+    },
+    "calling__call-back": {
+        "message": "Apelează înapoi",
+        "description": "Button to call someone back"
+    },
+    "calling__call-again": {
+        "message": "Sună din nou",
+        "description": "Button to call someone again"
     },
     "calling__start": {
         "message": "Începeți apelul",
@@ -1329,7 +1383,11 @@
     },
     "calling__call-is-full": {
         "message": "Numărul maxim de participanți a fost atins",
-        "description": "Button label in the call lobby when you can't join because the call is full"
+        "description": "Text in the call lobby when you can't join because the call is full"
+    },
+    "calling__button--video__label": {
+        "message": "Cameră foto",
+        "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
         "message": "Cameră dezactivată",
@@ -1343,6 +1401,10 @@
         "message": "Porniți camera",
         "description": "Button tooltip label for turning on the camera"
     },
+    "calling__button--audio__label": {
+        "message": "Silențios",
+        "description": "Label under the audio button"
+    },
     "calling__button--audio-disabled": {
         "message": "Microfon dezactivat",
         "description": "Button tooltip label when the microphone is disabled"
@@ -1354,6 +1416,10 @@
     "calling__button--audio-on": {
         "message": "Pornește microfonul",
         "description": "Button tooltip label for turning on the microphone"
+    },
+    "calling__button--presenting__label": {
+        "message": "Partajează",
+        "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
         "message": "Prezentări dezactivate",
@@ -1367,33 +1433,213 @@
         "message": "Opriți prezentarea",
         "description": "Button tooltip label for stopping screen sharing"
     },
+    "calling__button--ring__label": {
+        "message": "Sună",
+        "description": "Label under the ring button"
+    },
+    "calling__button--ring__disabled-because-group-is-too-large": {
+        "message": "Grupul este prea mare pentru a apela participanții.",
+        "description": "Button tooltip label when you can't ring because the group is too large"
+    },
+    "calling__button--ring__off": {
+        "message": "Notifică, dar nu suna",
+        "description": "Button tooltip label for turning ringing off"
+    },
+    "calling__button--ring__on": {
+        "message": "Activează soneria",
+        "description": "Button tooltip label for turning ringing on"
+    },
     "calling__your-video-is-off": {
         "message": "Camera ta este oprită",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
-    "calling__lobby-summary--zero": {
+    "calling__pre-call-info--empty-group": {
         "message": "Nu este nimeni aici",
         "description": "Shown in the calling lobby to describe who is in the call"
     },
-    "calling__lobby-summary--single": {
+    "calling__pre-call-info--1-person-in-call": {
         "message": "$first$ este în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
     },
-    "calling__lobby-summary--self": {
+    "calling__pre-call-info--another-device-in-call": {
         "message": "Un alt dispozitiv al dvs. este în acest apel",
         "description": "Shown in the calling lobby to describe when it is just you"
     },
-    "calling__lobby-summary--double": {
+    "calling__pre-call-info--2-people-in-call": {
         "message": "$first$ și $second$ sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
     },
-    "calling__lobby-summary--triple": {
+    "calling__pre-call-info--3-people-in-call": {
         "message": "$first$, $second$ și $third$ sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
     },
-    "calling__lobby-summary--many": {
+    "calling__pre-call-info--many-people-in-call": {
         "message": "$first$, $second$ și alte $others$ persoane sunt în acest apel",
-        "description": "Shown in the calling lobby to describe who is in the call"
+        "description": "Shown in the calling lobby to describe who is in the call",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-1": {
+        "message": "Signal va apela $person$",
+        "description": "Shown in the calling lobby to describe who will be rung",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-2": {
+        "message": "Signal va suna la $first$ și $second$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-3": {
+        "message": "Signal va suna la $first$, $second$ și $third$",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-ring-many": {
+        "message": "Signal va suna la $first$, $second$ și $others$ alții",
+        "description": "Shown in the calling lobby to describe who will be rang",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-1": {
+        "message": "$person$ va fi notificat",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-2": {
+        "message": "$first$ și $second$ vor fi notificați",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-3": {
+        "message": "$first$, $second$ și $third$ vor fi notificați",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "first": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "third": {
+                "content": "$3",
+                "example": "April"
+            }
+        }
+    },
+    "calling__pre-call-info--will-notify-many": {
+        "message": "$first$, $second$ și alte $others$ persoane vor fi notificate",
+        "description": "Shown in the calling lobby to describe who will be notified",
+        "placeholders": {
+            "person": {
+                "content": "$1",
+                "example": "Sam"
+            },
+            "second": {
+                "content": "$2",
+                "example": "Cayce"
+            },
+            "others": {
+                "content": "$3",
+                "example": "5"
+            }
+        }
     },
     "calling__in-this-call--zero": {
         "message": "Nu este nimeni aici",
@@ -1425,7 +1671,7 @@
     },
     "calling__block-info": {
         "message": "Nu-i vei auzi sau vedea pe interlocutorii tăi iar ei nu te vor auzi sau vedea pe tine.",
-        "description": "Shown in the modal dialog to describe how blocking works in a gorup call"
+        "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
         "message": "Derulați în sus",
@@ -1534,7 +1780,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Activare verificare ortografică",
+        "message": "Verifică ortografic textul introdus în caseta de compunere mesaj",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1558,7 +1804,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Șterge datele",
+        "message": "Șterge datele aplicației",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1598,7 +1844,7 @@
         "description": "Header for notification settings"
     },
     "notificationSettingsDialog": {
-        "message": "Când sosesc mesajele, afişează notificările care arată:",
+        "message": "Când sosesc mesajele, afișează notificările care arată:",
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
@@ -1696,7 +1942,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Actualizează",
+        "message": "Apăsați pentru a deschide signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1708,7 +1954,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Contacte",
+        "message": "Importă contacte",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -1868,7 +2114,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Redă notificarea audio",
+        "message": "Redă sunete de notificare",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -1972,7 +2218,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Atrageți atenția asupra acestei ferestre atunci când sosește o notificare",
+        "message": "Atrage atenția asupra acestei ferestre atunci când sosește o notificare",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -1988,7 +2234,7 @@
         "description": "Label for header when starting a new conversation"
     },
     "contactSearchPlaceholder": {
-        "message": "Cautare după nume sau număr",
+        "message": "Căutare după nume sau număr",
         "description": "Placeholder to use when searching for contacts in the composer"
     },
     "noContactsFound": {
@@ -2106,7 +2352,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Asociază din nou Signal Desktop la dispozitivul tău mobil pentru a putea comunica din nou.",
+        "message": "Apăsați pentru a asocia din nou Signal Desktop cu dispozitivul dvs. mobil și pentru a continua să trimiteți mesaje.",
         "description": ""
     },
     "unlinked": {
@@ -2118,11 +2364,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Este disponibilă o actualizare de Signal ",
+        "message": "Actualizare disponibilă",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Este disponibilă o nouă versiune de Signal.",
+        "message": "Apăsați pentru a reporni Signal",
+        "description": ""
+    },
+    "downloadNewVersionMessage": {
+        "message": "Apăsați pentru a descărca actualizarea",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2135,6 +2385,10 @@
     },
     "autoUpdateLaterButtonLabel": {
         "message": "Mai târziu",
+        "description": ""
+    },
+    "autoUpdateIgnoreButtonLabel": {
+        "message": "Ignoră actualizarea",
         "description": ""
     },
     "leftTheGroup": {
@@ -2296,7 +2550,7 @@
         "description": "Shown in the sticker pack manager above the default sticker packs."
     },
     "stickers--StickerManager--BlessedPacks--Empty": {
-        "message": "Nu sunt disponible autocolante din seria artistică Signal",
+        "message": "Nu sunt disponibile autocolante din seria artistică Signal",
         "description": "Shown in the sticker pack manager when there are no blessed sticker packs available."
     },
     "stickers--StickerManager--ReceivedPacks": {
@@ -2602,7 +2856,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Adaugați o linie nouă la mesaj",
+        "message": "Adăugați o linie nouă la mesaj",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2618,11 +2872,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Eliminați previzualizarea link-ului",
+        "message": "Eliminați schița previzualizării linkului",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
-        "message": "Șterge toate atașamentele de tip ciornă",
+        "message": "Șterge toate atașamentele de tip schiță",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
@@ -2951,11 +3205,15 @@
         "message": "Vă rugăm să configurați Signal pe telefonul și desktopul dvs. pentru a utiliza creatorul de autocolante",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
+    "Reactions--remove": {
+        "message": "Eliminați reacția",
+        "description": ""
+    },
     "Reactions--error": {
         "message": "Reacția nu a putut fi transmisă. Vă rugăm să încercați din nou.",
         "description": "Shown when a reaction fails to send"
     },
-    "ReactionsViewer--more": {
+    "Reactions--more": {
         "message": "Mai multe",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
@@ -2974,7 +3232,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Permiteţi lui $name$ să vă trimită mesaje și să vă împărtășiți numele și fotografia cu ei? Nu veți primi niciun mesaj până când nu îi deblocați.",
+        "message": "Permiteți lui $name$ să vă trimită mesaje și să vă împărtășiți numele și fotografia cu ei? Nu veți primi niciun mesaj până când nu îi deblocați.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -2984,7 +3242,7 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Vă alăturaţi acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
+        "message": "Vă alăturați acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
         "description": "Shown as the message for a message request in a group",
         "placeholders": {
             "name": {
@@ -3173,7 +3431,7 @@
     },
     "member-of-2-groups": {
         "message": "Membru al $group1$ și $group2$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least two mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of two mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3187,7 +3445,7 @@
     },
     "member-of-3-groups": {
         "message": "Membru al $group1$, $group2$ și $group3$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of three mutual groups",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3203,9 +3461,27 @@
             }
         }
     },
-    "member-of-more-than-3-groups": {
+    "member-of-more-than-3-groups--one-more": {
+        "message": "Membru al $group1$, $group2$, $group3$ și încă unul",
+        "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
+        "placeholders": {
+            "group1": {
+                "content": "$1",
+                "example": "NYC Rock Climbers"
+            },
+            "group2": {
+                "content": "$2",
+                "example": "Dinner Party"
+            },
+            "group3": {
+                "content": "$3",
+                "example": "Friends 🌿"
+            }
+        }
+    },
+    "member-of-more-than-3-groups--multiple-more": {
         "message": "Membru al $group1$, $group2$, $group3$ și încă $remainingCount$",
-        "description": "Shown in the conversation hero to indicate this user is a member of at least three mutual groups",
+        "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
                 "content": "$1",
@@ -3236,7 +3512,7 @@
         }
     },
     "no-groups-in-common": {
-        "message": "Nu există grupuri în comun",
+        "message": "Nu aveți grupuri în comun",
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
@@ -3303,9 +3579,87 @@
         "message": "Apel de intrare video...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
-    "outgoingCallPrering": {
-        "message": "Apel în curs...",
-        "description": "Shown in the call screen when placing an outgoing call that isn't ringing yet"
+    "incomingGroupCall__ringing-you": {
+        "message": "$ringer$ vă apelează",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-1-other": {
+        "message": "$ringer$ apelează pe dvs. și $otherMember$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "otherMember": {
+                "content": "$2",
+                "example": "Bob"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-2-others": {
+        "message": "$ringer$ apelează pe dvs, $first$ și $second$",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-3-others": {
+        "message": "$ringer$ apelează pe dvs, $first$, $second$ și 1 altul",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            }
+        }
+    },
+    "incomingGroupCall__ringing-many": {
+        "message": "$ringer$ apelează pe dvs, $first$, $second$ și $remaining$ alții",
+        "description": "Shown in the incoming call bar when someone is ringing you for a group call",
+        "placeholders": {
+            "ringer": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "first": {
+                "content": "$2",
+                "example": "Bob"
+            },
+            "second": {
+                "content": "$3",
+                "example": "Charlie"
+            },
+            "remaining": {
+                "content": "$4",
+                "example": "5"
+            }
+        }
     },
     "outgoingCallRinging": {
         "message": "Sună...",
@@ -3422,7 +3776,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Partajați ecranul",
+        "message": "Începe partajarea",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3515,15 +3869,15 @@
     },
     "ErrorModal--title": {
         "message": "Ceva a funcționat greșit!",
-        "description": "Title of pop-up dialog when user-initiated task has gone wrong"
+        "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
         "message": "Vă rugăm încercați din nou sau contactați serviciul de asistență.",
-        "description": "Description text in pop-up dialog when user-initiated task has gone wrong"
+        "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
         "message": "Okay",
-        "description": "Button to dismiss pop-up dialog when user-initiated task has gone wrong"
+        "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
         "message": "Ne pare rău, linkul sgnl:// nu a fost înțeles!",
@@ -3642,7 +3996,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
-        "message": "Admin",
+        "message": "Administrator",
         "description": "Label for a group administrator"
     },
     "GroupV2--only-admins": {
@@ -4203,7 +4557,13 @@
     },
     "GroupV2--member-privilege--demote--other--unknown": {
         "message": "Un administrator a revocat privilegiile de administrator pentru $memberName$.",
-        "description": "Shown in timeline or conversation preview when v2 group changes"
+        "description": "Shown in timeline or conversation preview when v2 group changes",
+        "placeholders": {
+            "memberName": {
+                "content": "$1",
+                "example": "Bob"
+            }
+        }
     },
     "GroupV2--member-privilege--demote--you--other": {
         "message": "$adminName$ a revocat privilegiile dvs. de administrator.",
@@ -4896,7 +5256,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Includeți conversațiile pe mod silențios în numărul de pe insignă",
+        "message": "Include conversațiile pe silențios în numărul de pe insignă",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -4922,7 +5282,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Eliminați pe $contact$ ca și admin de grup",
+        "message": "Eliminați pe $contact$ ca administrator de grup?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -4936,7 +5296,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Culoare conversaţie",
+        "message": "Culoare conversație",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -4981,7 +5341,7 @@
     },
     "ConversationDetails--announcement-info": {
         "message": "Alegeți cine poate trimite mesaje în acest grup.",
-        "description": "This is the additional info for the 'who can send mesages' panel"
+        "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
         "message": "Solicitări și invitații",
@@ -5186,7 +5546,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revocați o invitație trimisă de către \"$name$\"?",
+        "message": "Revocați 1 invitație trimisă de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5196,7 +5556,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revocați $number$ invitații trimise de către \"$name$\"",
+        "message": "Revocați $number$ invitații trimise de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5223,7 +5583,7 @@
     },
     "PendingRequests--info": {
         "message": "Persoanele din această listă încearcă să se alăture la \"$name$\" folosind linkul grupului. ",
-        "description": "Inforamtion shown below the pending admin approval list",
+        "description": "Information shown below the pending admin approval list",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5348,16 +5708,34 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Selectează contact",
-        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)"
+        "message": "Selectați contactul $name$",
+        "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "deselectContact": {
-        "message": "Deselectați contactul",
-        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)"
+        "message": "Deselectați contactul $name$",
+        "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "cannotSelectContact": {
-        "message": "Nu se poate selecta contactul",
-        "description": "The label for contact checkboxes that are disabled"
+        "message": "Nu se poate selecta contactul $name$",
+        "description": "The label for contact checkboxes that are disabled",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            }
+        }
     },
     "alreadyAMember": {
         "message": "Este deja membru",
@@ -5535,7 +5913,7 @@
     },
     "deleteForEveryoneFailed": {
         "message": "Nu s-a putut șterge mesajul pentru toată lumea. Vă rugăm reîncercați mai târziu.",
-        "description": "Displayed when delete-for-everyone has failed to send to all recepients"
+        "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
         "message": "Șterge culoarea",
@@ -5556,7 +5934,7 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Culoare conversaţie",
+        "message": "Culoare conversație",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
@@ -5677,7 +6055,7 @@
     },
     "settings__DisappearingMessages__timer__label": {
         "message": "Temporizator implicit pentru conversații noi",
-        "description": "Label for the Disapearring Messages default timer setting"
+        "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
         "message": "Timpul de dispariție a mesajului va fi setat la $timeValue$ în momentul în care le trimiteți un mesaj.",
@@ -5690,7 +6068,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Nu s-a putut afișa mesajul din cauza unei erori interne. Apasă pentru a trimite un jurnal de depanare.",
+        "message": "Acest mesaj nu s-a putut afișa. Apăsați pentru a trimite un jurnal de depanare.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -5852,5 +6230,257 @@
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
         "message": "Avatar de grup",
         "description": "Title for the avatar picker in the group creation flow"
+    },
+    "Preferences__button--general": {
+        "message": "General",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--appearance": {
+        "message": "Aspect",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--chats": {
+        "message": "Conversații",
+        "description": "Button to switch the settings view (and a title of pane)"
+    },
+    "Preferences__button--calls": {
+        "message": "Apeluri",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--notifications": {
+        "message": "Notificări",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences__button--privacy": {
+        "message": "Confidențialitate",
+        "description": "Button to switch the settings view"
+    },
+    "Preferences--lastSynced": {
+        "message": "Ultimul import: $date$ la $time$",
+        "description": "Label for date and time of last sync operation",
+        "placeholders": {
+            "date": {
+                "content": "$1",
+                "example": "6/9/2020"
+            },
+            "time": {
+                "content": "$2",
+                "example": "7:37:25 PM"
+            }
+        }
+    },
+    "Preferences--system": {
+        "message": "Sistem",
+        "description": "Title for system type settings"
+    },
+    "Preferences--zoom": {
+        "message": "Nivel zoom",
+        "description": "Label for changing the zoom level"
+    },
+    "Preferences__link-previews--title": {
+        "message": "Generați previzualizări ale linkurilor",
+        "description": "Title for the generate link previews setting"
+    },
+    "Preferences__link-previews--description": {
+        "message": "Pentru a modifica această setare, deschideți aplicația Signal pe dispozitivul dvs. mobil și mergeți la Setări > Conversații",
+        "description": "Description for the generate link previews setting"
+    },
+    "Preferences--advanced": {
+        "message": "Avansat",
+        "description": "Title for advanced settings"
+    },
+    "Preferences--notification-content": {
+        "message": "Conținut notificare",
+        "description": "Label for the notification content setting select box"
+    },
+    "Preferences--blocked": {
+        "message": "Blocat",
+        "description": "Label for blocked contacts setting"
+    },
+    "Preferences--blocked-count-singular": {
+        "message": "$num$ contact",
+        "description": "Number of contacts blocked singular",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "1"
+            }
+        }
+    },
+    "Preferences--blocked-count-plural": {
+        "message": "$num$ contacte",
+        "description": "Number of contacts blocked plural",
+        "placeholders": {
+            "num": {
+                "content": "$1",
+                "example": "20"
+            }
+        }
+    },
+    "Preferences__who-can--title": {
+        "message": "Cine poate...",
+        "description": "Title for the 'who can do X' setting"
+    },
+    "Preferences__privacy--description": {
+        "message": "Pentru a modifica aceste setări, deschideți aplicația Signal pe dispozitivul dvs. mobil și mergeți la Setări > Confidențialitate",
+        "description": "Description for the 'who can do X' setting"
+    },
+    "Preferences__who-can--everybody": {
+        "message": "Toată lumea",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--contacts": {
+        "message": "Contactele mele",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences__who-can--nobody": {
+        "message": "Nimeni",
+        "description": "Option for who can see my X select"
+    },
+    "Preferences--messaging": {
+        "message": "Mesagerie",
+        "description": "Title for the messaging settings"
+    },
+    "Preferences--see-me": {
+        "message": "Să-mi vadă numărul de telefon",
+        "description": "Label for the see my phone number setting"
+    },
+    "Preferences--find-me": {
+        "message": "Găsiți-mă după numărul de telefon",
+        "description": "Label for the find me by my phone number setting"
+    },
+    "Preferences--read-receipts": {
+        "message": "Confirmări de citire",
+        "description": "Label for the read receipts setting"
+    },
+    "Preferences--typing-indicators": {
+        "message": "Indicatori tastare",
+        "description": "Label for the typing indicators setting"
+    },
+    "Preferences--updates": {
+        "message": "Actualizări",
+        "description": "Header for settings having to do with updates"
+    },
+    "Preferences__download-update": {
+        "message": "Descarcă automat actualizări",
+        "description": "Label for checkbox for the auto download updates setting"
+    },
+    "Preferences__enable-notifications": {
+        "message": "Activare notificări",
+        "description": "Label for checkbox for the notifications setting"
+    },
+    "Preferences__devices": {
+        "message": "Dispozitive",
+        "description": "Label for Device list in call settings pane"
+    },
+    "DialogUpdate--version-available": {
+        "message": "Este disponibilă actualizarea la versiunea $version$",
+        "description": "Tooltip for new update available",
+        "placeholders": {
+            "status": {
+                "content": "$1",
+                "example": "v7.7.7"
+            }
+        }
+    },
+    "NSIS__retry-dialog--first-line": {
+        "message": "Signal nu poate fi închis",
+        "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "NSIS__retry-dialog--second-line": {
+        "message": "Vă rugăm închideți-l manual și apăsați Reîncercare pentru a continua.",
+        "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
+    },
+    "CustomizingPreferredReactions__title": {
+        "message": "Personalizare reacții",
+        "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
+    },
+    "CustomizingPreferredReactions__subtitle": {
+        "message": "Apăsați pentru a înlocui un emoji",
+        "description": "Instructions in the modal for customizing the preferred reactions."
+    },
+    "CustomizingPreferredReactions__had-save-error": {
+        "message": "S-a produs o eroare la salvarea setărilor dvs. Vă rugăm să încercați din nou.",
+        "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
+    },
+    "WhatsNew__modal-title": {
+        "message": "Ce este nou",
+        "description": "Title for the whats new modal"
+    },
+    "WhatsNew__v5.16--1": {
+        "message": "Un lightbox îmbunătățit pentru fișiere media vă scutește de surprize pe măsură ce parcurgeți o galerie de imagini sau videoclipuri, puteți pretinde că vă aflați cu adevărat într-o cameră întunecată, făcând zoom pentru a ascunde acele butoane supărătoare.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--2": {
+        "message": "S-a remediat o eroare care crea dificultăți în a reacționa la un mesaj, deoarece selectorul era pus în afara ecranului. Această eroare este acum rezolvată, iar dvs. puteți 😮 după placul ❤️.",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.16--3": {
+        "message": "Dacă țineți cursorul deasupra butoanelor în timpul unui apel, aceasta vor rămâne vizibile în loc să dispară. Nimic nu se poate ascunde de ochiul dvs. de vultur, nici măcar aceste butoane!",
+        "description": "Release notes for v5.16"
+    },
+    "WhatsNew__v5.17--1": {
+        "message": "Încercați noua permisiune \"trimitere mesaje\" pentru a limita cine poate trimite mesaje in grupurile dvs. Ideală pentru a organiza un eveniment, a face un anunț, sau doar pentru a da sfoară în țară. Toți membri grupului trebuie să folosească cea mai recentă versiune Signal pentru ca setarea să fie vizibilă.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.17--2": {
+        "message": "Acum puteți trimite mesaje de oriunde și oricând: din avion, dintr-un tunel, ori în acele momente triste în care internetul este căzut. Acestea vor fi expediate până la urmă; acum mesajele se retrimit automat pe o durată de până la 24 de ore.",
+        "description": "Release notes for v5.17"
+    },
+    "WhatsNew__v5.18--1": {
+        "message": "Vă simțiți ❤️‍🔥 sau 😶‍🌫️? Acum vă puteți exprima folosind un nou set de emoji, fie că :șoptiți sau :STRIGAȚI în timp ce căutați. Mulțumim $hiqua$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "hiqua": {
+                "content": "$1",
+                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--2": {
+        "message": "Dacă vă aflați în Anguilla, poate că v-ați simțit exclus. De acum transformăm toate domeniile de nivel superior aflate în vigoare din 2010 în linkuri, așa că veți putea face clic pe $gov$ și pe $brain$ la fel cum faceți pe $signal$. Mulțumim $jojomatik$!",
+        "description": "Release notes for v5.18",
+        "placeholders": {
+            "gov": {
+                "content": "$1",
+                "example": "<a href='https://gov.ai'>gov.ai</a>"
+            },
+            "brain": {
+                "content": "$2",
+                "example": "<a href='https://brain.ai'>brain.ai</a>"
+            },
+            "signal": {
+                "content": "$3",
+                "example": "<a href='https://signal.org'>signal.org</a>"
+            },
+            "jojomatik": {
+                "content": "$4",
+                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.18--3": {
+        "message": "Am auzit că vă place să măriți imaginile. Am îmbunătățit zoom-ul astfel încât chiar și imaginile mici pot fi afișate pe tot ecranul.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.18--4": {
+        "message": "Știați că dacă este activată dispariția mesajelor, chiar și notificarea „Acest mesaj a fost șters” va dispărea atunci când expiră? Acum nu mai este un mister, veți vedea numărătoarea inversă și data chiar în cadrul mesajului.",
+        "description": "Release notes for v5.18"
+    },
+    "WhatsNew__v5.19--1": {
+        "message": "Trageți aer în piept și relaxați-vă cu noile animații pentru dialoguri și meniuri tip pop-up. Inspirați. Expirați. Inspirați. Expirați.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--2": {
+        "message": "Schimbarea aspectului tastaturii este mereu puțin complicată, dar acum comenzile rapide merg un pas mai departe decât prima literă apăsată pentru a onora intenția dvs.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--3": {
+        "message": "Acum veți primi o notificare atunci când un apel de grup este început. Nu veți mai întârzia niciodată, decât dacă doriți să întârziați.",
+        "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.19--4": {
+        "message": "Această funcție este pentru toți cei care reacționează mai des cu 💅 decât cu 👍: acum puteți personaliza emoji-urile ce apar în mod implicit atunci când doriți sa reacționați la un mesaj.",
+        "description": "Release notes for v5.19"
     }
 }

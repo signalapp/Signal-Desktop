@@ -9,7 +9,7 @@ import { normalizeNumber } from '../util/normalizeNumber';
 import { SignalService as Proto } from '../protobuf';
 import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
-import { deriveMasterKeyFromGroupV1, typedArrayToArrayBuffer } from '../Crypto';
+import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 
 import {
   ProcessedAttachment,
@@ -23,9 +23,7 @@ import {
   ProcessedReaction,
   ProcessedDelete,
 } from './Types.d';
-
-// TODO: remove once we move away from ArrayBuffers
-const FIXMEU8 = Uint8Array;
+import { WarnOnlyError } from './Errors';
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -56,9 +54,9 @@ export function processAttachment(
   };
 }
 
-async function processGroupContext(
+function processGroupContext(
   group?: Proto.IGroupContext | null
-): Promise<ProcessedGroupContext | undefined> {
+): ProcessedGroupContext | undefined {
   if (!group) {
     return undefined;
   }
@@ -69,10 +67,8 @@ async function processGroupContext(
     'group context without type'
   );
 
-  const masterKey = await deriveMasterKeyFromGroupV1(
-    typedArrayToArrayBuffer(group.id)
-  );
-  const data = deriveGroupFields(new FIXMEU8(masterKey));
+  const masterKey = deriveMasterKeyFromGroupV1(group.id);
+  const data = deriveGroupFields(masterKey);
 
   const derivedGroupV2Id = Bytes.toBase64(data.id);
 
@@ -265,7 +261,7 @@ export async function processDataMessage(
     ).map((attachment: Proto.IAttachmentPointer) =>
       processAttachment(attachment)
     ),
-    group: await processGroupContext(message.group),
+    group: processGroupContext(message.group),
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: message.expireTimer ?? 0,
@@ -335,11 +331,9 @@ export async function processDataMessage(
         // Cleaned up in `processGroupContext`
         break;
       default: {
-        const err = new Error(
+        throw new WarnOnlyError(
           `Unknown group message type: ${result.group.type}`
         );
-        err.warn = true;
-        throw err;
       }
     }
   }

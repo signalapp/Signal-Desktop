@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { LocalizerType } from '../../../types/Util';
@@ -15,6 +15,7 @@ import { ConversationDetailsIcon } from './ConversationDetailsIcon';
 export type Props = {
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   conversationTitle: string;
+  left: boolean;
   onBlock: () => void;
   onLeave: () => void;
   i18n: LocalizerType;
@@ -23,6 +24,7 @@ export type Props = {
 export const ConversationDetailsActions: React.ComponentType<Props> = ({
   cannotLeaveBecauseYouAreLastAdmin,
   conversationTitle,
+  left,
   onBlock,
   onLeave,
   i18n,
@@ -30,39 +32,73 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
   const [confirmingLeave, setConfirmingLeave] = React.useState<boolean>(false);
   const [confirmingBlock, setConfirmingBlock] = React.useState<boolean>(false);
 
-  let leaveGroupNode = (
+  let leaveGroupNode: ReactNode;
+  let blockGroupNode: ReactNode;
+  if (!left) {
+    leaveGroupNode = (
+      <PanelRow
+        disabled={cannotLeaveBecauseYouAreLastAdmin}
+        onClick={() => setConfirmingLeave(true)}
+        icon={
+          <ConversationDetailsIcon
+            ariaLabel={i18n('ConversationDetailsActions--leave-group')}
+            disabled={cannotLeaveBecauseYouAreLastAdmin}
+            icon="leave"
+          />
+        }
+        label={
+          <div
+            className={classNames(
+              'module-conversation-details__leave-group',
+              cannotLeaveBecauseYouAreLastAdmin &&
+                'module-conversation-details__leave-group--disabled'
+            )}
+          >
+            {i18n('ConversationDetailsActions--leave-group')}
+          </div>
+        }
+      />
+    );
+    if (cannotLeaveBecauseYouAreLastAdmin) {
+      leaveGroupNode = (
+        <Tooltip
+          content={i18n(
+            'ConversationDetailsActions--leave-group-must-choose-new-admin'
+          )}
+          direction={TooltipPlacement.Top}
+        >
+          {leaveGroupNode}
+        </Tooltip>
+      );
+    }
+  }
+
+  blockGroupNode = (
     <PanelRow
       disabled={cannotLeaveBecauseYouAreLastAdmin}
-      onClick={() => setConfirmingLeave(true)}
+      onClick={() => setConfirmingBlock(true)}
       icon={
         <ConversationDetailsIcon
-          ariaLabel={i18n('ConversationDetailsActions--leave-group')}
-          disabled={cannotLeaveBecauseYouAreLastAdmin}
-          icon="leave"
+          ariaLabel={i18n('ConversationDetailsActions--block-group')}
+          icon="block"
         />
       }
       label={
-        <div
-          className={classNames(
-            'module-conversation-details__leave-group',
-            cannotLeaveBecauseYouAreLastAdmin &&
-              'module-conversation-details__leave-group--disabled'
-          )}
-        >
-          {i18n('ConversationDetailsActions--leave-group')}
+        <div className="module-conversation-details__block-group">
+          {i18n('ConversationDetailsActions--block-group')}
         </div>
       }
     />
   );
   if (cannotLeaveBecauseYouAreLastAdmin) {
-    leaveGroupNode = (
+    blockGroupNode = (
       <Tooltip
         content={i18n(
           'ConversationDetailsActions--leave-group-must-choose-new-admin'
         )}
         direction={TooltipPlacement.Top}
       >
-        {leaveGroupNode}
+        {blockGroupNode}
       </Tooltip>
     );
   }
@@ -71,20 +107,7 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
     <>
       <PanelSection>
         {leaveGroupNode}
-        <PanelRow
-          onClick={() => setConfirmingBlock(true)}
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('ConversationDetailsActions--block-group')}
-              icon="block"
-            />
-          }
-          label={
-            <div className="module-conversation-details__block-group">
-              {i18n('ConversationDetailsActions--block-group')}
-            </div>
-          }
-        />
+        {blockGroupNode}
       </PanelSection>
 
       {confirmingLeave && (

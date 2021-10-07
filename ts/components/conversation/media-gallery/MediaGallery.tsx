@@ -14,7 +14,7 @@ import { missingCaseError } from '../../../util/missingCaseError';
 import { LocalizerType } from '../../../types/Util';
 import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../../types/MediaItem';
 
 export type Props = {
   documents: Array<MediaItemType>;

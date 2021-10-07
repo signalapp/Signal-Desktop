@@ -10,12 +10,10 @@ const {
   start: conversationControllerStart,
 } = require('../../ts/ConversationController');
 const Data = require('../../ts/sql/Client').default;
-const Emojis = require('./emojis');
 const EmojiLib = require('../../ts/components/emoji/lib');
 const Groups = require('../../ts/groups');
 const GroupChange = require('../../ts/groupChange');
 const IndexedDB = require('./indexeddb');
-const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Stickers = require('../../ts/types/Stickers');
 const Settings = require('./settings');
@@ -41,7 +39,6 @@ const {
 const { Emojify } = require('../../ts/components/conversation/Emojify');
 const { ErrorModal } = require('../../ts/components/ErrorModal');
 const { Lightbox } = require('../../ts/components/Lightbox');
-const { LightboxGallery } = require('../../ts/components/LightboxGallery');
 const {
   MediaGallery,
 } = require('../../ts/components/conversation/media-gallery/MediaGallery');
@@ -62,22 +59,12 @@ const {
 const { WhatsNew } = require('../../ts/components/WhatsNew');
 
 // State
-const { createTimeline } = require('../../ts/state/roots/createTimeline');
 const {
   createChatColorPicker,
 } = require('../../ts/state/roots/createChatColorPicker');
 const {
-  createCompositionArea,
-} = require('../../ts/state/roots/createCompositionArea');
-const {
-  createContactModal,
-} = require('../../ts/state/roots/createContactModal');
-const {
   createConversationDetails,
 } = require('../../ts/state/roots/createConversationDetails');
-const {
-  createConversationHeader,
-} = require('../../ts/state/roots/createConversationHeader');
 const { createApp } = require('../../ts/state/roots/createApp');
 const {
   createForwardMessageModal,
@@ -136,14 +123,11 @@ const searchSelectors = require('../../ts/state/selectors/search');
 
 // Types
 const AttachmentType = require('../../ts/types/Attachment');
-const VisualAttachment = require('./types/visual_attachment');
-const Contact = require('../../ts/types/Contact');
-const Conversation = require('./types/conversation');
-const Errors = require('../../ts/types/errors');
-const MediaGalleryMessage = require('../../ts/components/conversation/media-gallery/types/Message');
+const VisualAttachment = require('../../ts/types/VisualAttachment');
 const MessageType = require('./types/message');
-const MIME = require('../../ts/types/MIME');
-const SettingsType = require('../../ts/types/Settings');
+const { UUID } = require('../../ts/types/UUID');
+const { Address } = require('../../ts/types/Address');
+const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 
 // Views
 const Initialization = require('./views/initialization');
@@ -162,7 +146,6 @@ const {
 const {
   initializeUpdateListener,
 } = require('../../ts/services/updateListener');
-const { notify } = require('../../ts/services/notify');
 const { calling } = require('../../ts/services/calling');
 const { onTimeout, removeTimeout } = require('../../ts/services/timers');
 const {
@@ -349,7 +332,6 @@ exports.setup = (options = {}) => {
     Emojify,
     ErrorModal,
     Lightbox,
-    LightboxGallery,
     MediaGallery,
     MessageDetail,
     Quote,
@@ -357,19 +339,13 @@ exports.setup = (options = {}) => {
     StagedLinkPreview,
     DisappearingTimeDialog,
     SystemTraySettingsCheckboxes,
-    Types: {
-      Message: MediaGalleryMessage,
-    },
     WhatsNew,
   };
 
   const Roots = {
     createApp,
     createChatColorPicker,
-    createCompositionArea,
-    createContactModal,
     createConversationDetails,
-    createConversationHeader,
     createForwardMessageModal,
     createGroupLinkManagement,
     createGroupV1MigrationModal,
@@ -383,7 +359,6 @@ exports.setup = (options = {}) => {
     createShortcutGuideModal,
     createStickerManager,
     createStickerPreviewModal,
-    createTimeline,
   };
 
   const Ducks = {
@@ -414,7 +389,6 @@ exports.setup = (options = {}) => {
     initializeNetworkObserver,
     initializeUpdateListener,
     onTimeout,
-    notify,
     removeTimeout,
     runStorageServiceSyncJob,
     storageServiceUploadJob,
@@ -428,14 +402,12 @@ exports.setup = (options = {}) => {
   };
 
   const Types = {
-    Attachment: AttachmentType,
-    Contact,
-    Conversation,
-    Errors,
     Message: MessageType,
-    MIME,
-    Settings: SettingsType,
-    VisualAttachment,
+
+    // Mostly for debugging
+    UUID,
+    Address,
+    QualifiedAddress,
   };
 
   const Views = {
@@ -454,13 +426,11 @@ exports.setup = (options = {}) => {
     Curve,
     conversationControllerStart,
     Data,
-    Emojis,
     EmojiLib,
     Groups,
     GroupChange,
     IndexedDB,
     Migrations,
-    Notifications,
     OS,
     RemoteConfig,
     Settings,

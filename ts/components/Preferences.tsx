@@ -4,8 +4,9 @@
 import React, { ReactNode, useEffect, useState, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
+import type { AudioDevice } from 'ringrtc';
 
-import { AudioDevice, MediaDeviceSettings } from '../types/Calling';
+import type { MediaDeviceSettings } from '../types/Calling';
 import {
   ZoomFactorType,
   ThemeSettingType,
@@ -14,6 +15,7 @@ import {
 import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
+import { ConfirmationDialog } from './ConfirmationDialog';
 import { ConversationType } from '../state/ducks/conversations';
 import {
   ConversationColorType,
@@ -32,6 +34,7 @@ import {
   DEFAULT_DURATIONS_SET,
   format as formatExpirationTimer,
 } from '../util/expirationTimer';
+import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 type CheckboxChangeHandlerType = (value: boolean) => unknown;
 type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
@@ -66,7 +69,6 @@ export type PropsType = {
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
-  theme: ThemeType;
   themeSetting: ThemeSettingType;
   universalExpireTimer: number;
   whoCanFindMe: PhoneNumberDiscoverability;
@@ -75,7 +77,9 @@ export type PropsType = {
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
+  closeSettings: () => unknown;
   doDeleteAllData: () => unknown;
+  doneRendering: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getConversationsWithCustomColor: (
     colorId: string
@@ -96,6 +100,7 @@ export type PropsType = {
 
   // Limited support features
   isAudioNotificationsSupported: boolean;
+  isAutoDownloadUpdatesSupported: boolean;
   isAutoLaunchSupported: boolean;
   isHideMenuBarSupported: boolean;
   isNotificationAttentionSupported: boolean;
@@ -150,16 +155,41 @@ enum Page {
   ChatColor = 'ChatColor',
 }
 
+const DEFAULT_ZOOM_FACTORS = [
+  {
+    text: '75%',
+    value: 0.75,
+  },
+  {
+    text: '100%',
+    value: 1,
+  },
+  {
+    text: '125%',
+    value: 1.25,
+  },
+  {
+    text: '150%',
+    value: 1.5,
+  },
+  {
+    text: '200%',
+    value: 2,
+  },
+];
+
 export const Preferences = ({
   addCustomColor,
   availableCameras,
   availableMicrophones,
   availableSpeakers,
   blockedCount,
+  closeSettings,
   customColors,
   defaultConversationColor,
   deviceName = '',
   doDeleteAllData,
+  doneRendering,
   editCustomColor,
   getConversationsWithCustomColor,
   hasAudioNotifications,
@@ -184,6 +214,7 @@ export const Preferences = ({
   i18n,
   initialSpellCheckSetting,
   isAudioNotificationsSupported,
+  isAutoDownloadUpdatesSupported,
   isAutoLaunchSupported,
   isHideMenuBarSupported,
   isPhoneNumberSharingSupported,
@@ -225,13 +256,13 @@ export const Preferences = ({
   selectedMicrophone,
   selectedSpeaker,
   setGlobalDefaultConversationColor,
-  theme,
   themeSetting,
   universalExpireTimer = 0,
   whoCanFindMe,
   whoCanSeeMe,
   zoomFactor,
 }: PropsType): JSX.Element => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [page, setPage] = useState<Page>(Page.General);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
@@ -241,9 +272,10 @@ export const Preferences = ({
   ] = useState(false);
 
   useEffect(() => {
-    document.body.classList.toggle('light-theme', theme === ThemeType.light);
-    document.body.classList.toggle('dark-theme', theme === ThemeType.dark);
-  }, [theme]);
+    doneRendering();
+  }, [doneRendering]);
+
+  useEscapeHandling(closeSettings);
 
   const onZoomSelectChange = useCallback(
     (value: string) => {
@@ -328,7 +360,7 @@ export const Preferences = ({
             </>
           )}
         </SettingsRow>
-        <SettingsRow title={i18n('Preferences--permissions')}>
+        <SettingsRow title={i18n('permissions')}>
           <Checkbox
             checked={hasMediaPermissions}
             label={i18n('mediaPermissionsDescription')}
@@ -344,18 +376,32 @@ export const Preferences = ({
             onChange={onMediaCameraPermissionsChange}
           />
         </SettingsRow>
-        <SettingsRow title={i18n('Preferences--updates')}>
-          <Checkbox
-            checked={hasAutoDownloadUpdate}
-            label={i18n('Preferences__download-update')}
-            moduleClassName="Preferences__checkbox"
-            name="autoDownloadUpdate"
-            onChange={onAutoDownloadUpdateChange}
-          />
-        </SettingsRow>
+        {isAutoDownloadUpdatesSupported && (
+          <SettingsRow title={i18n('Preferences--updates')}>
+            <Checkbox
+              checked={hasAutoDownloadUpdate}
+              label={i18n('Preferences__download-update')}
+              moduleClassName="Preferences__checkbox"
+              name="autoDownloadUpdate"
+              onChange={onAutoDownloadUpdateChange}
+            />
+          </SettingsRow>
+        )}
       </>
     );
   } else if (page === Page.Appearance) {
+    let zoomFactors = DEFAULT_ZOOM_FACTORS;
+
+    if (!zoomFactors.some(({ value }) => value === zoomFactor)) {
+      zoomFactors = [
+        ...zoomFactors,
+        {
+          text: `${Math.round(zoomFactor * 100)}%`,
+          value: zoomFactor,
+        },
+      ].sort((a, b) => a.value - b.value);
+    }
+
     settings = (
       <>
         <div className="Preferences__title">
@@ -408,28 +454,7 @@ export const Preferences = ({
             right={
               <Select
                 onChange={onZoomSelectChange}
-                options={[
-                  {
-                    text: '75%',
-                    value: 0.75,
-                  },
-                  {
-                    text: '100%',
-                    value: 1,
-                  },
-                  {
-                    text: '125%',
-                    value: 1.25,
-                  },
-                  {
-                    text: '150%',
-                    value: 1.5,
-                  },
-                  {
-                    text: '200%',
-                    value: 2,
-                  },
-                ]}
+                options={zoomFactors}
                 value={zoomFactor}
               />
             }
@@ -454,7 +479,7 @@ export const Preferences = ({
             {i18n('Preferences__button--chats')}
           </div>
         </div>
-        <SettingsRow title="Chats">
+        <SettingsRow title={i18n('Preferences__button--chats')}>
           <Checkbox
             checked={hasSpellCheck}
             description={spellCheckDirtyText}
@@ -544,7 +569,7 @@ export const Preferences = ({
             onChange={onCallRingtoneNotificationChange}
           />
         </SettingsRow>
-        <SettingsRow title="Devices">
+        <SettingsRow title={i18n('Preferences__devices')}>
           <Control
             left={
               <>
@@ -671,7 +696,7 @@ export const Preferences = ({
         <SettingsRow>
           <Checkbox
             checked={hasNotifications}
-            label="Enable notifications"
+            label={i18n('Preferences__enable-notifications')}
             moduleClassName="Preferences__checkbox"
             name="notifications"
             onChange={onNotificationsChange}
@@ -908,7 +933,7 @@ export const Preferences = ({
             right={
               <div className="Preferences__right-button">
                 <Button
-                  onClick={doDeleteAllData}
+                  onClick={() => setConfirmDelete(true)}
                   variant={ButtonVariant.SecondaryDestructive}
                 >
                   {i18n('clearDataButton')}
@@ -917,6 +942,24 @@ export const Preferences = ({
             }
           />
         </SettingsRow>
+        {confirmDelete ? (
+          <ConfirmationDialog
+            actions={[
+              {
+                action: doDeleteAllData,
+                style: 'negative',
+                text: i18n('clearDataButton'),
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => {
+              setConfirmDelete(false);
+            }}
+            title={i18n('deleteAllDataHeader')}
+          >
+            {i18n('deleteAllDataBody')}
+          </ConfirmationDialog>
+        ) : null}
       </>
     );
   } else if (page === Page.ChatColor) {
