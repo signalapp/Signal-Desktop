@@ -7,16 +7,18 @@ export function usePageVisibility(): boolean {
   const [result, setResult] = useState(!document.hidden);
 
   useEffect(() => {
-    const onVisibilityChange = () => {
+    const updatePageVisibility = () => {
       setResult(!document.hidden);
     };
 
-    document.addEventListener('visibilitychange', onVisibilityChange, false);
+    updatePageVisibility();
+
+    document.addEventListener('visibilitychange', updatePageVisibility, false);
 
     return () => {
       document.removeEventListener(
         'visibilitychange',
-        onVisibilityChange,
+        updatePageVisibility,
         false
       );
     };
