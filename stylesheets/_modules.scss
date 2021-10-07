@@ -4586,6 +4586,10 @@ button.module-image__border-overlay:focus {
   }
 }
 
+.module-message-body__at-mention--outgoing {
+  background-color: $color-black-alpha-40;
+}
+
 // Module: Reaction Viewer
 
 .module-reaction-viewer {
