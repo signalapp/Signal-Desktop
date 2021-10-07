@@ -4,7 +4,7 @@
 import React, { useRef, useEffect, useCallback, ReactNode } from 'react';
 import { List, ListRowRenderer } from 'react-virtualized';
 import classNames from 'classnames';
-import { pick } from 'lodash';
+import { get, pick } from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
@@ -256,13 +256,25 @@ export const ConversationList: React.FC<PropsType> = ({
             'unblurredAvatarPath',
             'unreadCount',
           ]);
+          const { title, unreadCount, lastMessage } = itemProps;
+
           result = (
-            <ConversationListItem
-              {...itemProps}
-              key={key}
-              onClick={onSelectConversation}
-              i18n={i18n}
-            />
+            <div
+              aria-label={i18n('ConversationList__aria-label', {
+                lastMessage:
+                  get(lastMessage, 'text') ||
+                  i18n('ConversationList__last-message-undefined'),
+                title,
+                unreadCount: String(unreadCount),
+              })}
+            >
+              <ConversationListItem
+                {...itemProps}
+                key={key}
+                onClick={onSelectConversation}
+                i18n={i18n}
+              />
+            </div>
           );
           break;
         }
@@ -276,7 +288,10 @@ export const ConversationList: React.FC<PropsType> = ({
           break;
         case RowType.Header:
           result = (
-            <div className="module-conversation-list__item--header">
+            <div
+              className="module-conversation-list__item--header"
+              aria-label={i18n(row.i18nKey)}
+            >
               {i18n(row.i18nKey)}
             </div>
           );
@@ -304,8 +319,10 @@ export const ConversationList: React.FC<PropsType> = ({
       }
 
       return (
-        <span style={style} key={key}>
-          {result}
+        <span aria-rowindex={index + 1} role="row" style={style} key={key}>
+          <div role="gridcell" aria-colindex={1}>
+            {result}
+          </div>
         </span>
       );
     },

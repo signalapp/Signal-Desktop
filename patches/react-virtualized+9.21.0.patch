@@ -70,7 +70,7 @@ index 262776b..156cf0f 100644
        this._cellHeightCache[key] = height;
        this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..7410c0a 100644
+index e1b959a..97d6ef9 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -294,7 +294,15 @@ index e1b959a..7410c0a 100644
          });
        }
  
-@@ -909,6 +1035,11 @@ var Grid = function (_React$PureComponent) {
+@@ -750,6 +876,7 @@ var Grid = function (_React$PureComponent) {
+         }, containerProps, {
+           'aria-label': this.props['aria-label'],
+           'aria-readonly': this.props['aria-readonly'],
++          'aria-rowcount': this.props['rowCount'],
+           className: (0, _classnames2.default)('ReactVirtualized__Grid', className),
+           id: id,
+           onScroll: this._onScroll,
+@@ -909,6 +1036,11 @@ var Grid = function (_React$PureComponent) {
            visibleRowIndices: visibleRowIndices
          });
  
@@ -306,7 +314,7 @@ index e1b959a..7410c0a 100644
          // update the indices
          this._columnStartIndex = columnStartIndex;
          this._columnStopIndex = columnStopIndex;
-@@ -962,7 +1093,11 @@ var Grid = function (_React$PureComponent) {
+@@ -962,7 +1094,11 @@ var Grid = function (_React$PureComponent) {
        var scrollLeft = _ref6.scrollLeft,
            scrollTop = _ref6.scrollTop,
            totalColumnsWidth = _ref6.totalColumnsWidth,
@@ -319,7 +327,7 @@ index e1b959a..7410c0a 100644
  
        this._onScrollMemoizer({
          callback: function callback(_ref7) {
-@@ -973,19 +1108,26 @@ var Grid = function (_React$PureComponent) {
+@@ -973,19 +1109,26 @@ var Grid = function (_React$PureComponent) {
                onScroll = _props7.onScroll,
                width = _props7.width;
  
@@ -349,7 +357,7 @@ index e1b959a..7410c0a 100644
          }
        });
      }
-@@ -1325,6 +1467,15 @@ var Grid = function (_React$PureComponent) {
+@@ -1325,6 +1468,15 @@ var Grid = function (_React$PureComponent) {
          var totalColumnsWidth = instanceProps.columnSizeAndPositionManager.getTotalSize();
          var scrollBarSize = instanceProps.scrollbarSizeMeasured && totalColumnsWidth > width ? instanceProps.scrollbarSize : 0;
  

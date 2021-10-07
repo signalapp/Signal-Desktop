@@ -212,6 +212,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     if (onClick) {
       return (
         <button
+          aria-label={i18n('BaseConversationListItem__aria-label', { title })}
           className={classNames(
             commonClassNames,
             `${BASE_CLASS_NAME}--is-button`

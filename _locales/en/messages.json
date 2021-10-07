@@ -2447,6 +2447,38 @@
     }
   },
 
+  "ConversationList__aria-label": {
+    "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+    "description": "Aria label for the conversation list item",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "Alice"
+      },
+      "unreadCount": {
+        "content": "$2",
+        "example": "23"
+      },
+      "lastMessage": {
+        "content": "$3",
+        "example": "How about Friday?"
+      }
+    }
+  },
+  "ConversationList__last-message-undefined": {
+    "message": "The last message may have been deleted.",
+    "description": "For aria-label within conversation list. Describes if last message is not defined."
+  },
+  "BaseConversationListItem__aria-label": {
+    "message": "Go to conversation with $title$",
+    "description": "Aria label for the conversation list item button",
+    "placeholders": {
+      "title": {
+        "content": "$1",
+        "example": "Alice"
+      }
+    }
+  },
   "ConversationListItem--message-request": {
     "message": "Message Request",
     "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
