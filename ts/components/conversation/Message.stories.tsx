@@ -205,6 +205,87 @@ story.add('Emoji Messages', () => (
     <Message {...createProps({ text: '😀😀😀😀😀' })} />
     <br />
     <Message {...createProps({ text: '😀😀😀😀😀😀😀' })} />
+    <br />
+    <Message
+      {...createProps({
+        previews: [
+          {
+            domain: 'signal.org',
+            image: fakeAttachment({
+              contentType: IMAGE_PNG,
+              fileName: 'the-sax.png',
+              height: 240,
+              url: pngUrl,
+              width: 320,
+            }),
+            isStickerPack: false,
+            title: 'Signal',
+            description:
+              'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+            url: 'https://www.signal.org',
+            date: new Date(2020, 2, 10).valueOf(),
+          },
+        ],
+        text: '😀',
+      })}
+    />
+    <br />
+    <Message
+      {...createProps({
+        attachments: [
+          fakeAttachment({
+            url: '/fixtures/tina-rolf-269345-unsplash.jpg',
+            fileName: 'tina-rolf-269345-unsplash.jpg',
+            contentType: IMAGE_JPEG,
+            width: 128,
+            height: 128,
+          }),
+        ],
+        text: '😀',
+      })}
+    />
+    <br />
+    <Message
+      {...createProps({
+        attachments: [
+          fakeAttachment({
+            contentType: AUDIO_MP3,
+            fileName: 'incompetech-com-Agnus-Dei-X.mp3',
+            url: '/fixtures/incompetech-com-Agnus-Dei-X.mp3',
+          }),
+        ],
+        text: '😀',
+      })}
+    />
+    <br />
+    <Message
+      {...createProps({
+        attachments: [
+          fakeAttachment({
+            contentType: stringToMIMEType('text/plain'),
+            fileName: 'my-resume.txt',
+            url: 'my-resume.txt',
+          }),
+        ],
+        text: '😀',
+      })}
+    />
+    <br />
+    <Message
+      {...createProps({
+        attachments: [
+          fakeAttachment({
+            contentType: VIDEO_MP4,
+            flags: SignalService.AttachmentPointer.Flags.GIF,
+            fileName: 'cat-gif.mp4',
+            url: '/fixtures/cat-gif.mp4',
+            width: 400,
+            height: 332,
+          }),
+        ],
+        text: '😀',
+      })}
+    />
   </>
 ));
 

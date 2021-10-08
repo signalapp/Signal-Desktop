@@ -590,6 +590,19 @@ export class Message extends React.PureComponent<Props, State> {
     return isMessageRequestAccepted && !isBlocked;
   }
 
+  private canRenderStickerLikeEmoji(): boolean {
+    const { text, quote, attachments, previews } = this.props;
+
+    return Boolean(
+      text &&
+        isEmojiOnlyText(text) &&
+        getEmojiCount(text) < 6 &&
+        !quote &&
+        (!attachments || !attachments.length) &&
+        (!previews || !previews.length)
+    );
+  }
+
   public renderMetadata(): JSX.Element | null {
     const {
       attachments,
@@ -619,10 +632,7 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const isEmojiOnly = Boolean(
-      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6
-    );
-    const isStickerLike = isSticker || isEmojiOnly;
+    const isStickerLike = isSticker || this.canRenderStickerLikeEmoji();
 
     return (
       <MessageMetadata
@@ -2331,7 +2341,6 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToView,
       isTapToViewExpired,
       isTapToViewError,
-      text,
     } = this.props;
     const { isSelected } = this.state;
 
@@ -2340,8 +2349,7 @@ export class Message extends React.PureComponent<Props, State> {
     const width = this.getWidth();
     const isShowingImage = this.isShowingImage();
 
-    const isEmojiOnly =
-      text && isEmojiOnlyText(text) && getEmojiCount(text) < 6;
+    const isEmojiOnly = this.canRenderStickerLikeEmoji();
     const isStickerLike = isSticker || isEmojiOnly;
 
     const containerClassnames = classNames(
