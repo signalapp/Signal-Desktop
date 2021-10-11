@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron/renderer';
 import React from 'react';
 import styled from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
@@ -40,8 +41,12 @@ const MessageStatusRead = () => {
 };
 
 const MessageStatusError = () => {
+  const showDebugLog = () => {
+    ipcRenderer.send('show-debug-log');
+  };
+
   return (
-    <MessageStatusSendingContainer title={window.i18n('sendFailed')}>
+    <MessageStatusSendingContainer onClick={showDebugLog} title={window.i18n('sendFailed')}>
       <SessionIcon iconColor={'var(--color-destructive'} iconType="error" iconSize={'tiny'} />
     </MessageStatusSendingContainer>
   );
