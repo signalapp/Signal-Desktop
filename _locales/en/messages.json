@@ -444,7 +444,5 @@
   "messageDeletedPlaceholder": "This message has been deleted",
   "messageDeleted": "Message deleted",
   "surveyTitle": "Take our Session Survey",
-  "goToOurSurvey": "Go to our survey",
-  "operatingSystem": "Operating System: $operatingSystem$\n",
-  "commitHash": "Git Commit SHA: $commitHash$\n"
+  "goToOurSurvey": "Go to our survey"
 }
