@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron/renderer';
+import { ipcRenderer } from 'electron';
 import React from 'react';
 import styled from 'styled-components';
 import { MessageDeliveryStatus } from '../../../models/messageType';
