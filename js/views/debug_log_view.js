@@ -27,7 +27,10 @@
       this.$('textarea').val(i18n('loading'));
 
       const operatingSystemInfo = `${i18n('operatingSystem', window.getOSRelease())}`;
-      const commitHashInfo = i18n('commitHash', window.getCommitHash());
+
+      const commitHashInfo = window.getCommitHash()
+        ? i18n('commitHash', window.getCommitHash())
+        : '';
 
       // eslint-disable-next-line more/no-then
       window.log.fetch().then(text => {
