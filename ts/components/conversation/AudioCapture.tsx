@@ -134,9 +134,9 @@ export const AudioCapture = ({
     completeRecording(conversationId, onSendAudioRecording);
   }, [conversationId, completeRecording, onSendAudioRecording]);
 
-  function closeToast() {
+  const closeToast = useCallback(() => {
     setToastType(undefined);
-  }
+  }, []);
 
   let toastElement: JSX.Element | undefined;
   if (toastType === ToastType.VoiceNoteLimit) {
