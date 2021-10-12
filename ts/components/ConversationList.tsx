@@ -320,9 +320,9 @@ export const ConversationList: React.FC<PropsType> = ({
 
       return (
         <span aria-rowindex={index + 1} role="row" style={style} key={key}>
-          <div role="gridcell" aria-colindex={1}>
+          <span role="gridcell" aria-colindex={1}>
             {result}
-          </div>
+          </span>
         </span>
       );
     },
