@@ -173,6 +173,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         markedUnread={markedUnread}
         messageStatusIcon={messageStatusIcon}
         messageText={messageText}
+        messageTextIsAlwaysFullSize
         name={name}
         onClick={onClickItem}
         phoneNumber={phoneNumber}
@@ -193,5 +194,5 @@ function truncateMessageText(text: unknown): string {
   if (typeof text !== 'string') {
     return '';
   }
-  return text.split('\n', 1)[0];
+  return text.replace(/(?:\r?\n)+/g, ' ');
 }

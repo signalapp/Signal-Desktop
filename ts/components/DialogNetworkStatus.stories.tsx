@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,10 +10,13 @@ import { DialogNetworkStatus } from './DialogNetworkStatus';
 import { SocketStatus } from '../types/SocketStatus';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { WidthBreakpoint } from './_util';
+import { FakeLeftPaneContainer } from '../test-both/helpers/FakeLeftPaneContainer';
 
 const i18n = setupI18n('en', enMessages);
 
 const defaultProps = {
+  containerWidthBreakpoint: WidthBreakpoint.Wide,
   hasNetworkDialog: true,
   i18n,
   isOnline: true,
@@ -26,6 +29,11 @@ const defaultProps = {
 const story = storiesOf('Components/DialogNetworkStatus', module);
 
 story.add('Knobs Playground', () => {
+  const containerWidthBreakpoint = select(
+    'containerWidthBreakpoint',
+    WidthBreakpoint,
+    WidthBreakpoint.Wide
+  );
   const hasNetworkDialog = boolean('hasNetworkDialog', true);
   const isOnline = boolean('isOnline', true);
   const socketStatus = select(
@@ -40,30 +48,57 @@ story.add('Knobs Playground', () => {
   );
 
   return (
-    <DialogNetworkStatus
-      {...defaultProps}
-      hasNetworkDialog={hasNetworkDialog}
-      isOnline={isOnline}
-      socketStatus={socketStatus}
-    />
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogNetworkStatus
+        {...defaultProps}
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        hasNetworkDialog={hasNetworkDialog}
+        isOnline={isOnline}
+        socketStatus={socketStatus}
+      />
+    </FakeLeftPaneContainer>
   );
 });
 
-story.add('Connecting', () => (
-  <DialogNetworkStatus
-    {...defaultProps}
-    socketStatus={SocketStatus.CONNECTING}
-  />
-));
+([
+  ['wide', WidthBreakpoint.Wide],
+  ['narrow', WidthBreakpoint.Narrow],
+] as const).forEach(([name, containerWidthBreakpoint]) => {
+  const defaultPropsForBreakpoint = {
+    ...defaultProps,
+    containerWidthBreakpoint,
+  };
 
-story.add('Closing', () => (
-  <DialogNetworkStatus {...defaultProps} socketStatus={SocketStatus.CLOSING} />
-));
+  story.add(`Connecting (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogNetworkStatus
+        {...defaultPropsForBreakpoint}
+        socketStatus={SocketStatus.CONNECTING}
+      />
+    </FakeLeftPaneContainer>
+  ));
 
-story.add('Closed', () => (
-  <DialogNetworkStatus {...defaultProps} socketStatus={SocketStatus.CLOSED} />
-));
+  story.add(`Closing (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogNetworkStatus
+        {...defaultPropsForBreakpoint}
+        socketStatus={SocketStatus.CLOSING}
+      />
+    </FakeLeftPaneContainer>
+  ));
 
-story.add('Offline', () => (
-  <DialogNetworkStatus {...defaultProps} isOnline={false} />
-));
+  story.add(`Closed (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogNetworkStatus
+        {...defaultPropsForBreakpoint}
+        socketStatus={SocketStatus.CLOSED}
+      />
+    </FakeLeftPaneContainer>
+  ));
+
+  story.add(`Offline (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogNetworkStatus {...defaultPropsForBreakpoint} isOnline={false} />
+    </FakeLeftPaneContainer>
+  ));
+});

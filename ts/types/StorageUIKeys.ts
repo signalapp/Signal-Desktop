@@ -25,6 +25,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'preferred-video-input-device',
   'preferred-audio-input-device',
   'preferred-audio-output-device',
+  'preferredLeftPaneWidth',
   'preferredReactionEmoji',
   'previousAudioDeviceModule',
   'skinTone',

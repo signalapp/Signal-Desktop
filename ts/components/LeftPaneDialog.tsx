@@ -1,17 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { ReactNode } from 'react';
+
+import React, { ReactChild, ReactNode } from 'react';
 import classNames from 'classnames';
+import { Tooltip, TooltipPlacement } from './Tooltip';
+import { WidthBreakpoint } from './_util';
 
 const BASE_CLASS_NAME = 'LeftPaneDialog';
+const TOOLTIP_CLASS_NAME = `${BASE_CLASS_NAME}__tooltip`;
 
 export type PropsType = {
   type?: 'warning' | 'error';
-  icon?: 'update' | 'relink' | 'network' | ReactNode;
+  icon?: 'update' | 'relink' | 'network' | 'warning' | ReactChild;
   title?: string;
   subtitle?: string;
   children?: ReactNode;
   hoverText?: string;
+  containerWidthBreakpoint: WidthBreakpoint;
 } & (
   | {
       onClick?: undefined;
@@ -38,7 +43,7 @@ export type PropsType = {
   );
 
 export const LeftPaneDialog: React.FC<PropsType> = ({
-  icon,
+  icon = 'warning',
   type,
   onClick,
   clickLabel,
@@ -48,6 +53,7 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
   hoverText,
   hasAction,
 
+  containerWidthBreakpoint,
   hasXButton,
   onClose,
   closeLabel,
@@ -123,23 +129,28 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
     onClick === undefined ? undefined : `${BASE_CLASS_NAME}--clickable`,
   ]);
 
+  const message = (
+    <>
+      {title === undefined ? undefined : <h3>{title}</h3>}
+      {subtitle === undefined ? undefined : <div>{subtitle}</div>}
+      {children}
+      {action}
+    </>
+  );
+
   const content = (
     <>
       <div className={`${BASE_CLASS_NAME}__container`}>
         {typeof icon === 'string' ? <div className={iconClassName} /> : icon}
-        <div className={`${BASE_CLASS_NAME}__message`}>
-          {title === undefined ? undefined : <h3>{title}</h3>}
-          {subtitle === undefined ? undefined : <div>{subtitle}</div>}
-          {children}
-          {action}
-        </div>
+        <div className={`${BASE_CLASS_NAME}__message`}>{message}</div>
       </div>
       {xButton}
     </>
   );
 
+  let dialogNode: ReactChild;
   if (onClick) {
-    return (
+    dialogNode = (
       <div
         className={className}
         role="button"
@@ -152,11 +163,28 @@ export const LeftPaneDialog: React.FC<PropsType> = ({
         {content}
       </div>
     );
+  } else {
+    dialogNode = (
+      <div className={className} title={hoverText}>
+        {content}
+      </div>
+    );
   }
 
-  return (
-    <div className={className} title={hoverText}>
-      {content}
-    </div>
-  );
+  if (containerWidthBreakpoint === WidthBreakpoint.Narrow) {
+    return (
+      <Tooltip
+        content={message}
+        direction={TooltipPlacement.Right}
+        className={classNames(
+          TOOLTIP_CLASS_NAME,
+          type && `${TOOLTIP_CLASS_NAME}--${type}`
+        )}
+      >
+        {dialogNode}
+      </Tooltip>
+    );
+  }
+
+  return dialogNode;
 };

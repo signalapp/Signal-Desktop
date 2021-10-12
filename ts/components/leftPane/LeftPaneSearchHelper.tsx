@@ -14,7 +14,7 @@ import { assert } from '../../util/assert';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
 //   search results for the container height. But (1) that's slow (2) the list is
-//   virtualized (3) 99 rows is over 6000px tall, taller than most monitors (4) it's fine
+//   virtualized (3) 99 rows is over 7500px tall, taller than most monitors (4) it's fine
 //   if, in some extremely tall window, we have some empty space. So we just hard-code a
 //   fairly big number.
 const SEARCH_RESULTS_FAKE_ROW_COUNT = 99;

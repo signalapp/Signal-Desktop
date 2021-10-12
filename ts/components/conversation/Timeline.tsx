@@ -20,6 +20,8 @@ import { AssertProps, LocalizerType } from '../../types/Util';
 import { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
+import { createRefMerger } from '../../util/refMerger';
+import { WidthBreakpoint } from '../_util';
 
 import { PropsActions as MessageActionsType } from './Message';
 import { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
@@ -106,6 +108,7 @@ type PropsHousekeepingType = {
   renderItem: (props: {
     actionProps: PropsActionsType;
     containerElementRef: RefObject<HTMLElement>;
+    containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
     messageId: string;
     nextMessageId: undefined | string;
@@ -207,6 +210,8 @@ type StateType = {
   atTop: boolean;
   oneTimeScrollRow?: number;
 
+  widthBreakpoint: WidthBreakpoint;
+
   prevPropScrollToIndex?: number;
   prevPropScrollToIndexCounter?: number;
   propScrollToIndex?: number;
@@ -307,6 +312,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
   public loadCountdownTimeout: NodeJS.Timeout | null = null;
 
+  private containerRefMerger = createRefMerger();
+
   constructor(props: PropsType) {
     super(props);
 
@@ -328,6 +335,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       areUnreadBelowCurrentPosition: false,
       hasDismissedDirectContactSpoofingWarning: false,
       lastMeasuredWarningHeight: 0,
+      // This may be swiftly overridden.
+      widthBreakpoint: WidthBreakpoint.Wide,
     };
   }
 
@@ -740,7 +749,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       unblurAvatar,
       updateSharedGroups,
     } = this.props;
-    const { lastMeasuredWarningHeight } = this.state;
+    const { lastMeasuredWarningHeight, widthBreakpoint } = this.state;
 
     const styleWithWidth = {
       ...style,
@@ -813,6 +822,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
             {renderItem({
               actionProps,
               containerElementRef: this.containerRef,
+              containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
               messageId,
               nextMessageId,
@@ -1324,6 +1334,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const {
       shouldShowScrollDownButton,
       areUnreadBelowCurrentPosition,
+      widthBreakpoint,
     } = this.state;
 
     const rowCount = this.getRowCount();
@@ -1515,30 +1526,42 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     return (
       <>
-        <div
-          className={classNames(
-            'module-timeline',
-            isGroupV1AndDisabled ? 'module-timeline--disabled' : null
-          )}
-          role="presentation"
-          tabIndex={-1}
-          onBlur={this.handleBlur}
-          onKeyDown={this.handleKeyDown}
-          ref={this.containerRef}
+        <Measure
+          bounds
+          onResize={({ bounds }) => {
+            this.setState({
+              widthBreakpoint: getWidthBreakpoint(bounds?.width || 0),
+            });
+          }}
         >
-          {timelineWarning}
+          {({ measureRef }) => (
+            <div
+              className={classNames(
+                'module-timeline',
+                isGroupV1AndDisabled ? 'module-timeline--disabled' : null,
+                `module-timeline--width-${widthBreakpoint}`
+              )}
+              role="presentation"
+              tabIndex={-1}
+              onBlur={this.handleBlur}
+              onKeyDown={this.handleKeyDown}
+              ref={this.containerRefMerger(measureRef)}
+            >
+              {timelineWarning}
 
-          {autoSizer}
+              {autoSizer}
 
-          {shouldShowScrollDownButton ? (
-            <ScrollDownButton
-              conversationId={id}
-              withNewMessages={areUnreadBelowCurrentPosition}
-              scrollDown={this.onClickScrollDownButton}
-              i18n={i18n}
-            />
-          ) : null}
-        </div>
+              {shouldShowScrollDownButton ? (
+                <ScrollDownButton
+                  conversationId={id}
+                  withNewMessages={areUnreadBelowCurrentPosition}
+                  scrollDown={this.onClickScrollDownButton}
+                  i18n={i18n}
+                />
+              ) : null}
+            </div>
+          )}
+        </Measure>
 
         {Boolean(invitedContactsForNewlyCreatedGroup.length) && (
           <NewlyCreatedGroupInvitedContactsDialog
@@ -1577,4 +1600,14 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         throw missingCaseError(warning);
     }
   }
+}
+
+function getWidthBreakpoint(width: number): WidthBreakpoint {
+  if (width > 606) {
+    return WidthBreakpoint.Wide;
+  }
+  if (width > 514) {
+    return WidthBreakpoint.Medium;
+  }
+  return WidthBreakpoint.Narrow;
 }

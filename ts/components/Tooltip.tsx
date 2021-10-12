@@ -68,6 +68,7 @@ export enum TooltipPlacement {
 
 export type PropsType = {
   content: string | JSX.Element;
+  className?: string;
   direction?: TooltipPlacement;
   sticky?: boolean;
   theme?: Theme;
@@ -75,6 +76,7 @@ export type PropsType = {
 
 export const Tooltip: React.FC<PropsType> = ({
   children,
+  className,
   content,
   direction,
   sticky,
@@ -101,7 +103,11 @@ export const Tooltip: React.FC<PropsType> = ({
         {({ arrowProps, placement, ref, style }) =>
           showTooltip && (
             <div
-              className={classNames('module-tooltip', tooltipThemeClassName)}
+              className={classNames(
+                'module-tooltip',
+                tooltipThemeClassName,
+                className
+              )}
               ref={ref}
               style={style}
               data-placement={placement}

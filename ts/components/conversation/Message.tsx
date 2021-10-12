@@ -34,6 +34,7 @@ import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
 import { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
+import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 
 import {
@@ -194,6 +195,7 @@ export type PropsData = {
 
 export type PropsHousekeeping = {
   containerElementRef: RefObject<HTMLElement>;
+  containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme?: ThemeType;
@@ -1450,9 +1452,13 @@ export class Message extends React.PureComponent<Props, State> {
             `module-message__buttons--${direction}`
           )}
         >
-          {canReply ? reactButton : null}
-          {canDownload ? downloadButton : null}
-          {canReply ? replyButton : null}
+          {this.shouldShowAdditionalMenuButtons() && (
+            <>
+              {canReply ? reactButton : null}
+              {canDownload ? downloadButton : null}
+              {canReply ? replyButton : null}
+            </>
+          )}
           {menuButton}
         </div>
         {reactionPickerRoot &&
@@ -1523,6 +1529,7 @@ export class Message extends React.PureComponent<Props, State> {
     const menu = (
       <ContextMenu id={triggerId}>
         {canDownload &&
+        !this.shouldShowAdditionalMenuButtons() &&
         !isSticker &&
         !multipleAttachments &&
         !isTapToView &&
@@ -1538,7 +1545,7 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
-        {canReply ? (
+        {canReply && !this.shouldShowAdditionalMenuButtons() ? (
           <>
             <MenuItem
               attributes={{
@@ -1650,6 +1657,11 @@ export class Message extends React.PureComponent<Props, State> {
     );
 
     return ReactDOM.createPortal(menu, document.body);
+  }
+
+  private shouldShowAdditionalMenuButtons(): boolean {
+    const { containerWidthBreakpoint } = this.props;
+    return containerWidthBreakpoint !== WidthBreakpoint.Narrow;
   }
 
   public getWidth(): number | undefined {

@@ -8,16 +8,19 @@ import { Spinner } from './Spinner';
 import { LocalizerType } from '../types/Util';
 import { SocketStatus } from '../types/SocketStatus';
 import { NetworkStateType } from '../state/ducks/network';
+import type { WidthBreakpoint } from './_util';
 
 const FIVE_SECONDS = 5 * 1000;
 
 export type PropsType = NetworkStateType & {
+  containerWidthBreakpoint: WidthBreakpoint;
   hasNetworkDialog: boolean;
   i18n: LocalizerType;
   manualReconnect: () => void;
 };
 
 export const DialogNetworkStatus = ({
+  containerWidthBreakpoint,
   hasNetworkDialog,
   i18n,
   isOnline,
@@ -70,6 +73,7 @@ export const DialogNetworkStatus = ({
 
     return (
       <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
         icon={spinner}
         title={i18n('connecting')}
@@ -80,6 +84,7 @@ export const DialogNetworkStatus = ({
 
   return (
     <LeftPaneDialog
+      containerWidthBreakpoint={containerWidthBreakpoint}
       type="warning"
       icon="network"
       title={isOnline ? i18n('disconnected') : i18n('offline')}

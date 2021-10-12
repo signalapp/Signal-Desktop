@@ -4,3 +4,14 @@
 export function cleanId(id: string): string {
   return id.replace(/[^\u0020-\u007e\u00a0-\u00ff]/g, '_');
 }
+
+export enum WidthBreakpoint {
+  Wide = 'wide',
+  Medium = 'medium',
+  Narrow = 'narrow',
+}
+
+export const getConversationListWidthBreakpoint = (
+  width: number
+): WidthBreakpoint =>
+  width >= 150 ? WidthBreakpoint.Wide : WidthBreakpoint.Narrow;

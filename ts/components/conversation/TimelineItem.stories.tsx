@@ -14,6 +14,7 @@ import { UniversalTimerNotification } from './UniversalTimerNotification';
 import { CallMode } from '../../types/Calling';
 import { AvatarColors } from '../../types/Colors';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { WidthBreakpoint } from '../_util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -46,6 +47,7 @@ const renderUniversalTimerNotification = () => (
 
 const getDefaultProps = () => ({
   containerElementRef: React.createRef<HTMLElement>(),
+  containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationId: 'conversation-id',
   id: 'asdf',
   isSelected: false,

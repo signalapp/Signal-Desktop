@@ -1,9 +1,10 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import Measure, { MeasuredComponentProps } from 'react-measure';
-import { isNumber } from 'lodash';
+import classNames from 'classnames';
+import { clamp, isNumber, noop } from 'lodash';
 
 import {
   LeftPaneHelper,
@@ -39,6 +40,7 @@ import * as OS from '../OS';
 import { LocalizerType, ScrollBehavior } from '../types/Util';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
+import { getConversationListWidthBreakpoint, WidthBreakpoint } from './_util';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
@@ -48,6 +50,11 @@ import {
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,
 } from '../types/Avatar';
+
+const MIN_WIDTH = 119;
+const MIN_SNAP_WIDTH = 280;
+const MIN_FULL_WIDTH = 320;
+const MAX_WIDTH = 380;
 
 export enum LeftPaneMode {
   Inbox,
@@ -82,9 +89,11 @@ export type PropsType = {
         mode: LeftPaneMode.SetGroupMetadata;
       } & LeftPaneSetGroupMetadataPropsType);
   i18n: LocalizerType;
+  preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
   regionCode: string;
+  canResizeLeftPane: boolean;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
 
@@ -101,6 +110,7 @@ export type PropsType = {
     messageId?: string;
     switchToAssociatedView?: boolean;
   }) => void;
+  savePreferredLeftPaneWidth: (_: number) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
   setComposeGroupName: (_: string) => void;
@@ -117,17 +127,26 @@ export type PropsType = {
   toggleComposeEditingAvatar: () => unknown;
 
   // Render Props
-  renderExpiredBuildDialog: () => JSX.Element;
+  renderExpiredBuildDialog: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
   renderMainHeader: () => JSX.Element;
   renderMessageSearchResult: (id: string) => JSX.Element;
-  renderNetworkStatus: () => JSX.Element;
-  renderRelinkDialog: () => JSX.Element;
-  renderUpdateDialog: () => JSX.Element;
+  renderNetworkStatus: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
+  renderRelinkDialog: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
+  renderUpdateDialog: (
+    _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+  ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
 };
 
 export const LeftPane: React.FC<PropsType> = ({
   cantAddContactToGroup,
+  canResizeLeftPane,
   challengeStatus,
   clearGroupCreationError,
   closeCantAddContactToGroupModal,
@@ -140,6 +159,7 @@ export const LeftPane: React.FC<PropsType> = ({
   i18n,
   modeSpecificProps,
   openConversationInternal,
+  preferredWidthFromStorage,
   renderCaptchaDialog,
   renderExpiredBuildDialog,
   renderMainHeader,
@@ -147,6 +167,7 @@ export const LeftPane: React.FC<PropsType> = ({
   renderNetworkStatus,
   renderRelinkDialog,
   renderUpdateDialog,
+  savePreferredLeftPaneWidth,
   selectedConversationId,
   selectedMessageId,
   setChallengeStatus,
@@ -163,6 +184,12 @@ export const LeftPane: React.FC<PropsType> = ({
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
 }) => {
+  const [preferredWidth, setPreferredWidth] = useState(
+    // This clamp is present just in case we get a bogus value from storage.
+    clamp(preferredWidthFromStorage, MIN_WIDTH, MAX_WIDTH)
+  );
+  const [isResizing, setIsResizing] = useState(false);
+
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -349,6 +376,70 @@ export const LeftPane: React.FC<PropsType> = ({
     startComposing,
   ]);
 
+  const requiresFullWidth = helper.requiresFullWidth();
+
+  useEffect(() => {
+    if (!isResizing) {
+      return noop;
+    }
+
+    const onMouseMove = (event: MouseEvent) => {
+      let width: number;
+      if (requiresFullWidth) {
+        width = Math.max(event.clientX, MIN_FULL_WIDTH);
+      } else if (event.clientX < MIN_SNAP_WIDTH) {
+        width = MIN_WIDTH;
+      } else {
+        width = Math.max(event.clientX, MIN_WIDTH);
+      }
+      setPreferredWidth(Math.min(width, MAX_WIDTH));
+
+      event.preventDefault();
+    };
+
+    const onMouseUp = () => {
+      setIsResizing(false);
+    };
+
+    document.body.addEventListener('mousemove', onMouseMove);
+    document.body.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      document.body.removeEventListener('mousemove', onMouseMove);
+      document.body.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [isResizing, requiresFullWidth]);
+
+  useEffect(() => {
+    if (!isResizing) {
+      return noop;
+    }
+
+    document.body.classList.add('is-resizing-left-pane');
+    return () => {
+      document.body.classList.remove('is-resizing-left-pane');
+    };
+  }, [isResizing]);
+
+  useEffect(() => {
+    if (isResizing || preferredWidth === preferredWidthFromStorage) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      savePreferredLeftPaneWidth(preferredWidth);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [
+    isResizing,
+    preferredWidth,
+    preferredWidthFromStorage,
+    savePreferredLeftPaneWidth,
+  ]);
+
   const preRowsNode = helper.getPreRowsNode({
     clearGroupCreationError,
     closeCantAddContactToGroupModal,
@@ -392,6 +483,15 @@ export const LeftPane: React.FC<PropsType> = ({
     selectedConversationId
   );
 
+  let width: number;
+  if (requiresFullWidth) {
+    width = Math.max(preferredWidth, MIN_FULL_WIDTH);
+  } else if (preferredWidth < MIN_SNAP_WIDTH) {
+    width = MIN_WIDTH;
+  } else {
+    width = preferredWidth;
+  }
+
   const isScrollable = helper.isScrollable();
 
   let rowIndexToScrollTo: undefined | number;
@@ -413,13 +513,22 @@ export const LeftPane: React.FC<PropsType> = ({
   //   It also ensures that we scroll to the top when switching views.
   const listKey = preRowsNode ? 1 : 0;
 
+  const widthBreakpoint = getConversationListWidthBreakpoint(width);
+
   // We disable this lint rule because we're trying to capture bubbled events. See [the
   //   lint rule's docs][0].
   //
   // [0]: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/645900a0e296ca7053dbf6cd9e12cc85849de2d5/docs/rules/no-static-element-interactions.md#case-the-event-handler-is-only-being-used-to-capture-bubbled-events
   /* eslint-disable jsx-a11y/no-static-element-interactions */
   return (
-    <div className="module-left-pane">
+    <div
+      className={classNames(
+        'module-left-pane',
+        isResizing && 'module-left-pane--is-resizing',
+        `module-left-pane--width-${widthBreakpoint}`
+      )}
+      style={{ width }}
+    >
       {/* eslint-enable jsx-a11y/no-static-element-interactions */}
       <div className="module-left-pane__header">
         {helper.getHeaderContents({
@@ -429,10 +538,10 @@ export const LeftPane: React.FC<PropsType> = ({
           showChooseGroupMembers,
         }) || renderMainHeader()}
       </div>
-      {renderExpiredBuildDialog()}
-      {renderRelinkDialog()}
-      {renderNetworkStatus()}
-      {renderUpdateDialog()}
+      {renderExpiredBuildDialog({ containerWidthBreakpoint: widthBreakpoint })}
+      {renderRelinkDialog({ containerWidthBreakpoint: widthBreakpoint })}
+      {renderNetworkStatus({ containerWidthBreakpoint: widthBreakpoint })}
+      {renderUpdateDialog({ containerWidthBreakpoint: widthBreakpoint })}
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
       <Measure bounds>
         {({ contentRect, measureRef }: MeasuredComponentProps) => (
@@ -488,6 +597,17 @@ export const LeftPane: React.FC<PropsType> = ({
       </Measure>
       {footerContents && (
         <div className="module-left-pane__footer">{footerContents}</div>
+      )}
+      {canResizeLeftPane && (
+        <>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div
+            className="module-left-pane__resize-grab-area"
+            onMouseDown={() => {
+              setIsResizing(true);
+            }}
+          />
+        </>
       )}
       {challengeStatus !== 'idle' &&
         renderCaptchaDialog({

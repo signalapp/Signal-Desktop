@@ -230,6 +230,13 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     this.setFocus();
   };
 
+  private handleInputBlur = (): void => {
+    const { clearSearch, searchConversationId, searchTerm } = this.props;
+    if (!searchConversationId && !searchTerm) {
+      clearSearch();
+    }
+  };
+
   public handleInputKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
@@ -478,6 +485,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
             )}
             placeholder={placeholder}
             dir="auto"
+            onBlur={this.handleInputBlur}
             onKeyDown={this.handleInputKeyDown}
             value={searchTerm}
             onChange={this.updateSearch}

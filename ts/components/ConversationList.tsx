@@ -9,6 +9,7 @@ import { get, pick } from 'lodash';
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
 import { LocalizerType, ScrollBehavior } from '../types/Util';
+import { getConversationListWidthBreakpoint } from './_util';
 
 import {
   ConversationListItem,
@@ -134,7 +135,7 @@ export type PropsType = {
   startNewConversationFromPhoneNumber: (e164: string) => void;
 };
 
-const NORMAL_ROW_HEIGHT = 68;
+const NORMAL_ROW_HEIGHT = 76;
 const HEADER_ROW_HEIGHT = 40;
 
 export const ConversationList: React.FC<PropsType> = ({
@@ -193,6 +194,7 @@ export const ConversationList: React.FC<PropsType> = ({
         case RowType.ArchiveButton:
           result = (
             <button
+              aria-label={i18n('archivedConversations')}
               className="module-conversation-list__item--archive-button"
               onClick={onClickArchiveButton}
               type="button"
@@ -345,11 +347,14 @@ export const ConversationList: React.FC<PropsType> = ({
     return null;
   }
 
+  const widthBreakpoint = getConversationListWidthBreakpoint(width);
+
   return (
     <List
       className={classNames(
         'module-conversation-list',
-        `module-conversation-list--scroll-behavior-${scrollBehavior}`
+        `module-conversation-list--scroll-behavior-${scrollBehavior}`,
+        `module-conversation-list--width-${widthBreakpoint}`
       )}
       height={height}
       ref={listRef}

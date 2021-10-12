@@ -35,6 +35,10 @@ body {
     background-color: $color-gray-95;
     color: $color-gray-05;
   }
+
+  &.is-resizing-left-pane {
+    cursor: col-resize;
+  }
 }
 
 ::-webkit-scrollbar {

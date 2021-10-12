@@ -23,6 +23,7 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { WidthBreakpoint } from '../_util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -39,6 +40,7 @@ const defaultMessageProps: MessagesProps = {
   checkForAccount: action('checkForAccount'),
   clearSelectedMessage: action('default--clearSelectedMessage'),
   containerElementRef: React.createRef<HTMLElement>(),
+  containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor: 'crimson',
   conversationId: 'conversationId',
   conversationType: 'direct', // override

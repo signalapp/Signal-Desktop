@@ -11,15 +11,26 @@
 }
 
 .LeftPaneDialog {
+  $default-background-color: $color-ultramarine;
+  $default-text-color: $color-white;
+  $error-background-color: $color-accent-red;
+  $error-text-color: $default-text-color;
+  $warning-background-color: $color-accent-yellow;
+  $warning-text-color: $color-black;
+
   align-items: center;
-  background: $color-ultramarine;
-  color: $color-white;
+  background: $default-background-color;
+  color: $default-text-color;
   display: flex;
   width: 100%;
   min-height: 64px;
   padding: 12px 18px;
   user-select: none;
   cursor: inherit;
+
+  .module-left-pane--width-narrow & {
+    padding-left: 36px;
+  }
 
   &--clickable {
     cursor: pointer;
@@ -34,6 +45,10 @@
   &__container-close {
     display: flex;
     justify-content: flex-end;
+
+    .module-left-pane--width-narrow & {
+      display: none;
+    }
   }
 
   &__spinner-container {
@@ -74,6 +89,11 @@
     &--update {
       -webkit-mask: url('../images/icons/v2/refresh-24.svg') no-repeat center;
     }
+
+    &--warning {
+      -webkit-mask: url('../images/icons/v2/warning-outline-24.svg') no-repeat
+        center;
+    }
   }
 
   &__action-text {
@@ -110,6 +130,13 @@
   &__message {
     width: 100%;
 
+    .module-left-pane--width-narrow & {
+      display: none;
+    }
+  }
+
+  &__message,
+  &__tooltip {
     h3 {
       @include font-body-1-bold;
       padding: 0px;
@@ -127,12 +154,13 @@
   }
 
   &--error {
-    background-color: $color-accent-red;
+    background-color: $error-background-color;
+    color: $error-text-color;
   }
 
   &--warning {
-    background-color: $color-accent-yellow;
-    color: $color-black;
+    background-color: $warning-background-color;
+    color: $warning-text-color;
 
     a {
       color: $color-black;
@@ -172,6 +200,23 @@
       display: block;
       height: 100%;
       transition: width 500ms ease-out;
+    }
+  }
+
+  &__tooltip {
+    --tooltip-background-color: #{$default-background-color};
+    --tooltip-text-color: #{$default-text-color};
+    min-width: 280px;
+    text-align: inherit;
+
+    &--error {
+      --tooltip-text-color: #{$error-text-color};
+      --tooltip-background-color: #{$error-background-color};
+    }
+
+    &--warning {
+      --tooltip-text-color: #{$warning-text-color};
+      --tooltip-background-color: #{$warning-background-color};
     }
   }
 }

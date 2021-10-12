@@ -30,6 +30,8 @@ export type ItemsStateType = {
 
   readonly customColors?: CustomColorsItemType;
 
+  readonly preferredLeftPaneWidth?: number;
+
   readonly preferredReactionEmoji?: Array<string>;
 };
 
@@ -76,6 +78,7 @@ export const actions = {
   editCustomColor,
   removeCustomColor,
   resetDefaultChatColor,
+  savePreferredLeftPaneWidth,
   setGlobalDefaultConversationColor,
   onSetSkinTone,
   putItem,
@@ -253,6 +256,14 @@ function setGlobalDefaultConversationColor(
       })
     );
     reloadSelectedConversation();
+  };
+}
+
+function savePreferredLeftPaneWidth(
+  preferredWidth: number
+): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
+  return dispatch => {
+    dispatch(putItem('preferredLeftPaneWidth', preferredWidth));
   };
 }
 

@@ -16,6 +16,7 @@ import {
 } from '../../../state/ducks/search';
 import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user';
 import {
+  getIsSearchingInAConversation,
   getMessageSearchResultSelector,
   getSearchResults,
 } from '../../../state/selectors/search';
@@ -67,6 +68,27 @@ describe('both/state/selectors/search', () => {
       snippet: 'foo bar',
     };
   }
+
+  describe('#getIsSearchingInAConversation', () => {
+    it('returns false if not searching in a conversation', () => {
+      const state = getEmptyRootState();
+
+      assert.isFalse(getIsSearchingInAConversation(state));
+    });
+
+    it('returns true if searching in a conversation', () => {
+      const state = {
+        ...getEmptyRootState(),
+        search: {
+          ...getEmptySearchState(),
+          searchConversationId: 'abc123',
+          searchConversationName: 'Test Conversation',
+        },
+      };
+
+      assert.isTrue(getIsSearchingInAConversation(state));
+    });
+  });
 
   describe('#getMessageSearchResultSelector', () => {
     it('returns undefined if message not found in lookup', () => {

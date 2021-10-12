@@ -132,6 +132,7 @@ export type StorageAccessType = {
   senderCertificateNoE164: SerializedCertificateType;
   paymentAddress: string;
   zoomFactor: ZoomFactorType;
+  preferredLeftPaneWidth: number;
 
   // Deprecated
   senderCertificateWithUuid: never;

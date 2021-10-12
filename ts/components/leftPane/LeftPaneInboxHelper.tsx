@@ -15,6 +15,8 @@ export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
+  isAboutToSearchInAConversation: boolean;
+  startSearchCounter: number;
 };
 
 /* eslint-disable class-methods-use-this */
@@ -26,16 +28,24 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
 
+  private readonly isAboutToSearchInAConversation: boolean;
+
+  private readonly startSearchCounter: number;
+
   constructor({
     conversations,
     archivedConversations,
     pinnedConversations,
+    isAboutToSearchInAConversation,
+    startSearchCounter,
   }: Readonly<LeftPaneInboxPropsType>) {
     super();
 
     this.conversations = conversations;
     this.archivedConversations = archivedConversations;
     this.pinnedConversations = pinnedConversations;
+    this.isAboutToSearchInAConversation = isAboutToSearchInAConversation;
+    this.startSearchCounter = startSearchCounter;
   }
 
   getRowCount(): number {
@@ -174,6 +184,18 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     }
 
     return undefined;
+  }
+
+  requiresFullWidth(): boolean {
+    const hasNoConversations =
+      !this.conversations.length &&
+      !this.pinnedConversations.length &&
+      !this.archivedConversations.length;
+    return (
+      hasNoConversations ||
+      this.isAboutToSearchInAConversation ||
+      Boolean(this.startSearchCounter)
+    );
   }
 
   shouldRecomputeRowHeights(old: Readonly<LeftPaneInboxPropsType>): boolean {

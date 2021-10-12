@@ -9,8 +9,9 @@ export const SearchResultsLoadingFakeRow: FunctionComponent<PropsType> = () => (
   <div className="module-SearchResultsLoadingFakeRow">
     <div className="module-SearchResultsLoadingFakeRow__avatar" />
     <div className="module-SearchResultsLoadingFakeRow__content">
-      <div className="module-SearchResultsLoadingFakeRow__content__header" />
-      <div className="module-SearchResultsLoadingFakeRow__content__message" />
+      <div className="module-SearchResultsLoadingFakeRow__content__line" />
+      <div className="module-SearchResultsLoadingFakeRow__content__line" />
+      <div className="module-SearchResultsLoadingFakeRow__content__line" />
     </div>
   </div>
 );

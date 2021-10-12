@@ -72,12 +72,15 @@ const defaultModeSpecificProps = {
   pinnedConversations,
   conversations: defaultConversations,
   archivedConversations: defaultArchivedConversations,
+  isAboutToSearchInAConversation: false,
+  startSearchCounter: 0,
 };
 
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   cantAddContactToGroup: action('cantAddContactToGroup'),
+  canResizeLeftPane: true,
   clearGroupCreationError: action('clearGroupCreationError'),
   closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
   closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
@@ -88,6 +91,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   createGroup: action('createGroup'),
   i18n,
   modeSpecificProps: defaultModeSpecificProps,
+  preferredWidthFromStorage: 320,
   openConversationInternal: action('openConversationInternal'),
   regionCode: 'US',
   challengeStatus: select(
@@ -125,6 +129,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
   selectedConversationId: undefined,
   selectedMessageId: undefined,
+  savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
   setComposeSearchTerm: action('setComposeSearchTerm'),
   setComposeGroupAvatar: action('setComposeGroupAvatar'),
   setComposeGroupName: action('setComposeGroupName'),
@@ -155,6 +160,8 @@ story.add('Inbox: no conversations', () => (
         pinnedConversations: [],
         conversations: [],
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -168,6 +175,8 @@ story.add('Inbox: only pinned conversations', () => (
         pinnedConversations,
         conversations: [],
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -181,6 +190,8 @@ story.add('Inbox: only non-pinned conversations', () => (
         pinnedConversations: [],
         conversations: defaultConversations,
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -194,6 +205,8 @@ story.add('Inbox: only archived conversations', () => (
         pinnedConversations: [],
         conversations: [],
         archivedConversations: defaultArchivedConversations,
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -207,6 +220,8 @@ story.add('Inbox: pinned and archived conversations', () => (
         pinnedConversations,
         conversations: [],
         archivedConversations: defaultArchivedConversations,
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -220,6 +235,8 @@ story.add('Inbox: non-pinned and archived conversations', () => (
         pinnedConversations: [],
         conversations: defaultConversations,
         archivedConversations: defaultArchivedConversations,
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -233,6 +250,8 @@ story.add('Inbox: pinned and non-pinned conversations', () => (
         pinnedConversations,
         conversations: defaultConversations,
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
     })}
   />
@@ -499,6 +518,8 @@ story.add('Captcha dialog: required', () => (
         pinnedConversations,
         conversations: defaultConversations,
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
       challengeStatus: 'required',
     })}
@@ -513,6 +534,8 @@ story.add('Captcha dialog: pending', () => (
         pinnedConversations,
         conversations: defaultConversations,
         archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
       },
       challengeStatus: 'pending',
     })}

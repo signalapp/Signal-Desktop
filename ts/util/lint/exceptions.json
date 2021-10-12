@@ -13323,21 +13323,21 @@
   {
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.js",
-    "line": "        this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "line": "        this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
+    "updated": "2021-10-08T17:39:41.541Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/views/inbox_view.js",
+    "line": "        this.$('.no-conversation-open').toggle(!isAnyConversationOpen);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-08T17:40:22.770Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/views/inbox_view.js",
     "line": "        this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "ts/views/inbox_view.js",
-    "line": "        this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
@@ -13407,21 +13407,21 @@
   {
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
+    "line": "    this.$('.no-conversation-open').toggle(!isAnyConversationOpen);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
+    "updated": "2021-10-08T17:40:22.770Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "ts/views/inbox_view.ts",
+    "line": "    this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-08T17:40:22.770Z"
   },
   {
     "rule": "jQuery-append(",
     "path": "ts/views/inbox_view.ts",
     "line": "    this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('.left-pane-placeholder').append(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },

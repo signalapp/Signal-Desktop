@@ -18,6 +18,7 @@ import { ConversationType } from '../../state/ducks/conversations';
 import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
+import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 import { Timestamp } from './Timestamp';
 
@@ -301,6 +302,7 @@ export class MessageDetail extends React.Component<Props> {
             clearSelectedMessage={clearSelectedMessage}
             contactNameColor={contactNameColor}
             containerElementRef={this.messageContainerRef}
+            containerWidthBreakpoint={WidthBreakpoint.Wide}
             deleteMessage={() =>
               log.warn('MessageDetail: deleteMessage called!')
             }

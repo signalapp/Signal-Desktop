@@ -14,8 +14,14 @@ import { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
-import { getSearchResults, isSearching } from '../selectors/search';
+import {
+  getIsSearchingInAConversation,
+  getSearchResults,
+  getStartSearchCounter,
+  isSearching,
+} from '../selectors/search';
 import { getIntl, getRegionCode } from '../selectors/user';
+import { getPreferredLeftPaneWidth } from '../selectors/items';
 import {
   getCantAddContactForModal,
   getComposeAvatarData,
@@ -38,6 +44,7 @@ import {
   isCreatingGroup,
   isEditingAvatar,
 } from '../selectors/conversations';
+import type { WidthBreakpoint } from '../../components/_util';
 
 import { SmartExpiredBuildDialog } from './ExpiredBuildDialog';
 import { SmartMainHeader } from './MainHeader';
@@ -49,8 +56,10 @@ import { SmartCaptchaDialog } from './CaptchaDialog';
 
 const FilteredSmartMessageSearchResult = SmartMessageSearchResult;
 
-function renderExpiredBuildDialog(): JSX.Element {
-  return <SmartExpiredBuildDialog />;
+function renderExpiredBuildDialog(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return <SmartExpiredBuildDialog {...props} />;
 }
 function renderMainHeader(): JSX.Element {
   return <SmartMainHeader />;
@@ -58,14 +67,20 @@ function renderMainHeader(): JSX.Element {
 function renderMessageSearchResult(id: string): JSX.Element {
   return <FilteredSmartMessageSearchResult id={id} />;
 }
-function renderNetworkStatus(): JSX.Element {
-  return <SmartNetworkStatus />;
+function renderNetworkStatus(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return <SmartNetworkStatus {...props} />;
 }
-function renderRelinkDialog(): JSX.Element {
-  return <SmartRelinkDialog />;
+function renderRelinkDialog(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return <SmartRelinkDialog {...props} />;
 }
-function renderUpdateDialog(): JSX.Element {
-  return <SmartUpdateDialog />;
+function renderUpdateDialog(
+  props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
+): JSX.Element {
+  return <SmartUpdateDialog {...props} />;
 }
 function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
@@ -97,6 +112,8 @@ const getModeSpecificProps = (
       }
       return {
         mode: LeftPaneMode.Inbox,
+        isAboutToSearchInAConversation: getIsSearchingInAConversation(state),
+        startSearchCounter: getStartSearchCounter(state),
         ...getLeftPaneLists(state),
       };
     case ComposerStep.StartDirectConversation:
@@ -140,6 +157,10 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   return {
     modeSpecificProps: getModeSpecificProps(state),
+    canResizeLeftPane: window.Signal.RemoteConfig.isEnabled(
+      'desktop.internalUser'
+    ),
+    preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
     selectedMessageId: getSelectedMessage(state)?.id,
     showArchived: getShowArchived(state),

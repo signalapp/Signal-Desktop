@@ -6,12 +6,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 10px 14px;
+  margin: 2px 0;
 
   &__avatar {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 100%;
     @include search-results-loading-pulsating-background;
   }
@@ -23,13 +23,20 @@
     justify-content: center;
     margin-left: 12px;
 
-    &__header {
-      @include search-results-loading-box(50%);
-      margin-bottom: 8px;
-    }
+    &__line {
+      &:nth-child(1) {
+        @include search-results-loading-box(30%);
+        margin-bottom: 8px;
+      }
 
-    &__message {
-      @include search-results-loading-box(90%);
+      &:nth-child(2) {
+        @include search-results-loading-box(90%);
+        margin-bottom: 8px;
+      }
+
+      &:nth-child(3) {
+        @include search-results-loading-box(60%);
+      }
     }
   }
 }

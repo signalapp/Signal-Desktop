@@ -4,16 +4,19 @@
 import React from 'react';
 
 import { LocalizerType } from '../types/Util';
+import type { WidthBreakpoint } from './_util';
 
 import { LeftPaneDialog } from './LeftPaneDialog';
 
 export type PropsType = {
+  containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
   isRegistrationDone: boolean;
   relinkDevice: () => void;
 };
 
 export const DialogRelink = ({
+  containerWidthBreakpoint,
   i18n,
   isRegistrationDone,
   relinkDevice,
@@ -24,6 +27,7 @@ export const DialogRelink = ({
 
   return (
     <LeftPaneDialog
+      containerWidthBreakpoint={containerWidthBreakpoint}
       type="warning"
       icon="relink"
       clickLabel={i18n('unlinkedWarning')}

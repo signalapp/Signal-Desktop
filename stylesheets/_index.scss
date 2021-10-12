@@ -7,16 +7,10 @@
 
 .conversation-stack,
 .inbox,
-.inbox-container,
-.gutter {
+.no-conversation-open {
   height: 100%;
   overflow: hidden;
   position: relative;
-}
-
-.inbox {
-  display: flex;
-  flex-direction: column;
 }
 
 .scrollable {
@@ -24,37 +18,16 @@
   overflow: auto;
 }
 
-.gutter {
-  @include light-theme {
-    background-color: $color-gray-02;
-
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-02;
-    }
-  }
-  @include dark-theme {
-    background-color: $color-gray-80;
-
-    ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-80;
-    }
-  }
-
-  float: left;
-  width: $left-pane-width;
-  user-select: none;
-
-  .content {
-    overflow-y: scroll;
-    max-height: calc(100% - 88px);
-  }
+.no-conversation-open {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.left-pane-placeholder {
-  height: 100%;
-}
-.left-pane-wrapper {
-  height: 100%;
+.conversation-stack {
+  flex-grow: 1;
 }
 
 .conversation.placeholder {
@@ -62,7 +35,6 @@
   user-select: none;
 
   .container {
-    position: absolute;
     height: 100%;
     width: 100%;
     display: flex;

@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import {
   getEmojiSkinTone,
   getPinnedConversationIds,
+  getPreferredLeftPaneWidth,
   getPreferredReactionEmoji,
 } from '../../../state/selectors/items';
 import type { StateType } from '../../../state/reducer';
@@ -47,6 +48,32 @@ describe('both/state/selectors/items', () => {
         const state = getRootState({ skinTone });
         assert.strictEqual(getEmojiSkinTone(state), skinTone);
       });
+    });
+  });
+
+  describe('#getPreferredLeftPaneWidth', () => {
+    it('returns a default if no value is present', () => {
+      const state = getRootState({});
+      assert.strictEqual(getPreferredLeftPaneWidth(state), 320);
+    });
+
+    it('returns a default value if passed something invalid', () => {
+      [undefined, null, '250', [250], 250.123].forEach(
+        preferredLeftPaneWidth => {
+          const state = getRootState({
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            preferredLeftPaneWidth: preferredLeftPaneWidth as any,
+          });
+          assert.strictEqual(getPreferredLeftPaneWidth(state), 320);
+        }
+      );
+    });
+
+    it('returns the value in storage if it is valid', () => {
+      const state = getRootState({
+        preferredLeftPaneWidth: 345,
+      });
+      assert.strictEqual(getPreferredLeftPaneWidth(state), 345);
     });
   });
 

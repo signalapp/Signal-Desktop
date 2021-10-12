@@ -36,6 +36,7 @@ type PropsType = {
   messageId?: string;
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
+  messageTextIsAlwaysFullSize?: boolean;
   onClick?: () => void;
   unreadCount?: number;
 } & Pick<
@@ -71,6 +72,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     markedUnread,
     messageStatusIcon,
     messageText,
+    messageTextIsAlwaysFullSize,
     name,
     onClick,
     phoneNumber,
@@ -119,29 +121,22 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
 
     const contents = (
       <>
-        <div className={`${BASE_CLASS_NAME}__avatar-container`}>
-          <Avatar
-            acceptedMessageRequest={acceptedMessageRequest}
-            avatarPath={avatarPath}
-            color={color}
-            conversationType={conversationType}
-            noteToSelf={isAvatarNoteToSelf}
-            i18n={i18n}
-            isMe={isMe}
-            name={name}
-            phoneNumber={phoneNumber}
-            profileName={profileName}
-            title={title}
-            sharedGroupNames={sharedGroupNames}
-            size={AvatarSize.FIFTY_TWO}
-            unblurredAvatarPath={unblurredAvatarPath}
-          />
-          {isUnread && (
-            <div className={`${BASE_CLASS_NAME}__unread-count`}>
-              {formatUnreadCount(unreadCount)}
-            </div>
-          )}
-        </div>
+        <Avatar
+          acceptedMessageRequest={acceptedMessageRequest}
+          avatarPath={avatarPath}
+          color={color}
+          conversationType={conversationType}
+          noteToSelf={isAvatarNoteToSelf}
+          i18n={i18n}
+          isMe={isMe}
+          name={name}
+          phoneNumber={phoneNumber}
+          profileName={profileName}
+          title={title}
+          sharedGroupNames={sharedGroupNames}
+          size={AvatarSize.FORTY_EIGHT}
+          unblurredAvatarPath={unblurredAvatarPath}
+        />
         <div
           className={classNames(
             CONTENT_CLASS_NAME,
@@ -151,32 +146,36 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           <div className={HEADER_CLASS_NAME}>
             <div className={`${HEADER_CLASS_NAME}__name`}>{headerName}</div>
             {isNumber(headerDate) && (
-              <div
-                className={classNames(DATE_CLASS_NAME, {
-                  [`${DATE_CLASS_NAME}--has-unread`]: isUnread,
-                })}
-              >
+              <div className={DATE_CLASS_NAME}>
                 <Timestamp
                   timestamp={headerDate}
                   extended={false}
                   module={TIMESTAMP_CLASS_NAME}
-                  withUnread={isUnread}
                   i18n={i18n}
                 />
               </div>
             )}
           </div>
-          {messageText ? (
+          {messageText || isUnread ? (
             <div className={MESSAGE_CLASS_NAME}>
-              <div
-                dir="auto"
-                className={classNames(MESSAGE_TEXT_CLASS_NAME, {
-                  [`${MESSAGE_TEXT_CLASS_NAME}--has-unread`]: isUnread,
-                })}
-              >
-                {messageText}
-              </div>
+              {Boolean(messageText) && (
+                <div
+                  dir="auto"
+                  className={classNames(
+                    MESSAGE_TEXT_CLASS_NAME,
+                    messageTextIsAlwaysFullSize &&
+                      `${MESSAGE_TEXT_CLASS_NAME}--always-full-size`
+                  )}
+                >
+                  {messageText}
+                </div>
+              )}
               {messageStatusIcon}
+              {isUnread && (
+                <div className={`${BASE_CLASS_NAME}__unread-count`}>
+                  {formatUnreadCount(unreadCount)}
+                </div>
+              )}
             </div>
           ) : null}
         </div>
@@ -185,7 +184,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     );
 
     const commonClassNames = classNames(BASE_CLASS_NAME, {
-      [`${BASE_CLASS_NAME}--has-unread`]: isUnread,
       [`${BASE_CLASS_NAME}--is-selected`]: isSelected,
     });
 

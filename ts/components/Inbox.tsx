@@ -96,7 +96,7 @@ export const Inbox = ({
 
   return (
     <>
-      <div className="inbox index" ref={hostRef} />
+      <div className="Inbox" ref={hostRef} />
       {activeModal}
     </>
   );

@@ -46,6 +46,7 @@ import {
   invertIdsByTitle,
 } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import type { WidthBreakpoint } from '../../components/_util';
 
 type ExternalProps = {
   id: string;
@@ -109,6 +110,7 @@ const createBoundOnHeightChange = memoizee(
 function renderItem({
   actionProps,
   containerElementRef,
+  containerWidthBreakpoint,
   conversationId,
   messageId,
   nextMessageId,
@@ -117,6 +119,7 @@ function renderItem({
 }: {
   actionProps: TimelineActionsType;
   containerElementRef: RefObject<HTMLElement>;
+  containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
   messageId: string;
   nextMessageId: undefined | string;
@@ -127,6 +130,7 @@ function renderItem({
     <SmartTimelineItem
       {...actionProps}
       containerElementRef={containerElementRef}
+      containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
       messageId={messageId}
       previousMessageId={previousMessageId}

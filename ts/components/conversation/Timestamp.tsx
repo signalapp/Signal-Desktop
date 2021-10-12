@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -16,7 +16,6 @@ export type Props = {
   withImageNoCaption?: boolean;
   withSticker?: boolean;
   withTapToViewExpired?: boolean;
-  withUnread?: boolean;
   direction?: 'incoming' | 'outgoing';
   i18n: LocalizerType;
 };
@@ -58,7 +57,6 @@ export class Timestamp extends React.Component<Props> {
       withImageNoCaption,
       withSticker,
       withTapToViewExpired,
-      withUnread,
       extended,
     } = this.props;
     const moduleName = module || 'module-timestamp';
@@ -76,8 +74,7 @@ export class Timestamp extends React.Component<Props> {
             ? `${moduleName}--${direction}-with-tap-to-view-expired`
             : null,
           withImageNoCaption ? `${moduleName}--with-image-no-caption` : null,
-          withSticker ? `${moduleName}--with-sticker` : null,
-          withUnread ? `${moduleName}--with-unread` : null
+          withSticker ? `${moduleName}--with-sticker` : null
         )}
         title={moment(timestamp).format('llll')}
       >

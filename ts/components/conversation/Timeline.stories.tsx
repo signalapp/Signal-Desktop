@@ -21,6 +21,7 @@ import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
+import { WidthBreakpoint } from '../_util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -369,9 +370,11 @@ const actions = () => ({
 const renderItem = ({
   messageId,
   containerElementRef,
+  containerWidthBreakpoint,
 }: {
   messageId: string;
   containerElementRef: React.RefObject<HTMLElement>;
+  containerWidthBreakpoint: WidthBreakpoint;
 }) => (
   <TimelineItem
     id=""
@@ -384,6 +387,7 @@ const renderItem = ({
     i18n={i18n}
     interactionMode="keyboard"
     containerElementRef={containerElementRef}
+    containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""
     renderContact={() => '*ContactName*'}
     renderUniversalTimerNotification={() => (

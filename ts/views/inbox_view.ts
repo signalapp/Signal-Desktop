@@ -1,6 +1,7 @@
 // Copyright 2014-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import * as Backbone from 'backbone';
 import * as log from '../logging/log';
 import { ConversationModel } from '../models/conversations';
 import { showToast } from '../util/showToast';
@@ -9,12 +10,19 @@ import { ToastStickerPackInstallFailed } from '../components/ToastStickerPackIns
 window.Whisper = window.Whisper || {};
 const { Whisper } = window;
 
-const ConversationStack = Whisper.View.extend({
-  className: 'conversation-stack',
-  lastConversation: null,
-  open(conversation: ConversationModel, messageId: string) {
-    const id = `conversation-${conversation.cid}`;
-    if (id !== this.el.lastChild.id) {
+class ConversationStack extends Backbone.View {
+  public className = 'conversation-stack';
+
+  private conversationStack: Array<ConversationModel> = [];
+
+  private getTopConversation(): undefined | ConversationModel {
+    return this.conversationStack[this.conversationStack.length - 1];
+  }
+
+  public open(conversation: ConversationModel, messageId: string): void {
+    const topConversation = this.getTopConversation();
+
+    if (!topConversation || topConversation.id !== conversation.id) {
       const view = new Whisper.ConversationView({
         model: conversation,
       });
@@ -24,36 +32,43 @@ const ConversationStack = Whisper.View.extend({
       );
       view.$el.appendTo(this.el);
 
-      if (this.lastConversation && this.lastConversation !== conversation) {
-        this.lastConversation.trigger('unload', 'opened another conversation');
-        this.stopListening(this.lastConversation);
-        this.lastConversation = null;
+      if (topConversation) {
+        topConversation.trigger('unload', 'opened another conversation');
       }
 
-      this.lastConversation = conversation;
+      this.conversationStack.push(conversation);
+
       conversation.trigger('opened', messageId);
     } else if (messageId) {
       conversation.trigger('scroll-to-message', messageId);
     }
 
+    this.render();
+  }
+
+  public unload(): void {
+    this.getTopConversation()?.trigger('unload', 'force unload requested');
+  }
+
+  private onUnload(conversation: ConversationModel) {
+    this.stopListening(conversation);
+    this.conversationStack = this.conversationStack.filter(
+      (c: ConversationModel) => c !== conversation
+    );
+
+    this.render();
+  }
+
+  public render(): ConversationStack {
+    const isAnyConversationOpen = Boolean(this.conversationStack.length);
+    this.$('.no-conversation-open').toggle(!isAnyConversationOpen);
+
     // Make sure poppers are positioned properly
     window.dispatchEvent(new Event('resize'));
-  },
-  unload() {
-    const { lastConversation } = this;
-    if (!lastConversation) {
-      return;
-    }
 
-    lastConversation.trigger('unload', 'force unload requested');
-  },
-  onUnload(conversation: ConversationModel) {
-    if (this.lastConversation === conversation) {
-      this.stopListening(this.lastConversation);
-      this.lastConversation = null;
-    }
-  },
-});
+    return this;
+  }
+}
 
 const AppLoadingScreen = Whisper.View.extend({
   template: () => $('#app-loading-screen').html(),
@@ -71,7 +86,7 @@ const AppLoadingScreen = Whisper.View.extend({
 
 Whisper.InboxView = Whisper.View.extend({
   template: () => $('#two-column').html(),
-  className: 'inbox index',
+  className: 'Inbox',
   initialize(
     options: {
       initialLoadComplete?: boolean;
@@ -83,7 +98,6 @@ Whisper.InboxView = Whisper.View.extend({
 
     this.conversation_stack = new ConversationStack({
       el: this.$('.conversation-stack'),
-      model: { window: options.window },
     });
 
     this.renderWhatsNew();
@@ -166,7 +180,7 @@ Whisper.InboxView = Whisper.View.extend({
       JSX: window.Signal.State.Roots.createLeftPane(window.reduxStore),
     });
 
-    this.$('.left-pane-placeholder').append(this.leftPaneView.el);
+    this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);
   },
   startConnectionListener() {
     this.interval = setInterval(() => {

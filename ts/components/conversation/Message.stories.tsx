@@ -27,6 +27,7 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { pngUrl } from '../../storybook/Fixtures';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { WidthBreakpoint } from '../_util';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 
@@ -102,6 +103,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   clearSelectedMessage: action('clearSelectedMessage'),
   collapseMetadata: overrideProps.collapseMetadata,
   containerElementRef: React.createRef<HTMLElement>(),
+  containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor:
     overrideProps.conversationColor ||
     select('conversationColor', ConversationColors, ConversationColors[0]),

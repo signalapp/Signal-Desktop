@@ -93,6 +93,10 @@ export abstract class LeftPaneHelper<T> {
     return true;
   }
 
+  requiresFullWidth(): boolean {
+    return true;
+  }
+
   abstract getConversationAndMessageAtIndex(
     conversationIndex: number
   ): undefined | { conversationId: string; messageId?: string };

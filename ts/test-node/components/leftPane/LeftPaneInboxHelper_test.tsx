@@ -7,16 +7,23 @@ import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
-import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper';
+import {
+  LeftPaneInboxHelper,
+  LeftPaneInboxPropsType,
+} from '../../../components/leftPane/LeftPaneInboxHelper';
 
 describe('LeftPaneInboxHelper', () => {
+  const defaultProps: LeftPaneInboxPropsType = {
+    conversations: [],
+    pinnedConversations: [],
+    archivedConversations: [],
+    isAboutToSearchInAConversation: false,
+    startSearchCounter: 0,
+  };
+
   describe('getBackAction', () => {
     it("returns undefined; you can't go back from the main inbox", () => {
-      const helper = new LeftPaneInboxHelper({
-        conversations: [],
-        pinnedConversations: [],
-        archivedConversations: [],
-      });
+      const helper = new LeftPaneInboxHelper(defaultProps);
 
       assert.isUndefined(
         helper.getBackAction({
@@ -30,19 +37,14 @@ describe('LeftPaneInboxHelper', () => {
 
   describe('getRowCount', () => {
     it('returns 0 if there are no conversations', () => {
-      const helper = new LeftPaneInboxHelper({
-        conversations: [],
-        pinnedConversations: [],
-        archivedConversations: [],
-      });
+      const helper = new LeftPaneInboxHelper(defaultProps);
 
       assert.strictEqual(helper.getRowCount(), 0);
     });
 
     it('returns 1 if there are only archived conversations', () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
-        pinnedConversations: [],
+        ...defaultProps,
         archivedConversations: [getDefaultConversation()],
       });
 
@@ -51,13 +53,12 @@ describe('LeftPaneInboxHelper', () => {
 
     it("returns the number of non-pinned conversations if that's all there is", () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
           getDefaultConversation(),
         ],
-        pinnedConversations: [],
-        archivedConversations: [],
       });
 
       assert.strictEqual(helper.getRowCount(), 3);
@@ -65,13 +66,12 @@ describe('LeftPaneInboxHelper', () => {
 
     it("returns the number of pinned conversations if that's all there is", () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
+        ...defaultProps,
         pinnedConversations: [
           getDefaultConversation(),
           getDefaultConversation(),
           getDefaultConversation(),
         ],
-        archivedConversations: [],
       });
 
       assert.strictEqual(helper.getRowCount(), 3);
@@ -79,13 +79,13 @@ describe('LeftPaneInboxHelper', () => {
 
     it('adds 2 rows for each header if there are pinned and non-pinned conversations,', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
           getDefaultConversation(),
         ],
         pinnedConversations: [getDefaultConversation()],
-        archivedConversations: [],
       });
 
       assert.strictEqual(helper.getRowCount(), 6);
@@ -93,12 +93,12 @@ describe('LeftPaneInboxHelper', () => {
 
     it('adds 1 row for the archive button if there are any archived conversations', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
           getDefaultConversation(),
         ],
-        pinnedConversations: [],
         archivedConversations: [getDefaultConversation()],
       });
 
@@ -109,9 +109,9 @@ describe('LeftPaneInboxHelper', () => {
   describe('getRowIndexToScrollTo', () => {
     it('returns undefined if no conversation is selected', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [getDefaultConversation(), getDefaultConversation()],
         pinnedConversations: [getDefaultConversation()],
-        archivedConversations: [],
       });
 
       assert.isUndefined(helper.getRowIndexToScrollTo(undefined));
@@ -120,6 +120,7 @@ describe('LeftPaneInboxHelper', () => {
     it('returns undefined if the selected conversation is not pinned or non-pinned', () => {
       const archivedConversations = [getDefaultConversation()];
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [getDefaultConversation(), getDefaultConversation()],
         pinnedConversations: [getDefaultConversation()],
         archivedConversations,
@@ -136,9 +137,8 @@ describe('LeftPaneInboxHelper', () => {
         getDefaultConversation(),
       ];
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
+        ...defaultProps,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -157,9 +157,8 @@ describe('LeftPaneInboxHelper', () => {
         getDefaultConversation(),
       ];
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
-        pinnedConversations: [],
-        archivedConversations: [],
       });
 
       assert.strictEqual(helper.getRowIndexToScrollTo(conversations[0].id), 0);
@@ -172,9 +171,9 @@ describe('LeftPaneInboxHelper', () => {
         getDefaultConversation(),
       ];
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [getDefaultConversation()],
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -193,13 +192,13 @@ describe('LeftPaneInboxHelper', () => {
         getDefaultConversation(),
       ];
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations: [
           getDefaultConversation(),
           getDefaultConversation(),
           getDefaultConversation(),
         ],
-        archivedConversations: [],
       });
 
       assert.strictEqual(helper.getRowIndexToScrollTo(conversations[0].id), 5);
@@ -210,8 +209,7 @@ describe('LeftPaneInboxHelper', () => {
   describe('getRow', () => {
     it('returns the archive button if there are only archived conversations', () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
-        pinnedConversations: [],
+        ...defaultProps,
         archivedConversations: [
           getDefaultConversation(),
           getDefaultConversation(),
@@ -232,9 +230,8 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
+        ...defaultProps,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -255,7 +252,7 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
+        ...defaultProps,
         pinnedConversations,
         archivedConversations: [getDefaultConversation()],
       });
@@ -282,9 +279,8 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
-        pinnedConversations: [],
-        archivedConversations: [],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -305,8 +301,8 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
-        pinnedConversations: [],
         archivedConversations: [getDefaultConversation()],
       });
 
@@ -337,9 +333,9 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -385,6 +381,7 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations,
         archivedConversations: [getDefaultConversation()],
@@ -439,9 +436,9 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -473,9 +470,8 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
+        ...defaultProps,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -501,9 +497,8 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
-        pinnedConversations: [],
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -533,9 +528,9 @@ describe('LeftPaneInboxHelper', () => {
       ];
 
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.strictEqual(
@@ -556,8 +551,7 @@ describe('LeftPaneInboxHelper', () => {
 
     it('returns undefined if there are no conversations', () => {
       const helper = new LeftPaneInboxHelper({
-        conversations: [],
-        pinnedConversations: [],
+        ...defaultProps,
         archivedConversations: [getDefaultConversation()],
       });
 
@@ -575,9 +569,9 @@ describe('LeftPaneInboxHelper', () => {
       ];
       const conversations = [getDefaultConversation()];
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations,
         pinnedConversations,
-        archivedConversations: [],
       });
 
       assert.deepEqual(
@@ -593,9 +587,45 @@ describe('LeftPaneInboxHelper', () => {
     // Additional tests are found with `getConversationInDirection`.
   });
 
+  describe('requiresFullWidth', () => {
+    it("returns false if we're not about to search in a conversation and there's at least one", () => {
+      const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
+        conversations: [getDefaultConversation()],
+      });
+
+      assert.isFalse(helper.requiresFullWidth());
+    });
+
+    it('returns true if there are no conversations', () => {
+      const helper = new LeftPaneInboxHelper(defaultProps);
+
+      assert.isTrue(helper.requiresFullWidth());
+    });
+
+    it("returns true if we're about to search", () => {
+      const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
+        startSearchCounter: 1,
+      });
+
+      assert.isTrue(helper.requiresFullWidth());
+    });
+
+    it("returns true if we're about to search in a conversation", () => {
+      const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
+        isAboutToSearchInAConversation: true,
+      });
+
+      assert.isTrue(helper.requiresFullWidth());
+    });
+  });
+
   describe('shouldRecomputeRowHeights', () => {
     it("returns false if the number of conversations in each section doesn't change", () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
@@ -610,6 +640,7 @@ describe('LeftPaneInboxHelper', () => {
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [
             getDefaultConversation(),
             getDefaultConversation(),
@@ -629,6 +660,7 @@ describe('LeftPaneInboxHelper', () => {
 
     it('returns false if the only thing changed is whether conversations are archived', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
@@ -643,6 +675,7 @@ describe('LeftPaneInboxHelper', () => {
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [
             getDefaultConversation(),
             getDefaultConversation(),
@@ -652,13 +685,13 @@ describe('LeftPaneInboxHelper', () => {
             getDefaultConversation(),
             getDefaultConversation(),
           ],
-          archivedConversations: [],
         })
       );
     });
 
     it('returns false if the only thing changed is the number of non-pinned conversations', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [
           getDefaultConversation(),
           getDefaultConversation(),
@@ -673,6 +706,7 @@ describe('LeftPaneInboxHelper', () => {
 
       assert.isFalse(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [getDefaultConversation()],
           pinnedConversations: [
             getDefaultConversation(),
@@ -688,6 +722,7 @@ describe('LeftPaneInboxHelper', () => {
 
     it('returns true if the number of pinned conversations changes', () => {
       const helper = new LeftPaneInboxHelper({
+        ...defaultProps,
         conversations: [getDefaultConversation()],
         pinnedConversations: [
           getDefaultConversation(),
@@ -698,6 +733,7 @@ describe('LeftPaneInboxHelper', () => {
 
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [getDefaultConversation()],
           pinnedConversations: [
             getDefaultConversation(),
@@ -709,6 +745,7 @@ describe('LeftPaneInboxHelper', () => {
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [getDefaultConversation()],
           pinnedConversations: [getDefaultConversation()],
           archivedConversations: [getDefaultConversation()],
@@ -716,6 +753,7 @@ describe('LeftPaneInboxHelper', () => {
       );
       assert.isTrue(
         helper.shouldRecomputeRowHeights({
+          ...defaultProps,
           conversations: [getDefaultConversation()],
           pinnedConversations: [],
           archivedConversations: [getDefaultConversation()],

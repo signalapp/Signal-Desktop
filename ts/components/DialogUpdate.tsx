@@ -8,8 +8,10 @@ import { DialogType } from '../types/Dialogs';
 import { LocalizerType } from '../types/Util';
 import { Intl } from './Intl';
 import { LeftPaneDialog } from './LeftPaneDialog';
+import type { WidthBreakpoint } from './_util';
 
 export type PropsType = {
+  containerWidthBreakpoint: WidthBreakpoint;
   dialogType: DialogType;
   didSnooze: boolean;
   dismissDialog: () => void;
@@ -24,6 +26,7 @@ export type PropsType = {
 };
 
 export const DialogUpdate = ({
+  containerWidthBreakpoint,
   dialogType,
   didSnooze,
   dismissDialog,
@@ -49,7 +52,11 @@ export const DialogUpdate = ({
 
   if (dialogType === DialogType.Cannot_Update) {
     return (
-      <LeftPaneDialog type="warning" title={i18n('cannotUpdate')}>
+      <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        type="warning"
+        title={i18n('cannotUpdate')}
+      >
         <span>
           <Intl
             components={[
@@ -73,6 +80,7 @@ export const DialogUpdate = ({
   if (dialogType === DialogType.MacOS_Read_Only) {
     return (
       <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
         type="warning"
         title={i18n('cannotUpdate')}
         hasXButton
@@ -113,7 +121,12 @@ export const DialogUpdate = ({
     );
 
     return (
-      <LeftPaneDialog icon="update" title={title} hoverText={versionTitle}>
+      <LeftPaneDialog
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        icon="update"
+        title={title}
+        hoverText={versionTitle}
+      >
         <div className="LeftPaneDialog__progress--container">
           <div
             className="LeftPaneDialog__progress--bar"
@@ -133,6 +146,7 @@ export const DialogUpdate = ({
 
   return (
     <LeftPaneDialog
+      containerWidthBreakpoint={containerWidthBreakpoint}
       icon="update"
       title={title}
       hoverText={versionTitle}

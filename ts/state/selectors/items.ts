@@ -15,6 +15,8 @@ import {
 } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 
+const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
+
 export const getItems = (state: StateType): ItemsStateType => state.items;
 
 export const getUserAgent = createSelector(
@@ -61,6 +63,15 @@ export const getEmojiSkinTone = createSelector(
     skinTone <= 5
       ? skinTone
       : 0
+);
+
+export const getPreferredLeftPaneWidth = createSelector(
+  getItems,
+  ({ preferredLeftPaneWidth }: Readonly<ItemsStateType>): number =>
+    typeof preferredLeftPaneWidth === 'number' &&
+    Number.isInteger(preferredLeftPaneWidth)
+      ? preferredLeftPaneWidth
+      : DEFAULT_PREFERRED_LEFT_PANE_WIDTH
 );
 
 export const getPreferredReactionEmoji = createSelector(

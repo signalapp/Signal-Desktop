@@ -78,6 +78,17 @@
   align-items: stretch;
 
   outline: none;
+
+  max-width: 406px;
+
+  .module-timeline--width-wide &,
+  .module-message-detail & {
+    max-width: 75%;
+  }
+
+  .module-timeline--width-medium & {
+    max-width: 480px;
+  }
 }
 
 .module-message--expired {
@@ -102,21 +113,17 @@
   }
 }
 
-// Spec: container < 438px
 .module-message--incoming {
   margin-left: 16px;
-  margin-right: 32px;
+  margin-right: auto;
 }
 .module-message--outgoing {
   float: right;
   margin-right: 16px;
-  margin-left: 32px;
+  margin-left: auto;
 }
 
 .module-message__buttons {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -128,19 +135,31 @@
 }
 
 .module-message__buttons--incoming {
-  left: 100%;
   padding-left: 8px;
+
+  & > * {
+    margin-left: 12px;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 }
+
 .module-message__buttons--outgoing {
-  right: 100%;
   padding-right: 8px;
   flex-direction: row-reverse;
+
+  & > * {
+    margin-right: 12px;
+    &:first-child {
+      margin-right: 0;
+    }
+  }
 }
 
 .module-message__buttons__download {
   height: 24px;
   width: 24px;
-  display: inline-block;
   cursor: pointer;
   @include light-theme {
     @include color-svg(
@@ -168,7 +187,6 @@
 .module-message__buttons__react {
   height: 24px;
   width: 24px;
-  display: inline-block;
   cursor: pointer;
   @include light-theme {
     @include color-svg(
@@ -196,17 +214,9 @@
   }
 }
 
-.module-message__buttons__download--incoming {
-  margin-left: 12px;
-}
-.module-message__buttons__download--outgoing {
-  margin-right: 12px;
-}
-
 .module-message__buttons__reply {
   height: 24px;
   width: 24px;
-  display: inline-block;
   cursor: pointer;
 
   @include light-theme {
@@ -230,13 +240,6 @@
       );
     }
   }
-}
-
-.module-message__buttons__reply--incoming {
-  margin-left: 12px;
-}
-.module-message__buttons__reply--outgoing {
-  margin-right: 12px;
 }
 
 .module-message__buttons__menu {
@@ -277,14 +280,6 @@
       background-color: $color-gray-95;
     }
   }
-}
-
-.module-message__buttons__menu--incoming {
-  margin-left: 12px;
-}
-
-.module_message__buttons__menu--outgoing {
-  margin-right: 12px;
 }
 
 .module-message__error-container {
@@ -3278,8 +3273,8 @@ button.module-conversation-details__action-button {
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
   padding-top: var(--title-bar-drag-area-height);
 
   display: flex;
@@ -3310,6 +3305,10 @@ button.module-conversation-details__action-button {
       position: absolute;
       top: 0;
       right: 0;
+    }
+
+    .module-left-pane--width-narrow & {
+      display: none;
     }
   }
 
@@ -3458,6 +3457,10 @@ button.module-conversation-details__action-button {
       @include dark-theme {
         @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
       }
+    }
+
+    .module-left-pane--width-narrow & {
+      display: none;
     }
   }
 
@@ -5640,7 +5643,11 @@ button.module-image__border-overlay:focus {
 // Module: conversation list
 
 .module-conversation-list {
+  $normal-row-height: 72px;
+
   @include scrollbar;
+  padding-left: 10px;
+  padding-right: 10px;
 
   &--scroll-behavior {
     &-default {
@@ -5654,11 +5661,15 @@ button.module-image__border-overlay:focus {
 
       align-items: center;
       display: flex;
-      height: 64px;
       justify-content: center;
-      line-height: 64px;
+      border-radius: 10px;
+      height: $normal-row-height;
+      line-height: $normal-row-height;
       text-align: center;
       width: 100%;
+      padding-left: 14px;
+      padding-right: 14px;
+      display: flex;
 
       @include light-theme {
         color: $color-gray-60;
@@ -5721,19 +5732,41 @@ button.module-image__border-overlay:focus {
           background-color: $color-gray-75;
         }
       }
+
+      .module-conversation-list--width-narrow & {
+        justify-content: flex-start;
+
+        &__icon {
+          display: block;
+          width: 48px;
+          height: 48px;
+          padding: 12px;
+        }
+
+        &__text,
+        &__archived-count {
+          display: none;
+        }
+      }
     }
 
     &--contact-or-conversation {
       @include button-reset;
 
       align-items: center;
+      border-radius: 10px;
       cursor: inherit;
       display: flex;
       flex-direction: row;
-      padding-left: 16px;
-      padding-right: 16px;
+      height: $normal-row-height;
+      margin: 2px 0;
+      padding: 8px 14px;
       user-select: none;
       width: 100%;
+
+      .module-conversation-list--width-narrow & {
+        padding-right: 8px;
+      }
 
       &--is-button {
         cursor: pointer;
@@ -5745,10 +5778,10 @@ button.module-image__border-overlay:focus {
         &:hover:not(:disabled),
         &:focus:not(:disabled) {
           @include light-theme {
-            background-color: $color-gray-05;
+            background-color: $color-black-alpha-06;
           }
           @include dark-theme {
-            background-color: $color-gray-75;
+            background-color: $color-white-alpha-06;
           }
         }
       }
@@ -5772,59 +5805,40 @@ button.module-image__border-overlay:focus {
         }
       }
 
-      &--has-unread {
-        padding-left: 12px;
-
-        @include light-theme {
-          border-left: 4px solid $color-ultramarine;
-        }
-
-        @include dark-theme {
-          border-left: 4px solid $color-ultramarine-light;
-        }
-      }
-
       &--is-selected {
         @include light-theme {
-          background-color: $color-gray-15;
+          background-color: $color-black-alpha-12;
         }
         @include dark-theme {
-          background-color: $color-gray-65;
+          background-color: $color-white-alpha-12;
         }
-      }
-
-      &__avatar-container {
-        position: relative;
-        margin-top: 8px;
-        margin-bottom: 8px;
       }
 
       &__unread-count {
-        text-align: center;
-
-        padding-left: 3px;
-        padding-right: 3px;
-
-        position: absolute;
-        right: -6px;
-        top: 0px;
+        $size: 18px;
 
         @include font-caption-bold;
-
-        height: 20px;
-        min-width: 20px;
-        line-height: 20px;
         border-radius: 10px;
-
         color: $color-white;
+        height: $size;
+        line-height: $size;
+        margin-left: 10px;
+        margin-top: 2px;
+        min-width: $size;
+        padding-left: 3px;
+        padding-right: 3px;
+        text-align: center;
+        word-break: normal;
+
+        .module-conversation-list--width-narrow & {
+          margin-left: 0;
+        }
 
         @include light-theme {
           background-color: $color-ultramarine;
-          box-shadow: 0px 0px 0px 1px $color-gray-02;
         }
         @include dark-theme {
           background-color: $color-ultramarine-light;
-          box-shadow: 0px 0px 0px 1px $color-gray-90;
         }
       }
 
@@ -5836,6 +5850,10 @@ button.module-image__border-overlay:focus {
         align-items: stretch;
         overflow: hidden;
 
+        .module-conversation-list--width-narrow & {
+          margin-left: 0;
+        }
+
         &--disabled {
           opacity: 0.5;
         }
@@ -5844,6 +5862,10 @@ button.module-image__border-overlay:focus {
           display: flex;
           flex-direction: row;
           align-items: center;
+
+          .module-conversation-list--width-narrow & {
+            display: none;
+          }
 
           &__name {
             flex-grow: 1;
@@ -5867,17 +5889,6 @@ button.module-image__border-overlay:focus {
             display: inline-block;
             flex-shrink: 0;
 
-            &--has-unread {
-              @include font-caption-bold;
-
-              @include light-theme {
-                color: $color-gray-90;
-              }
-              @include dark-theme {
-                color: $color-gray-05;
-              }
-            }
-
             &__timestamp {
               flex-shrink: 0;
               margin-left: 6px;
@@ -5894,10 +5905,6 @@ button.module-image__border-overlay:focus {
               @include dark-theme {
                 color: $color-gray-25;
               }
-
-              &--with-unread {
-                @include font-caption-bold;
-              }
             }
           }
         }
@@ -5905,7 +5912,11 @@ button.module-image__border-overlay:focus {
         &__message {
           display: flex;
           flex-direction: row;
-          align-items: center;
+          justify-content: flex-end;
+
+          .module-conversation-list--width-narrow & {
+            align-items: center;
+          }
 
           &__text {
             flex-grow: 1;
@@ -5913,8 +5924,10 @@ button.module-image__border-overlay:focus {
 
             @include font-body-2;
 
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
             overflow: hidden;
-            white-space: nowrap;
             text-overflow: ellipsis;
             text-align: left;
 
@@ -5925,15 +5938,12 @@ button.module-image__border-overlay:focus {
               color: $color-gray-25;
             }
 
-            &--has-unread {
-              @include font-body-2-bold;
+            .module-conversation-list--width-narrow & {
+              display: none;
+            }
 
-              @include light-theme {
-                color: $color-gray-90;
-              }
-              @include dark-theme {
-                color: $color-gray-05;
-              }
+            &--always-full-size {
+              height: 36px; // two lines
             }
 
             &__muted {
@@ -5977,11 +5987,15 @@ button.module-image__border-overlay:focus {
             &__status-icon {
               flex-shrink: 0;
 
-              margin-top: 2px;
+              margin-top: 4px;
               width: 12px;
               height: 12px;
               display: inline-block;
               margin-left: 6px;
+
+              .module-conversation-list--width-narrow & {
+                display: none;
+              }
 
               @mixin normal-status-icon($icon) {
                 @include light-theme {
@@ -6146,13 +6160,37 @@ button.module-image__border-overlay:focus {
     &--header {
       @include font-body-1-bold;
 
-      display: inline-flex;
       align-items: center;
       padding-left: 16px;
       height: 100%;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      user-select: none;
+      white-space: nowrap;
 
       @include dark-theme {
         color: $color-gray-05;
+      }
+
+      .module-conversation-list--width-narrow & {
+        @include rounded-corners;
+        display: block;
+        height: 2px;
+        margin: 19px 0 19px 10px;
+        width: 56px;
+
+        // Hide the text, but keep it for screen readers.
+        color: transparent;
+        overflow: hidden;
+        text-indent: -99999px;
+
+        @include light-theme {
+          background: $color-black-alpha-12;
+        }
+
+        @include dark-theme {
+          background: $color-white-alpha-12;
+        }
       }
     }
 
@@ -6168,12 +6206,36 @@ button.module-image__border-overlay:focus {
 // Module: Left Pane
 
 .module-left-pane {
+  border-right-style: solid;
+  border-right-width: 1px;
   display: inline-flex;
   flex-direction: column;
-
-  width: $left-pane-width;
   height: 100%;
   position: relative;
+
+  @include light-theme {
+    border-color: $color-gray-20;
+    background-color: $color-gray-02;
+
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-02;
+    }
+  }
+
+  @include dark-theme {
+    border-color: $color-gray-65;
+    background-color: $color-gray-80;
+
+    ::-webkit-scrollbar-thumb {
+      border: 2px solid $color-gray-80;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:not(.module-left-pane--is-resizing) {
+      transition: width 200ms cubic-bezier(0.17, 0.17, 0, 1);
+    }
+  }
 }
 
 .module-left-pane__empty {
@@ -6183,6 +6245,10 @@ button.module-image__border-overlay:focus {
   justify-content: center;
   padding: 0 32px;
   text-align: center;
+
+  .module-left-pane--width-narrow & {
+    display: none;
+  }
 
   &--composer_icon {
     align-items: center;
@@ -6373,6 +6439,16 @@ button.module-image__border-overlay:focus {
   @include dark-theme {
     background: linear-gradient(transparent, $color-gray-80);
   }
+}
+
+.module-left-pane__resize-grab-area {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  right: -8px;
+  top: 0;
+  z-index: 2;
+  cursor: col-resize;
 }
 
 // Module: Timeline Loading Row
@@ -8103,7 +8179,7 @@ button.module-image__border-overlay:focus {
 
 .module-avatar-popup {
   min-width: 240px;
-  max-width: $left-pane-width;
+  max-width: 320px;
 
   border-radius: 4px;
   padding-bottom: 4px;
@@ -9124,20 +9200,6 @@ button.module-image__border-overlay:focus {
   }
 }
 
-// All media query widths have 300px added to account for the left pane
-// And have been tweaked for smoother transitions
-
-// To hide in small breakpoints
-.module-message__buttons__download {
-  display: none;
-}
-.module-message__buttons__reply {
-  display: none;
-}
-.module-message__buttons__react {
-  display: none;
-}
-
 // To limit messages with things forcing them wider, like long attachment names
 .module-message__container {
   &--incoming {
@@ -9288,89 +9350,5 @@ button.module-image__border-overlay:focus {
         $color-gray-15
       );
     }
-  }
-}
-
-/* Spec: container < 515px */
-@media (min-width: 0px) and (max-width: 834px) {
-  .module-message {
-    // Add 2px for 1px border
-    max-width: 302px;
-  }
-}
-
-/* Spec: container > 514px and container < 606px */
-@media (min-width: 835px) and (max-width: 925px) {
-  .module-message {
-    // Add 2px for 1px border
-    max-width: 360px;
-
-    &--with-avatar {
-      // Remove 36px from avatar
-      max-width: 324px;
-    }
-  }
-
-  // Spec: container < 438px
-  .module-message--incoming {
-    margin-right: auto;
-  }
-  .module-message--outgoing {
-    margin-left: auto;
-  }
-
-  // To hide in small breakpoints
-  .module-message__buttons__download {
-    display: inline-block;
-  }
-  .module-message__buttons__reply {
-    display: inline-block;
-  }
-  .module-message__buttons__react {
-    display: inline-block;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
-}
-
-// Spec: container > 593px
-@media (min-width: 926px) {
-  .module-message {
-    max-width: 66%;
-  }
-
-  .module-message--incoming {
-    margin-right: auto;
-  }
-  .module-message--outgoing {
-    margin-left: auto;
-  }
-
-  // To hide in small breakpoints
-  .module-message__buttons__download {
-    display: inline-block;
-  }
-  .module-message__buttons__reply {
-    display: inline-block;
-  }
-  .module-message__buttons__react {
-    display: inline-block;
-  }
-
-  // To hide in larger breakpoints
-  .module-message__context__download {
-    display: none;
-  }
-  .module-message__context__reply {
-    display: none;
-  }
-  .module-message__context__react {
-    display: none;
   }
 }

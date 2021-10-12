@@ -48,6 +48,11 @@ export const getSearchConversationId = createSelector(
   (state: SearchStateType): string | undefined => state.searchConversationId
 );
 
+export const getIsSearchingInAConversation = createSelector(
+  getSearchConversationId,
+  Boolean
+);
+
 export const getSearchConversationName = createSelector(
   getSearch,
   (state: SearchStateType): string | undefined => state.searchConversationName
