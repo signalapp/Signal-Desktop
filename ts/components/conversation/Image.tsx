@@ -251,7 +251,7 @@ export class Image extends React.Component<Props> {
             )}
           />
         ) : null}
-        {!pending && !hasNotDownloaded && playIconOverlay ? (
+        {!pending && !imgNotDownloaded && playIconOverlay ? (
           <div className="module-image__play-overlay__circle">
             <div className="module-image__play-overlay__icon" />
           </div>
