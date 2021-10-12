@@ -757,7 +757,7 @@ export type WebAPIType = {
   getMyKeys: () => Promise<number>;
   getProfile: (
     identifier: string,
-    options?: {
+    options: {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
     }
@@ -1307,7 +1307,7 @@ export function initialize({
       options: {
         profileKeyVersion?: string;
         profileKeyCredentialRequest?: string;
-      } = {}
+      }
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest } = options;
 
