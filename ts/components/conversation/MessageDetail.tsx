@@ -19,6 +19,7 @@ import { groupBy } from '../../util/mapUtil';
 import { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
+import { Timestamp } from './Timestamp';
 
 export type Contact = Pick<
   ConversationType,
@@ -35,6 +36,7 @@ export type Contact = Pick<
   | 'unblurredAvatarPath'
 > & {
   status?: SendStatus;
+  statusTimestamp?: number;
 
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
@@ -182,6 +184,13 @@ export class MessageDetail extends React.Component<Props> {
         </div>
         {errorComponent}
         {unidentifiedDeliveryComponent}
+        {contact.statusTimestamp && (
+          <Timestamp
+            i18n={i18n}
+            module="module-message-detail__status-timestamp"
+            timestamp={contact.statusTimestamp}
+          />
+        )}
       </div>
     );
   }

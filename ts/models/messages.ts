@@ -351,7 +351,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           window.storage.get('unidentifiedDeliveryIndicators', false) &&
           this.isUnidentifiedDelivery(id, unidentifiedDeliveriesSet);
 
-        let status = getOwn(sendStateByConversationId, id)?.status;
+        const sendState = getOwn(sendStateByConversationId, id);
+
+        let status = sendState?.status;
 
         // If a message was only sent to yourself (Note to Self or a lonely group), it
         //   is shown read.
@@ -362,6 +364,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return {
           ...findAndFormatContact(id),
           status,
+          statusTimestamp: sendState?.updatedAt,
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
