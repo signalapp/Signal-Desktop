@@ -12677,9 +12677,23 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/Lightbox.tsx",
-    "line": "  const zoomCoordsRef = useRef<",
+    "line": "  const animateRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-24T00:03:36.061Z"
+    "updated": "2021-10-11T21:21:08.188Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const dragCacheRef = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-11T21:21:08.188Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lightbox.tsx",
+    "line": "  const zoomCacheRef = useRef<",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-11T21:21:08.188Z"
   },
   {
     "rule": "React-createRef",
