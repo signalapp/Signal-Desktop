@@ -1267,22 +1267,6 @@
   }
 }
 
-.module-message__author-avatar {
-  @include button-reset;
-
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-
-    .module-Avatar {
-      @include keyboard-mode {
-        box-shadow: 0 0 0 3px $color-ultramarine;
-      }
-    }
-  }
-}
-
 .module-message__typing-container {
   height: 16px;
 

@@ -1206,33 +1206,27 @@ export class Message extends React.PureComponent<Props, State> {
           'module-message__author-avatar-container--with-reactions': this.hasReactions(),
         })}
       >
-        <button
-          type="button"
-          className="module-message__author-avatar"
-          onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        <Avatar
+          acceptedMessageRequest={author.acceptedMessageRequest}
+          avatarPath={author.avatarPath}
+          color={author.color}
+          conversationType="direct"
+          i18n={i18n}
+          isMe={author.isMe}
+          name={author.name}
+          onClick={event => {
             event.stopPropagation();
             event.preventDefault();
 
             showContactModal(author.id);
           }}
-          tabIndex={0}
-        >
-          <Avatar
-            acceptedMessageRequest={author.acceptedMessageRequest}
-            avatarPath={author.avatarPath}
-            color={author.color}
-            conversationType="direct"
-            i18n={i18n}
-            isMe={author.isMe}
-            name={author.name}
-            phoneNumber={author.phoneNumber}
-            profileName={author.profileName}
-            sharedGroupNames={author.sharedGroupNames}
-            size={28}
-            title={author.title}
-            unblurredAvatarPath={author.unblurredAvatarPath}
-          />
-        </button>
+          phoneNumber={author.phoneNumber}
+          profileName={author.profileName}
+          sharedGroupNames={author.sharedGroupNames}
+          size={28}
+          title={author.title}
+          unblurredAvatarPath={author.unblurredAvatarPath}
+        />
       </div>
     );
   }

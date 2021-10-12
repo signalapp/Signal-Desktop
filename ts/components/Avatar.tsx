@@ -3,6 +3,8 @@
 
 import React, {
   FunctionComponent,
+  MouseEvent,
+  ReactChild,
   ReactNode,
   useEffect,
   useState,
@@ -53,7 +55,7 @@ export type Props = {
   title: string;
   unblurredAvatarPath?: string;
 
-  onClick?: () => unknown;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => unknown;
 
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
@@ -118,10 +120,10 @@ export const Avatar: FunctionComponent<Props> = ({
   const shouldUseInitials =
     !hasImage && conversationType === 'direct' && Boolean(initials);
 
-  let contents: ReactNode;
+  let contentsChildren: ReactNode;
   if (loading) {
     const svgSize = size < 40 ? 'small' : 'normal';
-    contents = (
+    contentsChildren = (
       <div className="module-Avatar__spinner-container">
         <Spinner
           size={`${size - 8}px`}
@@ -141,7 +143,7 @@ export const Avatar: FunctionComponent<Props> = ({
     const isBlurred =
       blur === AvatarBlur.BlurPicture ||
       blur === AvatarBlur.BlurPictureWithClickToView;
-    contents = (
+    contentsChildren = (
       <>
         <div
           className="module-Avatar__image"
@@ -156,17 +158,16 @@ export const Avatar: FunctionComponent<Props> = ({
       </>
     );
   } else if (noteToSelf) {
-    contents = (
+    contentsChildren = (
       <div
         className={classNames(
           'module-Avatar__icon',
-          `module-Avatar--${color}--icon`,
           'module-Avatar__icon--note-to-self'
         )}
       />
     );
   } else if (shouldUseInitials) {
-    contents = (
+    contentsChildren = (
       <div
         aria-hidden="true"
         className="module-Avatar__label"
@@ -176,23 +177,29 @@ export const Avatar: FunctionComponent<Props> = ({
       </div>
     );
   } else {
-    contents = (
+    contentsChildren = (
       <div
         className={classNames(
           'module-Avatar__icon',
-          `module-Avatar--${color}--icon`,
           `module-Avatar__icon--${conversationType}`
         )}
       />
     );
   }
 
+  let contents: ReactChild;
+  const contentsClassName = classNames(
+    'module-Avatar__contents',
+    `module-Avatar__contents--${color}`
+  );
   if (onClick) {
     contents = (
-      <button className="module-Avatar__button" type="button" onClick={onClick}>
-        {contents}
+      <button className={contentsClassName} type="button" onClick={onClick}>
+        {contentsChildren}
       </button>
     );
+  } else {
+    contents = <div className={contentsClassName}>{contentsChildren}</div>;
   }
 
   return (
@@ -201,9 +208,6 @@ export const Avatar: FunctionComponent<Props> = ({
       className={classNames(
         'module-Avatar',
         hasImage ? 'module-Avatar--with-image' : 'module-Avatar--no-image',
-        {
-          [`module-Avatar--${color}`]: !hasImage,
-        },
         className
       )}
       style={{

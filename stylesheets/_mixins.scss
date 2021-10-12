@@ -570,14 +570,17 @@
 @mixin avatar-colors {
   @each $color, $value in $avatar-colors {
     &--#{$color} {
-      background-color: map-get($value, 'bg');
-      color: map-get($value, 'fg');
+      --bg: #{map-get($value, 'bg')};
+      --fg: #{map-get($value, 'fg')};
+
+      background-color: var(--bg);
+      color: var(--fg);
 
       &--icon {
-        background-color: map-get($value, 'fg');
+        background-color: var(--fg);
         @include dark-theme {
           // For specificity
-          background-color: map-get($value, 'fg');
+          background-color: var(--fg);
         }
       }
     }
