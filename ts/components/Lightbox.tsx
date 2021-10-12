@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, {
-  CSSProperties,
   ReactNode,
   useCallback,
   useEffect,
@@ -13,6 +12,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { createPortal } from 'react-dom';
 import { noop } from 'lodash';
+import { useSpring, animated, to } from '@react-spring/web';
 
 import * as GoogleChrome from '../util/GoogleChrome';
 import { AttachmentType, isGIF } from '../types/Attachment';
@@ -41,11 +41,13 @@ export type PropsType = {
   selectedIndex?: number;
 };
 
-enum ZoomType {
-  None,
-  FillScreen,
-  ZoomAndPan,
-}
+const ZOOM_SCALE = 3;
+
+const INITIAL_IMAGE_TRANSFORM = {
+  scale: 1,
+  translateX: 0,
+  translateY: 0,
+};
 
 export function Lightbox({
   children,
@@ -67,24 +69,29 @@ export function Lightbox({
     null
   );
   const [videoTime, setVideoTime] = useState<number | undefined>();
-  const [zoomType, setZoomType] = useState<ZoomType>(ZoomType.None);
+  const [isZoomed, setIsZoomed] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [focusRef] = useRestoreFocus();
-  const imageRef = useRef<HTMLImageElement | null>(null);
-  const [imagePanStyle, setImagePanStyle] = useState<CSSProperties>({});
-  const zoomCoordsRef = useRef<
+  const animateRef = useRef<HTMLDivElement | null>(null);
+  const dragCacheRef = useRef<
     | {
-        initX: number;
-        initY: number;
-        screenWidth: number;
-        screenHeight: number;
-        x: number;
-        y: number;
+        startX: number;
+        startY: number;
+        translateX: number;
+        translateY: number;
       }
     | undefined
   >();
-
-  const isZoomed = zoomType !== ZoomType.None;
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const zoomCacheRef = useRef<
+    | {
+        maxX: number;
+        maxY: number;
+        screenWidth: number;
+        screenHeight: number;
+      }
+    | undefined
+  >();
 
   const onPrevious = useCallback(
     (
@@ -238,122 +245,162 @@ export function Lightbox({
     };
   }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
 
+  const [{ scale, translateX, translateY }, springApi] = useSpring(
+    () => INITIAL_IMAGE_TRANSFORM
+  );
+
+  const maxBoundsLimiter = useCallback((x: number, y: number): [
+    number,
+    number
+  ] => {
+    const zoomCache = zoomCacheRef.current;
+
+    if (!zoomCache) {
+      return [0, 0];
+    }
+
+    const { maxX, maxY } = zoomCache;
+
+    const posX = Math.min(maxX, Math.max(-maxX, x));
+    const posY = Math.min(maxY, Math.max(-maxY, y));
+
+    return [posX, posY];
+  }, []);
+
   const positionImage = useCallback(
-    (ev?: { clientX: number; clientY: number }) => {
-      const imageNode = imageRef.current;
-      const zoomCoords = zoomCoordsRef.current;
-      if (!imageNode || !zoomCoords) {
+    (ev: MouseEvent) => {
+      const zoomCache = zoomCacheRef.current;
+
+      if (!zoomCache) {
         return;
       }
 
-      if (ev) {
-        zoomCoords.x = ev.clientX;
-        zoomCoords.y = ev.clientY;
-      }
+      const { screenWidth, screenHeight } = zoomCache;
 
-      const shouldTransformX = imageNode.naturalWidth > zoomCoords.screenWidth;
-      const shouldTransformY =
-        imageNode.naturalHeight > zoomCoords.screenHeight;
+      const offsetX = screenWidth / 2 - ev.clientX;
+      const offsetY = screenHeight / 2 - ev.clientY;
+      const posX = offsetX * ZOOM_SCALE;
+      const posY = offsetY * ZOOM_SCALE;
+      const [x, y] = maxBoundsLimiter(posX, posY);
 
-      const nextImagePanStyle: CSSProperties = {
-        left: '50%',
-        top: '50%',
-      };
-
-      let translateX = '-50%';
-      let translateY = '-50%';
-
-      if (shouldTransformX) {
-        const offset = imageNode.offsetWidth - zoomCoords.screenWidth;
-
-        const scaleX = (-1 / zoomCoords.screenWidth) * offset;
-
-        const posX = Math.max(
-          0,
-          Math.min(zoomCoords.screenWidth, zoomCoords.x)
-        );
-
-        translateX = `${posX * scaleX}px`;
-        nextImagePanStyle.left = 0;
-      }
-
-      if (shouldTransformY) {
-        const offset = imageNode.offsetHeight - zoomCoords.screenHeight;
-
-        const scaleY = (-1 / zoomCoords.screenHeight) * offset;
-
-        const posY = Math.max(
-          0,
-          Math.min(zoomCoords.screenHeight, zoomCoords.y)
-        );
-
-        translateY = `${posY * scaleY}px`;
-        nextImagePanStyle.top = 0;
-      }
-
-      setImagePanStyle({
-        ...nextImagePanStyle,
-        transform: `translate(${translateX}, ${translateY})`,
+      springApi.start({
+        scale: ZOOM_SCALE,
+        translateX: x,
+        translateY: y,
       });
     },
-    []
+    [maxBoundsLimiter, springApi]
   );
 
-  function canPanImage(): boolean {
-    const imageNode = imageRef.current;
+  const handleTouchStart = useCallback(
+    (ev: TouchEvent) => {
+      const [touch] = ev.touches;
 
-    return Boolean(
-      imageNode &&
-        (imageNode.naturalWidth > document.documentElement.clientWidth ||
-          imageNode.naturalHeight > document.documentElement.clientHeight)
-    );
-  }
+      dragCacheRef.current = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        translateX: translateX.get(),
+        translateY: translateY.get(),
+      };
+    },
+    [translateY, translateX]
+  );
 
   const handleTouchMove = useCallback(
     (ev: TouchEvent) => {
-      const imageNode = imageRef.current;
-      const zoomCoords = zoomCoordsRef.current;
+      const dragCache = dragCacheRef.current;
 
-      ev.preventDefault();
-      ev.stopPropagation();
-
-      if (!imageNode || !zoomCoords) {
+      if (!dragCache) {
         return;
       }
 
       const [touch] = ev.touches;
-      const { initX, initY } = zoomCoords;
 
-      positionImage({
-        clientX: initX + (initX - touch.clientX),
-        clientY: initY + (initY - touch.clientY),
+      const deltaX = touch.clientX - dragCache.startX;
+      const deltaY = touch.clientY - dragCache.startY;
+
+      const x = dragCache.translateX + deltaX;
+      const y = dragCache.translateY + deltaY;
+
+      springApi.start({
+        scale: ZOOM_SCALE,
+        translateX: x,
+        translateY: y,
       });
     },
-    [positionImage]
+    [springApi]
+  );
+
+  const zoomButtonHandler = useCallback(
+    (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      const imageNode = imageRef.current;
+      const animateNode = animateRef.current;
+      if (!imageNode || !animateNode) {
+        return;
+      }
+
+      if (!isZoomed) {
+        zoomCacheRef.current = {
+          maxX: imageNode.offsetWidth,
+          maxY: imageNode.offsetHeight,
+          screenHeight: window.innerHeight,
+          screenWidth: window.innerWidth,
+        };
+
+        const {
+          height,
+          left,
+          top,
+          width,
+        } = animateNode.getBoundingClientRect();
+
+        const offsetX = ev.clientX - left - width / 2;
+        const offsetY = ev.clientY - top - height / 2;
+        const posX = -offsetX * ZOOM_SCALE + translateX.get();
+        const posY = -offsetY * ZOOM_SCALE + translateY.get();
+        const [x, y] = maxBoundsLimiter(posX, posY);
+
+        springApi.start({
+          scale: ZOOM_SCALE,
+          translateX: x,
+          translateY: y,
+        });
+
+        setIsZoomed(true);
+      } else {
+        springApi.start(INITIAL_IMAGE_TRANSFORM);
+        setIsZoomed(false);
+      }
+    },
+    [isZoomed, maxBoundsLimiter, translateX, translateY, springApi]
   );
 
   useEffect(() => {
-    const imageNode = imageRef.current;
+    const animateNode = animateRef.current;
     let hasListener = false;
 
-    if (imageNode && zoomType !== ZoomType.None && canPanImage()) {
+    if (animateNode && isZoomed) {
       hasListener = true;
       document.addEventListener('mousemove', positionImage);
       document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchstart', handleTouchStart);
     }
 
     return () => {
       if (hasListener) {
         document.removeEventListener('mousemove', positionImage);
         document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchstart', handleTouchStart);
       }
     };
-  }, [handleTouchMove, positionImage, zoomType]);
+  }, [handleTouchMove, handleTouchStart, isZoomed, positionImage]);
 
   const caption = attachment?.caption;
 
   let content: JSX.Element;
-  let shadowImage: JSX.Element | undefined;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -366,64 +413,27 @@ export function Lightbox({
 
     if (isImageTypeSupported) {
       if (objectURL) {
-        shadowImage = (
-          <div className="Lightbox__shadow-container">
-            <div className="Lightbox__object--container">
-              <img
-                alt={i18n('lightboxImageAlt')}
-                className="Lightbox__object"
-                ref={imageRef}
-                src={objectURL}
-                tabIndex={-1}
-              />
-            </div>
-          </div>
-        );
         content = (
           <button
             className="Lightbox__zoom-button"
-            onClick={(
-              event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-            ) => {
-              event.preventDefault();
-              event.stopPropagation();
-
-              if (zoomType === ZoomType.None) {
-                if (canPanImage()) {
-                  setZoomType(ZoomType.ZoomAndPan);
-                  zoomCoordsRef.current = {
-                    initX: event.clientX,
-                    initY: event.clientY,
-                    screenHeight: document.documentElement.clientHeight,
-                    screenWidth: document.documentElement.clientWidth,
-                    x: event.clientX,
-                    y: event.clientY,
-                  };
-                  positionImage();
-                } else {
-                  setZoomType(ZoomType.FillScreen);
-                }
-              } else {
-                setZoomType(ZoomType.None);
-              }
-            }}
+            onClick={zoomButtonHandler}
             type="button"
           >
             <img
               alt={i18n('lightboxImageAlt')}
               className="Lightbox__object"
-              onContextMenu={(event: React.MouseEvent<HTMLImageElement>) => {
+              onContextMenu={(ev: React.MouseEvent<HTMLImageElement>) => {
                 // These are the only image types supported by Electron's NativeImage
                 if (
-                  event &&
+                  ev &&
                   contentType !== IMAGE_PNG &&
                   !/image\/jpe?g/g.test(contentType)
                 ) {
-                  event.preventDefault();
+                  ev.preventDefault();
                 }
               }}
               src={objectURL}
-              style={zoomType === ZoomType.ZoomAndPan ? imagePanStyle : {}}
+              ref={imageRef}
             />
           </button>
         );
@@ -490,7 +500,7 @@ export function Lightbox({
     ? createPortal(
         <div
           className={classNames('Lightbox Lightbox__container', {
-            'Lightbox__container--zoom': zoomType === ZoomType.ZoomAndPan,
+            'Lightbox__container--zoom': isZoomed,
           })}
           onClick={(event: React.MouseEvent<HTMLDivElement>) => {
             event.stopPropagation();
@@ -511,12 +521,12 @@ export function Lightbox({
           ref={containerRef}
           role="presentation"
         >
-          <div
-            className="Lightbox__main-container"
-            tabIndex={-1}
-            ref={focusRef}
-          >
-            {!isZoomed && (
+          <div className="Lightbox__animated">
+            <div
+              className="Lightbox__main-container"
+              tabIndex={-1}
+              ref={focusRef}
+            >
               <div className="Lightbox__header">
                 {getConversation ? (
                   <LightboxHeader
@@ -552,40 +562,41 @@ export function Lightbox({
                   />
                 </div>
               </div>
-            )}
-            <div
-              className={classNames('Lightbox__object--container', {
-                'Lightbox__object--container--fill':
-                  zoomType === ZoomType.FillScreen,
-                'Lightbox__object--container--zoom':
-                  zoomType === ZoomType.ZoomAndPan,
-              })}
-            >
-              {content}
+              <animated.div
+                className={classNames('Lightbox__object--container', {
+                  'Lightbox__object--container--zoom': isZoomed,
+                })}
+                ref={animateRef}
+                style={{
+                  transform: to(
+                    [scale, translateX, translateY],
+                    (s, x, y) => `translate(${x}px, ${y}px) scale(${s})`
+                  ),
+                }}
+              >
+                {content}
+              </animated.div>
+              {hasPrevious && (
+                <div className="Lightbox__nav-prev">
+                  <button
+                    aria-label={i18n('previous')}
+                    className="Lightbox__button Lightbox__button--previous"
+                    onClick={onPrevious}
+                    type="button"
+                  />
+                </div>
+              )}
+              {hasNext && (
+                <div className="Lightbox__nav-next">
+                  <button
+                    aria-label={i18n('next')}
+                    className="Lightbox__button Lightbox__button--next"
+                    onClick={onNext}
+                    type="button"
+                  />
+                </div>
+              )}
             </div>
-            {shadowImage}
-            {hasPrevious && (
-              <div className="Lightbox__nav-prev">
-                <button
-                  aria-label={i18n('previous')}
-                  className="Lightbox__button Lightbox__button--previous"
-                  onClick={onPrevious}
-                  type="button"
-                />
-              </div>
-            )}
-            {hasNext && (
-              <div className="Lightbox__nav-next">
-                <button
-                  aria-label={i18n('next')}
-                  className="Lightbox__button Lightbox__button--next"
-                  onClick={onNext}
-                  type="button"
-                />
-              </div>
-            )}
-          </div>
-          {!isZoomed && (
             <div className="Lightbox__footer">
               {isViewOnce && videoTime ? (
                 <div className="Lightbox__timestamp">
@@ -636,7 +647,7 @@ export function Lightbox({
                 </div>
               )}
             </div>
-          )}
+          </div>
         </div>,
         root
       )
