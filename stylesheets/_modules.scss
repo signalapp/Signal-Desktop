@@ -6031,7 +6031,8 @@ button.module-image__border-overlay:focus {
                 width: 18px;
               }
 
-              &--read {
+              &--read,
+              &--viewed {
                 @include normal-status-icon('../images/read.svg');
                 width: 18px;
               }
