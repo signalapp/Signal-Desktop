@@ -44,7 +44,7 @@ export function getLatestTimestampOffset() {
     window.log.warn('latestTimestampOffset is not set yet');
     return 0;
   }
-  window.log.info('latestTimestampOffset is ', latestTimestampOffset);
+  // window.log.info('latestTimestampOffset is ', latestTimestampOffset);
 
   return latestTimestampOffset;
 }
