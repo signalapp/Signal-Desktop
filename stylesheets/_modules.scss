@@ -6214,7 +6214,7 @@ button.module-image__border-overlay:focus {
   position: relative;
 
   @include light-theme {
-    border-color: $color-gray-20;
+    border-color: $color-gray-15;
     background-color: $color-gray-02;
 
     ::-webkit-scrollbar-thumb {
