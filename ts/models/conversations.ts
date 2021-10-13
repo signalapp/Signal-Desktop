@@ -4870,7 +4870,7 @@ export class ConversationModel extends window.Backbone
 
   async notify(
     message: Readonly<MessageModel>,
-    reaction?: WhatIsThis
+    reaction?: Readonly<ReactionModel>
   ): Promise<void> {
     // As a performance optimization don't perform any work if notifications are
     // disabled.

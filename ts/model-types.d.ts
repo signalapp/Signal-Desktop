@@ -373,7 +373,7 @@ export type ReactionAttributesType = {
   remove?: boolean;
   targetAuthorUuid: string;
   targetTimestamp: number;
-  fromId?: string;
+  fromId: string;
   timestamp: number;
   fromSync?: boolean;
 };

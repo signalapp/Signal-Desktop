@@ -13,7 +13,7 @@ export class ReactionModel extends Model<ReactionAttributesType> {}
 
 let singleton: Reactions | undefined;
 
-export class Reactions extends Collection {
+export class Reactions extends Collection<ReactionModel> {
   static getSingleton(): Reactions {
     if (!singleton) {
       singleton = new Reactions();

@@ -108,7 +108,7 @@ import {
   MessageReceiptType,
 } from '../messageModifiers/MessageReceipts';
 import { Deletes } from '../messageModifiers/Deletes';
-import { Reactions } from '../messageModifiers/Reactions';
+import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';
@@ -3167,7 +3167,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async handleReaction(
-    reaction: typeof window.WhatIsThis,
+    reaction: ReactionModel,
     shouldPersist = true
   ): Promise<ReactionAttributesType | undefined> {
     const { attributes } = this;
