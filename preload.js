@@ -239,7 +239,7 @@ try {
   // Settings-related events
 
   window.showSettings = () => ipc.send('show-settings');
-  window.showPermissionsPopup = () => ipc.send('show-permissions-popup');
+  window.showPermissionsPopup = () => ipc.invoke('show-permissions-popup');
   window.showCallingPermissionsPopup = forCamera =>
     ipc.invoke('show-calling-permissions-popup', forCamera);
 

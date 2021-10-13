@@ -77,8 +77,10 @@ function startRecording(): ThunkAction<
       return;
     }
 
+    let recordingStarted = false;
+
     try {
-      await recorder.start();
+      recordingStarted = await recorder.start();
     } catch (err) {
       dispatch({
         type: ERROR_RECORDING,
@@ -87,10 +89,12 @@ function startRecording(): ThunkAction<
       return;
     }
 
-    dispatch({
-      type: START_RECORDING,
-      payload: undefined,
-    });
+    if (recordingStarted) {
+      dispatch({
+        type: START_RECORDING,
+        payload: undefined,
+      });
+    }
   };
 }
 

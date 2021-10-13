@@ -4,6 +4,18 @@
 import * as log from '../logging/log';
 import { WebAudioRecorderClass } from '../window.d';
 
+async function requestMicrophonePermissions(): Promise<boolean> {
+  const microphonePermission = await window.getMediaPermissions();
+  if (!microphonePermission) {
+    await window.showPermissionsPopup();
+
+    // Check the setting again (from the source of truth).
+    return window.getMediaPermissions();
+  }
+
+  return true;
+}
+
 export class RecorderClass {
   private context?: AudioContext;
   private input?: GainNode;
@@ -42,7 +54,15 @@ export class RecorderClass {
     }
   }
 
-  async start(): Promise<void> {
+  async start(): Promise<boolean> {
+    const hasMicrophonePermission = await requestMicrophonePermissions();
+    if (!hasMicrophonePermission) {
+      log.info(
+        'Recorder/start: Microphone permission was denied, new audio recording not allowed.'
+      );
+      return false;
+    }
+
     this.clear();
 
     this.context = new AudioContext();
@@ -61,11 +81,11 @@ export class RecorderClass {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       if (!this.context || !this.input) {
-        this.onError(
-          this.recorder,
-          new Error('Recorder/getUserMedia/stream: Missing context or input!')
+        const err = new Error(
+          'Recorder/getUserMedia/stream: Missing context or input!'
         );
-        return;
+        this.onError(this.recorder, err);
+        throw err;
       }
       this.source = this.context.createMediaStreamSource(stream);
       this.source.connect(this.input);
@@ -81,7 +101,10 @@ export class RecorderClass {
 
     if (this.recorder) {
       this.recorder.startRecording();
+      return true;
     }
+
+    return false;
   }
 
   async stop(): Promise<Blob | undefined> {
@@ -120,15 +143,7 @@ export class RecorderClass {
 
     this.clear();
 
-    if (error && error.name === 'NotAllowedError') {
-      log.warn('Recorder/onError: Microphone permission missing');
-      window.showPermissionsPopup();
-    } else {
-      log.error(
-        'Recorder/onError:',
-        error && error.stack ? error.stack : error
-      );
-    }
+    log.error('Recorder/onError:', error && error.stack ? error.stack : error);
   }
 
   getBlob(): Blob {
