@@ -225,7 +225,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         profileKey,
         quote,
         sticker,
-      } = await getMessageSendData({ conversation, message });
+      } = await getMessageSendData({ conversation, log, message });
 
       let messageSendPromise: Promise<unknown>;
 
@@ -453,9 +453,11 @@ function getMessageRecipients({
 
 async function getMessageSendData({
   conversation,
+  log,
   message,
 }: Readonly<{
   conversation: ConversationModel;
+  log: LoggerType;
   message: MessageModel;
 }>): Promise<{
   attachments: Array<AttachmentType>;
@@ -469,8 +471,20 @@ async function getMessageSendData({
   quote: WhatIsThis;
   sticker: WhatIsThis;
 }> {
-  const messageTimestamp =
-    message.get('sent_at') || message.get('timestamp') || Date.now();
+  let messageTimestamp: number;
+  const sentAt = message.get('sent_at');
+  const timestamp = message.get('timestamp');
+  if (sentAt) {
+    messageTimestamp = sentAt;
+  } else if (timestamp) {
+    log.error('message lacked sent_at. Falling back to timestamp');
+    messageTimestamp = timestamp;
+  } else {
+    log.error(
+      'message lacked sent_at and timestamp. Falling back to current time'
+    );
+    messageTimestamp = Date.now();
+  }
 
   const [
     attachmentsWithData,
