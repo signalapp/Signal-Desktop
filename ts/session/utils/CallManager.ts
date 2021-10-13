@@ -51,7 +51,7 @@ const callCache = new Map<string, Array<SignalService.CallMessage>>();
 let peerConnection: RTCPeerConnection | null;
 let remoteStream: MediaStream | null;
 let mediaDevices: MediaStream | null;
-const INPUT_DISABLED_DEVICE_ID = 'off';
+export const INPUT_DISABLED_DEVICE_ID = 'off';
 
 let makingOffer = false;
 let ignoreOffer = false;
@@ -92,41 +92,37 @@ async function updateInputLists() {
   // Get the set of cameras connected
   const videoCameras = await getConnectedDevices('videoinput');
 
-  camerasList = [{ deviceId: INPUT_DISABLED_DEVICE_ID, label: 'Off' }].concat(
-    videoCameras.map(m => ({
-      deviceId: m.deviceId,
-      label: m.label,
-    }))
-  );
+  camerasList = videoCameras.map(m => ({
+    deviceId: m.deviceId,
+    label: m.label,
+  }));
 
   // Get the set of audio inputs connected
   const audiosInput = await getConnectedDevices('audioinput');
-  audioInputsList = [{ deviceId: INPUT_DISABLED_DEVICE_ID, label: 'Off' }].concat(
-    audiosInput.map(m => ({
-      deviceId: m.deviceId,
-      label: m.label,
-    }))
-  );
+  audioInputsList = audiosInput.map(m => ({
+    deviceId: m.deviceId,
+    label: m.label,
+  }));
 }
 
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
+  if (cameraDeviceId === INPUT_DISABLED_DEVICE_ID) {
+    selectedCameraId = cameraDeviceId;
+
+    const sender = peerConnection?.getSenders().find(s => {
+      return s.track?.kind === 'video';
+    });
+    if (sender?.track) {
+      sender.track.enabled = false;
+    }
+    return;
+  }
   if (camerasList.some(m => m.deviceId === cameraDeviceId)) {
     selectedCameraId = cameraDeviceId;
 
-    if (selectedCameraId === INPUT_DISABLED_DEVICE_ID) {
-      const sender = peerConnection?.getSenders().find(s => {
-        return s.track?.kind === 'video';
-      });
-      if (sender?.track) {
-        sender.track.enabled = false;
-      }
-      return;
-    }
     const devicesConfig = {
       video: {
         deviceId: selectedCameraId ? { exact: selectedCameraId } : undefined,
-        // width: VIDEO_WIDTH,
-        // height: Math.floor(VIDEO_WIDTH * VIDEO_RATIO),
       },
     };
 
@@ -156,8 +152,20 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
   }
 }
 export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
+  if (audioInputDeviceId === INPUT_DISABLED_DEVICE_ID) {
+    selectedAudioInputId = audioInputDeviceId;
+
+    const sender = peerConnection?.getSenders().find(s => {
+      return s.track?.kind === 'audio';
+    });
+    if (sender?.track) {
+      sender.track.enabled = false;
+    }
+    return;
+  }
   if (audioInputsList.some(m => m.deviceId === audioInputDeviceId)) {
     selectedAudioInputId = audioInputDeviceId;
+
     const devicesConfig = {
       audio: {
         deviceId: selectedAudioInputId ? { exact: selectedAudioInputId } : undefined,

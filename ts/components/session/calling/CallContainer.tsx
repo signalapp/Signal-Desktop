@@ -16,6 +16,7 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { InputItem } from '../../../session/utils/CallManager';
+import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -67,7 +68,7 @@ const InConvoCallWindowControls = styled.div`
   width: fit-content;
   padding: 10px;
   border-radius: 10px;
-  height: 45px;
+  height: 60px;
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -75,11 +76,10 @@ const InConvoCallWindowControls = styled.div`
   transition: all 0.25s ease-in-out;
 
   display: flex;
-  background-color: white;
 
   align-items: center;
   justify-content: center;
-  opacity: 0.3;
+  opacity: 0;
   &:hover {
     opacity: 1;
   }
@@ -229,6 +229,7 @@ const AudioInputMenu = ({
   );
 };
 
+// tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
   const selectedConversationKey = useSelector(getSelectedConversationKey);
@@ -242,6 +243,9 @@ export const InConversationCallContainer = () => {
   const videoRefRemote = useRef<any>();
   const videoRefLocal = useRef<any>();
   const mountedState = useMountedState();
+
+  const [isVideoMuted, setVideoMuted] = useState(true);
+  const [isAudioMuted, setAudioMuted] = useState(false);
 
   const videoTriggerId = 'video-menu-trigger-id';
   const audioTriggerId = 'audio-menu-trigger-id';
@@ -280,6 +284,60 @@ export const InConversationCallContainer = () => {
     }
   };
 
+  const handleCameraToggle = async () => {
+    if (!currentConnectedCameras.length) {
+      ToastUtils.pushNoCameraFound();
+
+      return;
+    }
+    if (isVideoMuted) {
+      // select the first one
+      await CallManager.selectCameraByDeviceId(currentConnectedCameras[0].deviceId);
+    } else {
+      await CallManager.selectCameraByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+    }
+
+    setVideoMuted(!isVideoMuted);
+  };
+
+  const handleMicrophoneToggle = async () => {
+    if (!currentConnectedAudioInputs.length) {
+      ToastUtils.pushNoAudioInputFound();
+
+      return;
+    }
+    if (isAudioMuted) {
+      // select the first one
+      await CallManager.selectAudioInputByDeviceId(currentConnectedAudioInputs[0].deviceId);
+    } else {
+      await CallManager.selectAudioInputByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+    }
+
+    setAudioMuted(!isAudioMuted);
+  };
+
+  const showAudioInputMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (currentConnectedAudioInputs.length === 0) {
+      ToastUtils.pushNoAudioInputFound();
+      return;
+    }
+    contextMenu.show({
+      id: audioTriggerId,
+      event: e,
+    });
+  };
+
+  const showVideoInputMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (currentConnectedCameras.length === 0) {
+      ToastUtils.pushNoCameraFound();
+      return;
+    }
+    contextMenu.show({
+      id: videoTriggerId,
+      event: e,
+    });
+  };
+
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey !== selectedConversationKey) {
     return null;
   }
@@ -296,43 +354,25 @@ export const InConversationCallContainer = () => {
 
         <InConvoCallWindowControls>
           <SessionIconButton
-            iconSize="huge2"
-            iconPadding="10px"
+            iconSize={60}
+            iconPadding="20px"
             iconType="hangup"
+            backgroundColor="var(--color-cell-background)"
+            borderRadius="50%"
             onClick={handleEndCall}
             iconColor="red"
           />
-          <SessionIconButton
-            iconSize="huge2"
-            iconPadding="10px"
-            iconType="videoCamera"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-              if (currentConnectedCameras.length === 0) {
-                ToastUtils.pushNoCameraFound();
-                return;
-              }
-              contextMenu.show({
-                id: videoTriggerId,
-                event: e,
-              });
-            }}
-            iconColor="black"
+          <DropDownAndToggleButton
+            iconType="camera"
+            isMuted={isVideoMuted}
+            onMainButtonClick={handleCameraToggle}
+            onArrowClick={showVideoInputMenu}
           />
-          <SessionIconButton
-            iconSize="huge2"
-            iconPadding="10px"
-            iconType="microphoneFull"
-            iconColor="black"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-              if (currentConnectedAudioInputs.length === 0) {
-                ToastUtils.pushNoAudioInputFound();
-                return;
-              }
-              contextMenu.show({
-                id: audioTriggerId,
-                event: e,
-              });
-            }}
+          <DropDownAndToggleButton
+            iconType="microphone"
+            isMuted={isAudioMuted}
+            onMainButtonClick={handleMicrophoneToggle}
+            onArrowClick={showAudioInputMenu}
           />
         </InConvoCallWindowControls>
         <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
