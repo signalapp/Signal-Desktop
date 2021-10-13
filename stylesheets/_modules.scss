@@ -939,10 +939,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   user-select: none;
-
-  &__profile-name {
-    @include font-caption-bold-italic;
-  }
 }
 
 .module-message__author--with-tap-to-view-expired {
@@ -959,10 +955,6 @@
   }
   @include dark-theme {
     color: $color-white;
-  }
-
-  &__profile-name {
-    font-style: italic;
   }
 }
 
@@ -986,10 +978,6 @@
   }
   @include dark-theme {
     color: $color-gray-05;
-  }
-
-  &__profile-name {
-    font-style: italic;
   }
 }
 
@@ -1577,10 +1565,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     color: $color-gray-05;
   }
-}
-
-.module-quote__primary__profile-name {
-  @include font-body-2-bold-italic;
 }
 
 .module-quote__primary__text {
@@ -2213,10 +2197,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   @include dark-theme {
     color: $color-gray-05;
   }
-}
-
-.module-contact-list-item__text__profile-name {
-  @include font-body-2-bold-italic;
 }
 
 .module-contact-list-item__text__additional-data {
