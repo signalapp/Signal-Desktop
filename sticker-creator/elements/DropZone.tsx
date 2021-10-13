@@ -9,6 +9,7 @@ import { useStickerDropzone } from '../util/useStickerDropzone';
 
 export type Props = {
   readonly inner?: boolean;
+  readonly label: string;
   onDrop(files: Array<string>): unknown;
   onDragActive?(active: boolean): unknown;
 };
@@ -26,7 +27,7 @@ const getClassName = ({ inner }: Props, isDragActive: boolean) => {
 };
 
 export const DropZone: React.ComponentType<Props> = props => {
-  const { inner, onDrop, onDragActive } = props;
+  const { inner, label, onDrop, onDragActive } = props;
   const i18n = useI18n();
 
   const handleDrop = React.useCallback(
@@ -50,6 +51,7 @@ export const DropZone: React.ComponentType<Props> = props => {
     <div
       {...getRootProps({ className: getClassName(props, isDragActive) })}
       role="button"
+      area-label={label}
     >
       <input {...getInputProps()} />
       <svg viewBox="0 0 36 36" width="36px" height="36px">

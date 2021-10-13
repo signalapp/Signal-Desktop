@@ -3015,6 +3015,14 @@
     "message": "Add your stickers",
     "description": "Title for the drop stage of the sticker creator"
   },
+  "StickerCreator--DropStage--removeSticker": {
+    "message": "Remove sticker",
+    "description": "Label for the X button used to remove a staged sticker"
+  },
+  "StickerCreator--DropStage--dragDrop": {
+    "message": "Click or drag/drop a file to add a sticker",
+    "description": "Shown on the + section of the file addition stage of sticker pack creation"
+  },
   "StickerCreator--DropStage--help": {
     "message": "Stickers must be in PNG, APNG, or WebP format with a transparent background and 512x512 pixels. Recommended margin is 16px.",
     "description": "Help text for the drop stage of the sticker creator"
