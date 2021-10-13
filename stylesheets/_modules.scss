@@ -5807,7 +5807,7 @@ button.module-image__border-overlay:focus {
 
       &--is-selected {
         @include light-theme {
-          background-color: $color-black-alpha-12;
+          background-color: $color-gray-15;
         }
         @include dark-theme {
           background-color: $color-white-alpha-12;
