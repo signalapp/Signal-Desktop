@@ -13,6 +13,7 @@ import { Props as StickerFrameProps, StickerFrame } from './StickerFrame';
 import { stickersDuck } from '../store';
 import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
 import { processStickerImage } from '../util/preload';
+import { useI18n } from '../util/i18n';
 
 const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
 
@@ -44,6 +45,7 @@ export type InnerGridProps = Props & {
 
 const InnerGrid = SortableContainer(
   ({ ids, mode, showGuide }: InnerGridProps) => {
+    const i18n = useI18n();
     const containerClassName = ids.length > 0 ? styles.grid : styles.drop;
     const frameMode = mode === 'add' ? 'removable' : 'pick-emoji';
 
@@ -94,7 +96,10 @@ const InnerGrid = SortableContainer(
             ) : null}
           </>
         ) : (
-          <DropZone onDrop={handleDrop} />
+          <DropZone
+            label={i18n('StickerCreator--DropStage--dragDrop')}
+            onDrop={handleDrop}
+          />
         )}
       </div>
     );

@@ -202,11 +202,17 @@ export const StickerFrame = React.memo(
                 <div className={styles.guide} />
               ) : null}
               {mode === 'add' && onDrop ? (
-                <DropZone onDrop={onDrop} inner onDragActive={setDragActive} />
+                <DropZone
+                  label={i18n('StickerCreator--DropStage--dragDrop')}
+                  onDrop={onDrop}
+                  inner
+                  onDragActive={setDragActive}
+                />
               ) : null}
               {mode === 'removable' ? (
                 <button
                   type="button"
+                  aria-label={i18n('StickerCreator--DropStage--removeSticker')}
                   className={styles.closeButton}
                   onClick={handleRemove}
                   // Reverse the mouseenter/leave logic for the remove button so

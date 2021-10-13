@@ -8,5 +8,5 @@ import { action } from '@storybook/addon-actions';
 import { DropZone } from './DropZone';
 
 storiesOf('Sticker Creator/elements', module).add('DropZone', () => {
-  return <DropZone onDrop={action('onDrop')} />;
+  return <DropZone label="This is the label" onDrop={action('onDrop')} />;
 });

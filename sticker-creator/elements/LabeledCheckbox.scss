@@ -8,6 +8,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  padding: 2px;
+
+  // We'd really like to use focus-within-visible or :has(:focus-visible), to ensure that
+  //   this doesn't show when using the mouse, but neither are ready yet!
+  &:focus-within {
+    outline: 2px solid -webkit-focus-ring-color;
+  }
 }
 
 .input {
@@ -48,6 +56,5 @@
 .label {
   margin-left: 6px;
   position: relative;
-  top: 1px;
   user-select: none;
 }

@@ -1870,7 +1870,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   showAllMedia(): void {
-    if (this.panels && this.panels.length) {
+    if (document.querySelectorAll('.module-media-gallery').length) {
       return;
     }
 
