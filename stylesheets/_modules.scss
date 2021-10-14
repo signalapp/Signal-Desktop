@@ -8725,22 +8725,26 @@ button.module-image__border-overlay:focus {
 
 .module-modal-host__overlay {
   background: $color-black-alpha-40;
-  position: absolute;
-
   height: 100vh;
-  width: 100vw;
-
   left: 0;
+  position: absolute;
   top: 0;
-
+  width: 100vw;
   z-index: 2;
+}
 
+.module-modal-host__container {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: center;
-
+  left: 0;
   overflow: hidden;
   padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  z-index: 2;
 }
 
 // Module: GroupV2 Join Dialog

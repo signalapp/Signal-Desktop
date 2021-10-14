@@ -5,6 +5,7 @@ import React, { ReactElement, ReactNode, useRef, useState } from 'react';
 import Measure, { ContentRect, MeasuredComponentProps } from 'react-measure';
 import classNames from 'classnames';
 import { noop } from 'lodash';
+import { animated } from '@react-spring/web';
 
 import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
@@ -42,24 +43,22 @@ export function Modal({
   title,
   theme,
 }: Readonly<ModalPropsType>): ReactElement {
-  const { close, renderAnimation } = useAnimated(
-    {
-      from: { opacity: 0, transform: 'translateY(48px)' },
-      enter: { opacity: 1, transform: 'translateY(0px)' },
-      leave: {
-        opacity: 0,
-        transform: 'translateY(48px)',
-      },
-      config: {
-        duration: 200,
-      },
-    },
-    onClose
-  );
+  const { close, modalStyles, overlayStyles } = useAnimated(onClose, {
+    getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
+    getTo: isOpen =>
+      isOpen
+        ? { opacity: 1, transform: 'translateY(0px)' }
+        : { opacity: 0, transform: 'translateY(48px)' },
+  });
 
   return (
-    <ModalHost noMouseClose={noMouseClose} onClose={close} theme={theme}>
-      {renderAnimation(
+    <ModalHost
+      noMouseClose={noMouseClose}
+      onClose={close}
+      overlayStyles={overlayStyles}
+      theme={theme}
+    >
+      <animated.div style={modalStyles}>
         <ModalWindow
           hasStickyButtons={hasStickyButtons}
           hasXButton={hasXButton}
@@ -70,7 +69,7 @@ export function Modal({
         >
           {children}
         </ModalWindow>
-      )}
+      </animated.div>
     </ModalHost>
   );
 }

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { MouseEvent, useCallback } from 'react';
+import { animated } from '@react-spring/web';
 import { Button, ButtonVariant } from './Button';
 import { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
@@ -63,17 +64,10 @@ export const ConfirmationDialog = React.memo(
     title,
     hasXButton,
   }: Props) => {
-    const { close, renderAnimation } = useAnimated(
-      {
-        from: { opacity: 0, transform: 'scale(0.25)' },
-        enter: { opacity: 1, transform: 'scale(1)' },
-        leave: { opacity: 0, onRest: () => onClose() },
-        config: {
-          duration: 150,
-        },
-      },
-      onClose
-    );
+    const { close, overlayStyles, modalStyles } = useAnimated(onClose, {
+      getFrom: () => ({ opacity: 0, transform: 'scale(0.25)' }),
+      getTo: isOpen => ({ opacity: isOpen ? 1 : 0, transform: 'scale(1)' }),
+    });
 
     const cancelAndClose = useCallback(() => {
       if (onCancel) {
@@ -94,8 +88,8 @@ export const ConfirmationDialog = React.memo(
     const hasActions = Boolean(actions.length);
 
     return (
-      <ModalHost onClose={close} theme={theme}>
-        {renderAnimation(
+      <ModalHost onClose={close} theme={theme} overlayStyles={overlayStyles}>
+        <animated.div style={modalStyles}>
           <ModalWindow
             hasXButton={hasXButton}
             i18n={i18n}
@@ -129,7 +123,7 @@ export const ConfirmationDialog = React.memo(
               ))}
             </Modal.ButtonFooter>
           </ModalWindow>
-        )}
+        </animated.div>
       </ModalHost>
     );
   }

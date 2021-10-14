@@ -1,37 +1,72 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, ReactElement } from 'react';
-import { animated, useTransition, UseTransitionProps } from '@react-spring/web';
-import cubicBezier from 'bezier-easing';
+import { useState } from 'react';
+import {
+  SpringValues,
+  useChain,
+  useSpring,
+  useSpringRef,
+} from '@react-spring/web';
 
-export function useAnimated<Props extends Record<string, unknown>>(
-  props: UseTransitionProps,
-  onClose: () => unknown
+export type ModalConfigType = {
+  opacity: number;
+  transform?: string;
+};
+
+export function useAnimated(
+  onClose: () => unknown,
+  {
+    getFrom,
+    getTo,
+  }: {
+    getFrom: (isOpen: boolean) => ModalConfigType;
+    getTo: (isOpen: boolean) => ModalConfigType;
+  }
 ): {
   close: () => unknown;
-  renderAnimation: (children: ReactElement) => JSX.Element;
+  modalStyles: SpringValues<ModalConfigType>;
+  overlayStyles: SpringValues<ModalConfigType>;
 } {
   const [isOpen, setIsOpen] = useState(true);
 
-  const transitions = useTransition<boolean, Props>(isOpen, {
-    ...props,
-    leave: {
-      ...props.leave,
-      onRest: () => onClose(),
+  const modalRef = useSpringRef();
+
+  const modalStyles = useSpring({
+    from: getFrom(isOpen),
+    to: getTo(isOpen),
+    onRest: () => {
+      if (!isOpen) {
+        onClose();
+      }
     },
     config: {
-      duration: 200,
-      easing: cubicBezier(0.17, 0.17, 0, 1),
-      ...props.config,
+      clamp: true,
+      friction: 20,
+      mass: 0.5,
+      tension: 350,
     },
+    ref: modalRef,
   });
+
+  const overlayRef = useSpringRef();
+
+  const overlayStyles = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: isOpen ? 1 : 0 },
+    config: {
+      clamp: true,
+      friction: 22,
+      tension: 360,
+    },
+    ref: overlayRef,
+  });
+
+  useChain(isOpen ? [overlayRef, modalRef] : [modalRef, overlayRef]);
 
   return {
     close: () => setIsOpen(false),
-    renderAnimation: children =>
-      transitions((style, item) =>
-        item ? <animated.div style={style}>{children}</animated.div> : null
-      ),
+    overlayStyles,
+    modalStyles,
   };
 }

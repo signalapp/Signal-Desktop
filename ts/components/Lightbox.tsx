@@ -47,6 +47,12 @@ const INITIAL_IMAGE_TRANSFORM = {
   scale: 1,
   translateX: 0,
   translateY: 0,
+  config: {
+    clamp: true,
+    friction: 20,
+    mass: 0.5,
+    tension: 350,
+  },
 };
 
 export function Lightbox({

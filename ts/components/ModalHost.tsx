@@ -5,20 +5,30 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
+import { SpringValues, animated } from '@react-spring/web';
 
+import type { ModalConfigType } from '../hooks/useAnimated';
 import { Theme, themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {
-  readonly noMouseClose?: boolean;
-  readonly onEscape?: () => unknown;
-  readonly onClose: () => unknown;
   readonly children: React.ReactElement;
+  readonly noMouseClose?: boolean;
+  readonly onClose: () => unknown;
+  readonly onEscape?: () => unknown;
+  readonly overlayStyles?: SpringValues<ModalConfigType>;
   readonly theme?: Theme;
 };
 
 export const ModalHost = React.memo(
-  ({ onEscape, onClose, children, noMouseClose, theme }: PropsType) => {
+  ({
+    children,
+    noMouseClose,
+    onClose,
+    onEscape,
+    theme,
+    overlayStyles,
+  }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const [isMouseDown, setIsMouseDown] = React.useState(false);
 
@@ -64,16 +74,18 @@ export const ModalHost = React.memo(
               allowOutsideClick: false,
             }}
           >
-            <div
-              role="presentation"
-              className={classNames(
-                'module-modal-host__overlay',
-                theme ? themeClassName(theme) : undefined
-              )}
-              onMouseDown={noMouseClose ? undefined : handleMouseDown}
-              onMouseUp={noMouseClose ? undefined : handleMouseUp}
-            >
-              {children}
+            <div>
+              <animated.div
+                role="presentation"
+                className={classNames(
+                  'module-modal-host__overlay',
+                  theme ? themeClassName(theme) : undefined
+                )}
+                onMouseDown={noMouseClose ? undefined : handleMouseDown}
+                onMouseUp={noMouseClose ? undefined : handleMouseUp}
+                style={overlayStyles}
+              />
+              <div className="module-modal-host__container">{children}</div>
             </div>
           </FocusTrap>,
           root
