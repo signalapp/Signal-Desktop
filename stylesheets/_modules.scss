@@ -5848,6 +5848,8 @@ button.module-image__border-overlay:focus {
           }
 
           &__name {
+            align-items: center;
+            display: flex;
             flex-grow: 1;
             flex-shrink: 1;
 
@@ -5862,6 +5864,34 @@ button.module-image__border-overlay:focus {
             }
             @include dark-theme {
               color: $color-gray-05;
+            }
+
+            &__contact-name {
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            &__mute-icon {
+              $size: 14px;
+
+              height: $size;
+              margin-inline-start: 8px;
+              min-width: $size;
+              width: $size;
+
+              @include light-theme {
+                @include color-svg(
+                  '../images/icons/v2/bell-disabled-outline-24.svg',
+                  $color-gray-45
+                );
+              }
+
+              @include dark-theme {
+                @include color-svg(
+                  '../images/icons/v2/bell-disabled-solid-24.svg',
+                  $color-gray-25
+                );
+              }
             }
           }
 
@@ -5924,27 +5954,6 @@ button.module-image__border-overlay:focus {
 
             &--always-full-size {
               height: 36px; // two lines
-            }
-
-            &__muted {
-              display: inline-block;
-              height: 14px;
-              margin-right: 4px;
-              vertical-align: middle;
-              width: 14px;
-
-              @include light-theme {
-                @include color-svg(
-                  '../images/icons/v2/sound-off-outline-24.svg',
-                  $color-gray-60
-                );
-              }
-              @include dark-theme {
-                @include color-svg(
-                  '../images/icons/v2/sound-off-outline-24.svg',
-                  $color-gray-25
-                );
-              }
             }
 
             &__message-request {

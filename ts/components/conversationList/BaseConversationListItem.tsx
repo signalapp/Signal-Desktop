@@ -16,6 +16,8 @@ const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
 const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
+export const HEADER_NAME_CLASS_NAME = `${HEADER_CLASS_NAME}__name`;
+export const HEADER_CONTACT_NAME_CLASS_NAME = `${HEADER_NAME_CLASS_NAME}__contact-name`;
 export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
 const TIMESTAMP_CLASS_NAME = `${DATE_CLASS_NAME}__timestamp`;
 const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;

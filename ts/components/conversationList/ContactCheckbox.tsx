@@ -3,7 +3,10 @@
 
 import React, { FunctionComponent, ReactNode } from 'react';
 
-import { BaseConversationListItem } from './BaseConversationListItem';
+import {
+  BaseConversationListItem,
+  HEADER_CONTACT_NAME_CLASS_NAME,
+} from './BaseConversationListItem';
 import { ConversationType } from '../../state/ducks/conversations';
 import { LocalizerType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
@@ -69,9 +72,11 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     const disabled = Boolean(disabledReason);
 
     const headerName = isMe ? (
-      i18n('noteToSelf')
+      <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
+        {i18n('noteToSelf')}
+      </span>
     ) : (
-      <ContactName title={title} />
+      <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
     let messageText: ReactNode;

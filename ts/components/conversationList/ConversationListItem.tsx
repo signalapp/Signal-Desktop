@@ -6,6 +6,8 @@ import classNames from 'classnames';
 
 import {
   BaseConversationListItem,
+  HEADER_NAME_CLASS_NAME,
+  HEADER_CONTACT_NAME_CLASS_NAME,
   MESSAGE_TEXT_CLASS_NAME,
 } from './BaseConversationListItem';
 import { MessageBody } from '../conversation/MessageBody';
@@ -88,10 +90,18 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     unblurredAvatarPath,
     unreadCount,
   }) {
-    const headerName = isMe ? (
-      i18n('noteToSelf')
-    ) : (
-      <ContactName title={title} />
+    const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
+    const headerName = (
+      <>
+        {isMe ? (
+          <span className={HEADER_CONTACT_NAME_CLASS_NAME}>
+            {i18n('noteToSelf')}
+          </span>
+        ) : (
+          <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
+        )}
+        {isMuted && <div className={`${HEADER_NAME_CLASS_NAME}__mute-icon`} />}
+      </>
     );
 
     let messageText: ReactNode = null;
@@ -144,16 +154,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           />
         );
       }
-    }
-
-    const isMuted = Boolean(muteExpiresAt && Date.now() < muteExpiresAt);
-    if (isMuted) {
-      messageText = (
-        <>
-          <span className={`${MESSAGE_TEXT_CLASS_NAME}__muted`} />
-          {messageText}
-        </>
-      );
     }
 
     const onClickItem = useCallback(() => onClick(id), [onClick, id]);
