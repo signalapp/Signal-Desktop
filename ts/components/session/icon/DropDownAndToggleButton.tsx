@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
+import { contextMenu } from 'react-contexify';
 
 type SProps = {
   onArrowClick: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -10,11 +11,10 @@ type SProps = {
   iconType: 'microphone' | 'camera';
 };
 
-const StyledRoundedButton = styled.div`
-  background-color: var(--color-cell-background);
-  color: var(--color-text);
+const StyledRoundedButton = styled.div<{ isMuted: boolean }>`
+  background-color: ${props => (props.isMuted ? 'black' : 'white')};
+  color: ${props => (props.isMuted ? 'white' : 'black')};
   border-radius: 50%;
-  box-shadow: var(--color-session-shadow);
   cursor: pointer;
 
   transition-duration: 0.25s;
@@ -44,6 +44,7 @@ const StyledArrowIcon = styled(StyledRoundedButton)`
   position: relative;
   top: -35%;
   right: -65%;
+  box-shadow: 0 0 4px 0 #b4b4b4;
 `;
 
 const CameraIcon = (
@@ -67,16 +68,17 @@ export const DropDownAndToggleButton = (props: SProps) => {
 
   const mainButtonClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    contextMenu.hideAll();
     onMainButtonClick(e);
   };
   const iconToRender =
     iconType === 'microphone' ? MicrophoneIcon : iconType === 'camera' ? CameraIcon : null;
 
   return (
-    <StyledContainer>
+    <StyledContainer isMuted={isMuted || false}>
       <StyledMainIcon onClick={mainButtonClickHandler}>{iconToRender}</StyledMainIcon>
       {!hidePopoverArrow && (
-        <StyledArrowIcon onClick={arrowClickHandler}>
+        <StyledArrowIcon isMuted={false} onClick={arrowClickHandler}>
           <svg viewBox="-200 -200 640 640" fill="currentColor">
             <path d="M127.5 191.25L255 63.75L0 63.75L127.5 191.25Z" />
           </svg>

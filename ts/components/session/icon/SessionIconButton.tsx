@@ -9,6 +9,7 @@ interface SProps extends SessionIconProps {
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
+  margin?: string;
 }
 
 const SessionIconButtonInner = (props: SProps) => {
@@ -26,6 +27,7 @@ const SessionIconButtonInner = (props: SProps) => {
     backgroundColor,
     borderRadius,
     iconPadding,
+    margin,
   } = props;
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
@@ -39,7 +41,7 @@ const SessionIconButtonInner = (props: SProps) => {
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
       role="button"
       onClick={clickHandler}
-      style={{ display: isHidden ? 'none' : 'flex' }}
+      style={{ display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
     >
       <SessionIcon
         iconType={iconType}

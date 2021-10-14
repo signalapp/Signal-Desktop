@@ -54,7 +54,7 @@ export const InConvoCallWindow = styled.div`
   display: flex;
   height: 50%;
 
-  background: radial-gradient(black, #505050);
+  background-color: hsl(0, 0%, 15.7%);
 
   flex-shrink: 0;
   min-height: 200px;
@@ -65,10 +65,11 @@ const InConvoCallWindowControls = styled.div`
   position: absolute;
 
   bottom: 0px;
-  width: fit-content;
+  width: 100%;
+  height: 100%;
+  align-items: flex-end;
   padding: 10px;
   border-radius: 10px;
-  height: 60px;
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -77,7 +78,6 @@ const InConvoCallWindowControls = styled.div`
 
   display: flex;
 
-  align-items: center;
   justify-content: center;
   opacity: 0;
   &:hover {
@@ -182,8 +182,10 @@ export const DraggableCallContainer = () => {
 const VideoInputMenu = ({
   triggerId,
   camerasList,
+  onUnmute,
 }: {
   triggerId: string;
+  onUnmute: () => void;
   camerasList: Array<InputItem>;
 }) => {
   return (
@@ -193,6 +195,7 @@ const VideoInputMenu = ({
           <Item
             key={m.deviceId}
             onClick={() => {
+              onUnmute();
               void CallManager.selectCameraByDeviceId(m.deviceId);
             }}
           >
@@ -207,9 +210,11 @@ const VideoInputMenu = ({
 const AudioInputMenu = ({
   triggerId,
   audioInputsList,
+  onUnmute,
 }: {
   triggerId: string;
   audioInputsList: Array<InputItem>;
+  onUnmute: () => void;
 }) => {
   return (
     <Menu id={triggerId} animation={animation.fade}>
@@ -218,6 +223,7 @@ const AudioInputMenu = ({
           <Item
             key={m.deviceId}
             onClick={() => {
+              onUnmute();
               void CallManager.selectAudioInputByDeviceId(m.deviceId);
             }}
           >
@@ -357,10 +363,11 @@ export const InConversationCallContainer = () => {
             iconSize={60}
             iconPadding="20px"
             iconType="hangup"
-            backgroundColor="var(--color-cell-background)"
+            backgroundColor="white"
             borderRadius="50%"
             onClick={handleEndCall}
             iconColor="red"
+            margin="10px"
           />
           <DropDownAndToggleButton
             iconType="camera"
@@ -375,8 +382,16 @@ export const InConversationCallContainer = () => {
             onArrowClick={showAudioInputMenu}
           />
         </InConvoCallWindowControls>
-        <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
-        <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />
+        <VideoInputMenu
+          triggerId={videoTriggerId}
+          onUnmute={() => setVideoMuted(false)}
+          camerasList={currentConnectedCameras}
+        />
+        <AudioInputMenu
+          triggerId={audioTriggerId}
+          onUnmute={() => setAudioMuted(false)}
+          audioInputsList={currentConnectedAudioInputs}
+        />
       </RelativeCallWindow>
     </InConvoCallWindow>
   );
