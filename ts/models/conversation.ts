@@ -104,6 +104,7 @@ export interface ConversationAttributes {
   triggerNotificationsFor: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
+  isApproved: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -144,6 +145,7 @@ export interface ConversationAttributesOptionals {
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
+  isApproved: boolean;
 }
 
 /**
@@ -433,6 +435,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isBlocked = this.isBlocked();
     const subscriberCount = this.get('subscriberCount');
     const isPinned = this.isPinned();
+    const isApproved = this.isApproved();
     const hasNickname = !!this.getNickname();
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
@@ -507,6 +510,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (isPinned) {
       toRet.isPinned = isPinned;
+    }
+    if (isApproved) {
+      toRet.isApproved = isApproved;
     }
     if (subscriberCount) {
       toRet.subscriberCount = subscriberCount;
@@ -1375,6 +1381,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  public async setIsApproved(value: boolean) {
+    if (value !== this.get('isApproved')) {
+      this.set({
+        isApproved: true,
+      });
+      await this.commit();
+    }
+  }
+
   public async setGroupName(name: string) {
     const profileName = this.get('name');
     if (profileName !== name) {
@@ -1480,6 +1495,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isPinned() {
     return this.get('isPinned');
+  }
+
+  public isApproved() {
+    return this.get('isApproved');
   }
 
   public getTitle() {

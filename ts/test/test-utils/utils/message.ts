@@ -95,6 +95,7 @@ export class MockConversation {
       triggerNotificationsFor: 'all',
       isTrustedForAttachmentDownload: false,
       isPinned: false,
+      isApproved: false,
     };
   }
 

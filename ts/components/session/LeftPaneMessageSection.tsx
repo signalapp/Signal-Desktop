@@ -51,7 +51,7 @@ export type SessionGroupType = SessionComposeToType;
 
 interface State {
   loading: boolean;
-  overlay: false | SessionComposeToType;
+  overlay: false | SessionClosableOverlayType;
   valuePasted: string;
 }
 
@@ -144,7 +144,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
-        {overlay ? this.renderClosableOverlay(overlay) : this.renderConversations()}
+        {overlay ? this.renderClosableOverlay() : this.renderConversations()}
       </div>
     );
   }
@@ -157,10 +157,16 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
         />
+        <div onClick={this.handleMessageRequestsClick}>message requests</div>
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>
     );
+  }
+
+  private handleMessageRequestsClick() {
+    console.warn('handle msg req clicked');
+    this.handleToggleOverlay(SessionClosableOverlayType.MessageRequests);
   }
 
   public updateSearch(searchTerm: string) {
@@ -201,9 +207,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     );
   }
 
-  private renderClosableOverlay(overlay: SessionComposeToType) {
+  private renderClosableOverlay() {
     const { searchTerm, searchResults } = this.props;
-    const { loading } = this.state;
+    const { loading, overlay } = this.state;
 
     const openGroupElement = (
       <SessionClosableOverlay
@@ -251,16 +257,37 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       />
     );
 
+    const messageRequestsElement = (
+      <SessionClosableOverlay
+        overlayMode={SessionClosableOverlayType.MessageRequests}
+        onChangeSessionID={this.handleOnPaste}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
+        onButtonClick={this.handleMessageButtonClick}
+        searchTerm={searchTerm}
+        searchResults={searchResults}
+        showSpinner={loading}
+        updateSearch={this.updateSearch}
+      />
+    );
+
     let overlayElement;
     switch (overlay) {
-      case SessionComposeToType.OpenGroup:
+      case SessionClosableOverlayType.OpenGroup:
         overlayElement = openGroupElement;
         break;
-      case SessionComposeToType.ClosedGroup:
+      case SessionClosableOverlayType.ClosedGroup:
         overlayElement = closedGroupElement;
         break;
-      default:
+      case SessionClosableOverlayType.Message:
         overlayElement = messageElement;
+        break;
+      case SessionClosableOverlayType.MessageRequests:
+        overlayElement = messageRequestsElement;
+        break;
+      default:
+        overlayElement = false;
     }
 
     return overlayElement;
@@ -277,7 +304,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Green}
           onClick={() => {
-            this.handleToggleOverlay(SessionComposeToType.OpenGroup);
+            this.handleToggleOverlay(SessionClosableOverlayType.OpenGroup);
           }}
         />
         <SessionButton
@@ -285,15 +312,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
-            this.handleToggleOverlay(SessionComposeToType.ClosedGroup);
+            this.handleToggleOverlay(SessionClosableOverlayType.ClosedGroup);
           }}
         />
       </div>
     );
   }
 
-  private handleToggleOverlay(conversationType?: SessionComposeToType) {
-    const overlayState = conversationType || false;
+  private handleToggleOverlay(overlayType?: SessionClosableOverlayType) {
+    const overlayState = overlayType || false;
 
     this.setState({ overlay: overlayState });
 
@@ -403,6 +430,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private handleNewSessionButtonClick() {
-    this.handleToggleOverlay(SessionComposeToType.Message);
+    this.handleToggleOverlay(SessionClosableOverlayType.Message);
   }
 }

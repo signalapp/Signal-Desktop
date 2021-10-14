@@ -9,11 +9,18 @@ import { SessionSpinner } from './SessionSpinner';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 import { SpacerLG, SpacerMD } from '../basic/Text';
+import { useSelector } from 'react-redux';
+import { getLeftPaneLists } from '../../state/selectors/conversations';
+import {
+  ConversationListItemProps,
+  MemoConversationListItemWithDetails,
+} from '../ConversationListItem';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
   OpenGroup = 'open-group',
   ClosedGroup = 'closed-group',
+  MessageRequests = 'message-requests',
 }
 
 interface Props {
@@ -106,6 +113,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
     const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
     const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isMessageRequestView = overlayMode === SessionClosableOverlayType.MessageRequests;
 
     let title;
     let buttonText;
@@ -132,6 +140,12 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         buttonText = window.i18n('done');
         subtitle = window.i18n('createClosedGroupNamePrompt');
         placeholder = window.i18n('createClosedGroupPlaceholder');
+        break;
+      case SessionClosableOverlayType.MessageRequests:
+        title = 'Message Requests';
+        buttonText = 'requests done';
+        subtitle = 'Pending Requests';
+        placeholder = 'placeholder';
         break;
       default:
     }
@@ -172,14 +186,25 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               onPressEnter={() => onButtonClick(groupName, selectedMembers)}
             />
           </div>
-        ) : (
+        ) : null}
+
+        {isMessageView ? (
           <SessionIdEditable
             ref={this.inputRef}
             editable={!showLoadingSpinner}
             placeholder={placeholder}
             onChange={onChangeSessionID}
           />
-        )}
+        ) : null}
+
+        {isMessageRequestView ? (
+          <>
+            <SpacerLG />
+            <div className="message-request-list__container"></div>
+            <MessageRequestList />
+            <SpacerLG />
+          </>
+        ) : null}
 
         <SessionSpinner loading={showLoadingSpinner} />
 
@@ -266,3 +291,80 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     }
   }
 }
+
+const MessageRequestList = () => {
+  // get all conversations with (accepted / known)
+  // const convos = useSelector(getConversationLookup);
+
+  const lists = useSelector(getLeftPaneLists);
+  const conversationx = lists?.conversations as Array<ConversationListItemProps>;
+  console.warn({ conversationx });
+
+  // console.warn({ convos });
+  // const allConversations = getConversationController().getConversations();
+  // const messageRequests = allConversations.filter(convo => convo.get('isApproved') !== true);
+
+  return (
+    <>
+      {/* {messageRequests.map(convoOfMessage => { */}
+      {conversationx.map(convoOfMessage => {
+        return <MessageRequestListItem conversation={convoOfMessage} />;
+      })}
+    </>
+  );
+};
+
+// const MessageRequestListItem = (props: { conversation: ConversationModel }) => {
+const MessageRequestListItem = (props: { conversation: ConversationListItemProps }) => {
+  const { conversation } = props;
+  // const { id: conversationId } = conversation;
+
+  // TODO: add hovering
+  // TODO: add styling
+
+  /**
+   * open the conversation selected
+   */
+  // const openConvo = useCallback(
+  //   async (e: React.MouseEvent<HTMLDivElement>) => {
+  //     // mousedown is invoked sooner than onClick, but for both right and left click
+  //     if (e.button === 0) {
+  //       await openConversationWithMessages({ conversationKey: conversationId });
+  //     }
+  //   },
+  //   [conversationId]
+  // );
+
+  // /**
+  //  * show basic highlight animation
+  //  */
+  // const handleMouseOver = () => {
+  //   console.warn('hovered');
+  // };
+
+  return (
+    // <div
+    //   onMouseOver={handleMouseOver}
+    //   onMouseDown={openConvo}
+    //   onMouseUp={e => {
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    //   }}
+    //   // className="message-request__item"
+
+    //   // className={classNames(
+    //   //     'module-conversation-list-item',
+    //   //     unreadCount && unreadCount > 0 ? 'module-conversation-list-item--has-unread' : null,
+    //   //     unreadCount && unreadCount > 0 && mentionedUs
+    //   //       ? 'module-conversation-list-item--mentioned-us'
+    //   //       : null,
+    //   //     isSelected ? 'module-conversation-list-item--is-selected' : null,
+    //   //     isBlocked ? 'module-conversation-list-item--is-blocked' : null
+    //   //   )}
+    // >
+    //   {conversation.getName()}
+    // </div>
+
+    <MemoConversationListItemWithDetails {...conversation}></MemoConversationListItemWithDetails>
+  );
+};
