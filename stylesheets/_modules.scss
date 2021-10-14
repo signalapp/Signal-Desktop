@@ -5702,6 +5702,7 @@ button.module-image__border-overlay:focus {
         padding-top: 1px;
         padding-bottom: 1px;
         border-radius: 10px;
+        white-space: pre;
 
         @include light-theme {
           color: $color-gray-60;
