@@ -355,7 +355,7 @@ export const InConversationCallContainer = () => {
           <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
         </VideoContainer>
         <VideoContainer>
-          <StyledVideoElement ref={videoRefLocal} autoPlay={true} />
+          <StyledVideoElement ref={videoRefLocal} autoPlay={true} muted={true} />
         </VideoContainer>
 
         <InConvoCallWindowControls>

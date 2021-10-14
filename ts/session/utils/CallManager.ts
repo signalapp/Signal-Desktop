@@ -184,11 +184,7 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
 
       if (sender) {
         await sender.replaceTrack(audioTrack);
-        mediaDevices?.getAudioTracks().forEach(t => {
-          t.stop();
-          mediaDevices?.removeTrack(t);
-        });
-        mediaDevices?.addTrack(audioTrack);
+        // we actually do not need to toggle the track here, as toggling it here unmuted here locally (so we start to hear ourselves)
       } else {
         throw new Error('Failed to get sender for selectAudioInputByDeviceId ');
       }
@@ -274,12 +270,7 @@ async function openMediaDevicesAndAddTracks() {
         track.enabled = false;
       }
       if (mediaDevices) {
-        // FIXME audric why does this fails?
-        // track.onunmute = () => {
-        //   if (mediaDevices) {
         peerConnection?.addTrack(track, mediaDevices);
-        //   }
-        // };
       }
     });
   } catch (err) {
