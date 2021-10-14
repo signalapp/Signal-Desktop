@@ -54,7 +54,7 @@ const MAX_DATE = new Date(3000, 0, 1).valueOf();
 
 const emptyContentType = { type: null, charset: null };
 
-type FetchFn = (href: string, init: RequestInit) => Promise<Response>;
+export type FetchFn = (href: string, init: RequestInit) => Promise<Response>;
 
 export type LinkPreviewMetadata = {
   title: string;

@@ -999,6 +999,14 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
+    let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
+    if (proxyUrl) {
+      const agent = new ProxyAgent(proxyUrl);
+      fetchForLinkPreviews = (href, init) => fetch(href, { ...init, agent });
+    } else {
+      fetchForLinkPreviews = fetch;
+    }
+
     // Thanks, function hoisting!
     return {
       getSocketStatus,
@@ -1968,7 +1976,7 @@ export function initialize({
       abortSignal: AbortSignal
     ) {
       return linkPreviewFetch.fetchLinkPreviewMetadata(
-        fetch,
+        fetchForLinkPreviews,
         href,
         abortSignal
       );
@@ -1978,7 +1986,11 @@ export function initialize({
       href: string,
       abortSignal: AbortSignal
     ) {
-      return linkPreviewFetch.fetchLinkPreviewImage(fetch, href, abortSignal);
+      return linkPreviewFetch.fetchLinkPreviewImage(
+        fetchForLinkPreviews,
+        href,
+        abortSignal
+      );
     }
 
     async function makeProxiedRequest(
