@@ -559,7 +559,10 @@ export const LeftPane: React.FC<PropsType> = ({
                 tabIndex={-1}
               >
                 <ConversationList
-                  dimensions={contentRect.bounds}
+                  dimensions={{
+                    width,
+                    height: contentRect.bounds?.height || 0,
+                  }}
                   getRow={getRow}
                   i18n={i18n}
                   onClickArchiveButton={showArchivedConversations}

@@ -6246,12 +6246,6 @@ button.module-image__border-overlay:focus {
       border: 2px solid $color-gray-80;
     }
   }
-
-  @media (prefers-reduced-motion: no-preference) {
-    &:not(.module-left-pane--is-resizing) {
-      transition: width 200ms cubic-bezier(0.17, 0.17, 0, 1);
-    }
-  }
 }
 
 .module-left-pane__empty {
