@@ -37,6 +37,8 @@ export interface SnodeResponse {
 }
 
 export const NEXT_NODE_NOT_FOUND_PREFIX = 'Next node not found: ';
+export const ERROR_421_HANDLED_RETRY_REQUEST =
+  '421 handled. Retry this request with a new targetNode';
 
 export const CLOCK_OUT_OF_SYNC_MESSAGE_ERROR =
   'Your clock is out of sync with the network. Check your clock.';
@@ -494,9 +496,6 @@ export async function processOnionResponse({
   }
 }
 
-export const ERROR_421_HANDLED_RETRY_REQUEST =
-  '421 handled. Retry this request with a new targetNode';
-
 export const snodeHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -543,7 +542,7 @@ async function handle421InvalidSwarm({
       // the snode gave us the new swarm. Save it for the next retry
       window?.log?.warn(
         'Wrong swarm, now looking at snodes',
-        parsedBody.snodes.map((s: any) => s.pubkey_ed25519)
+        parsedBody.snodes.map((s: any) => ed25519Str(s.pubkey_ed25519))
       );
 
       await updateSwarmFor(associatedWith, parsedBody.snodes);

@@ -19,6 +19,7 @@ export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+
   return (
     <>
       {messagesProps.map(messageProps => {

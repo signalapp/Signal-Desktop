@@ -616,6 +616,12 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
                           snodeToMakeRequestTo.pubkey_ed25519
                         )} due to error: ${reason}: ${statusCode}`
                       );
+                      // if we tried to make the delete on a snode not in our swarm, just trigger a pRetry error so the outer block here finds new snodes to make the request to.
+                      if (statusCode === 421) {
+                        throw new pRetry.AbortError(
+                          '421 error on network delete_all. Retrying with a new snode'
+                        );
+                      }
                     } else {
                       window?.log?.warn(
                         `Could not delete data from ${ed25519Str(
