@@ -43,7 +43,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
-import { InConversationCallContainer } from '../calling/CallContainer';
+import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 
 interface State {
   showRecordingView: boolean;
