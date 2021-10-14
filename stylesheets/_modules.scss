@@ -6140,10 +6140,12 @@ button.module-image__border-overlay:focus {
     &--header {
       @include font-body-1-bold;
 
-      align-items: center;
-      padding-left: 16px;
+      align-items: flex-end;
+      display: flex;
       height: 100%;
       overflow-x: hidden;
+      padding-bottom: 8px;
+      padding-left: 16px;
       text-overflow: ellipsis;
       user-select: none;
       white-space: nowrap;
@@ -6157,6 +6159,7 @@ button.module-image__border-overlay:focus {
         display: block;
         height: 2px;
         margin: 19px 0 19px 10px;
+        padding-bottom: 0;
         width: 56px;
 
         // Hide the text, but keep it for screen readers.
