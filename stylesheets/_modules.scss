@@ -76,19 +76,9 @@
   display: inline-flex;
   flex-direction: row;
   align-items: stretch;
-
   outline: none;
-
-  max-width: 406px;
-
-  .module-timeline--width-wide &,
-  .module-message-detail & {
-    max-width: 75%;
-  }
-
-  .module-timeline--width-medium & {
-    max-width: 480px;
-  }
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .module-message--expired {
@@ -113,14 +103,9 @@
   }
 }
 
-.module-message--incoming {
-  margin-left: 16px;
-  margin-right: auto;
-}
 .module-message--outgoing {
   float: right;
-  margin-right: 16px;
-  margin-left: auto;
+  justify-content: flex-end;
 }
 
 .module-message__buttons {
@@ -333,6 +318,19 @@
   flex-direction: column;
   width: 100%;
   min-width: 0;
+  max-width: 306px;
+
+  .module-timeline--width-wide &,
+  .module-message-detail & {
+    // NOTE(evanhahn): I wanted this to be 66% of the timeline, but I could not make that
+    //   work without introducing layout bugs for some message types. This constant,
+    //   though not ideal, fixes those bugs.
+    max-width: 50vw;
+  }
+
+  .module-timeline--width-medium & {
+    max-width: 370px;
+  }
 }
 .module-message__container {
   position: relative;
@@ -1086,6 +1084,7 @@
 .module-message__metadata__date {
   @include font-caption;
   user-select: none;
+  white-space: nowrap;
 
   @include light-theme {
     color: $color-white-alpha-80;
