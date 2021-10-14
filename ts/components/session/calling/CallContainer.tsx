@@ -384,12 +384,16 @@ export const InConversationCallContainer = () => {
         </InConvoCallWindowControls>
         <VideoInputMenu
           triggerId={videoTriggerId}
-          onUnmute={() => setVideoMuted(false)}
+          onUnmute={() => {
+            setVideoMuted(false);
+          }}
           camerasList={currentConnectedCameras}
         />
         <AudioInputMenu
           triggerId={audioTriggerId}
-          onUnmute={() => setAudioMuted(false)}
+          onUnmute={() => {
+            setAudioMuted(false);
+          }}
           audioInputsList={currentConnectedAudioInputs}
         />
       </RelativeCallWindow>

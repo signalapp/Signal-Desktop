@@ -83,11 +83,13 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput') {
 }
 
 // Listen for changes to media devices and update the list accordingly
-navigator.mediaDevices.addEventListener('devicechange', async () => {
-  await updateInputLists();
-  callVideoListener();
-});
-
+// tslint:disable-next-line: no-typeof-undefined
+if (typeof navigator !== 'undefined') {
+  navigator.mediaDevices.addEventListener('devicechange', async () => {
+    await updateInputLists();
+    callVideoListener();
+  });
+}
 async function updateInputLists() {
   // Get the set of cameras connected
   const videoCameras = await getConnectedDevices('videoinput');

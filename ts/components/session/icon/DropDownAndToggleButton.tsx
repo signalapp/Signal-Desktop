@@ -12,7 +12,7 @@ type SProps = {
 };
 
 const StyledRoundedButton = styled.div<{ isMuted: boolean }>`
-  background-color: ${props => (props.isMuted ? 'black' : 'white')};
+  background-color: ${props => (props.isMuted ? 'hsl(0,0%,40%)' : 'white')};
   color: ${props => (props.isMuted ? 'white' : 'black')};
   border-radius: 50%;
   cursor: pointer;
