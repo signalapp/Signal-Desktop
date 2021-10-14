@@ -73,7 +73,7 @@ export const Avatar: FunctionComponent<Props> = ({
   acceptedMessageRequest,
   avatarPath,
   className,
-  color,
+  color = 'A200',
   conversationType,
   i18n,
   isMe,
