@@ -40,6 +40,8 @@ import * as OS from '../OS';
 import { LocalizerType, ScrollBehavior } from '../types/Util';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
+import { strictAssert } from '../util/assert';
+import { isSorted } from '../util/isSorted';
 import { getConversationListWidthBreakpoint, WidthBreakpoint } from './_util';
 
 import { ConversationList } from './ConversationList';
@@ -52,9 +54,13 @@ import {
 } from '../types/Avatar';
 
 const MIN_WIDTH = 109;
-const MIN_SNAP_WIDTH = 280;
-const MIN_FULL_WIDTH = 320;
+const SNAP_WIDTH = 200;
+const MIN_FULL_WIDTH = 280;
 const MAX_WIDTH = 380;
+strictAssert(
+  isSorted([MIN_WIDTH, SNAP_WIDTH, MIN_FULL_WIDTH, MAX_WIDTH]),
+  'Expected widths to be in the right order'
+);
 
 export enum LeftPaneMode {
   Inbox,
@@ -387,10 +393,10 @@ export const LeftPane: React.FC<PropsType> = ({
       let width: number;
       if (requiresFullWidth) {
         width = Math.max(event.clientX, MIN_FULL_WIDTH);
-      } else if (event.clientX < MIN_SNAP_WIDTH) {
+      } else if (event.clientX < SNAP_WIDTH) {
         width = MIN_WIDTH;
       } else {
-        width = Math.max(event.clientX, MIN_WIDTH);
+        width = clamp(event.clientX, MIN_FULL_WIDTH, MAX_WIDTH);
       }
       setPreferredWidth(Math.min(width, MAX_WIDTH));
 
@@ -484,12 +490,10 @@ export const LeftPane: React.FC<PropsType> = ({
   );
 
   let width: number;
-  if (requiresFullWidth) {
+  if (requiresFullWidth || preferredWidth >= SNAP_WIDTH) {
     width = Math.max(preferredWidth, MIN_FULL_WIDTH);
-  } else if (preferredWidth < MIN_SNAP_WIDTH) {
-    width = MIN_WIDTH;
   } else {
-    width = preferredWidth;
+    width = MIN_WIDTH;
   }
 
   const isScrollable = helper.isScrollable();
