@@ -27,9 +27,9 @@ const MAX_CONTENT_TYPE_LENGTH_TO_PARSE = 100;
 
 // Though we'll accept HTML of any Content-Length (including no specified length), we
 //   will only load some of the HTML. So we might start loading a 99 gigabyte HTML page
-//   but only parse the first 500 kilobytes. However, if the Content-Length is less than
+//   but only parse the first 1000 kilobytes. However, if the Content-Length is less than
 //   this, we won't waste space.
-const MAX_HTML_BYTES_TO_LOAD = 500 * 1024;
+const MAX_HTML_BYTES_TO_LOAD = 1000 * 1024;
 
 // `<title>x` is 8 bytes. Nothing else (meta tags, etc) will even fit, so we can ignore
 //   it. This is mostly to protect us against empty response bodies.

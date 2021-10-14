@@ -843,7 +843,7 @@ describe('link preview fetching', () => {
       sinon.assert.notCalled(shouldNeverBeCalled);
     });
 
-    it('stops reading bodies after 500 kilobytes', async function test() {
+    it('stops reading bodies after 1000 kilobytes', async function test() {
       const shouldNeverBeCalled = sinon.stub();
 
       const fakeFetch = stub().resolves(
@@ -853,6 +853,9 @@ describe('link preview fetching', () => {
               '<!doctype html><head><title>foo bar</title>'
             );
             const spaces = new Uint8Array(250 * 1024).fill(32);
+            yield spaces;
+            yield spaces;
+            yield spaces;
             yield spaces;
             yield spaces;
             shouldNeverBeCalled();
