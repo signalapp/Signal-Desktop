@@ -5979,10 +5979,10 @@ button.module-image__border-overlay:focus {
 
               @mixin normal-status-icon($icon) {
                 @include light-theme {
-                  @include color-svg($icon, $color-gray-25);
+                  @include color-svg($icon, $color-gray-45);
                 }
                 @include dark-theme {
-                  @include color-svg($icon, $color-gray-45);
+                  @include color-svg($icon, $color-gray-25);
                 }
               }
 
