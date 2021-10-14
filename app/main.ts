@@ -446,10 +446,10 @@ async function createWindow() {
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
-      // We are evaluating background throttling in prerelease versions. If we decide to
+      // We are evaluating background throttling in development. If we decide to
       //   move forward, we can remove this line (as `backgroundThrottling` is true by
       //   default).
-      backgroundThrottling: !isProduction(app.getVersion()),
+      backgroundThrottling: development,
       enablePreferredSizeMode: true,
     },
     icon: windowIcon,
@@ -737,9 +737,9 @@ ipc.on('set-is-call-active', (_event, isCallActive) => {
     return;
   }
 
-  // We are evaluating background throttling in prerelease versions. If we decide to move
+  // We are evaluating background throttling in development. If we decide to move
   //   forward, we can remove this check.
-  if (isProduction(app.getVersion())) {
+  if (!development) {
     return;
   }
 
