@@ -173,11 +173,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
                 </div>
               )}
               {messageStatusIcon}
-              {isUnread && (
-                <div className={`${BASE_CLASS_NAME}__unread-count`}>
-                  {formatUnreadCount(unreadCount)}
-                </div>
-              )}
+              {isUnread && <UnreadCount count={unreadCount} />}
             </div>
           ) : null}
         </div>
@@ -235,12 +231,15 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
   }
 );
 
-function formatUnreadCount(count: undefined | number): string {
-  if (!count) {
-    return '';
-  }
-  if (count >= 99) {
-    return '99+';
-  }
-  return String(count);
+function UnreadCount({ count = 0 }: Readonly<{ count?: number }>) {
+  return (
+    <div
+      className={classNames(
+        `${BASE_CLASS_NAME}__unread-count`,
+        count > 99 && `${BASE_CLASS_NAME}__unread-count--big`
+      )}
+    >
+      {Boolean(count) && Math.min(count, 99)}
+    </div>
+  );
 }

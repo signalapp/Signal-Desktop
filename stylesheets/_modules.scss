@@ -5628,6 +5628,11 @@ button.module-image__border-overlay:focus {
   padding-left: 10px;
   padding-right: 10px;
 
+  &--width-narrow {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
   &--scroll-behavior {
     &-default {
       @include smooth-scroll;
@@ -5646,8 +5651,8 @@ button.module-image__border-overlay:focus {
       line-height: $normal-row-height;
       text-align: center;
       width: 100%;
-      padding-left: 14px;
-      padding-right: 14px;
+      padding-left: 18px;
+      padding-right: 18px;
       display: flex;
 
       @include light-theme {
@@ -5745,7 +5750,8 @@ button.module-image__border-overlay:focus {
       width: 100%;
 
       .module-conversation-list--width-narrow & {
-        padding-right: 8px;
+        padding-left: 18px;
+        padding-right: 0;
       }
 
       &--is-button {
@@ -5795,11 +5801,13 @@ button.module-image__border-overlay:focus {
       }
 
       &__unread-count {
-        $size: 18px;
+        $size: 16px;
 
         @include font-caption-bold;
         border-radius: 10px;
         color: $color-white;
+        font-size: 10px;
+        font-weight: 500;
         height: $size;
         line-height: $size;
         margin-left: 10px;
@@ -5809,9 +5817,12 @@ button.module-image__border-overlay:focus {
         padding-right: 3px;
         text-align: center;
         word-break: normal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         .module-conversation-list--width-narrow & {
-          margin-left: 0;
+          margin-left: 6px;
         }
 
         @include light-theme {
@@ -5819,6 +5830,18 @@ button.module-image__border-overlay:focus {
         }
         @include dark-theme {
           background-color: $color-ultramarine-light;
+        }
+
+        &--big {
+          font-size: 9px;
+          padding-right: 2px;
+
+          &::after {
+            content: '+';
+            display: inline-block;
+            font-size: 8px;
+            margin-bottom: 3px;
+          }
         }
       }
 
@@ -5926,6 +5949,7 @@ button.module-image__border-overlay:focus {
 
           .module-conversation-list--width-narrow & {
             align-items: center;
+            justify-content: flex-start;
           }
 
           &__text {
@@ -6167,9 +6191,9 @@ button.module-image__border-overlay:focus {
         @include rounded-corners;
         display: block;
         height: 2px;
-        margin: 19px 0 19px 10px;
+        margin: 19px 0 19px 17px;
         padding-bottom: 0;
-        width: 56px;
+        width: 48px;
 
         // Hide the text, but keep it for screen readers.
         color: transparent;
