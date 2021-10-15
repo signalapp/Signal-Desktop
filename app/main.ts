@@ -1125,10 +1125,9 @@ async function showDebugLogWindow() {
   const theme = settingsChannel
     ? await settingsChannel.getSettingFromMainWindow('themeSetting')
     : undefined;
-  const size = getMainWindow()?.getSize();
   const options = {
-    width: size ? Math.max(size[0] - 100, MIN_WIDTH) : MIN_WIDTH,
-    height: size ? Math.max(size[1] - 100, MIN_HEIGHT) : MIN_HEIGHT,
+    width: 700,
+    height: 500,
     resizable: false,
     title: getLocale().i18n('debugLog'),
     autoHideMenuBar: true,

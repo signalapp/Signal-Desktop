@@ -488,7 +488,7 @@
     "description": "Shown as the text for the copy button on the debug log screen"
   },
   "debugLogSave": {
-    "message": "Download",
+    "message": "Save",
     "description": "Shown as the text for the download button on the debug log screen"
   },
   "debugLogLinkCopied": {
