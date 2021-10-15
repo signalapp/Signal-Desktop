@@ -203,6 +203,7 @@ const dataInterface: ServerInterface = {
   markReactionAsRead,
   addReaction,
   removeReactionFromConversation,
+  _getAllReactions,
   getMessageBySender,
   getMessageById,
   getMessagesById,
@@ -2530,6 +2531,71 @@ function updateToSchemaVersion41(currentVersion: number, db: Database) {
   logger.info('updateToSchemaVersion41: success!');
 }
 
+function updateToSchemaVersion42(currentVersion: number, db: Database) {
+  if (currentVersion >= 42) {
+    return;
+  }
+
+  db.transaction(() => {
+    // First, recreate messages table delete trigger with reaction support
+
+    db.exec(`
+      DROP TRIGGER messages_on_delete;
+
+      CREATE TRIGGER messages_on_delete AFTER DELETE ON messages BEGIN
+        DELETE FROM messages_fts WHERE rowid = old.rowid;
+        DELETE FROM sendLogPayloads WHERE id IN (
+          SELECT payloadId FROM sendLogMessageIds
+          WHERE messageId = old.id
+        );
+        DELETE FROM reactions WHERE rowid IN (
+          SELECT rowid FROM reactions
+          WHERE messageId = old.id
+        );
+      END;
+    `);
+
+    // Then, delete previously-orphaned reactions
+
+    // Note: we use `pluck` here to fetch only the first column of
+    //   returned row.
+    const messageIdList: Array<string> = db
+      .prepare('SELECT id FROM messages ORDER BY id ASC;')
+      .pluck()
+      .all();
+    const allReactions: Array<{
+      rowid: number;
+      messageId: string;
+    }> = db.prepare('SELECT rowid, messageId FROM reactions;').all();
+
+    const messageIds = new Set(messageIdList);
+    const reactionsToDelete: Array<number> = [];
+
+    allReactions.forEach(reaction => {
+      if (!messageIds.has(reaction.messageId)) {
+        reactionsToDelete.push(reaction.rowid);
+      }
+    });
+
+    function deleteReactions(rowids: Array<number>) {
+      db.prepare<ArrayQuery>(
+        `
+        DELETE FROM reactions
+        WHERE rowid IN ( ${rowids.map(() => '?').join(', ')} );
+        `
+      ).run(rowids);
+    }
+
+    if (reactionsToDelete.length > 0) {
+      logger.info(`Deleting ${reactionsToDelete.length} orphaned reactions`);
+      batchMultiVarQuery(reactionsToDelete, deleteReactions, db);
+    }
+
+    db.pragma('user_version = 42');
+  })();
+  logger.info('updateToSchemaVersion42: success!');
+}
+
 export const SCHEMA_VERSIONS = [
   updateToSchemaVersion1,
   updateToSchemaVersion2,
@@ -2572,6 +2638,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion39,
   updateToSchemaVersion40,
   updateToSchemaVersion41,
+  updateToSchemaVersion42,
 ];
 
 export function updateSchema(db: Database) {
@@ -2809,19 +2876,22 @@ function getInstance(): Database {
 
 function batchMultiVarQuery<ValueT>(
   values: Array<ValueT>,
-  query: (batch: Array<ValueT>) => void
+  query: (batch: Array<ValueT>) => void,
+  providedDatabase?: Database
 ): [];
 function batchMultiVarQuery<ValueT, ResultT>(
   values: Array<ValueT>,
-  query: (batch: Array<ValueT>) => Array<ResultT>
+  query: (batch: Array<ValueT>) => Array<ResultT>,
+  providedDatabase?: Database
 ): Array<ResultT>;
 function batchMultiVarQuery<ValueT, ResultT>(
   values: Array<ValueT>,
   query:
     | ((batch: Array<ValueT>) => void)
-    | ((batch: Array<ValueT>) => Array<ResultT>)
+    | ((batch: Array<ValueT>) => Array<ResultT>),
+  providedDatabase?: Database
 ): Array<ResultT> {
-  const db = getInstance();
+  const db = providedDatabase || getInstance();
   if (values.length > MAX_VARIABLE_COUNT) {
     const result: Array<ResultT> = [];
     db.transaction(() => {
@@ -4606,6 +4676,11 @@ async function removeReactionFromConversation({
       targetAuthorUuid,
       targetTimestamp,
     });
+}
+
+async function _getAllReactions(): Promise<Array<ReactionType>> {
+  const db = getInstance();
+  return db.prepare<EmptyQuery>('SELECT * from reactions;').all();
 }
 
 async function getOlderMessagesByConversation(
