@@ -32,7 +32,20 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
     setReleaseNotes({
       date: new Date(window.getBuildCreation?.() || Date.now()),
       version: window.getVersion(),
-      features: [{ key: 'WhatsNew__v5.20', components: undefined }],
+      features: [
+        {
+          key: 'WhatsNew__v5.21--1',
+          components: undefined,
+        },
+        {
+          key: 'WhatsNew__v5.21--2',
+          components: undefined,
+        },
+        {
+          key: 'WhatsNew__v5.21--3',
+          components: undefined,
+        },
+      ],
     });
   };
 
