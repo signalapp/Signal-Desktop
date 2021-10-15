@@ -343,6 +343,11 @@ async function startInRendererProcess(isTesting = false): Promise<void> {
 }
 
 async function goBackToMainProcess(): Promise<void> {
+  if (state === RendererState.InMain) {
+    log.info('goBackToMainProcess: Already in the main process');
+    return;
+  }
+
   strictAssert(
     state === RendererState.InRenderer,
     `goBackToMainProcess: expected ${state} to be ${RendererState.InRenderer}`
