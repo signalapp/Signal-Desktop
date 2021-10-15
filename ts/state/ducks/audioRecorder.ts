@@ -148,12 +148,20 @@ function completeRecording(
   };
 }
 
-function cancelRecording(): CancelRecordingAction {
-  recorder.clear();
+function cancelRecording(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CancelRecordingAction
+> {
+  return async dispatch => {
+    await recorder.stop();
+    recorder.clear();
 
-  return {
-    type: CANCEL_RECORDING,
-    payload: undefined,
+    dispatch({
+      type: CANCEL_RECORDING,
+      payload: undefined,
+    });
   };
 }
 
@@ -200,7 +208,6 @@ export function reducer(
     return {
       ...state,
       errorDialogAudioRecorderType: action.payload,
-      isRecording: false,
     };
   }
 
