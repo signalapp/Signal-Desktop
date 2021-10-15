@@ -361,10 +361,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           status = SendStatus.Read;
         }
 
+        const statusTimestamp = sendState?.updatedAt;
+
         return {
           ...findAndFormatContact(id),
           status,
-          statusTimestamp: sendState?.updatedAt,
+          statusTimestamp:
+            statusTimestamp === this.get('sent_at')
+              ? undefined
+              : statusTimestamp,
           errors: errorsForContact,
           isOutgoingKeyError,
           isUnidentifiedDelivery,
