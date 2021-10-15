@@ -9,6 +9,7 @@ export class RecorderClass {
   private input?: GainNode;
   private recorder?: WebAudioRecorderClass;
   private source?: MediaStreamAudioSourceNode;
+  private stream?: MediaStream;
   private blob?: Blob;
   private resolve?: (blob: Blob) => void;
 
@@ -33,6 +34,7 @@ export class RecorderClass {
     }
 
     this.input = undefined;
+    this.stream = undefined;
 
     if (this.context) {
       this.context.close();
@@ -67,6 +69,7 @@ export class RecorderClass {
       }
       this.source = this.context.createMediaStreamSource(stream);
       this.source.connect(this.input);
+      this.stream = stream;
     } catch (err) {
       log.error(
         'Recorder.onGetUserMediaError:',
@@ -85,6 +88,10 @@ export class RecorderClass {
     if (!this.recorder) {
       log.warn('Recorder/stop: Called with no recorder');
       return;
+    }
+
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
     }
 
     if (this.blob) {
