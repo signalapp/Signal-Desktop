@@ -607,13 +607,13 @@ export async function deleteMessagesById(
             await doDeleteMessagesById(selectedMessages, conversation, true);
             // explicity close modal for this case.
             window.inboxStore?.dispatch(updateConfirmModal(null));
+            return;
+          }
+          if (window.lokiFeatureFlags?.useUnsendRequests) {
+            showDeletionTypeModal();
           } else {
-            if (window.lokiFeatureFlags?.useUnsendRequests) {
-              showDeletionTypeModal();
-            } else {
-              await doDeleteMessagesById(selectedMessages, conversation, false);
-              window.inboxStore?.dispatch(updateConfirmModal(null));
-            }
+            await doDeleteMessagesById(selectedMessages, conversation, false);
+            window.inboxStore?.dispatch(updateConfirmModal(null));
           }
         },
         closeAfterInput: false,
