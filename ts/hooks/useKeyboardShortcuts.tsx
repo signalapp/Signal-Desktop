@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { get } from 'lodash';
 
 import * as KeyboardLayout from '../services/keyboardLayout';
@@ -15,24 +15,48 @@ function isCmdOrCtrl(ev: KeyboardEvent): boolean {
   return commandKey || controlKey;
 }
 
-export function getStartRecordingShortcut(
+export function useStartRecordingShortcut(
   startAudioRecording: () => unknown
 ): KeyboardShortcutHandlerType {
-  return ev => {
-    const { shiftKey } = ev;
+  return useCallback(
+    ev => {
+      const { shiftKey } = ev;
+      const key = KeyboardLayout.lookup(ev);
 
-    const key = KeyboardLayout.lookup(ev);
+      if (isCmdOrCtrl(ev) && shiftKey && (key === 'v' || key === 'V')) {
+        ev.preventDefault();
+        ev.stopPropagation();
 
-    if (isCmdOrCtrl(ev) && shiftKey && (key === 'v' || key === 'V')) {
-      startAudioRecording();
-      ev.preventDefault();
-      ev.stopPropagation();
+        startAudioRecording();
+        return true;
+      }
 
-      return true;
-    }
+      return false;
+    },
+    [startAudioRecording]
+  );
+}
 
-    return false;
-  };
+export function useAttachFileShortcut(
+  attachFile: () => unknown
+): KeyboardShortcutHandlerType {
+  return useCallback(
+    ev => {
+      const { shiftKey } = ev;
+      const key = KeyboardLayout.lookup(ev);
+
+      if (isCmdOrCtrl(ev) && !shiftKey && (key === 'u' || key === 'U')) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        attachFile();
+        return true;
+      }
+
+      return false;
+    },
+    [attachFile]
+  );
 }
 
 export function useKeyboardShortcuts(

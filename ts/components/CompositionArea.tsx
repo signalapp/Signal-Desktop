@@ -50,6 +50,10 @@ import { MediaQualitySelector } from './MediaQualitySelector';
 import { Quote, Props as QuoteProps } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { countStickers } from './stickers/lib';
+import {
+  useAttachFileShortcut,
+  useKeyboardShortcuts,
+} from '../hooks/useKeyboardShortcuts';
 
 export type CompositionAPIType =
   | {
@@ -269,7 +273,7 @@ export const CompositionArea = ({
     [draftAttachments, onSendMessage, setLarge]
   );
 
-  const launchAttachmentPicker = () => {
+  const launchAttachmentPicker = useCallback(() => {
     const fileInput = fileInputRef.current;
     if (fileInput) {
       // Setting the value to empty so that onChange always fires in case
@@ -277,7 +281,10 @@ export const CompositionArea = ({
       fileInput.value = '';
       fileInput.click();
     }
-  };
+  }, []);
+
+  const attachFileShortcut = useAttachFileShortcut(launchAttachmentPicker);
+  useKeyboardShortcuts(attachFileShortcut);
 
   const focusInput = useCallback(() => {
     if (inputApiRef.current) {
