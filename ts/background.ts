@@ -1565,18 +1565,7 @@ export async function startApp(): Promise<void> {
       // Send in expanded composer - handled by component
 
       // Attach file
-      if (
-        conversation &&
-        commandOrCtrl &&
-        !shiftKey &&
-        (key === 'u' || key === 'U')
-      ) {
-        conversation.trigger('attach-file');
-
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
+      // hooks/useKeyboardShorcuts useAttachFileShortcut
 
       // Remove draft link preview
       if (

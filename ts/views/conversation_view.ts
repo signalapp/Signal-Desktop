@@ -287,7 +287,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     // These are triggered by background.ts for keyboard handling
     this.listenTo(this.model, 'focus-composer', this.focusMessageField);
     this.listenTo(this.model, 'open-all-media', this.showAllMedia);
-    this.listenTo(this.model, 'attach-file', this.onChooseAttachment);
     this.listenTo(this.model, 'escape-pressed', this.resetPanel);
     this.listenTo(this.model, 'show-message-details', this.showMessageDetail);
     this.listenTo(this.model, 'show-contact-modal', this.showContactModal);
@@ -1286,20 +1285,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         }
       ),
     });
-  }
-
-  onChooseAttachment(): void {
-    // TODO: DESKTOP-2425
-    this.$('input.file-input').click();
-  }
-
-  async onChoseAttachment(): Promise<void> {
-    const fileField = this.$('input.file-input');
-    const files: Array<File> = Array.from(fileField.prop('files'));
-
-    fileField.val([]);
-
-    await this.processAttachments(files);
   }
 
   // TODO DESKTOP-2426

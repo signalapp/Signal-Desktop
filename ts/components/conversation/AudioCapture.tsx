@@ -1,7 +1,7 @@
 // Copyright 2016-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as moment from 'moment';
 import { noop } from 'lodash';
 
@@ -13,7 +13,7 @@ import { ToastVoiceNoteLimit } from '../ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 import {
-  getStartRecordingShortcut,
+  useStartRecordingShortcut,
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
 
@@ -94,10 +94,7 @@ export const AudioCapture = ({
 
   useEscapeHandling(escapeRecording);
 
-  const startRecordingShortcut = useMemo(() => {
-    return getStartRecordingShortcut(startRecording);
-  }, [startRecording]);
-
+  const startRecordingShortcut = useStartRecordingShortcut(startRecording);
   useKeyboardShortcuts(startRecordingShortcut);
 
   // Update timestamp regularly, then timeout if recording goes over five minutes
