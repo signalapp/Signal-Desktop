@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Acest jurnal va fi publicat online pentru vizualizare de către contribuitori. Poți să-l examinezi și să-l editezi înainte să fie publicat.",
+        "message": "Acest jurnal va fi publicat online pentru a fi vizualizat de către contribuitori. Puteți descărca jurnalul complet înainte de a-l trimite.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Ceva nu a funcționat în timpul încărcării! Vă rugăm considerați adăugarea manuală a fișierului de depanare la raportul de eroare pe care îl depuneți.",
+        "message": "Ceva nu a funcționat în timpul încărcării! Vă rugăm trimiteți un e-mail la support@signal.org și atașați jurnalul ca fișier text.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Jurnal de depanare trimis",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Jurnal de depanare încărcat. Când contactați serviciul de asistență, copiați linkul de mai jos și atașați-l împreună cu o descriere a problemei pe care ați observat-o și pașii de reproducere a acesteia.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copiere",
+        "message": "Copiază Linkul",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copiază linkul în clipboard",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Descarcă",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Link copiat în clipboard",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Raportează o problemă",
+        "message": "Contactează suportul",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop a întâmpinat o eroare de decriptare. Apasă pentru a trimite un jurnal de depanare.",
+        "message": "Desktop a întâmpinat o eroare de decriptare.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Trimiteți jurnalul",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Când includeți un atașament non-imagine, limita este de un atașament per mesaj.",
@@ -949,9 +961,17 @@
         "message": "Un mesaj vocal trebuie sa aibă doar un singur atașament.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Am întâmpinat o eroare cu înregistrarea vocală.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Atașamentul a fost salvat. Click pentru a-l afișa din dosar.",
+        "message": "Atașamentul a fost salvat.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Afișați în director",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Dvs.",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Dacă dorești să verifici numărul tău de siguranță a criptării conexiunii cu $name$, compară numerele de mai sus cu cele de pe dispozitivul lui.",
+        "message": "Pentru a verifica securitatea criptării integrale cu $name$, comparați numerele de mai sus cu cele de pe dispozitivul lor.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verifică Numărul de Siguranță",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Numărul de siguranță s-a schimbat",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Conversație arhivată",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Anulează",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Conversația a revenit la inbox",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Vă simțiți ❤️‍🔥 sau 😶‍🌫️? Acum vă puteți exprima folosind un nou set de emoji, fie că :șoptiți sau :STRIGAȚI în timp ce căutați. Mulțumim $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Dacă vă aflați în Anguilla, poate că v-ați simțit exclus. De acum transformăm toate domeniile de nivel superior aflate în vigoare din 2010 în linkuri, așa că veți putea face clic pe $gov$ și pe $brain$ la fel cum faceți pe $signal$. Mulțumim $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Am auzit că vă place să măriți imaginile. Am îmbunătățit zoom-ul astfel încât chiar și imaginile mici pot fi afișate pe tot ecranul.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Această funcție este pentru toți cei care reacționează mai des cu 💅 decât cu 👍: acum puteți personaliza emoji-urile ce apar în mod implicit atunci când doriți sa reacționați la un mesaj.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
+        "description": "Release notes for v5.20"
     }
 }

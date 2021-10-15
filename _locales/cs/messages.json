@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Tento log bude přispěvatelům veřejně zpřístupněn k prohlížení. Můžete si jej před odesláním zkontrolovat a upravit.",
+        "message": "Tento protokol bude zveřejněn online, aby si jej mohli prohlédnout přispěvatelé. Před odesláním si můžete celý protokol stáhnout.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Něco se pokazilo při nahrávání! K oznámení o chybě, prosím, přložte log.",
+        "message": "Při nahrávání se něco pokazilo! Pošlete prosím e-mail na adresu support@signal.org a přiložte protokol jako textový soubor.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Debug log odeslán",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Debug log nahrán. Až budete kontaktovat podporu, zkopírujte níže uvedený odkaz a přiložte jej spolu s popisem problému, který jste zaznamenali, a kroky k jeho reprodukci.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Kopírovat",
+        "message": "Zkopírovat odkaz",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Zkopírovat odkaz do schránky",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Stáhnout",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Odkaz zkopírován do schránky",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Nahlásit problém",
+        "message": "Kontaktovat podporu",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Aplikace narazila na chybu při dešifrování. Kliknutím odešlete debug log.",
+        "message": "Desktop narazil na chybu při dešifrování.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Odeslat log",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "V jedné zprávě je možné mít pouze jednu ne-obrázkovou přílohu.",
@@ -949,9 +961,17 @@
         "message": "Hlasová zpráva musí být jedinou přílohou.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "V hlasovém záznamníku došlo k chybě.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Příloha uložena. Klikněte pro zobrazení ve složce.",
+        "message": "Příloha uložena",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Zobrazit ve složce",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Vy",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Pokud chcete zkontrolovat bezpečnost šifrované komunikace s $name$, porovnejte čísla nahoře s čísly na zařízení vašeho kontaktu.",
+        "message": "Chcete-li ověřit zabezpečení koncového šifrování s $name$, porovnejte výše uvedená čísla s jejich zařízením.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Ověřit bezpečností číslo",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Bezpečnostní číslo se změnilo",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Konverzace archivována",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Zpět",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Konverzace vrácena do přijatých zpráv",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Cítíte ❤️‍🔥 nebo 😶‍🌫️? Nyní se můžete lépe vyjádřit s novou dávkou smajlíků. Díky $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Pokud jste v Anguille, možná jste se cítili odstrčení. Nyní měníme všechny domény nejvyšší úrovně zavedené od roku 2010 na odkazy - takže jak $gov$, tak i $brain$ budou klikatelné stejně jako $signal$. Díky $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Slyšeli jsme, že rádi přibližujete obrázky. Přidali jsme do přiblížení sílu, takže i malé obrázky můžete zobrazit přes celou obrazovku.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Tato funkce je určena všem, kteří reagují pomocí 💅 více než 👍: nyní si můžete přizpůsobit emotikony, které se ve výchozím nastavení zobrazí, když chcete reagovat na zprávu.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
+        "description": "Release notes for v5.20"
     }
 }

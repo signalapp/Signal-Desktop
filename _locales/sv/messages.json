@@ -96,7 +96,7 @@
         "description": "Edit menu command to insert text from clipboard at cursor location"
     },
     "editMenuPasteAndMatchStyle": {
-        "message": "Klistra in och matcha stil",
+        "message": "Klistra in och matcha format",
         "description": "Edit menu command to insert text from clipboard at cursor location, taking only text and not style information"
     },
     "editMenuDelete": {
@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Den här loggen publiceras offentligt på nätet så att våra medarbetare kan se. Du kan granska och redigera den innan du skickar in.",
+        "message": "Den här loggen publiceras offentligt på nätet så att våra medarbetare kan se. Du kan hämta hela loggen innan du skickar in den.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Något gick fel med sändningen! Vänligen överväg att manuellt lägga till loggen till felrapporten du skriver.",
+        "message": "Något gick fel med sändningen! Vänligen skicka e-post till support@signal.org och bifoga din logg som en textfil.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Felsökningslogg har skickats",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Felsökningslogg överförd. När du kontaktar support, kopiera länken nedan och bifoga den tillsammans med en beskrivning av problemet du såg och steg för att reproducera det.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Kopiera",
+        "message": "Kopiera länk",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Kopiera länk till ditt urklipp",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Hämta",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Länk kopierad till ditt urklipp",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Felanmälan",
+        "message": "Kontakta support",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop stötte på ett dekrypteringsfel. Klicka för att skicka en felsökningslogg.",
+        "message": "Desktop stötte på ett dekrypteringsfel.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Skicka in logg",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "När man inkluderar bilagor som inte är bilder, är begränsningen en bilaga per meddelande.",
@@ -949,9 +961,17 @@
         "message": "Ett röstmeddelande måste bara ha en bilaga.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Det uppstod ett fel med röstinspelaren.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Bilagan sparad. Klicka för att visa i mappen.",
+        "message": "Bilaga sparad.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Visa i mapp",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Du",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Om du vill verifiera säkerheten för din ände-till-ände-kryptering med $name$, jämför siffrorna ovan med siffrorna på deras enhet.",
+        "message": "För att verifiera säkerheten för din ände-till-ände-kryptering med $name$, jämför siffrorna ovan med deras enhet.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verifiera säkerhetsnummer",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Säkerhetsnumret har ändrats",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Konversationen arkiverad",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Ångra",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Konversationen återvände till inkorgen",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Känns ❤️‍🔥 or 😶‍🌫️? Du kan uttrycka dig själv med en ny uppsättning emojier, oavsett om du :viskar eller :SKRIKER medan du skriver. Tack $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Om du är i Anguilla, har du kanske känt dig utelämnad. Vi vänder nu alla toppdomäner på plats sedan 2010 i länkar - så både $gov$ och $brain$ kommer att vara klickbara precis som $signal$. Tack $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Vi hörde att du gillar att zooma in på bilder. Vi lade till oomph till din zoom, så även små bilder kan gå hela vägen helskärm.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Denna funktion går ut till alla som reagerar med 💅 mer än 👍: du kan nu anpassa emojier som visas som standard när du vill reagera på ett meddelande.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
+        "description": "Release notes for v5.20"
     }
 }

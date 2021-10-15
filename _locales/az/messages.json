@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Bu jurnal, töhfə verənlərin görməsi üçün ictimai olaraq paylaşılacaq. Göndərməzdən əvvəl yoxlaya və düzəliş edə bilərsiniz.",
+        "message": "Bu jurnal, töhfə verənlərin görməsi üçün ictimai olaraq paylaşılacaq. Göndərməzdən əvvəl tam jurnalı endirə bilərsiniz.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Yükləmə ilə bağlı nəsə səhv getdi! Zəhmət olmasa jurnalı, xəta faylınıza özünüz əlavə edin.",
+        "message": "Yükləmə ilə bağlı nəsə səhv getdi! Zəhmət olmasa jurnalı, mətn faylı kimi əlavə edərək support@signal.org ünvanına e-poçt olaraq göndərin.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Sazlama jurnalı göndərildi",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Sazlama jurnalı yüklənildi. Dəstək komandası ilə əlaqə saxlayanda, aşağıdakı bağlantını kopyalayın və gördüyünüz problemin açıqlaması və yenidən yaratma addımları ilə əlavə edin.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Kopyala",
+        "message": "Bağlantını kopyala",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Bağlantını lövhəyə kopyala",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Endir",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Bağlantı lövhənizə kopyalandı",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Bir problem bildir",
+        "message": "Dəstək ilə əlaqə",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Masaüstü, şifrə açma xətası ilə üzləşdi. Sazlama jurnalını göndərmək üçün klikləyin.",
+        "message": "Masaüstü, şifrə açma xətası ilə qarşılaşdı.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Jurnalı göndər",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Təsvir olmayan qoşma əlavə ediləndə, bir mesaj üçün qoşma limiti birdir.",
@@ -949,9 +961,17 @@
         "message": "Səsyazmalı mesajın yalnız bir qoşması olmalıdır.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Səsyazanda bir xəta baş verdi.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Qoşma saxlanıldı. Qovluq göstərmək üçün klikləyin.",
+        "message": "Qoşma yaddaşda saxlanıldı.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Qovluqda göstər",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Siz",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "$name$ ilə bir ucdan digərinə kimi olan şifrələmənizin güvənliyini təsdiqləmək istəsəniz, yuxarıdakı nömrələri cihazındakı nömrələrlə müqayisə edin.",
+        "message": "$name$ ilə bir ucdan digərinə kimi olan şifrələmənizin güvənliyini təsdiqləmək üçün yuxarıdakı nömrələri onun cihazındakı nömrələrlə müqayisə edin.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Güvənlik nömrəsini təsdiqlə",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Güvənlik nömrəsi dəyişdirildi",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Danışıq arxivləndi",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Geri al",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Danışıq, gələn qutusuna qaytarıldı",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "❤️‍🔥 və ya 😶‍🌫️ hiss edirsiniz? Axtarış edərkən istər :pıçıldayın, istərsə də :bağırın, özünüzü yeni ifadə qrupu ilə kəşf edə bilərsiniz. Təşəkkürlər $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Angilyadasanız, bəlkə də özünüzü kənarda hiss edirsiniz. Artıq 2010-dan bəri mövcud olan bütün üst səviyyəli domenləri bağlantılara çeviririk, beləcə həm $gov$, həm də $brain$, $signal$ kimi kliklənə bilən olacaq. Təşəkkürlər $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Eşitdik ki, şəkilləri yaxınlaşdırmağı sevirsiniz. Yaxınlaşdırma üçün yeni özəllik əlavə etdik, beləcə kiçik şəkillər belə tam ekrana qədər görüntülənə bilər.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Bu özəllik, 👍-dən daha çox 💅 ilə reaksiya verən hər kəsə gedir: Artıq bir mesaja reaksiya vermək istəyəndə ilkin olaraq görünən ifadələri özəlləşdirə bilərsiniz.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
+        "description": "Release notes for v5.20"
     }
 }

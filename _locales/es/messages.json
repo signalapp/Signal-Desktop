@@ -474,23 +474,31 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Se ha producido un fallo al adjuntar el archivo con el registro de depuración. Considera añadir el archivo manualmente al enviar el informe del fallo. ",
+        "message": "Ha ocurrido un fallo con la transferencia. Por favor, escribe un correo a support@signal.org incluyendo el registro de depuración como archivo de texto.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Registro de depuración enviado",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Se ha transferido el registro de depuración. Cuando contactes con el soporte de Signal, copia el enlace debajo e inclúyelo con la descripción del problema que encontraste y los pasos para reproducirlo.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copiar",
+        "message": "Copiar enlace",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copiar enlace al portapapeles",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Descargar",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Enlace copiado al portapapeles",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Informar de un problema",
+        "message": "Contactar con el soporte técnico",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal ha encontrado un fallo al descifrar. Haz clic para enviar el registro de errores.",
+        "message": "Fallo encontrado al descifrar.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Envía el registro de depuración",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Al incluir un archivo que no sea una imagen, el límite es un adjunto por mensaje.",
@@ -949,9 +961,17 @@
         "message": "Las notas de voz solo pueden tener un archivo adjunto.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Ha ocurrido un fallo al grabar la nota de voz. ",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Archivo adjunto guardado. Haz clic para mostrar la carpeta.",
+        "message": "Adjunto guardado.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Mostrar en la carpeta",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Tú",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si deseas verificar la seguridad del cifrado de extremo a extremo con $name$, compara las cifras de arriba con las cifras presentes en su dispositivo.",
+        "message": "Para verificar la seguridad del cifrado de extremo a extremo con $name$, compara las cifras de arriba con las cifras presentes en su dispositivo.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verificar cifras de seguridad",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Las cifras de seguridad han cambiado",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Chat archivado",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Deshacer",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Chat devuelto al buzón de entrada",
@@ -6388,7 +6416,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Por favor cierra la aplicación manualmente y haz clic en reintentar para continuar.",
+        "message": "Por favor, cierra la aplicación manualmente y haz clic en reintentar para continuar.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6429,38 +6457,14 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "¿Te sientes ❤️‍🔥 o 😶‍🌫️? Ahora puedes expresarte con un nuevo lote de emojis, ya sea q estés :susurrando o :GRITANDO mientras buscas. ¡Gracias $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Si estás en Anguila, quizás te hayas sentido excluid@. Ahora convertimos todos los dominios bajo el nivel raíz desde 2010 en enlaces, por lo que en $gov$ como $brain$  podrás hacer clic al igual que en $signal$. ¡Gracias $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
-        "message": "Hemos oído que te gusta hacer zoom en fotos. Agregamos empuje a tu zoom, por lo que incluso las imágenes pequeñas pueden verse a pantalla completa. ",
+        "message": "Hemos oído que te gusta hacer zoom en fotos. Agregamos impulso a tu zoom, por lo que incluso las imágenes pequeñas pueden verse a pantalla completa. ",
         "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--4": {
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Esta nueva característica es para tod@s l@s que quieran reaccionar con 💅 en vez de con 👍: Ahora puedes personalizar los emojis que aparecen como predefinidos a reaccionar a un mensaje.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
+        "description": "Release notes for v5.20"
     }
 }

@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "このログはネット上に公開され，開発者が閲覧します。提出前に編集することができます。",
+        "message": "このログは、開発者が閲覧するためにネット上で公開されます。投稿する前に全ログをダウンロードすることができます。",
         "description": ""
     },
     "debugLogError": {
-        "message": "アップロードには失敗ありました！手入力でログをバグ報告に付けることを考慮して下さい。",
+        "message": "送信に失敗しました。 support@signal.org にログのテキストファイルをお送りください。",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "デバッグログが送信されました",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "デバッグログを送信しました。サポートへお問い合わせの際には、以下のリンクをコピーしてお送りください。また、不具合の内容とその不具合を再現する手順も添えてください。",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "コピー",
+        "message": "リンクをコピーする",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "クリップボードにリンクをコピー",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "ダウンロード",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "リンクをクリップボードにコピーしました",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "問題を報告",
+        "message": "サポートに問い合わせる",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "デスクトップで復号エラーが発生しました。クリックしてデバッグログを送信してください。",
+        "message": "デスクトップで復号化エラーが発生しました。",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "ログを送信",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "画像以外の添付ファイルを追加する場合、メッセージ1件に添付できるのは1つだけです。",
@@ -949,9 +961,17 @@
         "message": "音声メッセージには別のファイルを添付することはできません。",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "ボイスレコーダーにエラーが発生しました。",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "添付ファイルを保存しました。保存したフォルダを表示する",
+        "message": "添付ファイルを保存しました。",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "フォルダを表示",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "あなた",
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "安全番号を検証する",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "安全番号が変更されました",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "チャットをアーカイブしました",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "元に戻す",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "チャットを受信箱に戻しました",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "新しい絵文字で自分の感情を表現できるようになりました。今日の気分は❤️‍🔥ですか？それとも、😶‍🌫️ですか？$hiqua$、ありがとう❤️",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "アンギラに住んでいる方は、もしかしたら取り残されていると感じているかもしれません。2010年以降に導入された $gov$ や $brain$ といったトップレベルドメインを $signal$ のようにすべてリンクに変換しました。$jojomatik$ に感謝!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "画像の拡大ができるようになりました。",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "「👍」よりも「💅」でリアクションする人に向けけて、メッセージにリアクションしたいときにデフォルトで表示される絵文字をカスタマイズできるようになりました。",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "このバージョンでは、Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
+        "description": "Release notes for v5.20"
     }
 }

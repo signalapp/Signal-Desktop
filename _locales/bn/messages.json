@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "এই লগটি অবদানকারীদের দেখার জন্য অনলাইনে প্রকাশ্যে পোস্ট করা হবে, আপনি সাবমিট করার আগে এটি পরীক্ষা এবং সম্পাদনা করতে পারেন।",
+        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
         "description": ""
     },
     "debugLogError": {
-        "message": "আপলোডের সময় কিছু ভুল হয়েছে! দয়া করে আপনার ফাইলের বাগটি আপনার লগটিতে ম্যানুয়ালি যুক্ত করার বিষয়টি বিবেচনা করুন।",
+        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Debug log submitted",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "কপি করুন",
+        "message": "লিঙ্ক কপি করুন",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "ক্লিপবোর্ডে লিঙ্ক কপি করুন",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "ডাউনলোড",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "আপনার ক্লিপবোর্ডে লিংক কপি করা হয়েছে",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "একটি সমস্যা রিপোর্ট করুন",
+        "message": "সহায়তায় যোগাযোগ করুন",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "ডেস্কটপে একটি ডিক্রিপশন ত্রুটি ঘটেছে। একটি ডিবাগ লগ জমা দিতে ক্লিক করুন।",
+        "message": "Desktop ran into a decryption error.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Submit log",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "ছবি ছাড়া অন্যান্য সংযুক্তি অন্তর্ভুক্ত করার সময়, প্রতি বার্তায় একটি মাত্র সংযুক্তি যোগ করতে পারবেন।",
@@ -949,9 +961,17 @@
         "message": "একটি ভয়েস মেসেজে কেবলমাত্র একটিই সংযুক্তি থাকবে।",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "There was an error with the voice recorder.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "সংযুক্তি সংরক্ষণ করা হয়েছে। ফোল্ডারে দেখাতে ক্লিক করুন।",
+        "message": "Attachment saved.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Show in folder",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "আপনি",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "যদি আপনি $name$ এর সাথে আপনার এক প্রান্ত থেকে অপর প্রান্ত এনক্রিপশনের সুরক্ষা যাচাই করতে চান তবে উপরের সংখ্যাগুলি তাদের ডিভাইস এ দেখানো সংখ্যার সাথে তুলনা করুন। ",
+        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "নিরাপত্তা নাম্বার যাচাই করুন",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "নিরাপত্তা নাম্বার পরিবর্তিত হয়েছে",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "কথোপকথন আর্কাইভ করা হয়েছে",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "পূর্বাবস্থায় ফিরে যান",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "কথোপকথন ইনবক্সে ফিরে গেছে",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.20"
     }
 }

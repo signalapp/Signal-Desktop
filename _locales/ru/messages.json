@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Этот журнал будет опубликован в интернете, чтобы разработчики смогли его просмотреть. Вы можете изучить и отредактировать его перед отправкой.",
+        "message": "Этот журнал будет опубликован в интернете, чтобы разработчики смогли его просмотреть. Вы можете скачать полный журнал перед отправкой.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Что-то пошло не так с загрузкой! Пожалуйста, подумайте о том, чтобы вручную добавить журнал к вашему сообщению об ошибке.",
+        "message": "Что-то пошло не так с загрузкой! Пожалуйста, отправьте письмо по адресу support@signal.org и прикрепите свой журнал как текстовый файл.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Журнал отладки отправлен",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Журнал отладки был загружен. Когда вы будете связываться с поддержкой, скопируйте ссылку ниже и вставьте её в письмо с описанием проблемы и шагами для её воспроизведения.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Копировать",
+        "message": "Копировать ссылку",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Копировать ссылку в ваш буфер обмена",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Скачать",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Ссылка скопирована в ваш буфер обмена",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Сообщить о проблеме",
+        "message": "Связаться с поддержкой",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "В Signal Desktop произошла ошибка расшифровки. Нажмите, чтобы отправить журнал отладки.",
+        "message": "В Signal Desktop произошла ошибка расшифровки.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Отправить журнал",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "При включении вложений, не относящихся к изображениям, ограничение составляет по одному вложению на сообщение.",
@@ -949,9 +961,17 @@
         "message": "Голосовое сообщение должно содержать только одно вложение.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "При записи голосового сообщения произошла ошибка.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Вложение сохранено. Нажмите, чтобы показать в папке.",
+        "message": "Вложение сохранено.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Показать в папке",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Вы",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Если вы хотите подтвердить безопасность вашего сквозного шифрования с $name$, сравните цифры, указанные выше, с цифрами на их устройстве.",
+        "message": "Чтобы подтвердить безопасность вашего сквозного шифрования с $name$, сравните цифры, указанные выше, с устройством собеседника.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Подтверждение кода безопасности",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Код безопасности изменился",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Разговор заархивирован",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Отменить",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Разговор был возвращён во входящие",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Чувствуете ❤️‍🔥 или 😶‍🌫️? Теперь вы можете выразить себя, используя новые эмодзи — вне зависимости от того, :шепчите вы или :КРИЧИТЕ, когда используете поиск. Спасибо, $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Если вы находитесь в Ангильи, возможно, вы чувствовали себя обделённым(-ой). Теперь мы превращаем в ссылки все домены верхнего уровня, которые существовали с 2010 года — так что и $gov$, и $brain$ можно будет нажать так же, как и $signal$. Спасибо, $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Мы слышали, что вам нравится увеличивать изображения. Мы добавили энергии вашему увеличению, так что даже маленькие изображения смогут растянуться на полный экран.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Теперь вы можете изменить набор эмодзи, который появляется по умолчанию, когда вы хотите отреагировать на сообщение.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
+        "description": "Release notes for v5.20"
     }
 }

@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Este registro será postado publicamente on-line para que os contribuidores possam vê-lo. Você pode analisá-lo e editá-lo antes de enviar.",
+        "message": "Este registro será postado publicamente online para que os contribuidores possam vê-lo. Você pode baixar o registro completo antes de enviá-lo.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Algo deu errado no envio do registro! Por favor, considere adicioná-lo manualmente quando for relatar o problema.",
+        "message": "Algo deu errado no envio do registro! Por favor, envie um e-mail para support@signal.org e anexe um arquivo de texto contendo o seu registro.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Registro de depuração enviado",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "O registro de depuração foi enviado. Agora entre em contato com o suporte, copie o link abaixo e cole-o na sua mensagem. Descreva o problema que você teve e quais etapas precisamos fazer para reproduzi-lo em nossos aparelhos.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copiar",
+        "message": "Copiar link",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copiar link para a área de transferência",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Baixar",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Link copiado para a sua área de transferência",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Relatar um problema",
+        "message": "Entre em contato com o suporte",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal encontrou um erro ao descriptografar uma mensagem. Clique para enviar um registro de depuração.",
+        "message": "Signal encontrou um erro ao descriptografar uma mensagem.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Enviar um registro de depuração",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "O limite para inclusão de anexos que não sejam imagens é de um por mensagem.",
@@ -922,15 +934,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "Começar a gravar a mensagem de voz",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "Concluir a mensagem de voz e enviá-la",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "Cancelar a mensagem de voz",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -949,9 +961,17 @@
         "message": "Uma mensagem de voz pode ter apenas um anexo.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Ocorreu um erro no gravador de voz.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Anexo salvo. Clique para mostrar na pasta.",
+        "message": "Anexo salvo.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Mostrar na pasta",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Você",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Se você quiser verificar a segurança da sua criptografia ponta a ponta com $name$, compare os números acima com os números no aparelho dessa pessoa.",
+        "message": "Para verificar a segurança da sua criptografia de ponta a ponta com $name$, compare os números acima com os números no aparelho dessa pessoa.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verificar número de segurança",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "O número de segurança mudou",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Conversa arquivada",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Desfazer",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Conversa desarquivada",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Você está se sentindo ❤️‍🔥 ou 😶‍🌫️? A partir de agora você pode se expressar com novos emojis quando estiver :whispering ou :YELLING em suas conversas. Agradecemos o $hiqua$ por essa realização!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Se você estiver em Anguilla, país na América Central, talvez esteja se sentindo uma pessoa ilhada. A partir de agora, os domínios de sites cujo final mudou em Anguilla desde 2010 serão corretamente exibidos no Signal. Desse modo, tanto $gov$ quanto $brain$ estarão acessíveis com um clique no $signal$. Agradecemos a $jojomatik$ por essa realização!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Ouvimos dizer que você gosta de ampliar as imagens para enxergar detalhes. Nós aprofundamos o zoom. Desse modo, mesmo as imagens pequenas poderão ser exibidas em tela inteira.",
@@ -6468,19 +6472,23 @@
         "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.19--1": {
-        "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
+        "message": "As novas animações para diálogos e pop-ups são inspiradas na respiração e no relaxamento. Inspire e expire. Inspire e expire.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+        "message": "Trocar teclados é sempre um pouco complicado porque as teclas de atalhos são diferentes. A partir de agora, os atalhos de teclado vão além da letra específica pressionada, honrando a sua intenção.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
-        "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
+        "message": "A partir de agora, você receberá uma notificação quando uma chamada em grupo for iniciada. Desse modo, fazemos a nossa parte para você não se atrasar a um encontro.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
+        "message": "A partir de agora, você pode escolher quais emojis aparecem por padrão quando você reage a uma mensagem. Desse modo, você pode reagir com 💅 em vez de 👍.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Essa versão contém variados pequenos retoques e consertos para manter o Signal funcionando confortavelmente.",
+        "description": "Release notes for v5.20"
     }
 }

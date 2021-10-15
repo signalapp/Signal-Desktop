@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Este relatório será publicado on-line para que os contribuidores o analisem. É possível examiná-lo e editá-lo antes de o submeter.",
+        "message": "Este relatório será publicado on-line para que os contribuidores o vejam. É possível fazer o download do relatório antes de o submeter.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Algo correu mal ao carregar! Por favor considere que adicionar um relatório de erros para o Erro que vai enviar.",
+        "message": "Ocorreu algo de errado ao carregar! Por favor envie um e-mail para support@signal.org e anexe o seu relatório como ficheiro de texto.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Relatório de depuração submetido",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Foi carregado o relatório de depuração. Ao contactar o suporte, copie o link abaixo e anexe-o acompanhado com uma descrição do problema que teve e com os passos para os reproduzir.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copiar",
+        "message": "Copiar link",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copiar link para a área de transferência",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Download",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Link copiado para a sua área de transferência",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Reportar um problema",
+        "message": "Contactar o Suporte",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "O Desktop apresentou um erro de desencriptação. Clique para enviar um registo de depuração. ",
+        "message": "O desktop apresentou um erro de desencriptação.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Submeter relatório",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Se o anexo não for uma imagem, apenas pode enviar um anexo por mensagem.",
@@ -949,9 +961,17 @@
         "message": "Uma mensagem de voz deverá apenas ter um anexo",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Existe um erro com o gravador de voz.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Anexo guardado. Clique para mostrar na pasta.",
+        "message": "Anexo guardado.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Mostrar na pasta",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Você",
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verificar número de segurança",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "O número de segurança foi alterado",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Conversa arquivada",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Desfazer",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "A conversa regressou à caixa de entrada",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Está a sentir-se ❤️‍🔥 ou 😶‍🌫️? A partir de agora você pode-se expressar melhor com novos emojis quando estiver :whispering ou :YELLING nas suas conversas. Obrigado $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Se você estiver em Anguilla, país na América Central, talvez se esteja a sentir uma pessoa isolada. A partir de agora, os domínios de sites cujo final mudou em Anguilla desde 2010 serão corretamente exibidos no Signal. Desse modo, tanto $gov$ quanto $brain$ estarão acessíveis com um clique no $signal$. Obrigado $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Ouvimos dizer que você gosta de ampliar as imagens para ver os detalhes. Nós aprofundamos o zoom. Desse modo, mesmo as imagens pequenas poderão ser exibidas em ecrã inteiro.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Esse recurso vai para todos os que reagem com 💅 mais do que 👍: agora você pode personalizar os emojis que aparecem por padrão quando você deseja reagir a uma mensagem.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
+        "description": "Release notes for v5.20"
     }
 }

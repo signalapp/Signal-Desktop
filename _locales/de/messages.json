@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Dieses Diagnoseprotokoll wird im Internet veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du es noch einmal überprüfen und bearbeiten.",
+        "message": "Dieses Diagnoseprotokoll wird im Internet veröffentlicht, damit Mitwirkende es einsehen können. Bevor du das Protokoll übermittelst, kannst du das vollständige Diagnoseprotokoll herunterladen.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Beim Hochladen gab es ein Problem. Falls möglich, füge bitte das Protokoll manuell deiner eingereichten Problembeschreibung hinzu.",
+        "message": "Beim Hochladen gab es ein Problem. Schreibe bitte eine E-Mail an support@signal.org und füge das Diagnoseprotokoll als eine Textdatei an.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Diagnoseprotokoll übermittelt",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Diagnoseprotokoll hochgeladen. Wenn du dich an den Support wendest, kopiere den unten stehenden Link und füge ihn zusammen mit einer Beschreibung des aufgetretenen Problems und den Schritten zur Reproduktion des Problems an.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Kopieren",
+        "message": "Link kopieren",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Link in Zwischenablage kopieren",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Herunterladen",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Link in Zwischenablage kopiert",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Problem melden",
+        "message": "Support kontaktieren",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Fehler bei der Entschlüsselung. Bitte anklicken, um ein Diagnoseprotokoll zu übermitteln.",
+        "message": "Es trat ein Entschlüsselungsfehler auf.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Diagnoseprotokoll übermitteln",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Mehrere Anhänge je Nachricht sind ausschließlich bei Bildern erlaubt.",
@@ -949,9 +961,17 @@
         "message": "Eine Sprachnachricht darf nur einen Anhang beinhalten.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Es gab einen Fehler bei der Sprachaufzeichnung.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Anhang gespeichert. Anklicken zur Anzeige im Ordner.",
+        "message": "Anhang gespeichert.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Im Ordner anzeigen",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Du",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Falls du die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ verifizieren möchtest, vergleiche bitte die oben dargestellten Zahlen mit jenen auf dem Gerät deines Kontakts.",
+        "message": "Vergleiche die oben dargestellten Zahlen mit denen auf dem Gerät deines Kontakts, um die Sicherheit deiner Ende-zu-Ende-Verschlüsselung mit $name$ zu verifizieren.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Sicherheitsnummer verifizieren",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Sicherheitsnummer hat sich geändert",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Unterhaltung archiviert",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Rückgängig",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Unterhaltung in Eingang verschoben",
@@ -6298,7 +6326,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ Kontakt",
+        "message": "$num$ Nutzer",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6308,7 +6336,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ Kontakte",
+        "message": "$num$ Nutzer",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Fühlst du dich ❤️🔥 oder 😶🌫️? Du kannst dich mit einer neuen Ladung Emojis ausdrücken, egal ob du bei deiner Suche :flüsterst oder :SCHREIST. Danke, $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Falls du in Anguilla bist, fühltest du dich vielleicht ausgeschlossen. Wir wandeln jetzt alle seit 2010 existierenden Top-Level-Domains in Links um – so werden sowohl $gov$ als auch $brain$ wie $signal$ anklickbar sein. Danke, $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Wir haben gehört, dass du gerne in Bilder hineinzoomst. Wir haben den Zoom verstärkt, sodass selbst kleine Bilder bildschirmfüllend angezeigt werden können.",
@@ -6472,15 +6476,19 @@
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Das Ändern der Tastaturbelegung war schon immer eine heikle Angelegenheit. Nun aber eröffnet sich mit Tastaturkürzeln eine neue Welt an Möglichkeiten deinem Willen stets Ausdruck zu verleihen.",
+        "message": "Das Ändern der Tastaturbelegung war schon immer eine heikle Angelegenheit. Nun aber eröffnet sich mit Tastaturkürzeln eine neue Welt an Möglichkeiten, deinem Willen stets Ausdruck zu verleihen.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
-        "message": "Wenn ein Gruppenanruf getätigt wird, erhältst du nun eine Benachrichtigung. Daher wirst du nie wieder zu spät sein, es sein du willst es.",
+        "message": "Wenn ein Gruppenanruf beginnt, erhältst du nun eine Benachrichtigung. Du wirst nie wieder zu spät kommen, es sei denn, du willst es.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "Diese Funktion richtet sich an all diejenigen, die häufiger mit 💅 als mit 👍 reagieren. Du kannst ab jetzt die Emojis ändern, die standardmäßig beim Reagieren auf eine Nachricht angezeigt werden.",
+        "message": "Diese Funktion richtet sich an alle, die häufiger mit 💅 als mit 👍 reagieren. Du kannst jetzt die Emojis ändern, die standardmäßig beim Reagieren auf eine Nachricht angezeigt werden.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
+        "description": "Release notes for v5.20"
     }
 }

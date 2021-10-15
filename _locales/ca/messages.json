@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Aquest registre es penjarà públicament perquè el vegin els col·laboradors. Podeu examinar-lo i editar-lo abans d'enviar-lo.",
+        "message": "Aquest registre es penjarà públicament perquè el vegin els col·laboradors. Podeu baixar-lo sencer abans d'enviar-lo.",
         "description": ""
     },
     "debugLogError": {
-        "message": "S'ha produït un error amb la càrrega! Considereu afegir manualment el registre a l'error que envieu.",
+        "message": "S'ha produït un error amb la càrrega! Envieu un correu electrònic a support@signal.org i adjunteu-hi el registre com a fitxer de text.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Registre de depuració enviat",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "S'ha carregat el registre de depuració. Quan us poseu en contacte amb el servei d'assistència, copieu l'enllaç següent i adjunteu-lo, juntament amb una descripció del problema que heu vist i els passos per reproduir-lo.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copia",
+        "message": "Copia l'enllaç",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copia l'enllaç al porta-retalls",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Baixa",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Enllaç copiat al porta-retalls",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Informeu d'un error",
+        "message": "Contacteu amb l'Assistència",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "La versió d'escriptori ha tingut un error de desencriptació. Cliqueu per enviar-ne un registre d'error.",
+        "message": "Hi ha hagut un error de desencriptació.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Envia el registre",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Quan inclogueu un adjunt que no sigui una imatge, el límit és un adjunt per missatge.",
@@ -949,9 +961,17 @@
         "message": "Un missatge de veu només pot tenir un adjunt.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Hi ha hagut un error amb la gravadora de veu.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "S'ha desat l'adjunt. Cliqueu per veure'l a la carpeta.",
+        "message": "Adjunt desat",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Mostra'l a la carpeta",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Vós",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si voleu verificar la seguretat de l'encriptació de cap a cap amb $name$, compareu els números anteriors amb els números del seu dispositiu.",
+        "message": "Per verificar la seguretat de l'encriptació d'extrem a extrem amb $name$, compareu els números anteriors amb el seu dispositiu.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Verifiqueu el número de seguretat",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "El número de seguretat ha canviat",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Conversa arxivada",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Desfés",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "La conversa ha tornat a la bústia d'entrada",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Us sentiu ❤️‍🔥 o 😶‍🌫️? Podeu expressar-vos amb un conjunt nou d'emoticones, tant si xiuxiuegeu com si CRIDEU mentre cerqueu. Gràcies, $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Si sou a Anguilla, potser us heu sentit abandonats. Ara convertim tots els dominis de nivell superior existents des del 2010 en enllaços, de manera que tant $gov$ com $brain$ es podran clicar igual que $signal$. Gràcies, $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Hem sentit que voleu ampliar les imatges. Hem ampliat molt el zoom, de manera que fins i tot les imatges petites poden arribar a pantalla completa.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Aquesta característica s'aplica a tothom que reaccioni amb 💅 més de 👍: ara podeu personalitzar les emoticones que apareixen per defecte quan vulgueu reaccionar a un missatge.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
+        "description": "Release notes for v5.20"
     }
 }

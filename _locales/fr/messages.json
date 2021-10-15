@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Ce journal sera publié en ligne publiquement pour être consulté par les contributeurs. Vous pouvez l’examiner et l’éditer avant de l’envoyer.",
+        "message": "Ce journal sera publié en ligne publiquement pour être consulté par les contributeurs. Vous pouvez en télécharger l’intégralité avant de l’envoyer.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Un problème est survenu lors du téléversement. Veuillez envisager d’ajouter manuellement votre journal à votre rapport de bogue.",
+        "message": "Un problème est survenu lors du téléversement ! Veuillez nous envoyer un courriel à support@signal.org et joindre votre journal comme fichier texte.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Journal de débogage envoyé",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Journal de débogage téléversé. Lorsque vous contactez l’assistance, copiez le lien ci-dessous et joignez-le avec une description du problème rencontré et les étapes pour le reproduire.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Copier",
+        "message": "Copier le lien",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Copier le lien dans votre presse-papiers",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Télécharger",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Le lien a été copié dans votre presse-papiers",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Signaler un problème",
+        "message": "Contacter l’assistance",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal pour ordinateur a rencontré une erreur de déchiffrement. Cliquez pour envoyer un journal de débogage.",
+        "message": "Signal pour ordinateur a rencontré une erreur de déchiffrement.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Envoyer le journal",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Pour un fichier joint qui n’est pas une image, la limite est un fichier joint par message.",
@@ -949,9 +961,17 @@
         "message": "Un message vocal ne doit avoir qu’un seul fichier joint.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Une erreur est survenue avec l’enregistreur vocal.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Le fichier joint a été enregistré. Cliquez pour l’afficher dans le dossier.",
+        "message": "Fichier joint enregistré.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Afficher dans le dossier",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Vous",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Si vous souhaitez confirmer la sécurité de votre chiffrement de bout en bout avec $name$, comparez les numéros ci-dessus avec les numéros sur son appareil.",
+        "message": "Pour confirmer la sécurité de votre chiffrement de bout en bout avec $name$, comparez les numéros ci-dessus avec ceux de son appareil.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Confirmer le numéro de sécurité",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Le numéro de sécurité a changé",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "La conversation a été archivée",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Annuler",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "La conversation a été renvoyée dans la boîte de réception",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "D’humeur ❤️‍🔥 ou 😶‍🌫️ ? Vous pouvez vous exprimer avec un nouveau lot d’émojis à rechercher en :murmurant ou en :CRIANT. Merci $hiqua$ !",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "Si vous êtes à Anguilla, vous vous êtes peut-être senti exclu. Nous transformons maintenant tous les domaines de premier niveau en place depuis 2010 en liens, de telle façon que $gov$ et $brain$ seront cliquables à l’instar de $signal$. Merci $jojomatik$ !",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "Nous avons entendu que vous aimiez zoomer sur les images. Nous avons ajouté de la puissance à votre zoom, de sorte que même les petites images peuvent être affichées en plein écran.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "Cette fonctionnalité s’adresse à tous ceux qui réagissent plus avec des 💅 qu’avec des 👍 : vous pouvez désormais personnaliser les émojis qui apparaissent par défaut pour réagir à un message.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
+        "description": "Release notes for v5.20"
     }
 }

@@ -474,23 +474,31 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Нешто није у реду са отпремањем! Молимо вас размислите о ручном додавању свог дневника у грешку коју шаљете.",
+        "message": "Нешто није у реду са отпремањем! Пошаљи поруку на support@signal.org и приложите дневник као текстуалну датотеку.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Извештај грешке послат",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Извештај грешке отпремљен. Када контактирате подршку, копирајте доњу везу и приложите га заједно са опис проблема који сте видели и кораци да га репродукујете.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "Копирај",
+        "message": "Копирај везу",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "Копирај линк",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "Преузми",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "Линк копиран",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "Пријавите проблем",
+        "message": "Контактирајте подршку",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Десктоп је налетио на грешку у дешифрирању. Кликните да бисте послали дневник за уклањање грешака.",
+        "message": "Десктоп је налетео на грешку у дешифрирању.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Пошањи извештај",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "Када укључујете прилог што није слика, ограничење је један прилог по поруци.",
@@ -949,9 +961,17 @@
         "message": "Говорна порука мора имати само један прилог.",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "Дошло је до грешке са диктафоном.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "Прилог је сачуван. Кликните за приказ у фасцикли.",
+        "message": "Додатак сачуван.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Покаћи у фасцикли",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "Ви",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "Ако желите да проверите безбедност ваше end-to-end енкрипције са $name$, упоредите горе приказане бројеве са бројевима на њиховом уређају.",
+        "message": "Да проверите безбедност ваше end-to-end енкрипције са $name$, упоредите горе приказане бројеве са бројевима на њиховом уређају.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2161,6 +2181,10 @@
             }
         }
     },
+    "SafetyNumberModal__title": {
+        "message": "Оверите сигурносни број",
+        "description": "Title for the modal for safety number verification"
+    },
     "safetyNumberChanged": {
         "message": "Сигурносни број је промењен",
         "description": "A notification shown in the conversation when a contact reinstalls"
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "Преписка архивирана",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "Опозови",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "Преписка се вратила у пријемно сандуче",
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.20"
     }
 }

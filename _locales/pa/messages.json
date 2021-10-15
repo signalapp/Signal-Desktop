@@ -470,27 +470,35 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "ਇਸ ਲੌਗ ਨੂੰ ਯੋਗਦਾਨ ਪਾਉਣ ਵਾਲਿਆਂ ਦੇ ਦੇਖਣ ਲਈ ਜਨਤਕ ਤੌਰ ’ਤੇ ਆਨਲਾਈਨ ਪੋਸਟ ਕੀਤਾ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਜਮ੍ਹਾਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਇਸ ਦੀ ਜਾਂਚ ਅਤੇ ਸੰਪਾਦਨ ਕਰ ਸਕਦੇ ਹੋ।",
+        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
         "description": ""
     },
     "debugLogError": {
-        "message": "ਅਪਲੋਡ ਵਿੱਚ ਕੋਈ ਗੜਬੜ ਹੋਈ ਹੈ! ਕਿਰਪਾ ਕਰਕੇ ਤੁਹਾਡੇ ਦੁਆਰਾ ਦਰਜ ਕੀਤੇ ਜਾ ਰਹੇ ਬੱਗ ਵਿੱਚ ਆਪਣੇ ਲੌਗ ਨੂੰ ਦਸਤੀ ਰੂਪ ਵਿੱਚ ਪਾਉਣ ’ਤੇ ਵਿਚਾਰ ਕਰੋ।",
+        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
         "description": ""
     },
+    "debugLogSuccess": {
+        "message": "Debug log submitted",
+        "description": "Title of the success page for submitting a debug log"
+    },
+    "debugLogSuccessNextSteps": {
+        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "description": "Explanation of next steps to take when submitting debug log"
+    },
     "debugLogCopy": {
-        "message": "ਕਾਪੀ ਕਰੋ",
+        "message": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
-    "debugLogCopyAlt": {
-        "message": "ਲਿੰਕ ਨੂੰ ਆਪਣੇ ਕਲਿੱਪਬੋਰਡ ’ਤੇ ਕਾਪੀ ਕਰੋ",
-        "description": "Shown as the alt text for the copy button on the debug log screen"
+    "debugLogSave": {
+        "message": "ਡਾਊਨਲੋਡ ਕਰੋ",
+        "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
         "message": "ਲਿੰਕ ਤੁਹਾਡੇ ਕਲਿੱਪਬੋਰਡ ’ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
-        "message": "ਮਸਲੇ ਬਾਰੇ ਰਿਪੋਰਟ ਦਿਓ",
+        "message": "ਸਹਾਇਤਾ ਦੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
         "description": "Link to open the issue tracker"
     },
     "gotIt": {
@@ -640,8 +648,12 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "ਡੈਸਕਟਾੱਪ ਵਿੱਚ ਡੀਕ੍ਰਿਪਸ਼ਨ ਦੀ ਕੋਈ ਤਰੁੱਟੀ ਆ ਗਈ ਹੈ। ਡੀਬੱਗ ਲੌਗ ਜਮ੍ਹਾਂ ਕਰਨ ਲਈ ਕਲਿਕ ਕਰੋ।",
+        "message": "Desktop ran into a decryption error.",
         "description": "An error popup when we haven't added an error for decryption error."
+    },
+    "decryptionErrorToastAction": {
+        "message": "Submit log",
+        "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
         "message": "ਕਿਸੇ ਗੈਰ-ਚਿੱਤਰ ਅਟੈਚਮੈਂਟ ਨੂੰ ਸ਼ਾਮਲ ਕਰਦੇ ਸਮੇਂ, ਪ੍ਰਤੀ ਸੁਨੇਹਾ ਇੱਕ ਅਟੈਚਮੈਂਟ ਦੀ ਸੀਮਾ ਹੈ।",
@@ -949,9 +961,17 @@
         "message": "ਲਾਜ਼ਮੀ ਹੈ ਕਿ ਇੱਕ ਅਵਾਜ਼ ਵਾਲੇ ਸੁਨੇਹੇ ਵਿੱਚ ਸਿਰਫ਼ ਇੱਕ ਅਟੈਚਮੈਂਟ ਹੀ ਹੋਵੇ।",
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
+    "voiceNoteError": {
+        "message": "There was an error with the voice recorder.",
+        "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
+    },
     "attachmentSaved": {
-        "message": "ਨੱਥੀ ਨੂੰ ਸੰਭਾਲਿਆ। ਫੋਲਡਰ ਵਿੱਚ ਵਿਖਾਉਣ ਲਈ ਕਲਿਕ ਕਰੋ।",
+        "message": "Attachment saved.",
         "description": "Shown after user selects to save to downloads"
+    },
+    "attachmentSavedShow": {
+        "message": "Show in folder",
+        "description": "Button label for showing the attachment in your file system"
     },
     "you": {
         "message": "ਤੁਸੀਂ",
@@ -1128,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "ਜੇ ਤੁਸੀਂ $name$ ਨਾਲ ਆਪਣੀ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਸੁਰੱਖਿਆ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਉਪਰੋਕਤ ਸੰਖਿਆਵਾਂ ਦੀ ਤੁਲਨਾ ਉਹਨਾਂ ਦੀ ਡਿਵਾਈਸ ਉੱਪਰਲੀਆਂ ਸੰਖਿਆਵਾਂ ਨਾਲ ਕਰੋ।",
+        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1848,7 +1868,7 @@
         "description": "Explain the purpose of the notification settings"
     },
     "disableNotifications": {
-        "message": "ਸੂਚਨਾਵਾਂ ਅਯੋਗ ਕਰੋ",
+        "message": "ਸੂਚਨਾਵਾਂ ਅਸਮਰੱਥ ਕਰੋ",
         "description": "Label for disabling notifications"
     },
     "nameAndMessage": {
@@ -2160,6 +2180,10 @@
                 "example": "Bob Smith"
             }
         }
+    },
+    "SafetyNumberModal__title": {
+        "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰੋ",
+        "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
         "message": "ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਦਲ ਚੁੱਕਾ ਹੈ",
@@ -2970,6 +2994,10 @@
     "conversationArchived": {
         "message": "ਗੱਲਬਾਤ ਆਰਕਾਈਵ ਕੀਤੀ ਗਈ",
         "description": "A toast that shows up when user archives a conversation"
+    },
+    "conversationArchivedUndo": {
+        "message": "ਵਾਪਸ",
+        "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
         "message": "ਗੱਲਬਾਤ ਵਾਪਸ ਇਨਬੌਕਸ ਵਿੱਚ",
@@ -4190,11 +4218,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ  ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4204,15 +4232,15 @@
         }
     },
     "GroupV2--access-invite-link--disabled--unknown": {
-        "message": "ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+        "message": "ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--you": {
-        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--enabled--other": {
-        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਦਿੱਤਾ।",
+        "message": "$adminName$ ਨੇ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾ ਦਿੱਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4222,7 +4250,7 @@
         }
     },
     "GroupV2--access-invite-link--enabled--unknown": {
-        "message": "ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+        "message": "ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
@@ -4966,11 +4994,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "ਤੁਸੀਂ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।",
+        "message": "ਤੁਸੀਂ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ ਨੇ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।",
+        "message": "$adminName$ ਨੇ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4980,11 +5008,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ ਗਿਆ ਹੈ।",
+        "message": "ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "ਤੁਸੀਂ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ।",
+        "message": "ਤੁਸੀਂ ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਸਮਰੱਥ ਕੀਤਾ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
@@ -4998,7 +5026,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਯੋਗ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ ਗਿਆ ਹੈ।",
+        "message": "ਐਡਮਿਨ ਮਨਜ਼ੂਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾ ਕੇ ਗਰੁੱਪ ਲਿੰਕ ਨੂੰ ਚਾਲੂ ਕੀਤਾ ਗਿਆ ਹੈ।",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -6429,35 +6457,11 @@
     },
     "WhatsNew__v5.18--1": {
         "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "hiqua": {
-                "content": "$1",
-                "example": "<a href='https://github.com/hiqua'>@hiqua</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--2": {
         "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
-        "description": "Release notes for v5.18",
-        "placeholders": {
-            "gov": {
-                "content": "$1",
-                "example": "<a href='https://gov.ai'>gov.ai</a>"
-            },
-            "brain": {
-                "content": "$2",
-                "example": "<a href='https://brain.ai'>brain.ai</a>"
-            },
-            "signal": {
-                "content": "$3",
-                "example": "<a href='https://signal.org'>signal.org</a>"
-            },
-            "jojomatik": {
-                "content": "$4",
-                "example": "<a href='https://github.com/jojomatik'>@jojomatik</a>"
-            }
-        }
+        "description": "Release notes for v5.18"
     },
     "WhatsNew__v5.18--3": {
         "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
@@ -6482,5 +6486,9 @@
     "WhatsNew__v5.19--4": {
         "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
         "description": "Release notes for v5.19"
+    },
+    "WhatsNew__v5.20": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.20"
     }
 }
