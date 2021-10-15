@@ -7,10 +7,6 @@ import { v4 as generateGuid } from 'uuid';
 
 import { SCHEMA_VERSIONS } from '../sql/Server';
 
-const THEIR_UUID = generateGuid();
-const THEIR_CONVO = generateGuid();
-const ANOTHER_CONVO = generateGuid();
-const THIRD_CONVO = generateGuid();
 const OUR_UUID = generateGuid();
 
 describe('SQL migrations test', () => {
@@ -87,6 +83,11 @@ describe('SQL migrations test', () => {
   });
 
   describe('updateToSchemaVersion41', () => {
+    const THEIR_UUID = generateGuid();
+    const THEIR_CONVO = generateGuid();
+    const ANOTHER_CONVO = generateGuid();
+    const THIRD_CONVO = generateGuid();
+
     it('clears sessions and keys if UUID is not available', () => {
       updateToVersion(40);
 
@@ -517,6 +518,101 @@ describe('SQL migrations test', () => {
           return 1;
         })
       );
+    });
+  });
+
+  describe('updateToSchemaVersion42', () => {
+    const MESSAGE_ID_1 = generateGuid();
+    const MESSAGE_ID_2 = generateGuid();
+    const MESSAGE_ID_3 = generateGuid();
+    const MESSAGE_ID_4 = generateGuid();
+    const CONVERSATION_ID = generateGuid();
+
+    it('deletes orphaned reactions', () => {
+      updateToVersion(41);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, body)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'message number 1'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'message number 2');
+        INSERT INTO reactions (messageId, conversationId) VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}'),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}');
+        `
+      );
+
+      const reactionCount = db
+        .prepare('SELECT COUNT(*) FROM reactions;')
+        .pluck();
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+
+      assert.strictEqual(reactionCount.get(), 4);
+      assert.strictEqual(messageCount.get(), 2);
+
+      updateToVersion(42);
+
+      assert.strictEqual(reactionCount.get(), 2);
+      assert.strictEqual(messageCount.get(), 2);
+
+      const reactionMessageIds = db
+        .prepare('SELECT messageId FROM reactions;')
+        .pluck()
+        .all();
+
+      assert.sameDeepMembers(reactionMessageIds, [MESSAGE_ID_1, MESSAGE_ID_2]);
+    });
+
+    it('new message delete trigger deletes reactions as well', () => {
+      updateToVersion(41);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, body)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'message number 1'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'message number 2'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'message number 3');
+        INSERT INTO reactions (messageId, conversationId) VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}');
+        `
+      );
+
+      const reactionCount = db
+        .prepare('SELECT COUNT(*) FROM reactions;')
+        .pluck();
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+
+      assert.strictEqual(reactionCount.get(), 3);
+      assert.strictEqual(messageCount.get(), 3);
+
+      updateToVersion(42);
+
+      assert.strictEqual(reactionCount.get(), 3);
+      assert.strictEqual(messageCount.get(), 3);
+
+      db.exec(
+        `
+        DELETE FROM messages WHERE id = '${MESSAGE_ID_1}';
+        `
+      );
+
+      assert.strictEqual(reactionCount.get(), 2);
+      assert.strictEqual(messageCount.get(), 2);
+
+      const reactionMessageIds = db
+        .prepare('SELECT messageId FROM reactions;')
+        .pluck()
+        .all();
+
+      assert.sameDeepMembers(reactionMessageIds, [MESSAGE_ID_2, MESSAGE_ID_3]);
     });
   });
 });

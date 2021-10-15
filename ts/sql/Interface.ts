@@ -389,6 +389,7 @@ export type DataInterface = {
     targetTimestamp: number;
   }) => Promise<void>;
   addReaction: (reactionObj: ReactionType) => Promise<void>;
+  _getAllReactions: () => Promise<Array<ReactionType>>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;

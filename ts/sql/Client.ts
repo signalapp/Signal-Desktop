@@ -221,6 +221,7 @@ const dataInterface: ClientInterface = {
   markReactionAsRead,
   removeReactionFromConversation,
   addReaction,
+  _getAllReactions,
 
   getMessageBySender,
   getMessageById,
@@ -1256,6 +1257,10 @@ async function removeReactionFromConversation(reaction: {
 
 async function addReaction(reactionObj: ReactionType) {
   return channels.addReaction(reactionObj);
+}
+
+async function _getAllReactions() {
+  return channels._getAllReactions();
 }
 
 function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
