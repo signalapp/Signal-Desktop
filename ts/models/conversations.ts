@@ -14,6 +14,7 @@ import {
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
+import { getInitials } from '../util/getInitials';
 import { AttachmentType, isGIF } from '../types/Attachment';
 import { CallMode, CallHistoryDetailsType } from '../types/Calling';
 import * as EmbeddedContact from '../types/EmbeddedContact';
@@ -4665,21 +4666,6 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  getInitials(name: string): string | null {
-    if (!name) {
-      return null;
-    }
-
-    const cleaned = name.replace(/[^A-Za-z\s]+/g, '').replace(/\s+/g, ' ');
-    const parts = cleaned.split(' ');
-    const initials = parts.map(part => part.trim()[0]);
-    if (!initials.length) {
-      return null;
-    }
-
-    return initials.slice(0, 2).join('');
-  }
-
   getColor(): AvatarColorType {
     return migrateColor(this.get('color'));
   }
@@ -4940,9 +4926,9 @@ export class ConversationModel extends window.Backbone
 
   private async getIdenticon(): Promise<string> {
     const color = this.getColor();
-    const name = this.get('name');
+    const title = this.getTitle();
 
-    const content = (name && this.getInitials(name)) || '#';
+    const content = (title && getInitials(title)) || '#';
 
     const cached = this.cachedIdenticon;
     if (cached && cached.content === content && cached.color === color) {
