@@ -88,6 +88,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupNotification = this.getPropsForGroupNotification();
     const propsForTimerNotification = this.getPropsForTimerNotification();
+    const isMissedCall = this.get('isMissedCall');
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
     };
@@ -102,6 +103,15 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
     if (propsForTimerNotification) {
       messageProps.propsForTimerNotification = propsForTimerNotification;
+    }
+
+    if (isMissedCall) {
+      messageProps.propsForMissedCall = {
+        isMissedCall,
+        messageId: this.id,
+        receivedAt: this.get('received_at') || Date.now(),
+        isUnread: this.isUnread(),
+      };
     }
     perfEnd(`getPropsMessage-${this.id}`, 'getPropsMessage');
     return messageProps;

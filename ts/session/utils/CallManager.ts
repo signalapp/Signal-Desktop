@@ -674,7 +674,11 @@ export async function handleCallTypeOffer(
 
 async function handleMissedCall(sender: string, incomingOfferTimestamp: number) {
   const incomingCallConversation = await getConversationById(sender);
-  ToastUtils.pushedMissedCall(incomingCallConversation?.getNickname() || 'Unknown');
+  ToastUtils.pushedMissedCall(
+    incomingCallConversation?.getNickname() ||
+      incomingCallConversation?.getProfileName() ||
+      'Unknown'
+  );
 
   await incomingCallConversation?.addSingleMessage({
     conversationId: incomingCallConversation.id,
@@ -683,7 +687,7 @@ async function handleMissedCall(sender: string, incomingOfferTimestamp: number) 
     sent_at: incomingOfferTimestamp,
     received_at: Date.now(),
     expireTimer: 0,
-    body: 'Missed call',
+    isMissedCall: true,
     unread: 1,
   });
   incomingCallConversation?.updateLastMessage();

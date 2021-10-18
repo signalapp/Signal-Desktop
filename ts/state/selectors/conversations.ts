@@ -184,7 +184,8 @@ export type MessagePropsType =
   | 'data-extraction'
   | 'timer-notification'
   | 'regular-message'
-  | 'unread-indicator';
+  | 'unread-indicator'
+  | 'missed-call-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -247,6 +248,20 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           message: {
             messageType: 'timer-notification',
             props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForMissedCall) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'missed-call-notification',
+            props: {
+              ...msg.propsForMissedCall,
+              messageId: msg.propsForMessage.id,
+            },
           },
         };
       }

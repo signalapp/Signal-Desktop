@@ -18,12 +18,20 @@ import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
 
+export type PropsForMissedCallNotification = {
+  isMissedCall: boolean;
+  messageId: string;
+  receivedAt: number;
+  isUnread: boolean;
+};
+
 export type MessageModelPropsWithoutConvoProps = {
   propsForMessage: PropsForMessageWithoutConvoProps;
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
   propsForGroupNotification?: PropsForGroupUpdate;
+  propsForMissedCall?: PropsForMissedCallNotification;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {

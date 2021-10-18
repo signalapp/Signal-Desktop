@@ -5,6 +5,7 @@ import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
+  PropsForMissedCallNotification,
 } from '../../../state/ducks/conversations';
 import { getSortedMessagesTypesOfSelectedConversation } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -12,6 +13,7 @@ import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { Message } from '../../conversation/Message';
 import { MessageDateBreak } from '../../conversation/message/DateBreak';
+import { MissedCallNotification } from '../../conversation/MissedCallNotification';
 import { TimerNotification } from '../../conversation/TimerNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
@@ -60,6 +62,16 @@ export const SessionMessagesList = (props: {
           const msgProps = messageProps.message.props as PropsForExpirationTimer;
 
           return [<TimerNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+        }
+
+        if (messageProps.message?.messageType === 'missed-call-notification') {
+          const msgProps = messageProps.message.props as PropsForMissedCallNotification;
+
+          return [
+            <MissedCallNotification key={messageId} {...msgProps} />,
+            dateBreak,
+            unreadIndicator,
+          ];
         }
 
         if (!messageProps) {
