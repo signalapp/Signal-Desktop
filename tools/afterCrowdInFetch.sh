@@ -3,7 +3,6 @@
 
 mv $PWD/_locales/es-419 $PWD/_locales/es_419
 mv $PWD/_locales/es-ES $PWD/_locales/es
-mv $PWD/_locales/nn-NO $PWD/_locales/no
 mv $PWD/_locales/pa-IN $PWD/_locales/pa
 mv $PWD/_locales/si-LK $PWD/_locales/si
 mv $PWD/_locales/pt-BR $PWD/_locales/pt_BR
