@@ -23,10 +23,11 @@ import {
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
 import { SessionIcon } from './session/icon';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
+import { updateUserDetailsModal } from '../state/ducks/modalDialog';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -131,16 +132,15 @@ const HeaderItem = (props: {
       </StyledConversationListItemIconWrapper>
       {unreadCountDiv}
       {atSymbol}
-      {
-        <div
-          className={classNames(
-            'module-conversation-list-item__header__date',
-            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
-          )}
-        >
-          {<Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />}
-        </div>
-      }
+
+      <div
+        className={classNames(
+          'module-conversation-list-item__header__date',
+          unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
+        )}
+      >
+        <Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />
+      </div>
     </div>
   );
 };
@@ -220,10 +220,12 @@ const AvatarItem = (props: {
   memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   profileName?: string;
+  isPrivate: boolean;
 }) => {
-  const { avatarPath, name, conversationId, profileName, memberAvatars } = props;
+  const { avatarPath, name, isPrivate, conversationId, profileName, memberAvatars } = props;
 
   const userName = name || profileName || conversationId;
+  const dispatch = useDispatch();
 
   return (
     <div className="module-conversation-list-item__avatar-container">
@@ -233,6 +235,17 @@ const AvatarItem = (props: {
         size={AvatarSize.S}
         memberAvatars={memberAvatars}
         pubkey={conversationId}
+        onAvatarClick={() => {
+          if (isPrivate) {
+            dispatch(
+              updateUserDetailsModal({
+                conversationId: conversationId,
+                userName,
+                authorAvatarPath: avatarPath,
+              })
+            );
+          }
+        }}
       />
     </div>
   );
@@ -309,6 +322,7 @@ const ConversationListItem = (props: Props) => {
           memberAvatars={membersAvatar}
           profileName={profileName}
           name={name}
+          isPrivate={isPrivate || false}
         />
         <div className="module-conversation-list-item__content">
           <HeaderItem
