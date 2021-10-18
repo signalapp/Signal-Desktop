@@ -11,7 +11,7 @@ const { noop, uniqBy } = require('lodash');
 const pMap = require('p-map');
 
 // It is important to call this as early as possible
-require('../ts/windows/context');
+const { SignalContext } = require('../ts/windows/context');
 
 const {
   deriveStickerPackKey,
@@ -20,11 +20,7 @@ const {
 } = require('../ts/Crypto');
 const Bytes = require('../ts/Bytes');
 const { SignalService: Proto } = require('../ts/protobuf');
-const {
-  getEnvironment,
-  setEnvironment,
-  parseEnvironment,
-} = require('../ts/environment');
+const { getEnvironment } = require('../ts/environment');
 const { createSetting } = require('../ts/util/preload');
 
 const { dialog } = remote;
@@ -35,8 +31,6 @@ const MAX_STICKER_DIMENSION = STICKER_SIZE;
 const MAX_WEBP_STICKER_BYTE_LENGTH = 100 * 1024;
 const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 
-setEnvironment(parseEnvironment(config.environment));
-
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
@@ -46,11 +40,9 @@ window.Backbone = require('backbone');
 
 window.localeMessages = ipc.sendSync('locale-data');
 
-require('../ts/logging/set_up_renderer_logging').initialize();
-
 require('../ts/SignalProtocolStore');
 
-window.SignalWindow.log.info('sticker-creator starting up...');
+SignalContext.log.info('sticker-creator starting up...');
 
 const Signal = require('../js/modules/signal');
 
@@ -261,7 +253,7 @@ const getThemeSetting = createSetting('theme-setting');
 async function resolveTheme() {
   const theme = (await getThemeSetting.getValue()) || 'system';
   if (process.platform === 'darwin' && theme === 'system') {
-    const { theme: nativeTheme } = window.SignalContext.nativeThemeListener;
+    const { theme: nativeTheme } = SignalContext.nativeThemeListener;
     return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
   }
   return theme;
@@ -275,6 +267,6 @@ async function applyTheme() {
 
 window.addEventListener('DOMContentLoaded', applyTheme);
 
-window.SignalContext.nativeThemeListener.subscribe(() => applyTheme());
+SignalContext.nativeThemeListener.subscribe(() => applyTheme());
 
-window.SignalWindow.log.info('sticker-creator preload complete...');
+SignalContext.log.info('sticker-creator preload complete...');
