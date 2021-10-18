@@ -12793,6 +12793,22 @@
     "reasonDetail": "Used to reference popup menu"
   },
   {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.js",
+    "line": "        this.headerRef = react_1.default.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-18T22:24:05.937Z",
+    "reasonDetail": "Used to reference popup menu boundaries element"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.tsx",
+    "line": "    this.headerRef = React.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-01-18T22:24:05.937Z",
+    "reasonDetail": "Used to reference popup menu boundaries element"
+  },
+  {
     "rule": "React-useRef",
     "path": "ts/components/conversation/ConversationHero.tsx",
     "line": "  const firstRenderRef = useRef(true);",

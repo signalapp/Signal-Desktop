@@ -81,6 +81,26 @@ story.add('Sticky', () => (
   </Tooltip>
 ));
 
+story.add('With Applied Popper Modifiers', () => {
+  return (
+    <Tooltip
+      {...createProps({
+        direction: TooltipPlacement.Bottom,
+      })}
+      popperModifiers={[
+        {
+          name: 'offset',
+          options: {
+            offset: [80, 80],
+          },
+        },
+      ]}
+    >
+      {Trigger}
+    </Tooltip>
+  );
+});
+
 story.add('Dark Theme', () => (
   <Tooltip
     {...createProps({

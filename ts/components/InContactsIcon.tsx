@@ -9,15 +9,26 @@ import { LocalizerType } from '../types/Util';
 
 type PropsType = {
   className?: string;
+  tooltipContainerRef?: React.RefObject<HTMLElement>;
   i18n: LocalizerType;
 };
 
 export const InContactsIcon = (props: PropsType): JSX.Element => {
-  const { className, i18n } = props;
+  const { className, i18n, tooltipContainerRef } = props;
 
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
   return (
-    <Tooltip content={i18n('contactInAddressBook')}>
+    <Tooltip
+      content={i18n('contactInAddressBook')}
+      popperModifiers={[
+        {
+          name: 'preventOverflow',
+          options: {
+            boundary: tooltipContainerRef?.current || undefined,
+          },
+        },
+      ]}
+    >
       <span
         aria-label={i18n('contactInAddressBook')}
         className={classNames('module-in-contacts-icon__icon', className)}

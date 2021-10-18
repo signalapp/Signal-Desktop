@@ -113,12 +113,15 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private menuTriggerRef: React.RefObject<any>;
 
+  public headerRef: React.RefObject<HTMLDivElement>;
+
   public constructor(props: PropsType) {
     super(props);
 
     this.state = { isNarrow: false, modalState: ModalState.NothingOpen };
 
     this.menuTriggerRef = React.createRef();
+    this.headerRef = React.createRef();
     this.showMenuBound = this.showMenu.bind(this);
   }
 
@@ -163,6 +166,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           <InContactsIcon
             className="module-ConversationHeader__header__info__title__in-contacts-icon"
             i18n={i18n}
+            tooltipContainerRef={this.headerRef}
           />
         ) : null}
       </div>
@@ -596,7 +600,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       );
     }
 
-    return <div className="module-ConversationHeader__header">{contents}</div>;
+    return (
+      <div className="module-ConversationHeader__header" ref={this.headerRef}>
+        {contents}
+      </div>
+    );
   }
 
   public render(): ReactNode {
