@@ -69,7 +69,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
       {getDeleteMessagesMenuItem(isPublic, conversationId)}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
     </Menu>
   );
