@@ -10,6 +10,7 @@ import {
 } from 'mac-screen-capture-permissions';
 import { has, omit } from 'lodash';
 import { getOwn } from '../../util/getOwn';
+import * as Errors from '../../types/errors';
 import { getPlatform } from '../selectors/user';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -884,7 +885,7 @@ function peekNotConnectedGroupCall(
       try {
         peekInfo = await calling.peekGroupCall(conversationId);
       } catch (err) {
-        log.error('Group call peeking failed', err);
+        log.error('Group call peeking failed', Errors.toLogFormat(err));
         return;
       }
 
