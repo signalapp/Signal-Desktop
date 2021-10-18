@@ -77,7 +77,7 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
       {/* TODO: add delete group */}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
     </Menu>
   );
 };

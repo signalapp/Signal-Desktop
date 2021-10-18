@@ -75,14 +75,13 @@ function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
 }
 
 function showDeleteContact(
-  isMe: boolean,
   isGroup: boolean,
   isPublic: boolean,
   isGroupLeft: boolean,
   isKickedFromGroup: boolean
 ): boolean {
   // you need to have left a closed group first to be able to delete it completely.
-  return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
+  return !isGroup || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
 }
 
 function showAddModerators(
@@ -170,7 +169,6 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
 };
 
 export function getDeleteContactMenuItem(
-  isMe: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   isLeft: boolean | undefined,
@@ -181,7 +179,6 @@ export function getDeleteContactMenuItem(
 
   if (
     showDeleteContact(
-      Boolean(isMe),
       Boolean(isGroup),
       Boolean(isPublic),
       Boolean(isLeft),
