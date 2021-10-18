@@ -17,8 +17,9 @@ import { storeOnNode } from '../snode_api/SNodeAPI';
 import { getSwarmFor } from '../snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
-import { getConversationById, getMessageById } from '../../../ts/data/data';
+import { getMessageById } from '../../../ts/data/data';
 import { SNodeAPI } from '../snode_api';
+import { getConversationController } from '../conversations';
 
 const DEFAULT_CONNECTIONS = 3;
 
@@ -173,7 +174,7 @@ export async function TEST_sendMessageToSnode(
     throw new window.textsecure.EmptySwarmError(pubKey, 'Ran out of swarm nodes to query');
   }
 
-  const conversation = await getConversationById(pubKey);
+  const conversation = getConversationController().get(pubKey);
   const isClosedGroup = conversation?.isClosedGroup();
 
   // If message also has a sync message, save that hash. Otherwise save the hash from the regular message send i.e. only closed groups in this case.

@@ -28,7 +28,7 @@ export async function downloadAttachment(attachment: any) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
-    window?.log?.info('Download v2 file server attachment');
+    window?.log?.info('Download v2 file server attachment', attachmentId);
     res = await FSv2.downloadFileFromFSv2(attachmentId, defaultFsOldV2);
   } else {
     window.log.warn(
@@ -229,32 +229,6 @@ async function processQuoteAttachments(
   return addedCount;
 }
 
-async function processGroupAvatar(
-  message: MessageModel,
-  convo: ConversationModel
-): Promise<boolean> {
-  let group = message.get('group');
-
-  if (!group || !group.avatar) {
-    return false;
-  }
-  const isOpenGroupV2 = convo.isOpenGroupV2();
-
-  group = {
-    ...group,
-    avatar: await AttachmentDownloads.addJob(group.avatar, {
-      messageId: message.id,
-      type: 'group-avatar',
-      index: 0,
-      isOpenGroupV2,
-    }),
-  };
-
-  message.set({ group });
-
-  return true;
-}
-
 export async function queueAttachmentDownloads(
   message: MessageModel,
   conversation: ConversationModel
@@ -266,11 +240,6 @@ export async function queueAttachmentDownloads(
   count += await processPreviews(message, conversation);
 
   count += await processQuoteAttachments(message, conversation);
-
-  // I don 't think we rely on this for anything
-  if (await processGroupAvatar(message, conversation)) {
-    count += 1;
-  }
 
   if (count > 0) {
     await saveMessage(message.attributes);

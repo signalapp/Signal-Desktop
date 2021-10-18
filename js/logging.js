@@ -3,13 +3,13 @@
 /* eslint strict: ['error', 'never'] */
 /* eslint-disable no-console */
 
-const electron = require('electron');
+const { ipcRenderer } = require('electron');
 const _ = require('lodash');
 
 const debuglogs = require('./modules/debuglogs');
 const Privacy = require('./modules/privacy');
 
-const ipc = electron.ipcRenderer;
+const ipc = ipcRenderer;
 
 // Default Bunyan levels: https://github.com/trentm/node-bunyan#levels
 // To make it easier to visually scan logs, we make all levels the same length

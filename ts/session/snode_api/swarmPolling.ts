@@ -290,7 +290,7 @@ export class SwarmPolling {
 
           onFailedAttempt: e => {
             window?.log?.warn(
-              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}:`
+              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}`
             );
           },
         }

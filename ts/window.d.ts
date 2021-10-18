@@ -16,8 +16,6 @@ We declare window stuff here instead of global.d.ts because we are importing oth
 If you import anything in global.d.ts, the type system won't work correctly.
 */
 
-type UtilWorkerFunctionType = (fnName: string, ...args: any) => Promise<any>;
-
 declare global {
   interface Window {
     CONSTANTS: any;
@@ -48,6 +46,7 @@ declare global {
       padOutgoingAttachments: boolean;
       enablePinConversations: boolean;
       useUnsendRequests: boolean;
+      useCallMessage: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;
     onLogin: any;
@@ -82,5 +81,6 @@ declare global {
     callWorker: (fnName: string, ...args: any) => Promise<any>;
     setStartInTray: (val: boolean) => Promise<void>;
     getStartInTray: () => Promise<boolean>;
+    libsession: any;
   }
 }

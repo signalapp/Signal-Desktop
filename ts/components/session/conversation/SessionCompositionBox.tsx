@@ -174,7 +174,7 @@ const sendMessageStyle = {
   },
   input: {
     overflow: 'auto',
-    maxHeight: 70,
+    maxHeight: '50vh',
     wordBreak: 'break-word',
     padding: '0px',
     margin: '0px',
@@ -182,7 +182,7 @@ const sendMessageStyle = {
   highlighter: {
     boxSizing: 'border-box',
     overflow: 'hidden',
-    maxHeight: 70,
+    maxHeight: '50vh',
   },
   flexGrow: 1,
   minHeight: '24px',

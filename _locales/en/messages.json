@@ -135,7 +135,7 @@
   "deleteForEveryone": "Delete for Everyone",
   "deleteConversationConfirmation": "Permanently delete the messages in this conversation?",
   "clearAllData": "Clear All Data",
-  "deleteAccountWarning": "This will permanently delete your messages, sessions, and contacts.",
+  "deleteAccountWarning": "This will permanently delete your messages, and contacts.",
   "deleteContactConfirmation": "Are you sure you want to delete this conversation?",
   "quoteThumbnailAlt": "Thumbnail of image from quoted message",
   "imageAttachmentAlt": "Image attached to message",
@@ -444,5 +444,18 @@
   "messageDeletedPlaceholder": "This message has been deleted",
   "messageDeleted": "Message deleted",
   "surveyTitle": "Take our Session Survey",
-  "goToOurSurvey": "Go to our survey"
+  "goToOurSurvey": "Go to our survey",
+  "incomingCall": "Incoming call",
+  "accept": "Accept",
+  "decline": "Decline",
+  "endCall": "End call",
+  "micAndCameraPermissionNeededTitle": "Camera and Microphone access required",
+  "micAndCameraPermissionNeeded": "You can enable microphone and camera access under: Settings (Gear icon) => Privacy",
+  "unableToCall": "cancel your ongoing call first",
+  "unableToCallTitle": "Cannot start new call",
+  "callMissed": "Missed call from $name$",
+  "callMissedTitle": "Call missed",
+  "startVideoCall": "Start Video Call",
+  "noCameraFound": "No camera found",
+  "noAudioInputFound": "No audio input found"
 }

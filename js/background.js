@@ -66,11 +66,6 @@
   window.getGlobalOnlineStatus = () => window.globalOnlineStatus;
   const { Views } = window.Signal;
 
-  // Implicitly used in `indexeddb-backbonejs-adapter`:
-  // https://github.com/signalapp/Signal-Desktop/blob/4033a9f8137e62ed286170ed5d4941982b1d3a64/components/indexeddb-backbonejs-adapter/backbone-indexeddb.js#L569
-  window.onInvalidStateError = error =>
-    window.log.error(error && error.stack ? error.stack : error);
-
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
   const restartReason = localStorage.getItem('restart-reason');
@@ -148,15 +143,6 @@
       setSpellCheck: value => {
         storage.put('spell-check', value);
       },
-
-      addDarkOverlay: () => {
-        if ($('.dark-overlay').length) {
-          return;
-        }
-        $(document.body).prepend('<div class="dark-overlay"></div>');
-        $('.dark-overlay').on('click', () => $('.dark-overlay').remove());
-      },
-      removeDarkOverlay: () => $('.dark-overlay').remove(),
 
       shutdown: async () => {
         // Stop background processing

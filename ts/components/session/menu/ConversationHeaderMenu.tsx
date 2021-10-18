@@ -15,6 +15,7 @@ import {
   getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
   getRemoveModeratorsMenuItem,
+  getStartCallMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
 import _ from 'lodash';
@@ -53,6 +54,7 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
+      {getStartCallMenuItem(conversationId)}
       {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
       {getNotificationForConvoMenuItem({
         isKickedFromGroup,

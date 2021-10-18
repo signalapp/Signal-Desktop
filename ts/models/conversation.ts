@@ -177,12 +177,16 @@ export const fillConvoAttributesWithDefaults = (
   });
 };
 
+export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'none' | undefined;
+
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
   public throttledBumpTyping: any;
   public throttledNotify: any;
   public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
+
+  public callState: CallState;
 
   private typingRefreshTimer?: NodeJS.Timeout | null;
   private typingPauseTimer?: NodeJS.Timeout | null;
@@ -438,6 +442,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const left = !!this.get('left');
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
+    const callState = this.callState;
 
     // to reduce the redux store size, only set fields which cannot be undefined
     // for instance, a boolean can usually be not set if false, etc
@@ -541,6 +546,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         status: lastMessageStatus,
         text: lastMessageText,
       };
+    }
+
+    if (callState) {
+      toRet.callState = callState;
     }
     return toRet;
   }
@@ -836,10 +845,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return true;
   }
 
-  public async unsendMessages(messages: Array<MessageModel>, onlyDeleteForSender: boolean = false) {
+  public async unsendMessages(messages: Array<MessageModel>) {
     const results = await Promise.all(
       messages.map(async message => {
-        return this.unsendMessage(message, onlyDeleteForSender);
+        return this.unsendMessage(message, false);
       })
     );
     return _.every(results);
@@ -854,9 +863,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     onlyDeleteForSender: boolean = false
   ): Promise<boolean> {
     if (!message.get('messageHash')) {
-      window?.log?.error(
-        `message with id ${message.get('id')} cannot find hash: ${message.get('messageHash')}`
-      );
+      window?.log?.error(`message ${message.id}, cannot find hash: ${message.get('messageHash')}`);
       return false;
     }
     const ownPrimaryDevicePubkey = UserUtils.getOurPubKeyFromCache();
@@ -871,6 +878,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     //#region building request
     const author = message.get('source');
 
+    // call getPropsForMessage here so we get the received_at or sent_at timestamp in timestamp
     const timestamp = message.getPropsForMessage().timestamp;
     if (!timestamp) {
       window?.log?.error('cannot find timestamp - aborting unsend request');
@@ -889,7 +897,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // 1-1 Session
     if (!this.isGroup()) {
       // sending to recipient
-      getMessageQueue()
+      await getMessageQueue()
         .sendToPubKey(new PubKey(destinationId), unsendMessage)
         .catch(window?.log?.error);
       return this.deleteMessage(message);
@@ -897,7 +905,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     // closed groups
     if (this.isClosedGroup() && this.id) {
-      getMessageQueue()
+      await getMessageQueue()
         .sendToGroup(unsendMessage, undefined, PubKey.cast(this.id))
         .catch(window?.log?.error);
       // not calling deleteMessage as it'll be called by the unsend handler when it's received

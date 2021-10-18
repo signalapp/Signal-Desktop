@@ -5,10 +5,11 @@ import { SessionNotificationCount } from '../SessionNotificationCount';
 import _ from 'lodash';
 
 interface SProps extends SessionIconProps {
-  onClick?: any;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   notificationCount?: number;
   isSelected?: boolean;
   isHidden?: boolean;
+  margin?: string;
 }
 
 const SessionIconButtonInner = (props: SProps) => {
@@ -26,11 +27,12 @@ const SessionIconButtonInner = (props: SProps) => {
     backgroundColor,
     borderRadius,
     iconPadding,
+    margin,
   } = props;
-  const clickHandler = (e: any) => {
+  const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.onClick) {
       e.stopPropagation();
-      props.onClick();
+      props.onClick(e);
     }
   };
 
@@ -39,7 +41,7 @@ const SessionIconButtonInner = (props: SProps) => {
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
       role="button"
       onClick={clickHandler}
-      style={{ display: isHidden ? 'none' : 'flex' }}
+      style={{ display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
     >
       <SessionIcon
         iconType={iconType}

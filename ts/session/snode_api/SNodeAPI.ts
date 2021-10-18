@@ -30,11 +30,11 @@ export const ERROR_CODE_NO_CONNECT = 'ENETUNREACH: No network connection.';
 
 let latestTimestampOffset = Number.MAX_SAFE_INTEGER;
 
-function handleTimestampOffset(request: string, snodeTimestamp: number) {
+function handleTimestampOffset(_request: string, snodeTimestamp: number) {
   if (snodeTimestamp && _.isNumber(snodeTimestamp) && snodeTimestamp > 1609419600 * 1000) {
     // first january 2021. Arbitrary, just want to make sure the return timestamp is somehow valid and not some crazy low value
     const now = Date.now();
-    window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
+    // window?.log?.info(`timestamp offset from request ${request}:  ${now - snodeTimestamp}ms`);
     latestTimestampOffset = now - snodeTimestamp;
   }
 }
@@ -44,7 +44,7 @@ export function getLatestTimestampOffset() {
     window.log.warn('latestTimestampOffset is not set yet');
     return 0;
   }
-  window.log.info('latestTimestampOffset is ', latestTimestampOffset);
+  // window.log.info('latestTimestampOffset is ', latestTimestampOffset);
 
   return latestTimestampOffset;
 }
@@ -465,7 +465,13 @@ export async function retrieveNextMessages(
 
   // let exceptions bubble up
   // no retry for this one as this a call we do every few seconds while polling for messages
-  const result = await snodeRpc({ method: 'retrieve', params, targetNode, associatedWith });
+  const result = await snodeRpc({
+    method: 'retrieve',
+    params,
+    targetNode,
+    associatedWith,
+    timeout: 4000,
+  });
 
   if (!result) {
     window?.log?.warn(
@@ -668,7 +674,7 @@ export const forceNetworkDeletion = async (): Promise<Array<string> | null> => {
         minTimeout: exports.TEST_getMinTimeout(),
         onFailedAttempt: e => {
           window?.log?.warn(
-            `delete_all OUTER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left...${e.message}`
+            `delete_all OUTER request attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.message}`
           );
         },
       }
@@ -776,6 +782,12 @@ export const networkDeleteMessages = async (hashes: Array<string>): Promise<any>
                           snodeToMakeRequestTo.pubkey_ed25519
                         )} due to error: ${reason}: ${statusCode}`
                       );
+                      // if we tried to make the delete on a snode not in our swarm, just trigger a pRetry error so the outer block here finds new snodes to make the request to.
+                      if (statusCode === 421) {
+                        throw new pRetry.AbortError(
+                          '421 error on network delete_all. Retrying with a new snode'
+                        );
+                      }
                     } else {
                       window?.log?.warn(
                         `Could not delete data from ${ed25519Str(
