@@ -30,7 +30,7 @@ import {
 import { SessionMessagesList } from './SessionMessagesList';
 
 export type SessionMessageListProps = {
-  messageContainerRef: React.RefObject<any>;
+  messageContainerRef: React.RefObject<HTMLDivElement>;
 };
 
 type Props = SessionMessageListProps & {
@@ -82,7 +82,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     const newFirstMesssageId = this.props.messagesProps[0]?.propsForMessage.id;
     const messageAddedWasMoreRecentOne = prevFirstMesssageId !== newFirstMesssageId;
 
-    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength) {
+    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength && currentRef) {
       if (messageAddedWasMoreRecentOne) {
         if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
           // consider that we were scrolled to bottom
@@ -105,13 +105,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   public getSnapshotBeforeUpdate() {
     const messageContainer = this.props.messageContainerRef.current;
 
-    const scrollTop = messageContainer.scrollTop;
-    const scrollHeight = messageContainer.scrollHeight;
+    const scrollTop = messageContainer?.scrollTop || undefined;
+    const scrollHeight = messageContainer?.scrollHeight || undefined;
 
     // as we use column-reverse for displaying message list
     // the top is < 0
     // tslint:disable-next-line: restrict-plus-operands
-    const realScrollTop = scrollHeight + scrollTop;
+    const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
     return {
       realScrollTop,
       fakeScrollTop: scrollTop,
@@ -147,7 +147,11 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList scrollToQuoteMessage={this.scrollToQuoteMessage} />
+        <SessionMessagesList
+          scrollToQuoteMessage={this.scrollToQuoteMessage}
+          onPageDownPressed={this.scrollPgDown}
+          onPageUpPressed={this.scrollPgUp}
+        />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
@@ -237,6 +241,30 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+  }
+
+  private scrollPgUp() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+    messageContainer.scrollBy({
+      top: Math.floor(-messageContainer.clientHeight * 2) / 3,
+      behavior: 'smooth',
+    });
+  }
+
+  private scrollPgDown() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    // tslint:disable-next-line: restrict-plus-operands
+    messageContainer.scrollBy({
+      top: Math.floor(+messageContainer.clientHeight * 2) / 3,
+      behavior: 'smooth',
+    });
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
