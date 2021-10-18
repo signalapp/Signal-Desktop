@@ -227,7 +227,7 @@ function updateReadStatus(message: MessageModel, conversation: ConversationModel
   }
 }
 
-function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
+async function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
   const readReceipts = window.Whisper.ReadReceipts.forMessage(conversation, message);
   if (readReceipts.length) {
     const readBy = readReceipts.map((receipt: any) => receipt.get('reader'));
@@ -245,6 +245,12 @@ function handleSyncedReceipts(message: MessageModel, conversation: ConversationM
   }
 
   message.set({ recipients });
+
+  // If the newly received message is from us, we assume that we've seen the messages up until that point
+  const sentTimestamp = message.get('sent_at');
+  if (sentTimestamp) {
+    await conversation.markRead(sentTimestamp);
+  }
 }
 
 async function handleRegularMessage(
@@ -312,7 +318,7 @@ async function handleRegularMessage(
   }
 
   if (type === 'outgoing') {
-    handleSyncedReceipts(message, conversation);
+    await handleSyncedReceipts(message, conversation);
   }
 
   const conversationActiveAt = conversation.get('active_at');
