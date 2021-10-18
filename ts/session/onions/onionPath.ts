@@ -464,7 +464,23 @@ async function buildNewOnionPathsWorker() {
       if (allNodes.length <= SnodePool.minSnodePoolCount) {
         throw new Error('Too few nodes to build an onion path. Even after fetching from seed.');
       }
-      const otherNodes = _.shuffle(_.differenceBy(allNodes, guardNodes, 'pubkey_ed25519'));
+
+      // make sure to not reuse multiple times the same subnet /24
+      const allNodesGroupedBySubnet24 = _.groupBy(allNodes, e => {
+        const lastDot = e.ip.lastIndexOf('.');
+        return e.ip.substr(0, lastDot);
+      });
+      const oneNodeForEachSubnet24 = _.map(allNodesGroupedBySubnet24, group => {
+        return _.sample(group) as Data.Snode;
+      });
+      if (oneNodeForEachSubnet24.length <= SnodePool.minSnodePoolCount) {
+        throw new Error(
+          'Too few nodes "unique by ip" to build an onion path. Even after fetching from seed.'
+        );
+      }
+      const otherNodes = _.shuffle(
+        _.differenceBy(oneNodeForEachSubnet24, guardNodes, 'pubkey_ed25519')
+      );
       const guards = _.shuffle(guardNodes);
 
       // Create path for every guard node:
