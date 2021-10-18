@@ -14,7 +14,7 @@ import {
   getPasswordHash,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../../ts/data/data';
-import { shell } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
@@ -494,6 +494,23 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
         },
         content: {
           buttonText: window.i18n('helpUsTranslateSession'),
+          buttonColor: SessionButtonColor.Primary,
+        },
+      },
+      {
+        id: 'debug-log-setting',
+        title: window.i18n('showDebugLog'),
+        description: undefined,
+        hidden: false,
+        type: SessionSettingType.Button,
+        category: SessionSettingCategory.Appearance,
+        setFn: undefined,
+        comparisonValue: undefined,
+        onClick: () => {
+          ipcRenderer.send('show-debug-log');
+        },
+        content: {
+          buttonText: window.i18n('debugLog'),
           buttonColor: SessionButtonColor.Primary,
         },
       },

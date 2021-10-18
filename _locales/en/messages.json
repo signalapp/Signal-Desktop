@@ -73,6 +73,7 @@
   "attemptingReconnection": "Attempting reconnect in $reconnect_duration_in_seconds$ seconds",
   "submitDebugLog": "Debug log",
   "debugLog": "Debug Log",
+  "showDebugLog": "Show Debug Log",
   "goToReleaseNotes": "Go to Release Notes",
   "goToSupportPage": "Go to Support Page",
   "menuReportIssue": "Report an Issue",
