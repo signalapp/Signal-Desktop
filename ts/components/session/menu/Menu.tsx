@@ -324,9 +324,15 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
 
 export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
   if (window?.lokiFeatureFlags.useCallMessage) {
+    const convoOut = getConversationController().get(conversationId);
+    // we don't support calling groups
+
     const hasIncomingCall = useSelector(getHasIncomingCall);
     const hasOngoingCall = useSelector(getHasOngoingCall);
     const canCall = !(hasIncomingCall || hasOngoingCall);
+    if (!convoOut?.isPrivate()) {
+      return null;
+    }
     return (
       <Item
         onClick={async () => {

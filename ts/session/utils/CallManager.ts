@@ -49,6 +49,7 @@ export function setVideoEventsListener(listener: CallManagerListener) {
 const callCache = new Map<string, Array<SignalService.CallMessage>>();
 
 let peerConnection: RTCPeerConnection | null;
+let dataChannel: RTCDataChannel | null;
 let remoteStream: MediaStream | null;
 let mediaDevices: MediaStream | null;
 export const INPUT_DISABLED_DEVICE_ID = 'off';
@@ -196,14 +197,14 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
   }
 }
 
-async function handleNegotiationNeededEvent(event: Event, recipient: string) {
-  window.log?.warn('negotiationneeded:', event);
+async function handleNegotiationNeededEvent(_event: Event, recipient: string) {
   try {
     makingOffer = true;
-    const offer = await peerConnection?.createOffer();
-    if (!offer) {
-      throw new Error('Could not create offer in handleNegotiationNeededEvent');
-    }
+    window.log.info('got handleNegotiationNeeded event. creating offer');
+    const offer = await peerConnection?.createOffer({
+      offerToReceiveAudio: true,
+      offerToReceiveVideo: true,
+    });
     await peerConnection?.setLocalDescription(offer);
 
     if (offer && offer.sdp) {
@@ -292,7 +293,7 @@ export async function USER_callRecipient(recipient: string) {
   if (peerConnection) {
     throw new Error('USER_callRecipient peerConnection is already initialized ');
   }
-  peerConnection = createOrGetPeerConnection(recipient);
+  peerConnection = createOrGetPeerConnection(recipient, true);
   await openMediaDevicesAndAddTracks();
 }
 
@@ -370,6 +371,10 @@ function closeVideoCall() {
     peerConnection.onicegatheringstatechange = null;
     peerConnection.onnegotiationneeded = null;
 
+    if (dataChannel) {
+      dataChannel.close();
+      dataChannel = null;
+    }
     if (mediaDevices) {
       mediaDevices.getTracks().forEach(track => {
         track.stop();
@@ -393,7 +398,7 @@ function closeVideoCall() {
   }
 }
 
-function createOrGetPeerConnection(withPubkey: string) {
+function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolean) {
   if (peerConnection) {
     return peerConnection;
   }
@@ -403,6 +408,46 @@ function createOrGetPeerConnection(withPubkey: string) {
   peerConnection.onnegotiationneeded = async (event: Event) => {
     await handleNegotiationNeededEvent(event, withPubkey);
   };
+
+  peerConnection.ondatachannel = e => {
+    if (!createDataChannel) {
+      dataChannel = e.channel;
+      console.warn('ondatachannel');
+
+      setInterval(() => {
+        console.warn('ondatachannel: sending yoooooo');
+
+        dataChannel?.send('yooooooooooooooo: ' + Date.now());
+      }, 1000);
+      dataChannel.onmessage = e => {
+        console.warn('ondatachannel: datachannel on message', e);
+      };
+    }
+  };
+
+  if (createDataChannel) {
+    console.warn('createOrGetPeerConnection: createDataChannel');
+
+    dataChannel = peerConnection.createDataChannel('session-datachannel');
+
+    dataChannel.onmessage = e => {
+      console.warn('createDataChannel: datachannel on message', e);
+    };
+    dataChannel.onopen = () => {
+      window.log.info('onopen of datachannel');
+
+      const videoEnabledLocally =
+        selectedCameraId !== undefined && selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
+      dataChannel?.send(
+        JSON.stringify({
+          video: videoEnabledLocally,
+        })
+      );
+    };
+    dataChannel.onclose = () => {
+      window.log.info('onclose of datachannel');
+    };
+  }
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
 
   peerConnection.ontrack = event => {
@@ -453,7 +498,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
 
-  peerConnection = createOrGetPeerConnection(fromSender);
+  peerConnection = createOrGetPeerConnection(fromSender, false);
 
   await openMediaDevicesAndAddTracks();
 
@@ -561,22 +606,8 @@ export async function handleCallTypeOffer(
     const convos = getConversationController().getConversations();
     const callingConvos = convos.filter(convo => convo.callState !== undefined);
     if (callingConvos.length > 0) {
-      // we just got a new offer from someone we are already in a call with
-      if (callingConvos.length === 1 && callingConvos[0].id === sender) {
-        window.log.info('Got a new offer message from our ongoing call');
-        const remoteDesc = new RTCSessionDescription({
-          type: 'offer',
-          sdp: callMessage.sdps[0],
-        });
-
-        if (peerConnection) {
-          await peerConnection.setRemoteDescription(remoteDesc);
-          remoteStream?.getTracks().forEach(t => {
-            remoteStream?.removeTrack(t);
-          });
-          await buildAnswerAndSendIt(sender);
-        }
-      } else {
+      // we just got a new offer from someone we are NOT already in a call with
+      if (callingConvos.length !== 1 || callingConvos[0].id !== sender) {
         await handleMissedCall(sender, incomingOfferTimestamp);
         return;
       }
@@ -585,12 +616,28 @@ export async function handleCallTypeOffer(
     const readyForOffer =
       !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
     const polite = lastOutgoingOfferTimestamp < incomingOfferTimestamp;
-    ignoreOffer = !polite && !readyForOffer;
+    const offerCollision = !readyForOffer;
+
+    ignoreOffer = !polite && offerCollision;
     if (ignoreOffer) {
-      // window.log?.warn('Received offer when unready for offer; Ignoring offer.');
       window.log?.warn('Received offer when unready for offer; Ignoring offer.');
       return;
     }
+
+    if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+      window.log.info('Got a new offer message from our ongoing call');
+      isSettingRemoteAnswerPending = false;
+      const remoteDesc = new RTCSessionDescription({
+        type: 'offer',
+        sdp: callMessage.sdps[0],
+      });
+      isSettingRemoteAnswerPending = false;
+      if (peerConnection) {
+        await peerConnection.setRemoteDescription(remoteDesc); // SRD rolls back as needed
+        await buildAnswerAndSendIt(sender);
+      }
+    }
+
     // don't need to do the sending here as we dispatch an answer in a
   } catch (err) {
     window.log?.error(`Error handling offer message ${err}`);
@@ -626,6 +673,7 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
     window.log.warn('cannot handle answered message without signal description protols');
     return;
   }
+
   window.log.info('handling callMessage ANSWER');
 
   if (!callCache.has(sender)) {
@@ -633,16 +681,18 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
   }
 
   callCache.get(sender)?.push(callMessage);
+
+  if (!peerConnection) {
+    window.log.info('handleCallTypeAnswer without peer connection. Dropping');
+    return;
+  }
   window.inboxStore?.dispatch(answerCall({ pubkey: sender }));
   const remoteDesc = new RTCSessionDescription({ type: 'answer', sdp: callMessage.sdps[0] });
-  if (peerConnection) {
-    // window.log?.info('Setting remote answer pending');
-    isSettingRemoteAnswerPending = true;
-    await peerConnection.setRemoteDescription(remoteDesc);
-    isSettingRemoteAnswerPending = false;
-  } else {
-    window.log.info('call answered by recipient but we do not have a peerconnection set');
-  }
+
+  // window.log?.info('Setting remote answer pending');
+  isSettingRemoteAnswerPending = true;
+  await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
+  isSettingRemoteAnswerPending = false;
 }
 
 export async function handleCallTypeIceCandidates(

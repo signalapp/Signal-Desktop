@@ -16,6 +16,8 @@ import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { InputItem } from '../../../session/utils/CallManager';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import { StyledVideoElement } from './CallContainer';
+import { Avatar, AvatarSize } from '../../Avatar';
+import { getConversationController } from '../../../session/conversations';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -121,6 +123,19 @@ const AudioInputMenu = ({
   );
 };
 
+const CenteredAvatar = styled.div`
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
@@ -132,15 +147,23 @@ export const InConversationCallContainer = () => {
   );
 
   const ongoingCallPubkey = ongoingCallProps?.id;
+  const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
   const videoRefRemote = useRef<any>();
   const videoRefLocal = useRef<any>();
   const mountedState = useMountedState();
 
   const [isVideoMuted, setVideoMuted] = useState(true);
+  const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
   const [isAudioMuted, setAudioMuted] = useState(false);
 
   const videoTriggerId = 'video-menu-trigger-id';
   const audioTriggerId = 'audio-menu-trigger-id';
+
+  const avatarPath = ongoingCallPubkey
+    ? getConversationController()
+        .get(ongoingCallPubkey)
+        .getAvatarPath()
+    : undefined;
 
   useEffect(() => {
     if (ongoingCallPubkey === selectedConversationKey) {
@@ -153,9 +176,12 @@ export const InConversationCallContainer = () => {
         ) => {
           if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
             videoRefLocal.current.srcObject = localStream;
+            setIsRemoteVideoMuted(
+              Boolean(remoteStream?.getTracks().find(t => t.kind === 'video')?.muted)
+            );
             videoRefRemote.current.srcObject = remoteStream;
-            setCurrentConnectedCameras(camerasList);
 
+            setCurrentConnectedCameras(camerasList);
             setCurrentConnectedAudioInputs(audioInputList);
           }
         }
@@ -164,8 +190,6 @@ export const InConversationCallContainer = () => {
 
     return () => {
       CallManager.setVideoEventsListener(null);
-      setCurrentConnectedCameras([]);
-      setCurrentConnectedAudioInputs([]);
     };
   }, [ongoingCallPubkey, selectedConversationKey]);
 
@@ -239,6 +263,16 @@ export const InConversationCallContainer = () => {
       <RelativeCallWindow>
         <VideoContainer>
           <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
+          {isRemoteVideoMuted && ongoingCallPubkey && (
+            <CenteredAvatar>
+              <Avatar
+                size={AvatarSize.XL}
+                avatarPath={avatarPath}
+                name={ongoingCallUsername}
+                pubkey={ongoingCallPubkey}
+              />
+            </CenteredAvatar>
+          )}
         </VideoContainer>
         <VideoContainer>
           <StyledVideoElement ref={videoRefLocal} autoPlay={true} muted={true} />
