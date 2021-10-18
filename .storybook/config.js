@@ -42,7 +42,7 @@ const makeModeKnob = pane =>
     )
   );
 
-addDecorator(withKnobs);
+addDecorator(withKnobs({ escapeHTML: false }));
 
 addDecorator((storyFn /* , context */) => {
   const contents = storyFn();
