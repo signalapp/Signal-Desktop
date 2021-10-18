@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 import { PropsForDataExtractionNotification, QuoteClickOptions } from '../../../models/messageType';
 import {
   PropsForExpirationTimer,
@@ -19,8 +21,18 @@ import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  onPageUpPressed: () => void;
+  onPageDownPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+
+  useKey('PageUp', () => {
+    props.onPageUpPressed();
+  });
+
+  useKey('PageDown', () => {
+    props.onPageDownPressed();
+  });
 
   return (
     <>
