@@ -18,6 +18,7 @@ import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
 import { SeedNodeAPI } from '../../../../session/seed_node_api';
+import { generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);
 chai.should();
@@ -63,8 +64,6 @@ describe('OnionPathsErrors', () => {
     fakeSwarmForAssociatedWith: Array<string>;
 
   let oldOnionPaths: Array<Array<Data.Snode>>;
-  const fakeIP = '8.8.8.8';
-  let fakePortCurrent = 20000;
 
   beforeEach(async () => {
     guardPubkeys = TestUtils.generateFakePubKeys(3).map(n => n.key);
@@ -72,26 +71,10 @@ describe('OnionPathsErrors', () => {
 
     SNodeAPI.Onions.resetSnodeFailureCount();
 
-    guardNodesArray = guardPubkeys.map(ed25519 => {
-      fakePortCurrent++;
-      return {
-        ip: fakeIP,
-        port: fakePortCurrent,
-        pubkey_ed25519: ed25519,
-        pubkey_x25519: ed25519,
-      };
-    });
+    guardNodesArray = guardPubkeys.map(generateFakeSnodeWithEdKey);
     guardSnode1 = guardNodesArray[0];
 
-    otherNodesArray = otherNodesPubkeys.map(ed25519 => {
-      fakePortCurrent++;
-      return {
-        ip: fakeIP,
-        port: fakePortCurrent,
-        pubkey_ed25519: ed25519,
-        pubkey_x25519: ed25519,
-      };
-    });
+    otherNodesArray = otherNodesPubkeys.map(generateFakeSnodeWithEdKey);
 
     fakeSnodePool = [...guardNodesArray, ...otherNodesArray];
 

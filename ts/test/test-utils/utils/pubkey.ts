@@ -37,7 +37,8 @@ export function generateFakePubKeys(amount: number): Array<PubKey> {
 
 export function generateFakeSnode(): Snode {
   return {
-    ip: '136.243.103.171',
+    // tslint:disable: insecure-random
+    ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: generateFakePubKeyStr(),
@@ -46,7 +47,7 @@ export function generateFakeSnode(): Snode {
 
 export function generateFakeSnodeWithEdKey(ed25519Pubkey: string): Snode {
   return {
-    ip: '136.243.103.171',
+    ip: `136.243.${Math.random() * 255}.${Math.random() * 255}`,
     port: 22116,
     pubkey_x25519: generateFakePubKeyStr(),
     pubkey_ed25519: ed25519Pubkey,
