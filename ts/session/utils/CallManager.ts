@@ -17,6 +17,7 @@ import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
+
 export type InputItem = { deviceId: string; label: string };
 
 // const VIDEO_WIDTH = 640;
@@ -27,14 +28,21 @@ type CallManagerListener =
       localStream: MediaStream | null,
       remoteStream: MediaStream | null,
       camerasList: Array<InputItem>,
-      audioInputsList: Array<InputItem>
+      audioInputsList: Array<InputItem>,
+      isRemoteVideoStreamMuted: boolean
     ) => void)
   | null;
 let videoEventsListener: CallManagerListener;
 
 function callVideoListener() {
   if (videoEventsListener) {
-    videoEventsListener(mediaDevices, remoteStream, camerasList, audioInputsList);
+    videoEventsListener(
+      mediaDevices,
+      remoteStream,
+      camerasList,
+      audioInputsList,
+      remoteVideoStreamIsMuted
+    );
   }
 }
 
@@ -52,6 +60,8 @@ let peerConnection: RTCPeerConnection | null;
 let dataChannel: RTCDataChannel | null;
 let remoteStream: MediaStream | null;
 let mediaDevices: MediaStream | null;
+let remoteVideoStreamIsMuted = true;
+
 export const INPUT_DISABLED_DEVICE_ID = 'off';
 
 let makingOffer = false;
@@ -108,6 +118,15 @@ async function updateInputLists() {
   }));
 }
 
+function sendVideoStatusViaDataChannel() {
+  const videoEnabledLocally =
+    selectedCameraId !== undefined && selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
+  const stringToSend = JSON.stringify({
+    video: videoEnabledLocally,
+  });
+  dataChannel?.send(stringToSend);
+}
+
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
   if (cameraDeviceId === INPUT_DISABLED_DEVICE_ID) {
     selectedCameraId = cameraDeviceId;
@@ -118,6 +137,7 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+    sendVideoStatusViaDataChannel();
     return;
   }
   if (camerasList.some(m => m.deviceId === cameraDeviceId)) {
@@ -146,6 +166,7 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
           mediaDevices?.removeTrack(t);
         });
         mediaDevices?.addTrack(videoTrack);
+        sendVideoStatusViaDataChannel();
       } else {
         throw new Error('Failed to get sender for selectCameraByDeviceId ');
       }
@@ -205,6 +226,9 @@ async function handleNegotiationNeededEvent(_event: Event, recipient: string) {
       offerToReceiveAudio: true,
       offerToReceiveVideo: true,
     });
+    if (!offer) {
+      throw new Error('Could not create an offer');
+    }
     await peerConnection?.setLocalDescription(offer);
 
     if (offer && offer.sdp) {
@@ -394,8 +418,26 @@ function closeVideoCall() {
   mediaDevices = null;
   remoteStream = null;
   if (videoEventsListener) {
-    videoEventsListener(null, null, [], []);
+    videoEventsListener(null, null, [], [], true);
   }
+}
+
+function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
+  try {
+    const parsed = JSON.parse(ev.data);
+
+    if (parsed.video !== undefined) {
+      remoteVideoStreamIsMuted = !Boolean(parsed.video);
+    }
+    callVideoListener();
+  } catch (e) {
+    window.log.warn('onDataChannelReceivedMessage Could not parse data in event', ev);
+  }
+}
+function onDataChannelOnOpen() {
+  window.log.info('onDataChannelOnOpen: sending video status');
+
+  sendVideoStatusViaDataChannel();
 }
 
 function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolean) {
@@ -412,41 +454,21 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
   peerConnection.ondatachannel = e => {
     if (!createDataChannel) {
       dataChannel = e.channel;
-      console.warn('ondatachannel');
+      window.log.info('Got our datachannel setup');
 
-      setInterval(() => {
-        console.warn('ondatachannel: sending yoooooo');
+      onDataChannelOnOpen();
 
-        dataChannel?.send('yooooooooooooooo: ' + Date.now());
-      }, 1000);
-      dataChannel.onmessage = e => {
-        console.warn('ondatachannel: datachannel on message', e);
-      };
+      dataChannel.onmessage = onDataChannelReceivedMessage;
     }
   };
 
   if (createDataChannel) {
-    console.warn('createOrGetPeerConnection: createDataChannel');
+    // console.warn('createOrGetPeerConnection: createDataChannel');
 
     dataChannel = peerConnection.createDataChannel('session-datachannel');
 
-    dataChannel.onmessage = e => {
-      console.warn('createDataChannel: datachannel on message', e);
-    };
-    dataChannel.onopen = () => {
-      window.log.info('onopen of datachannel');
-
-      const videoEnabledLocally =
-        selectedCameraId !== undefined && selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
-      dataChannel?.send(
-        JSON.stringify({
-          video: videoEnabledLocally,
-        })
-      );
-    };
-    dataChannel.onclose = () => {
-      window.log.info('onclose of datachannel');
-    };
+    dataChannel.onmessage = onDataChannelReceivedMessage;
+    dataChannel.onopen = onDataChannelOnOpen;
   }
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
 
@@ -563,7 +585,7 @@ export function handleCallTypeEndCall(sender: string) {
   window.log.info('handling callMessage END_CALL');
 
   if (videoEventsListener) {
-    videoEventsListener(null, null, [], []);
+    videoEventsListener(null, null, [], [], true);
   }
   closeVideoCall();
   //

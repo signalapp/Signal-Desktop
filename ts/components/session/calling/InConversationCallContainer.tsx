@@ -123,9 +123,8 @@ const AudioInputMenu = ({
   );
 };
 
-const CenteredAvatar = styled.div`
+const CenteredAvatarInConversation = styled.div`
   position: absolute;
-
   top: 0;
   bottom: 0;
   left: 0;
@@ -172,13 +171,12 @@ export const InConversationCallContainer = () => {
           localStream: MediaStream | null,
           remoteStream: MediaStream | null,
           camerasList: Array<InputItem>,
-          audioInputList: Array<InputItem>
+          audioInputList: Array<InputItem>,
+          isRemoteVideoStreamMuted: boolean
         ) => {
           if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
             videoRefLocal.current.srcObject = localStream;
-            setIsRemoteVideoMuted(
-              Boolean(remoteStream?.getTracks().find(t => t.kind === 'video')?.muted)
-            );
+            setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
             videoRefRemote.current.srcObject = remoteStream;
 
             setCurrentConnectedCameras(camerasList);
@@ -262,20 +260,29 @@ export const InConversationCallContainer = () => {
     <InConvoCallWindow>
       <RelativeCallWindow>
         <VideoContainer>
-          <StyledVideoElement ref={videoRefRemote} autoPlay={true} />
-          {isRemoteVideoMuted && ongoingCallPubkey && (
-            <CenteredAvatar>
+          <StyledVideoElement
+            ref={videoRefRemote}
+            autoPlay={true}
+            isRemoteVideoMuted={isRemoteVideoMuted}
+          />
+          {isRemoteVideoMuted && (
+            <CenteredAvatarInConversation>
               <Avatar
                 size={AvatarSize.XL}
                 avatarPath={avatarPath}
                 name={ongoingCallUsername}
                 pubkey={ongoingCallPubkey}
               />
-            </CenteredAvatar>
+            </CenteredAvatarInConversation>
           )}
         </VideoContainer>
         <VideoContainer>
-          <StyledVideoElement ref={videoRefLocal} autoPlay={true} muted={true} />
+          <StyledVideoElement
+            ref={videoRefLocal}
+            autoPlay={true}
+            muted={true}
+            isRemoteVideoMuted={false}
+          />
         </VideoContainer>
 
         <InConvoCallWindowControls>

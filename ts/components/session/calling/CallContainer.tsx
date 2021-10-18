@@ -13,6 +13,8 @@ import {
   getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
+import { Avatar, AvatarSize } from '../../Avatar';
+import { getConversationController } from '../../../session/conversations';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -26,10 +28,11 @@ export const DraggableCallWindow = styled.div`
   border: var(--session-border);
 `;
 
-export const StyledVideoElement = styled.video`
+export const StyledVideoElement = styled.video<{ isRemoteVideoMuted: boolean }>`
   padding: 0 1rem;
   height: 100%;
   width: 100%;
+  opacity: ${props => (props.isRemoteVideoMuted ? 0 : 1)};
 `;
 
 const StyledDraggableVideoElement = styled(StyledVideoElement)`
@@ -38,6 +41,20 @@ const StyledDraggableVideoElement = styled(StyledVideoElement)`
 
 const DraggableCallWindowInner = styled.div`
   cursor: pointer;
+`;
+
+const CenteredAvatarInDraggable = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 50%;
+  min-height: 85px;
+  min-width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 // TODO:
@@ -54,6 +71,7 @@ export const DraggableCallContainer = () => {
   const [positionY, setPositionY] = useState(window.innerHeight / 2);
   const [lastPositionX, setLastPositionX] = useState(0);
   const [lastPositionY, setLastPositionY] = useState(0);
+  const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
 
   const ongoingCallPubkey = ongoingCallProps?.id;
   const videoRefRemote = useRef<any>(undefined);
@@ -77,9 +95,16 @@ export const DraggableCallContainer = () => {
   useEffect(() => {
     if (ongoingCallPubkey !== selectedConversationKey) {
       CallManager.setVideoEventsListener(
-        (_localStream: MediaStream | null, remoteStream: MediaStream | null) => {
+        (
+          _localStream: MediaStream | null,
+          remoteStream: MediaStream | null,
+          _camerasList: any,
+          _audioList: any,
+          remoteVideoIsMuted: boolean
+        ) => {
           if (mountedState() && videoRefRemote?.current) {
             videoRefRemote.current.srcObject = remoteStream;
+            setIsRemoteVideoMuted(remoteVideoIsMuted);
           }
         }
       );
@@ -99,6 +124,13 @@ export const DraggableCallContainer = () => {
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
     return null;
   }
+  const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
+
+  const avatarPath = ongoingCallPubkey
+    ? getConversationController()
+        .get(ongoingCallPubkey)
+        .getAvatarPath()
+    : undefined;
 
   return (
     <Draggable
@@ -120,7 +152,21 @@ export const DraggableCallContainer = () => {
     >
       <DraggableCallWindow className="dragHandle">
         <DraggableCallWindowInner>
-          <StyledDraggableVideoElement ref={videoRefRemote} autoPlay={true} />
+          <StyledDraggableVideoElement
+            ref={videoRefRemote}
+            autoPlay={true}
+            isRemoteVideoMuted={isRemoteVideoMuted}
+          />
+          {isRemoteVideoMuted && (
+            <CenteredAvatarInDraggable>
+              <Avatar
+                size={AvatarSize.XL}
+                avatarPath={avatarPath}
+                name={ongoingCallUsername}
+                pubkey={ongoingCallPubkey}
+              />
+            </CenteredAvatarInDraggable>
+          )}
         </DraggableCallWindowInner>
       </DraggableCallWindow>
     </Draggable>
