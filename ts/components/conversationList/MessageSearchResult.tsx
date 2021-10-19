@@ -159,9 +159,9 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       // This isn't perfect because (1) it doesn't work with RTL languages (2)
       //   capitalization may be incorrect for some languages, like English.
       headerName = (
-        <>
+        <span>
           {renderPerson(i18n, from)} {i18n('toJoiner')} {renderPerson(i18n, to)}
-        </>
+        </span>
       );
     }
 
