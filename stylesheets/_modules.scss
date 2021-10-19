@@ -5832,7 +5832,12 @@ button.module-image__border-overlay:focus {
           background-color: $color-ultramarine-light;
         }
 
-        &--big {
+        &--multiple-digits {
+          padding-left: 4px;
+          padding-right: 4px;
+        }
+
+        &--many {
           font-size: 9px;
           padding-right: 2px;
 
