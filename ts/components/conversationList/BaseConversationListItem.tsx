@@ -234,10 +234,11 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
 function UnreadCount({ count = 0 }: Readonly<{ count?: number }>) {
   return (
     <div
-      className={classNames(
-        `${BASE_CLASS_NAME}__unread-count`,
-        count > 99 && `${BASE_CLASS_NAME}__unread-count--big`
-      )}
+      className={classNames(`${BASE_CLASS_NAME}__unread-count`, {
+        [`${BASE_CLASS_NAME}__unread-count--multiple-digits`]:
+          count > 9 && count <= 99,
+        [`${BASE_CLASS_NAME}__unread-count--many`]: count > 99,
+      })}
     >
       {Boolean(count) && Math.min(count, 99)}
     </div>

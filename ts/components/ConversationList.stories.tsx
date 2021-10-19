@@ -327,7 +327,7 @@ story.add('Contact checkboxes: disabled', () => (
   story.add('Conversations: unread count', () => (
     <ConversationList
       {...createProps(
-        [4, 10, 250].map(unreadCount => ({
+        [4, 10, 34, 250].map(unreadCount => ({
           type: RowType.Conversation,
           conversation: createConversation({
             lastMessage: {
