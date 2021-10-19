@@ -1,6 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+/* eslint-disable camelcase */
+
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
@@ -1344,10 +1346,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     if (this.model.get('draftChanged')) {
       if (this.model.hasDraft()) {
+        const now = Date.now();
+        const active_at = this.model.get('active_at') || now;
+
         this.model.set({
+          active_at,
           draftChanged: false,
-          draftTimestamp: Date.now(),
-          timestamp: Date.now(),
+          draftTimestamp: now,
+          timestamp: now,
         });
       } else {
         this.model.set({
@@ -1498,6 +1504,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const onSave = (caption?: string) => {
       const attachments = this.model.get('draftAttachments') || [];
+
       this.model.set({
         draftAttachments: attachments.map((item: AttachmentType) => {
           if (item.pending || attachment.pending) {
@@ -3119,9 +3126,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const existing = model.get('quotedMessageId');
     if (existing !== messageId) {
+      const now = Date.now();
+      let active_at = this.model.get('active_at');
+      let timestamp = this.model.get('timestamp');
+
+      if (!active_at && messageId) {
+        active_at = now;
+        timestamp = now;
+      }
+
       this.model.set({
-        quotedMessageId: messageId,
+        active_at,
         draftChanged: true,
+        quotedMessageId: messageId,
+        timestamp,
       });
 
       await this.saveModel();
@@ -3346,10 +3364,21 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     if (messageText !== model.get('draft')) {
+      const now = Date.now();
+      let active_at = this.model.get('active_at');
+      let timestamp = this.model.get('timestamp');
+
+      if (!active_at) {
+        active_at = now;
+        timestamp = now;
+      }
+
       this.model.set({
+        active_at,
         draft: messageText,
-        draftChanged: true,
         draftBodyRanges: bodyRanges,
+        draftChanged: true,
+        timestamp,
       });
       await this.saveModel();
     }
