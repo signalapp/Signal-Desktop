@@ -19,6 +19,7 @@ import {
 } from './CallingLobbyJoinButton';
 import { AvatarColorType } from '../types/Colors';
 import { LocalizerType } from '../types/Util';
+import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { ConversationType } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
@@ -139,6 +140,8 @@ export const CallingLobby = ({
     };
   }, [toggleVideo, toggleAudio]);
 
+  const isOnline = useIsOnline();
+
   const [isCallConnecting, setIsCallConnecting] = React.useState(false);
 
   // eslint-disable-next-line no-nested-ternary
@@ -186,7 +189,7 @@ export const CallingLobby = ({
     ringButtonType = CallingButtonType.RING_DISABLED;
   }
 
-  const canJoin = !isCallFull && !isCallConnecting;
+  const canJoin = !isCallFull && !isCallConnecting && isOnline;
 
   let callingLobbyJoinButtonVariant: CallingLobbyJoinButtonVariant;
   if (isCallFull) {
