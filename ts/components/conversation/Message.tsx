@@ -279,8 +279,6 @@ type State = {
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
-  isWide: boolean;
-
   canDeleteForEveryone: boolean;
 };
 
@@ -298,8 +296,6 @@ export class Message extends React.PureComponent<Props, State> {
 
   public reactionsContainerRefMerger = createRefMerger();
 
-  public wideMl: MediaQueryList;
-
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
   public expiredTimeout: NodeJS.Timeout | undefined;
@@ -311,9 +307,6 @@ export class Message extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    this.wideMl = window.matchMedia('(min-width: 926px)');
-    this.wideMl.addEventListener('change', this.handleWideMlChange);
-
     this.state = {
       expiring: false,
       expired: false,
@@ -324,8 +317,6 @@ export class Message extends React.PureComponent<Props, State> {
 
       reactionViewerRoot: null,
       reactionPickerRoot: null,
-
-      isWide: this.wideMl.matches,
 
       canDeleteForEveryone: props.canDeleteForEveryone,
     };
@@ -364,10 +355,6 @@ export class Message extends React.PureComponent<Props, State> {
     const { reactions } = this.props;
     return Boolean(reactions && reactions.length);
   }
-
-  public handleWideMlChange = (event: MediaQueryListEvent): void => {
-    this.setState({ isWide: event.matches });
-  };
 
   public captureMenuTrigger = (triggerRef: Trigger): void => {
     this.menuTriggerRef = triggerRef;
@@ -466,8 +453,6 @@ export class Message extends React.PureComponent<Props, State> {
     }
     this.toggleReactionViewer(true);
     this.toggleReactionPicker(true);
-
-    this.wideMl.removeEventListener('change', this.handleWideMlChange);
   }
 
   public componentDidUpdate(prevProps: Props): void {
@@ -1333,7 +1318,7 @@ export class Message extends React.PureComponent<Props, State> {
       return null;
     }
 
-    const { reactionPickerRoot, isWide } = this.state;
+    const { reactionPickerRoot } = this.state;
 
     const multipleAttachments = attachments && attachments.length > 1;
     const firstAttachment = attachments && attachments[0];
@@ -1362,8 +1347,10 @@ export class Message extends React.PureComponent<Props, State> {
       <Reference>
         {({ ref: popperRef }) => {
           // Only attach the popper reference to the reaction button if it is
-          // visible in the page (it is hidden when the page is narrow)
-          const maybePopperRef = isWide ? popperRef : undefined;
+          //   visible (it is hidden when the timeline is narrow)
+          const maybePopperRef = this.shouldShowAdditionalMenuButtons()
+            ? popperRef
+            : undefined;
 
           return (
             // This a menu meant for mouse use only
@@ -1413,10 +1400,11 @@ export class Message extends React.PureComponent<Props, State> {
     const menuButton = (
       <Reference>
         {({ ref: popperRef }) => {
-          // Only attach the popper reference to the collapsed menu button if
-          // the reaction button is not visible in the page (it is hidden when
-          // the page is narrow)
-          const maybePopperRef = !isWide ? popperRef : undefined;
+          // Only attach the popper reference to the collapsed menu button if the reaction
+          //   button is not visible (it is hidden when the timeline is narrow)
+          const maybePopperRef = !this.shouldShowAdditionalMenuButtons()
+            ? popperRef
+            : undefined;
 
           return (
             <StopPropagation className="module-message__buttons__menu--container">
