@@ -124,7 +124,9 @@ function sendVideoStatusViaDataChannel() {
   const stringToSend = JSON.stringify({
     video: videoEnabledLocally,
   });
-  dataChannel?.send(stringToSend);
+  if (dataChannel && dataChannel.readyState === 'open') {
+    dataChannel?.send(stringToSend);
+  }
 }
 
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
@@ -276,7 +278,9 @@ async function openMediaDevicesAndAddTracks() {
 
     const firstAudio = audioInputsList[0].deviceId;
     const firstVideo = camerasList[0].deviceId;
-    window.log.info(`openMediaDevices video:${firstVideo}   audio:${firstAudio}`);
+    window.log.info(
+      `openMediaDevices videoDevice:${firstVideo}:${camerasList[0].label}   audioDevice:${firstAudio}`
+    );
 
     const devicesConfig = {
       audio: {
@@ -385,7 +389,7 @@ function handleConnectionStateChanged(pubkey: string) {
 }
 
 function closeVideoCall() {
-  window.log.info('closingVideoCall ', peerConnection);
+  window.log.info('closingVideoCall ');
   if (peerConnection) {
     peerConnection.ontrack = null;
     peerConnection.onicecandidate = null;
@@ -584,13 +588,18 @@ export function handleCallTypeEndCall(sender: string) {
   callCache.delete(sender);
   window.log.info('handling callMessage END_CALL');
 
-  if (videoEventsListener) {
-    videoEventsListener(null, null, [], [], true);
+  const convos = getConversationController().getConversations();
+  const callingConvos = convos.filter(convo => convo.callState !== undefined);
+  if (callingConvos.length > 0) {
+    // we just got a end call event from whoever we are in a call with
+    if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+      closeVideoCall();
+      if (videoEventsListener) {
+        videoEventsListener(null, null, [], [], true);
+      }
+      window.inboxStore?.dispatch(endCall({ pubkey: sender }));
+    }
   }
-  closeVideoCall();
-  //
-  // FIXME audric trigger UI cleanup
-  window.inboxStore?.dispatch(endCall({ pubkey: sender }));
 }
 
 async function buildAnswerAndSendIt(sender: string) {

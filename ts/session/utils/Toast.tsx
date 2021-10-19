@@ -142,7 +142,7 @@ export function pushedMissedCall(conversationName: string) {
   pushToastInfo(
     'missedCall',
     window.i18n('callMissedTitle'),
-    window.i18n('callMissedTitle', conversationName)
+    window.i18n('callMissed', conversationName)
   );
 }
 
