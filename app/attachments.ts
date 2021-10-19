@@ -79,40 +79,20 @@ export const getBuiltInImages = async (): Promise<ReadonlyArray<string>> => {
   return map(files, file => relative(dir, file));
 };
 
-export const getPath = (userDataPath: string): string => {
+const createPathGetter = (subpath: string) => (
+  userDataPath: string
+): string => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  return join(userDataPath, PATH);
+  return join(userDataPath, subpath);
 };
 
-export const getAvatarsPath = (userDataPath: string): string => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return join(userDataPath, AVATAR_PATH);
-};
-
-export const getStickersPath = (userDataPath: string): string => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return join(userDataPath, STICKER_PATH);
-};
-
-export const getTempPath = (userDataPath: string): string => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return join(userDataPath, TEMP_PATH);
-};
-
-export const getDraftPath = (userDataPath: string): string => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return join(userDataPath, DRAFT_PATH);
-};
+export const getAvatarsPath = createPathGetter(AVATAR_PATH);
+export const getDraftPath = createPathGetter(DRAFT_PATH);
+export const getPath = createPathGetter(PATH);
+export const getStickersPath = createPathGetter(STICKER_PATH);
+export const getTempPath = createPathGetter(TEMP_PATH);
 
 export const clearTempPath = (userDataPath: string): Promise<void> => {
   const tempPath = getTempPath(userDataPath);
