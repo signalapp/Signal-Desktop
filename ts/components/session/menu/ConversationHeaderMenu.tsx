@@ -15,6 +15,7 @@ import {
   getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
   getRemoveModeratorsMenuItem,
+  getShowUserDetailsMenuItem,
   getStartCallMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
@@ -34,6 +35,9 @@ export type PropsConversationHeaderMenu = {
   isPrivate: boolean;
   isBlocked: boolean;
   hasNickname: boolean;
+  name: string | undefined;
+  profileName: string | undefined;
+  avatarPath: string | null;
 };
 
 const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
@@ -50,7 +54,11 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     left,
     hasNickname,
     currentNotificationSetting,
+    name,
+    profileName,
+    avatarPath,
   } = props;
+  const userName = name || profileName || conversationId;
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
@@ -75,9 +83,9 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getRemoveModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
       {getUpdateGroupNameMenuItem(weAreAdmin, isKickedFromGroup, left, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-      {/* TODO: add delete group */}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
       {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName)}
     </Menu>
   );
 };

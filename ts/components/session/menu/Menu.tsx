@@ -12,7 +12,11 @@ import {
   ConversationNotificationSettingType,
 } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import {
+  changeNickNameModal,
+  updateConfirmModal,
+  updateUserDetailsModal,
+} from '../../../state/ducks/modalDialog';
 import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
@@ -234,6 +238,35 @@ export function getLeaveGroupMenuItem(
         }}
       >
         {window.i18n('leaveGroup')}
+      </Item>
+    );
+  }
+
+  return null;
+}
+
+export function getShowUserDetailsMenuItem(
+  isPrivate: boolean | undefined,
+  conversationId: string,
+  avatarPath: string | null,
+  userName: string
+): JSX.Element | null {
+  const dispatch = useDispatch();
+
+  if (isPrivate) {
+    return (
+      <Item
+        onClick={() => {
+          dispatch(
+            updateUserDetailsModal({
+              conversationId: conversationId,
+              userName,
+              authorAvatarPath: avatarPath,
+            })
+          );
+        }}
+      >
+        {window.i18n('showUserDetails')}
       </Item>
     );
   }
