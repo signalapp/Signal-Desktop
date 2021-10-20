@@ -46,7 +46,7 @@ export const AtMentionify = ({
     if (range) {
       results.push(
         <span
-          className={`module-message-body__at-mention module-message-body__at-mention--${direction}`}
+          className={`MessageBody__at-mention MessageBody__at-mention--${direction}`}
           key={range.start}
           onClick={() => {
             if (openConversation && range.conversationID) {

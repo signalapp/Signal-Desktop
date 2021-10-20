@@ -32,7 +32,7 @@ const createMockElement = (
 
 const createMockAtMentionElement = (
   dataset: Record<string, string>
-): HTMLElement => createMockElement('module-message-body__at-mention', dataset);
+): HTMLElement => createMockElement('MessageBody__at-mention', dataset);
 
 const createMockMentionBlotElement = (
   dataset: Record<string, string>

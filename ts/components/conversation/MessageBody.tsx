@@ -1,7 +1,7 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 
 import { getSizeClass, SizeClassType } from '../emoji/lib';
 import { AtMentionify } from './AtMentionify';
@@ -30,6 +30,7 @@ export type Props = {
   disableLinks?: boolean;
   i18n: LocalizerType;
   bodyRanges?: BodyRangesType;
+  onIncreaseTextLength?: () => unknown;
   openConversation?: OpenConversationActionType;
 };
 
@@ -59,21 +60,39 @@ const renderEmoji = ({
  * configurable with their `renderXXX` props, this component will assemble all three of
  * them for you.
  */
-export class MessageBody extends React.Component<Props> {
-  private readonly renderNewLines: RenderTextCallbackType = ({
+export function MessageBody({
+  bodyRanges,
+  direction,
+  disableJumbomoji,
+  disableLinks,
+  i18n,
+  onIncreaseTextLength,
+  openConversation,
+  text,
+  textPending,
+}: Props): JSX.Element {
+  const hasReadMore = Boolean(onIncreaseTextLength);
+  const textWithSuffix = textPending || hasReadMore ? `${text}...` : text;
+
+  const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+  const processedText = AtMentionify.preprocessMentions(
+    textWithSuffix,
+    bodyRanges
+  );
+
+  const renderNewLines: RenderTextCallbackType = ({
     text: textWithNewLines,
     key,
   }) => {
-    const { bodyRanges, direction, openConversation } = this.props;
     return (
       <AddNewLines
         key={key}
         text={textWithNewLines}
-        renderNonNewLine={({ text, key: innerKey }) => (
+        renderNonNewLine={({ text: innerText, key: innerKey }) => (
           <AtMentionify
             key={innerKey}
             direction={direction}
-            text={text}
+            text={innerText}
             bodyRanges={bodyRanges}
             openConversation={openConversation}
           />
@@ -82,62 +101,51 @@ export class MessageBody extends React.Component<Props> {
     );
   };
 
-  public addDownloading(jsx: JSX.Element): JSX.Element {
-    const { i18n, textPending } = this.props;
-
-    return (
-      <span>
-        {jsx}
-        {textPending ? (
-          <span className="module-message-body__highlight">
-            {' '}
-            {i18n('downloading')}
-          </span>
-        ) : null}
-      </span>
-    );
-  }
-
-  public render(): JSX.Element {
-    const {
-      bodyRanges,
-      text,
-      textPending,
-      disableJumbomoji,
-      disableLinks,
-      i18n,
-    } = this.props;
-    const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
-    const textWithPending = AtMentionify.preprocessMentions(
-      textPending ? `${text}...` : text,
-      bodyRanges
-    );
-
-    if (disableLinks) {
-      return this.addDownloading(
+  return (
+    <span>
+      {disableLinks ? (
         renderEmoji({
           i18n,
-          text: textWithPending,
+          text: processedText,
           sizeClass,
           key: 0,
-          renderNonEmoji: this.renderNewLines,
+          renderNonEmoji: renderNewLines,
         })
-      );
-    }
-
-    return this.addDownloading(
-      <Linkify
-        text={textWithPending}
-        renderNonLink={({ key, text: nonLinkText }) => {
-          return renderEmoji({
-            i18n,
-            text: nonLinkText,
-            sizeClass,
-            key,
-            renderNonEmoji: this.renderNewLines,
-          });
-        }}
-      />
-    );
-  }
+      ) : (
+        <Linkify
+          text={processedText}
+          renderNonLink={({ key, text: nonLinkText }) => {
+            return renderEmoji({
+              i18n,
+              text: nonLinkText,
+              sizeClass,
+              key,
+              renderNonEmoji: renderNewLines,
+            });
+          }}
+        />
+      )}
+      {textPending ? (
+        <span className="MessageBody__highlight"> {i18n('downloading')}</span>
+      ) : null}
+      {onIncreaseTextLength ? (
+        <button
+          className="MessageBody__read-more"
+          onClick={() => {
+            onIncreaseTextLength();
+          }}
+          onKeyDown={(ev: KeyboardEvent) => {
+            if (ev.key === 'Space' || ev.key === 'Enter') {
+              onIncreaseTextLength();
+            }
+          }}
+          tabIndex={0}
+          type="button"
+        >
+          {' '}
+          {i18n('MessageBody--read-more')}
+        </button>
+      ) : null}
+    </span>
+  );
 }

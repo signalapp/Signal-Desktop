@@ -17,7 +17,7 @@ import {
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
-import { MessageBody } from './MessageBody';
+import { MessageBodyReadMore } from './MessageBodyReadMore';
 import { MessageMetadata } from './MessageMetadata';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
@@ -1224,6 +1224,7 @@ export class Message extends React.PureComponent<Props, State> {
       deletedForEveryone,
       direction,
       i18n,
+      onHeightChange,
       openConversation,
       status,
       text,
@@ -1252,12 +1253,13 @@ export class Message extends React.PureComponent<Props, State> {
             : null
         )}
       >
-        <MessageBody
+        <MessageBodyReadMore
           bodyRanges={bodyRanges}
           disableLinks={!this.areLinksEnabled()}
           direction={direction}
           i18n={i18n}
           openConversation={openConversation}
+          onHeightChange={onHeightChange}
           text={contents || ''}
           textPending={textPending}
         />

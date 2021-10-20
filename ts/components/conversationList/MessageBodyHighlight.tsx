@@ -105,7 +105,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
       const [, toHighlight] = match;
       count += 2;
       results.push(
-        <span className="module-message-body__highlight" key={count - 1}>
+        <span className="MessageBody__highlight" key={count - 1}>
           {renderEmoji({
             text: toHighlight,
             sizeClass,
