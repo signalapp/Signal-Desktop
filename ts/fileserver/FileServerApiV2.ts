@@ -3,10 +3,6 @@ import { sendApiV2Request } from '../opengroup/opengroupV2/OpenGroupAPIV2';
 import { parseStatusCodeFromOnionRequest } from '../opengroup/opengroupV2/OpenGroupAPIV2Parser';
 
 // tslint:disable-next-line: no-http-string
-export const oldFileServerV2URL = 'http://88.99.175.227';
-export const oldFileServerV2PubKey =
-  '7cb31905b55cd5580c686911debf672577b3fb0bff81df4ce2d5c4cb3a7aaa69';
-// tslint:disable-next-line: no-http-string
 export const fileServerV2URL = 'http://filev2.getsession.org';
 
 export const fileServerV2PubKey =
@@ -18,7 +14,6 @@ export type FileServerV2Request = {
   // queryParams are used for post or get, but not the same way
   queryParams?: Record<string, any>;
   headers?: Record<string, string>;
-  isOldV2server?: boolean; // to remove in a few days
 };
 
 const FILES_ENDPOINT = 'files';
@@ -73,8 +68,7 @@ export const uploadFileToFsV2 = async (
  * @returns the data as an Uint8Array or null
  */
 export const downloadFileFromFSv2 = async (
-  fileIdOrCompleteUrl: string,
-  isOldV2server: boolean
+  fileIdOrCompleteUrl: string
 ): Promise<ArrayBuffer | null> => {
   let fileId = fileIdOrCompleteUrl;
   if (!fileIdOrCompleteUrl) {
@@ -82,19 +76,15 @@ export const downloadFileFromFSv2 = async (
     return null;
   }
 
-  const oldCompleteUrlPrefix = `${oldFileServerV2URL}/${FILES_ENDPOINT}/`;
   const newCompleteUrlPrefix = `${fileServerV2URL}/${FILES_ENDPOINT}/`;
 
   if (fileIdOrCompleteUrl.startsWith(newCompleteUrlPrefix)) {
     fileId = fileId.substr(newCompleteUrlPrefix.length);
-  } else if (fileIdOrCompleteUrl.startsWith(oldCompleteUrlPrefix)) {
-    fileId = fileId.substr(oldCompleteUrlPrefix.length);
   }
 
   const request: FileServerV2Request = {
     method: 'GET',
     endpoint: `${FILES_ENDPOINT}/${fileId}`,
-    isOldV2server,
   };
 
   const result = await sendApiV2Request(request);
@@ -132,11 +122,7 @@ export const buildUrl = (request: FileServerV2Request | OpenGroupV2Request): URL
   if (isOpenGroupV2Request(request)) {
     rawURL = `${request.server}/${request.endpoint}`;
   } else {
-    if (request.isOldV2server) {
-      rawURL = `${oldFileServerV2URL}/${request.endpoint}`;
-    } else {
-      rawURL = `${fileServerV2URL}/${request.endpoint}`;
-    }
+    rawURL = `${fileServerV2URL}/${request.endpoint}`;
   }
 
   if (request.method === 'GET') {

@@ -17,19 +17,18 @@ export async function downloadAttachment(attachment: any) {
   const serverUrl = asURL.origin;
 
   // is it an attachment hosted on the file server v2 ?
-  const defaultFsOldV2 = _.startsWith(serverUrl, FSv2.oldFileServerV2URL);
   const defaultFsV2 = _.startsWith(serverUrl, FSv2.fileServerV2URL);
 
   let res: ArrayBuffer | null = null;
 
-  if (defaultFsV2 || defaultFsOldV2) {
+  if (defaultFsV2) {
     let attachmentId = attachment.id;
     if (!attachmentId) {
       // try to get the fileId from the end of the URL
       attachmentId = attachment.url;
     }
     window?.log?.info('Download v2 file server attachment', attachmentId);
-    res = await FSv2.downloadFileFromFSv2(attachmentId, defaultFsOldV2);
+    res = await FSv2.downloadFileFromFSv2(attachmentId);
   } else {
     window.log.warn(
       `downloadAttachment attachment is neither opengroup attachment nor fsv2... Dropping it ${asURL.href}`

@@ -119,9 +119,9 @@ async function handleGroupsAndContactsFromConfigMessage(
             toHex(c.publicKey),
             ConversationTypeEnum.PRIVATE
           );
-          const profile = {
+          const profile: SignalService.DataMessage.ILokiProfile = {
             displayName: c.name,
-            profilePictre: c.profilePicture,
+            profilePicture: c.profilePicture,
           };
           // updateProfile will do a commit for us
           contactConvo.set('active_at', _.toNumber(envelope.timestamp));

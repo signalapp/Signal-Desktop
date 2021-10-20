@@ -22,6 +22,7 @@ import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalD
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton } from '../icon';
 import { ToastUtils } from '../../../session/utils';
+import autoBind from 'auto-bind';
 
 export enum SessionSettingCategory {
   Appearance = 'appearance',
@@ -81,12 +82,9 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     };
 
     this.settingsViewRef = React.createRef();
-    this.onPasswordUpdated = this.onPasswordUpdated.bind(this);
-    this.validatePasswordLock = this.validatePasswordLock.bind(this);
+    autoBind(this);
 
     void this.hasPassword();
-
-    this.onKeyUp = this.onKeyUp.bind(this);
   }
 
   public componentDidMount() {
