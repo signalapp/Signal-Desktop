@@ -1447,7 +1447,6 @@ export default class MessageReceiver
     try {
       return await this.innerDecrypt(stores, envelope, ciphertext);
     } catch (error) {
-      this.removeFromCache(envelope);
       const uuid = envelope.sourceUuid;
       const deviceId = envelope.sourceDevice;
 
@@ -1456,6 +1455,7 @@ export default class MessageReceiver
         error?.message?.includes &&
         error.message.includes('message with old counter')
       ) {
+        this.removeFromCache(envelope);
         throw error;
       }
 
@@ -1465,6 +1465,7 @@ export default class MessageReceiver
         error?.message?.includes &&
         error.message.includes('trust root validation failed')
       ) {
+        this.removeFromCache(envelope);
         throw error;
       }
 
@@ -1475,22 +1476,26 @@ export default class MessageReceiver
         log.info(
           'MessageReceiver.decrypt: Error from blocked sender; no further processing'
         );
+        this.removeFromCache(envelope);
         throw error;
       }
 
       if (uuid && deviceId) {
         const { usmc } = envelope;
-        const event = new DecryptionErrorEvent({
-          cipherTextBytes: usmc ? usmc.contents() : undefined,
-          cipherTextType: usmc ? usmc.msgType() : undefined,
-          contentHint: envelope.contentHint,
-          groupId: envelope.groupId,
-          receivedAtCounter: envelope.receivedAtCounter,
-          receivedAtDate: envelope.receivedAtDate,
-          senderDevice: deviceId,
-          senderUuid: uuid,
-          timestamp: envelope.timestamp,
-        });
+        const event = new DecryptionErrorEvent(
+          {
+            cipherTextBytes: usmc ? usmc.contents() : undefined,
+            cipherTextType: usmc ? usmc.msgType() : undefined,
+            contentHint: envelope.contentHint,
+            groupId: envelope.groupId,
+            receivedAtCounter: envelope.receivedAtCounter,
+            receivedAtDate: envelope.receivedAtDate,
+            senderDevice: deviceId,
+            senderUuid: uuid,
+            timestamp: envelope.timestamp,
+          },
+          () => this.removeFromCache(envelope)
+        );
 
         // Avoid deadlocks by scheduling processing on decrypted queue
         this.addToQueue(
@@ -1499,6 +1504,7 @@ export default class MessageReceiver
         );
       } else {
         const envelopeId = this.getEnvelopeId(envelope);
+        this.removeFromCache(envelope);
         log.error(
           `MessageReceiver.decrypt: Envelope ${envelopeId} missing uuid or deviceId`
         );
@@ -1801,22 +1807,24 @@ export default class MessageReceiver
     const buffer = Buffer.from(decryptionError);
     const request = DecryptionErrorMessage.deserialize(buffer);
 
-    this.removeFromCache(envelope);
-
     const { sourceUuid, sourceDevice } = envelope;
     if (!sourceUuid || !sourceDevice) {
       log.error(`handleDecryptionError/${logId}: Missing uuid or device!`);
+      this.removeFromCache(envelope);
       return;
     }
 
-    const event = new RetryRequestEvent({
-      groupId: envelope.groupId,
-      requesterDevice: sourceDevice,
-      requesterUuid: sourceUuid,
-      ratchetKey: request.ratchetKey(),
-      senderDevice: request.deviceId(),
-      sentAt: request.timestamp(),
-    });
+    const event = new RetryRequestEvent(
+      {
+        groupId: envelope.groupId,
+        requesterDevice: sourceDevice,
+        requesterUuid: sourceUuid,
+        ratchetKey: request.ratchetKey(),
+        senderDevice: request.deviceId(),
+        sentAt: request.timestamp(),
+      },
+      () => this.removeFromCache(envelope)
+    );
     await this.dispatchEvent(event);
   }
 

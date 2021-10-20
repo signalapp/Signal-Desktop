@@ -78,39 +78,6 @@ export class ErrorEvent extends Event {
   }
 }
 
-export type DecryptionErrorEventData = Readonly<{
-  cipherTextBytes?: Uint8Array;
-  cipherTextType?: number;
-  contentHint?: number;
-  groupId?: string;
-  receivedAtCounter: number;
-  receivedAtDate: number;
-  senderDevice: number;
-  senderUuid: string;
-  timestamp: number;
-}>;
-
-export class DecryptionErrorEvent extends Event {
-  constructor(public readonly decryptionError: DecryptionErrorEventData) {
-    super('decryption-error');
-  }
-}
-
-export type RetryRequestEventData = Readonly<{
-  groupId?: string;
-  ratchetKey?: PublicKey;
-  requesterUuid: string;
-  requesterDevice: number;
-  senderDevice: number;
-  sentAt: number;
-}>;
-
-export class RetryRequestEvent extends Event {
-  constructor(public readonly retryRequest: RetryRequestEventData) {
-    super('retry-request');
-  }
-}
-
 export class ContactEvent extends Event {
   constructor(public readonly contactDetails: ModifiedContactDetails) {
     super('contact');
@@ -172,6 +139,45 @@ export class DeliveryEvent extends ConfirmableEvent {
     confirm: ConfirmCallback
   ) {
     super('delivery', confirm);
+  }
+}
+
+export type DecryptionErrorEventData = Readonly<{
+  cipherTextBytes?: Uint8Array;
+  cipherTextType?: number;
+  contentHint?: number;
+  groupId?: string;
+  receivedAtCounter: number;
+  receivedAtDate: number;
+  senderDevice: number;
+  senderUuid: string;
+  timestamp: number;
+}>;
+
+export class DecryptionErrorEvent extends ConfirmableEvent {
+  constructor(
+    public readonly decryptionError: DecryptionErrorEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('decryption-error', confirm);
+  }
+}
+
+export type RetryRequestEventData = Readonly<{
+  groupId?: string;
+  ratchetKey?: PublicKey;
+  requesterUuid: string;
+  requesterDevice: number;
+  senderDevice: number;
+  sentAt: number;
+}>;
+
+export class RetryRequestEvent extends ConfirmableEvent {
+  constructor(
+    public readonly retryRequest: RetryRequestEventData,
+    confirm: ConfirmCallback
+  ) {
+    super('retry-request', confirm);
   }
 }
 

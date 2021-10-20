@@ -51,28 +51,30 @@ import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { getProfile } from './util/getProfile';
 import {
-  TypingEvent,
-  ErrorEvent,
+  ConfigurationEvent,
+  ContactEvent,
+  DecryptionErrorEvent,
   DeliveryEvent,
-  SentEvent,
-  SentEventData,
-  ProfileKeyUpdateEvent,
+  EnvelopeEvent,
+  ErrorEvent,
+  FetchLatestEvent,
+  GroupEvent,
+  KeysEvent,
   MessageEvent,
   MessageEventData,
-  ReadEvent,
-  ViewEvent,
-  ConfigurationEvent,
-  ViewOnceOpenSyncEvent,
   MessageRequestResponseEvent,
-  FetchLatestEvent,
-  KeysEvent,
-  StickerPackEvent,
-  VerifiedEvent,
+  ProfileKeyUpdateEvent,
+  ReadEvent,
   ReadSyncEvent,
+  RetryRequestEvent,
+  SentEvent,
+  SentEventData,
+  StickerPackEvent,
+  TypingEvent,
+  VerifiedEvent,
+  ViewEvent,
+  ViewOnceOpenSyncEvent,
   ViewSyncEvent,
-  ContactEvent,
-  GroupEvent,
-  EnvelopeEvent,
 } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
@@ -258,11 +260,15 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener(
       'decryption-error',
-      queuedEventListener(onDecryptionError)
+      queuedEventListener((event: DecryptionErrorEvent) => {
+        onDecryptionErrorQueue.add(() => onDecryptionError(event));
+      })
     );
     messageReceiver.addEventListener(
       'retry-request',
-      queuedEventListener(onRetryRequest)
+      queuedEventListener((event: RetryRequestEvent) => {
+        onRetryRequestQueue.add(() => onRetryRequest(event));
+      })
     );
     messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
     messageReceiver.addEventListener(
@@ -337,6 +343,12 @@ export async function startApp(): Promise<void> {
   const lightSessionResetQueue = new window.PQueue();
   window.Signal.Services.lightSessionResetQueue = lightSessionResetQueue;
   lightSessionResetQueue.pause();
+
+  const onDecryptionErrorQueue = new window.PQueue();
+  onDecryptionErrorQueue.pause();
+
+  const onRetryRequestQueue = new window.PQueue();
+  onRetryRequestQueue.pause();
 
   window.Whisper.deliveryReceiptQueue = new window.PQueue({
     concurrency: 1,
@@ -2077,6 +2089,8 @@ export async function startApp(): Promise<void> {
       // To avoid a flood of operations before we catch up, we pause some queues.
       profileKeyResponseQueue.pause();
       lightSessionResetQueue.pause();
+      onDecryptionErrorQueue.pause();
+      onRetryRequestQueue.pause();
       window.Whisper.deliveryReceiptQueue.pause();
       notificationService.disable();
 
@@ -2327,6 +2341,8 @@ export async function startApp(): Promise<void> {
 
     profileKeyResponseQueue.start();
     lightSessionResetQueue.start();
+    onDecryptionErrorQueue.start();
+    onRetryRequestQueue.start();
     window.Whisper.deliveryReceiptQueue.start();
     notificationService.enable();
 
@@ -2391,6 +2407,8 @@ export async function startApp(): Promise<void> {
     //   notifications in these scenarios too. So we listen for 'reconnect' events.
     profileKeyResponseQueue.pause();
     lightSessionResetQueue.pause();
+    onDecryptionErrorQueue.pause();
+    onRetryRequestQueue.pause();
     window.Whisper.deliveryReceiptQueue.pause();
     notificationService.disable();
   }

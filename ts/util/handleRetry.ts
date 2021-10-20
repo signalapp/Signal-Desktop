@@ -34,7 +34,7 @@ import * as log from '../logging/log';
 // Entrypoints
 
 export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
-  const { retryRequest } = event;
+  const { confirm, retryRequest } = event;
   const {
     groupId: requestGroupId,
     requesterDevice,
@@ -50,6 +50,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     log.warn(
       `onRetryRequest/${logId}: Feature flag disabled, returning early.`
     );
+    confirm();
     return;
   }
 
@@ -80,6 +81,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
       `onRetryRequest/${logId}: Message is too old, refusing to send again.`
     );
     await sendDistributionMessageOrNullMessage(logId, retryRequest);
+    confirm();
     return;
   }
 
@@ -92,6 +94,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   if (!sentProto) {
     log.info(`onRetryRequest/${logId}: Did not find sent proto`);
     await sendDistributionMessageOrNullMessage(logId, retryRequest);
+    confirm();
     return;
   }
 
@@ -125,6 +128,9 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     messageIds: [],
     sendType: 'resendFromLog',
   });
+
+  confirm();
+  log.info(`onRetryRequest/${logId}: Resend complete.`);
 }
 
 function maybeShowDecryptionToast(logId: string) {
@@ -141,7 +147,7 @@ function maybeShowDecryptionToast(logId: string) {
 export async function onDecryptionError(
   event: DecryptionErrorEvent
 ): Promise<void> {
-  const { decryptionError } = event;
+  const { confirm, decryptionError } = event;
   const { senderUuid, senderDevice, timestamp } = decryptionError;
   const logId = `${senderUuid}.${senderDevice} ${timestamp}`;
 
@@ -166,6 +172,7 @@ export async function onDecryptionError(
     await startAutomaticSessionReset(decryptionError);
   }
 
+  confirm();
   log.info(`onDecryptionError/${logId}: ...complete`);
 }
 
