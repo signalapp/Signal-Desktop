@@ -195,6 +195,13 @@ if (!process.mas) {
 
         showWindow();
       }
+      if (!logger) {
+        console.log(
+          'second-instance: logger not initialized; skipping further checks'
+        );
+        return;
+      }
+
       const incomingCaptchaHref = getIncomingCaptchaHref(argv);
       if (incomingCaptchaHref) {
         const { captcha } = parseCaptchaHref(incomingCaptchaHref, getLogger());
