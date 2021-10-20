@@ -20,7 +20,7 @@ module.exports = async function(context) {
   console.log('AppImage', isAppImage);
 
   if (!isAppImage) {
-    console.log('afterPack hook not triggered as this is not an appImage build:', context);
+    console.log('afterPack hook not triggered as this is not an appImage build');
 
     return;
   }
