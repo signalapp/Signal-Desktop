@@ -2832,6 +2832,7 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const messageDescriptor = getMessageDescriptor({
+      confirm,
       ...data,
       // 'message' event: for 1:1 converations, the conversation is same as sender
       destination: data.source,
@@ -3068,12 +3069,14 @@ export async function startApp(): Promise<void> {
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
   //   at callsites to make sure both source and destination are populated.
   const getMessageDescriptor = ({
+    confirm,
     message,
     source,
     sourceUuid,
     destination,
     destinationUuid,
   }: {
+    confirm: () => unknown;
     message: ProcessedDataMessage;
     source?: string;
     sourceUuid?: string;
@@ -3162,8 +3165,9 @@ export async function startApp(): Promise<void> {
       highTrust: true,
     });
     if (!id) {
+      confirm();
       throw new Error(
-        'getMessageDescriptor: ensureContactIds returned falsey id'
+        `getMessageDescriptor/${message.timestamp}: ensureContactIds returned falsey id`
       );
     }
 
@@ -3184,6 +3188,7 @@ export async function startApp(): Promise<void> {
     strictAssert(source && sourceUuid, 'Missing user number and uuid');
 
     const messageDescriptor = getMessageDescriptor({
+      confirm,
       ...data,
 
       // 'sent' event: the sender is always us!
