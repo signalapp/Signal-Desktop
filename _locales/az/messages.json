@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "$title$ ilə danışıq, $unreadCount$ yeni mesaj, son mesaj: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Son mesaj silinmiş ola bilər.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "$title$ ilə olan danışığa gedin",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Mesaj tələbi",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Stikerlərinizi əlavə edin",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Stikeri sil",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Bir stiker əlavə etmək üçün klikləyin və ya gətirib buraxın",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Stikerlər, 512x512 pikselində şəffaf bir arxaplanda və PNG, APNG və ya WebP formatında olmalıdır. Tövsiyə edilən kənar boşluq 16 pikseldir.",
@@ -6435,42 +6475,6 @@
         "message": "Yeni nə var",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Təkmilləşdirilmiş media işıq qutusu, bir təsvir və ya video qalereyasında irəliləyərkən heç bir süprizlə qarşılaşmayacağınız mənasını verir və bu bezdirici düymələri gizlətmək üçün yaxınlaşdıraraq həqiqətən bir qaranlıq otaqda imiş kimi davrana bilərsiniz.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Seçicini ekrandan götürdüyümüz üçün bir mesaja reaksiya verməyin çətin olduğu xəta aradan qaldırıldı. Bu artıq düzəldildi və sevdiyiniz məzmunlara 😮 reaksiyası verə bilərsiniz.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Zəng əsnasında bu düymələrin üzərinə gəlsəniz, onlar itməyəcək, əksinə görünən formada qalacaq. Qartalın gözündən heç nə qaçmaz, düymələr belə!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Qruplarınızda kimlərin mesaj göndərə biləcəyini məhdudlaşdırmaq üçün yeni \"mesaj göndərmə\" icazəsini sınaqdan keçirin. Bir tədbir təşkil etmək və bir elan yayımlamaq üçün möhtəşəm bir özəllikdir. Tənzimləmənin görünməsi üçün bütün üzvlər Signal-ı ən son versiyaya yeniləməlidir.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Artıq harada və nə vaxt olmasından asılı olmayaraq, mesajları göndərə bilərsiniz: təyyarədə, tuneldə və ya sizi məyus edən internetin kəsildiyi o an. Axır-əvvəl göndəriləcək; artıq mesajlar 24 saata qədər avtomatik olaraq göndərməyə çalışılır.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "❤️‍🔥 və ya 😶‍🌫️ hiss edirsiniz? Axtarış edərkən istər :pıçıldayın, istərsə də :bağırın, özünüzü yeni ifadə qrupu ilə kəşf edə bilərsiniz. Təşəkkürlər $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Angilyadasanız, bəlkə də özünüzü kənarda hiss edirsiniz. Artıq 2010-dan bəri mövcud olan bütün üst səviyyəli domenləri bağlantılara çeviririk, beləcə həm $gov$, həm də $brain$, $signal$ kimi kliklənə bilən olacaq. Təşəkkürlər $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Eşitdik ki, şəkilləri yaxınlaşdırmağı sevirsiniz. Yaxınlaşdırma üçün yeni özəllik əlavə etdik, beləcə kiçik şəkillər belə tam ekrana qədər görüntülənə bilər.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Yox olan mesajlar fəal olanda, \"Bu mesaj silindi\" bildirişinin də vaxtı bitəndə yox olacağını bilirdiniz? Bu artıq sir deyil - geri sayım və vaxt möhürünü mesajın üzərində görəcəksiniz.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Bir nəfəs alın və dialoq və açılan pəncərələr üçün yeni animasiyalara keçin. Artıq daha asandır.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Bir 👀-da daha çox məlumat əldə edin. Sol bölmə təzə bir görünüşə və stilə sahibdir 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Nəyi, nə vaxt edəcəyinizi bilin. Əgər varsa, çatdırıldı, oxundu, göndərildi və digər status mesajları ilə əlaqəli vaxt möhürü, mesajın təfsilatlar ekranında görüntülənəcək.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Ekranı oxuyan istifadəçilər üçün artıq sol bölmədəki danışıq siyahısında gəzinmək daha asandır.",
+        "description": "Release notes for v5.21"
     }
 }

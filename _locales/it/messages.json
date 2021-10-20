@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversazione con $title$, $unreadCount$ nuovi messaggi, ultimo messaggio: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "L'ultimo messaggio potrebbe essere stato eliminato.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Vai alla conversazione con $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Richiesta di messaggio",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Aggiungi i tuoi adesivi",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Rimuovi adesivo",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Clicca o trascina e lascia un file per aggiungere un adesivo",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Gli adesivi devono essere in formato PNG, APNG o WebP con uno sfondo trasparente e 512x512 pixel. Il margine consigliato è di 16px.",
@@ -6435,42 +6475,6 @@
         "message": "Cosa c'è di nuovo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Una lightbox media migliorata significa nessuna sorpresa mentre si scorre una galleria di immagini o video, e si può far finta di essere davvero in una stanza buia con lo zoom per nascondere quei pulsanti fastidiosi.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Risolto un bug per cui reagire a un messaggio era difficile, perché mettevamo il selezionatore fuori dallo schermo. Ora è stato risolto e puoi 😮 al tuo contenuto del ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Se passi sopra i pulsanti durante una chiamata, rimangono visibili invece di scomparire. Niente si nasconde al tuo occhio d'aquila, nemmeno questi pulsanti!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Prova il nuovo permesso 'invia messaggi' per limitare chi può inviare messaggi nei tuoi gruppi. Ottimo per organizzare un evento, fare un annuncio o semplicemente gridare dai tetti. Tutti i membri devono avere l'ultima versione di Signal perché l'impostazione appaia.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Ora puoi inviare messaggi ovunque e in qualsiasi momento: su un aereo, in un tunnel, o in quel triste momento in cui internet è saltato. Alla fine lo invierai; i messaggi ora riprovano a inviarsi automaticamente fino a 24 ore.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Vi sentite ❤️‍🔥 o 😶‍🌫️? Puoi esprimerti con una nuova serie di emoji, sia che tu stia :whispering o :YELLING mentre cerchi. Grazie $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Se sei ad Anguilla, forse ti sei sentito escluso. Ora trasformiamo tutti i domini di primo livello in vigore dal 2010 in link - così sia $gov$ che $brain$ saranno cliccabili proprio come $signal$. Grazie $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Abbiamo sentito che ti piace ingrandire le immagini. Abbiamo aggiunto un po' di potenza al tuo zoom, così anche le immagini piccole possono andare a tutto schermo.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Sapevi che se i messaggi a scomparsa sono abilitati, anche la notifica \"Questo messaggio è stato eliminato\" sparirà alla sua scadenza? Non è più un mistero - vedrai il conto alla rovescia e il timestamp proprio sul messaggio.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Fate un bel respiro e rilassatevi con le nuove animazioni per le finestre di dialogo e i popup. Entrate con calma. Uscite con calma. Entrate con calma. Uscite con calma.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Ottieni più informazioni a colpo d'occhio 👀. Il pannello di sinistra ha un nuovo look e stile 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Conoscere il quando del cosa. Il timestamp, se disponibile, associato ai messaggi consegnati, letti, inviati e altri messaggi di stato sono ora visualizzati nella schermata dei dettagli del messaggio.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Gli utenti di screen reader dovrebbero ora trovare più facile navigare nell'elenco delle conversazioni sul pannello di sinistra.",
+        "description": "Release notes for v5.21"
     }
 }

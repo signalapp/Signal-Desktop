@@ -614,11 +614,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Indlæser eksempelvisning...",
+        "message": "Indlæser forhåndsvisning...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Kladde til miniature-linkeksempelvisning for $domain$",
+        "message": "Kladde til miniature-linkforhåndsvisning for $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -628,7 +628,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Miniature-linkeksempelvisning for $domain$",
+        "message": "Miniature-linkforhåndsvisning for $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -1096,7 +1096,7 @@
         "description": "Label for when something is turned off"
     },
     "deleteWarning": {
-        "message": "Beskeden vil blive slettet fra enheden.",
+        "message": "Denne besked vil blive slettet fra denne enhed.",
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
@@ -1240,7 +1240,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "En besked, klistermærke, reaktion, læsekvittering eller medier kunne ikke leveres til dig fra $sender$. De har muligvis forsøgt at sende det direkte til dig eller i en gruppe.",
+        "message": "En besked, klistermærke, reaktion, læsekvittering eller mediefil kunne ikke leveres til dig fra $sender$. De har muligvis forsøgt at sende direkte til dig eller i en gruppe.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1250,7 +1250,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "En besked, et klistermærke, en reaktion, en læsekvittering eller et medie kunne ikke leveres til dig fra $sender$ i denne chat.",
+        "message": "En besked, et klistermærke, en reaktion, en læsekvittering eller en mediefil kunne ikke leveres til dig fra $sender$ i denne chat.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1260,7 +1260,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ændrede deres nummer til et nyt nummer.",
+        "message": "$sender$ ændrede sit nummer til et nyt nummer.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1690,7 +1690,7 @@
         }
     },
     "calling__block-info": {
-        "message": "Du vil ikke modtage deres lyd og billede og de vil ikke modtage dine.",
+        "message": "Du vil ikke modtage deres lyd eller video og de vil ikke modtage din.",
         "description": "Shown in the modal dialog to describe how blocking works in a group call"
     },
     "calling__overflow__scroll-up": {
@@ -1710,7 +1710,7 @@
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal deler $window$",
+        "message": "Signal deler $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1800,7 +1800,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Kontrollér stavning i tekst, der er indtastet i boksen til sammensætning af en besked",
+        "message": "Lav stavekontrol af tekst, der indtastes i besked-skrivefeltet",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -2150,7 +2150,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ ændrede deres profilnavn fra $oldProfile$ til $newProfile$",
+        "message": "$sender$ ændrede sit profilnavn fra $oldProfile$ til $newProfile$",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2168,7 +2168,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ ændrede deres profilnavn til $newProfile$",
+        "message": "$oldProfile$ ændrede sit profilnavn til $newProfile$",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2290,7 +2290,7 @@
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
-        "message": "Signal-grupper kan maksimalt have $max$ medlemmer",
+        "message": "Signal-grupper kan maksimalt have $max$ medlemmer.",
         "description": "Shown in the alert when you add the maximum number of group members",
         "placeholders": {
             "max": {
@@ -2300,11 +2300,11 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Anbefalet antal medlemmer nået",
+        "message": "Anbefalet medlemsgrænse nået",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Signal-grupper klarer sig bedst med $max$ medlemmer eller færre. Tilføjelse af flere vil det medføre forsinkelser i afsendelse og modtagelse af beskeder.",
+        "message": "Signal-grupper fungerer bedst med $max$ medlemmer eller færre. Tilføjes flere vil det medføre forsinkelser i afsendelse og modtagelse af beskeder.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2484,6 +2484,38 @@
             "names": {
                 "content": "$1",
                 "example": "Alice, Bob"
+            }
+        }
+    },
+    "ConversationList__aria-label": {
+        "message": "Samtale med $title$, $unreadCount$ nye beskeder, sidste besked: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Den sidste besked kan være blevet slettet.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Gå til samtale med $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
             }
         }
     },
@@ -2836,7 +2868,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
-        "message": "Fokuser composer",
+        "message": "Fokuser skrivefelt",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-all-media-view": {
@@ -2884,11 +2916,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
-        "message": "Udvid composer",
+        "message": "Udvid skrivefelt",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Send (i udvidede composer)",
+        "message": "Send (i udvidet skrivefelt)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2896,7 +2928,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Fjern kladde med linkeksempelvisning",
+        "message": "Fjern kladde med linkforhåndsvisning",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -2948,7 +2980,7 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Komponist",
+        "message": "Skrivefelt",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
@@ -2964,7 +2996,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Ringer",
+        "message": "Opkald",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
@@ -3059,6 +3091,14 @@
         "message": "Tilføj dine klistermærker",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Fjern klistermærke",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Klik eller træk/slip en fil for at tilføje et klistermærke",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Klistermærker skal være i PNG, APNG- eller WebP-format med en gennemsigtig baggrund og 512x512 pixels. Den anbefalede grænsekant er 16px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3110,7 +3150,7 @@
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Udsend",
+        "message": "Upload",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -3122,7 +3162,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ af $total$ er udsendt",
+        "message": "$count$ af $total$ er uploadet",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3208,7 +3248,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Fej ved udsending af klistermærkepakker $message$",
+        "message": "Fejl ved upload af klistermærker $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -3822,7 +3862,7 @@
         }
     },
     "calling__SelectPresentingSourcesModal--window": {
-        "message": "En rude",
+        "message": "Et vindue",
         "description": "Title for the select your screen sharing sources modal"
     },
     "callingDeviceSelection__label--video": {
@@ -3854,7 +3894,7 @@
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
-        "message": "Ignorer en time",
+        "message": "Ignorer i en time",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
@@ -3908,7 +3948,7 @@
         "description": "Button to dismiss popup dialog when user-initiated task has gone wrong"
     },
     "unknown-sgnl-link": {
-        "message": "Beklager, sgnl://link gav ikke mening!",
+        "message": "Beklager, det sgnl://-link gav ikke mening!",
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
@@ -4002,7 +4042,7 @@
         }
     },
     "GroupV2--join--group-metadata": {
-        "message": "Group · $memberCount$",
+        "message": "Gruppe · $memberCount$",
         "description": "A holder for two pieces of information - the type of conversation, and the member count",
         "placeholders": {
             "memberCount": {
@@ -4012,15 +4052,15 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Din anmodning om at deltage er sendt til gruppeadministratoren. Du får besked når den er behandlet",
+        "message": "Din anmodning om at deltage er sendt til gruppeadministratoren. Du får besked, når den er behandlet.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
-        "message": "Link i fejl",
+        "message": "Link-fejl",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Kunne ikke deltage i gruppe. Prøv igen senere.",
+        "message": "Kunne ikke blive medlem af gruppen. Prøv igen senere.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4218,11 +4258,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--you": {
-        "message": "Du deaktiverede administratorgodkendelsen til gruppelinket.",
+        "message": "Du deaktiverede administratorgodkendelse for gruppelinket.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-invite-link--disabled--other": {
-        "message": "$adminName$ deaktiverede administratorgodkendelsen til gruppelinket.",
+        "message": "$adminName$ deaktiverede administratorgodkendelse for gruppelinket.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5172,11 +5212,11 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "Al beskedhistorik og medier er blevet bevaret fra før opgraderingen",
+        "message": "Al beskedhistorik og mediefiler er blevet bevaret fra før opgraderingen.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "Al beskedhistorik og medier vil blive bevaret fra før opgraderingen.",
+        "message": "Al beskedhistorik og mediefiler vil blive bevaret fra før opgraderingen.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -5284,7 +5324,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Inkluder ignorerede samtaler på Badge-tæller",
+        "message": "Inkluder ignorerede samtaler på emblem-tæller",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5636,7 +5676,7 @@
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Udsend billede",
+        "message": "Upload billede",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
@@ -5732,7 +5772,7 @@
         "description": "When adding new members to an existing group, this is shown on the confirmation dialog button"
     },
     "createNewGroupButton": {
-        "message": "Opret ny gruppe",
+        "message": "Ny gruppe",
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
@@ -6280,7 +6320,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences__button--privacy": {
-        "message": "Indstillinger for privatliv",
+        "message": "Privatliv",
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
@@ -6306,7 +6346,7 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "Generer eksempelvisning af link",
+        "message": "Generer forhåndsvisning af link",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
@@ -6366,7 +6406,7 @@
         "description": "Option for who can see my X select"
     },
     "Preferences--messaging": {
-        "message": "Meddelelse",
+        "message": "Beskeder",
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
@@ -6378,7 +6418,7 @@
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
-        "message": "Læst af modtager",
+        "message": "Læsekvitteringer",
         "description": "Label for the read receipts setting"
     },
     "Preferences--typing-indicators": {
@@ -6435,42 +6475,6 @@
         "message": "Nyheder",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "En forbedret medie-lysboks betyder, at du ikke bliver overrasket, når du bladrer gennem et galleri med billeder eller videoer. Du kan lade som om, du virkelig befinder dig i et mørkerum ved at zoome for at skjule de irriterende knapper.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Der blev rettet en fejl, hvor det var svært at reagere på en besked, fordi vi placerede valgmuligheden uden for skærmen. Det er nu rettet, og du kan 😮 så meget dit ❤️ ønsker.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Hvis du holder musen hen over knapperne, mens du er i gang med et opkald, forbliver de synlige i stedet for at forsvinde. Intet skjuler sig for dit ørneblik, ikke engang disse knapper!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Prøv den nye 'Send beskeder'-tilladelse for at begrænse, hvem der kan sende beskeder i dine grupper. Den er perfekt til at organisere en begivenhed, lave en annoncering eller bare råbe fra hustagene. Alle medlemmer skal være på den nyeste version af Signal for at indstillingen vises.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Du kan nu sende beskeder hvor som helst, og når du er på et fly, i en tunnel eller i det triste øjeblik, hvor internettet lige er gået ned. De skal nok komme igennem i den sidste ende; beskederne bliver nu automatisk forsøgt afsendt igen i op til 24 timer.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Føler du dig❤️‍🔥 eller 😶‍🌫️? Du kan udtrykke dig selv med en ny samling emoji, uanset om du :hvisker eller :RÅBER, mens du søger. Tak $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Hvis du er i Anguilla, føler du dig måske udenfor. Vi omdanner nu alle top-level-domæner, der er oprettet siden 2010, til links - så både $gov$ og $brain$ vil kunne klikkes på $signal$. Tak$jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Vi har hørt, at du kan lide at zoome ind på billeder. Vi har tilføjet mere kraft til din zoom, så selv små billeder kan kommer helt op i fuld skærm.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Vidste du, at hvis du har aktiveret forsvindende beskeder, vil selv meddelelsen \"Denne besked blev slettet\" forsvinde, når den udløber? Det er ikke længere et mysterium - du kan se nedtællingen og tidsstemplet direkte på beskeden.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Tag en dyb indånding og dyk ned i de nye animationer for dialoger og pop-ups. ",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Denne version indeholder en række små justeringer og fejlrettelser for at sikre, at Signal kører problemfrit.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Få flere oplysninger med et hurtigt øjekast 👀. Den venstre rude har fået et frisk nyt udseende og en ny stil 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Bliv klogere på hvornår og hvad. Tidsstemplet, hvis det er tilgængeligt, der er knyttet til leveret, læst, sendt og andre statusmeddelelser vises nu på beskedens detaljeskærm.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Brugere af skærmlæsere bør nu have lettere ved at navigere i samtalelisten i venstre rude.",
+        "description": "Release notes for v5.21"
     }
 }

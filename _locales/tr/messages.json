@@ -470,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "Bu günlük, katkıda bulunanların görüntüleyebilmesi için herkese açık çevrimiçi olarak yayınlanacaktır. Göndermeden önce günlüğün tamamını indirebilirsiniz.",
         "description": ""
     },
     "debugLogError": {
@@ -478,11 +478,11 @@
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "Hata ayıklama günlüğü gönderildi",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Hata ayıklama günlüğü yüklendi. Desteğe başvurduğunuzda, aşağıdaki bağlantıyı kopyalayın ve gördüğünüz sorunun açıklaması ve yeniden oluşturma adımlarıyla birlikte ekleyin.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "Desktop deşifreleme hatası ile karşılaştı.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "Günlüğü gönder",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -962,15 +962,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "Ses kaydedicide hata oluştu.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "Eklenti kaydedildi.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "Klasörde göster",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1148,7 +1148,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "$name$ ile olan uçtan uca şifrelemenizin güvenliğini doğrulamak için yukarıdaki numaraları kişinin cihazındaki numaralarla karşılaştırın.",
         "description": "",
         "placeholders": {
             "name": {
@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "$title$ ile konuşma, $unreadCount$ yeni ileti, son ileti: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Son ileti silinmiş olabilir.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "$title$ ile konuşmaya git",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "İleti İsteği",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Çıkartmalarınızı ekleyin",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Çıkartmayı kaldır",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Click or drag/drop a file to add a sticker",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Çıkartmalar şeffaf bir arka plana ve 512x512 piksele sahip PNG, APNG veya WebP biçiminde olmalıdır. Önerilen kenar boşluğu 16 pikseldir.",
@@ -6435,42 +6475,6 @@
         "message": "Neler Yeni",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Geliştirilmiş bir içerik kutusu sayesinde, bir resim veya video galerisinde ilerledikçe hiçbir sürpriz çıkmayacaktır ve sinir bozucu düğmeleri gizlemek için yakınlaştırarak gerçekten karanlık bir odadaymış gibi davranabilirsiniz.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Bir iletiye tepki vermenin zor olduğu bir hata düzeltildi, çünkü seçici ekrandan çıkıyordu. Şimdi düzeltildi ve artık ❤️'inizin içeriğine 😮 bakabilirsiniz.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Arama sırasında düğmelerin üzerine gelirseniz, kaybolmak yerine görünür kalırlar. Kartal gözünüzden hiçbir şey saklanmıyor, bu düğmeler bile!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Gruplarınızda kimin ileti gönderebileceğini kısıtlamak için yeni 'ileti gönderme' iznini deneyin. Bir etkinlik düzenlemek, duyuru yapmak veya sadece çatılardan bağırmak için harika. Ayarın görünmesi için tüm üyelerin Signal'in en son sürümünde olması gerekir.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Artık nerede ve ne zaman olursanız olun ileti gönderebilirsiniz: uçakta, tünelde veya internetinizin kesildiği o üzücü anda. Sonunda ulaşacak; mesajlar artık 24 saate kadar otomatik olarak yeniden deneniyor.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "❤️‍🔥 veya 😶‍🌫️ mi hissediyorsunuz? Kendinizi yeni bir emoji grubuyla ifade edebilirsiniz, ararken ister :fısıldayın isterseniz :BAĞIRIN. Teşekkürler $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Anguilla'daysanız, kendinizi dışlanmış hissetmiş olabilirsiniz. Şimdi 2010'dan beri mevcut tüm üst düzey alan isimlerini bağlantılara çevirdik, böylece $gov$ ve $brain$  tam da$signal$ tıklanabilir olacak. $jojomatik$, teşekkürler!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Resimleri büyütmeyi sevdiğinizi duyduk. Büyütmenize bir canlılık kattık, böylece küçük resimler bile artık tam ekran olabilir.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Kaybolan iletileri etkinleştirdiğinizde, \"Bu ileti silindi\" bildiriminin de süresi dolduğunda kaybolduğunu biliyor muydunuz? Bu artık bir sır değil, iletinin sağında bir geriye sayım ve tarih damgası göreceksiniz.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Bir nefes alın ve diyaloglardaki ve açılır pencerelerdeki yeni animasyonlarla rahatlayın. Yavaşça. Hızlıca. Yavaşça. Hızlıca.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Neyin ne zaman olduğunu bilin. Varsa teslim edilen, okunan, gönderilen ve diğer durum iletileriyle ilişkili zaman bilgisi artık iletinin ayrıntılar ekranında görüntülenecektir.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Ekran okuyucu kullanıcıları için sol bölmedeki konuşma listesinde gezinme artık daha kolay.",
+        "description": "Release notes for v5.21"
     }
 }

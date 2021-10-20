@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "The last message may have been deleted.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Go to conversation with $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "طلب التراسُل",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "يُرجى إضافة ملصقاتك",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Remove sticker",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Click or drag/drop a file to add a sticker",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "يجب أن تكون الملصقات بصيغة PNG أو APNG أو WebP و بخلفية شفافة و مقاس 512×512 بِكْسل. طول الهامش المُوصى بها هو 16 بِكْسل.",
@@ -6435,42 +6475,6 @@
         "message": "ما الجديد",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "‫لقد قمنا بتحسين العلبة المضيئة للوسائط أثناء تفقدك لمعرض الصور أو مقاطع الفيديو، إذ يمكنك التظاهر أنك حقا في غرفة مظلمة عبر التكبير لإخفاء تلك الأزرار المزعجة.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "لقد أصلحنا علة في كيفية التفاعل مع رسالة، ﻷننا كنا قد وضعنا منتقي ردود الفعل خارج الشاشة. لقد قمنا بإصلاح ذلك اﻵن، حيث يمكنك 😮 مع المحتوى ❤️ لديك.‏",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "سوف تبقى الأزرار أثناء المكالمات ظاهرة رغم التمرير فوقها. لن تختفي الأزرار بعد اﻵن !‏",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "يمكنك اختبار تصريح « إرسال الرسائل » الجديد لتقييد من له الحق في إرسال الرسائل داخل مجموعاتك. هذا أمر ممتاز لتنظيم حدث ما، أو إصدار البلاغات، أو فقط للتعبير بصوت عالٍ. يجب توفر كل اﻷعضاء على آخر إصدار لـ Signal لكي يظهر هذا اﻹعداد.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "يمكنك اﻵن إرسال الرسائل من أي مكان كنت فيه : سواء من الطائرة، أو من داخل نفق، أو في أصعب اﻷوقات مثل انقطاع اتصالك بالانترنت. سوف تمر مع ذلك ؛ لأن محاولات اﻹرسال متواصلة تلقائيا لمدة 24 ساعة.‏",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "‫هل شعُرت يوما بـ ❤️‍🔥 أو بـ 😶‍🌫️ ؟ يمكنك اﻵن التعبير عما في نفسك بواسطة دفعة جديدة من الوجوه المُعبِّرة، سواء تعلق الأمر بـ ‎:whispering (الهمس) أو بـ ‎:YELLING (الصراخ). شكرا جزيلا $hiqua$ !",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "‫قد يغمرك شعور بالتجاهل إذا كنت في جزيرة « أنغويلا ». من اﻵن، قمنا بتفعيل وصلات المواقع ذات نطاقات المستوى الأعلى التي ظهرت بعد 2010. هذا يعني أنه سيمكنك فتح عناوين المواقع ذات النطاقات $gov$ و$brain$ كما هو الحال بالنسبة لـ $signal$. شكرا جزيلا $jojomatik$ !",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "‫سمعنا أنك من التواقين إلى مستوى التقريب لصورك. لقد أضفنا بعض الجاذبية لذلك التكبير، إذ حتى أصغر صورك يمكنها أن تملأ كاملة الشاشة.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "‫هل علمت أنه في حال تشغيل الرسائل المختفية، سيختفي أيضا اﻹشعار « لقد حُذفَت هذه الرسالة » بعد انتهاء مهلته هو الآخر ؟ لم يعد هنالك أي التباس، سوف يظهر لك العد العكسي والتوقيت فوق الرسالة.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "description": "Release notes for v5.21"
     }
 }

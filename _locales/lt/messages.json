@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Pokalbis su $title$, neskaitytų žinučių: $unreadCount$, paskutinė žinutė: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Gali būti, kad paskutinė žinutė ištrinta.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Pereiti į pokalbį su $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Žinutės užklausa",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Pridėkite savo lipdukus",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Šalinti lipduką",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Norėdami pridėti lipduką, spustelėkite arba tempkite failą",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Lipdukai privalo būti PNG, APNG ar WebP formato su permatomu fonu ir 512x512 pikselių dydžio. Rekomenduojama paraštė yra 16 pikselių.",
@@ -6435,42 +6475,6 @@
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Patobulintas medijos langelis reiškia, jog daugiau nebebus staigmenų, kai naršysite po paveikslų ir vaizdo įrašų galeriją. Be to, galite apsimesti, jog esate tamsiame kambaryje, keisdami mastelį, kad būtų paslėpti tie įkyrūs mygtukai.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Ištaisyta klaida, kuomet būdavo sunku sureaguoti į žinutę, nes parinkiklis būdavo už ekrano ribų. Dabar, tai ištaisyta ir galite 😮 į savo ❤️ turinį.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Jei skambučio metu užvesite pelę virš mygtukų, jie išliks matomi, o ne išnyks.  Niekas negali pasislėpti nuo jūsų žvilgsnio, netgi šie mygtukai!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Išbandykite naują „žinučių siuntimo“ leidimą, kad apribotumėte, kas gali siųsti žinutes grupėje. Puikiai tinka organizuojant renginį, skelbiant apie įvykius ar dalinantis džiaugsmais. Norint, kad nustatymas būtų rodomas, visi dalyviai privalo naudoti naujausią Signal versiją.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Dabar, galite siųsti žinutes bet kur ir bet kada: lėktuve, tunelyje, ar tą liūdną akimirką, kai dingo internetas. Galų gale jos bus išsiųstos; dabar, 24 valandų laikotarpyje bus bandoma išsiųsti žinutes.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Jaučiatės ❤️‍🔥 ar 😶‍🌫️? Galite išreikšti savo jausmus naudodami naują šypsenėlių rinkinį, nepaisant to, ar ieškodami šypsenėlės :šnabždate ar :ŠAUKIATE. Ačiū, $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Jei gyvenate Angilijos saloje, galbūt, jautėtės palikti likimo valiai. Dabar, nuo 2010-ųjų esančias aukščiausiojo lygio sritis paverčiame nuorodomis, todėl tiek $gov$, tiek $brain$ bus tinkamos spustelėti, visai kaip $signal$. Ačiū, $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Girdėjome, kad jums patinka didinti paveikslus. Mastelio keitimui pridėjome patrauklumo, todėl netgi mažus paveikslus galima bus didinti per visą ekraną.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Ar žinojote, kad jeigu yra įjungtos išnykstančios žinutės, tai netgi pranešimas „Ši žinutė buvo ištrinta.“ dings, kai pasibaigs jo galiojimo laikas? Tai daugiau nebe paslaptis – atvirkštinį laikmatį ir laiko žymą matysite tiesiai ant žinutės.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Giliai įkvėpkite ir mėgaukitės naujomis dialogų ir iškylančiųjų langų animacijomis.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Iš pirmo žvilgsnio pamatykite daugiau informacijos 👀. Kairysis polangis įgavo atnaujintą išvaizdą ir stilių 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Žinokite nuo iki. Dabar išsamesnėje žinutės informacijoje yra rodoma laiko žymą, jei prieinama, susieta su pristatymo, skaitymo, išsiuntimo ir kitais būsenos pranešimais.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Dabar, ekrano skaityklės naudotojams turėtų būti lengviau naršyti po pokalbių sąrašą kairiajame polangyje.",
+        "description": "Release notes for v5.21"
     }
 }

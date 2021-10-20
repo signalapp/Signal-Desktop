@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "له $title$ سره محاوره، $unreadCount$ نوي پیغامونه، وروستی پیغام: $lastMessage$",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "وروستی پیغام ښايي پاک شوی وي.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "له $title$ سره محاورې ته ولاړ شه",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "د پیغام غوښتنه",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "خپل سټیکرونه اضافه کړئ",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "سټیکر ایسته کړئ",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "یو فایل باندې کلیک وکړئ یا دلته یې را کش/واچوئ تر څو سټیکر اضافه کړئ",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "سټیکرونه باید د PNG، APNG یا WebP په فارمټ کې له رڼه بکګراونډ سره وي چې اندازه یې هم باید 512x512 پیکسیل کې وي. توصیه شوي حاشیه یې 16px ده.",
@@ -6435,42 +6475,6 @@
         "message": "څه شی نوي دي",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "دا چې تاسې د انځورونو او ویډیوګانو په ګالري کې مخکې ځئ نور نو د میډیا اصلاح شوی سپک بکس هېڅ حیرانتیا نه لري او تاسې کولای شئ داسې یې فرض کړئ چې ګواکې تاسې په رښتیا هم د هغو مزاحمو بټنونو د پټولو په زوم کولو سره په یوه تیاره کوټه کې یاست.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "کله چې کوم پیغام ته غبرګون ښودل ستونزمن و نو هغه بګ باید جوړ کړئ، ځکه چې موږ انتخابوونکی له سکرین څخه ایستلی دی. دا ستونزه اوس حل شوې ده او تاسې کولای شئ چې د خپل ❤️ محتوی لپاره 😮 وکاروئ.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "که چیرته په ټلیفوني اړیکه کې یاست او تاسې پر بټنونو باندې ګوتې ولګیږي، هغوی بیا هم د دې پر ځای چې ورک شي تاسې ته د لیدو وړ وي. ستاسې د باز په څیر له سترګو هېڅ شی نه دي پټ، هان دا بټنونه!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "• د 'پیغام لیږلو' نوې اجازه وازمویئ تر څو دا محدود کړئ چې ستاسې په ګروپونو کې څوک پیغامونه لیږلای شي. د یوې پیښې د جوړولو، د یوې خبرتیا د جوړولو یا هم یوازې د بام له سره د نارو وهلو لپاره ډېر عالي دی. ټول غړي باید د Signal له وروستۍ نسخې څخه کار واخلي تر څو له ټولو ګټو یې کار واخلي.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "اوس تاسې کولای شئ هر چیرته چې یاست او هر وخت چې وي پیغامونه ولیږئ، هغه که په الوتکه کې یاست، که په تونل کې یاست یا هم په هغه غمګینه وخت کې یاست چې انټرنېت سره مو اړیکې پرې شوي وي. هغه به ولیږل شي؛ ځکه چې اوس ستاسې پیغامونه تر 24 ساعتونو پورې په اتومات ډول سره بیا لیږل کېږي.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": " د ❤️‍🔥 یا 😶‍🌫️ احساس کوئ؟ تاسې کولای شئ چې خپل ځان د ایموجي په نورو کڅوړو سره اظهار کړئ، هغه که تاسې نجوا کوئ یا که چیغې وهئ هر ډول چې یې تاسې پلټئ. مننه $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "که چیرته تاسې په انګویلا کې یاست، نو ښايي تاسې خپل ځان پریښودل شوی احساس کړی وي. خو اوس موږ خپلې د لوړې کچې ډومینونه له 2010 کال راهیسې په لینک باندې بدل کړي دي - له همدې کبله دواړه $gov$ او $brain$ به د $signal$ په څیر د کلیک کېدو وړ وي. مننه $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "موږ اوریدلي دی چې ستاسې خوښیږي تر څو عکسونه ښه رانږدې کړئ. له همدې کبله موږ ستاسې زوم کولو ته یوه جاذبه ورکړې ده، تر څو هان ډېر واړه انځورونه هم په فول سکرین باندې بدل کړو.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "ایا پوهیږئ چې که چیرته ورک کېدونکي پیغامونه فعال شوي وي، هان د 'دغه پیغام پاک شوی دی' خبرتیا به هم نه وي کله چې یې وخت پوره شي؟ دا نور کومه معما نه ده - تاسې به هلته پر پیغام باندې کاونټ ډاون ووینئ.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "د ډیالوګونو او پاپ اپونو لپاره په نویو انیمیشنونو سره ساه واخلئ او ارام وکړئ. هلته هر څه اسانه او اسانه دي.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "لا زیات معلومات په ځغلنده نظر کې تیر لاسه کړئ👀.  کېڼه تخته کې تازه نوې منظره او سټایل راغلی 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "د هر څه وخت باندې پوه شئ. د وخت ټاپه، که چیرته وي، له لیږل شوي، لوستل شوي، لیږل شوي او نور حالت لرونکي پیغامونه د پیغام د جزئیاتو په سکرین کې اوس ښودل کېږي.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "د سکرین لوستونکی کارونکی اوس باید هغه په اسانۍ سره ومومي تر څو په کېڼه تخته کې د محاورې لیست په اسانۍ سره ښکته پورته کړي.",
+        "description": "Release notes for v5.21"
     }
 }

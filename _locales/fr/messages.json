@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversation avec $title$, $unreadCount$ nouveaux messages, dernier message : $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Le dernier message peut avoir été supprimé.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Aller dans la conversation avec $title$.",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Demande de message",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Ajouter vos autocollants",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Supprimer l’autocollant",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Cliquez ou glissez-déposez un fichier pour ajouter un autocollant",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Les autocollants doivent être au format PNG, APNG ou WebP avec un arrière-plan transparent et 512 x 512 pixels. La marge recommandée est de 16 px.",
@@ -6435,42 +6475,6 @@
         "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Avec la visionneuse de médias améliorée, plus de surprises lorsque vous parcourrez une galerie d’images ou de vidéos, et vous pouvez faire semblant d’être dans une pièce sombre en zoomant pour masquer ces boutons gênants.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Correction d’un problème qui rendait la réaction à un message délicate, car nous avions mis le sélecteur hors de l’écran. C’est maintenant corrigé, et vous ajouter du 😮 à vos contenus ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Si vous survolez les boutons pendant un appel, ils restent visibles au lieu de disparaître. Rien ne se cache de votre œil d’aigle, pas même ces boutons !",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Essayez la nouvelle option « Envoyer des messages » pour limiter les personnes autorisées à envoyer des messages dans vos groupes. Idéal pour organiser un événement, faire une annonce ou simplement crier sur les toits. Tous les membres doivent être sur la dernière version de Signal pour que le paramètre apparaisse.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Vous pouvez désormais envoyer des messages où que vous soyez et à n’importe quel moment : dans un avion, un tunnel, ou à ce moment triste où l’Internet vient de se couper. Ils finiront par y arriver ; les messages seront automatiquement renvoyés pendant 24 heures.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "D’humeur ❤️‍🔥 ou 😶‍🌫️ ? Vous pouvez vous exprimer avec un nouveau lot d’émojis à rechercher en :murmurant ou en :CRIANT. Merci $hiqua$ !",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Si vous êtes à Anguilla, vous vous êtes peut-être senti exclu. Nous transformons maintenant tous les domaines de premier niveau en place depuis 2010 en liens, de telle façon que $gov$ et $brain$ seront cliquables à l’instar de $signal$. Merci $jojomatik$ !",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Nous avons entendu que vous aimiez zoomer sur les images. Nous avons ajouté de la puissance à votre zoom, de sorte que même les petites images peuvent être affichées en plein écran.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Saviez-vous que si la fonction de disparition des messages est activée, même la notification « Ce message a été supprimé » disparaît à l’expiration du message ? Ce n’est plus un mystère ; le compte à rebours et l’horodatage s’affichent directement sur le message.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Respirez et détendez-vous devant les nouvelles animations des boîtes de dialogue et des fenêtres contextuelles. Fondu à l’ouverture, fondu à la fermeture, etc.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Obtenez plus d’informations en un coup d’œil 👀. Le volet de gauche a un nouveau look et un nouveau style 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Savoir quand et quoi. L’horodatage, si disponible, associé notamment à l’état de remise, de lecture, d’envoi, est désormais affiché dans l’écran de détails du message.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Les utilisateurs de lecteurs d’écran devraient désormais pouvoir naviguer plus facilement dans la liste des conversations du volet de gauche.",
+        "description": "Release notes for v5.21"
     }
 }

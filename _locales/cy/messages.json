@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Sgwrs gyda $title$, $unreadCount$ neges newydd, neges ddiwethaf: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Efallai fod y neges ddiwethaf wedi'i dileu.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Mynd i sgwrs gyda $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Cais Neges",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Ychwanegwch eich sticeri",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Tynnu sticer",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Clicio neu lusgo/gollwng ffeil i ychwanegu sticer",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Rhaid i'r sticeri fod ar ffurf PNG, APNG, neu WebP gyda chefndir tryloyw a 512x512 picsel. Argymhelliad yr ymyl yw 16px.",
@@ -6435,42 +6475,6 @@
         "message": "Be sy'n Newydd",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Nid yw blwch golau cyfryngau gwell yn golygu unrhyw bethau annisgwyl wrth i chi symud ymlaen trwy oriel o ddelweddau neu fideos, a gallwch chi esgus eich bod chi mewn ystafell dywyll mewn gwirionedd trwy chwyddo i guddio'r botymau hynny.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Wedi cywiro gwall lle roedd ymateb i neges yn anodd, oherwydd rydyn ni'n rhoi'r dewisydd oddi ar y sgrin. Mae hynny bellach wedi'i drwsio, a gallwch chi 😮 yn ❤️ hapus.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Os ydych chi'n hofran dros y botymau tra ar alwad, maen nhw'n aros yn weladwy yn lle diflannu. Does dim yn gudd oddi wrth eich llygad barcud, dim hyd yn oed y botymau hyn!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Rhowch gynnig ar y caniatâd 'anfon negeseuon' newydd i gyfyngu ar bwy all anfon negeseuon yn eich grwpiau. Gwych ar gyfer trefnu digwyddiad, gwneud cyhoeddiad, neu ddim ond gweiddi o'r toeau. Rhaid i bob aelod fod ar y fersiwn ddiweddaraf o Signal er mwyn i'r gosodiad ymddangos.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Nawr gallwch chi anfon negeseuon ble bynnag a phryd bynnag yr ydych chi: ar awyren, mewn twnnel, neu'r foment drist honno pan fydd eich rhyngrwyd newydd dorri. Bydd yn llwyddo yn y pen draw; mae negeseuon nawr yn ceisio'n barhaol am hyd at 24 awr.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Yn teimlo'n ❤️‍🔥 neu 😶‍🌫️? Gallwch chi fynegi'ch hun gyda swp newydd o emoji, p'un a ydych chi'n: sibrwd neu: :GWAEDDU wrth i chi chwilio. Diolch $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Os ydych chi yn Anguilla, efallai eich bod wedi teimlo eich bod wedi'ch gadael allan. Rydyn ni nawr yn troi pob parth lefel uchaf yn ei le ers 2010 yn ddolenni - felly bydd modd clicio $gov$ ac $brain$ yn union fel $signal$. Diolch $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Clywsom eich bod yn hoffi chwyddo i mewn ar ddelweddau. Fe wnaethon ni ychwanegu bach o rym i'ch chwyddo, felly gall hyd yn oed delweddau bach fynd yr holl ffordd i'r sgrin lawn.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Wyddoch chi, os yw negeseuon sy'n diflannu yn cael eu galluogi, bydd hyd yn oed yr hysbysiad 'Cafodd y neges hon ei dileu' yn diflannu pan ddaw i ben? Nid yw'n ddirgelwch mwyach - fe welwch y cyfrif i lawr a'r stamp amser ar y neges.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Cymerwch hoe ac ymlacio i'r animeiddiadau newydd ar gyfer deialogau a ffenestri newydd. Anadlu i fewn. Anadlu allan. Anadlu i fewn. Anadlu allan.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Cael rhagor o wybodaeth yn hawdd 👀. Mae gan y paen chwith olwg a steil newydd a ffres 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Gwybod pryd i wneud beth. Mae'r stamp amser, os yw ar gael, sy'n gysylltiedig â'r negeseuon statws, trosglwyddo, darllen, anfon ac eraill nawr yn cael eu dangos ar sgrin manylion y neges.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Dylai ddefnyddwyr darllenwyr sgrin ei chael hi'n haws i lywio drwy'r rhestrau sgyrsiau ar y paen chwith.",
+        "description": "Release notes for v5.21"
     }
 }

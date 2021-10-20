@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Konverzácia s $title$, $unreadCount$ nové správy, posledná správa: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Posledná správa mohla byť odstránená.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Prejdite na konverzáciu s $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Žiadosť o správu",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Pridaj vlastné nálepky",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Odstráňte nálepku",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Kliknutím, alebo pretiahnutím súboru pridáte nálepku",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Nálepky musia byť vo formáte PNG, APNG alebo WebP s priehľadným pozadím a rozmeru 512x512 pixelov. Doporučený okraj je 16 px.",
@@ -6435,42 +6475,6 @@
         "message": "Čo je nové",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Vylepšený mediálny lightbox znamená, už žiadne prekvapenie, pri prechádzaní galériou obrázkov, alebo videí. Môžete predstierať, že ste skutočne v tmavej miestnosti a priblížením skryjete tie otravné tlačidlá.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Opravená chyba, pri ktorej bolo reagovanie na správu zložité, lebo sme vybrali nástroj mimo obrazovka. Teraz je to už v poriadku a vy môžete 😮 k svojmu ❤️ obsahu.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Ak počas hovoru umiestnite kurzor myši na tlačidlá, zostanú viditeľné namiesto toho aby zmizli. Pred vašim orlím okom sa nič neskrýva, dokonca ani tieto gombíky!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Vyskúšajte nové povolenie na odosielanie správ a obmedzte tým, kto môže odosielať správy vo vašich skupinách. Skvelé na zorganizovanie akcie, oznámenie, alebo len kričanie zo striech. Na zobrazenie nastavenia musia mať všetci členovia najnovšiu verziu Signal.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Teraz môžete odosielať správy kedykoľvek a kdekoľvek ste: v lietadle, v tuneli alebo v tom smutnom momente, keď vám vypadne internet. Nakoniec to prejde; správy sa teraz automaticky opakujú až 24 hodín.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Cítite sa ❤️‍🔥 alebo 😶‍🌫️? Môžete sa vyjadriť novou dávkou emotikónov, či už: šepkáte alebo: JAČÍTE pri hľadaní. Vďaka $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Ak ste v Anguille, možno ste sa cítili vynechaní. Teraz zmeníme všetky domény najvyššej úrovne od roku 2010 na odkazy - takže na $gov$ aj $brain$ bude možné kliknúť rovnako ako na $signal$. Vďaka $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Počuli sme, že si radi približujete obrázky. K vášmu priblíženiu sme pridali oomph, takže aj malé obrázky môžu ísť až na celú obrazovku.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Vedeli ste, že ak sú povolené miznúce správy, dokonca aj upozornenie „Táto správa bola odstránená“ zmizne, keď vyprší jeho platnosť? Už to nie je žiadna záhada - odpočítavanie a časovú pečiatku uvidíte priamo v správe.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Nadýchnite sa a relaxujte v nových animáciách pre dialógy a vyskakovacie okná. Uvoľnite sa. Uvoľnite sa.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Získajte viac informácií na prvý pohľad 👀. Ľavý panel dostal úplne nový vzhľad a štýl 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Vedieť, kedy na čo. Časová pečiatka, ak je k dispozícii, spojená s doručenými, prečítanými, odoslanými a inými stavovými správami sa teraz zobrazuje na obrazovke podrobností správy.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Používatelia čítačky obrazovky by mali teraz jednoduchšie prechádzať zoznamom konverzácií na ľavom paneli.",
+        "description": "Release notes for v5.21"
     }
 }

@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Gesprek met $title$, $unreadCount$ nieuwe berichten, meest recente bericht: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Het meest recente bericht is mogelijk verwijderd.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Ga naar het gesprek genaamd $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Gespreksverzoek",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3058,6 +3090,14 @@
     "StickerCreator--DropStage--title": {
         "message": "Voeg je stickers toe en sleep ze in de gewenste volgorde",
         "description": "Title for the drop stage of the sticker creator"
+    },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Sticker verwijderen",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Klik hier of sleep hier een bestand naartoe om een sticker toe te voegen",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
         "message": "Stickers moeten een PNG-, APNG- of WebP-bestand zijn met een (doorzichtige) achtergrond van 512 bij 512 pixels, liefst inclusief een marge rondom van 16 pixels.",
@@ -6435,42 +6475,6 @@
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Een verbeterde achtergrond bij get weergeven van afbeeldingen en video's waardoor je niet meer wordt verblind in een donkere kamer. En als je de media vergroot dan worden de knoppen verborgen.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Fout opgelost waarbij de emoji picker mogelijk buiten de randen van je scherm werd weergegeven. Je kunt nu weer met emojis reageren.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Als je tijdens een oproep je cursor over de knoppen laat zweven dan blijven de knoppen zichtbaar.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "In deze versie voegen we een nieuwe machtiging toe aan groepen: 'berichten verzenden'. Hiermee kun je instellen wie er berichten mag verzenden aan de groep. Handig als je een evenement organiseert, als je de groep alleen wilt gebruiken voor aankondigingen of meldingen, of als je alleen je eigen mening tolereert 🤐. Alle groepsleden moeten de nieuwste versie van Signal gebruiken anders verschijnt deze instelling niet in het groepsinstellingen-menu.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Je kunt vanaf nu op elk moment berichten verzenden, ook als je even geen internetverbinding hebt, want Signal zal nog 24 uur lang proberen om het bericht alsnog te verzenden.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Voel je je ❤️‍🔥 of 😶‍🌫️? Dan kun je dat vanaf nu uitdrukken met de nieuwe emojis die we hebben toegevoegd. En het maakt niet uit of je :kleine letters of :BLOKLETTERS gebruikt wanneer je een emoji typt. Met dank voor de vrijwillige bijdrage aan $hiqua$.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Als je op het eiland Anguilla woont dan vond je het misschien vervelend dat websites niet aanklikbaar waren. Met hulp van $jojomatik$ is dat nu opgelost voor alle domeinnamen zoals die sinds 2010 erkent worden. Dus vanaf nu werken $gov$ en $brain$ net zo goed als $signal$.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Je kunt vanaf nu afbeeldingen verder vergroten.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Wist je al dat als je een verlopent bericht wist dat het bericht “Dit bericht is gewist” dan ook verloopt? Vanaf nu zie je dat ook duidelijk, want het klokje wordt nu ook weergegeven op dat bericht.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Nieuwe animaties voor pop-up vensters",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Zie meer in minder tijd 👀. De gesprekkenlijst aan de linker kant is opnieuw ontworpen 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "De tijdsindicaties over wanneer een bericht is afgeleverd, gelezen, verzonden en andere statussen worden vanaf nu weergegeven in het berichtdetails-scherm.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Het zou nu makkelijker moeten zijn voor gebruikers van schermlezers om te navigeren door de gesprekkenlijst aan de linker kant.",
+        "description": "Release notes for v5.21"
     }
 }

@@ -652,7 +652,7 @@
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Envía el registro de depuración",
+        "message": "Enviar el registro de depuración",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -938,7 +938,7 @@
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Completa la nota de voz y envíala",
+        "message": "Finaliza la nota de voz y la envía",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
@@ -1222,7 +1222,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "No se pudo entregar un mensaje de $sender$",
+        "message": "No se pudo recibir un mensaje de $sender$",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1240,7 +1240,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "No se ha podido entregar un mensaje, sticker, adjunto, reacción o notificación de lectura de $sender$. Lo ha enviado en un chat o en un grupo común.",
+        "message": "No se ha podido recibir un mensaje, sticker, adjunto, reacción o notificación de lectura de $sender$. Lo ha enviado en un chat o en un grupo común.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1250,7 +1250,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "No se ha podido entregar un mensaje, sticker, adjunto, reacción o notificación de lectura de $sender$ en este chat.",
+        "message": "No se ha podido recibir un mensaje, sticker, adjunto, reacción o notificación de lectura de $sender$ en este chat.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Chat con $title$, $unreadCount$ nuevos mensajes. Último mensaje: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Probablemente se ha eliminado el último mensaje. ",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Ir al chat con $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Solicitud de chat",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Añade stickers",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Eliminar sticker",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Haz clic o arrastra y suelta un archivo para agregar un sticker",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Los stickers son archivos en formato PNG, APNG o WebP con fondo transparente y un tamaño de 512x512 píxeles. El margen recomendado es de 16 píxeles.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3490,7 +3530,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Participa en $group1$, $group2$, $group3$ y en uno más",
+        "message": "Participa en «$group1$», «$group2$», «$group3$» y en uno más",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -6435,42 +6475,6 @@
         "message": "Novedades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Una nueva manera de mostrar todos los archivos adjuntos en la galería sin sorpresas y poder hacer zoom en esas imágenes con detalles tan pequeños.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Hemos arreglado un fallo en las reacciones a mensajes. Ahora puedes reaccionar con 😮 ó ❤️ a esos mensajes especiales.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Durante una llamada puedes mover tu puntero sobre los botones de control sin que desaparezcan.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Permite solo a l@s admins enviar mensajes en tu grupo con la nueva opción de «enviar mensajes». Ideal para organizar un evento, hacer un anuncio, o solo para gritar desde los tejados. Tod@s l@s participantes deben usar la versión más actual de Signal para poder activar esta opción.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Ahora puedes enviar mensajes sin importar dónde estás: En un avión, en un túnel o en ese momento en el que internet se ha cortado. El mensaje se enviará una vez que vuelvas a tener conexión: Signal hará múltiples intentos hasta un máximo de 24 horas.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "¿Te sientes ❤️‍🔥 o 😶‍🌫️? Ahora puedes expresarte con un nuevo lote de emojis, ya sea q estés :susurrando o :GRITANDO mientras buscas. ¡Gracias $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Si estás en Anguila, quizás te hayas sentido excluid@. Ahora convertimos todos los dominios bajo el nivel raíz desde 2010 en enlaces, por lo que en $gov$ como $brain$  podrás hacer clic al igual que en $signal$. ¡Gracias $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Hemos oído que te gusta hacer zoom en fotos. Agregamos impulso a tu zoom, por lo que incluso las imágenes pequeñas pueden verse a pantalla completa. ",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "¿Sabías que si los mensajes que desaparecen están activados, incluso la notificación de «Mensaje eliminado» desaparecerá cuando caduque? Ya no es un misterio: Verás la cuenta atrás y la marca de tiempo en el mensaje. ",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Tómate una pausa y relájate con las nuevas animaciones para los diálogos y ventanas emergentes. Inspira, espira. Inspira, espira.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6494,17 @@
     "WhatsNew__v5.20": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Recibes más información de un vistazo 👀. El panel de la izquierda ha recibido una óptica y estilo más modernos 😎. ",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Comprueba el cuándo del qué. Ahora mensajes y adjuntos están fechados: Mostramos la fecha concreta de enviado, entregado, y leído en la pantalla con los detalles del mensaje. ",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Personas con un lector de pantalla podrán navegar mejor la lista de chats en el panel de la izquierda. ",
+        "description": "Release notes for v5.21"
     }
 }
