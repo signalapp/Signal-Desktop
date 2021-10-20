@@ -2211,6 +2211,7 @@ export function initialize({
         timeout: 0,
         type: 'GET',
         version,
+        redactUrl: _createRedactor(key),
       });
     }
 

@@ -2785,6 +2785,7 @@ async function updateGroup(
   { viaSync = false } = {}
 ): Promise<void> {
   const { newAttributes, groupChangeMessages, members } = updates;
+  const ourUuid = window.textsecure.storage.user.getCheckedUuid();
 
   const startingRevision = conversation.get('revision');
   const endingRevision = newAttributes.revision;
@@ -2792,7 +2793,8 @@ async function updateGroup(
   const isInitialDataFetch =
     !isNumber(startingRevision) && isNumber(endingRevision);
   const isInGroup = !updates.newAttributes.left;
-  const justJoinedGroup = conversation.get('left') && isInGroup;
+  const justJoinedGroup =
+    !conversation.hasMember(ourUuid.toString()) && isInGroup;
 
   // Ensure that all generated messages are ordered properly.
   // Before the provided timestamp so update messages appear before the
