@@ -118,6 +118,7 @@ const heicConverter = getHeicConverter();
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
   sql,
+  ephemeralConfig,
   process.argv,
   app.getVersion()
 );
@@ -1230,11 +1231,9 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
   });
 }
 
-async function initializeSQL(): Promise<
-  { ok: true; error: undefined } | { ok: false; error: Error }
-> {
-  const userDataPath = await getRealPath(app.getPath('userData'));
-
+async function initializeSQL(
+  userDataPath: string
+): Promise<{ ok: true; error: undefined } | { ok: false; error: Error }> {
   let key: string | undefined;
   const keyFromConfig = userConfig.get('key');
   if (typeof keyFromConfig === 'string') {
@@ -1255,6 +1254,9 @@ async function initializeSQL(): Promise<
 
   sqlInitTimeStart = Date.now();
   try {
+    // This should be the first awaited call in this function, otherwise
+    // `sql.sqlCall` will throw an uninitialized error instead of waiting for
+    // init to finish.
     await sql.initialize({
       configDir: userDataPath,
       key,
@@ -1339,9 +1341,11 @@ ipc.on('database-error', (_event: Electron.Event, error: string) => {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  const userDataPath = await getRealPath(app.getPath('userData'));
+
   logger = await logging.initialize(getMainWindow);
 
-  sqlInitPromise = initializeSQL();
+  sqlInitPromise = initializeSQL(userDataPath);
 
   const startTime = Date.now();
 
@@ -1377,7 +1381,6 @@ app.on('ready', async () => {
     });
   });
 
-  const userDataPath = await getRealPath(app.getPath('userData'));
   const installPath = await getRealPath(app.getAppPath());
 
   addSensitivePath(userDataPath);

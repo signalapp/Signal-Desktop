@@ -8,6 +8,7 @@ import {
 } from '../ts/types/SystemTraySetting';
 import { isSystemTraySupported } from '../ts/types/Settings';
 import type { MainSQL } from '../ts/sql/main';
+import type { ConfigType } from './base_config';
 
 /**
  * A small helper class to get and cache the `system-tray-setting` preference in the main
@@ -20,6 +21,7 @@ export class SystemTraySettingCache {
 
   constructor(
     private readonly sql: Pick<MainSQL, 'sqlCall'>,
+    private readonly ephemeralConfig: Pick<ConfigType, 'get' | 'set'>,
     private readonly argv: Array<string>,
     private readonly appVersion: string
   ) {}
@@ -53,20 +55,25 @@ export class SystemTraySettingCache {
         `getSystemTraySetting saw --use-tray-icon flag. Returning ${result}`
       );
     } else if (isSystemTraySupported(this.appVersion)) {
-      const { value } = (await this.sql.sqlCall('getItemById', [
-        'system-tray-setting',
-      ])) || { value: undefined };
+      const fastValue = this.ephemeralConfig.get('system-tray-setting');
+      if (fastValue !== undefined) {
+        log.info('getSystemTraySetting got fast value', fastValue);
+      }
+
+      const value =
+        fastValue ??
+        (await this.sql.sqlCall('getItemById', ['system-tray-setting']))?.value;
 
       if (value !== undefined) {
         result = parseSystemTraySetting(value);
-        log.info(
-          `getSystemTraySetting returning value from database, ${result}`
-        );
+        log.info(`getSystemTraySetting returning ${result}`);
       } else {
         result = SystemTraySetting.DoNotUseSystemTray;
-        log.info(
-          `getSystemTraySetting got no value from database, returning ${result}`
-        );
+        log.info(`getSystemTraySetting got no value, returning ${result}`);
+      }
+
+      if (result !== fastValue) {
+        this.ephemeralConfig.set('system-tray-setting', result);
       }
     } else {
       result = SystemTraySetting.DoNotUseSystemTray;
@@ -75,10 +82,14 @@ export class SystemTraySettingCache {
       );
     }
 
+    return this.updateCachedValue(result);
+  }
+
+  private updateCachedValue(value: SystemTraySetting): SystemTraySetting {
     // If there's a value in the cache, someone has updated the value "out from under us",
     //   so we should return that because it's newer.
     this.cachedValue =
-      this.cachedValue === undefined ? result : this.cachedValue;
+      this.cachedValue === undefined ? value : this.cachedValue;
 
     return this.cachedValue;
   }

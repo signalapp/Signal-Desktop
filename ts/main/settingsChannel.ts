@@ -12,6 +12,11 @@ import {
   IPCEventsCallbacksType,
 } from '../util/createIPCEvents';
 
+const EPHEMERAL_NAME_MAP = new Map([
+  ['spellCheck', 'spell-check'],
+  ['systemTraySetting', 'system-tray-setting'],
+]);
+
 export class SettingsChannel {
   private mainWindow?: BrowserWindow;
 
@@ -50,7 +55,9 @@ export class SettingsChannel {
 
     this.installSetting('themeSetting');
     this.installSetting('hideMenuBar');
-    this.installSetting('systemTraySetting');
+    this.installSetting('systemTraySetting', {
+      isEphemeral: true,
+    });
 
     this.installSetting('notificationSetting');
     this.installSetting('notificationDrawAttention');
@@ -199,8 +206,12 @@ export class SettingsChannel {
 
     ipc.on(`settings:set:${name}`, (event, value) => {
       if (isEphemeral) {
-        strictAssert(name === 'spellCheck', 'Only spellCheck is ephemeral');
-        ephemeralConfig.set('spell-check', value);
+        const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
+        strictAssert(
+          ephemeralName !== undefined,
+          `${name} is not an ephemeral setting`
+        );
+        ephemeralConfig.set(ephemeralName, value);
       }
 
       const { mainWindow } = this;
