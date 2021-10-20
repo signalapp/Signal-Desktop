@@ -714,6 +714,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const sentAt = message.get('sent_at');
 
+      // TODO: for debuggong
+      if (message.get('body')?.includes('unapprove')) {
+        console.warn('setting to unapprove');
+        await this.setIsApproved(false);
+      }
+
       if (!sentAt) {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
@@ -771,6 +777,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
+        // this.setIsApproved(true); // consider the conversation approved even if the message fails to send
         return;
       }
 
@@ -1384,7 +1391,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async setIsApproved(value: boolean) {
     if (value !== this.get('isApproved')) {
       this.set({
-        isApproved: true,
+        isApproved: value,
       });
       await this.commit();
     }

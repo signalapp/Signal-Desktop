@@ -99,6 +99,7 @@ export class ConversationController {
 
     const create = async () => {
       try {
+        debugger;
         await saveConversation(conversation.attributes);
       } catch (error) {
         window?.log?.error(

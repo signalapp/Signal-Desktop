@@ -27,6 +27,10 @@ import { useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
+import { Flex } from './basic/Flex';
+import { SessionButton } from './session/SessionButton';
+import { getConversationById } from '../data/data';
+import { getConversationController } from '../session/conversations';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -42,6 +46,7 @@ export const StyledConversationListItemIconWrapper = styled.div`
 
 type PropsHousekeeping = {
   style?: Object;
+  isMessageRequest?: boolean;
 };
 // tslint:disable: use-simple-attributes
 
@@ -261,6 +266,7 @@ const ConversationListItem = (props: Props) => {
     avatarPath,
     isPrivate,
     currentNotificationSetting,
+    isMessageRequest,
   } = props;
   const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
@@ -277,15 +283,32 @@ const ConversationListItem = (props: Props) => {
     [conversationId]
   );
 
+  /**
+   * deletes the conversation
+   */
+  const handleConversationDecline = async () => {
+    await getConversationController().deleteContact(conversationId);
+  };
+
+  /**
+   * marks the conversation as approved.
+   */
+  const handleConversationAccept = async () => {
+    const convo = await getConversationById(conversationId);
+    convo?.setIsApproved(true);
+    console.warn('convo marked as approved');
+    console.warn({ convo });
+  };
+
   return (
     <div key={key}>
       <div
         role="button"
         onMouseDown={openConvo}
-        onMouseUp={e => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
+        // onMouseUp={e => {
+        //   e.stopPropagation();
+        //   e.preventDefault();
+        // }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,
@@ -327,6 +350,16 @@ const ConversationListItem = (props: Props) => {
             unreadCount={unreadCount || 0}
             lastMessage={lastMessage}
           />
+          {isMessageRequest ? (
+            <Flex
+              className="module-conversation-list-item__button-container"
+              container={true}
+              flexDirection="row"
+            >
+              <SessionButton onClick={handleConversationDecline}>Decline</SessionButton>
+              <SessionButton onClick={handleConversationAccept}>Accept</SessionButton>
+            </Flex>
+          ) : null}
         </div>
       </div>
       <Portal>

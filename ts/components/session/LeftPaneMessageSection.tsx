@@ -28,6 +28,7 @@ import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
 import _ from 'lodash';
+import { MessageRequestsBanner } from './MessageRequestsBanner';
 
 export interface Props {
   searchTerm: string;
@@ -95,6 +96,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('render: must provided conversations if no search results are provided');
     }
 
+    // TODO: make selectors for this instead.
+    // TODO: only filter conversations if setting for requests is applied
+    const approvedConversations = conversations.filter(c => c.isApproved === true);
+    console.warn({ approvedConversations });
+    const messageRequestsEnabled =
+      window.inboxStore?.getState().userConfig.messageRequests === true;
+
+    const conversationsForList = messageRequestsEnabled ? approvedConversations : conversations;
+
     const length = conversations.length;
     const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
@@ -106,7 +116,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={conversations}
+              conversations={conversationsForList}
               height={height}
               rowCount={length}
               rowHeight={64}
@@ -157,7 +167,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
         />
-        <div onClick={this.handleMessageRequestsClick}>message requests</div>
+        <MessageRequestsBanner handleOnClick={this.handleMessageRequestsClick} />
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>
