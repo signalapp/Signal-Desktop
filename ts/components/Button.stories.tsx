@@ -11,15 +11,7 @@ const story = storiesOf('Components/Button', module);
 
 story.add('Kitchen sink', () => (
   <>
-    {[
-      ButtonVariant.Primary,
-      ButtonVariant.Secondary,
-      ButtonVariant.SecondaryAffirmative,
-      ButtonVariant.SecondaryDestructive,
-      ButtonVariant.Destructive,
-      ButtonVariant.Calling,
-      ButtonVariant.SystemMessage,
-    ].map(variant => (
+    {Object.values(ButtonVariant).map(variant => (
       <React.Fragment key={variant}>
         {[ButtonSize.Medium, ButtonSize.Small].map(size => (
           <React.Fragment key={size}>

@@ -7,7 +7,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { PanelRow, Props } from './PanelRow';
 
 const story = storiesOf(
@@ -17,7 +17,7 @@ const story = storiesOf(
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   icon: boolean('with icon', overrideProps.icon !== undefined) ? (
-    <ConversationDetailsIcon ariaLabel="timer" icon="timer" />
+    <ConversationDetailsIcon ariaLabel="timer" icon={IconType.timer} />
   ) : null,
   label: text('label', (overrideProps.label as string) || ''),
   info: text('info', overrideProps.info || ''),
@@ -25,7 +25,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   actions: boolean('with action', overrideProps.actions !== undefined) ? (
     <ConversationDetailsIcon
       ariaLabel="trash"
-      icon="trash"
+      icon={IconType.trash}
       onClick={action('action onClick')}
     />
   ) : null,

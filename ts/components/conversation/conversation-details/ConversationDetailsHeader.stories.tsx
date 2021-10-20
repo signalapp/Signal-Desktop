@@ -36,6 +36,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canEdit: false,
   startEditing: action('startEditing'),
   memberships: new Array(number('conversation members length', 0)),
+  isGroup: false,
+  isMe: false,
   ...overrideProps,
 });
 
@@ -78,3 +80,11 @@ story.add('Editable no-description', () => {
     />
   );
 });
+
+story.add('1:1', () => (
+  <ConversationDetailsHeader {...createProps()} isGroup={false} />
+));
+
+story.add('Note to self', () => (
+  <ConversationDetailsHeader {...createProps()} isMe />
+));

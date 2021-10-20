@@ -6,7 +6,6 @@ import {
   CustomError,
   GroupV1Update,
   MessageAttributesType,
-  RetryOptions,
   ReactionAttributesType,
   ShallowChallengeError,
   QuotedMessageType,
@@ -1209,17 +1208,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async retrySend(): Promise<void> {
-    const retryOptions = this.get('retryOptions');
-    if (retryOptions) {
-      if (!window.textsecure.messaging) {
-        log.error('retrySend: Cannot retry since we are offline!');
-        return;
-      }
-      this.unset('errors');
-      this.unset('retryOptions');
-      return this.sendUtilityMessageWithRetry(retryOptions);
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
 
@@ -1522,48 +1510,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     updateLeftPane();
-  }
-
-  // Currently used only for messages that have to be retried when the server
-  // responds with 428 and we have to retry sending the message on challenge
-  // solution.
-  //
-  // Supported types of messages:
-  // * `session-reset` see `endSession` in `ts/models/conversations.ts`
-  async sendUtilityMessageWithRetry(options: RetryOptions): Promise<void> {
-    if (options.type === 'session-reset') {
-      const conv = this.getConversation();
-      if (!conv) {
-        throw new Error(
-          `Failed to find conversation for message: ${this.idForLogging()}`
-        );
-      }
-      if (!window.textsecure.messaging) {
-        throw new Error('Offline');
-      }
-
-      this.set({
-        retryOptions: options,
-      });
-
-      const sendOptions = await getSendOptions(conv.attributes);
-
-      await this.send(
-        handleMessageSend(
-          window.textsecure.messaging.resetSession(
-            options.uuid,
-            options.e164,
-            options.now,
-            sendOptions
-          ),
-          { messageIds: [], sendType: 'resetSession' }
-        )
-      );
-
-      return;
-    }
-
-    throw new Error(`Unsupported retriable type: ${options.type}`);
   }
 
   async sendSyncMessageOnly(

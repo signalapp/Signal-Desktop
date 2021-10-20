@@ -61,7 +61,7 @@ import { getConversationMembers } from '../util/getConversationMembers';
 import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
-import { SendState, SendStatus } from '../messages/MessageSendState';
+import { SendStatus } from '../messages/MessageSendState';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as durations from '../util/durations';
 import {
@@ -4283,51 +4283,6 @@ export class ConversationModel extends window.Backbone
 
   isSearchable(): boolean {
     return !this.get('left');
-  }
-
-  async endSession(): Promise<void> {
-    if (isDirectConversation(this.attributes)) {
-      const now = Date.now();
-      const pendingSendState: SendState = {
-        status: SendStatus.Pending,
-        updatedAt: now,
-      };
-      const messageAttributes: Partial<MessageAttributesType> = {
-        conversationId: this.id,
-        type: 'outgoing',
-        sent_at: now,
-        received_at: window.Signal.Util.incrementMessageCounter(),
-        received_at_ms: now,
-        sendStateByConversationId: {
-          [this.id]: pendingSendState,
-          [window.ConversationController.getOurConversationIdOrThrow()]: pendingSendState,
-        },
-        flags: Proto.DataMessage.Flags.END_SESSION,
-      };
-
-      // TODO: DESKTOP-722
-      const model = new window.Whisper.Message(
-        messageAttributes as MessageAttributesType
-      );
-
-      const id = await window.Signal.Data.saveMessage(model.attributes);
-      model.set({ id });
-
-      const message = window.MessageController.register(model.id, model);
-      this.addSingleMessage(message);
-
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const uuid = this.get('uuid')!;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const e164 = this.get('e164')!;
-
-      message.sendUtilityMessageWithRetry({
-        type: 'session-reset',
-        uuid,
-        e164,
-        now,
-      });
-    }
   }
 
   async leaveGroup(): Promise<void> {

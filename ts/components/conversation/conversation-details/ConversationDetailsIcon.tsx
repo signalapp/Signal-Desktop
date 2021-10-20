@@ -6,14 +6,32 @@ import classNames from 'classnames';
 
 import { bemGenerator } from './util';
 
+export enum IconType {
+  'block' = 'block',
+  'color' = 'color',
+  'down' = 'down',
+  'invites' = 'invites',
+  'leave' = 'leave',
+  'link' = 'link',
+  'lock' = 'lock',
+  'mention' = 'mention',
+  'mute' = 'mute',
+  'notifications' = 'notifications',
+  'reset' = 'reset',
+  'share' = 'share',
+  'timer' = 'timer',
+  'trash' = 'trash',
+  'verify' = 'verify',
+}
+
 export type Props = {
   ariaLabel: string;
   disabled?: boolean;
-  icon: string;
+  icon: IconType;
   onClick?: () => void;
 };
 
-const bem = bemGenerator('module-conversation-details-icon');
+const bem = bemGenerator('ConversationDetails-icon');
 
 export const ConversationDetailsIcon: React.ComponentType<Props> = ({
   ariaLabel,

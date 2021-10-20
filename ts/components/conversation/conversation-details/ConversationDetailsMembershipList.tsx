@@ -7,7 +7,7 @@ import { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
 import { Emojify } from '../Emojify';
 
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
@@ -94,7 +94,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
       {canAddNewMembers && (
         <PanelRow
           icon={
-            <div className="module-conversation-details-membership-list__add-members-icon" />
+            <div className="ConversationDetails-membership-list__add-members-icon" />
           }
           label={i18n('ConversationDetailsMembershipList--add-members')}
           onClick={() => startAddingNewMembers?.()}
@@ -118,11 +118,11 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
       ))}
       {showAllMembers === false && shouldHideRestMembers && (
         <PanelRow
-          className="module-conversation-details-membership-list--show-all"
+          className="ConversationDetails-membership-list--show-all"
           icon={
             <ConversationDetailsIcon
               ariaLabel={i18n('ConversationDetailsMembershipList--show-all')}
-              icon="down"
+              icon={IconType.down}
             />
           }
           onClick={() => setShowAllMembers(true)}

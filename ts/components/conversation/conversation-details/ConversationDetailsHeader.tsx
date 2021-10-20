@@ -16,36 +16,44 @@ export type Props = {
   canEdit: boolean;
   conversation: ConversationType;
   i18n: LocalizerType;
+  isGroup: boolean;
+  isMe: boolean;
   memberships: Array<GroupV2Membership>;
   startEditing: (isGroupTitle: boolean) => void;
 };
 
-const bem = bemGenerator('module-conversation-details-header');
+const bem = bemGenerator('ConversationDetails-header');
 
 export const ConversationDetailsHeader: React.ComponentType<Props> = ({
   canEdit,
   conversation,
   i18n,
+  isGroup,
+  isMe,
   memberships,
   startEditing,
 }) => {
   const [showingAvatar, setShowingAvatar] = useState(false);
 
   let subtitle: ReactNode;
-  if (conversation.groupDescription) {
-    subtitle = (
-      <GroupDescription
-        i18n={i18n}
-        text={conversation.groupDescription}
-        title={conversation.title}
-      />
-    );
-  } else if (canEdit) {
-    subtitle = i18n('ConversationDetailsHeader--add-group-description');
-  } else {
-    subtitle = i18n('ConversationDetailsHeader--members', [
-      memberships.length.toString(),
-    ]);
+  if (isGroup) {
+    if (conversation.groupDescription) {
+      subtitle = (
+        <GroupDescription
+          i18n={i18n}
+          text={conversation.groupDescription}
+          title={conversation.title}
+        />
+      );
+    } else if (canEdit) {
+      subtitle = i18n('ConversationDetailsHeader--add-group-description');
+    } else {
+      subtitle = i18n('ConversationDetailsHeader--members', [
+        memberships.length.toString(),
+      ]);
+    }
+  } else if (!isMe) {
+    subtitle = conversation.phoneNumber;
   }
 
   const avatar = (
@@ -54,6 +62,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
       i18n={i18n}
       size={80}
       {...conversation}
+      noteToSelf={isMe}
       onClick={() => setShowingAvatar(true)}
       sharedGroupNames={[]}
     />
@@ -62,21 +71,22 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
   const contents = (
     <div>
       <div className={bem('title')}>
-        <Emojify text={conversation.title} />
+        <Emojify text={isMe ? i18n('noteToSelf') : conversation.title} />
       </div>
     </div>
   );
 
-  const avatarLightbox = showingAvatar ? (
-    <AvatarLightbox
-      avatarColor={conversation.color}
-      avatarPath={conversation.avatarPath}
-      conversationTitle={conversation.title}
-      i18n={i18n}
-      isGroup
-      onClose={() => setShowingAvatar(false)}
-    />
-  ) : null;
+  const avatarLightbox =
+    showingAvatar && !isMe ? (
+      <AvatarLightbox
+        avatarColor={conversation.color}
+        avatarPath={conversation.avatarPath}
+        conversationTitle={conversation.title}
+        i18n={i18n}
+        isGroup
+        onClose={() => setShowingAvatar(false)}
+      />
+    ) : null;
 
   if (canEdit) {
     return (

@@ -46,6 +46,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   hasGroupLink,
   i18n,
   isAdmin: false,
+  isGroup: true,
   loadRecentMediaItems: action('loadRecentMediaItems'),
   memberships: times(32, i => ({
     isAdmin: i === 1,
@@ -63,7 +64,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   setDisappearingMessages: action('setDisappearingMessages'),
   showAllMedia: action('showAllMedia'),
   showContactModal: action('showContactModal'),
-  showGroupChatColorEditor: action('showGroupChatColorEditor'),
+  showChatColorEditor: action('showChatColorEditor'),
   showGroupLinkManagement: action('showGroupLinkManagement'),
   showGroupV2Permissions: action('showGroupV2Permissions'),
   showConversationNotificationsSettings: action(
@@ -76,10 +77,20 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   },
   onBlock: action('onBlock'),
   onLeave: action('onLeave'),
+  onUnblock: action('onUnblock'),
   deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
   replaceAvatar: action('replaceAvatar'),
   saveAvatarToDisk: action('saveAvatarToDisk'),
+  setMuteExpiration: action('setMuteExpiration'),
   userAvatarData: [],
+  toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+  onOutgoingAudioCallInConversation: action(
+    'onOutgoingAudioCallInConversation'
+  ),
+  onOutgoingVideoCallInConversation: action(
+    'onOutgoingVideoCallInConversation'
+  ),
+  searchInConversation: action('searchInConversation'),
 });
 
 story.add('Basic', () => {
@@ -156,4 +167,8 @@ story.add('Group add with missing capabilities', () => (
       throw new CapabilityError('stories');
     }}
   />
+));
+
+story.add('1:1', () => (
+  <ConversationDetails {...createProps()} isGroup={false} />
 ));

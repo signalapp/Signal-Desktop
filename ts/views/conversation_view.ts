@@ -388,7 +388,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSetDisappearingMessages: (seconds: number) =>
         this.setDisappearingMessages(seconds),
       onDeleteMessages: () => this.destroyMessages(),
-      onResetSession: () => this.endSession(),
       onSearchInConversation: () => {
         const { searchInConversation } = window.reduxActions.search;
         const name = isMe(this.model.attributes)
@@ -400,64 +399,15 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSetPin: this.setPin.bind(this),
       // These are view only and don't update the Conversation model, so they
       //   need a manual update call.
-      onOutgoingAudioCallInConversation: async () => {
-        log.info(
-          'onOutgoingAudioCallInConversation: about to start an audio call'
-        );
+      onOutgoingAudioCallInConversation: this.onOutgoingAudioCallInConversation.bind(
+        this
+      ),
+      onOutgoingVideoCallInConversation: this.onOutgoingVideoCallInConversation.bind(
+        this
+      ),
 
-        const isVideoCall = false;
-
-        if (await this.isCallSafe()) {
-          log.info(
-            'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
-          );
-          await window.Signal.Services.calling.startCallingLobby(
-            this.model.id,
-            isVideoCall
-          );
-          log.info('onOutgoingAudioCallInConversation: started the call');
-        } else {
-          log.info(
-            'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
-          );
-        }
-      },
-
-      onOutgoingVideoCallInConversation: async () => {
-        log.info(
-          'onOutgoingVideoCallInConversation: about to start a video call'
-        );
-        const isVideoCall = true;
-
-        if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
-          showToast(ToastCannotStartGroupCall);
-          return;
-        }
-
-        if (await this.isCallSafe()) {
-          log.info(
-            'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
-          );
-          await window.Signal.Services.calling.startCallingLobby(
-            this.model.id,
-            isVideoCall
-          );
-          log.info('onOutgoingVideoCallInConversation: started the call');
-        } else {
-          log.info(
-            'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
-          );
-        }
-      },
-
-      onShowChatColorEditor: () => {
-        this.showChatColorEditor();
-      },
       onShowConversationDetails: () => {
         this.showConversationDetails();
-      },
-      onShowSafetyNumber: () => {
-        this.showSafetyNumber();
       },
       onShowAllMedia: () => {
         this.showAllMedia();
@@ -839,6 +789,52 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.conversationView = new Whisper.ReactWrapperView({ JSX });
     this.$('.ConversationView__template').append(this.conversationView.el);
+  }
+
+  async onOutgoingVideoCallInConversation(): Promise<void> {
+    log.info('onOutgoingVideoCallInConversation: about to start a video call');
+    const isVideoCall = true;
+
+    if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
+      showToast(ToastCannotStartGroupCall);
+      return;
+    }
+
+    if (await this.isCallSafe()) {
+      log.info(
+        'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
+      );
+      await window.Signal.Services.calling.startCallingLobby(
+        this.model.id,
+        isVideoCall
+      );
+      log.info('onOutgoingVideoCallInConversation: started the call');
+    } else {
+      log.info(
+        'onOutgoingVideoCallInConversation: call is deemed "unsafe". Stopping'
+      );
+    }
+  }
+
+  async onOutgoingAudioCallInConversation(): Promise<void> {
+    log.info('onOutgoingAudioCallInConversation: about to start an audio call');
+
+    const isVideoCall = false;
+
+    if (await this.isCallSafe()) {
+      log.info(
+        'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
+      );
+      await window.Signal.Services.calling.startCallingLobby(
+        this.model.id,
+        isVideoCall
+      );
+      log.info('onOutgoingAudioCallInConversation: started the call');
+    } else {
+      log.info(
+        'onOutgoingAudioCallInConversation: call is deemed "unsafe". Stopping'
+      );
+    }
   }
 
   async longRunningTaskWrapper<T>({
@@ -2626,7 +2622,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       setDisappearingMessages: this.setDisappearingMessages.bind(this),
       showAllMedia: this.showAllMedia.bind(this),
       showContactModal: this.showContactModal.bind(this),
-      showGroupChatColorEditor: this.showChatColorEditor.bind(this),
+      showChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
       showConversationNotificationsSettings: this.showConversationNotificationsSettings.bind(
@@ -2639,6 +2635,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       ),
       onLeave,
       onBlock,
+      onUnblock: () => {
+        this.syncMessageRequestResponse(
+          'onUnblock',
+          this.model,
+          messageRequestEnum.ACCEPT
+        );
+      },
+      setMuteExpiration: this.setMuteExpiration.bind(this),
+      onOutgoingAudioCallInConversation: this.onOutgoingAudioCallInConversation.bind(
+        this
+      ),
+      onOutgoingVideoCallInConversation: this.onOutgoingVideoCallInConversation.bind(
+        this
+      ),
     };
 
     const view = new Whisper.ReactWrapperView({
@@ -2809,12 +2819,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.conversations.setSelectedConversationHeaderTitle(
       this.panels[0]?.headerTitle
     );
-  }
-
-  endSession(): void {
-    const { model }: { model: ConversationModel } = this;
-
-    model.endSession();
   }
 
   async loadRecentMediaItems(limit: number): Promise<void> {

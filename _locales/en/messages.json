@@ -1015,6 +1015,14 @@
     "message": "Cannot Update",
     "description": "Shown as the title of our update error dialogs on windows"
   },
+  "muted": {
+    "message": "Muted",
+    "description": "Shown in a button when a conversation is muted"
+  },
+  "mute": {
+    "message": "Mute",
+    "description": "Shown in a button when a conversation is unmuted and can be muted"
+  },
   "cannotUpdateDetail": {
     "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
     "description": "Shown if a general error happened while trying to install update package",
@@ -1112,10 +1120,6 @@
   },
   "showMembers": {
     "message": "Show members"
-  },
-  "resetSession": {
-    "message": "Reset session",
-    "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
   },
   "showSafetyNumber": {
     "message": "View safety number"
@@ -3271,13 +3275,7 @@
   },
   "MessageRequests--message-group": {
     "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
-    "description": "Shown as the message for a message request in a group",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce Pollard"
-      }
-    }
+    "description": "Shown as the message for a message request in a group"
   },
   "MessageRequests--message-group-blocked": {
     "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
@@ -3303,23 +3301,11 @@
   },
   "MessageRequests--unblock-direct-confirm-body": {
     "message": "You will be able to message and call each other.",
-    "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce Pollard"
-      }
-    }
+    "description": "Shown as the body in the confirmation modal for unblocking a private message request"
   },
   "MessageRequests--unblock-group-confirm-body": {
     "message": "Group members will be able to add you to this group again.",
-    "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-    "placeholders": {
-      "name": {
-        "content": "$1",
-        "example": "Cayce Pollard"
-      }
-    }
+    "description": "Shown as the body in the confirmation modal for unblocking a group message request"
   },
   "MessageRequests--block-and-report-spam": {
     "message": "Report Spam and Block",
@@ -5353,6 +5339,14 @@
   "showConversationDetails": {
     "message": "Group settings",
     "description": "This is a button in the conversation context menu to show group settings"
+  },
+  "showConversationDetails--direct": {
+    "message": "Chat settings",
+    "description": "This is a button in the conversation context menu to show chat settings"
+  },
+  "ConversationDetails__unmute--title": {
+    "message": "Unmute this chat?",
+    "description": "Title for the modal to unmute a chat"
   },
   "ConversationDetails--group-link": {
     "message": "Group link",

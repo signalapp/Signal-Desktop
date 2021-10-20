@@ -6,7 +6,11 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { ConversationDetailsIcon, Props } from './ConversationDetailsIcon';
+import {
+  ConversationDetailsIcon,
+  Props,
+  IconType,
+} from './ConversationDetailsIcon';
 
 const story = storiesOf(
   'Components/Conversation/ConversationDetails/ConversationDetailIcon',
@@ -15,12 +19,12 @@ const story = storiesOf(
 
 const createProps = (overrideProps: Partial<Props>): Props => ({
   ariaLabel: overrideProps.ariaLabel || '',
-  icon: overrideProps.icon || '',
+  icon: overrideProps.icon || IconType.timer,
   onClick: overrideProps.onClick,
 });
 
 story.add('All', () => {
-  const icons = ['timer', 'trash', 'invites', 'block', 'leave', 'down'];
+  const icons = Object.values(IconType);
 
   return icons.map(icon => (
     <ConversationDetailsIcon {...createProps({ icon })} />
@@ -28,7 +32,14 @@ story.add('All', () => {
 });
 
 story.add('Clickable Icons', () => {
-  const icons = ['timer', 'trash', 'invites', 'block', 'leave', 'down'];
+  const icons = [
+    IconType.timer,
+    IconType.trash,
+    IconType.invites,
+    IconType.block,
+    IconType.leave,
+    IconType.down,
+  ];
 
   const onClick = action('onClick');
 

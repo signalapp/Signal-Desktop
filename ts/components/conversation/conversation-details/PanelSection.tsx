@@ -12,7 +12,7 @@ export type Props = {
   title?: string;
 };
 
-const bem = bemGenerator('module-conversation-details-panel-section');
+const bem = bemGenerator('ConversationDetails-panel-section');
 const borderlessClass = bem('root', 'borderless');
 
 export const PanelSection: React.ComponentType<Props> = ({

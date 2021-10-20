@@ -25,7 +25,7 @@ export type Props = {
 
 const MEDIA_ITEM_LIMIT = 6;
 
-const bem = bemGenerator('module-conversation-details-media-list');
+const bem = bemGenerator('ConversationDetails-media-list');
 
 export const ConversationDetailsMediaList: React.ComponentType<Props> = ({
   conversation,
@@ -36,11 +36,13 @@ export const ConversationDetailsMediaList: React.ComponentType<Props> = ({
 }) => {
   const mediaItems = conversation.recentMediaItems || [];
 
+  const mediaItemsLength = mediaItems.length;
+
   React.useEffect(() => {
     loadRecentMediaItems(MEDIA_ITEM_LIMIT);
-  }, [loadRecentMediaItems]);
+  }, [loadRecentMediaItems, mediaItemsLength]);
 
-  if (mediaItems.length === 0) {
+  if (mediaItemsLength === 0) {
     return null;
   }
 

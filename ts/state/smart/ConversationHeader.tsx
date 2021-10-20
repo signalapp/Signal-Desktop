@@ -33,17 +33,14 @@ export type OwnProps = {
   onMoveToInbox: () => void;
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
-  onResetSession: () => void;
   onSearchInConversation: () => void;
   onSetDisappearingMessages: (seconds: number) => void;
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
-  onShowChatColorEditor: () => void;
   onShowContactModal: (contactId: string) => void;
   onShowConversationDetails: () => void;
   onShowGroupMembers: () => void;
-  onShowSafetyNumber: () => void;
 };
 
 const getOutgoingCallButtonStyle = (

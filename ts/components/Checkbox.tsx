@@ -10,6 +10,7 @@ export type PropsType = {
   checked?: boolean;
   description?: string;
   disabled?: boolean;
+  isRadio?: boolean;
   label: string;
   moduleClassName?: string;
   name: string;
@@ -20,6 +21,7 @@ export const Checkbox = ({
   checked,
   description,
   disabled,
+  isRadio,
   label,
   moduleClassName,
   name,
@@ -37,7 +39,7 @@ export const Checkbox = ({
             id={id}
             name={name}
             onChange={ev => onChange(ev.target.checked)}
-            type="checkbox"
+            type={isRadio ? 'radio' : 'checkbox'}
           />
         </div>
         <div>

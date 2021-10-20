@@ -68,15 +68,12 @@ export type PropsActionsType = {
   onSetDisappearingMessages: (seconds: number) => void;
   onShowContactModal: (contactId: string) => void;
   onDeleteMessages: () => void;
-  onResetSession: () => void;
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: () => void;
   onOutgoingVideoCallInConversation: () => void;
   onSetPin: (value: boolean) => void;
 
-  onShowChatColorEditor: () => void;
   onShowConversationDetails: () => void;
-  onShowSafetyNumber: () => void;
   onShowAllMedia: () => void;
   onShowGroupMembers: () => void;
   onGoBack: () => void;
@@ -369,32 +366,28 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
 
   private renderMenu(triggerId: string): ReactNode {
     const {
-      i18n,
       acceptedMessageRequest,
       canChangeTimer,
       expireTimer,
+      groupVersion,
+      i18n,
       isArchived,
-      isMe,
+      isMissingMandatoryProfileSharing,
       isPinned,
-      type,
+      left,
       markedUnread,
       muteExpiresAt,
-      isMissingMandatoryProfileSharing,
-      left,
-      groupVersion,
+      onArchive,
       onDeleteMessages,
-      onResetSession,
+      onMarkUnread,
+      onMoveToInbox,
       onSetDisappearingMessages,
       onSetMuteNotifications,
+      onSetPin,
       onShowAllMedia,
-      onShowChatColorEditor,
       onShowConversationDetails,
       onShowGroupMembers,
-      onShowSafetyNumber,
-      onArchive,
-      onMarkUnread,
-      onSetPin,
-      onMoveToInbox,
+      type,
     } = this.props;
 
     const muteOptions = getMuteOptions(muteExpiresAt, i18n);
@@ -484,14 +477,11 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
             </MenuItem>
           ))}
         </SubMenu>
-        {!isGroup ? (
-          <MenuItem onClick={onShowChatColorEditor}>
-            {i18n('showChatColorEditor')}
-          </MenuItem>
-        ) : null}
-        {hasGV2AdminEnabled ? (
+        {!isGroup || hasGV2AdminEnabled ? (
           <MenuItem onClick={onShowConversationDetails}>
-            {i18n('showConversationDetails')}
+            {isGroup
+              ? i18n('showConversationDetails')
+              : i18n('showConversationDetails--direct')}
           </MenuItem>
         ) : null}
         {isGroup && !hasGV2AdminEnabled ? (
@@ -500,14 +490,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           </MenuItem>
         ) : null}
         <MenuItem onClick={onShowAllMedia}>{i18n('viewRecentMedia')}</MenuItem>
-        {!isGroup && !isMe ? (
-          <MenuItem onClick={onShowSafetyNumber}>
-            {i18n('showSafetyNumber')}
-          </MenuItem>
-        ) : null}
-        {!isGroup && acceptedMessageRequest ? (
-          <MenuItem onClick={onResetSession}>{i18n('resetSession')}</MenuItem>
-        ) : null}
         <MenuItem divider />
         {!markedUnread ? (
           <MenuItem onClick={onMarkUnread}>{i18n('markUnread')}</MenuItem>

@@ -440,7 +440,7 @@ export const Preferences = ({
             }}
             right={
               <div
-                className={`module-conversation-details__chat-color module-conversation-details__chat-color--${defaultConversationColor.color}`}
+                className={`ConversationDetails__chat-color ConversationDetails__chat-color--${defaultConversationColor.color}`}
                 style={{
                   ...getCustomColorStyle(
                     defaultConversationColor.customColorData?.value

@@ -11,7 +11,7 @@ import { Avatar } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 export type PropsType = {
   readonly conversation?: ConversationType;
@@ -73,12 +73,11 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
 
   return (
     <div className="conversation-details-panel">
-      <div className="module-conversation-details__tabs">
+      <div className="ConversationDetails__tabs">
         <div
           className={classNames({
-            'module-conversation-details__tab': true,
-            'module-conversation-details__tab--selected':
-              selectedTab === Tab.Requests,
+            ConversationDetails__tab: true,
+            'ConversationDetails__tab--selected': selectedTab === Tab.Requests,
           })}
           onClick={() => {
             setSelectedTab(Tab.Requests);
@@ -98,9 +97,8 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
 
         <div
           className={classNames({
-            'module-conversation-details__tab': true,
-            'module-conversation-details__tab--selected':
-              selectedTab === Tab.Pending,
+            ConversationDetails__tab: true,
+            'ConversationDetails__tab--selected': selectedTab === Tab.Pending,
           })}
           onClick={() => {
             setSelectedTab(Tab.Pending);
@@ -323,7 +321,7 @@ function MembersPendingAdminApproval({
               <>
                 <button
                   type="button"
-                  className="module-button__small module-conversation-details__action-button"
+                  className="module-button__small ConversationDetails__action-button"
                   onClick={() => {
                     setStagedMemberships([
                       {
@@ -337,7 +335,7 @@ function MembersPendingAdminApproval({
                 </button>
                 <button
                   type="button"
-                  className="module-button__small module-conversation-details__action-button"
+                  className="module-button__small ConversationDetails__action-button"
                   onClick={() => {
                     setStagedMemberships([
                       {
@@ -354,7 +352,7 @@ function MembersPendingAdminApproval({
           }
         />
       ))}
-      <div className="module-conversation-details__pending--info">
+      <div className="ConversationDetails__pending--info">
         {i18n('PendingRequests--info', [conversation.title])}
       </div>
     </PanelSection>
@@ -414,7 +412,7 @@ function MembersPendingProfileKey({
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon
                     ariaLabel={i18n('PendingInvites--revoke-for-label')}
-                    icon="trash"
+                    icon={IconType.trash}
                     onClick={() => {
                       setStagedMemberships([
                         {
@@ -451,7 +449,7 @@ function MembersPendingProfileKey({
                 conversation.areWeAdmin ? (
                   <ConversationDetailsIcon
                     ariaLabel={i18n('PendingInvites--revoke-for-label')}
-                    icon="trash"
+                    icon={IconType.trash}
                     onClick={() => {
                       setStagedMemberships(
                         pendingMemberships.map(membership => ({
@@ -467,7 +465,7 @@ function MembersPendingProfileKey({
           ))}
         </PanelSection>
       )}
-      <div className="module-conversation-details__pending--info">
+      <div className="ConversationDetails__pending--info">
         {i18n('PendingInvites--info')}
       </div>
     </PanelSection>

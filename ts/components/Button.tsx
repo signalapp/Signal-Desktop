@@ -12,18 +12,30 @@ export enum ButtonSize {
 }
 
 export enum ButtonVariant {
+  Calling = 'Calling',
+  Destructive = 'Destructive',
+  Details = 'Details',
   Primary = 'Primary',
   Secondary = 'Secondary',
   SecondaryAffirmative = 'SecondaryAffirmative',
   SecondaryDestructive = 'SecondaryDestructive',
-  Destructive = 'Destructive',
-  Calling = 'Calling',
   SystemMessage = 'SystemMessage',
+}
+
+export enum ButtonIconType {
+  audio = 'audio',
+  muted = 'muted',
+  photo = 'photo',
+  search = 'search',
+  text = 'text',
+  unmuted = 'unmuted',
+  video = 'video',
 }
 
 type PropsType = {
   className?: string;
   disabled?: boolean;
+  icon?: ButtonIconType;
   size?: ButtonSize;
   style?: CSSProperties;
   tabIndex?: number;
@@ -70,6 +82,7 @@ const VARIANT_CLASS_NAMES = new Map<ButtonVariant, string>([
   [ButtonVariant.Destructive, 'module-Button--destructive'],
   [ButtonVariant.Calling, 'module-Button--calling'],
   [ButtonVariant.SystemMessage, 'module-Button--system-message'],
+  [ButtonVariant.Details, 'module-Button--details'],
 ]);
 
 export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
@@ -78,10 +91,13 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       children,
       className,
       disabled = false,
-      size = ButtonSize.Medium,
+      icon,
       style,
       tabIndex,
       variant = ButtonVariant.Primary,
+      size = variant === ButtonVariant.Details
+        ? ButtonSize.Small
+        : ButtonSize.Medium,
     } = props;
     const ariaLabel = props['aria-label'];
 
@@ -108,6 +124,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
           'module-Button',
           sizeClassName,
           variantClassName,
+          `module-Button__icon--${icon}`,
           className
         )}
         disabled={disabled}

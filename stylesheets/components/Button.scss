@@ -196,4 +196,75 @@
       @include hover-and-active-states($background-color, $color-white);
     }
   }
+
+  &--details {
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    font-size: 9px;
+    justify-content: center;
+    line-height: 14px;
+    min-height: 44px;
+    min-width: 60px;
+    padding: 0 8px;
+
+    @include light-theme {
+      background-color: $color-gray-05;
+      color: $color-black;
+    }
+
+    @include dark-theme {
+      background-color: $color-gray-65;
+      color: $color-gray-05;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px $color-ultramarine;
+    }
+  }
+
+  &__icon {
+    @mixin button-icon($icon) {
+      content: '';
+      display: block;
+      height: 18px;
+      width: 18px;
+
+      @include light-theme {
+        @include color-svg($icon, $color-black);
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-05);
+      }
+    }
+
+    &--audio::before {
+      @include button-icon('../images/icons/v2/phone-right-outline-24.svg');
+    }
+
+    &--muted::before {
+      @include button-icon('../images/icons/v2/bell-disabled-outline-24.svg');
+    }
+
+    &--photo::before {
+      @include button-icon('../images/icons/v2/photo-album-outline-24.svg');
+    }
+
+    &--search::before {
+      @include button-icon('../images/icons/v2/search-16.svg');
+    }
+
+    &--text::before {
+      @include button-icon('../images/icons/v2/text-24.svg');
+    }
+
+    &--unmuted::before {
+      @include button-icon('../images/icons/v2/bell-outline-24.svg');
+    }
+
+    &--video::before {
+      @include button-icon('../images/icons/v2/video-outline-24.svg');
+    }
+  }
 }

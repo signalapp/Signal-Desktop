@@ -39,7 +39,6 @@ const commonProps = {
   onShowConversationDetails: action('onShowConversationDetails'),
   onSetDisappearingMessages: action('onSetDisappearingMessages'),
   onDeleteMessages: action('onDeleteMessages'),
-  onResetSession: action('onResetSession'),
   onSearchInConversation: action('onSearchInConversation'),
   onSetMuteNotifications: action('onSetMuteNotifications'),
   onOutgoingAudioCallInConversation: action(
@@ -49,8 +48,6 @@ const commonProps = {
     'onOutgoingVideoCallInConversation'
   ),
 
-  onShowChatColorEditor: action('onShowChatColorEditor'),
-  onShowSafetyNumber: action('onShowSafetyNumber'),
   onShowAllMedia: action('onShowAllMedia'),
   onShowContactModal: action('onShowContactModal'),
   onShowGroupMembers: action('onShowGroupMembers'),

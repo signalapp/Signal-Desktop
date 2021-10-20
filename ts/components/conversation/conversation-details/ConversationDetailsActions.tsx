@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import classNames from 'classnames';
 
 import { LocalizerType } from '../../../types/Util';
@@ -10,48 +10,55 @@ import { Tooltip, TooltipPlacement } from '../../Tooltip';
 
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 export type Props = {
   cannotLeaveBecauseYouAreLastAdmin: boolean;
   conversationTitle: string;
+  i18n: LocalizerType;
+  isBlocked: boolean;
+  isGroup: boolean;
   left: boolean;
   onBlock: () => void;
   onLeave: () => void;
-  i18n: LocalizerType;
+  onUnblock: () => void;
 };
 
 export const ConversationDetailsActions: React.ComponentType<Props> = ({
   cannotLeaveBecauseYouAreLastAdmin,
   conversationTitle,
+  i18n,
+  isBlocked,
+  isGroup,
   left,
   onBlock,
   onLeave,
-  i18n,
+  onUnblock,
 }) => {
-  const [confirmingLeave, setConfirmingLeave] = React.useState<boolean>(false);
-  const [confirmingBlock, setConfirmingBlock] = React.useState<boolean>(false);
+  const [confirmLeave, gLeave] = useState<boolean>(false);
+  const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
+  const [confirmDirectBlock, gDirectBlock] = useState<boolean>(false);
+  const [confirmDirectUnblock, gDirectUnblock] = useState<boolean>(false);
 
   let leaveGroupNode: ReactNode;
-  let blockGroupNode: ReactNode;
-  if (!left) {
+  if (isGroup && !left) {
     leaveGroupNode = (
       <PanelRow
         disabled={cannotLeaveBecauseYouAreLastAdmin}
-        onClick={() => setConfirmingLeave(true)}
+        onClick={() => gLeave(true)}
         icon={
           <ConversationDetailsIcon
             ariaLabel={i18n('ConversationDetailsActions--leave-group')}
             disabled={cannotLeaveBecauseYouAreLastAdmin}
-            icon="leave"
+            icon={IconType.leave}
           />
         }
         label={
           <div
             className={classNames(
-              'module-conversation-details__leave-group',
+              'ConversationDetails__leave-group',
               cannotLeaveBecauseYouAreLastAdmin &&
-                'module-conversation-details__leave-group--disabled'
+                'ConversationDetails__leave-group--disabled'
             )}
           >
             {i18n('ConversationDetailsActions--leave-group')}
@@ -73,32 +80,49 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
     }
   }
 
-  blockGroupNode = (
-    <PanelRow
-      disabled={cannotLeaveBecauseYouAreLastAdmin}
-      onClick={() => setConfirmingBlock(true)}
-      icon={
-        <ConversationDetailsIcon
-          ariaLabel={i18n('ConversationDetailsActions--block-group')}
-          icon="block"
-        />
-      }
-      label={
-        <div className="module-conversation-details__block-group">
-          {i18n('ConversationDetailsActions--block-group')}
-        </div>
-      }
-    />
-  );
+  let blockNode: ReactNode;
+  if (isGroup) {
+    blockNode = (
+      <PanelRow
+        disabled={cannotLeaveBecauseYouAreLastAdmin}
+        onClick={() => gGroupBlock(true)}
+        icon={
+          <ConversationDetailsIcon
+            ariaLabel={i18n('ConversationDetailsActions--block-group')}
+            icon={IconType.block}
+          />
+        }
+        label={
+          <div className="ConversationDetails__block-group">
+            {i18n('ConversationDetailsActions--block-group')}
+          </div>
+        }
+      />
+    );
+  } else {
+    const label = isBlocked
+      ? i18n('MessageRequests--unblock')
+      : i18n('MessageRequests--block');
+    blockNode = (
+      <PanelRow
+        onClick={() => (isBlocked ? gDirectUnblock(true) : gDirectBlock(true))}
+        icon={
+          <ConversationDetailsIcon ariaLabel={label} icon={IconType.block} />
+        }
+        label={<div className="ConversationDetails__block-group">{label}</div>}
+      />
+    );
+  }
+
   if (cannotLeaveBecauseYouAreLastAdmin) {
-    blockGroupNode = (
+    blockNode = (
       <Tooltip
         content={i18n(
           'ConversationDetailsActions--leave-group-must-choose-new-admin'
         )}
         direction={TooltipPlacement.Top}
       >
-        {blockGroupNode}
+        {blockNode}
       </Tooltip>
     );
   }
@@ -107,10 +131,10 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
     <>
       <PanelSection>
         {leaveGroupNode}
-        {blockGroupNode}
+        {blockNode}
       </PanelSection>
 
-      {confirmingLeave && (
+      {confirmLeave && (
         <ConfirmationDialog
           actions={[
             {
@@ -122,14 +146,14 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
             },
           ]}
           i18n={i18n}
-          onClose={() => setConfirmingLeave(false)}
+          onClose={() => gLeave(false)}
           title={i18n('ConversationDetailsActions--leave-group-modal-title')}
         >
           {i18n('ConversationDetailsActions--leave-group-modal-content')}
         </ConfirmationDialog>
       )}
 
-      {confirmingBlock && (
+      {confirmGroupBlock && (
         <ConfirmationDialog
           actions={[
             {
@@ -141,12 +165,50 @@ export const ConversationDetailsActions: React.ComponentType<Props> = ({
             },
           ]}
           i18n={i18n}
-          onClose={() => setConfirmingBlock(false)}
+          onClose={() => gGroupBlock(false)}
           title={i18n('ConversationDetailsActions--block-group-modal-title', [
             conversationTitle,
           ])}
         >
           {i18n('ConversationDetailsActions--block-group-modal-content')}
+        </ConfirmationDialog>
+      )}
+
+      {confirmDirectBlock && (
+        <ConfirmationDialog
+          actions={[
+            {
+              text: i18n('MessageRequests--block'),
+              action: onBlock,
+              style: 'affirmative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => gDirectBlock(false)}
+          title={i18n('MessageRequests--block-direct-confirm-title', [
+            conversationTitle,
+          ])}
+        >
+          {i18n('MessageRequests--block-direct-confirm-body')}
+        </ConfirmationDialog>
+      )}
+
+      {confirmDirectUnblock && (
+        <ConfirmationDialog
+          actions={[
+            {
+              text: i18n('MessageRequests--unblock'),
+              action: onUnblock,
+              style: 'affirmative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => gDirectUnblock(false)}
+          title={i18n('MessageRequests--unblock-direct-confirm-title', [
+            conversationTitle,
+          ])}
+        >
+          {i18n('MessageRequests--unblock-direct-confirm-body')}
         </ConfirmationDialog>
       )}
     </>

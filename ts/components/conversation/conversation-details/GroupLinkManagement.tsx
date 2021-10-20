@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { SignalService as Proto } from '../../../protobuf';
 import { ConversationType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
@@ -86,7 +86,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
               icon={
                 <ConversationDetailsIcon
                   ariaLabel={i18n('GroupLinkManagement--share')}
-                  icon="share"
+                  icon={IconType.share}
                 />
               }
               label={i18n('GroupLinkManagement--share')}
@@ -101,7 +101,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                 icon={
                   <ConversationDetailsIcon
                     ariaLabel={i18n('GroupLinkManagement--reset')}
-                    icon="reset"
+                    icon={IconType.reset}
                   />
                 }
                 label={i18n('GroupLinkManagement--reset')}

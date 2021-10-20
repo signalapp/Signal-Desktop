@@ -25,7 +25,7 @@ export type SmartConversationDetailsProps = {
   loadRecentMediaItems: (limit: number) => void;
   setDisappearingMessages: (seconds: number) => void;
   showAllMedia: () => void;
-  showGroupChatColorEditor: () => void;
+  showChatColorEditor: () => void;
   showGroupLinkManagement: () => void;
   showGroupV2Permissions: () => void;
   showConversationNotificationsSettings: () => void;
@@ -42,6 +42,10 @@ export type SmartConversationDetailsProps = {
   ) => Promise<void>;
   onBlock: () => void;
   onLeave: () => void;
+  onUnblock: () => void;
+  setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
+  onOutgoingAudioCallInConversation: () => unknown;
+  onOutgoingVideoCallInConversation: () => unknown;
 };
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
@@ -75,6 +79,7 @@ const mapStateToProps = (
     ...getGroupMemberships(conversation, conversationSelector),
     userAvatarData: conversation.avatars || [],
     hasGroupLink,
+    isGroup: conversation.type === 'group',
   };
 };
 

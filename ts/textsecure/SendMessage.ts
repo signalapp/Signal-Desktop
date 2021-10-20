@@ -20,7 +20,6 @@ import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
 import { SenderKeys } from '../LibSignalStores';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MIMETypeToString } from '../types/MIME';
@@ -1682,84 +1681,6 @@ export default class MessageSender {
       contentHint: ContentHint.IMPLICIT,
       options,
     });
-  }
-
-  async resetSession(
-    uuid: string,
-    e164: string,
-    timestamp: number,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
-    log.info('resetSession: start');
-    const proto = new Proto.DataMessage();
-    proto.body = 'TERMINATE';
-    proto.flags = Proto.DataMessage.Flags.END_SESSION;
-    proto.timestamp = timestamp;
-
-    const identifier = uuid || e164;
-    const theirUuid = uuid ? new UUID(uuid) : UUID.checkedLookup(e164);
-
-    const logError = (prefix: string) => (error: Error) => {
-      log.error(prefix, error && error.stack ? error.stack : error);
-      throw error;
-    };
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    const sendToContactPromise = window.textsecure.storage.protocol
-      .archiveAllSessions(theirUuid)
-      .catch(logError('resetSession/archiveAllSessions1 error:'))
-      .then(async () => {
-        log.info(
-          'resetSession: finished closing local sessions, now sending to contact'
-        );
-        return handleMessageSend(
-          this.sendIndividualProto({
-            identifier,
-            proto,
-            timestamp,
-            contentHint: ContentHint.RESENDABLE,
-            options,
-          }),
-          {
-            messageIds: [],
-            sendType: 'resetSession',
-          }
-        ).catch(logError('resetSession/sendToContact error:'));
-      })
-      .then(async result => {
-        await window.textsecure.storage.protocol
-          .archiveAllSessions(theirUuid)
-          .catch(logError('resetSession/archiveAllSessions2 error:'));
-
-        return result;
-      });
-
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
-    // We already sent the reset session to our other devices in the code above!
-    if ((e164 && e164 === myNumber) || (uuid && uuid === myUuid)) {
-      return sendToContactPromise;
-    }
-
-    const encodedDataMessage = Proto.DataMessage.encode(proto).finish();
-    const sendSyncPromise = this.sendSyncMessage({
-      encodedDataMessage,
-      timestamp,
-      destination: e164,
-      destinationUuid: uuid,
-      expirationStartTimestamp: null,
-      conversationIdsSentTo: [],
-      conversationIdsWithSealedSender: new Set(),
-      options,
-    }).catch(logError('resetSession/sendSync error:'));
-
-    const responses = await Promise.all([
-      sendToContactPromise,
-      sendSyncPromise,
-    ]);
-
-    return responses[0];
   }
 
   async sendExpirationTimerUpdateToIdentifier(

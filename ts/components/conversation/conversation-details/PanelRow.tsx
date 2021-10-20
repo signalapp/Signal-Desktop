@@ -17,7 +17,7 @@ export type Props = {
   onClick?: () => void;
 };
 
-const bem = bemGenerator('module-conversation-details-panel-row');
+const bem = bemGenerator('ConversationDetails-panel-row');
 
 export const PanelRow: React.ComponentType<Props> = ({
   alwaysShowActions,

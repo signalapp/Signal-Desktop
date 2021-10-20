@@ -7,10 +7,9 @@ import { ConversationTypeType } from '../../../state/ducks/conversations';
 import { LocalizerType } from '../../../types/Util';
 import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
-import { ConversationDetailsIcon } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { Select } from '../../Select';
 import { isMuted } from '../../../util/isMuted';
-import { assert } from '../../../util/assert';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
 
@@ -33,13 +32,6 @@ export const ConversationNotificationsSettings: FunctionComponent<PropsType> = (
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
 }) => {
-  // This assertion is here to prevent accidental usage of this component in an untested
-  //   context.
-  assert(
-    conversationType === 'group',
-    '<ConversationNotificationsSettings> SHOULD work for non-group conversations, but it has not been tested there'
-  );
-
   const muteOptions = useMemo(
     () => [
       ...(isMuted(muteExpiresAt)
@@ -81,7 +73,7 @@ export const ConversationNotificationsSettings: FunctionComponent<PropsType> = (
           icon={
             <ConversationDetailsIcon
               ariaLabel={i18n('muteNotificationsTitle')}
-              icon="mute"
+              icon={IconType.mute}
             />
           }
           label={i18n('muteNotificationsTitle')}
@@ -96,7 +88,7 @@ export const ConversationNotificationsSettings: FunctionComponent<PropsType> = (
                 ariaLabel={i18n(
                   'ConversationNotificationsSettings__mentions__label'
                 )}
-                icon="mention"
+                icon={IconType.mention}
               />
             }
             label={i18n('ConversationNotificationsSettings__mentions__label')}
