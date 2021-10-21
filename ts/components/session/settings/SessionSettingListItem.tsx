@@ -1,97 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import Slider from 'rc-slider';
-
 import { SessionToggle } from '../SessionToggle';
-import { SessionButton } from '../SessionButton';
-import { SessionRadioGroup } from '../SessionRadioGroup';
+import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
-import { SessionSettingType } from './LocalSettings';
 
-type Props = {
+type ButtonSettingsProps = {
   title?: string;
   description?: string;
-  type: SessionSettingType | undefined;
-  value: any;
-  options?: Array<any>;
-  onClick?: any;
-  onSliderChange?: any;
-  content: any;
-  confirmationDialogParams?: SessionConfirmDialogProps;
+  buttonColor: SessionButtonColor;
+  buttonText: string;
+  onClick: () => void;
 };
 
-export const SessionSettingListItem = (props: Props) => {
-  const handleSlider = (valueToForward: any) => {
-    if (props.onSliderChange) {
-      props.onSliderChange(valueToForward);
-    }
+const SettingsTitleAndDescription = (props: { title?: string; description?: string }) => {
+  return (
+    <div className="session-settings-item__info">
+      <div className="session-settings-item__title">{props.title}</div>
 
-    setSliderValue(valueToForward);
-  };
+      {props.description && (
+        <div className="session-settings-item__description">{props.description}</div>
+      )}
+    </div>
+  );
+};
 
-  const [sliderValue, setSliderValue] = useState(null);
+const SessionSettingsContent = (props: { children: React.ReactNode }) => {
+  return <div className="session-settings-item__content">{props.children}</div>;
+};
 
-  const { title, description, type, value, content } = props;
-  const inline = !!type && ![SessionSettingType.Options, SessionSettingType.Slider].includes(type);
+export const SessionSettingsItemWrapper = (props: {
+  inline: boolean;
+  title?: string;
+  description?: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className={classNames('session-settings-item', props.inline && 'inline')}>
+      <SettingsTitleAndDescription title={props.title} description={props.description} />
+      <SessionSettingsContent>{props.children}</SessionSettingsContent>
+    </div>
+  );
+};
 
-  const currentSliderValue = type === SessionSettingType.Slider && (sliderValue || value);
+export const SessionToggleWithDescription = (props: {
+  title?: string;
+  description?: string;
+  active: boolean;
+  onClickToggle: () => void;
+  confirmationDialogParams?: SessionConfirmDialogProps;
+}) => {
+  const { title, description, active, onClickToggle, confirmationDialogParams } = props;
 
   return (
-    <div className={classNames('session-settings-item', inline && 'inline')}>
-      <div className="session-settings-item__info">
-        <div className="session-settings-item__title">{title}</div>
+    <SessionSettingsItemWrapper title={title} description={description} inline={true}>
+      <SessionToggle
+        active={active}
+        onClick={onClickToggle}
+        confirmationDialogParams={confirmationDialogParams}
+      />
+    </SessionSettingsItemWrapper>
+  );
+};
 
-        {description && <div className="session-settings-item__description">{description}</div>}
-      </div>
+export const SessionSettingButtonItem = (props: ButtonSettingsProps) => {
+  const { title, description, buttonColor, buttonText, onClick } = props;
 
-      <div className="session-settings-item__content">
-        {type === SessionSettingType.Toggle && (
-          <div className="session-settings-item__selection">
-            <SessionToggle
-              active={Boolean(value)}
-              onClick={() => props.onClick?.()}
-              confirmationDialogParams={props.confirmationDialogParams}
-            />
-          </div>
-        )}
-
-        {type === SessionSettingType.Button && (
-          <SessionButton
-            text={content.buttonText}
-            buttonColor={content.buttonColor}
-            onClick={() => props.onClick?.()}
-          />
-        )}
-
-        {type === SessionSettingType.Options && (
-          <SessionRadioGroup
-            initialItem={content.options.initialItem}
-            group={content.options.group}
-            items={content.options.items}
-            onClick={(selectedRadioValue: string) => {
-              props.onClick(selectedRadioValue);
-            }}
-          />
-        )}
-
-        {type === SessionSettingType.Slider && (
-          <div className="slider-wrapper">
-            <Slider
-              dots={true}
-              step={content.step}
-              min={content.min}
-              max={content.max}
-              defaultValue={currentSliderValue}
-              onAfterChange={handleSlider}
-            />
-
-            <div className="slider-info">
-              <p>{content.info(currentSliderValue)}</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+  return (
+    <SessionSettingsItemWrapper title={title} description={description} inline={true}>
+      <SessionButton text={buttonText} buttonColor={buttonColor} onClick={onClick} />
+    </SessionSettingsItemWrapper>
   );
 };

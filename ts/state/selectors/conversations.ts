@@ -49,6 +49,14 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
+export const getBlockedPubkeys = createSelector(
+  // make sure to extends this selector to we are rerun on conversation changes
+  getConversationLookup,
+
+  (_state): Array<string> => {
+    return BlockedNumberController.getBlockedNumbers();
+  }
+);
 
 export const getSelectedConversationKey = createSelector(
   getConversations,
@@ -998,11 +1006,12 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
-    const { direction, isDeleted } = props.propsForMessage;
+    const { direction, isDeleted, attachments } = props.propsForMessage;
 
     const msgProps: MessageContentWithStatusSelectorProps = {
       direction,
       isDeleted,
+      hasAttachments: Boolean(attachments?.length) || false,
     };
 
     return msgProps;

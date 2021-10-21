@@ -35,7 +35,9 @@ declare global {
     friends: any;
     getConversations: any;
     getFriendsFromContacts: any;
-    getSettingValue: any;
+    getSettingValue: (id: string) => any;
+    setSettingValue: (id: string, value: any) => void;
+
     i18n: LocalizerType;
     libsignal: LibsignalProtocol;
     log: any;
@@ -54,13 +56,13 @@ declare global {
     restart: any;
     getSeedNodeList: () => Array<any> | undefined;
     setPassword: any;
-    setSettingValue: any;
     storage: any;
     textsecure: LibTextsecure;
     toggleMediaPermissions: () => Promise<void>;
     toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
     getCallMediaPermissions: () => boolean;
-    toggleMenuBar: any;
+    updateZoomFactor: () => boolean;
+    toggleMenuBar: () => void;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;
     isDev?: () => boolean;

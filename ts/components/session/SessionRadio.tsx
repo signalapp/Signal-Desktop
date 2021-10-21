@@ -26,7 +26,7 @@ export const SessionRadio = (props: Props) => {
         value={value}
         aria-checked={active}
         checked={active}
-        onClick={clickHandler}
+        onChange={clickHandler}
       />
       <label role="button" onClick={clickHandler}>
         {label}

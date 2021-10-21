@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
-import { SessionSettingCategory } from './settings/LocalSettings';
+import { SessionSettingCategory } from './settings/SessionSettings';
 
 const getCategories = () => {
   return [

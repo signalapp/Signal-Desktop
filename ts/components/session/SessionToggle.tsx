@@ -45,12 +45,14 @@ export const SessionToggle = (props: Props) => {
   };
 
   return (
-    <div
-      className={classNames('session-toggle', props.active ? 'active' : '')}
-      role="button"
-      onClick={clickHandler}
-    >
-      <div className="knob" />
+    <div className="session-settings-item__selection">
+      <div
+        className={classNames('session-toggle', props.active ? 'active' : '')}
+        role="button"
+        onClick={clickHandler}
+      >
+        <div className="knob" />
+      </div>
     </div>
   );
 };

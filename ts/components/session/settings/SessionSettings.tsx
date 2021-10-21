@@ -1,24 +1,28 @@
 import React from 'react';
 
 import { SettingsHeader } from './SessionSettingsHeader';
-import { SessionSettingListItem } from './SessionSettingListItem';
+import { SessionSettingButtonItem, SessionToggleWithDescription } from './SessionSettingListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { PasswordUtil } from '../../../util';
-import { StateType } from '../../../state/reducer';
-import { getBlockedPubkeys } from '../../../state/selectors/conversations';
-import { connect } from 'react-redux';
-import { getPasswordHash } from '../../../../ts/data/data';
-import { shell } from 'electron';
-import { mapDispatchToProps } from '../../../state/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createOrUpdateItem,
+  getPasswordHash,
+  hasLinkPreviewPopupBeenDisplayed,
+} from '../../../../ts/data/data';
+import { ipcRenderer, shell } from 'electron';
 import { SessionIconButton } from '../icon';
 import autoBind from 'auto-bind';
-import {
-  getLocalSettings,
-  LocalSettingType,
-  SessionSettingCategory,
-  SessionSettingType,
-} from './LocalSettings';
-import { getBlockedUserSettings } from './BlockedUserSettings';
+import { SessionNotificationGroupSettings } from './SessionNotificationGroupSettings';
+import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { ToastUtils } from '../../../session/utils';
+import { getAudioAutoplay } from '../../../state/selectors/userConfig';
+import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
+// tslint:disable-next-line: no-submodule-imports
+import useUpdate from 'react-use/lib/useUpdate';
+import { PasswordAction } from '../../dialog/SessionPasswordDialog';
+import { BlockedUserSettings } from './BlockedUserSettings';
+import { ZoomingSessionSlider } from './ZoomingSessionSlider';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -28,9 +32,15 @@ export function getCallMediaPermissionsSettings() {
   return window.getSettingValue('call-media-permissions');
 }
 
+export enum SessionSettingCategory {
+  Appearance = 'appearance',
+  Privacy = 'privacy',
+  Notifications = 'notifications',
+  Blocked = 'blocked',
+}
+
 export interface SettingsViewProps {
   category: SessionSettingCategory;
-  blockedNumbers: Array<string>;
 }
 
 interface State {
@@ -82,7 +92,253 @@ const SessionInfo = () => {
   );
 };
 
-class SettingsViewInner extends React.Component<SettingsViewProps, State> {
+async function toggleLinkPreviews() {
+  const newValue = !window.getSettingValue('link-preview-setting');
+  window.setSettingValue('link-preview-setting', newValue);
+  if (!newValue) {
+    await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: false });
+  } else {
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        title: window.i18n('linkPreviewsTitle'),
+        message: window.i18n('linkPreviewsConfirmMessage'),
+        okTheme: SessionButtonColor.Danger,
+      })
+    );
+  }
+}
+
+async function toggleStartInTray() {
+  try {
+    const newValue = !(await window.getStartInTray());
+
+    // make sure to write it here too, as this is the value used on the UI to mark the toggle as true/false
+    window.setSettingValue('start-in-tray-setting', newValue);
+    await window.setStartInTray(newValue);
+    if (!newValue) {
+      ToastUtils.pushRestartNeeded();
+    }
+  } catch (e) {
+    window.log.warn('start in tray change error:', e);
+  }
+}
+
+const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
+  const currentValue = window.getCallMediaPermissions();
+  if (!currentValue) {
+    window.inboxStore?.dispatch(
+      updateConfirmModal({
+        message: window.i18n('callMediaPermissionsDialogContent'),
+        okTheme: SessionButtonColor.Green,
+        onClickOk: async () => {
+          await window.toggleCallMediaPermissionsTo(true);
+          triggerUIUpdate();
+        },
+        onClickCancel: async () => {
+          await window.toggleCallMediaPermissionsTo(false);
+          triggerUIUpdate();
+        },
+      })
+    );
+  } else {
+    await window.toggleCallMediaPermissionsTo(false);
+    triggerUIUpdate();
+  }
+};
+
+const SettingsCategoryAppearance = (props: { hasPassword: boolean | null }) => {
+  const dispatch = useDispatch();
+  const forceUpdate = useUpdate();
+  const audioAutoPlay = useSelector(getAudioAutoplay);
+
+  if (props.hasPassword !== null) {
+    const isHideMenuBarActive =
+      window.getSettingValue('hide-menu-bar') === undefined
+        ? true
+        : window.getSettingValue('hide-menu-bar');
+
+    const isSpellCheckActive =
+      window.getSettingValue('spell-check') === undefined
+        ? true
+        : window.getSettingValue('spell-check');
+
+    const isLinkPreviewsOn = Boolean(window.getSettingValue('link-preview-setting'));
+    const isStartInTrayActive = Boolean(window.getSettingValue('start-in-tray-setting'));
+
+    return (
+      <>
+        {window.Signal.Types.Settings.isHideMenuBarSupported() && (
+          <SessionToggleWithDescription
+            onClickToggle={() => {
+              window.toggleMenuBar();
+              forceUpdate();
+            }}
+            title={window.i18n('hideMenuBarTitle')}
+            description={window.i18n('hideMenuBarDescription')}
+            active={isHideMenuBarActive}
+          />
+        )}
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            window.toggleSpellCheck();
+            forceUpdate();
+          }}
+          title={window.i18n('spellCheckTitle')}
+          description={window.i18n('spellCheckDescription')}
+          active={isSpellCheckActive}
+        />
+
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await toggleLinkPreviews();
+            forceUpdate();
+          }}
+          title={window.i18n('linkPreviewsTitle')}
+          description={window.i18n('linkPreviewDescription')}
+          active={isLinkPreviewsOn}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await toggleStartInTray();
+            forceUpdate();
+          }}
+          title={window.i18n('startInTrayTitle')}
+          description={window.i18n('startInTrayDescription')}
+          active={isStartInTrayActive}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            dispatch(toggleAudioAutoplay());
+            forceUpdate();
+          }}
+          title={window.i18n('audioMessageAutoplayTitle')}
+          description={window.i18n('audioMessageAutoplayDescription')}
+          active={audioAutoPlay}
+        />
+        <ZoomingSessionSlider />
+        <SessionSettingButtonItem
+          title={window.i18n('surveyTitle')}
+          onClick={() => void shell.openExternal('https://getsession.org/survey')}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={window.i18n('goToOurSurvey')}
+        />
+        <SessionSettingButtonItem
+          title={window.i18n('helpUsTranslateSession')}
+          onClick={() => void shell.openExternal('https://crowdin.com/project/session-desktop/')}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={window.i18n('translation')}
+        />
+        <SessionSettingButtonItem
+          onClick={() => {
+            ipcRenderer.send('show-debug-log');
+          }}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={window.i18n('showDebugLog')}
+        />
+      </>
+    );
+  }
+  return null;
+};
+
+const SettingsCategoryPrivacy = (props: {
+  hasPassword: boolean | null;
+  onPasswordUpdated: (action: string) => void;
+}) => {
+  const forceUpdate = useUpdate();
+
+  if (props.hasPassword !== null) {
+    return (
+      <>
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await window.toggleMediaPermissions();
+            forceUpdate();
+          }}
+          title={window.i18n('mediaPermissionsTitle')}
+          description={window.i18n('mediaPermissionsDescription')}
+          active={Boolean(window.getSettingValue('media-permissions'))}
+        />
+
+        <SessionToggleWithDescription
+          onClickToggle={async () => {
+            await toggleCallMediaPermissions(forceUpdate);
+            forceUpdate();
+          }}
+          title={window.i18n('callMediaPermissionsTitle')}
+          description={window.i18n('callMediaPermissionsDescription')}
+          active={Boolean(window.getCallMediaPermissions())}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            const old = Boolean(window.getSettingValue('read-receipt-setting'));
+            window.setSettingValue('read-receipt-setting', !old);
+            forceUpdate();
+          }}
+          title={window.i18n('readReceiptSettingTitle')}
+          description={window.i18n('readReceiptSettingDescription')}
+          active={window.getSettingValue('read-receipt-setting')}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            const old = Boolean(window.getSettingValue('typing-indicators-setting'));
+            window.setSettingValue('typing-indicators-setting', !old);
+            forceUpdate();
+          }}
+          title={window.i18n('typingIndicatorsSettingTitle')}
+          description={window.i18n('typingIndicatorsSettingDescription')}
+          active={Boolean(window.getSettingValue('typing-indicators-setting'))}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            const old = Boolean(window.getSettingValue('auto-update'));
+            window.setSettingValue('auto-update', !old);
+            forceUpdate();
+          }}
+          title={window.i18n('autoUpdateSettingTitle')}
+          description={window.i18n('autoUpdateSettingDescription')}
+          active={Boolean(window.getSettingValue('auto-update'))}
+        />
+        {!props.hasPassword && (
+          <SessionSettingButtonItem
+            title={window.i18n('setAccountPasswordTitle')}
+            description={window.i18n('setAccountPasswordDescription')}
+            onClick={() => {
+              displayPasswordModal('set', props.onPasswordUpdated);
+            }}
+            buttonColor={SessionButtonColor.Primary}
+            buttonText={window.i18n('setPassword')}
+          />
+        )}
+        {props.hasPassword && (
+          <SessionSettingButtonItem
+            title={window.i18n('changeAccountPasswordTitle')}
+            description={window.i18n('changeAccountPasswordDescription')}
+            onClick={() => {
+              displayPasswordModal('change', props.onPasswordUpdated);
+            }}
+            buttonColor={SessionButtonColor.Primary}
+            buttonText={window.i18n('changePassword')}
+          />
+        )}
+        {props.hasPassword && (
+          <SessionSettingButtonItem
+            title={window.i18n('removeAccountPasswordTitle')}
+            description={window.i18n('removeAccountPasswordDescription')}
+            onClick={() => {
+              displayPasswordModal('remove', props.onPasswordUpdated);
+            }}
+            buttonColor={SessionButtonColor.Danger}
+            buttonText={window.i18n('removePassword')}
+          />
+        )}
+      </>
+    );
+  }
+  return null;
+};
+
+export class SmartSettingsView extends React.Component<SettingsViewProps, State> {
   public settingsViewRef: React.RefObject<HTMLDivElement>;
 
   public constructor(props: any) {
@@ -116,67 +372,42 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     window.removeEventListener('keyup', this.onKeyUp);
   }
 
+  public renderSettingsPrivacy() {
+    if (this.state.hasPassword !== null) {
+      return <SessionNotificationGroupSettings hasPassword={this.state.hasPassword} />;
+    }
+    return null;
+  }
+
   /* tslint:disable-next-line:max-func-body-length */
   public renderSettingInCategory() {
-    const { category, blockedNumbers } = this.props;
+    const { category } = this.props;
 
-    let settings: Array<LocalSettingType>;
-
+    if (this.state.hasPassword === null) {
+      return null;
+    }
     if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
-      settings = getBlockedUserSettings(blockedNumbers);
-    } else {
-      // Grab initial values from database on startup
-      // ID corresponds to installGetter parameters in preload.js
-      // They are NOT arbitrary; add with caution
-
-      settings = getLocalSettings(this.state.hasPassword, this.onPasswordUpdated, this.forceUpdate);
+      return <BlockedUserSettings />;
     }
 
-    return (
-      <>
-        {this.state.hasPassword !== null &&
-          settings.map(setting => {
-            const content = setting.content || undefined;
-            const shouldRenderSettings = setting.category === category;
-            const description = setting.description || '';
+    if (category === SessionSettingCategory.Appearance) {
+      return <SettingsCategoryAppearance hasPassword={this.state.hasPassword} />;
+    }
 
-            const comparisonValue = setting.comparisonValue || null;
-            const storedSetting = window.getSettingValue(setting.id, comparisonValue);
-            const value =
-              storedSetting !== undefined
-                ? storedSetting
-                : setting.content && setting.content.defaultValue;
+    if (category === SessionSettingCategory.Notifications) {
+      return <SessionNotificationGroupSettings hasPassword={this.state.hasPassword} />;
+    }
 
-            const sliderFn =
-              setting.type === SessionSettingType.Slider
-                ? (settingValue: any) => window.setSettingValue(setting.id, settingValue)
-                : () => null;
-
-            const onClickFn =
-              setting.onClick ||
-              ((settingValue?: string) => {
-                this.updateSetting(setting, settingValue);
-              });
-
-            return (
-              <div key={setting.id}>
-                {shouldRenderSettings && !setting.hidden && (
-                  <SessionSettingListItem
-                    title={setting.title}
-                    description={description}
-                    type={setting.type}
-                    value={value}
-                    onClick={onClickFn}
-                    onSliderChange={sliderFn}
-                    content={content}
-                  />
-                )}
-              </div>
-            );
-          })}
-      </>
-    );
+    if (category === SessionSettingCategory.Privacy) {
+      return (
+        <SettingsCategoryPrivacy
+          onPasswordUpdated={this.onPasswordUpdated}
+          hasPassword={this.state.hasPassword}
+        />
+      );
+    }
+    return <SessionNotificationGroupSettings hasPassword={this.state.hasPassword} />;
   }
 
   public async validatePasswordLock() {
@@ -245,25 +476,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
     });
   }
 
-  /**
-   * If there's a custom afterClick function, execute it instead of automatically updating settings
-   * @param item setting item
-   * @param value new value to set
-   */
-  public updateSetting(item: any, value?: string) {
-    if (item.setFn) {
-      item.setFn(value);
-      this.forceUpdate();
-    } else if (item.type === SessionSettingType.Toggle) {
-      // If no custom afterClick function given, alter values in storage here
-
-      // Switch to opposite state
-      const newValue = !window.getSettingValue(item.id);
-      window.setSettingValue(item.id, newValue);
-      this.forceUpdate();
-    }
-  }
-
   public onPasswordUpdated(action: string) {
     if (action === 'set' || action === 'change') {
       this.setState({
@@ -291,11 +503,16 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
   }
 }
 
-const mapStateToProps = (state: StateType) => {
-  return {
-    blockedNumbers: getBlockedPubkeys(state),
-  };
-};
-
-const smart = connect(mapStateToProps, mapDispatchToProps);
-export const SmartSettingsView = smart(SettingsViewInner);
+function displayPasswordModal(
+  passwordAction: PasswordAction,
+  onPasswordUpdated: (action: string) => void
+) {
+  window.inboxStore?.dispatch(
+    sessionPassword({
+      passwordAction,
+      onOk: () => {
+        onPasswordUpdated(passwordAction);
+      },
+    })
+  );
+}
