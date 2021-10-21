@@ -30,6 +30,7 @@ import packageJson from '../package.json';
 import * as GlobalErrors from './global_errors';
 import { setup as setupSpellChecker } from './spell_check';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
+import { consoleLogger } from '../ts/util/consoleLogger';
 import { remove as removeUserConfig } from './user_config';
 
 import './startup_config';
@@ -253,7 +254,8 @@ let settingsChannel: SettingsChannel | undefined;
 
 function getLogger(): LoggerType {
   if (!logger) {
-    throw new Error('getLogger: Logger not yet initialized!');
+    console.warn('getLogger: Logger not yet initialized!');
+    return consoleLogger;
   }
 
   return logger;
