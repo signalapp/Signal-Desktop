@@ -11,6 +11,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+  max-width: 75%;
 
   &__text-error {
     font-style: italic;
