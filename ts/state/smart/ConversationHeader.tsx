@@ -38,7 +38,6 @@ export type OwnProps = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetPin: (value: boolean) => void;
   onShowAllMedia: () => void;
-  onShowContactModal: (contactId: string) => void;
   onShowConversationDetails: () => void;
   onShowGroupMembers: () => void;
 };

@@ -66,7 +66,6 @@ export type PropsDataType = {
 export type PropsActionsType = {
   onSetMuteNotifications: (seconds: number) => void;
   onSetDisappearingMessages: (seconds: number) => void;
-  onShowContactModal: (contactId: string) => void;
   onDeleteMessages: () => void;
   onSearchInConversation: () => void;
   onOutgoingAudioCallInConversation: () => void;
@@ -519,9 +518,6 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     const {
       conversationTitle,
       groupVersion,
-      id,
-      isMe,
-      onShowContactModal,
       onShowConversationDetails,
       type,
     } = this.props;
@@ -541,11 +537,9 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     let onClick: undefined | (() => void);
     switch (type) {
       case 'direct':
-        onClick = isMe
-          ? undefined
-          : () => {
-              onShowContactModal(id);
-            };
+        onClick = () => {
+          onShowConversationDetails();
+        };
         break;
       case 'group': {
         const hasGV2AdminEnabled = groupVersion === 2;

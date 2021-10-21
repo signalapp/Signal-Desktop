@@ -384,7 +384,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const conversationHeaderProps = {
       id: this.model.id,
 
-      onShowContactModal: this.showContactModal.bind(this),
       onSetDisappearingMessages: (seconds: number) =>
         this.setDisappearingMessages(seconds),
       onDeleteMessages: () => this.destroyMessages(),
