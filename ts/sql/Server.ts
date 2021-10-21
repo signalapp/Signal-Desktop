@@ -36,6 +36,7 @@ import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
 import { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
+import { consoleLogger } from '../util/consoleLogger';
 import { dropNull } from '../util/dropNull';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { isNotNil } from '../util/isNotNil';
@@ -2689,28 +2690,7 @@ function getOurUuid(db: Database): string | undefined {
 }
 
 let globalInstance: Database | undefined;
-/* eslint-disable no-console */
-let logger: LoggerType = {
-  fatal(...args: Array<unknown>) {
-    console.error(...args);
-  },
-  error(...args: Array<unknown>) {
-    console.error(...args);
-  },
-  warn(...args: Array<unknown>) {
-    console.warn(...args);
-  },
-  info(...args: Array<unknown>) {
-    console.info(...args);
-  },
-  debug(...args: Array<unknown>) {
-    console.debug(...args);
-  },
-  trace(...args: Array<unknown>) {
-    console.log(...args);
-  },
-};
-/* eslint-enable no-console */
+let logger = consoleLogger;
 let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
