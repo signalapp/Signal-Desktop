@@ -949,14 +949,11 @@ ipc.on('close-debug-log', () => {
 
 // This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {
-  console.warn('get-media-permissions', userConfig.get('mediaPermissions'));
-
   // eslint-disable-next-line no-param-reassign
   event.returnValue = userConfig.get('mediaPermissions') || false;
 });
 ipc.on('set-media-permissions', (event, value) => {
   userConfig.set('mediaPermissions', value);
-  console.warn('set-media-permissions', value);
 
   // We reinstall permissions handler to ensure that a revoked permission takes effect
   installPermissionsHandler({ session, userConfig });
@@ -966,13 +963,11 @@ ipc.on('set-media-permissions', (event, value) => {
 
 // This should be called with an ipc sendSync
 ipc.on('get-call-media-permissions', event => {
-  console.warn('get-call-media-permissions', userConfig.get('callMediaPermissions'));
   // eslint-disable-next-line no-param-reassign
   event.returnValue = userConfig.get('callMediaPermissions') || false;
 });
 ipc.on('set-call-media-permissions', (event, value) => {
   userConfig.set('callMediaPermissions', value);
-  console.warn('set-call-media-permissions', value);
 
   // We reinstall permissions handler to ensure that a revoked permission takes effect
   installPermissionsHandler({ session, userConfig });

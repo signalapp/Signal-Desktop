@@ -84,10 +84,6 @@ window.setZoomFactor = number => {
   webFrame.setZoomFactor(number);
 };
 
-window.getZoomFactor = () => {
-  webFrame.getZoomFactor();
-};
-
 // Set the password for the database
 window.setPassword = (passPhrase, oldPhrase) =>
   new Promise((resolve, reject) => {
@@ -179,12 +175,6 @@ window.setSettingValue = (settingID, value) => {
   }
 
   window.storage.put(settingID, value);
-
-  // FIXME - This should be called in the settings object in
-  // SessionSettings
-  if (settingID === 'zoom-factor-setting') {
-    window.updateZoomFactor();
-  }
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');

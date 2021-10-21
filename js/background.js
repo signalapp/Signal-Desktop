@@ -351,7 +351,6 @@
         // turning ON "call permissions" forces turning on "audio/video permissions"
         window.setMediaPermissions(true);
       }
-      console.warn('toggling toggleCallMediaPermissionsTo to ', enabled);
       window.setCallMediaPermissions(enabled);
     };
 
