@@ -91,12 +91,14 @@ export const Toast = memo(
                   ev.stopPropagation();
                   ev.preventDefault();
                   toastAction.onClick();
+                  onClose();
                 }}
                 onKeyDown={(ev: KeyboardEvent<HTMLDivElement>) => {
                   if (ev.key === 'Enter' || ev.key === ' ') {
                     ev.stopPropagation();
                     ev.preventDefault();
                     toastAction.onClick();
+                    onClose();
                   }
                 }}
                 ref={focusRef}
