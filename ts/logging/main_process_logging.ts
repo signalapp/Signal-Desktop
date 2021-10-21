@@ -6,12 +6,13 @@
 /* eslint-disable no-console */
 
 import { join } from 'path';
-import { readdirSync, readFile, unlinkSync, writeFileSync } from 'fs';
+import split2 from 'split2';
+import { readdirSync, createReadStream, unlinkSync, writeFileSync } from 'fs';
 import { BrowserWindow, app, ipcMain as ipc } from 'electron';
 import pinoms from 'pino-multi-stream';
 import pino from 'pino';
 import * as mkdirp from 'mkdirp';
-import { compact, filter, flatten, map, pick, sortBy } from 'lodash';
+import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
 import rimraf from 'rimraf';
@@ -40,6 +41,8 @@ declare global {
     _error: typeof console.error;
   }
 }
+
+const MAX_LOG_LINES = 1000000;
 
 let globalLogger: undefined | pino.Logger;
 let shouldRestart = false;
@@ -283,28 +286,37 @@ export async function eliminateOldEntries(
 }
 
 // Exported for testing only.
-export function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
-  return new Promise((resolve, reject) => {
-    readFile(logFile, { encoding: 'utf8' }, (err, text) => {
-      if (err) {
-        return reject(err);
+export async function fetchLog(logFile: string): Promise<Array<LogEntryType>> {
+  const results = new Array<LogEntryType>();
+
+  const rawStream = createReadStream(logFile);
+  const jsonStream = rawStream.pipe(
+    split2(line => {
+      try {
+        return JSON.parse(line);
+      } catch (e) {
+        return undefined;
       }
+    })
+  );
 
-      const lines = compact(text.split('\n'));
-      const data = compact(
-        lines.map(line => {
-          try {
-            const result = pick(JSON.parse(line), ['level', 'time', 'msg']);
-            return isLogEntry(result) ? result : null;
-          } catch (e) {
-            return null;
-          }
-        })
-      );
+  // Propagate fs errors down to the json stream so that for loop below handles
+  // them.
+  rawStream.on('error', error => jsonStream.emit('error', error));
 
-      return resolve(data);
-    });
-  });
+  for await (const line of jsonStream) {
+    const result = line && pick(line, ['level', 'time', 'msg']);
+    if (!isLogEntry(result)) {
+      continue;
+    }
+
+    results.push(result);
+    if (results.length > MAX_LOG_LINES) {
+      results.shift();
+    }
+  }
+
+  return results;
 }
 
 // Exported for testing only.
