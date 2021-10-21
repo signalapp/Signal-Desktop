@@ -34,15 +34,7 @@ export const WhatsNew = ({ i18n }: PropsType): JSX.Element => {
       version: window.getVersion(),
       features: [
         {
-          key: 'WhatsNew__v5.21--1',
-          components: undefined,
-        },
-        {
-          key: 'WhatsNew__v5.21--2',
-          components: undefined,
-        },
-        {
-          key: 'WhatsNew__v5.21--3',
+          key: 'WhatsNew__v5.22',
           components: undefined,
         },
       ],
