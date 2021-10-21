@@ -646,7 +646,7 @@ export async function handleCallTypeOffer(
     if (!getCallMediaPermissionsSettings()) {
       await handleMissedCall(sender, incomingOfferTimestamp);
       // TODO audric show where to turn it on
-      debugger;
+      throw new Error('TODO AUDRIC');
       return;
     }
 

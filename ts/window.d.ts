@@ -35,7 +35,7 @@ declare global {
     friends: any;
     getConversations: any;
     getFriendsFromContacts: any;
-    getSettingValue: (id: string) => any;
+    getSettingValue: (id: string, comparisonValue?: any) => any;
     setSettingValue: (id: string, value: any) => void;
 
     i18n: LocalizerType;
