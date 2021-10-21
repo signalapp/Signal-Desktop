@@ -57,7 +57,6 @@ export const ConversationDetailsMediaList: React.ComponentType<Props> = ({
           {i18n('ConversationDetailsMediaList--show-all')}
         </button>
       }
-      borderless
       title={i18n('ConversationDetailsMediaList--shared-media')}
     >
       <div className={bem('root')}>

@@ -5,15 +5,15 @@
 
 @mixin font-title-1 {
   font-family: $inter;
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 34px;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 32px;
   letter-spacing: -0.56px;
 }
 
 @mixin font-title-2 {
   font-family: $inter;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 20px;
   line-height: 26px;
   letter-spacing: -0.34px;

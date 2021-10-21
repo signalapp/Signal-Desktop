@@ -7,6 +7,15 @@
     -webkit-line-clamp: 2;
     display: -webkit-box;
     overflow: hidden;
+
+    a {
+      @include light-theme {
+        color: $color-gray-90;
+      }
+      @include dark-theme {
+        color: $color-gray-02;
+      }
+    }
   }
 
   &__read-more {
