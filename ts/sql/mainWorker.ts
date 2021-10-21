@@ -19,10 +19,17 @@ const port = parentPort;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function respond(seq: number, error: Error | undefined, response?: any) {
+  const corruptionLog = db.getCorruptionLog();
+
+  const errorMessage = [
+    ...(error ? [error.stack] : []),
+    ...(corruptionLog ? [corruptionLog] : []),
+  ].join('\n');
+
   const wrappedResponse: WrappedWorkerResponse = {
     type: 'response',
     seq,
-    error: error ? error.stack : undefined,
+    error: errorMessage,
     response,
   };
   port.postMessage(wrappedResponse);

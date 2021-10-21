@@ -573,7 +573,10 @@ function makeChannel(fnName: string) {
             'Detected sql corruption in renderer process. ' +
               `Restarting the application immediately. Error: ${error.message}`
           );
-          ipc?.send('database-error', error.stack);
+          ipc?.send(
+            'database-error',
+            `${error.stack}\n${Server.getCorruptionLog()}`
+          );
         }
         log.error(
           `Renderer SQL channel job (${fnName}) error ${error.message}`

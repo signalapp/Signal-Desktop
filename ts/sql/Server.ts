@@ -276,6 +276,7 @@ const dataInterface: ServerInterface = {
 
   // Server-only
 
+  getCorruptionLog,
   initialize,
   initializeRenderer,
 
@@ -2694,6 +2695,19 @@ let logger = consoleLogger;
 let globalInstanceRenderer: Database | undefined;
 let databaseFilePath: string | undefined;
 let indexedDBPath: string | undefined;
+
+let corruptionLog = new Array<string>();
+
+SQL.setCorruptionLogger(line => {
+  logger.error(`SQL corruption: ${line}`);
+  corruptionLog.push(line);
+});
+
+function getCorruptionLog(): string {
+  const result = corruptionLog.join('\n');
+  corruptionLog = [];
+  return result;
+}
 
 async function initialize({
   configDir,

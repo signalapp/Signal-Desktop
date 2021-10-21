@@ -1,0 +1,12 @@
+diff --git a/node_modules/@types/better-sqlite3/index.d.ts b/node_modules/@types/better-sqlite3/index.d.ts
+index d6e4309..5948fd0 100755
+--- a/node_modules/@types/better-sqlite3/index.d.ts
++++ b/node_modules/@types/better-sqlite3/index.d.ts
+@@ -84,6 +84,7 @@ declare namespace BetterSqlite3 {
+         prototype: Database;
+ 
+         SqliteError: typeof SqliteError;
++        setCorruptionLogger(fn: (message: string) => void): void;
+     }
+ }
+ 
