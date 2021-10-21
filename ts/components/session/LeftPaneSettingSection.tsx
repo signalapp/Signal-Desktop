@@ -2,12 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import { SessionButton, SessionButtonColor, SessionButtonType } from './SessionButton';
 import { SessionIcon } from './icon';
-import { SessionSettingCategory } from './settings/SessionSettings';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { showSettingsSection } from '../../state/ducks/section';
 import { getFocusedSettingsSection } from '../../state/selectors/section';
 import { recoveryPhraseModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
+import { SessionSettingCategory } from './settings/LocalSettings';
 
 const getCategories = () => {
   return [

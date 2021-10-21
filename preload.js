@@ -145,10 +145,6 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-ipc.on('mediaPermissionsChanged', () => {
-  Whisper.events.trigger('mediaPermissionsChanged');
-});
-
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
@@ -165,6 +161,8 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
     return window.getMediaPermissions();
+  } else if (settingID === 'call-media-permissions') {
+    return window.getCallMediaPermissions();
   } else if (settingID === 'auto-update') {
     return window.getAutoUpdateEnabled();
   }
@@ -191,6 +189,9 @@ window.setSettingValue = (settingID, value) => {
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+
+window.getCallMediaPermissions = () => ipc.sendSync('get-call-media-permissions');
+window.setCallMediaPermissions = value => ipc.send('set-call-media-permissions', !!value);
 
 window.askForMediaAccess = () => ipc.send('media-access');
 

@@ -5,9 +5,9 @@ import Slider from 'rc-slider';
 
 import { SessionToggle } from '../SessionToggle';
 import { SessionButton } from '../SessionButton';
-import { SessionSettingType } from './SessionSettings';
 import { SessionRadioGroup } from '../SessionRadioGroup';
 import { SessionConfirmDialogProps } from '../../dialog/SessionConfirm';
+import { SessionSettingType } from './LocalSettings';
 
 type Props = {
   title?: string;

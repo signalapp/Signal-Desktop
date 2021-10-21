@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { ToastUtils } from '.';
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
 import { getConversationById } from '../../data/data';
 import { MessageModelType } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
@@ -11,7 +11,6 @@ import {
   incomingCall,
   startingCallWith,
 } from '../../state/ducks/conversations';
-import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 import { getConversationController } from '../conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
@@ -305,16 +304,18 @@ async function openMediaDevicesAndAddTracks() {
       }
     });
   } catch (err) {
-    ToastUtils.pushMicAndCameraPermissionNeeded(() => {
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
-    });
+    ToastUtils.pushMicAndCameraPermissionNeeded();
+    closeVideoCall();
   }
   callVideoListener();
 }
 
 // tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
+  if (!getCallMediaPermissionsSettings()) {
+    ToastUtils.pushMicAndCameraPermissionNeeded();
+    return;
+  }
   await updateInputLists();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
   window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
@@ -467,8 +468,6 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
   };
 
   if (createDataChannel) {
-    // console.warn('createOrGetPeerConnection: createDataChannel');
-
     dataChannel = peerConnection.createDataChannel('session-datachannel');
 
     dataChannel.onmessage = onDataChannelReceivedMessage;
@@ -642,6 +641,13 @@ export async function handleCallTypeOffer(
         await handleMissedCall(sender, incomingOfferTimestamp);
         return;
       }
+    }
+
+    if (!getCallMediaPermissionsSettings()) {
+      await handleMissedCall(sender, incomingOfferTimestamp);
+      // TODO audric show where to turn it on
+      debugger;
+      return;
     }
 
     const readyForOffer =

@@ -28,7 +28,7 @@ import { getConversationController } from '../../../session/conversations';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
-import { SessionSettingCategory } from '../settings/SessionSettings';
+import { getMediaPermissionsSettings } from '../settings/SessionSettings';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import {
   SectionType,
@@ -51,6 +51,7 @@ import { connect } from 'react-redux';
 import { StateType } from '../../../state/reducer';
 import { getTheme } from '../../../state/selectors/theme';
 import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
+import { SessionSettingCategory } from '../settings/LocalSettings';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -999,7 +1000,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private async onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    const mediaSetting = await window.getSettingValue('media-permissions');
+    const mediaSetting = getMediaPermissionsSettings();
 
     if (mediaSetting) {
       this.setState({

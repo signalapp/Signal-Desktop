@@ -33,6 +33,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { CallManager, ToastUtils } from '../../../session/utils';
+import { getCallMediaPermissionsSettings } from '../settings/SessionSettings';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -339,6 +340,11 @@ export function getStartCallMenuItem(conversationId: string): JSX.Element | null
 
           if (!canCall) {
             ToastUtils.pushUnableToCall();
+            return;
+          }
+
+          if (!getCallMediaPermissionsSettings()) {
+            ToastUtils.pushMicAndCameraPermissionNeeded();
             return;
           }
 

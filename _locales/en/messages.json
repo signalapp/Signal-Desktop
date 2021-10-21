@@ -456,5 +456,8 @@
   "callMissedTitle": "Call missed",
   "startVideoCall": "Start Video Call",
   "noCameraFound": "No camera found",
-  "noAudioInputFound": "No audio input found"
+  "noAudioInputFound": "No audio input found",
+  "callMediaPermissionsTitle": "Voice and video calls",
+  "callMediaPermissionsDescription": "Allows access to accept voice and video calls from other users",
+  "callMediaPermissionsDialogContent": "The current implementation of voice/video calls will expose your IP address to the Oxen Foundation servers and the calling/called user."
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
@@ -10,17 +10,10 @@ type Props = {
 };
 
 export const SessionToggle = (props: Props) => {
-  const [active, setActive] = useState(false);
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setActive(props.active);
-  }, []);
 
   const clickHandler = (event: any) => {
     const stateManager = (e: any) => {
-      setActive(!active);
       e.stopPropagation();
       props.onClick();
     };
@@ -53,7 +46,7 @@ export const SessionToggle = (props: Props) => {
 
   return (
     <div
-      className={classNames('session-toggle', active ? 'active' : '')}
+      className={classNames('session-toggle', props.active ? 'active' : '')}
       role="button"
       onClick={clickHandler}
     >

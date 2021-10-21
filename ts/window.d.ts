@@ -57,7 +57,9 @@ declare global {
     setSettingValue: any;
     storage: any;
     textsecure: LibTextsecure;
-    toggleMediaPermissions: any;
+    toggleMediaPermissions: () => Promise<void>;
+    toggleCallMediaPermissionsTo: (enabled: boolean) => Promise<void>;
+    getCallMediaPermissions: () => boolean;
     toggleMenuBar: any;
     toggleSpellCheck: any;
     setTheme: (newTheme: string) => any;

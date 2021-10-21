@@ -1,4 +1,4 @@
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { SessionSettingCategory } from '../../components/session/settings/LocalSettings';
 
 export const FOCUS_SECTION = 'FOCUS_SECTION';
 export const FOCUS_SETTINGS_SECTION = 'FOCUS_SETTINGS_SECTION';
