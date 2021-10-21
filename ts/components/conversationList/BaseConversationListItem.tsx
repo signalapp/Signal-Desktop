@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, FunctionComponent } from 'react';
+import React, { ReactNode, FunctionComponent, useMemo } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import { Timestamp } from '../conversation/Timestamp';
@@ -85,6 +86,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     unreadCount,
   }) {
     const identifier = id ? cleanId(id) : undefined;
+    const htmlId = useMemo(() => uuid(), []);
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
 
     const isAvatarNoteToSelf = isBoolean(isNoteToSelf)
@@ -109,7 +111,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           checked={checked}
           className={CHECKBOX_CLASS_NAME}
           disabled={disabled}
-          id={identifier}
+          id={htmlId}
           onChange={onClick}
           onKeyDown={event => {
             if (onClick && !disabled && event.key === 'Enter') {
@@ -194,7 +196,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
             { [`${BASE_CLASS_NAME}--is-checkbox--disabled`]: disabled }
           )}
           data-id={identifier}
-          htmlFor={identifier}
+          htmlFor={htmlId}
           // `onClick` is will double-fire if we're enabled. We want it to fire when we're
           //   disabled so we can show any "can't add contact" modals, etc. This won't
           //   work for keyboard users, though, because labels are not tabbable.
