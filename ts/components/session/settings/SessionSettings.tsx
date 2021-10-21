@@ -4,9 +4,8 @@ import { SettingsHeader } from './SessionSettingsHeader';
 import { SessionSettingListItem } from './SessionSettingListItem';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../SessionButton';
 import { PasswordUtil } from '../../../util';
-import { ConversationLookupType } from '../../../state/ducks/conversations';
 import { StateType } from '../../../state/reducer';
-import { getConversationLookup } from '../../../state/selectors/conversations';
+import { getBlockedPubkeys } from '../../../state/selectors/conversations';
 import { connect } from 'react-redux';
 import { getPasswordHash } from '../../../../ts/data/data';
 import { shell } from 'electron';
@@ -31,9 +30,7 @@ export function getCallMediaPermissionsSettings() {
 
 export interface SettingsViewProps {
   category: SessionSettingCategory;
-  // pass the conversation as props, so our render is called everytime they change.
-  // we have to do this to make the list refresh on unblock()
-  conversations?: ConversationLookupType;
+  blockedNumbers: Array<string>;
 }
 
 interface State {
@@ -121,13 +118,13 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
   /* tslint:disable-next-line:max-func-body-length */
   public renderSettingInCategory() {
-    const { category } = this.props;
+    const { category, blockedNumbers } = this.props;
 
     let settings: Array<LocalSettingType>;
 
     if (category === SessionSettingCategory.Blocked) {
       // special case for blocked user
-      settings = getBlockedUserSettings();
+      settings = getBlockedUserSettings(blockedNumbers);
     } else {
       // Grab initial values from database on startup
       // ID corresponds to installGetter parameters in preload.js
@@ -150,8 +147,6 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
               storedSetting !== undefined
                 ? storedSetting
                 : setting.content && setting.content.defaultValue;
-
-            if (setting.id.startsWith('call-media')) console.warn('storedSetting call: ', value);
 
             const sliderFn =
               setting.type === SessionSettingType.Slider
@@ -298,7 +293,7 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
 
 const mapStateToProps = (state: StateType) => {
   return {
-    conversations: getConversationLookup(state),
+    blockedNumbers: getBlockedPubkeys(state),
   };
 };
 

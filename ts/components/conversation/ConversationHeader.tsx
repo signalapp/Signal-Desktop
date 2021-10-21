@@ -360,6 +360,9 @@ export const ConversationHeaderWithDetails = () => {
           left={left}
           hasNickname={hasNickname}
           currentNotificationSetting={currentNotificationSetting}
+          avatarPath={avatarPath}
+          name={name}
+          profileName={profileName}
         />
       </div>
 

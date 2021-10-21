@@ -336,6 +336,8 @@
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
+      "node_modules/react-draggable/build/cjs/*.js",
+      "node_modules/react-draggable/build/cjs/utils/*.js",
       "!node_modules/@journeyapps/sqlcipher/deps/*",
       "!node_modules/@journeyapps/sqlcipher/build/*",
       "!node_modules/@journeyapps/sqlcipher/lib/binding/node-*",

@@ -26,9 +26,15 @@
       this.render();
       this.$('textarea').val(i18n('loading'));
 
+      const operatingSystemInfo = `Operating System: ${window.getOSRelease()}`;
+
+      const commitHashInfo = window.getCommitHash() ? `Commit Hash: ${window.getCommitHash()}` : '';
+
       // eslint-disable-next-line more/no-then
       window.log.fetch().then(text => {
-        this.$('textarea').val(text);
+        const debugLogWithSystemInfo = operatingSystemInfo + commitHashInfo + text;
+
+        this.$('textarea').val(debugLogWithSystemInfo);
       });
     },
     events: {

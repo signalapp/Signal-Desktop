@@ -356,6 +356,9 @@ const ConversationListItem = (props: Props) => {
           left={!!left}
           type={type}
           currentNotificationSetting={currentNotificationSetting || 'all'}
+          avatarPath={avatarPath || null}
+          name={name}
+          profileName={profileName}
         />
       </Portal>
     </div>
