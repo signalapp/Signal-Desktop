@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Unterhaltung mit $title$, $unreadCount$ neue Nachrichten, letzte Nachricht: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Die letzte Nachricht wurde möglicherweise gelöscht.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Gehe zur Unterhaltung mit $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Unterhaltungsanfrage",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Füge deine Sticker hinzu",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Sticker entfernen",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Klicke auf eine Datei oder ziehe diese, um einen Sticker hinzuzufügen.",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Sticker müssen das PNG-, APNG- oder WebP-Format mit transparentem Hintergrund und 512 x 512 Pixeln besitzen. Der empfohlene Rand beträgt 16 px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Möchtest du dieser Gruppe beitreten und deinen Namen und dein Foto mit deren Mitgliedern teilen? Sie wissen nicht, dass du ihre Nachrichten gesehen hast, bis du die Einladung annimmst.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Möchtest du diese Gruppe freigeben und deinen Namen und dein Foto mit deren Mitgliedern teilen? Du wirst keine Nachrichten erhalten, bis du die Gruppe freigibst.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Ihr werdet einander schreiben und euch anrufen können.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Gruppenmitglieder können dich wieder zu dieser Gruppe hinzufügen.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Spam melden und blockieren",
@@ -6435,42 +6457,6 @@
         "message": "Was ist neu",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Eine verbesserte Medien-Lightbox bedeutet keine Überraschungen, während du dich durch eine Galerie von Bildern oder Videos bewegst. Und du kannst so tun, als ob du dich wirklich in einem dunklen Raum befindest, indem du heranzoomst, um diese lästigen Schaltflächen auszublenden.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Ein Fehler wurde behoben, bei dem sich das Reagieren auf eine Nachricht schwierig gestaltete, da die Reaktionsauswahl nicht zu sehen war. Dies wurde nun behoben, sodass du nach ❤️-lust 😮 kannst.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Wenn du während eines Anrufs mit der Maus über die Anrufschaltflächen fährst, bleiben diese sichtbar und verschwinden nicht. Nichts verbirgt sich vor deinem Adlerauge, nicht einmal diese Schaltflächen! ",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Probiere die neue Berechtigung »Nachrichten senden« aus, um einzuschränken, wer in deinen Gruppen Nachrichten senden darf. Großartig, um eine Veranstaltung zu organisieren, eine Ankündigung zu machen oder einfach nur von den Dächern zu schreien. Alle Gruppenmitglieder müssen die neueste Version von Signal verwenden, damit die Einstellung angezeigt wird. ",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Du kannst nun Nachrichten versenden, wo und wann immer du bist: in einem Flugzeug, einem Tunnel oder einem dieser traurigen Momente, wenn gerade deine Internetverbindung zusammenbricht. Irgendwann wird sie durchkommen, denn Nachrichten werden nun für bis zu 24 Stunden automatisch erneut versendet.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Fühlst du dich ❤️🔥 oder 😶🌫️? Du kannst dich mit einer neuen Ladung Emojis ausdrücken, egal ob du bei deiner Suche :flüsterst oder :SCHREIST. Danke, $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Falls du in Anguilla bist, fühltest du dich vielleicht ausgeschlossen. Wir wandeln jetzt alle seit 2010 existierenden Top-Level-Domains in Links um – so werden sowohl $gov$ als auch $brain$ wie $signal$ anklickbar sein. Danke, $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Wir haben gehört, dass du gerne in Bilder hineinzoomst. Wir haben den Zoom verstärkt, sodass selbst kleine Bilder bildschirmfüllend angezeigt werden können.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Wusstest du, dass, wenn die Funktion zum Löschen von Nachrichten aktiviert ist, sogar die Benachrichtigung »Diese Nachricht wurde gelöscht« verschwindet, wenn sie abläuft? Es ist kein Geheimnis mehr - du siehst den Countdown und den Zeitstempel direkt in der Nachricht.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Hol tief Luft und mach dich mit den neuen Animationen für Dialoge und  Pop-ups vertraut. Atme ein. Atme aus. Atme ein. Atme aus.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Mehr Informationen auf einen Blick 👀. Der linke Fensterbereich hat ein neues Aussehen und einen neuen Stil bekommen 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Kenne das Wann. Der Zeitstempel, wann Nachrichten gesendet, empfangen oder gelesen wurden und anderer Statusnachrichten wird jetzt in den Nachrichtendetails angezeigt.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Benutzer von Bildschirmlesegeräten können nun leichter durch die Unterhaltungsliste im linken Fensterbereich navigieren.",
+        "description": "Release notes for v5.21"
     }
 }

@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "與 $title$ 對話 , $unreadCount$ 新訊息, 最後一條訊息: $lastMessage$。",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "最後一條訊息可能已被刪除。",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "與 $title$ 對話",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "訊息要求",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "新增你的貼圖",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "移除貼圖",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "單擊或拖放檔案以新增貼圖",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "貼圖必須為PNG，APNG或WebP格式，並具有透明背景和512x512畫素。 建議邊距為16畫素。",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "加入該群組並與其成員分享你的名字和照片嗎？ 在你接受之前，他們不會知道你已看到他們的訊息。",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "取消封鎖此群組並與其成員分享你的名字和照片？ 除非你取消阻止它們，否則你將不會收到任何訊息。",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "你將能夠發訊息並互相打電話。",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "群組成員將能夠再次將你新增到該群組。",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "回報為垃圾並封鎖",
@@ -6435,42 +6457,6 @@
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "改善的媒體燈箱意味著你在瀏覽圖片或影片庫時不會感到詫異，而且你可以透過放大隱藏那些惱人的按鈕來假裝自己真的在暗房裡。",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "修復了對訊息做出回應棘手的錯誤，因為我們將選擇器移出了螢幕。 現在已修復，你可以😮 到你 ❤️ 的內容。",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "如果你在通話時將滑鼠游標停在按鈕上，它們將保持可見而不是消失。 沒有什麼能躲過你的鷹眼，即使是這些按鈕！",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "試試新的“傳送訊息”權限來限制哪些人可以在你的群組中傳送訊息。 此非常適合團體活動、發佈公告或只是想大叫讓大家都知道。 所有成員必須使用最新版本的 Signal 才能顯示此設定。",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "你現在可以隨時隨地傳送訊息：在飛機上、隧道中，或者網路中斷的難過時刻。它最終會過去； 訊息現在會自動重試長達 24 小時。",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "感覺❤️‍🔥還是😶‍🌫️？ 您可以使用一組新的表情符號來表達自己，無論您是在搜索時是 :呢喃 還是 :喊叫。 謝謝  $hiqua$！",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "如果你在安圭拉，也許你會感到被冷落。 我們現在將自 2010 年以來的所有頂級網域都轉換為連結 - 因此兩者 $gov$和 $brain$ 都可以像 $signal$ 點擊 . 謝謝 $jojomatik$！",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "我們聽說你喜歡放大圖像。 我們為你的縮放功能加了點魅力，因此即使是小圖像也可以全螢幕顯示。",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "你是否知道如果啟用了自動銷毀訊息，即使“此訊息已被刪除”通知也會在到期時消失？ 這不再是一個謎 - 你會在訊息上看到倒計時和時間戳。",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "休息一下並放鬆進入對話框和彈出視窗的新動畫。 吸氣呼氣。 吸氣呼氣。",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "一目了然獲取更多信息👀。 左方面板具有全新的外觀和樣式😎。",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "要知道什麼時候該做什麼。 與已送達、已讀、已傳送和其他狀態訊息相關聯的時間戳（如果可用）現在會顯示在訊息詳細訊息畫面中。",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "螢幕閱讀器使用者現在應該可以更輕鬆地瀏覽左側面版中的對話清單。",
+        "description": "Release notes for v5.21"
     }
 }

@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversația cu $title$, are $unreadCount$ mesaje noi, ultimul mesaj: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Este posibil ca ultimul mesaj să fi fost șters.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Mergeți la conversația cu $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Cerere mesaj",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Adăugați autocolantele dvs.",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Eliminați autocolantul",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Faceți click sau glisați și fixați un fișier pentru a adăuga un autocolant",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Autocolantele trebuie să fie în format PNG, APNG sau WebP cu un fundal transparent și o mărime de 512x512 pixeli. Marginea recomandată este de 16px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Vă alăturați acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Deblocați acest grup și împărtășiți numele și fotografia cu membrii săi? Nu veți primi niciun mesaj până când nu îi deblocați.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vei putea să vă trimiteți mesaje și să vă sunați reciproc.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Membrii grupului vă vor putea adăuga din nou la acest grup.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Raportați spam-ul și blocați",
@@ -6435,42 +6457,6 @@
         "message": "Ce este nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Un lightbox îmbunătățit pentru fișiere media vă scutește de surprize pe măsură ce parcurgeți o galerie de imagini sau videoclipuri, puteți pretinde că vă aflați cu adevărat într-o cameră întunecată, făcând zoom pentru a ascunde acele butoane supărătoare.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "S-a remediat o eroare care crea dificultăți în a reacționa la un mesaj, deoarece selectorul era pus în afara ecranului. Această eroare este acum rezolvată, iar dvs. puteți 😮 după placul ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Dacă țineți cursorul deasupra butoanelor în timpul unui apel, aceasta vor rămâne vizibile în loc să dispară. Nimic nu se poate ascunde de ochiul dvs. de vultur, nici măcar aceste butoane!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Încercați noua permisiune \"trimitere mesaje\" pentru a limita cine poate trimite mesaje in grupurile dvs. Ideală pentru a organiza un eveniment, a face un anunț, sau doar pentru a da sfoară în țară. Toți membri grupului trebuie să folosească cea mai recentă versiune Signal pentru ca setarea să fie vizibilă.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Acum puteți trimite mesaje de oriunde și oricând: din avion, dintr-un tunel, ori în acele momente triste în care internetul este căzut. Acestea vor fi expediate până la urmă; acum mesajele se retrimit automat pe o durată de până la 24 de ore.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Vă simțiți ❤️‍🔥 sau 😶‍🌫️? Acum vă puteți exprima folosind un nou set de emoji, fie că :șoptiți sau :STRIGAȚI în timp ce căutați. Mulțumim $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Dacă vă aflați în Anguilla, poate că v-ați simțit exclus. De acum transformăm toate domeniile de nivel superior aflate în vigoare din 2010 în linkuri, așa că veți putea face clic pe $gov$ și pe $brain$ la fel cum faceți pe $signal$. Mulțumim $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Am auzit că vă place să măriți imaginile. Am îmbunătățit zoom-ul astfel încât chiar și imaginile mici pot fi afișate pe tot ecranul.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Știați că dacă este activată dispariția mesajelor, chiar și notificarea „Acest mesaj a fost șters” va dispărea atunci când expiră? Acum nu mai este un mister, veți vedea numărătoarea inversă și data chiar în cadrul mesajului.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Trageți aer în piept și relaxați-vă cu noile animații pentru dialoguri și meniuri tip pop-up. Inspirați. Expirați. Inspirați. Expirați.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Obțineți mai multe informații dintr-o singură privire 👀. Panoul din stânga are acum un aspect și un stil nou 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Aflați când și ce. Marca temporală, dacă este disponibilă, asociată cu mesajele de stare, livrat, citit, trimis și altele, va fi afișată în ecranul de detalii al mesajului.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Utilizatorilor de cititoare de ecran ar trebui să le fie mai ușor acum să navigheze prin lista de conversații din panoul din stânga.",
+        "description": "Release notes for v5.21"
     }
 }

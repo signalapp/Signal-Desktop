@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Bisedë me $title$, $unreadCount$ mesazhe të rinj, mesazhi i fundit: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Mesazhi i fundit mund të jetë fshirë.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Kaloni te biseda me $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Kërkesë Mesazhi",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Shtoni ngjitësit tuaj",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Hiqe ngjitësin",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Që të shtohet një ngjitës, klikoni ose tërhiqni/vini një kartelë",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Ngjitësit duhet të jenë në format PNG, APNG ose WebP, me një sfond të tejdukshëm dhe 512x512 piksel. Mënjana e këshilluar është 16px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Të bëhet anëtarësim në këtë grup dhe të ndahet emri dhe fotoja juaj me anëtarët e tij? S’do ta dinë se i keni parë mesazhet e tyre, para se të pranoni këtë.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Të zhbllokohet ky grup dhe të lejohet të ndajë emrin dhe foton tuaj me anëtarët e tij? S’do të merrni ndonjë mesazh, para se ta zhbllokoni.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Do të jeni në gjendje t’i shkruani mesazhe dhe t’i bëni thirrje njëri-tjetrit.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Anëtarë të grupit do të jenë në gjendje t’ju rishtojnë te ky grup.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Raportoni dhe Bllokoni të Padëshiruar",
@@ -6435,48 +6457,12 @@
         "message": "Ç’ka të Re",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Një “lightbox” medias i përmirësuar s’duhet të jetë surprizë, teksa përparoni nëpër një galeri figurash dhe videosh, dhe mund të pretendoni se gjendeni vërtet në një dhomë të errët duke zmadhuar  për të fshehur ata butonat e bezdisur.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "U ndreq një e metë nën të cilën reagimi ndaj një mesazhi qe i ngatërruar, ngaqë zgjedhësin e kishim shmangur nga ekrani. Tanimë kjo është ndrequr, dhe mund të 😮 ndaj lëndës së ❤️ tuaj.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Nëse kaloni kursorin sipër butonave, teksa jeni në një thirrje, mbeten të dukshëm, në vend se të zhduken. Syve tuaj shqiponjë nuk u fshihet asgjë, as madje këta butona!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Provoni lejen e re “të dërgojë mesazhe”, për të kufizuar se cilët mund të dërgojnë mesazhe te grupi juaj. E shkëlqyer për organizim veprimtarish, bërje lajmërimesh, ose thjesht për të bërtitur që prej çatisë. Që kjo të shfaqet, krejt anëtarët duhet të jenë nën versionin më të ri të Signal-it.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Tani mund të dërgoni mesazhe kurdo dhe kudo që gjendeni: në avion, në tunel, ose në atë çastin e trishtuar kur interneti juaj u ndërpre. Tek e fundit do të dërgohet; për mesazhet tanimë riprovohet automatikisht deri në 24 orë.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Ndjeheni ❤️‍🔥 ose 😶‍🌫️? Mund të shprehni veten me një grup të ri emoji-sh, qoftë kur :whispering, qoftë kur :YELLING, teksa kërkoni. Faleminderit $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Nëse gjendeni në Anguila, mbase ju duket se ju kemi lënë jashtë. Tani i shndërrojmë krejt përkatësitë e epërme, të tilla prej 2010-s, në lidhje - kështu që, si $gov$, ashtu edhe $brain$ do të jenë të klikueshme mu si $signal$. Falënderime $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Kemi dëgjuar se ju pëlqen të zmadhoni a zvogëloni te figura. I shtuam fuqinë zoom-it tuaj, që edhe figurat më të vogla të mund të hapen sa krejt ekrani.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "E dini se nëse janë të aktivizuara mesazhe që treten, edhe njoftimi 'Ky mesazh është fshirë' do të tretet, kur skadon? S’është më ndonjë mister - mu te mesazhi do të shihni numrin dhe vulën kohore.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Merrni frymë fort dhe rehatohuni me animacionet e reja për dialogë dhe flluska. Merrni frymë. Nxirreni. Merrni frymë. Nxirreni.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+        "message": "Ndërrimi i skemave të tastierës është përherë pakëz i ngatërruar, por tanimë shkurtoret e tastierës ndjekin ndryshimet tuaja, duke shkuar tej shkronjës specifike që shtypët, për të plotësuar atë që kishit në mendje.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Merrni më tepër informacion, me një vështrim 👀. Kuadrati majtas përfitoi një pamje dhe stil të ri 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Njihni kur-in e diçkaje. Vula kohore, në pastë, e përshoqëruar me mesazhe gjendjeje për të dorëzuar, të lexuar, të dërguar dhe të tjerë, tani shfaqen te skena e hollësive të mesazhit.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Përdoruesit e lexuesit të ekrani tani do të shohin se është më e lehtë të lëvizet nëpër listën e bisedave më kuadratin majtas.",
+        "description": "Release notes for v5.21"
     }
 }

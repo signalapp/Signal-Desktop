@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "The last message may have been deleted.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Go to conversation with $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "ئۇچۇر ئىلتىماسى",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "چاپلاق قوش",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Remove sticker",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Click or drag/drop a file to add a sticker",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "چاپلاق چوقۇم PNG، APNG ياكى WebP پىچىمىدىكى تەگلىكى سۈزۈك، 512x512 چېكىتلىك بولىدۇ. گىرۋىكى 16 چېكىت بولۇشى تەۋسىيە قىلىنىدۇ.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "بۇ گۇرۇپپىغا قوشۇلۇپ ئات ۋە باش سۈرەتنى گۇرۇپپا ئەزالىرىغا ھەمبەھىرلەمسىز؟ سىز تەكلىپنى قوبۇل قىلىشتىن ئىلگىرى گۇرۇپپا ئەزالىرى ئۇلار ئەۋەتكەن ئۇچۇرنى كۆرگەنلىكىڭىزنى بىلمەيدۇ.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "بۇ گۇرۇپپىنى چەكلەپ ھەمدە ئات ۋە باش سۈرىتىڭىزنى ھەمبەھىرلەشكە يول قويامسىز؟ سىز ئۇلارنى چەكلىۋېتىشتىن ئىلگىرى ھېچقانداق ئۇچۇر تاپشۇرۇۋالمايسىز.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "ئۆز ئارا ئۇچۇرلىشىپ ۋە چاقىرىشالايسىلەر.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "گۇرۇپپا ئەزالىرى سىزنى بۇ گۇرۇپپىغا قايتا قوشالايدۇ.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "ئەخلەت ئۇچۇرنى مەلۇم قىلىپ چەكلە",
@@ -6435,42 +6457,6 @@
         "message": "What's New",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "An improved media lightbox means no surprises as you progress through a gallery of images or videos, and you can pretend you’re really in a dark room by zooming to hide those pesky buttons.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Fixed a bug where reacting to a message was tricky, because we put the picker off screen. That's now fixed, and you can 😮 to your ❤️'s content.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "If you hover over the buttons while on a call, they stay visible instead of disappearing. Nothing hides from your eagle eye, not even these buttons!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Try out the new 'send messages' permission to restrict who can send messages in your groups. Great for organizing an event, making an announcement, or just shouting from the rooftops. All members must be on the latest version of Signal for the setting to appear.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "You can now send messages wherever and whenever you are: on a plane, in a tunnel, or that sad moment when your internet just cut out. It will eventually get through; messages now automatically retry for up to 24 hours.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Feeling ❤️‍🔥 or 😶‍🌫️? You can express yourself with a new batch of emoji, whether you're :whispering or :YELLING as you search. Thanks $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "If you're in Anguilla, maybe you've felt left out. We now turn all top-level domains in place since 2010 into links - so both $gov$ and $brain$ will be clickable just like $signal$. Thanks $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "We heard you like to zoom in on images. We added oomph to your zoom, so even small images can go all the way full screen.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Did you know that if disappearing messages are enabled, even the 'This message was deleted' notification will go away when it expires? It's no longer a mystery - you'll see the countdown and timestamp right on the message.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "description": "Release notes for v5.21"
     }
 }

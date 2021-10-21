@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Konversation med $title$, $unreadCount$ nya meddelanden, senaste meddelande: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Det senaste meddelandet kan ha tagits bort.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Gå till konversation med $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Meddelandeförfrågan",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Lägg till dina klistermärken",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Ta bort klistermärke",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Klicka eller dra/släpp en fil för att lägga till ett klistermärke",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Klistermärken måste vara i PNG-, APNG- eller WebP-format med en transparent bakgrund och 512x512 pixlar. Rekommenderad marginal är 16 pixlar.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Gå med i denna grupp och dela ditt namn och foto med dess medlemmar? De vet inte att du har sett sina meddelanden förrän du accepterar det.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Ta bort blockeringen av denna grupp och dela ditt namn och foto med dess medlemmar? Du får inte några meddelanden förrän du har avblockerat gruppen.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Ni kommer att kunna meddela och ringa varandra.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Gruppmedlemmar kommer att kunna lägga till dig i denna grupp igen.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Rapportera som skräppost och blockera",
@@ -6435,42 +6457,6 @@
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "En förbättrad medieljuslåda innebär inga överraskningar när du går igenom ett galleri med bilder eller videor, och du kan låtsas att du verkligen är i ett mörkt rum genom att zooma för att dölja de irriterande knapparna.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Rättade ett fel där det var svårt att reagera på ett meddelande, eftersom vi stängde av väljaren från skärmen. Det är nu åtgärdat, och du kan 😮 till ditt ❤️ innehåll.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Om du håller muspekaren över knapparna under ett samtal förblir de synliga istället för att försvinna. Inget döljer sig för ditt örnöga, inte ens dessa knappar!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Prova den nya behörigheten \"skicka meddelanden\" för att begränsa vem som kan skicka meddelanden i dina grupper. Perfekt för att organisera ett evenemang, göra ett tillkännagivande eller bara skrika från hustaken. Alla medlemmar måste ha den senaste versionen av Signal för att inställningen ska visas.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Du kan nu skicka meddelanden var och när du är: på ett flygplan, i en tunnel, eller det sorgliga ögonblicket när ditt internet bara stängdes av. Det kommer så småningom att komma fram; meddelanden försöker nu automatiskt skicka igen i upp till 24 timmar.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Känns ❤️‍🔥 or 😶‍🌫️? Du kan uttrycka dig själv med en ny uppsättning emojier, oavsett om du :viskar eller :SKRIKER medan du skriver. Tack $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Om du är i Anguilla, har du kanske känt dig utelämnad. Vi vänder nu alla toppdomäner på plats sedan 2010 i länkar - så både $gov$ och $brain$ kommer att vara klickbara precis som $signal$. Tack $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Vi hörde att du gillar att zooma in på bilder. Vi lade till oomph till din zoom, så även små bilder kan gå hela vägen helskärm.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Visste du att när försvinnande meddelanden är aktiverade, kommer även aviseringen \"det här meddelandet togs bort\" att försvinna när den löper ut? Det är inte längre ett mysterium - du får se nedräkningen och tidsstämpel direkt på meddelandet.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Ta ett andetag och koppla av i de nya animationerna för dialoger och popup-fönster. Lätt in. Lätt ut. Lätt in. Lätt ut.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Få mer information med en överblick 👀. Den vänstra rutan har fått ett nytt utseende och en ny stil 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Vet när till vad. Tidsstämpeln, om den är tillgänglig, associerad med levererade, lästa, skickade och andra statusmeddelanden visas nu i meddelandets detaljskärm.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Skärmläsare bör nu ha lättare att navigera genom konversationslistan i den vänstra rutan.",
+        "description": "Release notes for v5.21"
     }
 }

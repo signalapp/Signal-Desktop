@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversa amb $title$, $unreadCount$ missatges nous, últim missatge: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "L'últim missatge podria haver estat eliminat.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Vés a la conversa amb $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Petició de missatge",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Afegiu-hi adhesius",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Elimina l'adhesiu",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Feu clic o arrossegueu un fitxer per a afegir un adhesiu",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Els adhesius han de tenir el format PNG, APNG o WebP amb un fons transparent i 512x512 píxels. El marge recomanat és de 16 píxels.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Voleu afegir-vos a aquest grup i compartir el nom i la fotografia amb els seus membres? No sabran que heu vist els seus missatges fins que no ho accepteu.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Voleu desblocar aquest grup i compartir el nom i la fotografia amb els seus membres? No rebreu cap missatge fins que no el desbloqueu.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Us podreu trucar i enviar missatges.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Els membres del grup us podran afegir a aquest grup un altre cop.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Informeu de bloqueig i de correu brossa",
@@ -6435,42 +6457,6 @@
         "message": "Què hi ha de nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Una caixa de llum multimèdia millorada significa que no hi ha sorpreses a mesura que avanceu per una galeria d’imatges o vídeos i podeu fer veure que us trobeu realment en una cambra fosca fent zoom per amagar aquests botons molestos.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "S'ha corregit un error en què la reacció a un missatge era complicada, ja que deixàvem el selector fora de la pantalla. Ara això està solucionat i podeu fer 😮 al contingut del vostre ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Si passeu el cursor per sobre dels botons mentre feu una trucada, quedaran visibles en lloc de desaparèixer. Res no s’amaga del teu ull d’àguila, ni tan sols aquests botons.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Proveu el nou permís \"envia missatges\" per restringir qui pot enviar missatges als vostres grups. Ideal per organitzar un esdeveniment, fer un anunci o simplement cridar des dels terrats. Per tal que aparegui la configuració, tots els membres han de tenir la versió més recent del Signal.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Ara podeu enviar missatges allà on vulgueu i quan vulgueu: en un avió, en un túnel o en aquell moment trist en què Internet s’acaba de tallar. Tard o d'hora s'enviarà; els missatges es tornen a intentar enviar automàticament fins a 24 hores.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Us sentiu ❤️‍🔥 o 😶‍🌫️? Podeu expressar-vos amb un conjunt nou d'emoticones, tant si xiuxiuegeu com si CRIDEU mentre cerqueu. Gràcies, $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Si sou a Anguilla, potser us heu sentit abandonats. Ara convertim tots els dominis de nivell superior existents des del 2010 en enllaços, de manera que tant $gov$ com $brain$ es podran clicar igual que $signal$. Gràcies, $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Hem sentit que voleu ampliar les imatges. Hem ampliat molt el zoom, de manera que fins i tot les imatges petites poden arribar a pantalla completa.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Sabíeu que si els missatges efímers estan activats, fins i tot la notificació \"Aquest missatge s'ha suprimit\" desapareixerà quan caduqui? Ja no és un misteri: veureu el compte enrere i la marca de temps al missatge.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Respireu i relaxeu-vos amb les noves animacions per a diàlegs i finestres emergents. Entrada fàcil. Sortida fàcil...",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Obteniu més informació d'un colp d'ull 👀. El panell esquerre té un disseny nou 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Coneixeu el quan del què. La marca horària, relacionada amb els estats dels missatges entregats, llegits, enviats i altres, ara es mostra, si està disponible, en la finestra dels detalls del missatge.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Els usuaris de lectors de pantalla haurien de trobar ara més fàcil de navegar per la llista de converses del panell esquerre.",
+        "description": "Release notes for v5.21"
     }
 }

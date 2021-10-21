@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "The last message may have been deleted.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Go to conversation with $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Sõnumitaotlus",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Lisa enda kleebised",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Remove sticker",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Click or drag/drop a file to add a sticker",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Kleebised peavad olema PNG, APNG või WebP vormingutes, läbipaistva taustaga ja 512x512 piksli suuruses. Soovitatav veeris on 16 pikslit.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Kas liitud grupiga ja jagad enda nime ning fotot sellele liikmetele? Nad ei tea, et sa oled nende sõnumeid näinud, kuni nõustud.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Kas eemaldada sellelt grupilt blokeering ja jagada enda nime ning fotot selle liikmetele? Sa ei saa enne ühtegi sõnumit kuni eemaldad blokeeringu.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Teil on võimalik üksteisele sõnumeid saata ja helistada.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Grupi liikmetel on võimalik sind sellesse gruppi uuesti lisada.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Raporteeri rämpspostitus ja blokeeri",
@@ -6435,42 +6457,6 @@
         "message": "Mis on uut",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Täiustatud valguskast tähendab vähem üllatusi piltide või videote galeriis liikudes. Ja sul on võimalik teeselda, et tõesti oled pimikus, eemaldades suumides need tüütud nuppud.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Eemaldasime vea, kus sõnumile reageerimine oli keeruline, sest paigutasime valikuakna ekraanilt välja. See on nüüd parandatud ja saad 😮 enda ❤️ sisu.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Kõne ajal nuppude kohal hõljudes jäävad need kadumise asemel nähtavaks. Teie kotkasilma eest ei pääse keegi, isegi mitte need nupud!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Proovige uut sõnumite saatmise õigust, et piirata, kes saavad gruppides sõnumeid saata. Suurepärane ürituse korraldamiseks, teadaande tegemiseks või lihtsalt katustelt karjumiseks. Selle sätte kuvamiseks peavad kõik liikmed kasutama Signali uusimat versiooni.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Nüüd saad sõnumeid saata kõikjalt ja igal ajal: lennukis, tunnelis või kurval hetkel, kui su internet just katkes. Need tulevad lõpuks läbi, sest sõnumid proovivad nüüd end kuni 24 tundi automaatselt uuesti saata.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Kas tunned end ❤️‍🔥 või 😶‍🌫️? Saad end väljendada uue portsu emojidega, kui otsid sosistamist (:whispering) või karjumist (:YELLING) . Äitäh, $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Kui elad Anguillas, siis võisid tunda end kõrvalejäetuna. Nüüd muudame kõik alates 2010 loodud tipptaseme domeenid (TLD) linkideks - nii et $gov$ ja $brain$ on klõpsatavad, nagu ka $signal$. Aitäh, $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Kuulsime, et sulle meeldib piltidesse sisse suumida. Lisasime suumimisele väheke vunki, nii et isegi väikesed pildid saab nüüd täisekraanile suumida.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Kas sa teadsid, et kui kaduvad sõnumid on lubatud, siis kaob isegi \"See sõnum kustutati\" teavitus peale aegumist? See pole enam müsteerium - sa näed taimerit ja ajatemplit otse sõnumi peal.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Tõmba hinge ja lõdvestu uute dialoogide ja hüpikakende animatsioonidega. Kergelt sisse. Kergelt välja. Kergelt sisse. Kergelt välja.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "description": "Release notes for v5.21"
     }
 }

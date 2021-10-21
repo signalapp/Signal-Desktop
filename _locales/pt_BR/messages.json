@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Conversa com $title$, $unreadCount$ novas mensagens, última mensagem: $lastMessage$.",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "A última mensagem pode ter sido excluída.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Ir para a conversa com $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Solicitação de conversa",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Adicionar suas figurinhas",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Remover figurinha",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Clique para adicionar uma figurinha ou arraste e solte-a aqui",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "As figurinhas devem estar no formato PNG, APNG ou WebP com um fundo transparente e tamanho de 512x512 pixels. A margem recomendada é de 16px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Você quer entrar nesse grupo e compartilhar seu nome e foto com os membros dele? Eles não saberão que você visualizou as mensagens deles se você não aceitar.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Você quer desbloquear esse grupo e exibir seu nome e foto para os membros dele? Você não receberá nenhuma mensagem deles até que desbloqueie o grupo.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vocês poderão trocar mensagens e fazer chamadas entre si.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Membros do grupo poderão adicionar você ao grupo novamente.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Denunciar spam e bloquear",
@@ -6435,42 +6457,6 @@
         "message": "Novidades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Aprimoramos a galeria de imagens e de vídeos. Alternar entre fotos e vídeos recebidos agora é uma experiência mais prazerosa, porque você poderá ampliar para ver detalhes.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Corrigimos um erro que dificultava reagir a uma mensagem, porque antes o selecionador de emojis poderia ser exibido fora da tela. A partir de agora, certamente você poderá reagir com 😮 nas mensagens do seu ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Anteriormente, se você passasse o mouse sobre os botões durante uma chamada, eles desapareceriam. A partir de agora, esses botões permanecerão visíveis ao seu olhar!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Conheça a nova permissão 'enviar mensagens' em um grupo. Ela existe para restringir quem pode enviar mensagens no grupo. Ótimo recurso para organizar um evento ou para criar um canal de anúncios. Lembramos que todos os membros do grupo devem atualizar o Signal para a versão mais recente, de modo a usufruírem dessa configuração.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Agora você pode enviar mensagens onde e quando estiver: em um avião, em um túnel ou quando o seu aparelho estiver desconectado da internet. Assim que a conexão de internet retornar, dentro de 24 horas, as mensagens pendentes serão enviadas automaticamente.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Você está se sentindo ❤️‍🔥 ou 😶‍🌫️? A partir de agora você pode se expressar com novos emojis quando estiver :whispering ou :YELLING em suas conversas. Agradecemos o $hiqua$ por essa realização!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Se você estiver em Anguilla, país na América Central, talvez esteja se sentindo uma pessoa ilhada. A partir de agora, os domínios de sites cujo final mudou em Anguilla desde 2010 serão corretamente exibidos no Signal. Desse modo, tanto $gov$ quanto $brain$ estarão acessíveis com um clique no $signal$. Agradecemos a $jojomatik$ por essa realização!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Ouvimos dizer que você gosta de ampliar as imagens para enxergar detalhes. Nós aprofundamos o zoom. Desse modo, mesmo as imagens pequenas poderão ser exibidas em tela inteira.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "A partir de agora, quando a mensagem for efêmera, até mesmo o aviso referente à \"Esta mensagem foi excluída\" desaparecerá também. Você continuará acompanhando a contagem regressiva no balão da mensagem.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "As novas animações para diálogos e pop-ups são inspiradas na respiração e no relaxamento. Inspire e expire. Inspire e expire.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Essa versão contém variados pequenos retoques e consertos para manter o Signal funcionando confortavelmente.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Receba informações em um piscar de olhos 👀. A lista de conversas recebeu uma repaginada no visual 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "A partir de agora, ao clicar para ler os detalhes de uma mensagem, além da data e a hora, você também poderá ler outras informações associadas às mensagens, se estiverem disponíveis: entregues, lidas, enviadas e situação do envio.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Demos atenção para a lista de conversas, para ela se potencializar e se tornar legível para as pessoas que leem com auxílio de programas de computador.",
+        "description": "Release notes for v5.21"
     }
 }

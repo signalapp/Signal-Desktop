@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "$title$ とのチャット, 未読: $unreadCount$件, 最後のメッセージ: $lastMessage$",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "最後のメッセージは削除された可能性があります。",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "$title$ とチャットする",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "メッセージリクエスト",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "ステッカーを追加",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "ステッカーを削除",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "ファイルをクリックまたはドラッグ/ドロップしてステッカーを追加します",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "ステッカーは、背景が透明で512x512ピクセルの、PNG、APNGまたはWebP形式の画像である必要があります。推奨マージンは16pxです。",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "このグループに参加し、名前やプロフィール画像を共有しますか? あなたが許可するまで、相手はあなたがメッセージを見たことを知りえません。",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "このグループのブロックを解除し、名前とプロフィール画像の共有を許可しますか？ブロックを解除するまでメッセージは届きません。",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "お互いにメッセージや通話ができるようになります。",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "グループのメンバーはあなたをもう一度このグループに加えることができるようになります。",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "スパムとして報告してブロックする",
@@ -6435,42 +6457,6 @@
         "message": "新機能",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "改良されたメディアライトボックスでは、画像や動画のギャラリーを見ても驚くことはありません。また、ズームして厄介なボタンを隠すことで、本物の暗室にいるかのように見せることができます。",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "メッセージに反応する際に、ピッカーを画面外に出してしまったために、反応しづらかったバグを修正しました。これが修正されて、あなたの❤️の内容に合わせて😮することができるようになりました。",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "通話中にボタンの上にカーソルを置くと、ボタンが消えずに表示されます。あなたの視線から隠れるものは、このボタンにもありません。",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "新しい「メッセージ送信」機能を使って、グループ内でメッセージを送信できる人を制限してみましょう。イベントを開催したり、告知をしたり、屋上から大声で叫んだりするのに最適です。この設定が表示されるには、すべてのメンバーが最新バージョンのSignalを使用している必要があります。",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "飛行機の中、トンネルの中、インターネットが切れてしまったときなど、いつでもどこでもメッセージを送ることができます。メッセージは最大24時間まで自動的に再試行されます。",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "新しい絵文字で自分の感情を表現できるようになりました。今日の気分は❤️‍🔥ですか？それとも、😶‍🌫️ですか？$hiqua$、ありがとう❤️",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "アンギラに住んでいる方は、もしかしたら取り残されていると感じているかもしれません。2010年以降に導入された $gov$ や $brain$ といったトップレベルドメインを $signal$ のようにすべてリンクに変換しました。$jojomatik$ に感謝!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "画像の拡大ができるようになりました。",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "消えるメッセージを有効にすると、「このメッセージは削除されました」という通知でさえ、期限が切れると消えてしまうことをご存知ですか？メッセージの上にカウントダウンとタイムスタンプが表示されるので、もう迷うことはありません。",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "ダイアログやポップアップのアニメーションを変更しました。",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "このバージョンでは、Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "一目でより多くの情報を得られるように👀、左ペインの外観とスタイルを一新しました😎。",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "「いつ」から「何を」までを把握できるようになりました。ステータスメッセージに関連する、配信済み、既読、送信済みなどのタイムスタンプがある場合、メッセージの詳細画面に表示されます。",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "スクリーンリーダーをお使いの方は、左ペインのチャットリストを簡単に操作できるようになりました。",
+        "description": "Release notes for v5.21"
     }
 }

@@ -2487,6 +2487,38 @@
             }
         }
     },
+    "ConversationList__aria-label": {
+        "message": "Konverzace s $title$, $unreadCount$ nových zpráv, poslední zpráva: $lastMessage$",
+        "description": "Aria label for the conversation list item",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            },
+            "unreadCount": {
+                "content": "$2",
+                "example": "23"
+            },
+            "lastMessage": {
+                "content": "$3",
+                "example": "How about Friday?"
+            }
+        }
+    },
+    "ConversationList__last-message-undefined": {
+        "message": "Poslední zpráva mohla být odstraněna.",
+        "description": "For aria-label within conversation list. Describes if last message is not defined."
+    },
+    "BaseConversationListItem__aria-label": {
+        "message": "Jít na konverzaci s $title$",
+        "description": "Aria label for the conversation list item button",
+        "placeholders": {
+            "title": {
+                "content": "$1",
+                "example": "Alice"
+            }
+        }
+    },
     "ConversationListItem--message-request": {
         "message": "Požadavek na zprávu",
         "description": "Preview shown for conversation if the user has not yet accepted an incoming message request"
@@ -3059,6 +3091,14 @@
         "message": "Přidejte vlastní nálepky",
         "description": "Title for the drop stage of the sticker creator"
     },
+    "StickerCreator--DropStage--removeSticker": {
+        "message": "Odstranit nálepku",
+        "description": "Label for the X button used to remove a staged sticker"
+    },
+    "StickerCreator--DropStage--dragDrop": {
+        "message": "Stisknout nebo chytit a přetáhnout soubor pro přidání nálepky",
+        "description": "Shown on the + section of the file addition stage of sticker pack creation"
+    },
     "StickerCreator--DropStage--help": {
         "message": "Nálepky musí být ve formátu PNG, APNG nebo WebP, s transparentním pozadím a o velikosti 512x512 pixelů. Doporučený okraj je 16px.",
         "description": "Help text for the drop stage of the sticker creator"
@@ -3271,13 +3311,7 @@
     },
     "MessageRequests--message-group": {
         "message": "Připojit se k této skupině a sdílet vaše jméno a fotografii s jejími členy? Nebudou vědět, že jste viděl jejich zprávy, dokud je nepřijmete.",
-        "description": "Shown as the message for a message request in a group",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
         "message": "Odblokovat tuto skupinu a sdílet vaše jméno a fotografii s jejími členy? Dokud je neodblokujete, tak žádné zprávy neobdržíte.",
@@ -3303,23 +3337,11 @@
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Budete moci vzájemně si posílat zprávy a volat.",
-        "description": "Shown as the body in the confirmation modal for unblocking a private message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
         "message": "Členové skupiny vás budou moci znovu přidat do této skupiny.",
-        "description": "Shown as the body in the confirmation modal for unblocking a group message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
         "message": "Nahlásit spam a zablokovat",
@@ -6435,42 +6457,6 @@
         "message": "Co je nového",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.16--1": {
-        "message": "Vylepšený lightbox médií znamená, že vás při procházení galerie obrázků nebo videí nečeká žádné překvapení a můžete předstírat, že jste skutečně v tmavé místnosti a přiblížením skrýt ta otravná tlačítka.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--2": {
-        "message": "Byla opravena chyba, kdy bylo obtížné reagovat na zprávu, protože jsme umístili vybírací tlačítko mimo obrazovku. To je nyní opraveno a vy se můžete 😮 věnovat ❤️.",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.16--3": {
-        "message": "Pokud na tlačítka během hovoru najedete, zůstanou viditelná, místo aby zmizela. Nic se neschová před vaším okem, ani tato tlačítka!",
-        "description": "Release notes for v5.16"
-    },
-    "WhatsNew__v5.17--1": {
-        "message": "Vyzkoušejte nové oprávnění \"posílat zprávy\", které omezuje, kdo může posílat zprávy ve vašich skupinách. Skvěle se hodí pro organizování událostí, oznámení nebo jen pro křik ze střech. Aby se toto nastavení zobrazilo, musí mít všichni členové nejnovější verzi aplikace Signal.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.17--2": {
-        "message": "Nyní můžete posílat zprávy kdekoli a kdykoli: v letadle, v tunelu nebo ve smutné chvíli, kdy vám právě vypadl internet. Nakonec se to podaří; zprávy se nyní automaticky opakují až 24 hodin.",
-        "description": "Release notes for v5.17"
-    },
-    "WhatsNew__v5.18--1": {
-        "message": "Cítíte ❤️‍🔥 nebo 😶‍🌫️? Nyní se můžete lépe vyjádřit s novou dávkou smajlíků. Díky $hiqua$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--2": {
-        "message": "Pokud jste v Anguille, možná jste se cítili odstrčení. Nyní měníme všechny domény nejvyšší úrovně zavedené od roku 2010 na odkazy - takže jak $gov$, tak i $brain$ budou klikatelné stejně jako $signal$. Díky $jojomatik$!",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--3": {
-        "message": "Slyšeli jsme, že rádi přibližujete obrázky. Přidali jsme do přiblížení sílu, takže i malé obrázky můžete zobrazit přes celou obrazovku.",
-        "description": "Release notes for v5.18"
-    },
-    "WhatsNew__v5.18--4": {
-        "message": "Věděli jste, že pokud je povoleno mizení zpráv, zmizí po vypršení platnosti i oznámení \"Tato zpráva byla smazána\"? Už to není žádná záhada - přímo na zprávě uvidíte odpočet a časové razítko.",
-        "description": "Release notes for v5.18"
-    },
     "WhatsNew__v5.19--1": {
         "message": "Nadechněte se a nechte se unášet novými animacemi dialogových oken a vyskakovacích oken. Uvolněte se. Uvolněte se. Uvolněte se. Uvolněte se.",
         "description": "Release notes for v5.19"
@@ -6490,5 +6476,17 @@
     "WhatsNew__v5.20": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for v5.20"
+    },
+    "WhatsNew__v5.21--1": {
+        "message": "Získejte více informací na první pohled 👀. Levý panel má nový vzhled a styl 😎.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--2": {
+        "message": "Zjistěte, kdy se co děje. Časové razítko, pokud je k dispozici, spojené s doručenými, přečtenými, odeslanými a dalšími stavovými zprávami se nyní zobrazuje na obrazovce s podrobnostmi zprávy.",
+        "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.21--3": {
+        "message": "Uživatelé čtečky obrazovky by se nyní měli snadněji pohybovat v seznamu konverzací na levém panelu.",
+        "description": "Release notes for v5.21"
     }
 }
