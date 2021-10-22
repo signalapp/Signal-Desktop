@@ -131,7 +131,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       case 'open-group':
         title = window.i18n('joinOpenGroup');
         buttonText = window.i18n('next');
-        // descriptionLong = '';
         subtitle = window.i18n('openGroupURL');
         placeholder = window.i18n('enterAnOpenGroupURL');
         break;
@@ -291,8 +290,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     }
   }
 }
-
-
 
 const MessageRequestList = () => {
   // get all conversations with (accepted / known)

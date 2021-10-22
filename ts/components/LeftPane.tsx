@@ -31,6 +31,8 @@ const InnerLeftPaneMessageSection = () => {
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
   // tslint:disable: use-simple-attributes
 
+  // const
+
   return (
     <LeftPaneMessageSection
       conversations={lists?.conversations || []}

@@ -343,6 +343,22 @@ export const getLeftPaneLists = createSelector(
   _getLeftPaneLists
 );
 
+export const getApprovedConversations = createSelector(
+  getConversationLookup,
+  (lookup: ConversationLookupType): Array<ReduxConversationType> => {
+    return Object.values(lookup).filter(convo => convo.isApproved === true);
+  }
+);
+
+export const getUnapprovedConversations = createSelector(
+  getConversationLookup,
+  (lookup: ConversationLookupType): Array<ReduxConversationType> => {
+    return Object.values(lookup).filter(
+      convo => convo.isApproved === false || convo.isApproved === undefined
+    );
+  }
+);
+
 export const getMe = createSelector(
   [getConversationLookup, getOurNumber],
   (lookup: ConversationLookupType, ourNumber: string): ReduxConversationType => {

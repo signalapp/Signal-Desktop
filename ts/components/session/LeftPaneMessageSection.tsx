@@ -54,6 +54,8 @@ interface State {
   loading: boolean;
   overlay: false | SessionClosableOverlayType;
   valuePasted: string;
+  approvedConversations: any[];
+  unapprovedConversations: any[];
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
@@ -62,25 +64,42 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
 
+    const approvedConversations = props.conversations?.filter(convo => Boolean(convo.isApproved));
+    const unapprovedConversations = props.conversations?.filter(
+      convo => !Boolean(convo.isApproved)
+    );
+
     this.state = {
       loading: false,
       overlay: false,
       valuePasted: '',
+      approvedConversations: approvedConversations || [],
+      unapprovedConversations: unapprovedConversations || [],
     };
 
     autoBind(this);
     this.debouncedSearch = _.debounce(this.search.bind(this), 20);
   }
 
-  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
+  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
+    // const { approvedConversations: conversations } = this.state;
+    console.warn({ conversations });
 
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
-
     const conversation = conversations[index];
 
+    console.warn(`${index}`);
+    console.warn({ conversation });
+
+    // TODO: need to confirm whats best here.
+    // true by default then false on newly received or
+    // false by default and true when approved but then how to handle pre-existing convos?
+    if (conversation.isApproved === undefined || conversation.isApproved === false) {
+      return null;
+    }
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
   };
 
@@ -99,13 +118,21 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     // TODO: make selectors for this instead.
     // TODO: only filter conversations if setting for requests is applied
     const approvedConversations = conversations.filter(c => c.isApproved === true);
-    console.warn({ approvedConversations });
     const messageRequestsEnabled =
       window.inboxStore?.getState().userConfig.messageRequests === true;
 
     const conversationsForList = messageRequestsEnabled ? approvedConversations : conversations;
+    if (!this.state.approvedConversations.length) {
+      this.setState({
+        approvedConversations: conversationsForList,
+      });
+    }
 
-    const length = conversations.length;
+    console.warn({ conversationsForList });
+
+    // const length = conversations.length;
+    const length = conversationsForList.length;
+
     const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
@@ -120,6 +147,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
               height={height}
               rowCount={length}
               rowHeight={64}
+              // rowHeight={this.getRowHeight}
               rowRenderer={this.renderRow}
               width={width}
               autoHeight={false}
@@ -131,6 +159,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     return [list];
   }
+
+  // private getRowHeight({index: any}: any) {
+  //   if (this.)
+  // }
 
   public closeOverlay({ pubKey }: { pubKey: string }) {
     if (this.state.valuePasted === pubKey) {

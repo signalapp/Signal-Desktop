@@ -714,7 +714,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const sentAt = message.get('sent_at');
 
-      // TODO: for debuggong
+      // TODO: for debugging
       if (message.get('body')?.includes('unapprove')) {
         console.warn('setting to unapprove');
         await this.setIsApproved(false);
@@ -1389,11 +1389,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async setIsApproved(value: boolean) {
+    console.warn(`Setting ${this.attributes.nickname} isApproved to:: ${value}`);
     if (value !== this.get('isApproved')) {
       this.set({
         isApproved: value,
       });
       await this.commit();
+
+      if (window?.inboxStore) {
+        window.inboxStore?.dispatch(
+          conversationChanged({
+            id: this.id,
+            data: this.getConversationModelProps(),
+          })
+        );
+      }
     }
   }
 

@@ -28,7 +28,7 @@ import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
 import { Flex } from './basic/Flex';
-import { SessionButton } from './session/SessionButton';
+import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { getConversationById } from '../data/data';
 import { getConversationController } from '../session/conversations';
 
@@ -294,10 +294,10 @@ const ConversationListItem = (props: Props) => {
    * marks the conversation as approved.
    */
   const handleConversationAccept = async () => {
-    const convo = await getConversationById(conversationId);
-    convo?.setIsApproved(true);
+    const conversationToApprove = await getConversationById(conversationId);
+    conversationToApprove?.setIsApproved(true);
     console.warn('convo marked as approved');
-    console.warn({ convo });
+    console.warn({ convo: conversationToApprove });
   };
 
   return (
@@ -351,14 +351,24 @@ const ConversationListItem = (props: Props) => {
             lastMessage={lastMessage}
           />
           {isMessageRequest ? (
-            <Flex
+            <StyledButtonContainer
               className="module-conversation-list-item__button-container"
               container={true}
               flexDirection="row"
             >
-              <SessionButton onClick={handleConversationDecline}>Decline</SessionButton>
-              <SessionButton onClick={handleConversationAccept}>Accept</SessionButton>
-            </Flex>
+              <SessionButton
+                onClick={handleConversationDecline}
+                buttonColor={SessionButtonColor.Danger}
+              >
+                Decline
+              </SessionButton>
+              <SessionButton
+                buttonColor={SessionButtonColor.Green}
+                onClick={handleConversationAccept}
+              >
+                Accept
+              </SessionButton>
+            </StyledButtonContainer>
           ) : null}
         </div>
       </div>
@@ -380,5 +390,9 @@ const ConversationListItem = (props: Props) => {
     </div>
   );
 };
+
+const StyledButtonContainer = styled(Flex)`
+  justify-content: space-evenly;
+`;
 
 export const MemoConversationListItemWithDetails = React.memo(ConversationListItem, _.isEqual);
