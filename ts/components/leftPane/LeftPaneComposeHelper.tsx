@@ -19,7 +19,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemPropsType>;
-  composeGroups: ReadonlyArray<ContactListItemPropsType>;
+  composeGroups: ReadonlyArray<ConversationListItemPropsType>;
   regionCode: string;
   searchTerm: string;
 };
