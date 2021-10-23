@@ -340,6 +340,13 @@ try {
     }
   });
 
+  ipc.on('show-release-notes', () => {
+    const { showReleaseNotes } = window.Events;
+    if (showReleaseNotes) {
+      showReleaseNotes();
+    }
+  });
+
   window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
   window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 

@@ -12786,19 +12786,19 @@
   },
   {
     "rule": "React-createRef",
-    "path": "ts/components/conversation/ConversationHeader.tsx",
-    "line": "    this.menuTriggerRef = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-05-20T20:10:43.540Z",
-    "reasonDetail": "Used to reference popup menu"
-  },
-  {
-    "rule": "React-createRef",
     "path": "ts/components/conversation/ConversationHeader.js",
     "line": "        this.headerRef = react_1.default.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-18T22:24:05.937Z",
     "reasonDetail": "Used to reference popup menu boundaries element"
+  },
+  {
+    "rule": "React-createRef",
+    "path": "ts/components/conversation/ConversationHeader.tsx",
+    "line": "    this.menuTriggerRef = React.createRef();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2020-05-20T20:10:43.540Z",
+    "reasonDetail": "Used to reference popup menu"
   },
   {
     "rule": "React-createRef",
@@ -13332,13 +13332,6 @@
   {
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.js",
-    "line": "        this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.js",
     "line": "        this.$('.left-pane-placeholder').replaceWith(this.leftPaneView.el);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-08T17:39:41.541Z"
@@ -13351,11 +13344,18 @@
     "updated": "2021-10-08T17:40:22.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "ts/views/inbox_view.js",
+    "line": "        this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T20:58:48.103Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "ts/views/inbox_view.js",
-    "line": "        this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
+    "line": "        this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
+    "updated": "2021-10-22T20:58:48.103Z"
   },
   {
     "rule": "jQuery-appendTo(",
@@ -13416,13 +13416,6 @@
   {
     "rule": "jQuery-$(",
     "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/inbox_view.ts",
     "line": "    this.$('.no-conversation-open').toggle(!isAnyConversationOpen);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-08T17:40:22.770Z"
@@ -13435,11 +13428,18 @@
     "updated": "2021-10-08T17:40:22.770Z"
   },
   {
+    "rule": "jQuery-$(",
+    "path": "ts/views/inbox_view.ts",
+    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T20:58:48.103Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "ts/views/inbox_view.ts",
-    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewView.el);",
+    "line": "    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
+    "updated": "2021-10-22T20:58:48.103Z"
   },
   {
     "rule": "jQuery-appendTo(",

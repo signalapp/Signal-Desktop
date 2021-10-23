@@ -56,7 +56,7 @@ const {
 const {
   SystemTraySettingsCheckboxes,
 } = require('../../ts/components/conversation/SystemTraySettingsCheckboxes');
-const { WhatsNew } = require('../../ts/components/WhatsNew');
+const { WhatsNewLink } = require('../../ts/components/WhatsNewLink');
 
 // State
 const {
@@ -338,7 +338,7 @@ exports.setup = (options = {}) => {
     StagedLinkPreview,
     DisappearingTimeDialog,
     SystemTraySettingsCheckboxes,
-    WhatsNew,
+    WhatsNewLink,
   };
 
   const Roots = {

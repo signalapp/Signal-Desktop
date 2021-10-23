@@ -92,7 +92,7 @@ import { ProgressModal } from './components/ProgressModal';
 import { Quote } from './components/conversation/Quote';
 import { StagedLinkPreview } from './components/conversation/StagedLinkPreview';
 import { DisappearingTimeDialog } from './components/DisappearingTimeDialog';
-import { WhatsNew } from './components/WhatsNew';
+import { WhatsNewLink } from './components/WhatsNewLink';
 import { MIMEType } from './types/MIME';
 import { DownloadedAttachmentType } from './types/Attachment';
 import { ElectronLocaleType } from './util/mapToSupportLocale';
@@ -403,7 +403,7 @@ declare global {
         ProgressModal: typeof ProgressModal;
         Quote: typeof Quote;
         StagedLinkPreview: typeof StagedLinkPreview;
-        WhatsNew: typeof WhatsNew;
+        WhatsNewLink: typeof WhatsNewLink;
       };
       OS: typeof OS;
       Workflow: {

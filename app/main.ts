@@ -865,6 +865,11 @@ function openJoinTheBeta() {
 }
 
 function openReleaseNotes() {
+  if (mainWindow && mainWindow.isVisible()) {
+    mainWindow.webContents.send('show-release-notes');
+    return;
+  }
+
   shell.openExternal(
     `https://github.com/signalapp/Signal-Desktop/releases/tag/v${app.getVersion()}`
   );

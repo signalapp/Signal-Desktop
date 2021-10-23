@@ -10,6 +10,8 @@ import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartContactModal } from './ContactModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';
 
+import { getIntl } from '../selectors/user';
+
 const FilteredSmartProfileEditorModal = SmartProfileEditorModal;
 
 function renderProfileEditor(): JSX.Element {
@@ -21,8 +23,11 @@ function renderContactModal(): JSX.Element {
 }
 
 const mapStateToProps = (state: StateType) => {
+  const i18n = getIntl(state);
+
   return {
     ...state.globalModals,
+    i18n,
     renderContactModal,
     renderProfileEditor,
     renderSafetyNumber: () => (

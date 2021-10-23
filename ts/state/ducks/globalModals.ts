@@ -8,12 +8,15 @@ export type GlobalModalsStateType = {
   readonly isProfileEditorVisible: boolean;
   readonly profileEditorHasError: boolean;
   readonly safetyNumberModalContactId?: string;
+  readonly isWhatsNewVisible: boolean;
 };
 
 // Actions
 
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
+const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
+const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
   'globalModals/TOGGLE_PROFILE_EDITOR_ERROR';
@@ -33,6 +36,14 @@ type ShowContactModalActionType = {
   payload: ContactModalStateType;
 };
 
+type HideWhatsNewModalActionType = {
+  type: typeof HIDE_WHATS_NEW_MODAL;
+};
+
+type ShowWhatsNewModalActionType = {
+  type: typeof SHOW_WHATS_NEW_MODAL;
+};
+
 type ToggleProfileEditorActionType = {
   type: typeof TOGGLE_PROFILE_EDITOR;
 };
@@ -49,6 +60,8 @@ type ToggleSafetyNumberModalActionType = {
 export type GlobalModalsActionType =
   | HideContactModalActionType
   | ShowContactModalActionType
+  | HideWhatsNewModalActionType
+  | ShowWhatsNewModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType;
@@ -58,6 +71,8 @@ export type GlobalModalsActionType =
 export const actions = {
   hideContactModal,
   showContactModal,
+  hideWhatsNewModal,
+  showWhatsNewModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
@@ -79,6 +94,18 @@ function showContactModal(
       contactId,
       conversationId,
     },
+  };
+}
+
+function hideWhatsNewModal(): HideWhatsNewModalActionType {
+  return {
+    type: HIDE_WHATS_NEW_MODAL,
+  };
+}
+
+function showWhatsNewModal(): ShowWhatsNewModalActionType {
+  return {
+    type: SHOW_WHATS_NEW_MODAL,
   };
 }
 
@@ -105,6 +132,7 @@ export function getEmptyState(): GlobalModalsStateType {
   return {
     isProfileEditorVisible: false,
     profileEditorHasError: false,
+    isWhatsNewVisible: false,
   };
 }
 
@@ -123,6 +151,20 @@ export function reducer(
     return {
       ...state,
       profileEditorHasError: !state.profileEditorHasError,
+    };
+  }
+
+  if (action.type === SHOW_WHATS_NEW_MODAL) {
+    return {
+      ...state,
+      isWhatsNewVisible: true,
+    };
+  }
+
+  if (action.type === HIDE_WHATS_NEW_MODAL) {
+    return {
+      ...state,
+      isWhatsNewVisible: false,
     };
   }
 

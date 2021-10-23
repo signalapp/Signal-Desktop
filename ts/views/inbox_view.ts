@@ -160,16 +160,18 @@ Whisper.InboxView = Whisper.View.extend({
     click: 'onClick',
   },
   renderWhatsNew() {
-    if (this.whatsNewView) {
+    if (this.whatsNewLink) {
       return;
     }
-    this.whatsNewView = new Whisper.ReactWrapperView({
-      Component: window.Signal.Components.WhatsNew,
+    const { showWhatsNewModal } = window.reduxActions.globalModals;
+    this.whatsNewLink = new Whisper.ReactWrapperView({
+      Component: window.Signal.Components.WhatsNewLink,
       props: {
         i18n: window.i18n,
+        showWhatsNewModal,
       },
     });
-    this.$('.whats-new-placeholder').append(this.whatsNewView.el);
+    this.$('.whats-new-placeholder').append(this.whatsNewLink.el);
   },
   setupLeftPane() {
     if (this.leftPaneView) {

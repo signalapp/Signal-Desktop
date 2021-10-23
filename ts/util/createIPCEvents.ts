@@ -99,6 +99,7 @@ export type IPCEventsCallbacksType = {
   showConversationViaSignalDotMe: (hash: string) => void;
   showKeyboardShortcuts: () => void;
   showGroupViaLink: (x: string) => Promise<void>;
+  showReleaseNotes: () => void;
   showStickerPack: (packId: string, key: string) => void;
   shutdown: () => Promise<void>;
   unknownSignalLink: () => void;
@@ -505,6 +506,10 @@ export function createIPCEvents(
     },
 
     shutdown: () => Promise.resolve(),
+    showReleaseNotes: () => {
+      const { showWhatsNewModal } = window.reduxActions.globalModals;
+      showWhatsNewModal();
+    },
 
     getMediaPermissions: window.getMediaPermissions,
     getMediaCameraPermissions: window.getMediaCameraPermissions,
