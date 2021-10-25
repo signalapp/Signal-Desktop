@@ -19,6 +19,10 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { getMessageBySenderAndTimestamp } from '../data/data';
 import { handleCallMessage } from './callMessage';
+import {
+  deleteMessageLocallyOnly,
+  deleteMessagesFromSwarmOnly,
+} from '../interactions/conversations/unsendingInteractions';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
   try {
@@ -397,7 +401,7 @@ export async function innerHandleContentMessage(
       );
       return;
     }
-    if (content.unsendMessage && window.lokiFeatureFlags?.useUnsendRequests) {
+    if (content.unsendMessage) {
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
     }
     if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
@@ -519,7 +523,20 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
   //#region executing deletion
   if (messageHash && messageToDelete) {
-    await conversation.deleteMessage(messageToDelete);
+    const wasDeleted = await deleteMessagesFromSwarmOnly([messageToDelete]);
+    if (!wasDeleted) {
+      window.log.warn(
+        'handleUnsendMessage: got a request to delete ',
+        messageHash,
+        ' but an error happened during deleting it from our swarm.'
+      );
+    }
+    // still, delete it locally
+    await deleteMessageLocallyOnly({
+      conversation,
+      message: messageToDelete,
+      deletionType: 'markDeleted',
+    });
   }
   //#endregion
 }

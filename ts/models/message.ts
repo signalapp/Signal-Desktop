@@ -873,7 +873,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   public async markAsDeleted() {
     this.set({
       isDeleted: true,
-      body: window.i18n('messageDeleted'),
+      body: window.i18n('messageDeletedPlaceholder'),
       quote: undefined,
       groupInvitation: undefined,
       dataExtractionNotification: undefined,

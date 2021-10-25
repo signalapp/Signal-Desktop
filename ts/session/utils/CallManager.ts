@@ -68,11 +68,7 @@ let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
-const configuration = {
-  configuration: {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true,
-  },
+const configuration: RTCConfiguration = {
   iceServers: [
     {
       urls: 'turn:freyr.getsession.org',
@@ -80,6 +76,7 @@ const configuration = {
       credential: 'webrtc',
     },
   ],
+  iceTransportPolicy: 'relay',
 };
 
 let selectedCameraId: string | undefined;
@@ -355,6 +352,7 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     sdpMids: validCandidates.map(c => c.sdpMid),
     sdps: validCandidates.map(c => c.candidate),
   });
+
   window.log.info('sending ICE CANDIDATES MESSAGE to ', recipient);
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);

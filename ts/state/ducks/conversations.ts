@@ -209,6 +209,7 @@ export type PropsForMessageWithConvoProps = PropsForMessageWithoutConvoProps & {
   weAreAdmin: boolean;
   isSenderAdmin: boolean;
   isDeletable: boolean;
+  isDeletableForEveryone: boolean;
   isBlocked: boolean;
   isDeleted?: boolean;
 };

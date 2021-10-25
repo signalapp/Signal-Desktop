@@ -5,13 +5,7 @@ import {
 } from '../opengroup/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
-import {
-  ConversationModel,
-  ConversationNotificationSettingType,
-  ConversationTypeEnum,
-} from '../models/conversation';
-import { MessageModel } from '../models/message';
-import { ApiV2 } from '../opengroup/opengroupV2';
+import { ConversationNotificationSettingType, ConversationTypeEnum } from '../models/conversation';
 
 import _ from 'lodash';
 import { getConversationController } from '../session/conversations';
@@ -32,11 +26,7 @@ import {
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
-import {
-  conversationReset,
-  quoteMessage,
-  resetSelectedMessageIds,
-} from '../state/ducks/conversations';
+import { conversationReset, quoteMessage } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { FSv2 } from '../fileserver';
@@ -84,61 +74,6 @@ export async function copyPublicKeyByConvoId(convoId: string) {
   window.clipboard.writeText(convoId);
 
   ToastUtils.pushCopiedToClipBoard();
-}
-
-/**
- *
- * @param messages the list of MessageModel to delete
- * @param convo the conversation to delete from (only v2 opengroups are supported)
- */
-async function deleteOpenGroupMessages(
-  messages: Array<MessageModel>,
-  convo: ConversationModel
-): Promise<Array<string>> {
-  if (!convo.isPublic()) {
-    throw new Error('cannot delete public message on a non public groups');
-  }
-
-  if (convo.isOpenGroupV2()) {
-    const roomInfos = convo.toOpenGroupV2();
-    // on v2 servers we can only remove a single message per request..
-    // so logic here is to delete each messages and get which one where not removed
-    const validServerIdsToRemove = _.compact(
-      messages.map(msg => {
-        return msg.get('serverId');
-      })
-    );
-
-    const validMessageModelsToRemove = _.compact(
-      messages.map(msg => {
-        const serverId = msg.get('serverId');
-        if (serverId) {
-          return msg;
-        }
-        return undefined;
-      })
-    );
-
-    let allMessagesAreDeleted: boolean = false;
-    if (validServerIdsToRemove.length) {
-      allMessagesAreDeleted = await ApiV2.deleteMessageByServerIds(
-        validServerIdsToRemove,
-        roomInfos
-      );
-    }
-    // remove only the messages we managed to remove on the server
-    if (allMessagesAreDeleted) {
-      window?.log?.info('Removed all those serverIds messages successfully');
-      return validMessageModelsToRemove.map(m => m.id as string);
-    } else {
-      window?.log?.info(
-        'failed to remove all those serverIds message. not removing them locally neither'
-      );
-      return [];
-    }
-  } else {
-    throw new Error('Opengroupv1 are not supported anymore');
-  }
 }
 
 export async function blockConvoById(conversationId: string) {
@@ -286,7 +221,7 @@ export function showChangeNickNameByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(changeNickNameModal({ conversationId }));
 }
 
-export async function deleteMessagesByConvoIdNoConfirmation(conversationId: string) {
+export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
   await removeAllMessagesInConversation(conversationId);
   window.inboxStore?.dispatch(conversationReset(conversationId));
@@ -302,13 +237,13 @@ export async function deleteMessagesByConvoIdNoConfirmation(conversationId: stri
   await conversation.commit();
 }
 
-export function deleteMessagesByConvoIdWithConfirmation(conversationId: string) {
+export function deleteAllMessagesByConvoIdWithConfirmation(conversationId: string) {
   const onClickClose = () => {
     window?.inboxStore?.dispatch(updateConfirmModal(null));
   };
 
   const onClickOk = async () => {
-    await deleteMessagesByConvoIdNoConfirmation(conversationId);
+    await deleteAllMessagesByConvoIdNoConfirmation(conversationId);
     onClickClose();
   };
 
@@ -432,196 +367,6 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
     window.log.info(
       `Reuploading avatar finished at ${newTimestampReupload}, newAttachmentPointer ${fileUrl}`
     );
-  }
-}
-
-/**
- * Deletes messages for everyone in a 1-1 or closed group conversation
- * @param msgsToDelete Messages to delete
- */
-async function deleteForAll(conversation: ConversationModel, msgsToDelete: Array<MessageModel>) {
-  window?.log?.warn('Deleting messages for all users in this conversation');
-  const result = await conversation.unsendMessages(msgsToDelete);
-  // TODO: may need to specify deletion for own device as well.
-  window.inboxStore?.dispatch(resetSelectedMessageIds());
-  if (result) {
-    ToastUtils.pushDeleted();
-  } else {
-    ToastUtils.someDeletionsFailed();
-  }
-}
-
-/**
- *
- * @param toDeleteLocallyIds Messages to delete for just this user. Still sends an unsend message to sync
- *  with other devices
- */
-async function deleteForJustThisUser(
-  conversation: ConversationModel,
-  msgsToDelete: Array<MessageModel>
-) {
-  window?.log?.warn('Deleting messages just for this user');
-  // is deleting on swarm sufficient or does it need to be unsent as well?
-  const deleteResult = await conversation.deleteMessages(msgsToDelete);
-  // Update view and trigger update
-  window.inboxStore?.dispatch(resetSelectedMessageIds());
-  if (deleteResult) {
-    ToastUtils.pushDeleted();
-  } else {
-    ToastUtils.someDeletionsFailed();
-  }
-}
-
-const doDeleteMessagesById = async (
-  selectedMessages: Array<MessageModel>,
-  conversation: ConversationModel,
-  deleteForEveryone: boolean = true
-) => {
-  let toDeleteLocallyIds: Array<string>;
-
-  const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
-  if (!ourDevicePubkey) {
-    return;
-  }
-  const isServerDeletable = conversation.isPublic();
-
-  const isAllOurs = selectedMessages.every(message => ourDevicePubkey === message.getSource());
-  if (isServerDeletable) {
-    //#region open group v2 deletion
-    // Get our Moderator status
-    const isAdmin = conversation.isAdmin(ourDevicePubkey);
-
-    if (!isAllOurs && !isAdmin) {
-      ToastUtils.pushMessageDeleteForbidden();
-
-      window.inboxStore?.dispatch(resetSelectedMessageIds());
-      return;
-    }
-
-    toDeleteLocallyIds = await deleteOpenGroupMessages(selectedMessages, conversation);
-    if (toDeleteLocallyIds.length === 0) {
-      // Message failed to delete from server, show error?
-      return;
-    }
-    // successful deletion
-    ToastUtils.pushDeleted();
-    window.inboxStore?.dispatch(resetSelectedMessageIds());
-    //#endregion
-  } else {
-    //#region deletion for 1-1 and closed groups
-    if (!isAllOurs) {
-      ToastUtils.pushMessageDeleteForbidden();
-      window.inboxStore?.dispatch(resetSelectedMessageIds());
-      return;
-    }
-
-    if (window.lokiFeatureFlags?.useUnsendRequests) {
-      if (deleteForEveryone) {
-        void deleteForAll(conversation, selectedMessages);
-      } else {
-        void deleteForJustThisUser(conversation, selectedMessages);
-      }
-    } else {
-      //#region to remove once unsend enabled
-      const messageIds = selectedMessages.map(m => m.id) as Array<string>;
-      await Promise.all(messageIds.map(msgId => conversation.removeMessage(msgId)));
-      ToastUtils.pushDeleted();
-      window.inboxStore?.dispatch(resetSelectedMessageIds());
-      //#endregion
-    }
-    //#endregion
-  }
-};
-
-// tslint:disable-next-line: max-func-body-length
-export async function deleteMessagesById(
-  messageIds: Array<string>,
-  conversationId: string,
-  askUserForConfirmation: boolean
-) {
-  const conversation = getConversationController().getOrThrow(conversationId);
-  const selectedMessages = _.compact(
-    await Promise.all(messageIds.map(m => getMessageById(m, false)))
-  );
-
-  const moreThanOne = selectedMessages.length > 1;
-
-  // In future, we may be able to unsend private messages also
-  // isServerDeletable also defined in ConversationHeader.tsx for
-  // future reference
-  const isServerDeletable = conversation.isPublic();
-
-  if (askUserForConfirmation) {
-    let title = '';
-
-    // Note:  keep that i18n logic separated so the scripts in tools/ find the usage of those
-    if (isServerDeletable) {
-      if (moreThanOne) {
-        title = window.i18n('deleteMessagesForEveryone');
-      } else {
-        title = window.i18n('deleteMessageForEveryone');
-      }
-    } else {
-      if (moreThanOne) {
-        title = window.i18n('deleteMessages');
-      } else {
-        title = window.i18n('deleteMessage');
-      }
-    }
-
-    const okText = window.i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
-
-    //#region confirmation for deletion of messages
-    const showDeletionTypeModal = () => {
-      window.inboxStore?.dispatch(updateConfirmModal(null));
-      window.inboxStore?.dispatch(
-        updateConfirmModal({
-          showExitIcon: true,
-          title: window.i18n('deletionTypeTitle'),
-          okText: window.i18n('deleteMessageForEveryoneLowercase'),
-          okTheme: SessionButtonColor.Danger,
-          onClickOk: async () => {
-            await doDeleteMessagesById(selectedMessages, conversation, true);
-          },
-          cancelText: window.i18n('deleteJustForMe'),
-          onClickCancel: async () => {
-            await doDeleteMessagesById(selectedMessages, conversation, false);
-          },
-          onClickClose: () => {
-            window.inboxStore?.dispatch(updateConfirmModal(null));
-          },
-        })
-      );
-      return;
-    };
-
-    window.inboxStore?.dispatch(
-      updateConfirmModal({
-        title,
-        message: window.i18n(moreThanOne ? 'deleteMessagesQuestion' : 'deleteMessageQuestion'),
-        okText,
-        okTheme: SessionButtonColor.Danger,
-        onClickOk: async () => {
-          if (isServerDeletable) {
-            // unsend logic
-            await doDeleteMessagesById(selectedMessages, conversation, true);
-            // explicity close modal for this case.
-            window.inboxStore?.dispatch(updateConfirmModal(null));
-            return;
-          }
-          if (window.lokiFeatureFlags?.useUnsendRequests) {
-            showDeletionTypeModal();
-          } else {
-            await doDeleteMessagesById(selectedMessages, conversation, false);
-            window.inboxStore?.dispatch(updateConfirmModal(null));
-          }
-        },
-        closeAfterInput: false,
-      })
-    );
-    //#endregion
-  } else {
-    void doDeleteMessagesById(selectedMessages, conversation);
   }
 }
 

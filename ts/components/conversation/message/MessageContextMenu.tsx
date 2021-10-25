@@ -4,7 +4,7 @@ import { animation, Item, Menu } from 'react-contexify';
 
 import { MessageInteraction } from '../../../interactions';
 import { getMessageById } from '../../../data/data';
-import { deleteMessagesById, replyToMessage } from '../../../interactions/conversationInteractions';
+import { replyToMessage } from '../../../interactions/conversationInteractions';
 import {
   showMessageDetailsView,
   toggleSelectedMessageId,
@@ -16,8 +16,12 @@ import {
 } from '../../../interactions/messageInteractions';
 import { MessageRenderingProps } from '../../../models/messageType';
 import { pushUnblockToSend } from '../../../session/utils/Toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMessageContextMenuProps } from '../../../state/selectors/conversations';
+import {
+  deleteMessagesById,
+  deleteMessagesByIdForEveryone,
+} from '../../../interactions/conversations/unsendingInteractions';
 
 export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
@@ -35,6 +39,7 @@ export type MessageContextMenuSelectorProps = Pick<
   | 'serverTimestamp'
   | 'timestamp'
   | 'isBlocked'
+  | 'isDeletableForEveryone'
 >;
 
 type Props = { messageId: string; contextMenuId: string };
@@ -42,6 +47,7 @@ type Props = { messageId: string; contextMenuId: string };
 // tslint:disable: max-func-body-length cyclomatic-complexity
 export const MessageContextMenu = (props: Props) => {
   const selected = useSelector(state => getMessageContextMenuProps(state as any, props.messageId));
+  const dispatch = useDispatch();
 
   if (!selected) {
     return null;
@@ -53,6 +59,7 @@ export const MessageContextMenu = (props: Props) => {
     direction,
     status,
     isDeletable,
+    isDeletableForEveryone,
     isPublic,
     isOpenGroupV2,
     weAreAdmin,
@@ -85,14 +92,15 @@ export const MessageContextMenu = (props: Props) => {
     const found = await getMessageById(messageId);
     if (found) {
       const messageDetailsProps = await found.getPropsForMessageDetail();
-      window.inboxStore?.dispatch(showMessageDetailsView(messageDetailsProps));
+      dispatch(showMessageDetailsView(messageDetailsProps));
     } else {
       window.log.warn(`Message ${messageId} not found in db`);
     }
   };
 
   const selectMessageText = window.i18n('selectMessage');
-  const deleteMessageText = window.i18n('deleteMessage');
+  const deleteMessageJustForMeText = window.i18n('deleteJustForMe');
+  const unsendMessageText = window.i18n('deleteForEveryone');
 
   const addModerator = useCallback(() => {
     void addSenderAsModerator(authorPhoneNumber, convoId);
@@ -151,11 +159,15 @@ export const MessageContextMenu = (props: Props) => {
   }, [authorPhoneNumber, convoId]);
 
   const onSelect = useCallback(() => {
-    window.inboxStore?.dispatch(toggleSelectedMessageId(messageId));
+    dispatch(toggleSelectedMessageId(messageId));
   }, [messageId]);
 
   const onDelete = useCallback(() => {
-    void deleteMessagesById([messageId], convoId, true);
+    void deleteMessagesById([messageId], convoId);
+  }, [convoId, messageId]);
+
+  const onDeleteForEveryone = useCallback(() => {
+    void deleteMessagesByIdForEveryone([messageId], convoId);
   }, [convoId, messageId]);
 
   return (
@@ -176,7 +188,16 @@ export const MessageContextMenu = (props: Props) => {
       {isDeletable ? (
         <>
           <Item onClick={onSelect}>{selectMessageText}</Item>
-          <Item onClick={onDelete}>{deleteMessageText}</Item>
+        </>
+      ) : null}
+      {isDeletable && !isPublic ? (
+        <>
+          <Item onClick={onDelete}>{deleteMessageJustForMeText}</Item>
+        </>
+      ) : null}
+      {isDeletableForEveryone ? (
+        <>
+          <Item onClick={onDeleteForEveryone}>{unsendMessageText}</Item>
         </>
       ) : null}
       {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}

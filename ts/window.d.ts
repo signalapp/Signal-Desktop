@@ -47,7 +47,6 @@ declare global {
       useFileOnionRequestsV2: boolean;
       padOutgoingAttachments: boolean;
       enablePinConversations: boolean;
-      useUnsendRequests: boolean;
       useCallMessage: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;

@@ -18,7 +18,7 @@ import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups
 import _ from 'lodash';
 import { getOpenGroupManager } from '../../opengroup/opengroupV2/OpenGroupManagerV2';
 import { deleteAuthToken, DeleteAuthTokenRequest } from '../../opengroup/opengroupV2/ApiAuth';
-import { deleteMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
+import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 
 let instance: ConversationController | null;
 
@@ -228,7 +228,7 @@ export class ConversationController {
     // those are the stuff to do for all contact types
     window.log.info(`deleteContact destroyingMessages: ${id}`);
 
-    await deleteMessagesByConvoIdNoConfirmation(conversation.id);
+    await deleteAllMessagesByConvoIdNoConfirmation(conversation.id);
     window.log.info(`deleteContact message destroyed: ${id}`);
     // if this conversation is a private conversation it's in fact a `contact` for desktop.
     // we just want to remove everything related to it, set the active_at to undefined

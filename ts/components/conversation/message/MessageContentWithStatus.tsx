@@ -35,24 +35,9 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const onClickOnMessageOuterContainer = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      const selection = window.getSelection();
-      // Text is being selected
-      if (selection && selection.type === 'Range') {
-        return;
-      }
-
-      // User clicked on message body
-      const target = event.target as HTMLDivElement;
-      if (
-        (!multiSelectMode && target.className === 'text-selectable') ||
-        window.contextMenuShown ||
-        props?.isDetailView
-      ) {
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
-      if (messageId) {
+      if (multiSelectMode && messageId) {
+        event.preventDefault();
+        event.stopPropagation();
         dispatch(toggleSelectedMessageId(messageId));
       }
     },

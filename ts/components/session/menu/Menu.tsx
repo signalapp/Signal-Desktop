@@ -23,7 +23,7 @@ import {
   blockConvoById,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
-  deleteMessagesByConvoIdWithConfirmation,
+  deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
   setDisappearingMessagesByConvoId,
   setNotificationForConvoId,
@@ -68,10 +68,6 @@ function showClearNickname(isMe: boolean, hasNickname: boolean, isGroup: boolean
 
 function showChangeNickname(isMe: boolean, isGroup: boolean) {
   return !isMe && !isGroup;
-}
-
-function showDeleteMessages(isPublic: boolean): boolean {
-  return !isPublic;
 }
 
 // we want to show the copyId for open groups and private chats only
@@ -546,20 +542,16 @@ export function getChangeNicknameMenuItem(
   return null;
 }
 
-export function getDeleteMessagesMenuItem(
-  isPublic: boolean | undefined,
-  conversationId: string
-): JSX.Element | null {
-  if (showDeleteMessages(Boolean(isPublic))) {
-    return (
-      <Item
-        onClick={() => {
-          deleteMessagesByConvoIdWithConfirmation(conversationId);
-        }}
-      >
-        {window.i18n('deleteMessages')}
-      </Item>
-    );
-  }
+export function getDeleteMessagesMenuItem(conversationId: string): JSX.Element | null {
+  return (
+    <Item
+      onClick={() => {
+        deleteAllMessagesByConvoIdWithConfirmation(conversationId);
+      }}
+    >
+      {window.i18n('deleteMessages')}
+    </Item>
+  );
+
   return null;
 }

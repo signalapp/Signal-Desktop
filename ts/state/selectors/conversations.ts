@@ -74,6 +74,13 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+export const getSelectedConversationIsPublic = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return state?.isPublic || false;
+  }
+);
+
 export const getHasIncomingCallFrom = createSelector(
   getConversations,
   (state: ConversationsStateType): ReduxConversationType | undefined => {
@@ -706,11 +713,18 @@ export const getMessagePropsByMessageId = createSelector(
 
     const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
     const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
-    // a message is deletable if
+    // A message is deletable if
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
     // or the convo is public and we are an admin
     const isDeletable = authorPhoneNumber === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+
+    // A message is deletable for everyone if
+    // either we sent it no matter what the conversation type,
+    // or the convo is public and we are an admin
+    const isDeletableForEveryone =
+      authorPhoneNumber === ourPubkey || (isPublic && !!weAreAdmin) || false;
+
     const isSenderAdmin = groupAdmins.includes(authorPhoneNumber);
     const senderIsUs = authorPhoneNumber === ourPubkey;
 
@@ -726,6 +740,7 @@ export const getMessagePropsByMessageId = createSelector(
         isOpenGroupV2: !!isPublic,
         isSenderAdmin,
         isDeletable,
+        isDeletableForEveryone,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
         authorPhoneNumber,
@@ -869,6 +884,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
     serverTimestamp,
     timestamp,
     isBlocked,
+    isDeletableForEveryone,
   } = props.propsForMessage;
 
   const msgProps: MessageContextMenuSelectorProps = {
@@ -886,6 +902,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
     serverTimestamp,
     timestamp,
     isBlocked,
+    isDeletableForEveryone,
   };
 
   return msgProps;
