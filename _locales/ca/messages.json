@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Baixa",
+        "message": "Desa",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "No es pot actualitzar.",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Silenciat",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Silenci",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Mostra els membres",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Reinicialitza la sessió",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Mostra el número de seguretat",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Cancel·la",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ us ha enviat un missatge que no es pot processar o mostrar perquè usa una funció nova del Signal.",
@@ -5371,6 +5379,14 @@
         "message": "Configuració del grup",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Configuració del xat",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Enllaç del grup",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Els usuaris de lectors de pantalla haurien de trobar ara més fàcil de navegar per la llista de converses del panell esquerre.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
+        "description": "Release notes for v5.22"
     }
 }

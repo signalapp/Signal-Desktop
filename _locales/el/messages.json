@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Λήψη",
+        "message": "Αποθήκευση",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Αδυναμία αναβάθμισης",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Σε σίγαση",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Σίγαση",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Το Signal Desktop δεν μπόρεσε να αναβαθμιστεί, αλλά υπάρχει μια νέα έκδοση διαθέσιμη. Παρακαλώ πήγαινε στο  $url$ και εγκατέστησε τη νέα έκδοση χειροκίνητα. Μετά είτε επικοινώνησε με την υποστήριξη ή καταχώρησε ένα αίτημα σφάλματος για αυτό το πρόβλημα.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Εμφάνιση μελών",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Επανεκκίνηση συνεδρίας",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Εμφάνιση αριθμού ασφαλείας",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Ακύρωση",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Δες περισσότερα",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "Ο/Η $contact$ σάς έστειλε ένα μήνυμα που δεν μπορεί να επεξεργαστεί ή να εμφανιστεί γιατί χρησιμοποιεί κάποια νέα δυνατότητα του Signal.",
@@ -5371,6 +5379,14 @@
         "message": "Ρυθμίσεις ομάδας",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Ρυθμίσεις συνομιλίας",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Αναίρεση της σίγασης της συνομιλίας;",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Σύνδεσμος ομάδας",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Οι χρήστες αναγνώστη οθόνης θα μπορούν να πλοηγηθούν στη λίστα συνομιλιών στο αριστερό τμήμα πιο εύκολα.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
+        "description": "Release notes for v5.22"
     }
 }

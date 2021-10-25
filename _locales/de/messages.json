@@ -474,7 +474,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Beim Hochladen gab es ein Problem. Schreibe bitte eine E-Mail an support@signal.org und füge das Diagnoseprotokoll als eine Textdatei an.",
+        "message": "Beim Hochladen gab es ein Problem. Schreibe bitte eine E-Mail an support@signal.org und hänge das Diagnoseprotokoll als eine Textdatei an.",
         "description": ""
     },
     "debugLogSuccess": {
@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Herunterladen",
+        "message": "Speichern",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Aktualisieren nicht möglich",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Stumm",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Stumm",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop konnte nicht aktualisiert werden, obwohl eine neue Version verfügbar ist. Bitte besuche $url$ und installiere die neue Version manuell. Kontaktiere danach den Support oder lege einen Fehlerbericht zu diesem Problem an.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Mitglieder anzeigen",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Sitzung zurücksetzen",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Sicherheitsnummer anzeigen",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Abbrechen",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Weiterlesen",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ hat dir eine Nachricht gesendet, die nicht verarbeitet oder angezeigt werden kann, da sie ein neues Signal-Feature nutzt.",
@@ -5371,6 +5379,14 @@
         "message": "Gruppeneinstellungen",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Unterhaltungseinstellungen",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Stummschaltung für die Unterhaltung aufheben?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Gruppen-Link",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Benutzer von Bildschirmlesegeräten können nun leichter durch die Unterhaltungsliste im linken Fensterbereich navigieren.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
+        "description": "Release notes for v5.22"
     }
 }

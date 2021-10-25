@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "దిగుమతి",
+        "message": "భద్రపరుచు",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "నవీకరించలేరు",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "మ్యూట్ చేయబడింది",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "నిశబ్ధం",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop నవీకరించడంలో విఫలమైంది, కానీ క్రొత్త సంస్కరణ అందుబాటులో ఉంది. దయచేసి $url$ కి వెళ్లి క్రొత్త సంస్కరణను మాన్యువల్‌గా ఇన్‌స్టాల్ చేయండి, ఆపై మద్దతును సంప్రదించండి లేదా ఈ సమస్య గురించి బగ్‌ను ఫైల్ చేయండి.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "సభ్యులను చూపించు",
         "description": ""
-    },
-    "resetSession": {
-        "message": "సెషన్‌ను రీసెట్ చేయండి",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "భద్రతా సంఖ్యను వీక్షించండి",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "రద్దు",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ మీకు క్రొత్త Signal లక్షణాన్ని ఉపయోగిస్తున్నందున ప్రాసెస్ చేయలేని లేదా ప్రదర్శించలేని సందేశాన్ని పంపింది.",
@@ -5371,6 +5379,14 @@
         "message": "సమూహ సెట్టింగులు",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "చాట్ సెట్టింగ్లు",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "సమూహ లింక్",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.22"
     }
 }

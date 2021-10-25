@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Download",
+        "message": "Gem",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Det er ikke muligt at opdatere",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Ignoreret",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Ignorer",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop kunne ikke opdateres, men der er en ny version tilgængelig. Gå til $url$ og installer den nye version manuelt, derefter kontakt enten support eller indrapportér problemet.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Vis medlemmer",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Nulstil session",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Vis sikkerhedsnummer",
@@ -2751,6 +2755,10 @@
         "message": "Annuller",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
+    "MessageBody--read-more": {
+        "message": "Læs mere",
+        "description": "When a message is too long this is the affordance to expand the message"
+    },
     "Message--unsupported-message": {
         "message": "$contact$ sendte dig en besked, der ikke kan behandles eller vises, fordi den bruger en ny Signal funktion.",
         "description": "",
@@ -3228,7 +3236,7 @@
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
-        "message": "Fejl ved forarbejdning af billede",
+        "message": "Fejl ved bearbejdning af billede",
         "description": "Text for the toast when an image cannot be processed was dropped on the sticker creator with a generic error"
     },
     "StickerCreator--Toasts--APNG--notSquare": {
@@ -5371,6 +5379,14 @@
         "message": "Gruppeindstillinger",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Indstillinger for chat",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Slå notifikationer til igen for denne chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Gruppelink",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Brugere af skærmlæsere bør nu have lettere ved at navigere i samtalelisten i venstre rude.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Denne version indeholder en række små justeringer og fejlrettelser for at sikre, at Signal kører problemfrit.",
+        "description": "Release notes for v5.22"
     }
 }

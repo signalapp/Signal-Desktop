@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Deskargatu",
+        "message": "Gorde",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Ezin izan da eguneratu",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Isildu",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Isildu",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop eguneratzeak huts egin du, baina bertsio berri bat dago eskuragarri. Mesedez, joan $url$ helbidera eta bertsio berria manualki instalatu; ondoren, harremanetan jarri laguntza taldearekin edo arazo honi buruzko errore jakinarazpen bat bidali.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Erakutsi partaideak",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Berrezarri saioa",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Segurtasun zenbakia ikusi",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Utzi",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$erabiltzaileak prozesatu edo erakusti ezin daitekeen mezu bat bidali dizu; arrazoia zera da:  mezuak Signal-en ezagarri berria erabiltzen du.",
@@ -5371,6 +5379,14 @@
         "message": "Taldeko ezarpenak",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Txataren ezarpenak",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Talderako esteka",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.22"
     }
 }

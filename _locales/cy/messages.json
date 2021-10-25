@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Llwytho i lawr",
+        "message": "Cadw",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Methu Diweddaru",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Wedi Tewi",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Tewi",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Methodd Signal Desktop â diweddaru, ond mae fersiwn newydd ar gael. Ewch i $url$ a gosod y fersiwn newydd â llaw, yna naill ai cysylltwch â chymorth neu ffeilio gwall am y broblem hon.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Dangos aelodau",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Ailosod y sesiwn",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Gweld rhif diogelwch",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Diddymu",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Dysgu rhagor",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "Anfonodd $contact$ neges atoch nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd.",
@@ -5371,6 +5379,14 @@
         "message": "Gosodiadau grŵp",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Gosodiadau sgwrsio",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Dad-dewi'r sgwrs yma?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Dolen grŵp",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Dylai ddefnyddwyr darllenwyr sgrin ei chael hi'n haws i lywio drwy'r rhestrau sgyrsiau ar y paen chwith.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
+        "description": "Release notes for v5.22"
     }
 }

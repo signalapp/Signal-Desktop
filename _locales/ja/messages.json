@@ -470,15 +470,15 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "このログは、開発者が閲覧するためにネット上で公開されます。投稿する前に全ログをダウンロードすることができます。",
+        "message": "このログはコントリビュータに公開されますが、提出する前に内容をダウンロードできます。",
         "description": ""
     },
     "debugLogError": {
-        "message": "送信に失敗しました。 support@signal.org にログのテキストファイルをお送りください。",
+        "message": "アップロードできませんでした！ログのテキストファイルを support@signal.org にメールでお送りください。",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "デバッグログが送信されました",
+        "message": "デバッグログを送信しました",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
@@ -486,11 +486,11 @@
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
-        "message": "リンクをコピーする",
+        "message": "リンクをコピー",
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "ダウンロード",
+        "message": "保存",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -962,7 +962,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "ボイスレコーダーにエラーが発生しました。",
+        "message": "音声レコーダーにエラーが発生しました。",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
@@ -970,7 +970,7 @@
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "フォルダを表示",
+        "message": "フォルダで表示",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1026,6 +1026,14 @@
     "cannotUpdate": {
         "message": "アップデートできません",
         "description": "Shown as the title of our update error dialogs on windows"
+    },
+    "muted": {
+        "message": "ミュート中",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "ミュート",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
         "message": "Signal Desktop はアップデートに失敗しましたが、新しいバージョンが利用可能です。$url$ から手動で新しいバージョンをインストールしてからサポートに問い合わせるか、このバグを報告してください。",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "メンバーを表示する",
         "description": ""
-    },
-    "resetSession": {
-        "message": "セッションをリセット",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "安全番号を表示する",
@@ -2182,7 +2186,7 @@
         }
     },
     "SafetyNumberModal__title": {
-        "message": "安全番号を検証する",
+        "message": "安全番号の検証",
         "description": "Title for the modal for safety number verification"
     },
     "safetyNumberChanged": {
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "キャンセル",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "さらに表示",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$からメッセージが届きましたが、Signal の新機能を利用しているため処理または表示できません。",
@@ -5371,6 +5379,14 @@
         "message": "グループ設定",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "チャットの設定",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "このチャットのミュートを解除しますか？",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "グループリンク",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "スクリーンリーダーをお使いの方は、左ペインのチャットリストを簡単に操作できるようになりました。",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "このバージョンでは、Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
+        "description": "Release notes for v5.22"
     }
 }

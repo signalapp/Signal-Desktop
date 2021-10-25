@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Laadi alla",
+        "message": "Salvesta",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Ei saa uuendada",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Vaigistatud",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Vaigista",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop värskendamine nurjus, kuid saadaval on uus versioon. Palun mine aadressile $url$ ja paigalda uus versioon käsitsi. Seejärel võta ühendust kasutajatoega või sisesta selle probleemi kohta veateade.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Näita liikmeid",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Lähtesta seanss",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Näita turvanumbrit",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Loobu",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ saatis sulle sõnumi, mida ei saa töödelda või kuvada, sest see kasutab Signali uut funktsionaalsust.",
@@ -5371,6 +5379,14 @@
         "message": "Grupi sätted",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Vestluse seaded",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Grupilink",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
+        "description": "Release notes for v5.22"
     }
 }

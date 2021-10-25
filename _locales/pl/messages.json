@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Pobierz",
+        "message": "Zapisz",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Nie można zaktualizować",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Wyciszono",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Wycisz",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Dostępna jest nowa wersja Signal Desktop, ale automatyczna aktualizacja nie powiodła się. Przejdź do  $url$ i zainstaluj nową wersję ręcznie, a następnie skontaktuj się z pomocą techniczną lub zgłoś błąd dotyczący tego problemu.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Pokaż członków",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Zresetuj sesję",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Zobacz numer bezpieczeństwa",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Anuluj",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Czytaj dalej",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ wysłał(a) wiadomość, która nie może zostać przetworzona lub wyświetlona, ponieważ wykorzystuje nową funkcję Signal.",
@@ -5371,6 +5379,14 @@
         "message": "Ustawienia grupy",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Ustawienia rozmów",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Cofnąć wyciszenie tej rozmowy?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Link do grupy",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Użytkownicy czytników ekranu powinni móc teraz łatwiej nawigować po liście konwersacji na lewym panelu.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
+        "description": "Release notes for v5.22"
     }
 }

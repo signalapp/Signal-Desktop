@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Stáhnout",
+        "message": "Uložit",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Aktualizace selhala",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Ztlumeno",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Ztlumit",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop se nepodařilo aktualizovat, ale je již k dispozici novější verze. Jděte na $url$ a nainstalujte novou verzi ručně. Poté případně kontaktujte podporu či nahlaste chybu.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Zobrazit členy",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Resetovat sezení",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Zobrazit bezpečnostní číslo",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Storno",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Číst dále",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ vám zaslal(a) zprávu, kterou zde nelze zobrazit, protože používá novější funkci Signal.",
@@ -5371,6 +5379,14 @@
         "message": "Nastavení skupiny",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Nastavení konverzace",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Zrušit ztlumení tohoto chatu?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Odkaz skupiny",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Uživatelé čtečky obrazovky by se nyní měli snadněji pohybovat v seznamu konverzací na levém panelu.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
+        "description": "Release notes for v5.22"
     }
 }

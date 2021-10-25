@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Downloaden",
+        "message": "Opslaan",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Kan niet bijwerken",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Gedempt",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Dempen",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Het is Signal-Desktop niet gelukt om bij te werken, maar er is wel een nieuwe versie beschikbaar. Surf naar  $url$ en installeer zelf de nieuwe versie. Neem daarna ofwel contact op met onze ondersteuning, of schijf een foutrapportage op GitHub om dit probleem te melden.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Leden weergeven",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Sessie opnieuw opzetten",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Veiligheidsnummer bekijken",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Annuleren",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Meer lezen",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "Je hebt een bericht ontvangen van $contact$ die niet kan worden verwerkt of niet kan worden weeggegeven omdat het gebruik maakt van een nieuwe functie van Signal.",
@@ -5371,6 +5379,14 @@
         "message": "Groepsgesprek-instellingen",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Gespreksinstellingen",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Dit gesprek niet langer dempen?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Groepsverwijzing voor deze groep",
         "description": "This is the label for the group link management panel"
@@ -6506,5 +6522,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Het zou nu makkelijker moeten zijn voor gebruikers van schermlezers om te navigeren door de gesprekkenlijst aan de linker kant.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
+        "description": "Release notes for v5.22"
     }
 }
