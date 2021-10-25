@@ -42,6 +42,13 @@ async function unsendMessagesForEveryone(
           .catch(window?.log?.error)
       )
     );
+    await Promise.all(
+      unsendMsgObjects.map(unsendObject =>
+        getMessageQueue()
+          .sendSyncMessage(unsendObject)
+          .catch(window?.log?.error)
+      )
+    );
     allDeleted = await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
   } else if (conversation.isClosedGroup()) {
     // sending to recipient all the messages separately for now
