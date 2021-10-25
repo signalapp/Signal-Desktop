@@ -12763,11 +12763,18 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/TooltipEventWrapper.tsx",
-    "line": "  const wrapperRef = useRef<HTMLSpanElement | null>(null);",
+    "path": "ts/components/Tooltip.js",
+    "line": "    const wrapperRef = react_1.default.useRef(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-10-21T16:10:14.143Z",
+    "updated": "2020-12-04T00:11:08.128Z",
     "reasonDetail": "Used to add (and remove) event listeners."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Tooltip.tsx",
+    "line": "  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-07-30T16:57:33.618Z"
   },
   {
     "rule": "React-createRef",

@@ -3,12 +3,62 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 import { Manager, Reference, Popper } from 'react-popper';
 import type { StrictModifiers } from '@popperjs/core';
 import { Theme, themeClassName } from '../util/theme';
+import { refMerger } from '../util/refMerger';
 import { offsetDistanceModifier } from '../util/popperUtil';
 
-import { SmartTooltipEventWrapper } from '../state/smart/TooltipEventWrapper';
+type EventWrapperPropsType = {
+  children: React.ReactNode;
+  onHoverChanged: (_: boolean) => void;
+};
+
+// React doesn't reliably fire `onMouseLeave` or `onMouseOut` events if wrapping a
+//   disabled button. This uses native browser events to avoid that.
+//
+// See <https://lecstor.com/react-disabled-button-onmouseleave/>.
+const TooltipEventWrapper = React.forwardRef<
+  HTMLSpanElement,
+  EventWrapperPropsType
+>(({ onHoverChanged, children }, ref) => {
+  const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
+
+  const on = React.useCallback(() => {
+    onHoverChanged(true);
+  }, [onHoverChanged]);
+
+  const off = React.useCallback(() => {
+    onHoverChanged(false);
+  }, [onHoverChanged]);
+
+  React.useEffect(() => {
+    const wrapperEl = wrapperRef.current;
+
+    if (!wrapperEl) {
+      return noop;
+    }
+
+    wrapperEl.addEventListener('mouseenter', on);
+    wrapperEl.addEventListener('mouseleave', off);
+
+    return () => {
+      wrapperEl.removeEventListener('mouseenter', on);
+      wrapperEl.removeEventListener('mouseleave', off);
+    };
+  }, [on, off]);
+
+  return (
+    <span
+      onFocus={on}
+      onBlur={off}
+      ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
+    >
+      {children}
+    </span>
+  );
+});
 
 export enum TooltipPlacement {
   Top = 'top',
@@ -47,12 +97,9 @@ export const Tooltip: React.FC<PropsType> = ({
     <Manager>
       <Reference>
         {({ ref }) => (
-          <SmartTooltipEventWrapper
-            innerRef={ref}
-            onHoverChanged={setIsHovering}
-          >
+          <TooltipEventWrapper ref={ref} onHoverChanged={setIsHovering}>
             {children}
-          </SmartTooltipEventWrapper>
+          </TooltipEventWrapper>
         )}
       </Reference>
       <Popper
