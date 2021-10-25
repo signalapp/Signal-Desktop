@@ -352,10 +352,11 @@ const ConversationListItem = (props: Props) => {
             lastMessage={lastMessage}
           />
           {isMessageRequest ? (
-            <StyledButtonContainer
+            <Flex
               className="module-conversation-list-item__button-container"
               container={true}
               flexDirection="row"
+              justifyContent="flex-end"
             >
               <SessionButton
                 onClick={handleConversationDecline}
@@ -369,7 +370,7 @@ const ConversationListItem = (props: Props) => {
               >
                 Accept
               </SessionButton>
-            </StyledButtonContainer>
+            </Flex>
           ) : null}
         </div>
       </div>
@@ -391,9 +392,5 @@ const ConversationListItem = (props: Props) => {
     </div>
   );
 };
-
-const StyledButtonContainer = styled(Flex)`
-  justify-content: space-evenly;
-`;
 
 export const MemoConversationListItemWithDetails = React.memo(ConversationListItem, _.isEqual);

@@ -254,7 +254,7 @@ $session-compose-margin: 20px;
       width: 100%;
 
       .session-button {
-        margin: $session-margin-xs 0;
+        margin: $session-margin-xs $session-margin-xs $session-margin-xs 0;
       }
     }
   }
