@@ -298,7 +298,7 @@ const ConversationListItem = (props: Props) => {
     conversationToApprove?.setIsApproved(true);
     console.warn('convo marked as approved');
     console.warn({ convo: conversationToApprove });
-    conversationToApprove.sendS
+    // TODO: Send sync message to other devices. Using config message
   };
 
   return (
