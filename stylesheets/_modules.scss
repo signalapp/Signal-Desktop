@@ -7584,11 +7584,29 @@ button.module-image__border-overlay:focus {
   flex-direction: row;
   width: 100%;
 
-  &:hover {
-    @include light-theme {
-      background-color: $color-gray-15;
+  @include light-theme {
+    &:hover {
+      background-color: $color-gray-05;
     }
-    @include dark-theme {
+  }
+  @include dark-theme {
+    &:hover {
+      background-color: $color-gray-60;
+    }
+  }
+  @include keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
+    &:focus {
+      background-color: $color-gray-05;
+    }
+  }
+  @include dark-keyboard-mode {
+    &:hover {
+      background-color: inherit;
+    }
+    &:focus {
       background-color: $color-gray-60;
     }
   }

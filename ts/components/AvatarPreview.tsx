@@ -134,7 +134,7 @@ export const AvatarPreview = ({
 
   const isLoading = imageStatus === ImageStatus.Loading;
 
-  const clickProps = onClick ? { role: 'button', onClick } : {};
+  const clickProps = onClick ? { role: 'button', onClick, tabIndex: 0 } : {};
   const componentStyle = {
     ...style,
   };

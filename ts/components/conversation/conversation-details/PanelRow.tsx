@@ -19,43 +19,55 @@ export type Props = {
 
 const bem = bemGenerator('ConversationDetails-panel-row');
 
-export const PanelRow: React.ComponentType<Props> = ({
-  alwaysShowActions,
-  className,
-  disabled,
-  icon,
-  label,
-  info,
-  right,
-  actions,
-  onClick,
-}) => {
-  const content = (
-    <>
-      {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}
-      <div className={bem('label')}>
-        <div>{label}</div>
-        {info !== undefined ? <div className={bem('info')}>{info}</div> : null}
-      </div>
-      {right !== undefined ? <div className={bem('right')}>{right}</div> : null}
-      {actions !== undefined ? (
-        <div className={alwaysShowActions ? '' : bem('actions')}>{actions}</div>
-      ) : null}
-    </>
-  );
-
-  if (onClick) {
-    return (
-      <button
-        disabled={disabled}
-        type="button"
-        className={classNames(bem('root', 'button'), className)}
-        onClick={onClick}
-      >
-        {content}
-      </button>
+export const PanelRow = React.forwardRef<HTMLButtonElement, Props>(
+  (
+    {
+      alwaysShowActions,
+      className,
+      disabled,
+      icon,
+      label,
+      info,
+      right,
+      actions,
+      onClick,
+    }: Props,
+    ref: React.Ref<HTMLButtonElement>
+  ) => {
+    const content = (
+      <>
+        {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}
+        <div className={bem('label')}>
+          <div>{label}</div>
+          {info !== undefined ? (
+            <div className={bem('info')}>{info}</div>
+          ) : null}
+        </div>
+        {right !== undefined ? (
+          <div className={bem('right')}>{right}</div>
+        ) : null}
+        {actions !== undefined ? (
+          <div className={alwaysShowActions ? '' : bem('actions')}>
+            {actions}
+          </div>
+        ) : null}
+      </>
     );
-  }
 
-  return <div className={classNames(bem('root'), className)}>{content}</div>;
-};
+    if (onClick) {
+      return (
+        <button
+          disabled={disabled}
+          type="button"
+          className={classNames(bem('root', 'button'), className)}
+          onClick={onClick}
+          ref={ref}
+        >
+          {content}
+        </button>
+      );
+    }
+
+    return <div className={classNames(bem('root'), className)}>{content}</div>;
+  }
+);

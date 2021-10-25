@@ -19,41 +19,40 @@ export type PropsType = Readonly<{
   value?: string | number;
 }>;
 
-export function Select({
-  disabled,
-  moduleClassName,
-  name,
-  onChange,
-  options,
-  value,
-}: PropsType): JSX.Element {
-  const onSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    onChange(event.target.value);
-  };
+export const Select = React.forwardRef(
+  (
+    { disabled, moduleClassName, name, onChange, options, value }: PropsType,
+    ref: React.Ref<HTMLSelectElement>
+  ): JSX.Element => {
+    const onSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+      onChange(event.target.value);
+    };
 
-  return (
-    <div className={classNames(['module-select', moduleClassName])}>
-      <select
-        disabled={disabled}
-        name={name}
-        value={value}
-        onChange={onSelectChange}
-      >
-        {options.map(
-          ({ disabled: optionDisabled, text, value: optionValue }) => {
-            return (
-              <option
-                disabled={optionDisabled}
-                value={optionValue}
-                key={optionValue}
-                aria-label={text}
-              >
-                {text}
-              </option>
-            );
-          }
-        )}
-      </select>
-    </div>
-  );
-}
+    return (
+      <div className={classNames(['module-select', moduleClassName])}>
+        <select
+          disabled={disabled}
+          name={name}
+          value={value}
+          onChange={onSelectChange}
+          ref={ref}
+        >
+          {options.map(
+            ({ disabled: optionDisabled, text, value: optionValue }) => {
+              return (
+                <option
+                  disabled={optionDisabled}
+                  value={optionValue}
+                  key={optionValue}
+                  aria-label={text}
+                >
+                  {text}
+                </option>
+              );
+            }
+          )}
+        </select>
+      </div>
+    );
+  }
+);

@@ -18,6 +18,8 @@ import { SampleMessageBubbles } from './SampleMessageBubbles';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';
 
+import { useDelayedRestoreFocus } from '../hooks/useRestoreFocus';
+
 type CustomColorDataType = {
   id?: string;
   value?: CustomColorType;
@@ -83,6 +85,8 @@ export const ChatColorPicker = ({
   const [customColorToEdit, setCustomColorToEdit] = useState<
     CustomColorDataType | undefined
   >(undefined);
+
+  const [focusRef] = useDelayedRestoreFocus();
 
   const onSelectColor = (
     conversationColor: ConversationColorType,
@@ -172,7 +176,7 @@ export const ChatColorPicker = ({
       />
       <hr />
       <div className="ChatColorPicker__bubbles">
-        {ConversationColors.map(color => (
+        {ConversationColors.map((color, i) => (
           <div
             aria-label={color}
             className={classNames(
@@ -190,6 +194,7 @@ export const ChatColorPicker = ({
             }}
             role="button"
             tabIndex={0}
+            ref={i === 0 ? focusRef : undefined}
           />
         ))}
         {Object.keys(customColors).map(colorId => {

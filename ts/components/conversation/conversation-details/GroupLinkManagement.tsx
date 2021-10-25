@@ -11,6 +11,8 @@ import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
 
+import { useDelayedRestoreFocus } from '../../../hooks/useRestoreFocus';
+
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
 export type PropsType = {
@@ -35,6 +37,8 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
   if (conversation === undefined) {
     throw new Error('GroupLinkManagement rendered without a conversation');
   }
+
+  const [focusRef] = useDelayedRestoreFocus();
 
   const createEventHandler = (handleEvent: (x: boolean) => void) => {
     return (value: string) => {
@@ -72,6 +76,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                     value: 'false',
                   },
                 ]}
+                ref={focusRef}
                 value={String(Boolean(hasGroupLink))}
               />
             ) : null
@@ -90,6 +95,7 @@ export const GroupLinkManagement: React.ComponentType<PropsType> = ({
                 />
               }
               label={i18n('GroupLinkManagement--share')}
+              ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
                   copyGroupLink(conversation.groupLink);

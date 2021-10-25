@@ -13024,6 +13024,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/hooks/useRestoreFocus.js",
+    "line": "    const toFocusRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T00:52:39.251Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useRestoreFocus.js",
+    "line": "    const lastFocusedRef = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T00:52:39.251Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/hooks/useRestoreFocus.ts",
     "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -13035,6 +13049,20 @@
     "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-07-30T16:57:33.618Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useRestoreFocus.ts",
+    "line": "  const toFocusRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T00:52:39.251Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/hooks/useRestoreFocus.ts",
+    "line": "  const lastFocusedRef = React.useRef<HTMLElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-22T00:52:39.251Z"
   },
   {
     "rule": "jQuery-append(",

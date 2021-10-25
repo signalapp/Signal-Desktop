@@ -88,3 +88,9 @@ story.add('On (Non-admin)', () => {
 
   return <GroupLinkManagement {...props} />;
 });
+
+story.add('Off (Non-admin) - user cannot get here', () => {
+  const props = createProps(undefined, false);
+
+  return <GroupLinkManagement {...props} />;
+});
