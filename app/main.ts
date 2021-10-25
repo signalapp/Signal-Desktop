@@ -31,7 +31,6 @@ import * as GlobalErrors from './global_errors';
 import { setup as setupSpellChecker } from './spell_check';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
 import { consoleLogger } from '../ts/util/consoleLogger';
-import { remove as removeUserConfig } from './user_config';
 
 import './startup_config';
 
@@ -1318,7 +1317,7 @@ const onDatabaseError = async (error: string) => {
     clipboard.writeText(`Database startup error:\n\n${redactAll(error)}`);
   } else {
     await sql.removeDB();
-    removeUserConfig();
+    userConfig.remove();
     app.relaunch();
   }
 
