@@ -1,20 +1,9 @@
 // Copyright 2016-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import * as log from '../logging/log';
 import { WebAudioRecorderClass } from '../window.d';
-
-async function requestMicrophonePermissions(): Promise<boolean> {
-  const microphonePermission = await window.getMediaPermissions();
-  if (!microphonePermission) {
-    await window.showPermissionsPopup();
-
-    // Check the setting again (from the source of truth).
-    return window.getMediaPermissions();
-  }
-
-  return true;
-}
 
 export class RecorderClass {
   private context?: AudioContext;
