@@ -18,7 +18,7 @@ import { getOpenGroupManager } from './OpenGroupManagerV2';
 // 143.198.213.255:80/main?public_key=658d29b91892a2389505596b135e76a53db6e11d613a51dbd3d0816adffb231c
 
 export function parseOpenGroupV2(urlWithPubkey: string): OpenGroupV2Room | undefined {
-  const lowerCased = urlWithPubkey.toLowerCase();
+  const lowerCased = urlWithPubkey.trim().toLowerCase();
   try {
     if (!openGroupV2CompleteURLRegex.test(lowerCased)) {
       throw new Error('regex fail');
