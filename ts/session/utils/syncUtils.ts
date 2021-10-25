@@ -200,7 +200,9 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
   return _.compact(contacts);
 };
 
-export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {
+export const getCurrentConfigurationMessage = async (
+  convos: Array<ConversationModel>
+): Promise<ConfigurationMessage> => {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
 

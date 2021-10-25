@@ -298,6 +298,7 @@ const ConversationListItem = (props: Props) => {
     conversationToApprove?.setIsApproved(true);
     console.warn('convo marked as approved');
     console.warn({ convo: conversationToApprove });
+    conversationToApprove.sendS
   };
 
   return (

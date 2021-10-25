@@ -306,7 +306,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
         }}
-        onButtonClick={this.handleMessageButtonClick}
+        onButtonClick={async () => {
+          // decline all convos
+          // close modal
+          // this.state.approvedConversations.map(async(convo) => {
+          console.warn('Test');
+          // } )
+        }}
         searchTerm={searchTerm}
         searchResults={searchResults}
         showSpinner={loading}

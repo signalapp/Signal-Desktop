@@ -142,7 +142,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         break;
       case SessionClosableOverlayType.MessageRequests:
         title = 'Message Requests';
-        buttonText = 'requests done';
+        buttonText = 'Decline All';
         subtitle = 'Pending Requests';
         placeholder = 'placeholder';
         break;

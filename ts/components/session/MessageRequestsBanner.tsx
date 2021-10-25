@@ -92,7 +92,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
 
   return (
     <StyledMessageRequestBanner onClick={handleOnClick}>
-      <CirclularIcon iconType={'bell'} iconSize="medium" />
+      <CirclularIcon iconType="messageRequest" iconSize="medium" />
       <StyledMessageRequestBannerHeader>Message Requests</StyledMessageRequestBannerHeader>
       <StyledUnreadCounter>
         <div>{pendingRequestsCount}</div>
