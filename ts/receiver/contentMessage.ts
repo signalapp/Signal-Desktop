@@ -501,8 +501,16 @@ async function handleTypingMessage(
 async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: SignalService.Unsend) {
   const { author: messageAuthor, timestamp } = unsendMessage;
 
-  //#region early exit conditions
+  if (messageAuthor !== (envelope.senderIdentity || envelope.source)) {
+    window?.log?.error(
+      'handleUnsendMessage: Dropping request as the author and the sender differs.'
+    );
+    await removeFromCache(envelope);
+
+    return;
+  }
   if (!unsendMessage) {
+    //#region early exit conditions
     window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
   }
   if (!timestamp) {
