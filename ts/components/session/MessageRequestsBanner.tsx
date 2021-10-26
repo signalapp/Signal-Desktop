@@ -11,7 +11,7 @@ const StyledMessageRequestBanner = styled.div`
   max-width: 300px;
   display: flex;
   flex-direction: row;
-  padding: 8px 16px;
+  padding: 8px 12px; // adjusting for unread border always being active
   align-items: center;
   cursor: pointer;
 
