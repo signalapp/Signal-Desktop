@@ -5166,18 +5166,18 @@ button.module-image__border-overlay:focus {
         }
       }
 
-      &__unread-count {
-        $size: 16px;
+      &__unread-indicator {
+        $size: 18px;
 
         @include font-caption-bold;
         border-radius: 10px;
+        box-sizing: content-box;
         color: $color-white;
-        font-size: 10px;
         font-weight: 500;
         height: $size;
         line-height: $size;
         margin-left: 10px;
-        margin-top: 2px;
+        margin-top: 1px;
         min-width: $size;
         padding-left: 3px;
         padding-right: 3px;
@@ -5189,6 +5189,7 @@ button.module-image__border-overlay:focus {
 
         .module-conversation-list--width-narrow & {
           margin-left: 6px;
+          box-sizing: border-box;
         }
 
         @include light-theme {
@@ -5198,21 +5199,25 @@ button.module-image__border-overlay:focus {
           background-color: $color-ultramarine-dawn;
         }
 
-        &--multiple-digits {
+        &--two-digits,
+        &--many {
           padding-left: 4px;
           padding-right: 4px;
         }
 
         &--many {
-          font-size: 9px;
-          padding-right: 2px;
+          font-size: 10px;
 
           &::after {
             content: '+';
             display: inline-block;
-            font-size: 8px;
-            margin-bottom: 3px;
+            font-size: 9px;
           }
+        }
+
+        &--marked-unread {
+          padding-left: 0;
+          padding-right: 0;
         }
       }
 
