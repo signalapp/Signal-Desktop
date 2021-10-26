@@ -187,7 +187,7 @@ async function unsendMessageJustForThisUser(
 
   const unsendMsgObjects = getUnsendMessagesObjects(msgsToDelete);
 
-  // sending to recipient all the messages separately for now
+  // sending to our other devices all the messages separately for now
   await Promise.all(
     unsendMsgObjects.map(unsendObject =>
       getMessageQueue()
@@ -279,6 +279,17 @@ const doDeleteSelectedMessages = async ({
     }
     return unsendMessagesForEveryone(conversation, selectedMessages);
   }
+
+  // delete just for me in a closed group only means delete locally
+  if (conversation.isClosedGroup()) {
+    await deleteMessagesFromSwarmAndCompletelyLocally(conversation, selectedMessages);
+
+    // Update view and trigger update
+    window.inboxStore?.dispatch(resetSelectedMessageIds());
+    ToastUtils.pushDeleted();
+    return;
+  }
+  // otherwise, delete that message locally, from our swarm and from our other devices
   return unsendMessageJustForThisUser(conversation, selectedMessages);
 
   //#endregion
