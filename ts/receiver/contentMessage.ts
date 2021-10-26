@@ -20,8 +20,8 @@ import { getAllCachedECKeyPair } from './closedGroups';
 import { getMessageBySenderAndTimestamp } from '../data/data';
 import { handleCallMessage } from './callMessage';
 import {
-  deleteMessageLocallyOnly,
-  deleteMessagesFromSwarmOnly,
+  deleteMessagesFromSwarmAndCompletelyLocally,
+  deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
@@ -499,21 +499,16 @@ async function handleTypingMessage(
  * @param unsendMessage data required to delete message
  */
 async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: SignalService.Unsend) {
-  const { source: unsendSource } = envelope;
   const { author: messageAuthor, timestamp } = unsendMessage;
-  await removeFromCache(envelope);
 
   //#region early exit conditions
-  if (!unsendMessage || !unsendSource) {
-    window?.log?.error('UnsendMessageHandler:: Invalid parameters -- dropping message.');
+  if (!unsendMessage) {
+    window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
   }
   if (!timestamp) {
-    window?.log?.error('UnsendMessageHander:: Invalid timestamp -- dropping message');
+    window?.log?.error('handleUnsendMessage: Invalid timestamp -- dropping message');
   }
-  const conversation = getConversationController().get(unsendSource);
-  if (!conversation) {
-    return;
-  }
+
   const messageToDelete = await getMessageBySenderAndTimestamp({
     source: messageAuthor,
     timestamp: Lodash.toNumber(timestamp),
@@ -523,21 +518,22 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
   //#region executing deletion
   if (messageHash && messageToDelete) {
-    const wasDeleted = await deleteMessagesFromSwarmOnly([messageToDelete]);
-    if (!wasDeleted) {
-      window.log.warn(
-        'handleUnsendMessage: got a request to delete ',
-        messageHash,
-        ' but an error happened during deleting it from our swarm.'
-      );
+    window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
+    const conversation = getConversationController().get(messageToDelete.get('conversationId'));
+    if (!conversation) {
+      await removeFromCache(envelope);
+
+      return;
     }
-    // still, delete it locally
-    await deleteMessageLocallyOnly({
-      conversation,
-      message: messageToDelete,
-      deletionType: 'markDeleted',
-    });
+    if (messageToDelete.getSource() === UserUtils.getOurPubKeyStrFromCache()) {
+      // a message we sent is completely removed when we get a unsend request
+      void deleteMessagesFromSwarmAndCompletelyLocally(conversation, [messageToDelete]);
+    } else {
+      void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
+    }
   }
+  await removeFromCache(envelope);
+
   //#endregion
 }
 

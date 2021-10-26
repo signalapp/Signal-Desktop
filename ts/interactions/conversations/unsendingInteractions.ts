@@ -32,7 +32,6 @@ async function unsendMessagesForEveryone(
   }
   const unsendMsgObjects = getUnsendMessagesObjects(msgsToDelete);
 
-  let allDeleted = false;
   if (conversation.isPrivate()) {
     // sending to recipient all the messages separately for now
     await Promise.all(
@@ -49,7 +48,6 @@ async function unsendMessagesForEveryone(
           .catch(window?.log?.error)
       )
     );
-    allDeleted = await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
   } else if (conversation.isClosedGroup()) {
     // sending to recipient all the messages separately for now
     await Promise.all(
@@ -59,18 +57,11 @@ async function unsendMessagesForEveryone(
           .catch(window?.log?.error)
       )
     );
-
-    allDeleted = await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
-
-    return;
   }
+  await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
 
   window.inboxStore?.dispatch(resetSelectedMessageIds());
-  if (allDeleted) {
-    ToastUtils.pushDeleted();
-  } else {
-    ToastUtils.someDeletionsFailed();
-  }
+  ToastUtils.pushDeleted();
 }
 
 function getUnsendMessagesObjects(messages: Array<MessageModel>) {
@@ -119,7 +110,7 @@ export async function deleteMessagesFromSwarmOnly(messages: Array<MessageModel>)
  * Delete the messages from the swarm with an unsend request and if it worked, delete those messages locally.
  * If an error happened, we just return false, Toast an error, and do not remove the messages locally at all.
  */
-async function deleteMessagesFromSwarmAndCompletelyLocally(
+export async function deleteMessagesFromSwarmAndCompletelyLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
@@ -128,14 +119,33 @@ async function deleteMessagesFromSwarmAndCompletelyLocally(
     window.log.warn(
       'deleteMessagesFromSwarmAndCompletelyLocally: some messages failed to be deleted '
     );
-    return false;
   }
   await Promise.all(
     messages.map(async message => {
       return deleteMessageLocallyOnly({ conversation, message, deletionType: 'complete' });
     })
   );
-  return true;
+}
+
+/**
+ * Delete the messages from the swarm with an unsend request and if it worked, mark those messages locally as deleted but do not remove them.
+ * If an error happened, we still mark the message locally as deleted.
+ */
+export async function deleteMessagesFromSwarmAndMarkAsDeletedLocally(
+  conversation: ConversationModel,
+  messages: Array<MessageModel>
+) {
+  const deletedFromSwarm = await deleteMessagesFromSwarmOnly(messages);
+  if (!deletedFromSwarm) {
+    window.log.warn(
+      'deleteMessagesFromSwarmAndMarkAsDeletedLocally: some messages failed to be deleted but still removing the messages content... '
+    );
+  }
+  await Promise.all(
+    messages.map(async message => {
+      return deleteMessageLocallyOnly({ conversation, message, deletionType: 'markDeleted' });
+    })
+  );
 }
 
 /**
@@ -164,25 +174,32 @@ export async function deleteMessageLocallyOnly({
 }
 
 /**
+ * Send an UnsendMessage synced message so our devices removes those messages locally,
+ * and send an unsend request on our swarm so this message is effectively removed.
  *
+ * Show a toast on error/success and reset the selection
  */
-async function deleteJustForThisUser(
+async function unsendMessageJustForThisUser(
   conversation: ConversationModel,
   msgsToDelete: Array<MessageModel>
 ) {
   window?.log?.warn('Deleting messages just for this user');
-  // is deleting on swarm sufficient or does it need to be unsent as well?
-  const deleteResult = await deleteMessagesFromSwarmAndCompletelyLocally(
-    conversation,
-    msgsToDelete
+
+  const unsendMsgObjects = getUnsendMessagesObjects(msgsToDelete);
+
+  // sending to recipient all the messages separately for now
+  await Promise.all(
+    unsendMsgObjects.map(unsendObject =>
+      getMessageQueue()
+        .sendSyncMessage(unsendObject)
+        .catch(window?.log?.error)
+    )
   );
+  await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
+
   // Update view and trigger update
   window.inboxStore?.dispatch(resetSelectedMessageIds());
-  if (deleteResult) {
-    ToastUtils.pushDeleted();
-  } else {
-    ToastUtils.someDeletionsFailed();
-  }
+  ToastUtils.pushDeleted();
 }
 
 const doDeleteSelectedMessagesInSOGS = async (
@@ -233,11 +250,15 @@ const doDeleteSelectedMessagesInSOGS = async (
  *
  * It does what needs to be done on a user action to delete messages for each conversation type
  */
-const doDeleteSelectedMessages = async (
-  selectedMessages: Array<MessageModel>,
-  conversation: ConversationModel,
-  shouldDeleteForEveryone: boolean
-) => {
+const doDeleteSelectedMessages = async ({
+  conversation,
+  selectedMessages,
+  deleteForEveryone,
+}: {
+  selectedMessages: Array<MessageModel>;
+  conversation: ConversationModel;
+  deleteForEveryone: boolean;
+}) => {
   const ourDevicePubkey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourDevicePubkey) {
     return;
@@ -249,16 +270,16 @@ const doDeleteSelectedMessages = async (
   }
 
   //#region deletion for 1-1 and closed groups
-  if (!isAllOurs) {
-    ToastUtils.pushMessageDeleteForbidden();
-    window.inboxStore?.dispatch(resetSelectedMessageIds());
-    return;
-  }
 
-  if (shouldDeleteForEveryone) {
+  if (deleteForEveryone) {
+    if (!isAllOurs) {
+      ToastUtils.pushMessageDeleteForbidden();
+      window.inboxStore?.dispatch(resetSelectedMessageIds());
+      return;
+    }
     return unsendMessagesForEveryone(conversation, selectedMessages);
   }
-  return deleteJustForThisUser(conversation, selectedMessages);
+  return unsendMessageJustForThisUser(conversation, selectedMessages);
 
   //#endregion
 };
@@ -284,7 +305,7 @@ export async function deleteMessagesByIdForEveryone(
       okText: window.i18n('deleteForEveryone'),
       okTheme: SessionButtonColor.Danger,
       onClickOk: async () => {
-        await doDeleteSelectedMessages(selectedMessages, conversation, true);
+        await doDeleteSelectedMessages({ selectedMessages, conversation, deleteForEveryone: true });
 
         // explicity close modal for this case.
         window.inboxStore?.dispatch(updateConfirmModal(null));
@@ -295,7 +316,6 @@ export async function deleteMessagesByIdForEveryone(
   );
 }
 
-// tslint:disable-next-line: max-func-body-length
 export async function deleteMessagesById(messageIds: Array<string>, conversationId: string) {
   const conversation = getConversationController().getOrThrow(conversationId);
   const selectedMessages = _.compact(
@@ -313,7 +333,12 @@ export async function deleteMessagesById(messageIds: Array<string>, conversation
       okText: window.i18n('delete'),
       okTheme: SessionButtonColor.Danger,
       onClickOk: async () => {
-        await doDeleteSelectedMessages(selectedMessages, conversation, false);
+        await doDeleteSelectedMessages({
+          selectedMessages,
+          conversation,
+          deleteForEveryone: false,
+        });
+        window.inboxStore?.dispatch(updateConfirmModal(null));
       },
       closeAfterInput: false,
     })
