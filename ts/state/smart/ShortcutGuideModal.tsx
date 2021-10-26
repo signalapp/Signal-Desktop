@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { ShortcutGuideModal } from '../../components/ShortcutGuideModal';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { countStickers } from '../../components/stickers/lib';
 import { getIntl, getPlatform } from '../selectors/user';

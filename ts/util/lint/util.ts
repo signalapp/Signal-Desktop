@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 
 import { omit, orderBy } from 'lodash';
 
-import { ExceptionType } from './types';
+import type { ExceptionType } from './types';
 
 export const ENCODING = 'utf8';
 

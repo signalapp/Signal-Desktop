@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import config from 'config';
-import { BrowserWindow } from 'electron';
+import type { BrowserWindow } from 'electron';
 
-import { UpdaterInterface } from './common';
+import type { UpdaterInterface } from './common';
 import { start as startMacOS } from './macos';
 import { start as startWindows } from './windows';
-import { LoggerType } from '../types/Logging';
+import type { LoggerType } from '../types/Logging';
 
 let initialized = false;
 

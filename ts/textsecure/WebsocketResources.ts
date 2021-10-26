@@ -23,9 +23,10 @@
  *
  */
 
-import { connection as WebSocket, IMessage } from 'websocket';
+import type { connection as WebSocket, IMessage } from 'websocket';
 
-import EventTarget, { EventHandler } from './EventTarget';
+import type { EventHandler } from './EventTarget';
+import EventTarget from './EventTarget';
 
 import * as durations from '../util/durations';
 import { dropNull } from '../util/dropNull';

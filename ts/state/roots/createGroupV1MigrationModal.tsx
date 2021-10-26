@@ -4,13 +4,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
 import { ModalHost } from '../../components/ModalHost';
-import {
-  SmartGroupV1MigrationDialog,
-  PropsType,
-} from '../smart/GroupV1MigrationDialog';
+import type { PropsType } from '../smart/GroupV1MigrationDialog';
+import { SmartGroupV1MigrationDialog } from '../smart/GroupV1MigrationDialog';
 
 export const createGroupV1MigrationModal = (
   store: Store,

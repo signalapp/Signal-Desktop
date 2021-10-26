@@ -5,11 +5,11 @@ import React, { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
-import { LocalizerType, ThemeType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { Spinner } from '../Spinner';
 
+import type { AttachmentType } from '../../types/Attachment';
 import {
-  AttachmentType,
   hasNotDownloaded,
   getImageDimensions,
   defaultBlurHash,

@@ -7,8 +7,8 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { ConversationModel } from '../models/conversations';
-import { ConversationAttributesType } from '../model-types.d';
-import SendMessage from '../textsecure/SendMessage';
+import type { ConversationAttributesType } from '../model-types.d';
+import type SendMessage from '../textsecure/SendMessage';
 
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 

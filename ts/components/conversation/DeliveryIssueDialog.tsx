@@ -4,14 +4,14 @@
 import * as React from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;

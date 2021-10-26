@@ -1,13 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, useEffect, useState, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import type { AudioDevice } from 'ringrtc';
 
 import type { MediaDeviceSettings } from '../types/Calling';
-import {
+import type {
   ZoomFactorType,
   ThemeSettingType,
   NotificationSettingType,
@@ -16,14 +17,14 @@ import { Button, ButtonVariant } from './Button';
 import { ChatColorPicker } from './ChatColorPicker';
 import { Checkbox } from './Checkbox';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import { ConversationType } from '../state/ducks/conversations';
-import {
+import type { ConversationType } from '../state/ducks/conversations';
+import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
 } from '../types/Colors';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import { LocalizerType, ThemeType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';

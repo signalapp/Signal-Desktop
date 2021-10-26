@@ -5,12 +5,12 @@ import { debounce, uniq, without } from 'lodash';
 import PQueue from 'p-queue';
 
 import dataInterface from './sql/Client';
-import {
+import type {
   ConversationModelCollectionType,
   ConversationAttributesType,
   ConversationAttributesTypeType,
 } from './model-types.d';
-import { ConversationModel } from './models/conversations';
+import type { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
 import { isValidGuid } from './util/isValidGuid';

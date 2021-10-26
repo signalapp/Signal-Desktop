@@ -5,7 +5,7 @@ import React from 'react';
 
 import LinkifyIt from 'linkify-it';
 
-import { RenderTextCallbackType } from '../../types/Util';
+import type { RenderTextCallbackType } from '../../types/Util';
 import { isLinkSneaky } from '../../types/LinkPreview';
 import { splitByEmoji } from '../../util/emoji';
 import { missingCaseError } from '../../util/missingCaseError';

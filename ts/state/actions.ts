@@ -19,7 +19,7 @@ import { actions as search } from './ducks/search';
 import { actions as stickers } from './ducks/stickers';
 import { actions as updates } from './ducks/updates';
 import { actions as user } from './ducks/user';
-import { ReduxActions } from './types';
+import type { ReduxActions } from './types';
 
 export const actionCreators: ReduxActions = {
   accounts,

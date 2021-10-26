@@ -6,10 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import {
-  MessageRequestActions,
-  Props as MessageRequestActionsProps,
-} from './MessageRequestActions';
+import type { Props as MessageRequestActionsProps } from './MessageRequestActions';
+import { MessageRequestActions } from './MessageRequestActions';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 

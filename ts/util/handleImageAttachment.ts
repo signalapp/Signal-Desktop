@@ -6,11 +6,10 @@ import { ipcRenderer } from 'electron';
 import { v4 as genUuid } from 'uuid';
 
 import { blobToArrayBuffer } from '../types/VisualAttachment';
-import { IMAGE_JPEG, MIMEType, isHeic, stringToMIMEType } from '../types/MIME';
-import {
-  InMemoryAttachmentDraftType,
-  canBeTranscoded,
-} from '../types/Attachment';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG, isHeic, stringToMIMEType } from '../types/MIME';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment';
+import { canBeTranscoded } from '../types/Attachment';
 import { imageToBlurHash } from './imageToBlurHash';
 import { scaleImageToLevel } from './scaleImageToLevel';
 

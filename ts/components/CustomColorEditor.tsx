@@ -7,8 +7,8 @@ import { GradientDial, KnobType } from './GradientDial';
 import { SampleMessageBubbles } from './SampleMessageBubbles';
 import { Slider } from './Slider';
 import { Tabs } from './Tabs';
-import { CustomColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
+import type { CustomColorType } from '../types/Colors';
+import type { LocalizerType } from '../types/Util';
 import { getHSL } from '../util/getHSL';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';
 

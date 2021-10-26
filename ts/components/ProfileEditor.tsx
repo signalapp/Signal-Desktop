@@ -3,8 +3,9 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { AvatarColors, AvatarColorType } from '../types/Colors';
-import {
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
+import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
@@ -15,14 +16,15 @@ import { AvatarPreview } from './AvatarPreview';
 import { Button, ButtonVariant } from './Button';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 import { Emoji } from './emoji/Emoji';
-import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
+import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
+import { EmojiButton } from './emoji/EmojiButton';
+import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { Input } from './Input';
 import { Intl } from './Intl';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
-import { ProfileDataType } from '../state/ducks/conversations';
+import type { ProfileDataType } from '../state/ducks/conversations';
 import { getEmojiData, unifiedToEmoji } from './emoji/lib';
 import { missingCaseError } from '../util/missingCaseError';
 

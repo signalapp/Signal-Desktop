@@ -2,17 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import _ from 'lodash';
-import Quill from 'quill';
+import type Quill from 'quill';
 import Delta from 'quill-delta';
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import React from 'react';
 
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../../components/Avatar';
-import { LocalizerType } from '../../types/Util';
-import { MemberRepository } from '../memberRepository';
+import type { LocalizerType } from '../../types/Util';
+import type { MemberRepository } from '../memberRepository';
 import { matchBlotTextPartitions } from '../util';
 import { sameWidthModifier } from '../../util/popperUtil';
 

@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 
 import { Button, ButtonVariant } from './Button';
 import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 
 export type PropsType = {

@@ -6,10 +6,10 @@ import React from 'react';
 import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
+import type { AttachmentType } from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
-  AttachmentType,
   getUrl,
   isImageAttachment,
   isVideoAttachment,

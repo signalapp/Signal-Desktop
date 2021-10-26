@@ -6,11 +6,12 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { assert } from '../../util/assert';
-import { LocalizerType } from '../../types/Util';
-import { hasNotDownloaded, AttachmentType } from '../../types/Attachment';
+import type { LocalizerType } from '../../types/Util';
+import type { AttachmentType } from '../../types/Attachment';
+import { hasNotDownloaded } from '../../types/Attachment';
 import type { DirectionType, MessageStatusType } from './Message';
 
-import { ComputePeaksResult } from '../GlobalAudioContext';
+import type { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
 import * as log from '../../logging/log';
 

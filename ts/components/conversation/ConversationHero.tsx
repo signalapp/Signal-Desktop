@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, AvatarBlur, Props as AvatarProps } from '../Avatar';
+import type { Props as AvatarProps } from '../Avatar';
+import { Avatar, AvatarBlur } from '../Avatar';
 import { ContactName } from './ContactName';
 import { About } from './About';
 import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';

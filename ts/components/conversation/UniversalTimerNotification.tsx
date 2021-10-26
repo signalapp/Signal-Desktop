@@ -4,7 +4,7 @@
 import React from 'react';
 
 import { SystemMessage } from './SystemMessage';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import * as expirationTimer from '../../util/expirationTimer';
 
 export type Props = {

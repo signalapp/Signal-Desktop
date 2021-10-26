@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { StorageAccessType } from './Storage.d';
+import type { StorageAccessType } from './Storage.d';
 
 // Configuration keys that only affect UI
 export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [

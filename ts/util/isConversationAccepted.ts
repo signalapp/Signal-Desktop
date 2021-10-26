@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d';
 import { SignalService as Proto } from '../protobuf';
 import { isDirectConversation, isMe } from './whatTypeOfConversation';
 import { isInSystemContacts } from './isInSystemContacts';

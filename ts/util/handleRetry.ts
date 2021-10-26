@@ -20,8 +20,8 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import { ToastDecryptionError } from '../components/ToastDecryptionError';
 import { showToast } from './showToast';
 
-import { ConversationModel } from '../models/conversations';
-import {
+import type { ConversationModel } from '../models/conversations';
+import type {
   DecryptionErrorEvent,
   DecryptionErrorEventData,
   RetryRequestEvent,

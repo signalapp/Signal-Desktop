@@ -6,9 +6,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-classes-per-file */
 
-import EventTarget, { EventHandler } from './EventTarget';
+import type { EventHandler } from './EventTarget';
+import EventTarget from './EventTarget';
 import MessageReceiver from './MessageReceiver';
-import { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
+import type { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
 import { assert } from '../util/assert';
 import { getSendOptions } from '../util/getSendOptions';

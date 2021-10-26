@@ -1,8 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AttachmentType } from './Attachment';
-import { MIMEType } from './MIME';
+import type { AttachmentType } from './Attachment';
+import type { MIMEType } from './MIME';
 
 export type MessageAttributesType = {
   attachments: Array<AttachmentType>;

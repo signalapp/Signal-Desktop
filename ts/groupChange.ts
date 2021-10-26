@@ -1,12 +1,12 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { FullJSXType } from './components/Intl';
-import { LocalizerType } from './types/Util';
-import { ReplacementValuesType } from './types/I18N';
+import type { FullJSXType } from './components/Intl';
+import type { LocalizerType } from './types/Util';
+import type { ReplacementValuesType } from './types/I18N';
 import { missingCaseError } from './util/missingCaseError';
 
-import { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
+import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 

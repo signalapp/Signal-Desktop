@@ -5,14 +5,14 @@ import { omit, reject } from 'lodash';
 
 import { normalize } from '../../types/PhoneNumber';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
-import {
+import type {
   ClientSearchResultMessageType,
   ClientInterface,
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
 import { makeLookup } from '../../util/makeLookup';
 
-import {
+import type {
   ConversationUnloadedActionType,
   DBConversationType,
   MessageDeletedActionType,

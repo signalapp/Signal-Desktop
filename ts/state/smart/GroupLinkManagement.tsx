@@ -3,11 +3,9 @@
 
 import { connect } from 'react-redux';
 
-import { StateType } from '../reducer';
-import {
-  GroupLinkManagement,
-  PropsType,
-} from '../../components/conversation/conversation-details/GroupLinkManagement';
+import type { StateType } from '../reducer';
+import type { PropsType } from '../../components/conversation/conversation-details/GroupLinkManagement';
+import { GroupLinkManagement } from '../../components/conversation/conversation-details/GroupLinkManagement';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 

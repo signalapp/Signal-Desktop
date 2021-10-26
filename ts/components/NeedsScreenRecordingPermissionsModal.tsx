@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Theme } from '../util/theme';
 import { Modal } from './Modal';
 import { Button, ButtonVariant } from './Button';

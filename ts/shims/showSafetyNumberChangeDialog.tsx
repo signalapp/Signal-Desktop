@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { unmountComponentAtNode, render } from 'react-dom';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import { SafetyNumberChangeDialog } from '../components/SafetyNumberChangeDialog';
 
 export type SafetyNumberChangeViewProps = {

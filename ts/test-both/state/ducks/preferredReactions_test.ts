@@ -3,11 +3,12 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer';
+import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 
+import type { PreferredReactionsStateType } from '../../../state/ducks/preferredReactions';
 import {
-  PreferredReactionsStateType,
   actions,
   getInitialState,
   reducer,

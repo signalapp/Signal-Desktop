@@ -8,8 +8,9 @@ import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
-import { AttachmentType } from '../types/Attachment';
-import { ForwardMessageModal, PropsType } from './ForwardMessageModal';
+import type { AttachmentType } from '../types/Attachment';
+import type { PropsType } from './ForwardMessageModal';
+import { ForwardMessageModal } from './ForwardMessageModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';

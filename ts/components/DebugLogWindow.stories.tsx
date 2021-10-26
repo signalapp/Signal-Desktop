@@ -6,7 +6,8 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
 import enMessages from '../../_locales/en/messages.json';
-import { DebugLogWindow, PropsType } from './DebugLogWindow';
+import type { PropsType } from './DebugLogWindow';
+import { DebugLogWindow } from './DebugLogWindow';
 import { setupI18n } from '../util/setupI18n';
 import { sleep } from '../util/sleep';
 

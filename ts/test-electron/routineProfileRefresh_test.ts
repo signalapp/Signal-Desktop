@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { v4 as uuid } from 'uuid';
 import { times } from 'lodash';
 import { ConversationModel } from '../models/conversations';
-import { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
 import * as getProfileStub from '../util/getProfile';

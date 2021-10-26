@@ -7,8 +7,8 @@ import { isNumber, range } from 'lodash';
 import classNames from 'classnames';
 import { StickerPackInstallButton } from './StickerPackInstallButton';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { LocalizerType } from '../../types/Util';
-import { StickerPackType } from '../../state/ducks/stickers';
+import type { LocalizerType } from '../../types/Util';
+import type { StickerPackType } from '../../state/ducks/stickers';
 import { Spinner } from '../Spinner';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 

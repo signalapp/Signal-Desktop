@@ -1,8 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { FunctionComponent } from 'react';
-import { RenderTextCallbackType } from '../types/Util';
+import type { FunctionComponent } from 'react';
+import React from 'react';
+import type { RenderTextCallbackType } from '../types/Util';
 import { AddNewLines } from './conversation/AddNewLines';
 import { Emojify } from './conversation/Emojify';
 import { Linkify } from './conversation/Linkify';

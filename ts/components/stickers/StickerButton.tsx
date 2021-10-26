@@ -8,8 +8,8 @@ import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { StickerPicker } from './StickerPicker';
 import { countStickers } from './lib';
-import { StickerPackType, StickerType } from '../../state/ducks/stickers';
-import { LocalizerType } from '../../types/Util';
+import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
+import type { LocalizerType } from '../../types/Util';
 import { offsetDistanceModifier } from '../../util/popperUtil';
 
 export type OwnProps = {

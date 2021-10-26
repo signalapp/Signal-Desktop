@@ -5,11 +5,13 @@ import * as React from 'react';
 import { groupBy, mapValues, orderBy } from 'lodash';
 import classNames from 'classnames';
 import { ContactName } from './ContactName';
-import { Avatar, Props as AvatarProps } from '../Avatar';
+import type { Props as AvatarProps } from '../Avatar';
+import { Avatar } from '../Avatar';
 import { Emoji } from '../emoji/Emoji';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import { ConversationType } from '../../state/ducks/conversations';
-import { emojiToData, EmojiData } from '../emoji/lib';
+import type { ConversationType } from '../../state/ducks/conversations';
+import type { EmojiData } from '../emoji/lib';
+import { emojiToData } from '../emoji/lib';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 
 export type Reaction = {

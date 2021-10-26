@@ -4,7 +4,7 @@
 import React, { forwardRef } from 'react';
 
 import { Input } from './Input';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 type PropsType = {
   disabled?: boolean;

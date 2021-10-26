@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from 'uuid';
 import { sample } from 'lodash';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { getRandomColor } from './getRandomColor';
 
 const FIRST_NAMES = [

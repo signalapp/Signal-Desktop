@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { emojiToImage, getImagePath, SkinToneKey } from './lib';
+import type { SkinToneKey } from './lib';
+import { emojiToImage, getImagePath } from './lib';
 
 export const EmojiSizes = [16, 18, 20, 24, 28, 32, 48, 64, 66] as const;
 

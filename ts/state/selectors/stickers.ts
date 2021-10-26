@@ -2,16 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
-import {
-  compact,
-  Dictionary,
-  filter,
-  map,
-  orderBy,
-  reject,
-  sortBy,
-  values,
-} from 'lodash';
+import type { Dictionary } from 'lodash';
+import { compact, filter, map, orderBy, reject, sortBy, values } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { RecentStickerType } from '../../types/Stickers';
@@ -19,8 +11,8 @@ import type {
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
 } from '../../sql/Interface';
-import { StateType } from '../reducer';
-import {
+import type { StateType } from '../reducer';
+import type {
   StickersStateType,
   StickerPackType,
   StickerType,

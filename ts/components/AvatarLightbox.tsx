@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
 import { AvatarPreview } from './AvatarPreview';
 import { Lightbox } from './Lightbox';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   avatarColor?: AvatarColorType;

@@ -3,15 +3,16 @@
 
 /* eslint-disable strict */
 
-import { BrowserWindow, Menu, clipboard, nativeImage } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { Menu, clipboard, nativeImage } from 'electron';
 import { sync as osLocaleSync } from 'os-locale';
 import { uniq } from 'lodash';
 import { fileURLToPath } from 'url';
 
 import { maybeParseUrl } from '../ts/util/url';
-import { LocaleMessagesType } from '../ts/types/I18N';
+import type { LocaleMessagesType } from '../ts/types/I18N';
 
-import { MenuListType } from './menu';
+import type { MenuListType } from './menu';
 
 export function getLanguages(
   userLocale: string,

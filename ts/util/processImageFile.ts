@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import loadImage, { LoadImageOptions } from 'blueimp-load-image';
+import type { LoadImageOptions } from 'blueimp-load-image';
+import loadImage from 'blueimp-load-image';
 import { canvasToBytes } from './canvasToBytes';
 
 export async function processImageFile(file: File): Promise<Uint8Array> {

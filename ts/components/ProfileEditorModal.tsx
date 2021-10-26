@@ -4,12 +4,9 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
 import { ConfirmationDialog } from './ConfirmationDialog';
-import {
-  ProfileEditor,
-  PropsType as ProfileEditorPropsType,
-  EditState,
-} from './ProfileEditor';
-import { ProfileDataType } from '../state/ducks/conversations';
+import type { PropsType as ProfileEditorPropsType } from './ProfileEditor';
+import { ProfileEditor, EditState } from './ProfileEditor';
+import type { ProfileDataType } from '../state/ducks/conversations';
 
 export type PropsDataType = {
   hasError: boolean;

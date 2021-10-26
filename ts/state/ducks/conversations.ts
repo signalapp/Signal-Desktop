@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import {
   difference,
   fromPairs,
@@ -15,7 +15,7 @@ import {
   without,
 } from 'lodash';
 
-import { StateType as RootStateType } from '../reducer';
+import type { StateType as RootStateType } from '../reducer';
 import * as groups from '../../groups';
 import * as log from '../../logging/log';
 import { calling } from '../../services/calling';
@@ -23,24 +23,22 @@ import { getOwn } from '../../util/getOwn';
 import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
-import {
-  TOGGLE_PROFILE_EDITOR_ERROR,
-  ToggleProfileEditorErrorActionType,
-} from './globalModals';
+import type { ToggleProfileEditorErrorActionType } from './globalModals';
+import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
 
-import {
+import type {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors';
-import {
+import type {
   LastMessageStatus,
   ConversationAttributesType,
   MessageAttributesType,
 } from '../../model-types.d';
-import { BodyRangeType } from '../../types/Util';
+import type { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
-import { MediaItemType } from '../../types/MediaItem';
+import type { MediaItemType } from '../../types/MediaItem';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -48,19 +46,20 @@ import {
 import { getMessagesById } from '../../messages/getMessagesById';
 import { isMessageUnread } from '../../util/isMessageUnread';
 import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelectedContactForGroupAddition';
-import { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import {
   getMe,
   getMessageIdsPendingBecauseOfVerification,
 } from '../selectors/conversations';
-import { AvatarDataType, getDefaultAvatars } from '../../types/Avatar';
+import type { AvatarDataType } from '../../types/Avatar';
+import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
 
-import { NoopActionType } from './noop';
+import type { NoopActionType } from './noop';
 
 // State
 

@@ -3,7 +3,7 @@
 
 import is from '@sindresorhus/is';
 
-import { MIMEType } from '../types/MIME';
+import type { MIMEType } from '../types/MIME';
 
 export const arrayBufferToObjectURL = ({
   data,

@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild } from 'react';
+import type { ReactChild } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 import { Modal } from './Modal';
-import { Intl, IntlComponentsType } from './Intl';
+import type { IntlComponentsType } from './Intl';
+import { Intl } from './Intl';
 import { Emojify } from './conversation/Emojify';
 import type { LocalizerType, RenderTextCallbackType } from '../types/Util';
 

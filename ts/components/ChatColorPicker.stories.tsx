@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
-import { ChatColorPicker, PropsType } from './ChatColorPicker';
+import type { PropsType } from './ChatColorPicker';
+import { ChatColorPicker } from './ChatColorPicker';
 import { ConversationColors } from '../types/Colors';
 import { setupI18n } from '../util/setupI18n';
 

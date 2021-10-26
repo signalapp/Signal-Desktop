@@ -1,7 +1,8 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 
 import { MESSAGE_TEXT_CLASS_NAME } from './BaseConversationListItem';
 import { AtMentionify } from '../conversation/AtMentionify';
@@ -9,9 +10,9 @@ import { MessageBody } from '../conversation/MessageBody';
 import { Emojify } from '../conversation/Emojify';
 import { AddNewLines } from '../conversation/AddNewLines';
 
-import { SizeClassType } from '../emoji/lib';
+import type { SizeClassType } from '../emoji/lib';
 
-import {
+import type {
   BodyRangesType,
   LocalizerType,
   RenderTextCallbackType,

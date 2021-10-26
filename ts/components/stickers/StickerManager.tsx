@@ -5,8 +5,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { StickerManagerPackRow } from './StickerManagerPackRow';
 import { StickerPreviewModal } from './StickerPreviewModal';
-import { LocalizerType } from '../../types/Util';
-import { StickerPackType } from '../../state/ducks/stickers';
+import type { LocalizerType } from '../../types/Util';
+import type { StickerPackType } from '../../state/ducks/stickers';
 
 export type OwnProps = {
   readonly installedPacks: ReadonlyArray<StickerPackType>;

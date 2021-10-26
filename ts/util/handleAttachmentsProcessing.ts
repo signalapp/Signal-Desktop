@@ -6,7 +6,7 @@ import {
   preProcessAttachment,
   processAttachment,
 } from './processAttachment';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 
 export type AddAttachmentActionType = (

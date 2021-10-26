@@ -3,17 +3,15 @@
 
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { ContactName } from '../../components/conversation/ContactName';
 
 import { getIntl } from '../selectors/user';
-import {
-  GetConversationByIdType,
-  getConversationSelector,
-} from '../selectors/conversations';
+import type { GetConversationByIdType } from '../selectors/conversations';
+import { getConversationSelector } from '../selectors/conversations';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 type ExternalProps = {
   conversationId: string;

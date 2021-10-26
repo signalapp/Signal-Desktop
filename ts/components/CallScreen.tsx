@@ -1,17 +1,12 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  ReactNode,
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-} from 'react';
+import type { ReactNode } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from 'ringrtc';
-import {
+import type {
   HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
@@ -23,21 +18,24 @@ import { CallingHeader } from './CallingHeader';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import { CallingButton, CallingButtonType } from './CallingButton';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
-import {
+import type {
   ActiveCallType,
+  GroupCallVideoRequest,
+  PresentedSource,
+} from '../types/Calling';
+import {
   CallMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-  GroupCallVideoRequest,
-  PresentedSource,
 } from '../types/Calling';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import { CallingToastManager } from './CallingToastManager';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
 import * as KeyboardLayout from '../services/keyboardLayout';

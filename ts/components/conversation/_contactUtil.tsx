@@ -7,9 +7,10 @@ import classNames from 'classnames';
 import { Avatar, AvatarBlur } from '../Avatar';
 import { Spinner } from '../Spinner';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
-import { EmbeddedContactType, getName } from '../../types/EmbeddedContact';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import { getName } from '../../types/EmbeddedContact';
 
 // This file starts with _ to keep it from showing up in the StyleGuide.
 

@@ -2,20 +2,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, mapValues, pick } from 'lodash';
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import memoizee from 'memoizee';
 
 import { mapDispatchToProps } from '../actions';
-import {
+import type {
   PropsActionsType as TimelineActionsType,
   ContactSpoofingReviewPropType,
-  Timeline,
   WarningType as TimelineWarningType,
   PropsType as ComponentPropsType,
 } from '../../components/conversation/Timeline';
-import { StateType } from '../reducer';
-import { ConversationType } from '../ducks/conversations';
+import { Timeline } from '../../components/conversation/Timeline';
+import type { StateType } from '../reducer';
+import type { ConversationType } from '../ducks/conversations';
 
 import { getIntl } from '../selectors/user';
 import {

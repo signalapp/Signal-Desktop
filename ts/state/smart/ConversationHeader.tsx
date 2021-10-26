@@ -11,12 +11,10 @@ import {
   getConversationSelector,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { CallMode } from '../../types/Calling';
-import {
-  ConversationType,
-  getConversationCallMode,
-} from '../ducks/conversations';
+import type { ConversationType } from '../ducks/conversations';
+import { getConversationCallMode } from '../ducks/conversations';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
 import { getUserUuid, getIntl } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';

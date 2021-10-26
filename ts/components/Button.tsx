@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, MouseEventHandler, ReactNode } from 'react';
+import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import { assert } from '../util/assert';

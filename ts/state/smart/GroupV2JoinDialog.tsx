@@ -3,11 +3,9 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import {
-  GroupV2JoinDialog,
-  PropsType as GroupV2JoinDialogPropsType,
-} from '../../components/GroupV2JoinDialog';
-import { StateType } from '../reducer';
+import type { PropsType as GroupV2JoinDialogPropsType } from '../../components/GroupV2JoinDialog';
+import { GroupV2JoinDialog } from '../../components/GroupV2JoinDialog';
+import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getPreJoinConversation } from '../selectors/conversations';

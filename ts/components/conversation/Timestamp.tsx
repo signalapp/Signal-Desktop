@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   timestamp?: number;

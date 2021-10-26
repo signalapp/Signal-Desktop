@@ -5,7 +5,7 @@ import { app, dialog, clipboard } from 'electron';
 
 import * as Errors from '../ts/types/errors';
 import { redactAll } from '../ts/util/privacy';
-import { LocaleMessagesType } from '../ts/types/I18N';
+import type { LocaleMessagesType } from '../ts/types/I18N';
 import { reallyJsonStringify } from '../ts/util/reallyJsonStringify';
 
 // We use hard-coded strings until we're able to update these strings from the locale.

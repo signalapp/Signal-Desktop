@@ -3,10 +3,8 @@
 
 import React from 'react';
 import { Modal } from './Modal';
-import {
-  SafetyNumberViewer,
-  PropsType as SafetyNumberViewerPropsType,
-} from './SafetyNumberViewer';
+import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer';
+import { SafetyNumberViewer } from './SafetyNumberViewer';
 
 type PropsType = {
   toggleSafetyNumberModal: () => unknown;

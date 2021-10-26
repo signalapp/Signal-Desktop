@@ -5,11 +5,9 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 
 import { IMAGE_GIF, IMAGE_PNG } from '../../types/MIME';
-import { MessageAttributesType } from '../../model-types.d';
+import type { MessageAttributesType } from '../../model-types.d';
+import type { Avatar, Email, Phone } from '../../types/EmbeddedContact';
 import {
-  Avatar,
-  Email,
-  Phone,
   _validate,
   embeddedContactSelector,
   getName,

@@ -13,7 +13,7 @@ import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
-import { ServerKeysType, WebAPIType } from './WebAPI';
+import type { ServerKeysType, WebAPIType } from './WebAPI';
 import * as log from '../logging/log';
 
 export async function getKeysForIdentifier(

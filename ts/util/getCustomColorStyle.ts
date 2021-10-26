@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CustomColorType } from '../types/Colors';
+import type { CustomColorType } from '../types/Colors';
 import { ThemeType } from '../types/Util';
 import { getHSL } from './getHSL';
 import { getUserTheme } from '../shims/getUserTheme';

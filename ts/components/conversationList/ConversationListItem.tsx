@@ -1,7 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -14,8 +15,8 @@ import { MessageBody } from '../conversation/MessageBody';
 import { ContactName } from '../conversation/ContactName';
 import { TypingAnimation } from '../conversation/TypingAnimation';
 
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 

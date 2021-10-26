@@ -3,7 +3,7 @@
 
 import * as Attachment from '../Attachment';
 import * as IndexedDB from '../IndexedDB';
-import { Message, UserMessage } from '../Message';
+import type { Message, UserMessage } from '../Message';
 
 const hasAttachment = (
   predicate: (value: Attachment.AttachmentType) => boolean

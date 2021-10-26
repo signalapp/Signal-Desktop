@@ -8,7 +8,8 @@
 import { join } from 'path';
 import split2 from 'split2';
 import { readdirSync, createReadStream, unlinkSync, writeFileSync } from 'fs';
-import { BrowserWindow, app, ipcMain as ipc } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { app, ipcMain as ipc } from 'electron';
 import pinoms from 'pino-multi-stream';
 import pino from 'pino';
 import * as mkdirp from 'mkdirp';
@@ -23,14 +24,8 @@ import type { LoggerType } from '../types/Logging';
 import * as log from './log';
 import { Environment, getEnvironment } from '../environment';
 
-import {
-  FetchLogIpcData,
-  LogEntryType,
-  LogLevel,
-  cleanArgs,
-  getLogLevelString,
-  isLogEntry,
-} from './shared';
+import type { FetchLogIpcData, LogEntryType } from './shared';
+import { LogLevel, cleanArgs, getLogLevelString, isLogEntry } from './shared';
 
 declare global {
   // We want to extend `Console`, so we need an interface.

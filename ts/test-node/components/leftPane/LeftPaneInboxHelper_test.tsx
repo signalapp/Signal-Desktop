@@ -7,10 +7,8 @@ import { RowType } from '../../../components/ConversationList';
 import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
-import {
-  LeftPaneInboxHelper,
-  LeftPaneInboxPropsType,
-} from '../../../components/leftPane/LeftPaneInboxHelper';
+import type { LeftPaneInboxPropsType } from '../../../components/leftPane/LeftPaneInboxHelper';
+import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxHelper';
 
 describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {

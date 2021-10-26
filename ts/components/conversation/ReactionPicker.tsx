@@ -3,9 +3,9 @@
 
 import * as React from 'react';
 import { convertShortName } from '../emoji/lib';
-import { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
+import type { Props as EmojiPickerProps } from '../emoji/EmojiPicker';
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import {
   ReactionPickerPicker,
   ReactionPickerPickerEmojiButton,

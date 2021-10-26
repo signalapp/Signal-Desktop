@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ThunkAction } from 'redux-thunk';
-import { StateType as RootStateType } from '../reducer';
+import type { ThunkAction } from 'redux-thunk';
+import type { StateType as RootStateType } from '../reducer';
 
-import { NoopActionType } from './noop';
+import type { NoopActionType } from './noop';
 
 // State
 

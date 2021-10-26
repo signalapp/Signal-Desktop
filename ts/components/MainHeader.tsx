@@ -10,9 +10,9 @@ import { createPortal } from 'react-dom';
 import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
-import { LocalizerType } from '../types/Util';
-import { AvatarColorType } from '../types/Colors';
-import { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
+import type { AvatarColorType } from '../types/Colors';
+import type { ConversationType } from '../state/ducks/conversations';
 
 export type PropsType = {
   searchTerm: string;

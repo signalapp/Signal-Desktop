@@ -7,7 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { MessageBodyReadMore, Props } from './MessageBodyReadMore';
+import type { Props } from './MessageBodyReadMore';
+import { MessageBodyReadMore } from './MessageBodyReadMore';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 

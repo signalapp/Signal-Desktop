@@ -1,10 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import type { ChangeEventHandler } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { processImageFile } from '../util/processImageFile';
 
 export type PropsType = {

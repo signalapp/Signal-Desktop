@@ -8,8 +8,8 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../../../util/GoogleChrome';
-import { LocalizerType } from '../../../types/Util';
-import { MediaItemType } from '../../../types/MediaItem';
+import type { LocalizerType } from '../../../types/Util';
+import type { MediaItemType } from '../../../types/MediaItem';
 import * as log from '../../../logging/log';
 
 export type Props = {

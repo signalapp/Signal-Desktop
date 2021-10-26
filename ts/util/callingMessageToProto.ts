@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { CallingMessage, CallMessageUrgency } from 'ringrtc';
+import type { CallingMessage } from 'ringrtc';
+import { CallMessageUrgency } from 'ringrtc';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { missingCaseError } from './missingCaseError';

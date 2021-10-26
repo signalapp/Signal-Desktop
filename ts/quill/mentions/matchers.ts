@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Delta from 'quill-delta';
-import { RefObject } from 'react';
-import { MemberRepository } from '../memberRepository';
+import type { RefObject } from 'react';
+import type { MemberRepository } from '../memberRepository';
 
 export const matchMention = (
   memberRepositoryRef: RefObject<MemberRepository>

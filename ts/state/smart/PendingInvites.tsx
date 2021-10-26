@@ -3,11 +3,9 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import {
-  PendingInvites,
-  PropsType,
-} from '../../components/conversation/conversation-details/PendingInvites';
-import { StateType } from '../reducer';
+import type { PropsType } from '../../components/conversation/conversation-details/PendingInvites';
+import { PendingInvites } from '../../components/conversation/conversation-details/PendingInvites';
+import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getConversationByIdSelector } from '../selectors/conversations';

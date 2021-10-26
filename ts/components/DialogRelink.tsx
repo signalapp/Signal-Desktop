@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import type { WidthBreakpoint } from './_util';
 
 import { LeftPaneDialog } from './LeftPaneDialog';

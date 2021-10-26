@@ -8,7 +8,8 @@ import { boolean, number, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { pngUrl } from '../../storybook/Fixtures';
-import { Image, Props } from './Image';
+import type { Props } from './Image';
+import { Image } from './Image';
 import { IMAGE_PNG } from '../../types/MIME';
 import { ThemeType } from '../../types/Util';
 import { setupI18n } from '../../util/setupI18n';

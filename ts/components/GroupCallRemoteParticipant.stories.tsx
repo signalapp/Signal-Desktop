@@ -5,10 +5,8 @@ import * as React from 'react';
 import { memoize, noop } from 'lodash';
 import { storiesOf } from '@storybook/react';
 
-import {
-  GroupCallRemoteParticipant,
-  PropsType,
-} from './GroupCallRemoteParticipant';
+import type { PropsType } from './GroupCallRemoteParticipant';
+import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { FRAME_BUFFER_SIZE } from '../calling/constants';
 import { setupI18n } from '../util/setupI18n';

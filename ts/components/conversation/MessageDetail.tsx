@@ -1,22 +1,23 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild, ReactNode } from 'react';
+import type { ReactChild, ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { noop } from 'lodash';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
-import {
-  Message,
+import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
 } from './Message';
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import { Message } from './Message';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { groupBy } from '../../util/mapUtil';
-import { ContactNameColorType } from '../../types/Colors';
+import type { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';

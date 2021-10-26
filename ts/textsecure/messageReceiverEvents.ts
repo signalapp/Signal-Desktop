@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import { PublicKey } from '@signalapp/signal-client';
+import type { PublicKey } from '@signalapp/signal-client';
 
-import { SignalService as Proto } from '../protobuf';
-import {
+import type { SignalService as Proto } from '../protobuf';
+import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
   ProcessedSent,

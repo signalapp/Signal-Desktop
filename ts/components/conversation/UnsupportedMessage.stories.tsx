@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { ContactType, Props, UnsupportedMessage } from './UnsupportedMessage';
+import type { ContactType, Props } from './UnsupportedMessage';
+import { UnsupportedMessage } from './UnsupportedMessage';
 
 const i18n = setupI18n('en', enMessages);
 

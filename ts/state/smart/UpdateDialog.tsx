@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { DialogUpdate } from '../../components/DialogUpdate';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { hasNetworkDialog } from '../selectors/network';
 import type { WidthBreakpoint } from '../../components/_util';

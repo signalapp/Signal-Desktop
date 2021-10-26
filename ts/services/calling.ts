@@ -4,53 +4,57 @@
 /* eslint-disable class-methods-use-this */
 
 import { desktopCapturer, ipcRenderer } from 'electron';
-import {
+import type {
   AudioDevice,
-  Call,
-  CallEndedReason,
   CallId,
-  CallingMessage,
-  CallLogLevel,
   CallMessageUrgency,
   CallSettings,
+  DeviceId,
+  PeekInfo,
+  UserId,
+  VideoFrameSource,
+  VideoRequest,
+} from 'ringrtc';
+import {
+  Call,
+  CallEndedReason,
+  CallingMessage,
+  CallLogLevel,
   CallState,
   CanvasVideoRenderer,
   ConnectionState,
   JoinState,
   HttpMethod,
-  DeviceId,
   GroupCall,
   GroupMemberInfo,
   GumVideoCapturer,
   HangupMessage,
   HangupType,
   OpaqueMessage,
-  PeekInfo,
   RingCancelReason,
   RingRTC,
   RingUpdate,
-  UserId,
-  VideoFrameSource,
-  VideoRequest,
   BandwidthMode,
 } from 'ringrtc';
 import { uniqBy, noop } from 'lodash';
 
-import {
+import type {
   ActionsType as UxActionsType,
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
 import { getConversationCallMode } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 import { isMe } from '../util/whatTypeOfConversation';
-import {
+import type {
   AvailableIODevicesType,
-  CallMode,
-  GroupCallConnectionState,
-  GroupCallJoinState,
   MediaDeviceSettings,
   PresentableSource,
   PresentedSource,
+} from '../types/Calling';
+import {
+  CallMode,
+  GroupCallConnectionState,
+  GroupCallJoinState,
   ProcessGroupCallRingRequestResult,
 } from '../types/Calling';
 import {
@@ -61,10 +65,10 @@ import {
   findBestMatchingAudioDeviceIndex,
   findBestMatchingCameraId,
 } from '../calling/findBestMatchingDevice';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { UUID } from '../types/UUID';
 import * as OS from '../OS';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
 import { dropNull, shallowDropNull } from '../util/dropNull';
@@ -78,7 +82,7 @@ import {
   getMembershipList,
   wrapWithSyncMessageSend,
 } from '../groups';
-import { ProcessedEnvelope } from '../textsecure/Types.d';
+import type { ProcessedEnvelope } from '../textsecure/Types.d';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';
 import {

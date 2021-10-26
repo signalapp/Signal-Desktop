@@ -6,7 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { boolean, number, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { GroupV2JoinDialog, PropsType } from './GroupV2JoinDialog';
+import type { PropsType } from './GroupV2JoinDialog';
+import { GroupV2JoinDialog } from './GroupV2JoinDialog';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

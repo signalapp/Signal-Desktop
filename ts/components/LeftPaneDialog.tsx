@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild, ReactNode } from 'react';
+import type { ReactChild, ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { Tooltip, TooltipPlacement } from './Tooltip';
 import { WidthBreakpoint } from './_util';

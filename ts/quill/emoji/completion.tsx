@@ -9,15 +9,15 @@ import _ from 'lodash';
 import { Popper } from 'react-popper';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
+import type { EmojiData } from '../../components/emoji/lib';
 import {
-  EmojiData,
   search,
   convertShortName,
   isShortName,
   convertShortNameToData,
 } from '../../components/emoji/lib';
 import { Emoji } from '../../components/emoji/Emoji';
-import { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
+import type { EmojiPickDataType } from '../../components/emoji/EmojiPicker';
 import { getBlotTextPartitions, matchBlotTextPartitions } from '../util';
 import { sameWidthModifier } from '../../util/popperUtil';
 

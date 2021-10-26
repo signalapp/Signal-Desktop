@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-import { AvatarTextEditor, PropsType } from './AvatarTextEditor';
+import type { PropsType } from './AvatarTextEditor';
+import { AvatarTextEditor } from './AvatarTextEditor';
 import { AvatarColors } from '../types/Colors';
 
 const i18n = setupI18n('en', enMessages);

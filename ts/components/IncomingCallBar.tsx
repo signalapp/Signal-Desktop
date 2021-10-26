@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useRef, ReactChild } from 'react';
+import type { ReactChild } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Avatar } from './Avatar';
 import { Tooltip } from './Tooltip';
 import { Intl } from './Intl';
@@ -9,11 +10,11 @@ import { Theme } from '../util/theme';
 import { getParticipantName } from '../util/callingGetParticipantName';
 import { ContactName } from './conversation/ContactName';
 import { Emojify } from './conversation/Emojify';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallMode } from '../types/Calling';
-import { ConversationType } from '../state/ducks/conversations';
-import { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { AcceptCallType, DeclineCallType } from '../state/ducks/calling';
 import { missingCaseError } from '../util/missingCaseError';
 
 export type PropsType = {

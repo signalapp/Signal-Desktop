@@ -6,13 +6,13 @@ import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
 
-import { StateType } from '../reducer';
-import { ItemsStateType } from '../ducks/items';
-import {
+import type { StateType } from '../reducer';
+import type { ItemsStateType } from '../ducks/items';
+import type {
   ConversationColorType,
   CustomColorType,
-  DEFAULT_CONVERSATION_COLOR,
 } from '../../types/Colors';
+import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;

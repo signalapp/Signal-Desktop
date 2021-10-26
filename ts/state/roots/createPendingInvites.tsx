@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartPendingInvites,
-  SmartPendingInvitesProps,
-} from '../smart/PendingInvites';
+import type { SmartPendingInvitesProps } from '../smart/PendingInvites';
+import { SmartPendingInvites } from '../smart/PendingInvites';
 
 export const createPendingInvites = (
   store: Store,

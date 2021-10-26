@@ -10,10 +10,12 @@
 import { reject } from 'lodash';
 
 import { z } from 'zod';
-import {
-  CiphertextMessageType,
+import type {
   CiphertextMessage,
   PlaintextContent,
+} from '@signalapp/signal-client';
+import {
+  CiphertextMessageType,
   ProtocolAddress,
   sealedSenderEncrypt,
   SenderCertificate,
@@ -22,7 +24,7 @@ import {
 } from '@signalapp/signal-client';
 
 import type { WebAPIType, MessageType } from './WebAPI';
-import { SendMetadataType, SendOptionsType } from './SendMessage';
+import type { SendMetadataType, SendOptionsType } from './SendMessage';
 import {
   OutgoingIdentityKeyError,
   OutgoingMessageError,
@@ -31,7 +33,7 @@ import {
   UnregisteredUserError,
   HTTPError,
 } from './Errors';
-import { CallbackResultType, CustomError } from './Types.d';
+import type { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';

@@ -10,12 +10,12 @@ import {
   GroupCallOverflowArea,
   OVERFLOW_PARTICIPANT_WIDTH,
 } from './GroupCallOverflowArea';
-import {
+import type {
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import * as log from '../logging/log';

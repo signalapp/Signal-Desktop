@@ -8,14 +8,14 @@ import dataInterface from '../sql/Client';
 import * as durations from '../util/durations';
 import { downloadAttachment } from '../util/downloadAttachment';
 import * as Bytes from '../Bytes';
-import {
+import type {
   AttachmentDownloadJobType,
   AttachmentDownloadJobTypeType,
 } from '../sql/Interface';
 
-import { MessageModel } from '../models/messages';
-import { AttachmentType } from '../types/Attachment';
-import { LoggerType } from '../types/Logging';
+import type { MessageModel } from '../models/messages';
+import type { AttachmentType } from '../types/Attachment';
+import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
 
 const {

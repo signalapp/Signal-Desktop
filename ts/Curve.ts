@@ -5,7 +5,7 @@ import * as client from '@signalapp/signal-client';
 
 import * as Bytes from './Bytes';
 import { constantTimeEqual } from './Crypto';
-import {
+import type {
   KeyPairType,
   CompatPreKeyType,
   CompatSignedPreKeyType,

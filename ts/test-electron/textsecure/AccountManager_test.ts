@@ -6,7 +6,7 @@ import { v4 as getGuid } from 'uuid';
 
 import { getRandomBytes } from '../../Crypto';
 import AccountManager from '../../textsecure/AccountManager';
-import { OuterSignedPrekeyType } from '../../textsecure/Types.d';
+import type { OuterSignedPrekeyType } from '../../textsecure/Types.d';
 import { UUID } from '../../types/UUID';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

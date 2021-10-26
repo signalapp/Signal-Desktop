@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, KeyboardEvent, useRef } from 'react';
+import type { CSSProperties, KeyboardEvent } from 'react';
+import React, { useRef } from 'react';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
 export type PropsType = {

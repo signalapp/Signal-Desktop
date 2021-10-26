@@ -4,7 +4,7 @@
 /* eslint-disable max-classes-per-file */
 
 import { Collection, Model } from 'backbone';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import * as log from '../logging/log';
 
 type MessageRequestAttributesType = {

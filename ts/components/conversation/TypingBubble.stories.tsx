@@ -7,7 +7,8 @@ import { select, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, TypingBubble } from './TypingBubble';
+import type { Props } from './TypingBubble';
+import { TypingBubble } from './TypingBubble';
 import { AvatarColors } from '../../types/Colors';
 
 const i18n = setupI18n('en', enMessages);

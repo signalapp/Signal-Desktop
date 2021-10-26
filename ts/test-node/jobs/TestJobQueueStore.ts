@@ -6,7 +6,7 @@
 
 import EventEmitter, { once } from 'events';
 
-import { JobQueueStore, StoredJob } from '../../jobs/types';
+import type { JobQueueStore, StoredJob } from '../../jobs/types';
 import { sleep } from '../../util/sleep';
 
 export class TestJobQueueStore implements JobQueueStore {

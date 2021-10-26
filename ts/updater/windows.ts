@@ -2,14 +2,17 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { dirname, join } from 'path';
-import { spawn as spawnEmitter, SpawnOptions } from 'child_process';
+import type { SpawnOptions } from 'child_process';
+import { spawn as spawnEmitter } from 'child_process';
 import { readdir as readdirCallback, unlink as unlinkCallback } from 'fs';
 
-import { app, BrowserWindow } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { app } from 'electron';
 import config from 'config';
 import { gt } from 'semver';
 import pify from 'pify';
 
+import type { UpdaterInterface } from './common';
 import {
   checkForUpdates,
   deleteTempDir,
@@ -17,10 +20,9 @@ import {
   getAutoDownloadUpdateSetting,
   getPrintableError,
   setUpdateListener,
-  UpdaterInterface,
 } from './common';
 import * as durations from '../util/durations';
-import { LoggerType } from '../types/Logging';
+import type { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';

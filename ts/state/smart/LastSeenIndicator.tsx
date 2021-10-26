@@ -6,7 +6,7 @@ import { mapDispatchToProps } from '../actions';
 
 import { LastSeenIndicator } from '../../components/conversation/LastSeenIndicator';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getConversationMessagesSelector } from '../selectors/conversations';
 

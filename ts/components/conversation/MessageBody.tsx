@@ -1,15 +1,17 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
+import React from 'react';
 
-import { getSizeClass, SizeClassType } from '../emoji/lib';
+import type { SizeClassType } from '../emoji/lib';
+import { getSizeClass } from '../emoji/lib';
 import { AtMentionify } from './AtMentionify';
 import { Emojify } from './Emojify';
 import { AddNewLines } from './AddNewLines';
 import { Linkify } from './Linkify';
 
-import {
+import type {
   BodyRangesType,
   LocalizerType,
   RenderTextCallbackType,

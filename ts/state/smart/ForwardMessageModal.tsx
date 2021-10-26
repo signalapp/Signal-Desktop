@@ -3,19 +3,17 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import {
-  ForwardMessageModal,
-  DataPropsType,
-} from '../../components/ForwardMessageModal';
-import { StateType } from '../reducer';
-import { BodyRangeType } from '../../types/Util';
-import { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { DataPropsType } from '../../components/ForwardMessageModal';
+import { ForwardMessageModal } from '../../components/ForwardMessageModal';
+import type { StateType } from '../reducer';
+import type { BodyRangeType } from '../../types/Util';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getAllComposableConversations } from '../selectors/conversations';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { selectRecentEmojis } from '../selectors/emojis';
-import { AttachmentType } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 
 export type SmartForwardMessageModalProps = {
   attachments?: Array<AttachmentType>;

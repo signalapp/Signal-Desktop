@@ -8,7 +8,7 @@ import {
   getEmptyState,
   reducer,
 } from '../../../state/ducks/linkPreviews';
-import { LinkPreviewType } from '../../../types/message/LinkPreviews';
+import type { LinkPreviewType } from '../../../types/message/LinkPreviews';
 
 describe('both/state/ducks/linkPreviews', () => {
   function getMockLinkPreview(): LinkPreviewType {

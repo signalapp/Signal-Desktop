@@ -1,14 +1,15 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { FunctionComponent, useCallback } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import {
   BaseConversationListItem,
   MESSAGE_TEXT_CLASS_NAME,
 } from './BaseConversationListItem';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { AvatarColors } from '../../types/Colors';
 
 const TEXT_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__start-new-conversation`;

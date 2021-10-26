@@ -9,7 +9,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
-import { CompositionInput, Props } from './CompositionInput';
+import type { Props } from './CompositionInput';
+import { CompositionInput } from './CompositionInput';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

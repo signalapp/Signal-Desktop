@@ -8,7 +8,8 @@ import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 
 import { ErrorDialogAudioRecorderType } from '../../state/ducks/audioRecorder';
-import { AudioCapture, PropsType } from './AudioCapture';
+import type { PropsType } from './AudioCapture';
+import { AudioCapture } from './AudioCapture';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 

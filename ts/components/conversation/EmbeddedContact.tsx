@@ -4,9 +4,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import {
   renderAvatar,
   renderContactShorthand,

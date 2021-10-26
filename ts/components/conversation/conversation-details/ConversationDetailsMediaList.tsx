@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 
-import { MediaItemType } from '../../../types/MediaItem';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { MediaItemType } from '../../../types/MediaItem';
+import type { ConversationType } from '../../../state/ducks/conversations';
 
 import { PanelSection } from './PanelSection';
 import { bemGenerator } from './util';

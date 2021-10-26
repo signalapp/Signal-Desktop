@@ -6,7 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { date, number, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { Props, TimelineLoadingRow } from './TimelineLoadingRow';
+import type { Props } from './TimelineLoadingRow';
+import { TimelineLoadingRow } from './TimelineLoadingRow';
 
 const story = storiesOf('Components/Conversation/TimelineLoadingRow', module);
 

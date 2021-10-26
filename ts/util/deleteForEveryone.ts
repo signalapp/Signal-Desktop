@@ -1,8 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { DeleteModel } from '../messageModifiers/Deletes';
-import { MessageModel } from '../models/messages';
+import type { DeleteModel } from '../messageModifiers/Deletes';
+import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
 
 const ONE_DAY = 24 * 60 * 60 * 1000;

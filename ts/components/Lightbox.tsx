@@ -1,13 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { ReactNode } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { createPortal } from 'react-dom';
@@ -15,12 +10,13 @@ import { noop } from 'lodash';
 import { useSpring, animated, to } from '@react-spring/web';
 
 import * as GoogleChrome from '../util/GoogleChrome';
-import { AttachmentType, isGIF } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
+import { isGIF } from '../types/Attachment';
 import { Avatar, AvatarSize } from './Avatar';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
-import { LocalizerType } from '../types/Util';
-import { MediaItemType, MessageAttributesType } from '../types/MediaItem';
+import type { LocalizerType } from '../types/Util';
+import type { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import * as log from '../logging/log';

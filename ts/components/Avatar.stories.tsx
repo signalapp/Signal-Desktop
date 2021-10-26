@@ -8,10 +8,12 @@ import { storiesOf } from '@storybook/react';
 import { boolean, select, text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { Avatar, AvatarBlur, Props } from './Avatar';
+import type { Props } from './Avatar';
+import { Avatar, AvatarBlur } from './Avatar';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 
 const i18n = setupI18n('en', enMessages);
 

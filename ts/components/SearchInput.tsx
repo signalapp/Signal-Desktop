@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ChangeEvent, KeyboardEvent, forwardRef } from 'react';
+import type { ChangeEvent, KeyboardEvent } from 'react';
+import React, { forwardRef } from 'react';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 
 export type PropTypes = {

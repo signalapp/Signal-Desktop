@@ -11,7 +11,7 @@ import { deriveGroupFields } from '../groups';
 import * as Bytes from '../Bytes';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 
-import {
+import type {
   ProcessedAttachment,
   ProcessedDataMessage,
   ProcessedGroupContext,

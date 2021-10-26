@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { WebAPICredentials } from '../Types.d';
+import type { WebAPICredentials } from '../Types.d';
 
 import { strictAssert } from '../../util/assert';
-import { StorageInterface } from '../../types/Storage.d';
+import type { StorageInterface } from '../../types/Storage.d';
 import { UUID } from '../../types/UUID';
 import * as log from '../../logging/log';
 

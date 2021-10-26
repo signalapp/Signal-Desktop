@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
-import { ContactNameColorType } from '../../types/Colors';
+import type { ContactNameColorType } from '../../types/Colors';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
 
 export type PropsType = {

@@ -6,10 +6,9 @@ import { getOwn } from '../util/getOwn';
 import { map, concat, repeat, zipObject } from '../util/iterables';
 import { isOutgoing } from '../state/selectors/message';
 import type { CustomError, MessageAttributesType } from '../model-types.d';
+import type { SendState, SendStateByConversationId } from './MessageSendState';
 import {
-  SendState,
   SendActionType,
-  SendStateByConversationId,
   sendStateReducer,
   SendStatus,
 } from './MessageSendState';

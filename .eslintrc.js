@@ -129,6 +129,8 @@ const typescriptRules = {
   // Upgrade from a warning
   '@typescript-eslint/explicit-module-boundary-types': 'error',
 
+  '@typescript-eslint/consistent-type-imports': 'error',
+
   // Already enforced by TypeScript
   'consistent-return': 'off',
 };

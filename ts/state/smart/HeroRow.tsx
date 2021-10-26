@@ -6,7 +6,7 @@ import { mapDispatchToProps } from '../actions';
 
 import { ConversationHero } from '../../components/conversation/ConversationHero';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 
 type ExternalProps = {

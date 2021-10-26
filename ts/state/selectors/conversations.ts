@@ -5,28 +5,28 @@ import memoizee from 'memoizee';
 import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 
-import { StateType } from '../reducer';
-import {
-  ComposerStep,
+import type { StateType } from '../reducer';
+import type {
   ConversationLookupType,
   ConversationMessageType,
   ConversationsStateType,
   ConversationType,
   MessageLookupType,
   MessagesByConversationType,
-  OneTimeModalState,
   PreJoinConversationType,
 } from '../ducks/conversations';
+import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
 import { deconstructLookup } from '../../util/deconstructLookup';
-import { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
-import { TimelineItemType } from '../../components/conversation/TimelineItem';
+import type { PropsDataType as TimelinePropsType } from '../../components/conversation/Timeline';
+import type { TimelineItemType } from '../../components/conversation/TimelineItem';
 import { assert } from '../../util/assert';
 import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConversations';
-import { ContactNameColors, ContactNameColorType } from '../../types/Colors';
-import { AvatarDataType } from '../../types/Avatar';
+import type { ContactNameColorType } from '../../types/Colors';
+import { ContactNameColors } from '../../types/Colors';
+import type { AvatarDataType } from '../../types/Avatar';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { sortByTitle } from '../../util/sortByTitle';
 import {
@@ -44,13 +44,10 @@ import {
 } from './user';
 import { getPinnedConversationIds } from './items';
 import { getPropsForBubble } from './message';
-import {
-  CallSelectorType,
-  CallStateType,
-  getActiveCall,
-  getCallSelector,
-} from './calling';
-import { getAccountSelector, AccountSelectorType } from './accounts';
+import type { CallSelectorType, CallStateType } from './calling';
+import { getActiveCall, getCallSelector } from './calling';
+import type { AccountSelectorType } from './accounts';
+import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
 
 let placeholderContact: ConversationType;

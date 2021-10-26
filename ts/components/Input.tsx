@@ -1,9 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { ClipboardEvent, ReactNode } from 'react';
 import React, {
-  ClipboardEvent,
-  ReactNode,
   forwardRef,
   useCallback,
   useEffect,
@@ -13,7 +12,7 @@ import React, {
 import classNames from 'classnames';
 
 import * as grapheme from '../util/grapheme';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { refMerger } from '../util/refMerger';
 import { byteLength } from '../Bytes';

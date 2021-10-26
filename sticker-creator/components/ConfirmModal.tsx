@@ -4,7 +4,8 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import * as styles from './ConfirmModal.scss';
-import { ConfirmDialog, Props } from '../elements/ConfirmDialog';
+import type { Props } from '../elements/ConfirmDialog';
+import { ConfirmDialog } from '../elements/ConfirmDialog';
 
 export type Mode = 'removable' | 'pick-emoji' | 'add';
 

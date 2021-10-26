@@ -5,10 +5,11 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import { RenderTextCallbackType } from '../../types/Util';
+import type { RenderTextCallbackType } from '../../types/Util';
 import { splitByEmoji } from '../../util/emoji';
 import { missingCaseError } from '../../util/missingCaseError';
-import { emojiToImage, SizeClassType } from '../emoji/lib';
+import type { SizeClassType } from '../emoji/lib';
+import { emojiToImage } from '../emoji/lib';
 
 // Some of this logic taken from emoji-js/replacement
 // the DOM structure for this getImageTag should match the other emoji implementations:

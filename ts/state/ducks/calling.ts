@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import { CallEndedReason } from 'ringrtc';
 import {
   hasScreenCapturePermission,
@@ -15,18 +15,20 @@ import { getPlatform } from '../selectors/user';
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 import { missingCaseError } from '../../util/missingCaseError';
 import { calling } from '../../services/calling';
-import { StateType as RootStateType } from '../reducer';
-import {
-  CallingDeviceType,
-  CallMode,
-  CallState,
+import type { StateType as RootStateType } from '../reducer';
+import type {
   ChangeIODevicePayloadType,
-  GroupCallConnectionState,
-  GroupCallJoinState,
   GroupCallVideoRequest,
   MediaDeviceSettings,
   PresentedSource,
   PresentableSource,
+} from '../../types/Calling';
+import {
+  CallingDeviceType,
+  CallMode,
+  CallState,
+  GroupCallConnectionState,
+  GroupCallJoinState,
 } from '../../types/Calling';
 import { callingTones } from '../../util/callingTones';
 import { requestCameraPermissions } from '../../util/callingPermissions';

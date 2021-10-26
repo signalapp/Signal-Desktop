@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 export type Props = Pick<
   ConversationType,

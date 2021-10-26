@@ -7,7 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { boolean, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { ImageGrid, Props } from './ImageGrid';
+import type { Props } from './ImageGrid';
+import { ImageGrid } from './ImageGrid';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,

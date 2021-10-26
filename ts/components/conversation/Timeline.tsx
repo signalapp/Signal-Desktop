@@ -3,41 +3,40 @@
 
 import { debounce, get, isNumber, pick, identity } from 'lodash';
 import classNames from 'classnames';
-import React, { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
+import type { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
+import React from 'react';
 import { createSelector } from 'reselect';
+import type { Grid } from 'react-virtualized';
 import {
   AutoSizer,
   CellMeasurer,
   CellMeasurerCache,
   List,
-  Grid,
 } from 'react-virtualized';
 import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
 
-import { AssertProps, LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { AssertProps, LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { createRefMerger } from '../../util/refMerger';
 import { WidthBreakpoint } from '../_util';
 
-import { PropsActions as MessageActionsType } from './Message';
-import { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
-import { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
+import type { PropsActions as MessageActionsType } from './Message';
+import type { PropsActions as UnsupportedMessageActionsType } from './UnsupportedMessage';
+import type { PropsActionsType as ChatSessionRefreshedNotificationActionsType } from './ChatSessionRefreshedNotification';
 import { ErrorBoundary } from './ErrorBoundary';
-import { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
+import type { PropsActions as SafetyNumberActionsType } from './SafetyNumberNotification';
 import { Intl } from '../Intl';
 import { TimelineWarning } from './TimelineWarning';
 import { TimelineWarnings } from './TimelineWarnings';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
-import {
-  GroupNameCollisionsWithIdsByTitle,
-  hasUnacknowledgedCollisions,
-} from '../../util/groupMemberNameCollisions';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
+import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;

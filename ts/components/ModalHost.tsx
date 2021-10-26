@@ -5,10 +5,12 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
-import { SpringValues, animated } from '@react-spring/web';
+import type { SpringValues } from '@react-spring/web';
+import { animated } from '@react-spring/web';
 
 import type { ModalConfigType } from '../hooks/useAnimated';
-import { Theme, themeClassName } from '../util/theme';
+import type { Theme } from '../util/theme';
+import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
 export type PropsType = {

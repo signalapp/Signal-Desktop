@@ -4,10 +4,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
 import { ModalHost } from '../../components/ModalHost';
-import { SmartGroupV2JoinDialog, PropsType } from '../smart/GroupV2JoinDialog';
+import type { PropsType } from '../smart/GroupV2JoinDialog';
+import { SmartGroupV2JoinDialog } from '../smart/GroupV2JoinDialog';
 
 export const createGroupV2JoinModal = (
   store: Store,

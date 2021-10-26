@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import { AttachmentType, getExtensionForDisplay } from '../../types/Attachment';
-import { LocalizerType } from '../../types/Util';
+import type { AttachmentType } from '../../types/Attachment';
+import { getExtensionForDisplay } from '../../types/Attachment';
+import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   attachment: AttachmentType;

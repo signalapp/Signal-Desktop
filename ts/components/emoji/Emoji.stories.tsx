@@ -4,7 +4,8 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select, text } from '@storybook/addon-knobs';
-import { Emoji, EmojiSizes, Props } from './Emoji';
+import type { Props } from './Emoji';
+import { Emoji, EmojiSizes } from './Emoji';
 
 const story = storiesOf('Components/Emoji/Emoji', module);
 

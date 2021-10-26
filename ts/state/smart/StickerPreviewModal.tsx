@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { StickerPreviewModal } from '../../components/stickers/StickerPreviewModal';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { getIntl, getStickersPath, getTempPath } from '../selectors/user';
 import {

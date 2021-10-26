@@ -4,7 +4,8 @@
 import React from 'react';
 import loadImage from 'blueimp-load-image';
 import { renderToString } from 'react-dom/server';
-import { AvatarColorMap, AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColorMap } from '../types/Colors';
 import { IdenticonSVG } from '../components/IdenticonSVG';
 
 export function createIdenticon(

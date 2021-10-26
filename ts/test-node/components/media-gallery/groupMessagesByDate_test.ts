@@ -5,11 +5,9 @@ import { assert } from 'chai';
 import { shuffle } from 'lodash';
 
 import { IMAGE_JPEG } from '../../../types/MIME';
-import {
-  groupMediaItemsByDate,
-  Section,
-} from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
-import { MediaItemType } from '../../../types/MediaItem';
+import type { Section } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
+import { groupMediaItemsByDate } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
+import type { MediaItemType } from '../../../types/MediaItem';
 import { fakeAttachment } from '../../../test-both/helpers/fakeAttachment';
 
 const testDate = (

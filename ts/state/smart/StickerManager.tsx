@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { StickerManager } from '../../components/stickers/StickerManager';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import {

@@ -8,7 +8,8 @@ import { boolean } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, ScrollDownButton } from './ScrollDownButton';
+import type { Props } from './ScrollDownButton';
+import { ScrollDownButton } from './ScrollDownButton';
 
 const i18n = setupI18n('en', enMessages);
 

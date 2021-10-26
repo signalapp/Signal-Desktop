@@ -23,7 +23,7 @@ import {
   toGroupV1Record,
   toGroupV2Record,
 } from './storageRecordOps';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import { strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';

@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props as ReactionPickerProps, ReactionPicker } from './ReactionPicker';
+import type { Props as ReactionPickerProps } from './ReactionPicker';
+import { ReactionPicker } from './ReactionPicker';
 import { EmojiPicker } from '../emoji/EmojiPicker';
 
 const i18n = setupI18n('en', enMessages);

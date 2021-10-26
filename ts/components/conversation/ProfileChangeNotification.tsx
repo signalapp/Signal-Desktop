@@ -3,14 +3,12 @@
 
 import React from 'react';
 
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { SystemMessage } from './SystemMessage';
 import { Emojify } from './Emojify';
-import {
-  getStringForProfileChange,
-  ProfileNameChangeType,
-} from '../../util/getStringForProfileChange';
+import type { ProfileNameChangeType } from '../../util/getStringForProfileChange';
+import { getStringForProfileChange } from '../../util/getStringForProfileChange';
 
 export type PropsType = {
   change: ProfileNameChangeType;

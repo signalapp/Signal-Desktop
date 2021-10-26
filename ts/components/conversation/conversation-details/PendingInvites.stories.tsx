@@ -9,8 +9,9 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import { PendingInvites, PropsType } from './PendingInvites';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { PropsType } from './PendingInvites';
+import { PendingInvites } from './PendingInvites';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

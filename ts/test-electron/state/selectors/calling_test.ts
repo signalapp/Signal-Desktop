@@ -16,12 +16,12 @@ import {
   getIncomingCall,
   isInCall,
 } from '../../../state/selectors/calling';
-import {
-  getEmptyState,
+import type {
   CallingStateType,
   DirectCallStateType,
   GroupCallStateType,
 } from '../../../state/ducks/calling';
+import { getEmptyState } from '../../../state/ducks/calling';
 
 describe('state/selectors/calling', () => {
   const getEmptyRootState = () => rootReducer(undefined, noopAction());

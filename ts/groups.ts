@@ -1,16 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { Dictionary } from 'lodash';
 import {
   compact,
-  Dictionary,
   difference,
   flatten,
   fromPairs,
   isNumber,
   values,
 } from 'lodash';
-import { ClientZkGroupCipher } from 'zkgroup';
+import type { ClientZkGroupCipher } from 'zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import * as log from './logging/log';
@@ -26,7 +26,7 @@ import { isMoreRecentThan } from './util/timestamp';
 import * as durations from './util/durations';
 import { normalizeUuid } from './util/normalizeUuid';
 import { dropNull } from './util/dropNull';
-import {
+import type {
   ConversationAttributesType,
   GroupV2MemberType,
   GroupV2PendingAdminApprovalType,
@@ -54,14 +54,14 @@ import {
   deriveMasterKeyFromGroupV1,
   getRandomBytes,
 } from './Crypto';
-import {
+import type {
   GroupCredentialsType,
   GroupLogResponseType,
 } from './textsecure/WebAPI';
-import MessageSender from './textsecure/SendMessage';
-import { CallbackResultType } from './textsecure/Types.d';
+import type MessageSender from './textsecure/SendMessage';
+import type { CallbackResultType } from './textsecure/Types.d';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
-import { ConversationModel } from './models/conversations';
+import type { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import {
@@ -69,10 +69,11 @@ import {
   isGroupV2 as getIsGroupV2,
   isMe,
 } from './util/whatTypeOfConversation';
-import { handleMessageSend, SendTypesType } from './util/handleMessageSend';
+import type { SendTypesType } from './util/handleMessageSend';
+import { handleMessageSend } from './util/handleMessageSend';
 import { getSendOptions } from './util/getSendOptions';
 import * as Bytes from './Bytes';
-import { AvatarDataType } from './types/Avatar';
+import type { AvatarDataType } from './types/Avatar';
 import { SignalService as Proto } from './protobuf';
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 

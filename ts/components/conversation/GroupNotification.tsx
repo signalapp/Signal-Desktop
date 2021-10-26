@@ -1,16 +1,17 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 import { compact, flatten } from 'lodash';
 
 import { ContactName } from './ContactName';
 import { SystemMessage } from './SystemMessage';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 export type ChangeType = 'add' | 'remove' | 'name' | 'avatar' | 'general';
 

@@ -5,7 +5,7 @@ import React from 'react';
 import formatFileSize from 'filesize';
 
 import { DialogType } from '../types/Dialogs';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Intl } from './Intl';
 import { LeftPaneDialog } from './LeftPaneDialog';
 import type { WidthBreakpoint } from './_util';

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { app, BrowserWindow, ipcMain } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { app, ipcMain } from 'electron';
 
 let bounceId = -1;
 

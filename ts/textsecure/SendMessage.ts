@@ -7,11 +7,11 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 
-import { Dictionary } from 'lodash';
+import type { Dictionary } from 'lodash';
 import Long from 'long';
 import PQueue from 'p-queue';
+import type { PlaintextContent } from '@signalapp/signal-client';
 import {
-  PlaintextContent,
   ProtocolAddress,
   SenderKeyDistributionMessage,
 } from '@signalapp/signal-client';
@@ -23,8 +23,8 @@ import { QualifiedAddress } from '../types/QualifiedAddress';
 import { SenderKeys } from '../LibSignalStores';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MIMETypeToString } from '../types/MIME';
-import * as Attachment from '../types/Attachment';
-import {
+import type * as Attachment from '../types/Attachment';
+import type {
   ChallengeType,
   GroupCredentialsType,
   GroupLogResponseType,
@@ -35,14 +35,15 @@ import {
   WebAPIType,
 } from './WebAPI';
 import createTaskWithTimeout from './TaskWithTimeout';
-import { CallbackResultType } from './Types.d';
-import OutgoingMessage, {
+import type { CallbackResultType } from './Types.d';
+import type {
   SerializedCertificateType,
   SendLogCallbackType,
 } from './OutgoingMessage';
+import OutgoingMessage from './OutgoingMessage';
 import * as Bytes from '../Bytes';
 import { getRandomBytes, getZeroes, encryptAttachment } from '../Crypto';
-import {
+import type {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
@@ -52,17 +53,14 @@ import {
   SendMessageProtoError,
   HTTPError,
 } from './Errors';
-import { BodyRangesType } from '../types/Util';
-import {
+import type { BodyRangesType } from '../types/Util';
+import type {
   LinkPreviewImage,
   LinkPreviewMetadata,
 } from '../linkPreviews/linkPreviewFetch';
 import { concat, isEmpty, map } from '../util/iterables';
-import {
-  handleMessageSend,
-  shouldSaveProto,
-  SendTypesType,
-} from '../util/handleMessageSend';
+import type { SendTypesType } from '../util/handleMessageSend';
+import { handleMessageSend, shouldSaveProto } from '../util/handleMessageSend';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 

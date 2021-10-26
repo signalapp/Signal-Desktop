@@ -3,8 +3,8 @@
 
 import { createSelector } from 'reselect';
 
-import { StateType } from '../reducer';
-import { NetworkStateType } from '../ducks/network';
+import type { StateType } from '../reducer';
+import type { NetworkStateType } from '../ducks/network';
 import { isDone } from '../../util/registration';
 import { SocketStatus } from '../../types/SocketStatus';
 

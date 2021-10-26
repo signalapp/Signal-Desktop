@@ -5,7 +5,8 @@ import { assert } from 'chai';
 import { actions } from '../../../state/ducks/audioPlayer';
 import { noopAction } from '../../../state/ducks/noop';
 import { isPaused } from '../../../state/selectors/audioPlayer';
-import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer';
+import { reducer as rootReducer } from '../../../state/reducer';
 
 describe('state/selectors/audioPlayer', () => {
   const getEmptyRootState = (): StateType => {

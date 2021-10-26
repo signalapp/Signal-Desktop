@@ -1,11 +1,12 @@
 // Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { MouseEvent, useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import copyText from 'copy-text-to-clipboard';
 import * as log from '../logging/log';
 import { Button, ButtonVariant } from './Button';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
 import { ToastDebugLogError } from './ToastDebugLogError';
 import { ToastLinkCopied } from './ToastLinkCopied';

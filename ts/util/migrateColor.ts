@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { sample } from 'lodash';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 
 const NEW_COLOR_NAMES = new Set(AvatarColors);
 

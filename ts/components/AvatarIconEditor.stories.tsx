@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-import { AvatarIconEditor, PropsType } from './AvatarIconEditor';
+import type { PropsType } from './AvatarIconEditor';
+import { AvatarIconEditor } from './AvatarIconEditor';
 import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
 import { AvatarColors } from '../types/Colors';
 import { createAvatarData } from '../util/createAvatarData';

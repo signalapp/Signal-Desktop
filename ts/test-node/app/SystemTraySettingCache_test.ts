@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { MainSQL } from '../../sql/main';
+import type { MainSQL } from '../../sql/main';
 import { SystemTraySetting } from '../../types/SystemTraySetting';
 
 import type { ConfigType } from '../../../app/base_config';

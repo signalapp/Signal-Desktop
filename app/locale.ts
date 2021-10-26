@@ -6,9 +6,9 @@ import { readFileSync } from 'fs';
 import { merge } from 'lodash';
 import { setupI18n } from '../ts/util/setupI18n';
 
-import { LoggerType } from '../ts/types/Logging';
-import { LocaleMessagesType } from '../ts/types/I18N';
-import { LocalizerType } from '../ts/types/Util';
+import type { LoggerType } from '../ts/types/Logging';
+import type { LocaleMessagesType } from '../ts/types/I18N';
+import type { LocalizerType } from '../ts/types/Util';
 
 function normalizeLocaleName(locale: string): string {
   if (/^en-/.test(locale)) {

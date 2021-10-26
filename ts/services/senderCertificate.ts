@@ -1,10 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
 import {
   SenderCertificateMode,
   serializedCertificateSchema,
-  SerializedCertificateType,
 } from '../textsecure/OutgoingMessage';
 import * as Bytes from '../Bytes';
 import { assert } from '../util/assert';
@@ -12,7 +12,7 @@ import { missingCaseError } from '../util/missingCaseError';
 import { normalizeNumber } from '../util/normalizeNumber';
 import { waitForOnline } from '../util/waitForOnline';
 import * as log from '../logging/log';
-import { StorageInterface } from '../types/Storage.d';
+import type { StorageInterface } from '../types/Storage.d';
 import type { WebAPIType } from '../textsecure/WebAPI';
 import { SignalService as Proto } from '../protobuf';
 

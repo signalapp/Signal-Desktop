@@ -5,12 +5,12 @@ import { isNumber, omit } from 'lodash';
 
 import { strictAssert } from '../util/assert';
 import { dropNull } from '../util/dropNull';
-import { DownloadedAttachmentType } from '../types/Attachment';
+import type { DownloadedAttachmentType } from '../types/Attachment';
 import * as MIME from '../types/MIME';
 import * as Bytes from '../Bytes';
 import { getFirstBytes, decryptAttachment } from '../Crypto';
 
-import { ProcessedAttachment } from './Types.d';
+import type { ProcessedAttachment } from './Types.d';
 import type { WebAPIType } from './WebAPI';
 
 export async function downloadAttachment(

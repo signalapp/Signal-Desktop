@@ -1,8 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationAttributesType } from '../model-types.d';
-import { SendMetadataType, SendOptionsType } from '../textsecure/SendMessage';
+import type { ConversationAttributesType } from '../model-types.d';
+import type {
+  SendMetadataType,
+  SendOptionsType,
+} from '../textsecure/SendMessage';
 import * as Bytes from '../Bytes';
 import { getRandomBytes } from '../Crypto';
 import { getConversationMembers } from './getConversationMembers';
@@ -14,10 +17,8 @@ import {
   PhoneNumberSharingMode,
   parsePhoneNumberSharingMode,
 } from './phoneNumberSharingMode';
-import {
-  SenderCertificateMode,
-  SerializedCertificateType,
-} from '../textsecure/OutgoingMessage';
+import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
+import { SenderCertificateMode } from '../textsecure/OutgoingMessage';
 
 const SEALED_SENDER = {
   UNKNOWN: 0,

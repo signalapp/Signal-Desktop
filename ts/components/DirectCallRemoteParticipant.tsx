@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect } from 'react';
-import { SetRendererCanvasType } from '../state/ducks/calling';
-import { ConversationType } from '../state/ducks/conversations';
-import { LocalizerType } from '../types/Util';
+import type { SetRendererCanvasType } from '../state/ducks/calling';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { Avatar } from './Avatar';
 

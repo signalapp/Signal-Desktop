@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { computeHash } from '../Crypto';
-import { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d';
 
 export type BuildAvatarUpdaterOptions = Readonly<{
   deleteAttachmentData: (path: string) => Promise<void>;

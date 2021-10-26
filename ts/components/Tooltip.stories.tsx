@@ -5,7 +5,8 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 
-import { Tooltip, TooltipPlacement, PropsType } from './Tooltip';
+import type { PropsType } from './Tooltip';
+import { Tooltip, TooltipPlacement } from './Tooltip';
 import { Theme } from '../util/theme';
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({

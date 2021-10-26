@@ -3,7 +3,8 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { BrowserWindow, MenuItem, Tray, nativeImage } from 'electron';
+import type { MenuItem } from 'electron';
+import { BrowserWindow, Tray, nativeImage } from 'electron';
 import * as path from 'path';
 
 import { SystemTrayService } from '../../../app/SystemTrayService';

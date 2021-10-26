@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Fuse, { FuseOptions } from 'fuse.js';
+import type { FuseOptions } from 'fuse.js';
+import Fuse from 'fuse.js';
 
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 
 const FUSE_OPTIONS: FuseOptions<ConversationType> = {
   // A small-but-nonzero threshold lets us match parts of E164s better, and makes the

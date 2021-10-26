@@ -4,26 +4,22 @@
 /* eslint-disable no-param-reassign */
 
 import { useMemo } from 'react';
-import {
-  createAction,
-  Draft,
-  handleAction,
-  reduceReducers,
-} from 'redux-ts-utils';
+import type { Draft } from 'redux-ts-utils';
+import { createAction, handleAction, reduceReducers } from 'redux-ts-utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { clamp, find, isNumber, pull, remove, take, uniq } from 'lodash';
-import { SortEnd } from 'react-sortable-hoc';
+import type { SortEnd } from 'react-sortable-hoc';
 import { bindActionCreators } from 'redux';
 import arrayMove from 'array-move';
 // eslint-disable-next-line import/no-cycle
-import { AppState } from '../reducer';
-import {
+import type { AppState } from '../reducer';
+import type {
   PackMetaData,
   StickerImageData,
   StickerData,
 } from '../../util/preload';
-import { EmojiPickDataType } from '../../../ts/components/emoji/EmojiPicker';
+import type { EmojiPickDataType } from '../../../ts/components/emoji/EmojiPicker';
 import { convertShortName } from '../../../ts/components/emoji/lib';
 
 export const initializeStickers = createAction<Array<string>>(

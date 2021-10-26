@@ -1,15 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
-import { LocalizerType } from '../../../types/Util';
-import { MediaItemType } from '../../../types/MediaItem';
+import type { LocalizerType } from '../../../types/Util';
+import type { MediaItemType } from '../../../types/MediaItem';
 import { CapabilityError } from '../../../types/errors';
 import { missingCaseError } from '../../../util/missingCaseError';
 
@@ -22,11 +23,9 @@ import { ConversationDetailsActions } from './ConversationDetailsActions';
 import { ConversationDetailsHeader } from './ConversationDetailsHeader';
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { ConversationDetailsMediaList } from './ConversationDetailsMediaList';
-import {
-  ConversationDetailsMembershipList,
-  GroupV2Membership,
-} from './ConversationDetailsMembershipList';
-import {
+import type { GroupV2Membership } from './ConversationDetailsMembershipList';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
+import type {
   GroupV2PendingMembership,
   GroupV2RequestingMembership,
 } from './PendingInvites';
@@ -35,7 +34,7 @@ import { RequestState } from './util';
 import { getCustomColorStyle } from '../../../util/getCustomColorStyle';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { ConversationNotificationsModal } from './ConversationNotificationsModal';
-import {
+import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,

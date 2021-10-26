@@ -28,7 +28,7 @@ import {
   sessionRecordToProtobuf,
   sessionStructureToBytes,
 } from './util/sessionTranslation';
-import {
+import type {
   DeviceType,
   IdentityKeyType,
   IdentityKeyIdType,
@@ -48,12 +48,11 @@ import {
 } from './textsecure/Types.d';
 import { getSendOptions } from './util/getSendOptions';
 import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
-import { UUID, UUIDStringType } from './types/UUID';
-import { Address } from './types/Address';
-import {
-  QualifiedAddress,
-  QualifiedAddressStringType,
-} from './types/QualifiedAddress';
+import type { UUIDStringType } from './types/UUID';
+import { UUID } from './types/UUID';
+import type { Address } from './types/Address';
+import type { QualifiedAddressStringType } from './types/QualifiedAddress';
+import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds

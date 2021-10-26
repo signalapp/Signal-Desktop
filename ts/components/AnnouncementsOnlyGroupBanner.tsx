@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState } from 'react';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { Intl } from './Intl';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Modal } from './Modal';
 import { ConversationListItem } from './conversationList/ConversationListItem';
 

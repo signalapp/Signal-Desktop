@@ -4,8 +4,9 @@
 import loadImage from 'blueimp-load-image';
 import { blobToArrayBuffer } from 'blob-util';
 import { toLogFormat } from './errors';
-import { MIMEType, IMAGE_PNG } from './MIME';
-import { LoggerType } from './Logging';
+import type { MIMEType } from './MIME';
+import { IMAGE_PNG } from './MIME';
+import type { LoggerType } from './Logging';
 import { arrayBufferToObjectURL } from '../util/arrayBufferToObjectURL';
 import { strictAssert } from '../util/assert';
 import { canvasToBlob } from '../util/canvasToBlob';

@@ -2,52 +2,40 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
-import Measure, { MeasuredComponentProps } from 'react-measure';
+import type { MeasuredComponentProps } from 'react-measure';
+import Measure from 'react-measure';
 import classNames from 'classnames';
 import { clamp, isNumber, noop } from 'lodash';
 
-import {
-  LeftPaneHelper,
-  FindDirection,
-  ToFindType,
-} from './leftPane/LeftPaneHelper';
-import {
-  LeftPaneInboxHelper,
-  LeftPaneInboxPropsType,
-} from './leftPane/LeftPaneInboxHelper';
-import {
-  LeftPaneSearchHelper,
-  LeftPaneSearchPropsType,
-} from './leftPane/LeftPaneSearchHelper';
-import {
-  LeftPaneArchiveHelper,
-  LeftPaneArchivePropsType,
-} from './leftPane/LeftPaneArchiveHelper';
-import {
-  LeftPaneComposeHelper,
-  LeftPaneComposePropsType,
-} from './leftPane/LeftPaneComposeHelper';
-import {
-  LeftPaneChooseGroupMembersHelper,
-  LeftPaneChooseGroupMembersPropsType,
-} from './leftPane/LeftPaneChooseGroupMembersHelper';
-import {
-  LeftPaneSetGroupMetadataHelper,
-  LeftPaneSetGroupMetadataPropsType,
-} from './leftPane/LeftPaneSetGroupMetadataHelper';
+import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper';
+import { FindDirection } from './leftPane/LeftPaneHelper';
+import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper';
+import { LeftPaneInboxHelper } from './leftPane/LeftPaneInboxHelper';
+import type { LeftPaneSearchPropsType } from './leftPane/LeftPaneSearchHelper';
+import { LeftPaneSearchHelper } from './leftPane/LeftPaneSearchHelper';
+import type { LeftPaneArchivePropsType } from './leftPane/LeftPaneArchiveHelper';
+import { LeftPaneArchiveHelper } from './leftPane/LeftPaneArchiveHelper';
+import type { LeftPaneComposePropsType } from './leftPane/LeftPaneComposeHelper';
+import { LeftPaneComposeHelper } from './leftPane/LeftPaneComposeHelper';
+import type { LeftPaneChooseGroupMembersPropsType } from './leftPane/LeftPaneChooseGroupMembersHelper';
+import { LeftPaneChooseGroupMembersHelper } from './leftPane/LeftPaneChooseGroupMembersHelper';
+import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGroupMetadataHelper';
+import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper';
 
 import * as OS from '../OS';
-import { LocalizerType, ScrollBehavior } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
+import { ScrollBehavior } from '../types/Util';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import { strictAssert } from '../util/assert';
 import { isSorted } from '../util/isSorted';
-import { getConversationListWidthBreakpoint, WidthBreakpoint } from './_util';
+import type { WidthBreakpoint } from './_util';
+import { getConversationListWidthBreakpoint } from './_util';
 
 import { ConversationList } from './ConversationList';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 
-import {
+import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,

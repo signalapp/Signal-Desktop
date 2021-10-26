@@ -5,7 +5,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import { Checkbox, PropsType } from './Checkbox';
+import type { PropsType } from './Checkbox';
+import { Checkbox } from './Checkbox';
 
 const createProps = (): PropsType => ({
   checked: false,

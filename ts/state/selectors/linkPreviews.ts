@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { assert } from '../../util/assert';
 import { getDomain } from '../../types/LinkPreview';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 export const getLinkPreview = createSelector(
   ({ linkPreviews }: StateType) => linkPreviews.linkPreview,

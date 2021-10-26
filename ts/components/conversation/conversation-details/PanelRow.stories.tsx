@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import { PanelRow, Props } from './PanelRow';
+import type { Props } from './PanelRow';
+import { PanelRow } from './PanelRow';
 
 const story = storiesOf(
   'Components/Conversation/ConversationDetails/PanelRow',

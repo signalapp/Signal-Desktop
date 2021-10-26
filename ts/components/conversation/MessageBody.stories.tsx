@@ -6,7 +6,8 @@ import * as React from 'react';
 import { boolean, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { MessageBody, Props } from './MessageBody';
+import type { Props } from './MessageBody';
+import { MessageBody } from './MessageBody';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 

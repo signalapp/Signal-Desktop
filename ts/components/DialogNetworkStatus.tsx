@@ -5,9 +5,9 @@ import React, { useEffect } from 'react';
 
 import { LeftPaneDialog } from './LeftPaneDialog';
 import { Spinner } from './Spinner';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { SocketStatus } from '../types/SocketStatus';
-import { NetworkStateType } from '../state/ducks/network';
+import type { NetworkStateType } from '../state/ducks/network';
 import type { WidthBreakpoint } from './_util';
 
 const FIVE_SECONDS = 5 * 1000;

@@ -1,19 +1,22 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactElement, useState } from 'react';
+import type { ReactElement } from 'react';
+import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { ReplacementValuesType } from '../../types/I18N';
-import { FullJSXType, Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
+import type { ReplacementValuesType } from '../../types/I18N';
+import type { FullJSXType } from '../Intl';
+import { Intl } from '../Intl';
+import type { LocalizerType } from '../../types/Util';
 import { GroupDescriptionText } from '../GroupDescriptionText';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 
-import { GroupV2ChangeType, GroupV2ChangeDetailType } from '../../groups';
+import type { GroupV2ChangeType, GroupV2ChangeDetailType } from '../../groups';
 
-import { renderChange, SmartContactRendererType } from '../../groupChange';
+import type { SmartContactRendererType } from '../../groupChange';
+import { renderChange } from '../../groupChange';
 import { Modal } from '../Modal';
 
 export type PropsDataType = {

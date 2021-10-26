@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, isEqual, mapValues, noop, omit, union } from 'lodash';
-import {
+import type {
   CustomError,
   GroupV1Update,
   MessageAttributesType,
@@ -17,13 +17,13 @@ import { isNormalNumber } from '../util/isNormalNumber';
 import { strictAssert } from '../util/assert';
 import { missingCaseError } from '../util/missingCaseError';
 import { dropNull } from '../util/dropNull';
-import { ConversationModel } from './conversations';
-import {
+import type { ConversationModel } from './conversations';
+import type {
   OwnProps as SmartMessageDetailPropsType,
   Contact as SmartMessageDetailContact,
 } from '../state/smart/MessageDetail';
 import { getCallingNotificationText } from '../util/callingNotification';
-import {
+import type {
   ProcessedDataMessage,
   ProcessedQuote,
   ProcessedUnidentifiedDeliveryStatus,
@@ -32,7 +32,7 @@ import {
 import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 
-import { ReactionType } from '../types/Reactions';
+import type { ReactionType } from '../types/Reactions';
 import {
   copyStickerToAttachments,
   deletePackReference,
@@ -42,14 +42,15 @@ import {
 import * as Stickers from '../types/Stickers';
 import * as Errors from '../types/errors';
 import * as EmbeddedContact from '../types/EmbeddedContact';
-import { AttachmentType, isImage, isVideo } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
+import { isImage, isVideo } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import { stringToMIMEType } from '../types/MIME';
 import * as MIME from '../types/MIME';
 import { ReadStatus } from '../messages/MessageReadStatus';
+import type { SendStateByConversationId } from '../messages/MessageSendState';
 import {
   SendActionType,
-  SendStateByConversationId,
   SendStatus,
   isMessageJustForMe,
   isSent,
@@ -107,7 +108,8 @@ import {
   MessageReceiptType,
 } from '../messageModifiers/MessageReceipts';
 import { Deletes } from '../messageModifiers/Deletes';
-import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
+import type { ReactionModel } from '../messageModifiers/Reactions';
+import { Reactions } from '../messageModifiers/Reactions';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';

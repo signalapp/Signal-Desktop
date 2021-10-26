@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import { isMe } from './whatTypeOfConversation';
 
 export async function shouldRespondWithProfileKey(

@@ -6,7 +6,8 @@ import * as React from 'react';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Intl, Props } from './Intl';
+import type { Props } from './Intl';
+import { Intl } from './Intl';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

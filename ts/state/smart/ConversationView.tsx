@@ -5,16 +5,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { ConversationView } from '../../components/conversation/ConversationView';
-import { StateType } from '../reducer';
-import {
-  SmartCompositionArea,
-  CompositionAreaPropsType,
-} from './CompositionArea';
-import {
-  SmartConversationHeader,
-  OwnProps as ConversationHeaderPropsType,
-} from './ConversationHeader';
-import { SmartTimeline, TimelinePropsType } from './Timeline';
+import type { StateType } from '../reducer';
+import type { CompositionAreaPropsType } from './CompositionArea';
+import { SmartCompositionArea } from './CompositionArea';
+import type { OwnProps as ConversationHeaderPropsType } from './ConversationHeader';
+import { SmartConversationHeader } from './ConversationHeader';
+import type { TimelinePropsType } from './Timeline';
+import { SmartTimeline } from './Timeline';
 
 export type PropsType = {
   compositionAreaProps: Pick<

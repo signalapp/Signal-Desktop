@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { SafetyNumberModal } from '../../components/SafetyNumberModal';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getContactSafetyNumber } from '../selectors/safetyNumber';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';

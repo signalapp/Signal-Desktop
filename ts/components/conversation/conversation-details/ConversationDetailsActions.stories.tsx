@@ -9,10 +9,8 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import {
-  ConversationDetailsActions,
-  Props,
-} from './ConversationDetailsActions';
+import type { Props } from './ConversationDetailsActions';
+import { ConversationDetailsActions } from './ConversationDetailsActions';
 
 const i18n = setupI18n('en', enMessages);
 

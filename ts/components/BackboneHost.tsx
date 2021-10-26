@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useRef } from 'react';
-import * as Backbone from 'backbone';
+import type * as Backbone from 'backbone';
 
 type PropsType = {
   View: typeof Backbone.View;

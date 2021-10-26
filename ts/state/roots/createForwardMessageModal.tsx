@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartForwardMessageModal,
-  SmartForwardMessageModalProps,
-} from '../smart/ForwardMessageModal';
+import type { SmartForwardMessageModalProps } from '../smart/ForwardMessageModal';
+import { SmartForwardMessageModal } from '../smart/ForwardMessageModal';
 
 export const createForwardMessageModal = (
   store: Store,

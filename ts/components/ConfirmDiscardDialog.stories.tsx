@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-import { ConfirmDiscardDialog, PropsType } from './ConfirmDiscardDialog';
+import type { PropsType } from './ConfirmDiscardDialog';
+import { ConfirmDiscardDialog } from './ConfirmDiscardDialog';
 
 const i18n = setupI18n('en', enMessages);
 

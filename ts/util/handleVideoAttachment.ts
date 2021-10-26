@@ -6,7 +6,7 @@ import { blobToArrayBuffer } from 'blob-util';
 import * as log from '../logging/log';
 import { makeVideoScreenshot } from '../types/VisualAttachment';
 import { IMAGE_PNG, stringToMIMEType } from '../types/MIME';
-import { InMemoryAttachmentDraftType } from '../types/Attachment';
+import type { InMemoryAttachmentDraftType } from '../types/Attachment';
 import { fileToBytes } from './fileToBytes';
 
 export async function handleVideoAttachment(

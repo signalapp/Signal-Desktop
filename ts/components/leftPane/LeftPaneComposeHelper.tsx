@@ -1,15 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild, ChangeEvent } from 'react';
-import { PhoneNumber } from 'google-libphonenumber';
+import type { ReactChild, ChangeEvent } from 'react';
+import React from 'react';
+import type { PhoneNumber } from 'google-libphonenumber';
 
 import { LeftPaneHelper } from './LeftPaneHelper';
-import { Row, RowType } from '../ConversationList';
-import { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
-import { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
+import type { Row } from '../ConversationList';
+import { RowType } from '../ConversationList';
+import type { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { SearchInput } from '../SearchInput';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import {
   instance as phoneNumberInstance,
   PhoneNumberFormat,

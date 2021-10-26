@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from './durations';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { getMutedUntilText } from './getMutedUntilText';
 import { isMuted } from './isMuted';
 

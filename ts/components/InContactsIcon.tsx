@@ -5,7 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Tooltip } from './Tooltip';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 type PropsType = {
   className?: string;

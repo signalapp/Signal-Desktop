@@ -2,12 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { useState } from 'react';
-import {
-  SpringValues,
-  useChain,
-  useSpring,
-  useSpringRef,
-} from '@react-spring/web';
+import type { SpringValues } from '@react-spring/web';
+import { useChain, useSpring, useSpringRef } from '@react-spring/web';
 
 export type ModalConfigType = {
   opacity: number;

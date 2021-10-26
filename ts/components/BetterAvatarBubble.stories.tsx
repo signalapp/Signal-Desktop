@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
-import { BetterAvatarBubble, PropsType } from './BetterAvatarBubble';
+import type { PropsType } from './BetterAvatarBubble';
+import { BetterAvatarBubble } from './BetterAvatarBubble';
 import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);

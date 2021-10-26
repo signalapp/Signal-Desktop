@@ -9,8 +9,8 @@ import { Avatar } from './Avatar';
 import { Emojify } from './conversation/Emojify';
 import { InContactsIcon } from './InContactsIcon';
 
-import { LocalizerType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type Props = {

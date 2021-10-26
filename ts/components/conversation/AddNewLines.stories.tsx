@@ -6,7 +6,8 @@ import * as React from 'react';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { AddNewLines, Props } from './AddNewLines';
+import type { Props } from './AddNewLines';
+import { AddNewLines } from './AddNewLines';
 
 const story = storiesOf('Components/Conversation/AddNewLines', module);
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({

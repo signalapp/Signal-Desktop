@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk, groupBy, map } from 'lodash';
-import { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isConversationAccepted } from './isConversationAccepted';

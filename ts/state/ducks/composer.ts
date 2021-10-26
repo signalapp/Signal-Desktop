@@ -1,26 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 
 import * as log from '../../logging/log';
-import { NoopActionType } from './noop';
-import { StateType as RootStateType } from '../reducer';
-import { AttachmentType } from '../../types/Attachment';
-import { MessageAttributesType } from '../../model-types.d';
-import { LinkPreviewWithDomain } from '../../types/LinkPreview';
+import type { NoopActionType } from './noop';
+import type { StateType as RootStateType } from '../reducer';
+import type { AttachmentType } from '../../types/Attachment';
+import type { MessageAttributesType } from '../../model-types.d';
+import type { LinkPreviewWithDomain } from '../../types/LinkPreview';
 import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnecessaryAllocation';
-import {
-  REMOVE_PREVIEW as REMOVE_LINK_PREVIEW,
-  RemoveLinkPreviewActionType,
-} from './linkPreviews';
+import type { RemoveLinkPreviewActionType } from './linkPreviews';
+import { REMOVE_PREVIEW as REMOVE_LINK_PREVIEW } from './linkPreviews';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
 import { replaceIndex } from '../../util/replaceIndex';
 import { resolveAttachmentOnDisk } from '../../util/resolveAttachmentOnDisk';
-import {
-  handleAttachmentsProcessing,
-  HandleAttachmentsProcessingArgsType,
-} from '../../util/handleAttachmentsProcessing';
+import type { HandleAttachmentsProcessingArgsType } from '../../util/handleAttachmentsProcessing';
+import { handleAttachmentsProcessing } from '../../util/handleAttachmentsProcessing';
 
 // State
 

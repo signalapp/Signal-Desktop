@@ -2,14 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
-import {
-  BrowserWindow,
-  Menu,
-  NativeImage,
-  Tray,
-  app,
-  nativeImage,
-} from 'electron';
+import type { BrowserWindow, NativeImage } from 'electron';
+import { Menu, Tray, app, nativeImage } from 'electron';
 import * as log from '../ts/logging/log';
 import type { LocaleMessagesType } from '../ts/types/I18N';
 

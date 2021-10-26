@@ -11,8 +11,10 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { PropsType, Timeline } from './Timeline';
-import { TimelineItem, TimelineItemType } from './TimelineItem';
+import type { PropsType } from './Timeline';
+import { Timeline } from './Timeline';
+import type { TimelineItemType } from './TimelineItem';
+import { TimelineItem } from './TimelineItem';
 import { ConversationHero } from './ConversationHero';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
@@ -21,7 +23,7 @@ import { TimelineLoadingRow } from './TimelineLoadingRow';
 import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
-import { WidthBreakpoint } from '../_util';
+import type { WidthBreakpoint } from '../_util';
 
 const i18n = setupI18n('en', enMessages);
 

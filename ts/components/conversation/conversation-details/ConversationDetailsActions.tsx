@@ -1,10 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { Tooltip, TooltipPlacement } from '../../Tooltip';
 

@@ -8,18 +8,13 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import fetch, { Response } from 'node-fetch';
+import type { Response } from 'node-fetch';
+import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
 import { Agent } from 'https';
 import pProps from 'p-props';
-import {
-  compact,
-  Dictionary,
-  escapeRegExp,
-  isNumber,
-  mapValues,
-  zipObject,
-} from 'lodash';
+import type { Dictionary } from 'lodash';
+import { compact, escapeRegExp, isNumber, mapValues, zipObject } from 'lodash';
 import { createVerify } from 'crypto';
 import { pki } from 'node-forge';
 import is from '@sindresorhus/is';
@@ -32,7 +27,7 @@ import { assert } from '../util/assert';
 import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
-import { SocketStatus } from '../types/SocketStatus';
+import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import * as Bytes from '../Bytes';
@@ -47,17 +42,17 @@ import {
 import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 
-import {
+import type {
   StorageServiceCallOptionsType,
   StorageServiceCredentials,
 } from '../textsecure.d';
 import { SocketManager } from './SocketManager';
-import WebSocketResource from './WebsocketResources';
+import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
 
 import { HTTPError } from './Errors';
-import MessageSender from './SendMessage';
-import { WebAPICredentials, IRequestHandler } from './Types.d';
+import type MessageSender from './SendMessage';
+import type { WebAPICredentials, IRequestHandler } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
 

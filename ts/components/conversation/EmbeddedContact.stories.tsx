@@ -7,7 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { boolean, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { EmbeddedContact, Props } from './EmbeddedContact';
+import type { Props } from './EmbeddedContact';
+import { EmbeddedContact } from './EmbeddedContact';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { ContactFormType } from '../../types/EmbeddedContact';

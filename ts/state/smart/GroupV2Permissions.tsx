@@ -3,11 +3,9 @@
 
 import { connect } from 'react-redux';
 
-import { StateType } from '../reducer';
-import {
-  GroupV2Permissions,
-  PropsType,
-} from '../../components/conversation/conversation-details/GroupV2Permissions';
+import type { StateType } from '../reducer';
+import type { PropsType } from '../../components/conversation/conversation-details/GroupV2Permissions';
+import { GroupV2Permissions } from '../../components/conversation/conversation-details/GroupV2Permissions';
 import { getConversationSelector } from '../selectors/conversations';
 import { getIntl } from '../selectors/user';
 

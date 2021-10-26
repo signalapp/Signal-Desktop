@@ -4,7 +4,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import { compact, isNumber } from 'lodash';
-import {
+import type {
   ConversationAttributesType,
   ConversationModelCollectionType,
   LastMessageStatus,
@@ -15,8 +15,10 @@ import {
   WhatIsThis,
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
-import { AttachmentType, isGIF } from '../types/Attachment';
-import { CallMode, CallHistoryDetailsType } from '../types/Calling';
+import type { AttachmentType } from '../types/Attachment';
+import { isGIF } from '../types/Attachment';
+import type { CallHistoryDetailsType } from '../types/Calling';
+import { CallMode } from '../types/Calling';
 import * as EmbeddedContact from '../types/EmbeddedContact';
 import * as Conversation from '../types/Conversation';
 import * as Stickers from '../types/Stickers';
@@ -27,14 +29,14 @@ import type {
   StickerType,
 } from '../textsecure/SendMessage';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
-import { CallbackResultType } from '../textsecure/Types.d';
-import { ConversationType } from '../state/ducks/conversations';
-import {
+import type { CallbackResultType } from '../textsecure/Types.d';
+import type { ConversationType } from '../state/ducks/conversations';
+import type {
   AvatarColorType,
   ConversationColorType,
   CustomColorType,
 } from '../types/Colors';
-import { MessageModel } from './messages';
+import type { MessageModel } from './messages';
 import { strictAssert } from '../util/assert';
 import { isMuted } from '../util/isMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -42,11 +44,12 @@ import { isConversationUnregistered } from '../util/isConversationUnregistered';
 import { missingCaseError } from '../util/missingCaseError';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
-import { MIMEType, IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
 import { UUID } from '../types/UUID';
 import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
-import { BodyRangesType } from '../types/Util';
+import type { BodyRangesType } from '../types/Util';
 import { getTextWithMentions } from '../util/getTextWithMentions';
 import { migrateColor } from '../util/migrateColor';
 import { isNotNil } from '../util/isNotNil';
@@ -73,7 +76,7 @@ import {
   zipObject,
 } from '../util/iterables';
 import * as universalExpireTimer from '../util/universalExpireTimer';
-import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
+import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isDirectConversation,
   isGroupV1,
@@ -89,7 +92,8 @@ import {
 } from '../state/selectors/message';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import { Deletes } from '../messageModifiers/Deletes';
-import { Reactions, ReactionModel } from '../messageModifiers/Reactions';
+import type { ReactionModel } from '../messageModifiers/Reactions';
+import { Reactions } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';

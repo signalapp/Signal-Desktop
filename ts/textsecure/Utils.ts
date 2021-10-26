@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
-import { HTTPError } from './Errors';
+import type { HTTPError } from './Errors';
 
 export async function handleStatusCode(status: number): Promise<void> {
   if (status === 499) {

@@ -9,7 +9,7 @@ import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
 
 import { IMAGE_JPEG } from '../../../types/MIME';
-import { AttachmentType } from '../../../types/Attachment';
+import type { AttachmentType } from '../../../types/Attachment';
 import { fakeAttachment } from '../../helpers/fakeAttachment';
 
 describe('both/state/ducks/composer', () => {

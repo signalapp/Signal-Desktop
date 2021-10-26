@@ -7,7 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { select, text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { AtMentionify, Props } from './AtMentionify';
+import type { Props } from './AtMentionify';
+import { AtMentionify } from './AtMentionify';
 
 const story = storiesOf('Components/Conversation/AtMentionify', module);
 

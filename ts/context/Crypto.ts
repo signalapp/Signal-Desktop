@@ -4,10 +4,12 @@
 /* eslint-disable class-methods-use-this */
 
 import { Buffer } from 'buffer';
-import crypto, { Decipher } from 'crypto';
+import type { Decipher } from 'crypto';
+import crypto from 'crypto';
 
 import { strictAssert } from '../util/assert';
-import { HashType, CipherType } from '../types/Crypto';
+import type { HashType } from '../types/Crypto';
+import { CipherType } from '../types/Crypto';
 
 const AUTH_TAG_SIZE = 16;
 

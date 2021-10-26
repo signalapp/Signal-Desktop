@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { TypingBubble } from '../../components/conversation/TypingBubble';
 import { strictAssert } from '../../util/assert';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getConversationSelector } from '../selectors/conversations';

@@ -7,41 +7,34 @@ import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
-import {
-  AttachmentDraftType,
-  AttachmentType,
-  isGIF,
-} from '../types/Attachment';
+import type { AttachmentDraftType, AttachmentType } from '../types/Attachment';
+import { isGIF } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
 import * as Stickers from '../types/Stickers';
-import { BodyRangeType, BodyRangesType } from '../types/Util';
-import {
-  IMAGE_JPEG,
-  IMAGE_WEBP,
-  MIMEType,
-  stringToMIMEType,
-} from '../types/MIME';
+import type { BodyRangeType, BodyRangesType } from '../types/Util';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG, IMAGE_WEBP, stringToMIMEType } from '../types/MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
-import { ConversationModel } from '../models/conversations';
-import {
+import type { ConversationModel } from '../models/conversations';
+import type {
   GroupV2PendingMemberType,
   MessageModelCollectionType,
   MessageAttributesType,
   ConversationModelCollectionType,
   QuotedMessageType,
 } from '../model-types.d';
-import { LinkPreviewType } from '../types/message/LinkPreviews';
-import {
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type {
   MediaItemType,
   MessageAttributesType as MediaItemMessageType,
 } from '../types/MediaItem';
-import { MessageModel } from '../models/messages';
+import type { MessageModel } from '../models/messages';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
-import { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
+import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
 import {
   isDirectConversation,
   isGroupV1,
@@ -62,7 +55,7 @@ import {
 } from '../state/selectors/conversations';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
-import {
+import type {
   LinkPreviewResult,
   LinkPreviewImage,
   LinkPreviewWithDomain,
@@ -74,7 +67,7 @@ import type { AnyViewClass, BasicReactWrapperViewClass } from '../window.d';
 import type { EmbeddedContactType } from '../types/EmbeddedContact';
 import { createConversationView } from '../state/roots/createConversationView';
 import { AttachmentToastType } from '../types/AttachmentToastType';
-import { CompositionAPIType } from '../components/CompositionArea';
+import type { CompositionAPIType } from '../components/CompositionArea';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SignalService as Proto } from '../protobuf';
 import { ToastBlocked } from '../components/ToastBlocked';

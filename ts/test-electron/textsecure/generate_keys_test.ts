@@ -6,10 +6,9 @@ import { assert } from 'chai';
 import { toBase64 } from '../../Bytes';
 import { constantTimeEqual } from '../../Crypto';
 import { generateKeyPair } from '../../Curve';
-import AccountManager, {
-  GeneratedKeysType,
-} from '../../textsecure/AccountManager';
-import { PreKeyType, SignedPreKeyType } from '../../textsecure/Types.d';
+import type { GeneratedKeysType } from '../../textsecure/AccountManager';
+import AccountManager from '../../textsecure/AccountManager';
+import type { PreKeyType, SignedPreKeyType } from '../../textsecure/Types.d';
 import { UUID } from '../../types/UUID';
 
 const { textsecure } = window;

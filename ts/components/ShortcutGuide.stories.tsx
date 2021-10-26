@@ -8,7 +8,8 @@ import { boolean, select } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
-import { Props, ShortcutGuide } from './ShortcutGuide';
+import type { Props } from './ShortcutGuide';
+import { ShortcutGuide } from './ShortcutGuide';
 
 const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/ShortcutGuide', module);

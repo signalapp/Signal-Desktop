@@ -3,7 +3,7 @@
 
 import * as Backbone from 'backbone';
 import * as log from '../logging/log';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import { showToast } from '../util/showToast';
 import { ToastStickerPackInstallFailed } from '../components/ToastStickerPackInstallFailed';
 

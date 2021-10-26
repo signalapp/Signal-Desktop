@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
 import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 

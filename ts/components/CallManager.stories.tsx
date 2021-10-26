@@ -6,7 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
 
-import { CallManager, PropsType } from './CallManager';
+import type { PropsType } from './CallManager';
+import { CallManager } from './CallManager';
 import {
   CallEndedReason,
   CallMode,
@@ -14,12 +15,13 @@ import {
   GroupCallConnectionState,
   GroupCallJoinState,
 } from '../types/Calling';
-import { ConversationTypeType } from '../state/ducks/conversations';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { ConversationTypeType } from '../state/ducks/conversations';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import { setupI18n } from '../util/setupI18n';
-import { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
+import type { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
 
 const i18n = setupI18n('en', enMessages);

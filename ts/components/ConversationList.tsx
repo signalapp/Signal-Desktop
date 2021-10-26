@@ -1,28 +1,25 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useEffect, useCallback, ReactNode } from 'react';
-import { List, ListRowRenderer } from 'react-virtualized';
+import type { ReactNode } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
+import type { ListRowRenderer } from 'react-virtualized';
+import { List } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
-import { LocalizerType, ScrollBehavior } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
+import { ScrollBehavior } from '../types/Util';
 import { getConversationListWidthBreakpoint } from './_util';
 
-import {
-  ConversationListItem,
-  PropsData as ConversationListItemPropsType,
-} from './conversationList/ConversationListItem';
-import {
-  ContactListItem,
-  PropsDataType as ContactListItemPropsType,
-} from './conversationList/ContactListItem';
-import {
-  ContactCheckbox as ContactCheckboxComponent,
-  ContactCheckboxDisabledReason,
-} from './conversationList/ContactCheckbox';
+import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
+import { ConversationListItem } from './conversationList/ConversationListItem';
+import type { PropsDataType as ContactListItemPropsType } from './conversationList/ContactListItem';
+import { ContactListItem } from './conversationList/ContactListItem';
+import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
+import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
 import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';

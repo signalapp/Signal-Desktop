@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {
+import type {
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
@@ -17,11 +17,11 @@ import {
   CallingLobbyJoinButton,
   CallingLobbyJoinButtonVariant,
 } from './CallingLobbyJoinButton';
-import { AvatarColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
+import type { AvatarColorType } from '../types/Colors';
+import type { LocalizerType } from '../types/Util';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 
 export type PropsType = {

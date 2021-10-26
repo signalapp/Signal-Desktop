@@ -4,7 +4,7 @@
 /* eslint-disable max-classes-per-file */
 
 import { Collection, Model } from 'backbone';
-import { MessageModel } from '../models/messages';
+import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
 
 type DeleteAttributesType = {

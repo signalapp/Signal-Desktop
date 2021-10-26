@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { GlobalAudioProvider } from '../../components/GlobalAudioContext';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { isPaused } from '../selectors/audioPlayer';
 import { getSelectedConversationId } from '../selectors/conversations';
 

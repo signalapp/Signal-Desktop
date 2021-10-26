@@ -8,10 +8,11 @@ import { boolean } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
-import { ContactModal, PropsType } from './ContactModal';
+import type { PropsType } from './ContactModal';
+import { ContactModal } from './ContactModal';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 const i18n = setupI18n('en', enMessages);
 

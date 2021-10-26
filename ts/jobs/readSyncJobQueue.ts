@@ -6,8 +6,8 @@
 import * as durations from '../util/durations';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
+import type { SyncType } from './helpers/readAndViewSyncHelpers';
 import {
-  SyncType,
   parseRawSyncDataArray,
   runReadOrViewSyncJob,
 } from './helpers/readAndViewSyncHelpers';

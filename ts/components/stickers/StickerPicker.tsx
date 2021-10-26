@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import FocusTrap from 'focus-trap-react';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
-import { StickerPackType, StickerType } from '../../state/ducks/stickers';
-import { LocalizerType } from '../../types/Util';
+import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
+import type { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

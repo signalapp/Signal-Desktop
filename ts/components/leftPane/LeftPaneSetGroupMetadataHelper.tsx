@@ -1,13 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild } from 'react';
+import type { ReactChild } from 'react';
+import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper';
-import { Row, RowType } from '../ConversationList';
-import { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
+import type { Row } from '../ConversationList';
+import { RowType } from '../ConversationList';
+import type { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
 import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { Alert } from '../Alert';
 import { AvatarEditor } from '../AvatarEditor';
 import { AvatarPreview } from '../AvatarPreview';
@@ -15,7 +17,7 @@ import { Spinner } from '../Spinner';
 import { Button } from '../Button';
 import { Modal } from '../Modal';
 import { GroupTitleInput } from '../GroupTitleInput';
-import {
+import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,

@@ -1,8 +1,8 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { LocaleMessagesType } from '../types/I18N';
-import { LocalizerType } from '../types/Util';
+import type { LocaleMessagesType } from '../types/I18N';
+import type { LocalizerType } from '../types/Util';
 import * as log from '../logging/log';
 
 export function setupI18n(

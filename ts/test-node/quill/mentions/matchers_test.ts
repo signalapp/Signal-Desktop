@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 import Delta from 'quill-delta';
 
 import { matchMention } from '../../../quill/mentions/matchers';
 import { MemberRepository } from '../../../quill/memberRepository';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 class FakeTokenList<T> extends Array<T> {

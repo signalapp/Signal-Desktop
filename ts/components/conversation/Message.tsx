@@ -1,7 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import React from 'react';
 import ReactDOM, { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { drop, groupBy, orderBy, take, unescape } from 'lodash';
@@ -9,7 +10,7 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow';
 
-import {
+import type {
   ConversationType,
   ConversationTypeType,
   InteractionModeType,
@@ -23,22 +24,21 @@ import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
 import { Image } from './Image';
 import { ContactName } from './ContactName';
-import { Quote, QuotedAttachmentType } from './Quote';
+import type { QuotedAttachmentType } from './Quote';
+import { Quote } from './Quote';
 import { EmbeddedContact } from './EmbeddedContact';
-import {
-  OwnProps as ReactionViewerProps,
-  ReactionViewer,
-} from './ReactionViewer';
-import { Props as ReactionPickerProps } from './ReactionPicker';
+import type { OwnProps as ReactionViewerProps } from './ReactionViewer';
+import { ReactionViewer } from './ReactionViewer';
+import type { Props as ReactionPickerProps } from './ReactionPicker';
 import { Emoji } from '../emoji/Emoji';
 import { LinkPreviewDate } from './LinkPreviewDate';
-import { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
 
+import type { AttachmentType } from '../../types/Attachment';
 import {
-  AttachmentType,
   canDisplayImage,
   getExtensionForDisplay,
   getGridDimensions,
@@ -52,13 +52,17 @@ import {
   isVideo,
   isGIF,
 } from '../../types/Attachment';
-import { EmbeddedContactType } from '../../types/EmbeddedContact';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 
 import { getIncrement } from '../../util/timer';
 import { isFileDangerous } from '../../util/isFileDangerous';
 import { missingCaseError } from '../../util/missingCaseError';
-import { BodyRangesType, LocalizerType, ThemeType } from '../../types/Util';
-import {
+import type {
+  BodyRangesType,
+  LocalizerType,
+  ThemeType,
+} from '../../types/Util';
+import type {
   ContactNameColorType,
   ConversationColorType,
   CustomColorType,

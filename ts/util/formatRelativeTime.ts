@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 // Only applies in the english locales, but it ensures that the format
 //   is what we want.

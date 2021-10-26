@@ -12,13 +12,13 @@
 // are not immediately retried, however, until `.onOnline()` is called from
 // when we are actually online.
 
-import { MessageModel } from './models/messages';
+import type { MessageModel } from './models/messages';
 import { assert } from './util/assert';
 import { isNotNil } from './util/isNotNil';
 import { isOlderThan } from './util/timestamp';
 import { parseRetryAfter } from './util/parseRetryAfter';
 import { getEnvironment, Environment } from './environment';
-import { StorageInterface } from './types/Storage.d';
+import type { StorageInterface } from './types/Storage.d';
 import { HTTPError } from './textsecure/Errors';
 import * as log from './logging/log';
 

@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { CaptionEditor, Props } from './CaptionEditor';
+import type { Props } from './CaptionEditor';
+import { CaptionEditor } from './CaptionEditor';
 import { AUDIO_MP3, IMAGE_JPEG, VIDEO_MP4 } from '../types/MIME';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

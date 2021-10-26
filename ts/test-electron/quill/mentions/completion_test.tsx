@@ -3,15 +3,14 @@
 
 import { assert } from 'chai';
 import Delta from 'quill-delta';
-import sinon, { SinonStub } from 'sinon';
-import Quill, { KeyboardStatic } from 'quill';
+import type { SinonStub } from 'sinon';
+import sinon from 'sinon';
+import type { Quill, KeyboardStatic } from 'quill';
 
-import { MutableRefObject } from 'react';
-import {
-  MentionCompletion,
-  MentionCompletionOptions,
-} from '../../../quill/mentions/completion';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { MutableRefObject } from 'react';
+import type { MentionCompletionOptions } from '../../../quill/mentions/completion';
+import { MentionCompletion } from '../../../quill/mentions/completion';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository } from '../../../quill/memberRepository';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 

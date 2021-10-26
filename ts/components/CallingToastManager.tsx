@@ -3,13 +3,10 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import {
-  ActiveCallType,
-  CallMode,
-  GroupCallConnectionState,
-} from '../types/Calling';
-import { ConversationType } from '../state/ducks/conversations';
-import { LocalizerType } from '../types/Util';
+import type { ActiveCallType } from '../types/Calling';
+import { CallMode, GroupCallConnectionState } from '../types/Calling';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
 
 type PropsType = {
   activeCall: ActiveCallType;

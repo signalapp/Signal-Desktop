@@ -1,13 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode,
-  memo,
-  useEffect,
-} from 'react';
+import type { KeyboardEvent, MouseEvent, ReactNode } from 'react';
+import React, { memo, useEffect } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';

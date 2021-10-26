@@ -31,21 +31,21 @@ import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
 import { assert, strictAssert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
-import { ReactionType } from '../types/Reactions';
-import { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { ReactionType } from '../types/Reactions';
+import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
 
-import {
+import type {
   ConversationModelCollectionType,
   MessageModelCollectionType,
 } from '../model-types.d';
-import { StoredJob } from '../jobs/types';
+import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
 
-import {
+import type {
   AttachmentDownloadJobType,
   ClientInterface,
   ClientJobType,
@@ -83,8 +83,8 @@ import {
 } from './Interface';
 import Server from './Server';
 import { isCorruptionError } from './errors';
-import { MessageModel } from '../models/messages';
-import { ConversationModel } from '../models/conversations';
+import type { MessageModel } from '../models/messages';
+import type { ConversationModel } from '../models/conversations';
 
 // We listen to a lot of events on ipc, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.

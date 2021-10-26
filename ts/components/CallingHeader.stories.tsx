@@ -6,7 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { CallingHeader, PropsType } from './CallingHeader';
+import type { PropsType } from './CallingHeader';
+import { CallingHeader } from './CallingHeader';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

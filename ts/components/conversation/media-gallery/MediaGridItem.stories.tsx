@@ -8,11 +8,12 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import { MediaItemType } from '../../../types/MediaItem';
-import { AttachmentType } from '../../../types/Attachment';
+import type { MediaItemType } from '../../../types/MediaItem';
+import type { AttachmentType } from '../../../types/Attachment';
 import { stringToMIMEType } from '../../../types/MIME';
 
-import { MediaGridItem, Props } from './MediaGridItem';
+import type { Props } from './MediaGridItem';
+import { MediaGridItem } from './MediaGridItem';
 
 const i18n = setupI18n('en', enMessages);
 

@@ -7,9 +7,10 @@ import { action } from '@storybook/addon-actions';
 import { select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { LeftPane, LeftPaneMode, PropsType } from './LeftPane';
+import type { PropsType } from './LeftPane';
+import { LeftPane, LeftPaneMode } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

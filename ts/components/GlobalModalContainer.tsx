@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import { ContactModalStateType } from '../state/ducks/globalModals';
-import { LocalizerType } from '../types/Util';
+import type { ContactModalStateType } from '../state/ducks/globalModals';
+import type { LocalizerType } from '../types/Util';
 
 import { WhatsNewModal } from './WhatsNewModal';
 

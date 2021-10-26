@@ -3,9 +3,9 @@
 
 /* eslint-disable camelcase */
 
-import { AttachmentType } from './Attachment';
-import { EmbeddedContactType } from './EmbeddedContact';
-import { IndexableBoolean, IndexablePresence } from './IndexedDB';
+import type { AttachmentType } from './Attachment';
+import type { EmbeddedContactType } from './EmbeddedContact';
+import type { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = (
   | UserMessage

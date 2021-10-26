@@ -8,7 +8,8 @@ import { boolean } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, StickerButton } from './StickerButton';
+import type { Props } from './StickerButton';
+import { StickerButton } from './StickerButton';
 import {
   createPack,
   sticker1,

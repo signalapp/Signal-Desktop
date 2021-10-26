@@ -1,16 +1,17 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React, { useCallback } from 'react';
 import { escapeRegExp } from 'lodash';
 
 import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 
 import { assert } from '../../util/assert';
-import { BodyRangesType, LocalizerType } from '../../types/Util';
+import type { BodyRangesType, LocalizerType } from '../../types/Util';
 import { BaseConversationListItem } from './BaseConversationListItem';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 export type PropsDataType = {
   isSelected?: boolean;

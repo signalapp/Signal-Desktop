@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ShortcutGuide } from './ShortcutGuide';
 
 export type PropsType = {

@@ -6,7 +6,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import { AttachmentList, Props } from './AttachmentList';
+import type { Props } from './AttachmentList';
+import { AttachmentList } from './AttachmentList';
 import {
   AUDIO_MP3,
   IMAGE_GIF,

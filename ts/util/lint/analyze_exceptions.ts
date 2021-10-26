@@ -5,7 +5,7 @@ import { join } from 'path';
 
 import { fromPairs, groupBy, map } from 'lodash';
 
-import { ExceptionType } from './types';
+import type { ExceptionType } from './types';
 import { loadJSON } from './util';
 
 const exceptionsPath = join(__dirname, 'exceptions.json');

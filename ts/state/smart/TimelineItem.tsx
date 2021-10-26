@@ -1,11 +1,12 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { mapDispatchToProps } from '../actions';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';

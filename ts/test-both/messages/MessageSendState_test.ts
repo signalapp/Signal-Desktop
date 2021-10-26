@@ -5,11 +5,13 @@ import { assert } from 'chai';
 import { sampleSize, times } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
-import {
+import type {
   SendAction,
-  SendActionType,
   SendState,
   SendStateByConversationId,
+} from '../../messages/MessageSendState';
+import {
+  SendActionType,
   SendStatus,
   isDelivered,
   isFailed,

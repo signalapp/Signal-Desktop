@@ -6,7 +6,7 @@ import React from 'react';
 import { SystemMessage } from './SystemMessage';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 import { missingCaseError } from '../../util/missingCaseError';
 

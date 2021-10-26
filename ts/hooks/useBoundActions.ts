@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ActionCreatorsMapObject, bindActionCreators } from 'redux';
+import type { ActionCreatorsMapObject } from 'redux';
+import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 

@@ -8,15 +8,15 @@ import { Avatar } from './Avatar';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { DirectCallRemoteParticipant } from './DirectCallRemoteParticipant';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
-import { LocalizerType } from '../types/Util';
-import {
+import type { LocalizerType } from '../types/Util';
+import type {
   ActiveCallType,
-  CallMode,
   GroupCallRemoteParticipantType,
   GroupCallVideoRequest,
 } from '../types/Calling';
+import { CallMode } from '../types/Calling';
 import { AvatarColors } from '../types/Colors';
-import { SetRendererCanvasType } from '../state/ducks/calling';
+import type { SetRendererCanvasType } from '../state/ducks/calling';
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { missingCaseError } from '../util/missingCaseError';

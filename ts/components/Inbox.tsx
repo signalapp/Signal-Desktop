@@ -1,12 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, useEffect, useRef } from 'react';
-import * as Backbone from 'backbone';
-import {
-  SafetyNumberChangeDialog,
-  SafetyNumberProps,
-} from './SafetyNumberChangeDialog';
+import type { ReactNode } from 'react';
+import React, { useEffect, useRef } from 'react';
+import type * as Backbone from 'backbone';
+import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
+import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { LocalizerType } from '../types/Util';
 

@@ -7,9 +7,9 @@ import { storiesOf } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { GroupV2ChangeType } from '../../groups';
+import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
-import { SmartContactRendererType } from '../../groupChange';
+import type { SmartContactRendererType } from '../../groupChange';
 import { GroupV2Change } from './GroupV2Change';
 
 const i18n = setupI18n('en', enMessages);

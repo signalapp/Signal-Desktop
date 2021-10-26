@@ -1,13 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  CSSProperties,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { CSSProperties, KeyboardEvent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 export enum KnobType {

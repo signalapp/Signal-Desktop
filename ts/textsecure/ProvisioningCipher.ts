@@ -4,7 +4,7 @@
 /* eslint-disable more/no-then */
 /* eslint-disable max-classes-per-file */
 
-import { KeyPairType } from './Types.d';
+import type { KeyPairType } from './Types.d';
 import * as Bytes from '../Bytes';
 import {
   decryptAes256CbcPkcsPadding,

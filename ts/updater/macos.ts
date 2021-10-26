@@ -2,16 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createReadStream, statSync } from 'fs';
-import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
-import { AddressInfo } from 'net';
+import type { IncomingMessage, Server, ServerResponse } from 'http';
+import { createServer } from 'http';
+import type { AddressInfo } from 'net';
 import { dirname } from 'path';
 
 import { v4 as getGuid } from 'uuid';
-import { app, autoUpdater, BrowserWindow } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { app, autoUpdater } from 'electron';
 import config from 'config';
 import { gt } from 'semver';
 import got from 'got';
 
+import type { UpdaterInterface } from './common';
 import {
   checkForUpdates,
   deleteTempDir,
@@ -19,10 +22,9 @@ import {
   getAutoDownloadUpdateSetting,
   getPrintableError,
   setUpdateListener,
-  UpdaterInterface,
 } from './common';
 import * as durations from '../util/durations';
-import { LoggerType } from '../types/Logging';
+import type { LoggerType } from '../types/Logging';
 import { hexToBinary, verifySignature } from './signature';
 import { markShouldQuit } from '../../app/window_state';
 import { DialogType } from '../types/Dialogs';

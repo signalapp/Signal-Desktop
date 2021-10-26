@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, FunctionComponent, useMemo } from 'react';
+import type { ReactNode, FunctionComponent } from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
 import { v4 as uuid } from 'uuid';
@@ -10,8 +11,8 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';

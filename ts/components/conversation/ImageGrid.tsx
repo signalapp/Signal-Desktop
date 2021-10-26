@@ -4,9 +4,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import type { AttachmentType } from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
-  AttachmentType,
   getAlt,
   getImageDimensions,
   getThumbnailUrl,
@@ -16,7 +16,7 @@ import {
 
 import { Image } from './Image';
 
-import { LocalizerType, ThemeType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 
 export type Props = {
   attachments: Array<AttachmentType>;

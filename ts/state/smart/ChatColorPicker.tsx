@@ -4,11 +4,9 @@
 import { connect } from 'react-redux';
 
 import { mapDispatchToProps } from '../actions';
-import {
-  ChatColorPicker,
-  PropsDataType,
-} from '../../components/ChatColorPicker';
-import { StateType } from '../reducer';
+import type { PropsDataType } from '../../components/ChatColorPicker';
+import { ChatColorPicker } from '../../components/ChatColorPicker';
+import type { StateType } from '../reducer';
 import {
   getConversationSelector,
   getConversationsWithCustomColorSelector,

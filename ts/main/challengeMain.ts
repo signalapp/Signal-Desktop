@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-console */
 
-import { ipcMain as ipc, IpcMainEvent } from 'electron';
+import type { IpcMainEvent } from 'electron';
+import { ipcMain as ipc } from 'electron';
 
-import { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
+import type { IPCRequest, IPCResponse, ChallengeResponse } from '../challenge';
 
 export class ChallengeMainHandler {
   private handlers: Array<(response: ChallengeResponse) => void> = [];

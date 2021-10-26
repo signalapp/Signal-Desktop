@@ -4,20 +4,18 @@
 import { webFrame } from 'electron';
 import type { AudioDevice } from 'ringrtc';
 
-import { ZoomFactorType } from '../types/Storage.d';
-import {
-  DEFAULT_CONVERSATION_COLOR,
+import type { ZoomFactorType } from '../types/Storage.d';
+import type {
   ConversationColorType,
   CustomColorType,
   DefaultConversationColorType,
 } from '../types/Colors';
+import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import * as Stickers from '../types/Stickers';
-import {
-  SystemTraySetting,
-  parseSystemTraySetting,
-} from '../types/SystemTraySetting';
+import type { SystemTraySetting } from '../types/SystemTraySetting';
+import { parseSystemTraySetting } from '../types/SystemTraySetting';
 
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { calling } from '../services/calling';
 import { getConversationsWithCustomColorSelector } from '../state/selectors/conversations';
 import { getCustomColors } from '../state/selectors/items';

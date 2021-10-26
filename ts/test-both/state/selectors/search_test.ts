@@ -4,16 +4,14 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import {
+import type {
   ConversationType,
-  getEmptyState as getEmptyConversationState,
   MessageType,
 } from '../../../state/ducks/conversations';
+import { getEmptyState as getEmptyConversationState } from '../../../state/ducks/conversations';
 import { noopAction } from '../../../state/ducks/noop';
-import {
-  getEmptyState as getEmptySearchState,
-  MessageSearchResultType,
-} from '../../../state/ducks/search';
+import type { MessageSearchResultType } from '../../../state/ducks/search';
+import { getEmptyState as getEmptySearchState } from '../../../state/ducks/search';
 import { getEmptyState as getEmptyUserState } from '../../../state/ducks/user';
 import {
   getIsSearchingInAConversation,
@@ -24,7 +22,8 @@ import { makeLookup } from '../../../util/makeLookup';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 
-import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer';
+import { reducer as rootReducer } from '../../../state/reducer';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;

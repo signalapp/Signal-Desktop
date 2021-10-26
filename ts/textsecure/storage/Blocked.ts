@@ -3,7 +3,7 @@
 
 import { without } from 'lodash';
 
-import { StorageInterface } from '../../types/Storage.d';
+import type { StorageInterface } from '../../types/Storage.d';
 import * as log from '../../logging/log';
 
 const BLOCKED_NUMBERS_ID = 'blocked';

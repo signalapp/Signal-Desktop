@@ -3,7 +3,7 @@
 
 import { assert } from '../../util/assert';
 import * as log from '../../logging/log';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import type { reportSpamJobQueue } from '../reportSpamJobQueue';
 
 export async function addReportSpamJob({

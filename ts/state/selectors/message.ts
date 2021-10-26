@@ -14,56 +14,55 @@ import {
 import { createSelectorCreator } from 'reselect';
 import filesize from 'filesize';
 
-import {
+import type {
   LastMessageStatus,
   MessageAttributesType,
   ShallowChallengeError,
 } from '../../model-types.d';
 
-import { TimelineItemType } from '../../components/conversation/TimelineItem';
-import { PropsData } from '../../components/conversation/Message';
-import { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
-import { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
-import { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
-import { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
-import { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
-import { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
-import { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
-import {
+import type { TimelineItemType } from '../../components/conversation/TimelineItem';
+import type { PropsData } from '../../components/conversation/Message';
+import type { PropsData as TimerNotificationProps } from '../../components/conversation/TimerNotification';
+import type { PropsData as ChangeNumberNotificationProps } from '../../components/conversation/ChangeNumberNotification';
+import type { PropsData as SafetyNumberNotificationProps } from '../../components/conversation/SafetyNumberNotification';
+import type { PropsData as VerificationNotificationProps } from '../../components/conversation/VerificationNotification';
+import type { PropsDataType as GroupsV2Props } from '../../components/conversation/GroupV2Change';
+import type { PropsDataType as GroupV1MigrationPropsType } from '../../components/conversation/GroupV1Migration';
+import type { PropsDataType as DeliveryIssuePropsType } from '../../components/conversation/DeliveryIssueNotification';
+import type {
   PropsData as GroupNotificationProps,
   ChangeType,
 } from '../../components/conversation/GroupNotification';
-import { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
-import { QuotedAttachmentType } from '../../components/conversation/Quote';
+import type { PropsType as ProfileChangeNotificationPropsType } from '../../components/conversation/ProfileChangeNotification';
+import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isStickerPack } from '../../types/LinkPreview';
 
-import {
-  EmbeddedContactType,
-  embeddedContactSelector,
-} from '../../types/EmbeddedContact';
-import { AssertProps, BodyRangesType } from '../../types/Util';
-import { LinkPreviewType } from '../../types/message/LinkPreviews';
+import type { EmbeddedContactType } from '../../types/EmbeddedContact';
+import { embeddedContactSelector } from '../../types/EmbeddedContact';
+import type { AssertProps, BodyRangesType } from '../../types/Util';
+import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { CallMode } from '../../types/Calling';
 import { SignalService as Proto } from '../../protobuf';
-import { AttachmentType, isVoiceMessage } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
+import { isVoiceMessage } from '../../types/Attachment';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 
-import { CallingNotificationType } from '../../util/callingNotification';
+import type { CallingNotificationType } from '../../util/callingNotification';
 import { memoizeByRoot } from '../../util/memoizeByRoot';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isNotNil } from '../../util/isNotNil';
 import { isMoreRecentThan } from '../../util/timestamp';
 
-import { ConversationType } from '../ducks/conversations';
+import type { ConversationType } from '../ducks/conversations';
 
-import { AccountSelectorType } from './accounts';
-import { CallSelectorType, CallStateType } from './calling';
-import {
+import type { AccountSelectorType } from './accounts';
+import type { CallSelectorType, CallStateType } from './calling';
+import type {
   GetConversationByIdType,
-  isMissingRequiredProfileSharing,
   ContactNameColorSelectorType,
 } from './conversations';
+import { isMissingRequiredProfileSharing } from './conversations';
 import {
   SendStatus,
   isDelivered,

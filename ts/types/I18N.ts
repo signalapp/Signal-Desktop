@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { LocalizerType } from './Util';
+import type { LocalizerType } from './Util';
 
 export type LocaleMessagesType = {
   [key: string]: {

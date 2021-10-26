@@ -1,12 +1,13 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { KeyboardEvent, useCallback, useEffect, useState } from 'react';
+import type { KeyboardEvent } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { noop } from 'lodash';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import { Manager, Popper, Reference } from 'react-popper';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;

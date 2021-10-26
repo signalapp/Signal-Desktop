@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { KeyboardEvent, ReactNode, useState } from 'react';
+import type { KeyboardEvent, ReactNode } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { assert } from '../util/assert';
 import { getClassNamesFor } from '../util/getClassNamesFor';

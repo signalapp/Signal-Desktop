@@ -5,11 +5,11 @@ import { assert } from 'chai';
 import * as moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { SendStatus } from '../../../messages/MessageSendState';
-import {
+import type {
   MessageAttributesType,
   ShallowChallengeError,
 } from '../../../model-types.d';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { ConversationType } from '../../../state/ducks/conversations';
 
 import {
   canDeleteForEveryone,

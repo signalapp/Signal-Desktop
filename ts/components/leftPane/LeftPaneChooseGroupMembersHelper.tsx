@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild, ChangeEvent } from 'react';
+import type { ReactChild, ChangeEvent } from 'react';
+import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper';
-import { Row, RowType } from '../ConversationList';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { Row } from '../ConversationList';
+import { RowType } from '../ConversationList';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { ContactCheckboxDisabledReason } from '../conversationList/ContactCheckbox';
 import { ContactPills } from '../ContactPills';
 import { ContactPill } from '../ContactPill';
@@ -15,7 +17,7 @@ import {
   AddGroupMemberErrorDialogMode,
 } from '../AddGroupMemberErrorDialog';
 import { Button } from '../Button';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,

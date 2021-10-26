@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartConversationDetails,
-  SmartConversationDetailsProps,
-} from '../smart/ConversationDetails';
+import type { SmartConversationDetailsProps } from '../smart/ConversationDetails';
+import { SmartConversationDetails } from '../smart/ConversationDetails';
 
 export const createConversationDetails = (
   store: Store,

@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ComponentProps, useEffect } from 'react';
+import type { ComponentProps } from 'react';
+import React, { useEffect } from 'react';
 import { Globals } from '@react-spring/web';
 import classNames from 'classnames';
 

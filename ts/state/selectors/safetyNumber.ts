@@ -3,8 +3,8 @@
 
 import { createSelector } from 'reselect';
 
-import { StateType } from '../reducer';
-import {
+import type { StateType } from '../reducer';
+import type {
   SafetyNumberContactType,
   SafetyNumberStateType,
 } from '../ducks/safetyNumber';

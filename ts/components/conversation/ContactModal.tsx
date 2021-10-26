@@ -6,9 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { About } from './About';
 import { Avatar } from '../Avatar';
 import { AvatarLightbox } from '../AvatarLightbox';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 

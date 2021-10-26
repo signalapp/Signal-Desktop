@@ -3,7 +3,7 @@
 
 import React, { useMemo, useState } from 'react';
 
-import { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 import { getMuteOptions } from '../../../util/getMuteOptions';
 import { parseIntOrThrow } from '../../../util/parseIntOrThrow';
 import { Checkbox } from '../../Checkbox';

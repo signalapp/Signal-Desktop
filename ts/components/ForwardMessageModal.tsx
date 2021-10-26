@@ -1,31 +1,35 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { FunctionComponent } from 'react';
 import React, {
-  FunctionComponent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import Measure, { MeasuredComponentProps } from 'react-measure';
+import type { MeasuredComponentProps } from 'react-measure';
+import Measure from 'react-measure';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
 import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { Button } from './Button';
-import { CompositionInput, InputApi } from './CompositionInput';
+import type { InputApi } from './CompositionInput';
+import { CompositionInput } from './CompositionInput';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
-import { ConversationList, Row, RowType } from './ConversationList';
-import { ConversationType } from '../state/ducks/conversations';
-import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
-import { LinkPreviewType } from '../types/message/LinkPreviews';
-import { BodyRangeType, LocalizerType } from '../types/Util';
+import type { Row } from './ConversationList';
+import { ConversationList, RowType } from './ConversationList';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
+import { EmojiButton } from './emoji/EmojiButton';
+import type { EmojiPickDataType } from './emoji/EmojiPicker';
+import type { LinkPreviewType } from '../types/message/LinkPreviews';
+import type { BodyRangeType, LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';

@@ -4,7 +4,7 @@
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
 
-import { StorageInterface } from '../types/Storage.d';
+import type { StorageInterface } from '../types/Storage.d';
 
 export class OurProfileKeyService {
   private getPromise: undefined | Promise<undefined | Uint8Array>;

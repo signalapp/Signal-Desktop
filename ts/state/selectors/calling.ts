@@ -3,14 +3,14 @@
 
 import { createSelector } from 'reselect';
 
-import { StateType } from '../reducer';
-import {
+import type { StateType } from '../reducer';
+import type {
   CallingStateType,
   CallsByConversationType,
   DirectCallStateType,
   GroupCallStateType,
-  getIncomingCall as getIncomingCallHelper,
 } from '../ducks/calling';
+import { getIncomingCall as getIncomingCallHelper } from '../ducks/calling';
 import { getUserUuid } from './user';
 import { getOwn } from '../../util/getOwn';
 

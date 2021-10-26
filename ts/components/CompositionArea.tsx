@@ -1,53 +1,47 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  MutableRefObject,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { MutableRefObject } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import classNames from 'classnames';
-import type { BodyRangeType, BodyRangesType } from '../types/Util';
+import type {
+  BodyRangeType,
+  BodyRangesType,
+  LocalizerType,
+} from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
-import { EmojiButton, Props as EmojiButtonProps } from './emoji/EmojiButton';
-import {
-  Props as StickerButtonProps,
-  StickerButton,
-} from './stickers/StickerButton';
-import {
-  CompositionInput,
+import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
+import { EmojiButton } from './emoji/EmojiButton';
+import type { Props as StickerButtonProps } from './stickers/StickerButton';
+import { StickerButton } from './stickers/StickerButton';
+import type {
   InputApi,
   Props as CompositionInputProps,
 } from './CompositionInput';
-import {
-  MessageRequestActions,
-  Props as MessageRequestActionsProps,
-} from './conversation/MessageRequestActions';
-import {
-  GroupV1DisabledActions,
-  PropsType as GroupV1DisabledActionsPropsType,
-} from './conversation/GroupV1DisabledActions';
-import {
-  GroupV2PendingApprovalActions,
-  PropsType as GroupV2PendingApprovalActionsPropsType,
-} from './conversation/GroupV2PendingApprovalActions';
+import { CompositionInput } from './CompositionInput';
+import type { Props as MessageRequestActionsProps } from './conversation/MessageRequestActions';
+import { MessageRequestActions } from './conversation/MessageRequestActions';
+import type { PropsType as GroupV1DisabledActionsPropsType } from './conversation/GroupV1DisabledActions';
+import { GroupV1DisabledActions } from './conversation/GroupV1DisabledActions';
+import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './conversation/GroupV2PendingApprovalActions';
+import { GroupV2PendingApprovalActions } from './conversation/GroupV2PendingApprovalActions';
 import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 import { AttachmentList } from './conversation/AttachmentList';
-import { AttachmentType, isImageAttachment } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
+import { isImageAttachment } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
-import { ConversationType } from '../state/ducks/conversations';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
-import { LinkPreviewWithDomain } from '../types/LinkPreview';
-import { LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { EmojiPickDataType } from './emoji/EmojiPicker';
+import type { LinkPreviewWithDomain } from '../types/LinkPreview';
+
 import { MandatoryProfileSharingActions } from './conversation/MandatoryProfileSharingActions';
 import { MediaQualitySelector } from './MediaQualitySelector';
-import { Quote, Props as QuoteProps } from './conversation/Quote';
+import type { Props as QuoteProps } from './conversation/Quote';
+import { Quote } from './conversation/Quote';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
 import { countStickers } from './stickers/lib';
 import {

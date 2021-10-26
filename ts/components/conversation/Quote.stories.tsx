@@ -10,7 +10,8 @@ import { storiesOf } from '@storybook/react';
 
 import { ConversationColors } from '../../types/Colors';
 import { pngUrl } from '../../storybook/Fixtures';
-import { Message, Props as MessagesProps } from './Message';
+import type { Props as MessagesProps } from './Message';
+import { Message } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -18,7 +19,8 @@ import {
   VIDEO_MP4,
   stringToMIMEType,
 } from '../../types/MIME';
-import { Props, Quote } from './Quote';
+import type { Props } from './Quote';
+import { Quote } from './Quote';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';

@@ -5,7 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 
-import { MessageModel } from '../models/messages';
+import type { MessageModel } from '../models/messages';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { markViewed } from '../services/MessageUpdater';
 import { isIncoming } from '../state/selectors/message';

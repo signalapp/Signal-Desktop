@@ -1,11 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, MouseEvent, ReactNode } from 'react';
+import type { CSSProperties, MouseEvent, ReactNode } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import { AvatarColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
+import type { AvatarColorType } from '../types/Colors';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   children?: ReactNode;

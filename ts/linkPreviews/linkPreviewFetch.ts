@@ -1,16 +1,16 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { RequestInit, Response } from 'node-fetch';
+import type { RequestInit, Response } from 'node-fetch';
 import type { AbortSignal as AbortSignalForNodeFetch } from 'abort-controller';
 
+import type { MIMEType } from '../types/MIME';
 import {
   IMAGE_GIF,
   IMAGE_ICO,
   IMAGE_JPEG,
   IMAGE_PNG,
   IMAGE_WEBP,
-  MIMEType,
   stringToMIMEType,
 } from '../types/MIME';
 import * as log from '../logging/log';

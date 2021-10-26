@@ -7,7 +7,8 @@ import { assert } from 'chai';
 import { noop } from 'lodash';
 import * as sinon from 'sinon';
 
-import { ChallengeHandler, MinimalMessage } from '../challenge';
+import type { MinimalMessage } from '../challenge';
+import { ChallengeHandler } from '../challenge';
 
 type CreateMessageOptions = {
   readonly sentAt?: number;

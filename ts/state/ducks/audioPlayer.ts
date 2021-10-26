@@ -3,7 +3,7 @@
 
 import { useBoundActions } from '../../hooks/useBoundActions';
 
-import {
+import type {
   SwitchToAssociatedViewActionType,
   MessageDeletedActionType,
   MessageChangedActionType,

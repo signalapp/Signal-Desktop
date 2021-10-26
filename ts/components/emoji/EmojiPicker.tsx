@@ -3,12 +3,11 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import {
-  AutoSizer,
-  Grid,
+import type {
   GridCellRenderer,
   SectionRenderedParams,
 } from 'react-virtualized';
+import { AutoSizer, Grid } from 'react-virtualized';
 import {
   chunk,
   debounce,
@@ -22,7 +21,7 @@ import FocusTrap from 'focus-trap-react';
 
 import { Emoji } from './Emoji';
 import { dataByCategory, search } from './lib';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type EmojiPickDataType = {
   skinTone?: number;

@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import moment, { Moment } from 'moment';
+import type { Moment } from 'moment';
+import moment from 'moment';
 import { isLinkPreviewDateValid } from '../../linkPreviews/isLinkPreviewDateValid';
 
 type Props = {

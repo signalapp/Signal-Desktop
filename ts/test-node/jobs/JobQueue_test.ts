@@ -16,7 +16,7 @@ import { assertRejects } from '../helpers';
 import type { LoggerType } from '../../types/Logging';
 
 import { JobQueue } from '../../jobs/JobQueue';
-import { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
+import type { ParsedJob, StoredJob, JobQueueStore } from '../../jobs/types';
 
 describe('JobQueue', () => {
   describe('end-to-end tests', () => {

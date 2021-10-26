@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { memoize, times } from 'lodash';
 import { v4 as generateUuid } from 'uuid';
 import { storiesOf } from '@storybook/react';

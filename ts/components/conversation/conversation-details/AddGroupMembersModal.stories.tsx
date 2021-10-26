@@ -1,7 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ComponentProps, useState } from 'react';
+import type { ComponentProps } from 'react';
+import React, { useState } from 'react';
 import { times } from 'lodash';
 
 import { storiesOf } from '@storybook/react';

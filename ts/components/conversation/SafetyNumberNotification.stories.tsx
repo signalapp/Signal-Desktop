@@ -8,11 +8,8 @@ import { boolean, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import {
-  ContactType,
-  Props,
-  SafetyNumberNotification,
-} from './SafetyNumberNotification';
+import type { ContactType, Props } from './SafetyNumberNotification';
+import { SafetyNumberNotification } from './SafetyNumberNotification';
 
 const i18n = setupI18n('en', enMessages);
 

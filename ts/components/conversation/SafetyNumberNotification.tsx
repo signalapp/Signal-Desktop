@@ -7,7 +7,7 @@ import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
 import { ContactName } from './ContactName';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type ContactType = {
   id: string;

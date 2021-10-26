@@ -8,8 +8,9 @@ import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
-import { Lightbox, PropsType } from './Lightbox';
-import { MediaItemType } from '../types/MediaItem';
+import type { PropsType } from './Lightbox';
+import { Lightbox } from './Lightbox';
+import type { MediaItemType } from '../types/MediaItem';
 import { setupI18n } from '../util/setupI18n';
 import {
   AUDIO_MP3,

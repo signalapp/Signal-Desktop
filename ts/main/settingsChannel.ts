@@ -1,13 +1,14 @@
 // Copyright 2017-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ipcMain as ipc, BrowserWindow, session } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { ipcMain as ipc, session } from 'electron';
 
 import { userConfig } from '../../app/user_config';
 import { ephemeralConfig } from '../../app/ephemeral_config';
 import { installPermissionsHandler } from '../../app/permissions';
 import { strictAssert } from '../util/assert';
-import {
+import type {
   IPCEventsValuesType,
   IPCEventsCallbacksType,
 } from '../util/createIPCEvents';

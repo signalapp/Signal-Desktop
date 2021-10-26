@@ -1,15 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactElement, ReactNode, useRef, useState } from 'react';
-import Measure, { ContentRect, MeasuredComponentProps } from 'react-measure';
+import type { ReactElement, ReactNode } from 'react';
+import React, { useRef, useState } from 'react';
+import type { ContentRect, MeasuredComponentProps } from 'react-measure';
+import Measure from 'react-measure';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import { animated } from '@react-spring/web';
 
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
-import { Theme } from '../util/theme';
+import type { Theme } from '../util/theme';
 import { getClassNamesFor } from '../util/getClassNamesFor';
 import { useAnimated } from '../hooks/useAnimated';
 import { useHasWrapped } from '../hooks/useHasWrapped';

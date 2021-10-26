@@ -4,16 +4,16 @@
 import { omit } from 'lodash';
 
 import { SignalService as Proto } from '../protobuf';
-import { MessageAttributesType } from '../model-types.d';
+import type { MessageAttributesType } from '../model-types.d';
 
 import { isNotNil } from '../util/isNotNil';
 import {
   format as formatPhoneNumber,
   parse as parsePhoneNumber,
 } from './PhoneNumber';
-import { AttachmentType, migrateDataToFileSystem } from './Attachment';
+import type { AttachmentType, migrateDataToFileSystem } from './Attachment';
 import { toLogFormat } from './errors';
-import { LoggerType } from './Logging';
+import type { LoggerType } from './Logging';
 
 export type EmbeddedContactType = {
   name?: Name;

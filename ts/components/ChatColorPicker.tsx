@@ -1,19 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
+import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { CustomColorEditor } from './CustomColorEditor';
 import { Modal } from './Modal';
-import {
-  ConversationColors,
-  ConversationColorType,
-  CustomColorType,
-} from '../types/Colors';
-import { ConversationType } from '../state/ducks/conversations';
-import { LocalizerType } from '../types/Util';
+import type { ConversationColorType, CustomColorType } from '../types/Colors';
+import { ConversationColors } from '../types/Colors';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
 import { SampleMessageBubbles } from './SampleMessageBubbles';
 import { PanelRow } from './conversation/conversation-details/PanelRow';
 import { getCustomColorStyle } from '../util/getCustomColorStyle';

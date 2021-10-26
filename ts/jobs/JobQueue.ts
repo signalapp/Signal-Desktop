@@ -7,7 +7,7 @@ import { noop } from 'lodash';
 
 import { Job } from './Job';
 import { JobError } from './JobError';
-import { ParsedJob, StoredJob, JobQueueStore } from './types';
+import type { ParsedJob, StoredJob, JobQueueStore } from './types';
 import { assert } from '../util/assert';
 import * as log from '../logging/log';
 import { JobLogger } from './JobLogger';

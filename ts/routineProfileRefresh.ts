@@ -10,8 +10,8 @@ import { missingCaseError } from './util/missingCaseError';
 import { isNormalNumber } from './util/isNormalNumber';
 import { take } from './util/iterables';
 import { isOlderThan } from './util/timestamp';
-import { ConversationModel } from './models/conversations';
-import { StorageInterface } from './types/Storage.d';
+import type { ConversationModel } from './models/conversations';
+import type { StorageInterface } from './types/Storage.d';
 // Imported this way so that sinon.sandbox can stub this properly
 import * as profileGetter from './util/getProfile';
 

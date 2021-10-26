@@ -1,20 +1,22 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type {
+  FFICompatArrayType,
+  ProfileKeyCredentialRequestContext,
+} from 'zkgroup';
 import {
   AuthCredential,
   ClientZkAuthOperations,
   ClientZkGroupCipher,
   ClientZkProfileOperations,
   FFICompatArray,
-  FFICompatArrayType,
   GroupMasterKey,
   GroupSecretParams,
   ProfileKey,
   ProfileKeyCiphertext,
   ProfileKeyCredential,
   ProfileKeyCredentialPresentation,
-  ProfileKeyCredentialRequestContext,
   ProfileKeyCredentialResponse,
   ServerPublicParams,
   UuidCiphertext,

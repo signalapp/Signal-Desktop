@@ -15,7 +15,8 @@ import {
   days,
   now,
 } from './AttachmentSection.stories';
-import { MediaGallery, Props } from './MediaGallery';
+import type { Props } from './MediaGallery';
+import { MediaGallery } from './MediaGallery';
 
 const i18n = setupI18n('en', enMessages);
 

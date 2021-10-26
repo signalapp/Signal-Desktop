@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import Sinon from 'sinon';
-import { LoggerType } from '../../types/Logging';
+import type { LoggerType } from '../../types/Logging';
 
 import {
   isSgnlHref,

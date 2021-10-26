@@ -3,12 +3,10 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import {
-  ProfileEditorModal,
-  PropsDataType as ProfileEditorModalPropsType,
-} from '../../components/ProfileEditorModal';
-import { PropsDataType } from '../../components/ProfileEditor';
-import { StateType } from '../reducer';
+import type { PropsDataType as ProfileEditorModalPropsType } from '../../components/ProfileEditorModal';
+import { ProfileEditorModal } from '../../components/ProfileEditorModal';
+import type { PropsDataType } from '../../components/ProfileEditor';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { getMe } from '../selectors/conversations';

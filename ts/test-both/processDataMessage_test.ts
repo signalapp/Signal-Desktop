@@ -8,7 +8,7 @@ import {
   processDataMessage,
   ATTACHMENT_MAX,
 } from '../textsecure/processDataMessage';
-import { ProcessedAttachment } from '../textsecure/Types.d';
+import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
 
 const FLAGS = Proto.DataMessage.Flags;

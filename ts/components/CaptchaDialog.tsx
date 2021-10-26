@@ -3,7 +3,7 @@
 
 import React, { useRef, useState } from 'react';
 
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Button, ButtonVariant } from './Button';
 import { Modal } from './Modal';
 import { Spinner } from './Spinner';

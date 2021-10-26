@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { ProgressDialog } from './ProgressDialog';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   readonly i18n: LocalizerType;

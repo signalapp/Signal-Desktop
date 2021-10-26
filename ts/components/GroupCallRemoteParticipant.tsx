@@ -1,19 +1,19 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { CSSProperties } from 'react';
 import React, {
   useState,
   useRef,
   useMemo,
   useCallback,
   useEffect,
-  CSSProperties,
 } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
 import type { GroupCallRemoteParticipantType } from '../types/Calling';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { Avatar, AvatarSize } from './Avatar';

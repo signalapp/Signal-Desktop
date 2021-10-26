@@ -6,9 +6,9 @@
 import { isEqual } from 'lodash';
 import { Collection, Model } from 'backbone';
 
-import { ConversationModel } from '../models/conversations';
-import { MessageModel } from '../models/messages';
-import { MessageModelCollectionType } from '../model-types.d';
+import type { ConversationModel } from '../models/conversations';
+import type { MessageModel } from '../models/messages';
+import type { MessageModelCollectionType } from '../model-types.d';
 import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';

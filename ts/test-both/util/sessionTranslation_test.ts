@@ -6,10 +6,8 @@
 import { assert } from 'chai';
 
 import * as Bytes from '../../Bytes';
-import {
-  LocalUserDataType,
-  sessionRecordToProtobuf,
-} from '../../util/sessionTranslation';
+import type { LocalUserDataType } from '../../util/sessionTranslation';
+import { sessionRecordToProtobuf } from '../../util/sessionTranslation';
 
 const getRecordCopy = (record: any): any => JSON.parse(JSON.stringify(record));
 

@@ -5,13 +5,11 @@ import { isNumber } from 'lodash';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 
-import {
-  STATE_ENUM,
-  TimelineLoadingRow,
-} from '../../components/conversation/TimelineLoadingRow';
+import type { STATE_ENUM } from '../../components/conversation/TimelineLoadingRow';
+import { TimelineLoadingRow } from '../../components/conversation/TimelineLoadingRow';
 import { LOAD_COUNTDOWN } from '../../components/conversation/Timeline';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getConversationMessagesSelector } from '../selectors/conversations';
 

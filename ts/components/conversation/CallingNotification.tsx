@@ -1,17 +1,18 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import Measure from 'react-measure';
 import { noop } from 'lodash';
 
 import { SystemMessage } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { Timestamp } from './Timestamp';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
+import type { CallingNotificationType } from '../../util/callingNotification';
 import {
-  CallingNotificationType,
   getCallingIcon,
   getCallingNotificationText,
 } from '../../util/callingNotification';

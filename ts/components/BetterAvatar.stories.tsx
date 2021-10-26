@@ -9,7 +9,8 @@ import { action } from '@storybook/addon-actions';
 import enMessages from '../../_locales/en/messages.json';
 import { AvatarColors } from '../types/Colors';
 import { GroupAvatarIcons, PersonalAvatarIcons } from '../types/Avatar';
-import { BetterAvatar, PropsType } from './BetterAvatar';
+import type { PropsType } from './BetterAvatar';
+import { BetterAvatar } from './BetterAvatar';
 import { createAvatarData } from '../util/createAvatarData';
 import { setupI18n } from '../util/setupI18n';
 

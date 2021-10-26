@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import SQL, { Database } from 'better-sqlite3';
+import type { Database } from 'better-sqlite3';
+import SQL from 'better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
 import { SCHEMA_VERSIONS } from '../sql/Server';

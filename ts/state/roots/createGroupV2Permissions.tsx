@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartGroupV2Permissions,
-  SmartGroupV2PermissionsProps,
-} from '../smart/GroupV2Permissions';
+import type { SmartGroupV2PermissionsProps } from '../smart/GroupV2Permissions';
+import { SmartGroupV2Permissions } from '../smart/GroupV2Permissions';
 
 export const createGroupV2Permissions = (
   store: Store,

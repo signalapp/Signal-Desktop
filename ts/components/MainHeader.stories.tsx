@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
-import { MainHeader, PropsType } from './MainHeader';
+import type { PropsType } from './MainHeader';
+import { MainHeader } from './MainHeader';
 
 const i18n = setupI18n('en', enMessages);
 

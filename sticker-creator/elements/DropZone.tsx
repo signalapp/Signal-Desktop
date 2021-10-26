@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { FileWithPath } from 'react-dropzone';
+import type { FileWithPath } from 'react-dropzone';
 import * as styles from './DropZone.scss';
 import { useI18n } from '../util/i18n';
 import { useStickerDropzone } from '../util/useStickerDropzone';

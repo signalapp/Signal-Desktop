@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop } from 'lodash';
-import { StoredJob } from '../../jobs/types';
+import type { StoredJob } from '../../jobs/types';
 
 import { JobQueueDatabaseStore } from '../../jobs/JobQueueDatabaseStore';
 

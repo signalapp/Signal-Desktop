@@ -6,7 +6,8 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
 import enMessages from '../../_locales/en/messages.json';
-import { Preferences, PropsType } from './Preferences';
+import type { PropsType } from './Preferences';
+import { Preferences } from './Preferences';
 import { setupI18n } from '../util/setupI18n';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';

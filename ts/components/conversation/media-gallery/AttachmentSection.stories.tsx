@@ -10,10 +10,11 @@ import { random, range, sample, sortBy } from 'lodash';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import { MIMEType } from '../../../types/MIME';
-import { MediaItemType } from '../../../types/MediaItem';
+import type { MIMEType } from '../../../types/MIME';
+import type { MediaItemType } from '../../../types/MediaItem';
 
-import { AttachmentSection, Props } from './AttachmentSection';
+import type { Props } from './AttachmentSection';
+import { AttachmentSection } from './AttachmentSection';
 
 const i18n = setupI18n('en', enMessages);
 

@@ -3,7 +3,8 @@
 
 import URL from 'url';
 import ProxyAgent from 'proxy-agent';
-import { RequestInit, Response, Headers } from 'node-fetch';
+import type { RequestInit } from 'node-fetch';
+import { Response, Headers } from 'node-fetch';
 import { client as WebSocketClient } from 'websocket';
 import qs from 'querystring';
 import EventListener from 'events';
@@ -21,13 +22,14 @@ import * as Bytes from '../Bytes';
 import * as Timers from '../Timers';
 import * as log from '../logging/log';
 
-import WebSocketResource, {
+import type {
   WebSocketResourceOptions,
   IncomingWebSocketRequest,
 } from './WebsocketResources';
+import WebSocketResource from './WebsocketResources';
 import { ConnectTimeoutError, HTTPError } from './Errors';
 import { handleStatusCode, translateError } from './Utils';
-import { WebAPICredentials, IRequestHandler } from './Types.d';
+import type { WebAPICredentials, IRequestHandler } from './Types.d';
 
 const TEN_SECONDS = 10 * durations.SECOND;
 

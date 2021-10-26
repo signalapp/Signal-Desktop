@@ -1,7 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState, useEffect, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { noop } from 'lodash';
 import classNames from 'classnames';
 
@@ -9,8 +10,11 @@ import * as MIME from '../../types/MIME';
 import * as GoogleChrome from '../../util/GoogleChrome';
 
 import { MessageBody } from './MessageBody';
-import { BodyRangesType, LocalizerType } from '../../types/Util';
-import { ConversationColorType, CustomColorType } from '../../types/Colors';
+import type { BodyRangesType, LocalizerType } from '../../types/Util';
+import type {
+  ConversationColorType,
+  CustomColorType,
+} from '../../types/Colors';
 import { ContactName } from './ContactName';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 import { getCustomColorStyle } from '../../util/getCustomColorStyle';

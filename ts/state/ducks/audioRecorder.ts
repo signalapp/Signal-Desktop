@@ -1,12 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 
 import * as log from '../../logging/log';
-import { AttachmentType } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 import { SignalService as Proto } from '../../protobuf';
-import { StateType as RootStateType } from '../reducer';
+import type { StateType as RootStateType } from '../reducer';
 import { fileToBytes } from '../../util/fileToBytes';
 import { recorder } from '../../services/audioRecorder';
 import { stringToMIMEType } from '../../types/MIME';

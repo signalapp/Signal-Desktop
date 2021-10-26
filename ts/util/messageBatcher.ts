@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { MessageAttributesType } from '../model-types.d';
+import type { MessageAttributesType } from '../model-types.d';
 import { createBatcher } from './batcher';
 import { createWaitBatcher } from './waitBatcher';
 import * as log from '../logging/log';

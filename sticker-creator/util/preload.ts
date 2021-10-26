@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Metadata } from 'sharp';
+import type { Metadata } from 'sharp';
 
 declare global {
   // We want to extend `window`'s properties, so we need an interface.

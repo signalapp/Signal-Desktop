@@ -10,8 +10,8 @@ import { v4 as getGuid } from 'uuid';
 
 import MessageReceiver from '../textsecure/MessageReceiver';
 import { IncomingWebSocketRequest } from '../textsecure/WebsocketResources';
-import { WebAPIType } from '../textsecure/WebAPI';
-import { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
+import type { WebAPIType } from '../textsecure/WebAPI';
+import type { DecryptionErrorEvent } from '../textsecure/messageReceiverEvents';
 import { SignalService as Proto } from '../protobuf';
 import * as Crypto from '../Crypto';
 

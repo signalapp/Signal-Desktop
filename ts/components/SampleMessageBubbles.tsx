@@ -1,9 +1,10 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties } from 'react';
-import { ConversationColorType } from '../types/Colors';
-import { LocalizerType } from '../types/Util';
+import type { CSSProperties } from 'react';
+import React from 'react';
+import type { ConversationColorType } from '../types/Colors';
+import type { LocalizerType } from '../types/Util';
 import { formatRelativeTime } from '../util/formatRelativeTime';
 
 export type PropsType = {

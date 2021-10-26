@@ -10,8 +10,9 @@ import { times } from 'lodash';
 import { setupI18n } from '../../../util/setupI18n';
 import { CapabilityError } from '../../../types/errors';
 import enMessages from '../../../../_locales/en/messages.json';
-import { ConversationDetails, Props } from './ConversationDetails';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { Props } from './ConversationDetails';
+import { ConversationDetails } from './ConversationDetails';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

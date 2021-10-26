@@ -5,8 +5,8 @@ import React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import { ConversationType } from '../../../state/ducks/conversations';
-import { LocalizerType } from '../../../types/Util';
+import type { ConversationType } from '../../../state/ducks/conversations';
+import type { LocalizerType } from '../../../types/Util';
 import { Avatar } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';

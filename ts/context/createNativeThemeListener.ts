@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-restricted-syntax */
 
-import { NativeThemeState } from '../types/NativeThemeNotifier.d';
+import type { NativeThemeState } from '../types/NativeThemeNotifier.d';
 
 export type Callback = (change: NativeThemeState) => void;
 

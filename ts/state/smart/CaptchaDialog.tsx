@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { CaptchaDialog } from '../../components/CaptchaDialog';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { isChallengePending } from '../selectors/network';
 import { getChallengeURL } from '../../challenge';

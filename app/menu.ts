@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isString } from 'lodash';
-import { MenuItemConstructorOptions } from 'electron';
+import type { MenuItemConstructorOptions } from 'electron';
 
-import { LocaleMessagesType } from '../ts/types/I18N';
+import type { LocaleMessagesType } from '../ts/types/I18N';
 
 export type MenuListType = Array<MenuItemConstructorOptions>;
 

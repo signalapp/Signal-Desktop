@@ -6,28 +6,30 @@
 
 import { isNumber } from 'lodash';
 
-import {
+import type {
   Direction,
-  IdentityKeyStore,
   PreKeyRecord,
+  ProtocolAddress,
+  SenderKeyRecord,
+  SessionRecord,
+  SignedPreKeyRecord,
+  Uuid,
+} from '@signalapp/signal-client';
+import {
+  IdentityKeyStore,
   PreKeyStore,
   PrivateKey,
-  ProtocolAddress,
   PublicKey,
-  SenderKeyRecord,
   SenderKeyStore,
-  SessionRecord,
   SessionStore,
-  SignedPreKeyRecord,
   SignedPreKeyStore,
-  Uuid,
 } from '@signalapp/signal-client';
 import { freezePreKey, freezeSignedPreKey } from './SignalProtocolStore';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import type { UUID } from './types/UUID';
 
-import { Zone } from './util/Zone';
+import type { Zone } from './util/Zone';
 
 function encodeAddress(address: ProtocolAddress): Address {
   const name = address.name();

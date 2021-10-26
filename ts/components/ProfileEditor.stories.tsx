@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { ProfileEditor, PropsType } from './ProfileEditor';
+import type { PropsType } from './ProfileEditor';
+import { ProfileEditor } from './ProfileEditor';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import {

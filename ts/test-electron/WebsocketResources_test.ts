@@ -10,7 +10,7 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import EventEmitter from 'events';
-import { connection as WebSocket } from 'websocket';
+import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
 import { dropNull } from '../util/dropNull';

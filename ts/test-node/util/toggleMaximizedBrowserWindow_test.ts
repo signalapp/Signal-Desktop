@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as sinon from 'sinon';
-import { BrowserWindow } from 'electron';
+import type { BrowserWindow } from 'electron';
 
 import { toggleMaximizedBrowserWindow } from '../../util/toggleMaximizedBrowserWindow';
 

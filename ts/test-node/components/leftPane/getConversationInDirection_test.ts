@@ -2,10 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import {
-  FindDirection,
-  ToFindType,
-} from '../../../components/leftPane/LeftPaneHelper';
+import type { ToFindType } from '../../../components/leftPane/LeftPaneHelper';
+import { FindDirection } from '../../../components/leftPane/LeftPaneHelper';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { getConversationInDirection } from '../../../components/leftPane/getConversationInDirection';

@@ -9,8 +9,9 @@ import { boolean } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, StickerPicker } from './StickerPicker';
-import { StickerPackType, StickerType } from '../../state/ducks/stickers';
+import type { Props } from './StickerPicker';
+import { StickerPicker } from './StickerPicker';
+import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 
 const i18n = setupI18n('en', enMessages);
 

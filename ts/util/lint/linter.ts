@@ -8,7 +8,8 @@ import normalizePath from 'normalize-path';
 import pMap from 'p-map';
 import FastGlob from 'fast-glob';
 
-import { ExceptionType, REASONS, RuleType } from './types';
+import type { ExceptionType, RuleType } from './types';
+import { REASONS } from './types';
 import { ENCODING, loadJSON, sortExceptions } from './util';
 
 const ALL_REASONS = REASONS.join('|');

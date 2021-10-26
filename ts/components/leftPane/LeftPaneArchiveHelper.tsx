@@ -1,14 +1,17 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactChild } from 'react';
+import type { ReactChild } from 'react';
+import React from 'react';
 import { last } from 'lodash';
 
-import { LeftPaneHelper, ToFindType } from './LeftPaneHelper';
+import type { ToFindType } from './LeftPaneHelper';
+import { LeftPaneHelper } from './LeftPaneHelper';
 import { getConversationInDirection } from './getConversationInDirection';
-import { Row, RowType } from '../ConversationList';
-import { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
-import { LocalizerType } from '../../types/Util';
+import type { Row } from '../ConversationList';
+import { RowType } from '../ConversationList';
+import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
+import type { LocalizerType } from '../../types/Util';
 
 export type LeftPaneArchivePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;

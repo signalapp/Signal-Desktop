@@ -9,8 +9,8 @@ import { ConfirmationDialog } from './ConfirmationDialog';
 import { InContactsIcon } from './InContactsIcon';
 import { Modal } from './Modal';
 
-import { ConversationType } from '../state/ducks/conversations';
-import { LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 
 export type SafetyNumberProps = {

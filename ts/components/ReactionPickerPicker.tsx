@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, ReactNode, forwardRef } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { Emoji } from './emoji/Emoji';

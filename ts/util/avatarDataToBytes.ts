@@ -1,8 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { AvatarColorMap, AvatarColorType } from '../types/Colors';
-import { AvatarDataType } from '../types/Avatar';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColorMap } from '../types/Colors';
+import type { AvatarDataType } from '../types/Avatar';
 import { canvasToBytes } from './canvasToBytes';
 import { getFittedFontSize } from './avatarTextSizeCalculator';
 

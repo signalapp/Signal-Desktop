@@ -6,11 +6,8 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import {
-  ConversationDetailsIcon,
-  Props,
-  IconType,
-} from './ConversationDetailsIcon';
+import type { Props } from './ConversationDetailsIcon';
+import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 const story = storiesOf(
   'Components/Conversation/ConversationDetails/ConversationDetailIcon',

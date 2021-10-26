@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import enMessages from '../../_locales/en/messages.json';
-import { AvatarModalButtons, PropsType } from './AvatarModalButtons';
+import type { PropsType } from './AvatarModalButtons';
+import { AvatarModalButtons } from './AvatarModalButtons';
 import { setupI18n } from '../util/setupI18n';
 
 const i18n = setupI18n('en', enMessages);

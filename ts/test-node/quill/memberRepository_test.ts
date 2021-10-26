@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { MemberRepository } from '../../quill/memberRepository';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 

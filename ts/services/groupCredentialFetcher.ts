@@ -10,7 +10,7 @@ import {
   getClientZkAuthOperations,
 } from '../util/zkgroup';
 
-import { GroupCredentialType } from '../textsecure/WebAPI';
+import type { GroupCredentialType } from '../textsecure/WebAPI';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';

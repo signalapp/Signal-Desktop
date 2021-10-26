@@ -11,7 +11,8 @@ import { makeLookup } from '../util/makeLookup';
 import { maybeParseUrl } from '../util/url';
 import * as Bytes from '../Bytes';
 import { deriveStickerPackKey, decryptAttachment } from '../Crypto';
-import { IMAGE_WEBP, MIMEType } from './MIME';
+import type { MIMEType } from './MIME';
+import { IMAGE_WEBP } from './MIME';
 import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import type { AttachmentType } from './Attachment';
 import type {

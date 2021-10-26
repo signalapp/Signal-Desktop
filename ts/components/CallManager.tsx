@@ -11,22 +11,22 @@ import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
 import { IncomingCallBar } from './IncomingCallBar';
-import {
-  SafetyNumberChangeDialog,
-  SafetyNumberProps,
-} from './SafetyNumberChangeDialog';
-import {
+import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
+import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
+import type {
   ActiveCallType,
+  GroupCallVideoRequest,
+  PresentedSource,
+} from '../types/Calling';
+import {
   CallEndedReason,
   CallMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-  GroupCallVideoRequest,
-  PresentedSource,
 } from '../types/Calling';
-import { ConversationType } from '../state/ducks/conversations';
-import {
+import type { ConversationType } from '../state/ducks/conversations';
+import type {
   AcceptCallType,
   CancelCallType,
   DeclineCallType,
@@ -39,7 +39,7 @@ import {
   SetRendererCanvasType,
   StartCallType,
 } from '../state/ducks/calling';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { missingCaseError } from '../util/missingCaseError';
 
 const GROUP_CALL_RING_DURATION = 60 * 1000;

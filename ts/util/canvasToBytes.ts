@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { canvasToBlob } from './canvasToBlob';
-import { MIMEType } from '../types/MIME';
+import type { MIMEType } from '../types/MIME';
 
 export async function canvasToBytes(
   canvas: HTMLCanvasElement,

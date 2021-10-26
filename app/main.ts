@@ -34,7 +34,8 @@ import { consoleLogger } from '../ts/util/consoleLogger';
 
 import './startup_config';
 
-import config, { ConfigType } from './config';
+import type { ConfigType } from './config';
+import config from './config';
 import {
   Environment,
   getEnvironment,
@@ -63,7 +64,8 @@ import * as logging from '../ts/logging/main_process_logging';
 import { MainSQL } from '../ts/sql/main';
 import * as sqlChannels from './sql_channel';
 import * as windowState from './window_state';
-import { createTemplate, MenuOptionsType } from './menu';
+import type { MenuOptionsType } from './menu';
+import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
 import { isProduction } from '../ts/util/version';
@@ -87,7 +89,8 @@ import { SettingsChannel } from '../ts/main/settingsChannel';
 import { maybeParseUrl, setUrlSearchParams } from '../ts/util/url';
 import { getHeicConverter } from '../ts/workers/heicConverterMain';
 
-import { load as loadLocale, LocaleType } from './locale';
+import type { LocaleType } from './locale';
+import { load as loadLocale } from './locale';
 
 import type { LoggerType } from '../ts/types/Logging';
 

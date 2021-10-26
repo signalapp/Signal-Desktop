@@ -5,7 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 
-import { MessageModel } from '../models/messages';
+import type { MessageModel } from '../models/messages';
 import { isIncoming } from '../state/selectors/message';
 import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';

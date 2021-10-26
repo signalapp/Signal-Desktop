@@ -9,7 +9,7 @@ import { action } from '@storybook/addon-actions';
 import { NewlyCreatedGroupInvitedContactsDialog } from './NewlyCreatedGroupInvitedContactsDialog';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

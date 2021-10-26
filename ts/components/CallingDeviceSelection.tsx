@@ -5,12 +5,12 @@ import * as React from 'react';
 import type { AudioDevice } from 'ringrtc';
 
 import { Modal } from './Modal';
-import { LocalizerType } from '../types/Util';
-import {
-  CallingDeviceType,
+import type { LocalizerType } from '../types/Util';
+import type {
   ChangeIODevicePayloadType,
   MediaDeviceSettings,
 } from '../types/Calling';
+import { CallingDeviceType } from '../types/Calling';
 import { Theme } from '../util/theme';
 
 export type Props = MediaDeviceSettings & {

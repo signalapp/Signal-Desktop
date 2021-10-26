@@ -4,7 +4,7 @@
 import { mapValues, pickBy } from 'lodash';
 import { groupBy, map, filter } from './iterables';
 import { getOwn } from './getOwn';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { isConversationNameKnown } from './isConversationNameKnown';
 import { isInSystemContacts } from './isInSystemContacts';
 

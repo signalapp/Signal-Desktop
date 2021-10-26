@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartChatColorPicker,
-  SmartChatColorPickerProps,
-} from '../smart/ChatColorPicker';
+import type { SmartChatColorPickerProps } from '../smart/ChatColorPicker';
+import { SmartChatColorPicker } from '../smart/ChatColorPicker';
 
 export const createChatColorPicker = (
   store: Store,

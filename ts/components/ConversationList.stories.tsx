@@ -8,12 +8,11 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, date, select, text } from '@storybook/addon-knobs';
 
-import { ConversationList, PropsType, RowType, Row } from './ConversationList';
+import type { PropsType, Row } from './ConversationList';
+import { ConversationList, RowType } from './ConversationList';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
-import {
-  PropsData as ConversationListItemPropsType,
-  MessageStatuses,
-} from './conversationList/ConversationListItem';
+import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
+import { MessageStatuses } from './conversationList/ConversationListItem';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';

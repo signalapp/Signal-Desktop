@@ -7,7 +7,8 @@ import { boolean, date, select, text } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, Timestamp } from './Timestamp';
+import type { Props } from './Timestamp';
+import { Timestamp } from './Timestamp';
 
 const i18n = setupI18n('en', enMessages);
 

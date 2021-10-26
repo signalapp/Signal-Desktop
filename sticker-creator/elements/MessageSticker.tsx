@@ -3,7 +3,8 @@
 
 import * as React from 'react';
 import * as styles from './MessageSticker.scss';
-import { MessageMeta, Props as MessageMetaProps } from './MessageMeta';
+import type { Props as MessageMetaProps } from './MessageMeta';
+import { MessageMeta } from './MessageMeta';
 
 export type Props = MessageMetaProps & {
   image: string;

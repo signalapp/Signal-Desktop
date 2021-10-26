@@ -3,19 +3,17 @@
 
 import { connect } from 'react-redux';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { mapDispatchToProps } from '../actions';
-import {
-  ConversationDetails,
-  StateProps,
-} from '../../components/conversation/conversation-details/ConversationDetails';
+import type { StateProps } from '../../components/conversation/conversation-details/ConversationDetails';
+import { ConversationDetails } from '../../components/conversation/conversation-details/ConversationDetails';
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
-import { MediaItemType } from '../../types/MediaItem';
+import type { MediaItemType } from '../../types/MediaItem';
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 

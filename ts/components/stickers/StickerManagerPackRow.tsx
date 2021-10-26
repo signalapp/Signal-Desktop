@@ -4,8 +4,8 @@
 import * as React from 'react';
 import { StickerPackInstallButton } from './StickerPackInstallButton';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { LocalizerType } from '../../types/Util';
-import { StickerPackType } from '../../state/ducks/stickers';
+import type { LocalizerType } from '../../types/Util';
+import type { StickerPackType } from '../../state/ducks/stickers';
 
 export type OwnProps = {
   readonly i18n: LocalizerType;

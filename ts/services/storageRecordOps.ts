@@ -24,7 +24,7 @@ import {
   parsePhoneNumberDiscoverability,
 } from '../util/phoneNumberDiscoverability';
 import { arePinnedConversationsEqual } from '../util/arePinnedConversationsEqual';
-import { ConversationModel } from '../models/conversations';
+import type { ConversationModel } from '../models/conversations';
 import {
   getSafeLongFromTimestamp,
   getTimestampFromLong,

@@ -10,7 +10,8 @@ import { boolean } from '@storybook/addon-knobs';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { GroupV1Migration, PropsType } from './GroupV1Migration';
+import type { PropsType } from './GroupV1Migration';
+import { GroupV1Migration } from './GroupV1Migration';
 
 const i18n = setupI18n('en', enMessages);
 

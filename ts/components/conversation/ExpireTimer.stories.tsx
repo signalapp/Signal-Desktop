@@ -6,7 +6,8 @@ import * as React from 'react';
 import { boolean, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { ExpireTimer, Props } from './ExpireTimer';
+import type { Props } from './ExpireTimer';
+import { ExpireTimer } from './ExpireTimer';
 
 const story = storiesOf('Components/Conversation/ExpireTimer', module);
 

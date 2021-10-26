@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {
+import type {
   StorageAccessType as Access,
   StorageInterface,
 } from '../types/Storage.d';
@@ -10,7 +10,7 @@ import { Blocked } from './storage/Blocked';
 
 import { assert } from '../util/assert';
 import Data from '../sql/Client';
-import { SignalProtocolStore } from '../SignalProtocolStore';
+import type { SignalProtocolStore } from '../SignalProtocolStore';
 import * as log from '../logging/log';
 
 export class Storage implements StorageInterface {

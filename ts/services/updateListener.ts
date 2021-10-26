@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { DialogType } from '../types/Dialogs';
-import {
+import type { DialogType } from '../types/Dialogs';
+import type {
   UpdateDialogOptionsType,
   ShowUpdateDialogAction,
 } from '../state/ducks/updates';

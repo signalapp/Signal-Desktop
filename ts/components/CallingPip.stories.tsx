@@ -8,10 +8,11 @@ import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { AvatarColors } from '../types/Colors';
-import { ConversationType } from '../state/ducks/conversations';
-import { CallingPip, PropsType } from './CallingPip';
+import type { ConversationType } from '../state/ducks/conversations';
+import type { PropsType } from './CallingPip';
+import { CallingPip } from './CallingPip';
+import type { ActiveCallType } from '../types/Calling';
 import {
-  ActiveCallType,
   CallMode,
   CallState,
   GroupCallConnectionState,

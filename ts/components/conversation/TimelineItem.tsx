@@ -1,74 +1,57 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { RefObject } from 'react';
+import type { RefObject } from 'react';
+import React from 'react';
 import { omit } from 'lodash';
 
-import { LocalizerType, ThemeType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 
-import { InteractionModeType } from '../../state/ducks/conversations';
-import {
-  Message,
+import type { InteractionModeType } from '../../state/ducks/conversations';
+import type {
   Props as AllMessageProps,
   PropsActions as MessageActionsType,
   PropsData as MessageProps,
 } from './Message';
-import {
-  CallingNotification,
-  PropsActionsType as CallingNotificationActionsType,
-} from './CallingNotification';
-import {
-  ChatSessionRefreshedNotification,
-  PropsActionsType as PropsChatSessionRefreshedActionsType,
-} from './ChatSessionRefreshedNotification';
-import {
-  DeliveryIssueNotification,
+import { Message } from './Message';
+import type { PropsActionsType as CallingNotificationActionsType } from './CallingNotification';
+import { CallingNotification } from './CallingNotification';
+import type { PropsActionsType as PropsChatSessionRefreshedActionsType } from './ChatSessionRefreshedNotification';
+import { ChatSessionRefreshedNotification } from './ChatSessionRefreshedNotification';
+import type {
   PropsActionsType as DeliveryIssueActionProps,
   PropsDataType as DeliveryIssueProps,
 } from './DeliveryIssueNotification';
+import { DeliveryIssueNotification } from './DeliveryIssueNotification';
 import { LinkNotification } from './LinkNotification';
-import {
-  ChangeNumberNotification,
-  PropsData as ChangeNumberNotificationProps,
-} from './ChangeNumberNotification';
-import { CallingNotificationType } from '../../util/callingNotification';
+import type { PropsData as ChangeNumberNotificationProps } from './ChangeNumberNotification';
+import { ChangeNumberNotification } from './ChangeNumberNotification';
+import type { CallingNotificationType } from '../../util/callingNotification';
 import { InlineNotificationWrapper } from './InlineNotificationWrapper';
-import {
+import type {
   PropsActions as UnsupportedMessageActionsType,
   PropsData as UnsupportedMessageProps,
-  UnsupportedMessage,
 } from './UnsupportedMessage';
-import {
-  PropsData as TimerNotificationProps,
-  TimerNotification,
-} from './TimerNotification';
-import {
+import { UnsupportedMessage } from './UnsupportedMessage';
+import type { PropsData as TimerNotificationProps } from './TimerNotification';
+import { TimerNotification } from './TimerNotification';
+import type {
   PropsActions as SafetyNumberActionsType,
   PropsData as SafetyNumberNotificationProps,
-  SafetyNumberNotification,
 } from './SafetyNumberNotification';
-import {
-  PropsData as VerificationNotificationProps,
-  VerificationNotification,
-} from './VerificationNotification';
-import {
-  GroupNotification,
-  PropsData as GroupNotificationProps,
-} from './GroupNotification';
-import {
-  GroupV2Change,
-  PropsDataType as GroupV2ChangeProps,
-} from './GroupV2Change';
-import {
-  GroupV1Migration,
-  PropsDataType as GroupV1MigrationProps,
-} from './GroupV1Migration';
-import { SmartContactRendererType } from '../../groupChange';
+import { SafetyNumberNotification } from './SafetyNumberNotification';
+import type { PropsData as VerificationNotificationProps } from './VerificationNotification';
+import { VerificationNotification } from './VerificationNotification';
+import type { PropsData as GroupNotificationProps } from './GroupNotification';
+import { GroupNotification } from './GroupNotification';
+import type { PropsDataType as GroupV2ChangeProps } from './GroupV2Change';
+import { GroupV2Change } from './GroupV2Change';
+import type { PropsDataType as GroupV1MigrationProps } from './GroupV1Migration';
+import { GroupV1Migration } from './GroupV1Migration';
+import type { SmartContactRendererType } from '../../groupChange';
 import { ResetSessionNotification } from './ResetSessionNotification';
-import {
-  ProfileChangeNotification,
-  PropsType as ProfileChangeNotificationPropsType,
-} from './ProfileChangeNotification';
+import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
+import { ProfileChangeNotification } from './ProfileChangeNotification';
 import * as log from '../../logging/log';
 
 type CallHistoryType = {

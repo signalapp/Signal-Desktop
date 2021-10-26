@@ -35,7 +35,7 @@ import type { WhatIsThis } from '../window.d';
 import type { ParsedJob } from './types';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import { Job } from './Job';
+import type { Job } from './Job';
 import { getHttpErrorCode } from './helpers/getHttpErrorCode';
 
 const {

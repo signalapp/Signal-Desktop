@@ -11,7 +11,8 @@ import { storiesOf } from '@storybook/react';
 import { SignalService } from '../../protobuf';
 import { ConversationColors } from '../../types/Colors';
 import { EmojiPicker } from '../emoji/EmojiPicker';
-import { Message, Props, AudioAttachmentProps } from './Message';
+import type { Props, AudioAttachmentProps } from './Message';
+import { Message } from './Message';
 import {
   AUDIO_MP3,
   IMAGE_JPEG,

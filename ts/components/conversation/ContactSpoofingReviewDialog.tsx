@@ -1,16 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  FunctionComponent,
-  ReactChild,
-  ReactNode,
-  useState,
-} from 'react';
+import type { FunctionComponent, ReactChild, ReactNode } from 'react';
+import React, { useState } from 'react';
 import { concat, orderBy } from 'lodash';
 
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,

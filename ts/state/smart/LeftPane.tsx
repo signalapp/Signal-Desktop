@@ -5,12 +5,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
-import {
-  LeftPane,
-  LeftPaneMode,
-  PropsType as LeftPanePropsType,
-} from '../../components/LeftPane';
-import { StateType } from '../reducer';
+import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
+import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
+import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversations';

@@ -5,9 +5,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as moment from 'moment';
 import { noop } from 'lodash';
 
-import { AttachmentType } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { ErrorDialogAudioRecorderType } from '../../state/ducks/audioRecorder';
 import { ToastVoiceNoteLimit } from '../ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';

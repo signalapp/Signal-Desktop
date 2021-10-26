@@ -13,7 +13,7 @@ import {
 } from 'lodash';
 import { blobToArrayBuffer } from 'blob-util';
 
-import { LoggerType } from './Logging';
+import type { LoggerType } from './Logging';
 import * as MIME from './MIME';
 import { toLogFormat } from './errors';
 import { SignalService } from '../protobuf';
@@ -21,7 +21,8 @@ import {
   isImageTypeSupported,
   isVideoTypeSupported,
 } from '../util/GoogleChrome';
-import { LocalizerType, ThemeType } from './Util';
+import type { LocalizerType } from './Util';
+import { ThemeType } from './Util';
 import * as GoogleChrome from '../util/GoogleChrome';
 import { scaleImageToLevel } from '../util/scaleImageToLevel';
 

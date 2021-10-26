@@ -1,7 +1,8 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 import Measure from 'react-measure';
 import classNames from 'classnames';
 import {
@@ -16,8 +17,8 @@ import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
-import { LocalizerType } from '../../types/Util';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';

@@ -4,7 +4,8 @@
 import { chunk } from 'lodash';
 import type { LoggerType } from '../../types/Logging';
 import { getSendOptions } from '../../util/getSendOptions';
-import { handleMessageSend, SendTypesType } from '../../util/handleMessageSend';
+import type { SendTypesType } from '../../util/handleMessageSend';
+import { handleMessageSend } from '../../util/handleMessageSend';
 import { isNotNil } from '../../util/isNotNil';
 import { strictAssert } from '../../util/assert';
 import { isRecord } from '../../util/isRecord';

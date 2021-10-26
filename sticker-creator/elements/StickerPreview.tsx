@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { PopperArrowProps } from 'react-popper';
-import { Placement } from '@popperjs/core';
+import type { PopperArrowProps } from 'react-popper';
+import type { Placement } from '@popperjs/core';
 import * as styles from './StickerPreview.scss';
 import { MessageBubble } from './MessageBubble';
-import { MessageSticker, Props as MessageStickerProps } from './MessageSticker';
+import type { Props as MessageStickerProps } from './MessageSticker';
+import { MessageSticker } from './MessageSticker';
 import { useI18n } from '../util/i18n';
 
 export type Props = Pick<React.HTMLProps<HTMLDivElement>, 'style'> & {

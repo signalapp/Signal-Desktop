@@ -11,17 +11,20 @@ import { join, normalize } from 'path';
 import { tmpdir } from 'os';
 import { throttle } from 'lodash';
 
-import { createParser, ParserConfiguration } from 'dashdash';
+import type { ParserConfiguration } from 'dashdash';
+import { createParser } from 'dashdash';
 import ProxyAgent from 'proxy-agent';
 import { FAILSAFE_SCHEMA, safeLoad } from 'js-yaml';
 import { gt } from 'semver';
 import config from 'config';
-import got, { StrictOptions as GotOptions } from 'got';
+import type { StrictOptions as GotOptions } from 'got';
+import got from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import { app, BrowserWindow, ipcMain } from 'electron';
+import type { BrowserWindow } from 'electron';
+import { app, ipcMain } from 'electron';
 
 import { getTempPath } from '../../app/attachments';
 import { DialogType } from '../types/Dialogs';
@@ -32,7 +35,7 @@ import * as packageJson from '../../package.json';
 import { getSignatureFileName } from './signature';
 import { isPathInside } from '../util/isPathInside';
 
-import { LoggerType } from '../types/Logging';
+import type { LoggerType } from '../types/Logging';
 
 const writeFile = pify(writeFileCallback);
 const mkdirpPromise = pify(mkdirp);

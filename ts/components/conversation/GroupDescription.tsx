@@ -3,7 +3,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from '../Modal';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import { GroupDescriptionText } from '../GroupDescriptionText';
 
 // Emojification can cause the scroll height to be *slightly* larger than the client

@@ -14,10 +14,10 @@ import {
 } from '@signalapp/signal-client';
 import * as Bytes from '../Bytes';
 import { senderCertificateService } from '../services/senderCertificate';
+import type { SendLogCallbackType } from '../textsecure/OutgoingMessage';
 import {
   padMessage,
   SenderCertificateMode,
-  SendLogCallbackType,
 } from '../textsecure/OutgoingMessage';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
@@ -25,20 +25,20 @@ import { UUID } from '../types/UUID';
 import { isEnabled } from '../RemoteConfig';
 
 import { isOlderThan } from './timestamp';
-import {
+import type {
   GroupSendOptionsType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
-import { HTTPError } from '../textsecure/Errors';
+import type { HTTPError } from '../textsecure/Errors';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
-import { ConversationModel } from '../models/conversations';
-import { DeviceType, CallbackResultType } from '../textsecure/Types.d';
+import type { ConversationModel } from '../models/conversations';
+import type { DeviceType, CallbackResultType } from '../textsecure/Types.d';
 import { getKeysForIdentifier } from '../textsecure/getKeysForIdentifier';
-import { ConversationAttributesType } from '../model-types.d';
+import type { ConversationAttributesType } from '../model-types.d';
+import type { SendTypesType } from './handleMessageSend';
 import {
   handleMessageSend,
   SEALED_SENDER,
-  SendTypesType,
   shouldSaveProto,
 } from './handleMessageSend';
 import { parseIntOrThrow } from './parseIntOrThrow';

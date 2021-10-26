@@ -9,7 +9,7 @@ import { SmartCallManager } from './CallManager';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getConversationsStoppingMessageSendBecauseOfVerification,

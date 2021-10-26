@@ -3,7 +3,8 @@
 
 import React, { useState } from 'react';
 
-import { MessageBody, Props as MessageBodyPropsType } from './MessageBody';
+import type { Props as MessageBodyPropsType } from './MessageBody';
+import { MessageBody } from './MessageBody';
 
 export type Props = Pick<
   MessageBodyPropsType,

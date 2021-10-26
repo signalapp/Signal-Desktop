@@ -1,27 +1,24 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
-  FunctionComponent,
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-} from 'react';
-import Measure, { MeasuredComponentProps } from 'react-measure';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
+import type { MeasuredComponentProps } from 'react-measure';
+import Measure from 'react-measure';
 
-import { LocalizerType } from '../../../../types/Util';
+import type { LocalizerType } from '../../../../types/Util';
 import { assert } from '../../../../util/assert';
 import { getOwn } from '../../../../util/getOwn';
 import { refMerger } from '../../../../util/refMerger';
 import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
 import { filterAndSortConversationsByTitle } from '../../../../util/filterAndSortConversations';
-import { ConversationType } from '../../../../state/ducks/conversations';
+import type { ConversationType } from '../../../../state/ducks/conversations';
 import { ModalHost } from '../../../ModalHost';
 import { ContactPills } from '../../../ContactPills';
 import { ContactPill } from '../../../ContactPill';
-import { ConversationList, Row, RowType } from '../../../ConversationList';
+import type { Row } from '../../../ConversationList';
+import { ConversationList, RowType } from '../../../ConversationList';
 import { ContactCheckboxDisabledReason } from '../../../conversationList/ContactCheckbox';
 import { Button, ButtonVariant } from '../../../Button';
 import { SearchInput } from '../../../SearchInput';

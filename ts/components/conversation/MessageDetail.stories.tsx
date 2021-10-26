@@ -7,8 +7,9 @@ import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { PropsData as MessageDataPropsType } from './Message';
-import { MessageDetail, Props } from './MessageDetail';
+import type { PropsData as MessageDataPropsType } from './Message';
+import type { Props } from './MessageDetail';
+import { MessageDetail } from './MessageDetail';
 import { SendStatus } from '../../messages/MessageSendState';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';

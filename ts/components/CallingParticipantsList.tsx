@@ -8,9 +8,9 @@ import { createPortal } from 'react-dom';
 import { Avatar } from './Avatar';
 import { ContactName } from './conversation/ContactName';
 import { InContactsIcon } from './InContactsIcon';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { sortByTitle } from '../util/sortByTitle';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { isInSystemContacts } from '../util/isInSystemContacts';
 
 type ParticipantType = ConversationType & {

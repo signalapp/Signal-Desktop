@@ -1,11 +1,11 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ChangeEvent, ReactChild } from 'react';
+import type { ChangeEvent, ReactChild } from 'react';
 
-import { Row } from '../ConversationList';
-import { LocalizerType } from '../../types/Util';
-import {
+import type { Row } from '../ConversationList';
+import type { LocalizerType } from '../../types/Util';
+import type {
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
   SaveAvatarToDiskActionType,

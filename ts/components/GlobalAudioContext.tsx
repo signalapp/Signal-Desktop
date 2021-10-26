@@ -5,7 +5,7 @@ import * as React from 'react';
 import PQueue from 'p-queue';
 import LRU from 'lru-cache';
 
-import { WaveformCache } from '../types/Audio';
+import type { WaveformCache } from '../types/Audio';
 import * as log from '../logging/log';
 
 const MAX_WAVEFORM_COUNT = 1000;

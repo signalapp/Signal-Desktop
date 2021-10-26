@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 
 export async function resolveAttachmentDraftData(
   attachment?: AttachmentType

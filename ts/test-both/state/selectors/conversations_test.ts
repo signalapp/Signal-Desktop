@@ -3,11 +3,13 @@
 
 import { assert } from 'chai';
 
+import type {
+  ConversationLookupType,
+  ConversationType,
+} from '../../../state/ducks/conversations';
 import {
   OneTimeModalState,
   ComposerStep,
-  ConversationLookupType,
-  ConversationType,
   getEmptyState,
 } from '../../../state/ducks/conversations';
 import {
@@ -43,7 +45,8 @@ import {
   isCreatingGroup,
 } from '../../../state/selectors/conversations';
 import { noopAction } from '../../../state/ducks/noop';
-import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer';
+import { reducer as rootReducer } from '../../../state/reducer';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../helpers/getDefaultConversation';

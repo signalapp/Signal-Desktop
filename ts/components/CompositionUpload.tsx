@@ -1,11 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ChangeEventHandler, forwardRef, useState } from 'react';
+import type { ChangeEventHandler } from 'react';
+import React, { forwardRef, useState } from 'react';
 
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 import { ToastCannotMixImageAndNonImageAttachments } from './ToastCannotMixImageAndNonImageAttachments';
 import { ToastDangerousFileType } from './ToastDangerousFileType';

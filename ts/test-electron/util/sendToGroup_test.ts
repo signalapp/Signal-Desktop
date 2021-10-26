@@ -5,7 +5,7 @@ import { assert } from 'chai';
 
 import { _analyzeSenderKeyDevices, _waitForAll } from '../../util/sendToGroup';
 
-import { DeviceType } from '../../textsecure/Types.d';
+import type { DeviceType } from '../../textsecure/Types.d';
 
 describe('sendToGroup', () => {
   describe('#_analyzeSenderKeyDevices', () => {

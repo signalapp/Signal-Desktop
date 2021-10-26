@@ -7,7 +7,8 @@ import { chunk } from 'lodash';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
-import { AvatarPreview, PropsType } from './AvatarPreview';
+import type { PropsType } from './AvatarPreview';
+import { AvatarPreview } from './AvatarPreview';
 import { AvatarColors } from '../types/Colors';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

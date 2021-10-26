@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
-import { WebAudioRecorderClass } from '../window.d';
+import type { WebAudioRecorderClass } from '../window.d';
 
 export class RecorderClass {
   private context?: AudioContext;

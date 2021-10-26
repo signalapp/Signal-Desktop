@@ -1,13 +1,15 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 
 import * as log from '../logging/log';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { Spinner } from './Spinner';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { getInitials } from '../util/getInitials';
 import { imagePathToBytes } from '../util/imagePathToBytes';
 

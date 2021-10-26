@@ -6,7 +6,8 @@ import { storiesOf } from '@storybook/react';
 import { select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { CallingButton, CallingButtonType, PropsType } from './CallingButton';
+import type { PropsType } from './CallingButton';
+import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

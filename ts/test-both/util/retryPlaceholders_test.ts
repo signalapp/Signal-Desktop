@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
 
+import type { RetryItemType } from '../../util/retryPlaceholders';
 import {
   getDeltaIntoPast,
-  RetryItemType,
   RetryPlaceholders,
   STORAGE_KEY,
 } from '../../util/retryPlaceholders';

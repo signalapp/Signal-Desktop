@@ -7,8 +7,9 @@ import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
 import { Emoji } from './Emoji';
-import { EmojiPicker, Props as EmojiPickerProps } from './EmojiPicker';
-import { LocalizerType } from '../../types/Util';
+import type { Props as EmojiPickerProps } from './EmojiPicker';
+import { EmojiPicker } from './EmojiPicker';
+import type { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
   readonly closeOnPick?: boolean;

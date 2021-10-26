@@ -7,7 +7,8 @@ import { text, withKnobs } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { MessageBodyHighlight, Props } from './MessageBodyHighlight';
+import type { Props } from './MessageBodyHighlight';
+import { MessageBodyHighlight } from './MessageBodyHighlight';
 
 const i18n = setupI18n('en', enMessages);
 

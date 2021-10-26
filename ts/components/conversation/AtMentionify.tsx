@@ -4,7 +4,7 @@
 import React from 'react';
 import { sortBy } from 'lodash';
 import { Emojify } from './Emojify';
-import { BodyRangesType } from '../../types/Util';
+import type { BodyRangesType } from '../../types/Util';
 
 export type Props = {
   bodyRanges?: BodyRangesType;

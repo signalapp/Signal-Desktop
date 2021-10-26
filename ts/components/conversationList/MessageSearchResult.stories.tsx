@@ -8,7 +8,8 @@ import { boolean, text, withKnobs } from '@storybook/addon-knobs';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { MessageSearchResult, PropsType } from './MessageSearchResult';
+import type { PropsType } from './MessageSearchResult';
+import { MessageSearchResult } from './MessageSearchResult';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

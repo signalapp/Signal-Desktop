@@ -1,7 +1,7 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as MIME from '../types/MIME';
+import type * as MIME from '../types/MIME';
 
 type MIMETypeSupportMap = Record<string, boolean>;
 

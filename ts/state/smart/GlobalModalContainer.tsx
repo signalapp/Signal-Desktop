@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { GlobalModalContainer } from '../../components/GlobalModalContainer';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { SmartProfileEditorModal } from './ProfileEditorModal';
 import { SmartContactModal } from './ContactModal';
 import { SmartSafetyNumberModal } from './SafetyNumberModal';

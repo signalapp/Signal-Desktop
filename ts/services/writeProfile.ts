@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import dataInterface from '../sql/Client';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { computeHash } from '../Crypto';
 import { encryptProfileData } from '../util/encryptProfileData';
 import { getProfile } from '../util/getProfile';

@@ -5,7 +5,7 @@ import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
 
 import * as log from '../../../logging/log';
-import { MediaItemType } from '../../../types/MediaItem';
+import type { MediaItemType } from '../../../types/MediaItem';
 import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
 import { missingCaseError } from '../../../util/missingCaseError';

@@ -3,7 +3,7 @@
 
 import { SignalService as Proto } from '../protobuf';
 import { normalizeUuid } from '../util/normalizeUuid';
-import {
+import type {
   ProcessedUnidentifiedDeliveryStatus,
   ProcessedSent,
   ProcessedSyncMessage,

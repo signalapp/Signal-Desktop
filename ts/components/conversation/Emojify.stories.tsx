@@ -6,7 +6,8 @@ import * as React from 'react';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Emojify, Props } from './Emojify';
+import type { Props } from './Emojify';
+import { Emojify } from './Emojify';
 
 const story = storiesOf('Components/Conversation/Emojify', module);
 

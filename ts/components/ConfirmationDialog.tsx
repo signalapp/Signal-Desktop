@@ -1,13 +1,14 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { MouseEvent, useCallback } from 'react';
+import type { MouseEvent } from 'react';
+import React, { useCallback } from 'react';
 import { animated } from '@react-spring/web';
 import { Button, ButtonVariant } from './Button';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { Modal, ModalWindow } from './Modal';
-import { Theme } from '../util/theme';
+import type { Theme } from '../util/theme';
 import { useAnimated } from '../hooks/useAnimated';
 
 export type ActionSpec = {

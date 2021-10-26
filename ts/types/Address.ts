@@ -3,7 +3,8 @@
 
 import { strictAssert } from '../util/assert';
 
-import { UUID, UUIDStringType } from './UUID';
+import type { UUIDStringType } from './UUID';
+import { UUID } from './UUID';
 
 export type AddressStringType = `${UUIDStringType}.${number}`;
 

@@ -9,6 +9,11 @@ import { isNumber, map } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
+import type {
+  SealedSenderDecryptionResult,
+  SenderCertificate,
+  UnidentifiedSenderMessageContent,
+} from '@signalapp/signal-client';
 import {
   DecryptionErrorMessage,
   groupDecrypt,
@@ -17,15 +22,12 @@ import {
   processSenderKeyDistributionMessage,
   ProtocolAddress,
   PublicKey,
-  SealedSenderDecryptionResult,
   sealedSenderDecryptMessage,
   sealedSenderDecryptToUsmc,
-  SenderCertificate,
   SenderKeyDistributionMessage,
   signalDecrypt,
   signalDecryptPreKey,
   SignalMessage,
-  UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 
 import {
@@ -37,43 +39,45 @@ import {
 } from '../LibSignalStores';
 import { verifySignature } from '../Curve';
 import { strictAssert } from '../util/assert';
-import { BatcherType, createBatcher } from '../util/batcher';
+import type { BatcherType } from '../util/batcher';
+import { createBatcher } from '../util/batcher';
 import { dropNull } from '../util/dropNull';
 import { normalizeUuid } from '../util/normalizeUuid';
 import { normalizeNumber } from '../util/normalizeNumber';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Zone } from '../util/Zone';
 import { deriveMasterKeyFromGroupV1 } from '../Crypto';
-import { DownloadedAttachmentType } from '../types/Attachment';
+import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import * as Errors from '../types/errors';
 
 import { SignalService as Proto } from '../protobuf';
-import { UnprocessedType } from '../textsecure.d';
+import type { UnprocessedType } from '../textsecure.d';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups';
 
 import createTaskWithTimeout from './TaskWithTimeout';
 import { processAttachment, processDataMessage } from './processDataMessage';
 import { processSyncMessage } from './processSyncMessage';
-import EventTarget, { EventHandler } from './EventTarget';
+import type { EventHandler } from './EventTarget';
+import EventTarget from './EventTarget';
 import { downloadAttachment } from './downloadAttachment';
-import { IncomingWebSocketRequest } from './WebsocketResources';
+import type { IncomingWebSocketRequest } from './WebsocketResources';
 import { ContactBuffer, GroupBuffer } from './ContactsParser';
 import type { WebAPIType } from './WebAPI';
 import type { Storage } from './Storage';
 import { WarnOnlyError } from './Errors';
 import * as Bytes from '../Bytes';
-import {
+import type {
   ProcessedDataMessage,
   ProcessedSyncMessage,
   ProcessedSent,
   ProcessedEnvelope,
   IRequestHandler,
 } from './Types.d';
+import type { ReconnectEvent, EnvelopeEvent } from './messageReceiverEvents';
 import {
-  ReconnectEvent,
   EmptyEvent,
   ProgressEvent,
   TypingEvent,
@@ -99,7 +103,6 @@ import {
   ContactSyncEvent,
   GroupEvent,
   GroupSyncEvent,
-  EnvelopeEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
 

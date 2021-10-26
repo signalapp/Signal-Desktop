@@ -19,11 +19,12 @@ import { Zone } from '../util/Zone';
 import * as Bytes from '../Bytes';
 import { getRandomBytes, constantTimeEqual } from '../Crypto';
 import { clampPrivateKey, setPublicKeyTypeByte } from '../Curve';
-import { GLOBAL_ZONE, SignalProtocolStore } from '../SignalProtocolStore';
+import type { SignalProtocolStore } from '../SignalProtocolStore';
+import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
-import { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
+import type { IdentityKeyType, KeyPairType } from '../textsecure/Types.d';
 
 chai.use(chaiAsPromised);
 

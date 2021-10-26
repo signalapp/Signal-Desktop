@@ -1,11 +1,11 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ThunkAction } from 'redux-thunk';
+import type { ThunkAction } from 'redux-thunk';
 import * as updateIpc from '../../shims/updateIpc';
 import { DialogType } from '../../types/Dialogs';
 import { DAY } from '../../util/durations';
-import { StateType as RootStateType } from '../reducer';
+import type { StateType as RootStateType } from '../reducer';
 
 // State
 

@@ -3,13 +3,11 @@
 
 import { connect } from 'react-redux';
 
-import {
-  MessageDetail,
-  ExternalProps as MessageDetailProps,
-} from '../../components/conversation/MessageDetail';
+import type { ExternalProps as MessageDetailProps } from '../../components/conversation/MessageDetail';
+import { MessageDetail } from '../../components/conversation/MessageDetail';
 
 import { mapDispatchToProps } from '../actions';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl, getInteractionMode } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';

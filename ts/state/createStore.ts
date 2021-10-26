@@ -3,18 +3,15 @@
 
 /* eslint-disable no-console */
 
-import {
-  applyMiddleware,
-  createStore as reduxCreateStore,
-  DeepPartial,
-  Store,
-} from 'redux';
+import type { DeepPartial, Store } from 'redux';
+import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
 
 import promise from 'redux-promise-middleware';
 import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
-import { reducer, StateType } from './reducer';
+import type { StateType } from './reducer';
+import { reducer } from './reducer';
 import { dispatchItemsMiddleware } from '../shims/dispatchItemsMiddleware';
 
 declare global {

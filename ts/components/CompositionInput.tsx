@@ -7,14 +7,15 @@ import Delta from 'quill-delta';
 import ReactQuill from 'react-quill';
 import classNames from 'classnames';
 import { Manager, Reference } from 'react-popper';
-import Quill, { KeyboardStatic, RangeStatic } from 'quill';
+import type { KeyboardStatic, RangeStatic } from 'quill';
+import Quill from 'quill';
 
 import { MentionCompletion } from '../quill/mentions/completion';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
-import { EmojiPickDataType } from './emoji/EmojiPicker';
+import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
-import { LocalizerType, BodyRangeType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType, BodyRangeType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
   matchEmojiImage,

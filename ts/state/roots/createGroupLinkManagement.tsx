@@ -4,12 +4,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
-import {
-  SmartGroupLinkManagement,
-  SmartGroupLinkManagementProps,
-} from '../smart/GroupLinkManagement';
+import type { SmartGroupLinkManagementProps } from '../smart/GroupLinkManagement';
+import { SmartGroupLinkManagement } from '../smart/GroupLinkManagement';
 
 export const createGroupLinkManagement = (
   store: Store,

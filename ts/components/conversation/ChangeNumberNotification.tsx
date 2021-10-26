@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import { ConversationType } from '../../state/ducks/conversations';
-import { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
 
 import { SystemMessage } from './SystemMessage';

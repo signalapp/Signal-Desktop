@@ -1,10 +1,11 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { FunctionComponent, ReactChild } from 'react';
+import type { FunctionComponent, ReactChild } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
 import { ExpireTimer } from './ExpireTimer';
 import { Timestamp } from './Timestamp';

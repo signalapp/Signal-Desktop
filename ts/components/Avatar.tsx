@@ -1,22 +1,21 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, {
+import type {
   FunctionComponent,
   MouseEvent,
   ReactChild,
   ReactNode,
-  useEffect,
-  useState,
 } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
-import { LocalizerType } from '../types/Util';
-import { AvatarColorType } from '../types/Colors';
+import type { LocalizerType } from '../types/Util';
+import type { AvatarColorType } from '../types/Colors';
 import * as log from '../logging/log';
 import { assert } from '../util/assert';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';

@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 
 import * as Message from '../../../types/message/initializeAttachmentMetadata';
-import { IncomingMessage } from '../../../types/Message';
+import type { IncomingMessage } from '../../../types/Message';
 import { SignalService } from '../../../protobuf';
 import * as MIME from '../../../types/MIME';
 import * as Bytes from '../../../Bytes';

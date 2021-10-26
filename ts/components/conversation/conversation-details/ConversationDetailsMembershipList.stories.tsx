@@ -12,11 +12,11 @@ import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
-import {
-  ConversationDetailsMembershipList,
+import type {
   Props,
   GroupV2Membership,
 } from './ConversationDetailsMembershipList';
+import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList';
 
 const i18n = setupI18n('en', enMessages);
 

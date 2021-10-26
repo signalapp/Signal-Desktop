@@ -7,8 +7,10 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, select, text } from '@storybook/addon-knobs';
 
-import { AvatarPopup, Props } from './AvatarPopup';
-import { AvatarColors, AvatarColorType } from '../types/Colors';
+import type { Props } from './AvatarPopup';
+import { AvatarPopup } from './AvatarPopup';
+import type { AvatarColorType } from '../types/Colors';
+import { AvatarColors } from '../types/Colors';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
-import { Middleware } from 'redux';
+import type { Middleware } from 'redux';
 
 import { COLORS_CHANGED, COLOR_SELECTED } from '../state/ducks/conversations';
 

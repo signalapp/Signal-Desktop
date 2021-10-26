@@ -1,22 +1,23 @@
 // Copyright 2019-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Dictionary, omit, reject } from 'lodash';
+import type { Dictionary } from 'lodash';
+import { omit, reject } from 'lodash';
 import type {
   StickerPackStatusType,
   StickerType as StickerDBType,
   StickerPackType as StickerPackDBType,
 } from '../../sql/Interface';
 import dataInterface from '../../sql/Client';
+import type { RecentStickerType } from '../../types/Stickers';
 import {
   downloadStickerPack as externalDownloadStickerPack,
   maybeDeletePack,
-  RecentStickerType,
 } from '../../types/Stickers';
 import { sendStickerPackSync } from '../../shims/textsecure';
 import { trigger } from '../../shims/events';
 
-import { NoopActionType } from './noop';
+import type { NoopActionType } from './noop';
 
 const {
   getRecentStickers,

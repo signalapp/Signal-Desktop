@@ -4,7 +4,7 @@
 import { noop } from 'lodash';
 import { AsyncQueue } from '../util/AsyncQueue';
 import { concat, wrapPromise } from '../util/asyncIterables';
-import { JobQueueStore, StoredJob } from './types';
+import type { JobQueueStore, StoredJob } from './types';
 import { formatJobForInsert } from './formatJobForInsert';
 import databaseInterface from '../sql/Client';
 import * as log from '../logging/log';

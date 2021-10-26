@@ -3,7 +3,7 @@
 
 import { connect } from 'react-redux';
 import { ConversationNotificationsSettings } from '../../components/conversation/conversation-details/ConversationNotificationsSettings';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { getConversationByIdSelector } from '../selectors/conversations';
 import { strictAssert } from '../../util/assert';

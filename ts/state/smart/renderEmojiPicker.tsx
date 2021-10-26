@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import { RenderEmojiPickerProps } from '../../components/conversation/ReactionPicker';
+import type { RenderEmojiPickerProps } from '../../components/conversation/ReactionPicker';
 import { SmartEmojiPicker } from './EmojiPicker';
 
 export function renderEmojiPicker({

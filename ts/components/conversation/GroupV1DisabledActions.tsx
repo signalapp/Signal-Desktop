@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import { Intl } from '../Intl';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;

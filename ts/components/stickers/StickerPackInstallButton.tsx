@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type OwnProps = {
   readonly installed: boolean;

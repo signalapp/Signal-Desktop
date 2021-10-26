@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import { Image } from './Image';
 import { LinkPreviewDate } from './LinkPreviewDate';
 
-import { AttachmentType, isImageAttachment } from '../../types/Attachment';
-import { LocalizerType } from '../../types/Util';
+import type { AttachmentType } from '../../types/Attachment';
+import { isImageAttachment } from '../../types/Attachment';
+import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   title?: string;

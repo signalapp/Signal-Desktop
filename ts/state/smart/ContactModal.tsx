@@ -3,11 +3,9 @@
 
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import {
-  ContactModal,
-  PropsDataType,
-} from '../../components/conversation/ContactModal';
-import { StateType } from '../reducer';
+import type { PropsDataType } from '../../components/conversation/ContactModal';
+import { ContactModal } from '../../components/conversation/ContactModal';
+import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
 import { getConversationSelector } from '../selectors/conversations';

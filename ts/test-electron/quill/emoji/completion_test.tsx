@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { EmojiCompletion } from '../../../quill/emoji/completion';
-import { EmojiData } from '../../../components/emoji/lib';
+import type { EmojiData } from '../../../components/emoji/lib';
 
 describe('emojiCompletion', () => {
   let emojiCompletion: EmojiCompletion;

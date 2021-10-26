@@ -4,7 +4,7 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 import { DialogRelink } from '../../components/DialogRelink';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
 import { isDone } from '../../util/registration';
 import type { WidthBreakpoint } from '../../components/_util';

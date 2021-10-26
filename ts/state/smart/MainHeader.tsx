@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
 
 import { MainHeader } from '../../components/MainHeader';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
 import {
   getQuery,

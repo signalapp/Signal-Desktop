@@ -4,9 +4,9 @@
 /* eslint-disable max-classes-per-file */
 
 import { Collection, Model } from 'backbone';
-import { MessageModel } from '../models/messages';
+import type { MessageModel } from '../models/messages';
 import { isOutgoing } from '../state/selectors/message';
-import { ReactionAttributesType } from '../model-types.d';
+import type { ReactionAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
 
 export class ReactionModel extends Model<ReactionAttributesType> {}

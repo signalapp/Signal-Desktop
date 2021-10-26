@@ -4,7 +4,7 @@
 import { ipcRenderer } from 'electron';
 
 import { strictAssert } from './assert';
-import { UnwrapPromise } from '../types/Util';
+import type { UnwrapPromise } from '../types/Util';
 import type {
   IPCEventsValuesType,
   IPCEventsCallbacksType,

@@ -5,11 +5,8 @@
 
 import { assert } from 'chai';
 
-import {
-  MaybeAsyncIterable,
-  concat,
-  wrapPromise,
-} from '../../util/asyncIterables';
+import type { MaybeAsyncIterable } from '../../util/asyncIterables';
+import { concat, wrapPromise } from '../../util/asyncIterables';
 
 describe('async iterable utilities', () => {
   describe('concat', () => {

@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { Ref, useEffect, useState } from 'react';
+import type { Ref } from 'react';
+import { useEffect, useState } from 'react';
 import { first, last, noop } from 'lodash';
 
 function getTop(element: Readonly<Element>): number {

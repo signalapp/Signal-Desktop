@@ -8,16 +8,17 @@ import { storiesOf } from '@storybook/react';
 import { boolean, select, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
+import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import {
   CallMode,
   CallState,
   GroupCallConnectionState,
   GroupCallJoinState,
-  GroupCallRemoteParticipantType,
 } from '../types/Calling';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { AvatarColors } from '../types/Colors';
-import { CallScreen, PropsType } from './CallScreen';
+import type { PropsType } from './CallScreen';
+import { CallScreen } from './CallScreen';
 import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';

@@ -4,12 +4,12 @@
 import { assert } from 'chai';
 import { EventEmitter } from 'events';
 
-import {
-  createNativeThemeListener,
+import type {
   MinimalIPC,
   SystemThemeHolder,
 } from '../../context/createNativeThemeListener';
-import { NativeThemeState } from '../../types/NativeThemeNotifier.d';
+import { createNativeThemeListener } from '../../context/createNativeThemeListener';
+import type { NativeThemeState } from '../../types/NativeThemeNotifier.d';
 
 class FakeIPC extends EventEmitter implements MinimalIPC {
   constructor(private readonly state: NativeThemeState) {

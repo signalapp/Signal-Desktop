@@ -4,7 +4,7 @@
 import heicConvert from 'heic-convert';
 import { parentPort } from 'worker_threads';
 
-import {
+import type {
   WrappedWorkerRequest,
   WrappedWorkerResponse,
 } from './heicConverterMain';

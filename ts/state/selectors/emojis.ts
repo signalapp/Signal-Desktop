@@ -4,7 +4,7 @@
 import { createSelector } from 'reselect';
 import { useSelector } from 'react-redux';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { isShortName } from '../../components/emoji/lib';
 
 export const selectRecentEmojis = createSelector(

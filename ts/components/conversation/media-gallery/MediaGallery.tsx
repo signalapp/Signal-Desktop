@@ -9,12 +9,12 @@ import moment from 'moment';
 import { AttachmentSection } from './AttachmentSection';
 import { EmptyState } from './EmptyState';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate';
-import { ItemClickEvent } from './types/ItemClickEvent';
+import type { ItemClickEvent } from './types/ItemClickEvent';
 import { missingCaseError } from '../../../util/missingCaseError';
-import { LocalizerType } from '../../../types/Util';
+import type { LocalizerType } from '../../../types/Util';
 import { getMessageTimestamp } from '../../../util/getMessageTimestamp';
 
-import { MediaItemType } from '../../../types/MediaItem';
+import type { MediaItemType } from '../../../types/MediaItem';
 
 export type Props = {
   documents: Array<MediaItemType>;

@@ -3,8 +3,8 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { AvatarColorType } from '../types/Colors';
-import {
+import type { AvatarColorType } from '../types/Colors';
+import type {
   AvatarDataType,
   DeleteAvatarFromDiskActionType,
   ReplaceAvatarActionType,
@@ -16,7 +16,7 @@ import { AvatarPreview } from './AvatarPreview';
 import { AvatarTextEditor } from './AvatarTextEditor';
 import { AvatarUploadButton } from './AvatarUploadButton';
 import { BetterAvatar } from './BetterAvatar';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { avatarDataToBytes } from '../util/avatarDataToBytes';
 import { createAvatarData } from '../util/createAvatarData';
 import { isSameAvatarData } from '../util/isSameAvatarData';

@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useRef, useEffect } from 'react';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { Avatar } from './Avatar';
 import { Intl } from './Intl';
 import { ContactName } from './conversation/ContactName';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 
 type Props = {
   conversation: Pick<

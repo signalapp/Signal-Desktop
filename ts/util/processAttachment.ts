@@ -4,7 +4,7 @@
 import path from 'path';
 
 import * as log from '../logging/log';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';

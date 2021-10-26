@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import { Slider, PropsType } from './Slider';
+import type { PropsType } from './Slider';
+import { Slider } from './Slider';
 
 const story = storiesOf('Components/Slider', module);
 

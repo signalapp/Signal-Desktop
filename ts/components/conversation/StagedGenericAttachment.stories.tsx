@@ -6,11 +6,12 @@ import { storiesOf } from '@storybook/react';
 import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
-import { AttachmentType } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 import { stringToMIMEType } from '../../types/MIME';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { Props, StagedGenericAttachment } from './StagedGenericAttachment';
+import type { Props } from './StagedGenericAttachment';
+import { StagedGenericAttachment } from './StagedGenericAttachment';
 
 const i18n = setupI18n('en', enMessages);
 

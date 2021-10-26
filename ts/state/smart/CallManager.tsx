@@ -10,22 +10,19 @@ import { calling as callingService } from '../../services/calling';
 import { getUserUuid, getIntl } from '../selectors/user';
 import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
-import { ConversationType } from '../ducks/conversations';
+import type { ConversationType } from '../ducks/conversations';
 import { getIncomingCall } from '../selectors/calling';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
-import {
+import type {
   ActiveCallType,
-  CallMode,
-  CallState,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
-import { StateType } from '../reducer';
+import { CallMode, CallState } from '../../types/Calling';
+import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 import { SmartCallingDeviceSelection } from './CallingDeviceSelection';
-import {
-  SmartSafetyNumberViewer,
-  Props as SafetyNumberViewerProps,
-} from './SafetyNumberViewer';
+import type { Props as SafetyNumberViewerProps } from './SafetyNumberViewer';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import { callingTones } from '../../util/callingTones';
 import {
   bounceAppIconStart,

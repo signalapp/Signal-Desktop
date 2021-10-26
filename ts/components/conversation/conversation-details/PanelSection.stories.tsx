@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
-import { PanelSection, Props } from './PanelSection';
+import type { Props } from './PanelSection';
+import { PanelSection } from './PanelSection';
 import { PanelRow } from './PanelRow';
 
 const story = storiesOf(

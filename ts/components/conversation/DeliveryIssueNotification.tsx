@@ -1,12 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useState, ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
-import { ConversationType } from '../../state/ducks/conversations';
-import { LocalizerType } from '../../types/Util';
+import type { ConversationType } from '../../state/ducks/conversations';
+import type { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
 import { Emojify } from './Emojify';
 

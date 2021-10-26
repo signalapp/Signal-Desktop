@@ -6,29 +6,29 @@ import { createSelector } from 'reselect';
 
 import { deconstructLookup } from '../../util/deconstructLookup';
 
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 
-import {
+import type {
   MessageSearchResultLookupType,
   MessageSearchResultType,
   SearchStateType,
 } from '../ducks/search';
-import {
+import type {
   ConversationLookupType,
   ConversationType,
 } from '../ducks/conversations';
 
-import { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
-import { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
+import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
+import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
 
 import { getUserConversationId } from './user';
+import type { GetConversationByIdType } from './conversations';
 import {
-  GetConversationByIdType,
   getConversationLookup,
   getConversationSelector,
 } from './conversations';
 
-import { BodyRangeType } from '../../types/Util';
+import type { BodyRangeType } from '../../types/Util';
 import * as log from '../../logging/log';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;

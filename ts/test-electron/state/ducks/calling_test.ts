@@ -5,9 +5,11 @@ import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
-import {
+import type {
   CallingStateType,
   GroupCallStateChangeActionType,
+} from '../../../state/ducks/calling';
+import {
   actions,
   getActiveCall,
   getEmptyState,

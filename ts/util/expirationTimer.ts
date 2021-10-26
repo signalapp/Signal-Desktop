@@ -3,7 +3,7 @@
 
 import * as moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 const SECONDS_PER_WEEK = 604800;
 export const DEFAULT_DURATIONS_IN_SECONDS: ReadonlyArray<number> = [

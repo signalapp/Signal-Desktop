@@ -3,8 +3,9 @@
 
 import { trigger } from '../../shims/events';
 
-import { NoopActionType } from './noop';
-import { LocalizerType, ThemeType } from '../../types/Util';
+import type { NoopActionType } from './noop';
+import type { LocalizerType } from '../../types/Util';
+import { ThemeType } from '../../types/Util';
 
 // State
 

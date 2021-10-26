@@ -11,14 +11,15 @@ import {
   Reference as PopperReference,
 } from 'react-popper';
 import { AddEmoji } from '../elements/icons';
-import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
+import type { Props as DropZoneProps } from '../elements/DropZone';
+import { DropZone } from '../elements/DropZone';
 import { StickerPreview } from '../elements/StickerPreview';
 import * as styles from './StickerFrame.scss';
-import {
+import type {
   EmojiPickDataType,
-  EmojiPicker,
   Props as EmojiPickerProps,
 } from '../../ts/components/emoji/EmojiPicker';
+import { EmojiPicker } from '../../ts/components/emoji/EmojiPicker';
 import { Emoji } from '../../ts/components/emoji/Emoji';
 import { PopperRootContext } from '../../ts/components/PopperRootContext';
 import { useI18n } from '../util/i18n';

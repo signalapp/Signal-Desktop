@@ -7,7 +7,8 @@ import { storiesOf } from '@storybook/react';
 
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
-import { GroupNotification, Props } from './GroupNotification';
+import type { Props } from './GroupNotification';
+import { GroupNotification } from './GroupNotification';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 
 const book = storiesOf('Components/Conversation', module);

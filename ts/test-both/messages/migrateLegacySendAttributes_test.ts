@@ -4,7 +4,7 @@
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
 import { getDefaultConversation } from '../helpers/getDefaultConversation';
-import { ConversationType } from '../../state/ducks/conversations';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { SendStatus } from '../../messages/MessageSendState';
 
 import { migrateLegacySendAttributes } from '../../messages/migrateLegacySendAttributes';

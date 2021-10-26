@@ -4,13 +4,12 @@
 import { assert } from 'chai';
 
 import { actions } from '../../../state/ducks/audioPlayer';
-import {
-  actions as conversationsActions,
-  SwitchToAssociatedViewActionType,
-} from '../../../state/ducks/conversations';
+import type { SwitchToAssociatedViewActionType } from '../../../state/ducks/conversations';
+import { actions as conversationsActions } from '../../../state/ducks/conversations';
 import { noopAction } from '../../../state/ducks/noop';
 
-import { StateType, reducer as rootReducer } from '../../../state/reducer';
+import type { StateType } from '../../../state/reducer';
+import { reducer as rootReducer } from '../../../state/reducer';
 
 const { messageDeleted, messageChanged } = conversationsActions;
 

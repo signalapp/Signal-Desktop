@@ -8,9 +8,10 @@ import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
-import { GroupLinkManagement, PropsType } from './GroupLinkManagement';
+import type { PropsType } from './GroupLinkManagement';
+import { GroupLinkManagement } from './GroupLinkManagement';
 import { SignalService as Proto } from '../../../protobuf';
-import { ConversationType } from '../../../state/ducks/conversations';
+import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);

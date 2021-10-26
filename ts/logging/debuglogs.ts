@@ -7,14 +7,14 @@ import { z } from 'zod';
 import FormData from 'form-data';
 import { gzip } from 'zlib';
 import pify from 'pify';
-import got, { Response } from 'got';
+import type { Response } from 'got';
+import got from 'got';
 import { getUserAgent } from '../util/getUserAgent';
 import { maybeParseUrl } from '../util/url';
 import * as log from './log';
 import { reallyJsonStringify } from '../util/reallyJsonStringify';
+import type { FetchLogIpcData, LogEntryType } from './shared';
 import {
-  FetchLogIpcData,
-  LogEntryType,
   LogLevel,
   getLogLevelString,
   isFetchLogIpcData,

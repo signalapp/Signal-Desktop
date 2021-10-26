@@ -8,7 +8,8 @@ import { action } from '@storybook/addon-actions';
 import { boolean } from '@storybook/addon-knobs';
 
 import { IMAGE_JPEG } from '../types/MIME';
-import { CompositionArea, Props } from './CompositionArea';
+import type { Props } from './CompositionArea';
+import { CompositionArea } from './CompositionArea';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 

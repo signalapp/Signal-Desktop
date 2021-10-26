@@ -4,9 +4,9 @@
 import React from 'react';
 import * as GoogleChrome from '../util/GoogleChrome';
 
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type Props = {
   attachment: AttachmentType;

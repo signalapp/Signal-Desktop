@@ -6,12 +6,9 @@ import classNames from 'classnames';
 import { Blurhash } from 'react-blurhash';
 
 import { Spinner } from '../Spinner';
-import { LocalizerType, ThemeType } from '../../types/Util';
-import {
-  AttachmentType,
-  hasNotDownloaded,
-  defaultBlurHash,
-} from '../../types/Attachment';
+import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { AttachmentType } from '../../types/Attachment';
+import { hasNotDownloaded, defaultBlurHash } from '../../types/Attachment';
 
 export type Props = {
   alt: string;

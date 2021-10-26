@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { ParsedJob } from './types';
+import type { ParsedJob } from './types';
 
 /**
  * A single job instance. Shouldn't be instantiated directly, except by `JobQueue`.

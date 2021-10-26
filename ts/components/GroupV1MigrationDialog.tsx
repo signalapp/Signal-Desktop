@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import { LocalizerType } from '../types/Util';
-import { ConversationType } from '../state/ducks/conversations';
+import type { LocalizerType } from '../types/Util';
+import type { ConversationType } from '../state/ducks/conversations';
 import { GroupDialog } from './GroupDialog';
 import { sortByTitle } from '../util/sortByTitle';
 

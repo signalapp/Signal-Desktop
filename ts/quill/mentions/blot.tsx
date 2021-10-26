@@ -8,7 +8,7 @@ import Parchment from 'parchment';
 import Quill from 'quill';
 import { render } from 'react-dom';
 import { Emojify } from '../../components/conversation/Emojify';
-import { MentionBlotValue } from '../util';
+import type { MentionBlotValue } from '../util';
 
 declare class QuillEmbed extends Parchment.Embed {
   contentNode: HTMLElement;

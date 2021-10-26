@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import { AvatarColorType } from '../types/Colors';
+import type { AvatarColorType } from '../types/Colors';
 
 export type PropsType = {
   avatarPath?: string;

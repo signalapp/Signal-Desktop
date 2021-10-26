@@ -7,7 +7,8 @@ import { action } from '@storybook/addon-actions';
 import { date, number } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Countdown, Props } from './Countdown';
+import type { Props } from './Countdown';
+import { Countdown } from './Countdown';
 
 const defaultDuration = 10 * 1000;
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({

@@ -10,7 +10,8 @@ import { action } from '@storybook/addon-actions';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { ContactPills } from './ContactPills';
-import { ContactPill, PropsType as ContactPillPropsType } from './ContactPill';
+import type { PropsType as ContactPillPropsType } from './ContactPill';
+import { ContactPill } from './ContactPill';
 import { gifUrl } from '../storybook/Fixtures';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 

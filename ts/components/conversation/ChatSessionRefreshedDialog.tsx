@@ -8,7 +8,7 @@ import { Modal } from '../Modal';
 
 import { useRestoreFocus } from '../../hooks/useRestoreFocus';
 
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export type PropsType = {
   i18n: LocalizerType;

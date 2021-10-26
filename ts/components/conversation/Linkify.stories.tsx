@@ -6,7 +6,8 @@ import * as React from 'react';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react';
 
-import { Linkify, Props } from './Linkify';
+import type { Props } from './Linkify';
+import { Linkify } from './Linkify';
 
 const story = storiesOf('Components/Conversation/Linkify', module);
 

@@ -5,10 +5,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
-import {
-  CallingScreenSharingController,
-  PropsType,
-} from './CallingScreenSharingController';
+import type { PropsType } from './CallingScreenSharingController';
+import { CallingScreenSharingController } from './CallingScreenSharingController';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

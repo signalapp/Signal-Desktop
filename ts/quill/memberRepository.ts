@@ -3,7 +3,7 @@
 
 import Fuse from 'fuse.js';
 
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { getOwn } from '../util/getOwn';
 import { filter, map } from '../util/iterables';
 

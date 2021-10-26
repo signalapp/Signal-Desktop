@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNumber } from 'lodash';
-import { CallbackResultType } from '../textsecure/Types.d';
+import type { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
 

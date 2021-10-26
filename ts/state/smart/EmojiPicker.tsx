@@ -3,17 +3,15 @@
 
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { StateType } from '../reducer';
+import type { StateType } from '../reducer';
 import { useRecentEmojis } from '../selectors/emojis';
 import { useActions as useEmojiActions } from '../ducks/emojis';
 
-import {
-  EmojiPicker,
-  Props as EmojiPickerProps,
-} from '../../components/emoji/EmojiPicker';
+import type { Props as EmojiPickerProps } from '../../components/emoji/EmojiPicker';
+import { EmojiPicker } from '../../components/emoji/EmojiPicker';
 import { getIntl } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 export const SmartEmojiPicker = React.forwardRef<
   HTMLDivElement,

@@ -7,19 +7,22 @@ import { bindActionCreators } from 'redux';
 import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
 
 import MessageReceiver from './textsecure/MessageReceiver';
-import { SessionResetsType, ProcessedDataMessage } from './textsecure/Types.d';
+import type {
+  SessionResetsType,
+  ProcessedDataMessage,
+} from './textsecure/Types.d';
 import { HTTPError } from './textsecure/Errors';
 import {
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
 } from './textsecure/TaskWithTimeout';
-import {
+import type {
   MessageAttributesType,
   ConversationAttributesType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
-import { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
+import type { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
@@ -38,7 +41,7 @@ import * as KeyboardLayout from './services/keyboardLayout';
 import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
-import { ConversationModel } from './models/conversations';
+import type { ConversationModel } from './models/conversations';
 import { getMessageById } from './messages/getMessageById';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
@@ -50,7 +53,7 @@ import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey'
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
 import { getProfile } from './util/getProfile';
-import {
+import type {
   ConfigurationEvent,
   ContactEvent,
   DecryptionErrorEvent,
@@ -71,11 +74,11 @@ import {
   SentEventData,
   StickerPackEvent,
   TypingEvent,
-  VerifiedEvent,
   ViewEvent,
   ViewOnceOpenSyncEvent,
   ViewSyncEvent,
 } from './textsecure/messageReceiverEvents';
+import { VerifiedEvent } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
@@ -96,10 +99,8 @@ import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
 import { ReadStatus } from './messages/MessageReadStatus';
-import {
-  SendStateByConversationId,
-  SendStatus,
-} from './messages/MessageSendState';
+import type { SendStateByConversationId } from './messages/MessageSendState';
+import { SendStatus } from './messages/MessageSendState';
 import * as AttachmentDownloads from './messageModifiers/AttachmentDownloads';
 import * as preferredReactions from './state/ducks/preferredReactions';
 import * as Conversation from './types/Conversation';

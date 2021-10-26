@@ -3,19 +3,19 @@
 
 import { omit } from 'lodash';
 import { v4 as getGuid } from 'uuid';
-import { ThunkAction } from 'redux-thunk';
-import { StateType as RootStateType } from '../reducer';
+import type { ThunkAction } from 'redux-thunk';
+import type { StateType as RootStateType } from '../reducer';
 import * as storageShim from '../../shims/storage';
 import { useBoundActions } from '../../hooks/useBoundActions';
-import {
-  ConversationColors,
+import type {
   ConversationColorType,
   CustomColorType,
   CustomColorsItemType,
   DefaultConversationColorType,
 } from '../../types/Colors';
+import { ConversationColors } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
-import { StorageAccessType } from '../../types/Storage.d';
+import type { StorageAccessType } from '../../types/Storage.d';
 import { actions as conversationActions } from './conversations';
 
 // State

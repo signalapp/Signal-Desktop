@@ -4,7 +4,7 @@
 import { pick } from 'lodash';
 
 import * as log from '../logging/log';
-import { AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 
 export function resolveAttachmentOnDisk(
   attachment: AttachmentType

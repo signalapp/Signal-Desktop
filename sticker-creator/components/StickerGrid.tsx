@@ -3,15 +3,14 @@
 
 import * as React from 'react';
 import PQueue from 'p-queue';
-import {
-  SortableContainer,
-  SortableElement,
-  SortEndHandler,
-} from 'react-sortable-hoc';
+import type { SortEndHandler } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import * as styles from './StickerGrid.scss';
-import { Props as StickerFrameProps, StickerFrame } from './StickerFrame';
+import type { Props as StickerFrameProps } from './StickerFrame';
+import { StickerFrame } from './StickerFrame';
 import { stickersDuck } from '../store';
-import { DropZone, Props as DropZoneProps } from '../elements/DropZone';
+import type { Props as DropZoneProps } from '../elements/DropZone';
+import { DropZone } from '../elements/DropZone';
 import { processStickerImage } from '../util/preload';
 import { useI18n } from '../util/i18n';
 

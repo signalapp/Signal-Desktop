@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { generateSecurityNumberBlock } from '../../util/safetyNumber';
-import { ConversationType } from './conversations';
+import type { ConversationType } from './conversations';
 import {
   reloadProfiles,
   toggleVerification,

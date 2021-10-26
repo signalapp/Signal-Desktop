@@ -7,9 +7,10 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { v4 as generateUuid } from 'uuid';
 
-import { CallingParticipantsList, PropsType } from './CallingParticipantsList';
+import type { PropsType } from './CallingParticipantsList';
+import { CallingParticipantsList } from './CallingParticipantsList';
 import { AvatarColors } from '../types/Colors';
-import { GroupCallRemoteParticipantType } from '../types/Calling';
+import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';

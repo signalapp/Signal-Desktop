@@ -3,7 +3,8 @@
 
 import loadImage from 'blueimp-load-image';
 
-import { MIMEType, IMAGE_JPEG } from '../types/MIME';
+import type { MIMEType } from '../types/MIME';
+import { IMAGE_JPEG } from '../types/MIME';
 import { canvasToBlob } from './canvasToBlob';
 import { getValue } from '../RemoteConfig';
 

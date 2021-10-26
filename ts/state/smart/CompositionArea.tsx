@@ -4,11 +4,9 @@
 import { connect } from 'react-redux';
 import { get } from 'lodash';
 import { mapDispatchToProps } from '../actions';
-import {
-  CompositionArea,
-  Props as ComponentPropsType,
-} from '../../components/CompositionArea';
-import { StateType } from '../reducer';
+import type { Props as ComponentPropsType } from '../../components/CompositionArea';
+import { CompositionArea } from '../../components/CompositionArea';
+import type { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
 

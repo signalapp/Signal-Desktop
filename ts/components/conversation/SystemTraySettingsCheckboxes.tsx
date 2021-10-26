@@ -1,13 +1,14 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { ChangeEvent, FunctionComponent, useState } from 'react';
+import type { ChangeEvent, FunctionComponent } from 'react';
+import React, { useState } from 'react';
 import {
   SystemTraySetting,
   parseSystemTraySetting,
   shouldMinimizeToSystemTray,
 } from '../../types/SystemTraySetting';
-import { LocalizerType } from '../../types/Util';
+import type { LocalizerType } from '../../types/Util';
 
 type PropsType = {
   i18n: LocalizerType;

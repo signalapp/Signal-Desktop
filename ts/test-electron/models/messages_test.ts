@@ -7,8 +7,8 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { SendStatus } from '../../messages/MessageSendState';
 import MessageSender from '../../textsecure/SendMessage';
-import { WebAPIType } from '../../textsecure/WebAPI';
-import { CallbackResultType } from '../../textsecure/Types.d';
+import type { WebAPIType } from '../../textsecure/WebAPI';
+import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { SignalService as Proto } from '../../protobuf';
 

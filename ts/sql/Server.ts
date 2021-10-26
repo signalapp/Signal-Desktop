@@ -9,12 +9,13 @@
 import { join } from 'path';
 import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
-import SQL, { Database, Statement } from 'better-sqlite3';
+import type { Database, Statement } from 'better-sqlite3';
+import SQL from 'better-sqlite3';
 import pProps from 'p-props';
 
 import { v4 as generateUUID } from 'uuid';
+import type { Dictionary } from 'lodash';
 import {
-  Dictionary,
   forEach,
   fromPairs,
   isNil,
@@ -30,10 +31,10 @@ import {
 
 import { ReadStatus } from '../messages/MessageReadStatus';
 import Helpers from '../textsecure/Helpers';
-import { GroupV2MemberType } from '../model-types.d';
-import { ReactionType } from '../types/Reactions';
+import type { GroupV2MemberType } from '../model-types.d';
+import type { ReactionType } from '../types/Reactions';
 import { STORAGE_UI_KEYS } from '../types/StorageUIKeys';
-import { StoredJob } from '../jobs/types';
+import type { StoredJob } from '../jobs/types';
 import { assert } from '../util/assert';
 import { combineNames } from '../util/combineNames';
 import { consoleLogger } from '../util/consoleLogger';
@@ -45,13 +46,13 @@ import { isValidGuid } from '../util/isValidGuid';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import * as durations from '../util/durations';
 import { formatCountForLogging } from '../logging/formatCountForLogging';
-import { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
 
-import {
+import type {
   AllItemsType,
   AttachmentDownloadJobType,
   ConversationMetricsType,

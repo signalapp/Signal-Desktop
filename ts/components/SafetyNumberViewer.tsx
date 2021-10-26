@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { Button, ButtonVariant } from './Button';
-import { ConversationType } from '../state/ducks/conversations';
+import type { ConversationType } from '../state/ducks/conversations';
 import { Intl } from './Intl';
-import { LocalizerType } from '../types/Util';
+import type { LocalizerType } from '../types/Util';
 
 export type PropsType = {
   contact?: ConversationType;

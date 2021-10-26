@@ -5,8 +5,8 @@ import React from 'react';
 
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import { SignalService as Proto } from '../../../protobuf';
-import { ConversationType } from '../../../state/ducks/conversations';
-import { LocalizerType } from '../../../types/Util';
+import type { ConversationType } from '../../../state/ducks/conversations';
+import type { LocalizerType } from '../../../types/Util';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 import { Select } from '../../Select';
