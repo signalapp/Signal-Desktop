@@ -2,6 +2,8 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { SessionIconType } from '../../components/session/icon';
 import { SessionToast, SessionToastType } from '../../components/session/SessionToast';
+import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 
 // if you push a toast manually with toast...() be sure to set the type attribute of the SessionToast component
 export function pushToastError(id: string, title: string, description?: string) {
@@ -142,16 +144,19 @@ export function pushedMissedCall(conversationName: string) {
   pushToastInfo(
     'missedCall',
     window.i18n('callMissedTitle'),
-    window.i18n('callMissedTitle', conversationName)
+    window.i18n('callMissed', conversationName)
   );
 }
 
-export function pushMicAndCameraPermissionNeeded(onClicked: () => void) {
+export function pushMicAndCameraPermissionNeeded() {
   pushToastInfo(
     'micAndCameraPermissionNeeded',
     window.i18n('micAndCameraPermissionNeededTitle'),
     window.i18n('micAndCameraPermissionNeeded'),
-    onClicked
+    () => {
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+    }
   );
 }
 

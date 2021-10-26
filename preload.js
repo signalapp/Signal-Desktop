@@ -43,7 +43,6 @@ window.lokiFeatureFlags = {
   useFileOnionRequestsV2: true, // more compact encoding of files in response
   padOutgoingAttachments: true,
   enablePinConversations: true,
-  useUnsendRequests: true,
   useCallMessage: false,
 };
 
@@ -82,10 +81,6 @@ window.updateZoomFactor = () => {
 
 window.setZoomFactor = number => {
   webFrame.setZoomFactor(number);
-};
-
-window.getZoomFactor = () => {
-  webFrame.getZoomFactor();
 };
 
 // Set the password for the database
@@ -145,10 +140,6 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-ipc.on('mediaPermissionsChanged', () => {
-  Whisper.events.trigger('mediaPermissionsChanged');
-});
-
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
@@ -165,6 +156,8 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
     return window.getMediaPermissions();
+  } else if (settingID === 'call-media-permissions') {
+    return window.getCallMediaPermissions();
   } else if (settingID === 'auto-update') {
     return window.getAutoUpdateEnabled();
   }
@@ -181,16 +174,13 @@ window.setSettingValue = (settingID, value) => {
   }
 
   window.storage.put(settingID, value);
-
-  // FIXME - This should be called in the settings object in
-  // SessionSettings
-  if (settingID === 'zoom-factor-setting') {
-    window.updateZoomFactor();
-  }
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+
+window.getCallMediaPermissions = () => ipc.sendSync('get-call-media-permissions');
+window.setCallMediaPermissions = value => ipc.send('set-call-media-permissions', !!value);
 
 window.askForMediaAccess = () => ipc.send('media-access');
 

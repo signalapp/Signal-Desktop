@@ -41,6 +41,8 @@ const StyledDraggableVideoElement = styled(StyledVideoElement)`
 
 const DraggableCallWindowInner = styled.div`
   cursor: pointer;
+  min-width: 85px;
+  min-height: 85px;
 `;
 
 const CenteredAvatarInDraggable = styled.div`

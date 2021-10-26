@@ -114,7 +114,11 @@ export class MessageQueue {
     if (!message) {
       return;
     }
-    if (!(message instanceof ConfigurationMessage) && !(message as any)?.syncTarget) {
+    if (
+      !(message instanceof ConfigurationMessage) &&
+      !(message instanceof UnsendMessage) &&
+      !(message as any)?.syncTarget
+    ) {
       throw new Error('Invalid message given to sendSyncMessage');
     }
 
@@ -226,6 +230,7 @@ export class MessageQueue {
       if (
         message instanceof ConfigurationMessage ||
         message instanceof ClosedGroupNewMessage ||
+        message instanceof UnsendMessage ||
         (message as any).syncTarget?.length > 0
       ) {
         window?.log?.warn('Processing sync message');

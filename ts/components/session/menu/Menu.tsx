@@ -23,7 +23,7 @@ import {
   blockConvoById,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
-  deleteMessagesByConvoIdWithConfirmation,
+  deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
   setDisappearingMessagesByConvoId,
   setNotificationForConvoId,
@@ -37,6 +37,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { CallManager, ToastUtils } from '../../../session/utils';
+import { getCallMediaPermissionsSettings } from '../settings/SessionSettings';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -67,10 +68,6 @@ function showClearNickname(isMe: boolean, hasNickname: boolean, isGroup: boolean
 
 function showChangeNickname(isMe: boolean, isGroup: boolean) {
   return !isMe && !isGroup;
-}
-
-function showDeleteMessages(isPublic: boolean): boolean {
-  return !isPublic;
 }
 
 // we want to show the copyId for open groups and private chats only
@@ -375,6 +372,11 @@ export function getStartCallMenuItem(conversationId: string): JSX.Element | null
             return;
           }
 
+          if (!getCallMediaPermissionsSettings()) {
+            ToastUtils.pushMicAndCameraPermissionNeeded();
+            return;
+          }
+
           if (convo) {
             convo.callState = 'connecting';
             await convo.commit();
@@ -540,20 +542,16 @@ export function getChangeNicknameMenuItem(
   return null;
 }
 
-export function getDeleteMessagesMenuItem(
-  isPublic: boolean | undefined,
-  conversationId: string
-): JSX.Element | null {
-  if (showDeleteMessages(Boolean(isPublic))) {
-    return (
-      <Item
-        onClick={() => {
-          deleteMessagesByConvoIdWithConfirmation(conversationId);
-        }}
-      >
-        {window.i18n('deleteMessages')}
-      </Item>
-    );
-  }
+export function getDeleteMessagesMenuItem(conversationId: string): JSX.Element | null {
+  return (
+    <Item
+      onClick={() => {
+        deleteAllMessagesByConvoIdWithConfirmation(conversationId);
+      }}
+    >
+      {window.i18n('deleteMessages')}
+    </Item>
+  );
+
   return null;
 }

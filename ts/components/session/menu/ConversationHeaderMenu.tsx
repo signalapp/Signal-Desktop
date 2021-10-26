@@ -78,7 +78,7 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getMarkAllReadMenuItem(conversationId)}
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-      {getDeleteMessagesMenuItem(isPublic, conversationId)}
+      {getDeleteMessagesMenuItem(conversationId)}
       {getAddModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
       {getRemoveModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
       {getUpdateGroupNameMenuItem(weAreAdmin, isKickedFromGroup, left, conversationId)}

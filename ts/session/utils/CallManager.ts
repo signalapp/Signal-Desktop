@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { ToastUtils } from '.';
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
 import { getConversationById } from '../../data/data';
 import { MessageModelType } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
@@ -11,7 +11,6 @@ import {
   incomingCall,
   startingCallWith,
 } from '../../state/ducks/conversations';
-import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 import { getConversationController } from '../conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
@@ -69,11 +68,7 @@ let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
-const configuration = {
-  configuration: {
-    offerToReceiveAudio: true,
-    offerToReceiveVideo: true,
-  },
+const configuration: RTCConfiguration = {
   iceServers: [
     {
       urls: 'turn:freyr.getsession.org',
@@ -81,6 +76,7 @@ const configuration = {
       credential: 'webrtc',
     },
   ],
+  iceTransportPolicy: 'relay',
 };
 
 let selectedCameraId: string | undefined;
@@ -124,7 +120,9 @@ function sendVideoStatusViaDataChannel() {
   const stringToSend = JSON.stringify({
     video: videoEnabledLocally,
   });
-  dataChannel?.send(stringToSend);
+  if (dataChannel && dataChannel.readyState === 'open') {
+    dataChannel?.send(stringToSend);
+  }
 }
 
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
@@ -276,7 +274,9 @@ async function openMediaDevicesAndAddTracks() {
 
     const firstAudio = audioInputsList[0].deviceId;
     const firstVideo = camerasList[0].deviceId;
-    window.log.info(`openMediaDevices video:${firstVideo}   audio:${firstAudio}`);
+    window.log.info(
+      `openMediaDevices videoDevice:${firstVideo}:${camerasList[0].label}   audioDevice:${firstAudio}`
+    );
 
     const devicesConfig = {
       audio: {
@@ -301,16 +301,18 @@ async function openMediaDevicesAndAddTracks() {
       }
     });
   } catch (err) {
-    ToastUtils.pushMicAndCameraPermissionNeeded(() => {
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
-    });
+    ToastUtils.pushMicAndCameraPermissionNeeded();
+    closeVideoCall();
   }
   callVideoListener();
 }
 
 // tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
+  if (!getCallMediaPermissionsSettings()) {
+    ToastUtils.pushMicAndCameraPermissionNeeded();
+    return;
+  }
   await updateInputLists();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
   window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
@@ -350,6 +352,7 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     sdpMids: validCandidates.map(c => c.sdpMid),
     sdps: validCandidates.map(c => c.candidate),
   });
+
   window.log.info('sending ICE CANDIDATES MESSAGE to ', recipient);
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
@@ -385,7 +388,7 @@ function handleConnectionStateChanged(pubkey: string) {
 }
 
 function closeVideoCall() {
-  window.log.info('closingVideoCall ', peerConnection);
+  window.log.info('closingVideoCall ');
   if (peerConnection) {
     peerConnection.ontrack = null;
     peerConnection.onicecandidate = null;
@@ -463,8 +466,6 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
   };
 
   if (createDataChannel) {
-    // console.warn('createOrGetPeerConnection: createDataChannel');
-
     dataChannel = peerConnection.createDataChannel('session-datachannel');
 
     dataChannel.onmessage = onDataChannelReceivedMessage;
@@ -584,13 +585,18 @@ export function handleCallTypeEndCall(sender: string) {
   callCache.delete(sender);
   window.log.info('handling callMessage END_CALL');
 
-  if (videoEventsListener) {
-    videoEventsListener(null, null, [], [], true);
+  const convos = getConversationController().getConversations();
+  const callingConvos = convos.filter(convo => convo.callState !== undefined);
+  if (callingConvos.length > 0) {
+    // we just got a end call event from whoever we are in a call with
+    if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+      closeVideoCall();
+      if (videoEventsListener) {
+        videoEventsListener(null, null, [], [], true);
+      }
+      window.inboxStore?.dispatch(endCall({ pubkey: sender }));
+    }
   }
-  closeVideoCall();
-  //
-  // FIXME audric trigger UI cleanup
-  window.inboxStore?.dispatch(endCall({ pubkey: sender }));
 }
 
 async function buildAnswerAndSendIt(sender: string) {
@@ -633,6 +639,13 @@ export async function handleCallTypeOffer(
         await handleMissedCall(sender, incomingOfferTimestamp);
         return;
       }
+    }
+
+    if (!getCallMediaPermissionsSettings()) {
+      await handleMissedCall(sender, incomingOfferTimestamp);
+      // TODO audric show where to turn it on
+      throw new Error('TODO AUDRIC');
+      return;
     }
 
     const readyForOffer =

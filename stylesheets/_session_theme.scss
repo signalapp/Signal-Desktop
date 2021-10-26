@@ -11,6 +11,7 @@
   display: inline-flex;
   flex-direction: row;
   align-items: center;
+  max-width: 65%;
 
   &__text-error {
     font-style: italic;
@@ -117,10 +118,6 @@
         box-shadow: var(--color-session-shadow);
       }
     }
-  }
-
-  &-outgoing {
-    margin-inline-start: auto;
   }
 }
 

@@ -15,6 +15,8 @@ import {
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
   getSelectedConversation,
+  getSelectedConversationIsPublic,
+  getSelectedConversationKey,
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
@@ -23,7 +25,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 
-import { deleteMessagesById } from '../../interactions/conversationInteractions';
+import {
+  deleteMessagesById,
+  deleteMessagesByIdForEveryone,
+} from '../../interactions/conversations/unsendingInteractions';
 import {
   closeMessageDetailsView,
   closeRightPanel,
@@ -67,16 +72,32 @@ export type ConversationHeaderProps = {
   left: boolean;
 };
 
-const SelectionOverlay = (props: {
-  onDeleteSelectedMessages: () => void;
-  onCloseOverlay: () => void;
-  isPublic: boolean;
-}) => {
-  const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = props;
+const SelectionOverlay = () => {
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
+  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const isPublic = useSelector(getSelectedConversationIsPublic);
+  const dispatch = useDispatch();
+
   const { i18n } = window;
 
-  const isServerDeletable = isPublic;
-  const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+  function onCloseOverlay() {
+    dispatch(resetSelectedMessageIds());
+  }
+
+  function onDeleteSelectedMessages() {
+    if (selectedConversationKey) {
+      void deleteMessagesById(selectedMessageIds, selectedConversationKey);
+    }
+  }
+  function onDeleteSelectedMessagesForEveryone() {
+    if (selectedConversationKey) {
+      void deleteMessagesByIdForEveryone(selectedMessageIds, selectedConversationKey);
+    }
+  }
+
+  const isOnlyServerDeletable = isPublic;
+  const deleteMessageButtonText = i18n('delete');
+  const deleteForEveroneMessageButtonText = i18n('deleteForEveryone');
 
   return (
     <div className="message-selection-overlay">
@@ -85,11 +106,19 @@ const SelectionOverlay = (props: {
       </div>
 
       <div className="button-group">
+        {!isOnlyServerDeletable && (
+          <SessionButton
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Danger}
+            text={deleteMessageButtonText}
+            onClick={onDeleteSelectedMessages}
+          />
+        )}
         <SessionButton
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
-          text={deleteMessageButtonText}
-          onClick={onDeleteSelectedMessages}
+          text={deleteForEveroneMessageButtonText}
+          onClick={onDeleteSelectedMessagesForEveryone}
         />
       </div>
     </div>
@@ -285,7 +314,6 @@ export const ConversationHeaderWithDetails = () => {
   const headerProps = useSelector(getConversationHeaderProps);
 
   const isSelectionMode = useSelector(isMessageSelectionMode);
-  const selectedMessageIds = useSelector(getSelectedMessageIds);
   const selectedConversation = useSelector(getSelectedConversation);
   const memberDetails = useMembersAvatars(selectedConversation);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
@@ -366,15 +394,7 @@ export const ConversationHeaderWithDetails = () => {
         />
       </div>
 
-      {isSelectionMode && (
-        <SelectionOverlay
-          isPublic={isPublic}
-          onCloseOverlay={() => dispatch(resetSelectedMessageIds())}
-          onDeleteSelectedMessages={() => {
-            void deleteMessagesById(selectedMessageIds, conversationKey, true);
-          }}
-        />
-      )}
+      {isSelectionMode && <SelectionOverlay />}
     </div>
   );
 };

@@ -321,10 +321,37 @@
 
     window.toggleMediaPermissions = async () => {
       const value = window.getMediaPermissions();
+
+      if (value === true) {
+        const valueCallPermissions = window.getCallMediaPermissions();
+        if (valueCallPermissions) {
+          window.log.info('toggleMediaPermissions : forcing callPermissions to false');
+
+          window.toggleCallMediaPermissionsTo(false);
+        }
+      }
+
       if (value === false && Signal.OS.isMacOS()) {
         await window.askForMediaAccess();
       }
       window.setMediaPermissions(!value);
+    };
+
+    window.toggleCallMediaPermissionsTo = async enabled => {
+      const previousValue = window.getCallMediaPermissions();
+      if (previousValue === enabled) {
+        return;
+      }
+      if (previousValue === false) {
+        // value was false and we toggle it so we turn it on
+        if (Signal.OS.isMacOS()) {
+          await window.askForMediaAccess();
+        }
+        window.log.info('toggleCallMediaPermissionsTo : forcing audio/video to true');
+        // turning ON "call permissions" forces turning on "audio/video permissions"
+        window.setMediaPermissions(true);
+      }
+      window.setCallMediaPermissions(enabled);
     };
 
     Whisper.Notifications.on('click', async (id, messageId) => {

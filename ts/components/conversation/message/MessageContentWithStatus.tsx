@@ -16,7 +16,7 @@ import { MessageStatus } from './MessageStatus';
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
   'direction' | 'isDeleted'
->;
+> & { hasAttachments: boolean };
 
 type Props = {
   messageId: string;
@@ -35,24 +35,9 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const onClickOnMessageOuterContainer = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      const selection = window.getSelection();
-      // Text is being selected
-      if (selection && selection.type === 'Range') {
-        return;
-      }
-
-      // User clicked on message body
-      const target = event.target as HTMLDivElement;
-      if (
-        (!multiSelectMode && target.className === 'text-selectable') ||
-        window.contextMenuShown ||
-        props?.isDetailView
-      ) {
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
-      if (messageId) {
+      if (multiSelectMode && messageId) {
+        event.preventDefault();
+        event.stopPropagation();
         dispatch(toggleSelectedMessageId(messageId));
       }
     },
@@ -63,7 +48,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   if (!contentProps) {
     return null;
   }
-  const { direction, isDeleted } = contentProps;
+  const { direction, isDeleted, hasAttachments } = contentProps;
   const isIncoming = direction === 'incoming';
 
   return (
@@ -71,6 +56,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
+      style={{ width: hasAttachments ? 'min-content' : 'auto' }}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
       <div>
