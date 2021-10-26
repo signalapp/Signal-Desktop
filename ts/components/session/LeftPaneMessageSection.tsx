@@ -69,6 +69,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       convo => !Boolean(convo.isApproved)
     );
 
+    console.warn('convos updated');
+
     this.state = {
       loading: false,
       overlay: false,
@@ -83,21 +85,22 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
-    // const { approvedConversations: conversations } = this.state;
-    console.warn({ conversations });
-
-    if (!conversations) {
+    const approvedConversations = conversations?.filter(c => c.isApproved === true);
+    if (!conversations || !approvedConversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
-    const conversation = conversations[index];
-
-    console.warn(`${index}`);
-    console.warn({ conversation });
+    // const conversation = conversations[index];
+    let conversation;
+    if (approvedConversations?.length) {
+      conversation = approvedConversations[index];
+    }
 
     // TODO: need to confirm whats best here.
-    // true by default then false on newly received or
-    // false by default and true when approved but then how to handle pre-existing convos?
-    if (conversation.isApproved === undefined || conversation.isApproved === false) {
+    if (
+      !conversation ||
+      conversation?.isApproved === undefined ||
+      conversation.isApproved === false
+    ) {
       return null;
     }
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
@@ -143,11 +146,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={conversationsForList}
+              conversations={this.state.approvedConversations}
+              // conversations={[]}
               height={height}
               rowCount={length}
               rowHeight={64}
-              // rowHeight={this.getRowHeight}
               rowRenderer={this.renderRow}
               width={width}
               autoHeight={false}
@@ -159,10 +162,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     return [list];
   }
-
-  // private getRowHeight({index: any}: any) {
-  //   if (this.)
-  // }
 
   public closeOverlay({ pubKey }: { pubKey: string }) {
     if (this.state.valuePasted === pubKey) {

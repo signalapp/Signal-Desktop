@@ -297,6 +297,7 @@ const MessageRequestList = () => {
   const unapprovedConversations = lists?.conversations.filter(c => {
     return !c.isApproved;
   }) as Array<ConversationListItemProps>;
+  console.warn({ unapprovedConversationsListConstructor: unapprovedConversations });
   return (
     <div className="message-request-list__container">
       {unapprovedConversations.map(conversation => {
