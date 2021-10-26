@@ -175,7 +175,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
                 </div>
               )}
               {messageStatusIcon}
-              {isUnread && <UnreadCount count={unreadCount} />}
+              {isUnread && <UnreadIndicator count={unreadCount} />}
             </div>
           ) : null}
         </div>
@@ -233,14 +233,23 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
   }
 );
 
-function UnreadCount({ count = 0 }: Readonly<{ count?: number }>) {
+function UnreadIndicator({ count = 0 }: Readonly<{ count?: number }>) {
+  let classModifier: undefined | string;
+  if (count > 99) {
+    classModifier = 'many';
+  } else if (count > 9) {
+    classModifier = 'two-digits';
+  } else if (count === 0) {
+    classModifier = 'marked-unread';
+  }
+
   return (
     <div
-      className={classNames(`${BASE_CLASS_NAME}__unread-count`, {
-        [`${BASE_CLASS_NAME}__unread-count--multiple-digits`]:
-          count > 9 && count <= 99,
-        [`${BASE_CLASS_NAME}__unread-count--many`]: count > 99,
-      })}
+      className={classNames(
+        `${BASE_CLASS_NAME}__unread-indicator`,
+        classModifier &&
+          `${BASE_CLASS_NAME}__unread-indicator--${classModifier}`
+      )}
     >
       {Boolean(count) && Math.min(count, 99)}
     </div>
