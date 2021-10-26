@@ -17,6 +17,7 @@ import type {
   ActiveCallType,
   GroupCallRemoteParticipantType,
 } from '../../types/Calling';
+import type { UUIDStringType } from '../../types/UUID';
 import { CallMode, CallState } from '../../types/Calling';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -117,7 +118,7 @@ const mapStateToActiveCallProp = (
   }
 
   const conversationSelectorByUuid = memoize<
-    (uuid: string) => undefined | ConversationType
+    (uuid: UUIDStringType) => undefined | ConversationType
   >(uuid => {
     const conversationId = window.ConversationController.ensureContactIds({
       uuid,
@@ -175,9 +176,9 @@ const mapStateToActiveCallProp = (
 
       const { memberships = [] } = conversation;
       for (let i = 0; i < memberships.length; i += 1) {
-        const { conversationId } = memberships[i];
-        const member = conversationSelectorByUuid(conversationId);
+        const { uuid } = memberships[i];
 
+        const member = conversationSelector(uuid);
         if (!member) {
           log.error('Group member has no corresponding conversation');
           continue;

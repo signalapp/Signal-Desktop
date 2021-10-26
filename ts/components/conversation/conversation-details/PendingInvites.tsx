@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { LocalizerType } from '../../../types/Util';
+import type { UUIDStringType } from '../../../types/UUID';
 import { Avatar } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
 import { PanelSection } from './PanelSection';
@@ -16,7 +17,7 @@ import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 export type PropsType = {
   readonly conversation?: ConversationType;
   readonly i18n: LocalizerType;
-  readonly ourConversationId?: string;
+  readonly ourUuid?: UUIDStringType;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   readonly approvePendingMembership: (conversationId: string) => void;
@@ -25,7 +26,7 @@ export type PropsType = {
 
 export type GroupV2PendingMembership = {
   metadata: {
-    addedByUserId?: string;
+    addedByUserId?: UUIDStringType;
   };
   member: ConversationType;
 };
@@ -54,14 +55,14 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   approvePendingMembership,
   conversation,
   i18n,
-  ourConversationId,
+  ourUuid,
   pendingMemberships,
   pendingApprovalMemberships,
   revokePendingMemberships,
 }) => {
-  if (!conversation || !ourConversationId) {
+  if (!conversation || !ourUuid) {
     throw new Error(
-      'PendingInvites rendered without a conversation or ourConversationId'
+      'PendingInvites rendered without a conversation or ourUuid'
     );
   }
 
@@ -131,7 +132,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           memberships={pendingMemberships}
-          ourConversationId={ourConversationId}
+          ourUuid={ourUuid}
           setStagedMemberships={setStagedMemberships}
         />
       ) : null}
@@ -142,7 +143,7 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           onClose={() => setStagedMemberships(null)}
-          ourConversationId={ourConversationId}
+          ourUuid={ourUuid}
           revokePendingMemberships={revokePendingMemberships}
           stagedMemberships={stagedMemberships}
         />
@@ -156,7 +157,7 @@ function MembershipActionConfirmation({
   i18n,
   members,
   onClose,
-  ourConversationId,
+  ourUuid,
   revokePendingMemberships,
   stagedMemberships,
 }: {
@@ -164,7 +165,7 @@ function MembershipActionConfirmation({
   i18n: LocalizerType;
   members: Array<ConversationType>;
   onClose: () => void;
-  ourConversationId: string;
+  ourUuid: string;
   revokePendingMemberships: (conversationIds: Array<string>) => void;
   stagedMemberships: Array<StagedMembershipType>;
 }) {
@@ -216,7 +217,7 @@ function MembershipActionConfirmation({
       {getConfirmationMessage({
         i18n,
         members,
-        ourConversationId,
+        ourUuid,
         stagedMemberships,
       })}
     </ConfirmationDialog>
@@ -226,12 +227,12 @@ function MembershipActionConfirmation({
 function getConfirmationMessage({
   i18n,
   members,
-  ourConversationId,
+  ourUuid,
   stagedMemberships,
 }: Readonly<{
   i18n: LocalizerType;
   members: ReadonlyArray<ConversationType>;
-  ourConversationId: string;
+  ourUuid: string;
   stagedMemberships: ReadonlyArray<StagedMembershipType>;
 }>): string {
   if (!stagedMemberships || !stagedMemberships.length) {
@@ -261,8 +262,7 @@ function getConfirmationMessage({
   const firstPendingMembership = firstMembership as GroupV2PendingMembership;
 
   // Pending invite
-  const invitedByUs =
-    firstPendingMembership.metadata.addedByUserId === ourConversationId;
+  const invitedByUs = firstPendingMembership.metadata.addedByUserId === ourUuid;
 
   if (invitedByUs) {
     return i18n('PendingInvites--revoke-for', {
@@ -364,14 +364,14 @@ function MembersPendingProfileKey({
   i18n,
   members,
   memberships,
-  ourConversationId,
+  ourUuid,
   setStagedMemberships,
 }: Readonly<{
   conversation: ConversationType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
-  ourConversationId: string;
+  ourUuid: string;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
 }>) {
   const groupedPendingMemberships = _.groupBy(
@@ -380,7 +380,7 @@ function MembersPendingProfileKey({
   );
 
   const {
-    [ourConversationId]: ourPendingMemberships,
+    [ourUuid]: ourPendingMemberships,
     ...otherPendingMembershipGroups
   } = groupedPendingMemberships;
 

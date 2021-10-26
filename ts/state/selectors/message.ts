@@ -37,6 +37,7 @@ import type { PropsType as ProfileChangeNotificationPropsType } from '../../comp
 import type { QuotedAttachmentType } from '../../components/conversation/Quote';
 
 import { getDomain, isStickerPack } from '../../types/LinkPreview';
+import type { UUIDStringType } from '../../types/UUID';
 
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { embeddedContactSelector } from '../../types/EmbeddedContact';
@@ -99,7 +100,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   conversationSelector: GetConversationByIdType;
   ourConversationId: string;
   ourNumber?: string;
-  ourUuid?: string;
+  ourUuid: UUIDStringType;
   selectedMessageId?: string;
   selectedMessageCounter?: number;
   regionCode: string;
@@ -772,7 +773,7 @@ export function isGroupV2Change(message: MessageAttributesType): boolean {
 
 function getPropsForGroupV2Change(
   message: MessageAttributesType,
-  { conversationSelector, ourConversationId }: GetPropsForBubbleOptions
+  { conversationSelector, ourUuid }: GetPropsForBubbleOptions
 ): GroupsV2Props {
   const change = message.groupV2Change;
 
@@ -784,7 +785,7 @@ function getPropsForGroupV2Change(
 
   return {
     groupName: conversation?.type === 'group' ? conversation?.name : undefined,
-    ourConversationId,
+    ourUuid,
     change,
   };
 }
@@ -806,7 +807,7 @@ function getPropsForGroupV1Migration(
     const droppedGV2MemberIds = message.droppedGV2MemberIds || [];
 
     const invitedMembers = invitedGV2Members.map(item =>
-      conversationSelector(item.conversationId)
+      conversationSelector(item.uuid)
     );
     const droppedMembers = droppedGV2MemberIds.map(conversationId =>
       conversationSelector(conversationId)
@@ -825,7 +826,7 @@ function getPropsForGroupV1Migration(
     invitedMembers: rawInvitedMembers,
   } = migration;
   const invitedMembers = rawInvitedMembers.map(item =>
-    conversationSelector(item.conversationId)
+    conversationSelector(item.uuid)
   );
   const droppedMembers = droppedMemberIds.map(conversationId =>
     conversationSelector(conversationId)

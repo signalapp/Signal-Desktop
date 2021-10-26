@@ -4,6 +4,7 @@
 import { createSelector } from 'reselect';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
+import type { UUIDStringType } from '../../types/UUID';
 
 import type { StateType } from '../reducer';
 import type { UserStateType } from '../ducks/user';
@@ -32,7 +33,7 @@ export const getUserConversationId = createSelector(
 
 export const getUserUuid = createSelector(
   getUser,
-  (state: UserStateType): string => state.ourUuid
+  (state: UserStateType): UUIDStringType => state.ourUuid
 );
 
 export const getIntl = createSelector(

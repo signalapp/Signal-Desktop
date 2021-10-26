@@ -19,6 +19,7 @@ import {
 } from './CallingLobbyJoinButton';
 import type { AvatarColorType } from '../types/Colors';
 import type { LocalizerType } from '../types/Util';
+import type { UUIDStringType } from '../types/UUID';
 import { useIsOnline } from '../hooks/useIsOnline';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { ConversationType } from '../state/ducks/conversations';
@@ -52,7 +53,7 @@ export type PropsType = {
     avatarPath?: string;
     id: string;
     color?: AvatarColorType;
-    uuid: string;
+    uuid: UUIDStringType;
   };
   onCallCanceled: () => void;
   onJoinCall: () => void;

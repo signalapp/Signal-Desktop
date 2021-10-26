@@ -46,7 +46,8 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
-import { UUID } from '../types/UUID';
+import { UUID, isValidUuid } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
 import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
 import type { BodyRangesType } from '../types/Util';
@@ -242,7 +243,7 @@ export class ConversationModel extends window.Backbone
 
   initialize(attributes: Partial<ConversationAttributesType> = {}): void {
     if (isValidE164(attributes.id, false)) {
-      this.set({ id: window.getGuid(), e164: attributes.id });
+      this.set({ id: UUID.generate().toString(), e164: attributes.id });
     }
 
     this.storeName = 'conversations';
@@ -340,7 +341,7 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  isMemberRequestingToJoin(conversationId: string): boolean {
+  isMemberRequestingToJoin(id: string): boolean {
     if (!isGroupV2(this.attributes)) {
       return false;
     }
@@ -350,12 +351,11 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    return pendingAdminApprovalV2.some(
-      item => item.conversationId === conversationId
-    );
+    const uuid = UUID.checkedLookup(id).toString();
+    return pendingAdminApprovalV2.some(item => item.uuid === uuid);
   }
 
-  isMemberPending(conversationId: string): boolean {
+  isMemberPending(id: string): boolean {
     if (!isGroupV2(this.attributes)) {
       return false;
     }
@@ -365,13 +365,11 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    return window._.any(
-      pendingMembersV2,
-      item => item.conversationId === conversationId
-    );
+    const uuid = UUID.checkedLookup(id).toString();
+    return window._.any(pendingMembersV2, item => item.uuid === uuid);
   }
 
-  isMemberAwaitingApproval(conversationId: string): boolean {
+  isMemberAwaitingApproval(id: string): boolean {
     if (!isGroupV2(this.attributes)) {
       return false;
     }
@@ -381,13 +379,11 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    return window._.any(
-      pendingAdminApprovalV2,
-      item => item.conversationId === conversationId
-    );
+    const uuid = UUID.checkedLookup(id).toString();
+    return window._.any(pendingAdminApprovalV2, item => item.uuid === uuid);
   }
 
-  isMember(conversationId: string): boolean {
+  isMember(id: string): boolean {
     if (!isGroupV2(this.attributes)) {
       throw new Error(
         `isMember: Called for non-GroupV2 conversation ${this.idForLogging()}`
@@ -398,11 +394,9 @@ export class ConversationModel extends window.Backbone
     if (!membersV2 || !membersV2.length) {
       return false;
     }
+    const uuid = UUID.checkedLookup(id).toString();
 
-    return window._.any(
-      membersV2,
-      item => item.conversationId === conversationId
-    );
+    return window._.any(membersV2, item => item.uuid === uuid);
   }
 
   async updateExpirationTimerInGroupV2(
@@ -678,7 +672,7 @@ export class ConversationModel extends window.Backbone
         }
         return uuid;
       })
-      .filter((uuid): uuid is string => Boolean(uuid));
+      .filter(isNotNil);
 
     if (!uuids.length) {
       return undefined;
@@ -1565,7 +1559,7 @@ export class ConversationModel extends window.Backbone
   updateUuid(uuid?: string): void {
     const oldValue = this.get('uuid');
     if (uuid && uuid !== oldValue) {
-      this.set('uuid', uuid.toLowerCase());
+      this.set('uuid', UUID.cast(uuid.toLowerCase()));
       window.Signal.Data.updateConversation(this.attributes);
       this.trigger('idUpdated', this, 'uuid', oldValue);
     }
@@ -1840,6 +1834,7 @@ export class ConversationModel extends window.Backbone
     approvalRequired: boolean;
   }): Promise<void> {
     const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     try {
       if (approvalRequired) {
         await this.modifyGroupV2({
@@ -1870,7 +1865,7 @@ export class ConversationModel extends window.Backbone
           this.set({
             pendingAdminApprovalV2: [
               {
-                conversationId: ourConversationId,
+                uuid: ourUuid,
                 timestamp: Date.now(),
               },
             ],
@@ -2143,14 +2138,12 @@ export class ConversationModel extends window.Backbone
   }
 
   async safeGetVerified(): Promise<number> {
-    const uuid = this.get('uuid');
+    const uuid = this.getUuid();
     if (!uuid) {
       return window.textsecure.storage.protocol.VerifiedStatus.DEFAULT;
     }
 
-    const promise = window.textsecure.storage.protocol.getVerified(
-      new UUID(uuid)
-    );
+    const promise = window.textsecure.storage.protocol.getVerified(uuid);
     return promise.catch(
       () => window.textsecure.storage.protocol.VerifiedStatus.DEFAULT
     );
@@ -2227,7 +2220,7 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    const uuid = this.get('uuid');
+    const uuid = this.getUuid();
     const beginningVerified = this.get('verified');
     let keyChange;
     if (options.viaSyncMessage) {
@@ -2239,13 +2232,13 @@ export class ConversationModel extends window.Backbone
       // handle the incoming key from the sync messages - need different
       // behavior if that key doesn't match the current key
       keyChange = await window.textsecure.storage.protocol.processVerifiedMessage(
-        new UUID(uuid),
+        uuid,
         verified,
         options.key || undefined
       );
     } else if (uuid) {
       keyChange = await window.textsecure.storage.protocol.setVerified(
-        new UUID(uuid),
+        uuid,
         verified
       );
     } else {
@@ -2289,10 +2282,10 @@ export class ConversationModel extends window.Backbone
 
   async sendVerifySyncMessage(
     e164: string | undefined,
-    uuid: string,
+    uuid: UUID,
     state: number
   ): Promise<CallbackResultType | void> {
-    const identifier = uuid || e164;
+    const identifier = uuid ? uuid.toString() : e164;
     if (!identifier) {
       throw new Error(
         'sendVerifySyncMessage: Neither e164 nor UUID were provided'
@@ -2328,7 +2321,7 @@ export class ConversationModel extends window.Backbone
     await handleMessageSend(
       window.textsecure.messaging.syncVerification(
         e164,
-        uuid,
+        uuid.toString(),
         state,
         key,
         options
@@ -2402,20 +2395,20 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    const uuid = this.get('uuid');
+    const uuid = this.getUuid();
     if (!uuid) {
       log.warn(`setApproved(${this.id}): no uuid, ignoring`);
       return;
     }
 
-    return window.textsecure.storage.protocol.setApproval(new UUID(uuid), true);
+    return window.textsecure.storage.protocol.setApproval(uuid, true);
   }
 
   safeIsUntrusted(): boolean {
-    const uuid = this.get('uuid');
     try {
+      const uuid = this.getUuid();
       strictAssert(uuid, `No uuid for conversation: ${this.id}`);
-      return window.textsecure.storage.protocol.isUntrusted(new UUID(uuid));
+      return window.textsecure.storage.protocol.isUntrusted(uuid);
     } catch (err) {
       return false;
     }
@@ -2671,8 +2664,9 @@ export class ConversationModel extends window.Backbone
 
     this.trigger('newmessage', model);
 
-    if (isDirectConversation(this.attributes)) {
-      window.ConversationController.getAllGroupsInvolvingId(this.id).then(
+    const uuid = this.getUuid();
+    if (isDirectConversation(this.attributes) && uuid) {
+      window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
           window._.forEach(groups, group => {
             group.addVerifiedChange(this.id, verified, options);
@@ -2790,8 +2784,9 @@ export class ConversationModel extends window.Backbone
 
     this.trigger('newmessage', model);
 
-    if (isDirectConversation(this.attributes)) {
-      window.ConversationController.getAllGroupsInvolvingId(this.id).then(
+    const uuid = this.getUuid();
+    if (isDirectConversation(this.attributes) && uuid) {
+      window.ConversationController.getAllGroupsInvolvingUuid(uuid).then(
         groups => {
           window._.forEach(groups, group => {
             group.addProfileChange(profileChange, this.id);
@@ -2899,17 +2894,21 @@ export class ConversationModel extends window.Backbone
       `Conversation ${this.idForLogging()}: adding change number notification`
     );
 
+    const sourceUuid = this.getCheckedUuid(
+      'Change number notification without uuid'
+    );
+
     const convos = [
       this,
-      ...(await window.ConversationController.getAllGroupsInvolvingId(this.id)),
+      ...(await window.ConversationController.getAllGroupsInvolvingUuid(
+        sourceUuid
+      )),
     ];
-
-    const sourceUuid = this.get('uuid');
 
     await Promise.all(
       convos.map(convo => {
         return convo.addNotification('change-number-notification', {
-          sourceUuid,
+          sourceUuid: sourceUuid.toString(),
         });
       })
     );
@@ -2998,7 +2997,7 @@ export class ConversationModel extends window.Backbone
 
   validateUuid(): string | null {
     if (isDirectConversation(this.attributes) && this.get('uuid')) {
-      if (window.isValidGuid(this.get('uuid'))) {
+      if (isValidUuid(this.get('uuid'))) {
         return null;
       }
 
@@ -3037,13 +3036,14 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  isAdmin(conversationId: string): boolean {
+  isAdmin(id: string): boolean {
     if (!isGroupV2(this.attributes)) {
       return false;
     }
 
+    const uuid = UUID.checkedLookup(id).toString();
     const members = this.get('membersV2') || [];
-    const member = members.find(x => x.conversationId === conversationId);
+    const member = members.find(x => x.uuid === uuid);
     if (!member) {
       return false;
     }
@@ -3053,8 +3053,19 @@ export class ConversationModel extends window.Backbone
     return member.role === MEMBER_ROLES.ADMINISTRATOR;
   }
 
+  getUuid(): UUID | undefined {
+    const value = this.get('uuid');
+    return value && new UUID(value);
+  }
+
+  getCheckedUuid(reason: string): UUID {
+    const result = this.getUuid();
+    strictAssert(result !== undefined, reason);
+    return result;
+  }
+
   private getMemberships(): Array<{
-    conversationId: string;
+    uuid: UUIDStringType;
     isAdmin: boolean;
   }> {
     if (!isGroupV2(this.attributes)) {
@@ -3064,7 +3075,7 @@ export class ConversationModel extends window.Backbone
     const members = this.get('membersV2') || [];
     return members.map(member => ({
       isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
-      conversationId: member.conversationId,
+      uuid: member.uuid,
     }));
   }
 
@@ -3081,8 +3092,8 @@ export class ConversationModel extends window.Backbone
   }
 
   private getPendingMemberships(): Array<{
-    addedByUserId?: string;
-    conversationId: string;
+    addedByUserId?: UUIDStringType;
+    uuid: UUIDStringType;
   }> {
     if (!isGroupV2(this.attributes)) {
       return [];
@@ -3091,18 +3102,18 @@ export class ConversationModel extends window.Backbone
     const members = this.get('pendingMembersV2') || [];
     return members.map(member => ({
       addedByUserId: member.addedByUserId,
-      conversationId: member.conversationId,
+      uuid: member.uuid,
     }));
   }
 
-  private getPendingApprovalMemberships(): Array<{ conversationId: string }> {
+  private getPendingApprovalMemberships(): Array<{ uuid: UUIDStringType }> {
     if (!isGroupV2(this.attributes)) {
       return [];
     }
 
     const members = this.get('pendingAdminApprovalV2') || [];
     return members.map(member => ({
-      conversationId: member.conversationId,
+      uuid: member.uuid,
     }));
   }
 
@@ -3134,6 +3145,13 @@ export class ConversationModel extends window.Backbone
   getMemberIds(): Array<string> {
     const members = this.getMembers();
     return members.map(member => member.id);
+  }
+
+  getMemberUuids(): Array<UUID> {
+    const members = this.getMembers();
+    return members.map(member => {
+      return member.getCheckedUuid('Group member without uuid');
+    });
   }
 
   getRecipients({
@@ -3356,7 +3374,7 @@ export class ConversationModel extends window.Backbone
       // We are only creating this model so we can use its sync message
       // sending functionality. It will not be saved to the database.
       const message = new window.Whisper.Message({
-        id: window.getGuid(),
+        id: UUID.generate().toString(),
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
@@ -3489,7 +3507,7 @@ export class ConversationModel extends window.Backbone
       // We are only creating this model so we can use its sync message
       // sending functionality. It will not be saved to the database.
       const message = new window.Whisper.Message({
-        id: window.getGuid(),
+        id: UUID.generate.toString(),
         type: 'outgoing',
         conversationId: this.get('id'),
         sent_at: timestamp,
@@ -3731,7 +3749,7 @@ export class ConversationModel extends window.Backbone
     }
     const attributes: MessageAttributesType = {
       ...messageWithSchema,
-      id: window.getGuid(),
+      id: UUID.generate().toString(),
     };
 
     const model = new window.Whisper.Message(attributes);
@@ -3840,9 +3858,10 @@ export class ConversationModel extends window.Backbone
 
     const conversationId = this.id;
 
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     const lastMessages = await window.Signal.Data.getLastConversationMessages({
       conversationId,
-      ourConversationId,
+      ourUuid,
       Message: window.Whisper.Message,
     });
 
@@ -4361,12 +4380,16 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const ourGroups = await window.ConversationController.getAllGroupsInvolvingId(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      window.ConversationController.getOurConversationId()!
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    const ourGroups = await window.ConversationController.getAllGroupsInvolvingUuid(
+      ourUuid
     );
-    const theirGroups = await window.ConversationController.getAllGroupsInvolvingId(
-      this.id
+    const theirUuid = this.getUuid();
+    if (!theirUuid) {
+      return;
+    }
+    const theirGroups = await window.ConversationController.getAllGroupsInvolvingUuid(
+      theirUuid
     );
 
     const sharedGroups = window._.intersection(ourGroups, theirGroups);
@@ -4734,8 +4757,8 @@ export class ConversationModel extends window.Backbone
 
     const memberEnum = Proto.Member.Role;
     const members = this.get('membersV2') || [];
-    const myId = window.ConversationController.getOurConversationId();
-    const me = members.find(item => item.conversationId === myId);
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const me = members.find(item => item.uuid === ourUuid);
     if (!me) {
       return false;
     }

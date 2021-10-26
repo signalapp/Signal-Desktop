@@ -301,8 +301,8 @@ const actions = () => ({
   ),
   checkForAccount: action('checkForAccount'),
   clearChangedMessages: action('clearChangedMessages'),
-  clearInvitedConversationsForNewlyCreatedGroup: action(
-    'clearInvitedConversationsForNewlyCreatedGroup'
+  clearInvitedUuidsForNewlyCreatedGroup: action(
+    'clearInvitedUuidsForNewlyCreatedGroup'
   ),
   setLoadCountdownStart: action('setLoadCountdownStart'),
   setIsNearBottom: action('setIsNearBottom'),

@@ -22,6 +22,8 @@ import {
   UuidCiphertext,
 } from 'zkgroup';
 import * as Bytes from '../Bytes';
+import { UUID } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
 
 export * from 'zkgroup';
 
@@ -63,7 +65,7 @@ export function decryptGroupBlob(
 export function decryptProfileKeyCredentialPresentation(
   clientZkGroupCipher: ClientZkGroupCipher,
   presentationBuffer: Uint8Array
-): { profileKey: Uint8Array; uuid: string } {
+): { profileKey: Uint8Array; uuid: UUIDStringType } {
   const presentation = new ProfileKeyCredentialPresentation(
     uint8ArrayToCompatArray(presentationBuffer)
   );
@@ -79,14 +81,14 @@ export function decryptProfileKeyCredentialPresentation(
 
   return {
     profileKey: compatArrayToUint8Array(profileKey.serialize()),
-    uuid,
+    uuid: UUID.cast(uuid),
   };
 }
 
 export function decryptProfileKey(
   clientZkGroupCipher: ClientZkGroupCipher,
   profileKeyCiphertextBuffer: Uint8Array,
-  uuid: string
+  uuid: UUIDStringType
 ): Uint8Array {
   const profileKeyCiphertext = new ProfileKeyCiphertext(
     uint8ArrayToCompatArray(profileKeyCiphertextBuffer)
@@ -113,7 +115,7 @@ export function decryptUuid(
 
 export function deriveProfileKeyVersion(
   profileKeyBase64: string,
-  uuid: string
+  uuid: UUIDStringType
 ): string {
   const profileKeyArray = base64ToCompatArray(profileKeyBase64);
   const profileKey = new ProfileKey(profileKeyArray);
@@ -167,7 +169,7 @@ export function encryptGroupBlob(
 
 export function encryptUuid(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidPlaintext: string
+  uuidPlaintext: UUIDStringType
 ): Uint8Array {
   const uuidCiphertext = clientZkGroupCipher.encryptUuid(uuidPlaintext);
 
@@ -176,7 +178,7 @@ export function encryptUuid(
 
 export function generateProfileKeyCredentialRequest(
   clientZkProfileCipher: ClientZkProfileOperations,
-  uuid: string,
+  uuid: UUIDStringType,
   profileKeyBase64: string
 ): { context: ProfileKeyCredentialRequestContext; requestHex: string } {
   const profileKeyArray = base64ToCompatArray(profileKeyBase64);
@@ -287,7 +289,7 @@ export function handleProfileKeyCredential(
 
 export function deriveProfileKeyCommitment(
   profileKeyBase64: string,
-  uuid: string
+  uuid: UUIDStringType
 ): string {
   const profileKeyArray = base64ToCompatArray(profileKeyBase64);
   const profileKey = new ProfileKey(profileKeyArray);

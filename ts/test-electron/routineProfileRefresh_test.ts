@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { times } from 'lodash';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
+import { UUID } from '../types/UUID';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
 import * as getProfileStub from '../util/getProfile';
@@ -26,12 +26,12 @@ describe('routineProfileRefresh', () => {
     overrideAttributes: Partial<ConversationAttributesType> = {}
   ): ConversationModel {
     const result = new ConversationModel({
-      accessKey: uuid(),
+      accessKey: UUID.generate().toString(),
       active_at: Date.now(),
       draftAttachments: [],
       draftBodyRanges: [],
       draftTimestamp: null,
-      id: uuid(),
+      id: UUID.generate().toString(),
       inbox_position: 0,
       isPinned: false,
       lastMessageDeletedForEveryone: false,
@@ -43,7 +43,7 @@ describe('routineProfileRefresh', () => {
       messageRequestResponseType: 0,
       muteExpiresAt: 0,
       profileAvatar: undefined,
-      profileKeyCredential: uuid(),
+      profileKeyCredential: UUID.generate().toString(),
       profileKeyVersion: '',
       profileSharing: true,
       quotedMessageId: null,
@@ -52,7 +52,7 @@ describe('routineProfileRefresh', () => {
       sharedGroupNames: [],
       timestamp: Date.now(),
       type: 'private',
-      uuid: uuid(),
+      uuid: UUID.generate().toString(),
       version: 2,
       ...overrideAttributes,
     });
@@ -85,7 +85,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [conversation1, conversation2],
-      ourConversationId: uuid(),
+      ourConversationId: UUID.generate().toString(),
       storage,
     });
 
@@ -99,7 +99,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [conversation1, conversation2],
-      ourConversationId: uuid(),
+      ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
     });
 
@@ -124,7 +124,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [recentlyActive, inactive, neverActive],
-      ourConversationId: uuid(),
+      ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
     });
 
@@ -176,7 +176,7 @@ describe('routineProfileRefresh', () => {
 
     await routineProfileRefresh({
       allConversations: [neverRefreshed, recentlyFetched],
-      ourConversationId: uuid(),
+      ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
     });
 
@@ -218,7 +218,7 @@ describe('routineProfileRefresh', () => {
         memberWhoHasRecentlyRefreshed,
         groupConversation,
       ],
-      ourConversationId: uuid(),
+      ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
     });
 

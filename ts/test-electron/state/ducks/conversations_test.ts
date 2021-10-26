@@ -28,8 +28,12 @@ import {
 import { ReadStatus } from '../../../messages/MessageReadStatus';
 import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
+import { UUID } from '../../../types/UUID';
 import * as groups from '../../../groups';
-import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultConversationWithUuid,
+} from '../../../test-both/helpers/getDefaultConversation';
 import { getDefaultAvatars } from '../../../types/Avatar';
 import {
   defaultStartDirectConversationComposerState,
@@ -40,7 +44,7 @@ import {
 const {
   cantAddContactToGroup,
   clearGroupCreationError,
-  clearInvitedConversationsForNewlyCreatedGroup,
+  clearInvitedUuidsForNewlyCreatedGroup,
   closeCantAddContactToGroupModal,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
@@ -225,26 +229,24 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('adds and removes uuid-only contact', () => {
-        const removed = getDefaultConversation({
+        const removed = getDefaultConversationWithUuid({
           id: 'id-removed',
-          uuid: 'uuid-removed',
           e164: undefined,
         });
 
         const state = {
           ...getEmptyState(),
           conversationsByuuid: {
-            'uuid-removed': removed,
+            [removed.uuid]: removed,
           },
         };
-        const added = getDefaultConversation({
+        const added = getDefaultConversationWithUuid({
           id: 'id-added',
-          uuid: 'uuid-added',
           e164: undefined,
         });
 
         const expected = {
-          'uuid-added': added,
+          [added.uuid]: added,
         };
 
         const actual = updateConversationLookups(added, removed, state);
@@ -307,6 +309,7 @@ describe('both/state/ducks/conversations', () => {
     const messageId = 'message-guid-1';
     const messageIdTwo = 'message-guid-2';
     const messageIdThree = 'message-guid-3';
+    const sourceUuid = UUID.generate().toString();
 
     function getDefaultMessage(id: string): MessageType {
       return {
@@ -316,7 +319,7 @@ describe('both/state/ducks/conversations', () => {
         received_at: previousTime,
         sent_at: previousTime,
         source: 'source',
-        sourceUuid: 'sourceUuid',
+        sourceUuid,
         timestamp: previousTime,
         type: 'incoming' as const,
         readStatus: ReadStatus.Read,
@@ -491,16 +494,19 @@ describe('both/state/ducks/conversations', () => {
       });
     });
 
-    describe('CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP', () => {
-      it('clears the list of invited conversation IDs', () => {
+    describe('CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP', () => {
+      it('clears the list of invited conversation UUIDs', () => {
         const state = {
           ...getEmptyState(),
-          invitedConversationIdsForNewlyCreatedGroup: ['abc123', 'def456'],
+          invitedUuidsForNewlyCreatedGroup: [
+            UUID.generate().toString(),
+            UUID.generate().toString(),
+          ],
         };
-        const action = clearInvitedConversationsForNewlyCreatedGroup();
+        const action = clearInvitedUuidsForNewlyCreatedGroup();
         const result = reducer(state, action);
 
-        assert.isUndefined(result.invitedConversationIdsForNewlyCreatedGroup);
+        assert.isUndefined(result.invitedUuidsForNewlyCreatedGroup);
       });
     });
 
@@ -775,13 +781,14 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('dispatches a CREATE_GROUP_FULFILLED event (which updates the newly-created conversation IDs), triggers a showConversation event and switches to the associated conversation on success', async () => {
+        const abc = UUID.fromPrefix('abc').toString();
         createGroupStub.resolves({
           id: '9876',
           get: (key: string) => {
             if (key !== 'pendingMembersV2') {
               throw new Error('This getter is not set up for this test');
             }
-            return [{ conversationId: 'xyz999' }];
+            return [{ uuid: abc }];
           },
         });
 
@@ -805,14 +812,12 @@ describe('both/state/ducks/conversations', () => {
 
         sinon.assert.calledWith(dispatch, {
           type: 'CREATE_GROUP_FULFILLED',
-          payload: { invitedConversationIds: ['xyz999'] },
+          payload: { invitedUuids: [abc] },
         });
 
         const fulfilledAction = dispatch.getCall(1).args[0];
         const result = reducer(conversationsState, fulfilledAction);
-        assert.deepEqual(result.invitedConversationIdsForNewlyCreatedGroup, [
-          'xyz999',
-        ]);
+        assert.deepEqual(result.invitedUuidsForNewlyCreatedGroup, [abc]);
 
         sinon.assert.calledWith(dispatch, {
           type: 'SWITCH_TO_ASSOCIATED_VIEW',
@@ -1765,14 +1770,12 @@ describe('both/state/ducks/conversations', () => {
   });
 
   describe('COLORS_CHANGED', () => {
-    const abc = getDefaultConversation({
+    const abc = getDefaultConversationWithUuid({
       id: 'abc',
-      uuid: 'abc',
       conversationColor: 'wintergreen',
     });
-    const def = getDefaultConversation({
+    const def = getDefaultConversationWithUuid({
       id: 'def',
-      uuid: 'def',
       conversationColor: 'infrared',
     });
     const ghi = getDefaultConversation({
@@ -1820,8 +1823,12 @@ describe('both/state/ducks/conversations', () => {
       assert.isUndefined(nextState.conversationLookup.def.conversationColor);
       assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
       assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
-      assert.isUndefined(nextState.conversationsByUuid.abc.conversationColor);
-      assert.isUndefined(nextState.conversationsByUuid.def.conversationColor);
+      assert.isUndefined(
+        nextState.conversationsByUuid[abc.uuid].conversationColor
+      );
+      assert.isUndefined(
+        nextState.conversationsByUuid[def.uuid].conversationColor
+      );
       assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
       assert.isUndefined(
         nextState.conversationsByGroupId.jkl.conversationColor

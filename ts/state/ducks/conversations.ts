@@ -39,6 +39,7 @@ import type {
 import type { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
+import type { UUIDStringType } from '../../types/UUID';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -82,7 +83,7 @@ export type ConversationTypeType = typeof ConversationTypes[number];
 
 export type ConversationType = {
   id: string;
-  uuid?: string;
+  uuid?: UUIDStringType;
   e164?: string;
   name?: string;
   familyName?: string;
@@ -134,15 +135,15 @@ export type ConversationType = {
   announcementsOnlyReady?: boolean;
   expireTimer?: number;
   memberships?: Array<{
-    conversationId: string;
+    uuid: UUIDStringType;
     isAdmin: boolean;
   }>;
   pendingMemberships?: Array<{
-    conversationId: string;
-    addedByUserId?: string;
+    uuid: UUIDStringType;
+    addedByUserId?: UUIDStringType;
   }>;
   pendingApprovalMemberships?: Array<{
-    conversationId: string;
+    uuid: UUIDStringType;
   }>;
   muteExpiresAt?: number;
   dontNotifyForMentionsIfMuted?: boolean;
@@ -294,7 +295,7 @@ type ContactSpoofingReviewStateType =
 
 export type ConversationsStateType = {
   preJoinConversation?: PreJoinConversationType;
-  invitedConversationIdsForNewlyCreatedGroup?: Array<string>;
+  invitedUuidsForNewlyCreatedGroup?: Array<string>;
   conversationLookup: ConversationLookupType;
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
@@ -373,8 +374,8 @@ type CantAddContactToGroupActionType = {
   };
 };
 type ClearGroupCreationErrorActionType = { type: 'CLEAR_GROUP_CREATION_ERROR' };
-type ClearInvitedConversationsForNewlyCreatedGroupActionType = {
-  type: 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP';
+type ClearInvitedUuidsForNewlyCreatedGroupActionType = {
+  type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP';
 };
 type CloseCantAddContactToGroupModalActionType = {
   type: 'CLOSE_CANT_ADD_CONTACT_TO_GROUP_MODAL';
@@ -470,7 +471,7 @@ type CreateGroupPendingActionType = {
 type CreateGroupFulfilledActionType = {
   type: 'CREATE_GROUP_FULFILLED';
   payload: {
-    invitedConversationIds: Array<string>;
+    invitedUuids: Array<UUIDStringType>;
   };
 };
 type CreateGroupRejectedActionType = {
@@ -689,7 +690,7 @@ export type ConversationActionType =
   | CantAddContactToGroupActionType
   | ClearChangedMessagesActionType
   | ClearGroupCreationErrorActionType
-  | ClearInvitedConversationsForNewlyCreatedGroupActionType
+  | ClearInvitedUuidsForNewlyCreatedGroupActionType
   | ClearSelectedMessageActionType
   | ClearUnreadMetricsActionType
   | CloseCantAddContactToGroupModalActionType
@@ -751,7 +752,7 @@ export const actions = {
   cantAddContactToGroup,
   clearChangedMessages,
   clearGroupCreationError,
-  clearInvitedConversationsForNewlyCreatedGroup,
+  clearInvitedUuidsForNewlyCreatedGroup,
   clearSelectedMessage,
   clearUnreadMetrics,
   closeCantAddContactToGroupModal,
@@ -1320,9 +1321,9 @@ function createGroup(): ThunkAction<
       dispatch({
         type: 'CREATE_GROUP_FULFILLED',
         payload: {
-          invitedConversationIds: (
-            conversation.get('pendingMembersV2') || []
-          ).map(member => member.conversationId),
+          invitedUuids: (conversation.get('pendingMembersV2') || []).map(
+            member => member.uuid
+          ),
         },
       });
       openConversationInternal({
@@ -1551,8 +1552,8 @@ function clearChangedMessages(
     },
   };
 }
-function clearInvitedConversationsForNewlyCreatedGroup(): ClearInvitedConversationsForNewlyCreatedGroupActionType {
-  return { type: 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP' };
+function clearInvitedUuidsForNewlyCreatedGroup(): ClearInvitedUuidsForNewlyCreatedGroupActionType {
+  return { type: 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP' };
 }
 function clearGroupCreationError(): ClearGroupCreationErrorActionType {
   return { type: 'CLEAR_GROUP_CREATION_ERROR' };
@@ -1979,8 +1980,8 @@ export function reducer(
     };
   }
 
-  if (action.type === 'CLEAR_INVITED_CONVERSATIONS_FOR_NEWLY_CREATED_GROUP') {
-    return omit(state, 'invitedConversationIdsForNewlyCreatedGroup');
+  if (action.type === 'CLEAR_INVITED_UUIDS_FOR_NEWLY_CREATED_GROUP') {
+    return omit(state, 'invitedUuidsForNewlyCreatedGroup');
   }
 
   if (action.type === 'CLEAR_GROUP_CREATION_ERROR') {
@@ -2169,8 +2170,7 @@ export function reducer(
     //   the work.
     return {
       ...state,
-      invitedConversationIdsForNewlyCreatedGroup:
-        action.payload.invitedConversationIds,
+      invitedUuidsForNewlyCreatedGroup: action.payload.invitedUuids,
     };
   }
   if (action.type === 'CREATE_GROUP_REJECTED') {

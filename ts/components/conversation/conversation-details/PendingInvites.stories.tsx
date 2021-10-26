@@ -7,6 +7,7 @@ import { times } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
+import { UUID } from '../../../types/UUID';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import type { PropsType } from './PendingInvites';
@@ -40,11 +41,13 @@ const conversation: ConversationType = {
   sharedGroupNames: [],
 };
 
+const OUR_UUID = UUID.generate().toString();
+
 const createProps = (): PropsType => ({
   approvePendingMembership: action('approvePendingMembership'),
   conversation,
   i18n,
-  ourConversationId: 'abc123',
+  ourUuid: OUR_UUID,
   pendingApprovalMemberships: times(5, () => ({
     member: getDefaultConversation(),
   })),
@@ -52,13 +55,13 @@ const createProps = (): PropsType => ({
     ...times(4, () => ({
       member: getDefaultConversation(),
       metadata: {
-        addedByUserId: 'abc123',
+        addedByUserId: OUR_UUID,
       },
     })),
     ...times(8, () => ({
       member: getDefaultConversation(),
       metadata: {
-        addedByUserId: 'def456',
+        addedByUserId: UUID.generate().toString(),
       },
     })),
   ],

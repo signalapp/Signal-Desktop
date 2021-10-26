@@ -13,10 +13,9 @@ import type {
 import type { ConversationModel } from './models/conversations';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
-import { isValidGuid } from './util/isValidGuid';
 import { map, reduce } from './util/iterables';
 import { isGroupV1, isGroupV2 } from './util/whatTypeOfConversation';
-import { UUID } from './types/UUID';
+import { UUID, isValidUuid } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
@@ -25,7 +24,7 @@ const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
 const {
   getAllConversations,
-  getAllGroupsInvolvingId,
+  getAllGroupsInvolvingUuid,
   getMessagesBySentAt,
   migrateConversationMessages,
   removeConversation,
@@ -181,7 +180,7 @@ export class ConversationController {
       return conversation;
     }
 
-    const id = window.getGuid();
+    const id = UUID.generate().toString();
 
     if (type === 'group') {
       conversation = this._conversations.add({
@@ -193,7 +192,7 @@ export class ConversationController {
         version: 2,
         ...additionalInitialProps,
       });
-    } else if (window.isValidGuid(identifier)) {
+    } else if (isValidUuid(identifier)) {
       conversation = this._conversations.add({
         id,
         uuid: identifier,
@@ -617,7 +616,7 @@ export class ConversationController {
     }
 
     const obsoleteId = obsolete.get('id');
-    const obsoleteUuid = obsolete.get('uuid');
+    const obsoleteUuid = obsolete.getUuid();
     const currentId = current.get('id');
     log.warn('combineConversations: Combining two conversations', {
       obsolete: obsoleteId,
@@ -643,13 +642,13 @@ export class ConversationController {
       const ourUuid = window.textsecure.storage.user.getCheckedUuid();
       const deviceIds = await window.textsecure.storage.protocol.getDeviceIds({
         ourUuid,
-        identifier: obsoleteUuid,
+        identifier: obsoleteUuid.toString(),
       });
       await Promise.all(
         deviceIds.map(async deviceId => {
           const addr = new QualifiedAddress(
             ourUuid,
-            Address.create(obsoleteUuid, deviceId)
+            new Address(obsoleteUuid, deviceId)
           );
           await window.textsecure.storage.protocol.removeSession(addr);
         })
@@ -661,14 +660,14 @@ export class ConversationController {
 
       if (obsoleteUuid) {
         await window.textsecure.storage.protocol.removeIdentityKey(
-          new UUID(obsoleteUuid)
+          obsoleteUuid
         );
       }
 
       log.warn(
         'combineConversations: Ensure that all V1 groups have new conversationId instead of old'
       );
-      const groups = await this.getAllGroupsInvolvingId(obsoleteId);
+      const groups = await this.getAllGroupsInvolvingUuid(obsoleteUuid);
       groups.forEach(group => {
         const members = group.get('members');
         const withoutObsolete = without(members, obsoleteId);
@@ -737,10 +736,10 @@ export class ConversationController {
     return null;
   }
 
-  async getAllGroupsInvolvingId(
-    conversationId: string
+  async getAllGroupsInvolvingUuid(
+    uuid: UUID
   ): Promise<Array<ConversationModel>> {
-    const groups = await getAllGroupsInvolvingId(conversationId, {
+    const groups = await getAllGroupsInvolvingUuid(uuid.toString(), {
       ConversationCollection: window.Whisper.ConversationCollection,
     });
     return groups.map(group => {
@@ -836,7 +835,7 @@ export class ConversationController {
               // Clean up the conversations that have UUID as their e164.
               const e164 = conversation.get('e164');
               const uuid = conversation.get('uuid');
-              if (isValidGuid(e164) && uuid) {
+              if (isValidUuid(e164) && uuid) {
                 conversation.set({ e164: undefined });
                 updateConversation(conversation.attributes);
 

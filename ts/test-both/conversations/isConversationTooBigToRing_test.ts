@@ -4,8 +4,8 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { times } from 'lodash';
-import { v4 as uuid } from 'uuid';
 import * as remoteConfig from '../../RemoteConfig';
+import { UUID } from '../../types/UUID';
 
 import { isConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing';
 
@@ -23,7 +23,7 @@ describe('isConversationTooBigToRing', () => {
   });
 
   const fakeMemberships = (count: number) =>
-    times(count, () => ({ conversationId: uuid(), isAdmin: false }));
+    times(count, () => ({ uuid: UUID.generate().toString(), isAdmin: false }));
 
   afterEach(() => {
     sinonSandbox.restore();

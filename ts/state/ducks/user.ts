@@ -6,6 +6,7 @@ import { trigger } from '../../shims/events';
 import type { NoopActionType } from './noop';
 import type { LocalizerType } from '../../types/Util';
 import { ThemeType } from '../../types/Util';
+import type { UUIDStringType } from '../../types/UUID';
 
 // State
 
@@ -15,7 +16,7 @@ export type UserStateType = {
   tempPath: string;
   ourConversationId: string;
   ourDeviceId: number;
-  ourUuid: string;
+  ourUuid: UUIDStringType;
   ourNumber: string;
   platform: string;
   regionCode: string;
@@ -31,7 +32,7 @@ type UserChangedActionType = {
   payload: {
     ourConversationId?: string;
     ourDeviceId?: number;
-    ourUuid?: string;
+    ourUuid?: UUIDStringType;
     ourNumber?: string;
     regionCode?: string;
     interactionMode?: 'mouse' | 'keyboard';
@@ -53,7 +54,7 @@ function userChanged(attributes: {
   ourConversationId?: string;
   ourDeviceId?: number;
   ourNumber?: string;
-  ourUuid?: string;
+  ourUuid?: UUIDStringType;
   regionCode?: string;
   theme?: ThemeType;
 }): UserChangedActionType {
@@ -81,7 +82,7 @@ export function getEmptyState(): UserStateType {
     tempPath: 'missing',
     ourConversationId: 'missing',
     ourDeviceId: 0,
-    ourUuid: 'missing',
+    ourUuid: '00000000-0000-4000-8000-000000000000',
     ourNumber: 'missing',
     regionCode: 'missing',
     platform: 'missing',

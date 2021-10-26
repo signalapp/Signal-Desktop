@@ -13,6 +13,7 @@ import type {
 import { getIncomingCall as getIncomingCallHelper } from '../ducks/calling';
 import { getUserUuid } from './user';
 import { getOwn } from '../../util/getOwn';
+import type { UUIDStringType } from '../../types/UUID';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 
@@ -61,7 +62,7 @@ export const getIncomingCall = createSelector(
   getUserUuid,
   (
     callsByConversation: CallsByConversationType,
-    ourUuid: string
+    ourUuid: UUIDStringType
   ): undefined | DirectCallStateType | GroupCallStateType =>
     getIncomingCallHelper(callsByConversation, ourUuid)
 );

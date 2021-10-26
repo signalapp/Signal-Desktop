@@ -34,7 +34,6 @@ const MAX_ANIMATED_STICKER_BYTE_LENGTH = 300 * 1024;
 window.ROOT_PATH = window.location.href.startsWith('file') ? '../../' : '/';
 window.getEnvironment = getEnvironment;
 window.getVersion = () => config.version;
-window.getGuid = require('uuid/v4');
 window.PQueue = require('p-queue').default;
 window.Backbone = require('backbone');
 

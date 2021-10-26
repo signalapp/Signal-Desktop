@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { v4 as uuid } from 'uuid';
 
 import * as Bytes from '../../Bytes';
 import {
@@ -11,6 +10,7 @@ import {
   decryptProfileName,
   decryptProfile,
 } from '../../Crypto';
+import { UUID } from '../../types/UUID';
 import { encryptProfileData } from '../../util/encryptProfileData';
 
 describe('encryptProfileData', () => {
@@ -22,7 +22,7 @@ describe('encryptProfileData', () => {
       familyName: 'Kid',
       firstName: 'Zombie',
       profileKey: Bytes.toBase64(keyBuffer),
-      uuid: uuid(),
+      uuid: UUID.generate().toString(),
 
       // To satisfy TS
       acceptedMessageRequest: true,

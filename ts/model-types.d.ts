@@ -26,6 +26,7 @@ import { AttachmentType, ThumbnailType } from './types/Attachment';
 import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
+import { UUIDStringType } from './types/UUID';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -181,7 +182,7 @@ export type MessageAttributesType = {
   serverGuid?: string;
   serverTimestamp?: number;
   source?: string;
-  sourceUuid?: string;
+  sourceUuid?: UUIDStringType;
 
   timestamp: number;
 
@@ -253,7 +254,7 @@ export type ConversationAttributesType = {
   version: number;
 
   // Private core info
-  uuid?: string;
+  uuid?: UUIDStringType;
   e164?: string;
 
   // Private other fields
@@ -327,7 +328,7 @@ export type ConversationAttributesType = {
 };
 
 export type GroupV2MemberType = {
-  conversationId: string;
+  uuid: UUIDStringType;
   role: MemberRoleEnum;
   joinedAtVersion: number;
 
@@ -339,14 +340,14 @@ export type GroupV2MemberType = {
 };
 
 export type GroupV2PendingMemberType = {
-  addedByUserId?: string;
-  conversationId: string;
+  addedByUserId?: UUIDStringType;
+  uuid: UUIDStringType;
   timestamp: number;
   role: MemberRoleEnum;
 };
 
 export type GroupV2PendingAdminApprovalType = {
-  conversationId: string;
+  uuid: UUIDStringType;
   timestamp: number;
 };
 

@@ -273,7 +273,7 @@ export async function sendToGroupViaSenderKey(options: {
     conversation.set({
       senderKeyInfo: {
         createdAtDate: Date.now(),
-        distributionId: window.getGuid(),
+        distributionId: UUID.generate().toString(),
         memberDevices: [],
       },
     });

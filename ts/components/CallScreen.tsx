@@ -38,6 +38,7 @@ import { GroupCallRemoteParticipants } from './GroupCallRemoteParticipants';
 import type { LocalizerType } from '../types/Util';
 import { NeedsScreenRecordingPermissionsModal } from './NeedsScreenRecordingPermissionsModal';
 import { missingCaseError } from '../util/missingCaseError';
+import type { UUIDStringType } from '../types/UUID';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import { useActivateSpeakerViewOnPresenting } from '../hooks/useActivateSpeakerViewOnPresenting';
 
@@ -57,7 +58,7 @@ export type PropsType = {
     phoneNumber?: string;
     profileName?: string;
     title: string;
-    uuid: string;
+    uuid: UUIDStringType;
   };
   openSystemPreferencesAction: () => unknown;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;

@@ -63,7 +63,7 @@ export type EmojiType = {
 
 export type IdentityKeyType = {
   firstUse: boolean;
-  id: UUIDStringType | `conversation:${UUIDStringType}`;
+  id: UUIDStringType | `conversation:${string}`;
   nonblockingApproval: boolean;
   publicKey: Uint8Array;
   timestamp: number;
@@ -501,7 +501,9 @@ export type DataInterface = {
 
 export type ServerInterface = DataInterface & {
   getAllConversations: () => Promise<Array<ConversationType>>;
-  getAllGroupsInvolvingId: (id: string) => Promise<Array<ConversationType>>;
+  getAllGroupsInvolvingUuid: (
+    id: UUIDStringType
+  ) => Promise<Array<ConversationType>>;
   getAllPrivateConversations: () => Promise<Array<ConversationType>>;
   getConversationById: (id: string) => Promise<ConversationType | undefined>;
   getExpiredMessages: () => Promise<Array<MessageType>>;
@@ -528,7 +530,7 @@ export type ServerInterface = DataInterface & {
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getLastConversationMessages: (options: {
     conversationId: string;
-    ourConversationId: string;
+    ourUuid: UUIDStringType;
   }) => Promise<LastConversationMessagesServerType>;
   getTapToViewMessagesNeedingErase: () => Promise<Array<MessageType>>;
   removeConversation: (id: Array<string> | string) => Promise<void>;
@@ -576,8 +578,8 @@ export type ClientInterface = DataInterface & {
   getAllConversations: (options: {
     ConversationCollection: typeof ConversationModelCollectionType;
   }) => Promise<ConversationModelCollectionType>;
-  getAllGroupsInvolvingId: (
-    id: string,
+  getAllGroupsInvolvingUuid: (
+    id: UUIDStringType,
     options: {
       ConversationCollection: typeof ConversationModelCollectionType;
     }
@@ -630,7 +632,7 @@ export type ClientInterface = DataInterface & {
   ) => Promise<MessageModelCollectionType>;
   getLastConversationMessages: (options: {
     conversationId: string;
-    ourConversationId: string;
+    ourUuid: UUIDStringType;
     Message: typeof MessageModel;
   }) => Promise<LastConversationMessagesType>;
   getTapToViewMessagesNeedingErase: (options: {

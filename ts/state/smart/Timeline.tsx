@@ -20,7 +20,7 @@ import type { ConversationType } from '../ducks/conversations';
 
 import { getIntl } from '../selectors/user';
 import {
-  getConversationByIdSelector,
+  getConversationByUuidSelector,
   getConversationMessagesSelector,
   getConversationSelector,
   getConversationsByTitleSelector,
@@ -208,11 +208,11 @@ const getWarning = (
         return undefined;
       }
 
-      const getConversationById = getConversationByIdSelector(state);
+      const getConversationByUuid = getConversationByUuidSelector(state);
 
       const { memberships } = getGroupMemberships(
         conversation,
-        getConversationById
+        getConversationByUuid
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
       const hasGroupMembersWithSameName = !isEmpty(groupNameCollisions);
@@ -244,7 +244,7 @@ const getContactSpoofingReview = (
   }
 
   const conversationSelector = getConversationSelector(state);
-  const getConversationById = getConversationByIdSelector(state);
+  const getConversationByUuid = getConversationByUuidSelector(state);
 
   const currentConversation = conversationSelector(selectedConversationId);
 
@@ -260,7 +260,7 @@ const getContactSpoofingReview = (
     case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
       const { memberships } = getGroupMemberships(
         currentConversation,
-        getConversationById
+        getConversationByUuid
       );
       const groupNameCollisions = getCollisionsFromMemberships(memberships);
 

@@ -33,6 +33,7 @@ import { assert, strictAssert } from '../util/assert';
 import { cleanDataForIpc } from './cleanDataForIpc';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
+import type { UUIDStringType } from '../types/UUID';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
@@ -204,7 +205,7 @@ const dataInterface: ClientInterface = {
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
-  getAllGroupsInvolvingId,
+  getAllGroupsInvolvingUuid,
 
   searchConversations,
   searchMessages,
@@ -1044,15 +1045,15 @@ async function getAllPrivateConversations({
   return collection;
 }
 
-async function getAllGroupsInvolvingId(
-  id: string,
+async function getAllGroupsInvolvingUuid(
+  uuid: UUIDStringType,
   {
     ConversationCollection,
   }: {
     ConversationCollection: typeof ConversationModelCollectionType;
   }
 ) {
-  const conversations = await channels.getAllGroupsInvolvingId(id);
+  const conversations = await channels.getAllGroupsInvolvingUuid(uuid);
 
   const collection = new ConversationCollection();
   collection.add(conversations);
@@ -1325,11 +1326,11 @@ async function getNewerMessagesByConversation(
 }
 async function getLastConversationMessages({
   conversationId,
-  ourConversationId,
+  ourUuid,
   Message,
 }: {
   conversationId: string;
-  ourConversationId: string;
+  ourUuid: UUIDStringType;
   Message: typeof MessageModel;
 }): Promise<LastConversationMessagesType> {
   const {
@@ -1338,7 +1339,7 @@ async function getLastConversationMessages({
     hasUserInitiatedMessages,
   } = await channels.getLastConversationMessages({
     conversationId,
-    ourConversationId,
+    ourUuid,
   });
 
   return {

@@ -4,6 +4,8 @@
 import { v4 as generateUuid } from 'uuid';
 import { sample } from 'lodash';
 import type { ConversationType } from '../../state/ducks/conversations';
+import { UUID } from '../../types/UUID';
+import type { UUIDStringType } from '../../types/UUID';
 import { getRandomColor } from './getRandomColor';
 
 const FIRST_NAMES = [
@@ -334,7 +336,17 @@ export function getDefaultConversation(
     sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     type: 'direct' as const,
-    uuid: generateUuid(),
+    uuid: UUID.generate().toString(),
     ...overrideProps,
+  };
+}
+
+export function getDefaultConversationWithUuid(
+  overrideProps: Partial<ConversationType> = {},
+  uuid: UUIDStringType = UUID.generate().toString()
+): ConversationType & { uuid: UUIDStringType } {
+  return {
+    ...getDefaultConversation(overrideProps),
+    uuid,
   };
 }

@@ -8,7 +8,6 @@ const chaiAsPromised = require('chai-as-promised');
 
 const { Crypto } = require('../ts/context/Crypto');
 const { setEnvironment, Environment } = require('../ts/environment');
-const { isValidGuid } = require('../ts/util/isValidGuid');
 
 chai.use(chaiAsPromised);
 
@@ -31,7 +30,6 @@ global.window = {
     get: key => storageMap.get(key),
     put: async (key, value) => storageMap.set(key, value),
   },
-  isValidGuid,
 };
 
 // For ducks/network.getEmptyState()

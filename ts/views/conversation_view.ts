@@ -1258,7 +1258,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     });
 
     const invitedMemberIds = pendingMembersV2.map(
-      (item: GroupV2PendingMemberType) => item.conversationId
+      (item: GroupV2PendingMemberType) => item.uuid
     );
 
     this.migrationDialog = new Whisper.ReactWrapperView({

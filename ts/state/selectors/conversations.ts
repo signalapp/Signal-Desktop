@@ -27,6 +27,7 @@ import { filterAndSortConversationsByTitle } from '../../util/filterAndSortConve
 import type { ContactNameColorType } from '../../types/Colors';
 import { ContactNameColors } from '../../types/Colors';
 import type { AvatarDataType } from '../../types/Avatar';
+import type { UUIDStringType } from '../../types/UUID';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 import { sortByTitle } from '../../util/sortByTitle';
 import {
@@ -668,6 +669,12 @@ export const getConversationByIdSelector = createSelector(
     getOwn(conversationLookup, id)
 );
 
+export const getConversationByUuidSelector = createSelector(
+  getConversationsByUuid,
+  conversationsByUuid => (uuid: UUIDStringType): undefined | ConversationType =>
+    getOwn(conversationsByUuid, uuid)
+);
+
 // A little optimization to reset our selector cache whenever high-level application data
 //   changes: regionCode and userNumber.
 export const getCachedSelectorForMessage = createSelector(
@@ -766,7 +773,7 @@ export const getMessageSelector = createSelector(
     conversationSelector: GetConversationByIdType,
     regionCode: string,
     ourNumber: string,
-    ourUuid: string,
+    ourUuid: UUIDStringType,
     ourConversationId: string,
     callSelector: CallSelectorType,
     activeCall: undefined | CallStateType,
@@ -903,16 +910,13 @@ export const getConversationMessagesSelector = createSelector(
 );
 
 export const getInvitedContactsForNewlyCreatedGroup = createSelector(
-  getConversationLookup,
+  getConversationsByUuid,
   getConversations,
   (
     conversationLookup,
-    { invitedConversationIdsForNewlyCreatedGroup = [] }
+    { invitedUuidsForNewlyCreatedGroup = [] }
   ): Array<ConversationType> =>
-    deconstructLookup(
-      conversationLookup,
-      invitedConversationIdsForNewlyCreatedGroup
-    )
+    deconstructLookup(conversationLookup, invitedUuidsForNewlyCreatedGroup)
 );
 
 export const getConversationsWithCustomColorSelector = createSelector(
@@ -962,7 +966,7 @@ export const getGroupAdminsSelector = createSelector(
       const admins: Array<ConversationType> = [];
       memberships.forEach(membership => {
         if (membership.isAdmin) {
-          const admin = conversationSelector(membership.conversationId);
+          const admin = conversationSelector(membership.uuid);
           admins.push(admin);
         }
       });

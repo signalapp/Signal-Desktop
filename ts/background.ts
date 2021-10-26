@@ -3608,6 +3608,7 @@ export async function startApp(): Promise<void> {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId,
+      sourceUuid,
       sourceDevice,
       type,
     });
@@ -3791,6 +3792,7 @@ export async function startApp(): Promise<void> {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId,
+      sourceUuid,
       sourceDevice,
       type: MessageReceiptType.Delivery,
     });

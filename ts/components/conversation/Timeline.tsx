@@ -130,7 +130,7 @@ export type PropsActionsType = {
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
   clearChangedMessages: (conversationId: string) => unknown;
-  clearInvitedConversationsForNewlyCreatedGroup: () => void;
+  clearInvitedUuidsForNewlyCreatedGroup: () => void;
   closeContactSpoofingReview: () => void;
   setLoadCountdownStart: (
     conversationId: string,
@@ -231,7 +231,7 @@ const getActions = createSelector(
     const unsafe = pick(props, [
       'acknowledgeGroupMemberNameCollisions',
       'clearChangedMessages',
-      'clearInvitedConversationsForNewlyCreatedGroup',
+      'clearInvitedUuidsForNewlyCreatedGroup',
       'closeContactSpoofingReview',
       'setLoadCountdownStart',
       'setIsNearBottom',
@@ -1313,7 +1313,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const {
       acknowledgeGroupMemberNameCollisions,
       areWeAdmin,
-      clearInvitedConversationsForNewlyCreatedGroup,
+      clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
       i18n,
@@ -1566,7 +1566,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
           <NewlyCreatedGroupInvitedContactsDialog
             contacts={invitedContactsForNewlyCreatedGroup}
             i18n={i18n}
-            onClose={clearInvitedConversationsForNewlyCreatedGroup}
+            onClose={clearInvitedUuidsForNewlyCreatedGroup}
           />
         )}
 

@@ -10,6 +10,7 @@ import { ConversationDetails } from '../../components/conversation/conversation-
 import {
   getCandidateContactsForNewGroup,
   getConversationByIdSelector,
+  getConversationByUuidSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { getIntl } from '../selectors/user';
@@ -67,6 +68,7 @@ const mapStateToProps = (
     Boolean(conversation.groupLink) &&
     conversation.accessControlAddFromInviteLink !== ACCESS_ENUM.UNSATISFIABLE;
 
+  const conversationByUuidSelector = getConversationByUuidSelector(state);
   return {
     ...props,
     canEditGroupInfo,
@@ -74,7 +76,7 @@ const mapStateToProps = (
     conversation,
     i18n: getIntl(state),
     isAdmin,
-    ...getGroupMemberships(conversation, conversationSelector),
+    ...getGroupMemberships(conversation, conversationByUuidSelector),
     userAvatarData: conversation.avatars || [],
     hasGroupLink,
     isGroup: conversation.type === 'group',

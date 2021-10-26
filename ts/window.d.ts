@@ -102,7 +102,6 @@ import { SocketStatus } from './types/SocketStatus';
 import SyncRequest from './textsecure/SyncRequest';
 import { ConversationColorType, CustomColorType } from './types/Colors';
 import { MessageController } from './util/MessageController';
-import { isValidGuid } from './util/isValidGuid';
 import { StateType } from './state/reducer';
 import { SystemTraySetting } from './types/SystemTraySetting';
 import { UUID } from './types/UUID';
@@ -199,7 +198,6 @@ declare global {
     getBuildCreation: () => number;
     getEnvironment: typeof getEnvironment;
     getExpiration: () => string;
-    getGuid: () => string;
     getHostName: () => string;
     getInboxCollection: () => ConversationModelCollectionType;
     getInteractionMode: () => 'mouse' | 'keyboard';
@@ -219,7 +217,6 @@ declare global {
     isAfterVersion: (version: string, anotherVersion: string) => boolean;
     isBeforeVersion: (version: string, anotherVersion: string) => boolean;
     isFullScreen: () => boolean;
-    isValidGuid: typeof isValidGuid;
     libphonenumber: {
       util: {
         getRegionCodeForNumber: (number: string) => string;

@@ -378,14 +378,12 @@ try {
   });
 
   const { imageToBlurHash } = require('./ts/util/imageToBlurHash');
-  const { isValidGuid } = require('./ts/util/isValidGuid');
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
   window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
-  window.getGuid = require('uuid/v4');
 
   const activeWindowService = new ActiveWindowService();
   activeWindowService.initialize(window.document, ipc);
@@ -400,8 +398,6 @@ try {
   window.Accessibility = {
     reducedMotionSetting: Boolean(config.reducedMotionSetting),
   };
-
-  window.isValidGuid = isValidGuid;
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');

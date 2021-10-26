@@ -16,6 +16,7 @@ import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
 import type { LocalizerType, BodyRangeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
+import { isValidUuid } from '../types/UUID';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
   matchEmojiImage,
@@ -465,7 +466,7 @@ export function CompositionInput(props: Props): React.ReactElement {
 
     const currentMemberUuids = currentMembers
       .map(m => m.uuid)
-      .filter((uuid): uuid is string => uuid !== undefined);
+      .filter(isValidUuid);
 
     const newDelta = getDeltaToRemoveStaleMentions(ops, currentMemberUuids);
 

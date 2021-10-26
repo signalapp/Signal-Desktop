@@ -48,8 +48,13 @@ import { noopAction } from '../../../state/ducks/noop';
 import type { StateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { setupI18n } from '../../../util/setupI18n';
+import { UUID } from '../../../types/UUID';
+import type { UUIDStringType } from '../../../types/UUID';
 import enMessages from '../../../../_locales/en/messages.json';
-import { getDefaultConversation } from '../../helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultConversationWithUuid,
+} from '../../helpers/getDefaultConversation';
 import {
   defaultStartDirectConversationComposerState,
   defaultChooseGroupMembersComposerState,
@@ -67,6 +72,19 @@ describe('both/state/selectors/conversations', () => {
       searchableTitle: `${id} title`,
       title: `${id} title`,
     });
+  }
+
+  function makeConversationWithUuid(
+    id: string
+  ): ConversationType & { uuid: UUIDStringType } {
+    return getDefaultConversationWithUuid(
+      {
+        id,
+        searchableTitle: `${id} title`,
+        title: `${id} title`,
+      },
+      UUID.fromPrefix(id).toString()
+    );
   }
 
   const i18n = setupI18n('en', enMessages);
@@ -374,15 +392,17 @@ describe('both/state/selectors/conversations', () => {
     });
 
     it('returns "hydrated" invited contacts', () => {
+      const abc = makeConversationWithUuid('abc');
+      const def = makeConversationWithUuid('def');
       const state = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          conversationLookup: {
-            abc: makeConversation('abc'),
-            def: makeConversation('def'),
+          conversationsByUuid: {
+            [abc.uuid]: abc,
+            [def.uuid]: def,
           },
-          invitedConversationIdsForNewlyCreatedGroup: ['def', 'abc'],
+          invitedUuidsForNewlyCreatedGroup: [def.uuid, abc.uuid],
         },
       };
       const result = getInvitedContactsForNewlyCreatedGroup(state);
@@ -1826,23 +1846,17 @@ describe('both/state/selectors/conversations', () => {
   });
 
   describe('#getContactNameColorSelector', () => {
-    function makeConversationWithUuid(id: string): ConversationType {
-      const convo = makeConversation(id);
-      convo.uuid = id;
-      return convo;
-    }
-
     it('returns the right color order sorted by UUID ASC', () => {
       const group = makeConversation('group');
       group.type = 'group';
       group.sortedGroupMembers = [
-        makeConversationWithUuid('zyx'),
-        makeConversationWithUuid('vut'),
-        makeConversationWithUuid('srq'),
-        makeConversationWithUuid('pon'),
-        makeConversationWithUuid('mlk'),
-        makeConversationWithUuid('jih'),
-        makeConversationWithUuid('gfe'),
+        makeConversationWithUuid('fff'),
+        makeConversationWithUuid('f00'),
+        makeConversationWithUuid('e00'),
+        makeConversationWithUuid('d00'),
+        makeConversationWithUuid('c00'),
+        makeConversationWithUuid('b00'),
+        makeConversationWithUuid('a00'),
       ];
       const state = {
         ...getEmptyRootState(),
@@ -1856,13 +1870,13 @@ describe('both/state/selectors/conversations', () => {
 
       const contactNameColorSelector = getContactNameColorSelector(state);
 
-      assert.equal(contactNameColorSelector('group', 'gfe'), '200');
-      assert.equal(contactNameColorSelector('group', 'jih'), '120');
-      assert.equal(contactNameColorSelector('group', 'mlk'), '300');
-      assert.equal(contactNameColorSelector('group', 'pon'), '010');
-      assert.equal(contactNameColorSelector('group', 'srq'), '210');
-      assert.equal(contactNameColorSelector('group', 'vut'), '330');
-      assert.equal(contactNameColorSelector('group', 'zyx'), '230');
+      assert.equal(contactNameColorSelector('group', 'a00'), '200');
+      assert.equal(contactNameColorSelector('group', 'b00'), '120');
+      assert.equal(contactNameColorSelector('group', 'c00'), '300');
+      assert.equal(contactNameColorSelector('group', 'd00'), '010');
+      assert.equal(contactNameColorSelector('group', 'e00'), '210');
+      assert.equal(contactNameColorSelector('group', 'f00'), '330');
+      assert.equal(contactNameColorSelector('group', 'fff'), '230');
     });
 
     it('returns the right colors for direct conversation', () => {

@@ -6,7 +6,8 @@ import type { Database } from 'better-sqlite3';
 import SQL from 'better-sqlite3';
 import { v4 as generateGuid } from 'uuid';
 
-import { SCHEMA_VERSIONS } from '../sql/Server';
+import { SCHEMA_VERSIONS } from '../sql/migrations';
+import { consoleLogger } from '../util/consoleLogger';
 
 const OUR_UUID = generateGuid();
 
@@ -17,7 +18,7 @@ describe('SQL migrations test', () => {
     const startVersion = db.pragma('user_version', { simple: true });
 
     for (const run of SCHEMA_VERSIONS) {
-      run(startVersion, db);
+      run(startVersion, db, consoleLogger);
 
       const currentVersion = db.pragma('user_version', { simple: true });
 
@@ -614,6 +615,159 @@ describe('SQL migrations test', () => {
         .all();
 
       assert.sameDeepMembers(reactionMessageIds, [MESSAGE_ID_2, MESSAGE_ID_3]);
+    });
+  });
+
+  describe('updateToSchemaVersion43', () => {
+    it('remaps conversation ids to UUIDs in groups and messages', () => {
+      updateToVersion(42);
+
+      const UUID_A = generateGuid();
+      const UUID_B = generateGuid();
+      const UUID_C = generateGuid();
+
+      const rawConvoC = {
+        id: 'c',
+        uuid: UUID_C,
+        membersV2: [
+          { conversationId: 'a', joinedAtVersion: 1 },
+          { conversationId: 'b', joinedAtVersion: 2 },
+          { conversationId: 'z', joinedAtVersion: 3 },
+        ],
+        pendingMembersV2: [
+          { conversationId: 'a', addedByUserId: 'b', timestamp: 4 },
+          { conversationId: 'b', addedByUserId: UUID_A, timestamp: 5 },
+          { conversationId: 'z', timestamp: 6 },
+        ],
+        pendingAdminApprovalV2: [
+          { conversationId: 'a', timestamp: 6 },
+          { conversationId: 'b', timestamp: 7 },
+          { conversationId: 'z', timestamp: 8 },
+        ],
+      };
+
+      const CHANGE_TYPES = [
+        'member-add',
+        'member-add-from-link',
+        'member-add-from-admin-approval',
+        'member-privilege',
+        'member-remove',
+        'pending-add-one',
+        'admin-approval-add-one',
+      ];
+
+      const CHANGE_TYPES_WITH_INVITER = [
+        'member-add-from-invite',
+        'pending-remove-one',
+        'pending-remove-many',
+        'admin-approval-remove-one',
+      ];
+
+      db.exec(
+        `
+        INSERT INTO conversations
+          (id, uuid, json)
+          VALUES
+          ('a', '${UUID_A}', '${JSON.stringify({ id: 'a', uuid: UUID_A })}'),
+          ('b', '${UUID_B}', '${JSON.stringify({ id: 'b', uuid: UUID_B })}'),
+          ('c', '${UUID_C}', '${JSON.stringify(rawConvoC)}');
+
+        INSERT INTO messages
+          (id, json)
+          VALUES
+          ('m', '${JSON.stringify({
+            id: 'm',
+            groupV2Change: {
+              from: 'a',
+              details: [
+                ...CHANGE_TYPES.map(type => ({ type, conversationId: 'b' })),
+                ...CHANGE_TYPES_WITH_INVITER.map(type => {
+                  return { type, conversationId: 'c', inviter: 'a' };
+                }),
+              ],
+            },
+            sourceUuid: 'a',
+            invitedGV2Members: [
+              {
+                conversationId: 'b',
+                addedByUserId: 'c',
+              },
+            ],
+          })}'),
+          ('n', '${JSON.stringify({
+            id: 'n',
+            groupV2Change: {
+              from: 'not-found',
+              details: [],
+            },
+            sourceUuid: 'a',
+          })}');
+        `
+      );
+
+      updateToVersion(43);
+
+      const { members, json: convoJSON } = db
+        .prepare('SELECT members, json FROM conversations WHERE id = "c"')
+        .get();
+
+      assert.strictEqual(members, `${UUID_A} ${UUID_B}`);
+      assert.deepStrictEqual(JSON.parse(convoJSON), {
+        id: 'c',
+        uuid: UUID_C,
+        membersV2: [
+          { uuid: UUID_A, joinedAtVersion: 1 },
+          { uuid: UUID_B, joinedAtVersion: 2 },
+        ],
+        pendingMembersV2: [
+          { uuid: UUID_A, addedByUserId: UUID_B, timestamp: 4 },
+          { uuid: UUID_B, addedByUserId: UUID_A, timestamp: 5 },
+        ],
+        pendingAdminApprovalV2: [
+          { uuid: UUID_A, timestamp: 6 },
+          { uuid: UUID_B, timestamp: 7 },
+        ],
+      });
+
+      const { json: messageMJSON } = db
+        .prepare('SELECT  json FROM messages WHERE id = "m"')
+        .get();
+
+      assert.deepStrictEqual(JSON.parse(messageMJSON), {
+        id: 'm',
+        groupV2Change: {
+          from: UUID_A,
+          details: [
+            ...CHANGE_TYPES.map(type => ({ type, uuid: UUID_B })),
+            ...CHANGE_TYPES_WITH_INVITER.map(type => {
+              return {
+                type,
+                uuid: UUID_C,
+                inviter: UUID_A,
+              };
+            }),
+          ],
+        },
+        sourceUuid: UUID_A,
+        invitedGV2Members: [
+          {
+            uuid: UUID_B,
+            addedByUserId: UUID_C,
+          },
+        ],
+      });
+
+      const { json: messageNJSON } = db
+        .prepare('SELECT  json FROM messages WHERE id = "n"')
+        .get();
+
+      assert.deepStrictEqual(JSON.parse(messageNJSON), {
+        id: 'n',
+        groupV2Change: {
+          details: [],
+        },
+        sourceUuid: UUID_A,
+      });
     });
   });
 });

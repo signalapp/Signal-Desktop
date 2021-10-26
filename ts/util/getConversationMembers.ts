@@ -3,6 +3,7 @@
 
 import { compact } from 'lodash';
 import type { ConversationAttributesType } from '../model-types.d';
+import type { UUIDStringType } from '../types/UUID';
 import { isDirectConversation } from './whatTypeOfConversation';
 
 export function getConversationMembers(
@@ -15,7 +16,7 @@ export function getConversationMembers(
 
   if (conversationAttrs.membersV2) {
     const { includePendingMembers } = options;
-    const members: Array<{ conversationId: string }> = includePendingMembers
+    const members: Array<{ uuid: UUIDStringType }> = includePendingMembers
       ? [
           ...(conversationAttrs.membersV2 || []),
           ...(conversationAttrs.pendingMembersV2 || []),
@@ -24,9 +25,7 @@ export function getConversationMembers(
 
     return compact(
       members.map(member => {
-        const conversation = window.ConversationController.get(
-          member.conversationId
-        );
+        const conversation = window.ConversationController.get(member.uuid);
 
         // In groups we won't sent to contacts we believe are unregistered
         if (conversation && conversation.isUnregistered()) {

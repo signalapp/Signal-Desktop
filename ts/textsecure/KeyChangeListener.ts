@@ -14,8 +14,8 @@ export function init(signalProtocolStore: SignalProtocolStore): void {
       );
       conversation.addKeyChange(uuid);
 
-      const groups = await window.ConversationController.getAllGroupsInvolvingId(
-        conversation.id
+      const groups = await window.ConversationController.getAllGroupsInvolvingUuid(
+        uuid
       );
       for (const group of groups) {
         group.addKeyChange(uuid);

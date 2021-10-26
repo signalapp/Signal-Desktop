@@ -10,7 +10,6 @@ import {
   SenderKeyRecord,
   SessionRecord,
 } from '@signalapp/signal-client';
-import { v4 as getGuid } from 'uuid';
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';
@@ -36,8 +35,8 @@ const {
 } = signal.proto.storage;
 
 describe('SignalProtocolStore', () => {
-  const ourUuid = new UUID(getGuid());
-  const theirUuid = new UUID(getGuid());
+  const ourUuid = UUID.generate();
+  const theirUuid = UUID.generate();
   let store: SignalProtocolStore;
   let identityKey: KeyPairType;
   let testKey: KeyPairType;
@@ -170,7 +169,7 @@ describe('SignalProtocolStore', () => {
 
   describe('senderKeys', () => {
     it('roundtrips in memory', async () => {
-      const distributionId = window.getGuid();
+      const distributionId = UUID.generate().toString();
       const expected = getSenderKeyRecord();
 
       const deviceId = 1;
@@ -200,7 +199,7 @@ describe('SignalProtocolStore', () => {
     });
 
     it('roundtrips through database', async () => {
-      const distributionId = window.getGuid();
+      const distributionId = UUID.generate().toString();
       const expected = getSenderKeyRecord();
 
       const deviceId = 1;

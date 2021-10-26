@@ -33,6 +33,8 @@ import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 
 import type { ReactionType } from '../types/Reactions';
+import { UUID } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
 import {
   copyStickerToAttachments,
   deletePackReference,
@@ -181,8 +183,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   INITIAL_PROTOCOL_VERSION?: number;
 
-  OUR_UUID?: string;
-
   isSelected?: boolean;
 
   private pendingMarkRead?: number;
@@ -223,7 +223,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     this.CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
     this.INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
-    this.OUR_UUID = window.textsecure.storage.user.getUuid()?.toString();
 
     this.on('change', this.notifyRedux);
   }
@@ -385,7 +384,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         conversationSelector: findAndFormatContact,
         ourConversationId,
         ourNumber: window.textsecure.storage.user.getNumber(),
-        ourUuid: this.OUR_UUID,
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
         regionCode: window.storage.get('regionCode', 'ZZ'),
         accountSelector: (identifier?: string) => {
           const state = window.reduxStore.getState();
@@ -1104,7 +1103,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return sourceDevice || window.textsecure.storage.user.getDeviceId();
   }
 
-  getSourceUuid(): string | undefined {
+  getSourceUuid(): UUIDStringType | undefined {
     if (isIncoming(this.attributes)) {
       return this.get('sourceUuid');
     }
@@ -1114,7 +1113,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
     }
 
-    return this.OUR_UUID;
+    return window.textsecure.storage.user.getUuid()?.toString();
   }
 
   getContactId(): string | undefined {
@@ -2510,7 +2509,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
-      const messageId = window.getGuid();
+      const messageId = UUID.generate().toString();
 
       // Send delivery receipts, but only for incoming sealed sender messages
       // and not for messages from unaccepted conversations

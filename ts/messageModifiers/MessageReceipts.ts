@@ -14,6 +14,7 @@ import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { createWaitBatcher } from '../util/waitBatcher';
+import type { UUIDStringType } from '../types/UUID';
 import {
   SendActionType,
   SendStatus,
@@ -34,6 +35,7 @@ export enum MessageReceiptType {
 type MessageReceiptAttributesType = {
   messageSentAt: number;
   receiptTimestamp: number;
+  sourceUuid: UUIDStringType;
   sourceConversationId: string;
   sourceDevice: number;
   type: MessageReceiptType;
@@ -57,6 +59,7 @@ const deleteSentProtoBatcher = createWaitBatcher({
 
 async function getTargetMessage(
   sourceId: string,
+  sourceUuid: UUIDStringType,
   messages: MessageModelCollectionType
 ): Promise<MessageModel | null> {
   if (messages.length === 0) {
@@ -70,9 +73,12 @@ async function getTargetMessage(
     return window.MessageController.register(message.id, message);
   }
 
-  const groups = await window.Signal.Data.getAllGroupsInvolvingId(sourceId, {
-    ConversationCollection: window.Whisper.ConversationCollection,
-  });
+  const groups = await window.Signal.Data.getAllGroupsInvolvingUuid(
+    sourceUuid,
+    {
+      ConversationCollection: window.Whisper.ConversationCollection,
+    }
+  );
 
   const ids = groups.pluck('id');
   ids.push(sourceId);
@@ -136,6 +142,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
     const type = receipt.get('type');
     const messageSentAt = receipt.get('messageSentAt');
     const sourceConversationId = receipt.get('sourceConversationId');
+    const sourceUuid = receipt.get('sourceUuid');
 
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
@@ -145,7 +152,11 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
         }
       );
 
-      const message = await getTargetMessage(sourceConversationId, messages);
+      const message = await getTargetMessage(
+        sourceConversationId,
+        sourceUuid,
+        messages
+      );
       if (!message) {
         log.info(
           'No message for receipt',

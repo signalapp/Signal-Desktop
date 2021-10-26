@@ -37,7 +37,7 @@ import type { CallbackResultType, CustomError } from './Types.d';
 import { isValidNumber } from '../types/PhoneNumber';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
+import { UUID, isValidUuid } from '../types/UUID';
 import { Sessions, IdentityKeys } from '../LibSignalStores';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { getKeysForIdentifier } from './getKeysForIdentifier';
@@ -656,7 +656,7 @@ export default class OutgoingMessage {
   async sendToIdentifier(providedIdentifier: string): Promise<void> {
     let identifier = providedIdentifier;
     try {
-      if (window.isValidGuid(identifier)) {
+      if (isValidUuid(identifier)) {
         // We're good!
       } else if (isValidNumber(identifier)) {
         if (!window.textsecure.messaging) {

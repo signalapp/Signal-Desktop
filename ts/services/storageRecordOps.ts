@@ -36,8 +36,6 @@ import {
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
-import { UUID } from '../types/UUID';
-import * as Errors from '../types/errors';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
@@ -107,9 +105,9 @@ export async function toContactRecord(
   conversation: ConversationModel
 ): Promise<Proto.ContactRecord> {
   const contactRecord = new Proto.ContactRecord();
-  const uuid = conversation.get('uuid');
+  const uuid = conversation.getUuid();
   if (uuid) {
-    contactRecord.serviceUuid = uuid;
+    contactRecord.serviceUuid = uuid.toString();
   }
   const e164 = conversation.get('e164');
   if (e164) {
@@ -120,15 +118,8 @@ export async function toContactRecord(
     contactRecord.profileKey = Bytes.fromBase64(String(profileKey));
   }
 
-  let maybeUuid: UUID | undefined;
-  try {
-    maybeUuid = uuid ? new UUID(uuid) : undefined;
-  } catch (error) {
-    log.warn(`Invalid uuid in contact record: ${Errors.toLogFormat(error)}`);
-  }
-
-  const identityKey = maybeUuid
-    ? await window.textsecure.storage.protocol.loadIdentityKey(maybeUuid)
+  const identityKey = uuid
+    ? await window.textsecure.storage.protocol.loadIdentityKey(uuid)
     : undefined;
   if (identityKey) {
     contactRecord.identityKey = identityKey;

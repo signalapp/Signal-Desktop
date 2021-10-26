@@ -6,15 +6,18 @@ import { times } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
-import { v4 as generateUuid } from 'uuid';
 
 import { AvatarColors } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import type { PropsType } from './CallingLobby';
 import { CallingLobby } from './CallingLobby';
 import { setupI18n } from '../util/setupI18n';
+import { UUID } from '../types/UUID';
 import enMessages from '../../_locales/en/messages.json';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultConversationWithUuid,
+} from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -60,8 +63,8 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
     isCallFull: boolean('isCallFull', overrideProps.isCallFull || false),
     me: overrideProps.me || {
       color: AvatarColors[0],
-      id: generateUuid(),
-      uuid: generateUuid(),
+      id: UUID.generate().toString(),
+      uuid: UUID.generate().toString(),
     },
     onCallCanceled: action('on-call-canceled'),
     onJoinCall: action('on-join-call'),
@@ -81,8 +84,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
 };
 
 const fakePeekedParticipant = (conversationProps: Partial<ConversationType>) =>
-  getDefaultConversation({
-    uuid: generateUuid(),
+  getDefaultConversationWithUuid({
     ...conversationProps,
   });
 
@@ -106,8 +108,8 @@ story.add('No Camera, local avatar', () => {
     me: {
       avatarPath: '/fixtures/kitten-4-112-112.jpg',
       color: AvatarColors[0],
-      id: generateUuid(),
-      uuid: generateUuid(),
+      id: UUID.generate().toString(),
+      uuid: UUID.generate().toString(),
     },
   });
   return <CallingLobby {...props} />;
@@ -141,11 +143,11 @@ story.add('Group Call - 1 peeked participant', () => {
 });
 
 story.add('Group Call - 1 peeked participant (self)', () => {
-  const uuid = generateUuid();
+  const uuid = UUID.generate().toString();
   const props = createProps({
     isGroupCall: true,
     me: {
-      id: generateUuid(),
+      id: UUID.generate().toString(),
       uuid,
     },
     peekedParticipants: [fakePeekedParticipant({ title: 'Ash', uuid })],

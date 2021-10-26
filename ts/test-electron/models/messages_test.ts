@@ -10,6 +10,7 @@ import MessageSender from '../../textsecure/SendMessage';
 import type { WebAPIType } from '../../textsecure/WebAPI';
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
+import { UUID } from '../../types/UUID';
 import { SignalService as Proto } from '../../protobuf';
 
 describe('Message', () => {
@@ -32,7 +33,7 @@ describe('Message', () => {
 
   const source = '+1 415-555-5555';
   const me = '+14155555556';
-  const ourUuid = window.getGuid();
+  const ourUuid = UUID.generate().toString();
 
   function createMessage(attrs: { [key: string]: unknown }) {
     const messages = new window.Whisper.MessageCollection();
@@ -138,7 +139,7 @@ describe('Message', () => {
 
       const fakeDataMessage = new Uint8Array(0);
       const conversation1Uuid = conversation1.get('uuid');
-      const ignoredUuid = window.getGuid();
+      const ignoredUuid = UUID.generate().toString();
 
       if (!conversation1Uuid) {
         throw new Error('Test setup failed: conversation1 should have a UUID');

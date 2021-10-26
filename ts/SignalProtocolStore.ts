@@ -994,7 +994,7 @@ export class SignalProtocolStore extends EventsMixin {
           id,
           version: 2,
           ourUuid: qualifiedAddress.ourUuid.toString(),
-          conversationId: new UUID(conversationId).toString(),
+          conversationId,
           uuid: uuid.toString(),
           deviceId,
           record: record.serialize().toString('base64'),
@@ -1394,7 +1394,7 @@ export class SignalProtocolStore extends EventsMixin {
       return undefined;
     }
 
-    const conversationId = new UUID(conversation.id).toString();
+    const conversationId = conversation.id;
     const record = this.identityKeys.get(`conversation:${conversationId}`);
     if (!record) {
       return undefined;

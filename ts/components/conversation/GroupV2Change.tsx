@@ -9,6 +9,7 @@ import type { ReplacementValuesType } from '../../types/I18N';
 import type { FullJSXType } from '../Intl';
 import { Intl } from '../Intl';
 import type { LocalizerType } from '../../types/Util';
+import type { UUIDStringType } from '../../types/UUID';
 import { GroupDescriptionText } from '../GroupDescriptionText';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
@@ -21,7 +22,7 @@ import { Modal } from '../Modal';
 
 export type PropsDataType = {
   groupName?: string;
-  ourConversationId: string;
+  ourUuid: UUIDStringType;
   change: GroupV2ChangeType;
 };
 
@@ -78,11 +79,11 @@ const changeToIconMap = new Map<string, GroupIconType>([
 
 function getIcon(
   detail: GroupV2ChangeDetailType,
-  fromId?: string
+  fromId?: UUIDStringType
 ): GroupIconType {
   const changeType = detail.type;
   let possibleIcon = changeToIconMap.get(changeType);
-  const isSameId = fromId === get(detail, 'conversationId', null);
+  const isSameId = fromId === get(detail, 'uuid', null);
   if (isSameId) {
     if (changeType === 'member-remove') {
       possibleIcon = 'group-leave';
@@ -103,7 +104,7 @@ function GroupV2Detail({
 }: {
   detail: GroupV2ChangeDetailType;
   i18n: LocalizerType;
-  fromId?: string;
+  fromId?: UUIDStringType;
   onButtonClick: (x: string) => unknown;
   text: FullJSXType;
 }): JSX.Element {
@@ -132,7 +133,7 @@ function GroupV2Detail({
 }
 
 export function GroupV2Change(props: PropsType): ReactElement {
-  const { change, groupName, i18n, ourConversationId, renderContact } = props;
+  const { change, groupName, i18n, ourUuid, renderContact } = props;
 
   const [groupDescription, setGroupDescription] = useState<
     string | undefined
@@ -142,7 +143,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
     <>
       {renderChange(change, {
         i18n,
-        ourConversationId,
+        ourUuid,
         renderContact,
         renderString: renderStringToIntl,
       }).map((text: FullJSXType, index: number) => (

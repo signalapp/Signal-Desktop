@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { SendStatus } from '../../messages/MessageSendState';
+import { UUID } from '../../types/UUID';
 
 describe('Conversations', () => {
   async function resetConversationController(): Promise<void> {
@@ -16,14 +17,14 @@ describe('Conversations', () => {
 
   it('updates lastMessage even in race conditions with db', async () => {
     const ourNumber = '+15550000000';
-    const ourUuid = window.getGuid();
+    const ourUuid = UUID.generate().toString();
 
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
       avatars: [],
-      id: window.getGuid(),
+      id: UUID.generate().toString(),
       e164: '+15551234567',
-      uuid: window.getGuid(),
+      uuid: UUID.generate().toString(),
       type: 'private',
       inbox_position: 0,
       isPinned: false,
@@ -56,7 +57,7 @@ describe('Conversations', () => {
       hasAttachments: false,
       hasFileAttachments: false,
       hasVisualMediaAttachments: false,
-      id: window.getGuid(),
+      id: UUID.generate().toString(),
       received_at: now,
       sent_at: now,
       timestamp: now,

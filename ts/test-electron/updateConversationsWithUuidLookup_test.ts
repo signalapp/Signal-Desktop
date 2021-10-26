@@ -5,10 +5,10 @@
 
 import { assert } from 'chai';
 import sinon from 'sinon';
-import { v4 as uuid } from 'uuid';
 import { ConversationModel } from '../models/conversations';
 import type { ConversationAttributesType } from '../model-types.d';
 import type SendMessage from '../textsecure/SendMessage';
+import { UUID } from '../types/UUID';
 
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 
@@ -41,7 +41,7 @@ describe('updateConversationsWithUuidLookup', () => {
         'FakeConversationController is not set up for this case (E164 must be provided)'
       );
       assert(
-        uuid,
+        uuidFromServer,
         'FakeConversationController is not set up for this case (UUID must be provided)'
       );
       assert(
@@ -81,7 +81,7 @@ describe('updateConversationsWithUuidLookup', () => {
     attributes: Readonly<Partial<ConversationAttributesType>> = {}
   ): ConversationModel {
     return new ConversationModel({
-      id: uuid(),
+      id: UUID.generate().toString(),
       inbox_position: 0,
       isPinned: false,
       lastMessageDeletedForEveryone: false,
@@ -128,7 +128,7 @@ describe('updateConversationsWithUuidLookup', () => {
       conversationController: new FakeConversationController(),
       conversations: [
         createConversation(),
-        createConversation({ uuid: uuid() }),
+        createConversation({ uuid: UUID.generate().toString() }),
       ],
       messaging: fakeMessaging,
     });
@@ -140,11 +140,11 @@ describe('updateConversationsWithUuidLookup', () => {
     const conversation1 = createConversation({ e164: '+13215559876' });
     const conversation2 = createConversation({
       e164: '+16545559876',
-      uuid: 'should be overwritten',
+      uuid: UUID.generate().toString(), // should be overwritten
     });
 
-    const uuid1 = uuid();
-    const uuid2 = uuid();
+    const uuid1 = UUID.generate().toString();
+    const uuid2 = UUID.generate().toString();
 
     fakeGetUuidsForE164s.resolves({
       '+13215559876': uuid1,
@@ -187,7 +187,7 @@ describe('updateConversationsWithUuidLookup', () => {
   });
 
   it("doesn't mark conversations unregistered if we already had a UUID for them, even if the server doesn't return one", async () => {
-    const existingUuid = uuid();
+    const existingUuid = UUID.generate().toString();
     const conversation = createConversation({
       e164: '+13215559876',
       uuid: existingUuid,

@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { times } from 'lodash';
-import { v4 as generateUuid } from 'uuid';
 import { storiesOf } from '@storybook/react';
 import { boolean, select, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
@@ -21,7 +20,10 @@ import type { PropsType } from './CallScreen';
 import { CallScreen } from './CallScreen';
 import { setupI18n } from '../util/setupI18n';
 import { missingCaseError } from '../util/missingCaseError';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import {
+  getDefaultConversation,
+  getDefaultConversationWithUuid,
+} from '../test-both/helpers/getDefaultConversation';
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
 
@@ -286,10 +288,9 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
   presenting: false,
   sharingScreen: false,
   videoAspectRatio: 1.3,
-  ...getDefaultConversation({
+  ...getDefaultConversationWithUuid({
     isBlocked: index === 10 || index === MAX_PARTICIPANTS - 1,
     title: `Participant ${index + 1}`,
-    uuid: generateUuid(),
   }),
 }));
 

@@ -31,3 +31,11 @@ export function strictAssert(
     throw new Error(message);
   }
 }
+
+/**
+ * Asserts that the type of value is not a promise.
+ * (Useful for database modules)
+ */
+export function assertSync<T, X>(value: T extends Promise<X> ? never : T): T {
+  return value;
+}

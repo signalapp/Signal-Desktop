@@ -35,21 +35,22 @@ import { requestCameraPermissions } from '../../util/callingPermissions';
 import { isGroupCallOutboundRingEnabled } from '../../util/isGroupCallOutboundRingEnabled';
 import { sleep } from '../../util/sleep';
 import { LatestQueue } from '../../util/LatestQueue';
+import type { UUIDStringType } from '../../types/UUID';
 import type { ConversationChangedActionType } from './conversations';
 import * as log from '../../logging/log';
 
 // State
 
 export type GroupCallPeekInfoType = {
-  uuids: Array<string>;
-  creatorUuid?: string;
+  uuids: Array<UUIDStringType>;
+  creatorUuid?: UUIDStringType;
   eraId?: string;
   maxDevices: number;
   deviceCount: number;
 };
 
 export type GroupCallParticipantInfoType = {
-  uuid: string;
+  uuid: UUIDStringType;
   demuxId: number;
   hasRemoteAudio: boolean;
   hasRemoteVideo: boolean;
@@ -77,7 +78,7 @@ type GroupCallRingStateType =
     }
   | {
       ringId: bigint;
-      ringerUuid: string;
+      ringerUuid: UUIDStringType;
     };
 
 export type GroupCallStateType = {
@@ -99,7 +100,7 @@ export type ActiveCallStateType = {
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: Array<PresentableSource>;
-  safetyNumberChangedUuids: Array<string>;
+  safetyNumberChangedUuids: Array<UUIDStringType>;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -153,7 +154,7 @@ type GroupCallStateChangeArgumentType = {
 };
 
 type GroupCallStateChangeActionPayloadType = GroupCallStateChangeArgumentType & {
-  ourUuid: string;
+  ourUuid: UUIDStringType;
 };
 
 export type HangUpType = {
@@ -161,7 +162,7 @@ export type HangUpType = {
 };
 
 type KeyChangedType = {
-  uuid: string;
+  uuid: UUIDStringType;
 };
 
 export type KeyChangeOkType = {
@@ -176,7 +177,7 @@ export type IncomingDirectCallType = {
 type IncomingGroupCallType = {
   conversationId: string;
   ringId: bigint;
-  ringerUuid: string;
+  ringerUuid: UUIDStringType;
 };
 
 type PeekNotConnectedGroupCallType = {
@@ -262,7 +263,7 @@ export const getActiveCall = ({
 //   support it for direct calls.
 export const getIncomingCall = (
   callsByConversation: Readonly<CallsByConversationType>,
-  ourUuid: string
+  ourUuid: UUIDStringType
 ): undefined | DirectCallStateType | GroupCallStateType =>
   Object.values(callsByConversation).find(call => {
     switch (call.callMode) {
@@ -281,7 +282,7 @@ export const getIncomingCall = (
 
 export const isAnybodyElseInGroupCall = (
   { uuids }: Readonly<GroupCallPeekInfoType>,
-  ourUuid: string
+  ourUuid: UUIDStringType
 ): boolean => uuids.some(id => id !== ourUuid);
 
 const getGroupCallRingState = (
@@ -390,7 +391,7 @@ type IncomingGroupCallActionType = {
 type KeyChangedActionType = {
   type: 'calling/MARK_CALL_UNTRUSTED';
   payload: {
-    safetyNumberChangedUuids: Array<string>;
+    safetyNumberChangedUuids: Array<UUIDStringType>;
   };
 };
 
@@ -409,7 +410,7 @@ export type PeekNotConnectedGroupCallFulfilledActionType = {
   payload: {
     conversationId: string;
     peekInfo: GroupCallPeekInfoType;
-    ourConversationId: string;
+    ourUuid: UUIDStringType;
   };
 };
 
@@ -895,6 +896,8 @@ function peekNotConnectedGroupCall(
         return;
       }
 
+      const { ourUuid } = state.user;
+
       await calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
 
       const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(
@@ -906,7 +909,7 @@ function peekNotConnectedGroupCall(
         payload: {
           conversationId,
           peekInfo: formattedPeekInfo,
-          ourConversationId: state.user.ourConversationId,
+          ourUuid,
         },
       });
     });
@@ -1661,7 +1664,7 @@ export function reducer(
   }
 
   if (action.type === PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED) {
-    const { conversationId, peekInfo, ourConversationId } = action.payload;
+    const { conversationId, peekInfo, ourUuid } = action.payload;
 
     const existingCall: GroupCallStateType = getGroupCall(
       conversationId,
@@ -1693,7 +1696,7 @@ export function reducer(
     }
 
     if (
-      !isAnybodyElseInGroupCall(peekInfo, ourConversationId) &&
+      !isAnybodyElseInGroupCall(peekInfo, ourUuid) &&
       !existingCall.ringerUuid
     ) {
       return removeConversationFromState(state, conversationId);
