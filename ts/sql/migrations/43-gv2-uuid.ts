@@ -5,7 +5,6 @@ import type { Database } from 'better-sqlite3';
 import { omit } from 'lodash';
 
 import type { LoggerType } from '../../types/Logging';
-import { UUID } from '../../types/UUID';
 import type { UUIDStringType } from '../../types/UUID';
 import { isNotNil } from '../../util/isNotNil';
 import { assert } from '../../util/assert';
@@ -265,11 +264,11 @@ export default function updateToSchemaVersion43(
             }
             changedDetails = true;
 
-            let newValue: UUIDStringType | null = getConversationUuid.get({
+            const newValue: UUIDStringType | null = getConversationUuid.get({
               conversationId: oldValue,
             });
-            if (key === 'inviter') {
-              newValue = newValue ?? UUID.cast(oldValue);
+            if (key === 'inviter' && !newValue) {
+              continue;
             }
             if (!newValue) {
               logger.warn(
@@ -302,12 +301,11 @@ export default function updateToSchemaVersion43(
     }
 
     if (sourceUuid) {
-      const newValue: UUIDStringType =
-        getConversationUuid.get({
-          conversationId: sourceUuid,
-        }) ?? UUID.cast(sourceUuid);
+      const newValue: UUIDStringType | null = getConversationUuid.get({
+        conversationId: sourceUuid,
+      });
 
-      if (newValue !== sourceUuid) {
+      if (newValue) {
         result = {
           ...result,
           sourceUuid: newValue,

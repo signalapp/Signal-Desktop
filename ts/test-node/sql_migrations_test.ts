@@ -769,5 +769,32 @@ describe('SQL migrations test', () => {
         sourceUuid: UUID_A,
       });
     });
+
+    it('should not fail on invalid UUIDs', () => {
+      updateToVersion(42);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, json)
+          VALUES
+          ('m', '${JSON.stringify({
+            id: 'm',
+            sourceUuid: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
+          })}');
+        `
+      );
+
+      updateToVersion(43);
+
+      const { json: messageMJSON } = db
+        .prepare('SELECT json FROM messages WHERE id = "m"')
+        .get();
+
+      assert.deepStrictEqual(JSON.parse(messageMJSON), {
+        id: 'm',
+        sourceUuid: 'ffffffff-ffff-ffff-ffff-ffffffffffff',
+      });
+    });
   });
 });
