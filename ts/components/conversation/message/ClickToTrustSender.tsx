@@ -8,7 +8,7 @@ import { SessionIcon } from '../../session/icon';
 import { SessionButtonColor } from '../../session/SessionButton';
 
 const StyledTrustSenderUI = styled.div`
-  padding: 'var(--margins-md)';
+  padding-inline: var(--margins-xs);
   display: flex;
   align-items: center;
 `;
@@ -16,6 +16,7 @@ const StyledTrustSenderUI = styled.div`
 const ClickToDownload = styled.div`
   cursor: pointer;
   padding: var(--margins-xs) var(--margins-md);
+  white-space: nowrap;
 `;
 
 export const ClickToTrustSender = (props: { messageId: string }) => {

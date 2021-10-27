@@ -1023,12 +1023,18 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
-    const { direction, isDeleted, attachments } = props.propsForMessage;
+    const {
+      direction,
+      isDeleted,
+      attachments,
+      isTrustedForAttachmentDownload,
+    } = props.propsForMessage;
 
     const msgProps: MessageContentWithStatusSelectorProps = {
       direction,
       isDeleted,
       hasAttachments: Boolean(attachments?.length) || false,
+      isTrustedForAttachmentDownload,
     };
 
     return msgProps;

@@ -15,7 +15,7 @@ import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
-  'direction' | 'isDeleted'
+  'direction' | 'isDeleted' | 'isTrustedForAttachmentDownload'
 > & { hasAttachments: boolean };
 
 type Props = {
@@ -48,7 +48,7 @@ export const MessageContentWithStatuses = (props: Props) => {
   if (!contentProps) {
     return null;
   }
-  const { direction, isDeleted, hasAttachments } = contentProps;
+  const { direction, isDeleted, hasAttachments, isTrustedForAttachmentDownload } = contentProps;
   const isIncoming = direction === 'incoming';
 
   return (
@@ -56,7 +56,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
-      style={{ width: hasAttachments ? 'min-content' : 'auto' }}
+      style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
       <div>
