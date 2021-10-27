@@ -19,7 +19,7 @@ export class UUID {
   }
 
   public toString(): UUIDStringType {
-    return (this.value as unknown) as UUIDStringType;
+    return this.value as UUIDStringType;
   }
 
   public isEqual(other: UUID): boolean {
