@@ -58,7 +58,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
 
   const avatar = (
     <Avatar
-      conversationType="group"
+      conversationType={conversation.type}
       i18n={i18n}
       size={80}
       {...conversation}
