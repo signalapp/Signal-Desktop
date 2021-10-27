@@ -3148,23 +3148,19 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       this.get('conversationId')
     );
 
-    let reactionToRemove: Partial<ReactionType> | undefined;
+    const oldReaction = reactions.find(
+      re => re.fromId === reaction.get('fromId')
+    );
+    if (oldReaction) {
+      this.clearNotifications(oldReaction);
+    }
 
-    let oldReaction: ReactionAttributesType | undefined;
     if (reaction.get('remove')) {
       log.info('Removing reaction for message', messageId);
       const newReactions = reactions.filter(
-        re =>
-          re.emoji !== reaction.get('emoji') ||
-          re.fromId !== reaction.get('fromId')
+        re => re.fromId !== reaction.get('fromId')
       );
       this.set({ reactions: newReactions });
-
-      reactionToRemove = {
-        emoji: reaction.get('emoji'),
-        targetAuthorUuid: reaction.get('targetAuthorUuid'),
-        targetTimestamp: reaction.get('targetTimestamp'),
-      };
 
       await window.Signal.Data.removeReactionFromConversation({
         emoji: reaction.get('emoji'),
@@ -3179,15 +3175,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       );
       newReactions.push(reaction.toJSON());
       this.set({ reactions: newReactions });
-
-      oldReaction = reactions.find(re => re.fromId === reaction.get('fromId'));
-      if (oldReaction) {
-        reactionToRemove = {
-          emoji: oldReaction.emoji,
-          targetAuthorUuid: oldReaction.targetAuthorUuid,
-          targetTimestamp: oldReaction.targetTimestamp,
-        };
-      }
 
       await window.Signal.Data.addReaction({
         conversationId: this.get('conversationId'),
@@ -3207,10 +3194,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       ) {
         conversation.notify(this, reaction);
       }
-    }
-
-    if (reactionToRemove) {
-      this.clearNotifications(reactionToRemove);
     }
 
     const newCount = (this.get('reactions') || []).length;
