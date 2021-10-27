@@ -251,14 +251,15 @@ message DataMessage {
   enum ProtocolVersion {
     option allow_alias = true;
 
-    INITIAL                  = 0;
-    MESSAGE_TIMERS           = 1;
-    VIEW_ONCE                = 2;
-    VIEW_ONCE_VIDEO          = 3;
-    REACTIONS                = 4;
+    INITIAL = 0;
+    MESSAGE_TIMERS = 1;
+    VIEW_ONCE = 2;
+    VIEW_ONCE_VIDEO = 3;
+    REACTIONS = 4;
     CDN_SELECTOR_ATTACHMENTS = 5;
-    MENTIONS                 = 6;
-    CURRENT                  = 6;
+    MENTIONS = 6;
+    PAYMENTS = 7;
+    CURRENT = 7;
   }
 
   optional string             body                    = 1;
