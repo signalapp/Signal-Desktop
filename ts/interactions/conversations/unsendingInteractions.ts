@@ -7,6 +7,7 @@ import { ApiV2 } from '../../opengroup/opengroupV2';
 import { getMessageQueue } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { UnsendMessage } from '../../session/messages/outgoing/controlMessage/UnsendMessage';
+import { ed25519Str } from '../../session/onions/onionPath';
 import { networkDeleteMessages } from '../../session/snode_api/SNodeAPI';
 import { PubKey } from '../../session/types';
 import { ToastUtils, UserUtils } from '../../session/utils';
@@ -51,11 +52,12 @@ async function unsendMessagesForEveryone(
   } else if (conversation.isClosedGroup()) {
     // sending to recipient all the messages separately for now
     await Promise.all(
-      unsendMsgObjects.map(unsendObject =>
+      unsendMsgObjects.map(unsendObject => {
+        console.warn('sending unsend message', unsendObject);
         getMessageQueue()
           .sendToGroup(unsendObject, undefined, new PubKey(destinationId))
-          .catch(window?.log?.error)
-      )
+          .catch(window?.log?.error);
+      })
     );
   }
   await deleteMessagesFromSwarmAndCompletelyLocally(conversation, msgsToDelete);
@@ -92,18 +94,24 @@ function getUnsendMessagesObjects(messages: Array<MessageModel>) {
  * Do a single request to the swarm with all the message hashes to delete from the swarm.
  *
  * It does not delete anything locally.
+ *
+ * Returns true if no errors happened, false in an error happened
  */
 export async function deleteMessagesFromSwarmOnly(messages: Array<MessageModel>) {
   try {
     const deletionMessageHashes = _.compact(messages.map(m => m.get('messageHash')));
     if (deletionMessageHashes.length > 0) {
-      await networkDeleteMessages(deletionMessageHashes);
+      const errorOnSnode = await networkDeleteMessages(deletionMessageHashes);
+      return errorOnSnode === null || errorOnSnode.length === 0;
     }
+    window.log?.warn(
+      'deleteMessagesFromSwarmOnly: We do not have hashes for some of those messages'
+    );
+    return false;
   } catch (e) {
-    window.log?.error('Error deleting message from swarm', e);
+    window.log?.error('deleteMessagesFromSwarmOnly: Error deleting message from swarm', e);
     return false;
   }
-  return true;
 }
 
 /**
@@ -114,10 +122,25 @@ export async function deleteMessagesFromSwarmAndCompletelyLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
+  if (conversation.isMediumGroup()) {
+    window.log.info('Cannot delete message from a closed group swarm, so we just complete delete.');
+    await Promise.all(
+      messages.map(async message => {
+        return deleteMessageLocallyOnly({ conversation, message, deletionType: 'complete' });
+      })
+    );
+    return;
+  }
+  window.log.warn(
+    'Deleting from swarm of ',
+    ed25519Str(conversation.id),
+    ' hashes: ',
+    messages.map(m => m.get('messageHash'))
+  );
   const deletedFromSwarm = await deleteMessagesFromSwarmOnly(messages);
   if (!deletedFromSwarm) {
     window.log.warn(
-      'deleteMessagesFromSwarmAndCompletelyLocally: some messages failed to be deleted '
+      'deleteMessagesFromSwarmAndCompletelyLocally: some messages failed to be deleted. Maybe they were already deleted?'
     );
   }
   await Promise.all(
@@ -135,6 +158,15 @@ export async function deleteMessagesFromSwarmAndMarkAsDeletedLocally(
   conversation: ConversationModel,
   messages: Array<MessageModel>
 ) {
+  if (conversation.isMediumGroup()) {
+    window.log.info('Cannot delete messages from a closed group swarm, so we just markDeleted.');
+    await Promise.all(
+      messages.map(async message => {
+        return deleteMessageLocallyOnly({ conversation, message, deletionType: 'markDeleted' });
+      })
+    );
+    return;
+  }
   const deletedFromSwarm = await deleteMessagesFromSwarmOnly(messages);
   if (!deletedFromSwarm) {
     window.log.warn(

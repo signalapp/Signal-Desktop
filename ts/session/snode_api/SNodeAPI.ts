@@ -694,7 +694,9 @@ export const TEST_getMinTimeout = () => 500;
  * Locally deletes message and deletes message on the network (all nodes that contain the message)
  */
 // tslint:disable-next-line: max-func-body-length
-export const networkDeleteMessages = async (hashes: Array<string>): Promise<any> => {
+export const networkDeleteMessages = async (
+  hashes: Array<string>,
+): Promise<Array<string> | null> => {
   const sodium = await getSodium();
   const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();
 
@@ -778,7 +780,7 @@ export const networkDeleteMessages = async (hashes: Array<string>): Promise<any>
                     const statusCode = snodeJson.code;
                     if (reason && statusCode) {
                       window?.log?.warn(
-                        `Could not delete data from ${ed25519Str(
+                        `Could not delete msgs from ${ed25519Str(
                           snodeToMakeRequestTo.pubkey_ed25519
                         )} due to error: ${reason}: ${statusCode}`
                       );
@@ -789,8 +791,8 @@ export const networkDeleteMessages = async (hashes: Array<string>): Promise<any>
                         );
                       }
                     } else {
-                      window?.log?.warn(
-                        `Could not delete data from ${ed25519Str(
+                      window?.log?.info(
+                        `Could not delete msgs from ${ed25519Str(
                           snodeToMakeRequestTo.pubkey_ed25519
                         )}`
                       );
