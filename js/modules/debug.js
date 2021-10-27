@@ -17,7 +17,7 @@ const {
   sample,
 } = require('lodash');
 
-const Attachments = require('../../app/attachments');
+const Attachments = require('../../ts/windows/attachments');
 const Message = require('./types/message');
 const { sleep } = require('../../ts/util/sleep');
 

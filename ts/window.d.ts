@@ -170,8 +170,8 @@ declare global {
     imageToBlurHash: typeof imageToBlurHash;
     loadImage: any;
     isBehindProxy: () => boolean;
-    getAutoLaunch: () => boolean;
-    setAutoLaunch: (value: boolean) => void;
+    getAutoLaunch: () => Promise<boolean>;
+    setAutoLaunch: (value: boolean) => Promise<void>;
 
     PQueue: typeof PQueue;
     PQueueType: PQueue;

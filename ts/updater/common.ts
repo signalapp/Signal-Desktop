@@ -26,7 +26,7 @@ import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
-import { getTempPath } from '../../app/attachments';
+import { getTempPath } from '../util/attachments';
 import { DialogType } from '../types/Dialogs';
 import { getUserAgent } from '../util/getUserAgent';
 import { isAlpha, isBeta } from '../util/version';

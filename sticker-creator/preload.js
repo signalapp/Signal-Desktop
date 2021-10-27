@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global window */
-const { ipcRenderer: ipc, remote } = require('electron');
+const { ipcRenderer: ipc } = require('electron');
 const sharp = require('sharp');
 const pify = require('pify');
 const { readFile } = require('fs');
@@ -22,8 +22,6 @@ const Bytes = require('../ts/Bytes');
 const { SignalService: Proto } = require('../ts/protobuf');
 const { getEnvironment } = require('../ts/environment');
 const { createSetting } = require('../ts/util/preload');
-
-const { dialog } = remote;
 
 const STICKER_SIZE = 512;
 const MIN_STICKER_DIMENSION = 10;
@@ -171,7 +169,7 @@ window.encryptAndUpload = async (
       'StickerCreator--Authentication--error'
     ];
 
-    dialog.showMessageBox({
+    ipc.send('show-message-box', {
       type: 'warning',
       message,
     });

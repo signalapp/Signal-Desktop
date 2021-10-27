@@ -114,7 +114,7 @@ export type IPCEventsCallbacksType = {
 type ValuesWithGetters = Omit<
   IPCEventsValuesType,
   // Optional
-  'mediaPermissions' | 'mediaCameraPermissions'
+  'mediaPermissions' | 'mediaCameraPermissions' | 'autoLaunch'
 >;
 
 type ValuesWithSetters = Omit<
@@ -146,6 +146,7 @@ export type IPCEventsGettersType = {
 } & {
   getMediaPermissions?: () => Promise<boolean>;
   getMediaCameraPermissions?: () => Promise<boolean>;
+  getAutoLaunch?: () => Promise<boolean>;
 };
 
 export type IPCEventsSettersType = {
@@ -330,7 +331,7 @@ export function createIPCEvents(
 
     getAutoLaunch: () => window.getAutoLaunch(),
     setAutoLaunch: async (value: boolean) => {
-      window.setAutoLaunch(value);
+      return window.setAutoLaunch(value);
     },
 
     isPhoneNumberSharingEnabled: () => isPhoneNumberSharingEnabled(),

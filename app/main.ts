@@ -310,6 +310,9 @@ function prepareUrl(
     serverPublicParams: config.get<string>('serverPublicParams'),
     serverTrustRoot: config.get<string>('serverTrustRoot'),
     appStartInitialSpellcheckSetting,
+    userDataPath: app.getPath('userData'),
+    downloadsPath: app.getPath('downloads'),
+    homePath: app.getPath('home'),
     ...moreKeys,
   }).href;
 }
@@ -2063,3 +2066,31 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 
   getLogger().info(`Finish ensuring permissions in ${Date.now() - start}ms`);
 }
+
+ipc.handle('get-auto-launch', async () => {
+  return app.getLoginItemSettings().openAtLogin;
+});
+
+ipc.handle('set-auto-launch', async (_event, value) => {
+  app.setLoginItemSettings({ openAtLogin: Boolean(value) });
+});
+
+ipc.on('show-message-box', (_event, { type, message }) => {
+  dialog.showMessageBox({ type, message });
+});
+
+ipc.on('show-item-in-folder', (_event, folder) => {
+  shell.showItemInFolder(folder);
+});
+
+ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
+  if (!mainWindow) {
+    getLogger().warn('show-save-dialog: no main window');
+
+    return { canceled: true };
+  }
+
+  return dialog.showSaveDialog(mainWindow, {
+    defaultPath,
+  });
+});

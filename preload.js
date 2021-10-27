@@ -21,9 +21,6 @@ try {
   const { getEnvironment, Environment } = require('./ts/environment');
   const ipc = electron.ipcRenderer;
 
-  const { remote } = electron;
-  const { app } = remote;
-
   const config = require('url').parse(window.location.toString(), true).query;
 
   const log = require('./ts/logging/log');
@@ -72,9 +69,11 @@ try {
   window.getServerPublicParams = () => config.serverPublicParams;
   window.getSfuUrl = () => config.sfuUrl;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
-  window.getAutoLaunch = () => app.getLoginItemSettings().openAtLogin;
+  window.getAutoLaunch = () => {
+    return ipc.invoke('get-auto-launch');
+  };
   window.setAutoLaunch = value => {
-    app.setLoginItemSettings({ openAtLogin: Boolean(value) });
+    return ipc.invoke('set-auto-launch', value);
   };
 
   window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -405,7 +404,7 @@ try {
   window.PQueue = require('p-queue').default;
 
   const Signal = require('./js/modules/signal');
-  const Attachments = require('./app/attachments');
+  const Attachments = require('./ts/windows/attachments');
 
   const { locale } = config;
   window.i18n = SignalContext.i18n;
@@ -418,7 +417,7 @@ try {
   });
   window.moment.locale(locale);
 
-  const userDataPath = app.getPath('userData');
+  const userDataPath = SignalContext.getPath('userData');
   window.baseAttachmentsPath = Attachments.getPath(userDataPath);
   window.baseStickersPath = Attachments.getStickersPath(userDataPath);
   window.baseTempPath = Attachments.getTempPath(userDataPath);

@@ -53,6 +53,7 @@ export type SignalContextType = {
   getEnvironment: () => string;
   getNodeVersion: () => string;
   getVersion: () => string;
+  getPath: (name: 'userData' | 'home' | 'downloads') => string;
   i18n: LocalizerType;
   log: LoggerType;
   renderWindow?: () => void;
@@ -71,6 +72,9 @@ export const SignalContext: SignalContextType = {
   getEnvironment,
   getNodeVersion: (): string => String(config.node_version),
   getVersion: (): string => String(config.version),
+  getPath: (name: 'userData' | 'home' | 'downloads'): string => {
+    return String(config[`${name}Path`]);
+  },
   i18n: setupI18n(locale, localeMessages),
   log: window.SignalContext.log,
   nativeThemeListener: createNativeThemeListener(ipcRenderer, window),

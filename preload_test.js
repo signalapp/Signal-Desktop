@@ -27,7 +27,6 @@ window.test = {
   fastGlob,
   normalizePath: require('normalize-path'),
   fse: require('fs-extra'),
-  tmp: require('tmp'),
   path: require('path'),
   basePath: __dirname,
   attachmentsPath: window.Signal.Migrations.attachmentsPath,
