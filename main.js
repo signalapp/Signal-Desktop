@@ -597,12 +597,10 @@ async function showDebugLogWindow() {
   debugLogWindow.loadURL(prepareURL([__dirname, 'debug_log.html'], { theme }));
 
   debugLogWindow.on('closed', () => {
-    removeDarkOverlay();
     debugLogWindow = null;
   });
 
   debugLogWindow.once('ready-to-show', () => {
-    addDarkOverlay();
     debugLogWindow.show();
   });
 }
@@ -820,14 +818,6 @@ ipc.on('locale-data', event => {
   event.returnValue = locale.messages;
 });
 
-ipc.on('set-badge-count', (event, count) => {
-  app.setBadgeCount(count);
-});
-
-ipc.on('remove-setup-menu-items', () => {
-  setupMenu();
-});
-
 ipc.on('add-setup-menu-items', () => {
   setupMenu({
     includeSetup: false,
@@ -957,19 +947,6 @@ ipc.on('close-debug-log', () => {
   }
 });
 
-// Settings-related IPC calls
-
-function addDarkOverlay() {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('add-dark-overlay');
-  }
-}
-function removeDarkOverlay() {
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('remove-dark-overlay');
-  }
-}
-
 // This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {
   // eslint-disable-next-line no-param-reassign
@@ -982,9 +959,20 @@ ipc.on('set-media-permissions', (event, value) => {
   installPermissionsHandler({ session, userConfig });
 
   event.sender.send('set-success-media-permissions', null);
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.send('mediaPermissionsChanged');
-  }
+});
+
+// This should be called with an ipc sendSync
+ipc.on('get-call-media-permissions', event => {
+  // eslint-disable-next-line no-param-reassign
+  event.returnValue = userConfig.get('callMediaPermissions') || false;
+});
+ipc.on('set-call-media-permissions', (event, value) => {
+  userConfig.set('callMediaPermissions', value);
+
+  // We reinstall permissions handler to ensure that a revoked permission takes effect
+  installPermissionsHandler({ session, userConfig });
+
+  event.sender.send('set-success-call-media-permissions', null);
 });
 
 // Loki - Auto updating

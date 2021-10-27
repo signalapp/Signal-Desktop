@@ -1,8 +1,14 @@
 import { default as insecureNodeFetch } from 'node-fetch';
+import pRetry from 'p-retry';
 import { Snode } from '../../data/data';
 import { getStoragePubKey } from '../types';
 
-import { lokiOnionFetch, snodeHttpsAgent, SnodeResponse } from './onions';
+import {
+  ERROR_421_HANDLED_RETRY_REQUEST,
+  lokiOnionFetch,
+  snodeHttpsAgent,
+  SnodeResponse,
+} from './onions';
 
 interface FetchOptions {
   method: string;
@@ -19,13 +25,14 @@ async function lokiFetch({
   url,
   associatedWith,
   targetNode,
+  timeout,
 }: {
   url: string;
   options: FetchOptions;
   targetNode?: Snode;
   associatedWith?: string;
+  timeout: number;
 }): Promise<undefined | SnodeResponse> {
-  const timeout = 10000;
   const method = options.method || 'GET';
 
   const fetchOptions = {
@@ -80,6 +87,9 @@ async function lokiFetch({
     if (e.code === 'ENOTFOUND') {
       throw new window.textsecure.NotFoundError('Failed to resolve address', e);
     }
+    if (e.message === ERROR_421_HANDLED_RETRY_REQUEST) {
+      throw new pRetry.AbortError(ERROR_421_HANDLED_RETRY_REQUEST);
+    }
     throw e;
   }
 }
@@ -97,11 +107,13 @@ export async function snodeRpc(
     params,
     targetNode,
     associatedWith,
+    timeout = 10000,
   }: {
     method: string;
     params: any;
     targetNode: Snode;
     associatedWith?: string;
+    timeout?: number;
   } //the user pubkey this call is for. if the onion request fails, this is used to handle the error for this user swarm for instance
 ): Promise<undefined | SnodeResponse> {
   const url = `https://${targetNode.ip}:${targetNode.port}/storage_rpc/v1`;
@@ -135,5 +147,6 @@ export async function snodeRpc(
     options: fetchOptions,
     targetNode,
     associatedWith,
+    timeout,
   });
 }

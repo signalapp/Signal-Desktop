@@ -2,18 +2,10 @@
 /* global Whisper: false */
 /* global window: false */
 const path = require('path');
-const electron = require('electron');
-
-const { webFrame } = electron;
+const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
 const semver = require('semver');
 
-const { deferredToPromise } = require('./js/modules/deferred_to_promise');
-const { JobQueue } = require('./js/modules/job_queue');
-
-const { app } = electron.remote;
-const { clipboard } = electron;
-
-window.PROTO_ROOT = 'protos';
+const { app } = remote;
 
 const config = require('url').parse(window.location.toString(), true).query;
 
@@ -43,16 +35,11 @@ window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
 window.getServerTrustRoot = () => config.serverTrustRoot;
-window.JobQueue = JobQueue;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
-  useFileOnionRequests: true,
-  useFileOnionRequestsV2: true, // more compact encoding of files in response
-  padOutgoingAttachments: true,
-  enablePinConversations: true,
-  useUnsendRequests: false,
+  useCallMessage: false,
 };
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -80,9 +67,7 @@ window.versionInfo = {
   appInstance: window.getAppInstance(),
 };
 
-window.wrapDeferred = deferredToPromise;
-
-const ipc = electron.ipcRenderer;
+const ipc = ipcRenderer;
 const localeMessages = ipc.sendSync('locale-data');
 
 window.updateZoomFactor = () => {
@@ -93,12 +78,6 @@ window.updateZoomFactor = () => {
 window.setZoomFactor = number => {
   webFrame.setZoomFactor(number);
 };
-
-window.getZoomFactor = () => {
-  webFrame.getZoomFactor();
-};
-
-window.setBadgeCount = count => ipc.send('set-badge-count', count);
 
 // Set the password for the database
 window.setPassword = (passPhrase, oldPhrase) =>
@@ -157,31 +136,12 @@ window.restart = () => {
   ipc.send('restart');
 };
 
-ipc.on('mediaPermissionsChanged', () => {
-  Whisper.events.trigger('mediaPermissionsChanged');
-});
-
 window.closeAbout = () => ipc.send('close-about');
 window.readyForUpdates = () => ipc.send('ready-for-updates');
 
 ipc.on('get-theme-setting', () => {
   const theme = window.Events.getThemeSetting();
   ipc.send('get-success-theme-setting', theme);
-});
-
-// Settings-related events
-
-ipc.on('add-dark-overlay', () => {
-  const { addDarkOverlay } = window.Events;
-  if (addDarkOverlay) {
-    addDarkOverlay();
-  }
-});
-ipc.on('remove-dark-overlay', () => {
-  const { removeDarkOverlay } = window.Events;
-  if (removeDarkOverlay) {
-    removeDarkOverlay();
-  }
 });
 
 window.getSettingValue = (settingID, comparisonValue = null) => {
@@ -192,6 +152,8 @@ window.getSettingValue = (settingID, comparisonValue = null) => {
   // We need to get specific settings from the main process
   if (settingID === 'media-permissions') {
     return window.getMediaPermissions();
+  } else if (settingID === 'call-media-permissions') {
+    return window.getCallMediaPermissions();
   } else if (settingID === 'auto-update') {
     return window.getAutoUpdateEnabled();
   }
@@ -208,16 +170,13 @@ window.setSettingValue = (settingID, value) => {
   }
 
   window.storage.put(settingID, value);
-
-  // FIXME - This should be called in the settings object in
-  // SessionSettings
-  if (settingID === 'zoom-factor-setting') {
-    window.updateZoomFactor();
-  }
 };
 
 window.getMediaPermissions = () => ipc.sendSync('get-media-permissions');
 window.setMediaPermissions = value => ipc.send('set-media-permissions', !!value);
+
+window.getCallMediaPermissions = () => ipc.sendSync('get-call-media-permissions');
+window.setCallMediaPermissions = value => ipc.send('set-call-media-permissions', !!value);
 
 window.askForMediaAccess = () => ipc.send('media-access');
 
@@ -240,9 +199,6 @@ ipc.on('get-ready-for-shutdown', async () => {
     ipc.send('now-ready-for-shutdown', error && error.stack ? error.stack : error);
   }
 });
-
-window.addSetupMenuItems = () => ipc.send('add-setup-menu-items');
-window.removeSetupMenuItems = () => ipc.send('remove-setup-menu-items');
 
 // We pull these dependencies in now, from here, because they have Node.js dependencies
 

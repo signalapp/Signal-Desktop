@@ -108,6 +108,8 @@ export interface MessageAttributes {
    * This field is used for unsending messages and used in sending unsend message requests.
    */
   isDeleted?: boolean;
+
+  isMissedCall?: boolean;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -177,6 +179,7 @@ export interface MessageAttributesOptionals {
   direction?: any;
   messageHash?: string;
   isDeleted?: boolean;
+  isMissedCall?: boolean;
 }
 
 /**

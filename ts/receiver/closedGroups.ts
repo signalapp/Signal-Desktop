@@ -977,7 +977,7 @@ async function sendToGroupMembers(
   window?.log?.info(`Creating a new group and an encryptionKeyPair for group ${groupPublicKey}`);
   // evaluating if all invites sent, if failed give the option to retry failed invites via modal dialog
   const inviteResults = await Promise.all(promises);
-  const allInvitesSent = _.every(inviteResults, Boolean);
+  const allInvitesSent = _.every(inviteResults, inviteResult => inviteResult !== false);
 
   if (allInvitesSent) {
     // if (true) {

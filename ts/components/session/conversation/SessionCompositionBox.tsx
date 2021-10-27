@@ -28,7 +28,7 @@ import { getConversationController } from '../../../session/conversations';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
 import { SessionMemberListItem } from '../SessionMemberListItem';
 import autoBind from 'auto-bind';
-import { SessionSettingCategory } from '../settings/SessionSettings';
+import { getMediaPermissionsSettings, SessionSettingCategory } from '../settings/SessionSettings';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import {
   SectionType,
@@ -174,7 +174,7 @@ const sendMessageStyle = {
   },
   input: {
     overflow: 'auto',
-    maxHeight: 70,
+    maxHeight: '50vh',
     wordBreak: 'break-word',
     padding: '0px',
     margin: '0px',
@@ -182,7 +182,7 @@ const sendMessageStyle = {
   highlighter: {
     boxSizing: 'border-box',
     overflow: 'hidden',
-    maxHeight: 70,
+    maxHeight: '50vh',
   },
   flexGrow: 1,
   minHeight: '24px',
@@ -999,7 +999,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
   private async onLoadVoiceNoteView() {
     // Do stuff for component, then run callback to SessionConversation
-    const mediaSetting = await window.getSettingValue('media-permissions');
+    const mediaSetting = getMediaPermissionsSettings();
 
     if (mediaSetting) {
       this.setState({

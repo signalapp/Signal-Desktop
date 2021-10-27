@@ -78,7 +78,7 @@
   }
 
   .message-selection-overlay .button-group {
-    float: right;
+    display: flex;
   }
 }
 
@@ -195,7 +195,7 @@
     align-items: center;
     flex-grow: 1;
     min-height: $composition-container-height;
-    padding: $session-margin-md 0;
+    padding: $session-margin-xs 0;
 
     ul {
       max-height: 70vh;

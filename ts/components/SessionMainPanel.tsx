@@ -4,9 +4,9 @@ import { useAppIsFocused } from '../hooks/useAppFocused';
 import { getFocusedSettingsSection } from '../state/selectors/section';
 
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
-import { SmartSettingsView } from './session/settings/SessionSettings';
+import { SessionSettingsView } from './session/settings/SessionSettings';
 
-const FilteredSettingsView = SmartSettingsView as any;
+const FilteredSettingsView = SessionSettingsView as any;
 
 export const SessionMainPanel = () => {
   const focusedSettingsSection = useSelector(getFocusedSettingsSection);

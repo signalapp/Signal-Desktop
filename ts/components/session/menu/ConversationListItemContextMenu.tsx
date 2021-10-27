@@ -18,6 +18,7 @@ import {
   getMarkAllReadMenuItem,
   getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
+  getShowUserDetailsMenuItem,
 } from './Menu';
 
 export type PropsContextConversationItem = {
@@ -33,6 +34,9 @@ export type PropsContextConversationItem = {
   left: boolean;
   theme?: any;
   currentNotificationSetting: ConversationNotificationSettingType;
+  name: string | undefined;
+  profileName: string | undefined;
+  avatarPath: string | null;
 };
 
 const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
@@ -48,9 +52,14 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
     isKickedFromGroup,
     currentNotificationSetting,
     isPrivate,
+    name,
+    profileName,
+    avatarPath,
   } = props;
 
   const isGroup = type === 'group';
+  const userName = name || profileName || conversationId;
+
   return (
     <Menu id={triggerId} animation={animation.fade}>
       {getNotificationForConvoMenuItem({
@@ -67,10 +76,11 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
       {getMarkAllReadMenuItem(conversationId)}
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-      {getDeleteMessagesMenuItem(isPublic, conversationId)}
+      {getDeleteMessagesMenuItem(conversationId)}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
+      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName)}
     </Menu>
   );
 };

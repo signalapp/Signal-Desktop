@@ -32,7 +32,7 @@ export function removeMessagePadding(paddedData: ArrayBuffer): ArrayBuffer {
  * @param messageBuffer The buffer to add padding to.
  */
 export function addMessagePadding(messageBuffer: Uint8Array): Uint8Array {
-  window?.log?.info('Adding message padding...');
+  // window?.log?.info('Adding message padding...');
 
   const plaintext = new Uint8Array(getPaddedMessageLength(messageBuffer.byteLength + 1) - 1);
   plaintext.set(new Uint8Array(messageBuffer));

@@ -1,11 +1,9 @@
 import React from 'react';
 import { SettingsViewProps } from './SessionSettings';
 
-interface Props extends SettingsViewProps {
-  // tslint:disable-next-line: react-unused-props-and-state
+type Props = Pick<SettingsViewProps, 'category'> & {
   categoryTitle: string;
-  // tslint:disable-next-line: react-unused-props-and-state
-}
+};
 
 export const SettingsHeader = (props: Props) => {
   const { categoryTitle } = props;

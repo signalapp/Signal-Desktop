@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
+import {
+  getHasIncomingCall,
+  getHasOngoingCall,
+  getNumberOfPinnedConversations,
+} from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Item, Submenu } from 'react-contexify';
 import {
@@ -8,14 +12,18 @@ import {
   ConversationNotificationSettingType,
 } from '../../../models/conversation';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeNickNameModal, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import {
+  changeNickNameModal,
+  updateConfirmModal,
+  updateUserDetailsModal,
+} from '../../../state/ducks/modalDialog';
 import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
-  deleteMessagesByConvoIdWithConfirmation,
+  deleteAllMessagesByConvoIdWithConfirmation,
   markAllReadByConvoId,
   setDisappearingMessagesByConvoId,
   setNotificationForConvoId,
@@ -28,7 +36,8 @@ import {
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
-import { ToastUtils } from '../../../session/utils';
+import { CallManager, ToastUtils } from '../../../session/utils';
+import { getCallMediaPermissionsSettings } from '../settings/SessionSettings';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -61,24 +70,19 @@ function showChangeNickname(isMe: boolean, isGroup: boolean) {
   return !isMe && !isGroup;
 }
 
-function showDeleteMessages(isPublic: boolean): boolean {
-  return !isPublic;
-}
-
 // we want to show the copyId for open groups and private chats only
 function showCopyId(isPublic: boolean, isGroup: boolean): boolean {
   return !isGroup || isPublic;
 }
 
 function showDeleteContact(
-  isMe: boolean,
   isGroup: boolean,
   isPublic: boolean,
   isGroupLeft: boolean,
   isKickedFromGroup: boolean
 ): boolean {
   // you need to have left a closed group first to be able to delete it completely.
-  return (!isMe && !isGroup) || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
+  return !isGroup || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
 }
 
 function showAddModerators(
@@ -143,7 +147,7 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
   const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
-  if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
+  if (isMessagesSection) {
     const conversation = getConversationController().get(conversationId);
     const isPinned = conversation.isPinned();
 
@@ -166,7 +170,6 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
 };
 
 export function getDeleteContactMenuItem(
-  isMe: boolean | undefined,
   isGroup: boolean | undefined,
   isPublic: boolean | undefined,
   isLeft: boolean | undefined,
@@ -177,7 +180,6 @@ export function getDeleteContactMenuItem(
 
   if (
     showDeleteContact(
-      Boolean(isMe),
       Boolean(isGroup),
       Boolean(isPublic),
       Boolean(isLeft),
@@ -233,6 +235,35 @@ export function getLeaveGroupMenuItem(
         }}
       >
         {window.i18n('leaveGroup')}
+      </Item>
+    );
+  }
+
+  return null;
+}
+
+export function getShowUserDetailsMenuItem(
+  isPrivate: boolean | undefined,
+  conversationId: string,
+  avatarPath: string | null,
+  userName: string
+): JSX.Element | null {
+  const dispatch = useDispatch();
+
+  if (isPrivate) {
+    return (
+      <Item
+        onClick={() => {
+          dispatch(
+            updateUserDetailsModal({
+              conversationId: conversationId,
+              userName,
+              authorAvatarPath: avatarPath,
+            })
+          );
+        }}
+      >
+        {window.i18n('showUserDetails')}
       </Item>
     );
   }
@@ -316,6 +347,49 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
   return (
     <Item onClick={() => markAllReadByConvoId(conversationId)}>{window.i18n('markAllAsRead')}</Item>
   );
+}
+
+export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
+  if (window?.lokiFeatureFlags.useCallMessage) {
+    const convoOut = getConversationController().get(conversationId);
+    // we don't support calling groups
+
+    const hasIncomingCall = useSelector(getHasIncomingCall);
+    const hasOngoingCall = useSelector(getHasOngoingCall);
+    const canCall = !(hasIncomingCall || hasOngoingCall);
+    if (!convoOut?.isPrivate()) {
+      return null;
+    }
+    return (
+      <Item
+        onClick={async () => {
+          // TODO: either pass param to callRecipient or call different call methods based on item selected.
+          // TODO: one time redux-persisted permission modal?
+          const convo = getConversationController().get(conversationId);
+
+          if (!canCall) {
+            ToastUtils.pushUnableToCall();
+            return;
+          }
+
+          if (!getCallMediaPermissionsSettings()) {
+            ToastUtils.pushMicAndCameraPermissionNeeded();
+            return;
+          }
+
+          if (convo) {
+            convo.callState = 'connecting';
+            await convo.commit();
+            await CallManager.USER_callRecipient(convo.id);
+          }
+        }}
+      >
+        {'Video Call'}
+      </Item>
+    );
+  }
+
+  return null;
 }
 
 export function getDisappearingMenuItem(
@@ -468,20 +542,16 @@ export function getChangeNicknameMenuItem(
   return null;
 }
 
-export function getDeleteMessagesMenuItem(
-  isPublic: boolean | undefined,
-  conversationId: string
-): JSX.Element | null {
-  if (showDeleteMessages(Boolean(isPublic))) {
-    return (
-      <Item
-        onClick={() => {
-          deleteMessagesByConvoIdWithConfirmation(conversationId);
-        }}
-      >
-        {window.i18n('deleteMessages')}
-      </Item>
-    );
-  }
+export function getDeleteMessagesMenuItem(conversationId: string): JSX.Element | null {
+  return (
+    <Item
+      onClick={() => {
+        deleteAllMessagesByConvoIdWithConfirmation(conversationId);
+      }}
+    >
+      {window.i18n('deleteMessages')}
+    </Item>
+  );
+
   return null;
 }

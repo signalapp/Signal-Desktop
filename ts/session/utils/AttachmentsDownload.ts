@@ -1,6 +1,7 @@
-import { isNumber, omit } from 'lodash';
+import { filter, isNumber, omit } from 'lodash';
 // tslint:disable-next-line: no-submodule-imports
 import { default as getGuid } from 'uuid/v4';
+import * as Constants from '../constants';
 import {
   getMessageById,
   getNextAttachmentDownloadJobs,
@@ -13,17 +14,16 @@ import {
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
 
+// this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
 
-const SECOND = 1000;
-const MINUTE = SECOND * 60;
-const HOUR = MINUTE * 60;
-const TICK_INTERVAL = MINUTE;
+const TICK_INTERVAL = Constants.DURATION.MINUTES;
+// tslint:disable: function-name
 
 const RETRY_BACKOFF = {
-  1: SECOND * 30,
-  2: MINUTE * 30,
-  3: HOUR * 6,
+  1: Constants.DURATION.SECONDS * 30,
+  2: Constants.DURATION.MINUTES * 30,
+  3: Constants.DURATION.HOURS * 6,
 };
 
 let enabled = false;
@@ -110,6 +110,14 @@ async function _maybeStartJob() {
     return;
   }
 
+  const nextJobsWithoutCurrentlyRunning = filter(
+    nextJobs,
+    j => _activeAttachmentDownloadJobs[j.id] === undefined
+  );
+  if (nextJobsWithoutCurrentlyRunning.length <= 0) {
+    return;
+  }
+
   // To prevent the race condition caused by two parallel database calls, eached kicked
   //   off because the jobCount wasn't at the max.
   const secondJobCount = getActiveJobCount();
@@ -118,7 +126,11 @@ async function _maybeStartJob() {
     return;
   }
 
-  const jobs = nextJobs.slice(0, Math.min(needed, nextJobs.length));
+  const jobs = nextJobsWithoutCurrentlyRunning.slice(
+    0,
+    Math.min(needed, nextJobsWithoutCurrentlyRunning.length)
+  );
+
   // tslint:disable: one-variable-per-declaration
   for (let i = 0, max = jobs.length; i < max; i += 1) {
     const job = jobs[i];
@@ -180,6 +192,8 @@ async function _runJob(job: any) {
         );
 
         await _finishJob(found, id);
+        found = await getMessageById(messageId);
+
         await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
         return;
@@ -188,6 +202,7 @@ async function _runJob(job: any) {
     }
 
     const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(downloaded);
+    found = await getMessageById(messageId);
 
     await _addAttachmentToMessage(found, upgradedAttachment, { type, index });
 
@@ -201,6 +216,7 @@ async function _runJob(job: any) {
         `_runJob: ${currentAttempt} failed attempts, marking attachment ${id} from message ${found?.idForLogging()} as permament error:`,
         error && error.stack ? error.stack : error
       );
+      found = await getMessageById(messageId);
 
       await _finishJob(found || null, id);
       await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
@@ -254,7 +270,11 @@ function _markAttachmentAsError(attachment: any) {
 }
 
 // tslint:disable-next-line: cyclomatic-complexity
-async function _addAttachmentToMessage(message: any, attachment: any, { type, index }: any) {
+async function _addAttachmentToMessage(
+  message: MessageModel | null | undefined,
+  attachment: any,
+  { type, index }: any
+) {
   if (!message) {
     return;
   }
@@ -285,23 +305,6 @@ async function _addAttachmentToMessage(message: any, attachment: any, { type, in
     return;
   }
 
-  if (type === 'contact') {
-    const contact = message.get('contact');
-    if (!contact || contact.length <= index) {
-      throw new Error(`_addAttachmentToMessage: contact didn't exist or ${index} was too large`);
-    }
-    const item = contact[index];
-    if (item && item.avatar && item.avatar.avatar) {
-      _replaceAttachment(item.avatar, 'avatar', attachment, logPrefix);
-    } else {
-      logger.warn(
-        `_addAttachmentToMessage: Couldn't update contact with avatar attachment for message ${message.idForLogging()}`
-      );
-    }
-
-    return;
-  }
-
   if (type === 'quote') {
     const quote = message.get('quote');
     if (!quote) {
@@ -319,21 +322,6 @@ async function _addAttachmentToMessage(message: any, attachment: any, { type, in
       throw new Error(`_addAttachmentToMessage: attachment ${index} was falsey`);
     }
     _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
-    return;
-  }
-
-  if (type === 'group-avatar') {
-    const group = message.get('group');
-    if (!group) {
-      throw new Error("_addAttachmentToMessage: group didn't exist");
-    }
-
-    const existingAvatar = group.avatar;
-    if (existingAvatar && existingAvatar.path) {
-      await window.Signal.Migrations.deleteAttachmentData(existingAvatar.path);
-    }
-
-    _replaceAttachment(group, 'avatar', attachment, logPrefix);
     return;
   }
 

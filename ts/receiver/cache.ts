@@ -16,7 +16,6 @@ import {
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
   window?.log?.info(`removing from cache envelope: ${id}`);
-
   return removeUnprocessed(id);
 }
 

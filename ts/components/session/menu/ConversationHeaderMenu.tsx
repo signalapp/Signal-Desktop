@@ -15,6 +15,8 @@ import {
   getNotificationForConvoMenuItem,
   getPinConversationMenuItem,
   getRemoveModeratorsMenuItem,
+  getShowUserDetailsMenuItem,
+  getStartCallMenuItem,
   getUpdateGroupNameMenuItem,
 } from './Menu';
 import _ from 'lodash';
@@ -33,6 +35,9 @@ export type PropsConversationHeaderMenu = {
   isPrivate: boolean;
   isBlocked: boolean;
   hasNickname: boolean;
+  name: string | undefined;
+  profileName: string | undefined;
+  avatarPath: string | null;
 };
 
 const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
@@ -49,10 +54,15 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
     left,
     hasNickname,
     currentNotificationSetting,
+    name,
+    profileName,
+    avatarPath,
   } = props;
+  const userName = name || profileName || conversationId;
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
+      {getStartCallMenuItem(conversationId)}
       {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
       {getNotificationForConvoMenuItem({
         isKickedFromGroup,
@@ -68,14 +78,14 @@ const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
       {getMarkAllReadMenuItem(conversationId)}
       {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
       {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-      {getDeleteMessagesMenuItem(isPublic, conversationId)}
+      {getDeleteMessagesMenuItem(conversationId)}
       {getAddModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
       {getRemoveModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
       {getUpdateGroupNameMenuItem(weAreAdmin, isKickedFromGroup, left, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-      {/* TODO: add delete group */}
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-      {getDeleteContactMenuItem(isMe, isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
+      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName)}
     </Menu>
   );
 };

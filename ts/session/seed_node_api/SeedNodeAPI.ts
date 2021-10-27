@@ -6,13 +6,12 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import tls from 'tls';
-import Electron from 'electron';
+import { remote } from 'electron';
 import { sha256 } from '../crypto';
 import * as Data from '../../../ts/data/data';
 import pRetry from 'p-retry';
 import { SeedNodeAPI } from '.';
 
-const { remote } = Electron;
 // tslint:disable: function-name
 
 export type SeedNode = {

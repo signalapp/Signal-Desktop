@@ -18,6 +18,11 @@ import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { getMessageBySenderAndTimestamp } from '../data/data';
+import { handleCallMessage } from './callMessage';
+import {
+  deleteMessagesFromSwarmAndCompletelyLocally,
+  deleteMessagesFromSwarmAndMarkAsDeletedLocally,
+} from '../interactions/conversations/unsendingInteractions';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
   try {
@@ -396,8 +401,11 @@ export async function innerHandleContentMessage(
       );
       return;
     }
-    if (content.unsendMessage && window.lokiFeatureFlags?.useUnsendRequests) {
+    if (content.unsendMessage) {
       await handleUnsendMessage(envelope, content.unsendMessage as SignalService.Unsend);
+    }
+    if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
+      await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
   } catch (e) {
     window?.log?.warn(e);
@@ -491,32 +499,62 @@ async function handleTypingMessage(
  * @param unsendMessage data required to delete message
  */
 async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: SignalService.Unsend) {
-  const { source: unsendSource } = envelope;
   const { author: messageAuthor, timestamp } = unsendMessage;
-  await removeFromCache(envelope);
 
-  //#region early exit conditions
-  if (!unsendMessage || !unsendSource) {
-    window?.log?.error('UnsendMessageHandler:: Invalid parameters -- dropping message.');
-  }
-  if (!timestamp) {
-    window?.log?.error('UnsendMessageHander:: Invalid timestamp -- dropping message');
-  }
-  const conversation = getConversationController().get(unsendSource);
-  if (!conversation) {
+  if (messageAuthor !== (envelope.senderIdentity || envelope.source)) {
+    window?.log?.error(
+      'handleUnsendMessage: Dropping request as the author and the sender differs.'
+    );
+    await removeFromCache(envelope);
+
     return;
   }
+  if (!unsendMessage) {
+    //#region early exit conditions
+    window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
+    await removeFromCache(envelope);
+
+    return;
+  }
+  if (!timestamp) {
+    window?.log?.error('handleUnsendMessage: Invalid timestamp -- dropping message');
+    await removeFromCache(envelope);
+
+    return;
+  }
+
   const messageToDelete = await getMessageBySenderAndTimestamp({
     source: messageAuthor,
     timestamp: Lodash.toNumber(timestamp),
   });
-  const messageHash = messageToDelete?.getPropsForMessage().messageHash;
+  const messageHash = messageToDelete?.get('messageHash');
   //#endregion
 
   //#region executing deletion
   if (messageHash && messageToDelete) {
-    await conversation.deleteMessage(messageToDelete);
+    window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
+    const conversation = getConversationController().get(messageToDelete.get('conversationId'));
+    if (!conversation) {
+      await removeFromCache(envelope);
+
+      return;
+    }
+    if (messageToDelete.getSource() === UserUtils.getOurPubKeyStrFromCache()) {
+      // a message we sent is completely removed when we get a unsend request
+      void deleteMessagesFromSwarmAndCompletelyLocally(conversation, [messageToDelete]);
+    } else {
+      void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
+    }
+  } else {
+    window.log.info(
+      'handleUnsendMessage: got a request to delete an unknown messageHash:',
+      messageHash,
+      ' and found messageToDelete:',
+      messageToDelete?.id
+    );
   }
+  await removeFromCache(envelope);
+
   //#endregion
 }
 
