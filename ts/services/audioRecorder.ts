@@ -1,6 +1,7 @@
 // Copyright 2016-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import * as log from '../logging/log';
 import type { WebAudioRecorderClass } from '../window.d';
 
@@ -42,7 +43,15 @@ export class RecorderClass {
     }
   }
 
-  async start(): Promise<void> {
+  async start(): Promise<boolean> {
+    const hasMicrophonePermission = await requestMicrophonePermissions();
+    if (!hasMicrophonePermission) {
+      log.info(
+        'Recorder/start: Microphone permission was denied, new audio recording not allowed.'
+      );
+      return false;
+    }
+
     this.clear();
 
     this.context = new AudioContext();
@@ -61,11 +70,11 @@ export class RecorderClass {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       if (!this.context || !this.input) {
-        this.onError(
-          this.recorder,
-          new Error('Recorder/getUserMedia/stream: Missing context or input!')
+        const err = new Error(
+          'Recorder/getUserMedia/stream: Missing context or input!'
         );
-        return;
+        this.onError(this.recorder, err);
+        throw err;
       }
       this.source = this.context.createMediaStreamSource(stream);
       this.source.connect(this.input);
@@ -81,7 +90,10 @@ export class RecorderClass {
 
     if (this.recorder) {
       this.recorder.startRecording();
+      return true;
     }
+
+    return false;
   }
 
   async stop(): Promise<Blob | undefined> {
@@ -120,15 +132,7 @@ export class RecorderClass {
 
     this.clear();
 
-    if (error && error.name === 'NotAllowedError') {
-      log.warn('Recorder/onError: Microphone permission missing');
-      window.showPermissionsPopup();
-    } else {
-      log.error(
-        'Recorder/onError:',
-        error && error.stack ? error.stack : error
-      );
-    }
+    log.error('Recorder/onError:', error && error.stack ? error.stack : error);
   }
 
   getBlob(): Blob {

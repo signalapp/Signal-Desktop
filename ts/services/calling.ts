@@ -92,6 +92,7 @@ import {
 } from '../calling/constants';
 import { callingMessageToProto } from '../util/callingMessageToProto';
 import { getSendOptions } from '../util/getSendOptions';
+import { requestMicrophonePermissions } from '../util/requestMicrophonePermissions';
 import { SignalService as Proto } from '../protobuf';
 import dataInterface from '../sql/Client';
 import {
@@ -1510,20 +1511,8 @@ export class CallingClass {
     return true;
   }
 
-  private async requestMicrophonePermissions(): Promise<boolean> {
-    const microphonePermission = await window.getMediaPermissions();
-    if (!microphonePermission) {
-      await window.showCallingPermissionsPopup(false);
-
-      // Check the setting again (from the source of truth).
-      return window.getMediaPermissions();
-    }
-
-    return true;
-  }
-
   private async requestPermissions(isVideoCall: boolean): Promise<boolean> {
-    const microphonePermission = await this.requestMicrophonePermissions();
+    const microphonePermission = await requestMicrophonePermissions();
     if (microphonePermission) {
       if (isVideoCall) {
         return this.requestCameraPermissions();

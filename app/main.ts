@@ -1862,8 +1862,15 @@ ipc.on(
 
 // Permissions Popup-related IPC calls
 
-ipc.on('show-permissions-popup', () => {
-  showPermissionsPopupWindow(false, false);
+ipc.handle('show-permissions-popup', async () => {
+  try {
+    await showPermissionsPopupWindow(false, false);
+  } catch (error) {
+    getLogger().error(
+      'show-permissions-popup error:',
+      error && error.stack ? error.stack : error
+    );
+  }
 });
 ipc.handle(
   'show-calling-permissions-popup',

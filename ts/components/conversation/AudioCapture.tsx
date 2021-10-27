@@ -97,11 +97,18 @@ export const AudioCapture = ({
   const startRecordingShortcut = useStartRecordingShortcut(startRecording);
   useKeyboardShortcuts(startRecordingShortcut);
 
+  const closeToast = useCallback(() => {
+    setToastType(undefined);
+  }, []);
+
   // Update timestamp regularly, then timeout if recording goes over five minutes
   useEffect(() => {
     if (!isRecording) {
       return;
     }
+
+    setDurationText(START_DURATION_TEXT);
+    setToastType(ToastType.VoiceNoteLimit);
 
     const startTime = Date.now();
     const interval = setInterval(() => {
@@ -120,8 +127,15 @@ export const AudioCapture = ({
 
     return () => {
       clearInterval(interval);
+      closeToast();
     };
-  }, [completeRecording, errorRecording, isRecording, setDurationText]);
+  }, [
+    closeToast,
+    completeRecording,
+    errorRecording,
+    isRecording,
+    setDurationText,
+  ]);
 
   const clickCancel = useCallback(() => {
     cancelRecording();
@@ -130,10 +144,6 @@ export const AudioCapture = ({
   const clickSend = useCallback(() => {
     completeRecording(conversationId, onSendAudioRecording);
   }, [conversationId, completeRecording, onSendAudioRecording]);
-
-  const closeToast = useCallback(() => {
-    setToastType(undefined);
-  }, []);
 
   let toastElement: JSX.Element | undefined;
   if (toastType === ToastType.VoiceNoteLimit) {
@@ -226,8 +236,6 @@ export const AudioCapture = ({
             if (draftAttachments.length) {
               setToastType(ToastType.VoiceNoteMustBeOnlyAttachment);
             } else {
-              setDurationText(START_DURATION_TEXT);
-              setToastType(ToastType.VoiceNoteLimit);
               startRecording();
             }
           }}

@@ -160,7 +160,7 @@ declare global {
 
     QRCode: any;
     removeSetupMenuItems: () => unknown;
-    showPermissionsPopup: () => unknown;
+    showPermissionsPopup: () => Promise<void>;
 
     FontFace: typeof FontFace;
     _: typeof Underscore;
