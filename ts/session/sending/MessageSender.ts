@@ -21,7 +21,7 @@ import { getMessageById } from '../../../ts/data/data';
 import { SNodeAPI } from '../snode_api';
 import { getConversationController } from '../conversations';
 
-const DEFAULT_CONNECTIONS = 3;
+const DEFAULT_CONNECTIONS = 1;
 
 // ================ SNODE STORE ================
 

@@ -512,16 +512,22 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
   if (!unsendMessage) {
     //#region early exit conditions
     window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
+    await removeFromCache(envelope);
+
+    return;
   }
   if (!timestamp) {
     window?.log?.error('handleUnsendMessage: Invalid timestamp -- dropping message');
+    await removeFromCache(envelope);
+
+    return;
   }
 
   const messageToDelete = await getMessageBySenderAndTimestamp({
     source: messageAuthor,
     timestamp: Lodash.toNumber(timestamp),
   });
-  const messageHash = messageToDelete?.getPropsForMessage().messageHash;
+  const messageHash = messageToDelete?.get('messageHash');
   //#endregion
 
   //#region executing deletion
@@ -539,6 +545,13 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
     } else {
       void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
     }
+  } else {
+    window.log.info(
+      'handleUnsendMessage: got a request to delete an unknown messageHash:',
+      messageHash,
+      ' and found messageToDelete:',
+      messageToDelete?.id
+    );
   }
   await removeFromCache(envelope);
 
