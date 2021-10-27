@@ -8,7 +8,9 @@ import classnames from 'classnames';
 import * as styles from './styles.scss';
 import messages from '../_locales/en/messages.json';
 import { I18n } from '../sticker-creator/util/i18n';
+import { ThemeType } from '../ts/types/Util';
 import { ClassyProvider } from '../ts/components/PopperRootContext';
+import { StorybookThemeContext } from './StorybookThemeContext';
 
 const optionsConfig = {
   display: 'inline-radio',
@@ -31,6 +33,8 @@ const makeThemeKnob = pane =>
     )
   );
 
+const parseThemeString = str => (str === '' ? ThemeType.light : ThemeType.dark);
+
 const makeModeKnob = pane =>
   persistKnob(`${pane}-pane-mode`)(localValue =>
     optionsKnob(
@@ -46,19 +50,21 @@ addDecorator(withKnobs({ escapeHTML: false }));
 
 addDecorator((storyFn /* , context */) => {
   const contents = storyFn();
-  const firstPaneTheme = makeThemeKnob('First');
+  const firstPaneThemeString = makeThemeKnob('First');
+  const firstPaneTheme = parseThemeString(firstPaneThemeString);
   const firstPaneMode = makeModeKnob('First');
 
   const secondPane = persistKnob('second-pane-active')(localValue =>
     boolean('Second Pane Active', localValue !== 'false', 'Second Pane')
   );
 
-  const secondPaneTheme = makeThemeKnob('Second');
+  const secondPaneThemeString = makeThemeKnob('Second');
+  const secondPaneTheme = parseThemeString(secondPaneThemeString);
   const secondPaneMode = makeModeKnob('Second');
 
   // Adding it to the body as well so that we can cover modals and other
   // components that are rendered outside of this decorator container
-  if (firstPaneTheme === '') {
+  if (firstPaneThemeString === '') {
     document.body.classList.remove('dark-theme');
   } else {
     document.body.classList.add('dark-theme');
@@ -76,18 +82,30 @@ addDecorator((storyFn /* , context */) => {
 
   return (
     <div className={styles.container}>
-      <ClassyProvider themes={['dark']}>
-        <div
-          className={classnames(styles.panel, firstPaneTheme, firstPaneMode)}
-        >
-          {contents}
-        </div>
-      </ClassyProvider>
+      <StorybookThemeContext.Provider value={firstPaneTheme}>
+        <ClassyProvider themes={['dark']}>
+          <div
+            className={classnames(
+              styles.panel,
+              firstPaneThemeString,
+              firstPaneMode
+            )}
+          >
+            {contents}
+          </div>
+        </ClassyProvider>
+      </StorybookThemeContext.Provider>
       {secondPane ? (
         <div
-          className={classnames(styles.panel, secondPaneTheme, secondPaneMode)}
+          className={classnames(
+            styles.panel,
+            secondPaneThemeString,
+            secondPaneMode
+          )}
         >
-          {contents}
+          <StorybookThemeContext.Provider value={secondPaneTheme}>
+            {contents}
+          </StorybookThemeContext.Provider>
         </div>
       ) : null}
     </div>
