@@ -9,6 +9,7 @@ import { AvatarLightbox } from '../../AvatarLightbox';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { Emojify } from '../Emojify';
 import { GroupDescription } from '../GroupDescription';
+import { About } from '../About';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
 import type { LocalizerType } from '../../../types/Util';
 import { bemGenerator } from './util';
@@ -54,7 +55,16 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
       ]);
     }
   } else if (!isMe) {
-    subtitle = conversation.phoneNumber;
+    subtitle = (
+      <>
+        <div className={bem('subtitle__about')}>
+          <About text={conversation.about} />
+        </div>
+        <div className={bem('subtitle__phone-number')}>
+          {conversation.phoneNumber}
+        </div>
+      </>
+    );
   }
 
   const avatar = (
