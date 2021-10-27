@@ -125,7 +125,7 @@ async function buildOnionCtxs(
 
       const isCallToPn =
         finalRelayOptions?.host === hrefPnServerDev || finalRelayOptions?.host === hrefPnServerProd;
-      if (!isCallToPn && window.lokiFeatureFlags.useFileOnionRequestsV2) {
+      if (!isCallToPn) {
         target = '/loki/v3/lsrpc';
       }
 

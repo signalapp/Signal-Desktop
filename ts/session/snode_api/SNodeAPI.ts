@@ -695,7 +695,7 @@ export const TEST_getMinTimeout = () => 500;
  */
 // tslint:disable-next-line: max-func-body-length
 export const networkDeleteMessages = async (
-  hashes: Array<string>,
+  hashes: Array<string>
 ): Promise<Array<string> | null> => {
   const sodium = await getSodium();
   const userX25519PublicKey = UserUtils.getOurPubKeyStrFromCache();

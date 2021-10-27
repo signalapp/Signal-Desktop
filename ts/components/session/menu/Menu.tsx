@@ -147,7 +147,7 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
   const isMessagesSection = useSelector(getFocusedSection) === SectionType.Message;
   const nbOfAlreadyPinnedConvos = useSelector(getNumberOfPinnedConversations);
 
-  if (isMessagesSection && window.lokiFeatureFlags.enablePinConversations) {
+  if (isMessagesSection) {
     const conversation = getConversationController().get(conversationId);
     const isPinned = conversation.isPinned();
 
