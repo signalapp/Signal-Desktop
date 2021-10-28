@@ -1056,7 +1056,7 @@ export async function startApp(): Promise<void> {
       maxSize: Infinity,
     });
 
-    convoCollection.on('change', conversation => {
+    convoCollection.on('props-change', conversation => {
       if (!conversation) {
         return;
       }

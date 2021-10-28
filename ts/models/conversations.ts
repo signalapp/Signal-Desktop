@@ -101,6 +101,7 @@ import { SEALED_SENDER } from '../types/SealedSender';
 import { getAvatarData } from '../util/getAvatarData';
 import { createIdenticon } from '../util/createIdenticon';
 import * as log from '../logging/log';
+import * as Errors from '../types/errors';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -126,6 +127,9 @@ const SEND_REPORTING_THRESHOLD_MS = 25;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
+  'needsStorageServiceSync',
+  'storageID',
+  'storageUnknownFields',
 ]);
 
 type CachedIdenticon = {
@@ -315,6 +319,7 @@ export class ConversationModel extends window.Backbone
           this.oldCachedProps = this.cachedProps;
         }
         this.cachedProps = null;
+        this.trigger('props-change', this);
       }
     );
 
@@ -3054,8 +3059,16 @@ export class ConversationModel extends window.Backbone
   }
 
   getUuid(): UUID | undefined {
-    const value = this.get('uuid');
-    return value && new UUID(value);
+    try {
+      const value = this.get('uuid');
+      return value && new UUID(value);
+    } catch (err) {
+      log.warn(
+        `getUuid(): failed to obtain conversation(${this.id}) uuid due to`,
+        Errors.toLogFormat(err)
+      );
+      return undefined;
+    }
   }
 
   getCheckedUuid(reason: string): UUID {
