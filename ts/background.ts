@@ -122,6 +122,7 @@ import { ToastCaptchaSolved } from './components/ToastCaptchaSolved';
 import { ToastConversationArchived } from './components/ToastConversationArchived';
 import { ToastConversationUnarchived } from './components/ToastConversationUnarchived';
 import { showToast } from './util/showToast';
+import { startInteractionMode } from './windows/startInteractionMode';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -441,56 +442,7 @@ export async function startApp(): Promise<void> {
     false
   );
 
-  // Keyboard/mouse mode
-  let interactionMode: 'mouse' | 'keyboard' = 'mouse';
-  $(document.body).addClass('mouse-mode');
-
-  window.enterKeyboardMode = () => {
-    if (interactionMode === 'keyboard') {
-      return;
-    }
-
-    interactionMode = 'keyboard';
-    $(document.body).addClass('keyboard-mode').removeClass('mouse-mode');
-    const { userChanged } = window.reduxActions.user;
-    const { clearSelectedMessage } = window.reduxActions.conversations;
-    if (clearSelectedMessage) {
-      clearSelectedMessage();
-    }
-    if (userChanged) {
-      userChanged({ interactionMode });
-    }
-  };
-  window.enterMouseMode = () => {
-    if (interactionMode === 'mouse') {
-      return;
-    }
-
-    interactionMode = 'mouse';
-    $(document.body).addClass('mouse-mode').removeClass('keyboard-mode');
-    const { userChanged } = window.reduxActions.user;
-    const { clearSelectedMessage } = window.reduxActions.conversations;
-    if (clearSelectedMessage) {
-      clearSelectedMessage();
-    }
-    if (userChanged) {
-      userChanged({ interactionMode });
-    }
-  };
-
-  document.addEventListener(
-    'keydown',
-    event => {
-      if (event.key === 'Tab') {
-        window.enterKeyboardMode();
-      }
-    },
-    true
-  );
-  document.addEventListener('wheel', window.enterMouseMode, true);
-  document.addEventListener('mousedown', window.enterMouseMode, true);
-
-  window.getInteractionMode = () => interactionMode;
+  startInteractionMode();
 
   // Load these images now to ensure that they don't flicker on first use
   window.preloadedImages = [];
