@@ -435,7 +435,7 @@
   "notificationSubtitle": "Notifications - $setting$",
   "surveyTitle": "Take our Session Survey",
   "goToOurSurvey": "Go to our survey",
-  "incomingCall": "Incoming call",
+  "incomingCallFrom": "Incoming call from '$name$'",
   "accept": "Accept",
   "decline": "Decline",
   "endCall": "End call",

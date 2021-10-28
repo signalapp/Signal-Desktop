@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import _ from 'underscore';
 import { CallManager } from '../../../session/utils';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../../state/selectors/conversations';
+import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 
@@ -19,6 +20,10 @@ export const CallWindow = styled.div`
   flex-direction: column;
   background-color: var(--color-modal-background);
   border: var(--session-border);
+`;
+
+const IncomingCallAvatatContainer = styled.div`
+  padding: 0 0 2rem 0;
 `;
 
 // TODO:
@@ -48,9 +53,19 @@ export const IncomingCallDialog = () => {
     return null;
   }
 
+  const from = incomingCallProps?.profileName || incomingCallProps?.name || incomingCallProps?.id;
+
   if (hasIncomingCall) {
     return (
-      <SessionWrapperModal title={window.i18n('incomingCall')}>
+      <SessionWrapperModal title={window.i18n('incomingCallFrom', from)}>
+        <IncomingCallAvatatContainer>
+          <Avatar
+            size={AvatarSize.XL}
+            avatarPath={incomingCallProps?.avatarPath}
+            name={incomingCallProps?.profileName}
+            pubkey={incomingCallProps?.id}
+          />
+        </IncomingCallAvatatContainer>
         <div className="session-modal__button-group">
           <SessionButton text={window.i18n('decline')} onClick={handleDeclineIncomingCall} />
           <SessionButton
