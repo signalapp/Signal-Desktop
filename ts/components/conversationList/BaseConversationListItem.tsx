@@ -240,8 +240,6 @@ function UnreadIndicator({ count = 0 }: Readonly<{ count?: number }>) {
     classModifier = 'many';
   } else if (count > 9) {
     classModifier = 'two-digits';
-  } else if (count === 0) {
-    classModifier = 'marked-unread';
   }
 
   return (

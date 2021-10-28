@@ -5171,7 +5171,6 @@ button.module-image__border-overlay:focus {
 
         @include font-caption-bold;
         border-radius: 10px;
-        box-sizing: content-box;
         color: $color-white;
         font-weight: 500;
         height: $size;
@@ -5201,6 +5200,7 @@ button.module-image__border-overlay:focus {
 
         &--two-digits,
         &--many {
+          box-sizing: content-box;
           padding-left: 4px;
           padding-right: 4px;
         }
@@ -5213,11 +5213,6 @@ button.module-image__border-overlay:focus {
             display: inline-block;
             font-size: 9px;
           }
-        }
-
-        &--marked-unread {
-          padding-left: 0;
-          padding-right: 0;
         }
       }
 
