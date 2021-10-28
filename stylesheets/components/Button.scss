@@ -202,12 +202,12 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    font-size: 9px;
+    font-size: 11px;
     justify-content: center;
-    line-height: 14px;
+    line-height: 10px;
     min-height: 44px;
-    min-width: 60px;
-    padding: 0 8px;
+    min-width: 68px;
+    padding: 8px;
 
     @include light-theme {
       background-color: $color-gray-05;
@@ -224,9 +224,13 @@
         box-shadow: 0 0 0 2px $color-ultramarine;
       }
     }
+
+    &::before {
+      margin-bottom: 6px;
+    }
   }
 
-  &__icon {
+  &--icon {
     @mixin button-icon($icon) {
       content: '';
       display: block;
@@ -242,11 +246,22 @@
     }
 
     &--audio::before {
-      @include button-icon('../images/icons/v2/phone-right-outline-24.svg');
+      @include light-theme {
+        @include button-icon('../images/icons/v2/phone-outline-24.svg');
+      }
+
+      @include dark-theme {
+        @include button-icon('../images/icons/v2/phone-solid-24.svg');
+      }
     }
 
     &--muted::before {
-      @include button-icon('../images/icons/v2/bell-disabled-outline-24.svg');
+      @include light-theme {
+        @include button-icon('../images/icons/v2/bell-disabled-outline-24.svg');
+      }
+      @include dark-theme {
+        @include button-icon('../images/icons/v2/bell-disabled-solid-24.svg');
+      }
     }
 
     &--photo::before {
@@ -262,11 +277,22 @@
     }
 
     &--unmuted::before {
-      @include button-icon('../images/icons/v2/bell-outline-24.svg');
+      @include light-theme {
+        @include button-icon('../images/icons/v2/bell-outline-24.svg');
+      }
+      @include dark-theme {
+        @include button-icon('../images/icons/v2/bell-solid-24.svg');
+      }
     }
 
     &--video::before {
-      @include button-icon('../images/icons/v2/video-outline-24.svg');
+      @include light-theme {
+        @include button-icon('../images/icons/v2/video-outline-24.svg');
+      }
+
+      @include dark-theme {
+        @include button-icon('../images/icons/v2/video-solid-24.svg');
+      }
     }
   }
 }

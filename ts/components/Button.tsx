@@ -124,7 +124,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
           'module-Button',
           sizeClassName,
           variantClassName,
-          `module-Button__icon--${icon}`,
+          icon && `module-Button--icon--${icon}`,
           className
         )}
         disabled={disabled}
