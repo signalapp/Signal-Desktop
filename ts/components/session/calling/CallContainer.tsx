@@ -15,6 +15,7 @@ import {
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { getConversationController } from '../../../session/conversations';
+import { CallManagerOptionsType } from '../../../session/utils/CallManager';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -28,11 +29,11 @@ export const DraggableCallWindow = styled.div`
   border: var(--session-border);
 `;
 
-export const StyledVideoElement = styled.video<{ isRemoteVideoMuted: boolean }>`
+export const StyledVideoElement = styled.video<{ isVideoMuted: boolean }>`
   padding: 0 1rem;
   height: 100%;
   width: 100%;
-  opacity: ${props => (props.isRemoteVideoMuted ? 0 : 1)};
+  opacity: ${props => (props.isVideoMuted ? 0 : 1)};
 `;
 
 const StyledDraggableVideoElement = styled(StyledVideoElement)`
@@ -97,16 +98,10 @@ export const DraggableCallContainer = () => {
   useEffect(() => {
     if (ongoingCallPubkey !== selectedConversationKey) {
       CallManager.setVideoEventsListener(
-        (
-          _localStream: MediaStream | null,
-          remoteStream: MediaStream | null,
-          _camerasList: any,
-          _audioList: any,
-          remoteVideoIsMuted: boolean
-        ) => {
+        ({ isRemoteVideoStreamMuted, remoteStream }: CallManagerOptionsType) => {
           if (mountedState() && videoRefRemote?.current) {
             videoRefRemote.current.srcObject = remoteStream;
-            setIsRemoteVideoMuted(remoteVideoIsMuted);
+            setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
           }
         }
       );
@@ -157,7 +152,7 @@ export const DraggableCallContainer = () => {
           <StyledDraggableVideoElement
             ref={videoRefRemote}
             autoPlay={true}
-            isRemoteVideoMuted={isRemoteVideoMuted}
+            isVideoMuted={isRemoteVideoMuted}
           />
           {isRemoteVideoMuted && (
             <CenteredAvatarInDraggable>

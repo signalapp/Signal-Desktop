@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { CallManager, ToastUtils } from '../../../session/utils';
+import { CallManager, ToastUtils, UserUtils } from '../../../session/utils';
 import {
   getHasOngoingCall,
   getHasOngoingCallWith,
@@ -13,7 +13,7 @@ import {
 } from '../../../state/selectors/conversations';
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
-import { InputItem } from '../../../session/utils/CallManager';
+import { CallManagerOptionsType, InputItem } from '../../../session/utils/CallManager';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import { StyledVideoElement } from './CallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
@@ -124,8 +124,9 @@ const AudioInputMenu = ({
 };
 
 const CenteredAvatarInConversation = styled.div`
-  position: absolute;
-  top: 0;
+  top: -50%;
+  transform: translateY(-50%);
+  position: relative;
   bottom: 0;
   left: 0;
   right: 50%;
@@ -151,39 +152,50 @@ export const InConversationCallContainer = () => {
   const videoRefLocal = useRef<any>();
   const mountedState = useMountedState();
 
-  const [isVideoMuted, setVideoMuted] = useState(true);
+  const [isLocalVideoMuted, setLocalVideoMuted] = useState(true);
   const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
+
   const [isAudioMuted, setAudioMuted] = useState(false);
 
   const videoTriggerId = 'video-menu-trigger-id';
   const audioTriggerId = 'audio-menu-trigger-id';
 
-  const avatarPath = ongoingCallPubkey
+  const remoteAvatarPath = ongoingCallPubkey
     ? getConversationController()
         .get(ongoingCallPubkey)
         .getAvatarPath()
     : undefined;
 
+  const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
+  const ourUsername = getConversationController()
+    .get(ourPubkey)
+    .getProfileName();
+
+  const ourAvatarPath = getConversationController()
+    .get(ourPubkey)
+    .getAvatarPath();
+
   useEffect(() => {
     if (ongoingCallPubkey === selectedConversationKey) {
-      CallManager.setVideoEventsListener(
-        (
-          localStream: MediaStream | null,
-          remoteStream: MediaStream | null,
-          camerasList: Array<InputItem>,
-          audioInputList: Array<InputItem>,
-          isRemoteVideoStreamMuted: boolean
-        ) => {
-          if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
-            videoRefLocal.current.srcObject = localStream;
-            setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
-            videoRefRemote.current.srcObject = remoteStream;
+      CallManager.setVideoEventsListener((options: CallManagerOptionsType) => {
+        const {
+          audioInputsList,
+          camerasList,
+          isLocalVideoStreamMuted,
+          isRemoteVideoStreamMuted,
+          localStream,
+          remoteStream,
+        } = options;
+        if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
+          videoRefLocal.current.srcObject = localStream;
+          setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
+          setLocalVideoMuted(isLocalVideoStreamMuted);
+          videoRefRemote.current.srcObject = remoteStream;
 
-            setCurrentConnectedCameras(camerasList);
-            setCurrentConnectedAudioInputs(audioInputList);
-          }
+          setCurrentConnectedCameras(camerasList);
+          setCurrentConnectedAudioInputs(audioInputsList);
         }
-      );
+      });
     }
 
     return () => {
@@ -204,14 +216,14 @@ export const InConversationCallContainer = () => {
 
       return;
     }
-    if (isVideoMuted) {
+    if (isLocalVideoMuted) {
       // select the first one
       await CallManager.selectCameraByDeviceId(currentConnectedCameras[0].deviceId);
     } else {
       await CallManager.selectCameraByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
     }
 
-    setVideoMuted(!isVideoMuted);
+    setLocalVideoMuted(!isLocalVideoMuted);
   };
 
   const handleMicrophoneToggle = async () => {
@@ -263,13 +275,13 @@ export const InConversationCallContainer = () => {
           <StyledVideoElement
             ref={videoRefRemote}
             autoPlay={true}
-            isRemoteVideoMuted={isRemoteVideoMuted}
+            isVideoMuted={isRemoteVideoMuted}
           />
           {isRemoteVideoMuted && (
             <CenteredAvatarInConversation>
               <Avatar
                 size={AvatarSize.XL}
-                avatarPath={avatarPath}
+                avatarPath={remoteAvatarPath}
                 name={ongoingCallUsername}
                 pubkey={ongoingCallPubkey}
               />
@@ -281,8 +293,18 @@ export const InConversationCallContainer = () => {
             ref={videoRefLocal}
             autoPlay={true}
             muted={true}
-            isRemoteVideoMuted={false}
+            isVideoMuted={isLocalVideoMuted}
           />
+          {isLocalVideoMuted && (
+            <CenteredAvatarInConversation>
+              <Avatar
+                size={AvatarSize.XL}
+                avatarPath={ourAvatarPath}
+                name={ourUsername}
+                pubkey={ourPubkey}
+              />
+            </CenteredAvatarInConversation>
+          )}
         </VideoContainer>
 
         <InConvoCallWindowControls>
@@ -298,7 +320,7 @@ export const InConversationCallContainer = () => {
           />
           <DropDownAndToggleButton
             iconType="camera"
-            isMuted={isVideoMuted}
+            isMuted={isLocalVideoMuted}
             onMainButtonClick={handleCameraToggle}
             onArrowClick={showVideoInputMenu}
           />
@@ -312,7 +334,7 @@ export const InConversationCallContainer = () => {
         <VideoInputMenu
           triggerId={videoTriggerId}
           onUnmute={() => {
-            setVideoMuted(false);
+            setLocalVideoMuted(false);
           }}
           camerasList={currentConnectedCameras}
         />

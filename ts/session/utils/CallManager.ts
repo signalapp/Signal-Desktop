@@ -22,26 +22,28 @@ export type InputItem = { deviceId: string; label: string };
 // const VIDEO_WIDTH = 640;
 // const VIDEO_RATIO = 16 / 9;
 
-type CallManagerListener =
-  | ((
-      localStream: MediaStream | null,
-      remoteStream: MediaStream | null,
-      camerasList: Array<InputItem>,
-      audioInputsList: Array<InputItem>,
-      isRemoteVideoStreamMuted: boolean
-    ) => void)
-  | null;
+export type CallManagerOptionsType = {
+  localStream: MediaStream | null;
+  remoteStream: MediaStream | null;
+  camerasList: Array<InputItem>;
+  audioInputsList: Array<InputItem>;
+  isLocalVideoStreamMuted: boolean;
+  isRemoteVideoStreamMuted: boolean;
+};
+
+export type CallManagerListener = ((options: CallManagerOptionsType) => void) | null;
 let videoEventsListener: CallManagerListener;
 
 function callVideoListener() {
   if (videoEventsListener) {
-    videoEventsListener(
-      mediaDevices,
+    videoEventsListener({
+      localStream: mediaDevices,
       remoteStream,
       camerasList,
       audioInputsList,
-      remoteVideoStreamIsMuted
-    );
+      isRemoteVideoStreamMuted: remoteVideoStreamIsMuted,
+      isLocalVideoStreamMuted: selectedCameraId === INPUT_DISABLED_DEVICE_ID,
+    });
   }
 }
 
@@ -79,7 +81,7 @@ const configuration: RTCConfiguration = {
   iceTransportPolicy: 'relay',
 };
 
-let selectedCameraId: string | undefined;
+let selectedCameraId: string = INPUT_DISABLED_DEVICE_ID;
 let selectedAudioInputId: string | undefined;
 let camerasList: Array<InputItem> = [];
 let audioInputsList: Array<InputItem> = [];
@@ -115,8 +117,7 @@ async function updateInputLists() {
 }
 
 function sendVideoStatusViaDataChannel() {
-  const videoEnabledLocally =
-    selectedCameraId !== undefined && selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
+  const videoEnabledLocally = selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
   const stringToSend = JSON.stringify({
     video: videoEnabledLocally,
   });
@@ -127,7 +128,7 @@ function sendVideoStatusViaDataChannel() {
 
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
   if (cameraDeviceId === INPUT_DISABLED_DEVICE_ID) {
-    selectedCameraId = cameraDeviceId;
+    selectedCameraId = INPUT_DISABLED_DEVICE_ID;
 
     const sender = peerConnection?.getSenders().find(s => {
       return s.track?.kind === 'video';
@@ -136,6 +137,7 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
       sender.track.enabled = false;
     }
     sendVideoStatusViaDataChannel();
+    callVideoListener();
     return;
   }
   if (camerasList.some(m => m.deviceId === cameraDeviceId)) {
@@ -164,12 +166,15 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
           mediaDevices?.removeTrack(t);
         });
         mediaDevices?.addTrack(videoTrack);
+
         sendVideoStatusViaDataChannel();
+        callVideoListener();
       } else {
         throw new Error('Failed to get sender for selectCameraByDeviceId ');
       }
     } catch (e) {
       window.log.warn('selectCameraByDeviceId failed with', e.message);
+      callVideoListener();
     }
   }
 }
@@ -301,7 +306,7 @@ async function openMediaDevicesAndAddTracks() {
       }
     });
   } catch (err) {
-    ToastUtils.pushMicAndCameraPermissionNeeded();
+    ToastUtils.pushVideoCallPermissionNeeded();
     closeVideoCall();
   }
   callVideoListener();
@@ -310,7 +315,7 @@ async function openMediaDevicesAndAddTracks() {
 // tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
   if (!getCallMediaPermissionsSettings()) {
-    ToastUtils.pushMicAndCameraPermissionNeeded();
+    ToastUtils.pushVideoCallPermissionNeeded();
     return;
   }
   await updateInputLists();
@@ -420,8 +425,16 @@ function closeVideoCall() {
 
   mediaDevices = null;
   remoteStream = null;
+  selectedCameraId = INPUT_DISABLED_DEVICE_ID;
   if (videoEventsListener) {
-    videoEventsListener(null, null, [], [], true);
+    videoEventsListener({
+      audioInputsList: [],
+      camerasList: [],
+      isLocalVideoStreamMuted: true,
+      isRemoteVideoStreamMuted: true,
+      localStream: null,
+      remoteStream: null,
+    });
   }
 }
 
@@ -592,7 +605,14 @@ export function handleCallTypeEndCall(sender: string) {
     if (callingConvos.length === 1 && callingConvos[0].id === sender) {
       closeVideoCall();
       if (videoEventsListener) {
-        videoEventsListener(null, null, [], [], true);
+        videoEventsListener({
+          audioInputsList: [],
+          camerasList: [],
+          isLocalVideoStreamMuted: true,
+          isRemoteVideoStreamMuted: true,
+          localStream: null,
+          remoteStream: null,
+        });
       }
       window.inboxStore?.dispatch(endCall({ pubkey: sender }));
     }
@@ -633,19 +653,18 @@ export async function handleCallTypeOffer(
 
     const convos = getConversationController().getConversations();
     const callingConvos = convos.filter(convo => convo.callState !== undefined);
+
+    if (!getCallMediaPermissionsSettings()) {
+      await handleMissedCall(sender, incomingOfferTimestamp, true);
+      return;
+    }
+
     if (callingConvos.length > 0) {
       // we just got a new offer from someone we are NOT already in a call with
       if (callingConvos.length !== 1 || callingConvos[0].id !== sender) {
-        await handleMissedCall(sender, incomingOfferTimestamp);
+        await handleMissedCall(sender, incomingOfferTimestamp, false);
         return;
       }
-    }
-
-    if (!getCallMediaPermissionsSettings()) {
-      await handleMissedCall(sender, incomingOfferTimestamp);
-      // TODO audric show where to turn it on
-      throw new Error('TODO AUDRIC');
-      return;
     }
 
     const readyForOffer =
@@ -672,6 +691,7 @@ export async function handleCallTypeOffer(
         await buildAnswerAndSendIt(sender);
       }
     }
+    window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
     // don't need to do the sending here as we dispatch an answer in a
   } catch (err) {
@@ -682,16 +702,28 @@ export async function handleCallTypeOffer(
     callCache.set(sender, new Array());
   }
   callCache.get(sender)?.push(callMessage);
-  window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 }
 
-async function handleMissedCall(sender: string, incomingOfferTimestamp: number) {
+async function handleMissedCall(
+  sender: string,
+  incomingOfferTimestamp: number,
+  isBecauseOfCallPermission: boolean
+) {
   const incomingCallConversation = await getConversationById(sender);
-  ToastUtils.pushedMissedCall(
-    incomingCallConversation?.getNickname() ||
-      incomingCallConversation?.getProfileName() ||
-      'Unknown'
-  );
+
+  if (!isBecauseOfCallPermission) {
+    ToastUtils.pushedMissedCall(
+      incomingCallConversation?.getNickname() ||
+        incomingCallConversation?.getProfileName() ||
+        'Unknown'
+    );
+  } else {
+    ToastUtils.pushedMissedCallCauseOfPermission(
+      incomingCallConversation?.getNickname() ||
+        incomingCallConversation?.getProfileName() ||
+        'Unknown'
+    );
+  }
 
   await incomingCallConversation?.addSingleMessage({
     conversationId: incomingCallConversation.id,

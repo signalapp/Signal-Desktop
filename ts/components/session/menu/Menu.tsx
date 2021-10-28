@@ -373,7 +373,7 @@ export function getStartCallMenuItem(conversationId: string): JSX.Element | null
           }
 
           if (!getCallMediaPermissionsSettings()) {
-            ToastUtils.pushMicAndCameraPermissionNeeded();
+            ToastUtils.pushVideoCallPermissionNeeded();
             return;
           }
 
