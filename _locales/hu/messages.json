@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Letöltés",
+        "message": "Mentés",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Sikertelen frissítés",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Némítva",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Némítás",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a  $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Csoporttagok megjelenítése",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Biztonságos munkamenet újraindítása",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Biztonsági szám megjelenítése",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Mégse",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ olyan Signal újdonságot tartalmazó üzenetet küldött, melyet a Signal jelenlegi verziójával nem lehet feldolgozni vagy megjeleníteni.",
@@ -5353,6 +5361,14 @@
         "message": "Csoportbeállítások",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Csevegés beállításai",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Csoporthivatkozás",
         "description": "This is the label for the group link management panel"
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.22"
     }
 }

@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Shkarkoje",
+        "message": "Ruaje",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "S'përditësohet Dot",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Pa zë",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Heshtoje",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal-i për Desktop s’arriti të përditësohej, por ka gati një version të ri. Ju lutemi, kaloni te $url$ dhe instaloni versionin e ri dorazi, mandej ose lidhuni me asistencën, ose parashtroni një të metë rreth këtij problemi.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Shfaq anëtarët",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Rinis sesionin",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Shihni numër sigurie",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Anuloje",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Lexoni më tepër",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ ju dërgoi një mesazh që s’mund të përpunohet apo shfaqet, ngaqë përdor një veçori të re të Signal-it.",
@@ -5353,6 +5361,14 @@
         "message": "Rregullime grupi",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Rregullime fjalosjeje",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Të hiqet heshtimi i kësaj fjalosjeje?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Lidhje grupi",
         "description": "This is the label for the group link management panel"
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Përdoruesit e lexuesit të ekrani tani do të shohin se është më e lehtë të lëvizet nëpër listën e bisedave më kuadratin majtas.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
+        "description": "Release notes for v5.22"
     }
 }

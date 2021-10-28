@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Hämta",
+        "message": "Spara",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Kan inte uppdatera",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Ljudet avstängt",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Ljud av",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Det gick inte att uppdatera Signal Desktop, men det finns en ny version tillgänglig. Vänligen gå till  $url$ och installera den nya versionen manuellt, kontakta antingen sedan supporten eller skicka en felrapport om detta problem.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Visa medlemmar",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Återställ session",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Visa säkerhetsnummer",
@@ -1422,7 +1426,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Tysta",
+        "message": "Ljud av",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -2751,6 +2755,10 @@
         "message": "Avbryt",
         "description": "Appears on the cancel button in confirmation dialogs."
     },
+    "MessageBody--read-more": {
+        "message": "Läs mer",
+        "description": "When a message is too long this is the affordance to expand the message"
+    },
     "Message--unsupported-message": {
         "message": "$contact$ skickade dig ett meddelande som inte kan bearbetas eller visas eftersom det använder en ny Signal-funktion.",
         "description": "",
@@ -3000,7 +3008,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Växla tysta på och av",
+        "message": "Växla ljud på och av",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -3826,7 +3834,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Starta delning",
+        "message": "Börja dela",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3868,31 +3876,31 @@
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Tysta aviseringar",
+        "message": "Stäng av ljudet för aviseringar",
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Inte tystad",
+        "message": "Ljud på",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
-        "message": "Tysta i en timme",
+        "message": "Ljud av i en timme",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Tysta i 8 timmar",
+        "message": "Ljud av i 8 timmar",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Tysta i en dag",
+        "message": "Ljud av i en dag",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Tysta i en vecka",
+        "message": "Ljud av i en vecka",
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Tysta för alltid",
+        "message": "Ljud av för alltid",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3900,11 +3908,11 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Alltid tystad",
+        "message": "Ljudet avstängt för alltid",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "Tystad till $duration$",
+        "message": "Ljudet avstängt till $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -5306,7 +5314,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Inkludera tysta konversationer i märkesräkning",
+        "message": "Inkludera konversationer med ljudet avstängt i märkesräkning",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5352,6 +5360,14 @@
     "showConversationDetails": {
         "message": "Gruppinställningar",
         "description": "This is a button in the conversation context menu to show group settings"
+    },
+    "showConversationDetails--direct": {
+        "message": "Chattinställningar",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Ljud på i den här chatten",
+        "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
         "message": "Grupplänk",
@@ -5480,7 +5496,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Få aviseringar när du nämns i tystade chattar",
+        "message": "Få aviseringar när du nämns i chattar med ljudet av",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5488,7 +5504,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Meddela inte om tystad",
+        "message": "Meddela inte om ljudet är avstängt",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Skärmläsare bör nu ha lättare att navigera genom konversationslistan i den vänstra rutan.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
+        "description": "Release notes for v5.22"
     }
 }

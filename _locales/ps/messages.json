@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "راښکته کول",
+        "message": "ثبت",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "اپډیټ کېدای نشي",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "صامت شوی",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "صامت",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "د ډیسکټاپ Signal اپډیټ نشو، خو یوه نوې نسخه شته. د مهرباني له مخې $url$ ته ولاړ شئ او په لاسي ډول نوې نسخه انسټال کړئ، بیا وروسته یا مرستندوی ټیم سره اړیکه ونیسئ یا د همدې ستونزې په اړه د ستونزې د هواري رپوټ ولیږئ.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "غړي وښیئ",
         "description": ""
-    },
-    "resetSession": {
-        "message": "د غونډې له سره تنظیمول",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "د خوندیتوب د شمېرې لیدل",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "لغوه کول",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ تاسې ته یو پیغام ولیږه کوم چې نه خلاصیږي یا نه ښودل کېږي ځکه هغه د Signal نوې بڼه کاروي.",
@@ -5353,6 +5361,14 @@
         "message": "د ګروپ تنظیمات",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Chat settings",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "د ګروپ لینک",
         "description": "This is the label for the group link management panel"
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "د سکرین لوستونکی کارونکی اوس باید هغه په اسانۍ سره ومومي تر څو په کېڼه تخته کې د محاورې لیست په اسانۍ سره ښکته پورته کړي.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",
+        "description": "Release notes for v5.22"
     }
 }
