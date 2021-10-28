@@ -151,6 +151,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           scrollToQuoteMessage={this.scrollToQuoteMessage}
           onPageDownPressed={this.scrollPgDown}
           onPageUpPressed={this.scrollPgUp}
+          onHomePressed={this.scrollTop}
+          onEndPressed={this.scrollEnd}
         />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
@@ -265,6 +267,24 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       top: Math.floor(+messageContainer.clientHeight * 2) / 3,
       behavior: 'smooth',
     });
+  }
+
+  private scrollTop() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, -messageContainer.scrollHeight);
+  }
+
+  private scrollEnd() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, 0);
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
