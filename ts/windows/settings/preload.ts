@@ -15,6 +15,7 @@ import {
 } from '../../types/SystemTraySetting';
 import { awaitObject } from '../../util/awaitObject';
 import { createSetting, createCallback } from '../../util/preload';
+import { startInteractionMode } from '../startInteractionMode';
 
 function doneRendering() {
   ipcRenderer.send('settings-done-rendering');
@@ -124,6 +125,8 @@ function getSystemTraySettingValues(
 }
 
 const renderPreferences = async () => {
+  startInteractionMode();
+
   const {
     blockedCount,
     deviceName,

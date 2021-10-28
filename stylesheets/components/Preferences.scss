@@ -55,6 +55,15 @@
       }
     }
 
+    &:focus {
+      @include keyboard-mode {
+        background: $color-gray-05;
+      }
+      @include dark-keyboard-mode {
+        background: $color-gray-75;
+      }
+    }
+
     &::before {
       content: '';
       display: block;
