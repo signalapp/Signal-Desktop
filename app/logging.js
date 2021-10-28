@@ -34,6 +34,10 @@ function initialize() {
   mkdirp.sync(logPath);
 
   return cleanupLogs(logPath).then(() => {
+    if (logger) {
+      return;
+    }
+
     const logFile = path.join(logPath, 'log.log');
 
     logger = bunyan.createLogger({
