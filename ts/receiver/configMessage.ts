@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createOrUpdateItem, getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
+import { createOrUpdateItem } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -53,14 +53,16 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  const didWeHandleAConfigurationMessageAlready =
-    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-  if (didWeHandleAConfigurationMessageAlready) {
-    window?.log?.info(
-      'Dropping configuration contacts/groups change as we already handled one... '
-    );
-    return;
-  }
+  // const didWeHandleAConfigurationMessageAlready =
+  //   (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+
+  // TODO: debug
+  // if (didWeHandleAConfigurationMessageAlready) {
+  //   window?.log?.info(
+  //     'Dropping configuration contacts/groups change as we already handled one... '
+  //   );
+  //   return;
+  // }
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
@@ -125,6 +127,7 @@ async function handleGroupsAndContactsFromConfigMessage(
           };
           // updateProfile will do a commit for us
           contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+          contactConvo.setIsApproved(Boolean(c.isApproved));
 
           await updateProfileOneAtATime(contactConvo, profile, c.profileKey);
         } catch (e) {

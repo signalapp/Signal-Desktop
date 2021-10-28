@@ -85,22 +85,26 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
-    const approvedConversations = conversations?.filter(c => c.isApproved === true);
+    const approvedConversations = conversations?.filter(c => Boolean(c.isApproved) === true);
     if (!conversations || !approvedConversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
-    // const conversation = conversations[index];
+
+    // TODO: make this only filtered when the setting is enabled
+    const messageRequestsEnabled =
+      window.inboxStore?.getState().userConfig.messageRequests === true;
+
     let conversation;
     if (approvedConversations?.length) {
       conversation = approvedConversations[index];
     }
 
-    // TODO: need to confirm whats best here.
-    if (
-      !conversation ||
-      conversation?.isApproved === undefined ||
-      conversation.isApproved === false
-    ) {
+    if (!conversation) {
+      return null;
+    }
+
+    // TODO: need to confirm what default setting is best here.
+    if (messageRequestsEnabled && !Boolean(conversation.isApproved)) {
       return null;
     }
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
@@ -120,21 +124,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     // TODO: make selectors for this instead.
     // TODO: only filter conversations if setting for requests is applied
-    const approvedConversations = conversations.filter(c => c.isApproved === true);
-    const messageRequestsEnabled =
-      window.inboxStore?.getState().userConfig.messageRequests === true;
 
-    const conversationsForList = messageRequestsEnabled ? approvedConversations : conversations;
-    if (!this.state.approvedConversations.length) {
-      this.setState({
-        approvedConversations: conversationsForList,
-      });
-    }
-
-    console.warn({ conversationsForList });
-
-    // const length = conversations.length;
-    const length = conversationsForList.length;
+    // TODO: readjust to be approved length as only approved convos will show here.
+    const length = this.props.conversations ? this.props.conversations.length : 0;
 
     const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
@@ -146,8 +138,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={this.state.approvedConversations}
-              // conversations={[]}
+              // conversations={this.state.approvedConversations}
+              conversations={this.props.conversations}
               height={height}
               rowCount={length}
               rowHeight={64}

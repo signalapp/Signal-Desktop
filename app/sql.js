@@ -1600,8 +1600,13 @@ function updateConversation(data) {
     type,
     members,
     name,
+    isApproved,
     profileName,
   } = data;
+
+  console.log({ usrData: data });
+  console.log({ usrDataTrace: console.trace() });
+  console.log('usrData@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 
   globalInstance
     .prepare(
@@ -1612,6 +1617,7 @@ function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
+    isApproved = $isApproved,
     profileName = $profileName
   WHERE id = $id;`
     )
@@ -1623,6 +1629,7 @@ function updateConversation(data) {
       type,
       members: members ? members.join(' ') : null,
       name,
+      isApproved,
       profileName,
     });
 }

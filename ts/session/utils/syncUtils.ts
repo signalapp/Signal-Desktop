@@ -1,5 +1,6 @@
 import {
   createOrUpdateItem,
+  getAllConversations,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
 } from '../../../ts/data/data';
@@ -36,16 +37,24 @@ const getLastSyncTimestampFromDb = async (): Promise<number | undefined> =>
 const writeLastSyncTimestampToDb = async (timestamp: number) =>
   createOrUpdateItem({ id: ITEM_ID_LAST_SYNC_TIMESTAMP, value: timestamp });
 
-export const syncConfigurationIfNeeded = async () => {
+/**
+ * Syncs usre configuration with other devices linked to this user.
+ * @param force Bypass duration time limit for sending sync messages
+ * @returns
+ */
+export const syncConfigurationIfNeeded = async (force: boolean = false) => {
   const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
   const now = Date.now();
 
   // if the last sync was less than 2 days before, return early.
-  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
+  if (!force && Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
     return;
   }
 
-  const allConvos = getConversationController().getConversations();
+  const allConvos = await (await getAllConversations()).models;
+
+  console.warn({ test: allConvos[0].attributes.isApproved });
+  // const configMessage = await getCurrentConfigurationMessage(allConvos);
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
     // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
@@ -191,6 +200,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
         displayName: c.getLokiProfile()?.displayName,
         profilePictureURL: c.get('avatarPointer'),
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
+        isApproved: c.isApproved(),
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);

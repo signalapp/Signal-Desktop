@@ -176,6 +176,7 @@ export const fillConvoAttributesWithDefaults = (
     triggerNotificationsFor: 'all', // if the settings is not set in the db, this is the default
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
     isPinned: false,
+    isApproved: false,
   });
 };
 
@@ -777,7 +778,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         const chatMessagePrivate = new VisibleMessage(chatMessageParams);
 
         await getMessageQueue().sendToPubKey(destinationPubkey, chatMessagePrivate);
-        // this.setIsApproved(true); // consider the conversation approved even if the message fails to send
         return;
       }
 
@@ -1389,21 +1389,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async setIsApproved(value: boolean) {
-    console.warn(`Setting ${this.attributes.nickname} isApproved to:: ${value}`);
     if (value !== this.get('isApproved')) {
+      console.warn(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
         isApproved: value,
       });
       await this.commit();
-
-      if (window?.inboxStore) {
-        window.inboxStore?.dispatch(
-          conversationChanged({
-            id: this.id,
-            data: this.getConversationModelProps(),
-          })
-        );
-      }
     }
   }
 

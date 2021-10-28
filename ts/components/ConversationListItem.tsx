@@ -30,7 +30,7 @@ import { ConversationNotificationSettingType } from '../models/conversation';
 import { Flex } from './basic/Flex';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { getConversationById } from '../data/data';
-import { getConversationController } from '../session/conversations';
+import { syncConfigurationIfNeeded } from '../session/utils/syncUtils';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -287,7 +287,10 @@ const ConversationListItem = (props: Props) => {
    * deletes the conversation
    */
   const handleConversationDecline = async () => {
-    await getConversationController().deleteContact(conversationId);
+    // const convoToDecline = await getConversationById(conversationId);
+    // convoToDecline?.setIsApproved(false);
+    // await getConversationController().deleteContact(conversationId); // TODO: might be unnecessary
+    console.warn('decline');
   };
 
   /**
@@ -295,12 +298,12 @@ const ConversationListItem = (props: Props) => {
    */
   const handleConversationAccept = async () => {
     const conversationToApprove = await getConversationById(conversationId);
-    conversationToApprove?.setIsApproved(true);
-    console.warn('convo marked as approved');
-    console.warn({ convo: conversationToApprove });
+    await conversationToApprove?.setIsApproved(true);
+    console.warn({ convoAfterSetIsApproved: conversationToApprove });
     // TODO: Send sync message to other devices. Using config message
 
-    
+
+    await syncConfigurationIfNeeded(true);
   };
 
   return (
