@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect } from 'react';
-import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
 import type { SpringValues } from '@react-spring/web';
@@ -76,13 +75,10 @@ export const ModalHost = React.memo(
               allowOutsideClick: false,
             }}
           >
-            <div>
+            <div className={theme ? themeClassName(theme) : undefined}>
               <animated.div
                 role="presentation"
-                className={classNames(
-                  'module-modal-host__overlay',
-                  theme ? themeClassName(theme) : undefined
-                )}
+                className="module-modal-host__overlay"
                 onMouseDown={noMouseClose ? undefined : handleMouseDown}
                 onMouseUp={noMouseClose ? undefined : handleMouseUp}
                 style={overlayStyles}

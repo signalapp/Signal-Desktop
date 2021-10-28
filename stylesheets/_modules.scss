@@ -7959,13 +7959,13 @@ button.module-image__border-overlay:focus {
 .module-calling-device-selection__close-button {
   @include button-reset;
 
-  @include color-svg('../images/x-shadow-16.svg', $color-white);
+  @include color-svg('../images/icons/v2/x-24.svg', $color-gray-15);
 
-  height: 16px;
+  height: 24px;
   position: absolute;
   right: 5px;
   top: 0;
-  width: 16px;
+  width: 24px;
   z-index: 2;
 
   @include keyboard-mode {
