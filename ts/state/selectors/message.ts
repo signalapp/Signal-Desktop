@@ -176,13 +176,20 @@ export function getSourceUuid(
   return ourUuid;
 }
 
-export function getContactId(
+export type GetContactOptions = Pick<
+  GetPropsForBubbleOptions,
+  'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourUuid'
+>;
+
+function getContactId(
   message: MessageAttributesType,
-  conversationSelector: GetConversationByIdType,
-  ourConversationId: string,
-  ourNumber: string | undefined,
-  ourUuid: string | undefined
-): string | undefined {
+  {
+    conversationSelector,
+    ourConversationId,
+    ourNumber,
+    ourUuid,
+  }: GetContactOptions
+): string {
   const source = getSource(message, ourNumber);
   const sourceUuid = getSourceUuid(message, ourUuid);
 
@@ -193,11 +200,6 @@ export function getContactId(
   const conversation = conversationSelector(sourceUuid || source);
   return conversation.id;
 }
-
-export type GetContactOptions = Pick<
-  GetPropsForBubbleOptions,
-  'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourUuid'
->;
 
 // TODO: DESKTOP-2145
 export function getContact(
@@ -294,36 +296,57 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
   (_: MessageAttributesType, ranges?: BodyRangesType) => ranges
 );
 
-export const getAuthorForMessage = createSelectorCreator(
-  memoizeByRoot,
-  isEqual
-)(
+const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
   // `memoizeByRoot` requirement
   identity,
 
-  (
-    message: MessageAttributesType,
-    options: GetContactOptions
-  ): PropsData['author'] => {
-    const unsafe = pick(getContact(message, options), [
-      'acceptedMessageRequest',
-      'avatarPath',
-      'color',
-      'id',
-      'isMe',
-      'name',
-      'phoneNumber',
-      'profileName',
-      'sharedGroupNames',
-      'title',
-      'unblurredAvatarPath',
-    ]);
+  getContact,
+
+  (_: MessageAttributesType, convo: ConversationType): PropsData['author'] => {
+    const {
+      acceptedMessageRequest,
+      avatarPath,
+      color,
+      id,
+      isMe,
+      name,
+      phoneNumber,
+      profileName,
+      sharedGroupNames,
+      title,
+      unblurredAvatarPath,
+    } = convo;
+
+    const unsafe = {
+      acceptedMessageRequest,
+      avatarPath,
+      color,
+      id,
+      isMe,
+      name,
+      phoneNumber,
+      profileName,
+      sharedGroupNames,
+      title,
+      unblurredAvatarPath,
+    };
 
     const safe: AssertProps<PropsData['author'], typeof unsafe> = unsafe;
 
     return safe;
-  },
-  (_: MessageAttributesType, author: PropsData['author']) => author
+  }
+);
+
+const getCachedAuthorForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
+  // `memoizeByRoot` requirement
+  identity,
+
+  getAuthorForMessage,
+
+  (
+    _: MessageAttributesType,
+    author: PropsData['author']
+  ): PropsData['author'] => author
 );
 
 export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
@@ -538,16 +561,13 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       {}
     ).emoji;
 
-    const author = getContact(message, {
+    const authorId = getContactId(message, {
       conversationSelector,
       ourConversationId,
       ourNumber,
       ourUuid,
     });
-    const contactNameColor = contactNameColorSelector(
-      conversationId,
-      author.id
-    );
+    const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
     const defaultConversationColor = window.Events.getDefaultConversationColor();
 
@@ -596,7 +616,7 @@ export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
 
   getAttachmentsForMessage,
   processBodyRanges,
-  getAuthorForMessage,
+  getCachedAuthorForMessage,
   getPreviewsForMessage,
   getReactionsForMessage,
   getPropsForQuote,
