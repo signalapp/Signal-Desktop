@@ -12,7 +12,7 @@ interface SProps extends SessionIconProps {
   margin?: string;
 }
 
-const SessionIconButtonInner = (props: SProps) => {
+const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
   const {
     iconType,
     iconSize,
@@ -40,6 +40,7 @@ const SessionIconButtonInner = (props: SProps) => {
     <div
       className={classNames('session-icon-button', iconSize, isSelected ? 'no-opacity' : '')}
       role="button"
+      ref={ref}
       onClick={clickHandler}
       style={{ display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
     >
@@ -58,6 +59,6 @@ const SessionIconButtonInner = (props: SProps) => {
       {Boolean(notificationCount) && <SessionNotificationCount count={notificationCount} />}
     </div>
   );
-};
+});
 
 export const SessionIconButton = React.memo(SessionIconButtonInner, _.isEqual);

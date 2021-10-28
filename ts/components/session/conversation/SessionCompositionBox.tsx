@@ -109,18 +109,21 @@ const StartRecordingButton = (props: { onClick: () => void }) => {
   );
 };
 
-const ToggleEmojiButton = (props: { onClick: () => void }) => {
-  return (
-    <SessionIconButton
-      iconType="emoji"
-      backgroundColor="var(--color-compose-view-button-background)"
-      iconSize={'huge2'}
-      borderRadius="300px"
-      iconPadding="6px"
-      onClick={props.onClick}
-    />
-  );
-};
+const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () => void }>(
+  (props, ref) => {
+    return (
+      <SessionIconButton
+        iconType="emoji"
+        ref={ref}
+        backgroundColor="var(--color-compose-view-button-background)"
+        iconSize={'huge2'}
+        borderRadius="300px"
+        iconPadding="6px"
+        onClick={props.onClick}
+      />
+    );
+  }
+);
 
 const SendMessageButton = (props: { onClick: () => void }) => {
   return (
@@ -205,7 +208,8 @@ const getDefaultState = (newConvoId?: string) => {
 class SessionCompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
-  private emojiPanel: any;
+  private readonly emojiPanel: any;
+  private readonly emojiPanelButton: any;
   private linkPreviewAbortController?: AbortController;
   private container: any;
   private readonly mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
@@ -219,7 +223,8 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     this.fileInput = React.createRef();
 
     // Emojis
-    this.emojiPanel = null;
+    this.emojiPanel = React.createRef();
+    this.emojiPanelButton = React.createRef();
     autoBind(this);
     this.toggleEmojiPanel = debounce(this.toggleEmojiPanel.bind(this), 100);
   }
@@ -271,7 +276,10 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private handleClick(e: any) {
-    if (this.emojiPanel && this.emojiPanel.contains(e.target)) {
+    if (
+      (this.emojiPanel?.current && this.emojiPanel.current.contains(e.target)) ||
+      (this.emojiPanelButton?.current && this.emojiPanelButton.current.contains(e.target))
+    ) {
       return;
     }
 
@@ -421,11 +429,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           {this.renderTextArea()}
         </div>
 
-        {typingEnabled && <ToggleEmojiButton onClick={this.toggleEmojiPanel} />}
+        {typingEnabled && (
+          <ToggleEmojiButton ref={this.emojiPanelButton} onClick={this.toggleEmojiPanel} />
+        )}
         <SendMessageButton onClick={this.onSendMessage} />
 
         {typingEnabled && (
-          <div ref={ref => (this.emojiPanel = ref)} onKeyDown={this.onKeyDown} role="button">
+          <div ref={this.emojiPanel} onKeyDown={this.onKeyDown} role="button">
             {showEmojiPanel && (
               <SessionEmojiPanel onEmojiClicked={this.onEmojiClick} show={showEmojiPanel} />
             )}

@@ -9,6 +9,7 @@ const MessageStatusSendingContainer = styled.div`
   align-self: flex-end;
   margin-bottom: 2px;
   margin-inline-start: 5px;
+  cursor: pointer;
 `;
 
 const MessageStatusSending = () => {
