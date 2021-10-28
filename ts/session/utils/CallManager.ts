@@ -9,6 +9,7 @@ import {
   callConnected,
   endCall,
   incomingCall,
+  setFullScreenCall,
   startingCallWith,
 } from '../../state/ducks/conversations';
 import { getConversationController } from '../conversations';
@@ -29,27 +30,44 @@ export type CallManagerOptionsType = {
   audioInputsList: Array<InputItem>;
   isLocalVideoStreamMuted: boolean;
   isRemoteVideoStreamMuted: boolean;
+  isAudioMuted: boolean;
 };
 
 export type CallManagerListener = ((options: CallManagerOptionsType) => void) | null;
-let videoEventsListener: CallManagerListener;
+const videoEventsListeners: Array<{ id: string; listener: CallManagerListener }> = [];
 
-function callVideoListener() {
-  if (videoEventsListener) {
-    videoEventsListener({
-      localStream: mediaDevices,
-      remoteStream,
-      camerasList,
-      audioInputsList,
-      isRemoteVideoStreamMuted: remoteVideoStreamIsMuted,
-      isLocalVideoStreamMuted: selectedCameraId === INPUT_DISABLED_DEVICE_ID,
+function callVideoListeners() {
+  if (videoEventsListeners.length) {
+    videoEventsListeners.forEach(item => {
+      item.listener?.({
+        localStream: mediaDevices,
+        remoteStream,
+        camerasList,
+        audioInputsList,
+        isRemoteVideoStreamMuted: remoteVideoStreamIsMuted,
+        isLocalVideoStreamMuted: selectedCameraId === INPUT_DISABLED_DEVICE_ID,
+        isAudioMuted: selectedAudioInputId === INPUT_DISABLED_DEVICE_ID,
+      });
     });
   }
 }
 
-export function setVideoEventsListener(listener: CallManagerListener) {
-  videoEventsListener = listener;
-  callVideoListener();
+export function addVideoEventsListener(uniqueId: string, listener: CallManagerListener) {
+  const indexFound = videoEventsListeners.findIndex(m => m.id === uniqueId);
+  if (indexFound === -1) {
+    videoEventsListeners.push({ id: uniqueId, listener });
+  } else {
+    videoEventsListeners[indexFound].listener = listener;
+  }
+  callVideoListeners();
+}
+
+export function removeVideoEventsListener(uniqueId: string) {
+  const indexFound = videoEventsListeners.findIndex(m => m.id === uniqueId);
+  if (indexFound !== -1) {
+    videoEventsListeners.splice(indexFound);
+  }
+  callVideoListeners();
 }
 
 /**
@@ -82,7 +100,7 @@ const configuration: RTCConfiguration = {
 };
 
 let selectedCameraId: string = INPUT_DISABLED_DEVICE_ID;
-let selectedAudioInputId: string | undefined;
+let selectedAudioInputId: string = INPUT_DISABLED_DEVICE_ID;
 let camerasList: Array<InputItem> = [];
 let audioInputsList: Array<InputItem> = [];
 
@@ -96,7 +114,7 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput') {
 if (typeof navigator !== 'undefined') {
   navigator.mediaDevices.addEventListener('devicechange', async () => {
     await updateInputLists();
-    callVideoListener();
+    callVideoListeners();
   });
 }
 async function updateInputLists() {
@@ -137,7 +155,7 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
       sender.track.enabled = false;
     }
     sendVideoStatusViaDataChannel();
-    callVideoListener();
+    callVideoListeners();
     return;
   }
   if (camerasList.some(m => m.deviceId === cameraDeviceId)) {
@@ -168,13 +186,13 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
         mediaDevices?.addTrack(videoTrack);
 
         sendVideoStatusViaDataChannel();
-        callVideoListener();
+        callVideoListeners();
       } else {
         throw new Error('Failed to get sender for selectCameraByDeviceId ');
       }
     } catch (e) {
       window.log.warn('selectCameraByDeviceId failed with', e.message);
-      callVideoListener();
+      callVideoListeners();
     }
   }
 }
@@ -188,6 +206,7 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+    callVideoListeners();
     return;
   }
   if (audioInputsList.some(m => m.deviceId === audioInputDeviceId)) {
@@ -218,6 +237,8 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     } catch (e) {
       window.log.warn('selectAudioInputByDeviceId failed with', e.message);
     }
+
+    callVideoListeners();
   }
 }
 
@@ -277,20 +298,20 @@ async function openMediaDevicesAndAddTracks() {
       return;
     }
 
-    const firstAudio = audioInputsList[0].deviceId;
-    const firstVideo = camerasList[0].deviceId;
+    selectedAudioInputId = audioInputsList[0].deviceId;
+    selectedCameraId = INPUT_DISABLED_DEVICE_ID;
     window.log.info(
-      `openMediaDevices videoDevice:${firstVideo}:${camerasList[0].label}   audioDevice:${firstAudio}`
+      `openMediaDevices videoDevice:${selectedCameraId}:${camerasList[0].label}   audioDevice:${selectedAudioInputId}`
     );
 
     const devicesConfig = {
       audio: {
-        deviceId: firstAudio,
+        deviceId: selectedAudioInputId,
 
         echoCancellation: true,
       },
       video: {
-        deviceId: firstVideo,
+        deviceId: selectedCameraId,
         // width: VIDEO_WIDTH,
         // height: Math.floor(VIDEO_WIDTH * VIDEO_RATIO),
       },
@@ -309,7 +330,7 @@ async function openMediaDevicesAndAddTracks() {
     ToastUtils.pushVideoCallPermissionNeeded();
     closeVideoCall();
   }
-  callVideoListener();
+  callVideoListeners();
 }
 
 // tslint:disable-next-line: function-name
@@ -426,16 +447,9 @@ function closeVideoCall() {
   mediaDevices = null;
   remoteStream = null;
   selectedCameraId = INPUT_DISABLED_DEVICE_ID;
-  if (videoEventsListener) {
-    videoEventsListener({
-      audioInputsList: [],
-      camerasList: [],
-      isLocalVideoStreamMuted: true,
-      isRemoteVideoStreamMuted: true,
-      localStream: null,
-      remoteStream: null,
-    });
-  }
+  selectedAudioInputId = INPUT_DISABLED_DEVICE_ID;
+  callVideoListeners();
+  window.inboxStore?.dispatch(setFullScreenCall(false));
 }
 
 function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
@@ -445,7 +459,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
     if (parsed.video !== undefined) {
       remoteVideoStreamIsMuted = !Boolean(parsed.video);
     }
-    callVideoListener();
+    callVideoListeners();
   } catch (e) {
     window.log.warn('onDataChannelReceivedMessage Could not parse data in event', ev);
   }
@@ -489,11 +503,11 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
   peerConnection.ontrack = event => {
     event.track.onunmute = () => {
       remoteStream?.addTrack(event.track);
-      callVideoListener();
+      callVideoListeners();
     };
     event.track.onmute = () => {
       remoteStream?.removeTrack(event.track);
-      callVideoListener();
+      callVideoListeners();
     };
   };
   peerConnection.onconnectionstatechange = () => {
@@ -604,16 +618,7 @@ export function handleCallTypeEndCall(sender: string) {
     // we just got a end call event from whoever we are in a call with
     if (callingConvos.length === 1 && callingConvos[0].id === sender) {
       closeVideoCall();
-      if (videoEventsListener) {
-        videoEventsListener({
-          audioInputsList: [],
-          camerasList: [],
-          isLocalVideoStreamMuted: true,
-          isRemoteVideoStreamMuted: true,
-          localStream: null,
-          remoteStream: null,
-        });
-      }
+
       window.inboxStore?.dispatch(endCall({ pubkey: sender }));
     }
   }

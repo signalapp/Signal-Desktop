@@ -122,6 +122,16 @@ export const getHasOngoingCall = createSelector(
   (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
 );
 
+export const getHasOngoingCallWithPubkey = createSelector(
+  getHasOngoingCallWith,
+  (withConvo: ReduxConversationType | undefined): string | undefined => withConvo?.id
+);
+
+export const getCallIsInFullScreen = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.callIsInFullScreen
+);
+
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected

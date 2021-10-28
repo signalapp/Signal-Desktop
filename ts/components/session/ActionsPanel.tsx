@@ -48,6 +48,7 @@ import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
 import { DraggableCallContainer } from './calling/CallContainer';
 import { IncomingCallDialog } from './calling/IncomingCallDialog';
+import { CallInFullScreenContainer } from './calling/CallInFullScreenContainer';
 
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -232,6 +233,16 @@ const doAppStartUp = () => {
   void getSwarmPollingInstance().start();
 };
 
+const CallContainer = () => {
+  return (
+    <>
+      <DraggableCallContainer />
+      <IncomingCallDialog />
+      <CallInFullScreenContainer />
+    </>
+  );
+};
+
 /**
  * ActionsPanel is the far left banner (not the left pane).
  * The panel with buttons to switch between the message/contact/settings/theme views
@@ -290,9 +301,7 @@ export const ActionsPanel = () => {
     <>
       <ModalContainer />
 
-      <DraggableCallContainer />
-      <IncomingCallDialog />
-
+      <CallContainer />
       <div className="module-left-pane__sections-container">
         <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
         <Section type={SectionType.Message} />

@@ -277,6 +277,7 @@ export type ConversationsStateType = {
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
   haveDoneFirstScroll: boolean;
+  callIsInFullScreen: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -371,6 +372,7 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
+    callIsInFullScreen: false,
   };
 }
 
@@ -696,6 +698,8 @@ const conversationsSlice = createSlice({
 
       return {
         conversationLookup: state.conversationLookup,
+        callIsInFullScreen: state.callIsInFullScreen,
+
         selectedConversation: action.payload.id,
         areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
@@ -850,6 +854,10 @@ const conversationsSlice = createSlice({
       void foundConvo.commit();
       return state;
     },
+    setFullScreenCall(state: ConversationsStateType, action: PayloadAction<boolean>) {
+      state.callIsInFullScreen = action.payload;
+      return state;
+    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -915,6 +923,7 @@ export const {
   answerCall,
   callConnected,
   startingCallWith,
+  setFullScreenCall,
 } = actions;
 
 export async function openConversationWithMessages(args: {

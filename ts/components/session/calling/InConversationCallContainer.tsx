@@ -1,23 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-// tslint:disable-next-line: no-submodule-imports
-import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
 import { CallManager, ToastUtils, UserUtils } from '../../../session/utils';
 import {
   getHasOngoingCall,
   getHasOngoingCallWith,
+  getHasOngoingCallWithPubkey,
   getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
-import { CallManagerOptionsType, InputItem } from '../../../session/utils/CallManager';
+import { InputItem } from '../../../session/utils/CallManager';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import { StyledVideoElement } from './CallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { getConversationController } from '../../../session/conversations';
+import { setFullScreenCall } from '../../../state/ducks/conversations';
+import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -70,10 +71,8 @@ const RelativeCallWindow = styled.div`
 const VideoInputMenu = ({
   triggerId,
   camerasList,
-  onUnmute,
 }: {
   triggerId: string;
-  onUnmute: () => void;
   camerasList: Array<InputItem>;
 }) => {
   return (
@@ -83,7 +82,6 @@ const VideoInputMenu = ({
           <Item
             key={m.deviceId}
             onClick={() => {
-              onUnmute();
               void CallManager.selectCameraByDeviceId(m.deviceId);
             }}
           >
@@ -98,11 +96,9 @@ const VideoInputMenu = ({
 const AudioInputMenu = ({
   triggerId,
   audioInputsList,
-  onUnmute,
 }: {
   triggerId: string;
   audioInputsList: Array<InputItem>;
-  onUnmute: () => void;
 }) => {
   return (
     <Menu id={triggerId} animation={animation.fade}>
@@ -111,7 +107,6 @@ const AudioInputMenu = ({
           <Item
             key={m.deviceId}
             onClick={() => {
-              onUnmute();
               void CallManager.selectAudioInputByDeviceId(m.deviceId);
             }}
           >
@@ -136,29 +131,129 @@ const CenteredAvatarInConversation = styled.div`
   align-items: center;
 `;
 
+const videoTriggerId = 'video-menu-trigger-id';
+const audioTriggerId = 'audio-menu-trigger-id';
+
+const ShowInFullScreenButton = () => {
+  const dispatch = useDispatch();
+
+  const showInFullScreen = () => {
+    dispatch(setFullScreenCall(true));
+  };
+
+  return (
+    <SessionIconButton
+      iconSize={60}
+      iconPadding="20px"
+      iconType="fullscreen"
+      backgroundColor="white"
+      borderRadius="50%"
+      onClick={showInFullScreen}
+      iconColor="black"
+      margin="10px"
+    />
+  );
+};
+
+const HangUpButton = () => {
+  const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
+
+  const handleEndCall = async () => {
+    // call method to end call connection
+    if (ongoingCallPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
+    }
+  };
+
+  return (
+    <SessionIconButton
+      iconSize={60}
+      iconPadding="20px"
+      iconType="hangup"
+      backgroundColor="white"
+      borderRadius="50%"
+      onClick={handleEndCall}
+      iconColor="red"
+      margin="10px"
+    />
+  );
+};
+
+const showAudioInputMenu = (
+  currentConnectedAudioInputs: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedAudioInputs.length === 0) {
+    ToastUtils.pushNoAudioInputFound();
+    return;
+  }
+  contextMenu.show({
+    id: audioTriggerId,
+    event: e,
+  });
+};
+
+const showVideoInputMenu = (
+  currentConnectedCameras: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedCameras.length === 0) {
+    ToastUtils.pushNoCameraFound();
+    return;
+  }
+  contextMenu.show({
+    id: videoTriggerId,
+    event: e,
+  });
+};
+
+const handleCameraToggle = async (
+  currentConnectedCameras: Array<InputItem>,
+  localStreamVideoIsMuted: boolean
+) => {
+  if (!currentConnectedCameras.length) {
+    ToastUtils.pushNoCameraFound();
+
+    return;
+  }
+  if (localStreamVideoIsMuted) {
+    // select the first one
+    await CallManager.selectCameraByDeviceId(currentConnectedCameras[0].deviceId);
+  } else {
+    await CallManager.selectCameraByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+  }
+};
+
+const handleMicrophoneToggle = async (
+  currentConnectedAudioInputs: Array<InputItem>,
+  isAudioMuted: boolean
+) => {
+  if (!currentConnectedAudioInputs.length) {
+    ToastUtils.pushNoAudioInputFound();
+
+    return;
+  }
+  console.warn('onclick', isAudioMuted);
+  if (isAudioMuted) {
+    // selects the first one
+    await CallManager.selectAudioInputByDeviceId(currentConnectedAudioInputs[0].deviceId);
+  } else {
+    console.warn('onclick was not muted so muting it now');
+
+    await CallManager.selectAudioInputByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+  }
+};
+
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
-  const [currentConnectedCameras, setCurrentConnectedCameras] = useState<Array<InputItem>>([]);
-  const [currentConnectedAudioInputs, setCurrentConnectedAudioInputs] = useState<Array<InputItem>>(
-    []
-  );
 
-  const ongoingCallPubkey = ongoingCallProps?.id;
+  const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
   const videoRefRemote = useRef<any>();
   const videoRefLocal = useRef<any>();
-  const mountedState = useMountedState();
-
-  const [isLocalVideoMuted, setLocalVideoMuted] = useState(true);
-  const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
-
-  const [isAudioMuted, setAudioMuted] = useState(false);
-
-  const videoTriggerId = 'video-menu-trigger-id';
-  const audioTriggerId = 'audio-menu-trigger-id';
 
   const remoteAvatarPath = ongoingCallPubkey
     ? getConversationController()
@@ -175,94 +270,20 @@ export const InConversationCallContainer = () => {
     .get(ourPubkey)
     .getAvatarPath();
 
-  useEffect(() => {
-    if (ongoingCallPubkey === selectedConversationKey) {
-      CallManager.setVideoEventsListener((options: CallManagerOptionsType) => {
-        const {
-          audioInputsList,
-          camerasList,
-          isLocalVideoStreamMuted,
-          isRemoteVideoStreamMuted,
-          localStream,
-          remoteStream,
-        } = options;
-        if (mountedState() && videoRefRemote?.current && videoRefLocal?.current) {
-          videoRefLocal.current.srcObject = localStream;
-          setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
-          setLocalVideoMuted(isLocalVideoStreamMuted);
-          videoRefRemote.current.srcObject = remoteStream;
+  const {
+    currentConnectedAudioInputs,
+    currentConnectedCameras,
+    localStream,
+    localStreamVideoIsMuted,
+    remoteStream,
+    remoteStreamVideoIsMuted,
+    isAudioMuted,
+  } = useVideoCallEventsListener('InConversationCallContainer');
 
-          setCurrentConnectedCameras(camerasList);
-          setCurrentConnectedAudioInputs(audioInputsList);
-        }
-      });
-    }
-
-    return () => {
-      CallManager.setVideoEventsListener(null);
-    };
-  }, [ongoingCallPubkey, selectedConversationKey]);
-
-  const handleEndCall = async () => {
-    // call method to end call connection
-    if (ongoingCallPubkey) {
-      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
-    }
-  };
-
-  const handleCameraToggle = async () => {
-    if (!currentConnectedCameras.length) {
-      ToastUtils.pushNoCameraFound();
-
-      return;
-    }
-    if (isLocalVideoMuted) {
-      // select the first one
-      await CallManager.selectCameraByDeviceId(currentConnectedCameras[0].deviceId);
-    } else {
-      await CallManager.selectCameraByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
-    }
-
-    setLocalVideoMuted(!isLocalVideoMuted);
-  };
-
-  const handleMicrophoneToggle = async () => {
-    if (!currentConnectedAudioInputs.length) {
-      ToastUtils.pushNoAudioInputFound();
-
-      return;
-    }
-    if (isAudioMuted) {
-      // select the first one
-      await CallManager.selectAudioInputByDeviceId(currentConnectedAudioInputs[0].deviceId);
-    } else {
-      await CallManager.selectAudioInputByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
-    }
-
-    setAudioMuted(!isAudioMuted);
-  };
-
-  const showAudioInputMenu = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (currentConnectedAudioInputs.length === 0) {
-      ToastUtils.pushNoAudioInputFound();
-      return;
-    }
-    contextMenu.show({
-      id: audioTriggerId,
-      event: e,
-    });
-  };
-
-  const showVideoInputMenu = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (currentConnectedCameras.length === 0) {
-      ToastUtils.pushNoCameraFound();
-      return;
-    }
-    contextMenu.show({
-      id: videoTriggerId,
-      event: e,
-    });
-  };
+  if (videoRefRemote?.current && videoRefLocal?.current) {
+    videoRefRemote.current.srcObject = remoteStream;
+    videoRefLocal.current.srcObject = localStream;
+  }
 
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey !== selectedConversationKey) {
     return null;
@@ -275,9 +296,9 @@ export const InConversationCallContainer = () => {
           <StyledVideoElement
             ref={videoRefRemote}
             autoPlay={true}
-            isVideoMuted={isRemoteVideoMuted}
+            isVideoMuted={remoteStreamVideoIsMuted}
           />
-          {isRemoteVideoMuted && (
+          {remoteStreamVideoIsMuted && (
             <CenteredAvatarInConversation>
               <Avatar
                 size={AvatarSize.XL}
@@ -293,9 +314,9 @@ export const InConversationCallContainer = () => {
             ref={videoRefLocal}
             autoPlay={true}
             muted={true}
-            isVideoMuted={isLocalVideoMuted}
+            isVideoMuted={localStreamVideoIsMuted}
           />
-          {isLocalVideoMuted && (
+          {localStreamVideoIsMuted && (
             <CenteredAvatarInConversation>
               <Avatar
                 size={AvatarSize.XL}
@@ -308,43 +329,31 @@ export const InConversationCallContainer = () => {
         </VideoContainer>
 
         <InConvoCallWindowControls>
-          <SessionIconButton
-            iconSize={60}
-            iconPadding="20px"
-            iconType="hangup"
-            backgroundColor="white"
-            borderRadius="50%"
-            onClick={handleEndCall}
-            iconColor="red"
-            margin="10px"
-          />
+          <HangUpButton />
           <DropDownAndToggleButton
             iconType="camera"
-            isMuted={isLocalVideoMuted}
-            onMainButtonClick={handleCameraToggle}
-            onArrowClick={showVideoInputMenu}
+            isMuted={localStreamVideoIsMuted}
+            onMainButtonClick={() => {
+              void handleCameraToggle(currentConnectedCameras, localStreamVideoIsMuted);
+            }}
+            onArrowClick={e => {
+              showVideoInputMenu(currentConnectedCameras, e);
+            }}
           />
           <DropDownAndToggleButton
             iconType="microphone"
             isMuted={isAudioMuted}
-            onMainButtonClick={handleMicrophoneToggle}
-            onArrowClick={showAudioInputMenu}
+            onMainButtonClick={() => {
+              void handleMicrophoneToggle(currentConnectedAudioInputs, isAudioMuted);
+            }}
+            onArrowClick={e => {
+              showAudioInputMenu(currentConnectedAudioInputs, e);
+            }}
           />
+          <ShowInFullScreenButton />
         </InConvoCallWindowControls>
-        <VideoInputMenu
-          triggerId={videoTriggerId}
-          onUnmute={() => {
-            setLocalVideoMuted(false);
-          }}
-          camerasList={currentConnectedCameras}
-        />
-        <AudioInputMenu
-          triggerId={audioTriggerId}
-          onUnmute={() => {
-            setAudioMuted(false);
-          }}
-          audioInputsList={currentConnectedAudioInputs}
-        />
+        <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
+        <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />
       </RelativeCallWindow>
     </InConvoCallWindow>
   );

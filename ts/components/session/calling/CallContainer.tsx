@@ -2,11 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
-// tslint:disable-next-line: no-submodule-imports
-import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { CallManager } from '../../../session/utils';
 import {
   getHasOngoingCall,
   getHasOngoingCallWith,
@@ -15,7 +12,7 @@ import {
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { getConversationController } from '../../../session/conversations';
-import { CallManagerOptionsType } from '../../../session/utils/CallManager';
+import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -74,11 +71,12 @@ export const DraggableCallContainer = () => {
   const [positionY, setPositionY] = useState(window.innerHeight / 2);
   const [lastPositionX, setLastPositionX] = useState(0);
   const [lastPositionY, setLastPositionY] = useState(0);
-  const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
 
   const ongoingCallPubkey = ongoingCallProps?.id;
+  const { remoteStreamVideoIsMuted, remoteStream } = useVideoCallEventsListener(
+    'DraggableCallContainer'
+  );
   const videoRefRemote = useRef<any>(undefined);
-  const mountedState = useMountedState();
 
   function onWindowResize() {
     if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
@@ -95,22 +93,9 @@ export const DraggableCallContainer = () => {
     };
   }, [positionX, positionY]);
 
-  useEffect(() => {
-    if (ongoingCallPubkey !== selectedConversationKey) {
-      CallManager.setVideoEventsListener(
-        ({ isRemoteVideoStreamMuted, remoteStream }: CallManagerOptionsType) => {
-          if (mountedState() && videoRefRemote?.current) {
-            videoRefRemote.current.srcObject = remoteStream;
-            setIsRemoteVideoMuted(isRemoteVideoStreamMuted);
-          }
-        }
-      );
-    }
-
-    return () => {
-      CallManager.setVideoEventsListener(null);
-    };
-  }, [ongoingCallPubkey, selectedConversationKey]);
+  if (videoRefRemote?.current?.srcObject && remoteStream) {
+    videoRefRemote.current.srcObject = remoteStream;
+  }
 
   const openCallingConversation = useCallback(() => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
@@ -152,9 +137,9 @@ export const DraggableCallContainer = () => {
           <StyledDraggableVideoElement
             ref={videoRefRemote}
             autoPlay={true}
-            isVideoMuted={isRemoteVideoMuted}
+            isVideoMuted={remoteStreamVideoIsMuted}
           />
-          {isRemoteVideoMuted && (
+          {remoteStreamVideoIsMuted && (
             <CenteredAvatarInDraggable>
               <Avatar
                 size={AvatarSize.XL}
