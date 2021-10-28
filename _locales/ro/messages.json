@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Descarcă",
+        "message": "Salvează",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Actualizare eșuată",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Fără sunet",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Silențios",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop nu a putut fi actualizat, dar există o versiune nouă disponibilă. Accesați $url$ și instalați noua versiune manual, după care contactați serviciul de asistență sau raportați această problemă on-line.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Afișează membrii",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Resetează sesiunea",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Afișează numărul de siguranță",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Anulați",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Citiți mai multe",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ v-a trimis un mesaj ce nu poate fi procesat sau afișat deoarece folosește o nouă funcționalitate Signal.",
@@ -5353,6 +5361,14 @@
         "message": "Setări grup",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Setări conversaţie",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Activați notificările conversației?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Link grup",
         "description": "This is the label for the group link management panel"
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Utilizatorilor de cititoare de ecran ar trebui să le fie mai ușor acum să navigheze prin lista de conversații din panoul din stânga.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
+        "description": "Release notes for v5.22"
     }
 }

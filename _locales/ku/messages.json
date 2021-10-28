@@ -490,7 +490,7 @@
         "description": "Shown as the text for the copy button on the debug log screen"
     },
     "debugLogSave": {
-        "message": "Daxîne",
+        "message": "Tomar bike",
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
@@ -1027,6 +1027,14 @@
         "message": "Nayê nûkirin",
         "description": "Shown as the title of our update error dialogs on windows"
     },
+    "muted": {
+        "message": "Muted",
+        "description": "Shown in a button when a conversation is muted"
+    },
+    "mute": {
+        "message": "Bêdeng",
+        "description": "Shown in a button when a conversation is unmuted and can be muted"
+    },
     "cannotUpdateDetail": {
         "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
         "description": "Shown if a general error happened while trying to install update package",
@@ -1134,10 +1142,6 @@
     "showMembers": {
         "message": "Endaman nîşan bide",
         "description": ""
-    },
-    "resetSession": {
-        "message": "Rûniştinê reset bike",
-        "description": "This is a menu item for resetting the session, using the imperative case, as in a command."
     },
     "showSafetyNumber": {
         "message": "Nimreya ewlehiyê bibîne",
@@ -2750,6 +2754,10 @@
     "confirmation-dialog--Cancel": {
         "message": "Betal bike",
         "description": "Appears on the cancel button in confirmation dialogs."
+    },
+    "MessageBody--read-more": {
+        "message": "Read more",
+        "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
         "message": "$contact$ sent you a message that can't be processed or displayed because it uses a new Signal feature.",
@@ -5353,6 +5361,14 @@
         "message": "Sazkariyên komê",
         "description": "This is a button in the conversation context menu to show group settings"
     },
+    "showConversationDetails--direct": {
+        "message": "Şikilên niqaşê",
+        "description": "This is a button in the conversation context menu to show chat settings"
+    },
+    "ConversationDetails__unmute--title": {
+        "message": "Unmute this chat?",
+        "description": "Title for the modal to unmute a chat"
+    },
     "ConversationDetails--group-link": {
         "message": "Girêdana komê",
         "description": "This is the label for the group link management panel"
@@ -6488,5 +6504,9 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.22": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.22"
     }
 }
