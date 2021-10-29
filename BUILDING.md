@@ -59,7 +59,8 @@ Once nvm is installed, just run `nvm install` to install the version from the `.
 Here are the steps to build the app for Linux:
 
 ```
-sudo apt-get install python2
+sudo apt-get install python2 git-lfs
+git lfs install
 # install nvm by following their github README
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
