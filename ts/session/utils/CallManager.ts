@@ -96,7 +96,7 @@ const configuration: RTCConfiguration = {
       credential: 'webrtc',
     },
   ],
-  iceTransportPolicy: 'relay',
+  // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
 };
 
 let selectedCameraId: string = INPUT_DISABLED_DEVICE_ID;
