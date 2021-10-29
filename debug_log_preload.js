@@ -1,10 +1,8 @@
 /* global window */
 
-const { ipcRenderer, remote } = require('electron');
+const { ipcRenderer } = require('electron');
 const url = require('url');
 const i18n = require('./js/modules/i18n');
-const fs = require('fs');
-const path = require('path');
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;

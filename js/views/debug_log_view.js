@@ -57,26 +57,6 @@
       if (text.length === 0) {
         return;
       }
-
-      // this.$('.buttons, textarea').remove();
-      // this.$('.result').addClass('loading');
-
-      // try {
-      //   const publishedLogURL = await window.log.publish(text);
-      //   const view = new Whisper.DebugLogLinkView({
-      //     url: publishedLogURL,
-      //     el: this.$('.result'),
-      //   });
-      //   this.$('.loading').removeClass('loading');
-      //   view.render();
-      //   this.$('.link')
-      //     .focus()
-      //     .select();
-      // } catch (error) {
-      //   window.log.error('DebugLogView error:', error && error.stack ? error.stack : error);
-      //   this.$('.loading').removeClass('loading');
-      //   this.$('.result').text(i18n('debugLogError'));
-      // }
       window.saveLog(text);
     },
   });
