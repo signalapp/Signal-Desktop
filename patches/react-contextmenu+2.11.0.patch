@@ -1,8 +1,20 @@
 diff --git a/node_modules/react-contextmenu/modules/ContextMenu.js b/node_modules/react-contextmenu/modules/ContextMenu.js
-index 622a1f9..fa5f3b6 100644
+index 622a1f9..630ba68 100644
 --- a/node_modules/react-contextmenu/modules/ContextMenu.js
 +++ b/node_modules/react-contextmenu/modules/ContextMenu.js
-@@ -226,6 +226,9 @@ var ContextMenu = function (_AbstractMenu) {
+@@ -81,6 +81,11 @@ var ContextMenu = function (_AbstractMenu) {
+                 x = _e$detail$position.x,
+                 y = _e$detail$position.y;
+ 
++						if (x === undefined) {
++								var rect = e.detail.target.getBoundingClientRect();
++								x = rect.x;
++								y = rect.y;
++						}
+ 
+             _this.setState({ isVisible: true, x: x, y: y });
+             _this.registerHandlers();
+@@ -226,6 +231,9 @@ var ContextMenu = function (_AbstractMenu) {
  
              if (this.state.isVisible) {
                  var wrapper = window.requestAnimationFrame || setTimeout;
@@ -12,7 +24,7 @@ index 622a1f9..fa5f3b6 100644
  
                  wrapper(function () {
                      var _state = _this2.state,
-@@ -241,13 +244,21 @@ var ContextMenu = function (_AbstractMenu) {
+@@ -241,13 +249,21 @@ var ContextMenu = function (_AbstractMenu) {
                          _this2.menu.style.top = top + 'px';
                          _this2.menu.style.left = left + 'px';
                          _this2.menu.style.opacity = 1;
