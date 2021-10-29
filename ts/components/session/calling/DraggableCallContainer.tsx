@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
@@ -11,8 +11,8 @@ import {
 } from '../../../state/selectors/conversations';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
-import { getConversationController } from '../../../session/conversations';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
+import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -74,9 +74,12 @@ export const DraggableCallContainer = () => {
 
   const ongoingCallPubkey = ongoingCallProps?.id;
   const { remoteStreamVideoIsMuted, remoteStream } = useVideoCallEventsListener(
-    'DraggableCallContainer'
+    'DraggableCallContainer',
+    false
   );
-  const videoRefRemote = useRef<any>(undefined);
+  const ongoingCallUsername = useConversationUsername(ongoingCallPubkey);
+  const avatarPath = useAvatarPath(ongoingCallPubkey);
+  const videoRefRemote = useRef<HTMLVideoElement>(null);
 
   function onWindowResize() {
     if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
@@ -95,24 +98,26 @@ export const DraggableCallContainer = () => {
 
   if (videoRefRemote?.current?.srcObject && remoteStream) {
     videoRefRemote.current.srcObject = remoteStream;
+    videoRefRemote.current.load();
   }
 
-  const openCallingConversation = useCallback(() => {
+  useEffect(() => {
+    if (videoRefRemote?.current) {
+      videoRefRemote.current.srcObject = remoteStream;
+
+      videoRefRemote.current.load();
+    }
+  }, [remoteStream, videoRefRemote, videoRefRemote?.current]);
+
+  const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
       void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
     }
-  }, [ongoingCallPubkey, selectedConversationKey]);
+  };
 
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
     return null;
   }
-  const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
-
-  const avatarPath = ongoingCallPubkey
-    ? getConversationController()
-        .get(ongoingCallPubkey)
-        .getAvatarPath()
-    : undefined;
 
   return (
     <Draggable

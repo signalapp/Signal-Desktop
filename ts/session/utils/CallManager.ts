@@ -459,10 +459,10 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
     if (parsed.video !== undefined) {
       remoteVideoStreamIsMuted = !Boolean(parsed.video);
     }
-    callVideoListeners();
   } catch (e) {
     window.log.warn('onDataChannelReceivedMessage Could not parse data in event', ev);
   }
+  callVideoListeners();
 }
 function onDataChannelOnOpen() {
   window.log.info('onDataChannelOnOpen: sending video status');

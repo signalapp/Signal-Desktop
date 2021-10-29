@@ -46,7 +46,7 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
-import { DraggableCallContainer } from './calling/CallContainer';
+import { DraggableCallContainer } from './calling/DraggableCallContainer';
 import { IncomingCallDialog } from './calling/IncomingCallDialog';
 import { CallInFullScreenContainer } from './calling/CallInFullScreenContainer';
 

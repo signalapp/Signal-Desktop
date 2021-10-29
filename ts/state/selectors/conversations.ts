@@ -49,6 +49,7 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
+
 export const getBlockedPubkeys = createSelector(
   // make sure to extends this selector to we are rerun on conversation changes
   getConversationLookup,
@@ -81,9 +82,22 @@ export const getSelectedConversationIsPublic = createSelector(
   }
 );
 
+const getConversationId = (_whatever: any, id: string) => id;
+
+export const getConversationById = createSelector(
+  getConversations,
+  getConversationId,
+  (
+    state: ConversationsStateType,
+    convoId: string | undefined
+  ): ReduxConversationType | undefined => {
+    return convoId ? state.conversationLookup[convoId] : undefined;
+  }
+);
+
 export const getHasIncomingCallFrom = createSelector(
   getConversations,
-  (state: ConversationsStateType): ReduxConversationType | undefined => {
+  (state: ConversationsStateType): string | undefined => {
     const foundEntry = Object.entries(state.conversationLookup).find(
       ([_convoKey, convo]) => convo.callState === 'incoming'
     );
@@ -91,7 +105,7 @@ export const getHasIncomingCallFrom = createSelector(
     if (!foundEntry) {
       return undefined;
     }
-    return foundEntry[1];
+    return foundEntry[1].id;
   }
 );
 
@@ -114,7 +128,7 @@ export const getHasOngoingCallWith = createSelector(
 
 export const getHasIncomingCall = createSelector(
   getHasIncomingCallFrom,
-  (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
+  (withConvo: string | undefined): boolean => !!withConvo
 );
 
 export const getHasOngoingCall = createSelector(

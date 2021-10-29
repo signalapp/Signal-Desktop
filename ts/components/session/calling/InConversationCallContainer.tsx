@@ -14,11 +14,15 @@ import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { InputItem } from '../../../session/utils/CallManager';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
-import { StyledVideoElement } from './CallContainer';
+import { StyledVideoElement } from './DraggableCallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
-import { getConversationController } from '../../../session/conversations';
 import { setFullScreenCall } from '../../../state/ducks/conversations';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
+import {
+  useAvatarPath,
+  useOurAvatarPath,
+  useOurConversationUsername,
+} from '../../../hooks/useParamSelector';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -233,13 +237,10 @@ const handleMicrophoneToggle = async (
 
     return;
   }
-  console.warn('onclick', isAudioMuted);
   if (isAudioMuted) {
     // selects the first one
     await CallManager.selectAudioInputByDeviceId(currentConnectedAudioInputs[0].deviceId);
   } else {
-    console.warn('onclick was not muted so muting it now');
-
     await CallManager.selectAudioInputByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
   }
 };
@@ -252,23 +253,15 @@ export const InConversationCallContainer = () => {
 
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
-  const videoRefRemote = useRef<any>();
-  const videoRefLocal = useRef<any>();
-
-  const remoteAvatarPath = ongoingCallPubkey
-    ? getConversationController()
-        .get(ongoingCallPubkey)
-        .getAvatarPath()
-    : undefined;
+  const videoRefRemote = useRef<HTMLVideoElement>(null);
+  const videoRefLocal = useRef<HTMLVideoElement>(null);
 
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
-  const ourUsername = getConversationController()
-    .get(ourPubkey)
-    .getProfileName();
 
-  const ourAvatarPath = getConversationController()
-    .get(ourPubkey)
-    .getAvatarPath();
+  const remoteAvatarPath = useAvatarPath(ongoingCallPubkey);
+  const ourAvatarPath = useOurAvatarPath();
+
+  const ourUsername = useOurConversationUsername();
 
   const {
     currentConnectedAudioInputs,
@@ -278,7 +271,7 @@ export const InConversationCallContainer = () => {
     remoteStream,
     remoteStreamVideoIsMuted,
     isAudioMuted,
-  } = useVideoCallEventsListener('InConversationCallContainer');
+  } = useVideoCallEventsListener('InConversationCallContainer', true);
 
   if (videoRefRemote?.current && videoRefLocal?.current) {
     videoRefRemote.current.srcObject = remoteStream;

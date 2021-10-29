@@ -10,7 +10,7 @@ import {
   getSelectedConversationKey,
 } from '../state/selectors/conversations';
 
-export function useVideoCallEventsListener(uniqueId: string) {
+export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const isFullScreen = useSelector(getCallIsInFullScreen);
@@ -27,7 +27,10 @@ export function useVideoCallEventsListener(uniqueId: string) {
     []
   );
   useEffect(() => {
-    if (ongoingCallPubkey === selectedConversationKey) {
+    if (
+      (onSame && ongoingCallPubkey === selectedConversationKey) ||
+      (!onSame && ongoingCallPubkey !== selectedConversationKey)
+    ) {
       CallManager.addVideoEventsListener(uniqueId, (options: CallManagerOptionsType) => {
         const {
           audioInputsList,

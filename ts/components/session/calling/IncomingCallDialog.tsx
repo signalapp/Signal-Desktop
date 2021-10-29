@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import _ from 'underscore';
+import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
 import { CallManager } from '../../../session/utils';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../../state/selectors/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
@@ -26,34 +27,28 @@ const IncomingCallAvatatContainer = styled.div`
   padding: 0 0 2rem 0;
 `;
 
-// TODO:
-/**
- * Add mute input, deafen, end call, possibly add person to call
- * duration - look at how duration calculated for recording.
- */
 export const IncomingCallDialog = () => {
   const hasIncomingCall = useSelector(getHasIncomingCall);
-  const incomingCallProps = useSelector(getHasIncomingCallFrom);
+  const incomingCallFromPubkey = useSelector(getHasIncomingCallFrom);
 
   //#region input handlers
   const handleAcceptIncomingCall = async () => {
-    if (incomingCallProps?.id) {
-      await CallManager.USER_acceptIncomingCallRequest(incomingCallProps.id);
+    if (incomingCallFromPubkey) {
+      await CallManager.USER_acceptIncomingCallRequest(incomingCallFromPubkey);
     }
   };
 
   const handleDeclineIncomingCall = async () => {
     // close the modal
-    if (incomingCallProps?.id) {
-      await CallManager.USER_rejectIncomingCallRequest(incomingCallProps.id);
+    if (incomingCallFromPubkey) {
+      await CallManager.USER_rejectIncomingCallRequest(incomingCallFromPubkey);
     }
   };
-
+  const from = useConversationUsername(incomingCallFromPubkey);
+  const incomingAvatar = useAvatarPath(incomingCallFromPubkey);
   if (!hasIncomingCall) {
     return null;
   }
-
-  const from = incomingCallProps?.profileName || incomingCallProps?.name || incomingCallProps?.id;
 
   if (hasIncomingCall) {
     return (
@@ -61,9 +56,9 @@ export const IncomingCallDialog = () => {
         <IncomingCallAvatatContainer>
           <Avatar
             size={AvatarSize.XL}
-            avatarPath={incomingCallProps?.avatarPath}
-            name={incomingCallProps?.profileName}
-            pubkey={incomingCallProps?.id}
+            avatarPath={incomingAvatar}
+            name={from}
+            pubkey={incomingCallFromPubkey}
           />
         </IncomingCallAvatatContainer>
         <div className="session-modal__button-group">
