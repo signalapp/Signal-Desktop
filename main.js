@@ -946,6 +946,17 @@ ipc.on('close-debug-log', () => {
     debugLogWindow.close();
   }
 });
+ipc.on('save-debug-log', (event, logText) => {
+  console.log(logText);
+
+  const outputPath = path.join(app.getPath('desktop'), `session_debug_${new Date()}.log`);
+  fs.writeFile(outputPath, logText, err => {
+    if (err) {
+      console.error('Error saving debug log');
+    }
+    console.warn('Successfully saved log');
+  });
+});
 
 // This should be called with an ipc sendSync
 ipc.on('get-media-permissions', event => {

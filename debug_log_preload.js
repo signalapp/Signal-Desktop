@@ -1,8 +1,10 @@
 /* global window */
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, remote } = require('electron');
 const url = require('url');
 const i18n = require('./js/modules/i18n');
+const fs = require('fs');
+const path = require('path');
 
 const config = url.parse(window.location.toString(), true).query;
 const { locale } = config;
@@ -28,3 +30,5 @@ window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
 window.getCommitHash = () => config.commitHash;
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
+
+window.saveLog = logText => ipcRenderer.send('save-debug-log', logText);
