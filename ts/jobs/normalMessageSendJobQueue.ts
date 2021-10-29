@@ -3,11 +3,12 @@
 
 /* eslint-disable class-methods-use-this */
 
-import PQueue from 'p-queue';
+import type PQueue from 'p-queue';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
 import { sleepFor413RetryAfterTime } from './helpers/sleepFor413RetryAfterTime';
+import { InMemoryQueues } from './helpers/InMemoryQueues';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
 import type { ConversationModel } from '../models/conversations';
@@ -23,19 +24,13 @@ import type { CallbackResultType } from '../textsecure/Types.d';
 import { isSent } from '../messages/MessageSendState';
 import { getLastChallengeError, isOutgoing } from '../state/selectors/message';
 import * as Errors from '../types/errors';
-import type {
-  AttachmentType,
-  GroupV1InfoType,
-  GroupV2InfoType,
-} from '../textsecure/SendMessage';
+import type { AttachmentType } from '../textsecure/SendMessage';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { BodyRangesType } from '../types/Util';
 import type { WhatIsThis } from '../window.d';
 
-import type { ParsedJob } from './types';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import type { Job } from './Job';
 import { getHttpErrorCode } from './helpers/getHttpErrorCode';
 
 const {
@@ -55,31 +50,7 @@ type NormalMessageSendJobData = {
 };
 
 export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData> {
-  private readonly queues = new Map<string, PQueue>();
-
-  /**
-   * Add a job (see `JobQueue.prototype.add`).
-   *
-   * You can override `insert` to change the way the job is added to the database. This is
-   * useful if you're trying to save a message and a job in the same database transaction.
-   */
-  async add(
-    data: Readonly<NormalMessageSendJobData>,
-    insert?: (job: ParsedJob<NormalMessageSendJobData>) => Promise<void>
-  ): Promise<Job<NormalMessageSendJobData>> {
-    if (!insert) {
-      return super.add(data);
-    }
-
-    this.throwIfNotStarted();
-
-    const job = this.createJob(data);
-    await insert(job);
-    await jobQueueDatabaseStore.insert(job, {
-      shouldInsertIntoDatabase: false,
-    });
-    return job;
-  }
+  private readonly inMemoryQueues = new InMemoryQueues();
 
   protected parseData(data: unknown): NormalMessageSendJobData {
     // Because we do this so often and Zod is a bit slower, we do "manual" parsing here.
@@ -99,20 +70,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
   protected getInMemoryQueue({
     data,
   }: Readonly<{ data: NormalMessageSendJobData }>): PQueue {
-    const { conversationId } = data;
-
-    const existingQueue = this.queues.get(conversationId);
-    if (existingQueue) {
-      return existingQueue;
-    }
-
-    const newQueue = new PQueue({ concurrency: 1 });
-    newQueue.once('idle', () => {
-      this.queues.delete(conversationId);
-    });
-
-    this.queues.set(conversationId, newQueue);
-    return newQueue;
+    return this.inMemoryQueues.get(data.conversationId);
   }
 
   protected async run(
@@ -234,10 +192,9 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
         const dataMessage = await window.textsecure.messaging.getDataMessage({
           attachments,
           body,
-          groupV2: updateRecipients(
-            conversation.getGroupV2Info(),
-            recipientIdentifiersWithoutMe
-          ),
+          groupV2: conversation.getGroupV2Info({
+            members: recipientIdentifiersWithoutMe,
+          }),
           deletedForEveryoneTimestamp,
           expireTimer,
           preview,
@@ -267,14 +224,12 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
                   attachments,
                   deletedForEveryoneTimestamp,
                   expireTimer,
-                  groupV1: updateRecipients(
-                    conversation.getGroupV1Info(),
+                  groupV1: conversation.getGroupV1Info(
                     recipientIdentifiersWithoutMe
                   ),
-                  groupV2: updateRecipients(
-                    conversation.getGroupV2Info(),
-                    recipientIdentifiersWithoutMe
-                  ),
+                  groupV2: conversation.getGroupV2Info({
+                    members: recipientIdentifiersWithoutMe,
+                  }),
                   messageText: body,
                   preview,
                   profileKey,
@@ -542,25 +497,5 @@ function didSendToEveryone(message: Readonly<MessageModel>): boolean {
     message.get('sendStateByConversationId') || {};
   return Object.values(sendStateByConversationId).every(sendState =>
     isSent(sendState.status)
-  );
-}
-
-function updateRecipients(
-  groupInfo: undefined | GroupV1InfoType,
-  recipients: Array<string>
-): undefined | GroupV1InfoType;
-function updateRecipients(
-  groupInfo: undefined | GroupV2InfoType,
-  recipients: Array<string>
-): undefined | GroupV2InfoType;
-function updateRecipients(
-  groupInfo: undefined | GroupV1InfoType | GroupV2InfoType,
-  recipients: Array<string>
-): undefined | GroupV1InfoType | GroupV2InfoType {
-  return (
-    groupInfo && {
-      ...groupInfo,
-      members: recipients,
-    }
   );
 }

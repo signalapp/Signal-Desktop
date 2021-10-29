@@ -228,6 +228,45 @@ describe('JobQueue', () => {
       assert.lengthOf(queueTypes['test 2'], 2);
     });
 
+    it('can override the insertion logic, skipping storage persistence', async () => {
+      const store = new TestJobQueueStore();
+
+      class TestQueue extends JobQueue<string> {
+        parseData(data: unknown): string {
+          return z.string().parse(data);
+        }
+
+        async run(): Promise<void> {
+          return Promise.resolve();
+        }
+      }
+
+      const queue = new TestQueue({
+        store,
+        queueType: 'test queue',
+        maxAttempts: 1,
+      });
+
+      queue.streamJobs();
+
+      const insert = sinon.stub().resolves();
+
+      await queue.add('foo bar', insert);
+
+      assert.lengthOf(store.storedJobs, 0);
+
+      sinon.assert.calledOnce(insert);
+      sinon.assert.calledWith(
+        insert,
+        sinon.match({
+          id: sinon.match.string,
+          timestamp: sinon.match.number,
+          queueType: 'test queue',
+          data: 'foo bar',
+        })
+      );
+    });
+
     it('retries jobs, running them up to maxAttempts times', async () => {
       type TestJobData = 'foo' | 'bar';
 

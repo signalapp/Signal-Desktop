@@ -27,6 +27,7 @@ import { EmbeddedContactType } from './types/EmbeddedContact';
 import { SignalService as Proto } from './protobuf';
 import { AvatarDataType } from './types/Avatar';
 import { UUIDStringType } from './types/UUID';
+import { ReactionSource } from './reactions/ReactionSource';
 
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 import MemberRoleEnum = Proto.Member.Role;
@@ -86,6 +87,15 @@ export type GroupV1Update = {
   name?: string;
 };
 
+export type MessageReactionType = {
+  emoji: undefined | string;
+  fromId: string;
+  targetAuthorUuid: string;
+  targetTimestamp: number;
+  timestamp: number;
+  isSentByConversationId?: Record<string, boolean>;
+};
+
 export type MessageAttributesType = {
   bodyPending?: boolean;
   bodyRanges?: BodyRangesType;
@@ -113,13 +123,7 @@ export type MessageAttributesType = {
   messageTimer?: unknown;
   profileChange?: ProfileNameChangeType;
   quote?: QuotedMessageType;
-  reactions?: Array<{
-    emoji: string;
-    fromId: string;
-    targetAuthorUuid: string;
-    targetTimestamp: number;
-    timestamp: number;
-  }>;
+  reactions?: Array<MessageReactionType>;
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
   sourceDevice?: number;
@@ -376,5 +380,5 @@ export type ReactionAttributesType = {
   targetTimestamp: number;
   fromId: string;
   timestamp: number;
-  fromSync?: boolean;
+  source: ReactionSource;
 };

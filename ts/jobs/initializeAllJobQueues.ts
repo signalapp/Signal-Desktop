@@ -4,6 +4,7 @@
 import type { WebAPIType } from '../textsecure/WebAPI';
 
 import { normalMessageSendJobQueue } from './normalMessageSendJobQueue';
+import { reactionJobQueue } from './reactionJobQueue';
 import { readSyncJobQueue } from './readSyncJobQueue';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
 import { reportSpamJobQueue } from './reportSpamJobQueue';
@@ -21,6 +22,7 @@ export function initializeAllJobQueues({
   reportSpamJobQueue.initialize({ server });
 
   normalMessageSendJobQueue.streamJobs();
+  reactionJobQueue.streamJobs();
   readSyncJobQueue.streamJobs();
   removeStorageKeyJobQueue.streamJobs();
   reportSpamJobQueue.streamJobs();

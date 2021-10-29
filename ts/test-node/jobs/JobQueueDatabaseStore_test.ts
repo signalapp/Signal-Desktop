@@ -110,7 +110,7 @@ describe('JobQueueDatabaseStore', () => {
           queueType: 'test queue',
           data: { hi: 5 },
         },
-        { shouldInsertIntoDatabase: false }
+        { shouldPersist: false }
       );
 
       await streamPromise;

@@ -5,7 +5,10 @@ export type JobQueueStore = {
   /**
    * Add a job to the database. Doing this should enqueue it in the stream.
    */
-  insert(job: Readonly<StoredJob>): Promise<void>;
+  insert(
+    job: Readonly<StoredJob>,
+    options?: Readonly<{ shouldPersist?: boolean }>
+  ): Promise<void>;
 
   /**
    * Remove a job. This should be called when a job finishes successfully or

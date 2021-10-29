@@ -1,17 +1,24 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { isEmpty, isEqual, mapValues, noop, omit, union } from 'lodash';
+import { isEmpty, isEqual, mapValues, maxBy, noop, omit, union } from 'lodash';
 import type {
   CustomError,
   GroupV1Update,
   MessageAttributesType,
-  ReactionAttributesType,
+  MessageReactionType,
   ShallowChallengeError,
   QuotedMessageType,
   WhatIsThis,
 } from '../model-types.d';
-import { filter, find, map, reduce } from '../util/iterables';
+import {
+  filter,
+  find,
+  map,
+  reduce,
+  repeat,
+  zipObject,
+} from '../util/iterables';
 import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { strictAssert } from '../util/assert';
@@ -35,6 +42,7 @@ import * as expirationTimer from '../util/expirationTimer';
 import type { ReactionType } from '../types/Reactions';
 import { UUID } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
+import * as reactionUtil from '../reactions/util';
 import {
   copyStickerToAttachments,
   deletePackReference,
@@ -112,6 +120,7 @@ import {
 import { Deletes } from '../messageModifiers/Deletes';
 import type { ReactionModel } from '../messageModifiers/Reactions';
 import { Reactions } from '../messageModifiers/Reactions';
+import { ReactionSource } from '../reactions/ReactionSource';
 import { ReadSyncs } from '../messageModifiers/ReadSyncs';
 import { ViewSyncs } from '../messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from '../messageModifiers/ViewOnceOpenSyncs';
@@ -119,6 +128,7 @@ import * as AttachmentDownloads from '../messageModifiers/AttachmentDownloads';
 import * as LinkPreview from '../types/LinkPreview';
 import { SignalService as Proto } from '../protobuf';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
+import { reactionJobQueue } from '../jobs/reactionJobQueue';
 import { notificationService } from '../services/notifications';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
@@ -3121,11 +3131,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   async handleReaction(
     reaction: ReactionModel,
     shouldPersist = true
-  ): Promise<ReactionAttributesType | undefined> {
+  ): Promise<void> {
     const { attributes } = this;
 
     if (this.get('deletedForEveryone')) {
-      return undefined;
+      return;
     }
 
     // We allow you to react to messages with outgoing errors only if it has sent
@@ -3138,75 +3148,138 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           window.ConversationController.getOurConversationIdOrThrow()
         ) !== 'partial-sent')
     ) {
-      return undefined;
+      return;
     }
 
-    const reactions = this.get('reactions') || [];
-    const messageId = this.idForLogging();
-    const count = reactions.length;
-
-    const conversation = window.ConversationController.get(
-      this.get('conversationId')
-    );
-
-    const oldReaction = reactions.find(
-      re => re.fromId === reaction.get('fromId')
-    );
-    if (oldReaction) {
-      this.clearNotifications(oldReaction);
+    const conversation = this.getConversation();
+    if (!conversation) {
+      return;
     }
 
-    if (reaction.get('remove')) {
-      log.info('Removing reaction for message', messageId);
-      const newReactions = reactions.filter(
-        re => re.fromId !== reaction.get('fromId')
+    const oldReactions = this.get('reactions') || [];
+
+    let newReactions: typeof oldReactions;
+    if (reaction.get('source') === ReactionSource.FromThisDevice) {
+      log.info(
+        `handleReaction: sending reaction to ${this.idForLogging()} from this device`
       );
-      this.set({ reactions: newReactions });
 
-      await window.Signal.Data.removeReactionFromConversation({
-        emoji: reaction.get('emoji'),
+      const newReaction = {
+        emoji: reaction.get('remove') ? undefined : reaction.get('emoji'),
         fromId: reaction.get('fromId'),
         targetAuthorUuid: reaction.get('targetAuthorUuid'),
         targetTimestamp: reaction.get('targetTimestamp'),
-      });
+        timestamp: reaction.get('timestamp'),
+        isSentByConversationId: zipObject(
+          conversation.getRecipientConversationIds(),
+          repeat(false)
+        ),
+      };
+
+      newReactions = reactionUtil.addOutgoingReaction(
+        oldReactions,
+        newReaction
+      );
     } else {
-      log.info('Adding reaction for message', messageId);
-      const newReactions = reactions.filter(
-        re => re.fromId !== reaction.get('fromId')
+      const oldReaction = oldReactions.find(
+        re => re.fromId === reaction.get('fromId')
       );
-      newReactions.push(reaction.toJSON());
-      this.set({ reactions: newReactions });
+      if (oldReaction) {
+        this.clearNotifications(oldReaction);
+      }
 
-      await window.Signal.Data.addReaction({
-        conversationId: this.get('conversationId'),
-        emoji: reaction.get('emoji'),
-        fromId: reaction.get('fromId'),
-        messageId: this.id,
-        messageReceivedAt: this.get('received_at'),
-        targetAuthorUuid: reaction.get('targetAuthorUuid'),
-        targetTimestamp: reaction.get('targetTimestamp'),
-      });
+      if (reaction.get('remove')) {
+        log.info(
+          'handleReaction: removing reaction for message',
+          this.idForLogging()
+        );
 
-      // Only notify for reactions to our own messages
-      if (
-        conversation &&
-        isOutgoing(this.attributes) &&
-        !reaction.get('fromSync')
-      ) {
-        conversation.notify(this, reaction);
+        if (reaction.get('source') === ReactionSource.FromSync) {
+          newReactions = oldReactions.filter(
+            re =>
+              re.fromId !== reaction.get('fromId') ||
+              re.timestamp > reaction.get('timestamp')
+          );
+        } else {
+          newReactions = oldReactions.filter(
+            re => re.fromId !== reaction.get('fromId')
+          );
+        }
+
+        await window.Signal.Data.removeReactionFromConversation({
+          emoji: reaction.get('emoji'),
+          fromId: reaction.get('fromId'),
+          targetAuthorUuid: reaction.get('targetAuthorUuid'),
+          targetTimestamp: reaction.get('targetTimestamp'),
+        });
+      } else {
+        log.info(
+          'handleReaction: adding reaction for message',
+          this.idForLogging()
+        );
+
+        let reactionToAdd: MessageReactionType;
+        if (reaction.get('source') === ReactionSource.FromSync) {
+          const ourReactions = [
+            reaction.toJSON(),
+            ...oldReactions.filter(re => re.fromId === reaction.get('fromId')),
+          ];
+          reactionToAdd = maxBy(ourReactions, 'timestamp');
+        } else {
+          reactionToAdd = reaction.toJSON();
+        }
+
+        newReactions = oldReactions.filter(
+          re => re.fromId !== reaction.get('fromId')
+        );
+        newReactions.push(reactionToAdd);
+
+        if (
+          isOutgoing(this.attributes) &&
+          reaction.get('source') === ReactionSource.FromSomeoneElse
+        ) {
+          conversation.notify(this, reaction);
+        }
+
+        await window.Signal.Data.addReaction({
+          conversationId: this.get('conversationId'),
+          emoji: reaction.get('emoji'),
+          fromId: reaction.get('fromId'),
+          messageId: this.id,
+          messageReceivedAt: this.get('received_at'),
+          targetAuthorUuid: reaction.get('targetAuthorUuid'),
+          targetTimestamp: reaction.get('targetTimestamp'),
+        });
       }
     }
 
-    const newCount = (this.get('reactions') || []).length;
+    this.set({ reactions: newReactions });
+
     log.info(
-      `Done processing reaction for message ${messageId}. Went from ${count} to ${newCount} reactions.`
+      'handleReaction:',
+      `Done processing reaction for message ${this.idForLogging()}.`,
+      `Went from ${oldReactions.length} to ${newReactions.length} reactions.`
     );
 
-    if (shouldPersist) {
+    if (reaction.get('source') === ReactionSource.FromThisDevice) {
+      const jobData = { messageId: this.id };
+      if (shouldPersist) {
+        await reactionJobQueue.add(jobData, async jobToInsert => {
+          log.info(
+            `enqueueReactionForSend: saving message ${this.idForLogging()} and job ${
+              jobToInsert.id
+            }`
+          );
+          await window.Signal.Data.saveMessage(this.attributes, {
+            jobToInsert,
+          });
+        });
+      } else {
+        await reactionJobQueue.add(jobData);
+      }
+    } else if (shouldPersist) {
       await window.Signal.Data.saveMessage(this.attributes);
     }
-
-    return oldReaction;
   }
 
   async handleDeleteForEveryone(

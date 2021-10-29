@@ -26,9 +26,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
 
   async insert(
     job: Readonly<StoredJob>,
-    {
-      shouldInsertIntoDatabase = true,
-    }: Readonly<{ shouldInsertIntoDatabase?: boolean }> = {}
+    { shouldPersist = true }: Readonly<{ shouldPersist?: boolean }> = {}
   ): Promise<void> {
     log.info(
       `JobQueueDatabaseStore adding job ${job.id} to queue ${JSON.stringify(
@@ -46,7 +44,7 @@ export class JobQueueDatabaseStore implements JobQueueStore {
     }
     await initialFetchPromise;
 
-    if (shouldInsertIntoDatabase) {
+    if (shouldPersist) {
       await this.db.insertJob(formatJobForInsert(job));
     }
 

@@ -17,6 +17,7 @@ import filesize from 'filesize';
 import type {
   LastMessageStatus,
   MessageAttributesType,
+  MessageReactionType,
   ShallowChallengeError,
 } from '../../model-types.d';
 
@@ -54,6 +55,8 @@ import { memoizeByRoot } from '../../util/memoizeByRoot';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isNotNil } from '../../util/isNotNil';
 import { isMoreRecentThan } from '../../util/timestamp';
+import * as iterables from '../../util/iterables';
+import { strictAssert } from '../../util/assert';
 
 import type { ConversationType } from '../ducks/conversations';
 
@@ -379,7 +382,23 @@ export const getReactionsForMessage = createSelectorCreator(
     { reactions = [] }: MessageAttributesType,
     { conversationSelector }: { conversationSelector: GetConversationByIdType }
   ) => {
-    return reactions.map(re => {
+    const reactionBySender = new Map<string, MessageReactionType>();
+    for (const reaction of reactions) {
+      const existingReaction = reactionBySender.get(reaction.fromId);
+      if (
+        !existingReaction ||
+        reaction.timestamp > existingReaction.timestamp
+      ) {
+        reactionBySender.set(reaction.fromId, reaction);
+      }
+    }
+
+    const reactionsWithEmpties = reactionBySender.values();
+    const reactionsWithEmoji = iterables.filter(
+      reactionsWithEmpties,
+      re => re.emoji
+    );
+    const formattedReactions = iterables.map(reactionsWithEmoji, re => {
       const c = conversationSelector(re.fromId);
 
       type From = NonNullable<PropsData['reactions']>[0]['from'];
@@ -399,12 +418,16 @@ export const getReactionsForMessage = createSelectorCreator(
 
       const from: AssertProps<From, typeof unsafe> = unsafe;
 
+      strictAssert(re.emoji, 'Expected all reactions to have an emoji');
+
       return {
         emoji: re.emoji,
         timestamp: re.timestamp,
         from,
       };
     });
+
+    return [...formattedReactions];
   },
 
   (_: MessageAttributesType, reactions: PropsData['reactions']) => reactions
@@ -1373,6 +1396,51 @@ function processQuoteAttachment(
   };
 }
 
+function canReplyOrReact(
+  message: Pick<
+    MessageAttributesType,
+    'deletedForEveryone' | 'sendStateByConversationId' | 'type'
+  >,
+  ourConversationId: string,
+  conversation: undefined | Readonly<ConversationType>
+): boolean {
+  const { deletedForEveryone, sendStateByConversationId } = message;
+
+  if (!conversation) {
+    return false;
+  }
+
+  if (conversation.isGroupV1AndDisabled) {
+    return false;
+  }
+
+  if (isMissingRequiredProfileSharing(conversation)) {
+    return false;
+  }
+
+  if (!conversation.acceptedMessageRequest) {
+    return false;
+  }
+
+  if (deletedForEveryone) {
+    return false;
+  }
+
+  if (isOutgoing(message)) {
+    return (
+      isMessageJustForMe(sendStateByConversationId, ourConversationId) ||
+      someSendStatus(omit(sendStateByConversationId, ourConversationId), isSent)
+    );
+  }
+
+  if (isIncoming(message)) {
+    return true;
+  }
+
+  // Fail safe.
+  return false;
+}
+
 export function canReply(
   message: Pick<
     MessageAttributesType,
@@ -1385,53 +1453,28 @@ export function canReply(
   conversationSelector: GetConversationByIdType
 ): boolean {
   const conversation = getConversation(message, conversationSelector);
-  const { deletedForEveryone, sendStateByConversationId } = message;
-
-  if (!conversation) {
+  if (
+    !conversation ||
+    (conversation.announcementsOnly && !conversation.areWeAdmin)
+  ) {
     return false;
   }
+  return canReplyOrReact(message, ourConversationId, conversation);
+}
 
-  // If GroupV1 groups have been disabled, we can't reply.
-  if (conversation.isGroupV1AndDisabled) {
-    return false;
-  }
-
-  // If mandatory profile sharing is enabled, and we haven't shared yet, then
-  //   we can't reply.
-  if (isMissingRequiredProfileSharing(conversation)) {
-    return false;
-  }
-
-  // We cannot reply if we haven't accepted the message request
-  if (!conversation.acceptedMessageRequest) {
-    return false;
-  }
-
-  // We cannot reply if this message is deleted for everyone
-  if (deletedForEveryone) {
-    return false;
-  }
-
-  // Groups where only admins can send messages
-  if (conversation.announcementsOnly && !conversation.areWeAdmin) {
-    return false;
-  }
-
-  // We can reply if this is outgoing and sent to at least one recipient
-  if (isOutgoing(message)) {
-    return (
-      isMessageJustForMe(sendStateByConversationId, ourConversationId) ||
-      someSendStatus(omit(sendStateByConversationId, ourConversationId), isSent)
-    );
-  }
-
-  // We can reply to incoming messages
-  if (isIncoming(message)) {
-    return true;
-  }
-
-  // Fail safe.
-  return false;
+export function canReact(
+  message: Pick<
+    MessageAttributesType,
+    | 'conversationId'
+    | 'deletedForEveryone'
+    | 'sendStateByConversationId'
+    | 'type'
+  >,
+  ourConversationId: string,
+  conversationSelector: GetConversationByIdType
+): boolean {
+  const conversation = getConversation(message, conversationSelector);
+  return canReplyOrReact(message, ourConversationId, conversation);
 }
 
 export function canDeleteForEveryone(

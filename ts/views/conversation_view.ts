@@ -32,6 +32,7 @@ import type {
 import type { MessageModel } from '../models/messages';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
+import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
 import { addReportSpamJob } from '../jobs/helpers/addReportSpamJob';
 import { reportSpamJobQueue } from '../jobs/reportSpamJobQueue';
 import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameCollisions';
@@ -845,11 +846,21 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   getMessageActions(): MessageActionsType {
-    const reactToMessage = (
+    const reactToMessage = async (
       messageId: string,
       reaction: { emoji: string; remove: boolean }
     ) => {
-      this.sendReactionMessage(messageId, reaction);
+      const { emoji, remove } = reaction;
+      try {
+        await enqueueReactionForSend({
+          messageId,
+          emoji,
+          remove,
+        });
+      } catch (error) {
+        log.error('Error sending reaction', error, messageId, reaction);
+        showToast(ToastReactionFailed);
+      }
     };
     const replyToMessage = (messageId: string) => {
       this.setQuoteMessage(messageId);
@@ -2995,38 +3006,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         },
       });
     });
-  }
-
-  async sendReactionMessage(
-    messageId: string,
-    reaction: { emoji: string; remove: boolean }
-  ): Promise<void> {
-    const messageModel = messageId
-      ? await getMessageById(messageId, {
-          Message: Whisper.Message,
-        })
-      : undefined;
-
-    try {
-      if (!messageModel) {
-        throw new Error('sendReactionMessage: Message not found');
-      }
-      const targetAuthorUuid = messageModel.getSourceUuid();
-      if (!targetAuthorUuid) {
-        throw new Error(
-          `sendReactionMessage: Message ${messageModel.idForLogging()} had no source uuid! Cannot send reaction.`
-        );
-      }
-
-      await this.model.sendReactionMessage(reaction, {
-        messageId,
-        targetAuthorUuid,
-        targetTimestamp: messageModel.get('sent_at'),
-      });
-    } catch (error) {
-      log.error('Error sending reaction', error, messageId, reaction);
-      showToast(ToastReactionFailed);
-    }
   }
 
   async sendStickerMessage(options: {

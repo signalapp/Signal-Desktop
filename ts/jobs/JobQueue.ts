@@ -138,22 +138,29 @@ export abstract class JobQueue<T> {
    * Add a job, which should cause it to be enqueued and run.
    *
    * If `streamJobs` has not been called yet, this will throw an error.
+   *
+   * You can override `insert` to change the way the job is added to the database. This is
+   * useful if you're trying to save a message and a job in the same database transaction.
    */
-  async add(data: Readonly<T>): Promise<Job<T>> {
-    this.throwIfNotStarted();
-
-    const job = this.createJob(data);
-    await this.store.insert(job);
-    log.info(`${this.logPrefix} added new job ${job.id}`);
-    return job;
-  }
-
-  protected throwIfNotStarted(): void {
+  async add(
+    data: Readonly<T>,
+    insert?: (job: ParsedJob<T>) => Promise<void>
+  ): Promise<Job<T>> {
     if (!this.started) {
       throw new Error(
         `${this.logPrefix} has not started streaming. Make sure to call streamJobs().`
       );
     }
+
+    const job = this.createJob(data);
+
+    if (insert) {
+      await insert(job);
+    }
+    await this.store.insert(job, { shouldPersist: !insert });
+
+    log.info(`${this.logPrefix} added new job ${job.id}`);
+    return job;
   }
 
   protected createJob(data: Readonly<T>): Job<T> {

@@ -2848,7 +2848,7 @@ export async function startApp(): Promise<void> {
         'DataMessage.Reaction.targetAuthorUuid'
       );
 
-      const { reaction } = data.message;
+      const { reaction, timestamp } = data.message;
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
@@ -2862,7 +2862,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
-        timestamp: Date.now(),
+        timestamp,
         fromId: window.ConversationController.ensureContactIds({
           e164: data.source,
           uuid: data.sourceUuid,
@@ -3190,7 +3190,7 @@ export async function startApp(): Promise<void> {
         'DataMessage.Reaction.targetAuthorUuid'
       );
 
-      const { reaction } = data.message;
+      const { reaction, timestamp } = data.message;
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
@@ -3204,7 +3204,7 @@ export async function startApp(): Promise<void> {
         remove: reaction.remove,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
-        timestamp: Date.now(),
+        timestamp,
         fromId: window.ConversationController.getOurConversationId(),
         fromSync: true,
       });

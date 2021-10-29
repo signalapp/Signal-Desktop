@@ -94,7 +94,6 @@ import {
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
 import { Deletes } from '../messageModifiers/Deletes';
 import type { ReactionModel } from '../messageModifiers/Reactions';
-import { Reactions } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
 import { getProfile } from '../util/getProfile';
 import { SEALED_SENDER } from '../types/SealedSender';
@@ -1123,15 +1122,17 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  getGroupV2Info({
-    groupChange,
-    includePendingMembers,
-    extraConversationsForSend,
-  }: {
-    groupChange?: Uint8Array;
-    includePendingMembers?: boolean;
-    extraConversationsForSend?: Array<string>;
-  } = {}): GroupV2InfoType | undefined {
+  getGroupV2Info(
+    options: Readonly<
+      { groupChange?: Uint8Array } & (
+        | {
+            includePendingMembers?: boolean;
+            extraConversationsForSend?: Array<string>;
+          }
+        | { members: Array<string> }
+      )
+    > = {}
+  ): GroupV2InfoType | undefined {
     if (isDirectConversation(this.attributes) || !isGroupV2(this.attributes)) {
       return undefined;
     }
@@ -1142,15 +1143,13 @@ export class ConversationModel extends window.Backbone
       ),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       revision: this.get('revision')!,
-      members: this.getRecipients({
-        includePendingMembers,
-        extraConversationsForSend,
-      }),
-      groupChange,
+      members:
+        'members' in options ? options.members : this.getRecipients(options),
+      groupChange: options.groupChange,
     };
   }
 
-  getGroupV1Info(): GroupV1InfoType | undefined {
+  getGroupV1Info(members?: Array<string>): GroupV1InfoType | undefined {
     const groupId = this.get('groupId');
     const groupVersion = this.get('groupVersion');
 
@@ -1164,7 +1163,7 @@ export class ConversationModel extends window.Backbone
 
     return {
       id: groupId,
-      members: this.getRecipients(),
+      members: members || this.getRecipients(),
     };
   }
 
@@ -3475,166 +3474,6 @@ export class ConversationModel extends window.Backbone
       );
 
       throw error;
-    });
-  }
-
-  async sendReactionMessage(
-    reaction: { emoji: string; remove: boolean },
-    target: {
-      messageId: string;
-      targetAuthorUuid: string;
-      targetTimestamp: number;
-    }
-  ): Promise<void> {
-    const { messageId } = target;
-    const timestamp = Date.now();
-    const outgoingReaction = { ...reaction, ...target };
-
-    const reactionModel = Reactions.getSingleton().add({
-      ...outgoingReaction,
-      fromId: window.ConversationController.getOurConversationId(),
-      timestamp,
-      fromSync: true,
-    });
-
-    // Apply reaction optimistically
-    const oldReaction = await Reactions.getSingleton().onReaction(
-      reactionModel
-    );
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const destination = this.getSendTarget()!;
-
-    return this.queueJob('sendReactionMessage', async () => {
-      log.info(
-        'Sending reaction to conversation',
-        this.idForLogging(),
-        'with timestamp',
-        timestamp
-      );
-
-      await this.maybeApplyUniversalTimer(false);
-
-      const expireTimer = this.get('expireTimer');
-
-      // We are only creating this model so we can use its sync message
-      // sending functionality. It will not be saved to the database.
-      const message = new window.Whisper.Message({
-        id: UUID.generate.toString(),
-        type: 'outgoing',
-        conversationId: this.get('id'),
-        sent_at: timestamp,
-        received_at: window.Signal.Util.incrementMessageCounter(),
-        received_at_ms: timestamp,
-        reaction: outgoingReaction,
-        timestamp,
-      });
-
-      // This is to ensure that the functions in send() and sendSyncMessage() don't save
-      //   anything to the database.
-      message.doNotSave = true;
-
-      // We're offline!
-      if (!window.textsecure.messaging) {
-        throw new Error('Cannot send reaction while offline!');
-      }
-
-      let profileKey: Uint8Array | undefined;
-      if (this.get('profileSharing')) {
-        profileKey = await ourProfileKeyService.get();
-      }
-      // Special-case the self-send case - we send only a sync message
-      if (isMe(this.attributes)) {
-        const dataMessage = await window.textsecure.messaging.getDataMessage({
-          attachments: [],
-          // body
-          // deletedForEveryoneTimestamp
-          expireTimer,
-          preview: [],
-          profileKey,
-          // quote
-          reaction: outgoingReaction,
-          recipients: [destination],
-          // sticker
-          timestamp,
-        });
-        const result = await message.sendSyncMessageOnly(dataMessage);
-        Reactions.getSingleton().onReaction(reactionModel);
-        return result;
-      }
-
-      const options = await getSendOptions(this.attributes);
-      const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-      const promise = (() => {
-        if (isDirectConversation(this.attributes)) {
-          return window.textsecure.messaging.sendMessageToIdentifier({
-            identifier: destination,
-            messageText: undefined,
-            attachments: [],
-            quote: undefined,
-            preview: [],
-            sticker: undefined,
-            reaction: outgoingReaction,
-            deletedForEveryoneTimestamp: undefined,
-            timestamp,
-            expireTimer,
-            contentHint: ContentHint.RESENDABLE,
-            groupId: undefined,
-            profileKey,
-            options,
-          });
-        }
-
-        return window.Signal.Util.sendToGroup({
-          groupSendOptions: {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            groupV1: this.getGroupV1Info()!,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            groupV2: this.getGroupV2Info()!,
-            reaction: outgoingReaction,
-            timestamp,
-            expireTimer,
-            profileKey,
-          },
-          conversation: this,
-          contentHint: ContentHint.RESENDABLE,
-          messageId,
-          sendOptions: options,
-          sendType: 'reaction',
-        });
-      })();
-
-      const result = await message.send(
-        handleMessageSend(promise, {
-          messageIds: [messageId],
-          sendType: 'reaction',
-        })
-      );
-
-      if (!message.hasSuccessfulDelivery()) {
-        // This is handled by `conversation_view` which displays a toast on
-        // send error.
-        throw new Error('No successful delivery for reaction');
-      }
-
-      return result;
-    }).catch(() => {
-      let reverseReaction: ReactionModel;
-      if (oldReaction) {
-        // Either restore old reaction
-        reverseReaction = Reactions.getSingleton().add({
-          ...oldReaction,
-          fromId: window.ConversationController.getOurConversationId(),
-          timestamp,
-        });
-      } else {
-        // Or remove a new one on failure
-        reverseReaction = reactionModel.clone();
-        reverseReaction.set('remove', !reverseReaction.get('remove'));
-      }
-
-      Reactions.getSingleton().onReaction(reverseReaction);
     });
   }
 
