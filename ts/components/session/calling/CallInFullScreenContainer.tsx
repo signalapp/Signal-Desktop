@@ -1,12 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
 import { setFullScreenCall } from '../../../state/ducks/conversations';
 import {
   getCallIsInFullScreen,
   getHasOngoingCall,
-  getHasOngoingCallWith,
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
+import { StyledVideoElement } from './DraggableCallContainer';
 
 const CallInFullScreenVisible = styled.div`
   position: absolute;
@@ -17,31 +20,49 @@ const CallInFullScreenVisible = styled.div`
   left: 0;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-modal-background);
+  background-color: rgba(0, 0, 0, 0.6);
   border: var(--session-border);
-  opacity: 0.9;
+  opacity: 1;
 `;
 
 export const CallInFullScreenContainer = () => {
   const dispatch = useDispatch();
-  const ongoingCallProps = useSelector(getHasOngoingCallWith);
-  //   const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
+  const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const hasOngoingCallFullScreen = useSelector(getCallIsInFullScreen);
 
-  //   const ongoingCallPubkey = ongoingCallProps?.id;
-  //   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
-  //   const videoRefRemote = useRef<any>();
-  //   const videoRefLocal = useRef<any>();
-  //   const mountedState = useMountedState();
+  const { remoteStream, remoteStreamVideoIsMuted } = useVideoCallEventsListener(
+    'CallInFullScreenContainer',
+    true
+  );
+
+  const videoRefRemote = React.useRef<HTMLVideoElement>(null);
 
   function toggleFullScreenOFF() {
     dispatch(setFullScreenCall(false));
   }
 
-  if (!hasOngoingCall || !ongoingCallProps || !hasOngoingCallFullScreen) {
+  if (
+    !hasOngoingCall ||
+    !ongoingCallPubkey ||
+    !hasOngoingCallFullScreen ||
+    selectedConversationKey !== ongoingCallPubkey
+  ) {
     return null;
   }
 
-  return <CallInFullScreenVisible onClick={toggleFullScreenOFF} />;
+  if (videoRefRemote?.current) {
+    videoRefRemote.current.srcObject = remoteStream;
+  }
+
+  return (
+    <CallInFullScreenVisible onClick={toggleFullScreenOFF}>
+      <StyledVideoElement
+        ref={videoRefRemote}
+        autoPlay={true}
+        isVideoMuted={remoteStreamVideoIsMuted}
+      />
+    </CallInFullScreenVisible>
+  );
 };
