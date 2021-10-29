@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
 import { setFullScreenCall } from '../../../state/ducks/conversations';
@@ -43,6 +44,9 @@ export const CallInFullScreenContainer = () => {
     dispatch(setFullScreenCall(false));
   }
 
+  useKey('Escape', () => {
+    toggleFullScreenOFF();
+  });
   if (
     !hasOngoingCall ||
     !ongoingCallPubkey ||
