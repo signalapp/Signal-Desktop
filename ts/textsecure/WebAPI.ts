@@ -494,6 +494,7 @@ const URL_CALLS = {
   accounts: 'v1/accounts',
   attachmentId: 'v2/attachments/form/upload',
   attestation: 'v1/attestation',
+  challenge: 'v1/challenge',
   config: 'v1/config',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
@@ -520,8 +521,8 @@ const URL_CALLS = {
   storageToken: 'v1/storage/auth',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
+  username: 'v1/accounts/username',
   whoami: 'v1/accounts/whoami',
-  challenge: 'v1/challenge',
 };
 
 const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
@@ -719,6 +720,7 @@ export type WebAPIType = {
     group: Proto.IGroup,
     options: GroupCredentialsType
   ) => Promise<void>;
+  deleteUsername: () => Promise<void>;
   getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<Uint8Array>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getDevices: () => Promise<GetDevicesResultType>;
@@ -807,12 +809,13 @@ export type WebAPIType = {
   putProfile: (
     jsonData: ProfileRequestDataType
   ) => Promise<UploadAvatarHeadersType | undefined>;
-  registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   putStickers: (
     encryptedManifest: Uint8Array,
     encryptedStickers: Array<Uint8Array>,
     onProgress?: () => void
   ) => Promise<string>;
+  putUsername: (newUsername: string) => Promise<void>;
+  registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
   registerKeys: (genKeys: KeysType) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
@@ -1014,6 +1017,7 @@ export function initialize({
       logout,
       confirmCode,
       createGroup,
+      deleteUsername,
       fetchLinkPreviewImage,
       fetchLinkPreviewMetadata,
       getAttachment,
@@ -1047,6 +1051,7 @@ export function initialize({
       putAttachment,
       putProfile,
       putStickers,
+      putUsername,
       registerCapabilities,
       registerKeys,
       registerSupportForUnauthenticatedDelivery,
@@ -1396,6 +1401,20 @@ export function initialize({
           return href.replace(pattern, `[REDACTED]${path.slice(-3)}`);
         },
         version,
+      });
+    }
+
+    async function deleteUsername() {
+      await _ajax({
+        call: 'username',
+        httpType: 'DELETE',
+      });
+    }
+    async function putUsername(newUsername: string) {
+      await _ajax({
+        call: 'username',
+        httpType: 'PUT',
+        urlParameters: `/${newUsername}`,
       });
     }
 

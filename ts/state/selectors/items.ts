@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { isInteger } from 'lodash';
 
 import { ITEM_NAME as UNIVERSAL_EXPIRE_TIMER_ITEM } from '../../util/universalExpireTimer';
+import type { ConfigMapType } from '../../RemoteConfig';
 
 import type { StateType } from '../reducer';
 import type { ItemsStateType } from '../ducks/items';
@@ -33,6 +34,17 @@ export const getPinnedConversationIds = createSelector(
 export const getUniversalExpireTimer = createSelector(
   getItems,
   (state: ItemsStateType): number => state[UNIVERSAL_EXPIRE_TIMER_ITEM] || 0
+);
+
+const getRemoteConfig = createSelector(
+  getItems,
+  (state: ItemsStateType): ConfigMapType | undefined => state.remoteConfig
+);
+
+export const getUsernamesEnabled = createSelector(
+  getRemoteConfig,
+  (remoteConfig?: ConfigMapType): boolean =>
+    Boolean(remoteConfig?.['desktop.usernames']?.enabled)
 );
 
 export const getDefaultConversationColor = createSelector(

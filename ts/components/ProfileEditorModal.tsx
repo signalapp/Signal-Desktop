@@ -31,13 +31,17 @@ export const ProfileEditorModal = ({
   toggleProfileEditorHasError,
   ...restProps
 }: PropsType): JSX.Element => {
-  const ModalTitles = {
-    None: i18n('ProfileEditorModal--profile'),
-    ProfileName: i18n('ProfileEditorModal--name'),
-    Bio: i18n('ProfileEditorModal--about'),
+  const MODAL_TITLES_BY_EDIT_STATE: Record<EditState, string> = {
+    [EditState.BetterAvatar]: i18n('ProfileEditorModal--avatar'),
+    [EditState.Bio]: i18n('ProfileEditorModal--about'),
+    [EditState.None]: i18n('ProfileEditorModal--profile'),
+    [EditState.ProfileName]: i18n('ProfileEditorModal--name'),
+    [EditState.Username]: i18n('ProfileEditorModal--username'),
   };
 
-  const [modalTitle, setModalTitle] = useState(ModalTitles.None);
+  const [modalTitle, setModalTitle] = useState(
+    MODAL_TITLES_BY_EDIT_STATE[EditState.None]
+  );
 
   if (hasError) {
     return (
@@ -64,17 +68,9 @@ export const ProfileEditorModal = ({
           {...restProps}
           i18n={i18n}
           onEditStateChanged={editState => {
-            if (editState === EditState.None) {
-              setModalTitle(ModalTitles.None);
-            } else if (editState === EditState.ProfileName) {
-              setModalTitle(ModalTitles.ProfileName);
-            } else if (editState === EditState.Bio) {
-              setModalTitle(ModalTitles.Bio);
-            }
+            setModalTitle(MODAL_TITLES_BY_EDIT_STATE[editState]);
           }}
-          onProfileChanged={(profileData, avatarBuffer) => {
-            myProfileChanged(profileData, avatarBuffer);
-          }}
+          onProfileChanged={myProfileChanged}
           onSetSkinTone={onSetSkinTone}
         />
       </Modal>

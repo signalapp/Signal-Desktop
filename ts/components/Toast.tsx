@@ -18,6 +18,7 @@ export type PropsType = {
     label: string;
     onClick: () => unknown;
   };
+  style?: React.CSSProperties;
 };
 
 export const Toast = memo(
@@ -27,6 +28,7 @@ export const Toast = memo(
     className,
     disableCloseOnClick = false,
     onClose,
+    style,
     timeout = 8000,
     toastAction,
   }: PropsType): JSX.Element | null => {
@@ -77,6 +79,7 @@ export const Toast = memo(
             }}
             role="button"
             tabIndex={0}
+            style={style}
           >
             <div className="Toast__content">{children}</div>
             {toastAction && (

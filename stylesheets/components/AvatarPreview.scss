@@ -33,6 +33,12 @@
       background-size: cover;
       background-position: center center;
     }
+
+    @include keyboard-mode {
+      &:focus {
+        box-shadow: 0 0 0 3px $color-ultramarine;
+      }
+    }
   }
 
   &__group {

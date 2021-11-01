@@ -25,6 +25,7 @@ import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
 import type { ToggleProfileEditorErrorActionType } from './globalModals';
 import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
+import { isRecord } from '../../util/isRecord';
 
 import type {
   AvatarColorType,
@@ -50,15 +51,24 @@ import { toggleSelectedContactForGroupAddition } from '../../groups/toggleSelect
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
+import { writeUsername } from '../../services/writeUsername';
 import {
   getMe,
   getMessageIdsPendingBecauseOfVerification,
+  getUsernameSaveState,
 } from '../selectors/conversations';
 import type { AvatarDataType } from '../../types/Avatar';
 import { getDefaultAvatars } from '../../types/Avatar';
 import { getAvatarData } from '../../util/getAvatarData';
 import { isSameAvatarData } from '../../util/isSameAvatarData';
 import { longRunningTaskWrapper } from '../../util/longRunningTaskWrapper';
+import {
+  UsernameSaveState,
+  ComposerStep,
+  OneTimeModalState,
+} from './conversationsEnums';
+import { showToast } from '../../util/showToast';
+import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
 
 import type { NoopActionType } from './noop';
 
@@ -89,6 +99,7 @@ export type ConversationType = {
   familyName?: string;
   firstName?: string;
   profileName?: string;
+  username?: string;
   about?: string;
   aboutText?: string;
   aboutEmoji?: string;
@@ -242,18 +253,6 @@ export type PreJoinConversationType = {
   approvalRequired: boolean;
 };
 
-export enum ComposerStep {
-  StartDirectConversation = 'StartDirectConversation',
-  ChooseGroupMembers = 'ChooseGroupMembers',
-  SetGroupMetadata = 'SetGroupMetadata',
-}
-
-export enum OneTimeModalState {
-  NeverShown,
-  Showing,
-  Shown,
-}
-
 type ComposerGroupCreationState = {
   groupAvatar: undefined | Uint8Array;
   groupName: string;
@@ -308,6 +307,7 @@ export type ConversationsStateType = {
   showArchived: boolean;
   composer?: ComposerStateType;
   contactSpoofingReview?: ContactSpoofingReviewStateType;
+  usernameSaveState: UsernameSaveState;
 
   /**
    * Each key is a conversation ID. Each value is an array of message IDs stopped by that
@@ -363,6 +363,7 @@ const CUSTOM_COLOR_REMOVED = 'conversations/CUSTOM_COLOR_REMOVED';
 const MESSAGE_STOPPED_BY_MISSING_VERIFICATION =
   'conversations/MESSAGE_STOPPED_BY_MISSING_VERIFICATION';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
+const UPDATE_USERNAME_SAVE_STATE = 'conversations/UPDATE_USERNAME_SAVE_STATE';
 
 type CancelMessagesPendingConversationVerificationActionType = {
   type: typeof CANCEL_MESSAGES_PENDING_CONVERSATION_VERIFICATION;
@@ -677,6 +678,12 @@ export type ToggleConversationInChooseMembersActionType = {
     maxGroupSize: number;
   };
 };
+type UpdateUsernameSaveStateActionType = {
+  type: typeof UPDATE_USERNAME_SAVE_STATE;
+  payload: {
+    newSaveState: UsernameSaveState;
+  };
+};
 
 type ReplaceAvatarsActionType = {
   type: typeof REPLACE_AVATARS;
@@ -743,7 +750,8 @@ export type ConversationActionType =
   | StartSettingGroupMetadataActionType
   | SwitchToAssociatedViewActionType
   | ToggleConversationInChooseMembersActionType
-  | ToggleComposeEditingAvatarActionType;
+  | ToggleComposeEditingAvatarActionType
+  | UpdateUsernameSaveStateActionType;
 
 // Action Creators
 
@@ -755,6 +763,7 @@ export const actions = {
   clearInvitedUuidsForNewlyCreatedGroup,
   clearSelectedMessage,
   clearUnreadMetrics,
+  clearUsernameSave,
   closeCantAddContactToGroupModal,
   closeContactSpoofingReview,
   closeMaximumGroupSizeModal,
@@ -789,6 +798,7 @@ export const actions = {
   reviewGroupMemberNameCollision,
   reviewMessageRequestNameCollision,
   saveAvatarToDisk,
+  saveUsername,
   scrollToMessage,
   selectMessage,
   setComposeGroupAvatar,
@@ -960,6 +970,82 @@ function saveAvatarToDisk(
         avatars,
       },
     });
+  };
+}
+
+function makeUsernameSaveType(
+  newSaveState: UsernameSaveState
+): UpdateUsernameSaveStateActionType {
+  return {
+    type: UPDATE_USERNAME_SAVE_STATE,
+    payload: {
+      newSaveState,
+    },
+  };
+}
+
+function clearUsernameSave(): UpdateUsernameSaveStateActionType {
+  return makeUsernameSaveType(UsernameSaveState.None);
+}
+
+function saveUsername({
+  username,
+  previousUsername,
+}: {
+  username: string | undefined;
+  previousUsername: string | undefined;
+}): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateUsernameSaveStateActionType
+> {
+  return async (dispatch, getState) => {
+    const state = getState();
+
+    const previousState = getUsernameSaveState(state);
+    if (previousState !== UsernameSaveState.None) {
+      log.error(
+        `saveUsername: Save requested, but previous state was ${previousState}`
+      );
+      dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
+      return;
+    }
+
+    try {
+      dispatch(makeUsernameSaveType(UsernameSaveState.Saving));
+      await writeUsername({ username, previousUsername });
+
+      // writeUsername above updates the backbone model which in turn updates
+      // redux through it's on:change event listener. Once we lose Backbone
+      // we'll need to manually sync these new changes.
+      dispatch(makeUsernameSaveType(UsernameSaveState.Success));
+    } catch (error: unknown) {
+      // Check to see if we were deleting
+      if (!username) {
+        dispatch(makeUsernameSaveType(UsernameSaveState.DeleteFailed));
+        showToast(ToastFailedToDeleteUsername);
+        return;
+      }
+
+      if (!isRecord(error)) {
+        dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
+        return;
+      }
+
+      if (error.code === 409) {
+        dispatch(makeUsernameSaveType(UsernameSaveState.UsernameTakenError));
+        return;
+      }
+      if (error.code === 400) {
+        dispatch(
+          makeUsernameSaveType(UsernameSaveState.UsernameMalformedError)
+        );
+        return;
+      }
+
+      dispatch(makeUsernameSaveType(UsernameSaveState.GeneralError));
+    }
   };
 }
 
@@ -1816,6 +1902,7 @@ export function getEmptyState(): ConversationsStateType {
     showArchived: false,
     selectedConversationTitle: '',
     selectedConversationPanelDepth: 0,
+    usernameSaveState: UsernameSaveState.None,
   };
 }
 
@@ -3284,6 +3371,15 @@ export function reducer(
         [conversationId]: changed,
       },
       ...updateConversationLookups(changed, conversation, state),
+    };
+  }
+
+  if (action.type === UPDATE_USERNAME_SAVE_STATE) {
+    const { newSaveState } = action.payload;
+
+    return {
+      ...state,
+      usernameSaveState: newSaveState,
     };
   }
 

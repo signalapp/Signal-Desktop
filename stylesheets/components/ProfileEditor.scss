@@ -35,6 +35,12 @@
       }
     }
 
+    &--username {
+      &::after {
+        -webkit-mask: url(../images/icons/v2/at-24.svg) no-repeat center;
+      }
+    }
+
     &--bio {
       &::after {
         -webkit-mask: url(../images/icons/v2/compose-outline-24.svg) no-repeat
@@ -69,6 +75,13 @@
     @include dark-theme {
       border-color: $color-gray-75;
     }
+  }
+
+  &__error {
+    @include font-body-2;
+    margin: 16px 0;
+
+    color: $color-accent-red;
   }
 
   &__info {

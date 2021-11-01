@@ -2203,4 +2203,13 @@ export default class MessageSender {
   ): Promise<string> {
     return this.server.uploadAvatar(requestHeaders, avatarData);
   }
+
+  async putUsername(
+    username: string
+  ): Promise<ReturnType<WebAPIType['putUsername']>> {
+    return this.server.putUsername(username);
+  }
+  async deleteUsername(): Promise<ReturnType<WebAPIType['deleteUsername']>> {
+    return this.server.deleteUsername();
+  }
 }

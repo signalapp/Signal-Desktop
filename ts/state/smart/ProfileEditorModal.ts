@@ -8,8 +8,8 @@ import { ProfileEditorModal } from '../../components/ProfileEditorModal';
 import type { PropsDataType } from '../../components/ProfileEditor';
 import type { StateType } from '../reducer';
 import { getIntl } from '../selectors/user';
-import { getEmojiSkinTone } from '../selectors/items';
-import { getMe } from '../selectors/conversations';
+import { getEmojiSkinTone, getUsernamesEnabled } from '../selectors/items';
+import { getMe, getUsernameSaveState } from '../selectors/conversations';
 import { selectRecentEmojis } from '../selectors/emojis';
 
 function mapStateToProps(
@@ -25,9 +25,11 @@ function mapStateToProps(
     firstName,
     familyName,
     id: conversationId,
+    username,
   } = getMe(state);
   const recentEmojis = selectRecentEmojis(state);
   const skinTone = getEmojiSkinTone(state);
+  const isUsernameFlagEnabled = getUsernamesEnabled(state);
 
   return {
     aboutEmoji,
@@ -39,9 +41,12 @@ function mapStateToProps(
     firstName: String(firstName),
     hasError: state.globalModals.profileEditorHasError,
     i18n: getIntl(state),
+    isUsernameFlagEnabled,
     recentEmojis,
     skinTone,
     userAvatarData,
+    username,
+    usernameSaveState: getUsernameSaveState(state),
   };
 }
 

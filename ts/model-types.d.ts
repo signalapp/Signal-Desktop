@@ -270,6 +270,7 @@ export type ConversationAttributesType = {
   verified?: number;
   profileLastFetchedAt?: number;
   pendingUniversalTimer?: string;
+  username?: string;
 
   // Group-only
   groupId?: string;

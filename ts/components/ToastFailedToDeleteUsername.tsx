@@ -5,26 +5,18 @@ import React from 'react';
 import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
-export type ToastPropsType = {
-  limit: number;
-  units: string;
-};
-
 type PropsType = {
   i18n: LocalizerType;
   onClose: () => unknown;
-} & ToastPropsType;
+};
 
-export const ToastFileSize = ({
+export const ToastFailedToDeleteUsername = ({
   i18n,
-  limit,
   onClose,
-  units,
 }: PropsType): JSX.Element => {
   return (
-    <Toast onClose={onClose}>
-      {i18n('fileSizeWarning')} {limit}
-      {units}
+    <Toast onClose={onClose} style={{ maxWidth: '280px' }}>
+      {i18n('ProfileEditor--username--delete-general-error')}
     </Toast>
   );
 };

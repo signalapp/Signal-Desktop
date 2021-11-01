@@ -12,10 +12,8 @@ import { SmartSafetyNumberModal } from './SafetyNumberModal';
 
 import { getIntl } from '../selectors/user';
 
-const FilteredSmartProfileEditorModal = SmartProfileEditorModal;
-
 function renderProfileEditor(): JSX.Element {
-  return <FilteredSmartProfileEditorModal />;
+  return <SmartProfileEditorModal />;
 }
 
 function renderContactModal(): JSX.Element {

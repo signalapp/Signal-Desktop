@@ -29,6 +29,7 @@ export type PropsType = {
   maxByteCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
+  onEnter?: () => unknown;
   placeholder: string;
   value?: string;
   whenToShowRemainingCount?: number;
@@ -68,6 +69,7 @@ export const Input = forwardRef<
       maxByteCount = 0,
       moduleClassName,
       onChange,
+      onEnter,
       placeholder,
       value = '',
       whenToShowRemainingCount = Infinity,
@@ -99,15 +101,22 @@ export const Input = forwardRef<
       }
     }, [expandable]);
 
-    const handleKeyDown = useCallback(() => {
-      const inputEl = innerRef.current;
-      if (!inputEl) {
-        return;
-      }
+    const handleKeyDown = useCallback(
+      event => {
+        if (onEnter && event.key === 'Enter') {
+          onEnter();
+        }
 
-      valueOnKeydownRef.current = inputEl.value;
-      selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
-    }, []);
+        const inputEl = innerRef.current;
+        if (!inputEl) {
+          return;
+        }
+
+        valueOnKeydownRef.current = inputEl.value;
+        selectionStartOnKeydownRef.current = inputEl.selectionStart || 0;
+      },
+      [onEnter]
+    );
 
     const handleChange = useCallback(() => {
       const inputEl = innerRef.current;

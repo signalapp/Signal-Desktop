@@ -17,7 +17,7 @@ export type RenderTextCallbackType = (options: {
 }) => JSX.Element | string;
 
 export type ReplacementValuesType = {
-  [key: string]: string | undefined;
+  [key: string]: string | number | undefined;
 };
 
 export type LocalizerType = {

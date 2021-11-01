@@ -1441,6 +1441,7 @@ export class ConversationModel extends window.Backbone
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
+      username: this.get('username'),
 
       about: this.getAboutText(),
       aboutText: this.get('about'),

@@ -165,8 +165,12 @@
       padding: none;
 
       &:focus {
-        @include mouse-mode {
-          outline: none;
+        outline: none;
+
+        .ConversationDetails-icon__icon::after {
+          @include keyboard-mode {
+            background-color: $color-ultramarine;
+          }
         }
       }
     }

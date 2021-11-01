@@ -10,7 +10,7 @@ import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
 
-import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
+import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
   getIsSearchingInAConversation,
   getQuery,
@@ -53,8 +53,6 @@ import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
 
-const FilteredSmartMessageSearchResult = SmartMessageSearchResult;
-
 function renderExpiredBuildDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
 ): JSX.Element {
@@ -64,7 +62,7 @@ function renderMainHeader(): JSX.Element {
   return <SmartMainHeader />;
 }
 function renderMessageSearchResult(id: string): JSX.Element {
-  return <FilteredSmartMessageSearchResult id={id} />;
+  return <SmartMessageSearchResult id={id} />;
 }
 function renderNetworkStatus(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>

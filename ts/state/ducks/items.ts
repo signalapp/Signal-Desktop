@@ -17,6 +17,7 @@ import { ConversationColors } from '../../types/Colors';
 import { reloadSelectedConversation } from '../../shims/reloadSelectedConversation';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { actions as conversationActions } from './conversations';
+import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig';
 
 // State
 
@@ -24,6 +25,8 @@ export type ItemsStateType = {
   readonly universalExpireTimer?: number;
 
   readonly [key: string]: unknown;
+
+  readonly remoteConfig?: RemoteConfigType;
 
   // This property should always be set and this is ensured in background.ts
   readonly defaultConversationColor?: DefaultConversationColorType;

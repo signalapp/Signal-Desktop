@@ -86,6 +86,7 @@ import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { handleMessageSend } from './util/handleMessageSend';
 import { AppViewType } from './state/ducks/app';
+import { UsernameSaveState } from './state/ducks/conversationsEnums';
 import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
@@ -950,6 +951,7 @@ export async function startApp(): Promise<void> {
         selectedConversationPanelDepth: 0,
         selectedConversationTitle: '',
         showArchived: false,
+        usernameSaveState: UsernameSaveState.None,
       },
       emojis: getEmojiReducerState(),
       items: window.storage.getItemsState(),

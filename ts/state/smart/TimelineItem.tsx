@@ -27,10 +27,8 @@ type ExternalProps = {
   previousMessageId: undefined | string;
 };
 
-const FilteredSmartContactName = SmartContactName;
-
 function renderContact(conversationId: string): JSX.Element {
-  return <FilteredSmartContactName conversationId={conversationId} />;
+  return <SmartContactName conversationId={conversationId} />;
 }
 
 function renderUniversalTimerNotification(): JSX.Element {

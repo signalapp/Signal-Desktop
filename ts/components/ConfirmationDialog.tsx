@@ -28,6 +28,7 @@ export type OwnProps = {
   readonly title?: string | React.ReactNode;
   readonly theme?: Theme;
   readonly hasXButton?: boolean;
+  readonly cancelButtonVariant?: ButtonVariant;
 };
 
 export type Props = OwnProps;
@@ -64,6 +65,7 @@ export const ConfirmationDialog = React.memo(
     theme,
     title,
     hasXButton,
+    cancelButtonVariant,
   }: Props) => {
     const { close, overlayStyles, modalStyles } = useAnimated(onClose, {
       getFrom: () => ({ opacity: 0, transform: 'scale(0.25)' }),
@@ -104,7 +106,8 @@ export const ConfirmationDialog = React.memo(
                 onClick={handleCancel}
                 ref={focusRef}
                 variant={
-                  hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary
+                  cancelButtonVariant ||
+                  (hasActions ? ButtonVariant.Secondary : ButtonVariant.Primary)
                 }
               >
                 {cancelText || i18n('confirmation-dialog--Cancel')}

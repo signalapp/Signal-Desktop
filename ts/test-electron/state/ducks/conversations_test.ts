@@ -8,6 +8,10 @@ import { times } from 'lodash';
 import { set } from 'lodash/fp';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
+import {
+  OneTimeModalState,
+  ComposerStep,
+} from '../../../state/ducks/conversationsEnums';
 import type {
   ConversationMessageType,
   ConversationType,
@@ -18,8 +22,6 @@ import type {
 } from '../../../state/ducks/conversations';
 import {
   actions,
-  OneTimeModalState,
-  ComposerStep,
   getConversationCallMode,
   getEmptyState,
   reducer,

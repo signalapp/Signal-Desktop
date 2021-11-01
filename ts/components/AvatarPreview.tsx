@@ -136,7 +136,18 @@ export const AvatarPreview = ({
 
   const isLoading = imageStatus === ImageStatus.Loading;
 
-  const clickProps = onClick ? { role: 'button', onClick, tabIndex: 0 } : {};
+  const clickProps = onClick
+    ? {
+        role: 'button',
+        onClick,
+        tabIndex: 0,
+        onKeyDown: (event: React.KeyboardEvent<HTMLDivElement>) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            onClick();
+          }
+        },
+      }
+    : {};
   const componentStyle = {
     ...style,
   };

@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 
 import { storiesOf } from '@storybook/react';
-import { text } from '@storybook/addon-knobs';
+import { text, boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import type { PropsType } from './ProfileEditor';
@@ -16,6 +16,7 @@ import {
   getLastName,
 } from '../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../test-both/helpers/getRandomColor';
+import { UsernameSaveState } from '../state/ducks/conversationsEnums';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -25,20 +26,34 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   aboutEmoji: overrideProps.aboutEmoji,
   aboutText: text('about', overrideProps.aboutText || ''),
   avatarPath: overrideProps.avatarPath,
+  clearUsernameSave: action('clearUsernameSave'),
   conversationId: '123',
   color: overrideProps.color || getRandomColor(),
   deleteAvatarFromDisk: action('deleteAvatarFromDisk'),
   familyName: overrideProps.familyName,
   firstName: text('firstName', overrideProps.firstName || getFirstName()),
   i18n,
+  isUsernameFlagEnabled: boolean(
+    'isUsernameFlagEnabled',
+    overrideProps.isUsernameFlagEnabled !== undefined
+      ? overrideProps.isUsernameFlagEnabled
+      : false
+  ),
   onEditStateChanged: action('onEditStateChanged'),
   onProfileChanged: action('onProfileChanged'),
   onSetSkinTone: overrideProps.onSetSkinTone || action('onSetSkinTone'),
   recentEmojis: [],
   replaceAvatar: action('replaceAvatar'),
   saveAvatarToDisk: action('saveAvatarToDisk'),
+  saveUsername: action('saveUsername'),
   skinTone: overrideProps.skinTone || 0,
   userAvatarData: [],
+  username: overrideProps.username,
+  usernameSaveState: select(
+    'usernameSaveState',
+    Object.values(UsernameSaveState),
+    overrideProps.usernameSaveState || UsernameSaveState.None
+  ),
 });
 
 stories.add('Full Set', () => {
@@ -71,6 +86,63 @@ stories.add('with Custom About', () => (
     {...createProps({
       aboutEmoji: '🙏',
       aboutText: 'Live. Laugh. Love',
+    })}
+  />
+));
+
+stories.add('with Username flag enabled', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+    })}
+  />
+));
+
+stories.add('with Username flag enabled and username', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+      username: 'unicorn55',
+    })}
+  />
+));
+
+stories.add('Username editing, saving', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+      usernameSaveState: UsernameSaveState.Saving,
+      username: 'unicorn55',
+    })}
+  />
+));
+
+stories.add('Username editing, username taken', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+      usernameSaveState: UsernameSaveState.UsernameTakenError,
+      username: 'unicorn55',
+    })}
+  />
+));
+
+stories.add('Username editing, username malformed', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+      usernameSaveState: UsernameSaveState.UsernameMalformedError,
+      username: 'unicorn55',
+    })}
+  />
+));
+
+stories.add('Username editing, general error', () => (
+  <ProfileEditor
+    {...createProps({
+      isUsernameFlagEnabled: true,
+      usernameSaveState: UsernameSaveState.GeneralError,
+      username: 'unicorn55',
     })}
   />
 ));

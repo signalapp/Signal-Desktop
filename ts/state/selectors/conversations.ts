@@ -6,6 +6,7 @@ import { fromPairs, isNumber } from 'lodash';
 import { createSelector } from 'reselect';
 
 import type { StateType } from '../reducer';
+
 import type {
   ConversationLookupType,
   ConversationMessageType,
@@ -15,7 +16,8 @@ import type {
   MessagesByConversationType,
   PreJoinConversationType,
 } from '../ducks/conversations';
-import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
+import type { UsernameSaveState } from '../ducks/conversationsEnums';
+import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
 import { deconstructLookup } from '../../util/deconstructLookup';
@@ -158,6 +160,13 @@ export const getSelectedMessage = createSelector(
       id: state.selectedMessage,
       counter: state.selectedMessageCounter,
     };
+  }
+);
+
+export const getUsernameSaveState = createSelector(
+  getConversations,
+  (state: ConversationsStateType): UsernameSaveState => {
+    return state.usernameSaveState;
   }
 );
 

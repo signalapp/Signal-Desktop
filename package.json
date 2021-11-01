@@ -147,7 +147,7 @@
     "react-sortable-hoc": "1.9.1",
     "react-virtualized": "9.21.0",
     "read-last-lines": "1.8.0",
-    "redux": "4.0.1",
+    "redux": "4.0.2",
     "redux-logger": "3.0.6",
     "redux-promise-middleware": "6.1.0",
     "redux-thunk": "2.3.0",

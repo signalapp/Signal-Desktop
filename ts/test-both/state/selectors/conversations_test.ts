@@ -3,15 +3,15 @@
 
 import { assert } from 'chai';
 
+import {
+  OneTimeModalState,
+  ComposerStep,
+} from '../../../state/ducks/conversationsEnums';
 import type {
   ConversationLookupType,
   ConversationType,
 } from '../../../state/ducks/conversations';
-import {
-  OneTimeModalState,
-  ComposerStep,
-  getEmptyState,
-} from '../../../state/ducks/conversations';
+import { getEmptyState } from '../../../state/ducks/conversations';
 import {
   _getConversationComparator,
   _getLeftPaneLists,

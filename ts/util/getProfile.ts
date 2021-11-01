@@ -169,6 +169,13 @@ export async function getProfile(
       });
     }
 
+    const { username } = profile;
+    if (username) {
+      c.set({ username });
+    } else {
+      c.unset('username');
+    }
+
     if (profile.about) {
       const key = c.get('profileKey');
       if (key) {

@@ -25,6 +25,7 @@ export type ConfigKeyType =
   | 'desktop.sendSenderKey3'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
+  | 'desktop.usernames'
   | 'global.calling.maxGroupCallRingSize'
   | 'global.groupsv2.groupSizeHardLimit'
   | 'global.groupsv2.maxGroupSize';
@@ -34,7 +35,9 @@ type ConfigValueType = {
   enabledAt?: number;
   value?: unknown;
 };
-export type ConfigMapType = { [key: string]: ConfigValueType };
+export type ConfigMapType = {
+  [key in ConfigKeyType]?: ConfigValueType;
+};
 type ConfigListenerType = (value: ConfigValueType) => unknown;
 type ConfigListenersMapType = {
   [key: string]: Array<ConfigListenerType>;
