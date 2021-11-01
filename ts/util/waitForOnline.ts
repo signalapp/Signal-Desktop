@@ -14,6 +14,8 @@ export function waitForOnline(
       return;
     }
 
+    let timeoutId: undefined | ReturnType<typeof setTimeout>;
+
     const listener = () => {
       cleanup();
       resolve();
@@ -21,12 +23,15 @@ export function waitForOnline(
 
     const cleanup = () => {
       onlineEventTarget.removeEventListener('online', listener);
+      if (typeof timeoutId === 'number') {
+        clearTimeout(timeoutId);
+      }
     };
 
     onlineEventTarget.addEventListener('online', listener);
 
     if (timeout !== undefined) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         cleanup();
         reject(new Error('waitForOnline: did not come online in time'));
       }, timeout);
