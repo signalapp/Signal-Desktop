@@ -1149,7 +1149,7 @@ export async function startApp(): Promise<void> {
           document.querySelector(
             '.module-left-pane__header__contents__back-button'
           ),
-          document.querySelector('.module-main-header__search__input'),
+          document.querySelector('.LeftPaneSearchInput__input'),
           document.querySelector('.module-main-header__compose-icon'),
           document.querySelector(
             '.module-left-pane__compose-search-form__input'
@@ -1228,8 +1228,8 @@ export async function startApp(): Promise<void> {
             return;
           }
 
-          // MainHeader search box
-          if (className.includes('module-main-header__search__input')) {
+          // Search box
+          if (className.includes('LeftPaneSearchInput__input')) {
             return;
           }
         }

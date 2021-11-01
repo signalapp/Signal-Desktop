@@ -1,0 +1,131 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.LeftPaneSearchInput {
+  -webkit-app-region: no-drag;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  position: relative;
+
+  &__input {
+    @include font-body-2;
+    @include rounded-corners;
+    border: none;
+    height: 28px;
+    padding-left: 30px;
+    padding-right: 5px;
+    width: 100%;
+
+    @include light-theme {
+      background-color: $color-gray-05;
+      color: $color-gray-90;
+      border: solid 1px $color-gray-02;
+    }
+    @include dark-theme {
+      color: $color-gray-05;
+      background-color: $color-gray-95;
+      border: solid 1px $color-gray-80;
+    }
+
+    &:placeholder {
+      color: $color-gray-45;
+    }
+
+    &:focus {
+      border: solid 1px $color-ultramarine;
+      outline: none;
+    }
+
+    &--with-text {
+      padding-right: 30px;
+    }
+
+    &--in-conversation {
+      padding-left: 50px;
+    }
+  }
+
+  &__icon {
+    height: 16px;
+    left: 8px;
+    pointer-events: none;
+    position: absolute;
+    top: 6px;
+    width: 16px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-75);
+    }
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
+    }
+  }
+
+  &__in-conversation-pill {
+    @include button-reset;
+    @include rounded-corners;
+    align-items: center;
+    bottom: 3px;
+    display: flex;
+    flex-direction: row;
+    left: 3px;
+    padding: 1px 3px 1px 4px;
+    position: absolute;
+    top: 3px;
+
+    @include light-theme {
+      background-color: $color-gray-15;
+    }
+    @include dark-theme {
+      background-color: $color-gray-75;
+    }
+
+    &__x-button {
+      height: 16px;
+      margin-left: 2px;
+      width: 16px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+      }
+
+      @include light-theme {
+        &:hover,
+        &:focus,
+        &:active {
+          background: $color-ultramarine;
+        }
+      }
+      @include dark-theme {
+        &:hover,
+        &:focus,
+        &:active {
+          background: $color-ultramarine-light;
+        }
+      }
+    }
+  }
+
+  &__cancel {
+    height: 18px;
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    width: 18px;
+
+    @include light-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
+    }
+    @include dark-theme {
+      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
+    }
+  }
+
+  .module-left-pane--width-narrow & {
+    display: none;
+  }
+}

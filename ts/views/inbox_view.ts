@@ -220,7 +220,7 @@ Whisper.InboxView = Whisper.View.extend({
       view.remove();
 
       const searchInput = document.querySelector(
-        '.module-main-header__search__input'
+        '.LeftPaneSearchInput__input'
       ) as HTMLElement;
       searchInput?.focus?.();
     }

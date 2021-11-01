@@ -13,6 +13,8 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { ComposerStep, OneTimeModalState } from '../ducks/conversations';
 import {
   getIsSearchingInAConversation,
+  getQuery,
+  getSearchConversation,
   getSearchResults,
   getStartSearchCounter,
   isSearching,
@@ -91,9 +93,14 @@ const getModeSpecificProps = (
     case undefined:
       if (getShowArchived(state)) {
         const { archivedConversations } = getLeftPaneLists(state);
+        const searchConversation = getSearchConversation(state);
+        const searchTerm = getQuery(state);
         return {
           mode: LeftPaneMode.Archive,
           archivedConversations,
+          searchConversation,
+          searchTerm,
+          ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
         };
       }
       if (isSearching(state)) {

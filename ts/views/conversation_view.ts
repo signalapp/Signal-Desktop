@@ -39,7 +39,6 @@ import type { GroupNameCollisionsWithIdsByTitle } from '../util/groupMemberNameC
 import {
   isDirectConversation,
   isGroupV1,
-  isMe,
 } from '../util/whatTypeOfConversation';
 import { findAndFormatContact } from '../util/findAndFormatContact';
 import * as Bytes from '../Bytes';
@@ -383,10 +382,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onDeleteMessages: () => this.destroyMessages(),
       onSearchInConversation: () => {
         const { searchInConversation } = window.reduxActions.search;
-        const name = isMe(this.model.attributes)
-          ? window.i18n('noteToSelf')
-          : this.model.getTitle();
-        searchInConversation(this.model.id, name);
+        searchInConversation(this.model.id);
       },
       onSetMuteNotifications: this.setMuteExpiration.bind(this),
       onSetPin: this.setPin.bind(this),

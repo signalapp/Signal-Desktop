@@ -12662,6 +12662,14 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/LeftPaneSearchInput.tsx",
+    "line": "    const inputRef = useRef<null | HTMLInputElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-10-29T22:48:58.354Z",
+    "reasonDetail": "Only used to focus the input."
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Lightbox.tsx",
     "line": "  const containerRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",

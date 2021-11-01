@@ -21,7 +21,7 @@ import type {
 import type { LeftPaneSearchPropsType } from '../../components/leftPane/LeftPaneSearchHelper';
 import type { PropsDataType as MessageSearchResultPropsDataType } from '../../components/conversationList/MessageSearchResult';
 
-import { getUserConversationId } from './user';
+import { getIntl, getUserConversationId } from './user';
 import type { GetConversationByIdType } from './conversations';
 import {
   getConversationLookup,
@@ -30,6 +30,7 @@ import {
 
 import type { BodyRangeType } from '../../types/Util';
 import * as log from '../../logging/log';
+import { getOwn } from '../../util/getOwn';
 
 export const getSearch = (state: StateType): SearchStateType => state.search;
 
@@ -43,7 +44,7 @@ export const getSelectedMessage = createSelector(
   (state: SearchStateType): string | undefined => state.selectedMessage
 );
 
-export const getSearchConversationId = createSelector(
+const getSearchConversationId = createSelector(
   getSearch,
   (state: SearchStateType): string | undefined => state.searchConversationId
 );
@@ -53,9 +54,24 @@ export const getIsSearchingInAConversation = createSelector(
   Boolean
 );
 
+export const getSearchConversation = createSelector(
+  getSearchConversationId,
+  getConversationLookup,
+  (searchConversationId, conversationLookup): undefined | ConversationType =>
+    searchConversationId
+      ? getOwn(conversationLookup, searchConversationId)
+      : undefined
+);
+
 export const getSearchConversationName = createSelector(
-  getSearch,
-  (state: SearchStateType): string | undefined => state.searchConversationName
+  getSearchConversation,
+  getIntl,
+  (conversation, i18n): undefined | string => {
+    if (!conversation) {
+      return undefined;
+    }
+    return conversation.isMe ? i18n('noteToSelf') : conversation.title;
+  }
 );
 
 export const getStartSearchCounter = createSelector(
@@ -74,9 +90,10 @@ export const getMessageSearchResultLookup = createSelector(
 );
 
 export const getSearchResults = createSelector(
-  [getSearch, getConversationLookup],
+  [getSearch, getSearchConversationName, getConversationLookup],
   (
     state: SearchStateType,
+    searchConversationName,
     conversationLookup: ConversationLookupType
   ): Omit<LeftPaneSearchPropsType, 'primarySendsSms'> => {
     const {
@@ -86,7 +103,6 @@ export const getSearchResults = createSelector(
       messageIds,
       messageLookup,
       messagesLoading,
-      searchConversationName,
     } = state;
 
     return {

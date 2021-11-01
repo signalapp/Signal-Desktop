@@ -10,6 +10,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
+import { handleKeydownForSearch } from './handleKeydownForSearch';
 
 import { Intl } from '../Intl';
 import { Emojify } from '../conversation/Emojify';
@@ -41,6 +42,8 @@ export type LeftPaneSearchPropsType = {
 const searchResultKeys: Array<
   'conversationResults' | 'contactResults' | 'messageResults'
 > = ['conversationResults', 'contactResults', 'messageResults'];
+
+/* eslint-disable class-methods-use-this */
 
 export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
   private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
@@ -268,6 +271,17 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     _selectedMessageId: unknown
   ): undefined | { conversationId: string } {
     return undefined;
+  }
+
+  onKeyDown(
+    event: KeyboardEvent,
+    options: Readonly<{
+      searchInConversation: (conversationId: string) => unknown;
+      selectedConversationId: undefined | string;
+      startSearch: () => unknown;
+    }>
+  ): void {
+    handleKeydownForSearch(event, options);
   }
 
   private allResults() {

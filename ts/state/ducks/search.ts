@@ -1,9 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { omit, reject } from 'lodash';
+import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { debounce, omit, reject } from 'lodash';
 
-import { normalize } from '../../types/PhoneNumber';
+import type { StateType as RootStateType } from '../reducer';
 import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import type {
   ClientSearchResultMessageType,
@@ -21,6 +22,8 @@ import type {
   SelectedConversationChangedActionType,
   ShowArchivedConversationsActionType,
 } from './conversations';
+import { getQuery, getSearchConversation } from '../selectors/search';
+import { getIntl, getUserConversationId } from '../selectors/user';
 
 const {
   searchConversations: dataSearchConversations,
@@ -41,11 +44,9 @@ export type MessageSearchResultLookupType = {
 export type SearchStateType = {
   startSearchCounter: number;
   searchConversationId?: string;
-  searchConversationName?: string;
   contactIds: Array<string>;
   conversationIds: Array<string>;
   query: string;
-  normalizedPhoneNumber?: string;
   messageIds: Array<string>;
   // We do store message data to pass through the selector
   messageLookup: MessageSearchResultLookupType;
@@ -57,33 +58,20 @@ export type SearchStateType = {
 
 // Actions
 
-type SearchResultsBaseType = {
-  query: string;
-  normalizedPhoneNumber?: string;
-};
-type SearchMessagesResultsPayloadType = SearchResultsBaseType & {
-  messages: Array<MessageSearchResultType>;
-};
-type SearchDiscussionsResultsPayloadType = SearchResultsBaseType & {
-  conversationIds: Array<string>;
-  contactIds: Array<string>;
-};
-type SearchMessagesResultsKickoffActionType = {
-  type: 'SEARCH_MESSAGES_RESULTS';
-  payload: Promise<SearchMessagesResultsPayloadType>;
-};
-type SearchDiscussionsResultsKickoffActionType = {
-  type: 'SEARCH_DISCUSSIONS_RESULTS';
-  payload: Promise<SearchDiscussionsResultsPayloadType>;
-};
-
 type SearchMessagesResultsFulfilledActionType = {
   type: 'SEARCH_MESSAGES_RESULTS_FULFILLED';
-  payload: SearchMessagesResultsPayloadType;
+  payload: {
+    messages: Array<MessageSearchResultType>;
+    query: string;
+  };
 };
 type SearchDiscussionsResultsFulfilledActionType = {
   type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED';
-  payload: SearchDiscussionsResultsPayloadType;
+  payload: {
+    conversationIds: Array<string>;
+    contactIds: Array<string>;
+    query: string;
+  };
 };
 type UpdateSearchTermActionType = {
   type: 'SEARCH_UPDATE';
@@ -105,15 +93,10 @@ type ClearConversationSearchActionType = {
 };
 type SearchInConversationActionType = {
   type: 'SEARCH_IN_CONVERSATION';
-  payload: {
-    searchConversationId: string;
-    searchConversationName: string;
-  };
+  payload: { searchConversationId: string };
 };
 
 export type SearchActionType =
-  | SearchMessagesResultsKickoffActionType
-  | SearchDiscussionsResultsKickoffActionType
   | SearchMessagesResultsFulfilledActionType
   | SearchDiscussionsResultsFulfilledActionType
   | UpdateSearchTermActionType
@@ -130,8 +113,6 @@ export type SearchActionType =
 // Action Creators
 
 export const actions = {
-  searchMessages,
-  searchDiscussions,
   startSearch,
   clearSearch,
   clearConversationSearch,
@@ -139,72 +120,6 @@ export const actions = {
   updateSearchTerm,
 };
 
-function searchMessages(
-  query: string,
-  options: {
-    regionCode: string;
-  }
-): SearchMessagesResultsKickoffActionType {
-  return {
-    type: 'SEARCH_MESSAGES_RESULTS',
-    payload: doSearchMessages(query, options),
-  };
-}
-
-function searchDiscussions(
-  query: string,
-  options: {
-    ourConversationId: string;
-    noteToSelf: string;
-  }
-): SearchDiscussionsResultsKickoffActionType {
-  return {
-    type: 'SEARCH_DISCUSSIONS_RESULTS',
-    payload: doSearchDiscussions(query, options),
-  };
-}
-
-async function doSearchMessages(
-  query: string,
-  options: {
-    searchConversationId?: string;
-    regionCode: string;
-  }
-): Promise<SearchMessagesResultsPayloadType> {
-  const { regionCode, searchConversationId } = options;
-  const normalizedPhoneNumber = normalize(query, { regionCode });
-
-  const messages = await queryMessages(query, searchConversationId);
-
-  return {
-    messages,
-    normalizedPhoneNumber,
-    query,
-  };
-}
-
-async function doSearchDiscussions(
-  query: string,
-  options: {
-    ourConversationId: string;
-    noteToSelf: string;
-  }
-): Promise<SearchDiscussionsResultsPayloadType> {
-  const { ourConversationId, noteToSelf } = options;
-  const { conversationIds, contactIds } = await queryConversationsAndContacts(
-    query,
-    {
-      ourConversationId,
-      noteToSelf,
-    }
-  );
-
-  return {
-    conversationIds,
-    contactIds,
-    query,
-  };
-}
 function startSearch(): StartSearchActionType {
   return {
     type: 'SEARCH_START',
@@ -224,26 +139,91 @@ function clearConversationSearch(): ClearConversationSearchActionType {
   };
 }
 function searchInConversation(
-  searchConversationId: string,
-  searchConversationName: string
+  searchConversationId: string
 ): SearchInConversationActionType {
   return {
     type: 'SEARCH_IN_CONVERSATION',
-    payload: {
-      searchConversationId,
-      searchConversationName,
-    },
+    payload: { searchConversationId },
   };
 }
 
-function updateSearchTerm(query: string): UpdateSearchTermActionType {
-  return {
-    type: 'SEARCH_UPDATE',
-    payload: {
-      query,
-    },
+function updateSearchTerm(
+  query: string
+): ThunkAction<void, RootStateType, unknown, UpdateSearchTermActionType> {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'SEARCH_UPDATE',
+      payload: { query },
+    });
+
+    const state = getState();
+
+    doSearch({
+      dispatch,
+      noteToSelf: getIntl(state)('noteToSelf').toLowerCase(),
+      ourConversationId: getUserConversationId(state),
+      query: getQuery(state),
+      searchConversationId: getSearchConversation(state)?.id,
+    });
   };
 }
+
+const doSearch = debounce(
+  ({
+    dispatch,
+    noteToSelf,
+    ourConversationId,
+    query,
+    searchConversationId,
+  }: Readonly<{
+    dispatch: ThunkDispatch<
+      RootStateType,
+      unknown,
+      | SearchMessagesResultsFulfilledActionType
+      | SearchDiscussionsResultsFulfilledActionType
+    >;
+    noteToSelf: string;
+    ourConversationId: string;
+    query: string;
+    searchConversationId: undefined | string;
+  }>) => {
+    if (!query) {
+      return;
+    }
+
+    (async () => {
+      dispatch({
+        type: 'SEARCH_MESSAGES_RESULTS_FULFILLED',
+        payload: {
+          messages: await queryMessages(query, searchConversationId),
+          query,
+        },
+      });
+    })();
+
+    if (!searchConversationId) {
+      (async () => {
+        const {
+          conversationIds,
+          contactIds,
+        } = await queryConversationsAndContacts(query, {
+          ourConversationId,
+          noteToSelf,
+        });
+
+        dispatch({
+          type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED',
+          payload: {
+            conversationIds,
+            contactIds,
+            query,
+          },
+        });
+      })();
+    }
+  },
+  200
+);
 
 async function queryMessages(
   query: string,
@@ -342,7 +322,6 @@ export function reducer(
     return {
       ...state,
       searchConversationId: undefined,
-      searchConversationName: undefined,
       startSearchCounter: state.startSearchCounter + 1,
     };
   }
@@ -376,7 +355,7 @@ export function reducer(
 
   if (action.type === 'SEARCH_IN_CONVERSATION') {
     const { payload } = action;
-    const { searchConversationId, searchConversationName } = payload;
+    const { searchConversationId } = payload;
 
     if (searchConversationId === state.searchConversationId) {
       return {
@@ -388,23 +367,21 @@ export function reducer(
     return {
       ...getEmptyState(),
       searchConversationId,
-      searchConversationName,
       startSearchCounter: state.startSearchCounter + 1,
     };
   }
   if (action.type === 'CLEAR_CONVERSATION_SEARCH') {
-    const { searchConversationId, searchConversationName } = state;
+    const { searchConversationId } = state;
 
     return {
       ...getEmptyState(),
       searchConversationId,
-      searchConversationName,
     };
   }
 
   if (action.type === 'SEARCH_MESSAGES_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { messages, normalizedPhoneNumber, query } = payload;
+    const { messages, query } = payload;
 
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
@@ -415,7 +392,6 @@ export function reducer(
 
     return {
       ...state,
-      normalizedPhoneNumber,
       query,
       messageIds,
       messageLookup: makeLookup(messages, 'id'),
@@ -425,7 +401,12 @@ export function reducer(
 
   if (action.type === 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { contactIds, conversationIds } = payload;
+    const { contactIds, conversationIds, query } = payload;
+
+    // Reject if the associated query is not the most recent user-provided query
+    if (state.query !== query) {
+      return state;
+    }
 
     return {
       ...state,

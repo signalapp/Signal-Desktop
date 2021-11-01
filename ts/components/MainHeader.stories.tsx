@@ -3,13 +3,14 @@
 
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { text, withKnobs } from '@storybook/addon-knobs';
+import { text } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './MainHeader';
 import { MainHeader } from './MainHeader';
+import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -20,27 +21,11 @@ const requiredText = (name: string, value: string | undefined) =>
 const optionalText = (name: string, value: string | undefined) =>
   text(name, value || '') || undefined;
 
-// Storybook types are incorrect
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-story.addDecorator((withKnobs as any)({ escapeHTML: false }));
-
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   searchTerm: requiredText('searchTerm', overrideProps.searchTerm),
-  searchConversationName: optionalText(
-    'searchConversationName',
-    overrideProps.searchConversationName
-  ),
-  searchConversationId: optionalText(
-    'searchConversationId',
-    overrideProps.searchConversationId
-  ),
+  searchConversation: overrideProps.searchConversation,
   selectedConversation: undefined,
   startSearchCounter: 0,
-
-  ourConversationId: '',
-  ourUuid: '',
-  ourNumber: '',
-  regionCode: '',
 
   phoneNumber: optionalText('phoneNumber', overrideProps.phoneNumber),
   title: requiredText('title', overrideProps.title),
@@ -51,10 +36,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
 
   updateSearchTerm: action('updateSearchTerm'),
-  searchMessages: action('searchMessages'),
-  searchDiscussions: action('searchDiscussions'),
-  startSearch: action('startSearch'),
-  searchInConversation: action('searchInConversation'),
   clearConversationSearch: action('clearConversationSearch'),
   clearSearch: action('clearSearch'),
   startUpdate: action('startUpdate'),
@@ -101,8 +82,7 @@ story.add('Search Term', () => {
 story.add('Searching Conversation', () => {
   const props = createProps({
     name: 'John Smith',
-    searchConversationId: 'group-id-1',
-    searchConversationName: 'Everyone',
+    searchConversation: getDefaultConversation(),
   });
 
   return <MainHeader {...props} />;
@@ -112,8 +92,7 @@ story.add('Searching Conversation with Term', () => {
   const props = createProps({
     name: 'John Smith',
     searchTerm: 'address',
-    searchConversationId: 'group-id-1',
-    searchConversationName: 'Everyone',
+    searchConversation: getDefaultConversation(),
   });
 
   return <MainHeader {...props} />;

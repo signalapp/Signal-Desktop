@@ -26,10 +26,12 @@ export type ToFindType = {
 export abstract class LeftPaneHelper<T> {
   getHeaderContents(
     _: Readonly<{
+      clearSearch: () => void;
       i18n: LocalizerType;
       showInbox: () => void;
       startComposing: () => void;
       showChooseGroupMembers: () => void;
+      updateSearchTerm: (query: string) => void;
     }>
   ): null | ReactChild {
     return null;
@@ -95,6 +97,17 @@ export abstract class LeftPaneHelper<T> {
 
   requiresFullWidth(): boolean {
     return true;
+  }
+
+  onKeyDown(
+    _event: KeyboardEvent,
+    _options: Readonly<{
+      searchInConversation: (conversationId: string) => unknown;
+      selectedConversationId: undefined | string;
+      startSearch: () => unknown;
+    }>
+  ): void {
+    return undefined;
   }
 
   abstract getConversationAndMessageAtIndex(

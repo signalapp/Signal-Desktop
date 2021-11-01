@@ -83,6 +83,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   cantAddContactToGroup: action('cantAddContactToGroup'),
   canResizeLeftPane: true,
   clearGroupCreationError: action('clearGroupCreationError'),
+  clearSearch: action('clearSearch'),
   closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),
   closeMaximumGroupSizeModal: action('closeMaximumGroupSizeModal'),
   closeRecommendedGroupSizeModal: action('closeRecommendedGroupSizeModal'),
@@ -131,6 +132,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   selectedConversationId: undefined,
   selectedMessageId: undefined,
   savePreferredLeftPaneWidth: action('savePreferredLeftPaneWidth'),
+  searchInConversation: action('searchInConversation'),
   setComposeSearchTerm: action('setComposeSearchTerm'),
   setComposeGroupAvatar: action('setComposeGroupAvatar'),
   setComposeGroupName: action('setComposeGroupName'),
@@ -142,11 +144,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   startNewConversationFromPhoneNumber: action(
     'startNewConversationFromPhoneNumber'
   ),
+  startSearch: action('startSearch'),
   startSettingGroupMetadata: action('startSettingGroupMetadata'),
   toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
   toggleConversationInChooseMembers: action(
     'toggleConversationInChooseMembers'
   ),
+  updateSearchTerm: action('updateSearchTerm'),
 
   ...overrideProps,
 });
@@ -393,6 +397,8 @@ story.add('Archive: no archived conversations', () => (
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: [],
+        searchConversation: undefined,
+        searchTerm: '',
       },
     })}
   />
@@ -404,6 +410,25 @@ story.add('Archive: archived conversations', () => (
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: defaultConversations,
+        searchConversation: undefined,
+        searchTerm: '',
+      },
+    })}
+  />
+));
+
+story.add('Archive: searching a conversation', () => (
+  <LeftPane
+    {...createProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Archive,
+        archivedConversations: defaultConversations,
+        searchConversation: defaultConversations[0],
+        searchTerm: 'foo bar',
+        conversationResults: { isLoading: true },
+        contactResults: { isLoading: true },
+        messageResults: { isLoading: true },
+        primarySendsSms: false,
       },
     })}
   />

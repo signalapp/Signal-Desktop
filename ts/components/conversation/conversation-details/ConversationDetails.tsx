@@ -97,7 +97,7 @@ type ActionProps = {
   saveAvatarToDisk: SaveAvatarToDiskActionType;
   showContactModal: (contactId: string, conversationId: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
-  searchInConversation: (id: string, title: string) => unknown;
+  searchInConversation: (id: string) => unknown;
 };
 
 export type Props = StateProps & ActionProps;
@@ -365,10 +365,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         <Button
           icon={ButtonIconType.search}
           onClick={() => {
-            searchInConversation(
-              conversation.id,
-              conversation.isMe ? i18n('noteToSelf') : conversation.title
-            );
+            searchInConversation(conversation.id);
           }}
           variant={ButtonVariant.Details}
         >

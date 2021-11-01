@@ -13,6 +13,7 @@ import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
+import { handleKeydownForSearch } from './handleKeydownForSearch';
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
@@ -227,6 +228,17 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
       toFind,
       selectedConversationId
     );
+  }
+
+  onKeyDown(
+    event: KeyboardEvent,
+    options: Readonly<{
+      searchInConversation: (conversationId: string) => unknown;
+      selectedConversationId: undefined | string;
+      startSearch: () => unknown;
+    }>
+  ): void {
+    handleKeydownForSearch(event, options);
   }
 
   private hasPinnedAndNonpinned(): boolean {

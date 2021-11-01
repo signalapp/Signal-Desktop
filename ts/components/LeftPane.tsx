@@ -94,6 +94,7 @@ export type PropsType = {
   // Action Creators
   cantAddContactToGroup: (conversationId: string) => void;
   clearGroupCreationError: () => void;
+  clearSearch: () => void;
   closeCantAddContactToGroupModal: () => void;
   closeMaximumGroupSizeModal: () => void;
   closeRecommendedGroupSizeModal: () => void;
@@ -105,6 +106,7 @@ export type PropsType = {
     switchToAssociatedView?: boolean;
   }) => void;
   savePreferredLeftPaneWidth: (_: number) => void;
+  searchInConversation: (conversationId: string) => unknown;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
   setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
   setComposeGroupName: (_: string) => void;
@@ -112,6 +114,7 @@ export type PropsType = {
   showArchivedConversations: () => void;
   showInbox: () => void;
   startComposing: () => void;
+  startSearch: () => unknown;
   showChooseGroupMembers: () => void;
   startSettingGroupMetadata: () => void;
   toggleConversationInChooseMembers: (conversationId: string) => void;
@@ -119,6 +122,7 @@ export type PropsType = {
   composeReplaceAvatar: ReplaceAvatarActionType;
   composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
   toggleComposeEditingAvatar: () => unknown;
+  updateSearchTerm: (_: string) => void;
 
   // Render Props
   renderExpiredBuildDialog: (
@@ -143,6 +147,7 @@ export const LeftPane: React.FC<PropsType> = ({
   canResizeLeftPane,
   challengeStatus,
   clearGroupCreationError,
+  clearSearch,
   closeCantAddContactToGroupModal,
   closeMaximumGroupSizeModal,
   closeRecommendedGroupSizeModal,
@@ -162,6 +167,7 @@ export const LeftPane: React.FC<PropsType> = ({
   renderRelinkDialog,
   renderUpdateDialog,
   savePreferredLeftPaneWidth,
+  searchInConversation,
   selectedConversationId,
   selectedMessageId,
   setChallengeStatus,
@@ -173,10 +179,12 @@ export const LeftPane: React.FC<PropsType> = ({
   showChooseGroupMembers,
   showInbox,
   startComposing,
+  startSearch,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
+  updateSearchTerm,
 }) => {
   const [preferredWidth, setPreferredWidth] = useState(
     // This clamp is present just in case we get a bogus value from storage.
@@ -354,6 +362,12 @@ export const LeftPane: React.FC<PropsType> = ({
         event.preventDefault();
         event.stopPropagation();
       }
+
+      helper.onKeyDown(event, {
+        searchInConversation,
+        selectedConversationId,
+        startSearch,
+      });
     };
 
     document.addEventListener('keydown', onKeyDown);
@@ -363,11 +377,13 @@ export const LeftPane: React.FC<PropsType> = ({
   }, [
     helper,
     openConversationInternal,
+    searchInConversation,
     selectedConversationId,
     selectedMessageId,
     showChooseGroupMembers,
     showInbox,
     startComposing,
+    startSearch,
   ]);
 
   const requiresFullWidth = helper.requiresFullWidth();
@@ -524,10 +540,12 @@ export const LeftPane: React.FC<PropsType> = ({
       {/* eslint-enable jsx-a11y/no-static-element-interactions */}
       <div className="module-left-pane__header">
         {helper.getHeaderContents({
+          clearSearch,
           i18n,
           showInbox,
           startComposing,
           showChooseGroupMembers,
+          updateSearchTerm,
         }) || renderMainHeader()}
       </div>
       {renderExpiredBuildDialog({ containerWidthBreakpoint: widthBreakpoint })}
