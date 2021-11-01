@@ -4,7 +4,8 @@
 import { webFrame } from 'electron';
 import { isNumber, noop } from 'lodash';
 import { bindActionCreators } from 'redux';
-import { render, unstable_batchedUpdates as batchedUpdates } from 'react-dom';
+import { render } from 'react-dom';
+import { batch as batchDispatch } from 'react-redux';
 
 import MessageReceiver from './textsecure/MessageReceiver';
 import type {
@@ -1043,7 +1044,7 @@ export async function startApp(): Promise<void> {
             `${batch.length} into ${deduped.size}`
         );
 
-        batchedUpdates(() => {
+        batchDispatch(() => {
           deduped.forEach(conversation => {
             conversationChanged(conversation.id, conversation.format());
           });
@@ -1058,8 +1059,18 @@ export async function startApp(): Promise<void> {
       maxSize: Infinity,
     });
 
-    convoCollection.on('props-change', conversation => {
+    convoCollection.on('props-change', (conversation, isBatched) => {
       if (!conversation) {
+        return;
+      }
+
+      // `isBatched` is true when the `.set()` call on the conversation model
+      // already runs from within `react-redux`'s batch. Instead of batching
+      // the redux update for later - clear all queued updates and update
+      // immediately.
+      if (isBatched) {
+        changedConvoBatcher.removeAll(conversation);
+        conversationChanged(conversation.id, conversation.format());
         return;
       }
 

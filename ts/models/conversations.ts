@@ -4,6 +4,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import { compact, isNumber } from 'lodash';
+import { batch as batchDispatch } from 'react-redux';
 import type {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -201,6 +202,8 @@ export class ConversationModel extends window.Backbone
 
   private muteTimer?: NodeJS.Timer;
 
+  private isInReduxBatch = false;
+
   // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
     return {
@@ -318,7 +321,7 @@ export class ConversationModel extends window.Backbone
           this.oldCachedProps = this.cachedProps;
         }
         this.cachedProps = null;
-        this.trigger('props-change', this);
+        this.trigger('props-change', this, this.isInReduxBatch);
       }
     );
 
@@ -1613,14 +1616,21 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  incrementSentMessageCount({ save = true }: { save?: boolean } = {}): void {
-    this.set({
+  incrementSentMessageCount({ dry = false }: { dry?: boolean } = {}):
+    | Partial<ConversationAttributesType>
+    | undefined {
+    const update = {
       messageCount: (this.get('messageCount') || 0) + 1,
       sentMessageCount: (this.get('sentMessageCount') || 0) + 1,
-    });
-    if (save) {
-      window.Signal.Data.updateConversation(this.attributes);
+    };
+
+    if (dry) {
+      return update;
     }
+    this.set(update);
+    window.Signal.Data.updateConversation(this.attributes);
+
+    return undefined;
   }
 
   decrementSentMessageCount(): void {
@@ -3530,27 +3540,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    this.clearTypingTimers();
-
-    const { clearUnreadMetrics } = window.reduxActions.conversations;
-    clearUnreadMetrics(this.id);
-
-    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
-      'desktop.mandatoryProfileSharing'
-    );
-    if (mandatoryProfileSharingEnabled && !this.get('profileSharing')) {
-      this.set({ profileSharing: true });
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const destination = this.getSendTarget()!;
-    const recipients = this.getRecipients();
-
     const now = timestamp || Date.now();
-
-    await this.maybeApplyUniversalTimer(false);
-
-    const expireTimer = this.get('expireTimer');
 
     log.info(
       'Sending message to conversation',
@@ -3558,6 +3548,20 @@ export class ConversationModel extends window.Backbone
       'with timestamp',
       now
     );
+
+    this.clearTypingTimers();
+
+    const mandatoryProfileSharingEnabled = window.Signal.RemoteConfig.isEnabled(
+      'desktop.mandatoryProfileSharing'
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const destination = this.getSendTarget()!;
+    const recipients = this.getRecipients();
+
+    await this.maybeApplyUniversalTimer(false);
+
+    const expireTimer = this.get('expireTimer');
 
     const recipientMaybeConversations = map(recipients, identifier =>
       window.ConversationController.get(identifier)
@@ -3641,28 +3645,42 @@ export class ConversationModel extends window.Backbone
 
     const renderStart = Date.now();
 
-    this.addSingleMessage(model);
+    this.isInReduxBatch = true;
+    batchDispatch(() => {
+      try {
+        const { clearUnreadMetrics } = window.reduxActions.conversations;
+        clearUnreadMetrics(this.id);
+
+        const enableProfileSharing = Boolean(
+          mandatoryProfileSharingEnabled && !this.get('profileSharing')
+        );
+        this.addSingleMessage(model);
+
+        const draftProperties = dontClearDraft
+          ? {}
+          : {
+              draft: null,
+              draftTimestamp: null,
+              lastMessage: model.getNotificationText(),
+              lastMessageStatus: 'sending' as const,
+            };
+
+        this.set({
+          ...draftProperties,
+          ...(enableProfileSharing ? { profileSharing: true } : {}),
+          ...this.incrementSentMessageCount({ dry: true }),
+          active_at: now,
+          timestamp: now,
+          isArchived: false,
+        });
+      } finally {
+        this.isInReduxBatch = false;
+      }
+    });
+
     if (sticker) {
       await addStickerPackReference(model.id, sticker.packId);
     }
-
-    const draftProperties = dontClearDraft
-      ? {}
-      : {
-          draft: null,
-          draftTimestamp: null,
-          lastMessage: model.getNotificationText(),
-          lastMessageStatus: 'sending' as const,
-        };
-
-    this.set({
-      ...draftProperties,
-      active_at: now,
-      timestamp: now,
-      isArchived: false,
-    });
-
-    this.incrementSentMessageCount({ save: false });
 
     const renderDuration = Date.now() - renderStart;
 

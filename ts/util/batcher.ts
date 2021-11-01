@@ -31,6 +31,7 @@ export type BatcherOptionsType<ItemType> = {
 
 export type BatcherType<ItemType> = {
   add: (item: ItemType) => void;
+  removeAll: (needle: ItemType) => void;
   anyPending: () => boolean;
   onIdle: () => Promise<void>;
   flushAndWait: () => Promise<void>;
@@ -68,6 +69,10 @@ export function createBatcher<ItemType>(
     } else if (items.length >= options.maxSize) {
       _kickBatchOff();
     }
+  }
+
+  function removeAll(needle: ItemType) {
+    items = items.filter(item => item !== needle);
   }
 
   function anyPending(): boolean {
@@ -108,6 +113,7 @@ export function createBatcher<ItemType>(
 
   batcher = {
     add,
+    removeAll,
     anyPending,
     onIdle,
     flushAndWait,

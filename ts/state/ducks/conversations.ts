@@ -1341,10 +1341,12 @@ function conversationChanged(
             .outboundMessagesPendingConversationVerification,
           id
         ) ?? [];
-      const messagesPending = await getMessagesById(messageIdsPending);
-      messagesPending.forEach(message => {
-        message.retrySend();
-      });
+      if (messageIdsPending.length) {
+        const messagesPending = await getMessagesById(messageIdsPending);
+        messagesPending.forEach(message => {
+          message.retrySend();
+        });
+      }
     }
 
     dispatch({

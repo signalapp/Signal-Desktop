@@ -3,7 +3,7 @@
 
 /* eslint-disable camelcase */
 
-import { unstable_batchedUpdates as batchedUpdates } from 'react-dom';
+import { batch as batchDispatch } from 'react-redux';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
@@ -3273,20 +3273,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       log.info('Send pre-checks took', sendDelta, 'milliseconds');
 
-      batchedUpdates(() => {
-        model.enqueueMessageForSend(
-          message,
-          attachments,
-          this.quote,
-          this.getLinkPreviewForSend(message),
-          undefined, // sticker
-          mentions,
-          {
-            sendHQImages,
-            timestamp,
-          }
-        );
+      model.enqueueMessageForSend(
+        message,
+        attachments,
+        this.quote,
+        this.getLinkPreviewForSend(message),
+        undefined, // sticker
+        mentions,
+        {
+          sendHQImages,
+          timestamp,
+        }
+      );
 
+      batchDispatch(() => {
         this.compositionApi.current?.reset();
         model.setMarkedUnread(false);
         this.setQuoteMessage(null);
