@@ -94,7 +94,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         avatarPath={conversation.avatarPath}
         conversationTitle={conversation.title}
         i18n={i18n}
-        isGroup
+        isGroup={isGroup}
         onClose={() => setShowingAvatar(false)}
       />
     ) : null;
