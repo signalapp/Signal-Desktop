@@ -41,6 +41,26 @@ describe('batcher', () => {
     assert.ok(processBatch.calledOnceWith([1]), 'Partial batch after timeout');
   });
 
+  it('should remove scheduled items from a batch', async () => {
+    const processBatch = sinon.fake.resolves(undefined);
+
+    const batcher = createBatcher<number>({
+      name: 'test',
+      wait: 5,
+      maxSize: 100,
+      processBatch,
+    });
+
+    batcher.add(1);
+    batcher.add(1);
+    batcher.add(2);
+    batcher.removeAll(1);
+
+    await sleep(10);
+
+    assert.ok(processBatch.calledOnceWith([2]), 'Remove all');
+  });
+
   it('should flushAndWait a partial batch', async () => {
     const processBatch = sinon.fake.resolves(undefined);
 
