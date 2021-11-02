@@ -9,8 +9,9 @@ import type { ConversationType } from '../../../state/ducks/conversations';
 import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
 import type { MediaItemType } from '../../../types/MediaItem';
+import type { BadgeType } from '../../../badges/types';
 import { CapabilityError } from '../../../types/errors';
 import { missingCaseError } from '../../../util/missingCaseError';
 
@@ -53,6 +54,7 @@ enum ModalState {
 
 export type StateProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
+  badges?: ReadonlyArray<BadgeType>;
   canEditGroupInfo: boolean;
   candidateContactsToAdd: Array<ConversationType>;
   conversation?: ConversationType;
@@ -62,6 +64,7 @@ export type StateProps = {
   isGroup: boolean;
   loadRecentMediaItems: (limit: number) => void;
   memberships: Array<GroupV2Membership>;
+  preferredBadgeByConversation: Record<string, BadgeType>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
@@ -85,6 +88,7 @@ export type StateProps = {
   onBlock: () => void;
   onLeave: () => void;
   onUnblock: () => void;
+  theme: ThemeType;
   userAvatarData: Array<AvatarDataType>;
   setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
   onOutgoingAudioCallInConversation: () => unknown;
@@ -104,6 +108,7 @@ export type Props = StateProps & ActionProps;
 
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
+  badges,
   canEditGroupInfo,
   candidateContactsToAdd,
   conversation,
@@ -121,6 +126,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   onUnblock,
   pendingApprovalMemberships,
   pendingMemberships,
+  preferredBadgeByConversation,
   replaceAvatar,
   saveAvatarToDisk,
   searchInConversation,
@@ -134,6 +140,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   showGroupV2Permissions,
   showLightboxForMedia,
   showPendingInvites,
+  theme,
   toggleSafetyNumberModal,
   updateGroupAttributes,
   userAvatarData,
@@ -256,6 +263,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
             setEditGroupAttributesRequestState(RequestState.Inactive);
           }}
           requestState={addGroupMembersRequestState}
+          theme={theme}
         />
       );
       break;
@@ -311,6 +319,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       )}
 
       <ConversationDetailsHeader
+        badges={badges}
         canEdit={canEditGroupInfo}
         conversation={conversation}
         i18n={i18n}
@@ -324,6 +333,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
               : ModalState.EditingGroupDescription
           );
         }}
+        theme={theme}
       />
 
       <div className="ConversationDetails__header-buttons">
@@ -456,10 +466,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           conversationId={conversation.id}
           i18n={i18n}
           memberships={memberships}
+          preferredBadgeByConversation={preferredBadgeByConversation}
           showContactModal={showContactModal}
           startAddingNewMembers={() => {
             setModalState(ModalState.AddingGroupMembers);
           }}
+          theme={theme}
         />
       )}
 

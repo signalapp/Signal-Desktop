@@ -29,7 +29,7 @@ import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import { EmojiButton } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
-import type { BodyRangeType, LocalizerType } from '../types/Util';
+import type { BodyRangeType, LocalizerType, ThemeType } from '../types/Util';
 import { ModalHost } from './ModalHost';
 import { SearchInput } from './SearchInput';
 import { StagedLinkPreview } from './conversation/StagedLinkPreview';
@@ -57,6 +57,7 @@ export type DataPropsType = {
     caretLocation?: number
   ) => unknown;
   onTextTooLong: () => void;
+  theme: ThemeType;
 } & Pick<EmojiButtonProps, 'recentEmojis' | 'skinTone'>;
 
 type ActionPropsType = Pick<
@@ -86,6 +87,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   recentEmojis,
   removeLinkPreview,
   skinTone,
+  theme,
 }) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const inputApiRef = React.useRef<InputApi | undefined>();
@@ -412,6 +414,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                           startNewConversationFromPhoneNumber={
                             shouldNeverBeCalled
                           }
+                          theme={theme}
                         />
                       </div>
                     );

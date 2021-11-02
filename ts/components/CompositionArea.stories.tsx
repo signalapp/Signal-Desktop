@@ -15,6 +15,7 @@ import enMessages from '../../_locales/en/messages.json';
 
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
+import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -31,6 +32,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onSendMessage: action('onSendMessage'),
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),
+  theme: ThemeType.light,
 
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],

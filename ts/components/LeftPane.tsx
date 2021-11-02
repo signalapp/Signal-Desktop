@@ -23,8 +23,9 @@ import type { LeftPaneSetGroupMetadataPropsType } from './leftPane/LeftPaneSetGr
 import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetadataHelper';
 
 import * as OS from '../OS';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
+import type { BadgeType } from '../badges/types';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import { strictAssert } from '../util/assert';
@@ -83,6 +84,7 @@ export type PropsType = {
         mode: LeftPaneMode.SetGroupMetadata;
       } & LeftPaneSetGroupMetadataPropsType);
   i18n: LocalizerType;
+  badgesById: Record<string, BadgeType>;
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
@@ -90,6 +92,7 @@ export type PropsType = {
   canResizeLeftPane: boolean;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
+  theme: ThemeType;
 
   // Action Creators
   cantAddContactToGroup: (conversationId: string) => void;
@@ -143,6 +146,7 @@ export type PropsType = {
 };
 
 export const LeftPane: React.FC<PropsType> = ({
+  badgesById,
   cantAddContactToGroup,
   canResizeLeftPane,
   challengeStatus,
@@ -182,6 +186,7 @@ export const LeftPane: React.FC<PropsType> = ({
   startSearch,
   startNewConversationFromPhoneNumber,
   startSettingGroupMetadata,
+  theme,
   toggleComposeEditingAvatar,
   toggleConversationInChooseMembers,
   updateSearchTerm,
@@ -565,6 +570,7 @@ export const LeftPane: React.FC<PropsType> = ({
                 tabIndex={-1}
               >
                 <ConversationList
+                  badgesById={badgesById}
                   dimensions={{
                     width,
                     height: contentRect.bounds?.height || 0,
@@ -602,6 +608,7 @@ export const LeftPane: React.FC<PropsType> = ({
                   startNewConversationFromPhoneNumber={
                     startNewConversationFromPhoneNumber
                   }
+                  theme={theme}
                 />
               </div>
             </div>

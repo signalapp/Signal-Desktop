@@ -13,6 +13,7 @@ import { ContactModal } from './ContactModal';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { ConversationType } from '../../state/ducks/conversations';
+import { getFakeBadges } from '../../test-both/helpers/getFakeBadge';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -28,6 +29,7 @@ const defaultContact: ConversationType = getDefaultConversation({
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
+  badges: overrideProps.badges || [],
   contact: overrideProps.contact || defaultContact,
   hideContactModal: action('hideContactModal'),
   i18n,
@@ -82,6 +84,14 @@ story.add('Viewing self', () => {
       ...defaultContact,
       isMe: true,
     },
+  });
+
+  return <ContactModal {...props} />;
+});
+
+story.add('With badges', () => {
+  const props = createProps({
+    badges: getFakeBadges(2),
   });
 
   return <ContactModal {...props} />;

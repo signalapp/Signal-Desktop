@@ -9,6 +9,7 @@ import { action } from '@storybook/addon-actions';
 import { ConversationHero } from './ConversationHero';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -22,11 +23,18 @@ const getPhoneNumber = () => text('phoneNumber', '+1 (646) 327-2700');
 
 const updateSharedGroups = action('updateSharedGroups');
 
+const Wrapper = (
+  props: Omit<React.ComponentProps<typeof ConversationHero>, 'theme'>
+) => {
+  const theme = React.useContext(StorybookThemeContext);
+  return <ConversationHero {...props} theme={theme} />;
+};
+
 storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Five Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -54,7 +62,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Four Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -81,7 +89,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Three Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -103,7 +111,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (Two Other Groups)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -125,7 +133,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (One Other Group)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -147,7 +155,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (No Groups, Name)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -169,7 +177,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (No Groups, Just Profile)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -191,7 +199,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (No Groups, Just Phone Number)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           about={getAbout()}
           acceptedMessageRequest
           i18n={i18n}
@@ -213,7 +221,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (No Groups, No Data)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           i18n={i18n}
           isMe={false}
           title={text('title', 'Unknown contact')}
@@ -234,7 +242,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Direct (No Groups, No Data, Not Accepted)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           i18n={i18n}
           isMe={false}
           title={text('title', 'Unknown contact')}
@@ -255,7 +263,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Group (many members)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe={false}
@@ -274,7 +282,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Group (one member)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe={false}
@@ -293,7 +301,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Group (zero members)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe={false}
@@ -313,7 +321,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Group (long group description)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe={false}
@@ -333,7 +341,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Group (No name)', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe={false}
@@ -352,7 +360,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
   .add('Note to Self', () => {
     return (
       <div style={{ width: '480px' }}>
-        <ConversationHero
+        <Wrapper
           acceptedMessageRequest
           i18n={i18n}
           isMe

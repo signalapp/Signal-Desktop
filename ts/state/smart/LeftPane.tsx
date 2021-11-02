@@ -19,7 +19,8 @@ import {
   getStartSearchCounter,
   isSearching,
 } from '../selectors/search';
-import { getIntl, getRegionCode } from '../selectors/user';
+import { getIntl, getRegionCode, getTheme } from '../selectors/user';
+import { getBadgesById } from '../selectors/badges';
 import { getPreferredLeftPaneWidth } from '../selectors/items';
 import {
   getCantAddContactForModal,
@@ -159,6 +160,7 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   return {
     modeSpecificProps: getModeSpecificProps(state),
+    badgesById: getBadgesById(state),
     canResizeLeftPane: window.Signal.RemoteConfig.isEnabled(
       'desktop.internalUser'
     ),
@@ -176,6 +178,7 @@ const mapStateToProps = (state: StateType) => {
     renderRelinkDialog,
     renderUpdateDialog,
     renderCaptchaDialog,
+    theme: getTheme(state),
   };
 };
 

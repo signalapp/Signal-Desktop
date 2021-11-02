@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import { ContactModal } from '../../components/conversation/ContactModal';
 import type { StateType } from '../reducer';
 
 import { getIntl } from '../selectors/user';
+import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType): PropsDataType => {
@@ -35,6 +36,7 @@ const mapStateToProps = (state: StateType): PropsDataType => {
 
   return {
     areWeAdmin,
+    badges: getBadgesSelector(state)(contact.badges),
     contact,
     conversationId,
     i18n: getIntl(state),

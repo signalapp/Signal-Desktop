@@ -88,6 +88,8 @@ import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
 import { handleMessageSend } from './util/handleMessageSend';
 import { AppViewType } from './state/ducks/app';
 import { UsernameSaveState } from './state/ducks/conversationsEnums';
+import type { BadgesStateType } from './state/ducks/badges';
+import { badgeImageFileDownloader } from './badges/badgeImageFileDownloader';
 import { isIncoming } from './state/selectors/message';
 import { actionCreators } from './state/actions';
 import { Deletes } from './messageModifiers/Deletes';
@@ -164,6 +166,16 @@ export async function startApp(): Promise<void> {
   window.attachmentDownloadQueue = [];
 
   await window.Signal.Util.initializeMessageCounter();
+
+  let initialBadgesState: BadgesStateType = { byId: {} };
+  async function loadInitialBadgesState(): Promise<void> {
+    initialBadgesState = {
+      byId: window.Signal.Util.makeLookup(
+        await window.Signal.Data.getAllBadges(),
+        'id'
+      ),
+    };
+  }
 
   // Initialize WebAPI as early as possible
   let server: WebAPIType | undefined;
@@ -888,6 +900,7 @@ export async function startApp(): Promise<void> {
         window.ConversationController.load(),
         Stickers.load(),
         loadRecentEmojis(),
+        loadInitialBadgesState(),
         window.textsecure.storage.protocol.hydrateCaches(),
       ]);
       await window.ConversationController.checkForConflicts();
@@ -929,6 +942,7 @@ export async function startApp(): Promise<void> {
     const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
 
     const initialState = {
+      badges: initialBadgesState,
       conversations: {
         conversationLookup: window.Signal.Util.makeLookup(conversations, 'id'),
         conversationsByE164: window.Signal.Util.makeLookup(
@@ -989,6 +1003,7 @@ export async function startApp(): Promise<void> {
         actionCreators.audioRecorder,
         store.dispatch
       ),
+      badges: bindActionCreators(actionCreators.badges, store.dispatch),
       calling: bindActionCreators(actionCreators.calling, store.dispatch),
       composer: bindActionCreators(actionCreators.composer, store.dispatch),
       conversations: bindActionCreators(
@@ -1690,6 +1705,8 @@ export async function startApp(): Promise<void> {
     }
 
     window.dispatchEvent(new Event('storage_ready'));
+
+    badgeImageFileDownloader.checkForFilesToDownload();
 
     log.info('Expiration start timestamp cleanup: starting...');
     const messagesUnexpectedlyMissingExpirationStartTimestamp = await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();

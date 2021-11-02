@@ -14,6 +14,7 @@ import { ForwardMessageModal } from './ForwardMessageModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 const createAttachment = (
   props: Partial<AttachmentType> = {}
@@ -39,7 +40,7 @@ const candidateConversations = Array.from(Array(100), () =>
   getDefaultConversation()
 );
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   attachments: overrideProps.attachments,
   candidateConversations,
   doForwardMessage: action('doForwardMessage'),
@@ -55,24 +56,25 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   recentEmojis: [],
   removeLinkPreview: action('removeLinkPreview'),
   skinTone: 0,
+  theme: React.useContext(StorybookThemeContext),
 });
 
 story.add('Modal', () => {
-  return <ForwardMessageModal {...createProps()} />;
+  return <ForwardMessageModal {...useProps()} />;
 });
 
 story.add('with text', () => {
-  return <ForwardMessageModal {...createProps({ messageBody: 'sup' })} />;
+  return <ForwardMessageModal {...useProps({ messageBody: 'sup' })} />;
 });
 
 story.add('a sticker', () => {
-  return <ForwardMessageModal {...createProps({ isSticker: true })} />;
+  return <ForwardMessageModal {...useProps({ isSticker: true })} />;
 });
 
 story.add('link preview', () => {
   return (
     <ForwardMessageModal
-      {...createProps({
+      {...useProps({
         linkPreview: {
           description: LONG_DESCRIPTION,
           date: Date.now(),
@@ -94,7 +96,7 @@ story.add('link preview', () => {
 story.add('media attachments', () => {
   return (
     <ForwardMessageModal
-      {...createProps({
+      {...useProps({
         attachments: [
           createAttachment({
             contentType: IMAGE_JPEG,
@@ -122,7 +124,7 @@ story.add('media attachments', () => {
 
 story.add('announcement only groups non-admin', () => (
   <ForwardMessageModal
-    {...createProps()}
+    {...useProps()}
     candidateConversations={[
       getDefaultConversation({
         announcementsOnly: true,

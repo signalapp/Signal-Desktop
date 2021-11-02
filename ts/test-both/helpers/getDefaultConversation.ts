@@ -325,6 +325,7 @@ export function getDefaultConversation(
 
   return {
     acceptedMessageRequest: true,
+    badges: [],
     e164: '+1300555000',
     color: getRandomColor(),
     firstName,

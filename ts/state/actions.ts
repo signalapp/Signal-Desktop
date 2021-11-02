@@ -1,10 +1,11 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { actions as accounts } from './ducks/accounts';
 import { actions as app } from './ducks/app';
 import { actions as audioPlayer } from './ducks/audioPlayer';
 import { actions as audioRecorder } from './ducks/audioRecorder';
+import { actions as badges } from './ducks/badges';
 import { actions as calling } from './ducks/calling';
 import { actions as composer } from './ducks/composer';
 import { actions as conversations } from './ducks/conversations';
@@ -26,6 +27,7 @@ export const actionCreators: ReduxActions = {
   app,
   audioPlayer,
   audioRecorder,
+  badges,
   calling,
   composer,
   conversations,
@@ -47,6 +49,7 @@ export const mapDispatchToProps = {
   ...app,
   ...audioPlayer,
   ...audioRecorder,
+  ...badges,
   ...calling,
   ...composer,
   ...conversations,

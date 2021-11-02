@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ComponentProps } from 'react';
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -11,6 +11,7 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import {
   ConversationHeader,
   OutgoingCallButtonStyle,
@@ -25,7 +26,7 @@ type ConversationHeaderStory = {
   description: string;
   items: Array<{
     title: string;
-    props: ComponentProps<typeof ConversationHeader>;
+    props: Omit<ComponentProps<typeof ConversationHeader>, 'theme'>;
   }>;
 };
 
@@ -317,15 +318,18 @@ const stories: Array<ConversationHeaderStory> = [
 stories.forEach(({ title, description, items }) =>
   book.add(
     title,
-    () =>
-      items.map(({ title: subtitle, props }, i) => {
+    () => {
+      const theme = useContext(StorybookThemeContext);
+
+      return items.map(({ title: subtitle, props }, i) => {
         return (
           <div key={i}>
             {subtitle ? <h3>{subtitle}</h3> : null}
-            <ConversationHeader {...props} />
+            <ConversationHeader {...props} theme={theme} />
           </div>
         );
-      }),
+      });
+    },
     {
       docs: description,
     }

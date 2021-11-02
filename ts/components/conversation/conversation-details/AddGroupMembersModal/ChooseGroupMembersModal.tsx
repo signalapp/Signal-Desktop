@@ -6,7 +6,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import type { MeasuredComponentProps } from 'react-measure';
 import Measure from 'react-measure';
 
-import type { LocalizerType } from '../../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../../types/Util';
 import { assert } from '../../../../util/assert';
 import { getOwn } from '../../../../util/getOwn';
 import { refMerger } from '../../../../util/refMerger';
@@ -38,6 +38,7 @@ type PropsType = {
     _: Readonly<undefined | ConversationType>
   ) => void;
   setSearchTerm: (_: string) => void;
+  theme: ThemeType;
   toggleSelectedContact: (conversationId: string) => void;
 };
 
@@ -55,6 +56,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   selectedContacts,
   setCantAddContactForModal,
   setSearchTerm,
+  theme,
   toggleSelectedContact,
 }) => {
   const [focusRef] = useRestoreFocus();
@@ -227,6 +229,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
                     shouldRecomputeRowHeights={false}
                     showChooseGroupMembers={shouldNeverBeCalled}
                     startNewConversationFromPhoneNumber={shouldNeverBeCalled}
+                    theme={theme}
                   />
                 </div>
               );

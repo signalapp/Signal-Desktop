@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import type { ConversationType } from '../state/ducks/conversations';
 import { Intl } from './Intl';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { Modal } from './Modal';
 import { ConversationListItem } from './conversationList/ConversationListItem';
 
@@ -12,12 +12,14 @@ type PropsType = {
   groupAdmins: Array<ConversationType>;
   i18n: LocalizerType;
   openConversation: (conversationId: string) => unknown;
+  theme: ThemeType;
 };
 
 export const AnnouncementsOnlyGroupBanner = ({
   groupAdmins,
   i18n,
   openConversation,
+  theme,
 }: PropsType): JSX.Element => {
   const [isShowingAdmins, setIsShowingAdmins] = useState(false);
 
@@ -40,6 +42,7 @@ export const AnnouncementsOnlyGroupBanner = ({
               lastMessage={undefined}
               lastUpdated={undefined}
               typingContact={undefined}
+              theme={theme}
             />
           ))}
         </Modal>

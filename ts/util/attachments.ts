@@ -9,6 +9,7 @@ import { isPathInside } from './isPathInside';
 
 const PATH = 'attachments.noindex';
 const AVATAR_PATH = 'avatars.noindex';
+const BADGES_PATH = 'badges.noindex';
 const STICKER_PATH = 'stickers.noindex';
 const TEMP_PATH = 'temp';
 const DRAFT_PATH = 'drafts.noindex';
@@ -23,6 +24,7 @@ const createPathGetter = (subpath: string) => (
 };
 
 export const getAvatarsPath = createPathGetter(AVATAR_PATH);
+export const getBadgesPath = createPathGetter(BADGES_PATH);
 export const getDraftPath = createPathGetter(DRAFT_PATH);
 export const getPath = createPathGetter(PATH);
 export const getStickersPath = createPathGetter(STICKER_PATH);

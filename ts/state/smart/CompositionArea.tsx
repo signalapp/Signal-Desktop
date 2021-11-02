@@ -11,7 +11,7 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
 
 import { selectRecentEmojis } from '../selectors/emojis';
-import { getIntl, getUserConversationId } from '../selectors/user';
+import { getIntl, getTheme, getUserConversationId } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import {
   getConversationSelector,
@@ -83,6 +83,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // Base
     conversationId: id,
     i18n: getIntl(state),
+    theme: getTheme(state),
     // AudioCapture
     errorDialogAudioRecorderType:
       state.audioRecorder.errorDialogAudioRecorderType,

@@ -1,0 +1,111 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.BadgeDialog {
+  @mixin fixed-height($height) {
+    height: $height;
+    overflow-y: auto;
+  }
+
+  user-select: none;
+
+  // We use this selector for specificity.
+  &.module-Modal {
+    max-width: 420px;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+  }
+
+  &__nav {
+    $light-color: $color-gray-65;
+    $dark-color: $color-gray-05;
+
+    @include button-reset;
+    align-items: center;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    padding: 3px 0;
+
+    &[disabled] {
+      visibility: hidden;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+
+    @include light-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-02;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
+    }
+    @include dark-theme {
+      &:hover,
+      &:focus {
+        background: $color-gray-80;
+      }
+      &:active {
+        background: $color-gray-75;
+      }
+    }
+
+    &--previous::before {
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $light-color
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-left-24.svg',
+          $dark-color
+        );
+      }
+    }
+
+    &--next::before {
+      @include light-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-right-24.svg',
+          $light-color
+        );
+      }
+      @include dark-theme {
+        @include color-svg(
+          '../images/icons/v2/chevron-right-24.svg',
+          $dark-color
+        );
+      }
+    }
+  }
+
+  &__main {
+    flex-grow: 1;
+    text-align: center;
+    padding: 24px 10px;
+  }
+
+  &__name {
+    @include font-title-2;
+    @include fixed-height(2.5rem);
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    @include font-body-1;
+    @include fixed-height(3.5rem);
+  }
+}

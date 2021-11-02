@@ -10,7 +10,7 @@ import type { BodyRangeType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
 import { getAllComposableConversations } from '../selectors/conversations';
 import { getLinkPreview } from '../selectors/linkPreviews';
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { selectRecentEmojis } from '../selectors/emojis';
 import type { AttachmentType } from '../../types/Attachment';
@@ -66,6 +66,7 @@ const mapStateToProps = (
     recentEmojis,
     skinTone,
     onTextTooLong,
+    theme: getTheme(state),
   };
 };
 

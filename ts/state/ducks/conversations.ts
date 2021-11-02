@@ -198,6 +198,17 @@ export type ConversationType = {
   publicParams?: string;
   acknowledgedGroupNameCollisions?: GroupNameCollisionsWithIdsByTitle;
   profileKey?: string;
+
+  badges: Array<
+    | {
+        id: string;
+      }
+    | {
+        id: string;
+        expiresAt: number;
+        isVisible: boolean;
+      }
+  >;
 };
 export type ProfileDataType = {
   firstName: string;

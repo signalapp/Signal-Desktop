@@ -23,9 +23,10 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import Long from 'long';
 
-import { assert } from '../util/assert';
+import { assert, strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
+import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
@@ -41,6 +42,7 @@ import {
 } from '../Crypto';
 import { calculateAgreement, generateKeyPair } from '../Curve';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
+import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
 import type {
   StorageServiceCallOptionsType,
@@ -55,6 +57,7 @@ import type MessageSender from './SendMessage';
 import type { WebAPICredentials, IRequestHandler } from './Types.d';
 import { handleStatusCode, translateError } from './Utils';
 import * as log from '../logging/log';
+import { maybeParseUrl } from '../util/url';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -559,6 +562,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
 type InitializeOptionsType = {
   url: string;
   storageUrl: string;
+  updatesUrl: string;
   directoryEnclaveId: string;
   directoryTrustAnchor: string;
   directoryUrl: string;
@@ -676,6 +680,7 @@ export type ProfileType = Readonly<{
   credential?: string;
   capabilities?: CapabilitiesType;
   paymentAddress?: string;
+  badges?: unknown;
 }>;
 
 export type GetIceServersResultType = Readonly<{
@@ -757,6 +762,7 @@ export type WebAPIType = {
     options: {
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
+      userLanguages: ReadonlyArray<string>;
     }
   ) => Promise<ProfileType>;
   getProfileUnauth: (
@@ -765,8 +771,10 @@ export type WebAPIType = {
       accessKey: string;
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
+      userLanguages: ReadonlyArray<string>;
     }
   ) => Promise<ProfileType>;
+  getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
   getProvisioningResource: (
     handler: IRequestHandler
   ) => Promise<WebSocketResource>;
@@ -913,6 +921,7 @@ export type ProxiedRequestOptionsType = {
 export function initialize({
   url,
   storageUrl,
+  updatesUrl,
   directoryEnclaveId,
   directoryTrustAnchor,
   directoryUrl,
@@ -927,6 +936,9 @@ export function initialize({
   }
   if (!is.string(storageUrl)) {
     throw new Error('WebAPI.initialize: Invalid storageUrl');
+  }
+  if (!is.string(updatesUrl)) {
+    throw new Error('WebAPI.initialize: Invalid updatesUrl');
   }
   if (!is.string(directoryEnclaveId)) {
     throw new Error('WebAPI.initialize: Invalid directory enclave id');
@@ -1036,6 +1048,7 @@ export function initialize({
       getMyKeys,
       getProfile,
       getProfileUnauth,
+      getBadgeImageFile,
       getProvisioningResource,
       getSenderCertificate,
       getSticker,
@@ -1315,9 +1328,14 @@ export function initialize({
       options: {
         profileKeyVersion?: string;
         profileKeyCredentialRequest?: string;
+        userLanguages: ReadonlyArray<string>;
       }
     ) {
-      const { profileKeyVersion, profileKeyCredentialRequest } = options;
+      const {
+        profileKeyVersion,
+        profileKeyCredentialRequest,
+        userLanguages,
+      } = options;
 
       return (await _ajax({
         call: 'profile',
@@ -1327,6 +1345,9 @@ export function initialize({
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
+        headers: {
+          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
+        },
         responseType: 'json',
         redactUrl: _createRedactor(
           identifier,
@@ -1359,12 +1380,14 @@ export function initialize({
         accessKey: string;
         profileKeyVersion?: string;
         profileKeyCredentialRequest?: string;
+        userLanguages: ReadonlyArray<string>;
       }
     ) {
       const {
         accessKey,
         profileKeyVersion,
         profileKeyCredentialRequest,
+        userLanguages,
       } = options;
 
       return (await _ajax({
@@ -1375,6 +1398,9 @@ export function initialize({
           profileKeyVersion,
           profileKeyCredentialRequest
         ),
+        headers: {
+          'Accept-Language': formatAcceptLanguageHeader(userLanguages),
+        },
         responseType: 'json',
         unauthenticated: true,
         accessKey,
@@ -1384,6 +1410,34 @@ export function initialize({
           profileKeyCredentialRequest
         ),
       })) as ProfileType;
+    }
+
+    async function getBadgeImageFile(
+      imageFileUrl: string
+    ): Promise<Uint8Array> {
+      strictAssert(
+        isBadgeImageFileUrlValid(imageFileUrl, updatesUrl),
+        'getBadgeImageFile got an invalid URL. Was bad data saved?'
+      );
+
+      return _outerAjax(imageFileUrl, {
+        certificateAuthority,
+        contentType: 'application/octet-stream',
+        proxyUrl,
+        responseType: 'bytes',
+        timeout: 0,
+        type: 'GET',
+        redactUrl: (href: string) => {
+          const parsedUrl = maybeParseUrl(href);
+          if (!parsedUrl) {
+            return href;
+          }
+          const { pathname } = parsedUrl;
+          const pattern = RegExp(escapeRegExp(pathname), 'g');
+          return href.replace(pattern, `[REDACTED]${pathname.slice(-3)}`);
+        },
+        version,
+      });
     }
 
     async function getAvatar(path: string) {

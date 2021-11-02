@@ -8,6 +8,7 @@ type FormattedContact = Partial<ConversationType> &
   Pick<
     ConversationType,
     | 'acceptedMessageRequest'
+    | 'badges'
     | 'id'
     | 'isMe'
     | 'sharedGroupNames'
@@ -18,6 +19,7 @@ type FormattedContact = Partial<ConversationType> &
 
 const PLACEHOLDER_CONTACT: FormattedContact = {
   acceptedMessageRequest: false,
+  badges: [],
   id: 'placeholder-contact',
   isMe: false,
   sharedGroupNames: [],
@@ -47,6 +49,7 @@ export function findAndFormatContact(identifier?: string): FormattedContact {
 
   return {
     acceptedMessageRequest: false,
+    badges: [],
     id: 'phone-only',
     isMe: false,
     phoneNumber,

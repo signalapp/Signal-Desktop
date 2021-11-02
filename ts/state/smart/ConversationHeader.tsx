@@ -7,6 +7,7 @@ import {
   ConversationHeader,
   OutgoingCallButtonStyle,
 } from '../../components/conversation/ConversationHeader';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationSelector,
   isMissingRequiredProfileSharing,
@@ -16,7 +17,7 @@ import { CallMode } from '../../types/Calling';
 import type { ConversationType } from '../ducks/conversations';
 import { getConversationCallMode } from '../ducks/conversations';
 import { getActiveCall, isAnybodyElseInGroupCall } from '../ducks/calling';
-import { getUserUuid, getIntl } from '../selectors/user';
+import { getUserUuid, getIntl, getTheme } from '../selectors/user';
 import { getOwn } from '../../util/getOwn';
 import { missingCaseError } from '../../util/missingCaseError';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
@@ -104,6 +105,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
       'type',
       'unblurredAvatarPath',
     ]),
+    badge: getPreferredBadgeSelector(state)(conversation.badges),
     conversationTitle: state.conversations.selectedConversationTitle,
     isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
       conversation
@@ -112,6 +114,7 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,
     outgoingCallButtonStyle: getOutgoingCallButtonStyle(conversation, state),
+    theme: getTheme(state),
   };
 };
 

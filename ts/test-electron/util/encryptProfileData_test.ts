@@ -26,6 +26,7 @@ describe('encryptProfileData', () => {
 
       // To satisfy TS
       acceptedMessageRequest: true,
+      badges: [],
       id: '',
       isMe: true,
       sharedGroupNames: [],

@@ -34,6 +34,7 @@ import { cleanDataForIpc } from './cleanDataForIpc';
 import type { ReactionType } from '../types/Reactions';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import type { UUIDStringType } from '../types/UUID';
+import type { BadgeType } from '../badges/types';
 import type { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
@@ -271,6 +272,10 @@ const dataInterface: ClientInterface = {
 
   updateEmojiUsage,
   getRecentEmojis,
+
+  getAllBadges,
+  updateOrCreateBadges,
+  badgeImageFileDownloaded,
 
   removeAll,
   removeAllConfiguration,
@@ -1573,6 +1578,27 @@ async function updateEmojiUsage(shortName: string) {
 }
 async function getRecentEmojis(limit = 32) {
   return channels.getRecentEmojis(limit);
+}
+
+// Badges
+
+function getAllBadges(): Promise<Array<BadgeType>> {
+  return channels.getAllBadges();
+}
+
+async function updateOrCreateBadges(
+  badges: ReadonlyArray<BadgeType>
+): Promise<void> {
+  if (badges.length) {
+    await channels.updateOrCreateBadges(badges);
+  }
+}
+
+function badgeImageFileDownloaded(
+  url: string,
+  localPath: string
+): Promise<void> {
+  return channels.badgeImageFileDownloaded(url, localPath);
 }
 
 // Other

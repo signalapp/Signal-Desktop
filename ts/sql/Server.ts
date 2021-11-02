@@ -44,6 +44,9 @@ import { formatCountForLogging } from '../logging/formatCountForLogging';
 import type { ConversationColorType, CustomColorType } from '../types/Colors';
 import { ProcessGroupCallRingRequestResult } from '../types/Calling';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import type { BadgeType, BadgeImageType } from '../badges/types';
+import { parseBadgeCategory } from '../badges/BadgeCategory';
+import { parseBadgeImageTheme } from '../badges/BadgeImageTheme';
 import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
 import type { EmptyQuery, ArrayQuery, Query, JSONRows } from './util';
@@ -260,6 +263,10 @@ const dataInterface: ServerInterface = {
   updateEmojiUsage,
   getRecentEmojis,
 
+  getAllBadges,
+  updateOrCreateBadges,
+  badgeImageFileDownloaded,
+
   removeAll,
   removeAllConfiguration,
 
@@ -289,6 +296,7 @@ const dataInterface: ServerInterface = {
   removeKnownAttachments,
   removeKnownStickers,
   removeKnownDraftAttachments,
+  getAllBadgeImageFileLocalPaths,
 };
 export default dataInterface;
 
@@ -3571,12 +3579,149 @@ async function getRecentEmojis(limit = 32): Promise<Array<EmojiType>> {
   return rows || [];
 }
 
+async function getAllBadges(): Promise<Array<BadgeType>> {
+  const db = getInstance();
+
+  const [badgeRows, badgeImageFileRows] = db.transaction(() => [
+    db.prepare<EmptyQuery>('SELECT * FROM badges').all(),
+    db.prepare<EmptyQuery>('SELECT * FROM badgeImageFiles').all(),
+  ])();
+
+  const badgeImagesByBadge = new Map<
+    string,
+    Array<undefined | BadgeImageType>
+  >();
+  for (const badgeImageFileRow of badgeImageFileRows) {
+    const { badgeId, order, localPath, url, theme } = badgeImageFileRow;
+    const badgeImages = badgeImagesByBadge.get(badgeId) || [];
+    badgeImages[order] = {
+      ...(badgeImages[order] || {}),
+      [parseBadgeImageTheme(theme)]: {
+        localPath: dropNull(localPath),
+        url,
+      },
+    };
+    badgeImagesByBadge.set(badgeId, badgeImages);
+  }
+
+  return badgeRows.map(badgeRow => ({
+    id: badgeRow.id,
+    category: parseBadgeCategory(badgeRow.category),
+    name: badgeRow.name,
+    descriptionTemplate: badgeRow.descriptionTemplate,
+    images: (badgeImagesByBadge.get(badgeRow.id) || []).filter(isNotNil),
+  }));
+}
+
+// This should match the logic in the badges Redux reducer.
+async function updateOrCreateBadges(
+  badges: ReadonlyArray<BadgeType>
+): Promise<void> {
+  const db = getInstance();
+
+  const insertBadge = prepare<Query>(
+    db,
+    `
+    INSERT OR REPLACE INTO badges (
+      id,
+      category,
+      name,
+      descriptionTemplate
+    ) VALUES (
+      $id,
+      $category,
+      $name,
+      $descriptionTemplate
+    );
+    `
+  );
+  const getImageFilesForBadge = prepare<Query>(
+    db,
+    'SELECT url, localPath FROM badgeImageFiles WHERE badgeId = $badgeId'
+  );
+  const insertBadgeImageFile = prepare<Query>(
+    db,
+    `
+    INSERT INTO badgeImageFiles (
+      badgeId,
+      'order',
+      url,
+      localPath,
+      theme
+    ) VALUES (
+      $badgeId,
+      $order,
+      $url,
+      $localPath,
+      $theme
+    );
+    `
+  );
+
+  db.transaction(() => {
+    badges.forEach(badge => {
+      const { id: badgeId } = badge;
+
+      const oldLocalPaths = new Map<string, string>();
+      for (const { url, localPath } of getImageFilesForBadge.all({ badgeId })) {
+        if (localPath) {
+          oldLocalPaths.set(url, localPath);
+        }
+      }
+
+      insertBadge.run({
+        id: badgeId,
+        category: badge.category,
+        name: badge.name,
+        descriptionTemplate: badge.descriptionTemplate,
+      });
+
+      for (const [order, image] of badge.images.entries()) {
+        for (const [theme, imageFile] of Object.entries(image)) {
+          insertBadgeImageFile.run({
+            badgeId,
+            localPath:
+              imageFile.localPath || oldLocalPaths.get(imageFile.url) || null,
+            order,
+            theme,
+            url: imageFile.url,
+          });
+        }
+      }
+    });
+  })();
+}
+
+async function badgeImageFileDownloaded(
+  url: string,
+  localPath: string
+): Promise<void> {
+  const db = getInstance();
+  prepare<Query>(
+    db,
+    'UPDATE badgeImageFiles SET localPath = $localPath WHERE url = $url'
+  ).run({ url, localPath });
+}
+
+async function getAllBadgeImageFileLocalPaths(): Promise<Set<string>> {
+  const db = getInstance();
+  const localPaths = db
+    .prepare<EmptyQuery>(
+      'SELECT localPath FROM badgeImageFiles WHERE localPath IS NOT NULL'
+    )
+    .pluck()
+    .all();
+  return new Set(localPaths);
+}
+
 // All data in database
 async function removeAll(): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
     db.exec(`
+      DELETE FROM badges;
+      DELETE FROM badgeImageFiles;
       DELETE FROM conversations;
       DELETE FROM identityKeys;
       DELETE FROM items;

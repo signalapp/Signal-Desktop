@@ -14,6 +14,7 @@ import type { Props } from './ConversationDetails';
 import { ConversationDetails } from './ConversationDetails';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { ThemeType } from '../../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -55,6 +56,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
       isMe: i === 2,
     }),
   })),
+  preferredBadgeByConversation: {},
   pendingApprovalMemberships: times(8, () => ({
     member: getDefaultConversation(),
   })),
@@ -92,6 +94,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
     'onOutgoingVideoCallInConversation'
   ),
   searchInConversation: action('searchInConversation'),
+  theme: ThemeType.light,
 });
 
 story.add('Basic', () => {

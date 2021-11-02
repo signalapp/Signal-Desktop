@@ -14,6 +14,7 @@ import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import { AddGroupMembersModal } from './AddGroupMembersModal';
 import { RequestState } from './util';
+import { ThemeType } from '../../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -37,6 +38,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     action('onMakeRequest')(conversationIds);
   },
   requestState: RequestState.Inactive,
+  theme: ThemeType.light,
   ...overrideProps,
 });
 

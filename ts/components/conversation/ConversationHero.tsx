@@ -8,7 +8,7 @@ import { ContactName } from './ContactName';
 import { About } from './About';
 import { GroupDescription } from './GroupDescription';
 import { SharedGroupNames } from '../SharedGroupNames';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { shouldBlurAvatar } from '../../util/shouldBlurAvatar';
@@ -28,6 +28,7 @@ export type Props = {
   unblurAvatar: () => void;
   unblurredAvatarPath?: string;
   updateSharedGroups: () => unknown;
+  theme: ThemeType;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
 const renderMembershipRow = ({
@@ -98,6 +99,7 @@ export const ConversationHero = ({
   about,
   acceptedMessageRequest,
   avatarPath,
+  badge,
   color,
   conversationType,
   groupDescription,
@@ -107,6 +109,7 @@ export const ConversationHero = ({
   name,
   phoneNumber,
   profileName,
+  theme,
   title,
   onHeightChange,
   unblurAvatar,
@@ -180,6 +183,7 @@ export const ConversationHero = ({
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}
+          badge={badge}
           blur={avatarBlur}
           className="module-conversation-hero__avatar"
           color={color}
@@ -192,6 +196,7 @@ export const ConversationHero = ({
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={112}
+          theme={theme}
           title={title}
         />
         <h1 className="module-conversation-hero__profile-name">

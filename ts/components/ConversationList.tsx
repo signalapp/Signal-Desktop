@@ -8,11 +8,13 @@ import { List } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
+import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
 import { getConversationListWidthBreakpoint } from './_util';
+import type { BadgeType } from '../badges/types';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { ConversationListItem } from './conversationList/ConversationListItem';
@@ -105,6 +107,7 @@ export type Row =
   | StartNewConversationRowType;
 
 export type PropsType = {
+  badgesById?: Record<string, BadgeType>;
   dimensions?: {
     width: number;
     height: number;
@@ -120,6 +123,7 @@ export type PropsType = {
   scrollable?: boolean;
 
   i18n: LocalizerType;
+  theme: ThemeType;
 
   onClickArchiveButton: () => void;
   onClickContactCheckbox: (
@@ -136,6 +140,7 @@ const NORMAL_ROW_HEIGHT = 76;
 const HEADER_ROW_HEIGHT = 40;
 
 export const ConversationList: React.FC<PropsType> = ({
+  badgesById,
   dimensions,
   getRow,
   i18n,
@@ -150,6 +155,7 @@ export const ConversationList: React.FC<PropsType> = ({
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
+  theme,
 }) => {
   const listRef = useRef<null | List>(null);
 
@@ -235,6 +241,7 @@ export const ConversationList: React.FC<PropsType> = ({
           const itemProps = pick(row.conversation, [
             'acceptedMessageRequest',
             'avatarPath',
+            'badges',
             'color',
             'draftPreview',
             'id',
@@ -255,7 +262,12 @@ export const ConversationList: React.FC<PropsType> = ({
             'unblurredAvatarPath',
             'unreadCount',
           ]);
-          const { title, unreadCount, lastMessage } = itemProps;
+          const { badges, title, unreadCount, lastMessage } = itemProps;
+
+          let badge: undefined | BadgeType;
+          if (badgesById && badges[0]) {
+            badge = getOwn(badgesById, badges[0].id);
+          }
 
           result = (
             <div
@@ -270,8 +282,10 @@ export const ConversationList: React.FC<PropsType> = ({
               <ConversationListItem
                 {...itemProps}
                 key={key}
+                badge={badge}
                 onClick={onSelectConversation}
                 i18n={i18n}
+                theme={theme}
               />
             </div>
           );
@@ -326,6 +340,7 @@ export const ConversationList: React.FC<PropsType> = ({
       );
     },
     [
+      badgesById,
       getRow,
       i18n,
       onClickArchiveButton,
@@ -334,6 +349,7 @@ export const ConversationList: React.FC<PropsType> = ({
       renderMessageSearchResult,
       showChooseGroupMembers,
       startNewConversationFromPhoneNumber,
+      theme,
     ]
   );
 

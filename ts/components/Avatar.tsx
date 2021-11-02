@@ -15,10 +15,14 @@ import { Spinner } from './Spinner';
 
 import { getInitials } from '../util/getInitials';
 import type { LocalizerType } from '../types/Util';
+import { ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
+import type { BadgeType } from '../badges/types';
 import * as log from '../logging/log';
 import { assert } from '../util/assert';
 import { shouldBlurAvatar } from '../util/shouldBlurAvatar';
+import { getBadgeImageFileLocalPath } from '../badges/getBadgeImageFileLocalPath';
+import { BadgeImageTheme } from '../badges/BadgeImageTheme';
 
 export enum AvatarBlur {
   NoBlur,
@@ -40,6 +44,7 @@ export enum AvatarSize {
 
 export type Props = {
   avatarPath?: string;
+  badge?: BadgeType;
   blur?: AvatarBlur;
   color?: AvatarColorType;
   loading?: boolean;
@@ -53,6 +58,7 @@ export type Props = {
   profileName?: string;
   sharedGroupNames: Array<string>;
   size: AvatarSize;
+  theme?: ThemeType;
   title: string;
   unblurredAvatarPath?: string;
 
@@ -72,6 +78,7 @@ const getDefaultBlur = (
 export const Avatar: FunctionComponent<Props> = ({
   acceptedMessageRequest,
   avatarPath,
+  badge,
   className,
   color = 'A200',
   conversationType,
@@ -83,6 +90,7 @@ export const Avatar: FunctionComponent<Props> = ({
   onClick,
   sharedGroupNames,
   size,
+  theme,
   title,
   unblurredAvatarPath,
   blur = getDefaultBlur({
@@ -203,6 +211,33 @@ export const Avatar: FunctionComponent<Props> = ({
     contents = <div className={contentsClassName}>{contentsChildren}</div>;
   }
 
+  let badgeNode: ReactNode;
+  if (badge && theme && !isMe) {
+    const badgeSize = Math.ceil(size * 0.425);
+    const badgeTheme =
+      theme === ThemeType.light ? BadgeImageTheme.Light : BadgeImageTheme.Dark;
+    const badgeImagePath = getBadgeImageFileLocalPath(
+      badge,
+      badgeSize,
+      badgeTheme
+    );
+    if (badgeImagePath) {
+      badgeNode = (
+        <img
+          alt={badge.name}
+          className="module-Avatar__badge"
+          src={badgeImagePath}
+          style={{
+            width: badgeSize,
+            height: badgeSize,
+          }}
+        />
+      );
+    }
+  } else if (badge && !theme) {
+    log.error('<Avatar> requires a theme if a badge is provided');
+  }
+
   return (
     <div
       aria-label={i18n('contactAvatarAlt', [title])}
@@ -219,6 +254,7 @@ export const Avatar: FunctionComponent<Props> = ({
       ref={innerRef}
     >
       {contents}
+      {badgeNode}
     </div>
   );
 };

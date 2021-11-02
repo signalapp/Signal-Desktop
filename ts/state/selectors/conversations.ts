@@ -61,6 +61,7 @@ export const getPlaceholderContact = (): ConversationType => {
 
   placeholderContact = {
     acceptedMessageRequest: false,
+    badges: [],
     id: 'placeholder-contact',
     type: 'direct',
     title: window.i18n('unknownContact'),

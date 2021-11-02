@@ -3,7 +3,10 @@
 
 import React from 'react';
 
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
+import { getOwn } from '../../../util/getOwn';
+
+import type { BadgeType } from '../../../badges/types';
 import { Avatar } from '../../Avatar';
 import { Emojify } from '../Emojify';
 
@@ -23,8 +26,10 @@ export type Props = {
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: Array<GroupV2Membership>;
+  preferredBadgeByConversation: Record<string, BadgeType>;
   showContactModal: (contactId: string, conversationId: string) => void;
   startAddingNewMembers?: () => void;
+  theme: ThemeType;
 };
 
 const collator = new Intl.Collator(undefined, { sensitivity: 'base' });
@@ -72,8 +77,10 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   i18n,
   maxShownMemberCount = 5,
   memberships,
+  preferredBadgeByConversation,
   showContactModal,
   startAddingNewMembers,
+  theme,
 }) => {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
@@ -107,8 +114,10 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
           icon={
             <Avatar
               conversationType="direct"
+              badge={getOwn(preferredBadgeByConversation, member.id)}
               i18n={i18n}
               size={32}
+              theme={theme}
               {...member}
             />
           }

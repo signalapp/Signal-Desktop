@@ -1459,6 +1459,7 @@ export class ConversationModel extends window.Backbone
       ),
       areWeAdmin: this.areWeAdmin(),
       avatars: getAvatarData(this.attributes),
+      badges: this.get('badges') || [],
       canChangeTimer: this.canChangeTimer(),
       canEditGroupInfo: this.canEditGroupInfo(),
       avatarPath: this.getAbsoluteAvatarPath(),

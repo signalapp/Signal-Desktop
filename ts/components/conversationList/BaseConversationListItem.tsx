@@ -8,10 +8,11 @@ import { isBoolean, isNumber } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
+import type { BadgeType } from '../../badges/types';
 import { Timestamp } from '../conversation/Timestamp';
 import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 
 const BASE_CLASS_NAME =
@@ -27,6 +28,7 @@ export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
 
 type PropsType = {
+  badge?: BadgeType;
   checked?: boolean;
   conversationType: 'group' | 'direct';
   disabled?: boolean;
@@ -42,6 +44,7 @@ type PropsType = {
   messageText?: ReactNode;
   messageTextIsAlwaysFullSize?: boolean;
   onClick?: () => void;
+  theme?: ThemeType;
   unreadCount?: number;
 } & Pick<
   ConversationType,
@@ -62,6 +65,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
   function BaseConversationListItem({
     acceptedMessageRequest,
     avatarPath,
+    badge,
     checked,
     color,
     conversationType,
@@ -82,6 +86,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
     phoneNumber,
     profileName,
     sharedGroupNames,
+    theme,
     title,
     unblurredAvatarPath,
     unreadCount,
@@ -129,6 +134,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}
+          badge={badge}
           color={color}
           conversationType={conversationType}
           noteToSelf={isAvatarNoteToSelf}
@@ -137,6 +143,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          theme={theme}
           title={title}
           sharedGroupNames={sharedGroupNames}
           size={AvatarSize.FORTY_EIGHT}

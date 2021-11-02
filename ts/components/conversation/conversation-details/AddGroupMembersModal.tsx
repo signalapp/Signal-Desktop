@@ -5,7 +5,7 @@ import type { FunctionComponent } from 'react';
 import React, { useMemo, useReducer } from 'react';
 import { without } from 'lodash';
 
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
 import {
   AddGroupMemberErrorDialog,
   AddGroupMemberErrorDialogMode,
@@ -35,6 +35,7 @@ type PropsType = {
   makeRequest: (conversationIds: ReadonlyArray<string>) => Promise<void>;
   onClose: () => void;
   requestState: RequestState;
+  theme: ThemeType;
 };
 
 enum Stage {
@@ -151,6 +152,7 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
   onClose,
   makeRequest,
   requestState,
+  theme,
 }) => {
   const maxGroupSize = getMaximumNumberOfContacts();
   const maxRecommendedGroupSize = getRecommendedMaximumNumberOfContacts();
@@ -284,6 +286,7 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
           selectedContacts={selectedContacts}
           setCantAddContactForModal={setCantAddContactForModal}
           setSearchTerm={setSearchTerm}
+          theme={theme}
           toggleSelectedContact={toggleSelectedContact}
         />
       );

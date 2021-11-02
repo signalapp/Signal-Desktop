@@ -363,6 +363,7 @@ try {
   window.WebAPI = window.textsecure.WebAPI.initialize({
     url: config.serverUrl,
     storageUrl: config.storageUrl,
+    updatesUrl: config.updatesUrl,
     directoryUrl: config.directoryUrl,
     directoryEnclaveId: config.directoryEnclaveId,
     directoryTrustAnchor: config.directoryTrustAnchor,

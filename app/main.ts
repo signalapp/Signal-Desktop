@@ -292,6 +292,7 @@ function prepareUrl(
     buildExpiration: config.get<number | undefined>('buildExpiration'),
     serverUrl: config.get<string>('serverUrl'),
     storageUrl: config.get<string>('storageUrl'),
+    updatesUrl: config.get<string>('updatesUrl'),
     directoryUrl: config.get<string>('directoryUrl'),
     directoryEnclaveId: config.get<string>('directoryEnclaveId'),
     directoryTrustAnchor: config.get<string>('directoryTrustAnchor'),
@@ -1555,6 +1556,11 @@ app.on('ready', async () => {
     await attachments.deleteAll({
       userDataPath,
       attachments: orphanedAttachments,
+    });
+
+    await attachments.deleteAllBadges({
+      userDataPath,
+      pathsToKeep: await sql.sqlCall('getAllBadgeImageFileLocalPaths', []),
     });
 
     const allStickers = await attachments.getAllStickers(userDataPath);

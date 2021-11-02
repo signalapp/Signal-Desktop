@@ -17,8 +17,9 @@ import { DisappearingTimeDialog } from '../DisappearingTimeDialog';
 import { Avatar, AvatarSize } from '../Avatar';
 import { InContactsIcon } from '../InContactsIcon';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { BadgeType } from '../../badges/types';
 import { getMuteOptions } from '../../util/getMuteOptions';
 import * as expirationTimer from '../../util/expirationTimer';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -32,11 +33,13 @@ export enum OutgoingCallButtonStyle {
 }
 
 export type PropsDataType = {
+  badge?: BadgeType;
   conversationTitle?: string;
   isMissingMandatoryProfileSharing?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
   showBackButton?: boolean;
   isSMSOnly?: boolean;
+  theme: ThemeType;
 } & Pick<
   ConversationType,
   | 'acceptedMessageRequest'
@@ -190,6 +193,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     const {
       acceptedMessageRequest,
       avatarPath,
+      badge,
       color,
       i18n,
       type,
@@ -198,6 +202,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
       phoneNumber,
       profileName,
       sharedGroupNames,
+      theme,
       title,
       unblurredAvatarPath,
     } = this.props;
@@ -207,6 +212,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}
+          badge={badge}
           color={color}
           conversationType={type}
           i18n={i18n}
@@ -218,6 +224,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
           profileName={profileName}
           sharedGroupNames={sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
+          theme={theme}
           unblurredAvatarPath={unblurredAvatarPath}
         />
       </span>

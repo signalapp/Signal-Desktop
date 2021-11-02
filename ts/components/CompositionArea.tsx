@@ -9,6 +9,7 @@ import type {
   BodyRangeType,
   BodyRangesType,
   LocalizerType,
+  ThemeType,
 } from '../types/Util';
 import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
@@ -117,6 +118,7 @@ export type OwnProps = Readonly<{
   setQuotedMessage(message: undefined): unknown;
   shouldSendHighQualityAttachments: boolean;
   startRecording: () => unknown;
+  theme: ThemeType;
 }>;
 
 export type Props = Pick<
@@ -162,6 +164,7 @@ export const CompositionArea = ({
   onSendMessage,
   processAttachments,
   removeAttachment,
+  theme,
 
   // AttachmentList
   draftAttachments,
@@ -542,6 +545,7 @@ export const CompositionArea = ({
         groupAdmins={groupAdmins}
         i18n={i18n}
         openConversation={openConversation}
+        theme={theme}
       />
     );
   }

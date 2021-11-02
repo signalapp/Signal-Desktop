@@ -15,6 +15,7 @@ import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -79,7 +80,8 @@ const defaultModeSpecificProps = {
 
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  badgesById: {},
   cantAddContactToGroup: action('cantAddContactToGroup'),
   canResizeLeftPane: true,
   clearGroupCreationError: action('clearGroupCreationError'),
@@ -146,6 +148,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ),
   startSearch: action('startSearch'),
   startSettingGroupMetadata: action('startSettingGroupMetadata'),
+  theme: React.useContext(StorybookThemeContext),
   toggleComposeEditingAvatar: action('toggleComposeEditingAvatar'),
   toggleConversationInChooseMembers: action(
     'toggleConversationInChooseMembers'
@@ -159,7 +162,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
 story.add('Inbox: no conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations: [],
@@ -174,7 +177,7 @@ story.add('Inbox: no conversations', () => (
 
 story.add('Inbox: only pinned conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations,
@@ -189,7 +192,7 @@ story.add('Inbox: only pinned conversations', () => (
 
 story.add('Inbox: only non-pinned conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations: [],
@@ -204,7 +207,7 @@ story.add('Inbox: only non-pinned conversations', () => (
 
 story.add('Inbox: only archived conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations: [],
@@ -219,7 +222,7 @@ story.add('Inbox: only archived conversations', () => (
 
 story.add('Inbox: pinned and archived conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations,
@@ -234,7 +237,7 @@ story.add('Inbox: pinned and archived conversations', () => (
 
 story.add('Inbox: non-pinned and archived conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations: [],
@@ -249,7 +252,7 @@ story.add('Inbox: non-pinned and archived conversations', () => (
 
 story.add('Inbox: pinned and non-pinned conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations,
@@ -263,14 +266,14 @@ story.add('Inbox: pinned and non-pinned conversations', () => (
 ));
 
 story.add('Inbox: pinned, non-pinned, and archived conversations', () => (
-  <LeftPane {...createProps()} />
+  <LeftPane {...useProps()} />
 ));
 
 // Search stories
 
 story.add('Search: no results when searching everywhere', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: emptySearchResultsGroup,
@@ -285,7 +288,7 @@ story.add('Search: no results when searching everywhere', () => (
 
 story.add('Search: no results when searching everywhere (SMS)', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: emptySearchResultsGroup,
@@ -300,7 +303,7 @@ story.add('Search: no results when searching everywhere (SMS)', () => (
 
 story.add('Search: no results when searching in a conversation', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: emptySearchResultsGroup,
@@ -316,7 +319,7 @@ story.add('Search: no results when searching in a conversation', () => (
 
 story.add('Search: all results loading', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: { isLoading: true },
@@ -331,7 +334,7 @@ story.add('Search: all results loading', () => (
 
 story.add('Search: some results loading', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: {
@@ -349,7 +352,7 @@ story.add('Search: some results loading', () => (
 
 story.add('Search: has conversations and contacts, but not messages', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: {
@@ -367,7 +370,7 @@ story.add('Search: has conversations and contacts, but not messages', () => (
 
 story.add('Search: all results', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Search,
         conversationResults: {
@@ -393,7 +396,7 @@ story.add('Search: all results', () => (
 
 story.add('Archive: no archived conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: [],
@@ -406,7 +409,7 @@ story.add('Archive: no archived conversations', () => (
 
 story.add('Archive: archived conversations', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: defaultConversations,
@@ -419,7 +422,7 @@ story.add('Archive: archived conversations', () => (
 
 story.add('Archive: searching a conversation', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: defaultConversations,
@@ -438,7 +441,7 @@ story.add('Archive: searching a conversation', () => (
 
 story.add('Compose: no contacts or groups', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
@@ -452,7 +455,7 @@ story.add('Compose: no contacts or groups', () => (
 
 story.add('Compose: some contacts, no groups, no search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
@@ -466,7 +469,7 @@ story.add('Compose: some contacts, no groups, no search term', () => (
 
 story.add('Compose: some contacts, no groups, with a search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
@@ -480,7 +483,7 @@ story.add('Compose: some contacts, no groups, with a search term', () => (
 
 story.add('Compose: some groups, no contacts, no search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
@@ -494,7 +497,7 @@ story.add('Compose: some groups, no contacts, no search term', () => (
 
 story.add('Compose: some groups, no contacts, with search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
@@ -508,7 +511,7 @@ story.add('Compose: some groups, no contacts, with search term', () => (
 
 story.add('Compose: some contacts, some groups, no search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
@@ -522,7 +525,7 @@ story.add('Compose: some contacts, some groups, no search term', () => (
 
 story.add('Compose: some contacts, some groups, with a search term', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
@@ -538,7 +541,7 @@ story.add('Compose: some contacts, some groups, with a search term', () => (
 
 story.add('Captcha dialog: required', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations,
@@ -554,7 +557,7 @@ story.add('Captcha dialog: required', () => (
 
 story.add('Captcha dialog: pending', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Inbox,
         pinnedConversations,
@@ -572,7 +575,7 @@ story.add('Captcha dialog: pending', () => (
 
 story.add('Group Metadata: No Timer', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,
@@ -590,7 +593,7 @@ story.add('Group Metadata: No Timer', () => (
 
 story.add('Group Metadata: Regular Timer', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,
@@ -608,7 +611,7 @@ story.add('Group Metadata: Regular Timer', () => (
 
 story.add('Group Metadata: Custom Timer', () => (
   <LeftPane
-    {...createProps({
+    {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.SetGroupMetadata,
         groupAvatar: undefined,

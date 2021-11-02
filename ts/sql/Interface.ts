@@ -21,6 +21,7 @@ import type { AttachmentType } from '../types/Attachment';
 import type { BodyRangesType } from '../types/Util';
 import type { QualifiedAddressStringType } from '../types/QualifiedAddress';
 import type { UUIDStringType } from '../types/UUID';
+import type { BadgeType } from '../badges/types';
 import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import type { LoggerType } from '../types/Logging';
 
@@ -446,6 +447,10 @@ export type DataInterface = {
   updateEmojiUsage: (shortName: string, timeUsed?: number) => Promise<void>;
   getRecentEmojis: (limit?: number) => Promise<Array<EmojiType>>;
 
+  getAllBadges(): Promise<Array<BadgeType>>;
+  updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): Promise<void>;
+  badgeImageFileDownloaded(url: string, localPath: string): Promise<void>;
+
   removeAll: () => Promise<void>;
   removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
 
@@ -572,6 +577,7 @@ export type ServerInterface = DataInterface & {
   removeKnownDraftAttachments: (
     allStickers: Array<string>
   ) => Promise<Array<string>>;
+  getAllBadgeImageFileLocalPaths: () => Promise<Set<string>>;
 };
 
 export type ClientInterface = DataInterface & {

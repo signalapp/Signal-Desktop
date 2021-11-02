@@ -19,6 +19,7 @@ import type { Query, EmptyQuery } from '../util';
 import updateToSchemaVersion41 from './41-uuid-keys';
 import updateToSchemaVersion42 from './42-stale-reactions';
 import updateToSchemaVersion43 from './43-gv2-uuid';
+import updateToSchemaVersion44 from './44-badges';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1901,6 +1902,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion41,
   updateToSchemaVersion42,
   updateToSchemaVersion43,
+  updateToSchemaVersion44,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

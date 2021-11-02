@@ -175,6 +175,7 @@ function initializeMigrations({
     getDraftPath,
     getPath,
     getStickersPath,
+    getBadgesPath,
     getTempPath,
     openFileInFolder,
     saveAttachmentToDisk,
@@ -206,6 +207,10 @@ function initializeMigrations({
   const getAbsoluteStickerPath = createAbsolutePathGetter(stickersPath);
   const deleteSticker = Attachments.createDeleter(stickersPath);
   const readStickerData = createReader(stickersPath);
+
+  const badgesPath = getBadgesPath(userDataPath);
+  const getAbsoluteBadgeImageFilePath = createAbsolutePathGetter(badgesPath);
+  const writeNewBadgeImageFileData = createWriterForNew(badgesPath, '.svg');
 
   const tempPath = getTempPath(userDataPath);
   const getAbsoluteTempPath = createAbsolutePathGetter(tempPath);
@@ -243,6 +248,7 @@ function initializeMigrations({
     doesAttachmentExist,
     getAbsoluteAttachmentPath,
     getAbsoluteAvatarPath,
+    getAbsoluteBadgeImageFilePath,
     getAbsoluteDraftPath,
     getAbsoluteStickerPath,
     getAbsoluteTempPath,
@@ -305,6 +311,7 @@ function initializeMigrations({
     writeNewAttachmentData: createWriterForNew(attachmentsPath),
     writeNewAvatarData,
     writeNewDraftData,
+    writeNewBadgeImageFileData,
   };
 }
 

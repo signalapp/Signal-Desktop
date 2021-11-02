@@ -348,6 +348,8 @@ declare global {
         deleteAvatar: (path: string) => Promise<void>;
         getAbsoluteAvatarPath: (src: string) => string;
         writeNewAvatarData: (data: Uint8Array) => Promise<string>;
+        getAbsoluteBadgeImageFilePath: (path: string) => string;
+        writeNewBadgeImageFileData: (data: Uint8Array) => Promise<string>;
       };
       Types: {
         Message: {

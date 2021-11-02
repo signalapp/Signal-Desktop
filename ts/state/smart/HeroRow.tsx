@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -7,7 +7,8 @@ import { mapDispatchToProps } from '../actions';
 import { ConversationHero } from '../../components/conversation/ConversationHero';
 
 import type { StateType } from '../reducer';
-import { getIntl } from '../selectors/user';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { getIntl, getTheme } from '../selectors/user';
 
 type ExternalProps = {
   id: string;
@@ -26,6 +27,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     i18n: getIntl(state),
     ...conversation,
     conversationType: conversation.type,
+    badge: getPreferredBadgeSelector(state)(conversation.badges),
+    theme: getTheme(state),
   };
 };
 

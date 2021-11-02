@@ -16,6 +16,8 @@ import {
 import { getSendOptions } from './getSendOptions';
 import { isMe } from './whatTypeOfConversation';
 import * as log from '../logging/log';
+import { getUserLanguages } from './userLanguages';
+import { parseBadgesFromServer } from '../badges/parseBadgesFromServer';
 
 export async function getProfile(
   providedUuid?: string,
@@ -25,6 +27,11 @@ export async function getProfile(
     throw new Error(
       'Conversation.getProfile: window.textsecure.messaging not available'
     );
+  }
+
+  const { updatesUrl } = window.SignalContext.config;
+  if (typeof updatesUrl !== 'string') {
+    throw new Error('getProfile expected updatesUrl to be a defined string');
   }
 
   const id = window.ConversationController.ensureContactIds({
@@ -39,6 +46,11 @@ export async function getProfile(
 
   const clientZkProfileCipher = getClientZkProfileOperations(
     window.getServerPublicParams()
+  );
+
+  const userLanguages = getUserLanguages(
+    navigator.languages,
+    window.getLocale()
   );
 
   let profile;
@@ -92,6 +104,7 @@ export async function getProfile(
           accessKey: getInfo.accessKey,
           profileKeyVersion: profileKeyVersionHex,
           profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+          userLanguages,
         });
       } catch (error) {
         if (error.code === 401 || error.code === 403) {
@@ -102,6 +115,7 @@ export async function getProfile(
           profile = await window.textsecure.messaging.getProfile(identifier, {
             profileKeyVersion: profileKeyVersionHex,
             profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+            userLanguages,
           });
         } else {
           throw error;
@@ -111,6 +125,7 @@ export async function getProfile(
       profile = await window.textsecure.messaging.getProfile(identifier, {
         profileKeyVersion: profileKeyVersionHex,
         profileKeyCredentialRequest: profileKeyCredentialRequestHex,
+        userLanguages,
       });
     }
 
@@ -212,6 +227,24 @@ export async function getProfile(
       c.set({ capabilities: profile.capabilities });
     } else {
       c.unset('capabilities');
+    }
+
+    const badges = parseBadgesFromServer(profile.badges, updatesUrl);
+    if (badges.length) {
+      await window.reduxActions.badges.updateOrCreate(badges);
+      c.set({
+        badges: badges.map(badge => ({
+          id: badge.id,
+          ...('expiresAt' in badge
+            ? {
+                expiresAt: badge.expiresAt,
+                isVisible: badge.isVisible,
+              }
+            : {}),
+        })),
+      });
+    } else {
+      c.unset('badges');
     }
 
     if (profileCredentialRequestContext) {

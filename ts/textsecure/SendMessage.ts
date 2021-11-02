@@ -2041,7 +2041,8 @@ export default class MessageSender {
       accessKey?: string;
       profileKeyVersion?: string;
       profileKeyCredentialRequest?: string;
-    }> = {}
+      userLanguages: ReadonlyArray<string>;
+    }>
   ): Promise<ReturnType<WebAPIType['getProfile']>> {
     const { accessKey } = options;
 

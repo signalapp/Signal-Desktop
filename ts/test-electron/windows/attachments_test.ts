@@ -240,6 +240,12 @@ describe('Attachments', () => {
     it('should return random file name with correct length', () => {
       assert.lengthOf(Attachments.createName(), NAME_LENGTH);
     });
+
+    it('can include a suffix', () => {
+      const result = Attachments.createName('.txt');
+      assert.lengthOf(result, NAME_LENGTH + '.txt'.length);
+      assert(result.endsWith('.txt'));
+    });
   });
 
   describe('getRelativePath', () => {

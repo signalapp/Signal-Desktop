@@ -11,10 +11,13 @@ import { Emojify } from '../Emojify';
 import { GroupDescription } from '../GroupDescription';
 import { About } from '../About';
 import type { GroupV2Membership } from './ConversationDetailsMembershipList';
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { bemGenerator } from './util';
+import { BadgeDialog } from '../../BadgeDialog';
+import type { BadgeType } from '../../../badges/types';
 
 export type Props = {
+  badges?: ReadonlyArray<BadgeType>;
   canEdit: boolean;
   conversation: ConversationType;
   i18n: LocalizerType;
@@ -22,11 +25,18 @@ export type Props = {
   isMe: boolean;
   memberships: Array<GroupV2Membership>;
   startEditing: (isGroupTitle: boolean) => void;
+  theme: ThemeType;
 };
+
+enum ConversationDetailsHeaderActiveModal {
+  ShowingAvatar,
+  ShowingBadges,
+}
 
 const bem = bemGenerator('ConversationDetails-header');
 
 export const ConversationDetailsHeader: React.ComponentType<Props> = ({
+  badges,
   canEdit,
   conversation,
   i18n,
@@ -34,9 +44,13 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
   isMe,
   memberships,
   startEditing,
+  theme,
 }) => {
-  const [showingAvatar, setShowingAvatar] = useState(false);
+  const [activeModal, setActiveModal] = useState<
+    undefined | ConversationDetailsHeaderActiveModal
+  >();
 
+  let preferredBadge: undefined | BadgeType;
   let subtitle: ReactNode;
   if (isGroup) {
     if (conversation.groupDescription) {
@@ -65,17 +79,26 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
         </div>
       </>
     );
+    preferredBadge = badges?.[0];
   }
 
   const avatar = (
     <Avatar
+      badge={preferredBadge}
       conversationType={conversation.type}
       i18n={i18n}
       size={80}
       {...conversation}
       noteToSelf={isMe}
-      onClick={() => setShowingAvatar(true)}
+      onClick={() => {
+        setActiveModal(
+          preferredBadge
+            ? ConversationDetailsHeaderActiveModal.ShowingBadges
+            : ConversationDetailsHeaderActiveModal.ShowingAvatar
+        );
+      }}
       sharedGroupNames={[]}
+      theme={theme}
     />
   );
 
@@ -87,22 +110,44 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
     </div>
   );
 
-  const avatarLightbox =
-    showingAvatar && !isMe ? (
-      <AvatarLightbox
-        avatarColor={conversation.color}
-        avatarPath={conversation.avatarPath}
-        conversationTitle={conversation.title}
-        i18n={i18n}
-        isGroup={isGroup}
-        onClose={() => setShowingAvatar(false)}
-      />
-    ) : null;
+  let modal: ReactNode;
+  switch (activeModal) {
+    case ConversationDetailsHeaderActiveModal.ShowingAvatar:
+      modal = (
+        <AvatarLightbox
+          avatarColor={conversation.color}
+          avatarPath={conversation.avatarPath}
+          conversationTitle={conversation.title}
+          i18n={i18n}
+          isGroup={isGroup}
+          onClose={() => {
+            setActiveModal(undefined);
+          }}
+        />
+      );
+      break;
+    case ConversationDetailsHeaderActiveModal.ShowingBadges:
+      modal = (
+        <BadgeDialog
+          badges={badges || []}
+          firstName={conversation.firstName}
+          i18n={i18n}
+          onClose={() => {
+            setActiveModal(undefined);
+          }}
+          title={conversation.title}
+        />
+      );
+      break;
+    default:
+      modal = null;
+      break;
+  }
 
   if (canEdit) {
     return (
       <div className={bem('root')}>
-        {avatarLightbox}
+        {modal}
         {avatar}
         <button
           type="button"
@@ -136,7 +181,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
 
   return (
     <div className={bem('root')}>
-      {avatarLightbox}
+      {modal}
       {avatar}
       {contents}
       <div className={bem('subtitle')}>{subtitle}</div>

@@ -15,8 +15,9 @@ import { MessageBody } from '../conversation/MessageBody';
 import { ContactName } from '../conversation/ContactName';
 import { TypingAnimation } from '../conversation/TypingAnimation';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { BadgeType } from '../../badges/types';
 
 const MESSAGE_STATUS_ICON_CLASS_NAME = `${MESSAGE_TEXT_CLASS_NAME}__status-icon`;
 
@@ -36,6 +37,7 @@ export type PropsData = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
   | 'avatarPath'
+  | 'badges'
   | 'color'
   | 'draftPreview'
   | 'id'
@@ -56,11 +58,14 @@ export type PropsData = Pick<
   | 'typingContact'
   | 'unblurredAvatarPath'
   | 'unreadCount'
->;
+> & {
+  badge?: BadgeType;
+};
 
 type PropsHousekeeping = {
   i18n: LocalizerType;
   onClick: (id: string) => void;
+  theme: ThemeType;
 };
 
 export type Props = PropsData & PropsHousekeeping;
@@ -69,6 +74,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
   function ConversationListItem({
     acceptedMessageRequest,
     avatarPath,
+    badge,
     color,
     draftPreview,
     i18n,
@@ -85,6 +91,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     profileName,
     sharedGroupNames,
     shouldShowDraft,
+    theme,
     title,
     type,
     typingContact,
@@ -163,6 +170,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       <BaseConversationListItem
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={badge}
         color={color}
         conversationType={type}
         headerDate={lastUpdated}
@@ -180,6 +188,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}
+        theme={theme}
         title={title}
         unreadCount={unreadCount}
         unblurredAvatarPath={unblurredAvatarPath}

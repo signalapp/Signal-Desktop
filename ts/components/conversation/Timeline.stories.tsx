@@ -15,6 +15,7 @@ import type { PropsType } from './Timeline';
 import { Timeline } from './Timeline';
 import type { TimelineItemType } from './TimelineItem';
 import { TimelineItem } from './TimelineItem';
+import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext';
 import { ConversationHero } from './ConversationHero';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { getRandomColor } from '../../test-both/helpers/getRandomColor';
@@ -412,24 +413,31 @@ const getAvatarPath = () =>
   text('avatarPath', '/fixtures/kitten-4-112-112.jpg');
 const getPhoneNumber = () => text('phoneNumber', '+1 (808) 555-1234');
 
-const renderHeroRow = () => (
-  <ConversationHero
-    about={getAbout()}
-    acceptedMessageRequest
-    i18n={i18n}
-    isMe={false}
-    title={getTitle()}
-    avatarPath={getAvatarPath()}
-    name={getName()}
-    profileName={getProfileName()}
-    phoneNumber={getPhoneNumber()}
-    conversationType="direct"
-    onHeightChange={action('onHeightChange in ConversationHero')}
-    sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
-    unblurAvatar={action('unblurAvatar')}
-    updateSharedGroups={noop}
-  />
-);
+const renderHeroRow = () => {
+  const Wrapper = () => {
+    const theme = React.useContext(StorybookThemeContext);
+    return (
+      <ConversationHero
+        about={getAbout()}
+        acceptedMessageRequest
+        i18n={i18n}
+        isMe={false}
+        title={getTitle()}
+        avatarPath={getAvatarPath()}
+        name={getName()}
+        profileName={getProfileName()}
+        phoneNumber={getPhoneNumber()}
+        conversationType="direct"
+        onHeightChange={action('onHeightChange in ConversationHero')}
+        sharedGroupNames={['NYC Rock Climbers', 'Dinner Party']}
+        theme={theme}
+        unblurAvatar={action('unblurAvatar')}
+        updateSharedGroups={noop}
+      />
+    );
+  };
+  return <Wrapper />;
+};
 const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble

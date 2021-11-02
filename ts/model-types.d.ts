@@ -208,6 +208,14 @@ export type ConversationAttributesTypeType = 'private' | 'group';
 export type ConversationAttributesType = {
   accessKey?: string | null;
   addedBy?: string;
+  badges?: Array<
+    | { id: string }
+    | {
+        id: string;
+        expiresAt: number;
+        isVisible: boolean;
+      }
+  >;
   capabilities?: CapabilitiesType;
   color?: string;
   conversationColor?: ConversationColorType;

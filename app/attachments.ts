@@ -13,6 +13,7 @@ import normalizePath from 'normalize-path';
 import {
   getPath,
   getStickersPath,
+  getBadgesPath,
   getDraftPath,
   getTempPath,
   createDeleter,
@@ -24,6 +25,16 @@ export const getAllAttachments = async (
   userDataPath: string
 ): Promise<ReadonlyArray<string>> => {
   const dir = getPath(userDataPath);
+  const pattern = normalizePath(join(dir, '**', '*'));
+
+  const files = await fastGlob(pattern, { onlyFiles: true });
+  return map(files, file => relative(dir, file));
+};
+
+const getAllBadgeImageFiles = async (
+  userDataPath: string
+): Promise<ReadonlyArray<string>> => {
+  const dir = getBadgesPath(userDataPath);
   const pattern = normalizePath(join(dir, '**', '*'));
 
   const files = await fastGlob(pattern, { onlyFiles: true });
@@ -99,6 +110,27 @@ export const deleteAllStickers = async ({
   }
 
   console.log(`deleteAllStickers: deleted ${stickers.length} files`);
+};
+
+export const deleteAllBadges = async ({
+  userDataPath,
+  pathsToKeep,
+}: {
+  userDataPath: string;
+  pathsToKeep: Set<string>;
+}): Promise<void> => {
+  const deleteFromDisk = createDeleter(getBadgesPath(userDataPath));
+
+  let filesDeleted = 0;
+  for (const file of await getAllBadgeImageFiles(userDataPath)) {
+    if (!pathsToKeep.has(file)) {
+      // eslint-disable-next-line no-await-in-loop
+      await deleteFromDisk(file);
+      filesDeleted += 1;
+    }
+  }
+
+  console.log(`deleteAllBadges: deleted ${filesDeleted} files`);
 };
 
 export const deleteAllDraftAttachments = async ({

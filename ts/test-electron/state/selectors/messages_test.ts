@@ -129,6 +129,7 @@ describe('state/selectors/messages', () => {
       isMe: false,
       sharedGroupNames: [],
       acceptedMessageRequest: true,
+      badges: [],
     };
 
     it('returns false for disabled v1 groups', () => {
@@ -240,6 +241,7 @@ describe('state/selectors/messages', () => {
       isMe: false,
       sharedGroupNames: [],
       acceptedMessageRequest: true,
+      badges: [],
     };
 
     it('returns false for disabled v1 groups', () => {

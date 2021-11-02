@@ -14,6 +14,8 @@ import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -37,6 +39,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     ? overrideProps.acceptedMessageRequest
     : true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
+  badge: overrideProps.badge,
   blur: overrideProps.blur,
   color: select('color', colorMap, overrideProps.color || AvatarColors[0]),
   conversationType: select(
@@ -64,6 +67,27 @@ story.add('Avatar', () => {
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('With badge', () => {
+  const Wrapper = () => {
+    const theme = React.useContext(StorybookThemeContext);
+    const props = createProps({
+      avatarPath: '/fixtures/kitten-3-64-64.jpg',
+      badge: getFakeBadge(),
+      theme,
+    });
+
+    return (
+      <>
+        {sizes.map(size => (
+          <Avatar key={size} {...props} size={size} />
+        ))}
+      </>
+    );
+  };
+
+  return <Wrapper />;
 });
 
 story.add('Wide image', () => {

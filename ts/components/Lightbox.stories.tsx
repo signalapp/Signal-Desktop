@@ -280,6 +280,7 @@ story.add('Conversation Header', () => (
     getConversation={() => ({
       acceptedMessageRequest: true,
       avatarPath: '/fixtures/kitten-1-64-64.jpg',
+      badges: [],
       id: '1234',
       isMe: false,
       name: 'Test',

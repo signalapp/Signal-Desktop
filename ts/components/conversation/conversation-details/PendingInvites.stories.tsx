@@ -31,6 +31,7 @@ const sortedGroupMembers = Array.from(Array(32)).map((_, i) =>
 const conversation: ConversationType = {
   acceptedMessageRequest: true,
   areWeAdmin: true,
+  badges: [],
   id: '',
   lastUpdated: 0,
   markedUnread: false,

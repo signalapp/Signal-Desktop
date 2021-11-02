@@ -60,10 +60,8 @@ export const getRelativePath = (name: string): string => {
   return join(prefix, name);
 };
 
-export const createName = (): string => {
-  const buffer = getRandomBytes(32);
-  return Bytes.toHex(buffer);
-};
+export const createName = (suffix = ''): string =>
+  `${Bytes.toHex(getRandomBytes(32))}${suffix}`;
 
 export const copyIntoAttachmentsDirectory = (
   root: string
@@ -107,7 +105,8 @@ export const copyIntoAttachmentsDirectory = (
 };
 
 export const createWriterForNew = (
-  root: string
+  root: string,
+  suffix?: string
 ): ((bytes: Uint8Array) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
@@ -118,7 +117,7 @@ export const createWriterForNew = (
       throw new TypeError("'bytes' must be a typed array");
     }
 
-    const name = createName();
+    const name = createName(suffix);
     const relativePath = getRelativePath(name);
     return createWriterForExisting(root)({
       data: bytes,
