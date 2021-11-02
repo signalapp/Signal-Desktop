@@ -343,7 +343,7 @@ export const InConversationCallContainer = () => {
               showAudioInputMenu(currentConnectedAudioInputs, e);
             }}
           />
-          <ShowInFullScreenButton isDisabled={remoteStreamVideoIsMuted} />
+          {!remoteStreamVideoIsMuted && <ShowInFullScreenButton />}
         </InConvoCallWindowControls>
         <VideoInputMenu triggerId={videoTriggerId} camerasList={currentConnectedCameras} />
         <AudioInputMenu triggerId={audioTriggerId} audioInputsList={currentConnectedAudioInputs} />

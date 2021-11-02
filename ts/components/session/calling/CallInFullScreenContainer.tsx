@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
@@ -21,7 +21,7 @@ const CallInFullScreenVisible = styled.div`
   left: 0;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: black;
   border: var(--session-border);
   opacity: 1;
 `;
@@ -47,6 +47,14 @@ export const CallInFullScreenContainer = () => {
   useKey('Escape', () => {
     toggleFullScreenOFF();
   });
+
+  useEffect(() => {
+    // close fullscreen mode if the remote video gets muted
+    if (remoteStreamVideoIsMuted) {
+      dispatch(setFullScreenCall(false));
+    }
+  }, [remoteStreamVideoIsMuted]);
+
   if (
     !hasOngoingCall ||
     !ongoingCallPubkey ||
