@@ -111,6 +111,8 @@ window.SignalContext.log = {
 };
 
 window.onerror = (_message, _script, _line, _col, error) => {
+  if (_message === "ResizeObserver loop limit exceeded")
+      return
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
   log.error(`Top-level unhandled error: ${errorInfo}`);
 };
