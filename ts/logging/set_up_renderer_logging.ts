@@ -112,14 +112,16 @@ window.SignalContext.log = {
 
 window.onerror = (_message, _script, _line, _col, error) => {
   const errorInfo = error && error.stack ? error.stack : JSON.stringify(error);
-  log.error(`Top-level unhandled error: ${errorInfo}`);
+  if (errorInfo !== 'null')
+      log.error(`Top-level unhandled error: ${errorInfo}`);
 };
 
 window.addEventListener('unhandledrejection', rejectionEvent => {
   const error = rejectionEvent.reason;
   const errorString =
     error && error.stack ? error.stack : JSON.stringify(error);
-  log.error(`Top-level unhandled promise rejection: ${errorString}`);
+  if (errorInfo !== 'null')
+      log.error(`Top-level unhandled promise rejection: ${errorString}`);
 });
 
 initLogger(
