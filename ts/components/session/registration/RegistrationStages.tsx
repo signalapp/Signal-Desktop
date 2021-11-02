@@ -63,6 +63,7 @@ export async function signUp(signUpDetails: {
       id: 'hasSyncedInitialConfigurationItem',
       value: true,
     });
+    UserUtils.setSignWithRecoveryPhrase(false);
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -93,6 +94,8 @@ export async function signInWithRecovery(signInDetails: {
     await resetRegistration();
 
     await registerSingleDevice(userRecoveryPhrase, 'english', trimName);
+    UserUtils.setSignWithRecoveryPhrase(true);
+
     trigger('openInbox');
   } catch (e) {
     await resetRegistration();
@@ -119,6 +122,7 @@ export async function signInWithLinking(signInDetails: { userRecoveryPhrase: str
       window.Whisper.events.on('configurationMessageReceived', (displayName: string) => {
         window.Whisper.events.off('configurationMessageReceived');
         UserUtils.setSignInByLinking(false);
+        UserUtils.setSignWithRecoveryPhrase(true);
         done(displayName);
 
         displayNameFromNetwork = displayName;

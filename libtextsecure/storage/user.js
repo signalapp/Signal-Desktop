@@ -36,6 +36,17 @@
       textsecure.storage.put('is_sign_in_by_linking', isLinking);
     },
 
+    isSignWithRecoveryPhrase() {
+      const isRecoveryPhraseUsed = textsecure.storage.get('is_sign_in_recovery_phrase');
+      if (isRecoveryPhraseUsed === undefined) {
+        return false;
+      }
+      return isRecoveryPhraseUsed;
+    },
+    setSignWithRecoveryPhrase(isRecoveryPhraseUsed) {
+      textsecure.storage.put('is_sign_in_recovery_phrase', isRecoveryPhraseUsed);
+    },
+
     getLastProfileUpdateTimestamp() {
       return textsecure.storage.get('last_profile_update_timestamp');
     },
