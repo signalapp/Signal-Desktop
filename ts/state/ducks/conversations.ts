@@ -2473,7 +2473,7 @@ export function reducer(
             ? existingConversation.scrollToMessageCounter + 1
             : 0,
           scrollToBottomCounter: existingConversation
-            ? existingConversation.scrollToBottomCounter + 1
+            ? existingConversation.scrollToBottomCounter
             : 0,
           messageIds,
           metrics: {
