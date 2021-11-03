@@ -51,7 +51,7 @@ export class ViewedReceiptsJobQueue extends JobQueue<ViewedReceiptsJobData> {
     }
 
     try {
-      await sendViewedReceipt(data.viewedReceipt);
+      await sendViewedReceipt(data.viewedReceipt, log);
     } catch (err: unknown) {
       await handleCommonJobRequestError({ err, log, timeRemaining });
     }

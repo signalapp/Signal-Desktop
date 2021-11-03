@@ -45,6 +45,7 @@ import * as Bytes from '../Bytes';
 import {
   canReply,
   getAttachmentsForMessage,
+  isIncoming,
   isOutgoing,
   isTapToView,
 } from '../state/selectors/message';
@@ -919,14 +920,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
       message.set(markViewed(message.attributes, Date.now()));
 
-      viewedReceiptsJobQueue.add({
-        viewedReceipt: {
-          messageId,
-          senderE164,
-          senderUuid,
-          timestamp,
-        },
-      });
+      if (isIncoming(message.attributes)) {
+        viewedReceiptsJobQueue.add({
+          viewedReceipt: {
+            messageId,
+            senderE164,
+            senderUuid,
+            timestamp,
+          },
+        });
+      }
 
       viewSyncJobQueue.add({
         viewSyncs: [
