@@ -37,6 +37,7 @@ export default function updateToSchemaVersion43(
 
   type LegacyConversationType = {
     id: string;
+    groupId: string;
     membersV2?: Array<{
       conversationId: string;
     }>;
@@ -78,6 +79,8 @@ export default function updateToSchemaVersion43(
     const legacy = (convo as unknown) as LegacyConversationType;
     let result = convo;
 
+    const logId = `(${legacy.id}) groupv2(${legacy.groupId})`;
+
     const memberKeys: Array<keyof LegacyConversationType> = [
       'membersV2',
       'pendingMembersV2',
@@ -98,7 +101,7 @@ export default function updateToSchemaVersion43(
           });
           if (!uuid) {
             logger.warn(
-              `updateToSchemaVersion43: ${legacy.id}.${key} UUID not found ` +
+              `updateToSchemaVersion43: ${logId}.${key} UUID not found ` +
                 `for ${member.conversationId}`
             );
             return undefined;
@@ -141,14 +144,14 @@ export default function updateToSchemaVersion43(
       if (oldValue.length !== 0) {
         logger.info(
           `updateToSchemaVersion43: migrated ${oldValue.length} ${key} ` +
-            `entries to ${newValue.length} for ${legacy.id}`
+            `entries to ${newValue.length} for ${logId}`
         );
       }
 
       if (addedByCount > 0) {
         logger.info(
           `updateToSchemaVersion43: migrated ${addedByCount} addedByUserId ` +
-            `in ${key} for ${legacy.id}`
+            `in ${key} for ${logId}`
         );
       }
     }
