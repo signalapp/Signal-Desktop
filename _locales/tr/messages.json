@@ -6505,8 +6505,8 @@
         "message": "Ekran okuyucu kullanıcıları için sol bölmedeki konuşma listesinde gezinme artık daha kolay.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

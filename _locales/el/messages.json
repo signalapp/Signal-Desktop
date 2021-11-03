@@ -614,11 +614,11 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Φόρτωση προεσκόπισης...",
+        "message": "Φόρτωση προεπισκόπησης...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
-        "message": "Πρόχειρη προεσκόπιση συνδέσμου για $domain$",
+        "message": "Πρόχειρη προεπισκόπηση συνδέσμου για $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -628,7 +628,7 @@
         }
     },
     "previewThumbnail": {
-        "message": "Προεσκόπιση συνδέσμου για $domain$",
+        "message": "Προεπισκόπηση συνδέσμου για $domain$",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
             "path": {
@@ -6505,8 +6505,8 @@
         "message": "Οι χρήστες αναγνώστη οθόνης θα μπορούν να πλοηγηθούν στη λίστα συνομιλιών στο αριστερό τμήμα πιο εύκολα.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

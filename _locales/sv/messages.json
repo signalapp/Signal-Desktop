@@ -3586,7 +3586,7 @@
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Avvisa",
+        "message": "Neka",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -3884,23 +3884,23 @@
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
-        "message": "Ljud av i en timme",
+        "message": "Tysta i en timme",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
-        "message": "Ljud av i 8 timmar",
+        "message": "Tysta i 8 timmar",
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Ljud av i en dag",
+        "message": "Tysta i en dag",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Ljud av i en vecka",
+        "message": "Tysta i en vecka",
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Ljud av för alltid",
+        "message": "Tysta för alltid",
         "description": "Label for muting the conversation"
     },
     "unmute": {
@@ -3908,11 +3908,11 @@
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Ljudet avstängt för alltid",
+        "message": "Tystad för alltid",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
-        "message": "Ljudet avstängt till $duration$",
+        "message": "Tystad till $duration$",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted",
         "placeholders": {
             "duration": {
@@ -4986,11 +4986,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Din förfrågan om att gå med i gruppen har avvisats av en administratör.",
+        "message": "Din förfrågan om att gå med i gruppen har nekats av en administratör.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Du avvisade en begäran om att gå med i gruppen från $joinerName$.",
+        "message": "Du nekade en begäran om att gå med i gruppen från $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5010,7 +5010,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ avvisade en begäran om att gå med i gruppen från $joinerName$.",
+        "message": "$adminName$ nekade en begäran om att gå med i gruppen från $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5562,7 +5562,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Avvisa förfrågan från \"$name$\"?",
+        "message": "Neka förfrågan från \"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5644,7 +5644,7 @@
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "Avvisa förfrågan",
+        "message": "Neka förfrågan",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
@@ -6505,8 +6505,8 @@
         "message": "Skärmläsare bör nu ha lättare att navigera genom konversationslistan i den vänstra rutan.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

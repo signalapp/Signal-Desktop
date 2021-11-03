@@ -6505,8 +6505,8 @@
         "message": "螢幕閱讀器使用者現在應該可以更輕鬆地瀏覽左側面版中的對話清單。",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

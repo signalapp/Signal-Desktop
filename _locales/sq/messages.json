@@ -6505,8 +6505,8 @@
         "message": "Përdoruesit e lexuesit të ekrani tani do të shohin se është më e lehtë të lëvizet nëpër listën e bisedave më kuadratin majtas.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

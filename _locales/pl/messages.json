@@ -6505,8 +6505,8 @@
         "message": "Użytkownicy czytników ekranu powinni móc teraz łatwiej nawigować po liście konwersacji na lewym panelu.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

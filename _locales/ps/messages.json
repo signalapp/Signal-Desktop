@@ -6505,8 +6505,8 @@
         "message": "د سکرین لوستونکی کارونکی اوس باید هغه په اسانۍ سره ومومي تر څو په کېڼه تخته کې د محاورې لیست په اسانۍ سره ښکته پورته کړي.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

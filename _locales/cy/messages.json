@@ -6505,8 +6505,8 @@
         "message": "Dylai ddefnyddwyr darllenwyr sgrin ei chael hi'n haws i lywio drwy'r rhestrau sgyrsiau ar y paen chwith.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

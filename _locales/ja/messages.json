@@ -6505,8 +6505,8 @@
         "message": "スクリーンリーダーをお使いの方は、左ペインのチャットリストを簡単に操作できるようになりました。",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
-        "message": "このバージョンでは、Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
-        "description": "Release notes for v5.22"
+    "WhatsNew__bugfixes": {
+        "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

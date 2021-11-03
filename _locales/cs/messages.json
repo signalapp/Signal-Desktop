@@ -6505,8 +6505,8 @@
         "message": "Uživatelé čtečky obrazovky by se nyní měli snadněji pohybovat v seznamu konverzací na levém panelu.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

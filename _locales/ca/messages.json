@@ -6505,8 +6505,8 @@
         "message": "Els usuaris de lectors de pantalla haurien de trobar ara més fàcil de navegar per la llista de converses del panell esquerre.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

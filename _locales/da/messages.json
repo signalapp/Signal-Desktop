@@ -732,7 +732,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Tilmeld Beta",
+        "message": "Tilmeld dig Beta-versionen",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -6240,7 +6240,7 @@
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "Gratis at chatte",
+        "message": "Klar til at chatte",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
@@ -6505,8 +6505,8 @@
         "message": "Brugere af skærmlæsere bør nu have lettere ved at navigere i samtalelisten i venstre rude.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
-        "message": "Denne version indeholder en række små justeringer og fejlrettelser for at sikre, at Signal kører problemfrit.",
-        "description": "Release notes for v5.22"
+    "WhatsNew__bugfixes": {
+        "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

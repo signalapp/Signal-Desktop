@@ -6505,8 +6505,8 @@
         "message": "Пользователям программ чтения с экрана теперь должно быть легче перемещаться по списку разговоров в панели слева.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

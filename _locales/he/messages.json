@@ -470,11 +470,11 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "יומן זה יפורסם באופן ציבורי ומקוון עבור מתנדבים לצורך צפייה. אתה יכול להוריד את היומן המלא לפני הגשה.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "משהו השתבש עם ההעלאה! אנא שלח דוא״ל אל support@signal.org וצרף את היומן שלך כקובץ טקסט.",
         "description": ""
     },
     "debugLogSuccess": {
@@ -482,7 +482,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "קובץ יומן ניפוי תקלים הועלה. כשתיצור קשר עם התמיכה, העתק את הקישור למטה וצרף אותו ביחד עם תיאור של הבעיה שראית וצעדים להפיק אותה מחדש.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,7 +648,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "שולחן העבודה נתקל בשגיאת פיענוח.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
@@ -962,7 +962,7 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "הייתה שגיאה עם מקליט הקול.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
@@ -6474,39 +6474,39 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.19--1": {
-        "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
+        "message": "קח נשימה והירגע לתוך ההנפשות החדשות והחלונות הקופצים.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+        "message": "החלפת פריסות מקלדת היא תמיד קצת ערמומית, אבל קיצורי דרך ממקלדת עכשיו עוברים איתך.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
-        "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
+        "message": "כאשר שיחה קבוצתית מתחילה, תקבל עכשיו התראה. לעולם לא תאחר שוב, אלא אם אתה רוצה לאחר.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
+        "message": "מאפיין זה מיועד לכל מי שמגיב עם 💅 יותר מאשר עם 👍: אתה יכול עכשיו להתאים אישית את האימוג'ים שמופיעים כברירת מחדל כשאתה רוצה להגיב אל הודעה.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.20": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
         "description": "Release notes for v5.20"
     },
     "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "message": "קבל עוד מידע במבט חטוף 👀. החלונית השמאלית קיבלה מראה וסגנון חדשים 😎.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "message": "דע את המתי אל המה. חותמת הזמן, אם זמינה, משויכת עם נמסר, נקרא, נשלח, ומעמדי הודעה אחרים מוצגים עכשיו במסך הפרטים של ההודעה.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--3": {
-        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "message": "משתמשי קורא מסך יכולים עכשיו לנווט בקלות יותר ברשימת השיחות בחלונית השמאלית.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.22"
+    "WhatsNew__bugfixes": {
+        "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
+        "description": "Release notes for releases that only include bug fixes"
     }
 }
