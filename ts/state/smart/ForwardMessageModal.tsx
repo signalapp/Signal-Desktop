@@ -17,6 +17,7 @@ import type { AttachmentType } from '../../types/Attachment';
 
 export type SmartForwardMessageModalProps = {
   attachments?: Array<AttachmentType>;
+  conversationId: string;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
@@ -40,6 +41,7 @@ const mapStateToProps = (
 ): DataPropsType => {
   const {
     attachments,
+    conversationId,
     doForwardMessage,
     isSticker,
     messageBody,
@@ -56,6 +58,7 @@ const mapStateToProps = (
   return {
     attachments,
     candidateConversations,
+    conversationId,
     doForwardMessage,
     i18n: getIntl(state),
     isSticker,

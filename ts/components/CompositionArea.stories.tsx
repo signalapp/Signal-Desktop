@@ -63,6 +63,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   draftText: overrideProps.draftText || undefined,
   clearQuotedMessage: action('clearQuotedMessage'),
   getQuotedMessage: action('getQuotedMessage'),
+  scrollToBottom: action('scrollToBottom'),
   sortedGroupMembers: [],
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),

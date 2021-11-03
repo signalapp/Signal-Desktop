@@ -245,6 +245,7 @@ export type ConversationMessageType = {
   messageIds: Array<string>;
   metrics: MessageMetricsType;
   resetCounter: number;
+  scrollToBottomCounter: number;
   scrollToMessageId?: string;
   scrollToMessageCounter: number;
 };
@@ -592,6 +593,12 @@ export type SetSelectedConversationPanelDepthActionType = {
   type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
   payload: { panelDepth: number };
 };
+export type ScrollToBpttomActionType = {
+  type: 'SCROLL_TO_BOTTOM';
+  payload: {
+    conversationId: string;
+  };
+};
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
   payload: {
@@ -741,6 +748,7 @@ export type ConversationActionType =
   | ReplaceAvatarsActionType
   | ReviewGroupMemberNameCollisionActionType
   | ReviewMessageRequestNameCollisionActionType
+  | ScrollToBpttomActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
   | SetComposeGroupAvatarActionType
@@ -810,6 +818,7 @@ export const actions = {
   reviewMessageRequestNameCollision,
   saveAvatarToDisk,
   saveUsername,
+  scrollToBottom,
   scrollToMessage,
   selectMessage,
   setComposeGroupAvatar,
@@ -1685,6 +1694,15 @@ function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
 function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionType {
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
 }
+function scrollToBottom(conversationId: string): ScrollToBpttomActionType {
+  return {
+    type: 'SCROLL_TO_BOTTOM',
+    payload: {
+      conversationId,
+    },
+  };
+}
+
 function scrollToMessage(
   conversationId: string,
   messageId: string
@@ -2454,6 +2472,9 @@ export function reducer(
           scrollToMessageCounter: existingConversation
             ? existingConversation.scrollToMessageCounter + 1
             : 0,
+          scrollToBottomCounter: existingConversation
+            ? existingConversation.scrollToBottomCounter + 1
+            : 0,
           messageIds,
           metrics: {
             ...metrics,
@@ -2533,6 +2554,28 @@ export function reducer(
       },
     };
   }
+  if (action.type === 'SCROLL_TO_BOTTOM') {
+    const { payload } = action;
+    const { conversationId } = payload;
+    const { messagesByConversation } = state;
+    const existingConversation = messagesByConversation[conversationId];
+
+    if (!existingConversation) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesByConversation: {
+        ...messagesByConversation,
+        [conversationId]: {
+          ...existingConversation,
+          scrollToBottomCounter: existingConversation.scrollToBottomCounter + 1,
+        },
+      },
+    };
+  }
+
   if (action.type === 'SCROLL_TO_MESSAGE') {
     const { payload } = action;
     const { conversationId, messageId } = payload;

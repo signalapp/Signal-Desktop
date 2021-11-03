@@ -42,6 +42,7 @@ const candidateConversations = Array.from(Array(100), () =>
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   attachments: overrideProps.attachments,
+  conversationId: 'conversation-id',
   candidateConversations,
   doForwardMessage: action('doForwardMessage'),
   i18n,

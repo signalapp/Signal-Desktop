@@ -1654,6 +1654,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore,
         {
           attachments,
+          conversationId: this.model.id,
           doForwardMessage: async (
             conversationIds: Array<string>,
             messageBody?: string,

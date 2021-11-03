@@ -118,6 +118,7 @@ export type OwnProps = Readonly<{
   setQuotedMessage(message: undefined): unknown;
   shouldSendHighQualityAttachments: boolean;
   startRecording: () => unknown;
+  scrollToBottom: (converstionId: string) => unknown;
   theme: ThemeType;
 }>;
 
@@ -196,6 +197,7 @@ export const CompositionArea = ({
   draftBodyRanges,
   clearQuotedMessage,
   getQuotedMessage,
+  scrollToBottom,
   sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
@@ -622,19 +624,21 @@ export const CompositionArea = ({
         <div className="CompositionArea__input">
           <CompositionInput
             i18n={i18n}
+            conversationId={conversationId}
+            clearQuotedMessage={clearQuotedMessage}
             disabled={disabled}
-            large={large}
+            draftBodyRanges={draftBodyRanges}
+            draftText={draftText}
+            getQuotedMessage={getQuotedMessage}
             inputApi={inputApiRef}
+            large={large}
+            onDirtyChange={setDirty}
+            onEditorStateChange={onEditorStateChange}
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
-            onEditorStateChange={onEditorStateChange}
             onTextTooLong={onTextTooLong}
-            onDirtyChange={setDirty}
+            scrollToBottom={scrollToBottom}
             skinTone={skinTone}
-            draftText={draftText}
-            draftBodyRanges={draftBodyRanges}
-            clearQuotedMessage={clearQuotedMessage}
-            getQuotedMessage={getQuotedMessage}
             sortedGroupMembers={sortedGroupMembers}
           />
         </div>

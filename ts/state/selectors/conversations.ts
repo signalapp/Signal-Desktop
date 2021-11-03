@@ -824,6 +824,7 @@ export function _conversationMessagesSelector(
     messageIds,
     metrics,
     resetCounter,
+    scrollToBottomCounter,
     scrollToMessageId,
     scrollToMessageCounter,
   } = conversation;
@@ -862,7 +863,7 @@ export function _conversationMessagesSelector(
     isLoadingMessages,
     loadCountdownStart,
     items,
-    isNearBottom,
+    isNearBottom: isNearBottom || false,
     messageHeightChangeIndex:
       isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
         ? messageHeightChangeIndex
@@ -872,6 +873,7 @@ export function _conversationMessagesSelector(
         ? oldestUnreadIndex
         : undefined,
     resetCounter,
+    scrollToBottomCounter,
     scrollToIndex:
       isNumber(scrollToIndex) && scrollToIndex >= 0 ? scrollToIndex : undefined,
     scrollToIndexCounter: scrollToMessageCounter,
@@ -907,10 +909,16 @@ export const getConversationMessagesSelector = createSelector(
           haveNewest: false,
           haveOldest: false,
           isLoadingMessages: false,
+          isNearBottom: false,
+          items: [],
+          loadCountdownStart: undefined,
+          messageHeightChangeIndex: undefined,
+          oldestUnreadIndex: undefined,
           resetCounter: 0,
+          scrollToBottomCounter: 0,
+          scrollToIndex: undefined,
           scrollToIndexCounter: 0,
           totalUnread: 0,
-          items: [],
         };
       }
 
