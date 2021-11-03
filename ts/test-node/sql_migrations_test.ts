@@ -626,8 +626,12 @@ describe('SQL migrations test', () => {
       const UUID_B = generateGuid();
       const UUID_C = generateGuid();
 
+      const rawConvoA = { id: 'a', groupId: 'gv2a', uuid: UUID_A };
+      const rawConvoB = { id: 'b', groupId: 'gv2b', uuid: UUID_B };
+
       const rawConvoC = {
         id: 'c',
+        groupId: 'gv2c',
         uuid: UUID_C,
         membersV2: [
           { conversationId: 'a', joinedAtVersion: 1 },
@@ -668,8 +672,8 @@ describe('SQL migrations test', () => {
         INSERT INTO conversations
           (id, uuid, json)
           VALUES
-          ('a', '${UUID_A}', '${JSON.stringify({ id: 'a', uuid: UUID_A })}'),
-          ('b', '${UUID_B}', '${JSON.stringify({ id: 'b', uuid: UUID_B })}'),
+          ('a', '${UUID_A}', '${JSON.stringify(rawConvoA)}'),
+          ('b', '${UUID_B}', '${JSON.stringify(rawConvoB)}'),
           ('c', '${UUID_C}', '${JSON.stringify(rawConvoC)}');
 
         INSERT INTO messages
@@ -714,6 +718,7 @@ describe('SQL migrations test', () => {
       assert.strictEqual(members, `${UUID_A} ${UUID_B}`);
       assert.deepStrictEqual(JSON.parse(convoJSON), {
         id: 'c',
+        groupId: 'gv2c',
         uuid: UUID_C,
         membersV2: [
           { uuid: UUID_A, joinedAtVersion: 1 },
