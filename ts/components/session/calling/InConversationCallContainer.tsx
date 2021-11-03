@@ -31,13 +31,13 @@ const VideoContainer = styled.div`
 const InConvoCallWindow = styled.div`
   padding: 1rem;
   display: flex;
-  /* height: 50%; */
 
   background-color: hsl(0, 0%, 15.7%);
 
   flex-shrink: 1;
-  min-height: 200px;
+  min-height: 80px;
   align-items: center;
+  flex-grow: 1;
 `;
 
 const InConvoCallWindowControls = styled.div`

@@ -13,19 +13,29 @@ const SlyledSplitView = styled.div`
   flex-direction: column;
 `;
 
-const SplitViewDivider = styled.div`
-  width: calc(100% - 2rem);
-  height: 2px;
-  margin: 1rem;
-  border: 2px solid #808080;
+const Divider = styled.div`
+  width: 100%;
   cursor: row-resize;
+  height: 5px;
+  background-color: var(--color-cell-background);
+  margin-top: 2px;
+`;
+
+const DividerHandle = styled.div`
+  width: 10%;
+  height: 5px;
+  cursor: row-resize;
+  background-color: var(--color-text);
   flex-shrink: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const StyledTop = styled.div`
-  background: red;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `;
 
 const TopSplitViewPanel = ({
@@ -46,13 +56,14 @@ const TopSplitViewPanel = ({
       }
 
       topRef.current.style.height = `${topHeight}px`;
+      topRef.current.style.minHeight = `${topHeight}px`;
     }
   }, [topRef, topHeight, setTopHeight]);
 
   return <StyledTop ref={topRef}>{children}</StyledTop>;
 };
 
-const MIN_HEIGHT_TOP = 300;
+const MIN_HEIGHT_TOP = 200;
 const MIN_HEIGHT_BOTTOM = 0;
 
 export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
@@ -65,16 +76,26 @@ export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
   const [dragging, setDragging] = useState(false);
 
   const splitPaneRef = useRef<HTMLDivElement | null>(null);
+  const dividerRef = useRef<HTMLDivElement | null>(null);
 
-  const onMouseDown = (e: any) => {
+  function onMouseDown(e: any) {
     setSeparatorYPosition(e.clientY);
     setDragging(true);
-  };
+  }
 
-  const onMouseMove = (e: any) => {
-    if (dragging && topHeight && separatorYPosition) {
+  function onWindowResize() {
+    if ((dividerRef?.current?.offsetTop || 0) + 200 > window.innerHeight) {
+      const clientY = Math.max(MIN_HEIGHT_TOP + 200, window.innerHeight / 2);
+      onMouseMove({ clientY }, true);
+    }
+  }
+
+  function onMouseUp() {
+    setDragging(false);
+  }
+  function onMouseMove(e: { clientY: number }, overrideIsDragging = false) {
+    if ((dragging || overrideIsDragging) && topHeight && separatorYPosition) {
       const newTopHeight = topHeight + e.clientY - separatorYPosition;
-
       setSeparatorYPosition(e.clientY);
       if (newTopHeight < MIN_HEIGHT_TOP) {
         setTopHeight(MIN_HEIGHT_TOP);
@@ -90,27 +111,27 @@ export const SplitViewContainer: React.FunctionComponent<SplitViewProps> = ({
       }
       setTopHeight(newTopHeight);
     }
-  };
+  }
   useEffect(() => {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('resize', onWindowResize);
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('resize', onWindowResize);
     };
   });
-
-  const onMouseUp = () => {
-    setDragging(false);
-  };
 
   return (
     <SlyledSplitView ref={splitPaneRef}>
       {!disableTop && (
         <TopSplitViewPanel topHeight={topHeight} setTopHeight={setTopHeight}>
           {top}
-          <SplitViewDivider onMouseDown={onMouseDown} />
+          <Divider ref={dividerRef} onMouseDown={onMouseDown}>
+            <DividerHandle />
+          </Divider>
         </TopSplitViewPanel>
       )}
       {bottom}

@@ -155,6 +155,7 @@
   min-height: min-content;
   background: var(--color-cell-background);
   border-top: var(--border-session);
+  z-index: 1;
 
   .session-icon-button {
     // & > .session-icon-button {
