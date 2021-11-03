@@ -6,9 +6,7 @@ import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener
 import { setFullScreenCall } from '../../../state/ducks/conversations';
 import {
   getCallIsInFullScreen,
-  getHasOngoingCall,
-  getHasOngoingCallWithPubkey,
-  getSelectedConversationKey,
+  getHasOngoingCallWithFocusedConvo,
 } from '../../../state/selectors/conversations';
 import { StyledVideoElement } from './DraggableCallContainer';
 
@@ -28,9 +26,7 @@ const CallInFullScreenVisible = styled.div`
 
 export const CallInFullScreenContainer = () => {
   const dispatch = useDispatch();
-  const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const hasOngoingCall = useSelector(getHasOngoingCall);
+  const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
   const hasOngoingCallFullScreen = useSelector(getCallIsInFullScreen);
 
   const { remoteStream, remoteStreamVideoIsMuted } = useVideoCallEventsListener(
@@ -55,12 +51,7 @@ export const CallInFullScreenContainer = () => {
     }
   }, [remoteStreamVideoIsMuted]);
 
-  if (
-    !hasOngoingCall ||
-    !ongoingCallPubkey ||
-    !hasOngoingCallFullScreen ||
-    selectedConversationKey !== ongoingCallPubkey
-  ) {
+  if (!ongoingCallWithFocused || !hasOngoingCallFullScreen) {
     return null;
   }
 

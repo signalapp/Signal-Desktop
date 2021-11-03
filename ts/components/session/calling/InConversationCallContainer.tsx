@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import _ from 'underscore';
 import { CallManager, ToastUtils, UserUtils } from '../../../session/utils';
 import {
-  getHasOngoingCall,
   getHasOngoingCallWith,
+  getHasOngoingCallWithFocusedConvo,
   getHasOngoingCallWithPubkey,
-  getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
@@ -32,11 +31,11 @@ const VideoContainer = styled.div`
 const InConvoCallWindow = styled.div`
   padding: 1rem;
   display: flex;
-  height: 50%;
+  /* height: 50%; */
 
   background-color: hsl(0, 0%, 15.7%);
 
-  flex-shrink: 0;
+  flex-shrink: 1;
   min-height: 200px;
   align-items: center;
 `;
@@ -248,10 +247,9 @@ const handleMicrophoneToggle = async (
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
-  const selectedConversationKey = useSelector(getSelectedConversationKey);
-  const hasOngoingCall = useSelector(getHasOngoingCall);
 
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
+  const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
   const videoRefRemote = useRef<HTMLVideoElement>(null);
   const videoRefLocal = useRef<HTMLVideoElement>(null);
@@ -278,7 +276,7 @@ export const InConversationCallContainer = () => {
     videoRefLocal.current.srcObject = localStream;
   }
 
-  if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey !== selectedConversationKey) {
+  if (!ongoingCallWithFocused) {
     return null;
   }
 

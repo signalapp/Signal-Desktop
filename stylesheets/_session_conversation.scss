@@ -115,15 +115,6 @@
 
     border-left: var(--border-session);
     border-top: var(--border-session);
-
-    &__blocking-overlay {
-      background-color: rgba(0, 0, 0, 0.8);
-      position: absolute;
-      top: 0px;
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
-    }
   }
 
   .conversation-info-panel {
@@ -196,6 +187,8 @@
     flex-grow: 1;
     min-height: $composition-container-height;
     padding: $session-margin-xs 0;
+    z-index: 1;
+    background-color: inherit;
 
     ul {
       max-height: 70vh;

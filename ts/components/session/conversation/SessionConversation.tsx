@@ -14,7 +14,6 @@ import { AttachmentUtil, GoogleChrome } from '../../../util';
 import { ConversationHeaderWithDetails } from '../../conversation/ConversationHeader';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
 import { SessionTheme } from '../../../state/ducks/SessionTheme';
-import styled from 'styled-components';
 import { SessionMessagesListContainer } from './SessionMessagesListContainer';
 import { LightboxGallery, MediaItemType } from '../../LightboxGallery';
 
@@ -34,16 +33,11 @@ import { MessageDetail } from '../../conversation/MessageDetail';
 import { getConversationController } from '../../../session/conversations';
 import { getPubkeysInPublicConversation } from '../../../data/data';
 import autoBind from 'auto-bind';
-import { useSelector } from 'react-redux';
-import {
-  getFirstUnreadMessageId,
-  isFirstUnreadMessageIdAbove,
-} from '../../../state/selectors/conversations';
-
 import { SessionButtonColor } from '../SessionButton';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
+import { SplitViewContainer } from '../SplitViewContainer';
 
 interface State {
   showRecordingView: boolean;
@@ -62,36 +56,13 @@ interface Props {
   selectedMessages: Array<string>;
   showMessageDetails: boolean;
   isRightPanelShowing: boolean;
+  hasOngoingCallWithFocusedConvo: boolean;
 
   // lightbox options
   lightBoxOptions?: LightBoxOptions;
 
   stagedAttachments: Array<StagedAttachmentType>;
 }
-
-const SessionUnreadAboveIndicator = styled.div`
-  position: sticky;
-  top: 0;
-  margin: 1em;
-  display: flex;
-  justify-content: center;
-  background: var(--color-sent-message-background);
-  color: var(--color-sent-message-text);
-`;
-
-const UnreadAboveIndicator = () => {
-  const isFirstUnreadAbove = useSelector(isFirstUnreadMessageIdAbove);
-  const firstUnreadMessageId = useSelector(getFirstUnreadMessageId) as string;
-
-  if (!isFirstUnreadAbove) {
-    return null;
-  }
-  return (
-    <SessionUnreadAboveIndicator key={`above-unread-indicator-${firstUnreadMessageId}`}>
-      {window.i18n('latestUnreadIsAbove')}
-    </SessionUnreadAboveIndicator>
-  );
-};
 
 export class SessionConversation extends React.Component<Props, State> {
   private readonly messageContainerRef: React.RefObject<HTMLDivElement>;
@@ -227,7 +198,7 @@ export class SessionConversation extends React.Component<Props, State> {
   // ~~~~~~~~~~~~~~ RENDER METHODS ~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   public render() {
-    const { showRecordingView, isDraggingFile } = this.state;
+    const { isDraggingFile } = this.state;
 
     const {
       selectedConversation,
@@ -264,12 +235,14 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <InConversationCallContainer />
-            <UnreadAboveIndicator />
+            <SplitViewContainer
+              top={<InConversationCallContainer />}
+              bottom={
+                <SessionMessagesListContainer messageContainerRef={this.messageContainerRef} />
+              }
+              disableTop={!this.props.hasOngoingCallWithFocusedConvo}
+            />
 
-            <SessionMessagesListContainer messageContainerRef={this.messageContainerRef} />
-
-            {showRecordingView && <div className="conversation-messages__blocking-overlay" />}
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 

@@ -141,6 +141,22 @@ export const getHasOngoingCallWithPubkey = createSelector(
   (withConvo: ReduxConversationType | undefined): string | undefined => withConvo?.id
 );
 
+export const getHasOngoingCallWithFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey === selectedPubkey;
+  }
+);
+
+export const getHasOngoingCallWithNonFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey !== selectedPubkey;
+  }
+);
+
 export const getCallIsInFullScreen = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.callIsInFullScreen
