@@ -6556,6 +6556,18 @@
     "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
     "description": "Release notes for v5.21"
   },
+  "WhatsNew__v5.24--1": {
+    "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+    "description": "Release notes for v5.24"
+  },
+  "WhatsNew__v5.24--2": {
+    "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+    "description": "Release notes for v5.24"
+  },
+  "WhatsNew__v5.24--3": {
+    "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+    "description": "Release notes for v5.24"
+  },
   "WhatsNew__bugfixes": {
     "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes"
