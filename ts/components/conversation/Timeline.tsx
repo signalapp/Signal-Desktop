@@ -1084,15 +1084,24 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
+    let resizeStartRow: number | undefined;
+
+    if (isNumber(messageHeightChangeIndex)) {
+      resizeStartRow = this.fromItemIndexToRow(messageHeightChangeIndex);
+      clearChangedMessages(id);
+    }
+
     if (
-      items &&
-      items.length > 0 &&
-      prevProps.items &&
-      prevProps.items.length > 0 &&
-      items !== prevProps.items
+      items !== prevProps.items ||
+      oldestUnreadIndex !== prevProps.oldestUnreadIndex ||
+      Boolean(typingContact) !== Boolean(prevProps.typingContact)
     ) {
       const { atTop } = this.state;
 
+      // This clause handles prepended messages when user scrolls up. New
+      // messages are added to `items`, but we want to keep the scroll position
+      // at the first previously visible message even though the row numbers
+      // have now changed.
       if (atTop) {
         const oldFirstIndex = 0;
         const oldFirstId = prevProps.items[oldFirstIndex];
@@ -1117,39 +1126,55 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         }
       }
 
-      // We continue on after our atTop check; because if we're not loading new messages
-      //   we still have to check for all the other situations which might require a
-      //   resize.
+      // Compare current rows against previous rows to identify the number of
+      // consecutive rows (from start of the list) the are the same in both
+      // lists.
+      const rowsIterator = Timeline.getEphemeralRows({
+        items,
+        oldestUnreadIndex,
+        typingContact: Boolean(typingContact),
+        haveOldest,
+      });
+      const prevRowsIterator = Timeline.getEphemeralRows({
+        items: prevProps.items,
+        oldestUnreadIndex: prevProps.oldestUnreadIndex,
+        typingContact: Boolean(prevProps.typingContact),
+        haveOldest: prevProps.haveOldest,
+      });
 
-      const oldLastIndex = prevProps.items.length - 1;
-      const oldLastId = prevProps.items[oldLastIndex];
-
-      const newLastIndex = items.findIndex(item => item === oldLastId);
-      if (newLastIndex < 0) {
-        this.resize();
-
-        return;
-      }
-
-      const indexDelta = newLastIndex - oldLastIndex;
-
-      // If we've just added to the end of the list, then the index of the last id's
-      //   index won't have changed, and we can rely on List's detection that items is
-      //   different for the necessary re-render.
-      if (indexDelta === 0) {
-        if (typingContact || prevProps.typingContact) {
-          // The last row will be off, because it was previously the typing indicator
-          const rowCount = this.getRowCount();
-          this.resize(rowCount - 2);
+      let firstChangedRow = 0;
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const row = rowsIterator.next();
+        if (row.done) {
+          break;
         }
 
-        // no resize because we just add to the end
-        return;
+        const prevRow = prevRowsIterator.next();
+        if (prevRow.done) {
+          break;
+        }
+
+        if (prevRow.value !== row.value) {
+          break;
+        }
+
+        firstChangedRow += 1;
       }
 
-      this.resize();
-
-      return;
+      // If either:
+      //
+      // - Row count has changed after props update
+      // - There are some different rows (and the loop above was interrupted)
+      //
+      // Recompute heights of all rows starting from the first changed row or
+      // the last row in the previous row list.
+      if (!rowsIterator.next().done || !prevRowsIterator.next().done) {
+        resizeStartRow = Math.min(
+          resizeStartRow ?? firstChangedRow,
+          firstChangedRow
+        );
+      }
     }
 
     if (this.resizeFlag) {
@@ -1158,34 +1183,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    if (oldestUnreadIndex !== prevProps.oldestUnreadIndex) {
-      const prevRow = this.getLastSeenIndicatorRow(prevProps);
-      const newRow = this.getLastSeenIndicatorRow();
-      const rowCount = this.getRowCount();
-      const lastRow = rowCount - 1;
-
-      const targetRow = Math.min(
-        isNumber(prevRow) ? prevRow : lastRow,
-        isNumber(newRow) ? newRow : lastRow
-      );
-      this.resize(targetRow);
-
-      return;
-    }
-
-    if (isNumber(messageHeightChangeIndex)) {
-      const rowIndex = this.fromItemIndexToRow(messageHeightChangeIndex);
-      this.resize(rowIndex);
-      clearChangedMessages(id);
-
-      return;
-    }
-
-    if (Boolean(typingContact) !== Boolean(prevProps.typingContact)) {
-      const rowCount = this.getRowCount();
-      this.resize(rowCount - 2);
-
-      return;
+    if (resizeStartRow !== undefined) {
+      this.resize(resizeStartRow);
     }
 
     this.updateWithVisibleRows();
@@ -1573,6 +1572,31 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         {contactSpoofingReviewDialog}
       </>
     );
+  }
+
+  private static *getEphemeralRows({
+    items,
+    typingContact,
+    oldestUnreadIndex,
+    haveOldest,
+  }: {
+    items: ReadonlyArray<string>;
+    typingContact: boolean;
+    oldestUnreadIndex?: number;
+    haveOldest: boolean;
+  }): Iterator<string> {
+    yield haveOldest ? 'hero' : 'loading';
+
+    for (let i = 0; i < items.length; i += 1) {
+      if (i === oldestUnreadIndex) {
+        yield 'oldest-unread';
+      }
+      yield `item:${items[i]}`;
+    }
+
+    if (typingContact) {
+      yield 'typing-contact';
+    }
   }
 
   private static getWarning(
