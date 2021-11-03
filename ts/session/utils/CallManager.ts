@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { ToastUtils } from '.';
 import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
 import { getConversationById } from '../../data/data';
+import { ConversationModel } from '../../models/conversation';
 import { MessageModelType } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import {
@@ -138,6 +139,15 @@ function sendVideoStatusViaDataChannel() {
   const videoEnabledLocally = selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
   const stringToSend = JSON.stringify({
     video: videoEnabledLocally,
+  });
+  if (dataChannel && dataChannel.readyState === 'open') {
+    dataChannel?.send(stringToSend);
+  }
+}
+
+function sendHangupViaDataChannel() {
+  const stringToSend = JSON.stringify({
+    hangup: true,
   });
   if (dataChannel && dataChannel.readyState === 'open') {
     dataChannel?.send(stringToSend);
@@ -456,6 +466,23 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
   try {
     const parsed = JSON.parse(ev.data);
 
+    if (parsed.hangup !== undefined) {
+      const foundEntry = getConversationController()
+        .getConversations()
+        .find(
+          (convo: ConversationModel) =>
+            convo.callState === 'connecting' ||
+            convo.callState === 'offering' ||
+            convo.callState === 'ongoing'
+        );
+
+      if (!foundEntry || !foundEntry.id) {
+        return;
+      }
+      handleCallTypeEndCall(foundEntry.id);
+      return;
+    }
+
     if (parsed.video !== undefined) {
       remoteVideoStreamIsMuted = !Boolean(parsed.video);
     }
@@ -595,6 +622,8 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
   window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
   window.log.info('sending END_CALL MESSAGE');
+
+  sendHangupViaDataChannel();
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
 
