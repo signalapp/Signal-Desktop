@@ -1442,7 +1442,7 @@
         "description": "Button tooltip label for turning on the microphone"
     },
     "calling__button--presenting__label": {
-        "message": "Delen via andere app",
+        "message": "Scherm laten zien",
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
@@ -3282,15 +3282,15 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Reactie verwijderen",
+        "message": "Emoji verwijderen",
         "description": ""
     },
     "Reactions--error": {
-        "message": "Verzenden van reactie mislukt. Probeer het opnieuw.",
+        "message": "De emoji reactie verzenden is mislukt. Probeer het opnieuw.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
-        "message": "Meer reacties weergeven",
+        "message": "Meer emojis weergeven",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -6505,8 +6505,8 @@
         "message": "Het zou nu makkelijker moeten zijn voor gebruikers van schermlezers om te navigeren door de gesprekkenlijst aan de linker kant.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

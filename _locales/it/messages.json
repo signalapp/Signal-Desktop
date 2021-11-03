@@ -6505,8 +6505,8 @@
         "message": "Gli utenti di screen reader dovrebbero ora trovare più facile navigare nell'elenco delle conversazioni sul pannello di sinistra.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

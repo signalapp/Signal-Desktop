@@ -6505,8 +6505,8 @@
         "message": "Dabar, ekrano skaityklės naudotojams turėtų būti lengviau naršyti po pokalbių sąrašą kairiajame polangyje.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

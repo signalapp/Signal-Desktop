@@ -6505,8 +6505,8 @@
         "message": "Ekranı oxuyan istifadəçilər üçün artıq sol bölmədəki danışıq siyahısında gəzinmək daha asandır.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

@@ -1032,7 +1032,7 @@
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Stumm",
+        "message": "Stummschalten",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
@@ -6505,8 +6505,8 @@
         "message": "Benutzer von Bildschirmlesegeräten können nun leichter durch die Unterhaltungsliste im linken Fensterbereich navigieren.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

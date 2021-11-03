@@ -2254,7 +2254,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Comienza con un chat ...",
+        "message": "Comienza un chat con ...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
@@ -2492,7 +2492,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Chat con $title$: $unreadCount$ mensajes nuevos. Último mensaje: $lastMessage$.",
+        "message": "Chat con $title$: $unreadCount$ mensajes nuevos, último mensaje: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -6505,8 +6505,8 @@
         "message": "Personas con un lector de pantalla podrán navegar mejor la lista de chats en el panel de la izquierda. ",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

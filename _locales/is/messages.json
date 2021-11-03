@@ -6505,8 +6505,8 @@
         "message": "Notendur skjálesara ættu að eiga auðveldara með að flakka um samtalalistann á hliðarspjaldinu til vinstri.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }

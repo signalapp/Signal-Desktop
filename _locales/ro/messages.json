@@ -6505,8 +6505,8 @@
         "message": "Utilizatorilor de cititoare de ecran ar trebui să le fie mai ușor acum să navigheze prin lista de conversații din panoul din stânga.",
         "description": "Release notes for v5.21"
     },
-    "WhatsNew__v5.22": {
+    "WhatsNew__bugfixes": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
-        "description": "Release notes for v5.22"
+        "description": "Release notes for releases that only include bug fixes"
     }
 }
