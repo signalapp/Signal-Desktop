@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ToastUtils } from '.';
+import { MessageUtils, ToastUtils } from '.';
 import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
 import { getConversationById } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
@@ -16,10 +16,11 @@ import {
 import { getConversationController } from '../conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
-import { getMessageQueue } from '../sending';
+import { getMessageQueue, MessageSender } from '../sending';
 import { PubKey } from '../types';
 
 import { v4 as uuidv4 } from 'uuid';
+import { PnServer } from '../../pushnotification';
 
 export type InputItem = { deviceId: string; label: string };
 
@@ -373,6 +374,18 @@ export async function USER_callRecipient(recipient: string) {
   }
   currentCallUUID = uuidv4();
   peerConnection = createOrGetPeerConnection(recipient, true);
+  // send a pre offer just to wake up the device on the remote side
+  const preOfferMsg = new CallMessage({
+    timestamp: Date.now(),
+    type: SignalService.CallMessage.Type.PRE_OFFER,
+    uuid: currentCallUUID,
+  });
+
+  window.log.info('Sending preOffer message to ', ed25519Str(recipient));
+  const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
+  const { wrappedEnvelope } = await MessageSender.send(rawMessage);
+  await PnServer.notifyPnServer(wrappedEnvelope, recipient);
+
   await openMediaDevicesAndAddTracks();
 }
 

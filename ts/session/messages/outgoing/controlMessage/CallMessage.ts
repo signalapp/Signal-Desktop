@@ -29,6 +29,7 @@ export class CallMessage extends ContentMessage {
     // this does not make any sense
     if (
       this.type !== signalservice.CallMessage.Type.END_CALL &&
+      this.type !== signalservice.CallMessage.Type.PRE_OFFER &&
       (!this.sdps || this.sdps.length === 0)
     ) {
       throw new Error('sdps must be set unless this is a END_CALL type message');
