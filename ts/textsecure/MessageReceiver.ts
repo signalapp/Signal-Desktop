@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-bitwise */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 
 import { isNumber, map } from 'lodash';

@@ -760,7 +760,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return `${account}.${device} ${timestamp}`;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<MessageAttributesType> {
     return {
       timestamp: new Date().getTime(),
@@ -768,7 +767,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   validate(attributes: Record<string, unknown>): void {
     const required = ['conversationId', 'received_at', 'sent_at'];
     const missing = _.filter(required, attr => !attributes[attr]);
@@ -782,7 +780,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.set(attributes);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getNameForNumber(number: string): string {
     const conversation = window.ConversationController.get(number);
     if (!conversation) {
@@ -1264,7 +1261,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   isReplayableError(e: Error): boolean {
     return (
       e.name === 'MessageError' ||
@@ -2071,7 +2067,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async copyFromQuotedMessage(
     quote: ProcessedQuote | undefined,
     conversationId: string
@@ -2145,7 +2140,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return result;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async copyQuoteContentFromOriginal(
     originalMessage: MessageModel,
     quote: QuotedMessageType

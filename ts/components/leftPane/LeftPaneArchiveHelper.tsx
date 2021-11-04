@@ -27,8 +27,6 @@ export type LeftPaneArchivePropsType =
   | LeftPaneArchiveBasePropsType
   | (LeftPaneArchiveBasePropsType & LeftPaneSearchPropsType);
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsType> {
   private readonly archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
 

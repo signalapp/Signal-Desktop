@@ -23,8 +23,6 @@ export type LeftPaneInboxPropsType = {
   startSearchCounter: number;
 };
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> {
   private readonly conversations: ReadonlyArray<ConversationListItemPropsType>;
 

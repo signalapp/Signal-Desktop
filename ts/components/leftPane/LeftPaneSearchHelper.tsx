@@ -43,8 +43,6 @@ const searchResultKeys: Array<
   'conversationResults' | 'contactResults' | 'messageResults'
 > = ['conversationResults', 'contactResults', 'messageResults'];
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType> {
   private readonly conversationResults: MaybeLoadedSearchResultsType<ConversationListItemPropsType>;
 
@@ -144,7 +142,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   // This is currently unimplemented. See DESKTOP-1170.
-  // eslint-disable-next-line class-methods-use-this
   getRowIndexToScrollTo(
     _selectedConversationId: undefined | string
   ): undefined | number {
@@ -256,7 +253,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   // This is currently unimplemented. See DESKTOP-1170.
-  // eslint-disable-next-line class-methods-use-this
   getConversationAndMessageAtIndex(
     _conversationIndex: number
   ): undefined | { conversationId: string; messageId?: string } {
@@ -264,7 +260,6 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   // This is currently unimplemented. See DESKTOP-1170.
-  // eslint-disable-next-line class-methods-use-this
   getConversationAndMessageInDirection(
     _toFind: Readonly<ToFindType>,
     _selectedConversationId: undefined | string,

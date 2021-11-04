@@ -21,7 +21,6 @@ class FakeIPC extends EventEmitter implements MinimalIPC {
     return this.state;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public send() {
     throw new Error(
       'This should not be called. It is only here to satisfy the interface'

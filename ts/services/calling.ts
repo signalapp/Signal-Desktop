@@ -1,8 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable class-methods-use-this */
-
 import { desktopCapturer, ipcRenderer } from 'electron';
 import type {
   AudioDevice,

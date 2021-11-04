@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable max-classes-per-file, class-methods-use-this */
+
+/* eslint-disable max-classes-per-file */
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';

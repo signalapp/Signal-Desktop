@@ -1,7 +1,7 @@
 // Copyright 2015-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+
 /* eslint-disable
-     class-methods-use-this,
      no-new,
      @typescript-eslint/no-empty-function,
      @typescript-eslint/no-explicit-any

@@ -32,8 +32,6 @@ enum TopButton {
   StartNewConversation,
 }
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
   private readonly composeContacts: ReadonlyArray<ContactListItemPropsType>;
 

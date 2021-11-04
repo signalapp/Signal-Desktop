@@ -36,8 +36,6 @@ export type LeftPaneSetGroupMetadataPropsType = {
   userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
   private readonly groupAvatar: undefined | Uint8Array;
 

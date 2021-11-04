@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -74,7 +74,6 @@ function getLabelForAddress(
 }
 
 export class ContactDetail extends React.Component<Props> {
-  // eslint-disable-next-line class-methods-use-this
   public renderSendMessage({
     hasSignalAccount,
     i18n,
@@ -109,7 +108,6 @@ export class ContactDetail extends React.Component<Props> {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderEmail(
     items: Array<Email> | undefined,
     i18n: LocalizerType
@@ -133,7 +131,6 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderPhone(
     items: Array<Phone> | undefined,
     i18n: LocalizerType
@@ -157,7 +154,6 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderAddressLine(value: string | undefined): JSX.Element | undefined {
     if (!value) {
       return undefined;
@@ -166,7 +162,6 @@ export class ContactDetail extends React.Component<Props> {
     return <div>{value}</div>;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderPOBox(
     poBox: string | undefined,
     i18n: LocalizerType
@@ -182,7 +177,6 @@ export class ContactDetail extends React.Component<Props> {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderAddressLineTwo(address: PostalAddress): JSX.Element | null {
     if (address.city || address.region || address.postcode) {
       return (

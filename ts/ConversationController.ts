@@ -313,7 +313,6 @@ export class ConversationController {
     return conversation;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   areWePrimaryDevice(): boolean {
     const ourDeviceId = window.textsecure.storage.user.getDeviceId();
 
@@ -719,7 +718,6 @@ export class ConversationController {
    * conversation the message belongs to OR null if a conversation isn't
    * found.
    */
-  // eslint-disable-next-line class-methods-use-this
   async getConversationForTargetMessage(
     targetFromId: string,
     targetTimestamp: number

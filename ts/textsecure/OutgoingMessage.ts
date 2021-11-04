@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable guard-for-in */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable more/no-then */
 /* eslint-disable no-param-reassign */

@@ -21,8 +21,6 @@ export type ToFindType = {
   unreadOnly: boolean;
 };
 
-/* eslint-disable class-methods-use-this */
-
 export abstract class LeftPaneHelper<T> {
   getHeaderContents(
     _: Readonly<{

@@ -191,7 +191,6 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  // eslint-disable-next-line class-methods-use-this
   public renderIcon(icon: string): JSX.Element {
     return (
       <div className="module-quote__icon-container">

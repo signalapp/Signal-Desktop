@@ -313,7 +313,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.updateAttachmentsView();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   events(): Record<string, string> {
     return {
       drop: 'onDrop',
@@ -326,7 +325,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   //   classname wouldn't be applied when Backbone creates our el.
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  // eslint-disable-next-line class-methods-use-this
   className(): string {
     return 'conversation';
   }
@@ -334,7 +332,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   // Same situation as className().
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  // eslint-disable-next-line class-methods-use-this
   id(): string {
     return `conversation-${this.model.cid}`;
   }
@@ -1005,7 +1002,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async cleanModels(
     collection: MessageModelCollectionType | Array<MessageModel>
   ): Promise<Array<MessageModel>> {
@@ -2154,7 +2150,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.downloadAttachment({ attachment, timestamp, isDangerous });
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async downloadAttachment({
     attachment,
     timestamp,
@@ -2753,7 +2748,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.listenBack(view);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async openConversation(
     conversationId: string,
     messageId?: string
@@ -2989,7 +2983,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     return true;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   showSendAnywayDialog(
     contacts: Array<ConversationModel>,
     confirmText?: string
@@ -3427,7 +3420,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     window.reduxActions.linkPreviews.removeLinkPreview();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getStickerPackPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>
@@ -3529,7 +3521,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async getGroupPreview(
     url: string,
     abortSignal: Readonly<AbortSignal>

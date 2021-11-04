@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable more/no-then */
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */

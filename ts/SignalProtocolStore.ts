@@ -1,8 +1,6 @@
 // Copyright 2016-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable class-methods-use-this */
-
 import PQueue from 'p-queue';
 import { isNumber } from 'lodash';
 import { z } from 'zod';

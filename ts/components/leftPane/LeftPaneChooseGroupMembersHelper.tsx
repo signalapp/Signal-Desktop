@@ -32,8 +32,6 @@ export type LeftPaneChooseGroupMembersPropsType = {
   selectedContacts: Array<ConversationType>;
 };
 
-/* eslint-disable class-methods-use-this */
-
 export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneChooseGroupMembersPropsType> {
   private readonly candidateContacts: ReadonlyArray<ConversationType>;
 

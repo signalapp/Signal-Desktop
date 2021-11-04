@@ -40,8 +40,6 @@ const reactionJobData = z.object({
 
 export type ReactionJobData = z.infer<typeof reactionJobData>;
 
-/* eslint-disable class-methods-use-this */
-
 export class ReactionJobQueue extends JobQueue<ReactionJobData> {
   private readonly inMemoryQueues = new InMemoryQueues();
 

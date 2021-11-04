@@ -1,7 +1,6 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable class-methods-use-this */
 /* eslint-disable camelcase */
 import { compact, isNumber } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
@@ -204,7 +203,6 @@ export class ConversationModel extends window.Backbone
 
   private isInReduxBatch = false;
 
-  // eslint-disable-next-line class-methods-use-this
   defaults(): Partial<ConversationAttributesType> {
     return {
       unreadCount: 0,
@@ -234,7 +232,6 @@ export class ConversationModel extends window.Backbone
     return this.get('uuid') || this.get('e164');
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getContactCollection(): Backbone.Collection<ConversationModel> {
     const collection = new window.Backbone.Collection<ConversationModel>();
     const collator = new Intl.Collator(undefined, { sensitivity: 'base' });

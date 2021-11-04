@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable more/no-then */
-/* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import PQueue from 'p-queue';
 import { omit } from 'lodash';

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
-/* eslint-disable class-methods-use-this */
 
 import { isNumber } from 'lodash';
 

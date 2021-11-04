@@ -1,8 +1,6 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable class-methods-use-this */
-
 import { z } from 'zod';
 import * as durations from '../util/durations';
 import type { LoggerType } from '../types/Logging';
