@@ -463,7 +463,7 @@ export async function handleMessageJob(
       conversationKey: conversation.id,
       messageModelProps: message.getMessageModelProps(),
     });
-    trotthledAllMessagesAddedDispatch();
+    throttledAllMessagesAddedDispatch();
     if (message.get('unread')) {
       await conversation.throttledNotify(message);
     }
@@ -479,7 +479,7 @@ export async function handleMessageJob(
   }
 }
 
-const trotthledAllMessagesAddedDispatch = _.throttle(() => {
+const throttledAllMessagesAddedDispatch = _.throttle(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }
