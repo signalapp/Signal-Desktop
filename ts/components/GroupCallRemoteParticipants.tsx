@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
-import { takeWhile, chunk, maxBy, flatten } from 'lodash';
+import { takeWhile, chunk, maxBy, flatten, noop } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
 import { GroupCallRemoteParticipant } from './GroupCallRemoteParticipant';
 import {
@@ -18,10 +18,13 @@ import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import type { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
+import { missingCaseError } from '../util/missingCaseError';
+import { SECOND } from '../util/durations';
 import * as log from '../logging/log';
 
 const MIN_RENDERED_HEIGHT = 180;
 const PARTICIPANT_MARGIN = 10;
+const TIME_TO_STOP_REQUESTING_VIDEO_WHEN_PAGE_INVISIBLE = 20 * SECOND;
 
 // We scale our video requests down for performance. This number is somewhat arbitrary.
 const VIDEO_REQUEST_SCALAR = 0.75;
@@ -43,6 +46,12 @@ type PropsType = {
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
 };
+
+enum VideoRequestMode {
+  Normal,
+  LowResolution,
+  NoVideo,
+}
 
 // This component lays out group call remote participants. It uses a custom layout
 //   algorithm (in other words, nothing that the browser provides, like flexbox) in
@@ -83,7 +92,6 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     height: 0,
   });
 
-  const isPageVisible = usePageVisibility();
   const getFrameBuffer = useGetCallingFrameBuffer();
 
   // 1. Figure out the maximum number of possible rows that could fit on the screen.
@@ -273,52 +281,74 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     }
   );
 
+  const videoRequestMode = useVideoRequestMode();
+
   useEffect(() => {
-    if (isPageVisible) {
-      setGroupCallVideoRequest([
-        ...gridParticipants.map(participant => {
-          let scalar: number;
-          if (participant.sharingScreen) {
-            // We want best-resolution video if someone is sharing their screen. This code
-            //   is extra-defensive against strange devicePixelRatios.
-            scalar = Math.max(window.devicePixelRatio || 1, 1);
-          } else if (participant.hasRemoteVideo) {
-            scalar = VIDEO_REQUEST_SCALAR;
-          } else {
-            scalar = 0;
-          }
-          return {
-            demuxId: participant.demuxId,
-            width: Math.floor(
-              gridParticipantHeight * participant.videoAspectRatio * scalar
-            ),
-            height: Math.floor(gridParticipantHeight * scalar),
-          };
-        }),
-        ...overflowedParticipants.map(participant => {
-          if (participant.hasRemoteVideo) {
+    let videoRequest: Array<GroupCallVideoRequest>;
+
+    switch (videoRequestMode) {
+      case VideoRequestMode.Normal:
+        videoRequest = [
+          ...gridParticipants.map(participant => {
+            let scalar: number;
+            if (participant.sharingScreen) {
+              // We want best-resolution video if someone is sharing their screen. This
+              //   code is extra-defensive against strange devicePixelRatios.
+              scalar = Math.max(window.devicePixelRatio || 1, 1);
+            } else if (participant.hasRemoteVideo) {
+              scalar = VIDEO_REQUEST_SCALAR;
+            } else {
+              scalar = 0;
+            }
             return {
               demuxId: participant.demuxId,
               width: Math.floor(
-                OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
+                gridParticipantHeight * participant.videoAspectRatio * scalar
               ),
-              height: Math.floor(
-                (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
-                  VIDEO_REQUEST_SCALAR
-              ),
+              height: Math.floor(gridParticipantHeight * scalar),
             };
-          }
-          return nonRenderedRemoteParticipant(participant);
-        }),
-      ]);
-    } else {
-      setGroupCallVideoRequest(
-        remoteParticipants.map(nonRenderedRemoteParticipant)
-      );
+          }),
+          ...overflowedParticipants.map(participant => {
+            if (participant.hasRemoteVideo) {
+              return {
+                demuxId: participant.demuxId,
+                width: Math.floor(
+                  OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
+                ),
+                height: Math.floor(
+                  (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
+                    VIDEO_REQUEST_SCALAR
+                ),
+              };
+            }
+            return nonRenderedRemoteParticipant(participant);
+          }),
+        ];
+        break;
+      case VideoRequestMode.LowResolution:
+        videoRequest = remoteParticipants.map(participant =>
+          participant.hasRemoteVideo
+            ? {
+                demuxId: participant.demuxId,
+                width: 1,
+                height: 1,
+              }
+            : nonRenderedRemoteParticipant(participant)
+        );
+        break;
+      case VideoRequestMode.NoVideo:
+        videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
+        break;
+      default:
+        log.error(missingCaseError(videoRequestMode));
+        videoRequest = remoteParticipants.map(nonRenderedRemoteParticipant);
+        break;
     }
+
+    setGroupCallVideoRequest(videoRequest);
   }, [
     gridParticipantHeight,
-    isPageVisible,
+    videoRequestMode,
     overflowedParticipants,
     remoteParticipants,
     setGroupCallVideoRequest,
@@ -372,6 +402,33 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     </Measure>
   );
 };
+
+function useVideoRequestMode(): VideoRequestMode {
+  const isPageVisible = usePageVisibility();
+
+  const [result, setResult] = useState<VideoRequestMode>(
+    isPageVisible ? VideoRequestMode.Normal : VideoRequestMode.LowResolution
+  );
+
+  useEffect(() => {
+    if (isPageVisible) {
+      setResult(VideoRequestMode.Normal);
+      return noop;
+    }
+
+    setResult(VideoRequestMode.LowResolution);
+
+    const timeout = setTimeout(() => {
+      setResult(VideoRequestMode.NoVideo);
+    }, TIME_TO_STOP_REQUESTING_VIDEO_WHEN_PAGE_INVISIBLE);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isPageVisible]);
+
+  return result;
+}
 
 function totalRemoteParticipantWidthAtMinHeight(
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>
