@@ -13,6 +13,7 @@ import { assignWithNoUnnecessaryAllocation } from '../../util/assignWithNoUnnece
 import type { RemoveLinkPreviewActionType } from './linkPreviews';
 import { REMOVE_PREVIEW as REMOVE_LINK_PREVIEW } from './linkPreviews';
 import { writeDraftAttachment } from '../../util/writeDraftAttachment';
+import { deleteDraftAttachment } from '../../util/deleteDraftAttachment';
 import { replaceIndex } from '../../util/replaceIndex';
 import { resolveAttachmentOnDisk } from '../../util/resolveAttachmentOnDisk';
 import type { HandleAttachmentsProcessingArgsType } from '../../util/handleAttachmentsProcessing';
@@ -108,6 +109,10 @@ function addAttachment(
   attachment: AttachmentType
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
   return async (dispatch, getState) => {
+    // We do async operations first so multiple in-process addAttachments don't stomp on
+    //   each other.
+    const onDisk = await writeDraftAttachment(attachment);
+
     const isSelectedConversation =
       getState().conversations.selectedConversationId === conversationId;
 
@@ -122,10 +127,9 @@ function addAttachment(
 
     // User has canceled the draft so we don't need to continue processing
     if (!hasDraftAttachmentPending) {
+      await deleteDraftAttachment(onDisk);
       return;
     }
-
-    const onDisk = await writeDraftAttachment(attachment);
 
     // Remove any pending attachments that were transcoding
     const index = draftAttachments.findIndex(
@@ -198,8 +202,15 @@ function removeAttachment(
   conversationId: string,
   filePath: string
 ): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { attachments } = getState().composer;
+
+    const [targetAttachment] = attachments.filter(
+      attachment => attachment.path === filePath
+    );
+    if (!targetAttachment) {
+      return;
+    }
 
     const nextAttachments = attachments.filter(
       attachment => attachment.path !== filePath
@@ -217,6 +228,13 @@ function removeAttachment(
       getState,
       null
     );
+
+    if (
+      targetAttachment.path &&
+      targetAttachment.fileName !== targetAttachment.path
+    ) {
+      await deleteDraftAttachment(targetAttachment);
+    }
   };
 }
 

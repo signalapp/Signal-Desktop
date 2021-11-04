@@ -8,6 +8,7 @@ import {
 } from './processAttachment';
 import type { AttachmentType } from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
+import * as log from '../logging/log';
 
 export type AddAttachmentActionType = (
   conversationId: string,
@@ -74,6 +75,10 @@ export async function handleAttachmentsProcessing({
         }
         addAttachment(conversationId, attachment);
       } catch (err) {
+        log.error(
+          'handleAttachmentsProcessing: failed to process attachment:',
+          err.stack
+        );
         removeAttachment(conversationId, file.path);
         onShowToast(AttachmentToastType.ToastUnableToLoadAttachment);
       }
