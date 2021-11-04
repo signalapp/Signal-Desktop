@@ -31,6 +31,7 @@ import { Flex } from './basic/Flex';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { getConversationById } from '../data/data';
 import { syncConfigurationIfNeeded } from '../session/utils/syncUtils';
+import { BlockedNumberController } from '../util';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -284,13 +285,16 @@ const ConversationListItem = (props: Props) => {
   );
 
   /**
-   * deletes the conversation
+   * Removes conversation from requests list,
+   * adds ID to block list, syncs the block with linked devices.
    */
-  const handleConversationDecline = async () => {
-    // const convoToDecline = await getConversationById(conversationId);
-    // convoToDecline?.setIsApproved(false);
-    // await getConversationController().deleteContact(conversationId); // TODO: might be unnecessary
-    console.warn('decline');
+  const handleConversationBlock = async () => {
+    const convoToBlock = await getConversationById(conversationId);
+    if (!convoToBlock) {
+      window?.log?.error('Unable to find conversation to be blocked.');
+    }
+    await BlockedNumberController.block(convoToBlock?.id);
+    await syncConfigurationIfNeeded(true);
   };
 
   /**
@@ -301,7 +305,6 @@ const ConversationListItem = (props: Props) => {
     await conversationToApprove?.setIsApproved(true);
     console.warn({ convoAfterSetIsApproved: conversationToApprove });
     // TODO: Send sync message to other devices. Using config message
-
 
     await syncConfigurationIfNeeded(true);
   };
@@ -364,10 +367,10 @@ const ConversationListItem = (props: Props) => {
               justifyContent="flex-end"
             >
               <SessionButton
-                onClick={handleConversationDecline}
+                onClick={handleConversationBlock}
                 buttonColor={SessionButtonColor.Danger}
               >
-                Decline
+                Block
               </SessionButton>
               <SessionButton
                 buttonColor={SessionButtonColor.Green}

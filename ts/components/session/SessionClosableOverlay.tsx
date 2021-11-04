@@ -141,10 +141,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         placeholder = window.i18n('createClosedGroupPlaceholder');
         break;
       case SessionClosableOverlayType.MessageRequests:
-        title = 'Message Requests';
-        buttonText = 'Decline All';
-        subtitle = 'Pending Requests';
-        placeholder = 'placeholder';
+        title = window.i18n('messageRequests');
+        buttonText = window.i18n('blockAll');
+        subtitle = window.i18n('requestsSubtitle');
+        placeholder = window.i18n('requestsPlaceholder');
         break;
       default:
     }
@@ -291,16 +291,18 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 }
 
+/**
+ * A request needs to be be unapproved and not blocked to be valid.
+ * @returns List of message request items
+ */
 const MessageRequestList = () => {
-  // get all conversations with (accepted / known)
   const lists = useSelector(getLeftPaneLists);
-  const unapprovedConversations = lists?.conversations.filter(c => {
-    return !c.isApproved;
-  }) as Array<ConversationListItemProps>;
-  console.warn({ unapprovedConversationsListConstructor: unapprovedConversations });
+  // const validConversationRequests = lists?.conversations.filter(c => {
+  const validConversationRequests = lists?.conversationRequests;
+  console.warn({ unapprovedConversationsListConstructor: validConversationRequests });
   return (
     <div className="message-request-list__container">
-      {unapprovedConversations.map(conversation => {
+      {validConversationRequests.map(conversation => {
         return <MessageRequestListItem conversation={conversation} />;
       })}
     </div>

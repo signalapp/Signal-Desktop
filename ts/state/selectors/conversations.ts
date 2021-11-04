@@ -275,6 +275,7 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
+  conversationRequests: Array<ReduxConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
@@ -282,6 +283,7 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
+  const conversationRequests: Array<ReduxConversationType> = [];
 
   let unreadCount = 0;
   for (let conversation of sorted) {
@@ -317,6 +319,10 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
+    if (!conversation.isApproved && !conversation.isBlocked) {
+      conversationRequests.push(conversation);
+    }
+
     if (
       unreadCount < 9 &&
       conversation.unreadCount &&
@@ -326,12 +332,15 @@ export const _getLeftPaneLists = (
       unreadCount += conversation.unreadCount;
     }
 
-    conversations.push(conversation);
+    if (conversation.isApproved) {
+      conversations.push(conversation);
+    }
   }
 
   return {
     conversations,
     contacts: directConversations,
+    conversationRequests,
     unreadCount,
   };
 };

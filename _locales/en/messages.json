@@ -443,5 +443,9 @@
   "messageDeletedPlaceholder": "This message has been deleted",
   "messageDeleted": "Message deleted",
   "surveyTitle": "Take our Session Survey",
-  "goToOurSurvey": "Go to our survey"
+  "goToOurSurvey": "Go to our survey",
+  "blockAll": "Block All",
+  "messageRequests": "Message Requests",
+  "requestsSubtitle": "Pending Requests",
+  "requestsPlaceHolder": "No requests"
 }

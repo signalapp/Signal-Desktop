@@ -11,6 +11,7 @@ import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
+import { BlockedNumberController } from '../util';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { updateProfileOneAtATime } from './dataMessage';
@@ -111,32 +112,41 @@ async function handleGroupsAndContactsFromConfigMessage(
     }
   }
   if (configMessage.contacts?.length) {
-    await Promise.all(
-      configMessage.contacts.map(async c => {
-        try {
-          if (!c.publicKey) {
-            return;
-          }
-          const contactConvo = await getConversationController().getOrCreateAndWait(
-            toHex(c.publicKey),
-            ConversationTypeEnum.PRIVATE
-          );
-          const profile = {
-            displayName: c.name,
-            profilePictre: c.profilePicture,
-          };
-          // updateProfile will do a commit for us
-          contactConvo.set('active_at', _.toNumber(envelope.timestamp));
-          contactConvo.setIsApproved(Boolean(c.isApproved));
-
-          await updateProfileOneAtATime(contactConvo, profile, c.profileKey);
-        } catch (e) {
-          window?.log?.warn('failed to handle  a new closed group from configuration message');
-        }
-      })
-    );
+    await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
   }
 }
+
+const handleContactReceived = async (
+  contactReceived: SignalService.ConfigurationMessage.IContact,
+  envelope: EnvelopePlus
+) => {
+  try {
+    if (!contactReceived.publicKey) {
+      return;
+    }
+    const contactConvo = await getConversationController().getOrCreateAndWait(
+      toHex(contactReceived.publicKey),
+      ConversationTypeEnum.PRIVATE
+    );
+    const profile = {
+      displayName: contactReceived.name,
+      profilePictre: contactReceived.profilePicture,
+    };
+    // updateProfile will do a commit for us
+    contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+    contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+
+    if (contactReceived.isBlocked === true) {
+      await BlockedNumberController.block(contactConvo.id);
+    } else {
+      await BlockedNumberController.unblock(contactConvo.id);
+    }
+
+    await updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);
+  } catch (e) {
+    window?.log?.warn('failed to handle  a new closed group from configuration message');
+  }
+};
 
 export async function handleConfigurationMessage(
   envelope: EnvelopePlus,

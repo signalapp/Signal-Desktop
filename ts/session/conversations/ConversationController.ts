@@ -262,6 +262,12 @@ export class ConversationController {
     return Array.from(this.conversations.models);
   }
 
+  public getConversationRequests(): Array<ConversationModel> {
+    return Array.from(this.conversations.models).filter(
+      conversation => conversation.isApproved() && !conversation.isBlocked
+    );
+  }
+
   public unsafeDelete(convo: ConversationModel) {
     this.conversations.remove(convo);
   }

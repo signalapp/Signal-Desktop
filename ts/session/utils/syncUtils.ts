@@ -164,7 +164,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
 const getValidContacts = (convos: Array<ConversationModel>) => {
   // Filter contacts
   const contactsModels = convos.filter(
-    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate() && !c.isBlocked()
+    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate()
   );
 
   const contacts = contactsModels.map(c => {
@@ -201,6 +201,7 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
         profilePictureURL: c.get('avatarPointer'),
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
         isApproved: c.isApproved(),
+        isBlocked: c.isBlocked(),
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);

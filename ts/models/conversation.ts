@@ -50,6 +50,7 @@ import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsMana
 import { IMAGE_JPEG } from '../types/MIME';
 import { UnsendMessage } from '../session/messages/outgoing/controlMessage/UnsendMessage';
 import { getLatestTimestampOffset, networkDeleteMessages } from '../session/snode_api/SNodeAPI';
+import { syncConfigurationIfNeeded } from '../session/utils/syncUtils';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -715,9 +716,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const sentAt = message.get('sent_at');
 
-      // TODO: for debugging
-      if (message.get('body')?.includes('unapprove')) {
-        console.warn('setting to unapprove');
+      // TODO: msgreq for debugging
+      const unapprove = message.get('body')?.includes('unapprove');
+      if (unapprove) {
         await this.setIsApproved(false);
       }
 
@@ -739,6 +740,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         quote: uploads.quote,
         lokiProfile: UserUtils.getOurProfile(),
       };
+
+      const updateApprovalNeeded =
+        !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
+      if (updateApprovalNeeded && !unapprove) {
+        this.setIsApproved(true);
+        await syncConfigurationIfNeeded(true);
+      }
 
       if (this.isOpenGroupV2()) {
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
@@ -1506,7 +1514,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isApproved() {
-    return this.get('isApproved');
+    return Boolean(this.get('isApproved'));
   }
 
   public getTitle() {

@@ -29,6 +29,7 @@ import { SNodeAPI } from '../../session/snode_api';
 import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
 import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
+import { BlockedNumberController } from '../../util';
 
 export interface Props {
   searchTerm: string;
@@ -85,8 +86,13 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
-    const approvedConversations = conversations?.filter(c => Boolean(c.isApproved) === true);
-    if (!conversations || !approvedConversations) {
+    const conversationsToShow = conversations?.filter(async c => {
+      return (
+        Boolean(c.isApproved) === true &&
+        (await BlockedNumberController.isBlockedAsync(c.id)) === false
+      );
+    });
+    if (!conversations || !conversationsToShow) {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
@@ -95,8 +101,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       window.inboxStore?.getState().userConfig.messageRequests === true;
 
     let conversation;
-    if (approvedConversations?.length) {
-      conversation = approvedConversations[index];
+    if (conversationsToShow?.length) {
+      conversation = conversationsToShow[index];
     }
 
     if (!conversation) {
@@ -298,11 +304,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.handleToggleOverlay(undefined);
         }}
         onButtonClick={async () => {
-          // decline all convos
-          // close modal
-          // this.state.approvedConversations.map(async(convo) => {
+          // TODO: msgrequest iterate all convos and block
           console.warn('Test');
-          // } )
         }}
         searchTerm={searchTerm}
         searchResults={searchResults}
