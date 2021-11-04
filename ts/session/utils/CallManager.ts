@@ -698,7 +698,7 @@ export async function USER_hangup(fromSender: string) {
       timestamp: Date.now(),
       uuid: currentCallUUID,
     });
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
+    void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   }
 
   window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
@@ -825,7 +825,7 @@ export async function handleCallTypeOffer(
   }
 }
 
-async function handleMissedCall(
+export async function handleMissedCall(
   sender: string,
   incomingOfferTimestamp: number,
   isBecauseOfCallPermission: boolean

@@ -24,6 +24,7 @@ import {
   useOurAvatarPath,
   useOurConversationUsername,
 } from '../../../hooks/useParamSelector';
+import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -258,20 +259,26 @@ const StyledCenteredLabel = styled.div`
 
 const RingingLabel = () => {
   const ongoingCallWithFocusedIsRinging = useSelector(getHasOngoingCallWithFocusedConvoIsOffering);
+
+  const modulatedStr = useModuloWithTripleDots(window.i18n('ringing'), 3, 1000);
   if (!ongoingCallWithFocusedIsRinging) {
     return null;
   }
-  return <StyledCenteredLabel>{window.i18n('ringing')}</StyledCenteredLabel>;
+  return <StyledCenteredLabel>{modulatedStr}</StyledCenteredLabel>;
 };
 
 const ConnectingLabel = () => {
   const ongoingCallWithFocusedIsConnecting = useSelector(
     getHasOngoingCallWithFocusedConvosIsConnecting
   );
+
+  const modulatedStr = useModuloWithTripleDots(window.i18n('establishingConnection'), 3, 1000);
+
   if (!ongoingCallWithFocusedIsConnecting) {
     return null;
   }
-  return <StyledCenteredLabel>{window.i18n('establishingConnection')}</StyledCenteredLabel>;
+
+  return <StyledCenteredLabel>{modulatedStr}</StyledCenteredLabel>;
 };
 
 // tslint:disable-next-line: max-func-body-length
