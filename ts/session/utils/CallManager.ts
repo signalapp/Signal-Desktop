@@ -19,7 +19,11 @@ import { ed25519Str } from '../onions/onionPath';
 import { getMessageQueue } from '../sending';
 import { PubKey } from '../types';
 
+import { v4 as uuidv4 } from 'uuid';
+
 export type InputItem = { deviceId: string; label: string };
+
+let currentCallUUID: string | undefined;
 
 // const VIDEO_WIDTH = 640;
 // const VIDEO_RATIO = 16 / 9;
@@ -72,9 +76,9 @@ export function removeVideoEventsListener(uniqueId: string) {
 }
 
 /**
- * This field stores all the details received by a sender about a call in separate messages.
+ * This field stores all the details received about a specific call with the same uuid. It is a per pubkey and per device cache.
  */
-const callCache = new Map<string, Array<SignalService.CallMessage>>();
+const callCache = new Map<string, Map<string, Array<SignalService.CallMessage>>>();
 
 let peerConnection: RTCPeerConnection | null;
 let dataChannel: RTCDataChannel | null;
@@ -265,11 +269,17 @@ async function handleNegotiationNeededEvent(_event: Event, recipient: string) {
     }
     await peerConnection?.setLocalDescription(offer);
 
+    if (!currentCallUUID) {
+      window.log.warn('cannot send offer without a currentCallUUID');
+      throw new Error('cannot send offer without a currentCallUUID');
+    }
+
     if (offer && offer.sdp) {
       const offerMessage = new CallMessage({
         timestamp: Date.now(),
         type: SignalService.CallMessage.Type.OFFER,
         sdps: [offer.sdp],
+        uuid: currentCallUUID,
       });
 
       window.log.info('sending OFFER MESSAGE');
@@ -349,12 +359,19 @@ export async function USER_callRecipient(recipient: string) {
     ToastUtils.pushVideoCallPermissionNeeded();
     return;
   }
+  if (currentCallUUID) {
+    window.log.warn(
+      'Looks like we are already in a call as in USER_callRecipient is not undefined'
+    );
+    return;
+  }
   await updateInputLists();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
   window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
   if (peerConnection) {
     throw new Error('USER_callRecipient peerConnection is already initialized ');
   }
+  currentCallUUID = uuidv4();
   peerConnection = createOrGetPeerConnection(recipient, true);
   await openMediaDevicesAndAddTracks();
 }
@@ -381,12 +398,17 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
       return null;
     })
   );
+  if (!currentCallUUID) {
+    window.log.warn('Cannot send ice candidates without a currentCallUUID');
+    return;
+  }
   const callIceCandicates = new CallMessage({
     timestamp: Date.now(),
     type: SignalService.CallMessage.Type.ICE_CANDIDATES,
     sdpMLineIndexes: validCandidates.map(c => c.sdpMLineIndex),
     sdpMids: validCandidates.map(c => c.sdpMid),
     sdps: validCandidates.map(c => c.candidate),
+    uuid: currentCallUUID,
   });
 
   window.log.info('sending ICE CANDIDATES MESSAGE to ', recipient);
@@ -395,11 +417,15 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
 }, 2000);
 
 const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.CallMessage.Type) => {
-  const msgCacheFromSender = callCache.get(sender);
-  if (!msgCacheFromSender) {
+  const msgCacheFromSenderWithDevices = callCache.get(sender);
+  if (!msgCacheFromSenderWithDevices) {
     return undefined;
   }
-  const lastOfferMessage = _.findLast(msgCacheFromSender, m => m.type === msgType);
+
+  // FIXME this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object...
+  const allMsg = _.flattenDeep([...msgCacheFromSenderWithDevices.values()]);
+  const allMsgFromType = allMsg.filter(m => m.type === msgType);
+  const lastOfferMessage = _.last(allMsgFromType);
 
   if (!lastOfferMessage) {
     return undefined;
@@ -458,6 +484,7 @@ function closeVideoCall() {
   remoteStream = null;
   selectedCameraId = INPUT_DISABLED_DEVICE_ID;
   selectedAudioInputId = INPUT_DISABLED_DEVICE_ID;
+  currentCallUUID = undefined;
   callVideoListeners();
   window.inboxStore?.dispatch(setFullScreenCall(false));
 }
@@ -480,6 +507,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
         return;
       }
       handleCallTypeEndCall(foundEntry.id);
+
       return;
     }
 
@@ -550,14 +578,14 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
 
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
-  const msgCacheFromSender = callCache.get(fromSender);
-  await updateInputLists();
-  if (!msgCacheFromSender) {
-    window?.log?.info(
-      'incoming call request cannot be accepted as the corresponding message is not found'
+  if (currentCallUUID) {
+    window.log.warn(
+      'Looks like we are already in a call as in USER_acceptIncomingCallRequest is not undefined'
     );
     return;
   }
+  await updateInputLists();
+
   const lastOfferMessage = findLastMessageTypeFromSender(
     fromSender,
     SignalService.CallMessage.Type.OFFER
@@ -578,6 +606,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   peerConnection = createOrGetPeerConnection(fromSender, false);
 
   await openMediaDevicesAndAddTracks();
+  currentCallUUID = uuidv4();
 
   const { sdps } = lastOfferMessage;
   if (!sdps || sdps.length === 0) {
@@ -617,13 +646,17 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   const endCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
+    uuid: uuidv4(), // just send a random thing, we just want to reject the call
   });
-  callCache.delete(fromSender);
+  // delete all msg not from that uuid only but from that sender pubkey
 
-  window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
-  window.log.info('sending END_CALL MESSAGE');
-
-  sendHangupViaDataChannel();
+  window.inboxStore?.dispatch(
+    endCall({
+      pubkey: fromSender,
+    })
+  );
+  window.log.info('USER_rejectIncomingCallRequest');
+  clearCallCacheFromPubkey(fromSender);
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
 
@@ -637,8 +670,39 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   }
 }
 
+// tslint:disable-next-line: function-name
+export async function USER_hangup(fromSender: string) {
+  if (!currentCallUUID) {
+    window.log.warn('cannot hangup without a currentCallUUID');
+    return;
+  }
+  const endCallMessage = new CallMessage({
+    type: SignalService.CallMessage.Type.END_CALL,
+    timestamp: Date.now(),
+    uuid: currentCallUUID,
+  });
+
+  window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
+  window.log.info('sending hangup with an END_CALL MESSAGE');
+
+  sendHangupViaDataChannel();
+
+  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
+  clearCallCacheFromPubkey(fromSender);
+
+  const convos = getConversationController().getConversations();
+  const callingConvos = convos.filter(convo => convo.callState !== undefined);
+  if (callingConvos.length > 0) {
+    // we just got a new offer from someone we are already in a call with
+    if (callingConvos.length === 1 && callingConvos[0].id === fromSender) {
+      closeVideoCall();
+    }
+  }
+}
+
 export function handleCallTypeEndCall(sender: string) {
-  callCache.delete(sender);
+  clearCallCacheFromPubkey(sender);
+
   window.log.info('handling callMessage END_CALL');
 
   const convos = getConversationController().getConversations();
@@ -655,6 +719,11 @@ export function handleCallTypeEndCall(sender: string) {
 
 async function buildAnswerAndSendIt(sender: string) {
   if (peerConnection) {
+    if (!currentCallUUID) {
+      window.log.warn('cannot send answer without a currentCallUUID');
+      return;
+    }
+
     const answer = await peerConnection.createAnswer({
       offerToReceiveAudio: true,
       offerToReceiveVideo: true,
@@ -669,6 +738,7 @@ async function buildAnswerAndSendIt(sender: string) {
       timestamp: Date.now(),
       type: SignalService.CallMessage.Type.ANSWER,
       sdps: [answerSdp],
+      uuid: currentCallUUID,
     });
 
     window.log.info('sending ANSWER MESSAGE');
@@ -683,7 +753,11 @@ export async function handleCallTypeOffer(
   incomingOfferTimestamp: number
 ) {
   try {
-    window.log.info('handling callMessage OFFER');
+    const remoteCallUUID = callMessage.uuid;
+    if (!remoteCallUUID || remoteCallUUID.length === 0) {
+      throw new Error('incoming offer call has no valid uuid');
+    }
+    window.log.info('handling callMessage OFFER with uuid: ', remoteCallUUID);
 
     const convos = getConversationController().getConversations();
     const callingConvos = convos.filter(convo => convo.callState !== undefined);
@@ -727,15 +801,10 @@ export async function handleCallTypeOffer(
     }
     window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
-    // don't need to do the sending here as we dispatch an answer in a
+    pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
   } catch (err) {
     window.log?.error(`Error handling offer message ${err}`);
   }
-
-  if (!callCache.has(sender)) {
-    callCache.set(sender, new Array());
-  }
-  callCache.get(sender)?.push(callMessage);
 }
 
 async function handleMissedCall(
@@ -778,14 +847,15 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
     window.log.warn('cannot handle answered message without signal description protols');
     return;
   }
+  const remoteCallUUID = callMessage.uuid;
+  if (!remoteCallUUID || remoteCallUUID.length === 0) {
+    window.log.warn('handleCallTypeAnswer has no valid uuid');
+    return;
+  }
 
   window.log.info('handling callMessage ANSWER');
 
-  if (!callCache.has(sender)) {
-    callCache.set(sender, new Array());
-  }
-
-  callCache.get(sender)?.push(callMessage);
+  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
 
   if (!peerConnection) {
     window.log.info('handleCallTypeAnswer without peer connection. Dropping');
@@ -808,13 +878,14 @@ export async function handleCallTypeIceCandidates(
     window.log.warn('cannot handle iceCandicates message without candidates');
     return;
   }
+  const remoteCallUUID = callMessage.uuid;
+  if (!remoteCallUUID || remoteCallUUID.length === 0) {
+    window.log.warn('handleCallTypeIceCandidates has no valid uuid');
+    return;
+  }
   window.log.info('handling callMessage ICE_CANDIDATES');
 
-  if (!callCache.has(sender)) {
-    callCache.set(sender, new Array());
-  }
-
-  callCache.get(sender)?.push(callMessage);
+  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
   await addIceCandidateToExistingPeerConnection(callMessage);
 }
 
@@ -841,5 +912,36 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
 
 // tslint:disable-next-line: no-async-without-await
 export async function handleOtherCallTypes(sender: string, callMessage: SignalService.CallMessage) {
-  callCache.get(sender)?.push(callMessage);
+  const remoteCallUUID = callMessage.uuid;
+  if (!remoteCallUUID || remoteCallUUID.length === 0) {
+    window.log.warn('handleOtherCallTypes has no valid uuid');
+    return;
+  }
+  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+}
+
+function clearCallCacheFromPubkey(sender: string) {
+  callCache.delete(sender);
+}
+
+function createCallCacheForPubkeyAndUUID(sender: string, uuid: string) {
+  if (!callCache.has(sender)) {
+    callCache.set(sender, new Map());
+  }
+
+  if (!callCache.get(sender)?.has(uuid)) {
+    callCache.get(sender)?.set(uuid, new Array());
+  }
+}
+
+function pushCallMessageToCallCache(
+  sender: string,
+  uuid: string,
+  callMessage: SignalService.CallMessage
+) {
+  createCallCacheForPubkeyAndUUID(sender, uuid);
+  callCache
+    .get(sender)
+    ?.get(uuid)
+    ?.push(callMessage);
 }

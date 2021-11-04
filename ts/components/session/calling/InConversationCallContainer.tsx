@@ -164,7 +164,7 @@ const HangUpButton = () => {
   const handleEndCall = async () => {
     // call method to end call connection
     if (ongoingCallPubkey) {
-      await CallManager.USER_rejectIncomingCallRequest(ongoingCallPubkey);
+      await CallManager.USER_hangup(ongoingCallPubkey);
     }
   };
 
