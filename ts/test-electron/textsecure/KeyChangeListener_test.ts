@@ -55,7 +55,6 @@ describe('KeyChangeListener', () => {
   beforeEach(async () => {
     window.ConversationController.reset();
     await window.ConversationController.load();
-    await window.ConversationController.loadPromise();
 
     convo = window.ConversationController.dangerouslyCreateAndAdd({
       id: uuidWithKeyChange,

@@ -43,7 +43,7 @@ describe('Conversations', () => {
       deviceName: 'my device',
       password: 'password',
     });
-    await window.ConversationController.loadPromise();
+    await window.ConversationController.load();
 
     await window.Signal.Data.saveConversation(conversation.attributes);
 

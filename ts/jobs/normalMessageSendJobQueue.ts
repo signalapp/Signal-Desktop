@@ -91,7 +91,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
       timeRemaining,
     });
 
-    await window.ConversationController.loadPromise();
+    await window.ConversationController.load();
 
     const message = await getMessageById(messageId);
     if (!message) {

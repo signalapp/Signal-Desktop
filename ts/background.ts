@@ -812,9 +812,6 @@ export async function startApp(): Promise<void> {
       }
     });
 
-    // We start this up before window.ConversationController.load() to
-    // ensure that our feature flags are represented in the cached props
-    // we generate on load of each convo.
     window.Signal.RemoteConfig.initRemoteConfig(server);
 
     let retryReceiptLifespan: number | undefined;

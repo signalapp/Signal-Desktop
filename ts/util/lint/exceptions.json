@@ -13073,6 +13073,34 @@
     "updated": "2021-10-22T00:52:39.251Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/normalMessageSendJobQueue.js",
+    "line": "        await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/normalMessageSendJobQueue.ts",
+    "line": "    await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/reactionJobQueue.js",
+    "line": "        await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/reactionJobQueue.ts",
+    "line": "    await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "ts/logging/debuglogs.js",
     "line": "    form.append('key', uploadKey);",
@@ -13214,6 +13242,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-01-21T23:06:13.270Z",
     "reasonDetail": "Doesn't manipulate the DOM."
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/state/ducks/app.js",
+    "line": "        await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/state/ducks/app.ts",
+    "line": "    await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-04T16:14:03.477Z"
   },
   {
     "rule": "jQuery-load(",

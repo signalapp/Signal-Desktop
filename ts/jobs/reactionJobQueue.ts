@@ -70,7 +70,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       timeRemaining,
     });
 
-    await window.ConversationController.loadPromise();
+    await window.ConversationController.load();
 
     const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
 

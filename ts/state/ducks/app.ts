@@ -70,7 +70,7 @@ function openInbox(): ThunkAction<
   return async dispatch => {
     log.info('open inbox');
 
-    await window.ConversationController.loadPromise();
+    await window.ConversationController.load();
 
     dispatch({
       type: OPEN_INBOX,
