@@ -62,7 +62,11 @@ export const IncomingCallDialog = () => {
           />
         </IncomingCallAvatatContainer>
         <div className="session-modal__button-group">
-          <SessionButton text={window.i18n('decline')} onClick={handleDeclineIncomingCall} />
+          <SessionButton
+            text={window.i18n('decline')}
+            buttonColor={SessionButtonColor.Danger}
+            onClick={handleDeclineIncomingCall}
+          />
           <SessionButton
             text={window.i18n('accept')}
             onClick={handleAcceptIncomingCall}

@@ -592,6 +592,7 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
 
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
+  window.log.info('USER_acceptIncomingCallRequest');
   if (currentCallUUID) {
     window.log.warn(
       'Looks like we are already in a call as in USER_acceptIncomingCallRequest is not undefined'
@@ -686,22 +687,25 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
 // tslint:disable-next-line: function-name
 export async function USER_hangup(fromSender: string) {
+  window.log.info('USER_hangup');
+
   if (!currentCallUUID) {
-    window.log.warn('cannot hangup without a currentCallUUID');
+    window.log.warn('should not be able to hangup without a currentCallUUID');
     return;
+  } else {
+    const endCallMessage = new CallMessage({
+      type: SignalService.CallMessage.Type.END_CALL,
+      timestamp: Date.now(),
+      uuid: currentCallUUID,
+    });
+    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   }
-  const endCallMessage = new CallMessage({
-    type: SignalService.CallMessage.Type.END_CALL,
-    timestamp: Date.now(),
-    uuid: currentCallUUID,
-  });
 
   window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
   window.log.info('sending hangup with an END_CALL MESSAGE');
 
   sendHangupViaDataChannel();
 
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   clearCallCacheFromPubkey(fromSender);
 
   const convos = getConversationController().getConversations();
