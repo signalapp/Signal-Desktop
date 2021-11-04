@@ -378,7 +378,7 @@ export function getStartCallMenuItem(conversationId: string): JSX.Element | null
           }
 
           if (convo) {
-            convo.callState = 'connecting';
+            convo.callState = 'offering';
             await convo.commit();
             await CallManager.USER_callRecipient(convo.id);
           }

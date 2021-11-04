@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+// tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';

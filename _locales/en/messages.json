@@ -436,6 +436,8 @@
   "surveyTitle": "Take our Session Survey",
   "goToOurSurvey": "Go to our survey",
   "incomingCallFrom": "Incoming call from '$name$'",
+  "ringing": "Ringing...",
+  "establishingConnection": "Establishing connection...",
   "accept": "Accept",
   "decline": "Decline",
   "endCall": "End call",

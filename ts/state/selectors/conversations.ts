@@ -149,6 +149,32 @@ export const getHasOngoingCallWithFocusedConvo = createSelector(
   }
 );
 
+export const getHasOngoingCallWithFocusedConvoIsOffering = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'offering';
+
+    return Boolean(isOffering);
+  }
+);
+
+export const getHasOngoingCallWithFocusedConvosIsConnecting = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'connecting';
+
+    return Boolean(isOffering);
+  }
+);
+
 export const getHasOngoingCallWithNonFocusedConvo = createSelector(
   getHasOngoingCallWithPubkey,
   getSelectedConversationKey,

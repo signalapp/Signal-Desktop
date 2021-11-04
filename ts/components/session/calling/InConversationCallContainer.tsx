@@ -7,6 +7,8 @@ import { CallManager, ToastUtils, UserUtils } from '../../../session/utils';
 import {
   getHasOngoingCallWith,
   getHasOngoingCallWithFocusedConvo,
+  getHasOngoingCallWithFocusedConvoIsOffering,
+  getHasOngoingCallWithFocusedConvosIsConnecting,
   getHasOngoingCallWithPubkey,
 } from '../../../state/selectors/conversations';
 import { SessionIconButton } from '../icon';
@@ -244,6 +246,34 @@ const handleMicrophoneToggle = async (
   }
 };
 
+const StyledCenteredLabel = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: min-content;
+  white-space: nowrap;
+  color: white;
+  text-shadow: 0px 0px 8px white;
+`;
+
+const RingingLabel = () => {
+  const ongoingCallWithFocusedIsRinging = useSelector(getHasOngoingCallWithFocusedConvoIsOffering);
+  if (!ongoingCallWithFocusedIsRinging) {
+    return null;
+  }
+  return <StyledCenteredLabel>{window.i18n('ringing')}</StyledCenteredLabel>;
+};
+
+const ConnectingLabel = () => {
+  const ongoingCallWithFocusedIsConnecting = useSelector(
+    getHasOngoingCallWithFocusedConvosIsConnecting
+  );
+  if (!ongoingCallWithFocusedIsConnecting) {
+    return null;
+  }
+  return <StyledCenteredLabel>{window.i18n('establishingConnection')}</StyledCenteredLabel>;
+};
+
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
@@ -287,6 +317,8 @@ export const InConversationCallContainer = () => {
   return (
     <InConvoCallWindow>
       <RelativeCallWindow>
+        <RingingLabel />
+        <ConnectingLabel />
         <VideoContainer>
           <StyledVideoElement
             ref={videoRefRemote}

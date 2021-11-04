@@ -38,6 +38,7 @@ import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { addStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 import { SplitViewContainer } from '../SplitViewContainer';
+// tslint:disable: jsx-curly-spacing
 
 interface State {
   showRecordingView: boolean;
