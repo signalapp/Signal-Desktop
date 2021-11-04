@@ -10,6 +10,7 @@ import {
   callConnected,
   endCall,
   incomingCall,
+  openConversationWithMessages,
   setFullScreenCall,
   startingCallWith,
 } from '../../state/ducks/conversations';
@@ -611,7 +612,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     return;
   }
   window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
-
+  await openConversationWithMessages({ conversationKey: fromSender });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }

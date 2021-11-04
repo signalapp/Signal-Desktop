@@ -97,13 +97,17 @@ export const DraggableCallContainer = () => {
   }, [positionX, positionY]);
 
   if (videoRefRemote?.current?.srcObject && remoteStream) {
-    videoRefRemote.current.srcObject = remoteStream;
+    if (videoRefRemote.current.srcObject !== remoteStream) {
+      videoRefRemote.current.srcObject = remoteStream;
+    }
     videoRefRemote.current.load();
   }
 
   useEffect(() => {
     if (videoRefRemote?.current) {
-      videoRefRemote.current.srcObject = remoteStream;
+      if (videoRefRemote?.current?.srcObject && remoteStream) {
+        videoRefRemote.current.srcObject = remoteStream;
+      }
 
       videoRefRemote.current.load();
     }

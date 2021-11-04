@@ -272,8 +272,12 @@ export const InConversationCallContainer = () => {
   } = useVideoCallEventsListener('InConversationCallContainer', true);
 
   if (videoRefRemote?.current && videoRefLocal?.current) {
-    videoRefRemote.current.srcObject = remoteStream;
-    videoRefLocal.current.srcObject = localStream;
+    if (videoRefRemote.current.srcObject !== remoteStream) {
+      videoRefRemote.current.srcObject = remoteStream;
+    }
+    if (videoRefLocal.current.srcObject !== localStream) {
+      videoRefLocal.current.srcObject = localStream;
+    }
   }
 
   if (!ongoingCallWithFocused) {
