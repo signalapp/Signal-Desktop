@@ -6524,38 +6524,6 @@
     "message": "What's New",
     "description": "Title for the whats new modal"
   },
-  "WhatsNew__v5.19--1": {
-    "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
-    "description": "Release notes for v5.19"
-  },
-  "WhatsNew__v5.19--2": {
-    "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
-    "description": "Release notes for v5.19"
-  },
-  "WhatsNew__v5.19--3": {
-    "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
-    "description": "Release notes for v5.19"
-  },
-  "WhatsNew__v5.19--4": {
-    "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
-    "description": "Release notes for v5.19"
-  },
-  "WhatsNew__v5.20": {
-    "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-    "description": "Release notes for v5.20"
-  },
-  "WhatsNew__v5.21--1": {
-    "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
-    "description": "Release notes for v5.21"
-  },
-  "WhatsNew__v5.21--2": {
-    "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
-    "description": "Release notes for v5.21"
-  },
-  "WhatsNew__v5.21--3": {
-    "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
-    "description": "Release notes for v5.21"
-  },
   "WhatsNew__v5.24--1": {
     "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
     "description": "Release notes for v5.24"
