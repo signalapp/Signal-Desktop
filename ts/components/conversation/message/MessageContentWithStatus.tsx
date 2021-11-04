@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'underscore';
+import { replyToMessage } from '../../../interactions/conversationInteractions';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../state/ducks/conversations';
 import {
@@ -44,6 +45,10 @@ export const MessageContentWithStatuses = (props: Props) => {
     [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
   );
 
+  const onDoubleClickReplyToMessage = () => {
+    void replyToMessage(messageId);
+  };
+
   const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
   if (!contentProps) {
     return null;
@@ -56,6 +61,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
+      onDoubleClick={onDoubleClickReplyToMessage}
       style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
