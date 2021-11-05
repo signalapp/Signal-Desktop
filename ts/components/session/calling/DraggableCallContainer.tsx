@@ -17,7 +17,7 @@ import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamS
 export const DraggableCallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  box-shadow: var(--color-session-shadow);
+  box-shadow: 0px 0px 10px 0px #000000;
   max-height: 300px;
   width: 12vw;
   display: flex;
@@ -67,8 +67,10 @@ export const DraggableCallContainer = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  const [positionX, setPositionX] = useState(window.innerWidth / 2);
-  const [positionY, setPositionY] = useState(window.innerHeight / 2);
+  // the draggable container has a width of 12vw, so we just set it's X to a bit more than this
+  const [positionX, setPositionX] = useState(window.innerWidth - (window.innerWidth * 1) / 6);
+  // 90 px is a bit below the conversation header height
+  const [positionY, setPositionY] = useState(90);
   const [lastPositionX, setLastPositionX] = useState(0);
   const [lastPositionY, setLastPositionY] = useState(0);
 
