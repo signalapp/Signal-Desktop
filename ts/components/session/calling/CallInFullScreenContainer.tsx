@@ -9,6 +9,7 @@ import {
   getCallIsInFullScreen,
   getHasOngoingCallWithFocusedConvo,
 } from '../../../state/selectors/conversations';
+import { CallWindowControls } from './CallButtons';
 import { StyledVideoElement } from './DraggableCallContainer';
 
 const CallInFullScreenVisible = styled.div`
@@ -30,10 +31,14 @@ export const CallInFullScreenContainer = () => {
   const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
   const hasOngoingCallFullScreen = useSelector(getCallIsInFullScreen);
 
-  const { remoteStream, remoteStreamVideoIsMuted } = useVideoCallEventsListener(
-    'CallInFullScreenContainer',
-    true
-  );
+  const {
+    remoteStream,
+    remoteStreamVideoIsMuted,
+    currentConnectedAudioInputs,
+    currentConnectedCameras,
+    isAudioMuted,
+    localStreamVideoIsMuted,
+  } = useVideoCallEventsListener('CallInFullScreenContainer', true);
 
   const videoRefRemote = React.useRef<HTMLVideoElement>(null);
 
@@ -57,7 +62,9 @@ export const CallInFullScreenContainer = () => {
   }
 
   if (videoRefRemote?.current) {
-    videoRefRemote.current.srcObject = remoteStream;
+    if (videoRefRemote.current.srcObject !== remoteStream) {
+      videoRefRemote.current.srcObject = remoteStream;
+    }
   }
 
   return (
@@ -66,6 +73,14 @@ export const CallInFullScreenContainer = () => {
         ref={videoRefRemote}
         autoPlay={true}
         isVideoMuted={remoteStreamVideoIsMuted}
+      />
+      <CallWindowControls
+        currentConnectedAudioInputs={currentConnectedAudioInputs}
+        currentConnectedCameras={currentConnectedCameras}
+        isAudioMuted={isAudioMuted}
+        localStreamVideoIsMuted={localStreamVideoIsMuted}
+        remoteStreamVideoIsMuted={remoteStreamVideoIsMuted}
+        isFullScreen={true}
       />
     </CallInFullScreenVisible>
   );
