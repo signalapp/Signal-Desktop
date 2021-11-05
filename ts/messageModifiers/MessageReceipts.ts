@@ -141,6 +141,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
   async onReceipt(receipt: MessageReceiptModel): Promise<void> {
     const type = receipt.get('type');
     const messageSentAt = receipt.get('messageSentAt');
+    const receiptTimestamp = receipt.get('receiptTimestamp');
     const sourceConversationId = receipt.get('sourceConversationId');
     const sourceUuid = receipt.get('sourceUuid');
 
@@ -191,7 +192,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
       const newSendState = sendStateReducer(oldSendState, {
         type: sendActionType,
-        updatedAt: messageSentAt,
+        updatedAt: receiptTimestamp,
       });
 
       // The send state may not change. For example, this can happen if we get a read
