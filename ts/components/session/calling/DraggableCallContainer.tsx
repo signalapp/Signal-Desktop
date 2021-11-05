@@ -96,22 +96,11 @@ export const DraggableCallContainer = () => {
     };
   }, [positionX, positionY]);
 
-  if (videoRefRemote?.current?.srcObject && remoteStream) {
+  if (videoRefRemote?.current && remoteStream) {
     if (videoRefRemote.current.srcObject !== remoteStream) {
       videoRefRemote.current.srcObject = remoteStream;
     }
-    videoRefRemote.current.load();
   }
-
-  useEffect(() => {
-    if (videoRefRemote?.current) {
-      if (videoRefRemote?.current?.srcObject && remoteStream) {
-        videoRefRemote.current.srcObject = remoteStream;
-      }
-
-      videoRefRemote.current.load();
-    }
-  }, [remoteStream, videoRefRemote, videoRefRemote?.current]);
 
   const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {

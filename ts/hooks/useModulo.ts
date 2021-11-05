@@ -12,6 +12,5 @@ export function useModulo(loopBackAt: number, delay: number) {
       setCount(count + 1);
     }
   }, delay);
-  console.warn('useModulo', count);
   return { count };
 }
