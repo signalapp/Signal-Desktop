@@ -8,6 +8,7 @@ import * as log from './logging/log';
 
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
+  | 'desktop.calling.useWindowsAdm2'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCallOutboundRing'

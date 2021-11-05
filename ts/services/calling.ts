@@ -59,6 +59,7 @@ import {
 } from '../types/Calling';
 import {
   AudioDeviceModule,
+  getAudioDeviceModule,
   parseAudioDeviceModule,
 } from '../calling/audioDeviceModule';
 import {
@@ -67,7 +68,6 @@ import {
 } from '../calling/findBestMatchingDevice';
 import type { LocalizerType } from '../types/Util';
 import { UUID } from '../types/UUID';
-import * as OS from '../OS';
 import type { ConversationModel } from '../models/conversations';
 import * as Bytes from '../Bytes';
 import { uuidToBytes, bytesToUuid } from '../Crypto';
@@ -76,7 +76,6 @@ import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
-import { isAlpha, isBeta } from '../util/version';
 import {
   fetchMembershipProof,
   getMembershipList,
@@ -259,11 +258,7 @@ export class CallingClass {
     this.previousAudioDeviceModule = parseAudioDeviceModule(
       window.storage.get('previousAudioDeviceModule')
     );
-    this.currentAudioDeviceModule =
-      OS.isWindows() &&
-      (isAlpha(window.getVersion()) || isBeta(window.getVersion()))
-        ? AudioDeviceModule.WindowsAdm2
-        : AudioDeviceModule.Default;
+    this.currentAudioDeviceModule = getAudioDeviceModule();
     window.storage.put(
       'previousAudioDeviceModule',
       this.currentAudioDeviceModule
