@@ -1502,7 +1502,7 @@ export class CallingClass {
   private async requestCameraPermissions(): Promise<boolean> {
     const cameraPermission = await window.getMediaCameraPermissions();
     if (!cameraPermission) {
-      await window.showCallingPermissionsPopup(true);
+      await window.showPermissionsPopup(true, true);
 
       // Check the setting again (from the source of truth).
       return window.getMediaCameraPermissions();
@@ -1512,7 +1512,7 @@ export class CallingClass {
   }
 
   private async requestPermissions(isVideoCall: boolean): Promise<boolean> {
-    const microphonePermission = await requestMicrophonePermissions();
+    const microphonePermission = await requestMicrophonePermissions(true);
     if (microphonePermission) {
       if (isVideoCall) {
         return this.requestCameraPermissions();
