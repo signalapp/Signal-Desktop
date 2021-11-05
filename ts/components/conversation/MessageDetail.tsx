@@ -188,6 +188,7 @@ export class MessageDetail extends React.Component<Props> {
         {unidentifiedDeliveryComponent}
         {contact.statusTimestamp && (
           <Timestamp
+            extended
             i18n={i18n}
             module="module-message-detail__status-timestamp"
             timestamp={contact.statusTimestamp}
