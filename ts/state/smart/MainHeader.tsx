@@ -7,6 +7,7 @@ import { mapDispatchToProps } from '../actions';
 import { MainHeader } from '../../components/MainHeader';
 import type { StateType } from '../reducer';
 
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getQuery,
   getSearchConversation,
@@ -15,6 +16,7 @@ import {
 import {
   getIntl,
   getRegionCode,
+  getTheme,
   getUserConversationId,
   getUserNumber,
   getUserUuid,
@@ -22,6 +24,8 @@ import {
 import { getMe, getSelectedConversation } from '../selectors/conversations';
 
 const mapStateToProps = (state: StateType) => {
+  const me = getMe(state);
+
   return {
     disabled: state.network.challengeStatus !== 'idle',
     hasPendingUpdate: Boolean(state.updates.didSnooze),
@@ -33,7 +37,9 @@ const mapStateToProps = (state: StateType) => {
     ourConversationId: getUserConversationId(state),
     ourNumber: getUserNumber(state),
     ourUuid: getUserUuid(state),
-    ...getMe(state),
+    ...me,
+    badge: getPreferredBadgeSelector(state)(me.badges),
+    theme: getTheme(state),
     i18n: getIntl(state),
   };
 };

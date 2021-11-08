@@ -11,6 +11,7 @@ import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './MainHeader';
 import { MainHeader } from './MainHeader';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -26,6 +27,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   searchConversation: overrideProps.searchConversation,
   selectedConversation: undefined,
   startSearchCounter: 0,
+  theme: ThemeType.light,
 
   phoneNumber: optionalText('phoneNumber', overrideProps.phoneNumber),
   title: requiredText('title', overrideProps.title),

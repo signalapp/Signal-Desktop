@@ -8,10 +8,11 @@ import { createPortal } from 'react-dom';
 import { showSettings } from '../shims/Whisper';
 import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
 import type { ConversationType } from '../state/ducks/conversations';
 import { LeftPaneSearchInput } from './LeftPaneSearchInput';
+import type { BadgeType } from '../badges/types';
 
 export type PropsType = {
   searchTerm: string;
@@ -29,7 +30,9 @@ export type PropsType = {
   profileName?: string;
   title: string;
   avatarPath?: string;
+  badge?: BadgeType;
   hasPendingUpdate: boolean;
+  theme: ThemeType;
 
   i18n: LocalizerType;
 
@@ -191,6 +194,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
   public render(): JSX.Element {
     const {
       avatarPath,
+      badge,
       color,
       disabled,
       hasPendingUpdate,
@@ -203,6 +207,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       showArchivedConversations,
       startComposing,
       startUpdate,
+      theme,
       title,
       toggleProfileEditor,
     } = this.props;
@@ -219,6 +224,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                 <Avatar
                   acceptedMessageRequest
                   avatarPath={avatarPath}
+                  badge={badge}
                   className="module-main-header__avatar"
                   color={color}
                   conversationType="direct"
@@ -227,6 +233,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                   name={name}
                   phoneNumber={phoneNumber}
                   profileName={profileName}
+                  theme={theme}
                   title={title}
                   // `sharedGroupNames` makes no sense for yourself, but
                   // `<Avatar>` needs it to determine blurring.
@@ -247,6 +254,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                   {({ ref, style }) => (
                     <AvatarPopup
                       acceptedMessageRequest
+                      badge={badge}
                       innerRef={ref}
                       i18n={i18n}
                       isMe
@@ -256,6 +264,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
                       name={name}
                       phoneNumber={phoneNumber}
                       profileName={profileName}
+                      theme={theme}
                       title={title}
                       avatarPath={avatarPath}
                       size={28}
