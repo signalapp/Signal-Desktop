@@ -118,7 +118,7 @@ const AudioInputMenu = ({
   );
 };
 
-export const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
+const ShowInFullScreenButton = ({ isFullScreen }: { isFullScreen: boolean }) => {
   const dispatch = useDispatch();
 
   const showInFullScreen = () => {
@@ -270,7 +270,8 @@ export const CallWindowControls = ({
 }) => {
   return (
     <StyledCallWindowControls>
-      <HangUpButton />
+      {!remoteStreamVideoIsMuted && <ShowInFullScreenButton isFullScreen={isFullScreen} />}
+
       <VideoInputButton
         currentConnectedCameras={currentConnectedCameras}
         localStreamVideoIsMuted={localStreamVideoIsMuted}
@@ -281,8 +282,7 @@ export const CallWindowControls = ({
         isAudioMuted={isAudioMuted}
         hideArrowIcon={isFullScreen}
       />
-
-      {!remoteStreamVideoIsMuted && <ShowInFullScreenButton isFullScreen={isFullScreen} />}
+      <HangUpButton />
     </StyledCallWindowControls>
   );
 };

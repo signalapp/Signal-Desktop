@@ -590,6 +590,20 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
   };
 });
 
+export const getIsSelectedPrivate = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isPrivate || false;
+  }
+);
+
+export const getIsSelectedNoteToSelf = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isMe || false;
+  }
+);
+
 export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
   const values = Object.values(state.conversationLookup);
   return values.filter(conversation => conversation.isPinned).length;

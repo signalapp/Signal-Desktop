@@ -14,6 +14,10 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
+  getHasIncomingCall,
+  getHasOngoingCall,
+  getIsSelectedNoteToSelf,
+  getIsSelectedPrivate,
   getSelectedConversation,
   getSelectedConversationIsPublic,
   getSelectedConversationKey,
@@ -35,6 +39,7 @@ import {
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
+import { callRecipient } from '../../interactions/conversationInteractions';
 
 export interface TimerOption {
   name: string;
@@ -202,6 +207,32 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   );
 };
 
+const CallButton = () => {
+  const isPrivate = useSelector(getIsSelectedPrivate);
+  const isMe = useSelector(getIsSelectedNoteToSelf);
+  const selectedConvoKey = useSelector(getSelectedConversationKey);
+
+  const hasIncomingCall = useSelector(getHasIncomingCall);
+  const hasOngoingCall = useSelector(getHasOngoingCall);
+  const canCall = !(hasIncomingCall || hasOngoingCall);
+
+  if (!isPrivate || isMe || !selectedConvoKey) {
+    return null;
+  }
+
+  return (
+    <SessionIconButton
+      iconType="phone"
+      iconSize="large"
+      iconPadding="2px"
+      margin="0 10px 0 0"
+      onClick={() => {
+        void callRecipient(selectedConvoKey, canCall);
+      }}
+    />
+  );
+};
+
 export const StyledSubtitleContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -362,17 +393,20 @@ export const ConversationHeaderWithDetails = () => {
         {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
         {!isSelectionMode && (
-          <AvatarHeader
-            onAvatarClick={() => {
-              dispatch(openRightPanel());
-            }}
-            pubkey={conversationKey}
-            showBackButton={isMessageDetailOpened}
-            avatarPath={avatarPath}
-            memberAvatars={memberDetails}
-            name={name}
-            profileName={profileName}
-          />
+          <>
+            <CallButton />
+            <AvatarHeader
+              onAvatarClick={() => {
+                dispatch(openRightPanel());
+              }}
+              pubkey={conversationKey}
+              showBackButton={isMessageDetailOpened}
+              avatarPath={avatarPath}
+              memberAvatars={memberDetails}
+              name={name}
+              profileName={profileName}
+            />
+          </>
         )}
 
         <MemoConversationHeaderMenu

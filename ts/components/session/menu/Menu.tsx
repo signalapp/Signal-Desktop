@@ -21,6 +21,7 @@ import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
+  callRecipient,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
   deleteAllMessagesByConvoIdWithConfirmation,
@@ -36,8 +37,7 @@ import {
 } from '../../../interactions/conversationInteractions';
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
-import { CallManager, ToastUtils } from '../../../session/utils';
-import { getCallMediaPermissionsSettings } from '../settings/SessionSettings';
+import { ToastUtils } from '../../../session/utils';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -357,34 +357,17 @@ export function getStartCallMenuItem(conversationId: string): JSX.Element | null
     const hasIncomingCall = useSelector(getHasIncomingCall);
     const hasOngoingCall = useSelector(getHasOngoingCall);
     const canCall = !(hasIncomingCall || hasOngoingCall);
-    if (!convoOut?.isPrivate()) {
+    if (!convoOut?.isPrivate() || convoOut.isMe()) {
       return null;
     }
+
     return (
       <Item
-        onClick={async () => {
-          // TODO: either pass param to callRecipient or call different call methods based on item selected.
-          // TODO: one time redux-persisted permission modal?
-          const convo = getConversationController().get(conversationId);
-
-          if (!canCall) {
-            ToastUtils.pushUnableToCall();
-            return;
-          }
-
-          if (!getCallMediaPermissionsSettings()) {
-            ToastUtils.pushVideoCallPermissionNeeded();
-            return;
-          }
-
-          if (convo) {
-            convo.callState = 'offering';
-            await convo.commit();
-            await CallManager.USER_callRecipient(convo.id);
-          }
+        onClick={() => {
+          void callRecipient(conversationId, canCall);
         }}
       >
-        {'Video Call'}
+        {window.i18n('menuCall')}
       </Item>
     );
   }
