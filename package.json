@@ -74,7 +74,7 @@
   "dependencies": {
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.2.6",
-    "@signalapp/signal-client": "0.9.5",
+    "@signalapp/signal-client": "0.9.8",
     "@sindresorhus/is": "0.8.0",
     "abort-controller": "3.0.0",
     "array-move": "2.1.0",

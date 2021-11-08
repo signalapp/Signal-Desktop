@@ -23,6 +23,7 @@ import { SenderKeys } from '../LibSignalStores';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MIMETypeToString } from '../types/MIME';
 import type * as Attachment from '../types/Attachment';
+import type { UUIDStringType } from '../types/UUID';
 import type {
   ChallengeType,
   GroupCredentialsType,
@@ -2058,8 +2059,14 @@ export default class MessageSender {
 
   async getUuidsForE164s(
     numbers: ReadonlyArray<string>
-  ): Promise<Dictionary<string | null>> {
+  ): Promise<Dictionary<UUIDStringType | null>> {
     return this.server.getUuidsForE164s(numbers);
+  }
+
+  async getUuidsForE164sV2(
+    numbers: ReadonlyArray<string>
+  ): Promise<Dictionary<UUIDStringType | null>> {
+    return this.server.getUuidsForE164sV2(numbers);
   }
 
   async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {

@@ -31,6 +31,7 @@ import { toWebSafeBase64 } from '../util/webSafeBase64';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
+import type { UUIDStringType } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import {
   constantTimeEqual,
@@ -49,6 +50,7 @@ import type {
   StorageServiceCredentials,
 } from '../textsecure.d';
 import { SocketManager } from './SocketManager';
+import { CDSSocketManager } from './CDSSocketManager';
 import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
 
@@ -566,6 +568,9 @@ type InitializeOptionsType = {
   directoryEnclaveId: string;
   directoryTrustAnchor: string;
   directoryUrl: string;
+  directoryV2Url: string;
+  directoryV2PublicKey: string;
+  directoryV2CodeHash: string;
   cdnUrlObject: {
     readonly '0': string;
     readonly [propName: string]: string;
@@ -788,7 +793,10 @@ export type WebAPIType = {
   getStorageRecords: MessageSender['getStorageRecords'];
   getUuidsForE164s: (
     e164s: ReadonlyArray<string>
-  ) => Promise<Dictionary<string | null>>;
+  ) => Promise<Dictionary<UUIDStringType | null>>;
+  getUuidsForE164sV2: (
+    e164s: ReadonlyArray<string>
+  ) => Promise<Dictionary<UUIDStringType | null>>;
   fetchLinkPreviewMetadata: (
     href: string,
     abortSignal: AbortSignal
@@ -925,6 +933,9 @@ export function initialize({
   directoryEnclaveId,
   directoryTrustAnchor,
   directoryUrl,
+  directoryV2Url,
+  directoryV2PublicKey,
+  directoryV2CodeHash,
   cdnUrlObject,
   certificateAuthority,
   contentProxyUrl,
@@ -948,6 +959,15 @@ export function initialize({
   }
   if (!is.string(directoryUrl)) {
     throw new Error('WebAPI.initialize: Invalid directory url');
+  }
+  if (!is.string(directoryV2Url)) {
+    throw new Error('WebAPI.initialize: Invalid directory V2 url');
+  }
+  if (!is.string(directoryV2PublicKey)) {
+    throw new Error('WebAPI.initialize: Invalid directory V2 public key');
+  }
+  if (!is.string(directoryV2CodeHash)) {
+    throw new Error('WebAPI.initialize: Invalid directory V2 code hash');
   }
   if (!is.object(cdnUrlObject)) {
     throw new Error('WebAPI.initialize: Invalid cdnUrlObject');
@@ -1009,6 +1029,15 @@ export function initialize({
       socketManager.authenticate({ username, password });
     }
 
+    const cdsSocketManager = new CDSSocketManager({
+      url: directoryV2Url,
+      publicKey: directoryV2PublicKey,
+      codeHash: directoryV2CodeHash,
+      certificateAuthority,
+      version,
+      proxyUrl,
+    });
+
     let fetchForLinkPreviews: linkPreviewFetch.FetchFn;
     if (proxyUrl) {
       const agent = new ProxyAgent(proxyUrl);
@@ -1057,6 +1086,7 @@ export function initialize({
       getStorageManifest,
       getStorageRecords,
       getUuidsForE164s,
+      getUuidsForE164sV2,
       makeProxiedRequest,
       makeSfuRequest,
       modifyGroup,
@@ -2758,7 +2788,7 @@ export function initialize({
 
     async function getUuidsForE164s(
       e164s: ReadonlyArray<string>
-    ): Promise<Dictionary<string | null>> {
+    ): Promise<Dictionary<UUIDStringType | null>> {
       const directoryAuth = await getDirectoryAuth();
       const attestationResult = await putRemoteAttestation(directoryAuth);
 
@@ -2828,6 +2858,14 @@ export function initialize({
           'Returned set of UUIDs did not match returned set of e164s!'
         );
       }
+
+      return zipObject(e164s, uuids);
+    }
+
+    async function getUuidsForE164sV2(
+      e164s: ReadonlyArray<string>
+    ): Promise<Dictionary<UUIDStringType | null>> {
+      const uuids = await cdsSocketManager.request({ e164s });
 
       return zipObject(e164s, uuids);
     }

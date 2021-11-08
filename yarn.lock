@@ -1717,10 +1717,10 @@
     "@react-spring/shared" "~9.2.6-beta.0"
     "@react-spring/types" "~9.2.6-beta.0"
 
-"@signalapp/signal-client@0.9.5":
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.9.5.tgz#b133305aa39c00ceae8743316efd0cc0bfe02e2d"
-  integrity sha512-cLKo6vzrp3MWyTv+LJnX1KGSLS4TUZVZz20NicAuOks926+E5C1xKZEYhD0sTMsbD1CdHLbPqqw8cQy5oXWHag==
+"@signalapp/signal-client@0.9.8":
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.9.8.tgz#e3bd9795eb29ee0246adf0a5245de06054d69180"
+  integrity sha512-ESm/n2rtVtDVdQvO9ad8y5Hh3grf+HWtM+nzZHYTw3QpvhaYONl3xUBAs1mbGYp/6Gwf83qJ/Le9rduFfw/lVQ==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"

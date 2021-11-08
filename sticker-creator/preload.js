@@ -57,6 +57,9 @@ const WebAPI = initializeWebAPI({
   directoryUrl: config.directoryUrl,
   directoryEnclaveId: config.directoryEnclaveId,
   directoryTrustAnchor: config.directoryTrustAnchor,
+  directoryV2Url: config.directoryV2Url,
+  directoryV2PublicKey: config.directoryV2PublicKey,
+  directoryV2CodeHash: config.directoryV2CodeHash,
   cdnUrlObject: {
     0: config.cdnUrl0,
     2: config.cdnUrl2,
