@@ -400,8 +400,8 @@ function doRecordsConflict(
     }
 
     // If both types are Long we can use Long's equals to compare them
-    if (localValue instanceof Long || typeof localValue === 'number') {
-      if (!(remoteValue instanceof Long) || typeof remoteValue !== 'number') {
+    if (Long.isLong(localValue) || typeof localValue === 'number') {
+      if (!Long.isLong(remoteValue) || typeof remoteValue !== 'number') {
         return true;
       }
 

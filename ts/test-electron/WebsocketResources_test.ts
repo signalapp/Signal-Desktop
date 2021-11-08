@@ -57,7 +57,7 @@ describe('WebSocket-Resource', () => {
         assert.strictEqual(message.response?.status, 200);
         const id = message.response?.id;
 
-        if (id instanceof Long) {
+        if (Long.isLong(id)) {
           assert(id.equals(requestId));
         } else {
           assert(false, `id should be Long, got ${id}`);

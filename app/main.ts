@@ -453,7 +453,6 @@ async function createWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      enableRemoteModule: true,
       preload: join(
         __dirname,
         enableCI || getEnvironment() === Environment.Production
@@ -1027,7 +1026,6 @@ function showSettingsWindow() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: true,
-      enableRemoteModule: true,
       preload: join(__dirname, '../ts/windows/settings/preload.js'),
       nativeWindowOpen: true,
     },
@@ -1098,7 +1096,6 @@ async function showStickerCreator() {
       nodeIntegration: false,
       nodeIntegrationInWorker: false,
       contextIsolation: false,
-      enableRemoteModule: true,
       preload: join(__dirname, '../sticker-creator/preload.js'),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
@@ -1216,7 +1213,6 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
         nodeIntegration: false,
         nodeIntegrationInWorker: false,
         contextIsolation: true,
-        enableRemoteModule: true,
         preload: join(__dirname, '../ts/windows/permissions/preload.js'),
         nativeWindowOpen: true,
       },

@@ -4,11 +4,10 @@
 import { ipcRenderer } from 'electron';
 
 import { explodePromise } from './util/explodePromise';
+import { SECOND } from './util/durations';
 import * as log from './logging/log';
 
 type ResolveType = (data: unknown) => void;
-
-export const electronRequire = require;
 
 export class CI {
   private readonly eventListeners = new Map<string, Array<ResolveType>>();
@@ -21,7 +20,10 @@ export class CI {
     });
   }
 
-  public async waitForEvent(event: string): Promise<unknown> {
+  public async waitForEvent(
+    event: string,
+    timeout = 60 * SECOND
+  ): Promise<unknown> {
     const pendingCompleted = this.completedEvents.get(event) || [];
     const pending = pendingCompleted.shift();
     if (pending) {
@@ -35,7 +37,11 @@ export class CI {
     }
 
     log.info(`CI: waiting for event ${event}`);
-    const { resolve, promise } = explodePromise();
+    const { resolve, reject, promise } = explodePromise();
+
+    const timer = setTimeout(() => {
+      reject(new Error('Timed out'));
+    }, timeout);
 
     let list = this.eventListeners.get(event);
     if (!list) {
@@ -43,7 +49,10 @@ export class CI {
       this.eventListeners.set(event, list);
     }
 
-    list.push(resolve);
+    list.push((value: unknown) => {
+      clearTimeout(timer);
+      resolve(value);
+    });
 
     return promise;
   }

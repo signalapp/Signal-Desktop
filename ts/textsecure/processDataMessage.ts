@@ -43,7 +43,7 @@ export function processAttachment(
   }
 
   const { cdnId } = attachment;
-  const hasCdnId = cdnId instanceof Long ? !cdnId.isZero() : Boolean(cdnId);
+  const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
   return {
     ...shallowDropNull(attachment),

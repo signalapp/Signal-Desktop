@@ -17,8 +17,3 @@ console.log('Set Windows Application User Model ID (AUMID)', {
   appUserModelId,
 });
 app.setAppUserModelId(appUserModelId);
-
-// We don't navigate, but this is the way of the future
-//   https://github.com/electron/electron/issues/18397
-// TODO: Make ringrtc-node context-aware and change this to true.
-app.allowRendererProcessReuse = false;

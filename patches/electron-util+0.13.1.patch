@@ -1,5 +1,5 @@
 diff --git a/node_modules/electron-util/index.d.ts b/node_modules/electron-util/index.d.ts
-index 8d493d5..3408e21 100644
+index 8d493d5..fc522af 100644
 --- a/node_modules/electron-util/index.d.ts
 +++ b/node_modules/electron-util/index.d.ts
 @@ -1,7 +1,7 @@
@@ -7,7 +7,7 @@ index 8d493d5..3408e21 100644
  /// <reference types="electron"/>
  /// <reference types="node"/>
 -import {AllElectron, Remote, BrowserWindow, Size, Rectangle, Session, MenuItemConstructorOptions, MenuItem} from 'electron';
-+import {RemoteMainInterface, BrowserWindow, Size, Rectangle, Session, MenuItemConstructorOptions, MenuItem} from 'electron';
++import { BrowserWindow, Size, Rectangle, Session, MenuItemConstructorOptions, MenuItem} from 'electron';
  import {Options as NewGithubIssueUrlOptions} from 'new-github-issue-url';
  import {RequireAtLeastOne} from 'type-fest';
  
@@ -16,7 +16,31 @@ index 8d493d5..3408e21 100644
  ```
  */
 -export const api: AllElectron | Remote;
-+export const api: RemoteMainInterface;
++export const api: never;
  
  /**
  Check for various things.
+diff --git a/node_modules/electron-util/source/is.js b/node_modules/electron-util/source/is.js
+index 9a7622f..9530a9c 100644
+--- a/node_modules/electron-util/source/is.js
++++ b/node_modules/electron-util/source/is.js
+@@ -1,5 +1,4 @@
+ 'use strict';
+-const isDev = require('electron-is-dev');
+ const isUsingAsar = require('./is-using-asar');
+ 
+ module.exports = {
+@@ -9,7 +8,12 @@ module.exports = {
+ 	main: process.type === 'browser',
+ 	renderer: process.type === 'renderer',
+ 	usingAsar: isUsingAsar,
+-	development: isDev,
+ 	macAppStore: process.mas === true,
+ 	windowsStore: process.windowsStore === true
+ };
++
++Object.defineProperty(module.exports, 'isDev', {
++  get() {
++    throw new Error('Not supported in electron 15');
++  }
++});

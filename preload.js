@@ -118,8 +118,12 @@ try {
 
   // We never do these in our code, so we'll prevent it everywhere
   window.open = () => null;
-  // eslint-disable-next-line no-eval, no-multi-assign
-  window.eval = global.eval = () => null;
+
+  // Playwright uses `eval` for `.evaluate()` API
+  if (!config.enableCI) {
+    // eslint-disable-next-line no-eval, no-multi-assign
+    window.eval = global.eval = () => null;
+  }
 
   window.drawAttention = () => {
     log.info('draw attention');
@@ -436,9 +440,8 @@ try {
   });
 
   if (config.enableCI) {
-    const { CI, electronRequire } = require('./ts/CI');
+    const { CI } = require('./ts/CI');
     window.CI = new CI(title);
-    window.electronRequire = electronRequire;
   }
 
   // these need access to window.Signal:
