@@ -43,9 +43,9 @@ import { getDraftForConversation, updateDraftForConversation } from '../SessionC
 import { showLinkSharingConfirmationModalDialog } from '../../../../interactions/conversationInteractions';
 import {
   AddStagedAttachmentButton,
+  SendMessageButton,
   StartRecordingButton,
   ToggleEmojiButton,
-  SendMessageButton,
 } from './CompositionButtons';
 
 export interface ReplyingToMessageProps {

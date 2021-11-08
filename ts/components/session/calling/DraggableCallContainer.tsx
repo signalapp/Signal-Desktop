@@ -13,6 +13,7 @@ import { openConversationWithMessages } from '../../../state/ducks/conversations
 import { Avatar, AvatarSize } from '../../Avatar';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
 import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
+import { VideoLoadingSpinner } from './InConversationCallContainer';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
@@ -134,6 +135,7 @@ export const DraggableCallContainer = () => {
     >
       <DraggableCallWindow className="dragHandle">
         <DraggableCallWindowInner>
+          <VideoLoadingSpinner fullWidth={true} />
           <StyledDraggableVideoElement
             ref={videoRefRemote}
             autoPlay={true}

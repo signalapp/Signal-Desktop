@@ -22,10 +22,12 @@ import {
 } from '../../../hooks/useParamSelector';
 import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots';
 import { CallWindowControls } from './CallButtons';
+import { SessionSpinner } from '../SessionSpinner';
 
 const VideoContainer = styled.div`
   height: 100%;
   width: 50%;
+  z-index: 0;
 `;
 
 const InConvoCallWindow = styled.div`
@@ -94,6 +96,24 @@ const ConnectingLabel = () => {
   return <StyledCenteredLabel>{modulatedStr}</StyledCenteredLabel>;
 };
 
+const StyledSpinner = styled.div<{ fullWidth: boolean }>`
+  height: 100%;
+  width: ${props => (props.fullWidth ? '100%' : '50%')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: -1;
+`;
+
+export const VideoLoadingSpinner = (props: { fullWidth: boolean }) => {
+  return (
+    <StyledSpinner fullWidth={props.fullWidth}>
+      <SessionSpinner loading={true} />
+    </StyledSpinner>
+  );
+};
+
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
@@ -140,6 +160,7 @@ export const InConversationCallContainer = () => {
         <RingingLabel />
         <ConnectingLabel />
         <VideoContainer>
+          <VideoLoadingSpinner fullWidth={false} />
           <StyledVideoElement
             ref={videoRefRemote}
             autoPlay={true}

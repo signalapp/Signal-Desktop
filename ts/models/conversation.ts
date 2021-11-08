@@ -597,7 +597,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return unreadCount;
   }
 
-  public queueJob(callback: () => Promise<void>) {
+  public async queueJob(callback: () => Promise<void>) {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
@@ -606,7 +606,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.pending = previous.then(taskWithTimeout, taskWithTimeout);
     const current = this.pending;
 
-    current.then(() => {
+    void current.then(() => {
       if (this.pending === current) {
         delete this.pending;
       }
@@ -874,7 +874,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     await this.commit();
 
-    this.queueJob(async () => {
+    await this.queueJob(async () => {
       await this.sendMessageJob(messageModel, expireTimer);
     });
   }

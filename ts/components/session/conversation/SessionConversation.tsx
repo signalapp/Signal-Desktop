@@ -3,8 +3,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {
-  SendMessageType,
   CompositionBox,
+  SendMessageType,
   StagedAttachmentType,
 } from './composition/CompositionBox';
 
