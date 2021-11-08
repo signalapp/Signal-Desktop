@@ -1,56 +1,52 @@
 import React from 'react';
 import _, { debounce } from 'lodash';
 
-import { AttachmentType } from '../../../types/Attachment';
-import * as MIME from '../../../types/MIME';
+import { AttachmentType } from '../../../../types/Attachment';
+import * as MIME from '../../../../types/MIME';
 
-import { SessionIconButton } from '../icon';
-import { SessionEmojiPanel } from './SessionEmojiPanel';
-import { SessionRecording } from './SessionRecording';
+import { SessionEmojiPanel } from '../SessionEmojiPanel';
+import { SessionRecording } from '../SessionRecording';
 
-import { Constants } from '../../../session';
+import { Constants } from '../../../../session';
 
 import { toArray } from 'react-emoji-render';
-import { Flex } from '../../basic/Flex';
-import { StagedAttachmentList } from '../../conversation/StagedAttachmentList';
-import { ToastUtils } from '../../../session/utils';
-import { AttachmentUtil } from '../../../util';
+import { Flex } from '../../../basic/Flex';
+import { StagedAttachmentList } from '../../../conversation/StagedAttachmentList';
+import { ToastUtils } from '../../../../session/utils';
+import { AttachmentUtil } from '../../../../util';
 import {
   getPreview,
   LINK_PREVIEW_TIMEOUT,
   SessionStagedLinkPreview,
-} from './SessionStagedLinkPreview';
+} from '../SessionStagedLinkPreview';
 import { AbortController } from 'abort-controller';
-import { SessionQuotedMessageComposition } from './SessionQuotedMessageComposition';
+import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
 import { Mention, MentionsInput } from 'react-mentions';
-import { CaptionEditor } from '../../CaptionEditor';
-import { getConversationController } from '../../../session/conversations';
-import { ReduxConversationType } from '../../../state/ducks/conversations';
-import { SessionMemberListItem } from '../SessionMemberListItem';
+import { CaptionEditor } from '../../../CaptionEditor';
+import { getConversationController } from '../../../../session/conversations';
+import { ReduxConversationType } from '../../../../state/ducks/conversations';
+import { SessionMemberListItem } from '../../SessionMemberListItem';
 import autoBind from 'auto-bind';
-import { getMediaPermissionsSettings, SessionSettingCategory } from '../settings/SessionSettings';
-import { updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
 import {
-  SectionType,
-  showLeftPaneSection,
-  showSettingsSection,
-} from '../../../state/ducks/section';
-import { SessionButtonColor } from '../SessionButton';
-import {
-  createOrUpdateItem,
-  getItemById,
-  hasLinkPreviewPopupBeenDisplayed,
-} from '../../../data/data';
-import {
+  getIsTypingEnabled,
   getMentionsInput,
   getQuotedMessage,
   getSelectedConversation,
   getSelectedConversationKey,
-} from '../../../state/selectors/conversations';
+} from '../../../../state/selectors/conversations';
 import { connect } from 'react-redux';
-import { StateType } from '../../../state/reducer';
-import { getTheme } from '../../../state/selectors/theme';
-import { removeAllStagedAttachmentsInConversation } from '../../../state/ducks/stagedAttachments';
+import { StateType } from '../../../../state/reducer';
+import { getTheme } from '../../../../state/selectors/theme';
+import { removeAllStagedAttachmentsInConversation } from '../../../../state/ducks/stagedAttachments';
+import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
+import { showLinkSharingConfirmationModalDialog } from '../../../../interactions/conversationInteractions';
+import {
+  AddStagedAttachmentButton,
+  StartRecordingButton,
+  ToggleEmojiButton,
+  SendMessageButton,
+} from './CompositionButtons';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -83,79 +79,11 @@ export type SendMessageType = {
   groupInvitation: { url: string | undefined; name: string } | undefined;
 };
 
-const AddStagedAttachmentButton = (props: { onClick: () => void }) => {
-  return (
-    <SessionIconButton
-      iconType="plusThin"
-      backgroundColor={'var(--color-compose-view-button-background)'}
-      iconSize={'huge2'}
-      borderRadius="300px"
-      iconPadding="8px"
-      onClick={props.onClick}
-    />
-  );
-};
-
-const StartRecordingButton = (props: { onClick: () => void }) => {
-  return (
-    <SessionIconButton
-      iconType="microphone"
-      iconSize={'huge2'}
-      backgroundColor={'var(--color-compose-view-button-background)'}
-      borderRadius="300px"
-      iconPadding="6px"
-      onClick={props.onClick}
-    />
-  );
-};
-
-const ToggleEmojiButton = React.forwardRef<HTMLDivElement, { onClick: () => void }>(
-  (props, ref) => {
-    return (
-      <SessionIconButton
-        iconType="emoji"
-        ref={ref}
-        backgroundColor="var(--color-compose-view-button-background)"
-        iconSize={'huge2'}
-        borderRadius="300px"
-        iconPadding="6px"
-        onClick={props.onClick}
-      />
-    );
-  }
-);
-
-const SendMessageButton = (props: { onClick: () => void }) => {
-  return (
-    <div className="send-message-button">
-      <SessionIconButton
-        iconType="send"
-        backgroundColor={'var(--color-compose-view-button-background)'}
-        iconSize={'huge2'}
-        iconRotation={90}
-        borderRadius="300px"
-        iconPadding="6px"
-        onClick={props.onClick}
-      />
-    </div>
-  );
-};
-
-// keep this draft state local to not have to do a redux state update (a bit slow with our large state for soem computers)
-const draftsForConversations: Array<{ conversationKey: string; draft: string }> = new Array();
-function updateDraftForConversation(action: { conversationKey: string; draft: string }) {
-  const { conversationKey, draft } = action;
-  const foundAtIndex = draftsForConversations.findIndex(c => c.conversationKey === conversationKey);
-  foundAtIndex === -1
-    ? draftsForConversations.push({ conversationKey, draft })
-    : (draftsForConversations[foundAtIndex] = action);
-}
 interface Props {
   sendMessage: (msg: SendMessageType) => void;
-  onLoadVoiceNoteView: any;
-  onExitVoiceNoteView: any;
   selectedConversationKey: string;
   selectedConversation: ReduxConversationType | undefined;
+  typingEnabled: boolean;
   quotedMessageProps?: ReplyingToMessageProps;
   stagedAttachments: Array<StagedAttachmentType>;
   onChoseAttachments: (newAttachments: Array<File>) => void;
@@ -165,8 +93,7 @@ interface State {
   showRecordingView: boolean;
   draft: string;
   showEmojiPanel: boolean;
-  voiceRecording?: Blob;
-  ignoredLink?: string; // set the the ignored url when users closed the link preview
+  ignoredLink?: string; // set the ignored url when users closed the link preview
   stagedLinkPreview?: StagedLinkPreviewData;
   showCaptionEditor?: AttachmentType;
 }
@@ -191,12 +118,10 @@ const sendMessageStyle = {
   minHeight: '24px',
   width: '100%',
 };
+
 const getDefaultState = (newConvoId?: string) => {
   return {
-    draft:
-      (newConvoId && draftsForConversations.find(c => c.conversationKey === newConvoId)?.draft) ||
-      '',
-    voiceRecording: undefined,
+    draft: getDraftForConversation(newConvoId),
     showRecordingView: false,
     showEmojiPanel: false,
     ignoredLink: undefined,
@@ -205,14 +130,84 @@ const getDefaultState = (newConvoId?: string) => {
   };
 };
 
-class SessionCompositionBoxInner extends React.Component<Props, State> {
+function parseEmojis(value: string) {
+  const emojisArray = toArray(value);
+
+  // toArray outputs React elements for emojis and strings for other
+  return emojisArray.reduce((previous: string, current: any) => {
+    if (typeof current === 'string') {
+      return previous + current;
+    }
+    return previous + (current.props.children as string);
+  }, '');
+}
+
+const mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
+
+const getSelectionBasedOnMentions = (draft: string, index: number) => {
+  // we have to get the real selectionStart/end of an index in the mentions box.
+  // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
+
+  // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
+  const matches = draft.match(mentionsRegex);
+
+  let lastMatchStartIndex = 0;
+  let lastMatchEndIndex = 0;
+  let lastRealMatchEndIndex = 0;
+
+  if (!matches) {
+    return index;
+  }
+  const mapStartToLengthOfMatches = matches.map(match => {
+    const displayNameStart = match.indexOf('\uFFD7') + 1;
+    const displayNameEnd = match.lastIndexOf('\uFFD2');
+    const displayName = match.substring(displayNameStart, displayNameEnd);
+
+    const currentMatchStartIndex = draft.indexOf(match) + lastMatchStartIndex;
+    lastMatchStartIndex = currentMatchStartIndex;
+    lastMatchEndIndex = currentMatchStartIndex + match.length;
+
+    const realLength = displayName.length + 1;
+    lastRealMatchEndIndex = lastRealMatchEndIndex + realLength;
+
+    // the +1 is for the @
+    return {
+      length: displayName.length + 1,
+      lastRealMatchEndIndex,
+      start: lastMatchStartIndex,
+      end: lastMatchEndIndex,
+    };
+  });
+
+  const beforeFirstMatch = index < mapStartToLengthOfMatches[0].start;
+  if (beforeFirstMatch) {
+    // those first char are always just char, so the mentions logic does not come into account
+    return index;
+  }
+  const lastMatchMap = _.last(mapStartToLengthOfMatches);
+
+  if (!lastMatchMap) {
+    return Number.MAX_SAFE_INTEGER;
+  }
+
+  const indexIsAfterEndOfLastMatch = lastMatchMap.lastRealMatchEndIndex <= index;
+  if (indexIsAfterEndOfLastMatch) {
+    const lastEnd = lastMatchMap.end;
+    const diffBetweenEndAndLastRealEnd = index - lastMatchMap.lastRealMatchEndIndex;
+    return lastEnd + diffBetweenEndAndLastRealEnd - 1;
+  }
+  // now this is the hard part, the cursor is currently between the end of the first match and the start of the last match
+  // for now, just append it to the end
+  return Number.MAX_SAFE_INTEGER;
+};
+
+class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
-  private readonly emojiPanel: any;
+  private readonly emojiPanel: React.RefObject<HTMLDivElement>;
   private readonly emojiPanelButton: any;
   private linkPreviewAbortController?: AbortController;
-  private container: any;
-  private readonly mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
+  private container: HTMLDivElement | null;
   private lastBumpTypingMessageLength: number = 0;
 
   constructor(props: any) {
@@ -222,6 +217,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     this.textarea = React.createRef();
     this.fileInput = React.createRef();
 
+    this.container = null;
     // Emojis
     this.emojiPanel = React.createRef();
     this.emojiPanelButton = React.createRef();
@@ -286,10 +282,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     this.hideEmojiPanel();
   }
 
-  private handlePaste(e: any) {
+  private handlePaste(e: ClipboardEvent) {
+    if (!e.clipboardData) {
+      return;
+    }
     const { items } = e.clipboardData;
     let imgBlob = null;
-    for (const item of items) {
+    for (const item of items as any) {
       const pasteType = item.type.split('/')[0];
       if (pasteType === 'image') {
         imgBlob = item.getAsFile();
@@ -300,7 +299,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           imgBlob = item.getAsFile();
           break;
         case 'text':
-          void this.showLinkSharingConfirmationModalDialog(e);
+          void showLinkSharingConfirmationModalDialog(e);
           break;
         default:
       }
@@ -313,47 +312,6 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       e.preventDefault();
       e.stopPropagation();
     }
-  }
-
-  /**
-   * Check if what is pasted is a URL and prompt confirmation for a setting change
-   * @param e paste event
-   */
-  private async showLinkSharingConfirmationModalDialog(e: any) {
-    const pastedText = e.clipboardData.getData('text');
-    if (this.isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
-      const alreadyDisplayedPopup =
-        (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
-      if (!alreadyDisplayedPopup) {
-        window.inboxStore?.dispatch(
-          updateConfirmModal({
-            shouldShowConfirm:
-              !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
-            title: window.i18n('linkPreviewsTitle'),
-            message: window.i18n('linkPreviewsConfirmMessage'),
-            okTheme: SessionButtonColor.Danger,
-            onClickOk: () => {
-              window.setSettingValue('link-preview-setting', true);
-            },
-            onClickClose: async () => {
-              await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
-            },
-          })
-        );
-      }
-    }
-  }
-
-  /**
-   *
-   * @param str String to evaluate
-   * @returns boolean if the string is true or false
-   */
-  private isURL(str: string) {
-    const urlRegex =
-      '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
-    const url = new RegExp(urlRegex, 'i');
-    return str.length < 2083 && url.test(str);
   }
 
   private showEmojiPanel() {
@@ -390,18 +348,9 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     );
   }
 
-  private isTypingEnabled(): boolean {
-    if (!this.props.selectedConversation) {
-      return false;
-    }
-    const { isBlocked, isKickedFromGroup, left } = this.props.selectedConversation;
-
-    return !(isBlocked || isKickedFromGroup || left);
-  }
-
   private renderCompositionView() {
     const { showEmojiPanel } = this.state;
-    const typingEnabled = this.isTypingEnabled();
+    const { typingEnabled } = this.props;
 
     return (
       <>
@@ -463,7 +412,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       : isBlocked && !isPrivate
       ? i18n('unblockGroupToSend')
       : i18n('sendMessage');
-    const typingEnabled = this.isTypingEnabled();
+    const { typingEnabled } = this.props;
     let index = 0;
 
     return (
@@ -478,7 +427,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         disabled={!typingEnabled}
         rows={1}
         style={sendMessageStyle}
-        suggestionsPortalHost={this.container}
+        suggestionsPortalHost={this.container as any}
         forceSuggestionsAboveCursor={true} // force mentions to be rendered on top of the cursor, this is working with a fork of react-mentions for now
       >
         <Mention
@@ -585,10 +534,10 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     callback(mentionsData);
   }
 
-  private renderStagedLinkPreview(): JSX.Element {
+  private renderStagedLinkPreview(): JSX.Element | null {
     // Don't generate link previews if user has turned them off
     if (!(window.getSettingValue('link-preview-setting') || false)) {
-      return <></>;
+      return null;
     }
 
     const { stagedAttachments, quotedMessageProps } = this.props;
@@ -596,7 +545,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     // Don't render link previews if quoted message or attachments are already added
     if (stagedAttachments.length !== 0 || quotedMessageProps?.id) {
-      return <></>;
+      return null;
     }
     // we try to match the first link found in the current message
     const links = window.Signal.LinkPreviews.findLinks(this.state.draft, undefined);
@@ -606,7 +555,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
           stagedLinkPreview: undefined,
         });
       }
-      return <></>;
+      return null;
     }
     const firstLink = links[0];
     // if the first link changed, reset the ignored link so that the preview is generated
@@ -620,7 +569,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     // if the fetch did not start yet, just don't show anything
     if (!this.state.stagedLinkPreview) {
-      return <></>;
+      return null;
     }
 
     const { isLoaded, title, description, domain, image } = this.state.stagedLinkPreview;
@@ -767,7 +716,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         />
       );
     }
-    return <></>;
+    return null;
   }
 
   private renderAttachmentsStaged() {
@@ -785,7 +734,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
         </>
       );
     }
-    return <></>;
+    return null;
   }
 
   private onChooseAttachment() {
@@ -838,25 +787,13 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
     }
   }
 
-  private parseEmojis(value: string) {
-    const emojisArray = toArray(value);
-
-    // toArray outputs React elements for emojis and strings for other
-    return emojisArray.reduce((previous: string, current: any) => {
-      if (typeof current === 'string') {
-        return previous + current;
-      }
-      return previous + (current.props.children as string);
-    }, '');
-  }
-
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
     this.abortLinkPreviewFetch();
 
     // this is dirty but we have to replace all @(xxx) by @xxx manually here
     const cleanMentions = (text: string): string => {
-      const matches = text.match(this.mentionsRegex);
+      const matches = text.match(mentionsRegex);
       let replacedMentions = text;
       (matches || []).forEach(match => {
         const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
@@ -866,7 +803,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
       return replacedMentions;
     };
 
-    const messagePlaintext = cleanMentions(this.parseEmojis(this.state.draft));
+    const messagePlaintext = cleanMentions(parseEmojis(this.state.draft));
 
     const { selectedConversation } = this.props;
 
@@ -1008,92 +945,24 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
   }
 
   private async onLoadVoiceNoteView() {
-    // Do stuff for component, then run callback to SessionConversation
-    const mediaSetting = getMediaPermissionsSettings();
-
-    if (mediaSetting) {
-      this.setState({
-        showRecordingView: true,
-        showEmojiPanel: false,
-      });
-      this.props.onLoadVoiceNoteView();
-
+    if (!getMediaPermissionsSettings()) {
+      ToastUtils.pushAudioPermissionNeeded();
       return;
     }
-
-    ToastUtils.pushAudioPermissionNeeded(() => {
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+    this.setState({
+      showRecordingView: true,
+      showEmojiPanel: false,
     });
   }
 
   private onExitVoiceNoteView() {
-    // Do stuff for component, then run callback to SessionConversation
     this.setState({ showRecordingView: false });
-    this.props.onExitVoiceNoteView();
   }
 
   private onChange(event: any) {
     const draft = event.target.value ?? '';
     this.setState({ draft });
     updateDraftForConversation({ conversationKey: this.props.selectedConversationKey, draft });
-  }
-
-  private getSelectionBasedOnMentions(index: number) {
-    // we have to get the real selectionStart/end of an index in the mentions box.
-    // this is kind of a pain as the mentions box has two inputs, one with the real text, and one with the extracted mentions
-
-    // the index shown to the user is actually just the visible part of the mentions (so the part between ￗ...ￒ
-    const matches = this.state.draft.match(this.mentionsRegex);
-
-    let lastMatchStartIndex = 0;
-    let lastMatchEndIndex = 0;
-    let lastRealMatchEndIndex = 0;
-
-    if (!matches) {
-      return index;
-    }
-    const mapStartToLengthOfMatches = matches.map(match => {
-      const displayNameStart = match.indexOf('\uFFD7') + 1;
-      const displayNameEnd = match.lastIndexOf('\uFFD2');
-      const displayName = match.substring(displayNameStart, displayNameEnd);
-
-      const currentMatchStartIndex = this.state.draft.indexOf(match) + lastMatchStartIndex;
-      lastMatchStartIndex = currentMatchStartIndex;
-      lastMatchEndIndex = currentMatchStartIndex + match.length;
-
-      const realLength = displayName.length + 1;
-      lastRealMatchEndIndex = lastRealMatchEndIndex + realLength;
-
-      // the +1 is for the @
-      return {
-        length: displayName.length + 1,
-        lastRealMatchEndIndex,
-        start: lastMatchStartIndex,
-        end: lastMatchEndIndex,
-      };
-    });
-
-    const beforeFirstMatch = index < mapStartToLengthOfMatches[0].start;
-    if (beforeFirstMatch) {
-      // those first char are always just char, so the mentions logic does not come into account
-      return index;
-    }
-    const lastMatchMap = _.last(mapStartToLengthOfMatches);
-
-    if (!lastMatchMap) {
-      return Number.MAX_SAFE_INTEGER;
-    }
-
-    const indexIsAfterEndOfLastMatch = lastMatchMap.lastRealMatchEndIndex <= index;
-    if (indexIsAfterEndOfLastMatch) {
-      const lastEnd = lastMatchMap.end;
-      const diffBetweenEndAndLastRealEnd = index - lastMatchMap.lastRealMatchEndIndex;
-      return lastEnd + diffBetweenEndAndLastRealEnd - 1;
-    }
-    // now this is the hard part, the cursor is currently between the end of the first match and the start of the last match
-    // for now, just append it to the end
-    return Number.MAX_SAFE_INTEGER;
   }
 
   private onEmojiClick({ colons }: { colons: string }) {
@@ -1106,7 +975,7 @@ class SessionCompositionBoxInner extends React.Component<Props, State> {
 
     const currentSelectionStart = Number(messageBox.selectionStart);
 
-    const realSelectionStart = this.getSelectionBasedOnMentions(currentSelectionStart);
+    const realSelectionStart = getSelectionBasedOnMentions(draft, currentSelectionStart);
 
     const before = draft.slice(0, realSelectionStart);
     const end = draft.slice(realSelectionStart);
@@ -1146,10 +1015,11 @@ const mapStateToProps = (state: StateType) => {
     quotedMessageProps: getQuotedMessage(state),
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
+    typingEnabled: getIsTypingEnabled(state),
     theme: getTheme(state),
   };
 };
 
 const smart = connect(mapStateToProps);
 
-export const SessionCompositionBox = smart(SessionCompositionBoxInner);
+export const CompositionBox = smart(CompositionBoxInner);

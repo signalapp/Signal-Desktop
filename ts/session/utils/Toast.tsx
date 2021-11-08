@@ -175,12 +175,15 @@ export function pushVideoCallPermissionNeeded() {
   );
 }
 
-export function pushAudioPermissionNeeded(onClicked: () => void) {
+export function pushAudioPermissionNeeded() {
   pushToastInfo(
     'audioPermissionNeeded',
     window.i18n('audioPermissionNeededTitle'),
     window.i18n('audioPermissionNeeded'),
-    onClicked
+    () => {
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+    }
   );
 }
 

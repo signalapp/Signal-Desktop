@@ -128,7 +128,7 @@ const SelectionOverlay = () => {
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
   if (showBackButton) {
-    return <></>;
+    return null;
   }
   return (
     <div

@@ -274,7 +274,7 @@ export const ActionsPanel = () => {
 
   if (!ourPrimaryConversation) {
     window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
-    return <></>;
+    return null;
   }
 
   useInterval(() => {

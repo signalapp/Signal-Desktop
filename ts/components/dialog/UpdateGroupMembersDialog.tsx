@@ -193,7 +193,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     const { zombies } = this.state;
 
     if (!zombies.length) {
-      return <></>;
+      return null;
     }
 
     const zombieElements = zombies.map((member: ContactType, index: number) => {

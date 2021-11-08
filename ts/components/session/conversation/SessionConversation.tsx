@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import {
   SendMessageType,
-  SessionCompositionBox,
+  CompositionBox,
   StagedAttachmentType,
-} from './SessionCompositionBox';
+} from './composition/CompositionBox';
 
 import { Constants } from '../../../session';
 import _ from 'lodash';
@@ -41,7 +41,6 @@ import { SplitViewContainer } from '../SplitViewContainer';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
-  showRecordingView: boolean;
   isDraggingFile: boolean;
 }
 export interface LightBoxOptions {
@@ -75,7 +74,6 @@ export class SessionConversation extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      showRecordingView: false,
       isDraggingFile: false,
     };
     this.messageContainerRef = React.createRef();
@@ -135,7 +133,6 @@ export class SessionConversation extends React.Component<Props, State> {
     }
     if (newConversationKey !== oldConversationKey) {
       this.setState({
-        showRecordingView: false,
         isDraggingFile: false,
       });
     }
@@ -247,11 +244,9 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
-          <SessionCompositionBox
+          <CompositionBox
             sendMessage={this.sendMessageFn}
             stagedAttachments={this.props.stagedAttachments}
-            onLoadVoiceNoteView={this.onLoadVoiceNoteView}
-            onExitVoiceNoteView={this.onExitVoiceNoteView}
             onChoseAttachments={this.onChoseAttachments}
           />
         </div>
@@ -265,34 +260,11 @@ export class SessionConversation extends React.Component<Props, State> {
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ~~~~~~~~~~~~ MICROPHONE METHODS ~~~~~~~~~~~~
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  private onLoadVoiceNoteView() {
-    this.setState({
-      showRecordingView: true,
-    });
-    window.inboxStore?.dispatch(resetSelectedMessageIds());
-  }
-
-  private onExitVoiceNoteView() {
-    this.setState({
-      showRecordingView: false,
-    });
-  }
-
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~ KEYBOARD NAVIGATION ~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private onKeyDown(event: any) {
     const selectionMode = !!this.props.selectedMessages.length;
-    const recordingMode = this.state.showRecordingView;
-    if (event.key === 'Escape') {
-      // EXIT MEDIA VIEW
-      if (recordingMode) {
-        // EXIT RECORDING VIEW
-      }
-      // EXIT WHAT ELSE?
-    }
+
     if (event.target.classList.contains('conversation-content')) {
       switch (event.key) {
         case 'Escape':

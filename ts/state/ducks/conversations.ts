@@ -13,7 +13,7 @@ import {
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';

@@ -44,7 +44,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import {
   ReplyingToMessageProps,
   SendMessageType,
-} from '../components/session/conversation/SessionCompositionBox';
+} from '../components/session/conversation/composition/CompositionBox';
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
@@ -180,8 +180,8 @@ export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'no
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
-  public throttledBumpTyping: any;
-  public throttledNotify: any;
+  public throttledBumpTyping: () => void;
+  public throttledNotify: (message: MessageModel) => void;
   public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
@@ -192,7 +192,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private typingTimer?: NodeJS.Timeout | null;
   private lastReadTimestamp: number;
 
-  private pending: any;
+  private pending?: Promise<any>;
 
   constructor(attributes: ConversationAttributesOptionals) {
     super(fillConvoAttributesWithDefaults(attributes));

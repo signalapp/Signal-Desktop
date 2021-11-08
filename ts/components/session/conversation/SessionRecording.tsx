@@ -10,9 +10,9 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import styled from 'styled-components';
 
 interface Props {
-  onExitVoiceNoteView: any;
-  onLoadVoiceNoteView: any;
-  sendVoiceMessage: any;
+  onExitVoiceNoteView: () => void;
+  onLoadVoiceNoteView: () => void;
+  sendVoiceMessage: (audioBlob: Blob) => Promise<void>;
 }
 
 interface State {
@@ -24,13 +24,10 @@ interface State {
   actionHover: boolean;
   startTimestamp: number;
   nowTimestamp: number;
-
-  updateTimerInterval: NodeJS.Timeout;
 }
 
-function getTimestamp(asInt = false) {
-  const timestamp = Date.now() / 1000;
-  return asInt ? Math.floor(timestamp) : timestamp;
+function getTimestamp() {
+  return Date.now() / 1000;
 }
 
 interface StyledFlexWrapperProps {
@@ -50,20 +47,16 @@ const StyledFlexWrapper = styled.div<StyledFlexWrapperProps>`
   }
 `;
 
-class SessionRecordingInner extends React.Component<Props, State> {
-  private recorder: any;
+export class SessionRecording extends React.Component<Props, State> {
+  private recorder?: any;
   private audioBlobMp3?: Blob;
   private audioElement?: HTMLAudioElement | null;
+  private updateTimerInterval?: NodeJS.Timeout;
 
   constructor(props: Props) {
     super(props);
-
     autoBind(this);
-
-    // Refs
-
     const now = getTimestamp();
-    const updateTimerInterval = global.setInterval(this.timerUpdate, 500);
 
     this.state = {
       recordDuration: 0,
@@ -73,7 +66,6 @@ class SessionRecordingInner extends React.Component<Props, State> {
       actionHover: false,
       startTimestamp: now,
       nowTimestamp: now,
-      updateTimerInterval,
     };
   }
 
@@ -86,10 +78,13 @@ class SessionRecordingInner extends React.Component<Props, State> {
     if (this.props.onLoadVoiceNoteView) {
       this.props.onLoadVoiceNoteView();
     }
+    this.updateTimerInterval = global.setInterval(this.timerUpdate, 500);
   }
 
   public componentWillUnmount() {
-    clearInterval(this.state.updateTimerInterval);
+    if (this.updateTimerInterval) {
+      clearInterval(this.updateTimerInterval);
+    }
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
@@ -276,7 +271,7 @@ class SessionRecordingInner extends React.Component<Props, State> {
       return;
     }
 
-    this.props.sendVoiceMessage(this.audioBlobMp3);
+    void this.props.sendVoiceMessage(this.audioBlobMp3);
   }
 
   private async initiateRecordingStream() {
@@ -348,5 +343,3 @@ class SessionRecordingInner extends React.Component<Props, State> {
     }
   }
 }
-
-export const SessionRecording = SessionRecordingInner;

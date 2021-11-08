@@ -21,7 +21,7 @@ import {
   ConversationHeaderTitleProps,
 } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { MessageAvatarSelectorProps } from '../../components/conversation/message/MessageAvatar';
@@ -188,6 +188,22 @@ export const getCallIsInFullScreen = createSelector(
   (state: ConversationsStateType): boolean => state.callIsInFullScreen
 );
 
+export const getIsTypingEnabled = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const selectedConvo = state.conversationLookup[selectedConvoPubkey];
+    if (!selectedConvo) {
+      return false;
+    }
+    const { isBlocked, isKickedFromGroup, left } = selectedConvo;
+
+    return !(isBlocked || isKickedFromGroup || left);
+  }
+);
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected

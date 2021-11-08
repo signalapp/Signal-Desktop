@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { StagedAttachmentType } from '../../components/session/conversation/SessionCompositionBox';
+import { StagedAttachmentType } from '../../components/session/conversation/composition/CompositionBox';
 import { StagedAttachmentsStateType } from '../ducks/stagedAttachments';
 import { StateType } from '../reducer';
 import { getSelectedConversationKey } from './conversations';
