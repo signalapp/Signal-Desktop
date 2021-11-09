@@ -542,34 +542,43 @@ function onDataChannelOnOpen() {
   sendVideoStatusViaDataChannel();
 }
 
-function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolean) {
+function createOrGetPeerConnection(
+  withPubkey: string,
+  createDataChannel: boolean,
+  isAcceptingCall = false
+) {
   if (peerConnection) {
     return peerConnection;
   }
   remoteStream = new MediaStream();
   peerConnection = new RTCPeerConnection(configuration);
-
-  peerConnection.onnegotiationneeded = async (event: Event) => {
-    await handleNegotiationNeededEvent(event, withPubkey);
-  };
-
-  peerConnection.ondatachannel = e => {
-    if (!createDataChannel) {
-      dataChannel = e.channel;
-      window.log.info('Got our datachannel setup');
-
-      onDataChannelOnOpen();
-
-      dataChannel.onmessage = onDataChannelReceivedMessage;
-    }
-  };
-
   if (createDataChannel) {
-    dataChannel = peerConnection.createDataChannel('session-datachannel');
+    dataChannel = peerConnection.createDataChannel('session-datachannel', {
+      negotiated: true,
+      id: 548, // SESSION dec ascii code 83*3+69+73+79+78
+    });
 
     dataChannel.onmessage = onDataChannelReceivedMessage;
     dataChannel.onopen = onDataChannelOnOpen;
   }
+
+  if (!isAcceptingCall) {
+    peerConnection.onnegotiationneeded = async (event: Event) => {
+      await handleNegotiationNeededEvent(event, withPubkey);
+    };
+  }
+
+  // peerConnection.ondatachannel = e => {
+  //   if (!createDataChannel) {
+  //     dataChannel = e.channel;
+  //     window.log.info('Got our datachannel setup');
+
+  //     onDataChannelOnOpen();
+
+  //     dataChannel.onmessage = onDataChannelReceivedMessage;
+  //   }
+  // };
+
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
 
   peerConnection.ontrack = event => {
@@ -621,11 +630,11 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
+  currentCallUUID = uuidv4();
 
-  peerConnection = createOrGetPeerConnection(fromSender, false);
+  peerConnection = createOrGetPeerConnection(fromSender, true, true);
 
   await openMediaDevicesAndAddTracks();
-  currentCallUUID = uuidv4();
 
   const { sdps } = lastOfferMessage;
   if (!sdps || sdps.length === 0) {
