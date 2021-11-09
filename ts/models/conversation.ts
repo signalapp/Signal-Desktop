@@ -1529,6 +1529,36 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
   }
 
+  public async notifyIncomingCall() {
+    if (!this.isPrivate()) {
+      window?.log?.info('notifyIncomingCall: not a private convo', this.idForLogging());
+      return;
+    }
+    const conversationId = this.id;
+
+    // make sure the notifications are not muted for this convo (and not the source convo)
+    const convNotif = this.get('triggerNotificationsFor');
+    if (convNotif === 'disabled') {
+      window?.log?.info(
+        'notifyIncomingCall: notifications disabled for convo',
+        this.idForLogging()
+      );
+      return;
+    }
+
+    const now = Date.now();
+    const iconUrl = await this.getNotificationIcon();
+
+    window.Whisper.Notifications.add({
+      conversationId,
+      iconUrl,
+      isExpiringMessage: false,
+      message: window.i18n('incomingCallFrom', this.getTitle()),
+      messageSentAt: now,
+      title: this.getTitle(),
+    });
+  }
+
   public async notifyTyping({ isTyping, sender }: any) {
     // We don't do anything with typing messages from our other devices
     if (UserUtils.isUsFromCache(sender)) {

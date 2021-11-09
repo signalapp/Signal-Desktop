@@ -22,6 +22,8 @@ import { PubKey } from '../types';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PnServer } from '../../pushnotification';
+// import { SoundMeter } from '../../../ts/components/session/calling/SoundMeter';
+import { setIsRinging } from './RingingManager';
 
 export type InputItem = { deviceId: string; label: string };
 
@@ -385,9 +387,10 @@ export async function USER_callRecipient(recipient: string) {
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
   const { wrappedEnvelope } = await MessageSender.send(rawMessage);
-  await PnServer.notifyPnServer(wrappedEnvelope, recipient);
+  void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
   await openMediaDevicesAndAddTracks();
+  setIsRinging(true);
 }
 
 const iceCandidates: Array<RTCIceCandidate> = new Array();
@@ -593,6 +596,7 @@ function createOrGetPeerConnection(withPubkey: string, createDataChannel: boolea
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.log.info('USER_acceptIncomingCallRequest');
+  setIsRinging(false);
   if (currentCallUUID) {
     window.log.warn(
       'Looks like we are already in a call as in USER_acceptIncomingCallRequest is not undefined'
@@ -658,6 +662,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 
 // tslint:disable-next-line: function-name
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
+  setIsRinging(false);
   const endCallMessage = new CallMessage({
     type: SignalService.CallMessage.Type.END_CALL,
     timestamp: Date.now(),
@@ -819,6 +824,16 @@ export async function handleCallTypeOffer(
     }
     window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
+    // show a notification
+    const callerConvo = getConversationController().get(sender);
+    const convNotif = callerConvo?.get('triggerNotificationsFor') || 'disabled';
+    if (convNotif === 'disabled') {
+      window?.log?.info('notifications disabled for convo', ed25519Str(sender));
+    } else if (callerConvo) {
+      await callerConvo.notifyIncomingCall();
+    }
+    setIsRinging(true);
+
     pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
   } catch (err) {
     window.log?.error(`Error handling offer message ${err}`);
@@ -831,7 +846,7 @@ export async function handleMissedCall(
   isBecauseOfCallPermission: boolean
 ) {
   const incomingCallConversation = await getConversationById(sender);
-
+  setIsRinging(false);
   if (!isBecauseOfCallPermission) {
     ToastUtils.pushedMissedCall(
       incomingCallConversation?.getNickname() ||
@@ -857,6 +872,7 @@ export async function handleMissedCall(
     unread: 1,
   });
   incomingCallConversation?.updateLastMessage();
+
   return;
 }
 
