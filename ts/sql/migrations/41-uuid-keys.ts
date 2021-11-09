@@ -79,23 +79,23 @@ export default function updateToSchemaVersion41(
     return aStats.active_at - bStats.active_at;
   };
 
-  const clearSessionsAndKeys = () => {
+  const clearSessionsAndKeys = (): number => {
     // ts/background.ts will ask user to relink so all that matters here is
     // to maintain an invariant:
     //
     // After this migration all sessions and keys are prefixed by
     // "uuid:".
-    db.exec(
-      `
-      DELETE FROM senderKeys;
-      DELETE FROM sessions;
-      DELETE FROM signedPreKeys;
-      DELETE FROM preKeys;
-      `
-    );
+    const keyCount = [
+      db.prepare('DELETE FROM senderKeys').run().changes,
+      db.prepare('DELETE FROM sessions').run().changes,
+      db.prepare('DELETE FROM signedPreKeys').run().changes,
+      db.prepare('DELETE FROM preKeys').run().changes,
+    ].reduce((a: number, b: number): number => a + b);
 
     assertSync(removeById<string>(db, 'items', 'identityKey'));
     assertSync(removeById<string>(db, 'items', 'registrationId'));
+
+    return keyCount;
   };
 
   const moveIdentityKeyToMap = (ourUuid: string) => {
@@ -422,11 +422,14 @@ export default function updateToSchemaVersion41(
     const ourUuid = getOurUuid(db);
 
     if (!isValidUuid(ourUuid)) {
-      logger.error(
-        'updateToSchemaVersion41: no uuid is available clearing sessions'
-      );
+      const deleteCount = clearSessionsAndKeys();
 
-      clearSessionsAndKeys();
+      if (deleteCount > 0) {
+        logger.error(
+          'updateToSchemaVersion41: no uuid is available, ' +
+            `erased ${deleteCount} sessions/keys`
+        );
+      }
 
       db.pragma('user_version = 41');
       return;
