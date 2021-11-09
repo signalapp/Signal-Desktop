@@ -107,9 +107,11 @@
   }
 
   &__badge {
-    bottom: 0;
     position: absolute;
-    right: 0;
     z-index: 1;
+
+    // Positioning should be overridden by JavaScript. These are set defensively.
+    bottom: 0;
+    right: 0;
   }
 }

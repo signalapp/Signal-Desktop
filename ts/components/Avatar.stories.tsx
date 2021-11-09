@@ -57,6 +57,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
+  theme: overrideProps.theme,
 });
 
 const sizes: Array<Props['size']> = [112, 96, 80, 52, 32, 28];

@@ -44,6 +44,8 @@ export enum AvatarSize {
   ONE_HUNDRED_TWELVE = 112,
 }
 
+type BadgePlacementType = { size: number; bottom: number; right: number };
+
 export type Props = {
   avatarPath?: string;
   badge?: BadgeType;
@@ -71,6 +73,17 @@ export type Props = {
 
   i18n: LocalizerType;
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
+
+const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
+  [28, { size: 16, bottom: -4, right: -2 }],
+  [32, { size: 16, bottom: -4, right: -2 }],
+  [36, { size: 16, bottom: -3, right: 0 }],
+  [40, { size: 24, bottom: -6, right: -4 }],
+  [48, { size: 24, bottom: -6, right: -4 }],
+  [56, { size: 24, bottom: -6, right: 0 }],
+  [80, { size: 36, bottom: -8, right: 0 }],
+  [88, { size: 36, bottom: -4, right: 3 }],
+]);
 
 const getDefaultBlur = (
   ...args: Parameters<typeof shouldBlurAvatar>
@@ -221,12 +234,12 @@ export const Avatar: FunctionComponent<Props> = ({
     isBadgeVisible(badge) &&
     shouldShowBadges()
   ) {
-    const badgeSize = Math.ceil(size * 0.425);
+    const badgePlacement = _getBadgePlacement(size);
     const badgeTheme =
       theme === ThemeType.light ? BadgeImageTheme.Light : BadgeImageTheme.Dark;
     const badgeImagePath = getBadgeImageFileLocalPath(
       badge,
-      badgeSize,
+      badgePlacement.size,
       badgeTheme
     );
     if (badgeImagePath) {
@@ -236,8 +249,10 @@ export const Avatar: FunctionComponent<Props> = ({
           className="module-Avatar__badge"
           src={badgeImagePath}
           style={{
-            width: badgeSize,
-            height: badgeSize,
+            width: badgePlacement.size,
+            height: badgePlacement.size,
+            bottom: badgePlacement.bottom,
+            right: badgePlacement.right,
           }}
         />
       );
@@ -266,3 +281,16 @@ export const Avatar: FunctionComponent<Props> = ({
     </div>
   );
 };
+
+// This is only exported for testing.
+export function _getBadgePlacement(
+  avatarSize: number
+): Readonly<BadgePlacementType> {
+  return (
+    BADGE_PLACEMENT_BY_SIZE.get(avatarSize) || {
+      size: Math.ceil(avatarSize * 0.425),
+      bottom: 0,
+      right: 0,
+    }
+  );
+}
