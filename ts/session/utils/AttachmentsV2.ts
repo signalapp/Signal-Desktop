@@ -12,6 +12,7 @@ import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import { RawPreview, RawQuote } from './Attachments';
 import _ from 'lodash';
+import { AttachmentsV2Utils } from '.';
 
 interface UploadParamsV2 {
   attachment: Attachment;
@@ -60,7 +61,7 @@ export async function uploadAttachmentsV2(
   openGroup: OpenGroupRequestCommonType
 ): Promise<Array<AttachmentPointerWithUrl>> {
   const promises = (attachments || []).map(async attachment =>
-    exports.uploadV2({
+    AttachmentsV2Utils.uploadV2({
       attachment,
       openGroup,
     })
@@ -80,7 +81,7 @@ export async function uploadLinkPreviewsV2(
 
       return undefined;
     }
-    const image = await exports.uploadV2({
+    const image = await AttachmentsV2Utils.uploadV2({
       attachment: preview.image,
       openGroup,
     });
@@ -105,10 +106,10 @@ export async function uploadQuoteThumbnailsV2(
   const promises = (quote.attachments ?? []).map(async attachment => {
     let thumbnail: QuotedAttachment | undefined;
     if (attachment.thumbnail) {
-      thumbnail = await exports.uploadV2({
+      thumbnail = (await AttachmentsV2Utils.uploadV2({
         attachment: attachment.thumbnail,
         openGroup,
-      });
+      })) as any;
     }
     return {
       ...attachment,

@@ -224,13 +224,11 @@ const doAppStartUp = () => {
   // trigger a sync message if needed for our other devices
 
   void triggerSyncIfNeeded();
+  void getSwarmPollingInstance().start();
 
   void loadDefaultRooms();
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
-
-  // TODO: Investigate the case where we reconnect
-  void getSwarmPollingInstance().start();
 };
 
 const CallContainer = () => {
