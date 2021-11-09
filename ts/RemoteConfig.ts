@@ -24,6 +24,7 @@ export type ConfigKeyType =
   | 'desktop.senderKey.send'
   | 'desktop.senderKey.retry'
   | 'desktop.sendSenderKey3'
+  | 'desktop.showUserBadges'
   | 'desktop.storage'
   | 'desktop.storageWrite3'
   | 'desktop.usernames'
