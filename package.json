@@ -278,7 +278,7 @@
     "patch-package": "6.4.7",
     "prettier": "^2.2.1",
     "react-docgen-typescript": "1.2.6",
-    "sass-loader": "12.3.0",
+    "sass-loader": "10.2.0",
     "sinon": "11.1.1",
     "snyk": "1.316.1",
     "spectron": "5.0.0",
