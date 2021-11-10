@@ -2466,7 +2466,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       className: 'panel',
       JSX: window.Signal.State.Roots.createPendingInvites(window.reduxStore, {
         conversationId: this.model.id,
-        ourConversationId: window.ConversationController.getOurConversationId(),
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
         approvePendingMembership: (conversationId: string) => {
           this.model.approvePendingMembershipFromGroupV2(conversationId);
         },

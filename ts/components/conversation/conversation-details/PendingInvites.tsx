@@ -17,7 +17,7 @@ import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 export type PropsType = {
   readonly conversation?: ConversationType;
   readonly i18n: LocalizerType;
-  readonly ourUuid?: UUIDStringType;
+  readonly ourUuid: UUIDStringType;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   readonly approvePendingMembership: (conversationId: string) => void;
