@@ -4629,7 +4629,7 @@ export class ConversationModel extends window.Backbone
 
     const memberEnum = Proto.Member.Role;
     const members = this.get('membersV2') || [];
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
+    const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     const me = members.find(item => item.uuid === ourUuid);
     if (!me) {
       return false;
