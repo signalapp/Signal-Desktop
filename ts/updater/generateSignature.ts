@@ -7,7 +7,8 @@ import { readdir as readdirCallback } from 'fs';
 
 import pify from 'pify';
 
-import { getCliOptions, getPrintableError } from './common';
+import * as Errors from '../types/errors';
+import { getCliOptions } from './common';
 import { writeSignature } from './signature';
 import * as packageJson from '../../package.json';
 
@@ -46,7 +47,7 @@ type OptionsType = {
 
 const cliOptions = getCliOptions<OptionsType>(OPTIONS);
 go(cliOptions).catch(error => {
-  console.error('Something went wrong!', getPrintableError(error));
+  console.error('Something went wrong!', Errors.toLogFormat(error));
 });
 
 async function go(options: OptionsType) {

@@ -8,6 +8,7 @@ import { userConfig } from '../../app/user_config';
 import { ephemeralConfig } from '../../app/ephemeral_config';
 import { installPermissionsHandler } from '../../app/permissions';
 import { strictAssert } from '../util/assert';
+import { explodePromise } from '../util/explodePromise';
 import type {
   IPCEventsValuesType,
   IPCEventsCallbacksType,
@@ -18,11 +19,24 @@ const EPHEMERAL_NAME_MAP = new Map([
   ['systemTraySetting', 'system-tray-setting'],
 ]);
 
+type ResponseQueueEntry = Readonly<{
+  resolve(value: unknown): void;
+  reject(error: Error): void;
+}>;
+
 export class SettingsChannel {
   private mainWindow?: BrowserWindow;
 
+  private readonly responseQueue = new Map<number, ResponseQueueEntry>();
+
+  private responseSeq = 0;
+
   public setMainWindow(mainWindow: BrowserWindow | undefined): void {
     this.mainWindow = mainWindow;
+  }
+
+  public getMainWindow(): BrowserWindow | undefined {
+    return this.mainWindow;
   }
 
   public install(): void {
@@ -91,83 +105,106 @@ export class SettingsChannel {
 
     // These ones are different because its single source of truth is userConfig,
     // not IndexedDB
-    ipc.on('settings:get:mediaPermissions', event => {
-      event.sender.send(
-        'settings:get-success:mediaPermissions',
-        null,
-        userConfig.get('mediaPermissions') || false
-      );
+    ipc.handle('settings:get:mediaPermissions', () => {
+      return userConfig.get('mediaPermissions') || false;
     });
-    ipc.on('settings:get:mediaCameraPermissions', event => {
-      event.sender.send(
-        'settings:get-success:mediaCameraPermissions',
-        null,
-        userConfig.get('mediaCameraPermissions') || false
-      );
+    ipc.handle('settings:get:mediaCameraPermissions', () => {
+      return userConfig.get('mediaCameraPermissions') || false;
     });
-    ipc.on('settings:set:mediaPermissions', (event, value) => {
+    ipc.handle('settings:set:mediaPermissions', (_event, value) => {
       userConfig.set('mediaPermissions', value);
 
       // We reinstall permissions handler to ensure that a revoked permission takes effect
       installPermissionsHandler({ session, userConfig });
-
-      event.sender.send('settings:set-success:mediaPermissions', null, value);
     });
-    ipc.on('settings:set:mediaCameraPermissions', (event, value) => {
+    ipc.handle('settings:set:mediaCameraPermissions', (_event, value) => {
       userConfig.set('mediaCameraPermissions', value);
 
       // We reinstall permissions handler to ensure that a revoked permission takes effect
       installPermissionsHandler({ session, userConfig });
-
-      event.sender.send(
-        'settings:set-success:mediaCameraPermissions',
-        null,
-        value
-      );
     });
+
+    ipc.on('settings:response', (_event, seq, error, value) => {
+      const entry = this.responseQueue.get(seq);
+      this.responseQueue.delete(seq);
+      if (!entry) {
+        return;
+      }
+
+      const { resolve, reject } = entry;
+      if (error) {
+        reject(error);
+      } else {
+        resolve(value);
+      }
+    });
+  }
+
+  private waitForResponse<Value>(): { promise: Promise<Value>; seq: number } {
+    const seq = this.responseSeq;
+
+    // eslint-disable-next-line no-bitwise
+    this.responseSeq = (this.responseSeq + 1) & 0x7fffffff;
+
+    const { promise, resolve, reject } = explodePromise<Value>();
+
+    this.responseQueue.set(seq, { resolve, reject });
+
+    return { seq, promise };
   }
 
   public getSettingFromMainWindow<Name extends keyof IPCEventsValuesType>(
     name: Name
   ): Promise<IPCEventsValuesType[Name]> {
     const { mainWindow } = this;
-    return new Promise((resolve, reject) => {
-      ipc.once(`settings:get-success:${name}`, (_event, error, value) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(value);
-        }
-      });
-      if (!mainWindow || !mainWindow.webContents) {
-        reject(new Error('No main window available'));
-        return;
-      }
-      mainWindow.webContents.send(`settings:get:${name}`);
-    });
+    if (!mainWindow || !mainWindow.webContents) {
+      throw new Error('No main window');
+    }
+
+    const { seq, promise } = this.waitForResponse<IPCEventsValuesType[Name]>();
+
+    mainWindow.webContents.send(`settings:get:${name}`, { seq });
+
+    return promise;
+  }
+
+  public setSettingInMainWindow<Name extends keyof IPCEventsValuesType>(
+    name: Name,
+    value: IPCEventsValuesType[Name]
+  ): Promise<void> {
+    const { mainWindow } = this;
+    if (!mainWindow || !mainWindow.webContents) {
+      throw new Error('No main window');
+    }
+
+    const { seq, promise } = this.waitForResponse<void>();
+
+    mainWindow.webContents.send(`settings:set:${name}`, { seq, value });
+
+    return promise;
+  }
+
+  public invokeCallbackInMainWindow<Name extends keyof IPCEventsCallbacksType>(
+    name: Name,
+    args: ReadonlyArray<unknown>
+  ): Promise<unknown> {
+    const { mainWindow } = this;
+    if (!mainWindow || !mainWindow.webContents) {
+      throw new Error('Main window not found');
+    }
+
+    const { seq, promise } = this.waitForResponse<unknown>();
+
+    mainWindow.webContents.send(`settings:call:${name}`, { seq, args });
+
+    return promise;
   }
 
   private installCallback<Name extends keyof IPCEventsCallbacksType>(
     name: Name
   ): void {
-    ipc.on(`callbacks:call:${name}`, async (event, args) => {
-      const { mainWindow } = this;
-      const contents = event.sender;
-      if (!mainWindow || !mainWindow.webContents) {
-        return contents.send(
-          `callbacks:call-success:${name}`,
-          'Main window not found'
-        );
-      }
-
-      mainWindow.webContents.send(`callbacks:call:${name}`, args);
-      ipc.once(`callbacks:call-success:${name}`, (_event, error, value) => {
-        if (contents.isDestroyed()) {
-          return;
-        }
-
-        contents.send(`callbacks:call-success:${name}`, error, value);
-      });
+    ipc.handle(`settings:call:${name}`, async (_event, args) => {
+      return this.invokeCallbackInMainWindow(name, args);
     });
   }
 
@@ -180,24 +217,8 @@ export class SettingsChannel {
     }: { getter?: boolean; setter?: boolean; isEphemeral?: boolean } = {}
   ): void {
     if (getter) {
-      ipc.on(`settings:get:${name}`, async event => {
-        const { mainWindow } = this;
-        if (mainWindow && mainWindow.webContents) {
-          let error: Error | undefined;
-          let value: unknown;
-          try {
-            value = await this.getSettingFromMainWindow(name);
-          } catch (caughtError) {
-            error = caughtError;
-          }
-
-          const contents = event.sender;
-          if (contents.isDestroyed()) {
-            return;
-          }
-
-          contents.send(`settings:get-success:${name}`, error, value);
-        }
+      ipc.handle(`settings:get:${name}`, async () => {
+        return this.getSettingFromMainWindow(name);
       });
     }
 
@@ -205,7 +226,7 @@ export class SettingsChannel {
       return;
     }
 
-    ipc.on(`settings:set:${name}`, (event, value) => {
+    ipc.handle(`settings:set:${name}`, (_event, value) => {
       if (isEphemeral) {
         const ephemeralName = EPHEMERAL_NAME_MAP.get(name);
         strictAssert(
@@ -215,18 +236,7 @@ export class SettingsChannel {
         ephemeralConfig.set(ephemeralName, value);
       }
 
-      const { mainWindow } = this;
-      if (mainWindow && mainWindow.webContents) {
-        ipc.once(`settings:set-success:${name}`, (_event, error) => {
-          const contents = event.sender;
-          if (contents.isDestroyed()) {
-            return;
-          }
-
-          contents.send(`settings:set-success:${name}`, error);
-        });
-        mainWindow.webContents.send(`settings:set:${name}`, value);
-      }
+      return this.setSettingInMainWindow(name, value);
     });
   }
 }

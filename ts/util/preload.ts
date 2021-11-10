@@ -54,30 +54,12 @@ export function createSetting<
 
   function getValue(): Promise<Value> {
     strictAssert(options.getter, `${name} has no getter`);
-    return new Promise((resolve, reject) => {
-      ipcRenderer.once(`settings:get-success:${name}`, (_, error, value) => {
-        if (error) {
-          return reject(error);
-        }
-
-        return resolve(value);
-      });
-      ipcRenderer.send(`settings:get:${name}`);
-    });
+    return ipcRenderer.invoke(`settings:get:${name}`);
   }
 
   function setValue(value: Value): Promise<Value> {
     strictAssert(options.setter, `${name} has no setter`);
-    return new Promise((resolve, reject) => {
-      ipcRenderer.once(`settings:set-success:${name}`, (_, error) => {
-        if (error) {
-          return reject(error);
-        }
-
-        return resolve(value);
-      });
-      ipcRenderer.send(`settings:set:${name}`, value);
-    });
+    return ipcRenderer.invoke(`settings:set:${name}`, value);
   }
 
   return {
@@ -98,16 +80,7 @@ export function createCallback<
   name: Name
 ): (...args: Parameters<Callback>) => Promise<UnwrapReturn<Callback>> {
   return (...args: Parameters<Callback>): Promise<UnwrapReturn<Callback>> => {
-    return new Promise<UnwrapReturn<Callback>>((resolve, reject) => {
-      ipcRenderer.once(`callbacks:call-success:${name}`, (_, error, value) => {
-        if (error) {
-          return reject(error);
-        }
-
-        return resolve(value);
-      });
-      ipcRenderer.send(`callbacks:call:${name}`, args);
-    });
+    return ipcRenderer.invoke(`settings:call:${name}`, args);
   };
 }
 
@@ -119,7 +92,7 @@ export function installSetting(
   const setterName = getSetterName(name);
 
   if (getter) {
-    ipcRenderer.on(`settings:get:${name}`, async () => {
+    ipcRenderer.on(`settings:get:${name}`, async (_event, { seq }) => {
       const getFn = window.Events[getterName];
       if (!getFn) {
         ipcRenderer.send(
@@ -129,10 +102,11 @@ export function installSetting(
         return;
       }
       try {
-        ipcRenderer.send(`settings:get-success:${name}`, null, await getFn());
+        ipcRenderer.send('settings:response', seq, null, await getFn());
       } catch (error) {
         ipcRenderer.send(
-          `settings:get-success:${name}`,
+          'settings:response',
+          seq,
           error && error.stack ? error.stack : error
         );
       }
@@ -140,7 +114,7 @@ export function installSetting(
   }
 
   if (setter) {
-    ipcRenderer.on(`settings:set:${name}`, async (_event, value: unknown) => {
+    ipcRenderer.on(`settings:set:${name}`, async (_event, { seq, value }) => {
       // Some settings do not have setters...
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const setFn = (window.Events as any)[setterName] as (
@@ -148,17 +122,19 @@ export function installSetting(
       ) => Promise<void>;
       if (!setFn) {
         ipcRenderer.send(
-          `settings:set-success:${name}`,
+          'settings:response',
+          seq,
           `installSetter: ${setterName} not found for event ${name}`
         );
         return;
       }
       try {
         await setFn(value);
-        ipcRenderer.send(`settings:set-success:${name}`);
+        ipcRenderer.send('settings:response', seq, null);
       } catch (error) {
         ipcRenderer.send(
-          `settings:set-success:${name}`,
+          'settings:response',
+          seq,
           error && error.stack ? error.stack : error
         );
       }
@@ -169,19 +145,16 @@ export function installSetting(
 export function installCallback<Name extends keyof IPCEventsCallbacksType>(
   name: Name
 ): void {
-  ipcRenderer.on(`callbacks:call:${name}`, async (_, args) => {
+  ipcRenderer.on(`settings:call:${name}`, async (_, { seq, args }) => {
     const hook = window.Events[name] as (
       ...hookArgs: Array<unknown>
     ) => Promise<unknown>;
     try {
-      ipcRenderer.send(
-        `callbacks:call-success:${name}`,
-        null,
-        await hook(...args)
-      );
+      ipcRenderer.send('settings:response', seq, null, await hook(...args));
     } catch (error) {
       ipcRenderer.send(
-        `callbacks:call-success:${name}`,
+        'settings:response',
+        seq,
         error && error.stack ? error.stack : error
       );
     }

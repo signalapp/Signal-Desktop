@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
-import { getCliOptions, getPrintableError } from './common';
+import * as Errors from '../types/errors';
+import { getCliOptions } from './common';
 import { keyPair } from './curve';
 import { writeHexToPath } from './signature';
 
@@ -33,7 +34,7 @@ type OptionsType = {
 
 const cliOptions = getCliOptions<OptionsType>(OPTIONS);
 go(cliOptions).catch(error => {
-  console.error('Something went wrong!', getPrintableError(error));
+  console.error('Something went wrong!', Errors.toLogFormat(error));
 });
 
 async function go(options: OptionsType) {

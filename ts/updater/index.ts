@@ -4,18 +4,20 @@
 import config from 'config';
 import type { BrowserWindow } from 'electron';
 
-import type { UpdaterInterface } from './common';
-import { start as startMacOS } from './macos';
-import { start as startWindows } from './windows';
+import type { Updater } from './common';
+import { MacOSUpdater } from './macos';
+import { WindowsUpdater } from './windows';
 import type { LoggerType } from '../types/Logging';
+import type { SettingsChannel } from '../main/settingsChannel';
 
 let initialized = false;
 
-let updater: UpdaterInterface | undefined;
+let updater: Updater | undefined;
 
 export async function start(
-  getMainWindow: () => BrowserWindow | undefined,
-  logger?: LoggerType
+  settingsChannel: SettingsChannel,
+  logger: LoggerType,
+  getMainWindow: () => BrowserWindow | undefined
 ): Promise<void> {
   const { platform } = process;
 
@@ -37,12 +39,14 @@ export async function start(
   }
 
   if (platform === 'win32') {
-    updater = await startWindows(getMainWindow, logger);
+    updater = new WindowsUpdater(logger, settingsChannel, getMainWindow);
   } else if (platform === 'darwin') {
-    updater = await startMacOS(getMainWindow, logger);
+    updater = new MacOSUpdater(logger, settingsChannel, getMainWindow);
   } else {
     throw new Error('updater/start: Unsupported platform');
   }
+
+  await updater.start();
 }
 
 export async function force(): Promise<void> {

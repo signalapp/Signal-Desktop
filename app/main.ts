@@ -30,6 +30,7 @@ import packageJson from '../package.json';
 import * as GlobalErrors from './global_errors';
 import { setup as setupSpellChecker } from './spell_check';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
+import { strictAssert } from '../ts/util/assert';
 import { consoleLogger } from '../ts/util/consoleLogger';
 
 import './startup_config';
@@ -378,7 +379,9 @@ function handleCommonWindowEvents(window: BrowserWindow) {
       return;
     }
 
-    window.webContents.send('callbacks:call:persistZoomFactor', [zoomFactor]);
+    settingsChannel?.invokeCallbackInMainWindow('persistZoomFactor', [
+      zoomFactor,
+    ]);
 
     lastZoomFactor = zoomFactor;
   };
@@ -794,7 +797,11 @@ async function readyForUpdates() {
 
   // Second, start checking for app updates
   try {
-    await updater.start(getMainWindow, getLogger());
+    strictAssert(
+      settingsChannel !== undefined,
+      'SettingsChannel must be initialized'
+    );
+    await updater.start(settingsChannel, getLogger(), getMainWindow);
   } catch (error) {
     getLogger().error(
       'Error starting update checks:',
@@ -1302,7 +1309,7 @@ const onDatabaseError = async (error: string) => {
   ready = false;
 
   if (mainWindow) {
-    mainWindow.webContents.send('callbacks:call:closeDB', []);
+    settingsChannel?.invokeCallbackInMainWindow('closeDB', []);
     mainWindow.close();
   }
   mainWindow = undefined;

@@ -7,7 +7,7 @@ import {
   statSync,
   writeFile as writeFileCallback,
 } from 'fs';
-import { join, normalize } from 'path';
+import { join, normalize, dirname } from 'path';
 import { tmpdir } from 'os';
 import { throttle } from 'lodash';
 
@@ -26,14 +26,21 @@ import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
 
+import * as durations from '../util/durations';
 import { getTempPath } from '../util/attachments';
 import { DialogType } from '../types/Dialogs';
+import * as Errors from '../types/errors';
 import { getUserAgent } from '../util/getUserAgent';
 import { isAlpha, isBeta } from '../util/version';
 
 import * as packageJson from '../../package.json';
-import { getSignatureFileName } from './signature';
+import {
+  hexToBinary,
+  verifySignature,
+  getSignatureFileName,
+} from './signature';
 import { isPathInside } from '../util/isPathInside';
+import type { SettingsChannel } from '../main/settingsChannel';
 
 import type { LoggerType } from '../types/Logging';
 
@@ -45,6 +52,8 @@ const { platform } = process;
 export const GOT_CONNECT_TIMEOUT = 2 * 60 * 1000;
 export const GOT_LOOKUP_TIMEOUT = 2 * 60 * 1000;
 export const GOT_SOCKET_TIMEOUT = 2 * 60 * 1000;
+
+const INTERVAL = 30 * durations.MINUTE;
 
 type JSONUpdateSchema = {
   version: string;
@@ -59,50 +68,315 @@ type JSONUpdateSchema = {
   releaseDate: string;
 };
 
-export type UpdaterInterface = {
-  force(): Promise<void>;
-};
-
 export type UpdateInformationType = {
   fileName: string;
   size: number;
   version: string;
 };
 
-export async function checkForUpdates(
-  logger: LoggerType,
-  forceUpdate = false
-): Promise<UpdateInformationType | null> {
-  const yaml = await getUpdateYaml();
-  const parsedYaml = parseYaml(yaml);
-  const version = getVersion(parsedYaml);
+export abstract class Updater {
+  protected fileName: string | undefined;
 
-  if (!version) {
-    logger.warn('checkForUpdates: no version extracted from downloaded yaml');
+  protected version: string | undefined;
+
+  protected updateFilePath: string | undefined;
+
+  constructor(
+    protected readonly logger: LoggerType,
+    private readonly settingsChannel: SettingsChannel,
+    protected readonly getMainWindow: () => BrowserWindow | undefined
+  ) {}
+
+  //
+  // Public APIs
+  //
+
+  public async force(): Promise<void> {
+    return this.checkForUpdatesMaybeInstall(true);
+  }
+
+  public async start(): Promise<void> {
+    this.logger.info('updater/start: starting checks...');
+
+    app.once('quit', () => this.quitHandler());
+
+    setInterval(async () => {
+      try {
+        await this.checkForUpdatesMaybeInstall();
+      } catch (error) {
+        this.logger.error(`updater/start: ${Errors.toLogFormat(error)}`);
+      }
+    }, INTERVAL);
+
+    await this.deletePreviousInstallers();
+    await this.checkForUpdatesMaybeInstall();
+  }
+
+  public quitHandler(): void {
+    if (this.updateFilePath) {
+      this.deleteCache(this.updateFilePath);
+    }
+  }
+
+  //
+  // Abstract methods
+  //
+
+  protected abstract deletePreviousInstallers(): Promise<void>;
+
+  protected abstract installUpdate(updateFilePath: string): Promise<void>;
+
+  //
+  // Protected methods
+  //
+
+  protected setUpdateListener(performUpdateCallback: () => void): void {
+    ipcMain.removeAllListeners('start-update');
+    ipcMain.once('start-update', performUpdateCallback);
+  }
+
+  //
+  // Private methods
+  //
+
+  private async downloadAndInstall(
+    newFileName: string,
+    newVersion: string,
+    updateOnProgress?: boolean
+  ): Promise<void> {
+    const { logger } = this;
+    try {
+      const oldFileName = this.fileName;
+      const oldVersion = this.version;
+
+      if (this.updateFilePath) {
+        this.deleteCache(this.updateFilePath);
+      }
+      this.fileName = newFileName;
+      this.version = newVersion;
+
+      try {
+        this.updateFilePath = await this.downloadUpdate(
+          this.fileName,
+          updateOnProgress
+        );
+      } catch (error) {
+        // Restore state in case of download error
+        this.fileName = oldFileName;
+        this.version = oldVersion;
+        throw error;
+      }
+
+      const publicKey = hexToBinary(config.get('updatesPublicKey'));
+      const verified = await verifySignature(
+        this.updateFilePath,
+        this.version,
+        publicKey
+      );
+      if (!verified) {
+        // Note: We don't delete the cache here, because we don't want to continually
+        //   re-download the broken release. We will download it only once per launch.
+        throw new Error(
+          'Downloaded update did not pass signature verification ' +
+            `(version: '${this.version}'; fileName: '${this.fileName}')`
+        );
+      }
+
+      await this.installUpdate(this.updateFilePath);
+
+      const mainWindow = this.getMainWindow();
+      if (mainWindow) {
+        mainWindow.webContents.send('show-update-dialog', DialogType.Update, {
+          version: this.version,
+        });
+      } else {
+        logger.warn(
+          'downloadAndInstall: no mainWindow, cannot show update dialog'
+        );
+      }
+    } catch (error) {
+      logger.error(`downloadAndInstall: ${Errors.toLogFormat(error)}`);
+    }
+  }
+
+  private async checkForUpdatesMaybeInstall(force = false): Promise<void> {
+    const { logger } = this;
+
+    logger.info('checkForUpdatesMaybeInstall: checking for update...');
+    const result = await this.checkForUpdates(force);
+    if (!result) {
+      return;
+    }
+
+    const { fileName: newFileName, version: newVersion } = result;
+
+    if (
+      force ||
+      this.fileName !== newFileName ||
+      !this.version ||
+      gt(newVersion, this.version)
+    ) {
+      const autoDownloadUpdates = await this.getAutoDownloadUpdateSetting();
+      if (!autoDownloadUpdates) {
+        this.setUpdateListener(async () => {
+          logger.info(
+            'checkForUpdatesMaybeInstall: have not downloaded update, going to download'
+          );
+          await this.downloadAndInstall(newFileName, newVersion, true);
+        });
+        const mainWindow = this.getMainWindow();
+
+        if (mainWindow) {
+          mainWindow.webContents.send(
+            'show-update-dialog',
+            DialogType.DownloadReady,
+            {
+              downloadSize: result.size,
+              version: result.version,
+            }
+          );
+        } else {
+          logger.warn(
+            'checkForUpdatesMaybeInstall: no mainWindow, cannot show update dialog'
+          );
+        }
+        return;
+      }
+      await this.downloadAndInstall(newFileName, newVersion);
+    }
+  }
+
+  private async checkForUpdates(
+    forceUpdate = false
+  ): Promise<UpdateInformationType | null> {
+    const yaml = await getUpdateYaml();
+    const parsedYaml = parseYaml(yaml);
+    const version = getVersion(parsedYaml);
+
+    if (!version) {
+      this.logger.warn(
+        'checkForUpdates: no version extracted from downloaded yaml'
+      );
+
+      return null;
+    }
+
+    if (forceUpdate || isVersionNewer(version)) {
+      this.logger.info(
+        `checkForUpdates: found newer version ${version} ` +
+          `forceUpdate=${forceUpdate}`
+      );
+
+      const fileName = getUpdateFileName(parsedYaml);
+
+      return {
+        fileName,
+        size: getSize(parsedYaml, fileName),
+        version,
+      };
+    }
+
+    this.logger.info(
+      `checkForUpdates: ${version} is not newer; no new update available`
+    );
 
     return null;
   }
 
-  if (forceUpdate || isVersionNewer(version)) {
-    logger.info(
-      `checkForUpdates: found newer version ${version} ` +
-        `forceUpdate=${forceUpdate}`
-    );
+  private async downloadUpdate(
+    fileName: string,
+    updateOnProgress?: boolean
+  ): Promise<string> {
+    const baseUrl = getUpdatesBase();
+    const updateFileUrl = `${baseUrl}/${fileName}`;
 
-    const fileName = getUpdateFileName(parsedYaml);
+    const signatureFileName = getSignatureFileName(fileName);
+    const signatureUrl = `${baseUrl}/${signatureFileName}`;
 
-    return {
-      fileName,
-      size: getSize(parsedYaml, fileName),
-      version,
-    };
+    let tempDir;
+    try {
+      tempDir = await createTempDir();
+      const targetUpdatePath = join(tempDir, fileName);
+      const targetSignaturePath = join(tempDir, getSignatureFileName(fileName));
+
+      validatePath(tempDir, targetUpdatePath);
+      validatePath(tempDir, targetSignaturePath);
+
+      this.logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
+      const { body } = await got.get(signatureUrl, getGotOptions());
+      await writeFile(targetSignaturePath, body);
+
+      this.logger.info(`downloadUpdate: Downloading update ${updateFileUrl}`);
+      const downloadStream = got.stream(updateFileUrl, getGotOptions());
+      const writeStream = createWriteStream(targetUpdatePath);
+
+      await new Promise<void>((resolve, reject) => {
+        const mainWindow = this.getMainWindow();
+        if (updateOnProgress && mainWindow) {
+          let downloadedSize = 0;
+
+          const throttledSend = throttle(() => {
+            mainWindow.webContents.send(
+              'show-update-dialog',
+              DialogType.Downloading,
+              { downloadedSize }
+            );
+          }, 500);
+
+          downloadStream.on('data', data => {
+            downloadedSize += data.length;
+            throttledSend();
+          });
+        }
+
+        downloadStream.on('error', error => {
+          reject(error);
+        });
+        downloadStream.on('end', () => {
+          resolve();
+        });
+
+        writeStream.on('error', error => {
+          reject(error);
+        });
+
+        downloadStream.pipe(writeStream);
+      });
+
+      return targetUpdatePath;
+    } catch (error) {
+      if (tempDir) {
+        await deleteTempDir(tempDir);
+      }
+      throw error;
+    }
   }
 
-  logger.info(
-    `checkForUpdates: ${version} is not newer; no new update available`
-  );
+  private async getAutoDownloadUpdateSetting(): Promise<boolean> {
+    try {
+      return await this.settingsChannel.getSettingFromMainWindow(
+        'autoDownloadUpdate'
+      );
+    } catch (error) {
+      this.logger.warn(
+        'getAutoDownloadUpdateSetting: Failed to fetch, returning false',
+        Errors.toLogFormat(error)
+      );
+      return false;
+    }
+  }
 
-  return null;
+  private async deleteCache(filePath: string | null): Promise<void> {
+    if (!filePath) {
+      return;
+    }
+    const tempDir = dirname(filePath);
+    try {
+      await deleteTempDir(tempDir);
+    } catch (error) {
+      this.logger.error(`quitHandler: ${Errors.toLogFormat(error)}`);
+    }
+  }
 }
 
 export function validatePath(basePath: string, targetPath: string): void {
@@ -112,75 +386,6 @@ export function validatePath(basePath: string, targetPath: string): void {
     throw new Error(
       `validatePath: Path ${normalized} is not under base path ${basePath}`
     );
-  }
-}
-
-export async function downloadUpdate(
-  fileName: string,
-  logger: LoggerType,
-  mainWindow?: BrowserWindow
-): Promise<string> {
-  const baseUrl = getUpdatesBase();
-  const updateFileUrl = `${baseUrl}/${fileName}`;
-
-  const signatureFileName = getSignatureFileName(fileName);
-  const signatureUrl = `${baseUrl}/${signatureFileName}`;
-
-  let tempDir;
-  try {
-    tempDir = await createTempDir();
-    const targetUpdatePath = join(tempDir, fileName);
-    const targetSignaturePath = join(tempDir, getSignatureFileName(fileName));
-
-    validatePath(tempDir, targetUpdatePath);
-    validatePath(tempDir, targetSignaturePath);
-
-    logger.info(`downloadUpdate: Downloading signature ${signatureUrl}`);
-    const { body } = await got.get(signatureUrl, getGotOptions());
-    await writeFile(targetSignaturePath, body);
-
-    logger.info(`downloadUpdate: Downloading update ${updateFileUrl}`);
-    const downloadStream = got.stream(updateFileUrl, getGotOptions());
-    const writeStream = createWriteStream(targetUpdatePath);
-
-    await new Promise<void>((resolve, reject) => {
-      if (mainWindow) {
-        let downloadedSize = 0;
-
-        const throttledSend = throttle(() => {
-          mainWindow.webContents.send(
-            'show-update-dialog',
-            DialogType.Downloading,
-            { downloadedSize }
-          );
-        }, 500);
-
-        downloadStream.on('data', data => {
-          downloadedSize += data.length;
-          throttledSend();
-        });
-      }
-
-      downloadStream.on('error', error => {
-        reject(error);
-      });
-      downloadStream.on('end', () => {
-        resolve();
-      });
-
-      writeStream.on('error', error => {
-        reject(error);
-      });
-
-      downloadStream.pipe(writeStream);
-    });
-
-    return targetUpdatePath;
-  } catch (error) {
-    if (tempDir) {
-      await deleteTempDir(tempDir);
-    }
-    throw error;
   }
 }
 
@@ -338,13 +543,6 @@ export async function deleteTempDir(targetDir: string): Promise<void> {
   await rimrafPromise(targetDir);
 }
 
-export function getPrintableError(error: Error | string): Error | string {
-  if (typeof error === 'string') {
-    return error;
-  }
-  return error && error.stack ? error.stack : error;
-}
-
 export function getCliOptions<T>(options: ParserConfiguration['options']): T {
   const parser = createParser({ options });
   const cliOptions = parser.parse(process.argv);
@@ -356,35 +554,4 @@ export function getCliOptions<T>(options: ParserConfiguration['options']): T {
   }
 
   return (cliOptions as unknown) as T;
-}
-
-export function setUpdateListener(performUpdateCallback: () => void): void {
-  ipcMain.removeAllListeners('start-update');
-  ipcMain.once('start-update', performUpdateCallback);
-}
-
-export async function getAutoDownloadUpdateSetting(
-  mainWindow: BrowserWindow | undefined,
-  logger: LoggerType
-): Promise<boolean> {
-  if (!mainWindow) {
-    logger.warn(
-      'getAutoDownloadUpdateSetting: No main window, returning false'
-    );
-    return false;
-  }
-
-  return new Promise((resolve, reject) => {
-    ipcMain.once(
-      'settings:get-success:autoDownloadUpdate',
-      (_, error, value: boolean) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(value);
-        }
-      }
-    );
-    mainWindow.webContents.send('settings:get:autoDownloadUpdate');
-  });
 }

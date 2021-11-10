@@ -67,32 +67,7 @@ installSetting('preferredAudioInputDevice');
 installSetting('preferredAudioOutputDevice');
 installSetting('preferredVideoInputDevice');
 
-window.getMediaPermissions = () =>
-  new Promise((resolve, reject) => {
-    ipc.once(
-      'settings:get-success:mediaPermissions',
-      (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      }
-    );
-    ipc.send('settings:get:mediaPermissions');
-  });
+window.getMediaPermissions = () => ipc.invoke('settings:get:mediaPermissions');
 
 window.getMediaCameraPermissions = () =>
-  new Promise((resolve, reject) => {
-    ipc.once(
-      'settings:get-success:mediaCameraPermissions',
-      (_event, error, value) => {
-        if (error) {
-          return reject(new Error(error));
-        }
-
-        return resolve(value);
-      }
-    );
-    ipc.send('settings:get:mediaCameraPermissions');
-  });
+  ipc.invoke('settings:get:mediaCameraPermissions');
