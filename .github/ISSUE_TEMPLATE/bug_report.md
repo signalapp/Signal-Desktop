@@ -33,7 +33,7 @@ Lastly, be sure to preview your issue before saving. Thanks!
   For flatpak:
   - https://github.com/flathub/org.signal.Signal/issues
   For snap:
-  - https://github.com/flathub/org.signal.Signal/issues
+  - https://github.com/snapcrafters/signal-desktop/issues
   For archlinux:
   - https://aur.archlinux.org/packages/signal-desktop-beta/
   etc.
