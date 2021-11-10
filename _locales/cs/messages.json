@@ -6201,6 +6201,58 @@
         "message": "O mně",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Uživatelské jméno",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Vložte uživatelské jméno",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Uživatelská jména v aplikaci Signal jsou nepovinná. Pokud se rozhodnete vytvořit uživatelské jméno a umožnit jeho vyhledávání, ostatní uživatelé služby Signal vás budou moci podle tohoto uživatelského jména najít a kontaktovat, aniž by znali vaše telefonní číslo.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Uživatelská jména mohou obsahovat pouze a-z, 0-9 a _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Uživatelská jména nemohou začínat číslem.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Uživatelská jména musí mít alespoň $min$ znaky.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Uživatelská jména mohou mít maximálně $max$ znaků.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Toto uživatelské jméno je obsazené.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Vaše uživatelské jméno nemohlo být uloženo. Zkontrolujte připojení a zkuste to znovu.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Vaše uživatelské jméno nemohlo být odstraněno. Zkontrolujte připojení a zkuste to znovu.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Odstranit uživatelské jméno",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Tímto odstraníte své uživatelské jméno a umožníte ostatním uživatelům, aby si ho přivlastnili. Jste si jisti?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Smazat",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Napište pár slov o sobě...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "O mně",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Váš avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Uživatelské jméno",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Váš profil se nepodařilo aktualizovat. Zkuste to prosím znovu.",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Uživatelé čtečky obrazovky by se nyní měli snadněji pohybovat v seznamu konverzací na levém panelu.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Nyní můžete vyhledávat v archivovaných konverzacích. Představte si, že (rychle) prohledáváte staré svazky a hledáte další stopu.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Pokud jste někdy posouvali nahoru a odesílali zprávu, možná jste se divili, kde se vaše zpráva nachází! Nyní, kdykoli odešlete zprávu, bude posunuta na obrazovku, abyste mohli obdivovat svou tvrdou práci.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reagujete na zprávu? Nyní by měla být reakce spolehlivější s opakovanými pokusy až 24 hodin.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",

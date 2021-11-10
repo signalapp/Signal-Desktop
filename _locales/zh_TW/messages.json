@@ -6201,6 +6201,58 @@
         "message": "關於",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "使用者名稱",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "輸入使用者名稱",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Signal 上的使用者名稱是可選的。 如果你選擇建立使用者名稱並使可被搜索，其他 Signal 使用者將能夠透過該使用者名稱找到你並在不知道你的電話號碼的情況下與你聯絡。",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "使用者名稱只能包含 a-z、0-9 和 _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "使用者名稱不能以數字開頭。",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "使用者名稱必須至少包含$min$ 個字符。",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "使用者名稱最多只能包含$max$個字符。",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "這個使用者名稱已經被使用。",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "無法保存你的使用者名稱。請檢查你的網路連接並重試。",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "無法刪除你的使用者名稱。請檢查你的網路連接並重試。",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "刪除使用者名稱",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "這將刪除你的使用者名稱，這將可讓其他使用者使用。你確定嗎？",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "刪除",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "寫一些關於你自己...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "關於",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "你的頭像",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "使用者名稱",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "無法更新你的個人資料。 請再試一次。",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "螢幕閱讀器使用者現在應該可以更輕鬆地瀏覽左側面版中的對話清單。",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "你現在可以在存檔的對話中搜尋。想像一下自己（快速地）搜尋古代書籍，尋找下一條線索。",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "如果你曾經向上捲動並傳送過訊息，你可能想知道你的訊息在哪裡！ 現在，每當你傳送訊息時，它都會捲動到你的眼前，讓你欣賞自己辛勤工作的成果。",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "要對訊息作出回應嗎？ 現在應該更可靠了，最多可以重試 24 小時",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",

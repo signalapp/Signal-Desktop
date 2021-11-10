@@ -6201,6 +6201,58 @@
         "message": "Apie",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Naudotojo vardas",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Įveskite naudotojo vardą",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Naudotojo vardai Signal programėlėje yra nebūtini. Jei pasirinksite susikurti naudotojo vardą ir padaryti jį randamą, tuomet kiti Signal naudotojai galės jus rasti pagal tą naudotojo vardą ir susisiekti su jumis, nežinodami jūsų telefono numerio.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Naudotojo varduose gali būti simboliai a-z, 0-9 ir _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Naudotojo vardai negali prasidėti skaitmenimi.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Naudotojo varduose privalo būti bent $min$ simboliai.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Naudotojo varduose privalo būti ne daugiau kaip $max$ simboliai.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Šis naudotojo vardas yra užimtas.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Nepavyko įrašyti jūsų naudotojo vardo. Patikrinkite ryšį ir bandykite dar kartą.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Nepavyko pašalinti jūsų naudotojo vardo. Patikrinkite ryšį ir bandykite dar kartą.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Ištrinti naudotojo vardą",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Tai pašalins jūsų naudotojo vardą ir jį galės užimti kiti naudotojai. Ar esate tikri?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Ištrinti",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Parašykite ką nors apie save...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "Apie",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Jūsų avataras",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Naudotojo vardas",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Nepavyko atnaujinti jūsų profilio. Bandykite dar kartą.",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Dabar, ekrano skaityklės naudotojams turėtų būti lengviau naršyti po pokalbių sąrašą kairiajame polangyje.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Nuo šiol galite atlikti paiešką archyvuotuose pokalbiuose. Įsivaizduokite save. kaip (greitai) ieškote senuosiuose tomuose, bandydami rasti kitos užuominos.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Jei kada nors esate slinkę aukštyn ir išsiuntę žinutę, galbūt, norėjote žinoti, kurioje vietoje buvo jūsų žinutė. Dabar, kas kartą siunčiant žinutę, bus slenkama į rodinį, kad galėtumėte žavėtis savo sunkiu darbu.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reaguojate į žinutę? Dabar šis procesas turėtų būti patikimesnis. Nepavykus, bus 24 valandas vis bandoma iš naujo",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",

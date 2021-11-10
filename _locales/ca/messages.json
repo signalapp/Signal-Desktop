@@ -6201,6 +6201,58 @@
         "message": "Quant a",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Nom d'usuari",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Escriviu un nom d'usuari",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Els noms d’usuari al Signal són opcionals. Si trieu crear un nom d’usuari i fer-lo abastable, altres usuaris del Signal us podran trobar per aquest nom i contactar-vos sense saber el vostre número de telèfon.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Els noms d'usuari només poden contenir a-z, 0-9 i _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Els noms d'usuari no poden començar amb un número.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Els noms d'usuari han de tenir un mínim de $min$ caràcters.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Els noms d'usuari han de tenir un màxim de$max$ caràcters.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Aquest nom d'usuari ja està agafat.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "No s'ha pogut desar el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "No s'ha pogut suprimir el nom d'usuari. Comproveu la connexió i torneu-ho a provar.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Suprimeix el nom d'usuari",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Això suprimirà el vostre nom d'usuari i permetrà que altres usuaris el reclamin. N'esteu segur?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Suprimits",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Escriviu alguna cosa sobre vosaltres...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "Quant a",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "El vostre avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Nom d'usuari",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "No s'ha pogut actualitzar el perfil. Torneu-ho a provar més tard.",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Els usuaris de lectors de pantalla haurien de trobar ara més fàcil de navegar per la llista de converses del panell esquerre.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Ara podeu cercar a les converses arxivades. Imagineu-vos buscant (ràpidament) a través de volums antics, buscant la pista següent.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Si alguna vegada us heu desplaçat cap amunt i heu enviat un missatge, potser us preguntareu on era el missatge! Ara, sempre que envieu un missatge, es desplaçarà a la vista perquè admireu la feina feta.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reaccioneu a un missatge? Ara hauria de ser més fiable, tornant-ho a provar fins a 24 hores.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",

@@ -416,7 +416,7 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "प्रलंबित संदेश पाठवा",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
@@ -1462,7 +1462,7 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "सहभागींना रिंग करण्यासाठी हा गट खूप मोठा आहे.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -6201,6 +6201,58 @@
         "message": "याबद्दल",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "वापरकर्तानाव",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "वापरकर्तानाव प्रविष्ट करा",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Usernames may only contain a-z, 0-9 and _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "वापरकर्तानावे अंकांसोबत सोबत चालू होऊ शकत नाहीत.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Usernames must have a least $min$ characters.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Usernames must have at most $max$ characters.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "हे वापरकर्तानाव घेतलेले आहे.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Delete username",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "हटवा",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "स्वतःबद्दल काहीतरी लिहा...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "याबद्दल",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Your Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "वापरकर्तानाव",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "आपली प्रोफाईल अद्यतनित केली जाऊ शकली नाही. कृपया पुन्हा प्रयत्न करा.",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

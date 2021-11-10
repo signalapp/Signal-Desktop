@@ -6201,8 +6201,60 @@
         "message": "Névjegy",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Felhasználónév",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Adj meg egy felhasználónevet",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Usernames may only contain a-z, 0-9 and _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "A felhasználónév nem kezdődhet számmal",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Usernames must have a least $min$ characters.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Usernames must have at most $max$ characters.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "A felhasználónév foglalt.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Delete username",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Törlés",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Írj magadról valamit...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6263,6 +6315,14 @@
         "message": "Névjegy",
         "description": "Title for about editing"
     },
+    "ProfileEditorModal--avatar": {
+        "message": "Your Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Felhasználónév",
+        "description": "Title for username editing"
+    },
     "ProfileEditorModal--error": {
         "message": "Your profile could not be updated. Please try again.",
         "description": "Error message when something goes wrong updating your profile."
@@ -6290,11 +6350,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Szín kiválasztása",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Csoport avatár",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6364,7 +6424,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ kapcsolat",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6374,7 +6434,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ kapcsolat",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

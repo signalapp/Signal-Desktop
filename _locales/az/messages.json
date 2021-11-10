@@ -6201,6 +6201,58 @@
         "message": "Haqqında",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "İstifadəçi adı",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Bir istifadəçi adı daxil edin",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Signal-dakı istifadəçi adları ixtiyaridir. Əgər bir istifadəçi adı yaratmağı və onu axtarıla bilən etməyi seçsəniz, digər Signal istifadəçiləri bu istifadəçi adı ilə sizi tapa biləcək və telefon nömrənizi bilmədən sizinlə əlaqə saxlaya biləcək.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "İstifadəçi adları, yalnız a-z 0-9 və \"_\" ehtiva edə bilər",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "İstifadəçi adı rəqəmlə başlaya bilməz.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "İstifadəçi adında ən azı $min$ simvol olmalıdır.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "İstifadəçi adında ən çoxu $max$ simvol olmalıdır.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Bu istifadəçi adı götürülüb.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "İstifadəçi adınız yaddaşda saxlanıla bilmədi. İnternet bağlantınızı yoxlayıb yenidən sınayın.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "İstifadəçi adınız silinə bilmədi. İnternet bağlantınızı yoxlayıb yenidən sınayın.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "İstifadəçi adını sil",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Bu, istifadəçi adınızı siləcək və digər istifadəçilərin onu götürməsinə icazə verəcək. Əminsiniz?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Sil",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Özünüz haqqında nəsə yazın...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6314,14 @@
     "ProfileEditorModal--about": {
         "message": "Haqqında",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Avatarınız",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "İstifadəçi adı",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Profiliniz yenilənə bilmir. Zəhmət olmasa yenidən sınayın.",
@@ -6504,6 +6564,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Ekranı oxuyan istifadəçilər üçün artıq sol bölmədəki danışıq siyahısında gəzinmək daha asandır.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Artıq arxivlənmiş danışıqlarda axtarış edə bilərsiniz. Qədimi kitablar arasında növbəti ipucu axtardığınızı təsəvvür edin.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Daha əvvəl yuxarı sürüşdürərək bir mesaj göndərmisinizsə, mesajınızın harada olduğu ilə maraqlana bilərsiniz! İndi, bir mesaj göndərəndə, gördüyünüz işə heyran qalmağınız üçün görüntülənəcək.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Bir mesaja reaksiya verirsiniz? Artıq daha güvənli olmaları üçün 24 saata qədər təkrar sınanmalıdır",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",

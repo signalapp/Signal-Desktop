@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "Hantar mesej tartangguh",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Hantar $count$ mesej tertangguh",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -470,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "Log ini akan disiarkan secara terbuka dalam talian untuk dilihat oleh penyumbang. Anda boleh memuat turun log penuh sebelum menyerahkan.",
         "description": ""
     },
     "debugLogError": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "Komputer meja mengalami ralat nyahinkripsi.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "Hantar log",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -838,7 +838,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "Lihat $whatsNew$ dalam kemas kini ini",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -848,7 +848,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "apakah yang baharu",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -938,7 +938,7 @@
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "Lengkapkan mesej suara dan hantar",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
@@ -962,11 +962,11 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "Terdapat ralat dengan perakam suara.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "Lampiran disimpan.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
@@ -1338,7 +1338,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "Semak imbas kod ini dalam aplikasi Signal di telefon anda",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1458,7 +1458,7 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "Panggil",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
@@ -1556,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal akan memanggil $first$ dan $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal akan memanggil $first$, $second$, dan $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1588,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal akan memanggil $first$, $second$, dan $others$ yang lain",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1606,7 +1606,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ akan dimaklumkan",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1966,7 +1966,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Klik pergi ke signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -2138,7 +2138,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "Mainkan bunyi notifikasi",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2380,7 +2380,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Klik untuk mempautkan semula Signal Desktop kepada peranti mudah alih anda untuk meneruskan pemesejan.",
         "description": ""
     },
     "unlinked": {
@@ -2400,7 +2400,7 @@
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "Klik untuk memuat turun kemas kini",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2416,7 +2416,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "Abaikan kemas kini",
         "description": ""
     },
     "leftTheGroup": {
@@ -2514,7 +2514,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "Pergi ke perbualan dengan $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2756,7 +2756,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Baca lagi",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3104,7 +3104,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "Klik atau seret/lepaskan fail untuk menambah stiker",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3282,7 +3282,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "Singkirkan reaksi",
         "description": ""
     },
     "Reactions--error": {
@@ -3520,7 +3520,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "Ahli daripada $group1$, $group2$, $group3$ dan satu lagi",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -5340,7 +5340,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Singkirkan $contact$ dari pentadbir kumpulan?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5366,7 +5366,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "Nyahredam perbualan ini?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5774,7 +5774,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "Pilih kenalan $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5784,7 +5784,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "Nyahpilih kenalan $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5794,7 +5794,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "Gagal memilih kenalan $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6201,6 +6201,58 @@
         "message": "Perihal",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Nama Pengguna",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Masukkan nama pengguna",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Nama pengguna hanya boleh mengandungi a-z, 0-9 dan _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Nama pengguna tidak boleh dimulakan dengan nombor.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Nama pengguna mesti mempunyai sekurang-kurangnya $min$ aksara.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3"
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Nama pengguna mestilah mempunyai sekurang-kurangnya $max$ aksara",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25"
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Nama pengguna ini telah diambil.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Nama pengguna anda tidak boleh disimpan. Periksa sambungan anda dan cuba lagi.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Delete username",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Ini akan menyingkirkan nama pengguna anda, membolehkan pengguna lain untuk menuntutnya. Adakah anda pasti?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Padam",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Tulis sesuatu mengenai diri anda...",
         "description": "Placeholder text for about input field"
@@ -6263,6 +6315,14 @@
         "message": "Perihal",
         "description": "Title for about editing"
     },
+    "ProfileEditorModal--avatar": {
+        "message": "Avatar Anda",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Nama Pengguna",
+        "description": "Title for username editing"
+    },
     "ProfileEditorModal--error": {
         "message": "Profil anda tidak dapat dikemas kini. Sila cuba lagi.",
         "description": "Error message when something goes wrong updating your profile."
@@ -6322,7 +6382,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Terakhir diimport pada $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6348,7 +6408,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Untuk menukar tetapan ini, buka aplikasi Signal pada peranti mudah alih anda dan menavigasi ke Tetapan > Perbualan",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6356,7 +6416,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Bahan kandungan notifikasi",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6364,7 +6424,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ kenalan",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6384,11 +6444,11 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Who can...",
+        "message": "Siapa boleh...",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Untuk menukar tetapan ini, buka aplikasi Signal pada peranti mudah alih anda dan navigasi ke Tetapan > Privasi ",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6424,11 +6484,11 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Kemas kini",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "Secara automatik memuat turun kemas kini",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
@@ -6436,11 +6496,11 @@
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Devices",
+        "message": "Peranti",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Kemas kini kepada versi $version$ tersedia",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6450,11 +6510,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal tidak boleh ditutup.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "Sila tutup secara manual dan klik Cuba Semula untuk meneruskan.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6462,7 +6522,7 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "Klik untuk menggantikan emoji",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
@@ -6470,7 +6530,7 @@
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Perkara Baharu",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.19--1": {
@@ -6486,24 +6546,36 @@
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
+        "message": "Ciri ini diberikan kepada semua orang yang bertindak balas dengan 💅 lebih daripada 👍: kini anda boleh menyesuaikan emoji-emoji yang muncul secara lalai apabila anda mahu bertindak balas kepada mesej.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.20": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Versi ini mengandungi beberapa pembetulan pepijat dan penambahbaikan untuk memastikan Signal berjalan lancar.",
         "description": "Release notes for v5.20"
     },
     "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "message": "Dapatkan lebih banyak maklumat secara sepintas lalu 👀. Ruang bahagian kiri mempunyai rupa dan gaya baharu yang segar  😎.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "message": "Ketahui segala butirannya. Cap masa, jika ada, adalah berkaitan dengan status disampaikan, dibaca, dihantar, dan lain-lain mesej status kini dipamerkan di skrin butiran mesej.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Anda kini boleh mencari dalam perbualan yang diarkibkan. Bayangkan diri anda mencari (dengan pantas) melalui buku-buku kuno, mencari petunjuk seterusnya. ",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
