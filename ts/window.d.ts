@@ -79,7 +79,6 @@ import { ConversationModel } from './models/conversations';
 import { combineNames } from './util';
 import { BatcherType } from './util/batcher';
 import { AttachmentList } from './components/conversation/AttachmentList';
-import { CaptionEditor } from './components/CaptionEditor';
 import { ChatColorPicker } from './components/ChatColorPicker';
 import { ConfirmationDialog } from './components/ConfirmationDialog';
 import { ContactDetail } from './components/conversation/ContactDetail';
@@ -389,7 +388,6 @@ declare global {
       };
       Components: {
         AttachmentList: typeof AttachmentList;
-        CaptionEditor: typeof CaptionEditor;
         ChatColorPicker: typeof ChatColorPicker;
         ConfirmationDialog: typeof ConfirmationDialog;
         ContactDetail: typeof ContactDetail;

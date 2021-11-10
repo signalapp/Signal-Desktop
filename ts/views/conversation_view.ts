@@ -7,7 +7,7 @@ import { batch as batchDispatch } from 'react-redux';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
-import type { AttachmentDraftType, AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
@@ -239,7 +239,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   private preview?: Array<LinkPreviewResult>;
 
   // Sub-views
-  private captionEditorView?: Backbone.View;
   private contactModalView?: Backbone.View;
   private conversationView?: BasicReactWrapperViewClass;
   private forwardMessageModal?: Backbone.View;
@@ -730,7 +729,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         });
       },
 
-      onClickAttachment: this.onClickAttachment.bind(this),
       onClearAttachments: this.clearAttachments.bind(this),
       onSelectMediaQuality: (isHQ: boolean) => {
         window.reduxActions.composer.setMediaQualitySetting(isHQ);
@@ -1364,9 +1362,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     this.conversationView?.remove();
 
-    if (this.captionEditorView) {
-      this.captionEditorView.remove();
-    }
     if (this.contactModalView) {
       this.contactModalView.remove();
     }
@@ -1472,72 +1467,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         showToast(ToastReportedSpamAndBlocked);
       },
     });
-  }
-
-  onClickAttachment(attachment: AttachmentDraftType): void {
-    if (attachment.pending) {
-      throw new Error(
-        'onClickAttachment: Cannot click to edit pending attachment'
-      );
-    }
-
-    const getProps = () => {
-      if (attachment.pending) {
-        throw new Error(
-          'onClickAttachment/onSave: Cannot render pending attachment'
-        );
-      }
-
-      return {
-        url: attachment.url,
-        caption: attachment.caption,
-        attachment,
-        onSave,
-      };
-    };
-
-    const onSave = (caption?: string) => {
-      const attachments = this.model.get('draftAttachments') || [];
-
-      this.model.set({
-        draftAttachments: attachments.map((item: AttachmentType) => {
-          if (item.pending || attachment.pending) {
-            return item;
-          }
-
-          if (
-            (item.path && item.path === attachment.path) ||
-            (item.screenshotPath &&
-              item.screenshotPath === attachment.screenshotPath)
-          ) {
-            return {
-              ...attachment,
-              caption,
-            };
-          }
-
-          return item;
-        }),
-        draftChanged: true,
-      });
-
-      if (this.captionEditorView) {
-        this.captionEditorView.remove();
-        this.captionEditorView = undefined;
-      }
-      window.Signal.Backbone.Views.Lightbox.hide();
-
-      this.updateAttachmentsView();
-      this.saveModel();
-    };
-
-    this.captionEditorView = new Whisper.ReactWrapperView({
-      className: 'attachment-list-wrapper',
-      Component: window.Signal.Components.CaptionEditor,
-      props: getProps(),
-      onClose: () => window.Signal.Backbone.Views.Lightbox.hide(),
-    });
-    window.Signal.Backbone.Views.Lightbox.show(this.captionEditorView.el);
   }
 
   async saveModel(): Promise<void> {

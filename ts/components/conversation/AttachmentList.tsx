@@ -67,9 +67,6 @@ export const AttachmentList = ({
           const isVideo = isVideoAttachment(attachment);
 
           if (isImage || isVideo || attachment.pending) {
-            const clickCallback =
-              attachments.length > 1 ? onClickAttachment : undefined;
-
             const imageUrl =
               url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
 
@@ -88,7 +85,7 @@ export const AttachmentList = ({
                 width={IMAGE_WIDTH}
                 url={imageUrl}
                 closeButton
-                onClick={clickCallback}
+                onClick={onClickAttachment}
                 onClickClose={onCloseAttachment}
                 onError={() => {
                   onCloseAttachment(attachment);

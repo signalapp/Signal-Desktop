@@ -37,7 +37,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],
   onClearAttachments: action('onClearAttachments'),
-  onClickAttachment: action('onClickAttachment'),
   // AudioCapture
   cancelRecording: action('cancelRecording'),
   completeRecording: action('completeRecording'),

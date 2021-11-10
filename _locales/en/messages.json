@@ -1268,13 +1268,9 @@
     "message": "Icon showing that this image has a caption",
     "description": "Used for the icon layered on top of an image in message bubbles"
   },
-  "addACaption": {
-    "message": "Add a caption...",
-    "description": "Used as the placeholder text in the caption editor text field"
-  },
   "save": {
     "message": "Save",
-    "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+    "description": "Used on save buttons"
   },
   "reset": {
     "message": "Reset",

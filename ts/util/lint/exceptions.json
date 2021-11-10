@@ -10304,22 +10304,6 @@
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
-    "rule": "React-createRef",
-    "path": "ts/components/CaptionEditor.js",
-    "line": "        this.inputRef = react_1.default.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used only to set focus"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/CaptionEditor.tsx",
-    "line": "    this.inputRef = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Used only to set focus"
-  },
-  {
     "rule": "React-useRef",
     "path": "ts/components/ChatColorPicker.tsx",
     "line": "  const menuRef = useRef<any | null>(null);",

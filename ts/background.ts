@@ -1246,14 +1246,7 @@ export async function startApp(): Promise<void> {
           const className = (target.attributes as any).class.value;
           /* eslint-enable @typescript-eslint/no-explicit-any */
 
-          // These want to handle events internally
-
-          // CaptionEditor text box
-          if (className.includes('module-caption-editor__caption-input')) {
-            return;
-          }
-
-          // Search box
+          // Search box wants to handle events internally
           if (className.includes('LeftPaneSearchInput__input')) {
             return;
           }

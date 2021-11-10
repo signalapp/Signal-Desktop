@@ -97,7 +97,6 @@ export type OwnProps = Readonly<{
   linkPreviewResult?: LinkPreviewWithDomain;
   messageRequestsEnabled?: boolean;
   onClearAttachments(): unknown;
-  onClickAttachment(att: AttachmentType): unknown;
   onClickQuotedMessage(): unknown;
   onCloseLinkPreview(): unknown;
   processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
@@ -170,7 +169,6 @@ export const CompositionArea = ({
   // AttachmentList
   draftAttachments,
   onClearAttachments,
-  onClickAttachment,
   // AudioCapture
   cancelRecording,
   completeRecording,
@@ -603,7 +601,6 @@ export const CompositionArea = ({
               attachments={draftAttachments}
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
-              onClickAttachment={onClickAttachment}
               onClose={onClearAttachments}
               onCloseAttachment={attachment => {
                 if (attachment.path) {

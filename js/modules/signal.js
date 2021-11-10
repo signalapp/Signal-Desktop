@@ -24,7 +24,6 @@ const Util = require('../../ts/util');
 const {
   AttachmentList,
 } = require('../../ts/components/conversation/AttachmentList');
-const { CaptionEditor } = require('../../ts/components/CaptionEditor');
 const { ChatColorPicker } = require('../../ts/components/ChatColorPicker');
 const {
   ConfirmationDialog,
@@ -329,7 +328,6 @@ exports.setup = (options = {}) => {
 
   const Components = {
     AttachmentList,
-    CaptionEditor,
     ChatColorPicker,
     ConfirmationDialog,
     ContactDetail,

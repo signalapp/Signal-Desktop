@@ -27,7 +27,6 @@ export type PropsType = {
     | 'onCancelJoinRequest'
     | 'onClearAttachments'
     | 'onClickAddPack'
-    | 'onClickAttachment'
     | 'onCloseLinkPreview'
     | 'onDelete'
     | 'onEditorStateChange'

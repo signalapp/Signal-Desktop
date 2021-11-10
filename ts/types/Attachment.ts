@@ -103,8 +103,10 @@ export type AttachmentDraftType =
   | ({
       url: string;
       screenshotPath?: string;
-      caption?: string;
       pending: false;
+      // Old draft attachments may have a caption, though they are no longer editable
+      //   because we removed the caption editor.
+      caption?: string;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;
