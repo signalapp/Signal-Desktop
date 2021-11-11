@@ -161,9 +161,8 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       return undefined;
     }
 
-    const conversationRowCount = getRowCountForLoadedSearchResults(
-      conversationResults
-    );
+    const conversationRowCount =
+      getRowCountForLoadedSearchResults(conversationResults);
     const contactRowCount = getRowCountForLoadedSearchResults(contactResults);
     const messageRowCount = getRowCountForLoadedSearchResults(messageResults);
 

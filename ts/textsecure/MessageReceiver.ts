@@ -155,7 +155,8 @@ export type MessageReceiverOptions = {
 
 export default class MessageReceiver
   extends EventTarget
-  implements IRequestHandler {
+  implements IRequestHandler
+{
   private server: WebAPIType;
 
   private storage: Storage;
@@ -1855,9 +1856,10 @@ export default class MessageReceiver
     }
 
     const sender = ProtocolAddress.new(identifier, sourceDevice);
-    const senderKeyDistributionMessage = SenderKeyDistributionMessage.deserialize(
-      Buffer.from(distributionMessage)
-    );
+    const senderKeyDistributionMessage =
+      SenderKeyDistributionMessage.deserialize(
+        Buffer.from(distributionMessage)
+      );
     const ourUuid = this.storage.user.getCheckedUuid();
     const senderKeyStore = new SenderKeys({ ourUuid });
     const address = new QualifiedAddress(

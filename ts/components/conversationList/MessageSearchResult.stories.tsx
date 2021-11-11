@@ -148,8 +148,7 @@ story.add('Empty (should be invalid)', () => {
 
 story.add('@mention', () => {
   const props = createProps({
-    body:
-      'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
+    body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,
@@ -175,8 +174,7 @@ story.add('@mention', () => {
 
 story.add('@mention regexp', () => {
   const props = createProps({
-    body:
-      '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
+    body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
     bodyRanges: [
       {
         length: 1,
@@ -215,8 +213,7 @@ story.add('@mention no-matches', () => {
 
 story.add('@mention no-matches', () => {
   const props = createProps({
-    body:
-      'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
+    body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
       {
         length: 1,

@@ -16,11 +16,10 @@
       window.SignalContext.log.info(
         'eraseTapToViewMessages: Loading messages...'
       );
-      const messages = await window.Signal.Data.getTapToViewMessagesNeedingErase(
-        {
+      const messages =
+        await window.Signal.Data.getTapToViewMessagesNeedingErase({
           MessageCollection: Whisper.MessageCollection,
-        }
-      );
+        });
 
       await Promise.all(
         messages.map(async fromDB => {
@@ -51,7 +50,8 @@
     const HOUR = 60 * MINUTE;
     const THIRTY_DAYS = 30 * 24 * HOUR;
 
-    const receivedAt = await window.Signal.Data.getNextTapToViewMessageTimestampToAgeOut();
+    const receivedAt =
+      await window.Signal.Data.getNextTapToViewMessageTimestampToAgeOut();
     if (!receivedAt) {
       return;
     }

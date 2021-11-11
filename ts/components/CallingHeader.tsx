@@ -58,7 +58,8 @@ export const CallingHeader = ({
               className={classNames(
                 'module-calling-button__participants--container',
                 {
-                  'module-calling-button__participants--shown': showParticipantsList,
+                  'module-calling-button__participants--shown':
+                    showParticipantsList,
                 }
               )}
               onClick={toggleParticipants}

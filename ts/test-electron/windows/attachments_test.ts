@@ -92,10 +92,10 @@ describe('Attachments', () => {
 
     it('throws if passed a non-string', () => {
       assert.throws(() => {
-        Attachments.copyIntoAttachmentsDirectory((1234 as unknown) as string);
+        Attachments.copyIntoAttachmentsDirectory(1234 as unknown as string);
       }, TypeError);
       assert.throws(() => {
-        Attachments.copyIntoAttachmentsDirectory((null as unknown) as string);
+        Attachments.copyIntoAttachmentsDirectory(null as unknown as string);
       }, TypeError);
     });
 
@@ -103,7 +103,7 @@ describe('Attachments', () => {
       const copier = Attachments.copyIntoAttachmentsDirectory(
         await getFakeAttachmentsDirectory()
       );
-      await assert.isRejected(copier((123 as unknown) as string));
+      await assert.isRejected(copier(123 as unknown as string));
     });
 
     it('returns a function that rejects if the source path is not in the user config directory', async () => {

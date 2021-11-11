@@ -26,10 +26,8 @@ export function useIntersectionObserver(): [
   (el?: Element | null) => void,
   IntersectionObserverEntry | null
 ] {
-  const [
-    intersectionObserverEntry,
-    setIntersectionObserverEntry,
-  ] = useState<IntersectionObserverEntry | null>(null);
+  const [intersectionObserverEntry, setIntersectionObserverEntry] =
+    useState<IntersectionObserverEntry | null>(null);
 
   const unobserveRef = useRef<(() => unknown) | null>(null);
 

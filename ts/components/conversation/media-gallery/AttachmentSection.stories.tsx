@@ -31,7 +31,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 export const days = (n: number) => n * DAY_MS;
 const tokens = ['foo', 'bar', 'baz', 'qux', 'quux'];
 
-const contentTypes = ({
+const contentTypes = {
   gif: 'image/gif',
   jpg: 'image/jpeg',
   png: 'image/png',
@@ -39,7 +39,7 @@ const contentTypes = ({
   docx: 'application/text',
   pdf: 'application/pdf',
   txt: 'application/text',
-} as unknown) as Record<string, MIMEType>;
+} as unknown as Record<string, MIMEType>;
 
 const createRandomFile = (
   startTime: number,

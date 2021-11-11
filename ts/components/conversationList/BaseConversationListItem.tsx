@@ -61,8 +61,8 @@ type PropsType = {
   | 'unblurredAvatarPath'
 >;
 
-export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo(
-  function BaseConversationListItem({
+export const BaseConversationListItem: FunctionComponent<PropsType> =
+  React.memo(function BaseConversationListItem({
     acceptedMessageRequest,
     avatarPath,
     badge,
@@ -238,8 +238,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> = React.memo
         {contents}
       </div>
     );
-  }
-);
+  });
 
 function UnreadIndicator({ count = 0 }: Readonly<{ count?: number }>) {
   let classModifier: undefined | string;

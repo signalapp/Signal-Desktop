@@ -135,33 +135,34 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
         ),
     [remoteParticipants]
   );
-  const gridParticipants: Array<GroupCallRemoteParticipantType> = useMemo(() => {
-    if (!sortedParticipants.length) {
-      return [];
-    }
+  const gridParticipants: Array<GroupCallRemoteParticipantType> =
+    useMemo(() => {
+      if (!sortedParticipants.length) {
+        return [];
+      }
 
-    const candidateParticipants = isInSpeakerView
-      ? [sortedParticipants[0]]
-      : sortedParticipants;
+      const candidateParticipants = isInSpeakerView
+        ? [sortedParticipants[0]]
+        : sortedParticipants;
 
-    // Imagine that we laid out all of the rows end-to-end. That's the maximum total
-    //   width. So if there were 5 rows and the container was 100px wide, then we can't
-    //   possibly fit more than 500px of participants.
-    const maxTotalWidth = maxRowCount * containerDimensions.width;
+      // Imagine that we laid out all of the rows end-to-end. That's the maximum total
+      //   width. So if there were 5 rows and the container was 100px wide, then we can't
+      //   possibly fit more than 500px of participants.
+      const maxTotalWidth = maxRowCount * containerDimensions.width;
 
-    // We do the same thing for participants, "laying them out end-to-end" until they
-    //   exceed the maximum total width.
-    let totalWidth = 0;
-    return takeWhile(candidateParticipants, remoteParticipant => {
-      totalWidth += remoteParticipant.videoAspectRatio * MIN_RENDERED_HEIGHT;
-      return totalWidth < maxTotalWidth;
-    }).sort(stableParticipantComparator);
-  }, [
-    containerDimensions.width,
-    isInSpeakerView,
-    maxRowCount,
-    sortedParticipants,
-  ]);
+      // We do the same thing for participants, "laying them out end-to-end" until they
+      //   exceed the maximum total width.
+      let totalWidth = 0;
+      return takeWhile(candidateParticipants, remoteParticipant => {
+        totalWidth += remoteParticipant.videoAspectRatio * MIN_RENDERED_HEIGHT;
+        return totalWidth < maxTotalWidth;
+      }).sort(stableParticipantComparator);
+    }, [
+      containerDimensions.width,
+      isInSpeakerView,
+      maxRowCount,
+      sortedParticipants,
+    ]);
   const overflowedParticipants: Array<GroupCallRemoteParticipantType> = useMemo(
     () =>
       sortedParticipants

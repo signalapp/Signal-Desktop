@@ -94,62 +94,66 @@ type GenericMediaItemWithSection<T> = {
   type: T;
   mediaItem: MediaItemType;
 };
-type MediaItemWithStaticSection = GenericMediaItemWithSection<StaticSectionType>;
-type MediaItemWithYearMonthSection = GenericMediaItemWithSection<YearMonthSectionType> & {
-  year: number;
-  month: number;
-};
+type MediaItemWithStaticSection =
+  GenericMediaItemWithSection<StaticSectionType>;
+type MediaItemWithYearMonthSection =
+  GenericMediaItemWithSection<YearMonthSectionType> & {
+    year: number;
+    month: number;
+  };
 type MediaItemWithSection =
   | MediaItemWithStaticSection
   | MediaItemWithYearMonthSection;
 
-const withSection = (referenceDateTime: moment.Moment) => (
-  mediaItem: MediaItemType
-): MediaItemWithSection => {
-  const today = moment(referenceDateTime).startOf('day');
-  const yesterday = moment(referenceDateTime).subtract(1, 'day').startOf('day');
-  const thisWeek = moment(referenceDateTime).startOf('isoWeek');
-  const thisMonth = moment(referenceDateTime).startOf('month');
+const withSection =
+  (referenceDateTime: moment.Moment) =>
+  (mediaItem: MediaItemType): MediaItemWithSection => {
+    const today = moment(referenceDateTime).startOf('day');
+    const yesterday = moment(referenceDateTime)
+      .subtract(1, 'day')
+      .startOf('day');
+    const thisWeek = moment(referenceDateTime).startOf('isoWeek');
+    const thisMonth = moment(referenceDateTime).startOf('month');
 
-  const { message } = mediaItem;
-  const mediaItemReceivedDate = moment.utc(getMessageTimestamp(message));
-  if (mediaItemReceivedDate.isAfter(today)) {
-    return {
-      order: 0,
-      type: 'today',
-      mediaItem,
-    };
-  }
-  if (mediaItemReceivedDate.isAfter(yesterday)) {
-    return {
-      order: 1,
-      type: 'yesterday',
-      mediaItem,
-    };
-  }
-  if (mediaItemReceivedDate.isAfter(thisWeek)) {
-    return {
-      order: 2,
-      type: 'thisWeek',
-      mediaItem,
-    };
-  }
-  if (mediaItemReceivedDate.isAfter(thisMonth)) {
-    return {
-      order: 3,
-      type: 'thisMonth',
-      mediaItem,
-    };
-  }
+    const { message } = mediaItem;
+    const mediaItemReceivedDate = moment.utc(getMessageTimestamp(message));
+    if (mediaItemReceivedDate.isAfter(today)) {
+      return {
+        order: 0,
+        type: 'today',
+        mediaItem,
+      };
+    }
+    if (mediaItemReceivedDate.isAfter(yesterday)) {
+      return {
+        order: 1,
+        type: 'yesterday',
+        mediaItem,
+      };
+    }
+    if (mediaItemReceivedDate.isAfter(thisWeek)) {
+      return {
+        order: 2,
+        type: 'thisWeek',
+        mediaItem,
+      };
+    }
+    if (mediaItemReceivedDate.isAfter(thisMonth)) {
+      return {
+        order: 3,
+        type: 'thisMonth',
+        mediaItem,
+      };
+    }
 
-  const month: number = mediaItemReceivedDate.month();
-  const year: number = mediaItemReceivedDate.year();
+    const month: number = mediaItemReceivedDate.month();
+    const year: number = mediaItemReceivedDate.year();
 
-  return {
-    order: year * 100 + month,
-    type: 'yearMonth',
-    month,
-    year,
-    mediaItem,
+    return {
+      order: year * 100 + month,
+      type: 'yearMonth',
+      month,
+      year,
+      mediaItem,
+    };
   };
-};

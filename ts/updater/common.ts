@@ -553,5 +553,5 @@ export function getCliOptions<T>(options: ParserConfiguration['options']): T {
     process.exit(0);
   }
 
-  return (cliOptions as unknown) as T;
+  return cliOptions as unknown as T;
 }

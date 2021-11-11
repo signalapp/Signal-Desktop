@@ -153,7 +153,8 @@ function toProtobufSession(
   // Pending PreKey
 
   if (session.pendingPreKey) {
-    proto.pendingPreKey = new signal.proto.storage.SessionStructure.PendingPreKey();
+    proto.pendingPreKey =
+      new signal.proto.storage.SessionStructure.PendingPreKey();
     proto.pendingPreKey.baseKey = binaryToUint8Array(
       session,
       'pendingPreKey.baseKey',

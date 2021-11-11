@@ -148,10 +148,8 @@ declare const _: typeof window._;
 window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
-const {
-  deleteExternalMessageFiles,
-  upgradeMessageSchema,
-} = window.Signal.Migrations;
+const { deleteExternalMessageFiles, upgradeMessageSchema } =
+  window.Signal.Migrations;
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
 
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
@@ -351,8 +349,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return window.ConversationController.getConversationId(identifier);
     });
 
-    const contacts: ReadonlyArray<SmartMessageDetailContact> = conversationIds.map(
-      id => {
+    const contacts: ReadonlyArray<SmartMessageDetailContact> =
+      conversationIds.map(id => {
         const errorsForContact = getOwn(errorsGroupedById, id);
         const isOutgoingKeyError = Boolean(
           errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
@@ -384,8 +382,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           isOutgoingKeyError,
           isUnidentifiedDelivery,
         };
-      }
-    );
+      });
 
     return {
       sentAt: this.get('sent_at'),
@@ -474,9 +471,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         i18n: window.i18n,
         ourConversationId: window.ConversationController.getOurConversationId(),
         renderContact: (conversationId: string) => {
-          const conversation = window.ConversationController.get(
-            conversationId
-          );
+          const conversation =
+            window.ConversationController.get(conversationId);
           return conversation
             ? conversation.getTitle()
             : window.i18n('unknownUser');
@@ -887,7 +883,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
 
       const timestamp = this.get('sent_at');
-      const ourConversation = window.ConversationController.getOurConversationOrThrow();
+      const ourConversation =
+        window.ConversationController.getOurConversationOrThrow();
       const sendOptions = await getSendOptions(ourConversation.attributes, {
         syncMessage: true,
       });
@@ -1036,9 +1033,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const isKeyChangeValue = isKeyChange(attributes);
     const isMessageHistoryUnsyncedValue = isMessageHistoryUnsynced(attributes);
     const isProfileChangeValue = isProfileChange(attributes);
-    const isUniversalTimerNotificationValue = isUniversalTimerNotification(
-      attributes
-    );
+    const isUniversalTimerNotificationValue =
+      isUniversalTimerNotification(attributes);
 
     // Note: not all of these message types go through message.handleDataMessage
 
@@ -1219,7 +1215,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = this.getConversation()!;
 
-    const currentConversationRecipients = conversation.getRecipientConversationIds();
+    const currentConversationRecipients =
+      conversation.getRecipientConversationIds();
 
     // Determine retry recipients and get their most up-to-date addressing information
     const oldSendStateByConversationId =
@@ -1299,9 +1296,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   removeOutgoingErrors(incomingIdentifier: string): CustomError {
-    const incomingConversationId = window.ConversationController.getConversationId(
-      incomingIdentifier
-    );
+    const incomingConversationId =
+      window.ConversationController.getConversationId(incomingIdentifier);
     const errors = _.partition(
       this.get('errors'),
       e =>
@@ -1563,7 +1559,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async sendSyncMessage(): Promise<CallbackResultType | void> {
-    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
     const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });
@@ -1796,11 +1793,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       } attachment downloads for message ${this.idForLogging()}`
     );
 
-    const [
-      longMessageAttachments,
-      normalAttachments,
-    ] = _.partition(attachmentsToQueue, attachment =>
-      MIME.isLongMessage(attachment.contentType)
+    const [longMessageAttachments, normalAttachments] = _.partition(
+      attachmentsToQueue,
+      attachment => MIME.isLongMessage(attachment.contentType)
     );
 
     if (longMessageAttachments.length > 1) {
@@ -2313,11 +2308,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             ...(toUpdate.get('sendStateByConversationId') || {}),
           };
 
-          const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> = Array.isArray(
-            data.unidentifiedStatus
-          )
-            ? data.unidentifiedStatus
-            : [];
+          const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> =
+            Array.isArray(data.unidentifiedStatus)
+              ? data.unidentifiedStatus
+              : [];
 
           unidentifiedStatus.forEach(
             ({ destinationUuid, destination, unidentified }) => {
@@ -2326,13 +2320,12 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 return;
               }
 
-              const destinationConversationId = window.ConversationController.ensureContactIds(
-                {
+              const destinationConversationId =
+                window.ConversationController.ensureContactIds({
                   uuid: destinationUuid,
                   e164: destination,
                   highTrust: true,
-                }
-              );
+                });
               if (!destinationConversationId) {
                 return;
               }
@@ -2345,17 +2338,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 sendStateByConversationId,
                 destinationConversationId
               );
-              sendStateByConversationId[
-                destinationConversationId
-              ] = previousSendState
-                ? sendStateReducer(previousSendState, {
-                    type: SendActionType.Sent,
-                    updatedAt,
-                  })
-                : {
-                    status: SendStatus.Sent,
-                    updatedAt,
-                  };
+              sendStateByConversationId[destinationConversationId] =
+                previousSendState
+                  ? sendStateReducer(previousSendState, {
+                      type: SendActionType.Sent,
+                      updatedAt,
+                    })
+                  : {
+                      status: SendStatus.Sent,
+                      updatedAt,
+                    };
 
               if (unidentified) {
                 unidentifiedDeliveriesSet.add(identifier);
@@ -2445,8 +2437,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         }
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const ourConversationId = window.ConversationController.getOurConversationId()!;
+      const ourConversationId =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        window.ConversationController.getOurConversationId()!;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const senderId = window.ConversationController.ensureContactIds({
         e164: source,
@@ -2602,14 +2595,15 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           if (!hasGroupV2Prop && dataMessage.group) {
             const pendingGroupUpdate: GroupV1Update = {};
 
-            const memberConversations: Array<ConversationModel> = await Promise.all(
-              dataMessage.group.membersE164.map((e164: string) =>
-                window.ConversationController.getOrCreateAndWait(
-                  e164,
-                  'private'
+            const memberConversations: Array<ConversationModel> =
+              await Promise.all(
+                dataMessage.group.membersE164.map((e164: string) =>
+                  window.ConversationController.getOrCreateAndWait(
+                    e164,
+                    'private'
+                  )
                 )
-              )
-            );
+              );
             const members = memberConversations.map(c => c.get('id'));
             attributes = {
               ...attributes,
@@ -2633,14 +2627,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               let hash;
               if (avatarAttachment) {
                 try {
-                  downloadedAvatar = await window.Signal.Util.downloadAttachment(
-                    avatarAttachment
-                  );
+                  downloadedAvatar =
+                    await window.Signal.Util.downloadAttachment(
+                      avatarAttachment
+                    );
 
                   if (downloadedAvatar) {
-                    const loadedAttachment = await window.Signal.Migrations.loadAttachmentData(
-                      downloadedAvatar
-                    );
+                    const loadedAttachment =
+                      await window.Signal.Migrations.loadAttachmentData(
+                        downloadedAvatar
+                      );
 
                     hash = computeHash(loadedAttachment.data);
                   }
@@ -2668,13 +2664,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
                 let avatar = null;
                 if (downloadedAvatar && avatarAttachment !== null) {
-                  const onDiskAttachment = await Attachment.migrateDataToFileSystem(
-                    downloadedAvatar,
-                    {
+                  const onDiskAttachment =
+                    await Attachment.migrateDataToFileSystem(downloadedAvatar, {
                       writeNewAttachmentData:
                         window.Signal.Migrations.writeNewAttachmentData,
-                    }
-                  );
+                    });
                   avatar = {
                     ...onDiskAttachment,
                     hash,
@@ -3085,9 +3079,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
       // Check for out-of-order view once open syncs
       if (isTapToView(message.attributes)) {
-        const viewOnceOpenSync = ViewOnceOpenSyncs.getSingleton().forMessage(
-          message
-        );
+        const viewOnceOpenSync =
+          ViewOnceOpenSyncs.getSingleton().forMessage(message);
         if (viewOnceOpenSync) {
           await message.markViewOnceMessageViewed({ fromSync: true });
           changed = true;

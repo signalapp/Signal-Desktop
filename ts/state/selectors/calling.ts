@@ -35,9 +35,9 @@ export type CallSelectorType = (
 ) => CallStateType | undefined;
 export const getCallSelector = createSelector(
   getCallsByConversation,
-  (callsByConversation: CallsByConversationType): CallSelectorType => (
-    conversationId: string
-  ) => getOwn(callsByConversation, conversationId)
+  (callsByConversation: CallsByConversationType): CallSelectorType =>
+    (conversationId: string) =>
+      getOwn(callsByConversation, conversationId)
 );
 
 export const getActiveCall = createSelector(

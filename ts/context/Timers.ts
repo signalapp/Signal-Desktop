@@ -28,7 +28,7 @@ export class Timers {
 
     this.timers.set(id, timer);
 
-    return ({ id } as unknown) as Timeout;
+    return { id } as unknown as Timeout;
   }
 
   public clearTimeout({ id }: Timeout): ReturnType<typeof clearTimeout> {

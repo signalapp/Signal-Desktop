@@ -269,18 +269,15 @@ export class CallingClass {
 
     RingRTC.handleOutgoingSignaling = this.handleOutgoingSignaling.bind(this);
     RingRTC.handleIncomingCall = this.handleIncomingCall.bind(this);
-    RingRTC.handleAutoEndedIncomingCallRequest = this.handleAutoEndedIncomingCallRequest.bind(
-      this
-    );
+    RingRTC.handleAutoEndedIncomingCallRequest =
+      this.handleAutoEndedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.handleLogMessage.bind(this);
     RingRTC.handleSendHttpRequest = this.handleSendHttpRequest.bind(this);
     RingRTC.handleSendCallMessage = this.handleSendCallMessage.bind(this);
-    RingRTC.handleSendCallMessageToGroup = this.handleSendCallMessageToGroup.bind(
-      this
-    );
-    RingRTC.handleGroupCallRingUpdate = this.handleGroupCallRingUpdate.bind(
-      this
-    );
+    RingRTC.handleSendCallMessageToGroup =
+      this.handleSendCallMessageToGroup.bind(this);
+    RingRTC.handleGroupCallRingUpdate =
+      this.handleGroupCallRingUpdate.bind(this);
 
     this.attemptToGiveOurUuidToRingRtc();
     window.Whisper.events.on('userChanged', () => {
@@ -402,9 +399,8 @@ export class CallingClass {
         this.uxActions.showCallLobby({
           callMode: CallMode.Group,
           conversationId: conversationProps.id,
-          isConversationTooBigToRing: isConversationTooBigToRing(
-            conversationProps
-          ),
+          isConversationTooBigToRing:
+            isConversationTooBigToRing(conversationProps),
           ...this.formatGroupCallForRedux(groupCall),
         });
         break;
@@ -708,9 +704,8 @@ export class CallingClass {
     hasLocalVideo: boolean,
     shouldRing: boolean
   ): Promise<void> {
-    const conversation = window.ConversationController.get(
-      conversationId
-    )?.format();
+    const conversation =
+      window.ConversationController.get(conversationId)?.format();
     if (!conversation) {
       log.error('Missing conversation; not joining group call');
       return;
@@ -999,9 +994,8 @@ export class CallingClass {
   declineGroupCall(conversationId: string, ringId: bigint): void {
     log.info('CallingClass.declineGroupCall()');
 
-    const groupId = window.ConversationController.get(conversationId)?.get(
-      'groupId'
-    );
+    const groupId =
+      window.ConversationController.get(conversationId)?.get('groupId');
     if (!groupId) {
       log.error(
         'declineGroupCall: could not find the group ID for that conversation'
@@ -1300,11 +1294,8 @@ export class CallingClass {
       );
     }
 
-    const {
-      availableCameras,
-      availableMicrophones,
-      availableSpeakers,
-    } = await this.getAvailableIODevices();
+    const { availableCameras, availableMicrophones, availableSpeakers } =
+      await this.getAvailableIODevices();
 
     const preferredMicrophone = window.Events.getPreferredAudioInputDevice();
     const selectedMicIndex = findBestMatchingAudioDeviceIndex({
@@ -1394,9 +1385,8 @@ export class CallingClass {
 
     const { storage } = window.textsecure;
 
-    const senderIdentityRecord = await storage.protocol.getOrMigrateIdentityRecord(
-      new UUID(remoteUserId)
-    );
+    const senderIdentityRecord =
+      await storage.protocol.getOrMigrateIdentityRecord(new UUID(remoteUserId));
     if (!senderIdentityRecord) {
       log.error('Missing sender identity record; ignoring call message.');
       return;

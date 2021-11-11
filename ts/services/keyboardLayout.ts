@@ -10,7 +10,7 @@ let layoutMap: LayoutMapType | undefined;
 export async function initialize(): Promise<void> {
   strictAssert(layoutMap === undefined, 'keyboardLayout already initialized');
 
-  const experimentalNavigator = (window.navigator as unknown) as {
+  const experimentalNavigator = window.navigator as unknown as {
     keyboard: { getLayoutMap(): Promise<LayoutMapType> };
   };
 

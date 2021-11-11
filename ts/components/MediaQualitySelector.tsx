@@ -133,7 +133,8 @@ export const MediaQualitySelector = ({
                     <div
                       className={classNames({
                         'MediaQualitySelector__option--checkmark': true,
-                        'MediaQualitySelector__option--selected': !isHighQuality,
+                        'MediaQualitySelector__option--selected':
+                          !isHighQuality,
                       })}
                     />
                     <div>

@@ -37,9 +37,8 @@ export const DropZone: React.ComponentType<Props> = props => {
     [onDrop]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useStickerDropzone(
-    handleDrop
-  );
+  const { getRootProps, getInputProps, isDragActive } =
+    useStickerDropzone(handleDrop);
 
   React.useEffect(() => {
     if (onDragActive) {

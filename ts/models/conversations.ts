@@ -543,7 +543,8 @@ export class ConversationModel extends window.Backbone
     const idLog = this.idForLogging();
 
     // Hard-coded to our own ID, because you don't add other users for admin approval
-    const conversationId = window.ConversationController.getOurConversationIdOrThrow();
+    const conversationId =
+      window.ConversationController.getOurConversationIdOrThrow();
 
     const toRequest = window.ConversationController.get(conversationId);
     if (!toRequest) {
@@ -1234,9 +1235,8 @@ export class ConversationModel extends window.Backbone
         `sendTypingMessage(${this.idForLogging()}): sending ${content.isTyping}`
       );
 
-      const contentMessage = window.textsecure.messaging.getTypingContentMessage(
-        content
-      );
+      const contentMessage =
+        window.textsecure.messaging.getTypingContentMessage(content);
 
       const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
@@ -1415,7 +1415,8 @@ export class ConversationModel extends window.Backbone
     const messageRequestsEnabled = window.Signal.RemoteConfig.isEnabled(
       'desktop.messageRequests'
     );
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
 
     let groupVersion: undefined | 1 | 2;
     if (isGroupV1(this.attributes)) {
@@ -1499,8 +1500,8 @@ export class ConversationModel extends window.Backbone
       pendingApprovalMemberships: this.getPendingApprovalMemberships(),
       profileKey: this.get('profileKey'),
       messageRequestsEnabled,
-      accessControlAddFromInviteLink: this.get('accessControl')
-        ?.addFromInviteLink,
+      accessControlAddFromInviteLink:
+        this.get('accessControl')?.addFromInviteLink,
       accessControlAttributes: this.get('accessControl')?.attributes,
       accessControlMembers: this.get('accessControl')?.members,
       announcementsOnly: Boolean(this.get('announcementsOnly')),
@@ -1708,7 +1709,8 @@ export class ConversationModel extends window.Backbone
     try {
       const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
       const isLocalAction = !fromSync && !viaStorageServiceSync;
-      const ourConversationId = window.ConversationController.getOurConversationId();
+      const ourConversationId =
+        window.ConversationController.getOurConversationId();
 
       const currentMessageRequestState = this.get('messageRequestResponseType');
       const didResponseChange = response !== currentMessageRequestState;
@@ -1846,7 +1848,8 @@ export class ConversationModel extends window.Backbone
     inviteLinkPassword: string;
     approvalRequired: boolean;
   }): Promise<void> {
-    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    const ourConversationId =
+      window.ConversationController.getOurConversationIdOrThrow();
     const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
     try {
       if (approvalRequired) {
@@ -1899,7 +1902,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async cancelJoinRequest(): Promise<void> {
-    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    const ourConversationId =
+      window.ConversationController.getOurConversationIdOrThrow();
 
     const inviteLinkPassword = this.get('groupInviteLinkPassword');
     if (!inviteLinkPassword) {
@@ -1965,7 +1969,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async leaveGroupV2(): Promise<void> {
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
 
     if (
       ourConversationId &&
@@ -2095,7 +2100,8 @@ export class ConversationModel extends window.Backbone
     //   server updates were successful.
     await this.applyMessageRequestResponse(response);
 
-    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
     const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });
@@ -2244,11 +2250,12 @@ export class ConversationModel extends window.Backbone
 
       // handle the incoming key from the sync messages - need different
       // behavior if that key doesn't match the current key
-      keyChange = await window.textsecure.storage.protocol.processVerifiedMessage(
-        uuid,
-        verified,
-        options.key || undefined
-      );
+      keyChange =
+        await window.textsecure.storage.protocol.processVerifiedMessage(
+          uuid,
+          verified,
+          options.key || undefined
+        );
     } else if (uuid) {
       keyChange = await window.textsecure.storage.protocol.setVerified(
         uuid,
@@ -2315,7 +2322,8 @@ export class ConversationModel extends window.Backbone
     // Because syncVerification sends a (null) message to the target of the verify and
     //   a sync message to our own devices, we need to send the accessKeys down for both
     //   contacts. So we merge their sendOptions.
-    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
     const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });
@@ -2523,7 +2531,7 @@ export class ConversationModel extends window.Backbone
       receivedAt,
     });
 
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'chat-session-refreshed',
       sent_at: receivedAt,
@@ -2532,7 +2540,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2562,7 +2570,7 @@ export class ConversationModel extends window.Backbone
       senderUuid,
     });
 
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'delivery-issue',
       sourceUuid: senderUuid,
@@ -2572,7 +2580,7 @@ export class ConversationModel extends window.Backbone
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2597,7 +2605,7 @@ export class ConversationModel extends window.Backbone
     );
 
     const timestamp = Date.now();
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'keychange',
       sent_at: this.get('timestamp'),
@@ -2608,7 +2616,7 @@ export class ConversationModel extends window.Backbone
       schemaVersion: Message.VERSION_NEEDED_FOR_DISPLAY,
       // TODO: DESKTOP-722
       // this type does not fully implement the interface it is expected to
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2653,7 +2661,7 @@ export class ConversationModel extends window.Backbone
     );
 
     const timestamp = Date.now();
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'verified-change',
       sent_at: lastMessage,
@@ -2664,7 +2672,7 @@ export class ConversationModel extends window.Backbone
       local: options.local,
       readStatus: ReadStatus.Unread,
       // TODO: DESKTOP-722
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2715,7 +2723,7 @@ export class ConversationModel extends window.Backbone
         throw missingCaseError(callHistoryDetails);
     }
 
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'call-history',
       sent_at: timestamp,
@@ -2724,7 +2732,7 @@ export class ConversationModel extends window.Backbone
       readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
       callHistoryDetails: detailsToSave,
       // TODO: DESKTOP-722
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -2774,7 +2782,7 @@ export class ConversationModel extends window.Backbone
     conversationId?: string
   ): Promise<void> {
     const now = Date.now();
-    const message = ({
+    const message = {
       conversationId: this.id,
       type: 'profile-change',
       sent_at: now,
@@ -2784,7 +2792,7 @@ export class ConversationModel extends window.Backbone
       changedId: conversationId || this.id,
       profileChange,
       // TODO: DESKTOP-722
-    } as unknown) as MessageAttributesType;
+    } as unknown as MessageAttributesType;
 
     const id = await window.Signal.Data.saveMessage(message);
     const model = window.MessageController.register(
@@ -3720,7 +3728,8 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
     if (!ourConversationId) {
       throw new Error('updateLastMessage: Failed to fetch ourConversationId');
     }
@@ -4051,7 +4060,7 @@ export class ConversationModel extends window.Backbone
 
     window.Signal.Data.updateConversation(this.attributes);
 
-    const model = new window.Whisper.Message(({
+    const model = new window.Whisper.Message({
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
       readStatus: ReadStatus.Unread,
@@ -4068,7 +4077,7 @@ export class ConversationModel extends window.Backbone
         fromGroupUpdate: options.fromGroupUpdate,
       },
       // TODO: DESKTOP-722
-    } as unknown) as MessageAttributesType);
+    } as unknown as MessageAttributesType);
 
     const id = await window.Signal.Data.saveMessage(model.attributes);
 
@@ -4112,14 +4121,15 @@ export class ConversationModel extends window.Backbone
     }
 
     if (isDirectConversation(this.attributes)) {
-      promise = window.textsecure.messaging.sendExpirationTimerUpdateToIdentifier(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.getSendTarget()!,
-        expireTimer,
-        message.get('sent_at'),
-        profileKey,
-        sendOptions
-      );
+      promise =
+        window.textsecure.messaging.sendExpirationTimerUpdateToIdentifier(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.getSendTarget()!,
+          expireTimer,
+          message.get('sent_at'),
+          profileKey,
+          sendOptions
+        );
     } else {
       promise = window.textsecure.messaging.sendExpirationTimerUpdateToGroup(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -4153,7 +4163,7 @@ export class ConversationModel extends window.Backbone
     }
     this.hasAddedHistoryDisclaimer = true;
 
-    const model = new window.Whisper.Message(({
+    const model = new window.Whisper.Message({
       type: 'message-history-unsynced',
       // Even though this isn't reflected to the user, we want to place the last seen
       //   indicator above it. We set it to 'unread' to trigger that placement.
@@ -4163,7 +4173,7 @@ export class ConversationModel extends window.Backbone
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
       // TODO: DESKTOP-722
-    } as unknown) as MessageAttributesType);
+    } as unknown as MessageAttributesType);
 
     const id = await window.Signal.Data.saveMessage(model.attributes);
 
@@ -4190,7 +4200,7 @@ export class ConversationModel extends window.Backbone
       this.set({ left: true });
       window.Signal.Data.updateConversation(this.attributes);
 
-      const model = new window.Whisper.Message(({
+      const model = new window.Whisper.Message({
         group_update: { left: 'You' },
         conversationId: this.id,
         type: 'outgoing',
@@ -4198,7 +4208,7 @@ export class ConversationModel extends window.Backbone
         received_at: window.Signal.Util.incrementMessageCounter(),
         received_at_ms: now,
         // TODO: DESKTOP-722
-      } as unknown) as MessageAttributesType);
+      } as unknown as MessageAttributesType);
 
       const id = await window.Signal.Data.saveMessage(model.attributes);
       model.set({ id });
@@ -4250,16 +4260,14 @@ export class ConversationModel extends window.Backbone
     }
 
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    const ourGroups = await window.ConversationController.getAllGroupsInvolvingUuid(
-      ourUuid
-    );
+    const ourGroups =
+      await window.ConversationController.getAllGroupsInvolvingUuid(ourUuid);
     const theirUuid = this.getUuid();
     if (!theirUuid) {
       return;
     }
-    const theirGroups = await window.ConversationController.getAllGroupsInvolvingUuid(
-      theirUuid
-    );
+    const theirGroups =
+      await window.ConversationController.getAllGroupsInvolvingUuid(theirUuid);
 
     const sharedGroups = window._.intersection(ourGroups, theirGroups);
     const sharedGroupNames = sharedGroups.map(conversation =>
@@ -4277,7 +4285,8 @@ export class ConversationModel extends window.Backbone
 
   async getProfiles(): Promise<void> {
     // request all conversation members' keys
-    const conversations = (this.getMembers() as unknown) as Array<ConversationModel>;
+    const conversations =
+      this.getMembers() as unknown as Array<ConversationModel>;
     await Promise.all(
       window._.map(conversations, conversation =>
         getProfile(conversation.get('uuid'), conversation.get('e164'))
@@ -4290,7 +4299,7 @@ export class ConversationModel extends window.Backbone
       return;
     }
     // isn't this already an Uint8Array?
-    const key = (this.get('profileKey') as unknown) as string;
+    const key = this.get('profileKey') as unknown as string;
     if (!key) {
       return;
     }
@@ -4344,7 +4353,7 @@ export class ConversationModel extends window.Backbone
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
     // isn't this already an Uint8Array?
-    const key = (this.get('profileKey') as unknown) as string;
+    const key = this.get('profileKey') as unknown as string;
     if (!key) {
       return;
     }
@@ -4405,7 +4414,7 @@ export class ConversationModel extends window.Backbone
 
   async deriveAccessKeyIfNeeded(): Promise<void> {
     // isn't this already an array buffer?
-    const profileKey = (this.get('profileKey') as unknown) as string;
+    const profileKey = this.get('profileKey') as unknown as string;
     if (!profileKey) {
       return;
     }
@@ -4499,9 +4508,8 @@ export class ConversationModel extends window.Backbone
     const number = this.get('e164')!;
     try {
       const parsedNumber = window.libphonenumber.parse(number);
-      const regionCode = window.libphonenumber.getRegionCodeForNumber(
-        parsedNumber
-      );
+      const regionCode =
+        window.libphonenumber.getRegionCodeForNumber(parsedNumber);
       if (regionCode === window.storage.get('regionCode')) {
         return window.libphonenumber.format(
           parsedNumber,

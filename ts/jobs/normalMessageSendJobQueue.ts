@@ -31,12 +31,8 @@ import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { getHttpErrorCode } from './helpers/getHttpErrorCode';
 
-const {
-  loadAttachmentData,
-  loadPreviewData,
-  loadQuoteData,
-  loadStickerData,
-} = window.Signal.Migrations;
+const { loadAttachmentData, loadPreviewData, loadQuoteData, loadStickerData } =
+  window.Signal.Migrations;
 const { Message } = window.Signal.Types;
 
 const MAX_RETRY_TIME = durations.DAY;
@@ -357,7 +353,8 @@ function getMessageRecipients({
   const recipientIdentifiersWithoutMe: Array<string> = [];
   const untrustedConversationIds: Array<string> = [];
 
-  const currentConversationRecipients = conversation.getRecipientConversationIds();
+  const currentConversationRecipients =
+    conversation.getRecipientConversationIds();
 
   Object.entries(message.get('sendStateByConversationId') || {}).forEach(
     ([recipientConversationId, sendState]) => {
@@ -439,25 +436,22 @@ async function getMessageSendData({
     messageTimestamp = Date.now();
   }
 
-  const [
-    attachmentsWithData,
-    preview,
-    quote,
-    sticker,
-    profileKey,
-  ] = await Promise.all([
-    // We don't update the caches here because (1) we expect the caches to be populated on
-    //   initial send, so they should be there in the 99% case (2) if you're retrying a
-    //   failed message across restarts, we don't touch the cache for simplicity. If sends
-    //   are failing, let's not add the complication of a cache.
-    Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
-    message.cachedOutgoingPreviewData ||
-      loadPreviewData(message.get('preview')),
-    message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
-    message.cachedOutgoingStickerData ||
-      loadStickerData(message.get('sticker')),
-    conversation.get('profileSharing') ? ourProfileKeyService.get() : undefined,
-  ]);
+  const [attachmentsWithData, preview, quote, sticker, profileKey] =
+    await Promise.all([
+      // We don't update the caches here because (1) we expect the caches to be populated
+      //   on initial send, so they should be there in the 99% case (2) if you're retrying
+      //   a failed message across restarts, we don't touch the cache for simplicity. If
+      //   sends are failing, let's not add the complication of a cache.
+      Promise.all((message.get('attachments') ?? []).map(loadAttachmentData)),
+      message.cachedOutgoingPreviewData ||
+        loadPreviewData(message.get('preview')),
+      message.cachedOutgoingQuoteData || loadQuoteData(message.get('quote')),
+      message.cachedOutgoingStickerData ||
+        loadStickerData(message.get('sticker')),
+      conversation.get('profileSharing')
+        ? ourProfileKeyService.get()
+        : undefined,
+    ]);
 
   const { body, attachments } = window.Whisper.Message.getLongMessageAttachment(
     {

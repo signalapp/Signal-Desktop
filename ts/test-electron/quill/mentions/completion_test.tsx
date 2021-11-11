@@ -82,7 +82,7 @@ describe('MentionCompletion', () => {
     };
 
     mentionCompletion = new MentionCompletion(
-      (mockQuill as unknown) as Quill,
+      mockQuill as unknown as Quill,
       options
     );
 

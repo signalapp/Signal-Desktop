@@ -307,16 +307,12 @@ declare global {
         readStickerData: (path: string) => Promise<Uint8Array>;
         deleteSticker: (path: string) => Promise<void>;
         getAbsoluteStickerPath: (path: string) => string;
-        processNewEphemeralSticker: (
-          stickerData: Uint8Array
-        ) => {
+        processNewEphemeralSticker: (stickerData: Uint8Array) => {
           path: string;
           width: number;
           height: number;
         };
-        processNewSticker: (
-          stickerData: Uint8Array
-        ) => {
+        processNewSticker: (stickerData: Uint8Array) => {
           path: string;
           width: number;
           height: number;

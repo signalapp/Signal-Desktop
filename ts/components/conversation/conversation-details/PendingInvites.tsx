@@ -67,10 +67,8 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
   }
 
   const [selectedTab, setSelectedTab] = React.useState(Tab.Requests);
-  const [
-    stagedMemberships,
-    setStagedMemberships,
-  ] = React.useState<Array<StagedMembershipType> | null>(null);
+  const [stagedMemberships, setStagedMemberships] =
+    React.useState<Array<StagedMembershipType> | null>(null);
 
   return (
     <div className="conversation-details-panel">
@@ -379,10 +377,8 @@ function MembersPendingProfileKey({
     membership => membership.metadata.addedByUserId
   );
 
-  const {
-    [ourUuid]: ourPendingMemberships,
-    ...otherPendingMembershipGroups
-  } = groupedPendingMemberships;
+  const { [ourUuid]: ourPendingMemberships, ...otherPendingMembershipGroups } =
+    groupedPendingMemberships;
 
   const otherPendingMemberships = Object.keys(otherPendingMembershipGroups)
     .map(id => members.find(member => member.id === id))

@@ -254,10 +254,8 @@ export function reducer(
         return state;
       }
 
-      const {
-        draftPreferredReactions,
-        selectedDraftEmojiIndex,
-      } = customizePreferredReactionsModal;
+      const { draftPreferredReactions, selectedDraftEmojiIndex } =
+        customizePreferredReactionsModal;
       if (selectedDraftEmojiIndex === undefined) {
         return state;
       }
@@ -284,9 +282,10 @@ export function reducer(
         ...state,
         customizePreferredReactionsModal: {
           ...state.customizePreferredReactionsModal,
-          draftPreferredReactions: DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(
-            shortName => convertShortName(shortName, skinTone)
-          ),
+          draftPreferredReactions:
+            DEFAULT_PREFERRED_REACTION_EMOJI_SHORT_NAMES.map(shortName =>
+              convertShortName(shortName, skinTone)
+            ),
           selectedDraftEmojiIndex: undefined,
         },
       };

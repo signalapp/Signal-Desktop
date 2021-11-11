@@ -56,7 +56,8 @@ export async function joinViaLink(hash: string): Promise<void> {
   const existingConversation =
     window.ConversationController.get(id) ||
     window.ConversationController.getByDerivedGroupV2Id(id);
-  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
 
   if (
     existingConversation &&
@@ -339,15 +340,14 @@ export async function joinViaLink(hash: string): Promise<void> {
 
   log.info(`joinViaLink/${logId}: Showing modal`);
 
-  let groupV2InfoDialog:
-    | Backbone.View
-    | undefined = new window.Whisper.ReactWrapperView({
-    className: 'group-v2-join-dialog-wrapper',
-    JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
-      join,
-      onClose: closeDialog,
-    }),
-  });
+  let groupV2InfoDialog: Backbone.View | undefined =
+    new window.Whisper.ReactWrapperView({
+      className: 'group-v2-join-dialog-wrapper',
+      JSX: window.Signal.State.Roots.createGroupV2JoinModal(window.reduxStore, {
+        join,
+        onClose: closeDialog,
+      }),
+    });
 
   // We declare a new function here so we can await but not block
   const fetchAvatar = async () => {

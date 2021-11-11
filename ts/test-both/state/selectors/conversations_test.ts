@@ -1364,11 +1364,8 @@ describe('both/state/selectors/conversations', () => {
         }),
       };
       const comparator = _getConversationComparator();
-      const {
-        archivedConversations,
-        conversations,
-        pinnedConversations,
-      } = _getLeftPaneLists(data, comparator);
+      const { archivedConversations, conversations, pinnedConversations } =
+        _getLeftPaneLists(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');
       assert.strictEqual(conversations[1].name, 'Á');
@@ -1467,16 +1464,8 @@ describe('both/state/selectors/conversations', () => {
 
         const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
         const comparator = _getConversationComparator();
-        const {
-          archivedConversations,
-          conversations,
-          pinnedConversations,
-        } = _getLeftPaneLists(
-          data,
-          comparator,
-          undefined,
-          pinnedConversationIds
-        );
+        const { archivedConversations, conversations, pinnedConversations } =
+          _getLeftPaneLists(data, comparator, undefined, pinnedConversationIds);
 
         assert.strictEqual(pinnedConversations[0].name, 'Pin One');
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
@@ -1619,16 +1608,8 @@ describe('both/state/selectors/conversations', () => {
 
         const pinnedConversationIds = ['pin1', 'pin2', 'pin3'];
         const comparator = _getConversationComparator();
-        const {
-          archivedConversations,
-          conversations,
-          pinnedConversations,
-        } = _getLeftPaneLists(
-          data,
-          comparator,
-          undefined,
-          pinnedConversationIds
-        );
+        const { archivedConversations, conversations, pinnedConversations } =
+          _getLeftPaneLists(data, comparator, undefined, pinnedConversationIds);
 
         assert.strictEqual(pinnedConversations[0].name, 'Pin One');
         assert.strictEqual(pinnedConversations[1].name, 'Pin Two');

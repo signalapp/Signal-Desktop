@@ -15,9 +15,7 @@ import { isIterable } from '../util/iterables';
  *
  * [0]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
  */
-export function cleanDataForIpc(
-  data: unknown
-): {
+export function cleanDataForIpc(data: unknown): {
   // `any`s are dangerous but it's difficult (impossible?) to type this with generics.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cleaned: any;

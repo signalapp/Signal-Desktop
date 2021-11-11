@@ -296,7 +296,8 @@ export class Message extends React.PureComponent<Props, State> {
 
   public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
 
-  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();
+  public reactionsContainerRef: React.RefObject<HTMLDivElement> =
+    React.createRef();
 
   public reactionsContainerRefMerger = createRefMerger();
 
@@ -1194,7 +1195,8 @@ export class Message extends React.PureComponent<Props, State> {
     return (
       <div
         className={classNames('module-message__author-avatar-container', {
-          'module-message__author-avatar-container--with-reactions': this.hasReactions(),
+          'module-message__author-avatar-container--with-reactions':
+            this.hasReactions(),
         })}
       >
         <Avatar
@@ -2405,14 +2407,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public render(): JSX.Element | null {
-    const {
-      author,
-      attachments,
-      direction,
-      id,
-      isSticker,
-      timestamp,
-    } = this.props;
+    const { author, attachments, direction, id, isSticker, timestamp } =
+      this.props;
     const { expired, expiring, imageBroken, isSelected } = this.state;
 
     // This id is what connects our triple-dot click with our associated pop-up menu.

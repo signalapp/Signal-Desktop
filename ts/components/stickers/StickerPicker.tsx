@@ -237,7 +237,8 @@ export const StickerPicker = React.memo(
                   'module-sticker-picker__header__button',
                   'module-sticker-picker__header__button--add-pack',
                   {
-                    'module-sticker-picker__header__button--hint': showPickerHint,
+                    'module-sticker-picker__header__button--hint':
+                      showPickerHint,
                   }
                 )}
                 onClick={onClickAddPack}
@@ -300,8 +301,10 @@ export const StickerPicker = React.memo(
                   className={classNames(
                     'module-sticker-picker__body__content',
                     {
-                      'module-sticker-picker__body__content--under-text': showText,
-                      'module-sticker-picker__body__content--under-long-text': showLongText,
+                      'module-sticker-picker__body__content--under-text':
+                        showText,
+                      'module-sticker-picker__body__content--under-long-text':
+                        showLongText,
                     }
                   )}
                 >

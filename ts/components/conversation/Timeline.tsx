@@ -710,12 +710,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   );
 
   public loadOlderMessages = (): void => {
-    const {
-      haveOldest,
-      isLoadingMessages,
-      items,
-      loadOlderMessages,
-    } = this.props;
+    const { haveOldest, isLoadingMessages, items, loadOlderMessages } =
+      this.props;
 
     if (this.loadCountdownTimeout) {
       clearTimeout(this.loadCountdownTimeout);

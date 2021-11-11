@@ -41,10 +41,8 @@ const RETRY_BACKOFF: Record<number, number> = {
 let enabled = false;
 let timeout: NodeJS.Timeout | null;
 let logger: LoggerType;
-const _activeAttachmentDownloadJobs: Record<
-  string,
-  Promise<void> | undefined
-> = {};
+const _activeAttachmentDownloadJobs: Record<string, Promise<void> | undefined> =
+  {};
 
 type StartOptionsType = {
   logger: LoggerType;
@@ -231,9 +229,8 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
       return;
     }
 
-    const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(
-      downloaded
-    );
+    const upgradedAttachment =
+      await window.Signal.Migrations.processNewAttachment(downloaded);
 
     await _addAttachmentToMessage(message, upgradedAttachment, { type, index });
 

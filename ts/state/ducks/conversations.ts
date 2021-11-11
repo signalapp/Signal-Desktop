@@ -2348,7 +2348,8 @@ export function reducer(
 
     return {
       ...state,
-      outboundMessagesPendingConversationVerification: newOutboundMessagesPendingConversationVerification,
+      outboundMessagesPendingConversationVerification:
+        newOutboundMessagesPendingConversationVerification,
     };
   }
   if (action.type === 'MESSAGE_CHANGED') {
@@ -2770,12 +2771,8 @@ export function reducer(
       return state;
     }
 
-    let {
-      newest,
-      oldest,
-      oldestUnread,
-      totalUnread,
-    } = existingConversation.metrics;
+    let { newest, oldest, oldestUnread, totalUnread } =
+      existingConversation.metrics;
 
     if (messages.length < 1) {
       return state;
@@ -3341,11 +3338,8 @@ export function reducer(
 
   if (action.type === COLOR_SELECTED) {
     const { conversationLookup } = state;
-    const {
-      conversationId,
-      conversationColor,
-      customColorData,
-    } = action.payload;
+    const { conversationId, conversationColor, customColorData } =
+      action.payload;
 
     const existing = conversationLookup[conversationId];
     if (!existing) {

@@ -28,9 +28,8 @@ export const SmartReactionPicker = React.forwardRef<
   HTMLDivElement,
   ExternalProps
 >((props, ref) => {
-  const {
-    openCustomizePreferredReactionsModal,
-  } = usePreferredReactionsActions();
+  const { openCustomizePreferredReactionsModal } =
+    usePreferredReactionsActions();
   const { onSetSkinTone } = useItemsActions();
 
   const i18n = useSelector<StateType, LocalizerType>(getIntl);

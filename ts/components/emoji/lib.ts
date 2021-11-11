@@ -353,9 +353,8 @@ data.forEach(emoji => {
 
   if (skin_variations) {
     Object.entries(skin_variations).forEach(([tone, variation]) => {
-      imageByEmoji[
-        convertShortName(short_name, tone as SkinToneKey)
-      ] = makeImagePath(variation.image);
+      imageByEmoji[convertShortName(short_name, tone as SkinToneKey)] =
+        makeImagePath(variation.image);
       dataByEmoji[convertShortName(short_name, tone as SkinToneKey)] = emoji;
     });
   }

@@ -16,14 +16,8 @@ export async function encryptProfileData(
   conversation: ConversationType,
   avatarBuffer?: Uint8Array
 ): Promise<[ProfileRequestDataType, Uint8Array | undefined]> {
-  const {
-    aboutEmoji,
-    aboutText,
-    familyName,
-    firstName,
-    profileKey,
-    uuid,
-  } = conversation;
+  const { aboutEmoji, aboutText, familyName, firstName, profileKey, uuid } =
+    conversation;
 
   assert(profileKey, 'profileKey');
   assert(uuid, 'uuid');

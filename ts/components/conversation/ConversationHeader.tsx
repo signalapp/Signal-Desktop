@@ -523,12 +523,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   private renderHeader(): ReactNode {
-    const {
-      conversationTitle,
-      groupVersion,
-      onShowConversationDetails,
-      type,
-    } = this.props;
+    const { conversationTitle, groupVersion, onShowConversationDetails, type } =
+      this.props;
 
     if (conversationTitle !== undefined) {
       return (
@@ -592,13 +588,8 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
   }
 
   public render(): ReactNode {
-    const {
-      id,
-      isSMSOnly,
-      i18n,
-      onSetDisappearingMessages,
-      expireTimer,
-    } = this.props;
+    const { id, isSMSOnly, i18n, onSetDisappearingMessages, expireTimer } =
+      this.props;
     const { isNarrow, modalState } = this.state;
     const triggerId = `conversation-${id}`;
 

@@ -36,7 +36,11 @@ export async function handleImageAttachment(
     processedFile = new Blob([convertedFile]);
   }
 
-  const { contentType, file: resizedBlob, fileName } = await autoScale({
+  const {
+    contentType,
+    file: resizedBlob,
+    fileName,
+  } = await autoScale({
     contentType: isHeic(file.type) ? IMAGE_JPEG : stringToMIMEType(file.type),
     fileName: file.name,
     file: processedFile,

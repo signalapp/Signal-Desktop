@@ -76,7 +76,7 @@ export default function updateToSchemaVersion43(
   );
 
   const upgradeConversation = (convo: ConversationType) => {
-    const legacy = (convo as unknown) as LegacyConversationType;
+    const legacy = convo as unknown as LegacyConversationType;
     let result = convo;
 
     const logId = `(${legacy.id}) groupv2(${legacy.groupId})`;
@@ -117,11 +117,10 @@ export default function updateToSchemaVersion43(
             return updated;
           }
 
-          const addedByUserId:
-            | UUIDStringType
-            | undefined = getConversationUuid.get({
-            conversationId: member.addedByUserId,
-          });
+          const addedByUserId: UUIDStringType | undefined =
+            getConversationUuid.get({
+              conversationId: member.addedByUserId,
+            });
 
           if (!addedByUserId) {
             return updated;
@@ -221,12 +220,8 @@ export default function updateToSchemaVersion43(
   };
 
   const upgradeMessage = (message: MessageType): boolean => {
-    const {
-      id,
-      groupV2Change,
-      sourceUuid,
-      invitedGV2Members,
-    } = (message as unknown) as LegacyMessageType;
+    const { id, groupV2Change, sourceUuid, invitedGV2Members } =
+      message as unknown as LegacyMessageType;
     let result = message;
 
     if (groupV2Change) {

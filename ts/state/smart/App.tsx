@@ -22,14 +22,12 @@ import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialo
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.app,
-    conversationsStoppingMessageSendBecauseOfVerification: getConversationsStoppingMessageSendBecauseOfVerification(
-      state
-    ),
+    conversationsStoppingMessageSendBecauseOfVerification:
+      getConversationsStoppingMessageSendBecauseOfVerification(state),
     i18n: getIntl(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
-    numberOfMessagesPendingBecauseOfVerification: getNumberOfMessagesPendingBecauseOfVerification(
-      state
-    ),
+    numberOfMessagesPendingBecauseOfVerification:
+      getNumberOfMessagesPendingBecauseOfVerification(state),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />

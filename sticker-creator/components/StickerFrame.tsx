@@ -81,15 +81,11 @@ export const StickerFrame = React.memo(
   }: Props) => {
     const i18n = useI18n();
     const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-    const [
-      emojiPopperRoot,
-      setEmojiPopperRoot,
-    ] = React.useState<HTMLElement | null>(null);
+    const [emojiPopperRoot, setEmojiPopperRoot] =
+      React.useState<HTMLElement | null>(null);
     const [previewActive, setPreviewActive] = React.useState(false);
-    const [
-      previewPopperRoot,
-      setPreviewPopperRoot,
-    ] = React.useState<HTMLElement | null>(null);
+    const [previewPopperRoot, setPreviewPopperRoot] =
+      React.useState<HTMLElement | null>(null);
     const timerRef = React.useRef<number>();
 
     const handleToggleEmojiPicker = React.useCallback(() => {

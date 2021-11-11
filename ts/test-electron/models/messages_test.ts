@@ -103,15 +103,18 @@ describe('Message', () => {
     it('updates `sendStateByConversationId`', async function test() {
       this.sandbox.useFakeTimers(1234);
 
-      const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
-      const conversation1 = await window.ConversationController.getOrCreateAndWait(
-        'a072df1d-7cee-43e2-9e6b-109710a2131c',
-        'private'
-      );
-      const conversation2 = await window.ConversationController.getOrCreateAndWait(
-        '62bd8ef1-68da-4cfd-ac1f-3ea85db7473e',
-        'private'
-      );
+      const ourConversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
+      const conversation1 =
+        await window.ConversationController.getOrCreateAndWait(
+          'a072df1d-7cee-43e2-9e6b-109710a2131c',
+          'private'
+        );
+      const conversation2 =
+        await window.ConversationController.getOrCreateAndWait(
+          '62bd8ef1-68da-4cfd-ac1f-3ea85db7473e',
+          'private'
+        );
 
       const message = createMessage({
         type: 'outgoing',
@@ -395,8 +398,7 @@ describe('Message', () => {
           group_update: { joined: ['Bob', 'Alice', 'Eve'] },
         }).getNotificationData(),
         {
-          text:
-            '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group.',
+          text: '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group.',
         }
       );
     });
@@ -409,8 +411,7 @@ describe('Message', () => {
           group_update: { joined: ['Bob', me, 'Alice', 'Eve'] },
         }).getNotificationData(),
         {
-          text:
-            '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group. You joined the group.',
+          text: '+1 415-555-5555 updated the group. Bob, Alice, Eve joined the group. You joined the group.',
         }
       );
     });
@@ -423,8 +424,7 @@ describe('Message', () => {
           group_update: { joined: ['Bob'], name: 'blerg' },
         }).getNotificationData(),
         {
-          text:
-            "+1 415-555-5555 updated the group. Bob joined the group. Group name is now 'blerg'.",
+          text: "+1 415-555-5555 updated the group. Bob joined the group. Group name is now 'blerg'.",
         }
       );
     });

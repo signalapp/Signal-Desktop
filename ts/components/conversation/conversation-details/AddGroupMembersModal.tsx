@@ -185,9 +185,10 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
     stage: Stage.ChoosingContacts,
   });
 
-  const contactLookup = useMemo(() => makeLookup(candidateContacts, 'id'), [
-    candidateContacts,
-  ]);
+  const contactLookup = useMemo(
+    () => makeLookup(candidateContacts, 'id'),
+    [candidateContacts]
+  );
 
   const selectedContacts = deconstructLookup(
     contactLookup,

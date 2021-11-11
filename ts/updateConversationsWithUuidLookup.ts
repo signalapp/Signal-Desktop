@@ -44,9 +44,8 @@ export async function updateConversationsWithUuidLookup({
         uuid: uuidFromServer,
         highTrust: true,
       });
-      const maybeFinalConversation = conversationController.get(
-        finalConversationId
-      );
+      const maybeFinalConversation =
+        conversationController.get(finalConversationId);
       assert(
         maybeFinalConversation,
         'updateConversationsWithUuidLookup: expected a conversation to be found or created'

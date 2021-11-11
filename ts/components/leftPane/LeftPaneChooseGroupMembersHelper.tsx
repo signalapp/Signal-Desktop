@@ -62,7 +62,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     this.candidateContacts = candidateContacts;
     this.cantAddContactForModal = cantAddContactForModal;
     this.isShowingMaximumGroupSizeModal = isShowingMaximumGroupSizeModal;
-    this.isShowingRecommendedGroupSizeModal = isShowingRecommendedGroupSizeModal;
+    this.isShowingRecommendedGroupSizeModal =
+      isShowingRecommendedGroupSizeModal;
     this.searchTerm = searchTerm;
     this.selectedContacts = selectedContacts;
 

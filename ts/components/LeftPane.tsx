@@ -330,9 +330,8 @@ export const LeftPane: React.FC<PropsType> = ({
 
       const numericIndex = keyboardKeyToNumericIndex(event.key);
       if (commandOrCtrl && isNumber(numericIndex)) {
-        conversationToOpen = helper.getConversationAndMessageAtIndex(
-          numericIndex
-        );
+        conversationToOpen =
+          helper.getConversationAndMessageAtIndex(numericIndex);
       } else {
         let toFind: undefined | ToFindType;
         if (

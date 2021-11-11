@@ -203,13 +203,11 @@ const doSearch = debounce(
 
     if (!searchConversationId) {
       (async () => {
-        const {
-          conversationIds,
-          contactIds,
-        } = await queryConversationsAndContacts(query, {
-          ourConversationId,
-          noteToSelf,
-        });
+        const { conversationIds, contactIds } =
+          await queryConversationsAndContacts(query, {
+            ourConversationId,
+            noteToSelf,
+          });
 
         dispatch({
           type: 'SEARCH_DISCUSSIONS_RESULTS_FULFILLED',
@@ -258,9 +256,8 @@ async function queryConversationsAndContacts(
   const { ourConversationId, noteToSelf } = options;
   const query = providedQuery.replace(/[+.()]*/g, '');
 
-  const searchResults: Array<DBConversationType> = await dataSearchConversations(
-    query
-  );
+  const searchResults: Array<DBConversationType> =
+    await dataSearchConversations(query);
 
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];

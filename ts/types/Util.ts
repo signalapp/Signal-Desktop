@@ -42,13 +42,12 @@ type InternalAssertProps<
   Missing = Omit<Result, keyof Value>
 > = keyof Missing extends never
   ? Result
-  : Result &
-      {
-        [key in keyof Required<Missing>]: [
-          never,
-          'AssertProps: missing property'
-        ];
-      };
+  : Result & {
+      [key in keyof Required<Missing>]: [
+        never,
+        'AssertProps: missing property'
+      ];
+    };
 
 export type AssertProps<Result, Value> = InternalAssertProps<Result, Value>;
 

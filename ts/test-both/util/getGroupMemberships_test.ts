@@ -30,8 +30,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed undefined', () => {
       const conversation = {};
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .memberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).memberships;
 
       assert.isEmpty(result);
     });
@@ -39,8 +41,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed an empty array', () => {
       const conversation = { memberships: [] };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .memberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).memberships;
 
       assert.isEmpty(result);
     });
@@ -55,8 +59,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .memberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).memberships;
 
       assert.isEmpty(result);
     });
@@ -71,8 +77,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .memberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).memberships;
 
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
@@ -95,8 +103,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .memberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).memberships;
 
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {
@@ -114,8 +124,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed undefined', () => {
       const conversation = {};
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingApprovalMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
     });
@@ -123,8 +135,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed an empty array', () => {
       const conversation = { pendingApprovalMemberships: [] };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingApprovalMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
     });
@@ -134,8 +148,10 @@ describe('getGroupMemberships', () => {
         pendingApprovalMemberships: [{ uuid: UUID.generate().toString() }],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingApprovalMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
     });
@@ -145,8 +161,10 @@ describe('getGroupMemberships', () => {
         pendingApprovalMemberships: [{ uuid: unregisteredConversation.uuid }],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingApprovalMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingApprovalMemberships;
 
       assert.isEmpty(result);
     });
@@ -159,8 +177,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingApprovalMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingApprovalMemberships;
 
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], { member: normalConversation2 });
@@ -172,8 +192,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed undefined', () => {
       const conversation = {};
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingMemberships;
 
       assert.isEmpty(result);
     });
@@ -181,8 +203,10 @@ describe('getGroupMemberships', () => {
     it('returns an empty array if passed an empty array', () => {
       const conversation = { pendingMemberships: [] };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingMemberships;
 
       assert.isEmpty(result);
     });
@@ -197,8 +221,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingMemberships;
 
       assert.isEmpty(result);
     });
@@ -213,8 +239,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingMemberships;
 
       assert.isEmpty(result);
     });
@@ -230,8 +258,10 @@ describe('getGroupMemberships', () => {
         ],
       };
 
-      const result = getGroupMemberships(conversation, getConversationByUuid)
-        .pendingMemberships;
+      const result = getGroupMemberships(
+        conversation,
+        getConversationByUuid
+      ).pendingMemberships;
 
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {

@@ -389,18 +389,18 @@ try {
 
   window.imageToBlurHash = imageToBlurHash;
   window.emojiData = require('emoji-datasource');
-  window.libphonenumber = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-  window.libphonenumber.PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
+  window.libphonenumber =
+    require('google-libphonenumber').PhoneNumberUtil.getInstance();
+  window.libphonenumber.PhoneNumberFormat =
+    require('google-libphonenumber').PhoneNumberFormat;
 
   const activeWindowService = new ActiveWindowService();
   activeWindowService.initialize(window.document, ipc);
   window.isActive = activeWindowService.isActive.bind(activeWindowService);
-  window.registerForActive = activeWindowService.registerForActive.bind(
-    activeWindowService
-  );
-  window.unregisterForActive = activeWindowService.unregisterForActive.bind(
-    activeWindowService
-  );
+  window.registerForActive =
+    activeWindowService.registerForActive.bind(activeWindowService);
+  window.unregisterForActive =
+    activeWindowService.unregisterForActive.bind(activeWindowService);
 
   window.Accessibility = {
     reducedMotionSetting: Boolean(config.reducedMotionSetting),

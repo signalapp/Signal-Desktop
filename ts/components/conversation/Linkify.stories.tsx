@@ -26,8 +26,7 @@ story.add('Only Link', () => {
 
 story.add('Links with Text', () => {
   const props = createProps({
-    text:
-      'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
+    text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
   });
 
   return <Linkify {...props} />;
@@ -43,8 +42,7 @@ story.add('Links with Emoji without space', () => {
 
 story.add('Links with Emoji and Text', () => {
   const props = createProps({
-    text:
-      'https://example.com ⚠️ 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ https://example.com',
+    text: 'https://example.com ⚠️ 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ https://example.com',
   });
 
   return <Linkify {...props} />;
@@ -60,8 +58,7 @@ story.add('No Link', () => {
 
 story.add('Blocked Protocols', () => {
   const props = createProps({
-    text:
-      'smailto:someone@somewhere.com - ftp://something.com - //local/share - \\localshare',
+    text: 'smailto:someone@somewhere.com - ftp://something.com - //local/share - \\localshare',
   });
 
   return <Linkify {...props} />;
@@ -69,8 +66,7 @@ story.add('Blocked Protocols', () => {
 
 story.add('Missing protocols', () => {
   const props = createProps({
-    text:
-      'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
+    text: 'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
 
   return <Linkify {...props} />;
@@ -78,8 +74,7 @@ story.add('Missing protocols', () => {
 
 story.add('Custom Text Render', () => {
   const props = createProps({
-    text:
-      'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
+    text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
     renderNonLink: ({ text: theText, key }) => (
       <div key={key} style={{ backgroundColor: 'aquamarine' }}>
         {theText}

@@ -42,10 +42,8 @@ import * as log from '../logging/log';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
-const {
-  eraseStorageServiceStateFromConversations,
-  updateConversation,
-} = dataInterface;
+const { eraseStorageServiceStateFromConversations, updateConversation } =
+  dataInterface;
 
 const uploadBucket: Array<number> = [];
 
@@ -604,11 +602,8 @@ async function createNewManifest() {
 
   const version = window.storage.get('manifestVersion', 0);
 
-  const {
-    conversationsToUpdate,
-    newItems,
-    storageManifest,
-  } = await generateManifest(version, undefined, true);
+  const { conversationsToUpdate, newItems, storageManifest } =
+    await generateManifest(version, undefined, true);
 
   await uploadManifest(version, {
     conversationsToUpdate,
@@ -650,7 +645,8 @@ async function fetchManifest(
   }
 
   try {
-    const credentials = await window.textsecure.messaging.getStorageCredentials();
+    const credentials =
+      await window.textsecure.messaging.getStorageCredentials();
     window.storage.put('storageCredentials', credentials);
 
     const manifestBinary = await window.textsecure.messaging.getStorageManifest(
@@ -869,12 +865,13 @@ async function processRemoteRecords(
   );
 
   const credentials = window.storage.get('storageCredentials');
-  const storageItemsBuffer = await window.textsecure.messaging.getStorageRecords(
-    Proto.ReadOperation.encode(readOperation).finish(),
-    {
-      credentials,
-    }
-  );
+  const storageItemsBuffer =
+    await window.textsecure.messaging.getStorageRecords(
+      Proto.ReadOperation.encode(readOperation).finish(),
+      {
+        credentials,
+      }
+    );
 
   const storageItems = Proto.StorageItems.decode(storageItemsBuffer);
 
@@ -959,10 +956,11 @@ async function processRemoteRecords(
     // Collect full map of previously and currently unknown records
     const unknownRecords: Map<string, UnknownRecord> = new Map();
 
-    const unknownRecordsArray: ReadonlyArray<UnknownRecord> = window.storage.get(
-      'storage-service-unknown-records',
-      new Array<UnknownRecord>()
-    );
+    const unknownRecordsArray: ReadonlyArray<UnknownRecord> =
+      window.storage.get(
+        'storage-service-unknown-records',
+        new Array<UnknownRecord>()
+      );
     unknownRecordsArray.forEach((record: UnknownRecord) => {
       unknownRecords.set(record.storageID, record);
     });

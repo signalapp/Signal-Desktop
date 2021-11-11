@@ -1436,9 +1436,8 @@ app.on('ready', async () => {
     let getMediaAccessStatus;
     // This function is not supported on Linux, so we have a fallback.
     if (systemPreferences.getMediaAccessStatus) {
-      getMediaAccessStatus = systemPreferences.getMediaAccessStatus.bind(
-        systemPreferences
-      );
+      getMediaAccessStatus =
+        systemPreferences.getMediaAccessStatus.bind(systemPreferences);
     } else {
       getMediaAccessStatus = noop;
     }
@@ -1814,18 +1813,18 @@ ipc.on(
   }
 );
 
-ipc.on('update-system-tray-setting', (
-  _event,
-  rawSystemTraySetting /* : Readonly<unknown> */
-) => {
-  const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
-  systemTraySettingCache.set(systemTraySetting);
+ipc.on(
+  'update-system-tray-setting',
+  (_event, rawSystemTraySetting /* : Readonly<unknown> */) => {
+    const systemTraySetting = parseSystemTraySetting(rawSystemTraySetting);
+    systemTraySettingCache.set(systemTraySetting);
 
-  if (systemTrayService) {
-    const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
-    systemTrayService.setEnabled(isEnabled);
+    if (systemTrayService) {
+      const isEnabled = shouldMinimizeToSystemTray(systemTraySetting);
+      systemTrayService.setEnabled(isEnabled);
+    }
   }
-});
+);
 
 ipc.on('close-about', () => {
   if (aboutWindow) {

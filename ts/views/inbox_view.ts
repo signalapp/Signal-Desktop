@@ -116,10 +116,8 @@ Whisper.InboxView = Whisper.View.extend({
     });
 
     window.Whisper.events.on('showConversation', async (id, messageId) => {
-      const conversation = await window.ConversationController.getOrCreateAndWait(
-        id,
-        'private'
-      );
+      const conversation =
+        await window.ConversationController.getOrCreateAndWait(id, 'private');
 
       conversation.setMarkedUnread(false);
 

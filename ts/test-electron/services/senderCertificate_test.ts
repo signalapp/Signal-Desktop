@@ -44,12 +44,10 @@ describe('SenderCertificateService', () => {
     fakeValidCertificateExpiry = Date.now() + 604800000;
     const certificate = new SenderCertificate.Certificate();
     certificate.expires = Long.fromNumber(fakeValidCertificateExpiry);
-    fakeValidCertificate.certificate = SenderCertificate.Certificate.encode(
-      certificate
-    ).finish();
-    fakeValidEncodedCertificate = SenderCertificate.encode(
-      fakeValidCertificate
-    ).finish();
+    fakeValidCertificate.certificate =
+      SenderCertificate.Certificate.encode(certificate).finish();
+    fakeValidEncodedCertificate =
+      SenderCertificate.encode(fakeValidCertificate).finish();
 
     fakeServer = {
       getSenderCertificate: sinon.stub().resolves({
@@ -207,9 +205,8 @@ describe('SenderCertificateService', () => {
       const expiredCertificate = new SenderCertificate();
       const certificate = new SenderCertificate.Certificate();
       certificate.expires = Long.fromNumber(Date.now() - 1000);
-      expiredCertificate.certificate = SenderCertificate.Certificate.encode(
-        certificate
-      ).finish();
+      expiredCertificate.certificate =
+        SenderCertificate.Certificate.encode(certificate).finish();
       fakeServer.getSenderCertificate.resolves({
         certificate: Bytes.toBase64(
           SenderCertificate.encode(expiredCertificate).finish()

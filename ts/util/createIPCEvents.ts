@@ -133,13 +133,11 @@ type ValuesWithSetters = Omit<
   | 'mediaCameraPermissions'
 >;
 
-export type IPCEventGetterType<
-  Key extends keyof IPCEventsValuesType
-> = `get${Capitalize<Key>}`;
+export type IPCEventGetterType<Key extends keyof IPCEventsValuesType> =
+  `get${Capitalize<Key>}`;
 
-export type IPCEventSetterType<
-  Key extends keyof IPCEventsValuesType
-> = `set${Capitalize<Key>}`;
+export type IPCEventSetterType<Key extends keyof IPCEventsValuesType> =
+  `set${Capitalize<Key>}`;
 
 export type IPCEventsGettersType = {
   [Key in keyof ValuesWithGetters as IPCEventGetterType<Key>]: () => ValuesWithGetters[Key];
@@ -214,11 +212,8 @@ export function createIPCEvents(
 
     // Getters only
     getAvailableIODevices: async () => {
-      const {
-        availableCameras,
-        availableMicrophones,
-        availableSpeakers,
-      } = await calling.getAvailableIODevices();
+      const { availableCameras, availableMicrophones, availableSpeakers } =
+        await calling.getAvailableIODevices();
 
       return {
         // mapping it to a pojo so that it is IPC friendly
@@ -352,7 +347,8 @@ export function createIPCEvents(
       await universalExpireTimer.set(newValue);
 
       // Update account in Storage Service
-      const conversationId = window.ConversationController.getOurConversationIdOrThrow();
+      const conversationId =
+        window.ConversationController.getOurConversationIdOrThrow();
       const account = window.ConversationController.get(conversationId);
       assert(account, "Account wasn't found");
 

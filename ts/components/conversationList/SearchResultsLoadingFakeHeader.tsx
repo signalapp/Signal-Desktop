@@ -6,6 +6,5 @@ import React from 'react';
 
 type PropsType = Record<string, never>;
 
-export const SearchResultsLoadingFakeHeader: FunctionComponent<PropsType> = () => (
-  <div className="module-SearchResultsLoadingFakeHeader" />
-);
+export const SearchResultsLoadingFakeHeader: FunctionComponent<PropsType> =
+  () => <div className="module-SearchResultsLoadingFakeHeader" />;

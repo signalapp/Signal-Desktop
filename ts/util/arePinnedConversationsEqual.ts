@@ -18,11 +18,8 @@ export function arePinnedConversationsEqual(
     (localPinnedConversation: PinnedConversation, index: number) => {
       const remotePinnedConversation = remoteValue[index];
 
-      const {
-        contact,
-        groupMasterKey,
-        legacyGroupId,
-      } = localPinnedConversation;
+      const { contact, groupMasterKey, legacyGroupId } =
+        localPinnedConversation;
 
       if (contact) {
         return (

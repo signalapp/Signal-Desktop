@@ -188,8 +188,7 @@ const renderBothDirections = (props: Props) => (
 
 story.add('Plain Message', () => {
   const props = createProps({
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return renderBothDirections(props);
@@ -296,8 +295,7 @@ story.add('Delivered', () => {
   const props = createProps({
     direction: 'outgoing',
     status: 'delivered',
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return <Message {...props} />;
@@ -307,8 +305,7 @@ story.add('Read', () => {
   const props = createProps({
     direction: 'outgoing',
     status: 'read',
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return <Message {...props} />;
@@ -318,8 +315,7 @@ story.add('Sending', () => {
   const props = createProps({
     direction: 'outgoing',
     status: 'sending',
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return <Message {...props} />;
@@ -329,8 +325,7 @@ story.add('Expiring', () => {
   const props = createProps({
     expirationLength: 30 * 1000,
     expirationTimestamp: Date.now() + 30 * 1000,
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
   });
 
   return renderBothDirections(props);
@@ -338,8 +333,7 @@ story.add('Expiring', () => {
 
 story.add('Pending', () => {
   const props = createProps({
-    text:
-      'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
+    text: 'Hello there from a pal! I am sending a long message so that it will wrap a bit, since I like that look.',
     textPending: true,
   });
 

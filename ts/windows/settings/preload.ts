@@ -104,9 +104,7 @@ const ipcSetGlobalDefaultConversationColor = createCallback(
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
-function getSystemTraySettingValues(
-  systemTraySetting: SystemTraySetting
-): {
+function getSystemTraySettingValues(systemTraySetting: SystemTraySetting): {
   hasMinimizeToAndStartInSystemTray: boolean;
   hasMinimizeToSystemTray: boolean;
 } {
@@ -202,16 +200,11 @@ const renderPreferences = async () => {
     defaultConversationColor: ipcGetDefaultConversationColor(),
   });
 
-  const {
-    availableCameras,
-    availableMicrophones,
-    availableSpeakers,
-  } = availableIODevices;
+  const { availableCameras, availableMicrophones, availableSpeakers } =
+    availableIODevices;
 
-  const {
-    hasMinimizeToAndStartInSystemTray,
-    hasMinimizeToSystemTray,
-  } = getSystemTraySettingValues(systemTraySetting);
+  const { hasMinimizeToAndStartInSystemTray, hasMinimizeToSystemTray } =
+    getSystemTraySettingValues(systemTraySetting);
 
   const props = {
     // Settings

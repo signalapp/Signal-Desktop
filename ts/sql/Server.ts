@@ -724,7 +724,7 @@ async function getAllItems(): Promise<AllItemsType> {
     result[id] = value;
   }
 
-  return (result as unknown) as AllItemsType;
+  return result as unknown as AllItemsType;
 }
 async function removeItemById(id: ItemKeyType): Promise<void> {
   return removeById(getInstance(), ITEMS_TABLE, id);
@@ -3215,16 +3215,8 @@ async function clearAllErrorStickerPackAttempts(): Promise<void> {
 }
 async function createOrUpdateSticker(sticker: StickerType): Promise<void> {
   const db = getInstance();
-  const {
-    emoji,
-    height,
-    id,
-    isCoverOnly,
-    lastUsed,
-    packId,
-    path,
-    width,
-  } = sticker;
+  const { emoji, height, id, isCoverOnly, lastUsed, packId, path, width } =
+    sticker;
 
   if (!isNumber(id)) {
     throw new Error(

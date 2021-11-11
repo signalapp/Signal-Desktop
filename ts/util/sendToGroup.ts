@@ -96,9 +96,8 @@ export async function sendToGroup({
   const recipients = getRecipients(groupSendOptions);
 
   // First, do the attachment upload and prepare the proto we'll be sending
-  const protoAttributes = window.textsecure.messaging.getAttrsFromGroupOptions(
-    groupSendOptions
-  );
+  const protoAttributes =
+    window.textsecure.messaging.getAttrsFromGroupOptions(groupSendOptions);
   const contentMessage = await window.textsecure.messaging.getContentMessage(
     protoAttributes
   );
@@ -145,7 +144,8 @@ export async function sendContentMessageToGroup({
     'sendContentMessageToGroup: textsecure.messaging not available!'
   );
 
-  const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+  const ourConversationId =
+    window.ConversationController.getOurConversationIdOrThrow();
   const ourConversation = window.ConversationController.get(ourConversationId);
 
   if (
@@ -260,9 +260,8 @@ export async function sendToGroupViaSenderKey(options: {
     'sendToGroupViaSenderKey: textsecure.messaging not available!'
   );
 
-  const {
-    attributes,
-  }: { attributes: ConversationAttributesType } = conversation;
+  const { attributes }: { attributes: ConversationAttributesType } =
+    conversation;
 
   // 1. Add sender key info if we have none, or clear out if it's too old
   const THIRTY_DAYS = 30 * DAY;
@@ -288,13 +287,11 @@ export async function sendToGroupViaSenderKey(options: {
 
   // 2. Fetch all devices we believe we'll be sending to
   const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-  const {
-    devices: currentDevices,
-    emptyIdentifiers,
-  } = await window.textsecure.storage.protocol.getOpenDevices(
-    ourUuid,
-    recipients
-  );
+  const { devices: currentDevices, emptyIdentifiers } =
+    await window.textsecure.storage.protocol.getOpenDevices(
+      ourUuid,
+      recipients
+    );
 
   // 3. If we have no open sessions with people we believe we are sending to, and we
   //   believe that any have signal accounts, fetch their prekey bundle and start
@@ -317,11 +314,8 @@ export async function sendToGroupViaSenderKey(options: {
     `sendToGroupViaSenderKey/${logId}: expect senderKeyInfo`
   );
   // Note: From here on, we will need to recurse if we change senderKeyInfo
-  const {
-    memberDevices,
-    distributionId,
-    createdAtDate,
-  } = attributes.senderKeyInfo;
+  const { memberDevices, distributionId, createdAtDate } =
+    attributes.senderKeyInfo;
 
   const memberSet = new Set(conversation.getMembers());
 
@@ -466,8 +460,8 @@ export async function sendToGroupViaSenderKey(options: {
       const { uuids404 } = parsed.data;
       if (uuids404 && uuids404.length > 0) {
         await _waitForAll({
-          tasks: uuids404.map(uuid => async () =>
-            markIdentifierUnregistered(uuid)
+          tasks: uuids404.map(
+            uuid => async () => markIdentifierUnregistered(uuid)
           ),
         });
       }
@@ -753,9 +747,8 @@ async function handle410Response(
           //   been re-registered or re-linked.
           const senderKeyInfo = conversation.get('senderKeyInfo');
           if (senderKeyInfo) {
-            const devicesToRemove: Array<PartialDeviceType> = devices.staleDevices.map(
-              id => ({ id, identifier: uuid })
-            );
+            const devicesToRemove: Array<PartialDeviceType> =
+              devices.staleDevices.map(id => ({ id, identifier: uuid }));
             conversation.set({
               senderKeyInfo: {
                 ...senderKeyInfo,
@@ -849,10 +842,11 @@ async function encryptForSenderKey({
   const senderKeyStore = new SenderKeys({ ourUuid });
   const message = Buffer.from(padMessage(contentMessage));
 
-  const ciphertextMessage = await window.textsecure.storage.protocol.enqueueSenderKeyJob(
-    new QualifiedAddress(ourUuid, ourAddress),
-    () => groupEncrypt(sender, distributionId, senderKeyStore, message)
-  );
+  const ciphertextMessage =
+    await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+      new QualifiedAddress(ourUuid, ourAddress),
+      () => groupEncrypt(sender, distributionId, senderKeyStore, message)
+    );
 
   const groupIdBuffer = Buffer.from(groupId, 'base64');
   const senderCertificateObject = await senderCertificateService.get(
@@ -1025,9 +1019,8 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
   const logId = conversation.idForLogging();
 
   log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
-  const {
-    attributes,
-  }: { attributes: ConversationAttributesType } = conversation;
+  const { attributes }: { attributes: ConversationAttributesType } =
+    conversation;
   const { senderKeyInfo } = attributes;
   if (!senderKeyInfo) {
     log.warn(`resetSenderKey/${logId}: No sender key info`);
@@ -1082,8 +1075,8 @@ async function fetchKeysForIdentifiers(
 
   try {
     await _waitForAll({
-      tasks: identifiers.map(identifier => async () =>
-        fetchKeysForIdentifier(identifier)
+      tasks: identifiers.map(
+        identifier => async () => fetchKeysForIdentifier(identifier)
       ),
     });
   } catch (error) {

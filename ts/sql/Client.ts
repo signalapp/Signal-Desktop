@@ -970,13 +970,11 @@ const updateConversationBatcher = createBatcher<ConversationType>({
     // We only care about the most recent update for each conversation
     const byId = groupBy(items, item => item.id);
     const ids = Object.keys(byId);
-    const mostRecent = ids.map(
-      (id: string): ConversationType => {
-        const maybeLast = last(byId[id]);
-        assert(maybeLast !== undefined, 'Empty array in `groupBy` result');
-        return maybeLast;
-      }
-    );
+    const mostRecent = ids.map((id: string): ConversationType => {
+      const maybeLast = last(byId[id]);
+      assert(maybeLast !== undefined, 'Empty array in `groupBy` result');
+      return maybeLast;
+    });
 
     await updateConversations(mostRecent);
   },
@@ -1338,14 +1336,11 @@ async function getLastConversationMessages({
   ourUuid: UUIDStringType;
   Message: typeof MessageModel;
 }): Promise<LastConversationMessagesType> {
-  const {
-    preview,
-    activity,
-    hasUserInitiatedMessages,
-  } = await channels.getLastConversationMessages({
-    conversationId,
-    ourUuid,
-  });
+  const { preview, activity, hasUserInitiatedMessages } =
+    await channels.getLastConversationMessages({
+      conversationId,
+      ourUuid,
+    });
 
   return {
     preview: preview ? new Message(preview) : undefined,

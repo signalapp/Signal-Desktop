@@ -350,8 +350,7 @@ describe('sgnlHref', () => {
             ['empty', ''],
             ['encoded', 'hello world'],
           ]),
-          hash:
-            'pack_id=baz&pack_key=Quux&num=123&empty=&encoded=hello%20world',
+          hash: 'pack_id=baz&pack_key=Quux&num=123&empty=&encoded=hello%20world',
         }
       );
     });

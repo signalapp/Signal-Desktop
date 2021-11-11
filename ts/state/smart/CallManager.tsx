@@ -44,9 +44,8 @@ function renderSafetyNumberViewer(props: SafetyNumberViewerProps): JSX.Element {
   return <SmartSafetyNumberViewer {...props} />;
 }
 
-const getGroupCallVideoFrameSource = callingService.getGroupCallVideoFrameSource.bind(
-  callingService
-);
+const getGroupCallVideoFrameSource =
+  callingService.getGroupCallVideoFrameSource.bind(callingService);
 
 async function notifyForCall(
   title: string,

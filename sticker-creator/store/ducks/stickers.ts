@@ -32,9 +32,8 @@ export const removeSticker = createAction<string>('stickers/removeSticker');
 export const moveSticker = createAction<SortEnd>('stickers/moveSticker');
 export const setCover = createAction<StickerImageData>('stickers/setCover');
 export const resetCover = createAction<StickerImageData>('stickers/resetCover');
-export const setEmoji = createAction<{ id: string; emoji: EmojiPickDataType }>(
-  'stickers/setEmoji'
-);
+export const setEmoji =
+  createAction<{ id: string; emoji: EmojiPickDataType }>('stickers/setEmoji');
 export const setTitle = createAction<string>('stickers/setTitle');
 export const setAuthor = createAction<string>('stickers/setAuthor');
 export const setPackMeta = createAction<PackMetaData>('stickers/setPackMeta');

@@ -19,11 +19,8 @@ import { trigger } from '../../shims/events';
 
 import type { NoopActionType } from './noop';
 
-const {
-  getRecentStickers,
-  updateStickerLastUsed,
-  updateStickerPackStatus,
-} = dataInterface;
+const { getRecentStickers, updateStickerLastUsed, updateStickerPackStatus } =
+  dataInterface;
 
 // State
 

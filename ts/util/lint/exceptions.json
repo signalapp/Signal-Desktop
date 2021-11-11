@@ -10698,7 +10698,7 @@
   {
     "rule": "React-createRef",
     "path": "ts/components/conversation/Message.tsx",
-    "line": "  public reactionsContainerRef: React.RefObject<HTMLDivElement> = React.createRef();",
+    "line": "    React.createRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2021-03-05T19:57:01.431Z",
     "reasonDetail": "Used for detecting clicks outside reaction viewer"

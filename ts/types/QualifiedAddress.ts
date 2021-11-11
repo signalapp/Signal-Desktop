@@ -16,7 +16,8 @@ export type QualifiedAddressCreateOptionsType = Readonly<{
   deviceId: number;
 }>;
 
-export type QualifiedAddressStringType = `${UUIDStringType}:${AddressStringType}`;
+export type QualifiedAddressStringType =
+  `${UUIDStringType}:${AddressStringType}`;
 
 export class QualifiedAddress {
   constructor(

@@ -279,10 +279,11 @@ export class SignedPreKeys extends SignedPreKeyStore {
   }
 
   async getSignedPreKey(id: number): Promise<SignedPreKeyRecord> {
-    const signedPreKey = await window.textsecure.storage.protocol.loadSignedPreKey(
-      this.ourUuid,
-      id
-    );
+    const signedPreKey =
+      await window.textsecure.storage.protocol.loadSignedPreKey(
+        this.ourUuid,
+        id
+      );
 
     if (!signedPreKey) {
       throw new Error(`getSignedPreKey: SignedPreKey ${id} not found`);

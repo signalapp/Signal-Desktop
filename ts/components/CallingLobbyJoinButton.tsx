@@ -77,10 +77,8 @@ export const CallingLobbyJoinButton: FunctionComponent<{
               if (!button) {
                 return;
               }
-              const {
-                width: variantWidth,
-                height: variantHeight,
-              } = button.getBoundingClientRect();
+              const { width: variantWidth, height: variantHeight } =
+                button.getBoundingClientRect();
 
               // We could set the padding in CSS, but we don't do that in case some other
               //   styling causes a re-render of the button but not of the component. This

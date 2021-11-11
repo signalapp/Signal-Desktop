@@ -358,9 +358,10 @@ async function maybeAddSenderKeyDistributionMessage({
 
   const senderKeyInfo = conversation.get('senderKeyInfo');
   if (senderKeyInfo && senderKeyInfo.distributionId) {
-    const senderKeyDistributionMessage = await window.textsecure.messaging.getSenderKeyDistributionMessage(
-      senderKeyInfo.distributionId
-    );
+    const senderKeyDistributionMessage =
+      await window.textsecure.messaging.getSenderKeyDistributionMessage(
+        senderKeyInfo.distributionId
+      );
 
     return {
       contentProto: {

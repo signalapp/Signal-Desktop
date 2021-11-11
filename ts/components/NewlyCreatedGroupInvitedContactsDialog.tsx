@@ -17,67 +17,68 @@ type PropsType = {
   onClose: () => void;
 };
 
-export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<PropsType> = ({
-  contacts,
-  i18n,
-  onClose,
-}) => {
-  let title: string;
-  let body: ReactNode;
-  if (contacts.length === 1) {
-    const contact = contacts[0];
+export const NewlyCreatedGroupInvitedContactsDialog: FunctionComponent<PropsType> =
+  ({ contacts, i18n, onClose }) => {
+    let title: string;
+    let body: ReactNode;
+    if (contacts.length === 1) {
+      const contact = contacts[0];
 
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--one');
-    body = (
-      <>
-        <GroupDialog.Paragraph>
-          <Intl
-            i18n={i18n}
-            id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
-            components={[<ContactName title={contact.title} />]}
-          />
-        </GroupDialog.Paragraph>
-        <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
-        </GroupDialog.Paragraph>
-      </>
-    );
-  } else {
-    title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', [
-      contacts.length.toString(),
-    ]);
-    body = (
-      <>
-        <GroupDialog.Paragraph>
-          {i18n(
-            'NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
-          )}
-        </GroupDialog.Paragraph>
-        <GroupDialog.Paragraph>
-          {i18n('NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph')}
-        </GroupDialog.Paragraph>
-        <GroupDialog.Contacts contacts={contacts} i18n={i18n} />
-      </>
-    );
-  }
+      title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--one');
+      body = (
+        <>
+          <GroupDialog.Paragraph>
+            <Intl
+              i18n={i18n}
+              id="NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one"
+              components={[<ContactName title={contact.title} />]}
+            />
+          </GroupDialog.Paragraph>
+          <GroupDialog.Paragraph>
+            {i18n(
+              'NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+            )}
+          </GroupDialog.Paragraph>
+        </>
+      );
+    } else {
+      title = i18n('NewlyCreatedGroupInvitedContactsDialog--title--many', [
+        contacts.length.toString(),
+      ]);
+      body = (
+        <>
+          <GroupDialog.Paragraph>
+            {i18n(
+              'NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many'
+            )}
+          </GroupDialog.Paragraph>
+          <GroupDialog.Paragraph>
+            {i18n(
+              'NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph'
+            )}
+          </GroupDialog.Paragraph>
+          <GroupDialog.Contacts contacts={contacts} i18n={i18n} />
+        </>
+      );
+    }
 
-  return (
-    <GroupDialog
-      i18n={i18n}
-      onClickPrimaryButton={onClose}
-      primaryButtonText={i18n('Confirmation--confirm')}
-      secondaryButtonText={i18n(
-        'NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
-      )}
-      onClickSecondaryButton={() => {
-        openLinkInWebBrowser(
-          'https://support.signal.org/hc/articles/360007319331-Group-chats'
-        );
-      }}
-      onClose={onClose}
-      title={title}
-    >
-      {body}
-    </GroupDialog>
-  );
-};
+    return (
+      <GroupDialog
+        i18n={i18n}
+        onClickPrimaryButton={onClose}
+        primaryButtonText={i18n('Confirmation--confirm')}
+        secondaryButtonText={i18n(
+          'NewlyCreatedGroupInvitedContactsDialog--body--learn-more'
+        )}
+        onClickSecondaryButton={() => {
+          openLinkInWebBrowser(
+            'https://support.signal.org/hc/articles/360007319331-Group-chats'
+          );
+        }}
+        onClose={onClose}
+        title={title}
+      >
+        {body}
+      </GroupDialog>
+    );
+  };

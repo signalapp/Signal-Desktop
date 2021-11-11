@@ -48,9 +48,8 @@ const fakeAPI = {
         throw new Error('Invalid message');
       }
 
-      messagesSentMap[
-        `${destination}.${messageArray[i].destinationDeviceId}`
-      ] = msg;
+      messagesSentMap[`${destination}.${messageArray[i].destinationDeviceId}`] =
+        msg;
     }
   },
 };

@@ -263,8 +263,7 @@ const items: Record<string, TimelineItemType> = {
       previews: [],
       readStatus: ReadStatus.Read,
       status: 'sent',
-      text:
-        'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+      text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
       timestamp: Date.now(),
     },
   },
@@ -285,8 +284,7 @@ const items: Record<string, TimelineItemType> = {
       previews: [],
       readStatus: ReadStatus.Read,
       status: 'read',
-      text:
-        'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
+      text: 'Hello there from the new world! And this is multiple lines of text. Lines and lines and lines.',
       timestamp: Date.now(),
     },
   },

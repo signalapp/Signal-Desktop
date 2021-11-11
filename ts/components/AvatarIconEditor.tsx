@@ -23,9 +23,8 @@ export const AvatarIconEditor = ({
   onClose,
 }: PropsType): JSX.Element => {
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>();
-  const [avatarData, setAvatarData] = useState<AvatarDataType>(
-    initialAvatarData
-  );
+  const [avatarData, setAvatarData] =
+    useState<AvatarDataType>(initialAvatarData);
 
   const onColorSelected = useCallback(
     (color: AvatarColorType) => {

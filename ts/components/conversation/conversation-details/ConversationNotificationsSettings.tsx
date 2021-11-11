@@ -25,98 +25,103 @@ type PropsType = {
   setMuteExpiration: (muteExpiresAt: undefined | number) => unknown;
 };
 
-export const ConversationNotificationsSettings: FunctionComponent<PropsType> = ({
-  conversationType,
-  dontNotifyForMentionsIfMuted,
-  i18n,
-  muteExpiresAt,
-  setMuteExpiration,
-  setDontNotifyForMentionsIfMuted,
-}) => {
-  const muteOptions = useMemo(
-    () => [
-      ...(isMuted(muteExpiresAt)
-        ? []
-        : [
-            {
-              disabled: true,
-              text: i18n('notMuted'),
-              value: -1,
-            },
-          ]),
-      ...getMuteOptions(muteExpiresAt, i18n).map(
-        ({ disabled, name, value }) => ({
-          disabled,
-          text: name,
-          value,
-        })
-      ),
-    ],
-    [i18n, muteExpiresAt]
-  );
-
-  const onMuteChange = (rawValue: string) => {
-    const ms = parseIntOrThrow(
-      rawValue,
-      'NotificationSettings: mute ms was not an integer'
+export const ConversationNotificationsSettings: FunctionComponent<PropsType> =
+  ({
+    conversationType,
+    dontNotifyForMentionsIfMuted,
+    i18n,
+    muteExpiresAt,
+    setMuteExpiration,
+    setDontNotifyForMentionsIfMuted,
+  }) => {
+    const muteOptions = useMemo(
+      () => [
+        ...(isMuted(muteExpiresAt)
+          ? []
+          : [
+              {
+                disabled: true,
+                text: i18n('notMuted'),
+                value: -1,
+              },
+            ]),
+        ...getMuteOptions(muteExpiresAt, i18n).map(
+          ({ disabled, name, value }) => ({
+            disabled,
+            text: name,
+            value,
+          })
+        ),
+      ],
+      [i18n, muteExpiresAt]
     );
-    setMuteExpiration(ms);
-  };
 
-  const onChangeDontNotifyForMentionsIfMuted = (rawValue: string) => {
-    setDontNotifyForMentionsIfMuted(rawValue === 'yes');
-  };
+    const onMuteChange = (rawValue: string) => {
+      const ms = parseIntOrThrow(
+        rawValue,
+        'NotificationSettings: mute ms was not an integer'
+      );
+      setMuteExpiration(ms);
+    };
 
-  return (
-    <div className="conversation-details-panel">
-      <PanelSection>
-        <PanelRow
-          icon={
-            <ConversationDetailsIcon
-              ariaLabel={i18n('muteNotificationsTitle')}
-              icon={IconType.mute}
-            />
-          }
-          label={i18n('muteNotificationsTitle')}
-          right={
-            <Select options={muteOptions} onChange={onMuteChange} value={-1} />
-          }
-        />
-        {conversationType === 'group' && (
+    const onChangeDontNotifyForMentionsIfMuted = (rawValue: string) => {
+      setDontNotifyForMentionsIfMuted(rawValue === 'yes');
+    };
+
+    return (
+      <div className="conversation-details-panel">
+        <PanelSection>
           <PanelRow
             icon={
               <ConversationDetailsIcon
-                ariaLabel={i18n(
-                  'ConversationNotificationsSettings__mentions__label'
-                )}
-                icon={IconType.mention}
+                ariaLabel={i18n('muteNotificationsTitle')}
+                icon={IconType.mute}
               />
             }
-            label={i18n('ConversationNotificationsSettings__mentions__label')}
-            info={i18n('ConversationNotificationsSettings__mentions__info')}
+            label={i18n('muteNotificationsTitle')}
             right={
               <Select
-                options={[
-                  {
-                    text: i18n(
-                      'ConversationNotificationsSettings__mentions__select__always-notify'
-                    ),
-                    value: 'no',
-                  },
-                  {
-                    text: i18n(
-                      'ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted'
-                    ),
-                    value: 'yes',
-                  },
-                ]}
-                onChange={onChangeDontNotifyForMentionsIfMuted}
-                value={dontNotifyForMentionsIfMuted ? 'yes' : 'no'}
+                options={muteOptions}
+                onChange={onMuteChange}
+                value={-1}
               />
             }
           />
-        )}
-      </PanelSection>
-    </div>
-  );
-};
+          {conversationType === 'group' && (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n(
+                    'ConversationNotificationsSettings__mentions__label'
+                  )}
+                  icon={IconType.mention}
+                />
+              }
+              label={i18n('ConversationNotificationsSettings__mentions__label')}
+              info={i18n('ConversationNotificationsSettings__mentions__info')}
+              right={
+                <Select
+                  options={[
+                    {
+                      text: i18n(
+                        'ConversationNotificationsSettings__mentions__select__always-notify'
+                      ),
+                      value: 'no',
+                    },
+                    {
+                      text: i18n(
+                        'ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted'
+                      ),
+                      value: 'yes',
+                    },
+                  ]}
+                  onChange={onChangeDontNotifyForMentionsIfMuted}
+                  value={dontNotifyForMentionsIfMuted ? 'yes' : 'no'}
+                />
+              }
+            />
+          )}
+        </PanelSection>
+      </div>
+    );
+  };

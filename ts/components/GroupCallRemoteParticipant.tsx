@@ -69,9 +69,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       videoAspectRatio,
     } = props.remoteParticipant;
 
-    const [hasReceivedVideoRecently, setHasReceivedVideoRecently] = useState(
-      false
-    );
+    const [hasReceivedVideoRecently, setHasReceivedVideoRecently] =
+      useState(false);
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
@@ -90,10 +89,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
 
-    const [
-      intersectionRef,
-      intersectionObserverEntry,
-    ] = useIntersectionObserver();
+    const [intersectionRef, intersectionObserverEntry] =
+      useIntersectionObserver();
     const isVisible = intersectionObserverEntry
       ? intersectionObserverEntry.isIntersecting
       : true;
@@ -268,7 +265,8 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               className={classNames(
                 'module-ongoing-call__group-call-remote-participant--title',
                 {
-                  'module-ongoing-call__group-call-remote-participant--audio-muted': !hasRemoteAudio,
+                  'module-ongoing-call__group-call-remote-participant--audio-muted':
+                    !hasRemoteAudio,
                 }
               )}
             >

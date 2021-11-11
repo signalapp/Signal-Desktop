@@ -110,18 +110,12 @@ export function CompositionInput(props: Props): React.ReactElement {
     sortedGroupMembers,
   } = props;
 
-  const [
-    emojiCompletionElement,
-    setEmojiCompletionElement,
-  ] = React.useState<JSX.Element>();
-  const [
-    lastSelectionRange,
-    setLastSelectionRange,
-  ] = React.useState<RangeStatic | null>(null);
-  const [
-    mentionCompletionElement,
-    setMentionCompletionElement,
-  ] = React.useState<JSX.Element>();
+  const [emojiCompletionElement, setEmojiCompletionElement] =
+    React.useState<JSX.Element>();
+  const [lastSelectionRange, setLastSelectionRange] =
+    React.useState<RangeStatic | null>(null);
+  const [mentionCompletionElement, setMentionCompletionElement] =
+    React.useState<JSX.Element>();
 
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const mentionCompletionRef = React.useRef<MentionCompletion>();
@@ -607,9 +601,8 @@ export function CompositionInput(props: Props): React.ReactElement {
               );
               quillRef.current = quill;
               emojiCompletionRef.current = quill.getModule('emojiCompletion');
-              mentionCompletionRef.current = quill.getModule(
-                'mentionCompletion'
-              );
+              mentionCompletionRef.current =
+                quill.getModule('mentionCompletion');
             }
           }}
         />

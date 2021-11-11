@@ -54,10 +54,12 @@ story.add('Knobs Playground', () => {
   );
 });
 
-([
-  ['wide', WidthBreakpoint.Wide],
-  ['narrow', WidthBreakpoint.Narrow],
-] as const).forEach(([name, containerWidthBreakpoint]) => {
+(
+  [
+    ['wide', WidthBreakpoint.Wide],
+    ['narrow', WidthBreakpoint.Narrow],
+  ] as const
+).forEach(([name, containerWidthBreakpoint]) => {
   const defaultPropsForBreakpoint = {
     ...defaultProps,
     containerWidthBreakpoint,

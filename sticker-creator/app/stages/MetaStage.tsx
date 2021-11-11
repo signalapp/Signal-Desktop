@@ -35,9 +35,8 @@ export const MetaStage: React.ComponentType = () => {
     [actions]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useStickerDropzone(
-    onDrop
-  );
+  const { getRootProps, getInputProps, isDragActive } =
+    useStickerDropzone(onDrop);
 
   const onNext = React.useCallback(() => {
     setConfirming(true);

@@ -107,9 +107,8 @@ const mapStateToProps = (state: StateType, ownProps: OwnProps) => {
     ]),
     badge: getPreferredBadgeSelector(state)(conversation.badges),
     conversationTitle: state.conversations.selectedConversationTitle,
-    isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
-      conversation
-    ),
+    isMissingMandatoryProfileSharing:
+      isMissingRequiredProfileSharing(conversation),
     isSMSOnly: isConversationSMSOnly(conversation),
     i18n: getIntl(state),
     showBackButton: state.conversations.selectedConversationPanelDepth > 0,

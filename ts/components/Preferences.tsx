@@ -267,10 +267,8 @@ export const Preferences = ({
   const [page, setPage] = useState<Page>(Page.General);
   const [showSyncFailed, setShowSyncFailed] = useState(false);
   const [nowSyncing, setNowSyncing] = useState(false);
-  const [
-    showDisappearingTimerDialog,
-    setShowDisappearingTimerDialog,
-  ] = useState(false);
+  const [showDisappearingTimerDialog, setShowDisappearingTimerDialog] =
+    useState(false);
 
   useEffect(() => {
     doneRendering();
@@ -281,7 +279,7 @@ export const Preferences = ({
   const onZoomSelectChange = useCallback(
     (value: string) => {
       const number = parseFloat(value);
-      onZoomFactorChange((number as unknown) as ZoomFactorType);
+      onZoomFactorChange(number as unknown as ZoomFactorType);
     },
     [onZoomFactorChange]
   );
@@ -764,9 +762,8 @@ export const Preferences = ({
       </>
     );
   } else if (page === Page.Privacy) {
-    const isCustomDisappearingMessageValue = !DEFAULT_DURATIONS_SET.has(
-      universalExpireTimer
-    );
+    const isCustomDisappearingMessageValue =
+      !DEFAULT_DURATIONS_SET.has(universalExpireTimer);
 
     settings = (
       <>

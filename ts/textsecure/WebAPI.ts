@@ -1008,7 +1008,8 @@ export function initialize({
     let username = initialUsername;
     let password = initialPassword;
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
-    const PARSE_GROUP_LOG_RANGE_HEADER = /$versions (\d{1,10})-(\d{1,10})\/(d{1,10})/;
+    const PARSE_GROUP_LOG_RANGE_HEADER =
+      /$versions (\d{1,10})-(\d{1,10})\/(d{1,10})/;
 
     const socketManager = new SocketManager({
       url,
@@ -1361,11 +1362,8 @@ export function initialize({
         userLanguages: ReadonlyArray<string>;
       }
     ) {
-      const {
-        profileKeyVersion,
-        profileKeyCredentialRequest,
-        userLanguages,
-      } = options;
+      const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
+        options;
 
       return (await _ajax({
         call: 'profile',
@@ -2210,15 +2208,8 @@ export function initialize({
     }
 
     function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
-      const {
-        key,
-        credential,
-        acl,
-        algorithm,
-        date,
-        policy,
-        signature,
-      } = attributes;
+      const { key, credential, acl, algorithm, date, policy, signature } =
+        attributes;
 
       if (
         !key ||
@@ -2825,9 +2816,9 @@ export function initialize({
       };
 
       // Decode discovery request response
-      const decodedDiscoveryResponse = (mapValues(discoveryResponse, value => {
+      const decodedDiscoveryResponse = mapValues(discoveryResponse, value => {
         return Bytes.fromBase64(value);
-      }) as unknown) as {
+      }) as unknown as {
         [K in keyof typeof discoveryResponse]: Uint8Array;
       };
 

@@ -246,7 +246,8 @@ export async function toAccountRecord(
       const pinnedConversation = window.ConversationController.get(id);
 
       if (pinnedConversation) {
-        const pinnedConversationRecord = new Proto.AccountRecord.PinnedConversation();
+        const pinnedConversationRecord =
+          new Proto.AccountRecord.PinnedConversation();
 
         if (pinnedConversation.get('type') === 'private') {
           pinnedConversationRecord.identifier = 'contact';
@@ -953,9 +954,8 @@ export async function mergeAccountRecord(
         let conversationId: string | undefined;
 
         if (contact) {
-          conversationId = window.ConversationController.ensureContactIds(
-            contact
-          );
+          conversationId =
+            window.ConversationController.ensureContactIds(contact);
         } else if (legacyGroupId && legacyGroupId.length) {
           conversationId = Bytes.toBinary(legacyGroupId);
         } else if (groupMasterKey && groupMasterKey.length) {

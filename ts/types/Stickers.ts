@@ -374,11 +374,8 @@ export async function downloadEphemeralPack(
   packId: string,
   packKey: string
 ): Promise<void> {
-  const {
-    stickerAdded,
-    stickerPackAdded,
-    stickerPackUpdated,
-  } = getReduxStickerActions();
+  const { stickerAdded, stickerPackAdded, stickerPackUpdated } =
+    getReduxStickerActions();
 
   const existingPack = getStickerPack(packId);
   if (
@@ -762,13 +759,10 @@ export async function copyStickerToAttachments(
   }
 
   const { path: stickerPath } = sticker;
-  const absolutePath = window.Signal.Migrations.getAbsoluteStickerPath(
-    stickerPath
-  );
-  const {
-    path,
-    size,
-  } = await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
+  const absolutePath =
+    window.Signal.Migrations.getAbsoluteStickerPath(stickerPath);
+  const { path, size } =
+    await window.Signal.Migrations.copyIntoAttachmentsDirectory(absolutePath);
 
   const { data } = await window.Signal.Migrations.loadAttachmentData({
     path,

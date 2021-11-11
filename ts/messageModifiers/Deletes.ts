@@ -47,10 +47,11 @@ export class Deletes extends Collection<DeleteModel> {
     try {
       // The conversation the deleted message was in; we have to find it in the database
       //   to to figure that out.
-      const targetConversation = await window.ConversationController.getConversationForTargetMessage(
-        del.get('fromId'),
-        del.get('targetSentTimestamp')
-      );
+      const targetConversation =
+        await window.ConversationController.getConversationForTargetMessage(
+          del.get('fromId'),
+          del.get('targetSentTimestamp')
+        );
 
       if (!targetConversation) {
         log.info(

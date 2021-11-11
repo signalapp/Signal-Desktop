@@ -65,7 +65,8 @@ class SyncRequestInner extends EventTarget {
 
     const { sender } = this;
 
-    const ourConversation = window.ConversationController.getOurConversationOrThrow();
+    const ourConversation =
+      window.ConversationController.getOurConversationOrThrow();
     const sendOptions = await getSendOptions(ourConversation.attributes, {
       syncMessage: true,
     });

@@ -14,14 +14,14 @@ const STICKER_PATH = 'stickers.noindex';
 const TEMP_PATH = 'temp';
 const DRAFT_PATH = 'drafts.noindex';
 
-const createPathGetter = (subpath: string) => (
-  userDataPath: string
-): string => {
-  if (!isString(userDataPath)) {
-    throw new TypeError("'userDataPath' must be a string");
-  }
-  return join(userDataPath, subpath);
-};
+const createPathGetter =
+  (subpath: string) =>
+  (userDataPath: string): string => {
+    if (!isString(userDataPath)) {
+      throw new TypeError("'userDataPath' must be a string");
+    }
+    return join(userDataPath, subpath);
+  };
 
 export const getAvatarsPath = createPathGetter(AVATAR_PATH);
 export const getBadgesPath = createPathGetter(BADGES_PATH);

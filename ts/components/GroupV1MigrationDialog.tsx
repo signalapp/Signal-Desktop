@@ -24,8 +24,8 @@ export type HousekeepingPropsType = {
 
 export type PropsType = DataPropsType & HousekeepingPropsType;
 
-export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> = React.memo(
-  (props: PropsType) => {
+export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
+  React.memo((props: PropsType) => {
     const {
       areWeInvited,
       droppedMembers,
@@ -94,8 +94,7 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> = React.
         )}
       </GroupDialog>
     );
-  }
-);
+  });
 
 function renderMembers(
   members: Array<ConversationType>,

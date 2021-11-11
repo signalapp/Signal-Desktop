@@ -514,7 +514,8 @@ export const CallScreen: React.FC<PropsType> = ({
         </div>
         <div
           className={classNames('module-ongoing-call__footer__local-preview', {
-            'module-ongoing-call__footer__local-preview--audio-muted': !hasLocalAudio,
+            'module-ongoing-call__footer__local-preview--audio-muted':
+              !hasLocalAudio,
           })}
         >
           {localPreviewNode}

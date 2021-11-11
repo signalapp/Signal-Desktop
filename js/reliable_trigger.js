@@ -136,5 +136,9 @@
     return this;
   }
 
-  Backbone.Model.prototype.trigger = Backbone.View.prototype.trigger = Backbone.Collection.prototype.trigger = Backbone.Events.trigger = trigger;
+  Backbone.Model.prototype.trigger =
+    Backbone.View.prototype.trigger =
+    Backbone.Collection.prototype.trigger =
+    Backbone.Events.trigger =
+      trigger;
 })();

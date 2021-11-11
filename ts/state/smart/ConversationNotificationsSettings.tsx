@@ -17,11 +17,8 @@ export type OwnProps = {
 };
 
 const mapStateToProps = (state: StateType, props: OwnProps) => {
-  const {
-    conversationId,
-    setDontNotifyForMentionsIfMuted,
-    setMuteExpiration,
-  } = props;
+  const { conversationId, setDontNotifyForMentionsIfMuted, setMuteExpiration } =
+    props;
 
   const conversationSelector = getConversationByIdSelector(state);
   const conversation = conversationSelector(conversationId);

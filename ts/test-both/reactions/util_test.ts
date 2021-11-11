@@ -67,10 +67,8 @@ describe('reaction utilities', () => {
         { ...rxn('⭐️'), timestamp: 2 },
         { ...rxn('🔥', { isPending: true }), timestamp: 1 },
       ];
-      const {
-        pendingReaction,
-        emojiToRemove,
-      } = getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
+      const { pendingReaction, emojiToRemove } =
+        getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
 
       assert.isUndefined(pendingReaction);
       assert.isUndefined(emojiToRemove);
@@ -84,10 +82,8 @@ describe('reaction utilities', () => {
           { ...rxn('⭐️', { isPending: true }), timestamp: 2 },
         ],
       ].forEach(oldReactions => {
-        const {
-          pendingReaction,
-          emojiToRemove,
-        } = getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
+        const { pendingReaction, emojiToRemove } =
+          getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
 
         assert.strictEqual(pendingReaction?.emoji, '⭐️');
         assert.isUndefined(emojiToRemove);
@@ -100,10 +96,8 @@ describe('reaction utilities', () => {
         { ...rxn(undefined, { isPending: true }), timestamp: 3 },
         { ...rxn('🔥', { isPending: true }), timestamp: 2 },
       ];
-      const {
-        pendingReaction,
-        emojiToRemove,
-      } = getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
+      const { pendingReaction, emojiToRemove } =
+        getNewestPendingOutgoingReaction(oldReactions, OUR_CONVO_ID);
 
       assert.isDefined(pendingReaction);
       assert.isUndefined(pendingReaction?.emoji);

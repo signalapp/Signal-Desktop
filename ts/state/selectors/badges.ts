@@ -32,40 +32,44 @@ export const getBadgesById = createSelector(getBadgeState, state =>
 
 export const getBadgesSelector = createSelector(
   getBadgesById,
-  badgesById => (
-    conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
-  ): Array<BadgeType> => {
-    const result: Array<BadgeType> = [];
+  badgesById =>
+    (
+      conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
+    ): Array<BadgeType> => {
+      const result: Array<BadgeType> = [];
 
-    for (const { id } of conversationBadges) {
-      const badge = getOwn(badgesById, id);
-      if (!badge) {
-        log.error('getBadgesSelector: conversation badge was not found');
-        continue;
+      for (const { id } of conversationBadges) {
+        const badge = getOwn(badgesById, id);
+        if (!badge) {
+          log.error('getBadgesSelector: conversation badge was not found');
+          continue;
+        }
+        result.push(badge);
       }
-      result.push(badge);
-    }
 
-    return result;
-  }
+      return result;
+    }
 );
 
 export const getPreferredBadgeSelector = createSelector(
   getBadgesById,
-  badgesById => (
-    conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
-  ): undefined | BadgeType => {
-    const firstId: undefined | string = conversationBadges[0]?.id;
-    if (!firstId) {
-      return undefined;
-    }
+  badgesById =>
+    (
+      conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
+    ): undefined | BadgeType => {
+      const firstId: undefined | string = conversationBadges[0]?.id;
+      if (!firstId) {
+        return undefined;
+      }
 
-    const badge = getOwn(badgesById, firstId);
-    if (!badge) {
-      log.error('getPreferredBadgeSelector: conversation badge was not found');
-      return undefined;
-    }
+      const badge = getOwn(badgesById, firstId);
+      if (!badge) {
+        log.error(
+          'getPreferredBadgeSelector: conversation badge was not found'
+        );
+        return undefined;
+      }
 
-    return badge;
-  }
+      return badge;
+    }
 );

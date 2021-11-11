@@ -44,12 +44,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     throw new Error(`Conversation id ${id} not found!`);
   }
 
-  const {
-    announcementsOnly,
-    areWeAdmin,
-    draftText,
-    draftBodyRanges,
-  } = conversation;
+  const { announcementsOnly, areWeAdmin, draftText, draftBodyRanges } =
+    conversation;
 
   const receivedPacks = getReceivedStickerPacks(state);
   const installedPacks = getInstalledStickerPacks(state);
@@ -125,9 +121,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationType: conversation.type,
     isSMSOnly: Boolean(isConversationSMSOnly(conversation)),
     isFetchingUUID: conversation.isFetchingUUID,
-    isMissingMandatoryProfileSharing: isMissingRequiredProfileSharing(
-      conversation
-    ),
+    isMissingMandatoryProfileSharing:
+      isMissingRequiredProfileSharing(conversation),
     // Groups
     announcementsOnly,
     areWeAdmin,

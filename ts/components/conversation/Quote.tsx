@@ -127,10 +127,8 @@ export class Quote extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    const {
-      doubleCheckMissingQuoteReference,
-      referencedMessageNotFound,
-    } = this.props;
+    const { doubleCheckMissingQuoteReference, referencedMessageNotFound } =
+      this.props;
 
     if (referencedMessageNotFound) {
       doubleCheckMissingQuoteReference?.();
@@ -275,14 +273,8 @@ export class Quote extends React.Component<Props, State> {
   }
 
   public renderText(): JSX.Element | null {
-    const {
-      bodyRanges,
-      i18n,
-      text,
-      rawAttachment,
-      isIncoming,
-      isViewOnce,
-    } = this.props;
+    const { bodyRanges, i18n, text, rawAttachment, isIncoming, isViewOnce } =
+      this.props;
 
     if (text) {
       const quoteText = bodyRanges

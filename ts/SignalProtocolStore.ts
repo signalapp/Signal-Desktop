@@ -185,10 +185,10 @@ export function freezeSignedPreKey(
 }
 
 // We add a this parameter to avoid an 'implicit any' error on the next line
-const EventsMixin = (function EventsMixin(this: unknown) {
+const EventsMixin = function EventsMixin(this: unknown) {
   window._.assign(this, window.Backbone.Events);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-} as any) as typeof window.Backbone.EventsMixin;
+} as any as typeof window.Backbone.EventsMixin;
 
 type SessionCacheEntry = CacheEntryType<SessionType, SessionRecord>;
 

@@ -69,8 +69,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },
@@ -258,18 +257,19 @@ describe('sessionTranslation', () => {
             },
             chainType: 2,
           },
-          '\u0005±@íN"Í\u0019HS{$ï\u0017[Ñ\\\u001a*;>P\u0000\u001f\u000eHNaù)': {
-            messageKeys: {
-              '0': "1kÏ\u001cí+«<º\b'VÌ!×¼«PÃ[üáy;l'",
-              '2': 'ö\u00047%L-Wm)\u001d£ääíNô.Ô8ÃÉ4r´ó^2',
-              '3': '¨¿¦7T]\u001c\u001cà4:x\u0019¿\u0002YÉÀ\u001bâjr¸»¤¢0,*',
-              '5': '¥\u0006·qgó4þ\u0011®U4F\u001cl©\bäô»ÊÇÆ[',
+          '\u0005±@íN"Í\u0019HS{$ï\u0017[Ñ\\\u001a*;>P\u0000\u001f\u000eHNaù)':
+            {
+              messageKeys: {
+                '0': "1kÏ\u001cí+«<º\b'VÌ!×¼«PÃ[üáy;l'",
+                '2': 'ö\u00047%L-Wm)\u001d£ääíNô.Ô8ÃÉ4r´ó^2',
+                '3': '¨¿¦7T]\u001c\u001cà4:x\u0019¿\u0002YÉÀ\u001bâjr¸»¤¢0,*',
+                '5': '¥\u0006·qgó4þ\u0011®U4F\u001cl©\bäô»ÊÇÆ[',
+              },
+              chainKey: {
+                counter: 5,
+              },
+              chainType: 2,
             },
-            chainKey: {
-              counter: 5,
-            },
-            chainType: 2,
-          },
           '\u0005ÞgÅké\u0001\u0013¡ÿûNXÈ(9\u0006¤w®/Ø¹RiJI': {
             messageKeys: {
               '0': "]'8WÄ\u0007nº­Ö{ÿ7]ôäÄ!é\u000btA@°b¢)\u001ar",
@@ -306,8 +306,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },
@@ -562,8 +561,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },
@@ -670,8 +668,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },
@@ -711,8 +708,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },
@@ -752,8 +748,7 @@ describe('sessionTranslation', () => {
             messageKeys: {},
             chainKey: {
               counter: -1,
-              key:
-                "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
+              key: "èB?7\u000f¯\u001e\u0010¨\u0007}:?¹\u0010$\\ë~ª\u0000gM0Õ'£\u0005",
             },
             chainType: 1,
           },

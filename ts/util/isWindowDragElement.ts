@@ -4,9 +4,8 @@
 export function isWindowDragElement(el: Readonly<Element>): boolean {
   let currentEl: Element | null = el;
   do {
-    const appRegion = getComputedStyle(currentEl).getPropertyValue(
-      '-webkit-app-region'
-    );
+    const appRegion =
+      getComputedStyle(currentEl).getPropertyValue('-webkit-app-region');
     switch (appRegion) {
       case 'no-drag':
         return false;

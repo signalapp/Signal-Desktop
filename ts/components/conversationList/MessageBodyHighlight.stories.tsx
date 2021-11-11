@@ -42,8 +42,7 @@ story.add('No Replacement', () => {
 
 story.add('Two Replacements', () => {
   const props = createProps({
-    text:
-      'Begin <<left>>Inside #1<<right>> This is between the two <<left>>Inside #2<<right>> End.',
+    text: 'Begin <<left>>Inside #1<<right>> This is between the two <<left>>Inside #2<<right>> End.',
   });
 
   return <MessageBodyHighlight {...props} />;
@@ -59,8 +58,7 @@ story.add('Two Replacements with an @mention', () => {
         start: 33,
       },
     ],
-    text:
-      'Begin <<left>>Inside #1<<right>> \uFFFC This is between the two <<left>>Inside #2<<right>> End.',
+    text: 'Begin <<left>>Inside #1<<right>> \uFFFC This is between the two <<left>>Inside #2<<right>> End.',
   });
 
   return <MessageBodyHighlight {...props} />;
@@ -68,8 +66,7 @@ story.add('Two Replacements with an @mention', () => {
 
 story.add('Emoji + Newlines + URLs', () => {
   const props = createProps({
-    text:
-      '\nhttp://somewhere.com\n\n🔥 Before -- <<left>>A 🔥 inside<<right>> -- After 🔥',
+    text: '\nhttp://somewhere.com\n\n🔥 Before -- <<left>>A 🔥 inside<<right>> -- After 🔥',
   });
 
   return <MessageBodyHighlight {...props} />;

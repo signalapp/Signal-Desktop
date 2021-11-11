@@ -127,28 +127,23 @@ describe('link preview fetching', () => {
     it('handles image href sources in the correct order', async () => {
       const orderedImageHrefSources = [
         {
-          tag:
-            '<meta property="og:image" content="https://example.com/og-image.jpg">',
+          tag: '<meta property="og:image" content="https://example.com/og-image.jpg">',
           expectedHref: 'https://example.com/og-image.jpg',
         },
         {
-          tag:
-            '<meta property="og:image:url" content="https://example.com/og-image-url.jpg">',
+          tag: '<meta property="og:image:url" content="https://example.com/og-image-url.jpg">',
           expectedHref: 'https://example.com/og-image-url.jpg',
         },
         {
-          tag:
-            '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
+          tag: '<link rel="apple-touch-icon" href="https://example.com/apple-touch-icon.jpg">',
           expectedHref: 'https://example.com/apple-touch-icon.jpg',
         },
         {
-          tag:
-            '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
+          tag: '<link rel="apple-touch-icon-precomposed" href="https://example.com/apple-touch-icon-precomposed.jpg">',
           expectedHref: 'https://example.com/apple-touch-icon-precomposed.jpg',
         },
         {
-          tag:
-            '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
+          tag: '<link rel="shortcut icon" href="https://example.com/shortcut-icon.jpg">',
           expectedHref: 'https://example.com/shortcut-icon.jpg',
         },
         {

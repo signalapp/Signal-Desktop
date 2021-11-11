@@ -72,8 +72,7 @@ describe('Stickers', () => {
         ),
         {
           id: 'c8c83285b547872ac4c589d64a6edd6a',
-          key:
-            '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
+          key: '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
         }
       );
     });
@@ -85,8 +84,7 @@ describe('Stickers', () => {
         ),
         {
           id: 'c8c83285b547872ac4c589d64a6edd6a',
-          key:
-            '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
+          key: '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
         }
       );
     });
@@ -98,8 +96,7 @@ describe('Stickers', () => {
         ),
         {
           id: 'c8c83285b547872ac4c589d64a6edd6a',
-          key:
-            '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
+          key: '59bb3a8860f0e6a5a83a5337a015c8d55ecd2193f82d77202f3b8112a845636e',
         }
       );
     });

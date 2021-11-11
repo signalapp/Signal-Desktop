@@ -72,7 +72,8 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
 
     await window.ConversationController.load();
 
-    const ourConversationId = window.ConversationController.getOurConversationIdOrThrow();
+    const ourConversationId =
+      window.ConversationController.getOurConversationIdOrThrow();
 
     const message = await getMessageById(messageId);
     if (!message) {
@@ -82,13 +83,11 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       return;
     }
 
-    const {
-      pendingReaction,
-      emojiToRemove,
-    } = reactionUtil.getNewestPendingOutgoingReaction(
-      getReactions(message),
-      ourConversationId
-    );
+    const { pendingReaction, emojiToRemove } =
+      reactionUtil.getNewestPendingOutgoingReaction(
+        getReactions(message),
+        ourConversationId
+      );
     if (!pendingReaction) {
       log.info(`no pending reaction for ${messageId}. Doing nothing`);
       return;
@@ -122,10 +121,8 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
         );
       }
 
-      const {
-        allRecipientIdentifiers,
-        recipientIdentifiersWithoutMe,
-      } = getRecipients(pendingReaction, conversation);
+      const { allRecipientIdentifiers, recipientIdentifiersWithoutMe } =
+        getRecipients(pendingReaction, conversation);
 
       const expireTimer = message.get('expireTimer');
       const profileKey = conversation.get('profileSharing')
@@ -295,7 +292,8 @@ function getRecipients(
   const allRecipientIdentifiers: Array<string> = [];
   const recipientIdentifiersWithoutMe: Array<string> = [];
 
-  const currentConversationRecipients = conversation.getRecipientConversationIds();
+  const currentConversationRecipients =
+    conversation.getRecipientConversationIds();
 
   for (const id of reactionUtil.getUnsentConversationIds(reaction)) {
     const recipient = window.ConversationController.get(id);

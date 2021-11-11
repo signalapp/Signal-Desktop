@@ -161,16 +161,16 @@ export const createWriterForExisting = (
   };
 };
 
-export const createAbsolutePathGetter = (rootPath: string) => (
-  relativePath: string
-): string => {
-  const absolutePath = join(rootPath, relativePath);
-  const normalized = normalize(absolutePath);
-  if (!isPathInside(normalized, rootPath)) {
-    throw new Error('Invalid relative path');
-  }
-  return normalized;
-};
+export const createAbsolutePathGetter =
+  (rootPath: string) =>
+  (relativePath: string): string => {
+    const absolutePath = join(rootPath, relativePath);
+    const normalized = normalize(absolutePath);
+    if (!isPathInside(normalized, rootPath)) {
+      throw new Error('Invalid relative path');
+    }
+    return normalized;
+  };
 
 export const createDoesExist = (
   root: string

@@ -154,13 +154,12 @@ export class ChallengeHandler {
 
     const retryIds = new Set<string>(stored.map(({ messageId }) => messageId));
 
-    const maybeMessages: ReadonlyArray<
-      MinimalMessage | undefined
-    > = await Promise.all(
-      Array.from(retryIds).map(async messageId =>
-        this.options.getMessageById(messageId)
-      )
-    );
+    const maybeMessages: ReadonlyArray<MinimalMessage | undefined> =
+      await Promise.all(
+        Array.from(retryIds).map(async messageId =>
+          this.options.getMessageById(messageId)
+        )
+      );
 
     const messages: Array<MinimalMessage> = maybeMessages.filter(isNotNil);
 

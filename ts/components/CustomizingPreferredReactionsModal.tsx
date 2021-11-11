@@ -54,10 +54,8 @@ export function CustomizingPreferredReactionsModal({
   selectedDraftEmojiIndex,
   skinTone,
 }: Readonly<PropsType>): JSX.Element {
-  const [
-    referenceElement,
-    setReferenceElement,
-  ] = useState<null | HTMLDivElement>(null);
+  const [referenceElement, setReferenceElement] =
+    useState<null | HTMLDivElement>(null);
   const [popperElement, setPopperElement] = useState<null | HTMLDivElement>(
     null
   );

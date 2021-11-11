@@ -115,9 +115,9 @@ const getAllConversations = createSelector(
 
 export const getConversationsByTitleSelector = createSelector(
   getAllConversations,
-  (conversations): ((title: string) => Array<ConversationType>) => (
-    title: string
-  ) => conversations.filter(conversation => conversation.title === title)
+  (conversations): ((title: string) => Array<ConversationType>) =>
+    (title: string) =>
+      conversations.filter(conversation => conversation.title === title)
 );
 
 export const getSelectedConversationId = createSelector(
@@ -675,14 +675,16 @@ export const getConversationSelector = createSelector(
 
 export const getConversationByIdSelector = createSelector(
   getConversationLookup,
-  conversationLookup => (id: string): undefined | ConversationType =>
-    getOwn(conversationLookup, id)
+  conversationLookup =>
+    (id: string): undefined | ConversationType =>
+      getOwn(conversationLookup, id)
 );
 
 export const getConversationByUuidSelector = createSelector(
   getConversationsByUuid,
-  conversationsByUuid => (uuid: UUIDStringType): undefined | ConversationType =>
-    getOwn(conversationsByUuid, uuid)
+  conversationsByUuid =>
+    (uuid: UUIDStringType): undefined | ConversationType =>
+      getOwn(conversationsByUuid, uuid)
 );
 
 // A little optimization to reset our selector cache whenever high-level application data
@@ -749,9 +751,8 @@ export const getContactNameColorSelector = createSelector(
       conversationId: string,
       contactId: string
     ): ContactNameColorType => {
-      const contactNameColors = conversationMemberColorsSelector(
-        conversationId
-      );
+      const contactNameColors =
+        conversationMemberColorsSelector(conversationId);
       const color = contactNameColors.get(contactId);
       if (!color) {
         log.warn(`No color generated for contact ${contactId}`);
@@ -968,9 +969,11 @@ export const getGroupAdminsSelector = createSelector(
   getConversationSelector,
   (conversationSelector: GetConversationByIdType) => {
     return (conversationId: string): Array<ConversationType> => {
-      const { groupId, groupVersion, memberships = [] } = conversationSelector(
-        conversationId
-      );
+      const {
+        groupId,
+        groupVersion,
+        memberships = [],
+      } = conversationSelector(conversationId);
 
       if (
         !isGroupV2({
@@ -1001,25 +1004,27 @@ const getOutboundMessagesPendingConversationVerification = createSelector(
     conversations.outboundMessagesPendingConversationVerification
 );
 
-const getConversationIdsStoppingMessageSendBecauseOfVerification = createSelector(
-  getOutboundMessagesPendingConversationVerification,
-  (outboundMessagesPendingConversationVerification): Array<string> =>
-    Object.keys(outboundMessagesPendingConversationVerification)
-);
+const getConversationIdsStoppingMessageSendBecauseOfVerification =
+  createSelector(
+    getOutboundMessagesPendingConversationVerification,
+    (outboundMessagesPendingConversationVerification): Array<string> =>
+      Object.keys(outboundMessagesPendingConversationVerification)
+  );
 
-export const getConversationsStoppingMessageSendBecauseOfVerification = createSelector(
-  getConversationByIdSelector,
-  getConversationIdsStoppingMessageSendBecauseOfVerification,
-  (
-    conversationSelector: (id: string) => undefined | ConversationType,
-    conversationIds: ReadonlyArray<string>
-  ): Array<ConversationType> => {
-    const conversations = conversationIds
-      .map(conversationId => conversationSelector(conversationId))
-      .filter(isNotNil);
-    return sortByTitle(conversations);
-  }
-);
+export const getConversationsStoppingMessageSendBecauseOfVerification =
+  createSelector(
+    getConversationByIdSelector,
+    getConversationIdsStoppingMessageSendBecauseOfVerification,
+    (
+      conversationSelector: (id: string) => undefined | ConversationType,
+      conversationIds: ReadonlyArray<string>
+    ): Array<ConversationType> => {
+      const conversations = conversationIds
+        .map(conversationId => conversationSelector(conversationId))
+        .filter(isNotNil);
+      return sortByTitle(conversations);
+    }
+  );
 
 export const getMessageIdsPendingBecauseOfVerification = createSelector(
   getOutboundMessagesPendingConversationVerification,

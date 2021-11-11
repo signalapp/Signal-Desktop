@@ -222,9 +222,8 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
           wasDeliveredWithSealedSender(sourceConversationId, message)) ||
         type === MessageReceiptType.Read
       ) {
-        const recipient = window.ConversationController.get(
-          sourceConversationId
-        );
+        const recipient =
+          window.ConversationController.get(sourceConversationId);
         const recipientUuid = recipient?.get('uuid');
         const deviceId = receipt.get('sourceDevice');
 

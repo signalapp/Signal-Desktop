@@ -5,7 +5,8 @@ import { v4 as generateUUID } from 'uuid';
 
 import { strictAssert } from '../util/assert';
 
-export type UUIDStringType = `${string}-${string}-${string}-${string}-${string}`;
+export type UUIDStringType =
+  `${string}-${string}-${string}-${string}-${string}`;
 
 export const isValidUuid = (value: unknown): value is UUIDStringType =>
   typeof value === 'string' &&

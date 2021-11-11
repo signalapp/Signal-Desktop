@@ -409,10 +409,8 @@ export async function encryptCdsDiscoveryRequest(
     iv,
     queryDataPlaintext
   );
-  const {
-    data: queryDataCiphertextData,
-    mac: queryDataCiphertextMac,
-  } = _getMacAndData(queryDataCiphertext);
+  const { data: queryDataCiphertextData, mac: queryDataCiphertextMac } =
+    _getMacAndData(queryDataCiphertext);
 
   const envelopes = await pProps(
     attestations,

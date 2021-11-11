@@ -311,9 +311,10 @@ export function buildGroupLink(conversation: ConversationModel): string {
   return `https://signal.group/#${hash}`;
 }
 
-export function parseGroupLink(
-  hash: string
-): { masterKey: string; inviteLinkPassword: string } {
+export function parseGroupLink(hash: string): {
+  masterKey: string;
+  inviteLinkPassword: string;
+} {
   const base64 = fromWebSafeBase64(hash);
   const buffer = Bytes.fromBase64(base64);
 
@@ -614,7 +615,8 @@ export async function buildAddMembersChange(
   const now = Date.now();
 
   const addMembers: Array<Proto.GroupChange.Actions.AddMemberAction> = [];
-  const addPendingMembers: Array<Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction> = [];
+  const addPendingMembers: Array<Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction> =
+    [];
 
   await Promise.all(
     conversationIds.map(async conversationId => {
@@ -687,7 +689,8 @@ export async function buildAddMembersChange(
         memberPendingProfileKey.addedByUserId = ourUuidCipherTextBuffer;
         memberPendingProfileKey.timestamp = now;
 
-        const addPendingMemberAction = new Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction();
+        const addPendingMemberAction =
+          new Proto.GroupChange.Actions.AddMemberPendingProfileKeyAction();
         addPendingMemberAction.added = memberPendingProfileKey;
 
         addPendingMembers.push(addPendingMemberAction);
@@ -782,7 +785,8 @@ export async function buildUpdateAttributesChange(
   if (typeof description === 'string') {
     hasChangedSomething = true;
 
-    actions.modifyDescription = new Proto.GroupChange.Actions.ModifyDescriptionAction();
+    actions.modifyDescription =
+      new Proto.GroupChange.Actions.ModifyDescriptionAction();
     actions.modifyDescription.descriptionBytes = buildGroupDescriptionBuffer(
       clientZkGroupCipher,
       description
@@ -822,7 +826,8 @@ export function buildDisappearingMessagesTimerChange({
   const blobPlaintext = Proto.GroupAttributeBlob.encode(blob).finish();
   const blobCipherText = encryptGroupBlob(clientZkGroupCipher, blobPlaintext);
 
-  const timerAction = new Proto.GroupChange.Actions.ModifyDisappearingMessagesTimerAction();
+  const timerAction =
+    new Proto.GroupChange.Actions.ModifyDisappearingMessagesTimerAction();
   timerAction.timer = blobCipherText;
 
   actions.version = (group.revision || 0) + 1;
@@ -835,10 +840,10 @@ export function buildInviteLinkPasswordChange(
   group: ConversationAttributesType,
   inviteLinkPassword: string
 ): Proto.GroupChange.Actions {
-  const inviteLinkPasswordAction = new Proto.GroupChange.Actions.ModifyInviteLinkPasswordAction();
-  inviteLinkPasswordAction.inviteLinkPassword = Bytes.fromBase64(
-    inviteLinkPassword
-  );
+  const inviteLinkPasswordAction =
+    new Proto.GroupChange.Actions.ModifyInviteLinkPasswordAction();
+  inviteLinkPasswordAction.inviteLinkPassword =
+    Bytes.fromBase64(inviteLinkPassword);
 
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
@@ -852,13 +857,14 @@ export function buildNewGroupLinkChange(
   inviteLinkPassword: string,
   addFromInviteLinkAccess: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
-  const accessControlAction = new Proto.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
+  const accessControlAction =
+    new Proto.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
   accessControlAction.addFromInviteLinkAccess = addFromInviteLinkAccess;
 
-  const inviteLinkPasswordAction = new Proto.GroupChange.Actions.ModifyInviteLinkPasswordAction();
-  inviteLinkPasswordAction.inviteLinkPassword = Bytes.fromBase64(
-    inviteLinkPassword
-  );
+  const inviteLinkPasswordAction =
+    new Proto.GroupChange.Actions.ModifyInviteLinkPasswordAction();
+  inviteLinkPasswordAction.inviteLinkPassword =
+    Bytes.fromBase64(inviteLinkPassword);
 
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
@@ -872,7 +878,8 @@ export function buildAccessControlAddFromInviteLinkChange(
   group: ConversationAttributesType,
   value: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
-  const accessControlAction = new Proto.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
+  const accessControlAction =
+    new Proto.GroupChange.Actions.ModifyAddFromInviteLinkAccessControlAction();
   accessControlAction.addFromInviteLinkAccess = value;
 
   const actions = new Proto.GroupChange.Actions();
@@ -900,7 +907,8 @@ export function buildAccessControlAttributesChange(
   group: ConversationAttributesType,
   value: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
-  const accessControlAction = new Proto.GroupChange.Actions.ModifyAttributesAccessControlAction();
+  const accessControlAction =
+    new Proto.GroupChange.Actions.ModifyAttributesAccessControlAction();
   accessControlAction.attributesAccess = value;
 
   const actions = new Proto.GroupChange.Actions();
@@ -914,7 +922,8 @@ export function buildAccessControlMembersChange(
   group: ConversationAttributesType,
   value: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
-  const accessControlAction = new Proto.GroupChange.Actions.ModifyMembersAccessControlAction();
+  const accessControlAction =
+    new Proto.GroupChange.Actions.ModifyMembersAccessControlAction();
   accessControlAction.membersAccess = value;
 
   const actions = new Proto.GroupChange.Actions();
@@ -942,7 +951,8 @@ export function buildDeletePendingAdminApprovalMemberChange({
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
   const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
 
-  const deleteMemberPendingAdminApproval = new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
+  const deleteMemberPendingAdminApproval =
+    new Proto.GroupChange.Actions.DeleteMemberPendingAdminApprovalAction();
   deleteMemberPendingAdminApproval.deletedUserId = uuidCipherTextBuffer;
 
   actions.version = (group.revision || 0) + 1;
@@ -973,7 +983,8 @@ export function buildAddPendingAdminApprovalMemberChange({
     serverPublicParamsBase64
   );
 
-  const addMemberPendingAdminApproval = new Proto.GroupChange.Actions.AddMemberPendingAdminApprovalAction();
+  const addMemberPendingAdminApproval =
+    new Proto.GroupChange.Actions.AddMemberPendingAdminApprovalAction();
   const presentation = createProfileKeyCredentialPresentation(
     clientZkProfileCipher,
     profileKeyCredentialBase64,
@@ -1049,7 +1060,8 @@ export function buildDeletePendingMemberChange({
 
   const deletePendingMembers = uuids.map(uuid => {
     const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
-    const deletePendingMember = new Proto.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
+    const deletePendingMember =
+      new Proto.GroupChange.Actions.DeleteMemberPendingProfileKeyAction();
     deletePendingMember.deletedUserId = uuidCipherTextBuffer;
     return deletePendingMember;
   });
@@ -1131,7 +1143,8 @@ export function buildPromotePendingAdminApprovalMemberChange({
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
   const uuidCipherTextBuffer = encryptUuid(clientZkGroupCipher, uuid);
 
-  const promotePendingMember = new Proto.GroupChange.Actions.PromoteMemberPendingAdminApprovalAction();
+  const promotePendingMember =
+    new Proto.GroupChange.Actions.PromoteMemberPendingAdminApprovalAction();
   promotePendingMember.userId = uuidCipherTextBuffer;
   promotePendingMember.role = MEMBER_ROLE_ENUM.DEFAULT;
 
@@ -1167,7 +1180,8 @@ export function buildPromoteMemberChange({
     group.secretParams
   );
 
-  const promotePendingMember = new Proto.GroupChange.Actions.PromoteMemberPendingProfileKeyAction();
+  const promotePendingMember =
+    new Proto.GroupChange.Actions.PromoteMemberPendingProfileKeyAction();
   promotePendingMember.presentation = presentation;
 
   actions.version = (group.revision || 0) + 1;
@@ -1270,9 +1284,8 @@ export async function modifyGroupV2({
           group: conversation.attributes,
         });
 
-        const groupChangeBuffer = Proto.GroupChange.encode(
-          groupChange
-        ).finish();
+        const groupChangeBuffer =
+          Proto.GroupChange.encode(groupChange).finish();
         const groupChangeBase64 = Bytes.toBase64(groupChangeBuffer);
 
         // Apply change locally, just like we would with an incoming change. This will
@@ -1314,14 +1327,14 @@ export async function modifyGroupV2({
 
         // We don't save this message; we just use it to ensure that a sync message is
         //   sent to our linked devices.
-        const m = new window.Whisper.Message(({
+        const m = new window.Whisper.Message({
           conversationId: conversation.id,
           type: 'not-to-save',
           sent_at: timestamp,
           received_at: timestamp,
           // TODO: DESKTOP-722
           // this type does not fully implement the interface it is expected to
-        } as unknown) as MessageAttributesType);
+        } as unknown as MessageAttributesType);
 
         // This is to ensure that the functions in send() and sendSyncMessage()
         //   don't save anything to the database.
@@ -1825,7 +1838,8 @@ export async function getGroupMigrationMembers(
   const logId = conversation.idForLogging();
   const MEMBER_ROLE_ENUM = Proto.Member.Role;
 
-  const ourConversationId = window.ConversationController.getOurConversationId();
+  const ourConversationId =
+    window.ConversationController.getOurConversationId();
   if (!ourConversationId) {
     throw new Error(
       `getGroupMigrationMembers/${logId}: Couldn't fetch our own conversationId!`
@@ -2034,15 +2048,15 @@ export async function initiateMigrationToGroupV2(
       const secretParams = Bytes.toBase64(fields.secretParams);
       const publicParams = Bytes.toBase64(fields.publicParams);
 
-      const ourConversationId = window.ConversationController.getOurConversationId();
+      const ourConversationId =
+        window.ConversationController.getOurConversationId();
       if (!ourConversationId) {
         throw new Error(
           `initiateMigrationToGroupV2/${logId}: Couldn't fetch our own conversationId!`
         );
       }
-      const ourConversation = window.ConversationController.get(
-        ourConversationId
-      );
+      const ourConversation =
+        window.ConversationController.get(ourConversationId);
       if (!ourConversation) {
         throw new Error(
           `initiateMigrationToGroupV2/${logId}: cannot get our own conversation. Cannot migrate`
@@ -2262,7 +2276,8 @@ export async function wrapWithSyncMessageSend({
     );
   }
 
-  const ourConversationId = window.ConversationController.getOurConversationId();
+  const ourConversationId =
+    window.ConversationController.getOurConversationId();
   if (!ourConversationId) {
     throw new Error(
       `wrapWithSyncMessageSend/${logId}: Cannot get our conversationId!`
@@ -2324,7 +2339,8 @@ export function buildMigrationBubble(
   newAttributes: ConversationAttributesType
 ): MessageAttributesType {
   const ourUuid = window.storage.user.getCheckedUuid().toString();
-  const ourConversationId = window.ConversationController.getOurConversationId();
+  const ourConversationId =
+    window.ConversationController.getOurConversationId();
 
   // Assemble items to commemorate this event for the timeline..
   const combinedConversationIds: Array<string> = [
@@ -4007,12 +4023,10 @@ async function applyGroupChange({
   const members: Record<UUIDStringType, GroupV2MemberType> = fromPairs(
     (result.membersV2 || []).map(member => [member.uuid, member])
   );
-  const pendingMembers: Record<
-    UUIDStringType,
-    GroupV2PendingMemberType
-  > = fromPairs(
-    (result.pendingMembersV2 || []).map(member => [member.uuid, member])
-  );
+  const pendingMembers: Record<UUIDStringType, GroupV2PendingMemberType> =
+    fromPairs(
+      (result.pendingMembersV2 || []).map(member => [member.uuid, member])
+    );
   const pendingAdminApprovalMembers: Record<
     UUIDStringType,
     GroupV2PendingAdminApprovalType

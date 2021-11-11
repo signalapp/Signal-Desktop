@@ -30,10 +30,8 @@ export function toggleSelectedContactForGroupAddition(
     numberOfContactsAlreadyInGroup,
     selectedConversationIds: oldSelectedConversationIds,
   } = currentState;
-  let {
-    maximumGroupSizeModalState,
-    recommendedGroupSizeModalState,
-  } = currentState;
+  let { maximumGroupSizeModalState, recommendedGroupSizeModalState } =
+    currentState;
 
   const selectedConversationIds = without(
     oldSelectedConversationIds,

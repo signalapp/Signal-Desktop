@@ -102,7 +102,8 @@ export async function runReadOrViewSyncJob({
     return;
   }
 
-  const ourConversation = window.ConversationController.getOurConversationOrThrow();
+  const ourConversation =
+    window.ConversationController.getOurConversationOrThrow();
   const sendOptions = await getSendOptions(ourConversation.attributes, {
     syncMessage: true,
   });

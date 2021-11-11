@@ -5,10 +5,10 @@ import * as Attachment from '../Attachment';
 import * as IndexedDB from '../IndexedDB';
 import type { Message, UserMessage } from '../Message';
 
-const hasAttachment = (
-  predicate: (value: Attachment.AttachmentType) => boolean
-) => (message: UserMessage): IndexedDB.IndexablePresence =>
-  IndexedDB.toIndexablePresence(message.attachments.some(predicate));
+const hasAttachment =
+  (predicate: (value: Attachment.AttachmentType) => boolean) =>
+  (message: UserMessage): IndexedDB.IndexablePresence =>
+    IndexedDB.toIndexablePresence(message.attachments.some(predicate));
 
 const hasFileAttachment = hasAttachment(Attachment.isFile);
 const hasVisualMediaAttachment = hasAttachment(Attachment.isVisualMedia);

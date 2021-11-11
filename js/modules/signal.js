@@ -196,9 +196,8 @@ function initializeMigrations({
   const getAbsoluteAttachmentPath = createAbsolutePathGetter(attachmentsPath);
   const deleteOnDisk = Attachments.createDeleter(attachmentsPath);
   const writeNewAttachmentData = createWriterForNew(attachmentsPath);
-  const copyIntoAttachmentsDirectory = Attachments.copyIntoAttachmentsDirectory(
-    attachmentsPath
-  );
+  const copyIntoAttachmentsDirectory =
+    Attachments.copyIntoAttachmentsDirectory(attachmentsPath);
   const doesAttachmentExist = createDoesExist(attachmentsPath);
 
   const stickersPath = getStickersPath(userDataPath);
@@ -216,9 +215,8 @@ function initializeMigrations({
   const writeNewTempData = createWriterForNew(tempPath);
   const deleteTempFile = Attachments.createDeleter(tempPath);
   const readTempData = createReader(tempPath);
-  const copyIntoTempDirectory = Attachments.copyIntoAttachmentsDirectory(
-    tempPath
-  );
+  const copyIntoTempDirectory =
+    Attachments.copyIntoAttachmentsDirectory(tempPath);
 
   const draftPath = getDraftPath(userDataPath);
   const getAbsoluteDraftPath = createAbsolutePathGetter(draftPath);

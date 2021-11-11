@@ -118,10 +118,8 @@ export const ConversationHero = ({
 }: Props): JSX.Element => {
   const firstRenderRef = useRef(true);
 
-  const [
-    isShowingMessageRequestWarning,
-    setIsShowingMessageRequestWarning,
-  ] = useState(false);
+  const [isShowingMessageRequestWarning, setIsShowingMessageRequestWarning] =
+    useState(false);
   const closeMessageRequestWarning = () => {
     setIsShowingMessageRequestWarning(false);
   };

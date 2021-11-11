@@ -63,9 +63,8 @@ export function Lightbox({
   selectedIndex: initialSelectedIndex = 0,
 }: PropsType): JSX.Element | null {
   const [root, setRoot] = React.useState<HTMLElement | undefined>();
-  const [selectedIndex, setSelectedIndex] = useState<number>(
-    initialSelectedIndex
-  );
+  const [selectedIndex, setSelectedIndex] =
+    useState<number>(initialSelectedIndex);
 
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
     null
@@ -224,8 +223,13 @@ export function Lightbox({
     };
   }, [onKeyDown]);
 
-  const { attachment, contentType, loop = false, objectURL, message } =
-    media[selectedIndex] || {};
+  const {
+    attachment,
+    contentType,
+    loop = false,
+    objectURL,
+    message,
+  } = media[selectedIndex] || {};
 
   const isAttachmentGIF = isGIF(attachment ? [attachment] : undefined);
 
@@ -251,23 +255,23 @@ export function Lightbox({
     () => INITIAL_IMAGE_TRANSFORM
   );
 
-  const maxBoundsLimiter = useCallback((x: number, y: number): [
-    number,
-    number
-  ] => {
-    const zoomCache = zoomCacheRef.current;
+  const maxBoundsLimiter = useCallback(
+    (x: number, y: number): [number, number] => {
+      const zoomCache = zoomCacheRef.current;
 
-    if (!zoomCache) {
-      return [0, 0];
-    }
+      if (!zoomCache) {
+        return [0, 0];
+      }
 
-    const { maxX, maxY } = zoomCache;
+      const { maxX, maxY } = zoomCache;
 
-    const posX = Math.min(maxX, Math.max(-maxX, x));
-    const posY = Math.min(maxY, Math.max(-maxY, y));
+      const posX = Math.min(maxX, Math.max(-maxX, x));
+      const posY = Math.min(maxY, Math.max(-maxY, y));
 
-    return [posX, posY];
-  }, []);
+      return [posX, posY];
+    },
+    []
+  );
 
   const positionImage = useCallback(
     (ev: MouseEvent) => {
@@ -352,12 +356,8 @@ export function Lightbox({
           screenWidth: window.innerWidth,
         };
 
-        const {
-          height,
-          left,
-          top,
-          width,
-        } = animateNode.getBoundingClientRect();
+        const { height, left, top, width } =
+          animateNode.getBoundingClientRect();
 
         const offsetX = ev.clientX - left - width / 2;
         const offsetY = ev.clientY - top - height / 2;

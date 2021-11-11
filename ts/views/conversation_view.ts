@@ -385,12 +385,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       onSetPin: this.setPin.bind(this),
       // These are view only and don't update the Conversation model, so they
       //   need a manual update call.
-      onOutgoingAudioCallInConversation: this.onOutgoingAudioCallInConversation.bind(
-        this
-      ),
-      onOutgoingVideoCallInConversation: this.onOutgoingVideoCallInConversation.bind(
-        this
-      ),
+      onOutgoingAudioCallInConversation:
+        this.onOutgoingAudioCallInConversation.bind(this),
+      onOutgoingVideoCallInConversation:
+        this.onOutgoingVideoCallInConversation.bind(this),
 
       onShowConversationDetails: () => {
         this.showConversationDetails();
@@ -477,11 +475,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     };
 
     const loadOlderMessages = async (oldestMessageId: string) => {
-      const {
-        messagesAdded,
-        setMessagesLoading,
-        repairOldestMessage,
-      } = window.reduxActions.conversations;
+      const { messagesAdded, setMessagesLoading, repairOldestMessage } =
+        window.reduxActions.conversations;
       const conversationId = this.model.id;
 
       setMessagesLoading(conversationId, true);
@@ -531,11 +526,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       }
     };
     const loadNewerMessages = async (newestMessageId: string) => {
-      const {
-        messagesAdded,
-        setMessagesLoading,
-        repairNewestMessage,
-      } = window.reduxActions.conversations;
+      const { messagesAdded, setMessagesLoading, repairNewestMessage } =
+        window.reduxActions.conversations;
       const conversationId = this.model.id;
 
       setMessagesLoading(conversationId, true);
@@ -598,19 +590,18 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       await this.model.markRead(message.get('received_at'));
     };
 
-    const createMessageRequestResponseHandler = (
-      name: string,
-      enumValue: number
-    ): ((conversationId: string) => void) => conversationId => {
-      const conversation = window.ConversationController.get(conversationId);
-      if (!conversation) {
-        log.error(
-          `createMessageRequestResponseHandler: Expected a conversation to be found in ${name}. Doing nothing`
-        );
-        return;
-      }
-      this.syncMessageRequestResponse(name, conversation, enumValue);
-    };
+    const createMessageRequestResponseHandler =
+      (name: string, enumValue: number): ((conversationId: string) => void) =>
+      conversationId => {
+        const conversation = window.ConversationController.get(conversationId);
+        if (!conversation) {
+          log.error(
+            `createMessageRequestResponseHandler: Expected a conversation to be found in ${name}. Doing nothing`
+          );
+          return;
+        }
+        this.syncMessageRequestResponse(name, conversation, enumValue);
+      };
 
     const timelineProps = {
       id: this.model.id,
@@ -1050,9 +1041,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // Message might be in memory, but not in the redux anymore because
     // we call `messageReset()` in `loadAndScroll()`.
-    const messagesByConversation = getMessagesByConversation(state)[
-      this.model.id
-    ];
+    const messagesByConversation =
+      getMessagesByConversation(state)[this.model.id];
     if (!messagesByConversation?.messageIds.includes(messageId)) {
       isInMemory = false;
     }
@@ -1084,10 +1074,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     messageId: string,
     options?: { disableScroll?: boolean }
   ): Promise<void> {
-    const {
-      messagesReset,
-      setMessagesLoading,
-    } = window.reduxActions.conversations;
+    const { messagesReset, setMessagesLoading } =
+      window.reduxActions.conversations;
     const conversationId = this.model.id;
 
     setMessagesLoading(conversationId, true);
@@ -1146,10 +1134,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     newestMessageId: string | undefined,
     setFocus: boolean | undefined
   ): Promise<void> {
-    const {
-      messagesReset,
-      setMessagesLoading,
-    } = window.reduxActions.conversations;
+    const { messagesReset, setMessagesLoading } =
+      window.reduxActions.conversations;
     const conversationId = this.model.id;
 
     setMessagesLoading(conversationId, true);
@@ -1253,13 +1239,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     // Note: this call will throw if, after generating member lists, we are no longer a
     //   member or are in the pending member list.
-    const {
-      droppedGV2MemberIds,
-      pendingMembersV2,
-    } = await this.longRunningTaskWrapper({
-      name: 'getGroupMigrationMembers',
-      task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
-    });
+    const { droppedGV2MemberIds, pendingMembersV2 } =
+      await this.longRunningTaskWrapper({
+        name: 'getGroupMigrationMembers',
+        task: () => window.Signal.Groups.getGroupMigrationMembers(this.model),
+      });
 
     const invitedMemberIds = pendingMembersV2.map(
       (item: GroupV2PendingMemberType) => item.uuid
@@ -1798,18 +1782,20 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const conversationId = this.model.get('id');
 
     const getProps = async () => {
-      const rawMedia = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_MEDIA_FETCH_COUNT,
-        }
-      );
-      const rawDocuments = await window.Signal.Data.getMessagesWithFileAttachments(
-        conversationId,
-        {
-          limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
-        }
-      );
+      const rawMedia =
+        await window.Signal.Data.getMessagesWithVisualMediaAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_MEDIA_FETCH_COUNT,
+          }
+        );
+      const rawDocuments =
+        await window.Signal.Data.getMessagesWithFileAttachments(
+          conversationId,
+          {
+            limit: DEFAULT_DOCUMENTS_FETCH_COUNT,
+          }
+        );
 
       // First we upgrade these messages to ensure that they have thumbnails
       for (let max = rawMedia.length, i = 0; i < max; i += 1) {
@@ -2426,9 +2412,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           conversationId: this.model.id,
           copyGroupLink,
           generateNewGroupLink: this.generateNewGroupLink.bind(this),
-          setAccessControlAddFromInviteLinkSetting: this.setAccessControlAddFromInviteLinkSetting.bind(
-            this
-          ),
+          setAccessControlAddFromInviteLinkSetting:
+            this.setAccessControlAddFromInviteLinkSetting.bind(this),
         }
       ),
     });
@@ -2445,12 +2430,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore,
         {
           conversationId: this.model.id,
-          setAccessControlAttributesSetting: this.setAccessControlAttributesSetting.bind(
-            this
-          ),
-          setAccessControlMembersSetting: this.setAccessControlMembersSetting.bind(
-            this
-          ),
+          setAccessControlAttributesSetting:
+            this.setAccessControlAttributesSetting.bind(this),
+          setAccessControlMembersSetting:
+            this.setAccessControlMembersSetting.bind(this),
           setAnnouncementsOnly: this.setAnnouncementsOnly.bind(this),
         }
       ),
@@ -2488,9 +2471,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         window.reduxStore,
         {
           conversationId: this.model.id,
-          setDontNotifyForMentionsIfMuted: this.model.setDontNotifyForMentionsIfMuted.bind(
-            this.model
-          ),
+          setDontNotifyForMentionsIfMuted:
+            this.model.setDontNotifyForMentionsIfMuted.bind(this.model),
           setMuteExpiration: this.setMuteExpiration.bind(this),
         }
       ),
@@ -2552,9 +2534,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       showChatColorEditor: this.showChatColorEditor.bind(this),
       showGroupLinkManagement: this.showGroupLinkManagement.bind(this),
       showGroupV2Permissions: this.showGroupV2Permissions.bind(this),
-      showConversationNotificationsSettings: this.showConversationNotificationsSettings.bind(
-        this
-      ),
+      showConversationNotificationsSettings:
+        this.showConversationNotificationsSettings.bind(this),
       showPendingInvites: this.showPendingInvites.bind(this),
       showLightboxForMedia: this.showLightboxForMedia.bind(this),
       updateGroupAttributes: this.model.updateGroupAttributesV2.bind(
@@ -2570,12 +2551,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         );
       },
       setMuteExpiration: this.setMuteExpiration.bind(this),
-      onOutgoingAudioCallInConversation: this.onOutgoingAudioCallInConversation.bind(
-        this
-      ),
-      onOutgoingVideoCallInConversation: this.onOutgoingVideoCallInConversation.bind(
-        this
-      ),
+      onOutgoingAudioCallInConversation:
+        this.onOutgoingAudioCallInConversation.bind(this),
+      onOutgoingVideoCallInConversation:
+        this.onOutgoingVideoCallInConversation.bind(this),
     };
 
     const view = new Whisper.ReactWrapperView({
@@ -2750,12 +2729,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async loadRecentMediaItems(limit: number): Promise<void> {
     const { model }: { model: ConversationModel } = this;
 
-    const messages: Array<MessageAttributesType> = await window.Signal.Data.getMessagesWithVisualMediaAttachments(
-      model.id,
-      {
+    const messages: Array<MessageAttributesType> =
+      await window.Signal.Data.getMessagesWithVisualMediaAttachments(model.id, {
         limit,
-      }
-    );
+      });
 
     const loadedRecentMediaItems = messages
       .filter(message => message.attachments !== undefined)
@@ -3465,10 +3442,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
     const groupData = hash.slice(1);
 
-    const {
-      inviteLinkPassword,
-      masterKey,
-    } = window.Signal.Groups.parseGroupLink(groupData);
+    const { inviteLinkPassword, masterKey } =
+      window.Signal.Groups.parseGroupLink(groupData);
 
     const fields = window.Signal.Groups.deriveGroupFields(
       Bytes.fromBase64(masterKey)
@@ -3551,10 +3526,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       return null;
     }
 
-    const linkPreviewMetadata = await window.textsecure.messaging.fetchLinkPreviewMetadata(
-      url,
-      abortSignal
-    );
+    const linkPreviewMetadata =
+      await window.textsecure.messaging.fetchLinkPreviewMetadata(
+        url,
+        abortSignal
+      );
     if (!linkPreviewMetadata || abortSignal.aborted) {
       return null;
     }
@@ -3564,10 +3540,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (imageHref && LinkPreview.isLinkSafeToPreview(imageHref)) {
       let objectUrl: void | string;
       try {
-        const fullSizeImage = await window.textsecure.messaging.fetchLinkPreviewImage(
-          imageHref,
-          abortSignal
-        );
+        const fullSizeImage =
+          await window.textsecure.messaging.fetchLinkPreviewImage(
+            imageHref,
+            abortSignal
+          );
         if (abortSignal.aborted) {
           return null;
         }

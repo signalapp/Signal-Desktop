@@ -17,27 +17,26 @@ const story = storiesOf(
   module
 );
 
-const defaultProps: ComponentProps<
-  typeof CustomizingPreferredReactionsModal
-> = {
-  cancelCustomizePreferredReactionsModal: action(
-    'cancelCustomizePreferredReactionsModal'
-  ),
-  deselectDraftEmoji: action('deselectDraftEmoji'),
-  draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
-  hadSaveError: false,
-  i18n,
-  isSaving: false,
-  onSetSkinTone: action('onSetSkinTone'),
-  originalPreferredReactions: ['❤️', '👍', '👎', '😂', '😮', '😢'],
-  recentEmojis: ['cake'],
-  replaceSelectedDraftEmoji: action('replaceSelectedDraftEmoji'),
-  resetDraftEmoji: action('resetDraftEmoji'),
-  savePreferredReactions: action('savePreferredReactions'),
-  selectDraftEmojiToBeReplaced: action('selectDraftEmojiToBeReplaced'),
-  selectedDraftEmojiIndex: undefined,
-  skinTone: 4,
-};
+const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
+  {
+    cancelCustomizePreferredReactionsModal: action(
+      'cancelCustomizePreferredReactionsModal'
+    ),
+    deselectDraftEmoji: action('deselectDraftEmoji'),
+    draftPreferredReactions: ['✨', '❇️', '🎇', '🦈', '💖', '🅿️'],
+    hadSaveError: false,
+    i18n,
+    isSaving: false,
+    onSetSkinTone: action('onSetSkinTone'),
+    originalPreferredReactions: ['❤️', '👍', '👎', '😂', '😮', '😢'],
+    recentEmojis: ['cake'],
+    replaceSelectedDraftEmoji: action('replaceSelectedDraftEmoji'),
+    resetDraftEmoji: action('resetDraftEmoji'),
+    savePreferredReactions: action('savePreferredReactions'),
+    selectDraftEmojiToBeReplaced: action('selectDraftEmojiToBeReplaced'),
+    selectedDraftEmojiIndex: undefined,
+    skinTone: 4,
+  };
 
 story.add('Default', () => (
   <CustomizingPreferredReactionsModal {...defaultProps} />

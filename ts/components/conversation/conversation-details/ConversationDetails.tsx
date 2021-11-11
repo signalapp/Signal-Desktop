@@ -148,17 +148,12 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
   );
-  const [
-    editGroupAttributesRequestState,
-    setEditGroupAttributesRequestState,
-  ] = useState<RequestState>(RequestState.Inactive);
-  const [
-    addGroupMembersRequestState,
-    setAddGroupMembersRequestState,
-  ] = useState<RequestState>(RequestState.Inactive);
-  const [membersMissingCapability, setMembersMissingCapability] = useState(
-    false
-  );
+  const [editGroupAttributesRequestState, setEditGroupAttributesRequestState] =
+    useState<RequestState>(RequestState.Inactive);
+  const [addGroupMembersRequestState, setAddGroupMembersRequestState] =
+    useState<RequestState>(RequestState.Inactive);
+  const [membersMissingCapability, setMembersMissingCapability] =
+    useState(false);
 
   if (conversation === undefined) {
     throw new Error('ConversationDetails rendered without a conversation');

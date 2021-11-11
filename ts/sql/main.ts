@@ -98,10 +98,8 @@ export class MainSQL {
       join(scriptDir, isBundled ? 'mainWorker.bundle.js' : 'mainWorker.js')
     );
 
-    const {
-      promise: onCorruption,
-      resolve: resolveCorruption,
-    } = explodePromise<Error>();
+    const { promise: onCorruption, resolve: resolveCorruption } =
+      explodePromise<Error>();
     this.onCorruption = onCorruption;
 
     this.worker.on('message', (wrappedResponse: WrappedWorkerResponse) => {

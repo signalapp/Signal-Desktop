@@ -143,10 +143,11 @@ export function generateProfileKeyCredentialRequest(
   const profileKeyArray = Buffer.from(profileKeyBase64, 'base64');
   const profileKey = new ProfileKey(profileKeyArray);
 
-  const context = clientZkProfileCipher.createProfileKeyCredentialRequestContext(
-    uuid,
-    profileKey
-  );
+  const context =
+    clientZkProfileCipher.createProfileKeyCredentialRequestContext(
+      uuid,
+      profileKey
+    );
   const request = context.getRequest();
   const requestArray = request.serialize();
 
@@ -191,10 +192,11 @@ export function createProfileKeyCredentialPresentation(
     Buffer.from(groupSecretParamsBase64, 'base64')
   );
 
-  const presentation = clientZkProfileCipher.createProfileKeyCredentialPresentation(
-    secretParams,
-    profileKeyCredential
-  );
+  const presentation =
+    clientZkProfileCipher.createProfileKeyCredentialPresentation(
+      secretParams,
+      profileKeyCredential
+    );
 
   return presentation.serialize();
 }
@@ -237,10 +239,8 @@ export function handleProfileKeyCredential(
   const response = new ProfileKeyCredentialResponse(
     Buffer.from(responseBase64, 'base64')
   );
-  const profileKeyCredential = clientZkProfileCipher.receiveProfileKeyCredential(
-    context,
-    response
-  );
+  const profileKeyCredential =
+    clientZkProfileCipher.receiveProfileKeyCredential(context, response);
 
   const credentialArray = profileKeyCredential.serialize();
 

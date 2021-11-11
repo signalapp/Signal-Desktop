@@ -153,9 +153,10 @@ type GroupCallStateChangeArgumentType = {
   remoteParticipants: Array<GroupCallParticipantInfoType>;
 };
 
-type GroupCallStateChangeActionPayloadType = GroupCallStateChangeArgumentType & {
-  ourUuid: UUIDStringType;
-};
+type GroupCallStateChangeActionPayloadType =
+  GroupCallStateChangeArgumentType & {
+    ourUuid: UUIDStringType;
+  };
 
 export type HangUpType = {
   conversationId: string;
@@ -900,9 +901,8 @@ function peekNotConnectedGroupCall(
 
       await calling.updateCallHistoryForGroupCall(conversationId, peekInfo);
 
-      const formattedPeekInfo = calling.formatGroupCallPeekInfoForRedux(
-        peekInfo
-      );
+      const formattedPeekInfo =
+        calling.formatGroupCallPeekInfoForRedux(peekInfo);
 
       dispatch({
         type: PEEK_NOT_CONNECTED_GROUP_CALL_FULFILLED,
@@ -1947,7 +1947,8 @@ export function reducer(
       ...state,
       activeCallState: {
         ...activeCallState,
-        showNeedsScreenRecordingPermissionsWarning: !activeCallState.showNeedsScreenRecordingPermissionsWarning,
+        showNeedsScreenRecordingPermissionsWarning:
+          !activeCallState.showNeedsScreenRecordingPermissionsWarning,
       },
     };
   }

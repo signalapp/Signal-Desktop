@@ -177,9 +177,8 @@ const getWarning = (
   switch (conversation.type) {
     case 'direct':
       if (!conversation.acceptedMessageRequest && !conversation.isBlocked) {
-        const getConversationsWithTitle = getConversationsByTitleSelector(
-          state
-        );
+        const getConversationsWithTitle =
+          getConversationsByTitleSelector(state);
         const conversationsWithSameTitle = getConversationsWithTitle(
           conversation.title
         );
@@ -221,9 +220,8 @@ const getWarning = (
           type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
           acknowledgedGroupNameCollisions:
             conversation.acknowledgedGroupNameCollisions || {},
-          groupNameCollisions: dehydrateCollisionsWithConversations(
-            groupNameCollisions
-          ),
+          groupNameCollisions:
+            dehydrateCollisionsWithConversations(groupNameCollisions),
         };
       }
 
@@ -308,9 +306,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
         !conversation.acceptedMessageRequest
     ),
     ...conversationMessages,
-    invitedContactsForNewlyCreatedGroup: getInvitedContactsForNewlyCreatedGroup(
-      state
-    ),
+    invitedContactsForNewlyCreatedGroup:
+      getInvitedContactsForNewlyCreatedGroup(state),
     selectedMessageId: selectedMessage ? selectedMessage.id : undefined,
 
     warning: getWarning(conversation, state),

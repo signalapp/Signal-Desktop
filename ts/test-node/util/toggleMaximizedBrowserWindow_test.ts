@@ -18,7 +18,7 @@ describe('toggleMaximizedBrowserWindow', () => {
     browserWindow.isMaximized.returns(false);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    toggleMaximizedBrowserWindow((browserWindow as any) as BrowserWindow);
+    toggleMaximizedBrowserWindow(browserWindow as any as BrowserWindow);
 
     sinon.assert.calledOnce(browserWindow.maximize);
     sinon.assert.notCalled(browserWindow.unmaximize);
@@ -29,7 +29,7 @@ describe('toggleMaximizedBrowserWindow', () => {
     browserWindow.isMaximized.returns(true);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    toggleMaximizedBrowserWindow((browserWindow as any) as BrowserWindow);
+    toggleMaximizedBrowserWindow(browserWindow as any as BrowserWindow);
 
     sinon.assert.notCalled(browserWindow.maximize);
     sinon.assert.calledOnce(browserWindow.unmaximize);

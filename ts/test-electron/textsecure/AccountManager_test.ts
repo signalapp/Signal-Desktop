@@ -51,9 +51,12 @@ describe('AccountManager', () => {
     });
     afterEach(() => {
       window.textsecure.storage.user.getUuid = originalGetUuid;
-      window.textsecure.storage.protocol.getIdentityKeyPair = originalGetIdentityKeyPair;
-      window.textsecure.storage.protocol.loadSignedPreKeys = originalLoadSignedPreKeys;
-      window.textsecure.storage.protocol.removeSignedPreKey = originalRemoveSignedPreKey;
+      window.textsecure.storage.protocol.getIdentityKeyPair =
+        originalGetIdentityKeyPair;
+      window.textsecure.storage.protocol.loadSignedPreKeys =
+        originalLoadSignedPreKeys;
+      window.textsecure.storage.protocol.removeSignedPreKey =
+        originalRemoveSignedPreKey;
     });
 
     describe('encrypted device name', () => {

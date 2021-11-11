@@ -38,9 +38,8 @@ export const DisappearingTimerSelect: React.FC<Props> = (props: Props) => {
     };
   });
 
-  const isCustomTimeSelected = !expirationTimer.DEFAULT_DURATIONS_SET.has(
-    value
-  );
+  const isCustomTimeSelected =
+    !expirationTimer.DEFAULT_DURATIONS_SET.has(value);
 
   const onSelectChange = (newValue: string) => {
     const intValue = parseInt(newValue, 10);

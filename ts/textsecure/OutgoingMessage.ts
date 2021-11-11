@@ -430,7 +430,8 @@ export default class OutgoingMessage {
               );
             }
 
-            const destinationRegistrationId = activeSession.remoteRegistrationId();
+            const destinationRegistrationId =
+              activeSession.remoteRegistrationId();
 
             if (sealedSender && senderCertificate) {
               const ciphertextMessage = await this.getCiphertextMessage({
@@ -673,9 +674,8 @@ export default class OutgoingMessage {
             messaging: window.textsecure.messaging,
           });
 
-          const uuid = window.ConversationController.get(identifier)?.get(
-            'uuid'
-          );
+          const uuid =
+            window.ConversationController.get(identifier)?.get('uuid');
           if (!uuid) {
             throw new UnregisteredUserError(
               identifier,

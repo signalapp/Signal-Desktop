@@ -123,10 +123,8 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
       [reactionsWithEmojiData, groupedAndSortedReactions]
     );
 
-    const [
-      selectedReactionCategory,
-      setSelectedReactionCategory,
-    ] = React.useState(pickedReaction || 'all');
+    const [selectedReactionCategory, setSelectedReactionCategory] =
+      React.useState(pickedReaction || 'all');
 
     // Handle escape key
     useEscapeHandling(onClose);

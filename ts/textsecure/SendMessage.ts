@@ -1090,7 +1090,8 @@ export default class MessageSender {
     if (!isEmpty(conversationIdsSentTo)) {
       sentMessage.unidentifiedStatus = [
         ...map(conversationIdsSentTo, conversationId => {
-          const status = new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
+          const status =
+            new Proto.SyncMessage.Sent.UnidentifiedDeliveryStatus();
           const conv = window.ConversationController.get(conversationId);
           if (conv) {
             const e164 = conv.get('e164');
@@ -1102,9 +1103,8 @@ export default class MessageSender {
               status.destinationUuid = uuid;
             }
           }
-          status.unidentified = conversationIdsWithSealedSender.has(
-            conversationId
-          );
+          status.unidentified =
+            conversationIdsWithSealedSender.has(conversationId);
           return status;
         }),
       ];
@@ -1907,10 +1907,10 @@ export default class MessageSender {
       `sendSenderKeyDistributionMessage: Sending ${distributionId} with timestamp ${timestamp}`
     );
 
-    const senderKeyDistributionMessage = await this.getSenderKeyDistributionMessage(
-      distributionId
-    );
-    contentMessage.senderKeyDistributionMessage = senderKeyDistributionMessage.serialize();
+    const senderKeyDistributionMessage =
+      await this.getSenderKeyDistributionMessage(distributionId);
+    contentMessage.senderKeyDistributionMessage =
+      senderKeyDistributionMessage.serialize();
 
     const sendLogCallback =
       identifiers.length > 1

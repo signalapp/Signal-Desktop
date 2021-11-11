@@ -256,10 +256,8 @@ export async function processDataMessage(
 
   const result: ProcessedDataMessage = {
     body: dropNull(message.body),
-    attachments: (
-      message.attachments ?? []
-    ).map((attachment: Proto.IAttachmentPointer) =>
-      processAttachment(attachment)
+    attachments: (message.attachments ?? []).map(
+      (attachment: Proto.IAttachmentPointer) => processAttachment(attachment)
     ),
     group: processGroupContext(message.group),
     groupV2: processGroupV2Context(message.groupV2),

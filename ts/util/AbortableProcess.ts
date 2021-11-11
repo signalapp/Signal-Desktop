@@ -18,10 +18,8 @@ export class AbortableProcess<Result> implements IController {
     private readonly controller: IController,
     resultPromise: Promise<Result>
   ) {
-    const {
-      promise: abortPromise,
-      reject: abortReject,
-    } = explodePromise<Result>();
+    const { promise: abortPromise, reject: abortReject } =
+      explodePromise<Result>();
 
     this.abortReject = abortReject;
     this.resultPromise = Promise.race([abortPromise, resultPromise]);

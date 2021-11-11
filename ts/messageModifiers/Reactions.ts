@@ -58,21 +58,21 @@ export class Reactions extends Collection<ReactionModel> {
     try {
       // The conversation the target message was in; we have to find it in the database
       //   to to figure that out.
-      const targetConversationId = window.ConversationController.ensureContactIds(
-        {
+      const targetConversationId =
+        window.ConversationController.ensureContactIds({
           uuid: reaction.get('targetAuthorUuid'),
-        }
-      );
+        });
       if (!targetConversationId) {
         throw new Error(
           'onReaction: No conversationId returned from ensureContactIds!'
         );
       }
 
-      const targetConversation = await window.ConversationController.getConversationForTargetMessage(
-        targetConversationId,
-        reaction.get('targetTimestamp')
-      );
+      const targetConversation =
+        await window.ConversationController.getConversationForTargetMessage(
+          targetConversationId,
+          reaction.get('targetTimestamp')
+        );
       if (!targetConversation) {
         log.info(
           'No target conversation for reaction',

@@ -334,9 +334,9 @@ describe('Contact', () => {
                 value: NUMBER,
               },
             ],
-            avatar: ({
+            avatar: {
               isProfile: true,
-            } as unknown) as Avatar,
+            } as unknown as Avatar,
           },
         ],
       };
@@ -394,13 +394,13 @@ describe('Contact', () => {
                 street: '5 Somewhere Ave.',
               },
             ],
-            avatar: ({
+            avatar: {
               otherKey: 'otherValue',
               avatar: {
                 contentType: 'image/png',
                 data: Buffer.from('It’s easy if you try'),
               },
-            } as unknown) as Avatar,
+            } as unknown as Avatar,
           },
         ],
       };
@@ -459,9 +459,9 @@ describe('Contact', () => {
               displayName: 'Someone Somewhere',
             },
             number: [
-              ({
+              {
                 type: 1,
-              } as unknown) as Phone,
+              } as unknown as Phone,
             ],
             email: [
               {
@@ -556,14 +556,14 @@ describe('Contact', () => {
               displayName: 'Someone Somewhere',
             },
             number: [
-              ({
+              {
                 type: 1,
-              } as unknown) as Phone,
+              } as unknown as Phone,
             ],
             email: [
-              ({
+              {
                 type: 1,
-              } as unknown) as Email,
+              } as unknown as Email,
             ],
           },
         ],

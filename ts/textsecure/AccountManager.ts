@@ -108,9 +108,8 @@ export default class AccountManager extends EventTarget {
 
   async decryptDeviceName(base64: string) {
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    const identityKey = await window.textsecure.storage.protocol.getIdentityKeyPair(
-      ourUuid
-    );
+    const identityKey =
+      await window.textsecure.storage.protocol.getIdentityKeyPair(ourUuid);
     if (!identityKey) {
       throw new Error('decryptDeviceName: No identity key pair!');
     }
@@ -128,7 +127,8 @@ export default class AccountManager extends EventTarget {
   }
 
   async maybeUpdateDeviceName() {
-    const isNameEncrypted = window.textsecure.storage.user.getDeviceNameEncrypted();
+    const isNameEncrypted =
+      window.textsecure.storage.user.getDeviceNameEncrypted();
     if (isNameEncrypted) {
       return;
     }
@@ -600,9 +600,8 @@ export default class AccountManager extends EventTarget {
 
     await storage.put('read-receipt-setting', Boolean(readReceipts));
 
-    const regionCode = window.libphonenumber.util.getRegionCodeForNumber(
-      number
-    );
+    const regionCode =
+      window.libphonenumber.util.getRegionCodeForNumber(number);
     await storage.put('regionCode', regionCode);
     await storage.protocol.hydrateCaches();
   }

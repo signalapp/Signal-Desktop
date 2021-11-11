@@ -43,11 +43,8 @@ export type PropsType = {
 };
 
 const mapStateToProps = (_state: StateType, props: PropsType) => {
-  const {
-    compositionAreaProps,
-    conversationHeaderProps,
-    timelineProps,
-  } = props;
+  const { compositionAreaProps, conversationHeaderProps, timelineProps } =
+    props;
 
   return {
     renderCompositionArea: () => (

@@ -396,10 +396,10 @@ export async function captureDimensionsAndScreenshot(
       contentType: MIME.MIMEType
     ) => string;
     revokeObjectUrl: (path: string) => void;
-    getImageDimensions: (params: {
-      objectUrl: string;
-      logger: LoggerType;
-    }) => { width: number; height: number };
+    getImageDimensions: (params: { objectUrl: string; logger: LoggerType }) => {
+      width: number;
+      height: number;
+    };
     makeImageThumbnail: (params: {
       size: number;
       objectUrl: string;

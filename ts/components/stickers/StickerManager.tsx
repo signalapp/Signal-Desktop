@@ -33,10 +33,8 @@ export const StickerManager = React.memo(
     i18n,
   }: Props) => {
     const focusRef = React.createRef<HTMLDivElement>();
-    const [
-      packToPreview,
-      setPackToPreview,
-    ] = React.useState<StickerPackType | null>(null);
+    const [packToPreview, setPackToPreview] =
+      React.useState<StickerPackType | null>(null);
 
     React.useEffect(() => {
       if (!knownPacks) {

@@ -169,9 +169,8 @@ window.encryptAndUpload = async (
   const passwordItem = await window.Signal.Data.getItemById('password');
 
   if (!oldUsernameItem || !passwordItem) {
-    const { message } = window.localeMessages[
-      'StickerCreator--Authentication--error'
-    ];
+    const { message } =
+      window.localeMessages['StickerCreator--Authentication--error'];
 
     ipc.send('show-message-box', {
       type: 'warning',

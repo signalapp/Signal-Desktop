@@ -85,7 +85,8 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
             'module-message__metadata__date': true,
             'module-message__metadata__date--with-sticker': isSticker,
             [`module-message__metadata__date--${direction}`]: !isSticker,
-            'module-message__metadata__date--with-image-no-caption': withImageNoCaption,
+            'module-message__metadata__date--with-image-no-caption':
+              withImageNoCaption,
           })}
         >
           {statusInfo}

@@ -473,7 +473,8 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     const firstAttachment = quote.attachments && quote.attachments[0];
     const conversation = getConversation(message, conversationSelector);
 
-    const defaultConversationColor = window.Events.getDefaultConversationColor();
+    const defaultConversationColor =
+      window.Events.getDefaultConversationColor();
 
     return {
       authorId,
@@ -592,7 +593,8 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
     });
     const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
-    const defaultConversationColor = window.Events.getDefaultConversationColor();
+    const defaultConversationColor =
+      window.Events.getDefaultConversationColor();
 
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),

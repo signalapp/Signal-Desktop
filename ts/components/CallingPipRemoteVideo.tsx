@@ -90,17 +90,16 @@ export const CallingPipRemoteVideo = ({
 
   const isPageVisible = usePageVisibility();
 
-  const activeGroupCallSpeaker:
-    | undefined
-    | GroupCallRemoteParticipantType = useMemo(() => {
-    if (activeCall.callMode !== CallMode.Group) {
-      return undefined;
-    }
+  const activeGroupCallSpeaker: undefined | GroupCallRemoteParticipantType =
+    useMemo(() => {
+      if (activeCall.callMode !== CallMode.Group) {
+        return undefined;
+      }
 
-    return maxBy(activeCall.remoteParticipants, participant =>
-      participant.presenting ? Infinity : participant.speakerTime || -Infinity
-    );
-  }, [activeCall.callMode, activeCall.remoteParticipants]);
+      return maxBy(activeCall.remoteParticipants, participant =>
+        participant.presenting ? Infinity : participant.speakerTime || -Infinity
+      );
+    }, [activeCall.callMode, activeCall.remoteParticipants]);
 
   useEffect(() => {
     if (activeCall.callMode !== CallMode.Group) {

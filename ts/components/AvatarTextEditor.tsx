@@ -47,9 +47,10 @@ export const AvatarTextEditor = ({
   onDone,
 }: PropsType): JSX.Element => {
   const initialText = useMemo(() => avatarData?.text || '', [avatarData]);
-  const initialColor = useMemo(() => avatarData?.color || AvatarColors[0], [
-    avatarData,
-  ]);
+  const initialColor = useMemo(
+    () => avatarData?.color || AvatarColors[0],
+    [avatarData]
+  );
 
   const [inputText, setInputText] = useState(initialText);
   const [fontSize, setFontSize] = useState(getFontSizes(BUBBLE_SIZE).text);

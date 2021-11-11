@@ -107,8 +107,7 @@ story.add('@Mention', () => {
         replacementText: 'Bender B Rodriguez 🤖',
       },
     ],
-    text:
-      'Like \uFFFC once said: My story is a lot like yours, only more interesting because it involves robots',
+    text: 'Like \uFFFC once said: My story is a lot like yours, only more interesting because it involves robots',
   });
 
   return <MessageBody {...props} />;
@@ -167,8 +166,7 @@ story.add('Complex MessageBody', () => {
       },
     ],
     direction: 'outgoing',
-    text:
-      'Hey \uFFFC\nCheck out https://www.signal.org I think you will really like it 😍\n\ncc \uFFFC \uFFFC',
+    text: 'Hey \uFFFC\nCheck out https://www.signal.org I think you will really like it 😍\n\ncc \uFFFC \uFFFC',
   });
 
   return <MessageBody {...props} />;

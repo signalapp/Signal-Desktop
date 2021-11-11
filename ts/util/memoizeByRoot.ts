@@ -43,5 +43,5 @@ export function memoizeByRoot<F extends Function>(
     return partial(...rest);
   };
 
-  return (wrap as unknown) as F;
+  return wrap as unknown as F;
 }

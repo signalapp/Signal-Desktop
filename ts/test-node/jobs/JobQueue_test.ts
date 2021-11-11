@@ -314,11 +314,15 @@ describe('JobQueue', () => {
 
       retryQueue.streamJobs();
 
-      await (await retryQueue.add('foo')).completion;
+      await (
+        await retryQueue.add('foo')
+      ).completion;
 
       let booErr: unknown;
       try {
-        await (await retryQueue.add('bar')).completion;
+        await (
+          await retryQueue.add('bar')
+        ).completion;
       } catch (err: unknown) {
         booErr = err;
       }
@@ -366,7 +370,9 @@ describe('JobQueue', () => {
       queue.streamJobs();
 
       try {
-        await (await queue.add('foo')).completion;
+        await (
+          await queue.add('foo')
+        ).completion;
       } catch (err: unknown) {
         // We expect this to fail.
       }
@@ -597,7 +603,9 @@ describe('JobQueue', () => {
 
       queue.streamJobs();
 
-      await (await queue.add(123)).completion;
+      await (
+        await queue.add(123)
+      ).completion;
 
       assert.deepEqual(events, ['insert', 'parsing data', 'running']);
     });

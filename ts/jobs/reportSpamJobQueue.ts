@@ -18,21 +18,7 @@ import { HTTPError } from '../textsecure/Errors';
 
 const RETRY_WAIT_TIME = durations.MINUTE;
 const RETRYABLE_4XX_FAILURE_STATUSES = new Set([
-  404,
-  408,
-  410,
-  412,
-  413,
-  414,
-  417,
-  423,
-  424,
-  425,
-  426,
-  428,
-  429,
-  431,
-  449,
+  404, 408, 410, 412, 413, 414, 417, 423, 424, 425, 426, 428, 429, 431, 449,
 ]);
 
 const is4xxStatus = (code: number): boolean => code >= 400 && code <= 499;

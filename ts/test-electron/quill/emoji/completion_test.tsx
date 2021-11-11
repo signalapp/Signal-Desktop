@@ -43,10 +43,8 @@ describe('emojiCompletion', () => {
         text: ':smile:',
       };
       mockQuill.getLeaf.returns([blot, 2]);
-      const [
-        leftLeafText,
-        rightLeafText,
-      ] = emojiCompletion.getCurrentLeafTextPartitions();
+      const [leftLeafText, rightLeafText] =
+        emojiCompletion.getCurrentLeafTextPartitions();
       assert.equal(leftLeafText, ':s');
       assert.equal(rightLeafText, 'mile:');
     });

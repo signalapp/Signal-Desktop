@@ -371,8 +371,8 @@ export async function startApp(): Promise<void> {
     timeout: 1000 * 60 * 2,
   });
   window.Whisper.deliveryReceiptQueue.pause();
-  window.Whisper.deliveryReceiptBatcher = window.Signal.Util.createBatcher<DeliveryReceiptBatcherItemType>(
-    {
+  window.Whisper.deliveryReceiptBatcher =
+    window.Signal.Util.createBatcher<DeliveryReceiptBatcherItemType>({
       name: 'Whisper.deliveryReceiptBatcher',
       wait: 500,
       maxSize: 100,
@@ -426,8 +426,7 @@ export async function startApp(): Promise<void> {
           });
         }
       },
-    }
-  );
+    });
 
   if (getTitleBarVisibility() === TitleBarVisibility.Hidden) {
     window.addEventListener('dblclick', (event: Event) => {
@@ -476,10 +475,8 @@ export async function startApp(): Promise<void> {
   window.setImmediate = window.nodeSetImmediate;
 
   const { IdleDetector, MessageDataMigrator } = window.Signal.Workflow;
-  const {
-    removeDatabase: removeIndexedDB,
-    doesDatabaseExist,
-  } = window.Signal.IndexedDB;
+  const { removeDatabase: removeIndexedDB, doesDatabaseExist } =
+    window.Signal.IndexedDB;
   const { Message } = window.Signal.Types;
   const {
     upgradeMessageSchema,
@@ -868,12 +865,12 @@ export async function startApp(): Promise<void> {
         );
         expired.forEach(item => {
           const { conversationId, senderUuid, sentAt } = item;
-          const conversation = window.ConversationController.get(
-            conversationId
-          );
+          const conversation =
+            window.ConversationController.get(conversationId);
           if (conversation) {
             const receivedAt = Date.now();
-            const receivedAtCounter = window.Signal.Util.incrementMessageCounter();
+            const receivedAtCounter =
+              window.Signal.Util.incrementMessageCounter();
             conversation.queueJob('addDeliveryIssue', () =>
               conversation.addDeliveryIssue({
                 receivedAt,
@@ -933,7 +930,8 @@ export async function startApp(): Promise<void> {
     );
     const ourNumber = window.textsecure.storage.user.getNumber();
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
-    const ourConversationId = window.ConversationController.getOurConversationId();
+    const ourConversationId =
+      window.ConversationController.getOurConversationId();
 
     const themeSetting = window.Events.getThemeSetting();
     const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
@@ -1094,7 +1092,8 @@ export async function startApp(): Promise<void> {
       const newDeviceId = window.textsecure.storage.user.getDeviceId();
       const newNumber = window.textsecure.storage.user.getNumber();
       const newUuid = window.textsecure.storage.user.getUuid()?.toString();
-      const ourConversation = window.ConversationController.getOurConversation();
+      const ourConversation =
+        window.ConversationController.getOurConversation();
 
       if (ourConversation?.get('e164') !== newNumber) {
         ourConversation?.set('e164', newNumber);
@@ -1686,7 +1685,8 @@ export async function startApp(): Promise<void> {
     window.Signal.challengeHandler = challengeHandler;
 
     if (!window.storage.user.getNumber()) {
-      const ourConversation = window.ConversationController.getOurConversation();
+      const ourConversation =
+        window.ConversationController.getOurConversation();
       const ourE164 = ourConversation?.get('e164');
       if (ourE164) {
         log.warn('Restoring E164 from our conversation');
@@ -1699,13 +1699,14 @@ export async function startApp(): Promise<void> {
     badgeImageFileDownloader.checkForFilesToDownload();
 
     log.info('Expiration start timestamp cleanup: starting...');
-    const messagesUnexpectedlyMissingExpirationStartTimestamp = await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
+    const messagesUnexpectedlyMissingExpirationStartTimestamp =
+      await window.Signal.Data.getMessagesUnexpectedlyMissingExpirationStartTimestamp();
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
     if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
-      const newMessageAttributes = messagesUnexpectedlyMissingExpirationStartTimestamp.map(
-        message => {
+      const newMessageAttributes =
+        messagesUnexpectedlyMissingExpirationStartTimestamp.map(message => {
           const expirationStartTimestamp = Math.min(
             ...filter(
               [
@@ -1727,8 +1728,7 @@ export async function startApp(): Promise<void> {
             ...message,
             expirationStartTimestamp,
           };
-        }
-      );
+        });
 
       await window.Signal.Data.saveMessages(newMessageAttributes);
     }
@@ -1804,9 +1804,8 @@ export async function startApp(): Promise<void> {
     window.Signal.RemoteConfig.onChange(
       'desktop.clientExpiration',
       ({ value }) => {
-        const remoteBuildExpirationTimestamp = window.Signal.Util.parseRemoteClientExpiration(
-          value as string
-        );
+        const remoteBuildExpirationTimestamp =
+          window.Signal.Util.parseRemoteClientExpiration(value as string);
         if (remoteBuildExpirationTimestamp) {
           window.storage.put(
             'remoteBuildExpiration',
@@ -2013,9 +2012,10 @@ export async function startApp(): Promise<void> {
             'desktop.clientExpiration'
           );
           if (expiration) {
-            const remoteBuildExpirationTimestamp = window.Signal.Util.parseRemoteClientExpiration(
-              expiration as string
-            );
+            const remoteBuildExpirationTimestamp =
+              window.Signal.Util.parseRemoteClientExpiration(
+                expiration as string
+              );
             if (remoteBuildExpirationTimestamp) {
               window.storage.put(
                 'remoteBuildExpiration',
@@ -2183,7 +2183,8 @@ export async function startApp(): Promise<void> {
           runStorageService();
         });
 
-        const ourConversation = window.ConversationController.getOurConversationOrThrow();
+        const ourConversation =
+          window.ConversationController.getOurConversationOrThrow();
         const sendOptions = await getSendOptions(ourConversation.attributes, {
           syncMessage: true,
         });
@@ -2223,7 +2224,8 @@ export async function startApp(): Promise<void> {
 
         // Kick off a profile refresh if necessary, but don't wait for it, as failure is
         //   tolerable.
-        const ourConversationId = window.ConversationController.getOurConversationId();
+        const ourConversationId =
+          window.ConversationController.getOurConversationId();
         if (ourConversationId) {
           routineProfileRefresh({
             allConversations: window.ConversationController.getAll(),
@@ -2565,11 +2567,11 @@ export async function startApp(): Promise<void> {
       }
     }
 
-    const c = new window.Whisper.Conversation(({
+    const c = new window.Whisper.Conversation({
       e164: details.number,
       uuid: details.uuid,
       type: 'private',
-    } as Partial<ConversationAttributesType>) as WhatIsThis);
+    } as Partial<ConversationAttributesType> as WhatIsThis);
     const validationError = c.validate();
     if (validationError) {
       log.error(
@@ -3000,32 +3002,38 @@ export async function startApp(): Promise<void> {
 
     const { unidentifiedStatus = [] } = data;
 
-    const sendStateByConversationId: SendStateByConversationId = unidentifiedStatus.reduce(
-      (result: SendStateByConversationId, { destinationUuid, destination }) => {
-        const conversationId = window.ConversationController.ensureContactIds({
-          uuid: destinationUuid,
-          e164: destination,
-          highTrust: true,
-        });
-        if (!conversationId || conversationId === ourId) {
-          return result;
-        }
+    const sendStateByConversationId: SendStateByConversationId =
+      unidentifiedStatus.reduce(
+        (
+          result: SendStateByConversationId,
+          { destinationUuid, destination }
+        ) => {
+          const conversationId = window.ConversationController.ensureContactIds(
+            {
+              uuid: destinationUuid,
+              e164: destination,
+              highTrust: true,
+            }
+          );
+          if (!conversationId || conversationId === ourId) {
+            return result;
+          }
 
-        return {
-          ...result,
-          [conversationId]: {
+          return {
+            ...result,
+            [conversationId]: {
+              status: SendStatus.Sent,
+              updatedAt: timestamp,
+            },
+          };
+        },
+        {
+          [ourId]: {
             status: SendStatus.Sent,
             updatedAt: timestamp,
           },
-        };
-      },
-      {
-        [ourId]: {
-          status: SendStatus.Sent,
-          updatedAt: timestamp,
-        },
-      }
-    );
+        }
+      );
 
     let unidentifiedDeliveries: Array<string> = [];
     if (unidentifiedStatus.length) {
@@ -3037,7 +3045,7 @@ export async function startApp(): Promise<void> {
         .filter(isNotNil);
     }
 
-    return new window.Whisper.Message(({
+    return new window.Whisper.Message({
       source: window.textsecure.storage.user.getNumber(),
       sourceUuid: window.textsecure.storage.user.getUuid()?.toString(),
       sourceDevice: data.device,
@@ -3054,7 +3062,7 @@ export async function startApp(): Promise<void> {
         data.expirationStartTimestamp || timestamp,
         now
       ),
-    } as Partial<MessageAttributesType>) as WhatIsThis);
+    } as Partial<MessageAttributesType> as WhatIsThis);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver, with a little massage
@@ -3122,9 +3130,8 @@ export async function startApp(): Promise<void> {
         );
       } else {
         // First we check for an already-migrated GroupV2 group
-        const migratedGroup = window.ConversationController.get(
-          derivedGroupV2Id
-        );
+        const migratedGroup =
+          window.ConversationController.get(derivedGroupV2Id);
         if (migratedGroup) {
           return {
             type: Message.GROUP,
@@ -3275,7 +3282,7 @@ export async function startApp(): Promise<void> {
       Boolean(data.receivedAtCounter),
       `Did not receive receivedAtCounter for message: ${data.timestamp}`
     );
-    return new window.Whisper.Message(({
+    return new window.Whisper.Message({
       source: data.source,
       sourceUuid: data.sourceUuid,
       sourceDevice: data.sourceDevice,
@@ -3289,7 +3296,7 @@ export async function startApp(): Promise<void> {
       type: 'incoming',
       readStatus: ReadStatus.Unread,
       timestamp: data.timestamp,
-    } as Partial<MessageAttributesType>) as WhatIsThis);
+    } as Partial<MessageAttributesType> as WhatIsThis);
   }
 
   // Returns `false` if this message isn't a group call message.
@@ -3545,13 +3552,8 @@ export async function startApp(): Promise<void> {
     logTitle: string;
     type: MessageReceiptType.Read | MessageReceiptType.View;
   }>): void {
-    const {
-      envelopeTimestamp,
-      timestamp,
-      source,
-      sourceUuid,
-      sourceDevice,
-    } = event.receipt;
+    const { envelopeTimestamp, timestamp, source, sourceUuid, sourceDevice } =
+      event.receipt;
     const sourceConversationId = window.ConversationController.ensureContactIds(
       {
         e164: source,
@@ -3664,11 +3666,11 @@ export async function startApp(): Promise<void> {
       ev.confirm();
     }
 
-    const c = new window.Whisper.Conversation(({
+    const c = new window.Whisper.Conversation({
       e164,
       uuid,
       type: 'private',
-    } as Partial<ConversationAttributesType>) as WhatIsThis);
+    } as Partial<ConversationAttributesType> as WhatIsThis);
     const error = c.validate();
     if (error) {
       log.error(
@@ -3726,13 +3728,8 @@ export async function startApp(): Promise<void> {
 
   function onDeliveryReceipt(ev: DeliveryEvent) {
     const { deliveryReceipt } = ev;
-    const {
-      envelopeTimestamp,
-      sourceUuid,
-      source,
-      sourceDevice,
-      timestamp,
-    } = deliveryReceipt;
+    const { envelopeTimestamp, sourceUuid, source, sourceDevice, timestamp } =
+      deliveryReceipt;
 
     ev.confirm();
 

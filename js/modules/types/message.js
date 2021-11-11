@@ -194,64 +194,63 @@ exports._mapContact = upgradeContact => async (message, context) => {
 //      _mapQuotedAttachments :: (QuotedAttachment -> Promise QuotedAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
-exports._mapQuotedAttachments = upgradeAttachment => async (
-  message,
-  context
-) => {
-  if (!message.quote) {
-    return message;
-  }
-  if (!context || !isObject(context.logger)) {
-    throw new Error('_mapQuotedAttachments: context must have logger object');
-  }
-
-  const upgradeWithContext = async attachment => {
-    const { thumbnail } = attachment;
-    if (!thumbnail) {
-      return attachment;
+exports._mapQuotedAttachments =
+  upgradeAttachment => async (message, context) => {
+    if (!message.quote) {
+      return message;
+    }
+    if (!context || !isObject(context.logger)) {
+      throw new Error('_mapQuotedAttachments: context must have logger object');
     }
 
-    const upgradedThumbnail = await upgradeAttachment(thumbnail, context);
-    return { ...attachment, thumbnail: upgradedThumbnail };
+    const upgradeWithContext = async attachment => {
+      const { thumbnail } = attachment;
+      if (!thumbnail) {
+        return attachment;
+      }
+
+      const upgradedThumbnail = await upgradeAttachment(thumbnail, context);
+      return { ...attachment, thumbnail: upgradedThumbnail };
+    };
+
+    const quotedAttachments =
+      (message.quote && message.quote.attachments) || [];
+
+    const attachments = await Promise.all(
+      quotedAttachments.map(upgradeWithContext)
+    );
+    return { ...message, quote: { ...message.quote, attachments } };
   };
-
-  const quotedAttachments = (message.quote && message.quote.attachments) || [];
-
-  const attachments = await Promise.all(
-    quotedAttachments.map(upgradeWithContext)
-  );
-  return { ...message, quote: { ...message.quote, attachments } };
-};
 
 //      _mapPreviewAttachments :: (PreviewAttachment -> Promise PreviewAttachment) ->
 //                               (Message, Context) ->
 //                               Promise Message
-exports._mapPreviewAttachments = upgradeAttachment => async (
-  message,
-  context
-) => {
-  if (!message.preview) {
-    return message;
-  }
-  if (!context || !isObject(context.logger)) {
-    throw new Error('_mapPreviewAttachments: context must have logger object');
-  }
-
-  const upgradeWithContext = async preview => {
-    const { image } = preview;
-    if (!image) {
-      return preview;
+exports._mapPreviewAttachments =
+  upgradeAttachment => async (message, context) => {
+    if (!message.preview) {
+      return message;
+    }
+    if (!context || !isObject(context.logger)) {
+      throw new Error(
+        '_mapPreviewAttachments: context must have logger object'
+      );
     }
 
-    const upgradedImage = await upgradeAttachment(image, context);
-    return { ...preview, image: upgradedImage };
-  };
+    const upgradeWithContext = async preview => {
+      const { image } = preview;
+      if (!image) {
+        return preview;
+      }
 
-  const preview = await Promise.all(
-    (message.preview || []).map(upgradeWithContext)
-  );
-  return { ...message, preview };
-};
+      const upgradedImage = await upgradeAttachment(image, context);
+      return { ...preview, image: upgradedImage };
+    };
+
+    const preview = await Promise.all(
+      (message.preview || []).map(upgradeWithContext)
+    );
+    return { ...message, preview };
+  };
 
 const toVersion0 = async (message, context) =>
   exports.initializeSchemaVersion({ message, logger: context.logger });
