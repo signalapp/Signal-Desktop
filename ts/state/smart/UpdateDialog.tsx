@@ -16,6 +16,7 @@ const mapStateToProps = (state: StateType, ownProps: PropsType) => {
     ...state.updates,
     hasNetworkDialog: hasNetworkDialog(state),
     i18n: getIntl(state),
+    currentVersion: window.getVersion(),
     ...ownProps,
   };
 };

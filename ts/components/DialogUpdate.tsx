@@ -4,6 +4,7 @@
 import React from 'react';
 import formatFileSize from 'filesize';
 
+import { isBeta } from '../util/version';
 import { DialogType } from '../types/Dialogs';
 import type { LocalizerType } from '../types/Util';
 import { Intl } from './Intl';
@@ -23,7 +24,11 @@ export type PropsType = {
   snoozeUpdate: () => void;
   startUpdate: () => void;
   version?: string;
+  currentVersion: string;
 };
+
+const PRODUCTION_DOWNLOAD_URL = 'https://signal.org/download/';
+const BETA_DOWNLOAD_URL = 'https://support.signal.org/beta';
 
 export const DialogUpdate = ({
   containerWidthBreakpoint,
@@ -37,6 +42,7 @@ export const DialogUpdate = ({
   snoozeUpdate,
   startUpdate,
   version,
+  currentVersion,
 }: PropsType): JSX.Element | null => {
   if (hasNetworkDialog) {
     return null;
@@ -51,6 +57,9 @@ export const DialogUpdate = ({
   }
 
   if (dialogType === DialogType.Cannot_Update) {
+    const url = isBeta(currentVersion)
+      ? BETA_DOWNLOAD_URL
+      : PRODUCTION_DOWNLOAD_URL;
     return (
       <LeftPaneDialog
         containerWidthBreakpoint={containerWidthBreakpoint}
@@ -62,11 +71,11 @@ export const DialogUpdate = ({
             components={[
               <a
                 key="signal-download"
-                href="https://signal.org/download/"
+                href={url}
                 rel="noreferrer"
                 target="_blank"
               >
-                https://signal.org/download/
+                {url}
               </a>,
             ]}
             i18n={i18n}

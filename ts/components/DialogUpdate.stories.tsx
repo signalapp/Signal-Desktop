@@ -49,6 +49,7 @@ story.add('Knobs Playground', () => {
         dialogType={dialogType}
         didSnooze={didSnooze}
         hasNetworkDialog={hasNetworkDialog}
+        currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   );
@@ -70,6 +71,7 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.Update}
+        currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   ));
@@ -79,6 +81,7 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.DownloadReady}
+        currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   ));
@@ -88,6 +91,7 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.Downloading}
+        currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   ));
@@ -97,6 +101,17 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.Cannot_Update}
+        currentVersion="5.24.0"
+      />
+    </FakeLeftPaneContainer>
+  ));
+
+  story.add(`Cannot Update Beta (${name} container)`, () => (
+    <FakeLeftPaneContainer containerWidthBreakpoint={containerWidthBreakpoint}>
+      <DialogUpdate
+        {...defaultPropsForBreakpoint}
+        dialogType={DialogType.Cannot_Update}
+        currentVersion="5.24.0-beta.1"
       />
     </FakeLeftPaneContainer>
   ));
@@ -106,6 +121,7 @@ story.add('Knobs Playground', () => {
       <DialogUpdate
         {...defaultPropsForBreakpoint}
         dialogType={DialogType.MacOS_Read_Only}
+        currentVersion="5.24.0"
       />
     </FakeLeftPaneContainer>
   ));
