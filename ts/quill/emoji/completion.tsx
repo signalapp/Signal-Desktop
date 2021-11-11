@@ -175,7 +175,7 @@ export class EmojiCompletion {
         }
       }
 
-      if (leftTokenText.length < 2) {
+      if (leftTokenText.length < 3) {
         this.reset();
         return PASS_THROUGH;
       }
