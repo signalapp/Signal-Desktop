@@ -74,7 +74,7 @@
   "dependencies": {
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.2.6",
-    "@signalapp/signal-client": "0.9.8",
+    "@signalapp/signal-client": "0.10.1",
     "@sindresorhus/is": "0.8.0",
     "abort-controller": "3.0.0",
     "array-move": "2.1.0",
@@ -165,7 +165,6 @@
     "underscore": "1.12.1",
     "uuid": "3.3.2",
     "websocket": "1.0.28",
-    "zkgroup": "https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672",
     "zod": "3.5.1"
   },
   "devDependencies": {
@@ -305,10 +304,7 @@
     "appId": "org.whispersystems.signal-desktop",
     "mac": {
       "asarUnpack": [
-        "**/*.node",
-        "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/@signalapp/signal-client/build/*.node",
-        "node_modules/mac-screen-capture-permissions/build/Release/*.node"
+        "**/*.node"
       ],
       "artifactName": "${name}-mac-${version}.${ext}",
       "category": "public.app-category.social-networking",
@@ -332,9 +328,7 @@
       "asarUnpack": [
         "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp",
-        "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/@signalapp/signal-client/build/*.node"
+        "node_modules/sharp"
       ],
       "artifactName": "${name}-win-${version}.${ext}",
       "certificateSubjectName": "Signal Messenger, LLC",
@@ -365,9 +359,7 @@
       "asarUnpack": [
         "**/*.node",
         "node_modules/spellchecker/vendor/hunspell_dictionaries",
-        "node_modules/sharp",
-        "node_modules/zkgroup/libzkgroup.*",
-        "node_modules/@signalapp/signal-client/build/*.node"
+        "node_modules/sharp"
       ],
       "target": [
         "deb"
@@ -434,15 +426,13 @@
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts,.snyk-*.flag,benchmark}",
       "!**/node_modules/.bin",
       "!**/node_modules/**/build/**",
+      "!**/node_modules/**/prebuilds/**",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
       "!**/._*",
       "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,__pycache__,thumbs.db,.gitignore,.gitattributes,.flowconfig,.yarn-metadata.json,.idea,appveyor.yml,.travis.yml,circle.yml,npm-debug.log,.nyc_output,yarn.lock,.yarn-integrity}",
       "node_modules/spellchecker/build/Release/*.node",
       "node_modules/websocket/build/Release/*.node",
       "!node_modules/websocket/builderror.log",
-      "node_modules/ref-napi/build/Release/*.node",
-      "node_modules/ref-array-napi/node_modules/ref-napi/build/Release/*.node",
-      "node_modules/ffi-napi/build/Release/*.node",
       "node_modules/socks/build/*.js",
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
@@ -452,10 +442,9 @@
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
-      "node_modules/@signalapp/signal-client/build/*${platform}*.node",
+      "node_modules/@signalapp/signal-client/prebuilds/*${platform}*/*.node",
       "node_modules/ringrtc/build/${platform}/**",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
-      "!**/node_modules/ffi-napi/deps",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/.cache"
     ]

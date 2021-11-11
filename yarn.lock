@@ -1717,10 +1717,10 @@
     "@react-spring/shared" "~9.2.6-beta.0"
     "@react-spring/types" "~9.2.6-beta.0"
 
-"@signalapp/signal-client@0.9.8":
-  version "0.9.8"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.9.8.tgz#e3bd9795eb29ee0246adf0a5245de06054d69180"
-  integrity sha512-ESm/n2rtVtDVdQvO9ad8y5Hh3grf+HWtM+nzZHYTw3QpvhaYONl3xUBAs1mbGYp/6Gwf83qJ/Le9rduFfw/lVQ==
+"@signalapp/signal-client@0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.10.1.tgz#74b41264044caac4d42df3baf1f5c393f63ec50a"
+  integrity sha512-myVTaqFljakN0fxvmK4FmslOHJPuuoGxpSmlu4KU2D3RP2EiDHmg3Q+Xw9TWh7ehpstUxwe5op6sThq5d3b3Dw==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"
@@ -2578,15 +2578,6 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
-"@types/ffi-napi@^4.0.1":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@types/ffi-napi/-/ffi-napi-4.0.3.tgz#2f016368198e4c6fbb0a69501b67cd8bec9cc3b7"
-  integrity sha512-hP9SJCapWnVH5dGSsvb3nvrjJMj95cU2jrs45RhZz8IhPHhcwrzqi9XyaTxGuafGJ9rS07I+zJ83BU5dhorerw==
-  dependencies:
-    "@types/node" "*"
-    "@types/ref-napi" "*"
-    "@types/ref-struct-di" "*"
-
 "@types/filesize@3.6.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@types/filesize/-/filesize-3.6.0.tgz#5f1a25c7b4e3d5ee2bc63133d374d096b7008c8d"
@@ -2936,20 +2927,6 @@
   integrity sha512-oV9qiCuowhVR/ehqUobWWkXJjohontbDGLV88Be/7T4bqMQ3kjXwkFNL7doIIqlbg3X2PC5WPziZ8/j/QHNQ4A==
   dependencies:
     redux "^3.6.0"
-
-"@types/ref-napi@*", "@types/ref-napi@^3.0.1":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/ref-napi/-/ref-napi-3.0.3.tgz#1e6093f407dfe5b4dab4a490da1860344045732b"
-  integrity sha512-5Jm6TjMk9tt2A0m1jPXHhRTOAeDxhAirF36GUEV2ldQSOcXkG9FRV856PZFfx1s2hpdHvJg4nRfojlfEQo7v3A==
-  dependencies:
-    "@types/node" "*"
-
-"@types/ref-struct-di@*":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@types/ref-struct-di/-/ref-struct-di-1.1.3.tgz#2e42d5889eb072b2c3f2780f12a397e829b58b8f"
-  integrity sha512-OdsiCc10hByKZ27R8Bd+09EhiciuD6V9eAn+RjiLNx0YJum8E6CKg8zws5OmHKDtYA5Ke7kUvBJlUwITSZdvzA==
-  dependencies:
-    "@types/ref-napi" "*"
 
 "@types/responselike@*", "@types/responselike@^1.0.0":
   version "1.0.0"
@@ -4047,14 +4024,6 @@ array-includes@^3.1.1:
     define-properties "^1.1.3"
     es-abstract "^1.17.0"
     is-string "^1.0.5"
-
-array-index@1:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/array-index/-/array-index-1.0.0.tgz#ec56a749ee103e4e08c790b9c353df16055b97f9"
-  integrity sha1-7FanSe4QPk4Ix5C5w1PfFgVbl/k=
-  dependencies:
-    debug "^2.2.0"
-    es6-symbol "^3.0.2"
 
 array-map@~0.0.0:
   version "0.0.0"
@@ -6576,14 +6545,6 @@ d@1:
   dependencies:
     es5-ext "^0.10.9"
 
-d@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
-  integrity sha512-m62ShEObQ39CfralilEQRjH6oAMtNCV1xJyEx5LpRYUVN+EviphDgUc/F3hnYbADmkiNs67Y+3ylmlG7Lnu+FA==
-  dependencies:
-    es5-ext "^0.10.50"
-    type "^1.0.1"
-
 damerau-levenshtein@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.6.tgz#143c1641cb3d85c60c32329e26899adea8701791"
@@ -7614,15 +7575,6 @@ es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.45, es5-ext@^0.10.9, es5-ext@~
     es6-symbol "~3.1.1"
     next-tick "^1.0.0"
 
-es5-ext@^0.10.50:
-  version "0.10.53"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.53.tgz#93c5a3acfdbef275220ad72644ad02ee18368de1"
-  integrity sha512-Xs2Stw6NiNHWypzRTY1MtaG/uJlwCk8kH81920ma8mvN8Xq1gsfhZvpkImLQArw8AHnv8MT2I45J3c0R8slE+Q==
-  dependencies:
-    es6-iterator "~2.0.3"
-    es6-symbol "~3.1.3"
-    next-tick "~1.0.0"
-
 es5-shim@^4.5.13:
   version "4.5.13"
   resolved "https://registry.yarnpkg.com/es5-shim/-/es5-shim-4.5.13.tgz#5d88062de049f8969f83783f4a4884395f21d28b"
@@ -7661,14 +7613,6 @@ es6-shim@^0.35.5:
   version "0.35.5"
   resolved "https://registry.yarnpkg.com/es6-shim/-/es6-shim-0.35.5.tgz#46f59dc0a84a1c5029e8ff1166ca0a902077a9ab"
   integrity sha512-E9kK/bjtCQRpN1K28Xh4BlmP8egvZBGJJ+9GtnzOwt7mdqtrjHFuVGr7QJfdjBIKqrlU5duPf3pCBoDrkjVYFg==
-
-es6-symbol@^3.0.2, es6-symbol@~3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
-  integrity sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==
-  dependencies:
-    d "^1.0.1"
-    ext "^1.1.2"
 
 es6-symbol@^3.1.1, es6-symbol@~3.1.1:
   version "3.1.1"
@@ -8234,13 +8178,6 @@ express@^4.17.0, express@^4.17.1:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
-ext@^1.1.2:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/ext/-/ext-1.4.0.tgz#89ae7a07158f79d35517882904324077e4379244"
-  integrity sha512-Key5NIsUxdqKg3vIsdw9dSuXpPCQ297y6wBjL30edxwPgt2E44WcWBZey/ZvUc6sERLTxKdyCu4gZFmUbk1Q7A==
-  dependencies:
-    type "^2.0.0"
-
 extend-shallow@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-2.0.1.tgz#51af7d614ad9a9f610ea1bafbb989d6b1c56890f"
@@ -8472,18 +8409,6 @@ fd-slicer@~1.1.0:
   integrity sha1-JcfInLH5B3+IkbvmHY85Dq4lbx4=
   dependencies:
     pend "~1.2.0"
-
-ffi-napi@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/ffi-napi/-/ffi-napi-4.0.3.tgz#27a8d42a8ea938457154895c59761fbf1a10f441"
-  integrity sha512-PMdLCIvDY9mS32RxZ0XGb95sonPRal8aqRhLbeEtWKZTe2A87qRFG9HjOhvG8EX2UmQw5XNRMIOT+1MYlWmdeg==
-  dependencies:
-    debug "^4.1.1"
-    get-uv-event-loop-napi-h "^1.0.5"
-    node-addon-api "^3.0.0"
-    node-gyp-build "^4.2.1"
-    ref-napi "^2.0.1 || ^3.0.2"
-    ref-struct-di "^1.1.0"
 
 figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -9138,11 +9063,6 @@ get-stream@^6.0.0:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.0.tgz#3e0012cb6827319da2706e601a1583e8629a6718"
   integrity sha512-A1B3Bh1UmL0bidM/YX2NsCOTnGJePL9rO/M+Mw3m9f2gUpfokS0hi5Eah0WSUEWZdZhIZtMjkIYS7mDfOqNHbg==
 
-get-symbol-from-current-process-h@^1.0.1, get-symbol-from-current-process-h@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/get-symbol-from-current-process-h/-/get-symbol-from-current-process-h-1.0.2.tgz#510af52eaef873f7028854c3377f47f7bb200265"
-  integrity sha512-syloC6fsCt62ELLrr1VKBM1ggOpMdetX9hTrdW77UQdcApPHLmf7CI7OKcN1c9kYuNxKcDe4iJ4FY9sX3aw2xw==
-
 get-uri@3:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/get-uri/-/get-uri-3.0.2.tgz#f0ef1356faabc70e1f9404fa3b66b2ba9bfc725c"
@@ -9165,13 +9085,6 @@ get-uri@^2.0.0:
     file-uri-to-path "1"
     ftp "~0.3.10"
     readable-stream "2"
-
-get-uv-event-loop-napi-h@^1.0.5:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/get-uv-event-loop-napi-h/-/get-uv-event-loop-napi-h-1.0.6.tgz#42b0b06b74c3ed21fbac8e7c72845fdb7a200208"
-  integrity sha512-t5c9VNR84nRoF+eLiz6wFrEp1SE2Acg0wS+Ysa2zF0eROes+LzOfuTaVHxGy8AbS8rq7FHEJzjnCZo1BupwdJg==
-  dependencies:
-    get-symbol-from-current-process-h "^1.0.1"
 
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
@@ -12802,7 +12715,7 @@ new-github-issue-url@^0.2.1:
   resolved "https://registry.yarnpkg.com/new-github-issue-url/-/new-github-issue-url-0.2.1.tgz#e17be1f665a92de465926603e44b9f8685630c1d"
   integrity sha512-md4cGoxuT4T4d/HDOXbrUHkTKrp/vp+m3aOA7XXVYwNsUNMK49g3SQicTSeV5GIz/5QVGAeYRAOlyp9OvlgsYA==
 
-next-tick@1, next-tick@^1.0.0, next-tick@~1.0.0:
+next-tick@1, next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
@@ -12850,7 +12763,7 @@ node-addon-api@^1.6.3:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
   integrity sha512-ibPK3iA+vaY1eEjESkQkM0BbCqFOaZMiXRTtdB0u7b4djtY6JnsjvPdUHVMg6xQt3B8fpTTWHI9A+ADjM9frzg==
 
-node-addon-api@^3.0.0, node-addon-api@^3.1.0:
+node-addon-api@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.1.0.tgz#98b21931557466c6729e51cb77cd39c965f42239"
   integrity sha512-flmrDNB06LIl5lywUz7YlNGZH/5p0M7W28k8hzd9Lshtdh1wshD2Y+U4h9LD6KObOy1f+fEVdgprPrEymjM5uw==
@@ -12879,7 +12792,7 @@ node-forge@0.10.0, node-forge@^0.10.0:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
   integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
 
-node-gyp-build@^4.2.1, node-gyp-build@^4.2.3:
+node-gyp-build@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
   integrity sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==
@@ -15586,32 +15499,6 @@ redux@^4.0.0:
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
-
-ref-array-napi@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/ref-array-napi/-/ref-array-napi-1.2.2.tgz#8b172b375aa04441860973c262ac8a557e3d368e"
-  integrity sha512-EGQzUQpyqD/hN9eIn3uF68UPBmwJXdWkumHCmvK3ncjw128bkjd8TbJ51ur+2PZ4UrfCOQCcPQkuWZ6mNHch9A==
-  dependencies:
-    array-index "1"
-    debug "2"
-    ref-napi "^3.0.1"
-
-ref-napi@3.0.3, "ref-napi@^2.0.1 || ^3.0.2", ref-napi@^3.0.1:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/ref-napi/-/ref-napi-3.0.3.tgz#e259bfc2bbafb3e169e8cd9ba49037dd00396b22"
-  integrity sha512-LiMq/XDGcgodTYOMppikEtJelWsKQERbLQsYm0IOOnzhwE9xYZC7x8txNnFC9wJNOkPferQI4vD4ZkC0mDyrOA==
-  dependencies:
-    debug "^4.1.1"
-    get-symbol-from-current-process-h "^1.0.2"
-    node-addon-api "^3.0.0"
-    node-gyp-build "^4.2.1"
-
-ref-struct-di@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/ref-struct-di/-/ref-struct-di-1.1.0.tgz#d252144eb449608ccf2e5c12fda35f8153bd3760"
-  integrity sha512-gghZITj/iQwdwFDduZ6T8kL2B2ogInlOz7AOB0ggFoEc7akAKMcDrbzh3OIPk13Kxy8U2bHPvN6nejcBh4jN7A==
-  dependencies:
-    debug "^3.1.0"
 
 refractor@^2.4.1:
   version "2.10.0"
@@ -18320,16 +18207,6 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-type@^1.0.1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/type/-/type-1.2.0.tgz#848dd7698dafa3e54a6c479e759c4bc3f18847a0"
-  integrity sha512-+5nt5AAniqsCnu2cEQQdpzCAh33kVx8n0VoFidKpB1dVVLAN/F+bgVOqOJqOnEnrhp222clB5p3vUlD+1QAnfg==
-
-type@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
-  integrity sha512-KBt58xCHry4Cejnc2ISQAF7QY+ORngsWfxezO68+12hKV6lQY8P/psIkcbjeHWn7MqcgciWJyCCevFMJdIXpow==
-
 typed-scss-modules@4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/typed-scss-modules/-/typed-scss-modules-4.1.1.tgz#eab12f25511a329f8e4837842c3b484ffd66b449"
@@ -19477,16 +19354,6 @@ zip-stream@^1.2.0:
     compress-commons "^1.2.0"
     lodash "^4.8.0"
     readable-stream "^2.0.0"
-
-"zkgroup@https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672":
-  version "0.8.2"
-  resolved "https://github.com/signalapp/signal-zkgroup-node.git#0d2b3874d2e671fa5fdcc2154065cc061f977672"
-  dependencies:
-    "@types/ffi-napi" "^4.0.1"
-    "@types/ref-napi" "^3.0.1"
-    ffi-napi "4.0.3"
-    ref-array-napi "1.2.2"
-    ref-napi "3.0.3"
 
 zod@3.5.1:
   version "3.5.1"

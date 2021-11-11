@@ -8,13 +8,9 @@ patch:
   'npm:debug:20170905':
     - websocket > debug:
         patched: '2020-04-30T19:26:25.236Z'
-    - ref-array-napi > array-index > debug:
-        patched: '2020-04-30T19:26:25.236Z'
     - babel-template > babel-traverse > debug:
         patched: '2020-04-30T19:26:25.236Z'
     - istanbul-lib-instrument > babel-traverse > debug:
-        patched: '2020-04-30T19:26:25.236Z'
-    - zkgroup > ref-array-napi > array-index > debug:
         patched: '2020-04-30T19:26:25.236Z'
     - istanbul-lib-instrument > babel-template > babel-traverse > debug:
         patched: '2020-04-30T19:26:25.236Z'

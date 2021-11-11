@@ -2,13 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last, sortBy } from 'lodash';
-import { AuthCredentialResponse } from 'zkgroup';
+import { AuthCredentialResponse } from '@signalapp/signal-client/zkgroup';
 
-import {
-  base64ToCompatArray,
-  compatArrayToBase64,
-  getClientZkAuthOperations,
-} from '../util/zkgroup';
+import { getClientZkAuthOperations } from '../util/zkgroup';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
 import * as durations from '../util/durations';
@@ -151,9 +147,9 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     const authCredential = clientZKAuthOperations.receiveAuthCredential(
       uuid,
       item.redemptionTime,
-      new AuthCredentialResponse(base64ToCompatArray(item.credential))
+      new AuthCredentialResponse(Buffer.from(item.credential, 'base64'))
     );
-    const credential = compatArrayToBase64(authCredential.serialize());
+    const credential = authCredential.serialize().toString('base64');
 
     return {
       redemptionTime: item.redemptionTime,

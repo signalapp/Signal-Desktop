@@ -13,11 +13,7 @@ const {
   optionalDependencies = {},
 } = require('../package.json');
 
-const SKIPPED_DEPENDENCIES = new Set([
-  'ringrtc',
-  'zkgroup',
-  '@signalapp/signal-client',
-]);
+const SKIPPED_DEPENDENCIES = new Set(['ringrtc', '@signalapp/signal-client']);
 
 const rootDir = join(__dirname, '..');
 const nodeModulesPath = join(rootDir, 'node_modules');

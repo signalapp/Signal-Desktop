@@ -565,36 +565,6 @@
     "reasonDetail": "isn't jquery"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-21T00:36:11.618Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/array-index/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-10-21T00:36:11.618Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
     "rule": "jQuery-insertAfter(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertAfter = function insertAfter(node) {",
@@ -9229,62 +9199,6 @@
     "line": "                load(exts.slice(1), x, pkg);",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-array-napi/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-struct-di/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-struct-di/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/ref-struct-di/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-02-21T22:10:39.074Z"
   },
   {
     "rule": "jQuery-$(",

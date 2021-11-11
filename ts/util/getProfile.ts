@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ProfileKeyCredentialRequestContext } from 'zkgroup';
+import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-client/zkgroup';
 import { SEALED_SENDER } from '../types/SealedSender';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';

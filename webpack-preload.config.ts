@@ -11,9 +11,9 @@ const { NODE_ENV: mode = 'development' } = process.env;
 
 const EXTERNAL_MODULE = new Set([
   '@signalapp/signal-client',
+  '@signalapp/signal-client/zkgroup',
   'backbone',
   'better-sqlite3',
-  'ffi-napi',
   'fs-xattr',
   'fsevents',
   'got',
@@ -23,12 +23,9 @@ const EXTERNAL_MODULE = new Set([
   'node-sass',
   'pino',
   'proxy-agent',
-  'ref-array-napi',
-  'ref-napi',
   'ringrtc',
   'sharp',
   'websocket',
-  'zkgroup',
 
   // Uses fast-glob and dynamic requires
   './preload_test',

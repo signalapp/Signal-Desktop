@@ -9,7 +9,7 @@ import {
   isNumber,
   values,
 } from 'lodash';
-import type { ClientZkGroupCipher } from 'zkgroup';
+import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
 import * as log from './logging/log';
