@@ -738,11 +738,11 @@ export async function mergeContactRecord(
     return false;
   }
 
-  const c = new window.Whisper.Conversation(({
+  const c = new window.Whisper.Conversation({
     e164,
     uuid,
     type: 'private',
-  } as Partial<ConversationAttributesType>) as WhatIsThis);
+  } as Partial<ConversationAttributesType> as WhatIsThis);
 
   const validationError = c.validate();
   if (validationError) {
