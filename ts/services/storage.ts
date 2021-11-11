@@ -167,6 +167,20 @@ async function generateManifest(
         continue;
       }
 
+      const validationError = conversation.validate();
+      if (validationError) {
+        if (conversation.get('storageID')) {
+          log.warn(
+            'storageService.generateManifest: skipping contact',
+            conversation.idForLogging(),
+            'due to local validation error',
+            validationError
+          );
+          conversation.unset('storageID');
+        }
+        continue;
+      }
+
       storageRecord = new Proto.StorageRecord();
       // eslint-disable-next-line no-await-in-loop
       storageRecord.contact = await toContactRecord(conversation);

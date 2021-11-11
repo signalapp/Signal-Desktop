@@ -35,9 +35,12 @@ import {
 } from '../util/universalExpireTimer';
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
+import { isValidUuid } from '../types/UUID';
+import type { ConversationAttributesType } from '../model-types.d';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import type { WhatIsThis } from '../window.d';
 
 const { updateConversation } = dataInterface;
 
@@ -727,6 +730,25 @@ export async function mergeContactRecord(
 
   // All contacts must have UUID
   if (!uuid) {
+    return false;
+  }
+
+  if (!isValidUuid(uuid)) {
+    return false;
+  }
+
+  const c = new window.Whisper.Conversation(({
+    e164,
+    uuid,
+    type: 'private',
+  } as Partial<ConversationAttributesType>) as WhatIsThis);
+
+  const validationError = c.validate();
+  if (validationError) {
+    log.error(
+      'storageService.mergeContactRecord: invalid contact',
+      validationError
+    );
     return false;
   }
 
