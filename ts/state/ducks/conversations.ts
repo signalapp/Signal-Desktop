@@ -87,6 +87,9 @@ export type InteractionModeType = typeof InteractionModes[number];
 export type MessageType = MessageAttributesType & {
   interactionType?: InteractionModeType;
 };
+export type MessageWithUIFieldsType = MessageAttributesType & {
+  displayLimit?: number;
+};
 
 export const ConversationTypes = ['direct', 'group'] as const;
 export type ConversationTypeType = typeof ConversationTypes[number];
@@ -235,7 +238,7 @@ type MessageMetricsType = {
 };
 
 export type MessageLookupType = {
-  [key: string]: MessageAttributesType;
+  [key: string]: MessageWithUIFieldsType;
 };
 export type ConversationMessageType = {
   heightChangeMessageIds: Array<string>;
@@ -523,6 +526,14 @@ export type MessageDeletedActionType = {
     conversationId: string;
   };
 };
+export type MessageExpandedActionType = {
+  type: 'MESSAGE_EXPANDED';
+  payload: {
+    id: string;
+    displayLimit: number;
+  };
+};
+
 type MessageSizeChangedActionType = {
   type: 'MESSAGE_SIZE_CHANGED';
   payload: {
@@ -738,6 +749,7 @@ export type ConversationActionType =
   | MessageStoppedByMissingVerificationActionType
   | MessageChangedActionType
   | MessageDeletedActionType
+  | MessageExpandedActionType
   | MessageSelectedActionType
   | MessageSizeChangedActionType
   | MessagesAddedActionType
@@ -801,6 +813,7 @@ export const actions = {
   messageStoppedByMissingVerification,
   messageChanged,
   messageDeleted,
+  messageExpanded,
   messageSizeChanged,
   messagesAdded,
   messagesReset,
@@ -1501,6 +1514,18 @@ function messageDeleted(
     payload: {
       id,
       conversationId,
+    },
+  };
+}
+function messageExpanded(
+  id: string,
+  displayLimit: number
+): MessageExpandedActionType {
+  return {
+    type: 'MESSAGE_EXPANDED',
+    payload: {
+      id,
+      displayLimit,
     },
   };
 }
@@ -2361,7 +2386,7 @@ export function reducer(
       return state;
     }
     // ...and we've already loaded that message once
-    const existingMessage = state.messagesLookup[id];
+    const existingMessage = getOwn(state.messagesLookup, id);
     if (!existingMessage) {
       return state;
     }
@@ -2379,13 +2404,35 @@ export function reducer(
       ...state,
       messagesLookup: {
         ...state.messagesLookup,
-        [id]: data,
+        [id]: {
+          ...data,
+          displayLimit: existingMessage.displayLimit,
+        },
       },
       messagesByConversation: {
         ...state.messagesByConversation,
         [conversationId]: {
           ...existingConversation,
           heightChangeMessageIds: updatedChanges,
+        },
+      },
+    };
+  }
+  if (action.type === 'MESSAGE_EXPANDED') {
+    const { id, displayLimit } = action.payload;
+
+    const existingMessage = state.messagesLookup[id];
+    if (!existingMessage) {
+      return state;
+    }
+
+    return {
+      ...state,
+      messagesLookup: {
+        ...state.messagesLookup,
+        [id]: {
+          ...existingMessage,
+          displayLimit,
         },
       },
     };

@@ -19,7 +19,10 @@ const story = storiesOf('Components/Conversation/MessageBodyReadMore', module);
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   bodyRanges: overrideProps.bodyRanges,
   direction: 'incoming',
+  displayLimit: overrideProps.displayLimit,
   i18n,
+  id: 'some-id',
+  messageExpanded: action('messageExpanded'),
   onHeightChange: action('onHeightChange'),
   text: text('text', overrideProps.text || ''),
 });
