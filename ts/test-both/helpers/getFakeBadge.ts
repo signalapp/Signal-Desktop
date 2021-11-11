@@ -23,7 +23,8 @@ export function getFakeBadge({
     id,
     category: alternate ? BadgeCategory.Other : BadgeCategory.Donor,
     name: `Test Badge ${alternate ? 'B' : 'A'}`,
-    descriptionTemplate: '{short_name} got this badge for no good reason',
+    descriptionTemplate:
+      "{short_name} got this badge because they're cool. Signal is a nonprofit with no advertisers or investors, supported only by people like you.",
     images: [
       ...Array(3).fill(
         zipObject(Object.values(BadgeImageTheme), repeat(imageFile))

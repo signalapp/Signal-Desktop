@@ -99,13 +99,16 @@
 
   &__name {
     @include font-title-2;
-    @include fixed-height(2.5rem);
-    margin-top: 24px;
+    @include fixed-height(3.5em);
+    align-items: center;
+    display: flex;
+    justify-content: center;
     margin-bottom: 8px;
+    margin-top: 24px;
   }
 
   &__description {
     @include font-body-1;
-    @include fixed-height(3.5rem);
+    @include fixed-height(5.5em);
   }
 }
