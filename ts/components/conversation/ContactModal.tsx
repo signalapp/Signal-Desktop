@@ -9,7 +9,7 @@ import { Avatar } from '../Avatar';
 import { AvatarLightbox } from '../AvatarLightbox';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Modal } from '../Modal';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { BadgeDialog } from '../BadgeDialog';
 import type { BadgeType } from '../../badges/types';
 import { SharedGroupNames } from '../SharedGroupNames';
@@ -24,6 +24,7 @@ export type PropsDataType = {
   readonly i18n: LocalizerType;
   isAdmin: boolean;
   isMember: boolean;
+  theme: ThemeType;
 };
 
 type PropsActionType = {
@@ -60,6 +61,7 @@ export const ContactModal = ({
   isMember,
   openConversationInternal,
   removeMemberFromGroup,
+  theme,
   toggleAdmin,
   toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
@@ -102,6 +104,7 @@ export const ContactModal = ({
               profileName={contact.profileName}
               sharedGroupNames={contact.sharedGroupNames}
               size={96}
+              theme={theme}
               title={contact.title}
               unblurredAvatarPath={contact.unblurredAvatarPath}
               onClick={() => {

@@ -14,6 +14,7 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { getFakeBadges } from '../../test-both/helpers/getFakeBadge';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -37,6 +38,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isMember: boolean('isMember', overrideProps.isMember || true),
   openConversationInternal: action('openConversationInternal'),
   removeMemberFromGroup: action('removeMemberFromGroup'),
+  theme: ThemeType.light,
   toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
   toggleAdmin: action('toggleAdmin'),
   updateConversationModelSharedGroups: action(
