@@ -5,9 +5,12 @@ import * as React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
-import { boolean } from '@storybook/addon-knobs';
+import { select } from '@storybook/addon-knobs';
 
-import { ErrorDialogAudioRecorderType } from '../../state/ducks/audioRecorder';
+import {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../../state/ducks/audioRecorder';
 import type { PropsType } from './AudioCapture';
 import { AudioCapture } from './AudioCapture';
 import { setupI18n } from '../../util/setupI18n';
@@ -25,7 +28,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   errorDialogAudioRecorderType: overrideProps.errorDialogAudioRecorderType,
   errorRecording: action('errorRecording'),
   i18n,
-  isRecording: boolean('isRecording', overrideProps.isRecording || false),
+  recordingState: select(
+    'recordingState',
+    RecordingState,
+    overrideProps.recordingState || RecordingState.Idle
+  ),
   onSendAudioRecording: action('onSendAudioRecording'),
   startRecording: action('startRecording'),
 });
@@ -34,11 +41,21 @@ story.add('Default', () => {
   return <AudioCapture {...createProps()} />;
 });
 
+story.add('Initializing', () => {
+  return (
+    <AudioCapture
+      {...createProps({
+        recordingState: RecordingState.Initializing,
+      })}
+    />
+  );
+});
+
 story.add('Recording', () => {
   return (
     <AudioCapture
       {...createProps({
-        isRecording: true,
+        recordingState: RecordingState.Recording,
       })}
     />
   );
@@ -49,7 +66,7 @@ story.add('Voice Limit', () => {
     <AudioCapture
       {...createProps({
         errorDialogAudioRecorderType: ErrorDialogAudioRecorderType.Timeout,
-        isRecording: true,
+        recordingState: RecordingState.Recording,
       })}
     />
   );
@@ -60,7 +77,7 @@ story.add('Switched Apps', () => {
     <AudioCapture
       {...createProps({
         errorDialogAudioRecorderType: ErrorDialogAudioRecorderType.Blur,
-        isRecording: true,
+        recordingState: RecordingState.Recording,
       })}
     />
   );

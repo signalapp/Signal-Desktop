@@ -8,7 +8,10 @@ import { noop } from 'lodash';
 import type { AttachmentType } from '../../types/Attachment';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
-import { ErrorDialogAudioRecorderType } from '../../state/ducks/audioRecorder';
+import {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../../state/ducks/audioRecorder';
 import { ToastVoiceNoteLimit } from '../ToastVoiceNoteLimit';
 import { ToastVoiceNoteMustBeOnlyAttachment } from '../ToastVoiceNoteMustBeOnlyAttachment';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
@@ -30,7 +33,7 @@ export type PropsType = {
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   i18n: LocalizerType;
-  isRecording: boolean;
+  recordingState: RecordingState;
   onSendAudioRecording: OnSendAudioRecordingType;
   startRecording: () => unknown;
 };
@@ -50,7 +53,7 @@ export const AudioCapture = ({
   errorDialogAudioRecorderType,
   errorRecording,
   i18n,
-  isRecording,
+  recordingState,
   onSendAudioRecording,
   startRecording,
 }: PropsType): JSX.Element => {
@@ -59,18 +62,14 @@ export const AudioCapture = ({
 
   // Cancel recording if we switch away from this conversation, unmounting
   useEffect(() => {
-    if (!isRecording) {
-      return;
-    }
-
     return () => {
       cancelRecording();
     };
-  }, [cancelRecording, isRecording]);
+  }, [cancelRecording]);
 
   // Stop recording and show confirmation if user switches away from this app
   useEffect(() => {
-    if (!isRecording) {
+    if (recordingState !== RecordingState.Recording) {
       return;
     }
 
@@ -82,15 +81,15 @@ export const AudioCapture = ({
     return () => {
       window.removeEventListener('blur', handler);
     };
-  }, [isRecording, completeRecording, errorRecording]);
+  }, [recordingState, completeRecording, errorRecording]);
 
   const escapeRecording = useCallback(() => {
-    if (!isRecording) {
+    if (recordingState !== RecordingState.Recording) {
       return;
     }
 
     cancelRecording();
-  }, [cancelRecording, isRecording]);
+  }, [cancelRecording, recordingState]);
 
   useEscapeHandling(escapeRecording);
 
@@ -103,7 +102,7 @@ export const AudioCapture = ({
 
   // Update timestamp regularly, then timeout if recording goes over five minutes
   useEffect(() => {
-    if (!isRecording) {
+    if (recordingState !== RecordingState.Recording) {
       return;
     }
 
@@ -133,7 +132,7 @@ export const AudioCapture = ({
     closeToast,
     completeRecording,
     errorRecording,
-    isRecording,
+    recordingState,
     setDurationText,
   ]);
 
@@ -197,7 +196,7 @@ export const AudioCapture = ({
     );
   }
 
-  if (isRecording && !confirmationDialog) {
+  if (recordingState === RecordingState.Recording && !confirmationDialog) {
     return (
       <>
         <div className="AudioCapture">
