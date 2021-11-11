@@ -14,10 +14,11 @@ import {
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import { assert } from '../../util/assert';
+import type { UUIDStringType } from '../../types/UUID';
 
 export type SmartPendingInvitesProps = {
   conversationId: string;
-  ourConversationId?: string;
+  ourUuid: UUIDStringType;
   readonly approvePendingMembership: (conversationid: string) => void;
   readonly revokePendingMemberships: (membershipIds: Array<string>) => void;
 };
