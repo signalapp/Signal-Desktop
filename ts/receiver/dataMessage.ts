@@ -626,7 +626,7 @@ export async function handleMessageEvent(event: MessageEvent): Promise<void> {
     return;
   }
 
-  conversation.queueJob(async () => {
+  void conversation.queueJob(async () => {
     if (await isMessageDuplicate(data)) {
       window?.log?.info('Received duplicate message. Dropping it.');
       confirm();

@@ -4,6 +4,7 @@ import { SessionConversation } from '../../components/session/conversation/Sessi
 import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
+  getHasOngoingCallWithFocusedConvo,
   getLightBoxOptions,
   getSelectedConversation,
   getSelectedConversationKey,
@@ -27,6 +28,7 @@ const mapStateToProps = (state: StateType) => {
     selectedMessages: getSelectedMessageIds(state),
     lightBoxOptions: getLightBoxOptions(state),
     stagedAttachments: getStagedAttachmentsForCurrentConversation(state),
+    hasOngoingCallWithFocusedConvo: getHasOngoingCallWithFocusedConvo(state),
   };
 };
 

@@ -10,6 +10,7 @@ import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
 import { getFocusedSection } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
+import { UserUtils } from '../../session/utils';
 
 const Tab = ({
   isSelected,
@@ -86,8 +87,9 @@ const BannerInner = () => {
 
 export const LeftPaneBanner = () => {
   const section = useSelector(getFocusedSection);
+  const isSignInWithRecoveryPhrase = UserUtils.isSignWithRecoveryPhrase();
 
-  if (section !== SectionType.Message) {
+  if (section !== SectionType.Message || isSignInWithRecoveryPhrase) {
     return null;
   }
 

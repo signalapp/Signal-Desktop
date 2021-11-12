@@ -46,8 +46,9 @@ import { loadDefaultRooms } from '../../opengroup/opengroupV2/ApiUtil';
 
 import { ActionPanelOnionStatusLight } from '../dialog/OnionStatusPathDialog';
 import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks/SessionTheme';
-import { DraggableCallContainer } from './calling/CallContainer';
+import { DraggableCallContainer } from './calling/DraggableCallContainer';
 import { IncomingCallDialog } from './calling/IncomingCallDialog';
+import { CallInFullScreenContainer } from './calling/CallInFullScreenContainer';
 
 const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -223,13 +224,21 @@ const doAppStartUp = () => {
   // trigger a sync message if needed for our other devices
 
   void triggerSyncIfNeeded();
+  void getSwarmPollingInstance().start();
 
   void loadDefaultRooms();
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
+};
 
-  // TODO: Investigate the case where we reconnect
-  void getSwarmPollingInstance().start();
+const CallContainer = () => {
+  return (
+    <>
+      <DraggableCallContainer />
+      <IncomingCallDialog />
+      <CallInFullScreenContainer />
+    </>
+  );
 };
 
 /**
@@ -263,7 +272,7 @@ export const ActionsPanel = () => {
 
   if (!ourPrimaryConversation) {
     window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
-    return <></>;
+    return null;
   }
 
   useInterval(() => {
@@ -290,9 +299,7 @@ export const ActionsPanel = () => {
     <>
       <ModalContainer />
 
-      <DraggableCallContainer />
-      <IncomingCallDialog />
-
+      <CallContainer />
       <div className="module-left-pane__sections-container">
         <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
         <Section type={SectionType.Message} />

@@ -157,7 +157,7 @@ export const QuoteGenericFile = (
   const { attachment, isIncoming } = props;
 
   if (!attachment) {
-    return <></>;
+    return null;
   }
 
   const { fileName, contentType } = attachment;
@@ -167,7 +167,7 @@ export const QuoteGenericFile = (
     !MIME.isAudio(contentType);
 
   if (!isGenericFile) {
-    return <></>;
+    return null;
   }
 
   return (

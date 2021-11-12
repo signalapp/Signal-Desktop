@@ -157,6 +157,7 @@ message DataMessage {
 message CallMessage {
 
   enum Type {
+    PRE_OFFER          = 6;
     OFFER              = 1;
     ANSWER             = 2;
     PROVISIONAL_ANSWER = 3;
@@ -169,6 +170,9 @@ message CallMessage {
   repeated string sdps            = 2;
   repeated uint32 sdpMLineIndexes = 3;
   repeated string sdpMids         = 4;
+
+  // @required
+  required string uuid            = 5;
 
 }
 

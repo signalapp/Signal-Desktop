@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
-// tslint:disable-next-line: no-submodule-imports
-import useMountedState from 'react-use/lib/useMountedState';
 import styled from 'styled-components';
 import _ from 'underscore';
-import { CallManager } from '../../../session/utils';
 import {
   getHasOngoingCall,
   getHasOngoingCallWith,
@@ -14,12 +11,14 @@ import {
 } from '../../../state/selectors/conversations';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
-import { getConversationController } from '../../../session/conversations';
+import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
+import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
+import { VideoLoadingSpinner } from './InConversationCallContainer';
 
 export const DraggableCallWindow = styled.div`
   position: absolute;
   z-index: 9;
-  box-shadow: var(--color-session-shadow);
+  box-shadow: 0px 0px 10px 0px #000000;
   max-height: 300px;
   width: 12vw;
   display: flex;
@@ -28,11 +27,11 @@ export const DraggableCallWindow = styled.div`
   border: var(--session-border);
 `;
 
-export const StyledVideoElement = styled.video<{ isRemoteVideoMuted: boolean }>`
+export const StyledVideoElement = styled.video<{ isVideoMuted: boolean }>`
   padding: 0 1rem;
   height: 100%;
   width: 100%;
-  opacity: ${props => (props.isRemoteVideoMuted ? 0 : 1)};
+  opacity: ${props => (props.isVideoMuted ? 0 : 1)};
 `;
 
 const StyledDraggableVideoElement = styled(StyledVideoElement)`
@@ -69,15 +68,21 @@ export const DraggableCallContainer = () => {
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const hasOngoingCall = useSelector(getHasOngoingCall);
 
-  const [positionX, setPositionX] = useState(window.innerWidth / 2);
-  const [positionY, setPositionY] = useState(window.innerHeight / 2);
+  // the draggable container has a width of 12vw, so we just set it's X to a bit more than this
+  const [positionX, setPositionX] = useState(window.innerWidth - (window.innerWidth * 1) / 6);
+  // 90 px is a bit below the conversation header height
+  const [positionY, setPositionY] = useState(90);
   const [lastPositionX, setLastPositionX] = useState(0);
   const [lastPositionY, setLastPositionY] = useState(0);
-  const [isRemoteVideoMuted, setIsRemoteVideoMuted] = useState(true);
 
   const ongoingCallPubkey = ongoingCallProps?.id;
-  const videoRefRemote = useRef<any>(undefined);
-  const mountedState = useMountedState();
+  const { remoteStreamVideoIsMuted, remoteStream } = useVideoCallEventsListener(
+    'DraggableCallContainer',
+    false
+  );
+  const ongoingCallUsername = useConversationUsername(ongoingCallPubkey);
+  const avatarPath = useAvatarPath(ongoingCallPubkey);
+  const videoRefRemote = useRef<HTMLVideoElement>(null);
 
   function onWindowResize() {
     if (positionY + 50 > window.innerHeight || positionX + 50 > window.innerWidth) {
@@ -94,45 +99,21 @@ export const DraggableCallContainer = () => {
     };
   }, [positionX, positionY]);
 
-  useEffect(() => {
-    if (ongoingCallPubkey !== selectedConversationKey) {
-      CallManager.setVideoEventsListener(
-        (
-          _localStream: MediaStream | null,
-          remoteStream: MediaStream | null,
-          _camerasList: any,
-          _audioList: any,
-          remoteVideoIsMuted: boolean
-        ) => {
-          if (mountedState() && videoRefRemote?.current) {
-            videoRefRemote.current.srcObject = remoteStream;
-            setIsRemoteVideoMuted(remoteVideoIsMuted);
-          }
-        }
-      );
+  if (videoRefRemote?.current && remoteStream) {
+    if (videoRefRemote.current.srcObject !== remoteStream) {
+      videoRefRemote.current.srcObject = remoteStream;
     }
+  }
 
-    return () => {
-      CallManager.setVideoEventsListener(null);
-    };
-  }, [ongoingCallPubkey, selectedConversationKey]);
-
-  const openCallingConversation = useCallback(() => {
+  const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
       void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
     }
-  }, [ongoingCallPubkey, selectedConversationKey]);
+  };
 
   if (!hasOngoingCall || !ongoingCallProps || ongoingCallPubkey === selectedConversationKey) {
     return null;
   }
-  const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
-
-  const avatarPath = ongoingCallPubkey
-    ? getConversationController()
-        .get(ongoingCallPubkey)
-        .getAvatarPath()
-    : undefined;
 
   return (
     <Draggable
@@ -154,12 +135,13 @@ export const DraggableCallContainer = () => {
     >
       <DraggableCallWindow className="dragHandle">
         <DraggableCallWindowInner>
+          <VideoLoadingSpinner fullWidth={true} />
           <StyledDraggableVideoElement
             ref={videoRefRemote}
             autoPlay={true}
-            isRemoteVideoMuted={isRemoteVideoMuted}
+            isVideoMuted={remoteStreamVideoIsMuted}
           />
-          {isRemoteVideoMuted && (
+          {remoteStreamVideoIsMuted && (
             <CenteredAvatarInDraggable>
               <Avatar
                 size={AvatarSize.XL}

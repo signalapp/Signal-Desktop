@@ -4,7 +4,7 @@ import {
   openGroupV2ConversationIdRegex,
 } from '../opengroup/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { SyncUtils, ToastUtils, UserUtils } from '../session/utils';
+import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { ConversationNotificationSettingType, ConversationTypeEnum } from '../models/conversation';
 
 import _ from 'lodash';
@@ -22,7 +22,9 @@ import {
 } from '../state/ducks/modalDialog';
 import {
   createOrUpdateItem,
+  getItemById,
   getMessageById,
+  hasLinkPreviewPopupBeenDisplayed,
   lastAvatarUploadTimestamp,
   removeAllMessagesInConversation,
 } from '../data/data';
@@ -33,6 +35,7 @@ import { FSv2 } from '../fileserver';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { getCallMediaPermissionsSettings } from '../components/session/settings/SessionSettings';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -386,5 +389,66 @@ export async function replyToMessage(messageId: string) {
     window.inboxStore?.dispatch(quoteMessage(quotedMessageProps));
   } else {
     window.inboxStore?.dispatch(quoteMessage(undefined));
+  }
+}
+
+/**
+ * Check if what is pasted is a URL and prompt confirmation for a setting change
+ * @param e paste event
+ */
+export async function showLinkSharingConfirmationModalDialog(e: any) {
+  const pastedText = e.clipboardData.getData('text');
+  if (isURL(pastedText) && !window.getSettingValue('link-preview-setting', false)) {
+    const alreadyDisplayedPopup =
+      (await getItemById(hasLinkPreviewPopupBeenDisplayed))?.value || false;
+    if (!alreadyDisplayedPopup) {
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          shouldShowConfirm:
+            !window.getSettingValue('link-preview-setting') && !alreadyDisplayedPopup,
+          title: window.i18n('linkPreviewsTitle'),
+          message: window.i18n('linkPreviewsConfirmMessage'),
+          okTheme: SessionButtonColor.Danger,
+          onClickOk: () => {
+            window.setSettingValue('link-preview-setting', true);
+          },
+          onClickClose: async () => {
+            await createOrUpdateItem({ id: hasLinkPreviewPopupBeenDisplayed, value: true });
+          },
+        })
+      );
+    }
+  }
+}
+
+/**
+ *
+ * @param str String to evaluate
+ * @returns boolean if the string is true or false
+ */
+function isURL(str: string) {
+  const urlRegex =
+    '^(?!mailto:)(?:(?:http|https|ftp)://)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$';
+  const url = new RegExp(urlRegex, 'i');
+  return str.length < 2083 && url.test(str);
+}
+
+export async function callRecipient(pubkey: string, canCall: boolean) {
+  const convo = getConversationController().get(pubkey);
+
+  if (!canCall) {
+    ToastUtils.pushUnableToCall();
+    return;
+  }
+
+  if (!getCallMediaPermissionsSettings()) {
+    ToastUtils.pushVideoCallPermissionNeeded();
+    return;
+  }
+
+  if (convo && convo.isPrivate() && !convo.isMe()) {
+    convo.callState = 'offering';
+    await convo.commit();
+    await CallManager.USER_callRecipient(convo.id);
   }
 }

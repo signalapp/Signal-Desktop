@@ -303,7 +303,7 @@ export async function handleOpenGroupV2Message(
     return;
   }
 
-  conversation.queueJob(async () => {
+  void conversation.queueJob(async () => {
     const isMe = UserUtils.isUsFromCache(sender);
     // for an opengroupv2 incoming message the serverTimestamp and the timestamp
     const messageCreationData: MessageCreationData = {

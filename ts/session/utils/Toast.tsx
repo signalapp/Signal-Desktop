@@ -148,24 +148,42 @@ export function pushedMissedCall(conversationName: string) {
   );
 }
 
-export function pushMicAndCameraPermissionNeeded() {
-  pushToastInfo(
-    'micAndCameraPermissionNeeded',
-    window.i18n('micAndCameraPermissionNeededTitle'),
-    window.i18n('micAndCameraPermissionNeeded'),
-    () => {
-      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
-      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
-    }
+const openPrivacySettings = () => {
+  window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+  window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+};
+
+export function pushedMissedCallCauseOfPermission(conversationName: string) {
+  const id = 'missedCallPermission';
+  toast.info(
+    <SessionToast
+      title={window.i18n('callMissedTitle')}
+      description={window.i18n('callMissedCausePermission', conversationName)}
+      type={SessionToastType.Info}
+      onToastClick={openPrivacySettings}
+    />,
+    { toastId: id, updateId: id, autoClose: 10000 }
   );
 }
 
-export function pushAudioPermissionNeeded(onClicked: () => void) {
+export function pushVideoCallPermissionNeeded() {
+  pushToastInfo(
+    'videoCallPermissionNeeded',
+    window.i18n('cameraPermissionNeededTitle'),
+    window.i18n('cameraPermissionNeeded'),
+    openPrivacySettings
+  );
+}
+
+export function pushAudioPermissionNeeded() {
   pushToastInfo(
     'audioPermissionNeeded',
     window.i18n('audioPermissionNeededTitle'),
     window.i18n('audioPermissionNeeded'),
-    onClicked
+    () => {
+      window.inboxStore?.dispatch(showLeftPaneSection(SectionType.Settings));
+      window.inboxStore?.dispatch(showSettingsSection(SessionSettingCategory.Privacy));
+    }
   );
 }
 
@@ -247,4 +265,8 @@ export function pushNoCameraFound() {
 
 export function pushNoAudioInputFound() {
   pushToastWarning('noAudioInputFound', window.i18n('noAudioInputFound'));
+}
+
+export function pushNoAudioOutputFound() {
+  pushToastWarning('noAudioInputFound', window.i18n('noAudioOutputFound'));
 }

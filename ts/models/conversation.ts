@@ -44,7 +44,7 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import {
   ReplyingToMessageProps,
   SendMessageType,
-} from '../components/session/conversation/SessionCompositionBox';
+} from '../components/session/conversation/composition/CompositionBox';
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
@@ -180,8 +180,8 @@ export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'no
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
-  public throttledBumpTyping: any;
-  public throttledNotify: any;
+  public throttledBumpTyping: () => void;
+  public throttledNotify: (message: MessageModel) => void;
   public markRead: (newestUnreadDate: number, providedOptions?: any) => Promise<void>;
   public initialPromise: any;
 
@@ -192,7 +192,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   private typingTimer?: NodeJS.Timeout | null;
   private lastReadTimestamp: number;
 
-  private pending: any;
+  private pending?: Promise<any>;
 
   constructor(attributes: ConversationAttributesOptionals) {
     super(fillConvoAttributesWithDefaults(attributes));
@@ -597,7 +597,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return unreadCount;
   }
 
-  public queueJob(callback: () => Promise<void>) {
+  public async queueJob(callback: () => Promise<void>) {
     // tslint:disable-next-line: no-promise-as-boolean
     const previous = this.pending || Promise.resolve();
 
@@ -606,7 +606,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.pending = previous.then(taskWithTimeout, taskWithTimeout);
     const current = this.pending;
 
-    current.then(() => {
+    void current.then(() => {
       if (this.pending === current) {
         delete this.pending;
       }
@@ -874,7 +874,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
     await this.commit();
 
-    this.queueJob(async () => {
+    await this.queueJob(async () => {
       await this.sendMessageJob(messageModel, expireTimer);
     });
   }
@@ -1526,6 +1526,36 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       messageId,
       messageSentAt,
       title: convo.getTitle(),
+    });
+  }
+
+  public async notifyIncomingCall() {
+    if (!this.isPrivate()) {
+      window?.log?.info('notifyIncomingCall: not a private convo', this.idForLogging());
+      return;
+    }
+    const conversationId = this.id;
+
+    // make sure the notifications are not muted for this convo (and not the source convo)
+    const convNotif = this.get('triggerNotificationsFor');
+    if (convNotif === 'disabled') {
+      window?.log?.info(
+        'notifyIncomingCall: notifications disabled for convo',
+        this.idForLogging()
+      );
+      return;
+    }
+
+    const now = Date.now();
+    const iconUrl = await this.getNotificationIcon();
+
+    window.Whisper.Notifications.add({
+      conversationId,
+      iconUrl,
+      isExpiringMessage: false,
+      message: window.i18n('incomingCallFrom', this.getTitle()),
+      messageSentAt: now,
+      title: this.getTitle(),
     });
   }
 

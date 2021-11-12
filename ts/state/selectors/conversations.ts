@@ -21,7 +21,7 @@ import {
   ConversationHeaderTitleProps,
 } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { MessageAvatarSelectorProps } from '../../components/conversation/message/MessageAvatar';
@@ -49,6 +49,7 @@ export const getConversationLookup = createSelector(
 export const getConversationsCount = createSelector(getConversationLookup, (state): number => {
   return Object.values(state).length;
 });
+
 export const getBlockedPubkeys = createSelector(
   // make sure to extends this selector to we are rerun on conversation changes
   getConversationLookup,
@@ -81,9 +82,22 @@ export const getSelectedConversationIsPublic = createSelector(
   }
 );
 
+const getConversationId = (_whatever: any, id: string) => id;
+
+export const getConversationById = createSelector(
+  getConversations,
+  getConversationId,
+  (
+    state: ConversationsStateType,
+    convoId: string | undefined
+  ): ReduxConversationType | undefined => {
+    return convoId ? state.conversationLookup[convoId] : undefined;
+  }
+);
+
 export const getHasIncomingCallFrom = createSelector(
   getConversations,
-  (state: ConversationsStateType): ReduxConversationType | undefined => {
+  (state: ConversationsStateType): string | undefined => {
     const foundEntry = Object.entries(state.conversationLookup).find(
       ([_convoKey, convo]) => convo.callState === 'incoming'
     );
@@ -91,7 +105,7 @@ export const getHasIncomingCallFrom = createSelector(
     if (!foundEntry) {
       return undefined;
     }
-    return foundEntry[1];
+    return foundEntry[1].id;
   }
 );
 
@@ -114,7 +128,7 @@ export const getHasOngoingCallWith = createSelector(
 
 export const getHasIncomingCall = createSelector(
   getHasIncomingCallFrom,
-  (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
+  (withConvo: string | undefined): boolean => !!withConvo
 );
 
 export const getHasOngoingCall = createSelector(
@@ -122,6 +136,74 @@ export const getHasOngoingCall = createSelector(
   (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
 );
 
+export const getHasOngoingCallWithPubkey = createSelector(
+  getHasOngoingCallWith,
+  (withConvo: ReduxConversationType | undefined): string | undefined => withConvo?.id
+);
+
+export const getHasOngoingCallWithFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey === selectedPubkey;
+  }
+);
+
+export const getHasOngoingCallWithFocusedConvoIsOffering = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'offering';
+
+    return Boolean(isOffering);
+  }
+);
+
+export const getHasOngoingCallWithFocusedConvosIsConnecting = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'connecting';
+
+    return Boolean(isOffering);
+  }
+);
+
+export const getHasOngoingCallWithNonFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey !== selectedPubkey;
+  }
+);
+
+export const getCallIsInFullScreen = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.callIsInFullScreen
+);
+
+export const getIsTypingEnabled = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const selectedConvo = state.conversationLookup[selectedConvoPubkey];
+    if (!selectedConvo) {
+      return false;
+    }
+    const { isBlocked, isKickedFromGroup, left } = selectedConvo;
+
+    return !(isBlocked || isKickedFromGroup || left);
+  }
+);
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected
@@ -507,6 +589,20 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
     isGroup: !!state.isGroup,
   };
 });
+
+export const getIsSelectedPrivate = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isPrivate || false;
+  }
+);
+
+export const getIsSelectedNoteToSelf = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isMe || false;
+  }
+);
 
 export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
   const values = Object.values(state.conversationLookup);
