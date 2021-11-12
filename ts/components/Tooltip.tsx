@@ -34,6 +34,12 @@ const TooltipEventWrapper = React.forwardRef<
     onHoverChanged(false);
   }, [onHoverChanged]);
 
+  const onFocus = React.useCallback(() => {
+    if (window.getInteractionMode() === 'keyboard') {
+      on();
+    }
+  }, [on]);
+
   React.useEffect(() => {
     const wrapperEl = wrapperRef.current;
 
@@ -52,7 +58,7 @@ const TooltipEventWrapper = React.forwardRef<
 
   return (
     <span
-      onFocus={on}
+      onFocus={onFocus}
       onBlur={off}
       ref={refMerger<HTMLSpanElement>(ref, wrapperRef)}
     >
