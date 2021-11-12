@@ -16,7 +16,6 @@ import filesize from 'filesize';
 
 import type {
   LastMessageStatus,
-  MessageAttributesType,
   MessageReactionType,
   ShallowChallengeError,
 } from '../../model-types.d';
@@ -58,7 +57,10 @@ import { isMoreRecentThan } from '../../util/timestamp';
 import * as iterables from '../../util/iterables';
 import { strictAssert } from '../../util/assert';
 
-import type { ConversationType } from '../ducks/conversations';
+import type {
+  ConversationType,
+  MessageWithUIFieldsType,
+} from '../ducks/conversations';
 
 import type { AccountSelectorType } from './accounts';
 import type { CallSelectorType, CallStateType } from './calling';
@@ -114,25 +116,25 @@ export type GetPropsForBubbleOptions = Readonly<{
 }>;
 
 export function isIncoming(
-  message: Pick<MessageAttributesType, 'type'>
+  message: Pick<MessageWithUIFieldsType, 'type'>
 ): boolean {
   return message.type === 'incoming';
 }
 
 export function isOutgoing(
-  message: Pick<MessageAttributesType, 'type'>
+  message: Pick<MessageWithUIFieldsType, 'type'>
 ): boolean {
   return message.type === 'outgoing';
 }
 
 export function hasErrors(
-  message: Pick<MessageAttributesType, 'errors'>
+  message: Pick<MessageWithUIFieldsType, 'errors'>
 ): boolean {
   return message.errors ? message.errors.length > 0 : false;
 }
 
 export function getSource(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   ourNumber: string | undefined
 ): string | undefined {
   if (isIncoming(message)) {
@@ -146,7 +148,7 @@ export function getSource(
 }
 
 export function getSourceDevice(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   ourDeviceId: number
 ): string | number | undefined {
   const { sourceDevice } = message;
@@ -164,7 +166,7 @@ export function getSourceDevice(
 }
 
 export function getSourceUuid(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   ourUuid: string | undefined
 ): string | undefined {
   if (isIncoming(message)) {
@@ -185,7 +187,7 @@ export type GetContactOptions = Pick<
 >;
 
 function getContactId(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   {
     conversationSelector,
     ourConversationId,
@@ -206,7 +208,7 @@ function getContactId(
 
 // TODO: DESKTOP-2145
 export function getContact(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   {
     conversationSelector,
     ourConversationId,
@@ -225,7 +227,7 @@ export function getContact(
 }
 
 export function getConversation(
-  message: Pick<MessageAttributesType, 'conversationId'>,
+  message: Pick<MessageWithUIFieldsType, 'conversationId'>,
   conversationSelector: GetConversationByIdType
 ): ConversationType {
   return conversationSelector(message.conversationId);
@@ -237,12 +239,12 @@ export const getAttachmentsForMessage = createSelectorCreator(memoizeByRoot)(
   // `memoizeByRoot` requirement
   identity,
 
-  ({ sticker }: MessageAttributesType) => sticker,
-  ({ attachments }: MessageAttributesType) => attachments,
+  ({ sticker }: MessageWithUIFieldsType) => sticker,
+  ({ attachments }: MessageWithUIFieldsType) => attachments,
   (
-    _: MessageAttributesType,
-    sticker: MessageAttributesType['sticker'],
-    attachments: MessageAttributesType['attachments'] = []
+    _: MessageWithUIFieldsType,
+    sticker: MessageWithUIFieldsType['sticker'],
+    attachments: MessageWithUIFieldsType['attachments'] = []
   ): Array<AttachmentType> => {
     if (sticker && sticker.data) {
       const { data } = sticker;
@@ -276,7 +278,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
   identity,
 
   (
-    { bodyRanges }: Pick<MessageAttributesType, 'bodyRanges'>,
+    { bodyRanges }: Pick<MessageWithUIFieldsType, 'bodyRanges'>,
     { conversationSelector }: { conversationSelector: GetConversationByIdType }
   ): BodyRangesType | undefined => {
     if (!bodyRanges) {
@@ -296,7 +298,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
       })
       .sort((a, b) => b.start - a.start);
   },
-  (_: MessageAttributesType, ranges?: BodyRangesType) => ranges
+  (_: MessageWithUIFieldsType, ranges?: BodyRangesType) => ranges
 );
 
 const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
@@ -305,7 +307,10 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
 
   getContact,
 
-  (_: MessageAttributesType, convo: ConversationType): PropsData['author'] => {
+  (
+    _: MessageWithUIFieldsType,
+    convo: ConversationType
+  ): PropsData['author'] => {
     const {
       acceptedMessageRequest,
       avatarPath,
@@ -347,7 +352,7 @@ const getCachedAuthorForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   getAuthorForMessage,
 
   (
-    _: MessageAttributesType,
+    _: MessageWithUIFieldsType,
     author: PropsData['author']
   ): PropsData['author'] => author
 );
@@ -356,11 +361,11 @@ export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
   // `memoizeByRoot` requirement
   identity,
 
-  ({ preview }: MessageAttributesType) => preview,
+  ({ preview }: MessageWithUIFieldsType) => preview,
 
   (
-    _: MessageAttributesType,
-    previews: MessageAttributesType['preview'] = []
+    _: MessageWithUIFieldsType,
+    previews: MessageWithUIFieldsType['preview'] = []
   ): Array<LinkPreviewType> => {
     return previews.map(preview => ({
       ...preview,
@@ -379,7 +384,7 @@ export const getReactionsForMessage = createSelectorCreator(
   identity,
 
   (
-    { reactions = [] }: MessageAttributesType,
+    { reactions = [] }: MessageWithUIFieldsType,
     { conversationSelector }: { conversationSelector: GetConversationByIdType }
   ) => {
     const reactionBySender = new Map<string, MessageReactionType>();
@@ -430,7 +435,7 @@ export const getReactionsForMessage = createSelectorCreator(
     return [...formattedReactions];
   },
 
-  (_: MessageAttributesType, reactions: PropsData['reactions']) => reactions
+  (_: MessageWithUIFieldsType, reactions: PropsData['reactions']) => reactions
 );
 
 export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
@@ -438,7 +443,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
   identity,
 
   (
-    message: Pick<MessageAttributesType, 'conversationId' | 'quote'>,
+    message: Pick<MessageWithUIFieldsType, 'conversationId' | 'quote'>,
     {
       conversationSelector,
       ourConversationId,
@@ -527,6 +532,7 @@ type ShallowPropsType = Pick<
   | 'customColor'
   | 'deletedForEveryone'
   | 'direction'
+  | 'displayLimit'
   | 'expirationLength'
   | 'expirationTimestamp'
   | 'id'
@@ -551,7 +557,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   identity,
 
   (
-    message: MessageAttributesType,
+    message: MessageWithUIFieldsType,
     {
       accountSelector,
       conversationSelector,
@@ -609,6 +615,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
         defaultConversationColor.customColorData?.value,
       deletedForEveryone: message.deletedForEveryone || false,
       direction: isIncoming(message) ? 'incoming' : 'outgoing',
+      displayLimit: message.displayLimit,
       expirationLength,
       expirationTimestamp,
       id: message.id,
@@ -679,7 +686,7 @@ export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
 
 // Top-level prop generation for the message bubble
 export function getPropsForBubble(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   options: GetPropsForBubbleOptions
 ): TimelineItemType {
   if (isUnsupportedMessage(message)) {
@@ -778,7 +785,9 @@ export function getPropsForBubble(
 
 // Unsupported Message
 
-export function isUnsupportedMessage(message: MessageAttributesType): boolean {
+export function isUnsupportedMessage(
+  message: MessageWithUIFieldsType
+): boolean {
   const versionAtReceive = message.supportedVersionAtReceive;
   const requiredVersion = message.requiredProtocolVersion;
 
@@ -790,7 +799,7 @@ export function isUnsupportedMessage(message: MessageAttributesType): boolean {
 }
 
 function getPropsForUnsupportedMessage(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   options: GetContactOptions
 ): PropsForUnsupportedMessage {
   const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
@@ -810,12 +819,12 @@ function getPropsForUnsupportedMessage(
 
 // GroupV2 Change
 
-export function isGroupV2Change(message: MessageAttributesType): boolean {
+export function isGroupV2Change(message: MessageWithUIFieldsType): boolean {
   return Boolean(message.groupV2Change);
 }
 
 function getPropsForGroupV2Change(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector, ourUuid }: GetPropsForBubbleOptions
 ): GroupsV2Props {
   const change = message.groupV2Change;
@@ -835,12 +844,12 @@ function getPropsForGroupV2Change(
 
 // GroupV1 Migration
 
-export function isGroupV1Migration(message: MessageAttributesType): boolean {
+export function isGroupV1Migration(message: MessageWithUIFieldsType): boolean {
   return message.type === 'group-v1-migration';
 }
 
 function getPropsForGroupV1Migration(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): GroupV1MigrationPropsType {
   const migration = message.groupMigration;
@@ -885,7 +894,7 @@ function getPropsForGroupV1Migration(
 // Message History Unsynced
 
 export function isMessageHistoryUnsynced(
-  message: MessageAttributesType
+  message: MessageWithUIFieldsType
 ): boolean {
   return message.type === 'message-history-unsynced';
 }
@@ -895,7 +904,7 @@ export function isMessageHistoryUnsynced(
 // Expiration Timer Update
 
 export function isExpirationTimerUpdate(
-  message: Pick<MessageAttributesType, 'flags'>
+  message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE;
   // eslint-disable-next-line no-bitwise
@@ -903,7 +912,7 @@ export function isExpirationTimerUpdate(
 }
 
 function getPropsForTimerNotification(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { ourConversationId, conversationSelector }: GetPropsForBubbleOptions
 ): TimerNotificationProps {
   const timerUpdate = message.expirationTimerUpdate;
@@ -949,12 +958,12 @@ function getPropsForTimerNotification(
 
 // Key Change
 
-export function isKeyChange(message: MessageAttributesType): boolean {
+export function isKeyChange(message: MessageWithUIFieldsType): boolean {
   return message.type === 'keychange';
 }
 
 function getPropsForSafetyNumberNotification(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): SafetyNumberNotificationProps {
   const conversation = getConversation(message, conversationSelector);
@@ -970,12 +979,12 @@ function getPropsForSafetyNumberNotification(
 
 // Verified Change
 
-export function isVerifiedChange(message: MessageAttributesType): boolean {
+export function isVerifiedChange(message: MessageWithUIFieldsType): boolean {
   return message.type === 'verified-change';
 }
 
 function getPropsForVerificationNotification(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): VerificationNotificationProps {
   const type = message.verified ? 'markVerified' : 'markNotVerified';
@@ -992,13 +1001,13 @@ function getPropsForVerificationNotification(
 // Group Update (V1)
 
 export function isGroupUpdate(
-  message: Pick<MessageAttributesType, 'group_update'>
+  message: Pick<MessageWithUIFieldsType, 'group_update'>
 ): boolean {
   return Boolean(message.group_update);
 }
 
 function getPropsForGroupNotification(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   options: GetContactOptions
 ): GroupNotificationProps {
   const groupUpdate = message.group_update;
@@ -1073,7 +1082,7 @@ function getPropsForGroupNotification(
 // End Session
 
 export function isEndSession(
-  message: Pick<MessageAttributesType, 'flags'>
+  message: Pick<MessageWithUIFieldsType, 'flags'>
 ): boolean {
   const flag = Proto.DataMessage.Flags.END_SESSION;
   // eslint-disable-next-line no-bitwise
@@ -1082,7 +1091,7 @@ export function isEndSession(
 
 // Call History
 
-export function isCallHistory(message: MessageAttributesType): boolean {
+export function isCallHistory(message: MessageWithUIFieldsType): boolean {
   return message.type === 'call-history';
 }
 
@@ -1092,7 +1101,7 @@ export type GetPropsForCallHistoryOptions = Pick<
 >;
 
 export function getPropsForCallHistory(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   {
     conversationSelector,
     callSelector,
@@ -1149,12 +1158,12 @@ export function getPropsForCallHistory(
 
 // Profile Change
 
-export function isProfileChange(message: MessageAttributesType): boolean {
+export function isProfileChange(message: MessageWithUIFieldsType): boolean {
   return message.type === 'profile-change';
 }
 
 function getPropsForProfileChange(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): ProfileChangeNotificationPropsType {
   const change = message.profileChange;
@@ -1176,7 +1185,7 @@ function getPropsForProfileChange(
 // Note: smart, so props not generated here
 
 export function isUniversalTimerNotification(
-  message: MessageAttributesType
+  message: MessageWithUIFieldsType
 ): boolean {
   return message.type === 'universal-timer-notification';
 }
@@ -1184,13 +1193,13 @@ export function isUniversalTimerNotification(
 // Change Number Notification
 
 export function isChangeNumberNotification(
-  message: MessageAttributesType
+  message: MessageWithUIFieldsType
 ): boolean {
   return message.type === 'change-number-notification';
 }
 
 function getPropsForChangeNumberNotification(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): ChangeNumberNotificationProps {
   return {
@@ -1202,7 +1211,7 @@ function getPropsForChangeNumberNotification(
 // Chat Session Refreshed
 
 export function isChatSessionRefreshed(
-  message: MessageAttributesType
+  message: MessageWithUIFieldsType
 ): boolean {
   return message.type === 'chat-session-refreshed';
 }
@@ -1211,12 +1220,12 @@ export function isChatSessionRefreshed(
 
 // Delivery Issue
 
-export function isDeliveryIssue(message: MessageAttributesType): boolean {
+export function isDeliveryIssue(message: MessageWithUIFieldsType): boolean {
   return message.type === 'delivery-issue';
 }
 
 function getPropsForDeliveryIssue(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): DeliveryIssuePropsType {
   const sender = conversationSelector(message.sourceUuid);
@@ -1230,7 +1239,7 @@ function getPropsForDeliveryIssue(
 
 // Other utility functions
 
-export function isTapToView(message: MessageAttributesType): boolean {
+export function isTapToView(message: MessageWithUIFieldsType): boolean {
   // If a message is deleted for everyone, that overrides all other styling
   if (message.deletedForEveryone) {
     return false;
@@ -1257,7 +1266,7 @@ function createNonBreakingLastSeparator(text?: string): string {
 
 export function getMessagePropStatus(
   message: Pick<
-    MessageAttributesType,
+    MessageWithUIFieldsType,
     'type' | 'errors' | 'sendStateByConversationId'
   >,
   ourConversationId: string
@@ -1316,7 +1325,7 @@ export function getMessagePropStatus(
 }
 
 export function getPropsForEmbeddedContact(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   regionCode: string,
   accountSelector: (identifier?: string) => boolean
 ): EmbeddedContactType | undefined {
@@ -1398,7 +1407,7 @@ function processQuoteAttachment(
 
 function canReplyOrReact(
   message: Pick<
-    MessageAttributesType,
+    MessageWithUIFieldsType,
     'deletedForEveryone' | 'sendStateByConversationId' | 'type'
   >,
   ourConversationId: string,
@@ -1443,7 +1452,7 @@ function canReplyOrReact(
 
 export function canReply(
   message: Pick<
-    MessageAttributesType,
+    MessageWithUIFieldsType,
     | 'conversationId'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'
@@ -1464,7 +1473,7 @@ export function canReply(
 
 export function canReact(
   message: Pick<
-    MessageAttributesType,
+    MessageWithUIFieldsType,
     | 'conversationId'
     | 'deletedForEveryone'
     | 'sendStateByConversationId'
@@ -1479,7 +1488,7 @@ export function canReact(
 
 export function canDeleteForEveryone(
   message: Pick<
-    MessageAttributesType,
+    MessageWithUIFieldsType,
     'type' | 'deletedForEveryone' | 'sent_at' | 'sendStateByConversationId'
   >
 ): boolean {
@@ -1499,7 +1508,7 @@ export function canDeleteForEveryone(
 }
 
 export function canDownload(
-  message: MessageAttributesType,
+  message: MessageWithUIFieldsType,
   conversationSelector: GetConversationByIdType
 ): boolean {
   if (isOutgoing(message)) {
@@ -1524,7 +1533,7 @@ export function canDownload(
 }
 
 export function getLastChallengeError(
-  message: Pick<MessageAttributesType, 'errors'>
+  message: Pick<MessageWithUIFieldsType, 'errors'>
 ): ShallowChallengeError | undefined {
   const { errors } = message;
   if (!errors) {

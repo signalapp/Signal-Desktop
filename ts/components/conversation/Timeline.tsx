@@ -269,6 +269,7 @@ const getActions = createSelector(
       'showContactModal',
       'kickOffAttachmentDownload',
       'markAttachmentAsCorrupted',
+      'messageExpanded',
       'showVisualAttachment',
       'downloadAttachment',
       'displayTapToViewMessage',

@@ -313,6 +313,7 @@ export class MessageDetail extends React.Component<Props> {
             }
             disableMenu
             disableScroll
+            displayLimit={Number.MAX_SAFE_INTEGER}
             displayTapToViewMessage={displayTapToViewMessage}
             downloadAttachment={() =>
               log.warn('MessageDetail: deleteMessageForEveryone called!')
@@ -323,6 +324,7 @@ export class MessageDetail extends React.Component<Props> {
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
             markViewed={markViewed}
+            messageExpanded={noop}
             onHeightChange={noop}
             openConversation={openConversation}
             openLink={openLink}

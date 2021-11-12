@@ -131,6 +131,7 @@ export type PropsData = {
   conversationColor: ConversationColorType;
   customColor?: CustomColorType;
   conversationId: string;
+  displayLimit?: number;
   text?: string;
   textPending?: boolean;
   isSticker?: boolean;
@@ -216,6 +217,7 @@ export type PropsActions = {
   clearSelectedMessage: () => unknown;
   doubleCheckMissingQuoteReference: (messageId: string) => unknown;
   onHeightChange: () => unknown;
+  messageExpanded: (id: string, displayLimit: number) => unknown;
   checkForAccount: (identifier: string) => unknown;
 
   reactToMessage: (
@@ -1227,7 +1229,10 @@ export class Message extends React.PureComponent<Props, State> {
       bodyRanges,
       deletedForEveryone,
       direction,
+      displayLimit,
       i18n,
+      id,
+      messageExpanded,
       onHeightChange,
       openConversation,
       status,
@@ -1261,7 +1266,10 @@ export class Message extends React.PureComponent<Props, State> {
           bodyRanges={bodyRanges}
           disableLinks={!this.areLinksEnabled()}
           direction={direction}
+          displayLimit={displayLimit}
           i18n={i18n}
+          id={id}
+          messageExpanded={messageExpanded}
           openConversation={openConversation}
           onHeightChange={onHeightChange}
           text={contents || ''}

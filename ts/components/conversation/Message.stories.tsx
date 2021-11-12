@@ -144,6 +144,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('markAttachmentAsCorrupted'),
   markViewed: action('markViewed'),
+  messageExpanded: action('messageExpanded'),
   onHeightChange: action('onHeightChange'),
   openConversation: action('openConversation'),
   openLink: action('openLink'),
