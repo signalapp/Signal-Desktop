@@ -37,9 +37,11 @@ export type CallManagerOptionsType = {
   remoteStream: MediaStream | null;
   camerasList: Array<InputItem>;
   audioInputsList: Array<InputItem>;
+  audioOutputsList: Array<InputItem>;
   isLocalVideoStreamMuted: boolean;
   isRemoteVideoStreamMuted: boolean;
   isAudioMuted: boolean;
+  isAudioOutputMuted: boolean;
 };
 
 export type CallManagerListener = ((options: CallManagerOptionsType) => void) | null;
@@ -53,9 +55,11 @@ function callVideoListeners() {
         remoteStream,
         camerasList,
         audioInputsList,
+        audioOutputsList,
         isRemoteVideoStreamMuted: remoteVideoStreamIsMuted,
-        isLocalVideoStreamMuted: selectedCameraId === INPUT_DISABLED_DEVICE_ID,
-        isAudioMuted: selectedAudioInputId === INPUT_DISABLED_DEVICE_ID,
+        isLocalVideoStreamMuted: selectedCameraId === DEVICE_DISABLED_DEVICE_ID,
+        isAudioMuted: selectedAudioInputId === DEVICE_DISABLED_DEVICE_ID,
+        isAudioOutputMuted: selectedAudioOutputId === DEVICE_DISABLED_DEVICE_ID,
       });
     });
   }
@@ -90,7 +94,7 @@ let remoteStream: MediaStream | null;
 let mediaDevices: MediaStream | null;
 let remoteVideoStreamIsMuted = true;
 
-export const INPUT_DISABLED_DEVICE_ID = 'off';
+export const DEVICE_DISABLED_DEVICE_ID = 'off';
 
 let makingOffer = false;
 let ignoreOffer = false;
@@ -108,12 +112,14 @@ const configuration: RTCConfiguration = {
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
 };
 
-let selectedCameraId: string = INPUT_DISABLED_DEVICE_ID;
-let selectedAudioInputId: string = INPUT_DISABLED_DEVICE_ID;
+let selectedCameraId: string = DEVICE_DISABLED_DEVICE_ID;
+let selectedAudioInputId: string = DEVICE_DISABLED_DEVICE_ID;
+let selectedAudioOutputId: string = DEVICE_DISABLED_DEVICE_ID;
 let camerasList: Array<InputItem> = [];
 let audioInputsList: Array<InputItem> = [];
+let audioOutputsList: Array<InputItem> = [];
 
-async function getConnectedDevices(type: 'videoinput' | 'audioinput') {
+async function getConnectedDevices(type: 'videoinput' | 'audioinput' | 'audiooutput') {
   const devices = await navigator.mediaDevices.enumerateDevices();
   return devices.filter(device => device.kind === type);
 }
@@ -122,11 +128,12 @@ async function getConnectedDevices(type: 'videoinput' | 'audioinput') {
 // tslint:disable-next-line: no-typeof-undefined
 if (typeof navigator !== 'undefined') {
   navigator.mediaDevices.addEventListener('devicechange', async () => {
-    await updateInputLists();
+    await updateConnectedDevices();
     callVideoListeners();
   });
 }
-async function updateInputLists() {
+
+async function updateConnectedDevices() {
   // Get the set of cameras connected
   const videoCameras = await getConnectedDevices('videoinput');
 
@@ -141,10 +148,17 @@ async function updateInputLists() {
     deviceId: m.deviceId,
     label: m.label,
   }));
+
+  // Get the set of audio outputs connected
+  const audiosOutput = await getConnectedDevices('audiooutput');
+  audioOutputsList = audiosOutput.map(m => ({
+    deviceId: m.deviceId,
+    label: m.label,
+  }));
 }
 
 function sendVideoStatusViaDataChannel() {
-  const videoEnabledLocally = selectedCameraId !== INPUT_DISABLED_DEVICE_ID;
+  const videoEnabledLocally = selectedCameraId !== DEVICE_DISABLED_DEVICE_ID;
   const stringToSend = JSON.stringify({
     video: videoEnabledLocally,
   });
@@ -163,8 +177,8 @@ function sendHangupViaDataChannel() {
 }
 
 export async function selectCameraByDeviceId(cameraDeviceId: string) {
-  if (cameraDeviceId === INPUT_DISABLED_DEVICE_ID) {
-    selectedCameraId = INPUT_DISABLED_DEVICE_ID;
+  if (cameraDeviceId === DEVICE_DISABLED_DEVICE_ID) {
+    selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
 
     const sender = peerConnection?.getSenders().find(s => {
       return s.track?.kind === 'video';
@@ -214,8 +228,9 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     }
   }
 }
+
 export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
-  if (audioInputDeviceId === INPUT_DISABLED_DEVICE_ID) {
+  if (audioInputDeviceId === DEVICE_DISABLED_DEVICE_ID) {
     selectedAudioInputId = audioInputDeviceId;
 
     const sender = peerConnection?.getSenders().find(s => {
@@ -255,6 +270,23 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     } catch (e) {
       window.log.warn('selectAudioInputByDeviceId failed with', e.message);
     }
+
+    callVideoListeners();
+  }
+}
+
+export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
+  if (audioOutputDeviceId === DEVICE_DISABLED_DEVICE_ID) {
+    selectedAudioOutputId = audioOutputDeviceId;
+    console.warn('selectedAudioOutputId', selectedAudioOutputId);
+
+    callVideoListeners();
+    return;
+  }
+  if (audioOutputsList.some(m => m.deviceId === audioOutputDeviceId)) {
+    selectedAudioOutputId = audioOutputDeviceId;
+
+    console.warn('selectedAudioOutputId', selectedAudioOutputId);
 
     callVideoListeners();
   }
@@ -312,7 +344,7 @@ function handleIceCandidates(event: RTCPeerConnectionIceEvent, pubkey: string) {
 
 async function openMediaDevicesAndAddTracks() {
   try {
-    await updateInputLists();
+    await updateConnectedDevices();
     if (!camerasList.length) {
       ToastUtils.pushNoCameraFound();
       return;
@@ -323,7 +355,7 @@ async function openMediaDevicesAndAddTracks() {
     }
 
     selectedAudioInputId = audioInputsList[0].deviceId;
-    selectedCameraId = INPUT_DISABLED_DEVICE_ID;
+    selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
     window.log.info(
       `openMediaDevices videoDevice:${selectedCameraId}:${camerasList[0].label}   audioDevice:${selectedAudioInputId}`
     );
@@ -369,7 +401,7 @@ export async function USER_callRecipient(recipient: string) {
     );
     return;
   }
-  await updateInputLists();
+  await updateConnectedDevices();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
   window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
   if (peerConnection) {
@@ -462,6 +494,7 @@ function handleConnectionStateChanged(pubkey: string) {
   if (peerConnection?.signalingState === 'closed') {
     closeVideoCall();
   } else if (peerConnection?.connectionState === 'connected') {
+    setIsRinging(false);
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }
 }
@@ -499,8 +532,8 @@ function closeVideoCall() {
 
   mediaDevices = null;
   remoteStream = null;
-  selectedCameraId = INPUT_DISABLED_DEVICE_ID;
-  selectedAudioInputId = INPUT_DISABLED_DEVICE_ID;
+  selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
+  selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID;
   currentCallUUID = undefined;
   callVideoListeners();
   window.inboxStore?.dispatch(setFullScreenCall(false));
@@ -612,7 +645,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     );
     return;
   }
-  await updateInputLists();
+  await updateConnectedDevices();
 
   const lastOfferMessage = findLastMessageTypeFromSender(
     fromSender,
@@ -830,18 +863,19 @@ export async function handleCallTypeOffer(
         await peerConnection.setRemoteDescription(remoteDesc); // SRD rolls back as needed
         await buildAnswerAndSendIt(sender);
       }
-    }
-    window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
+    } else {
+      window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
-    // show a notification
-    const callerConvo = getConversationController().get(sender);
-    const convNotif = callerConvo?.get('triggerNotificationsFor') || 'disabled';
-    if (convNotif === 'disabled') {
-      window?.log?.info('notifications disabled for convo', ed25519Str(sender));
-    } else if (callerConvo) {
-      await callerConvo.notifyIncomingCall();
+      // show a notification
+      const callerConvo = getConversationController().get(sender);
+      const convNotif = callerConvo?.get('triggerNotificationsFor') || 'disabled';
+      if (convNotif === 'disabled') {
+        window?.log?.info('notifications disabled for convo', ed25519Str(sender));
+      } else if (callerConvo) {
+        await callerConvo.notifyIncomingCall();
+      }
+      setIsRinging(true);
     }
-    setIsRinging(true);
 
     pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
   } catch (err) {

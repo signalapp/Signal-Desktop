@@ -449,6 +449,7 @@
   "callMissedTitle": "Call missed",
   "noCameraFound": "No camera found",
   "noAudioInputFound": "No audio input found",
+  "noAudioOutputFound": "No audio output found",
   "callMediaPermissionsTitle": "Voice and video calls",
   "callMissedCausePermission": "Call missed from '$name$' because you need to enable the 'Voice and video calls' permission in the Privacy Settings.",
   "callMediaPermissionsDescription": "Allows access to accept voice and video calls from other users",

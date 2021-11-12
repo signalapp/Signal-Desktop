@@ -266,3 +266,7 @@ export function pushNoCameraFound() {
 export function pushNoAudioInputFound() {
   pushToastWarning('noAudioInputFound', window.i18n('noAudioInputFound'));
 }
+
+export function pushNoAudioOutputFound() {
+  pushToastWarning('noAudioInputFound', window.i18n('noAudioOutputFound'));
+}

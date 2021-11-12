@@ -11,6 +11,7 @@ import styled from 'styled-components';
 
 const videoTriggerId = 'video-menu-trigger-id';
 const audioTriggerId = 'audio-menu-trigger-id';
+const audioOutputTriggerId = 'audio-output-menu-trigger-id';
 
 export const VideoInputButton = ({
   currentConnectedCameras,
@@ -68,6 +69,37 @@ export const AudioInputButton = ({
   );
 };
 
+export const AudioOutputButton = ({
+  currentConnectedAudioOutputs,
+  isAudioOutputMuted,
+  hideArrowIcon = false,
+}: {
+  currentConnectedAudioOutputs: Array<InputItem>;
+  isAudioOutputMuted: boolean;
+  hideArrowIcon?: boolean;
+}) => {
+  return (
+    <>
+      <DropDownAndToggleButton
+        iconType="volume"
+        isMuted={isAudioOutputMuted}
+        onMainButtonClick={() => {
+          void handleSpeakerToggle(currentConnectedAudioOutputs, isAudioOutputMuted);
+        }}
+        onArrowClick={e => {
+          showAudioOutputMenu(currentConnectedAudioOutputs, e);
+        }}
+        hidePopoverArrow={hideArrowIcon}
+      />
+
+      <AudioOutputMenu
+        triggerId={audioOutputTriggerId}
+        audioOutputsList={currentConnectedAudioOutputs}
+      />
+    </>
+  );
+};
+
 const VideoInputMenu = ({
   triggerId,
   camerasList,
@@ -108,6 +140,31 @@ const AudioInputMenu = ({
             key={m.deviceId}
             onClick={() => {
               void CallManager.selectAudioInputByDeviceId(m.deviceId);
+            }}
+          >
+            {m.label.substr(0, 40)}
+          </Item>
+        );
+      })}
+    </Menu>
+  );
+};
+
+const AudioOutputMenu = ({
+  triggerId,
+  audioOutputsList,
+}: {
+  triggerId: string;
+  audioOutputsList: Array<InputItem>;
+}) => {
+  return (
+    <Menu id={triggerId} animation={animation.fade}>
+      {audioOutputsList.map(m => {
+        return (
+          <Item
+            key={m.deviceId}
+            onClick={() => {
+              void CallManager.selectAudioOutputByDeviceId(m.deviceId);
             }}
           >
             {m.label.substr(0, 40)}
@@ -181,6 +238,20 @@ const showAudioInputMenu = (
   });
 };
 
+const showAudioOutputMenu = (
+  currentConnectedAudioOutputs: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedAudioOutputs.length === 0) {
+    ToastUtils.pushNoAudioOutputFound();
+    return;
+  }
+  contextMenu.show({
+    id: audioOutputTriggerId,
+    event: e,
+  });
+};
+
 const showVideoInputMenu = (
   currentConnectedCameras: Array<InputItem>,
   e: React.MouseEvent<HTMLDivElement>
@@ -208,7 +279,7 @@ const handleCameraToggle = async (
     // select the first one
     await CallManager.selectCameraByDeviceId(currentConnectedCameras[0].deviceId);
   } else {
-    await CallManager.selectCameraByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+    await CallManager.selectCameraByDeviceId(CallManager.DEVICE_DISABLED_DEVICE_ID);
   }
 };
 
@@ -225,7 +296,24 @@ const handleMicrophoneToggle = async (
     // selects the first one
     await CallManager.selectAudioInputByDeviceId(currentConnectedAudioInputs[0].deviceId);
   } else {
-    await CallManager.selectAudioInputByDeviceId(CallManager.INPUT_DISABLED_DEVICE_ID);
+    await CallManager.selectAudioInputByDeviceId(CallManager.DEVICE_DISABLED_DEVICE_ID);
+  }
+};
+
+const handleSpeakerToggle = async (
+  currentConnectedAudioOutputs: Array<InputItem>,
+  isAudioOutputMuted: boolean
+) => {
+  if (!currentConnectedAudioOutputs.length) {
+    ToastUtils.pushNoAudioInputFound();
+
+    return;
+  }
+  if (isAudioOutputMuted) {
+    // selects the first one
+    await CallManager.selectAudioOutputByDeviceId(currentConnectedAudioOutputs[0].deviceId);
+  } else {
+    await CallManager.selectAudioOutputByDeviceId(CallManager.DEVICE_DISABLED_DEVICE_ID);
   }
 };
 
@@ -256,15 +344,19 @@ const StyledCallWindowControls = styled.div`
 export const CallWindowControls = ({
   currentConnectedCameras,
   currentConnectedAudioInputs,
+  currentConnectedAudioOutputs,
   isAudioMuted,
+  isAudioOutputMuted,
   remoteStreamVideoIsMuted,
   localStreamVideoIsMuted,
   isFullScreen,
 }: {
   isAudioMuted: boolean;
+  isAudioOutputMuted: boolean;
   localStreamVideoIsMuted: boolean;
   remoteStreamVideoIsMuted: boolean;
   currentConnectedAudioInputs: Array<InputItem>;
+  currentConnectedAudioOutputs: Array<InputItem>;
   currentConnectedCameras: Array<InputItem>;
   isFullScreen: boolean;
 }) => {
@@ -280,6 +372,11 @@ export const CallWindowControls = ({
       <AudioInputButton
         currentConnectedAudioInputs={currentConnectedAudioInputs}
         isAudioMuted={isAudioMuted}
+        hideArrowIcon={isFullScreen}
+      />
+      <AudioOutputButton
+        currentConnectedAudioOutputs={currentConnectedAudioOutputs}
+        isAudioOutputMuted={isAudioOutputMuted}
         hideArrowIcon={isFullScreen}
       />
       <HangUpButton />

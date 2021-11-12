@@ -19,6 +19,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [localStreamVideoIsMuted, setLocalStreamVideoIsMuted] = useState(true);
   const [ourAudioIsMuted, setOurAudioIsMuted] = useState(false);
+  const [ourAudioOutputIsMuted, setOurAudioOutputIsMuted] = useState(false);
   const [remoteStreamVideoIsMuted, setRemoteStreamVideoIsMuted] = useState(true);
   const mountedState = useMountedState();
 
@@ -26,6 +27,11 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const [currentConnectedAudioInputs, setCurrentConnectedAudioInputs] = useState<Array<InputItem>>(
     []
   );
+
+  const [currentConnectedAudioOutputs, setCurrentConnectedAudioOutputs] = useState<
+    Array<InputItem>
+  >([]);
+
   useEffect(() => {
     if (
       (onSame && ongoingCallPubkey === selectedConversationKey) ||
@@ -34,12 +40,14 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
       CallManager.addVideoEventsListener(uniqueId, (options: CallManagerOptionsType) => {
         const {
           audioInputsList,
+          audioOutputsList,
           camerasList,
           isLocalVideoStreamMuted,
           isRemoteVideoStreamMuted,
           localStream: lLocalStream,
           remoteStream: lRemoteStream,
           isAudioMuted,
+          isAudioOutputMuted,
         } = options;
         if (mountedState()) {
           setLocalStream(lLocalStream);
@@ -47,9 +55,11 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           setRemoteStreamVideoIsMuted(isRemoteVideoStreamMuted);
           setLocalStreamVideoIsMuted(isLocalVideoStreamMuted);
           setOurAudioIsMuted(isAudioMuted);
+          setOurAudioOutputIsMuted(isAudioOutputMuted);
 
           setCurrentConnectedCameras(camerasList);
           setCurrentConnectedAudioInputs(audioInputsList);
+          setCurrentConnectedAudioOutputs(audioOutputsList);
         }
       });
     }
@@ -61,11 +71,13 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
 
   return {
     currentConnectedAudioInputs,
+    currentConnectedAudioOutputs,
     currentConnectedCameras,
     localStreamVideoIsMuted,
     remoteStreamVideoIsMuted,
     localStream,
     remoteStream,
     isAudioMuted: ourAudioIsMuted,
+    isAudioOutputMuted: ourAudioOutputIsMuted,
   };
 }

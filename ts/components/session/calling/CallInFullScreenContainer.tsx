@@ -35,8 +35,10 @@ export const CallInFullScreenContainer = () => {
     remoteStream,
     remoteStreamVideoIsMuted,
     currentConnectedAudioInputs,
+    currentConnectedAudioOutputs,
     currentConnectedCameras,
     isAudioMuted,
+    isAudioOutputMuted,
     localStreamVideoIsMuted,
   } = useVideoCallEventsListener('CallInFullScreenContainer', true);
 
@@ -76,8 +78,10 @@ export const CallInFullScreenContainer = () => {
       />
       <CallWindowControls
         currentConnectedAudioInputs={currentConnectedAudioInputs}
+        currentConnectedAudioOutputs={currentConnectedAudioOutputs}
         currentConnectedCameras={currentConnectedCameras}
         isAudioMuted={isAudioMuted}
+        isAudioOutputMuted={isAudioOutputMuted}
         localStreamVideoIsMuted={localStreamVideoIsMuted}
         remoteStreamVideoIsMuted={remoteStreamVideoIsMuted}
         isFullScreen={true}

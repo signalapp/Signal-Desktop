@@ -134,11 +134,13 @@ export const InConversationCallContainer = () => {
   const {
     currentConnectedAudioInputs,
     currentConnectedCameras,
+    currentConnectedAudioOutputs,
     localStream,
     localStreamVideoIsMuted,
     remoteStream,
     remoteStreamVideoIsMuted,
     isAudioMuted,
+    isAudioOutputMuted,
   } = useVideoCallEventsListener('InConversationCallContainer', true);
 
   if (videoRefRemote?.current && videoRefLocal?.current) {
@@ -200,6 +202,8 @@ export const InConversationCallContainer = () => {
           currentConnectedAudioInputs={currentConnectedAudioInputs}
           currentConnectedCameras={currentConnectedCameras}
           isAudioMuted={isAudioMuted}
+          currentConnectedAudioOutputs={currentConnectedAudioOutputs}
+          isAudioOutputMuted={isAudioOutputMuted}
           localStreamVideoIsMuted={localStreamVideoIsMuted}
           remoteStreamVideoIsMuted={remoteStreamVideoIsMuted}
           isFullScreen={false}
