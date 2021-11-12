@@ -84,9 +84,6 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
 export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
   const convos = useSelector(getLeftPaneLists).conversationRequests;
-  // const pendingRequestsCount = (
-  //   convos.filter(c => Boolean(c.isApproved) === false && !Boolean(c.isBlocked)) || []
-  // ).length;
 
   if (!convos.length) {
     return null;

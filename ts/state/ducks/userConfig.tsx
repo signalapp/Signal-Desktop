@@ -30,7 +30,7 @@ const userConfigSlice = createSlice({
       state.messageRequests = false;
     },
     enableMessageRequests: state => {
-      state.messageRequests = true;
+      state.messageRequests = false;
     },
   },
 });
