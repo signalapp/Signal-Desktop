@@ -1,7 +1,7 @@
 // Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, get, isNumber, pick, identity } from 'lodash';
+import { debounce, get, isNumber, pick } from 'lodash';
 import classNames from 'classnames';
 import type { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
@@ -226,7 +226,7 @@ type StateType = {
 const getActions = createSelector(
   // It is expensive to pick so many properties out of the `props` object so we
   // use `createSelector` to memoize them by the last seen `props` object.
-  identity,
+  (props: PropsType) => props,
 
   (props: PropsType): PropsActionsType => {
     const unsafe = pick(props, [

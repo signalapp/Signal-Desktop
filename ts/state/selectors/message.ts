@@ -241,11 +241,7 @@ export const getAttachmentsForMessage = createSelectorCreator(memoizeByRoot)(
 
   ({ sticker }: MessageWithUIFieldsType) => sticker,
   ({ attachments }: MessageWithUIFieldsType) => attachments,
-  (
-    _: MessageWithUIFieldsType,
-    sticker: MessageWithUIFieldsType['sticker'],
-    attachments: MessageWithUIFieldsType['attachments'] = []
-  ): Array<AttachmentType> => {
+  (_, sticker, attachments = []): Array<AttachmentType> => {
     if (sticker && sticker.data) {
       const { data } = sticker;
 
@@ -298,7 +294,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
       })
       .sort((a, b) => b.start - a.start);
   },
-  (_: MessageWithUIFieldsType, ranges?: BodyRangesType) => ranges
+  (_, ranges): undefined | BodyRangesType => ranges
 );
 
 const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
@@ -307,10 +303,7 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
 
   getContact,
 
-  (
-    _: MessageWithUIFieldsType,
-    convo: ConversationType
-  ): PropsData['author'] => {
+  (_, convo: ConversationType): PropsData['author'] => {
     const {
       acceptedMessageRequest,
       avatarPath,
@@ -348,25 +341,15 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
 const getCachedAuthorForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   // `memoizeByRoot` requirement
   identity,
-
   getAuthorForMessage,
-
-  (
-    _: MessageWithUIFieldsType,
-    author: PropsData['author']
-  ): PropsData['author'] => author
+  (_, author): PropsData['author'] => author
 );
 
 export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
   // `memoizeByRoot` requirement
   identity,
-
   ({ preview }: MessageWithUIFieldsType) => preview,
-
-  (
-    _: MessageWithUIFieldsType,
-    previews: MessageWithUIFieldsType['preview'] = []
-  ): Array<LinkPreviewType> => {
+  (_, previews = []): Array<LinkPreviewType> => {
     return previews.map(preview => ({
       ...preview,
       isStickerPack: isStickerPack(preview.url),
@@ -435,7 +418,7 @@ export const getReactionsForMessage = createSelectorCreator(
     return [...formattedReactions];
   },
 
-  (_: MessageWithUIFieldsType, reactions: PropsData['reactions']) => reactions
+  (_, reactions): PropsData['reactions'] => reactions
 );
 
 export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
@@ -504,7 +487,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     };
   },
 
-  (_: unknown, quote: PropsData['quote']) => quote
+  (_, quote): PropsData['quote'] => quote
 );
 
 export type GetPropsForMessageOptions = Pick<
@@ -642,7 +625,12 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   (_: unknown, props: ShallowPropsType) => props
 );
 
-export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
+export const getPropsForMessage: (
+  message: MessageWithUIFieldsType,
+  options: GetPropsForMessageOptions
+) => Omit<PropsForMessage, 'renderingContext'> = createSelectorCreator(
+  memoizeByRoot
+)(
   // `memoizeByRoot` requirement
   identity,
 
@@ -654,7 +642,7 @@ export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
   getPropsForQuote,
   getShallowPropsForMessage,
   (
-    _: unknown,
+    _,
     attachments: Array<AttachmentType>,
     bodyRanges: BodyRangesType | undefined,
     author: PropsData['author'],
@@ -680,7 +668,8 @@ export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
   identity,
 
   getPropsForMessage,
-  (_: unknown, data: ReturnType<typeof getPropsForMessage>) => ({
+
+  (_, data): TimelineItemType => ({
     type: 'message' as const,
     data,
   })

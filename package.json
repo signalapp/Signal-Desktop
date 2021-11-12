@@ -152,7 +152,7 @@
     "redux-promise-middleware": "6.1.0",
     "redux-thunk": "2.3.0",
     "redux-ts-utils": "3.2.2",
-    "reselect": "4.0.0",
+    "reselect": "4.1.2",
     "rimraf": "2.6.2",
     "ringrtc": "https://github.com/signalapp/signal-ringrtc-node.git#011bdd9a71982a7bbf333bf3641dbd722c8c7bf1",
     "rotating-file-stream": "2.1.5",
