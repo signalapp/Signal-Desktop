@@ -84,6 +84,7 @@ export type StorageAccessType = {
   synced_at: number;
   userAgent: string;
   uuid_id: string;
+  pni: string;
   version: string;
   linkPreviews: boolean;
   universalExpireTimer: number;

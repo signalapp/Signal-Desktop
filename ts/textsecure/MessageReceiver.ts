@@ -49,7 +49,8 @@ import { deriveMasterKeyFromGroupV1 } from '../Crypto';
 import type { DownloadedAttachmentType } from '../types/Attachment';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import * as Errors from '../types/errors';
 
 import { SignalService as Proto } from '../protobuf';
@@ -264,6 +265,8 @@ export default class MessageReceiver
         const decoded = Proto.Envelope.decode(plaintext);
         const serverTimestamp = normalizeNumber(decoded.serverTimestamp);
 
+        const ourUuid = this.storage.user.getCheckedUuid();
+
         const envelope: ProcessedEnvelope = {
           // Make non-private envelope IDs dashless so they don't get redacted
           //   from logs
@@ -283,6 +286,14 @@ export default class MessageReceiver
               )
             : undefined,
           sourceDevice: decoded.sourceDevice,
+          destinationUuid: decoded.destinationUuid
+            ? new UUID(
+                normalizeUuid(
+                  decoded.destinationUuid,
+                  'MessageReceiver.handleRequest.destinationUuid'
+                )
+              )
+            : ourUuid,
           timestamp: normalizeNumber(decoded.timestamp),
           legacyMessage: dropNull(decoded.legacyMessage),
           content: dropNull(decoded.content),
@@ -604,6 +615,8 @@ export default class MessageReceiver
 
       const decoded = Proto.Envelope.decode(envelopePlaintext);
 
+      const ourUuid = this.storage.user.getCheckedUuid();
+
       const envelope: ProcessedEnvelope = {
         id: item.id,
         receivedAtCounter: item.timestamp,
@@ -615,6 +628,9 @@ export default class MessageReceiver
         source: decoded.source || item.source,
         sourceUuid: decoded.sourceUuid || item.sourceUuid,
         sourceDevice: decoded.sourceDevice || item.sourceDevice,
+        destinationUuid: new UUID(
+          decoded.destinationUuid || item.destinationUuid || ourUuid.toString()
+        ),
         timestamp: normalizeNumber(decoded.timestamp),
         legacyMessage: dropNull(decoded.legacyMessage),
         content: dropNull(decoded.content),
@@ -668,12 +684,16 @@ export default class MessageReceiver
   private getEnvelopeId(envelope: ProcessedEnvelope): string {
     const { timestamp } = envelope;
 
+    let prefix = '';
+
     if (envelope.sourceUuid || envelope.source) {
       const sender = envelope.sourceUuid || envelope.source;
-      return `${sender}.${envelope.sourceDevice} ${timestamp} (${envelope.id})`;
+      prefix += `${sender}.${envelope.sourceDevice} `;
     }
 
-    return `${timestamp} (${envelope.id})`;
+    prefix += `> ${envelope.destinationUuid.toString()}`;
+
+    return `${prefix}${timestamp} (${envelope.id})`;
   }
 
   private clearRetryTimeout(): void {
@@ -737,9 +757,8 @@ export default class MessageReceiver
         pendingSessions: true,
         pendingUnprocessed: true,
       });
-      const ourUuid = this.storage.user.getCheckedUuid();
-      const sessionStore = new Sessions({ zone, ourUuid });
-      const identityKeyStore = new IdentityKeys({ zone, ourUuid });
+
+      const storesMap = new Map<UUIDStringType, LockedStores>();
       const failed: Array<UnprocessedType> = [];
 
       // Below we:
@@ -755,9 +774,38 @@ export default class MessageReceiver
         await Promise.all<void>(
           items.map(async ({ data, envelope }) => {
             try {
+              const { destinationUuid } = envelope;
+              const uuidKind =
+                this.storage.user.getOurUuidKind(destinationUuid);
+              if (uuidKind === UUIDKind.Unknown) {
+                log.warn(
+                  'MessageReceiver.decryptAndCacheBatch: ' +
+                    `Rejecting envelope ${this.getEnvelopeId(envelope)}, ` +
+                    `unknown uuid: ${destinationUuid}`
+                );
+                return;
+              }
+
+              let stores = storesMap.get(destinationUuid.toString());
+              if (!stores) {
+                stores = {
+                  sessionStore: new Sessions({
+                    zone,
+                    ourUuid: destinationUuid,
+                  }),
+                  identityKeyStore: new IdentityKeys({
+                    zone,
+                    ourUuid: destinationUuid,
+                  }),
+                  zone,
+                };
+                storesMap.set(destinationUuid.toString(), stores);
+              }
+
               const result = await this.queueEncryptedEnvelope(
-                { sessionStore, identityKeyStore, zone },
-                envelope
+                stores,
+                envelope,
+                uuidKind
               );
               if (result.plaintext) {
                 decrypted.push({
@@ -769,7 +817,8 @@ export default class MessageReceiver
             } catch (error) {
               failed.push(data);
               log.error(
-                'decryptAndCache error when processing the envelope',
+                'MessageReceiver.decryptAndCacheBatch error when ' +
+                  'processing the envelope',
                 Errors.toLogFormat(error)
               );
             }
@@ -791,6 +840,7 @@ export default class MessageReceiver
               source: envelope.source,
               sourceUuid: envelope.sourceUuid,
               sourceDevice: envelope.sourceDevice,
+              destinationUuid: envelope.destinationUuid.toString(),
               serverGuid: envelope.serverGuid,
               serverTimestamp: envelope.serverTimestamp,
               decrypted: Bytes.toBase64(plaintext),
@@ -901,17 +951,27 @@ export default class MessageReceiver
 
   private async queueEncryptedEnvelope(
     stores: LockedStores,
-    envelope: ProcessedEnvelope
+    envelope: ProcessedEnvelope,
+    uuidKind: UUIDKind
   ): Promise<DecryptResult> {
     let logId = this.getEnvelopeId(envelope);
-    log.info('queueing envelope', logId);
+    log.info(`queueing ${uuidKind} envelope`, logId);
 
     const task = createTaskWithTimeout(async (): Promise<DecryptResult> => {
-      const unsealedEnvelope = await this.unsealEnvelope(stores, envelope);
+      const unsealedEnvelope = await this.unsealEnvelope(
+        stores,
+        envelope,
+        uuidKind
+      );
+
+      // Dropped early
+      if (!unsealedEnvelope) {
+        return { plaintext: undefined, envelope };
+      }
 
       logId = this.getEnvelopeId(unsealedEnvelope);
 
-      return this.decryptEnvelope(stores, unsealedEnvelope);
+      return this.decryptEnvelope(stores, unsealedEnvelope, uuidKind);
     }, `MessageReceiver: unseal and decrypt ${logId}`);
 
     try {
@@ -976,8 +1036,9 @@ export default class MessageReceiver
 
   private async unsealEnvelope(
     stores: LockedStores,
-    envelope: ProcessedEnvelope
-  ): Promise<UnsealedEnvelope> {
+    envelope: ProcessedEnvelope,
+    uuidKind: UUIDKind
+  ): Promise<UnsealedEnvelope | undefined> {
     const logId = this.getEnvelopeId(envelope);
 
     if (this.stoppingProcessing) {
@@ -987,6 +1048,11 @@ export default class MessageReceiver
 
     if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
       return envelope;
+    }
+
+    if (uuidKind === UUIDKind.PNI) {
+      log.warn(`MessageReceiver.unsealEnvelope(${logId}): dropping for PNI`);
+      return undefined;
     }
 
     const ciphertext = envelope.content || envelope.legacyMessage;
@@ -1036,7 +1102,8 @@ export default class MessageReceiver
 
   private async decryptEnvelope(
     stores: LockedStores,
-    envelope: UnsealedEnvelope
+    envelope: UnsealedEnvelope,
+    uuidKind: UUIDKind
   ): Promise<DecryptResult> {
     const logId = this.getEnvelopeId(envelope);
 
@@ -1068,7 +1135,12 @@ export default class MessageReceiver
     log.info(
       `MessageReceiver.decryptEnvelope(${logId})${isLegacy ? ' (legacy)' : ''}`
     );
-    const plaintext = await this.decrypt(stores, envelope, ciphertext);
+    const plaintext = await this.decrypt(
+      stores,
+      envelope,
+      ciphertext,
+      uuidKind
+    );
 
     if (!plaintext) {
       log.warn('MessageReceiver.decryptEnvelope: plaintext was falsey');
@@ -1206,7 +1278,7 @@ export default class MessageReceiver
     ciphertext: Uint8Array
   ): Promise<DecryptSealedSenderResult> {
     const localE164 = this.storage.user.getNumber();
-    const ourUuid = this.storage.user.getCheckedUuid();
+    const { destinationUuid } = envelope;
     const localDeviceId = parseIntOrThrow(
       this.storage.user.getDeviceId(),
       'MessageReceiver.decryptSealedSender: localDeviceId'
@@ -1252,10 +1324,10 @@ export default class MessageReceiver
       );
       const sealedSenderIdentifier = certificate.senderUuid();
       const sealedSenderSourceDevice = certificate.senderDeviceId();
-      const senderKeyStore = new SenderKeys({ ourUuid });
+      const senderKeyStore = new SenderKeys({ ourUuid: destinationUuid });
 
       const address = new QualifiedAddress(
-        ourUuid,
+        destinationUuid,
         Address.create(sealedSenderIdentifier, sealedSenderSourceDevice)
       );
 
@@ -1280,8 +1352,8 @@ export default class MessageReceiver
         'unidentified message/passing to sealedSenderDecryptMessage'
     );
 
-    const preKeyStore = new PreKeys({ ourUuid });
-    const signedPreKeyStore = new SignedPreKeys({ ourUuid });
+    const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
+    const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
 
     const sealedSenderIdentifier = envelope.sourceUuid;
     strictAssert(
@@ -1293,7 +1365,7 @@ export default class MessageReceiver
       'Empty sealed sender device'
     );
     const address = new QualifiedAddress(
-      ourUuid,
+      destinationUuid,
       Address.create(sealedSenderIdentifier, envelope.sourceDevice)
     );
     const unsealedPlaintext = await this.storage.protocol.enqueueSessionJob(
@@ -1304,7 +1376,7 @@ export default class MessageReceiver
           PublicKey.deserialize(Buffer.from(this.serverTrustRoot)),
           envelope.serverTimestamp,
           localE164 || null,
-          ourUuid.toString(),
+          destinationUuid.toString(),
           localDeviceId,
           sessionStore,
           identityKeyStore,
@@ -1320,8 +1392,9 @@ export default class MessageReceiver
   private async innerDecrypt(
     stores: LockedStores,
     envelope: ProcessedEnvelope,
-    ciphertext: Uint8Array
-  ): Promise<Uint8Array> {
+    ciphertext: Uint8Array,
+    uuidKind: UUIDKind
+  ): Promise<Uint8Array | undefined> {
     const { sessionStore, identityKeyStore, zone } = stores;
 
     const logId = this.getEnvelopeId(envelope);
@@ -1330,17 +1403,28 @@ export default class MessageReceiver
     const identifier = envelope.sourceUuid;
     const { sourceDevice } = envelope;
 
-    const ourUuid = this.storage.user.getCheckedUuid();
-    const preKeyStore = new PreKeys({ ourUuid });
-    const signedPreKeyStore = new SignedPreKeys({ ourUuid });
+    const { destinationUuid } = envelope;
+    const preKeyStore = new PreKeys({ ourUuid: destinationUuid });
+    const signedPreKeyStore = new SignedPreKeys({ ourUuid: destinationUuid });
 
     strictAssert(identifier !== undefined, 'Empty identifier');
     strictAssert(sourceDevice !== undefined, 'Empty source device');
 
     const address = new QualifiedAddress(
-      ourUuid,
+      destinationUuid,
       Address.create(identifier, sourceDevice)
     );
+
+    if (
+      uuidKind === UUIDKind.PNI &&
+      envelope.type !== envelopeTypeEnum.PREKEY_BUNDLE
+    ) {
+      log.warn(
+        `MessageReceiver.innerDecrypt(${logId}): ` +
+          'non-PreKey envelope on PNI'
+      );
+      return undefined;
+    }
 
     if (envelope.type === envelopeTypeEnum.PLAINTEXT_CONTENT) {
       log.info(`decrypt/${logId}: plaintext message`);
@@ -1445,10 +1529,11 @@ export default class MessageReceiver
   private async decrypt(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
-    ciphertext: Uint8Array
+    ciphertext: Uint8Array,
+    uuidKind: UUIDKind
   ): Promise<Uint8Array | undefined> {
     try {
-      return await this.innerDecrypt(stores, envelope, ciphertext);
+      return await this.innerDecrypt(stores, envelope, ciphertext, uuidKind);
     } catch (error) {
       const uuid = envelope.sourceUuid;
       const deviceId = envelope.sourceDevice;
@@ -1860,10 +1945,10 @@ export default class MessageReceiver
       SenderKeyDistributionMessage.deserialize(
         Buffer.from(distributionMessage)
       );
-    const ourUuid = this.storage.user.getCheckedUuid();
-    const senderKeyStore = new SenderKeys({ ourUuid });
+    const { destinationUuid } = envelope;
+    const senderKeyStore = new SenderKeys({ ourUuid: destinationUuid });
     const address = new QualifiedAddress(
-      ourUuid,
+      destinationUuid,
       Address.create(identifier, sourceDevice)
     );
 

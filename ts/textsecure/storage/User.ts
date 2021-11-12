@@ -5,7 +5,7 @@ import type { WebAPICredentials } from '../Types.d';
 
 import { strictAssert } from '../../util/assert';
 import type { StorageInterface } from '../../types/Storage.d';
-import { UUID } from '../../types/UUID';
+import { UUID, UUIDKind } from '../../types/UUID';
 import * as log from '../../logging/log';
 
 import Helpers from '../Helpers';
@@ -68,6 +68,27 @@ export class User {
     const uuid = this.getUuid();
     strictAssert(uuid !== undefined, 'Must have our own uuid');
     return uuid;
+  }
+
+  public getPni(): UUID | undefined {
+    const pni = this.storage.get('pni');
+    if (pni === undefined) return undefined;
+    return new UUID(pni);
+  }
+
+  public getOurUuidKind(uuid: UUID): UUIDKind {
+    const ourUuid = this.getUuid();
+
+    if (ourUuid?.toString() === uuid.toString()) {
+      return UUIDKind.ACI;
+    }
+
+    const pni = this.getPni();
+    if (pni?.toString() === uuid.toString()) {
+      return UUIDKind.PNI;
+    }
+
+    return UUIDKind.Unknown;
   }
 
   public getDeviceId(): number | undefined {

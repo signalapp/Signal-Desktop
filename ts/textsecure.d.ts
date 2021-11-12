@@ -29,6 +29,7 @@ export type UnprocessedType = {
   source?: string;
   sourceDevice?: number;
   sourceUuid?: string;
+  destinationUuid?: string;
   messageAgeSec?: number;
   version: number;
 };

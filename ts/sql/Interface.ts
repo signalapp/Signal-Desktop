@@ -206,6 +206,7 @@ export type UnprocessedType = {
   source?: string;
   sourceUuid?: string;
   sourceDevice?: number;
+  destinationUuid?: string;
   serverGuid?: string;
   serverTimestamp?: number;
   decrypted?: string;

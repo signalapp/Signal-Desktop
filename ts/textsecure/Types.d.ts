@@ -3,6 +3,7 @@
 
 import type { SignalService as Proto } from '../protobuf';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
+import type { UUID } from '../types/UUID';
 
 export {
   IdentityKeyType,
@@ -82,6 +83,7 @@ export type ProcessedEnvelope = Readonly<{
   source?: string;
   sourceUuid?: string;
   sourceDevice?: number;
+  destinationUuid: UUID;
   timestamp: number;
   legacyMessage?: Uint8Array;
   content?: Uint8Array;
