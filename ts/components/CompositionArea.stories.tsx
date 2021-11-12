@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
+import { boolean, select } from '@storybook/addon-knobs';
 
 import { IMAGE_JPEG } from '../types/MIME';
 import type { Props } from './CompositionArea';
@@ -16,6 +16,7 @@ import enMessages from '../../_locales/en/messages.json';
 import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
 import { ThemeType } from '../types/Util';
+import { RecordingState } from '../state/ducks/audioRecorder';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -42,7 +43,11 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   cancelRecording: action('cancelRecording'),
   completeRecording: action('completeRecording'),
   errorRecording: action('errorRecording'),
-  isRecording: Boolean(overrideProps.isRecording),
+  recordingState: select(
+    'recordingState',
+    RecordingState,
+    overrideProps.recordingState || RecordingState.Idle
+  ),
   startRecording: action('startRecording'),
   // StagedLinkPreview
   linkPreviewLoading: Boolean(overrideProps.linkPreviewLoading),

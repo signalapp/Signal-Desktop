@@ -11,7 +11,10 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../types/Util';
-import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
+import type {
+  ErrorDialogAudioRecorderType,
+  RecordingState,
+} from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
@@ -90,7 +93,7 @@ export type OwnProps = Readonly<{
   isFetchingUUID?: boolean;
   isGroupV1AndDisabled?: boolean;
   isMissingMandatoryProfileSharing?: boolean;
-  isRecording: boolean;
+  recordingState: RecordingState;
   isSMSOnly?: boolean;
   left?: boolean;
   linkPreviewLoading: boolean;
@@ -176,7 +179,7 @@ export const CompositionArea = ({
   completeRecording,
   errorDialogAudioRecorderType,
   errorRecording,
-  isRecording,
+  recordingState,
   startRecording,
   // StagedLinkPreview
   linkPreviewLoading,
@@ -371,7 +374,7 @@ export const CompositionArea = ({
       errorDialogAudioRecorderType={errorDialogAudioRecorderType}
       errorRecording={errorRecording}
       i18n={i18n}
-      isRecording={isRecording}
+      recordingState={recordingState}
       onSendAudioRecording={(voiceNoteAttachment: AttachmentType) => {
         onSendMessage({ voiceNoteAttachment });
       }}

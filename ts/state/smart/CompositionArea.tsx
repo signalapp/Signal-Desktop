@@ -87,7 +87,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     // AudioCapture
     errorDialogAudioRecorderType:
       state.audioRecorder.errorDialogAudioRecorderType,
-    isRecording: state.audioRecorder.isRecording,
+    recordingState: state.audioRecorder.recordingState,
     // AttachmentsList
     draftAttachments,
     // MediaQualitySelector

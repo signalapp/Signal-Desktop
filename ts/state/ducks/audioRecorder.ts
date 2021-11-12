@@ -20,8 +20,14 @@ export enum ErrorDialogAudioRecorderType {
 
 // State
 
+export enum RecordingState {
+  Recording = 'recording',
+  Initializing = 'initializing',
+  Idle = 'idle',
+}
+
 export type AudioPlayerStateType = {
-  readonly isRecording: boolean;
+  readonly recordingState: RecordingState;
   readonly errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
 };
 
@@ -30,6 +36,7 @@ export type AudioPlayerStateType = {
 const CANCEL_RECORDING = 'audioRecorder/CANCEL_RECORDING';
 const COMPLETE_RECORDING = 'audioRecorder/COMPLETE_RECORDING';
 const ERROR_RECORDING = 'audioRecorder/ERROR_RECORDING';
+const NOW_RECORDING = 'audioRecorder/NOW_RECORDING';
 const START_RECORDING = 'audioRecorder/START_RECORDING';
 
 type CancelRecordingAction = {
@@ -48,11 +55,16 @@ type StartRecordingAction = {
   type: typeof START_RECORDING;
   payload: undefined;
 };
+type NowRecordingAction = {
+  type: typeof NOW_RECORDING;
+  payload: undefined;
+};
 
 type AudioPlayerActionType =
   | CancelRecordingAction
   | CompleteRecordingAction
   | ErrorRecordingAction
+  | NowRecordingAction
   | StartRecordingAction;
 
 // Action Creators
@@ -70,29 +82,39 @@ function startRecording(): ThunkAction<
   void,
   RootStateType,
   unknown,
-  StartRecordingAction | ErrorRecordingAction
+  StartRecordingAction | NowRecordingAction | ErrorRecordingAction
 > {
   return async (dispatch, getState) => {
     if (getState().composer.attachments.length) {
       return;
     }
+    if (getState().audioRecorder.recordingState !== RecordingState.Idle) {
+      return;
+    }
 
-    let recordingStarted = false;
+    dispatch({
+      type: START_RECORDING,
+      payload: undefined,
+    });
 
     try {
-      recordingStarted = await recorder.start();
+      const started = await recorder.start();
+
+      if (started) {
+        dispatch({
+          type: NOW_RECORDING,
+          payload: undefined,
+        });
+      } else {
+        dispatch({
+          type: ERROR_RECORDING,
+          payload: ErrorDialogAudioRecorderType.ErrorRecording,
+        });
+      }
     } catch (err) {
       dispatch({
         type: ERROR_RECORDING,
         payload: ErrorDialogAudioRecorderType.ErrorRecording,
-      });
-      return;
-    }
-
-    if (recordingStarted) {
-      dispatch({
-        type: START_RECORDING,
-        payload: undefined,
       });
     }
   };
@@ -184,7 +206,7 @@ function errorRecording(
 
 function getEmptyState(): AudioPlayerStateType {
   return {
-    isRecording: false,
+    recordingState: RecordingState.Idle,
   };
 }
 
@@ -196,7 +218,15 @@ export function reducer(
     return {
       ...state,
       errorDialogAudioRecorderType: undefined,
-      isRecording: true,
+      recordingState: RecordingState.Initializing,
+    };
+  }
+
+  if (action.type === NOW_RECORDING) {
+    return {
+      ...state,
+      errorDialogAudioRecorderType: undefined,
+      recordingState: RecordingState.Recording,
     };
   }
 
@@ -204,7 +234,7 @@ export function reducer(
     return {
       ...state,
       errorDialogAudioRecorderType: undefined,
-      isRecording: false,
+      recordingState: RecordingState.Idle,
     };
   }
 
