@@ -31,7 +31,7 @@ export class Timestamp extends React.Component<Props> {
     this.interval = null;
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     const update = () => {
       this.setState({
         // Used to trigger renders
@@ -42,13 +42,13 @@ export class Timestamp extends React.Component<Props> {
     this.interval = setInterval(update, UPDATE_FREQUENCY);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     if (this.interval) {
       clearInterval(this.interval);
     }
   }
 
-  public render(): JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       direction,
       i18n,

@@ -61,7 +61,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
     return { messageId, conversationId };
   }
 
-  protected getInMemoryQueue({
+  protected override getInMemoryQueue({
     data,
   }: Readonly<{ data: NormalMessageSendJobData }>): PQueue {
     return this.inMemoryQueues.get(data.conversationId);

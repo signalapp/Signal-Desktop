@@ -61,7 +61,7 @@ export class VerificationNotification extends React.Component<Props> {
     );
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { type } = this.props;
     const icon = type === 'markVerified' ? 'verified' : 'verified-not';
 

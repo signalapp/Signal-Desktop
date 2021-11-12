@@ -66,7 +66,7 @@ export class TypingBubble extends React.PureComponent<Props> {
     );
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { i18n, conversationType } = this.props;
     const isGroup = conversationType === 'group';
 

@@ -36,7 +36,7 @@ export class ErrorBoundary extends React.PureComponent<Props, State> {
     return { error };
   }
 
-  public render(): ReactNode {
+  public override render(): ReactNode {
     const { error } = this.state;
     const { i18n, children } = this.props;
 

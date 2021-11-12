@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -23,7 +23,7 @@ export class DocumentListItem extends React.Component<Props> {
     shouldShowSeparator: true,
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { shouldShowSeparator } = this.props;
 
     return (

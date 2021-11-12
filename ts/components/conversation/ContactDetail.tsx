@@ -214,7 +214,7 @@ export class ContactDetail extends React.Component<Props> {
     });
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { contact, hasSignalAccount, i18n, onSendMessage } = this.props;
     const isIncoming = false;
     const module = 'contact-detail';

@@ -48,7 +48,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     }
   }
 
-  getHeaderContents({
+  override getHeaderContents({
     clearSearch,
     i18n,
     showInbox,
@@ -92,11 +92,11 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     );
   }
 
-  getBackAction({ showInbox }: { showInbox: () => void }): () => void {
+  override getBackAction({ showInbox }: { showInbox: () => void }): () => void {
     return showInbox;
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     i18n,
   }: Readonly<{ i18n: LocalizerType }>): ReactChild | null {
     if (this.searchHelper) {
@@ -130,7 +130,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
       : undefined;
   }
 
-  getRowIndexToScrollTo(
+  override getRowIndexToScrollTo(
     selectedConversationId: undefined | string
   ): undefined | number {
     if (this.searchHelper) {
@@ -194,7 +194,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     return false;
   }
 
-  onKeyDown(
+  override onKeyDown(
     event: KeyboardEvent,
     {
       searchInConversation,

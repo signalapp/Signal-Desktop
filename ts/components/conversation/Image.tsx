@@ -132,7 +132,7 @@ export class Image extends React.Component<Props> {
     );
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       alt,
       attachment,

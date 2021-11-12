@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -40,7 +40,7 @@ export class TimelineLoadingRow extends React.PureComponent<Props> {
     return <Spinner size="24" svgSize="small" direction="on-background" />;
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <div className="module-timeline-loading-row">{this.renderContents()}</div>
     );

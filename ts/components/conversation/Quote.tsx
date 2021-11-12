@@ -126,7 +126,7 @@ export class Quote extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount(): void {
+  override componentDidMount(): void {
     const { doubleCheckMissingQuoteReference, referencedMessageNotFound } =
       this.props;
 
@@ -427,7 +427,7 @@ export class Quote extends React.Component<Props, State> {
     );
   }
 
-  public render(): JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       conversationColor,
       customColor,

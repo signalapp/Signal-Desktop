@@ -67,7 +67,7 @@ export class Intl extends React.Component<Props> {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public render() {
+  public override render() {
     const { components, id, i18n, renderText } = this.props;
 
     const text = i18n(id);

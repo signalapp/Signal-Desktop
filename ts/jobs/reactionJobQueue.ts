@@ -47,7 +47,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
     return reactionJobData.parse(data);
   }
 
-  protected getInMemoryQueue({
+  protected override getInMemoryQueue({
     data,
   }: Readonly<{ data: Pick<ReactionJobData, 'messageId'> }>): PQueue {
     return this.inMemoryQueues.get(data.messageId);

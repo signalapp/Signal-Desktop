@@ -77,7 +77,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     this.searchTerm = searchTerm;
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     i18n,
   }: Readonly<{ i18n: LocalizerType }>): null | ReactChild {
     const mightHaveSearchResults = this.allResults().some(
@@ -142,7 +142,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
   }
 
   // This is currently unimplemented. See DESKTOP-1170.
-  getRowIndexToScrollTo(
+  override getRowIndexToScrollTo(
     _selectedConversationId: undefined | string
   ): undefined | number {
     return undefined;
@@ -231,7 +231,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       : undefined;
   }
 
-  isScrollable(): boolean {
+  override isScrollable(): boolean {
     return !this.isLoading();
   }
 
@@ -267,7 +267,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     return undefined;
   }
 
-  onKeyDown(
+  override onKeyDown(
     event: KeyboardEvent,
     options: Readonly<{
       searchInConversation: (conversationId: string) => unknown;

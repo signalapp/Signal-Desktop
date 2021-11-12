@@ -18,7 +18,7 @@ export type HTTPErrorHeadersType = {
 };
 
 export class HTTPError extends Error {
-  public readonly name = 'HTTPError';
+  public override readonly name = 'HTTPError';
 
   public readonly code: number;
 
@@ -48,10 +48,6 @@ export class HTTPError extends Error {
 }
 
 export class ReplayableError extends Error {
-  name: string;
-
-  message: string;
-
   functionCode?: number;
 
   constructor(options: {

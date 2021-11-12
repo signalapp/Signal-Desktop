@@ -67,7 +67,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     this.isUsernamesEnabled = isUsernamesEnabled;
   }
 
-  getHeaderContents({
+  override getHeaderContents({
     i18n,
     showInbox,
   }: Readonly<{
@@ -90,11 +90,11 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     );
   }
 
-  getBackAction({ showInbox }: { showInbox: () => void }): () => void {
+  override getBackAction({ showInbox }: { showInbox: () => void }): () => void {
     return showInbox;
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     i18n,
     onChangeComposeSearchTerm,
   }: Readonly<{

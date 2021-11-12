@@ -150,13 +150,13 @@ export class CDSSocket extends EventEmitter {
 
   // EventEmitter types
 
-  public on(
+  public override on(
     type: 'close',
     callback: (code: number, reason?: string) => void
   ): this;
-  public on(type: 'error', callback: (error: Error) => void): this;
+  public override on(type: 'error', callback: (error: Error) => void): this;
 
-  public on(
+  public override on(
     type: string | symbol,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (...args: Array<any>) => void
@@ -164,11 +164,11 @@ export class CDSSocket extends EventEmitter {
     return super.on(type, listener);
   }
 
-  public emit(type: 'close', code: number, reason?: string): boolean;
-  public emit(type: 'error', error: Error): boolean;
+  public override emit(type: 'close', code: number, reason?: string): boolean;
+  public override emit(type: 'error', error: Error): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public emit(type: string | symbol, ...args: Array<any>): boolean {
+  public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }
 }

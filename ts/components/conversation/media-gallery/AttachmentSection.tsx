@@ -1,4 +1,4 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -20,7 +20,7 @@ export type Props = {
 };
 
 export class AttachmentSection extends React.Component<Props> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { header } = this.props;
 
     return (

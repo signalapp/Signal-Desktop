@@ -26,15 +26,15 @@ export class Countdown extends React.Component<Props, State> {
     this.state = { ratio };
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this.startLoop();
   }
 
-  public componentDidUpdate(): void {
+  public override componentDidUpdate(): void {
     this.startLoop();
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this.stopLoop();
   }
 
@@ -70,7 +70,7 @@ export class Countdown extends React.Component<Props, State> {
     }
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { ratio } = this.state;
     const strokeDashoffset = ratio * CIRCUMFERENCE;
 

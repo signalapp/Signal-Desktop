@@ -203,7 +203,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   cachedOutgoingStickerData?: WhatIsThis;
 
-  initialize(attributes: unknown): void {
+  override initialize(attributes: unknown): void {
     if (_.isObject(attributes)) {
       this.set(
         TypedMessage.initializeSchemaVersion({
@@ -756,14 +756,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     return `${account}.${device} ${timestamp}`;
   }
 
-  defaults(): Partial<MessageAttributesType> {
+  override defaults(): Partial<MessageAttributesType> {
     return {
       timestamp: new Date().getTime(),
       attachments: [],
     };
   }
 
-  validate(attributes: Record<string, unknown>): void {
+  override validate(attributes: Record<string, unknown>): void {
     const required = ['conversationId', 'received_at', 'sent_at'];
     const missing = _.filter(required, attr => !attributes[attr]);
     if (missing.length) {
@@ -1003,7 +1003,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await window.Signal.Data.deleteSentProtoByMessageId(this.id);
   }
 
-  isEmpty(): boolean {
+  override isEmpty(): boolean {
     const { attributes } = this;
 
     // Core message types - we check for all four because they can each stand alone

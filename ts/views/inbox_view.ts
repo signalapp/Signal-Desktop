@@ -11,7 +11,7 @@ window.Whisper = window.Whisper || {};
 const { Whisper } = window;
 
 class ConversationStack extends Backbone.View {
-  public className = 'conversation-stack';
+  public override className = 'conversation-stack';
 
   private conversationStack: Array<ConversationModel> = [];
 
@@ -59,7 +59,7 @@ class ConversationStack extends Backbone.View {
     this.render();
   }
 
-  public render(): ConversationStack {
+  public override render(): ConversationStack {
     const isAnyConversationOpen = Boolean(this.conversationStack.length);
     this.$('.no-conversation-open').toggle(!isAnyConversationOpen);
 

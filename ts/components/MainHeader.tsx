@@ -65,7 +65,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     };
   }
 
-  public componentDidUpdate(prevProps: PropsType): void {
+  public override componentDidUpdate(prevProps: PropsType): void {
     const { searchConversation, startSearchCounter } = this.props;
 
     // When user chooses to search in a given conversation we focus the field for them
@@ -119,11 +119,11 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     document.addEventListener('keydown', this.handleGlobalKeyDown);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     const { popperRoot } = this.state;
 
     document.removeEventListener('click', this.handleOutsideClick);
@@ -191,7 +191,7 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       avatarPath,
       badge,

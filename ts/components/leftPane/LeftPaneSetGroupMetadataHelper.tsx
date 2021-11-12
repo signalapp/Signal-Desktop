@@ -75,7 +75,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     this.userAvatarData = userAvatarData;
   }
 
-  getHeaderContents({
+  override getHeaderContents({
     i18n,
     showChooseGroupMembers,
   }: Readonly<{
@@ -101,7 +101,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     );
   }
 
-  getBackAction({
+  override getBackAction({
     showChooseGroupMembers,
   }: {
     showChooseGroupMembers: () => void;
@@ -109,7 +109,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     return this.isCreating ? undefined : showChooseGroupMembers;
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     clearGroupCreationError,
     composeDeleteAvatarFromDisk,
     composeReplaceAvatar,
@@ -219,7 +219,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     );
   }
 
-  getFooterContents({
+  override getFooterContents({
     createGroup,
     i18n,
   }: Readonly<{

@@ -350,134 +350,149 @@ export default class MessageReceiver
   // EventTarget types
   //
 
-  public addEventListener(
+  public override addEventListener(
     name: 'reconnect',
     handler: (ev: ReconnectEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'empty',
     handler: (ev: EmptyEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'progress',
     handler: (ev: ProgressEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'typing',
     handler: (ev: TypingEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'error',
     handler: (ev: ErrorEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'delivery',
     handler: (ev: DeliveryEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'decryption-error',
     handler: (ev: DecryptionErrorEvent) => void
   ): void;
 
-  public addEventListener(name: 'sent', handler: (ev: SentEvent) => void): void;
+  public override addEventListener(
+    name: 'sent',
+    handler: (ev: SentEvent) => void
+  ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'profileKeyUpdate',
     handler: (ev: ProfileKeyUpdateEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'message',
     handler: (ev: MessageEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'retry-request',
     handler: (ev: RetryRequestEvent) => void
   ): void;
 
-  public addEventListener(name: 'read', handler: (ev: ReadEvent) => void): void;
+  public override addEventListener(
+    name: 'read',
+    handler: (ev: ReadEvent) => void
+  ): void;
 
-  public addEventListener(name: 'view', handler: (ev: ViewEvent) => void): void;
+  public override addEventListener(
+    name: 'view',
+    handler: (ev: ViewEvent) => void
+  ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'configuration',
     handler: (ev: ConfigurationEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'viewOnceOpenSync',
     handler: (ev: ViewOnceOpenSyncEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'messageRequestResponse',
     handler: (ev: MessageRequestResponseEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'fetchLatest',
     handler: (ev: FetchLatestEvent) => void
   ): void;
 
-  public addEventListener(name: 'keys', handler: (ev: KeysEvent) => void): void;
+  public override addEventListener(
+    name: 'keys',
+    handler: (ev: KeysEvent) => void
+  ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'sticker-pack',
     handler: (ev: StickerPackEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'verified',
     handler: (ev: VerifiedEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'readSync',
     handler: (ev: ReadSyncEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'viewSync',
     handler: (ev: ViewSyncEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'contact',
     handler: (ev: ContactEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'contactSync',
     handler: (ev: ContactSyncEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'group',
     handler: (ev: GroupEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'groupSync',
     handler: (ev: GroupSyncEvent) => void
   ): void;
 
-  public addEventListener(
+  public override addEventListener(
     name: 'envelope',
     handler: (ev: EnvelopeEvent) => void
   ): void;
 
-  public addEventListener(name: string, handler: EventHandler): void {
+  public override addEventListener(name: string, handler: EventHandler): void {
     return super.addEventListener(name, handler);
   }
 
-  public removeEventListener(name: string, handler: EventHandler): void {
+  public override removeEventListener(
+    name: string,
+    handler: EventHandler
+  ): void {
     return super.removeEventListener(name, handler);
   }
 

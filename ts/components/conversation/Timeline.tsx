@@ -1005,20 +1005,20 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this.updateWithVisibleRows();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.registerForActive(this.updateWithVisibleRows);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.unregisterForActive(this.updateWithVisibleRows);
   }
 
-  public componentDidUpdate(
+  public override componentDidUpdate(
     prevProps: Readonly<PropsType>,
     prevState: Readonly<StateType>
   ): void {
@@ -1311,7 +1311,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
   };
 
-  public render(): JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
       areWeAdmin,

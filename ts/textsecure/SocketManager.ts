@@ -626,10 +626,13 @@ export class SocketManager extends EventListener {
 
   // EventEmitter types
 
-  public on(type: 'authError', callback: (error: HTTPError) => void): this;
-  public on(type: 'statusChange', callback: () => void): this;
+  public override on(
+    type: 'authError',
+    callback: (error: HTTPError) => void
+  ): this;
+  public override on(type: 'statusChange', callback: () => void): this;
 
-  public on(
+  public override on(
     type: string | symbol,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listener: (...args: Array<any>) => void
@@ -637,11 +640,11 @@ export class SocketManager extends EventListener {
     return super.on(type, listener);
   }
 
-  public emit(type: 'authError', error: HTTPError): boolean;
-  public emit(type: 'statusChange'): boolean;
+  public override emit(type: 'authError', error: HTTPError): boolean;
+  public override emit(type: 'statusChange'): boolean;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public emit(type: string | symbol, ...args: Array<any>): boolean {
+  public override emit(type: string | symbol, ...args: Array<any>): boolean {
     return super.emit(type, ...args);
   }
 }

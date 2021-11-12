@@ -128,7 +128,9 @@ describe('JobQueue', () => {
           return z.number().parse(data);
         }
 
-        protected getInMemoryQueue(parsedJob: ParsedJob<number>): PQueue {
+        protected override getInMemoryQueue(
+          parsedJob: ParsedJob<number>
+        ): PQueue {
           assert(
             new Set([1, 2, 3, 4]).has(parsedJob.data),
             'Bad data passed to `getInMemoryQueue`'

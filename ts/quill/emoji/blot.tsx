@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type Parchment from 'parchment';
@@ -13,13 +13,13 @@ const Embed: typeof Parchment.Embed = Quill.import('blots/embed');
 // ts/components/emoji/Emoji.tsx
 
 export class EmojiBlot extends Embed {
-  static blotName = 'emoji';
+  static override blotName = 'emoji';
 
-  static tagName = 'img';
+  static override tagName = 'img';
 
-  static className = 'emoji-blot';
+  static override className = 'emoji-blot';
 
-  static create(emoji: string): Node {
+  static override create(emoji: string): Node {
     const node = super.create(undefined) as HTMLElement;
     node.dataset.emoji = emoji;
 
@@ -33,7 +33,7 @@ export class EmojiBlot extends Embed {
     return node;
   }
 
-  static value(node: HTMLElement): string | undefined {
+  static override value(node: HTMLElement): string | undefined {
     return node.dataset.emoji;
   }
 }

@@ -203,7 +203,7 @@ export class ConversationModel extends window.Backbone
 
   private isInReduxBatch = false;
 
-  defaults(): Partial<ConversationAttributesType> {
+  override defaults(): Partial<ConversationAttributesType> {
     return {
       unreadCount: 0,
       verified: window.textsecure.storage.protocol.VerifiedStatus.DEFAULT,
@@ -244,7 +244,9 @@ export class ConversationModel extends window.Backbone
     return collection;
   }
 
-  initialize(attributes: Partial<ConversationAttributesType> = {}): void {
+  override initialize(
+    attributes: Partial<ConversationAttributesType> = {}
+  ): void {
     if (isValidE164(attributes.id, false)) {
       this.set({ id: UUID.generate().toString(), e164: attributes.id });
     }
@@ -1078,7 +1080,7 @@ export class ConversationModel extends window.Backbone
     this.setRegistered();
   }
 
-  isValid(): boolean {
+  override isValid(): boolean {
     return (
       isDirectConversation(this.attributes) ||
       isGroupV1(this.attributes) ||
@@ -2956,7 +2958,7 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  validate(attributes = this.attributes): string | null {
+  override validate(attributes = this.attributes): string | null {
     const required = ['type'];
     const missing = window._.filter(required, attr => !attributes[attr]);
     if (missing.length) {

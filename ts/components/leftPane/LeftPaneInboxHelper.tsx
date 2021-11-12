@@ -61,7 +61,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     i18n,
   }: Readonly<{ i18n: LocalizerType }>): null | ReactChild {
     if (this.getRowCount() === 0) {
@@ -156,7 +156,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     return undefined;
   }
 
-  getRowIndexToScrollTo(
+  override getRowIndexToScrollTo(
     selectedConversationId: undefined | string
   ): undefined | number {
     if (!selectedConversationId) {
@@ -188,7 +188,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     return undefined;
   }
 
-  requiresFullWidth(): boolean {
+  override requiresFullWidth(): boolean {
     const hasNoConversations =
       !this.conversations.length &&
       !this.pinnedConversations.length &&
@@ -228,7 +228,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
   }
 
-  onKeyDown(
+  override onKeyDown(
     event: KeyboardEvent,
     options: Readonly<{
       searchInConversation: (conversationId: string) => unknown;

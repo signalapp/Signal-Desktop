@@ -312,7 +312,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     this.updateAttachmentsView();
   }
 
-  events(): Record<string, string> {
+  override events(): Record<string, string> {
     return {
       drop: 'onDrop',
       paste: 'onPaste',

@@ -105,7 +105,7 @@ export class MessageDetail extends React.Component<Props> {
 
   private readonly messageContainerRef = React.createRef<HTMLDivElement>();
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     // When this component is created, it's initially not part of the DOM, and then it's
     //   added off-screen and animated in. This ensures that the focus takes.
     setTimeout(() => {
@@ -257,7 +257,7 @@ export class MessageDetail extends React.Component<Props> {
     );
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       errors,
       message,

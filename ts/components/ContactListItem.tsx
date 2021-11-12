@@ -69,7 +69,7 @@ export class ContactListItem extends React.Component<Props> {
     );
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { about, i18n, isAdmin, isMe, name, onClick, title, type } =
       this.props;
 

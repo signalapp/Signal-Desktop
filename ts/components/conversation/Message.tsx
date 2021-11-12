@@ -418,7 +418,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this.startSelectedTimer();
     this.startDeleteForEveryoneTimer();
 
@@ -445,7 +445,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     if (this.selectedTimeout) {
       clearTimeout(this.selectedTimeout);
     }
@@ -462,7 +462,7 @@ export class Message extends React.PureComponent<Props, State> {
     this.toggleReactionPicker(true);
   }
 
-  public componentDidUpdate(prevProps: Props): void {
+  public override componentDidUpdate(prevProps: Props): void {
     const { canDeleteForEveryone, isSelected, status, timestamp } = this.props;
 
     this.startSelectedTimer();
@@ -2414,7 +2414,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public render(): JSX.Element | null {
+  public override render(): JSX.Element | null {
     const { author, attachments, direction, id, isSticker, timestamp } =
       this.props;
     const { expired, expiring, imageBroken, isSelected } = this.state;

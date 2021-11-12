@@ -72,7 +72,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     );
   }
 
-  getHeaderContents({
+  override getHeaderContents({
     i18n,
     startComposing,
   }: Readonly<{
@@ -97,7 +97,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     );
   }
 
-  getBackAction({
+  override getBackAction({
     startComposing,
   }: {
     startComposing: () => void;
@@ -105,7 +105,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     return startComposing;
   }
 
-  getPreRowsNode({
+  override getPreRowsNode({
     closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
@@ -196,7 +196,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     );
   }
 
-  getFooterContents({
+  override getFooterContents({
     i18n,
     startSettingGroupMetadata,
   }: Readonly<{

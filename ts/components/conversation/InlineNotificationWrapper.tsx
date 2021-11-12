@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -37,14 +37,14 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
     }
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     const { isSelected } = this.props;
     if (isSelected) {
       this.setFocus();
     }
   }
 
-  public componentDidUpdate(prevProps: PropsType): void {
+  public override componentDidUpdate(prevProps: PropsType): void {
     const { isSelected } = this.props;
 
     if (!prevProps.isSelected && isSelected) {
@@ -52,7 +52,7 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
     }
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { children } = this.props;
 
     return (

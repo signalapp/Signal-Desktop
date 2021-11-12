@@ -587,7 +587,7 @@ export class ConversationHeader extends React.Component<PropsType, StateType> {
     );
   }
 
-  public render(): ReactNode {
+  public override render(): ReactNode {
     const { id, isSMSOnly, i18n, onSetDisappearingMessages, expireTimer } =
       this.props;
     const { isNarrow, modalState } = this.state;

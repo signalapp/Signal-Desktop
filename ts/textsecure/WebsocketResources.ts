@@ -163,12 +163,12 @@ export default class WebSocketResource extends EventTarget {
     this.addEventListener('close', () => this.onClose());
   }
 
-  public addEventListener(
+  public override addEventListener(
     name: 'close',
     handler: (ev: CloseEvent) => void
   ): void;
 
-  public addEventListener(name: string, handler: EventHandler): void {
+  public override addEventListener(name: string, handler: EventHandler): void {
     return super.addEventListener(name, handler);
   }
 

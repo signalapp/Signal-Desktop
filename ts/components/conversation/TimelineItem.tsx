@@ -171,7 +171,7 @@ export type PropsType = PropsLocalType &
   >;
 
 export class TimelineItem extends React.PureComponent<PropsType> {
-  public render(): JSX.Element | null {
+  public override render(): JSX.Element | null {
     const {
       containerElementRef,
       conversationId,

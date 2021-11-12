@@ -33,6 +33,7 @@
     // Additional Checks
     "noUnusedLocals": true, // Report errors on unused locals.
     "noUnusedParameters": true, // Report errors on unused parameters.
+    "noImplicitOverride": true, // Require explicit "override" keyword in subclasses.
     "noImplicitReturns": true, // Report error when not all code paths in function return a value.
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement.
 

@@ -120,7 +120,7 @@ export class GroupNotification extends React.Component<Props> {
     }
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { changes: rawChanges, i18n, from } = this.props;
 
     // This check is just to be extra careful, and can probably be removed.

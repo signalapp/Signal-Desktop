@@ -137,7 +137,7 @@ export class MessageBodyHighlight extends React.Component<Props> {
     return results;
   }
 
-  public render(): ReactNode {
+  public override render(): ReactNode {
     return <div className={CLASS_NAME}>{this.renderContents()}</div>;
   }
 }
