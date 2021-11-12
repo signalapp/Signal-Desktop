@@ -91,6 +91,13 @@ export function createKeyPair(incomingKey: Uint8Array): KeyPairType {
   };
 }
 
+export function prefixPublicKey(pubKey: Uint8Array): Uint8Array {
+  return Bytes.concatenate([
+    new Uint8Array([0x05]),
+    validatePubKeyFormat(pubKey),
+  ]);
+}
+
 export function calculateAgreement(
   pubKey: Uint8Array,
   privKey: Uint8Array
@@ -98,9 +105,7 @@ export function calculateAgreement(
   const privKeyBuffer = Buffer.from(privKey);
 
   const pubKeyObj = client.PublicKey.deserialize(
-    Buffer.from(
-      Bytes.concatenate([new Uint8Array([0x05]), validatePubKeyFormat(pubKey)])
-    )
+    Buffer.from(prefixPublicKey(pubKey))
   );
   const privKeyObj = client.PrivateKey.deserialize(privKeyBuffer);
   const sharedSecret = privKeyObj.agree(pubKeyObj);

@@ -504,6 +504,7 @@ const URL_CALLS = {
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuth: 'v1/directory/auth',
+  directoryAuthV2: 'v2/directory/auth',
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/group',
@@ -556,6 +557,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
 
   // Directory
   'directoryAuth',
+  'directoryAuthV2',
 
   // Storage
   'storageToken',
@@ -2475,6 +2477,17 @@ export function initialize({
       })) as { username: string; password: string };
     }
 
+    async function getDirectoryAuthV2(): Promise<{
+      username: string;
+      password: string;
+    }> {
+      return (await _ajax({
+        call: 'directoryAuthV2',
+        httpType: 'GET',
+        responseType: 'json',
+      })) as { username: string; password: string };
+    }
+
     function validateAttestationQuote({
       serverStaticPublic,
       quote: quoteBytes,
@@ -2864,7 +2877,12 @@ export function initialize({
     async function getUuidsForE164sV2(
       e164s: ReadonlyArray<string>
     ): Promise<Dictionary<UUIDStringType | null>> {
-      const uuids = await cdsSocketManager.request({ e164s });
+      const auth = await getDirectoryAuthV2();
+
+      const uuids = await cdsSocketManager.request({
+        auth,
+        e164s,
+      });
 
       return zipObject(e164s, uuids);
     }

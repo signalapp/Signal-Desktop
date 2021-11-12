@@ -20,8 +20,22 @@ enum State {
   Closed,
 }
 
+export type CDSRequestOptionsType = Readonly<{
+  e164s: ReadonlyArray<string>;
+  auth: CDSAuthType;
+  timeout?: number;
+}>;
+
+export type CDSAuthType = Readonly<{
+  username: string;
+  password: string;
+}>;
+
 const HANDSHAKE_TIMEOUT = 10 * durations.SECOND;
 const REQUEST_TIMEOUT = 10 * durations.SECOND;
+const VERSION = new Uint8Array([0x01]);
+const USERNAME_LENGTH = 32;
+const PASSWORD_LENGTH = 31;
 
 export class CDSSocket extends EventEmitter {
   private state = State.Handshake;
@@ -82,19 +96,30 @@ export class CDSSocket extends EventEmitter {
 
   public async request({
     e164s,
+    auth,
     timeout = REQUEST_TIMEOUT,
-  }: {
-    e164s: ReadonlyArray<string>;
-    timeout?: number;
-  }): Promise<ReadonlyArray<UUIDStringType | null>> {
+  }: CDSRequestOptionsType): Promise<ReadonlyArray<UUIDStringType | null>> {
     await this.finishedHandshake;
     strictAssert(
       this.state === State.Established,
       'Connection not established'
     );
 
+    const username = Bytes.fromString(auth.username);
+    const password = Bytes.fromString(auth.password);
+    strictAssert(
+      username.length === USERNAME_LENGTH,
+      'Invalid username length'
+    );
+    strictAssert(
+      password.length === PASSWORD_LENGTH,
+      'Invalid password length'
+    );
+
     const request = Bytes.concatenate([
-      new Uint8Array([0x01]),
+      VERSION,
+      username,
+      password,
       ...e164s.map(e164 => {
         // Long.fromString handles numbers with or without a leading '+'
         return new Uint8Array(Long.fromString(e164).toBytesBE());

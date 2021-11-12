@@ -6,10 +6,12 @@ import { HsmEnclaveClient, PublicKey } from '@signalapp/signal-client';
 import type { connection as WebSocket } from 'websocket';
 
 import * as Bytes from '../Bytes';
+import { prefixPublicKey } from '../Curve';
 import type { AbortableProcess } from '../util/AbortableProcess';
 import * as log from '../logging/log';
 import type { UUIDStringType } from '../types/UUID';
 import { CDSSocket } from './CDSSocket';
+import type { CDSRequestOptionsType } from './CDSSocket';
 import { connect as connectWebSocket } from './WebSocket';
 
 export type CDSSocketManagerOptionsType = Readonly<{
@@ -30,7 +32,7 @@ export class CDSSocketManager {
 
   constructor(private readonly options: CDSSocketManagerOptionsType) {
     this.publicKey = PublicKey.deserialize(
-      Buffer.from(Bytes.fromHex(options.publicKey))
+      Buffer.from(prefixPublicKey(Bytes.fromHex(options.publicKey)))
     );
     this.codeHash = Buffer.from(Bytes.fromHex(options.codeHash));
     if (options.proxyUrl) {
@@ -38,19 +40,15 @@ export class CDSSocketManager {
     }
   }
 
-  public async request({
-    e164s,
-    timeout,
-  }: {
-    e164s: ReadonlyArray<string>;
-    timeout?: number;
-  }): Promise<ReadonlyArray<UUIDStringType | null>> {
+  public async request(
+    options: CDSRequestOptionsType
+  ): Promise<ReadonlyArray<UUIDStringType | null>> {
     log.info('CDSSocketManager: connecting socket');
     const socket = await this.connect().getResult();
     log.info('CDSSocketManager: connected socket');
 
     try {
-      return await socket.request({ e164s, timeout });
+      return await socket.request(options);
     } finally {
       log.info('CDSSocketManager: closing socket');
       socket.close(3000, 'Normal');
