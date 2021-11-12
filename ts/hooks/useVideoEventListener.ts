@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useMountedState from 'react-use/lib/useMountedState';
 import { CallManager } from '../session/utils';
-import { CallManagerOptionsType, InputItem } from '../session/utils/CallManager';
+import {
+  CallManagerOptionsType,
+  DEVICE_DISABLED_DEVICE_ID,
+  InputItem,
+} from '../session/utils/CallManager';
 import {
   getCallIsInFullScreen,
   getHasOngoingCallWithPubkey,
@@ -19,7 +23,9 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [localStreamVideoIsMuted, setLocalStreamVideoIsMuted] = useState(true);
   const [ourAudioIsMuted, setOurAudioIsMuted] = useState(false);
-  const [ourAudioOutputIsMuted, setOurAudioOutputIsMuted] = useState(false);
+  const [currentSelectedAudioOutput, setCurrentSelectedAudioOutput] = useState(
+    DEVICE_DISABLED_DEVICE_ID
+  );
   const [remoteStreamVideoIsMuted, setRemoteStreamVideoIsMuted] = useState(true);
   const mountedState = useMountedState();
 
@@ -47,7 +53,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           localStream: lLocalStream,
           remoteStream: lRemoteStream,
           isAudioMuted,
-          isAudioOutputMuted,
+          currentSelectedAudioOutput,
         } = options;
         if (mountedState()) {
           setLocalStream(lLocalStream);
@@ -55,7 +61,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           setRemoteStreamVideoIsMuted(isRemoteVideoStreamMuted);
           setLocalStreamVideoIsMuted(isLocalVideoStreamMuted);
           setOurAudioIsMuted(isAudioMuted);
-          setOurAudioOutputIsMuted(isAudioOutputMuted);
+          setCurrentSelectedAudioOutput(currentSelectedAudioOutput);
 
           setCurrentConnectedCameras(camerasList);
           setCurrentConnectedAudioInputs(audioInputsList);
@@ -72,12 +78,13 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   return {
     currentConnectedAudioInputs,
     currentConnectedAudioOutputs,
+    currentSelectedAudioOutput,
     currentConnectedCameras,
     localStreamVideoIsMuted,
     remoteStreamVideoIsMuted,
     localStream,
     remoteStream,
     isAudioMuted: ourAudioIsMuted,
-    isAudioOutputMuted: ourAudioOutputIsMuted,
+    isAudioOutputMuted: currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID,
   };
 }

@@ -41,7 +41,7 @@ export type CallManagerOptionsType = {
   isLocalVideoStreamMuted: boolean;
   isRemoteVideoStreamMuted: boolean;
   isAudioMuted: boolean;
-  isAudioOutputMuted: boolean;
+  currentSelectedAudioOutput: string;
 };
 
 export type CallManagerListener = ((options: CallManagerOptionsType) => void) | null;
@@ -59,7 +59,7 @@ function callVideoListeners() {
         isRemoteVideoStreamMuted: remoteVideoStreamIsMuted,
         isLocalVideoStreamMuted: selectedCameraId === DEVICE_DISABLED_DEVICE_ID,
         isAudioMuted: selectedAudioInputId === DEVICE_DISABLED_DEVICE_ID,
-        isAudioOutputMuted: selectedAudioOutputId === DEVICE_DISABLED_DEVICE_ID,
+        currentSelectedAudioOutput: selectedAudioOutputId,
       });
     });
   }
@@ -102,11 +102,13 @@ let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
 const configuration: RTCConfiguration = {
+  bundlePolicy: 'max-bundle',
+  rtcpMuxPolicy: 'require',
   iceServers: [
     {
       urls: 'turn:freyr.getsession.org',
-      username: 'webrtc',
-      credential: 'webrtc',
+      username: 'session',
+      credential: 'session',
     },
   ],
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
@@ -408,7 +410,7 @@ export async function USER_callRecipient(recipient: string) {
     throw new Error('USER_callRecipient peerConnection is already initialized ');
   }
   currentCallUUID = uuidv4();
-  peerConnection = createOrGetPeerConnection(recipient, true);
+  peerConnection = createOrGetPeerConnection(recipient);
   // send a pre offer just to wake up the device on the remote side
   const preOfferMsg = new CallMessage({
     timestamp: Date.now(),
@@ -575,42 +577,26 @@ function onDataChannelOnOpen() {
   sendVideoStatusViaDataChannel();
 }
 
-function createOrGetPeerConnection(
-  withPubkey: string,
-  createDataChannel: boolean,
-  isAcceptingCall = false
-) {
+function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) {
   if (peerConnection) {
     return peerConnection;
   }
   remoteStream = new MediaStream();
   peerConnection = new RTCPeerConnection(configuration);
-  if (createDataChannel) {
-    dataChannel = peerConnection.createDataChannel('session-datachannel', {
-      negotiated: true,
-      id: 548, // SESSION dec ascii code 83*3+69+73+79+78
-    });
+  dataChannel = peerConnection.createDataChannel('session-datachannel', {
+    ordered: true,
+    negotiated: true,
+    id: 548, // S E S S I O N in ascii code 83*3+69+73+79+78
+  });
 
-    dataChannel.onmessage = onDataChannelReceivedMessage;
-    dataChannel.onopen = onDataChannelOnOpen;
-  }
+  dataChannel.onmessage = onDataChannelReceivedMessage;
+  dataChannel.onopen = onDataChannelOnOpen;
 
   if (!isAcceptingCall) {
     peerConnection.onnegotiationneeded = async (event: Event) => {
       await handleNegotiationNeededEvent(event, withPubkey);
     };
   }
-
-  // peerConnection.ondatachannel = e => {
-  //   if (!createDataChannel) {
-  //     dataChannel = e.channel;
-  //     window.log.info('Got our datachannel setup');
-
-  //     onDataChannelOnOpen();
-
-  //     dataChannel.onmessage = onDataChannelReceivedMessage;
-  //   }
-  // };
 
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
 
@@ -658,14 +644,18 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     );
     return;
   }
+  if (!lastOfferMessage.uuid) {
+    window?.log?.info('incoming call request cannot be accepted as uuid is invalid');
+    return;
+  }
   window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
   await openConversationWithMessages({ conversationKey: fromSender });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
-  currentCallUUID = uuidv4();
+  currentCallUUID = lastOfferMessage.uuid;
 
-  peerConnection = createOrGetPeerConnection(fromSender, true, true);
+  peerConnection = createOrGetPeerConnection(fromSender, true);
 
   await openMediaDevicesAndAddTracks();
 
