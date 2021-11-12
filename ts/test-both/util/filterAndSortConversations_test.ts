@@ -21,6 +21,7 @@ describe('filterAndSortConversationsByTitle', () => {
       name: 'Carlos Santana',
       title: 'Carlos Santana',
       e164: '+16505559876',
+      username: 'thisismyusername',
     }),
     getDefaultConversation({
       name: 'Aaron Aardvark',
@@ -63,6 +64,14 @@ describe('filterAndSortConversationsByTitle', () => {
       '650555'
     ).map(contact => contact.title);
     assert.sameMembers(titles, ['Carlos Santana', '+16505551234']);
+  });
+
+  it('can search for contacts by username', () => {
+    const titles = filterAndSortConversationsByTitle(
+      conversations,
+      'thisis'
+    ).map(contact => contact.title);
+    assert.sameMembers(titles, ['Carlos Santana']);
   });
 });
 

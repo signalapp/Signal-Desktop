@@ -115,19 +115,26 @@ Whisper.InboxView = Whisper.View.extend({
       this.conversation_stack.unload();
     });
 
-    window.Whisper.events.on('showConversation', async (id, messageId) => {
-      const conversation =
-        await window.ConversationController.getOrCreateAndWait(id, 'private');
+    window.Whisper.events.on(
+      'showConversation',
+      async (id, messageId, username) => {
+        const conversation =
+          await window.ConversationController.getOrCreateAndWait(
+            id,
+            'private',
+            { username }
+          );
 
-      conversation.setMarkedUnread(false);
+        conversation.setMarkedUnread(false);
 
-      const { openConversationExternal } = window.reduxActions.conversations;
-      if (openConversationExternal) {
-        openConversationExternal(conversation.id, messageId);
+        const { openConversationExternal } = window.reduxActions.conversations;
+        if (openConversationExternal) {
+          openConversationExternal(conversation.id, messageId);
+        }
+
+        this.conversation_stack.open(conversation, messageId);
       }
-
-      this.conversation_stack.open(conversation, messageId);
-    });
+    );
 
     window.Whisper.events.on('loadingProgress', count => {
       const view = this.appLoadingScreen;

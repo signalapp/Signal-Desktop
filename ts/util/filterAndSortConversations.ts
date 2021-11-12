@@ -25,6 +25,10 @@ const FUSE_OPTIONS: FuseOptions<ConversationType> = {
       weight: 1,
     },
     {
+      name: 'username',
+      weight: 1,
+    },
+    {
       name: 'e164',
       weight: 0.5,
     },

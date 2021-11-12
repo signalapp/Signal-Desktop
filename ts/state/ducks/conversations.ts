@@ -23,8 +23,14 @@ import { getOwn } from '../../util/getOwn';
 import { assert, strictAssert } from '../../util/assert';
 import * as universalExpireTimer from '../../util/universalExpireTimer';
 import { trigger } from '../../shims/events';
-import type { ToggleProfileEditorErrorActionType } from './globalModals';
-import { TOGGLE_PROFILE_EDITOR_ERROR } from './globalModals';
+import type {
+  ShowUsernameNotFoundModalActionType,
+  ToggleProfileEditorErrorActionType,
+} from './globalModals';
+import {
+  TOGGLE_PROFILE_EDITOR_ERROR,
+  actions as globalModalActions,
+} from './globalModals';
 import { isRecord } from '../../util/isRecord';
 
 import type {
@@ -41,6 +47,7 @@ import type { BodyRangeType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { MediaItemType } from '../../types/MediaItem';
 import type { UUIDStringType } from '../../types/UUID';
+import { UUID } from '../../types/UUID';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -53,6 +60,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { writeProfile } from '../../services/writeProfile';
 import { writeUsername } from '../../services/writeUsername';
 import {
+  getConversationsByUsername,
   getMe,
   getMessageIdsPendingBecauseOfVerification,
   getUsernameSaveState,
@@ -69,6 +77,8 @@ import {
 } from './conversationsEnums';
 import { showToast } from '../../util/showToast';
 import { ToastFailedToDeleteUsername } from '../../components/ToastFailedToDeleteUsername';
+import { ToastFailedToFetchUsername } from '../../components/ToastFailedToFetchUsername';
+import { isValidUsername } from '../../types/Username';
 
 import type { NoopActionType } from './noop';
 
@@ -278,10 +288,16 @@ type ComposerGroupCreationState = {
   userAvatarData: Array<AvatarDataType>;
 };
 
+export type FoundUsernameType = {
+  uuid: UUIDStringType;
+  username: string;
+};
+
 type ComposerStateType =
   | {
       step: ComposerStep.StartDirectConversation;
       searchTerm: string;
+      isFetchingUsername: boolean;
     }
   | ({
       step: ComposerStep.ChooseGroupMembers;
@@ -314,6 +330,7 @@ export type ConversationsStateType = {
   conversationsByE164: ConversationLookupType;
   conversationsByUuid: ConversationLookupType;
   conversationsByGroupId: ConversationLookupType;
+  conversationsByUsername: ConversationLookupType;
   selectedConversationId?: string;
   selectedMessage?: string;
   selectedMessageCounter: number;
@@ -676,6 +693,12 @@ type SetComposeSearchTermActionType = {
   type: 'SET_COMPOSE_SEARCH_TERM';
   payload: { searchTerm: string };
 };
+type SetIsFetchingUsernameActionType = {
+  type: 'SET_IS_FETCHING_USERNAME';
+  payload: {
+    isFetchingUsername: boolean;
+  };
+};
 type SetRecentMediaItemsActionType = {
   type: 'SET_RECENT_MEDIA_ITEMS';
   payload: {
@@ -768,6 +791,7 @@ export type ConversationActionType =
   | SetComposeGroupNameActionType
   | SetComposeSearchTermActionType
   | SetConversationHeaderTitleActionType
+  | SetIsFetchingUsernameActionType
   | SetIsNearBottomActionType
   | SetLoadCountdownStartActionType
   | SetMessagesLoadingActionType
@@ -850,6 +874,7 @@ export const actions = {
   showInbox,
   startComposing,
   startNewConversationFromPhoneNumber,
+  startNewConversationFromUsername,
   startSettingGroupMetadata,
   toggleAdmin,
   toggleConversationInChooseMembers,
@@ -1793,6 +1818,111 @@ function startNewConversationFromPhoneNumber(
   };
 }
 
+async function checkForUsername(
+  username: string
+): Promise<FoundUsernameType | undefined> {
+  if (!isValidUsername(username)) {
+    return undefined;
+  }
+
+  try {
+    const profile = await window.textsecure.messaging.getProfileForUsername(
+      username
+    );
+
+    if (!profile.username || profile.username !== username) {
+      log.error("checkForUsername: Returned username didn't match searched");
+      return;
+    }
+    if (!profile.uuid) {
+      log.error("checkForUsername: Returned profile didn't include a uuid");
+      return;
+    }
+
+    return {
+      uuid: UUID.cast(profile.uuid),
+      username: profile.username,
+    };
+  } catch (error: unknown) {
+    if (!isRecord(error)) {
+      throw error;
+    }
+
+    if (error.code === 404) {
+      return undefined;
+    }
+
+    throw error;
+  }
+}
+
+function startNewConversationFromUsername(
+  username: string
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ShowInboxActionType
+  | SetIsFetchingUsernameActionType
+  | ShowUsernameNotFoundModalActionType
+> {
+  return async (dispatch, getState) => {
+    const state = getState();
+
+    const byUsername = getConversationsByUsername(state);
+    const knownConversation = getOwn(byUsername, username);
+    if (knownConversation && knownConversation.uuid) {
+      trigger('showConversation', knownConversation.uuid, username);
+      dispatch(showInbox());
+      return;
+    }
+
+    dispatch({
+      type: 'SET_IS_FETCHING_USERNAME',
+      payload: {
+        isFetchingUsername: true,
+      },
+    });
+
+    try {
+      const foundUsername = await checkForUsername(username);
+      dispatch({
+        type: 'SET_IS_FETCHING_USERNAME',
+        payload: {
+          isFetchingUsername: false,
+        },
+      });
+
+      if (!foundUsername) {
+        dispatch(globalModalActions.showUsernameNotFoundModal(username));
+        return;
+      }
+
+      trigger(
+        'showConversation',
+        foundUsername.uuid,
+        undefined,
+        foundUsername.username
+      );
+      dispatch(showInbox());
+    } catch (error) {
+      log.error(
+        'startNewConversationFromUsername: Something went wrong fetching username:',
+        error.stack
+      );
+
+      dispatch({
+        type: 'SET_IS_FETCHING_USERNAME',
+        payload: {
+          isFetchingUsername: false,
+        },
+      });
+
+      showToast(ToastFailedToFetchUsername);
+    }
+  };
+}
+
 function startSettingGroupMetadata(): StartSettingGroupMetadataActionType {
   return { type: 'START_SETTING_GROUP_METADATA' };
 }
@@ -1951,6 +2081,7 @@ export function getEmptyState(): ConversationsStateType {
     conversationsByE164: {},
     conversationsByUuid: {},
     conversationsByGroupId: {},
+    conversationsByUsername: {},
     outboundMessagesPendingConversationVerification: {},
     messagesByConversation: {},
     messagesLookup: {},
@@ -2033,12 +2164,16 @@ export function updateConversationLookups(
   state: ConversationsStateType
 ): Pick<
   ConversationsStateType,
-  'conversationsByE164' | 'conversationsByUuid' | 'conversationsByGroupId'
+  | 'conversationsByE164'
+  | 'conversationsByUuid'
+  | 'conversationsByGroupId'
+  | 'conversationsByUsername'
 > {
   const result = {
     conversationsByE164: state.conversationsByE164,
     conversationsByUuid: state.conversationsByUuid,
     conversationsByGroupId: state.conversationsByGroupId,
+    conversationsByUsername: state.conversationsByUsername,
   };
 
   if (removed && removed.e164) {
@@ -2051,6 +2186,12 @@ export function updateConversationLookups(
     result.conversationsByGroupId = omit(
       result.conversationsByGroupId,
       removed.groupId
+    );
+  }
+  if (removed && removed.username) {
+    result.conversationsByUsername = omit(
+      result.conversationsByUsername,
+      removed.username
     );
   }
 
@@ -2070,6 +2211,12 @@ export function updateConversationLookups(
     result.conversationsByGroupId = {
       ...result.conversationsByGroupId,
       [added.groupId]: added,
+    };
+  }
+  if (added && added.username) {
+    result.conversationsByUsername = {
+      ...result.conversationsByUsername,
+      [added.username]: added,
     };
   }
 
@@ -3045,6 +3192,7 @@ export function reducer(
       composer: {
         step: ComposerStep.StartDirectConversation,
         searchTerm: '',
+        isFetchingUsername: false,
       },
     };
   }
@@ -3200,8 +3348,14 @@ export function reducer(
       );
       return state;
     }
-    if (composer?.step === ComposerStep.SetGroupMetadata) {
-      assert(false, 'Setting compose search term at this step is a no-op');
+    if (
+      composer.step !== ComposerStep.StartDirectConversation &&
+      composer.step !== ComposerStep.ChooseGroupMembers
+    ) {
+      assert(
+        false,
+        `Setting compose search term at step ${composer.step} is a no-op`
+      );
       return state;
     }
 
@@ -3210,6 +3364,30 @@ export function reducer(
       composer: {
         ...composer,
         searchTerm: action.payload.searchTerm,
+      },
+    };
+  }
+
+  if (action.type === 'SET_IS_FETCHING_USERNAME') {
+    const { composer } = state;
+    if (!composer) {
+      assert(
+        false,
+        'Setting compose username with the composer closed is a no-op'
+      );
+      return state;
+    }
+    if (composer.step !== ComposerStep.StartDirectConversation) {
+      assert(false, 'Setting compose username at this step is a no-op');
+      return state;
+    }
+    const { isFetchingUsername } = action.payload;
+
+    return {
+      ...state,
+      composer: {
+        ...composer,
+        isFetchingUsername,
       },
     };
   }

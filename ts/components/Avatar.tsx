@@ -65,6 +65,7 @@ export type Props = {
   theme?: ThemeType;
   title: string;
   unblurredAvatarPath?: string;
+  searchResult?: boolean;
 
   onClick?: (event: MouseEvent<HTMLButtonElement>) => unknown;
 
@@ -108,6 +109,7 @@ export const Avatar: FunctionComponent<Props> = ({
   theme,
   title,
   unblurredAvatarPath,
+  searchResult,
   blur = getDefaultBlur({
     acceptedMessageRequest,
     avatarPath,
@@ -180,6 +182,15 @@ export const Avatar: FunctionComponent<Props> = ({
           <div className="module-Avatar__click-to-view">{i18n('view')}</div>
         )}
       </>
+    );
+  } else if (searchResult) {
+    contentsChildren = (
+      <div
+        className={classNames(
+          'module-Avatar__icon',
+          'module-Avatar__icon--search-result'
+        )}
+      />
     );
   } else if (noteToSelf) {
     contentsChildren = (

@@ -103,6 +103,7 @@ export type PropsType = {
   closeRecommendedGroupSizeModal: () => void;
   createGroup: () => void;
   startNewConversationFromPhoneNumber: (e164: string) => void;
+  startNewConversationFromUsername: (username: string) => void;
   openConversationInternal: (_: {
     conversationId: string;
     messageId?: string;
@@ -185,6 +186,7 @@ export const LeftPane: React.FC<PropsType> = ({
   startComposing,
   startSearch,
   startNewConversationFromPhoneNumber,
+  startNewConversationFromUsername,
   startSettingGroupMetadata,
   theme,
   toggleComposeEditingAvatar,
@@ -606,6 +608,9 @@ export const LeftPane: React.FC<PropsType> = ({
                   showChooseGroupMembers={showChooseGroupMembers}
                   startNewConversationFromPhoneNumber={
                     startNewConversationFromPhoneNumber
+                  }
+                  startNewConversationFromUsername={
+                    startNewConversationFromUsername
                   }
                   theme={theme}
                 />

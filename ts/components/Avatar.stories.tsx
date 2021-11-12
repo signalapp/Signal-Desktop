@@ -54,6 +54,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
+  searchResult: boolean(
+    'searchResult',
+    typeof overrideProps.searchResult === 'boolean'
+      ? overrideProps.searchResult
+      : false
+  ),
   sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
@@ -148,6 +154,14 @@ story.add('Contact Icon', () => {
 story.add('Group Icon', () => {
   const props = createProps({
     conversationType: 'group',
+  });
+
+  return sizes.map(size => <Avatar key={size} {...props} size={size} />);
+});
+
+story.add('Search Icon', () => {
+  const props = createProps({
+    searchResult: true,
   });
 
   return sizes.map(size => <Avatar key={size} {...props} size={size} />);

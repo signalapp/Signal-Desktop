@@ -107,6 +107,12 @@ export const getConversationsByGroupId = createSelector(
     return state.conversationsByGroupId;
   }
 );
+export const getConversationsByUsername = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ConversationLookupType => {
+    return state.conversationsByUsername;
+  }
+);
 
 const getAllConversations = createSelector(
   getConversationLookup,
@@ -394,6 +400,24 @@ export const getComposerConversationSearchTerm = createSelector(
       return '';
     }
     return composer.searchTerm;
+  }
+);
+
+export const getIsFetchingUsername = createSelector(
+  getComposerState,
+  (composer): boolean => {
+    if (!composer) {
+      assert(false, 'getIsFetchingUsername: composer is not open');
+      return false;
+    }
+    if (composer.step !== ComposerStep.StartDirectConversation) {
+      assert(
+        false,
+        `getIsFetchingUsername: step ${composer.step} has no isFetchingUsername key`
+      );
+      return false;
+    }
+    return composer.isFetchingUsername;
   }
 );
 

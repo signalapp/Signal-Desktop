@@ -12,7 +12,7 @@
     @include font-body-2;
 
     @include light-theme {
-      background-color: $color-gray-02;
+      background-color: $color-black-alpha-08;
       border: solid 1px $color-gray-02;
       color: $color-gray-90;
     }
@@ -40,7 +40,7 @@
   }
 
   &__input {
-    background: inherit;
+    background: transparent;
     border: none;
     padding-left: 16px;
     width: 100%;

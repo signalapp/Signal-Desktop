@@ -98,5 +98,11 @@
     a {
       text-decoration: none;
     }
+
+    // To account for missing error section - 16px previous margin, 34px for
+    //   16px margin of error plus 18px line height.
+    &--no-error {
+      margin-bottom: 50px;
+    }
   }
 }

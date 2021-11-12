@@ -770,6 +770,7 @@ export type WebAPIType = {
       userLanguages: ReadonlyArray<string>;
     }
   ) => Promise<ProfileType>;
+  getProfileForUsername: (username: string) => Promise<ProfileType>;
   getProfileUnauth: (
     identifier: string,
     options: {
@@ -1077,6 +1078,7 @@ export function initialize({
       getKeysForIdentifierUnauth,
       getMyKeys,
       getProfile,
+      getProfileForUsername,
       getProfileUnauth,
       getBadgeImageFile,
       getProvisioningResource,
@@ -1383,6 +1385,12 @@ export function initialize({
           profileKeyCredentialRequest
         ),
       })) as ProfileType;
+    }
+
+    async function getProfileForUsername(usernameToFetch: string) {
+      return getProfile(`username/${usernameToFetch}`, {
+        userLanguages: [],
+      });
     }
 
     async function putProfile(

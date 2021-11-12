@@ -84,6 +84,9 @@ const Wrapper = ({
       startNewConversationFromPhoneNumber={action(
         'startNewConversationFromPhoneNumber'
       )}
+      startNewConversationFromUsername={action(
+        'startNewConversationFromUsername'
+      )}
       theme={theme}
     />
   );
@@ -492,6 +495,10 @@ story.add('Headers', () => (
         type: RowType.Header,
         i18nKey: 'messagesHeader',
       },
+      {
+        type: RowType.Header,
+        i18nKey: 'findByUsernameHeader',
+      },
     ]}
   />
 ));
@@ -502,6 +509,27 @@ story.add('Start new conversation', () => (
       {
         type: RowType.StartNewConversation,
         phoneNumber: '+12345559876',
+      },
+    ]}
+  />
+));
+
+story.add('Find by username', () => (
+  <Wrapper
+    rows={[
+      {
+        type: RowType.Header,
+        i18nKey: 'findByUsernameHeader',
+      },
+      {
+        type: RowType.UsernameSearchResult,
+        username: 'jowerty',
+        isFetchingUsername: false,
+      },
+      {
+        type: RowType.UsernameSearchResult,
+        username: 'jowerty',
+        isFetchingUsername: true,
       },
     ]}
   />
@@ -528,11 +556,15 @@ story.add('Kitchen sink', () => (
       },
       {
         type: RowType.Header,
-        i18nKey: 'messagesHeader',
+        i18nKey: 'contactsHeader',
       },
       {
         type: RowType.Contact,
         contact: defaultConversations[0],
+      },
+      {
+        type: RowType.Header,
+        i18nKey: 'messagesHeader',
       },
       {
         type: RowType.Conversation,
@@ -541,6 +573,15 @@ story.add('Kitchen sink', () => (
       {
         type: RowType.MessageSearchResult,
         messageId: '123',
+      },
+      {
+        type: RowType.Header,
+        i18nKey: 'findByUsernameHeader',
+      },
+      {
+        type: RowType.UsernameSearchResult,
+        username: 'jowerty',
+        isFetchingUsername: false,
       },
       {
         type: RowType.ArchiveButton,

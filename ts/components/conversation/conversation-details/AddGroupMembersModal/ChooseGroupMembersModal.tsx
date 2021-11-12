@@ -229,6 +229,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
                     shouldRecomputeRowHeights={false}
                     showChooseGroupMembers={shouldNeverBeCalled}
                     startNewConversationFromPhoneNumber={shouldNeverBeCalled}
+                    startNewConversationFromUsername={shouldNeverBeCalled}
                     theme={theme}
                   />
                 </div>

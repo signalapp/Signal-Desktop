@@ -7,6 +7,7 @@ import { OneTimeModalState } from '../../groups/toggleSelectedContactForGroupAdd
 export const defaultStartDirectConversationComposerState = {
   step: ComposerStep.StartDirectConversation as const,
   searchTerm: '',
+  isFetchingUsername: false,
 };
 
 export const defaultChooseGroupMembersComposerState = {

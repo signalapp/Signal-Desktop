@@ -14,6 +14,7 @@ import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import { Spinner } from '../Spinner';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -38,12 +39,14 @@ type PropsType = {
   i18n: LocalizerType;
   isNoteToSelf?: boolean;
   isSelected: boolean;
+  isUsernameSearchResult?: boolean;
   markedUnread?: boolean;
   messageId?: string;
   messageStatusIcon?: ReactNode;
   messageText?: ReactNode;
   messageTextIsAlwaysFullSize?: boolean;
   onClick?: () => void;
+  shouldShowSpinner?: boolean;
   theme?: ThemeType;
   unreadCount?: number;
 } & Pick<
@@ -76,6 +79,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     id,
     isMe,
     isNoteToSelf,
+    isUsernameSearchResult,
     isSelected,
     markedUnread,
     messageStatusIcon,
@@ -86,6 +90,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     phoneNumber,
     profileName,
     sharedGroupNames,
+    shouldShowSpinner,
     theme,
     title,
     unblurredAvatarPath,
@@ -101,8 +106,12 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
 
     const isCheckbox = isBoolean(checked);
 
-    let checkboxNode: ReactNode;
-    if (isCheckbox) {
+    let actionNode: ReactNode;
+    if (shouldShowSpinner) {
+      actionNode = (
+        <Spinner size="20px" svgSize="small" direction="on-progress-dialog" />
+      );
+    } else if (isCheckbox) {
       let ariaLabel: string;
       if (disabled) {
         ariaLabel = i18n('cannotSelectContact', [title]);
@@ -111,7 +120,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       } else {
         ariaLabel = i18n('selectContact', [title]);
       }
-      checkboxNode = (
+      actionNode = (
         <input
           aria-label={ariaLabel}
           checked={checked}
@@ -138,6 +147,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           color={color}
           conversationType={conversationType}
           noteToSelf={isAvatarNoteToSelf}
+          searchResult={isUsernameSearchResult}
           i18n={i18n}
           isMe={isMe}
           name={name}
@@ -187,7 +197,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
             </div>
           ) : null}
         </div>
-        {checkboxNode}
+        {actionNode}
       </>
     );
 

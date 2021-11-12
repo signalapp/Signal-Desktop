@@ -4478,10 +4478,13 @@ export class ConversationModel extends window.Backbone
 
   getTitle(): string {
     if (isDirectConversation(this.attributes)) {
+      const username = this.get('username');
+
       return (
         this.get('name') ||
         this.getProfileName() ||
         this.getNumber() ||
+        (username && window.i18n('at-username', { username })) ||
         window.i18n('unknownContact')
       );
     }

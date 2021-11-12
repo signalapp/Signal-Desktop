@@ -21,19 +21,23 @@ import {
 } from '../selectors/search';
 import { getIntl, getRegionCode, getTheme } from '../selectors/user';
 import { getBadgesById } from '../selectors/badges';
-import { getPreferredLeftPaneWidth } from '../selectors/items';
+import {
+  getPreferredLeftPaneWidth,
+  getUsernamesEnabled,
+} from '../selectors/items';
 import {
   getCantAddContactForModal,
   getComposeAvatarData,
   getComposeGroupAvatar,
   getComposeGroupExpireTimer,
   getComposeGroupName,
-  getComposeSelectedContacts,
   getComposerConversationSearchTerm,
   getComposerStep,
+  getComposeSelectedContacts,
   getFilteredCandidateContactsForNewGroup,
   getFilteredComposeContacts,
   getFilteredComposeGroups,
+  getIsFetchingUsername,
   getLeftPaneLists,
   getMaximumGroupSizeModalState,
   getRecommendedGroupSizeModalState,
@@ -126,6 +130,8 @@ const getModeSpecificProps = (
         composeGroups: getFilteredComposeGroups(state),
         regionCode: getRegionCode(state),
         searchTerm: getComposerConversationSearchTerm(state),
+        isUsernamesEnabled: getUsernamesEnabled(state),
+        isFetchingUsername: getIsFetchingUsername(state),
       };
     case ComposerStep.ChooseGroupMembers:
       return {

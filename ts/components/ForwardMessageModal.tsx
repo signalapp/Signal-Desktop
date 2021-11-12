@@ -420,6 +420,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                           startNewConversationFromPhoneNumber={
                             shouldNeverBeCalled
                           }
+                          startNewConversationFromUsername={shouldNeverBeCalled}
                           theme={theme}
                         />
                       </div>

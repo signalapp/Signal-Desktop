@@ -100,6 +100,11 @@
     &--note-to-self {
       -webkit-mask-image: url('../images/icons/v2/note-24.svg');
     }
+
+    &--search-result {
+      -webkit-mask-image: url('../images/icons/v2/search-24.svg');
+      -webkit-mask-size: 50%;
+    }
   }
 
   &__spinner-container {

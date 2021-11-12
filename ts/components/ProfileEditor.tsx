@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import * as log from '../logging/log';
 import type { AvatarColorType } from '../types/Colors';
@@ -627,8 +628,15 @@ export const ProfileEditor = ({
           value={newUsername}
         />
 
-        <div className="ProfileEditor__error">{usernameError}</div>
-        <div className="ProfileEditor__info">
+        {usernameError && (
+          <div className="ProfileEditor__error">{usernameError}</div>
+        )}
+        <div
+          className={classNames(
+            'ProfileEditor__info',
+            !usernameError ? 'ProfileEditor__info--no-error' : undefined
+          )}
+        >
           <Intl i18n={i18n} id="ProfileEditor--username--helper" />
         </div>
 

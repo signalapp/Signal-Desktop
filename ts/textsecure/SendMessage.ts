@@ -2043,7 +2043,7 @@ export default class MessageSender {
       profileKeyCredentialRequest?: string;
       userLanguages: ReadonlyArray<string>;
     }>
-  ): Promise<ReturnType<WebAPIType['getProfile']>> {
+  ): ReturnType<WebAPIType['getProfile']> {
     const { accessKey } = options;
 
     if (accessKey) {
@@ -2055,6 +2055,12 @@ export default class MessageSender {
     }
 
     return this.server.getProfile(number, options);
+  }
+
+  async getProfileForUsername(
+    username: string
+  ): ReturnType<WebAPIType['getProfileForUsername']> {
+    return this.server.getProfileForUsername(username);
   }
 
   async getUuidsForE164s(

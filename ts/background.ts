@@ -952,6 +952,10 @@ export async function startApp(): Promise<void> {
           conversations,
           'groupId'
         ),
+        conversationsByUsername: window.Signal.Util.makeLookup(
+          conversations,
+          'username'
+        ),
         messagesByConversation: {},
         messagesLookup: {},
         outboundMessagesPendingConversationVerification: {},

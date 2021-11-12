@@ -146,6 +146,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   startNewConversationFromPhoneNumber: action(
     'startNewConversationFromPhoneNumber'
   ),
+  startNewConversationFromUsername: action('startNewConversationFromUsername'),
   startSearch: action('startSearch'),
   startSettingGroupMetadata: action('startSettingGroupMetadata'),
   theme: React.useContext(StorybookThemeContext),
@@ -439,13 +440,15 @@ story.add('Archive: searching a conversation', () => (
 
 // Compose stories
 
-story.add('Compose: no contacts or groups', () => (
+story.add('Compose: no results', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
         composeGroups: [],
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: '',
       },
@@ -453,13 +456,15 @@ story.add('Compose: no contacts or groups', () => (
   />
 ));
 
-story.add('Compose: some contacts, no groups, no search term', () => (
+story.add('Compose: some contacts, no search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
         composeGroups: [],
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: '',
       },
@@ -467,13 +472,15 @@ story.add('Compose: some contacts, no groups, no search term', () => (
   />
 ));
 
-story.add('Compose: some contacts, no groups, with a search term', () => (
+story.add('Compose: some contacts, with a search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
         composeGroups: [],
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: 'ar',
       },
@@ -481,13 +488,15 @@ story.add('Compose: some contacts, no groups, with a search term', () => (
   />
 ));
 
-story.add('Compose: some groups, no contacts, no search term', () => (
+story.add('Compose: some groups, no search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
         composeGroups: defaultGroups,
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: '',
       },
@@ -495,13 +504,15 @@ story.add('Compose: some groups, no contacts, no search term', () => (
   />
 ));
 
-story.add('Compose: some groups, no contacts, with search term', () => (
+story.add('Compose: some groups, with search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: [],
         composeGroups: defaultGroups,
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: 'ar',
       },
@@ -509,13 +520,63 @@ story.add('Compose: some groups, no contacts, with search term', () => (
   />
 ));
 
-story.add('Compose: some contacts, some groups, no search term', () => (
+story.add('Compose: search is valid username', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: [],
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
+        regionCode: 'US',
+        searchTerm: 'someone',
+      },
+    })}
+  />
+));
+
+story.add('Compose: search is valid username, fetching username', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: [],
+        isUsernamesEnabled: true,
+        isFetchingUsername: true,
+        regionCode: 'US',
+        searchTerm: 'someone',
+      },
+    })}
+  />
+));
+
+story.add('Compose: search is valid username, but flag is not enabled', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Compose,
+        composeContacts: [],
+        composeGroups: [],
+        isUsernamesEnabled: false,
+        isFetchingUsername: false,
+        regionCode: 'US',
+        searchTerm: 'someone',
+      },
+    })}
+  />
+));
+
+story.add('Compose: all kinds of results, no search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
         composeGroups: defaultGroups,
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
         searchTerm: '',
       },
@@ -523,15 +584,17 @@ story.add('Compose: some contacts, some groups, no search term', () => (
   />
 ));
 
-story.add('Compose: some contacts, some groups, with a search term', () => (
+story.add('Compose: all kinds of results, with a search term', () => (
   <LeftPane
     {...useProps({
       modeSpecificProps: {
         mode: LeftPaneMode.Compose,
         composeContacts: defaultConversations,
         composeGroups: defaultGroups,
+        isUsernamesEnabled: true,
+        isFetchingUsername: false,
         regionCode: 'US',
-        searchTerm: 'ar',
+        searchTerm: 'someone',
       },
     })}
   />

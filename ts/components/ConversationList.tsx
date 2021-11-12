@@ -26,6 +26,7 @@ import { CreateNewGroupButton } from './conversationList/CreateNewGroupButton';
 import { StartNewConversation as StartNewConversationComponent } from './conversationList/StartNewConversation';
 import { SearchResultsLoadingFakeHeader as SearchResultsLoadingFakeHeaderComponent } from './conversationList/SearchResultsLoadingFakeHeader';
 import { SearchResultsLoadingFakeRow as SearchResultsLoadingFakeRowComponent } from './conversationList/SearchResultsLoadingFakeRow';
+import { UsernameSearchResultListItem } from './conversationList/UsernameSearchResultListItem';
 
 export enum RowType {
   ArchiveButton,
@@ -39,6 +40,7 @@ export enum RowType {
   SearchResultsLoadingFakeHeader,
   SearchResultsLoadingFakeRow,
   StartNewConversation,
+  UsernameSearchResult,
 }
 
 type ArchiveButtonRowType = {
@@ -93,6 +95,12 @@ type StartNewConversationRowType = {
   phoneNumber: string;
 };
 
+type UsernameRowType = {
+  type: RowType.UsernameSearchResult;
+  username: string;
+  isFetchingUsername: boolean;
+};
+
 export type Row =
   | ArchiveButtonRowType
   | BlankRowType
@@ -104,7 +112,8 @@ export type Row =
   | HeaderRowType
   | SearchResultsLoadingFakeHeaderType
   | SearchResultsLoadingFakeRowType
-  | StartNewConversationRowType;
+  | StartNewConversationRowType
+  | UsernameRowType;
 
 export type PropsType = {
   badgesById?: Record<string, BadgeType>;
@@ -134,6 +143,7 @@ export type PropsType = {
   renderMessageSearchResult: (id: string) => JSX.Element;
   showChooseGroupMembers: () => void;
   startNewConversationFromPhoneNumber: (e164: string) => void;
+  startNewConversationFromUsername: (username: string) => void;
 };
 
 const NORMAL_ROW_HEIGHT = 76;
@@ -155,6 +165,7 @@ export const ConversationList: React.FC<PropsType> = ({
   shouldRecomputeRowHeights,
   showChooseGroupMembers,
   startNewConversationFromPhoneNumber,
+  startNewConversationFromUsername,
   theme,
 }) => {
   const listRef = useRef<null | List>(null);
@@ -327,6 +338,16 @@ export const ConversationList: React.FC<PropsType> = ({
             />
           );
           break;
+        case RowType.UsernameSearchResult:
+          result = (
+            <UsernameSearchResultListItem
+              i18n={i18n}
+              username={row.username}
+              isFetchingUsername={row.isFetchingUsername}
+              onClick={startNewConversationFromUsername}
+            />
+          );
+          break;
         default:
           throw missingCaseError(row);
       }
@@ -349,6 +370,7 @@ export const ConversationList: React.FC<PropsType> = ({
       renderMessageSearchResult,
       showChooseGroupMembers,
       startNewConversationFromPhoneNumber,
+      startNewConversationFromUsername,
       theme,
     ]
   );

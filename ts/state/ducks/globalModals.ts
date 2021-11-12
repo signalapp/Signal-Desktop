@@ -6,9 +6,10 @@
 export type GlobalModalsStateType = {
   readonly contactModalState?: ContactModalStateType;
   readonly isProfileEditorVisible: boolean;
+  readonly isWhatsNewVisible: boolean;
   readonly profileEditorHasError: boolean;
   readonly safetyNumberModalContactId?: string;
-  readonly isWhatsNewVisible: boolean;
+  readonly usernameNotFoundModalState?: UsernameNotFoundModalStateType;
 };
 
 // Actions
@@ -16,6 +17,10 @@ export type GlobalModalsStateType = {
 const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
+const SHOW_USERNAME_NOT_FOUND_MODAL =
+  'globalModals/SHOW_USERNAME_NOT_FOUND_MODAL';
+const HIDE_USERNAME_NOT_FOUND_MODAL =
+  'globalModals/HIDE_USERNAME_NOT_FOUND_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const TOGGLE_PROFILE_EDITOR = 'globalModals/TOGGLE_PROFILE_EDITOR';
 export const TOGGLE_PROFILE_EDITOR_ERROR =
@@ -25,6 +30,10 @@ const TOGGLE_SAFETY_NUMBER_MODAL = 'globalModals/TOGGLE_SAFETY_NUMBER_MODAL';
 export type ContactModalStateType = {
   contactId: string;
   conversationId?: string;
+};
+
+export type UsernameNotFoundModalStateType = {
+  username: string;
 };
 
 type HideContactModalActionType = {
@@ -42,6 +51,17 @@ type HideWhatsNewModalActionType = {
 
 type ShowWhatsNewModalActionType = {
   type: typeof SHOW_WHATS_NEW_MODAL;
+};
+
+type HideUsernameNotFoundModalActionType = {
+  type: typeof HIDE_USERNAME_NOT_FOUND_MODAL;
+};
+
+export type ShowUsernameNotFoundModalActionType = {
+  type: typeof SHOW_USERNAME_NOT_FOUND_MODAL;
+  payload: {
+    username: string;
+  };
 };
 
 type ToggleProfileEditorActionType = {
@@ -62,6 +82,8 @@ export type GlobalModalsActionType =
   | ShowContactModalActionType
   | HideWhatsNewModalActionType
   | ShowWhatsNewModalActionType
+  | HideUsernameNotFoundModalActionType
+  | ShowUsernameNotFoundModalActionType
   | ToggleProfileEditorActionType
   | ToggleProfileEditorErrorActionType
   | ToggleSafetyNumberModalActionType;
@@ -73,6 +95,8 @@ export const actions = {
   showContactModal,
   hideWhatsNewModal,
   showWhatsNewModal,
+  hideUsernameNotFoundModal,
+  showUsernameNotFoundModal,
   toggleProfileEditor,
   toggleProfileEditorHasError,
   toggleSafetyNumberModal,
@@ -106,6 +130,23 @@ function hideWhatsNewModal(): HideWhatsNewModalActionType {
 function showWhatsNewModal(): ShowWhatsNewModalActionType {
   return {
     type: SHOW_WHATS_NEW_MODAL,
+  };
+}
+
+function hideUsernameNotFoundModal(): HideUsernameNotFoundModalActionType {
+  return {
+    type: HIDE_USERNAME_NOT_FOUND_MODAL,
+  };
+}
+
+function showUsernameNotFoundModal(
+  username: string
+): ShowUsernameNotFoundModalActionType {
+  return {
+    type: SHOW_USERNAME_NOT_FOUND_MODAL,
+    payload: {
+      username,
+    },
   };
 }
 
@@ -165,6 +206,24 @@ export function reducer(
     return {
       ...state,
       isWhatsNewVisible: false,
+    };
+  }
+
+  if (action.type === HIDE_USERNAME_NOT_FOUND_MODAL) {
+    return {
+      ...state,
+      usernameNotFoundModalState: undefined,
+    };
+  }
+
+  if (action.type === SHOW_USERNAME_NOT_FOUND_MODAL) {
+    const { username } = action.payload;
+
+    return {
+      ...state,
+      usernameNotFoundModalState: {
+        username,
+      },
     };
   }
 

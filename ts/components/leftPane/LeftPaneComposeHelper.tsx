@@ -18,12 +18,16 @@ import {
 } from '../../util/libphonenumberInstance';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
+import { getUsernameFromSearch } from '../../types/Username';
 
 export type LeftPaneComposePropsType = {
   composeContacts: ReadonlyArray<ContactListItemPropsType>;
   composeGroups: ReadonlyArray<ConversationListItemPropsType>;
+
   regionCode: string;
   searchTerm: string;
+  isFetchingUsername: boolean;
+  isUsernamesEnabled: boolean;
 };
 
 enum TopButton {
@@ -37,6 +41,10 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
 
   private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;
 
+  private readonly isFetchingUsername: boolean;
+
+  private readonly isUsernamesEnabled: boolean;
+
   private readonly searchTerm: string;
 
   private readonly phoneNumber: undefined | PhoneNumber;
@@ -46,13 +54,17 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     composeGroups,
     regionCode,
     searchTerm,
+    isUsernamesEnabled,
+    isFetchingUsername,
   }: Readonly<LeftPaneComposePropsType>) {
     super();
 
+    this.composeContacts = composeContacts;
+    this.composeGroups = composeGroups;
     this.searchTerm = searchTerm;
     this.phoneNumber = parsePhoneNumber(searchTerm, regionCode);
-    this.composeGroups = composeGroups;
-    this.composeContacts = composeContacts;
+    this.isFetchingUsername = isFetchingUsername;
+    this.isUsernamesEnabled = isUsernamesEnabled;
   }
 
   getHeaderContents({
@@ -121,6 +133,9 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     if (this.hasGroupsHeader()) {
       result += 1;
     }
+    if (this.getUsernameFromSearch()) {
+      result += 2;
+    }
 
     return result;
   }
@@ -187,10 +202,36 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
       virtualRowIndex -= 1;
 
       const group = this.composeGroups[virtualRowIndex];
-      return {
-        type: RowType.Conversation,
-        conversation: group,
-      };
+      if (group) {
+        return {
+          type: RowType.Conversation,
+          conversation: group,
+        };
+      }
+
+      virtualRowIndex -= this.composeGroups.length;
+    }
+
+    const username = this.getUsernameFromSearch();
+    if (username) {
+      if (virtualRowIndex === 0) {
+        return {
+          type: RowType.Header,
+          i18nKey: 'findByUsernameHeader',
+        };
+      }
+
+      virtualRowIndex -= 1;
+
+      if (virtualRowIndex === 0) {
+        return {
+          type: RowType.UsernameSearchResult,
+          username,
+          isFetchingUsername: this.isFetchingUsername,
+        };
+
+        virtualRowIndex -= 1;
+      }
     }
 
     return undefined;
@@ -220,7 +261,8 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     return (
       currHeaderIndices.top !== prevHeaderIndices.top ||
       currHeaderIndices.contact !== prevHeaderIndices.contact ||
-      currHeaderIndices.group !== prevHeaderIndices.group
+      currHeaderIndices.group !== prevHeaderIndices.group ||
+      currHeaderIndices.username !== prevHeaderIndices.username
     );
   }
 
@@ -246,31 +288,56 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     return Boolean(this.composeGroups.length);
   }
 
+  private getUsernameFromSearch(): string | undefined {
+    if (!this.isUsernamesEnabled) {
+      return undefined;
+    }
+
+    if (this.phoneNumber) {
+      return undefined;
+    }
+
+    if (this.searchTerm) {
+      return getUsernameFromSearch(this.searchTerm);
+    }
+
+    return undefined;
+  }
+
   private getHeaderIndices(): {
     top?: number;
     contact?: number;
     group?: number;
+    username?: number;
   } {
     let top: number | undefined;
     let contact: number | undefined;
     let group: number | undefined;
+    let username: number | undefined;
+
     let rowCount = 0;
+
     if (this.hasTopButton()) {
       top = 0;
       rowCount += 1;
     }
-    if (this.composeContacts.length) {
+    if (this.hasContactsHeader()) {
       contact = rowCount;
       rowCount += this.composeContacts.length;
     }
-    if (this.composeGroups.length) {
+    if (this.hasGroupsHeader()) {
       group = rowCount;
+      rowCount += this.composeContacts.length;
+    }
+    if (this.getUsernameFromSearch()) {
+      username = rowCount;
     }
 
     return {
       top,
       contact,
       group,
+      username,
     };
   }
 }

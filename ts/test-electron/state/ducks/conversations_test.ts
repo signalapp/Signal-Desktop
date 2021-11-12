@@ -1234,8 +1234,8 @@ describe('both/state/ducks/conversations', () => {
           ...getEmptyState(),
           composer: defaultStartDirectConversationComposerState,
         };
-        const action = setComposeSearchTerm('foo bar');
-        const result = reducer(state, action);
+
+        const result = reducer(state, setComposeSearchTerm('foo bar'));
 
         assert.deepEqual(result.composer, {
           ...defaultStartDirectConversationComposerState,
