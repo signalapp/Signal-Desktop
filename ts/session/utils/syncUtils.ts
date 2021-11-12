@@ -70,8 +70,9 @@ export const syncConfigurationIfNeeded = async (force: boolean = false) => {
 };
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
-  new Promise(resolve => {
-    const allConvos = getConversationController().getConversations();
+  new Promise(async resolve => {
+    // const allConvos = getConversationController().getConversations();
+    const allConvos = (await getAllConversations()).models;
 
     // if we hang for more than 10sec, force resolve this promise.
     setTimeout(() => {
@@ -88,6 +89,7 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
               resolve(true);
             }
           : undefined;
+          console.warn({configMessage});
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
         // or we don't want to wait, we resolve it here.

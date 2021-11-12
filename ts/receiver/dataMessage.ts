@@ -32,11 +32,14 @@ export async function updateProfileOneAtATime(
   }
   const oneAtaTimeStr = `updateProfileOneAtATime:${conversation.id}`;
   return allowOnlyOneAtATime(oneAtaTimeStr, async () => {
-    return updateProfile(conversation, profile, profileKey);
+    return createOrUpdateProfile(conversation, profile, profileKey);
   });
 }
 
-async function updateProfile(
+/**
+ * Creates a new profile from the profile provided. Creates the profile if it doesn't exist.
+ */
+async function createOrUpdateProfile(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
   profileKey?: Uint8Array | null // was any
@@ -400,6 +403,7 @@ export async function isMessageDuplicate({
       return false;
     }
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
+    console.warn({ filteredResult });
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
     window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));
@@ -420,6 +424,7 @@ export const isDuplicate = (
     Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
+  debugger;
   return sameUsername && sameText && timestampsSimilar;
 };
 

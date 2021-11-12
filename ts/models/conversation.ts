@@ -1161,6 +1161,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
     const model = new MessageModel(messageAttributes);
 
+    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
+    if (isMe) {
+      await this.setIsApproved(true);
+    }
+
     // no need to trigger a UI update now, we trigger a messageAdded just below
     const messageId = await model.commit(false);
     model.set({ id: messageId });

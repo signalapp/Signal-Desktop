@@ -377,7 +377,6 @@ export async function innerHandleContentMessage(
     }
     if (content.configurationMessage) {
       // this one can be quite long (downloads profilePictures and everything, is do not block)
-      console.warn('@@config message received. contentmessage.ts');
       void handleConfigurationMessage(
         envelope,
         content.configurationMessage as SignalService.ConfigurationMessage

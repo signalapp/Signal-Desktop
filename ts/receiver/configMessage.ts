@@ -152,6 +152,7 @@ export async function handleConfigurationMessage(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
+  window?.log?.info('Handling configuration message');
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubkey) {
     return;

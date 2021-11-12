@@ -1622,10 +1622,6 @@ function updateConversation(data) {
     profileName,
   } = data;
 
-  // TODO: msgreq - remove
-  console.log({ usrData: data });
-  console.log('usrData@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-
   globalInstance
     .prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET

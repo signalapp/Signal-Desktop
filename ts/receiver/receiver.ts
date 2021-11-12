@@ -161,12 +161,11 @@ export function handleRequest(body: any, options: ReqOptions, messageHash: strin
 
   incomingMessagePromises.push(promise);
 }
+
 // tslint:enable:cyclomatic-complexity max-func-body-length */
-
-// ***********************************************************************
-// ***********************************************************************
-// ***********************************************************************
-
+/**
+ * Used in background.js
+ */
 export async function queueAllCached() {
   const items = await getAllFromCache();
   items.forEach(async item => {

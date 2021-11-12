@@ -30,7 +30,7 @@ import { ConversationNotificationSettingType } from '../models/conversation';
 import { Flex } from './basic/Flex';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { getConversationById } from '../data/data';
-import { syncConfigurationIfNeeded } from '../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { BlockedNumberController } from '../util';
 
 // tslint:disable-next-line: no-empty-interface
@@ -294,7 +294,7 @@ const ConversationListItem = (props: Props) => {
       window?.log?.error('Unable to find conversation to be blocked.');
     }
     await BlockedNumberController.block(convoToBlock?.id);
-    await syncConfigurationIfNeeded(true);
+    await forceSyncConfigurationNowIfNeeded();
   };
 
   /**
@@ -306,7 +306,8 @@ const ConversationListItem = (props: Props) => {
     console.warn({ convoAfterSetIsApproved: conversationToApprove });
     // TODO: Send sync message to other devices. Using config message
 
-    await syncConfigurationIfNeeded(true);
+    // await syncConfigurationIfNeeded(true);
+    await forceSyncConfigurationNowIfNeeded();
   };
 
   return (

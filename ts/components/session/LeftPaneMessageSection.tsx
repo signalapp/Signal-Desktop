@@ -30,6 +30,7 @@ import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search'
 import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 import { BlockedNumberController } from '../../util';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 
 export interface Props {
   searchTerm: string;
@@ -305,7 +306,20 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         }}
         onButtonClick={async () => {
           // TODO: msgrequest iterate all convos and block
-          console.warn('Test');
+          // iterate all conversations and set all to approve then
+          const allConversations = getConversationController().getConversations();
+          let syncRequired = false;
+
+          _.forEach(allConversations, convo => {
+            if (convo.isApproved() !== true) {
+              convo.setIsApproved(true);
+              syncRequired = true;
+            }
+          });
+          if (syncRequired) {
+            // syncConfigurationIfNeeded(true);
+            await forceSyncConfigurationNowIfNeeded();
+          }
         }}
         searchTerm={searchTerm}
         searchResults={searchResults}
