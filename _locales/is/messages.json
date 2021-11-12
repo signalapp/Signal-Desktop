@@ -6201,6 +6201,70 @@
         "message": "Nánar",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Notandanafn",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Skráðu notandanafn:",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Notendanöfn eru valfrjáls á Signal. Ef þú kýst að útbúa notandanafn og gera það leitarhæft, munu aðrir notendur Signal geta fundið þig með þessu notandanafni og haft samband við þig án þess að þekkja símanúmerið þitt.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Notendanöfn mega bara innihalda a-z, 0-9, og _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Notandanöfn geta ekki byrjað á tölustaf.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Notandanöfn verða að hafa minnst $min$ stafi.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Notandanöfn mega hafa mest $max$ stafi.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Þetta notandanafn er frátekið.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Ekki var hægt að vista notandanafnið þitt. Athugaðu nettenginguna þína og prófaðu svo aftur.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Ekki var hægt að fjarlægja notandanafnið þitt. Athugaðu nettenginguna þína og prófaðu svo aftur.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Eyða notandanafni",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Eyða",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Skrifaðu nokkur orð um sjálfa/n þig...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Nánar",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Auðkennismyndin þín",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Notandanafn",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Ekki var hægt að uppfæra notandasniðið þitt. Reyndu aftur.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Notendur skjálesara ættu að eiga auðveldara með að flakka um samtalalistann á hliðarspjaldinu til vinstri.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",

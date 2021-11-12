@@ -1028,7 +1028,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
-        "message": "Ljudet avstängt",
+        "message": "Ljud av",
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
@@ -3876,11 +3876,11 @@
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Stäng av ljudet för aviseringar",
+        "message": "Tysta aviseringar",
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Ljud på",
+        "message": "Inte tystad",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
@@ -3904,7 +3904,7 @@
         "description": "Label for muting the conversation"
     },
     "unmute": {
-        "message": "Ljud på",
+        "message": "Av-tysta",
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
@@ -5314,7 +5314,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Inkludera konversationer med ljudet avstängt i märkesräkning",
+        "message": "Inkludera tystade konversationer i märkesräkning",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5366,7 +5366,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Ljud på i den här chatten",
+        "message": "Avtysta den här chatten",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5496,7 +5496,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Få aviseringar när du nämns i chattar med ljudet av",
+        "message": "Få aviseringar när du nämns i tystade chattar",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5504,7 +5504,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Meddela inte om ljudet är avstängt",
+        "message": "Meddela inte om tystad",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -6201,6 +6201,70 @@
         "message": "Om",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Användarnamn",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Ange ett användarnamn",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Användarnamn på Signal är valfria. Om du väljer att skapa ett användarnamn och göra det sökbart, kommer andra Signal-användare att kunna hitta dig med det här användarnamnet och kontakta dig utan att veta ditt telefonnummer.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Användarnamn får bara innehålla a-z, 0-9 och _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Användarnamn får inte börja med en siffra.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Användarnamn måste ha minst $min$ tecken.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Användarnamn får högst ha $max$ tecken.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Det här användarnamnet är taget.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Ditt användarnamn kunde inte sparas. Kontrollera din anslutning och försök igen.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Ditt användarnamn kunde inte tas bort. Kontrollera din anslutning och försök igen.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Ta bort användarnamn",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Det här kommer att ta bort ditt användarnamn, vilket gör att andra användare kan göra anspråk på det. Är du säker?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Ta bort",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Skriv något om dig själv...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Om",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Your avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Användarnamn",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Din profil kunde inte uppdateras. Vänligen försök igen.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Skärmläsare bör nu ha lättare att navigera genom konversationslistan i den vänstra rutan.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Du kan nu söka i arkiverade konversationer. Föreställ dig att du letar (snabbt) genom uråldriga böcker och letar efter nästa ledtråd.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Om du någonsin har bläddrat upp och skickat ett meddelande kanske du undrar var ditt meddelande var! Nu när du skickar ett meddelande kommer det att bläddras fram så att du kan beundra ditt hårda arbete.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reagerar du på ett meddelande? Det borde nu vara mer tillförlitligt och försöka igen i upp till 24 timmar",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",

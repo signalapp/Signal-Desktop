@@ -5962,7 +5962,7 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "If you choose to skip verification, you may miss messages from other people and your messages may fail to send.",
+        "message": "Αν παραλείψετε την επαλήθευση, μπορεί να μη λαμβάνετε μηνύματα από άλλα άτομα και τα μηνύματά σας να μην αποστέλλονται.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
@@ -6201,6 +6201,70 @@
         "message": "Πληροφορίες",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Όνομα χρήστη",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Συμπλήρωσε ένα όνομα χρήστη",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Τα ονόματα χρήστη στο Signal είναι προαιρετικά. Αν επιλέξεις να δημιουργήσεις ένα όνομα χρήστη και να το κάνεις διαθέσιμο προς αναζήτηση, τότε άλλοι χρήστες του Signal θα μπορούν να σε βρουν με αυτό το όνομα και να επικοινωνήσουν μαζί σου χωρίς να γνωρίζουν τον αριθμό τηλεφώνου σου.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Τα ονόματα χρήστη μπορούν να περιέχουν μόνο λατινικούς χαρακτήρες a-z, νούμερα 0-9 και την κάτω παύλα _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Τα ονόματα χρήστη δεν μπορούν να ξεκινούν με αριθμό.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Τα ονόματα χρήστη πρέπει να αποτελούνται από τουλάχιστον $min$ χαρακτήρες.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Τα ονόματα χρήστη πρέπει να αποτελούνται το πολύ από $max$ χαρακτήρες.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Αυτό το όνομα χρήστη χρησιμοποιείται ήδη.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Το όνομα χρήστη σου δεν μπόρεσε να αποθηκευτεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Το όνομα χρήστη σου δεν μπόρεσε να αφαιρεθεί. Έλεγξε την σύνδεσή σου και προσπάθησε ξανά.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Διαγραφή ονόματος χρήστη",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Αυτό θα αφαιρέσει το όνομα χρήστη σου, και άλλοι χρήστες θα μπορέσουν να το χρησιμοποιήσουν. Είσαι σίγουρος/η;",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Διαγραφή",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Γράψε κάτι για εσένα...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Πληροφορίες",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Η εικόνα προφίλ σου",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Όνομα χρήστη",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Το προφίλ σου δεν μπόρεσε να ανανεωθεί. Παρακαλώ προσπάθησε ξανά.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Οι χρήστες αναγνώστη οθόνης θα μπορούν να πλοηγηθούν στη λίστα συνομιλιών στο αριστερό τμήμα πιο εύκολα.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Μπορείς πλέον να κάνεις αναζήτηση στις αρχειοθετημένες συνομιλίες. Σαν να ψάχνεις για στοιχεία στις αρχαίες γραφές.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Πλέον αν έχεις σκρολάρει προς τα πάνω και στείλεις μήνυμα, το Signal θα σκρολάρει αυτόματα προς τα κάτω για να δεις το μήνυμα που μόλις έστειλες.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Η αντίδραση σε μηνύματα είναι πλέον πιο αξιόπιστη.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",

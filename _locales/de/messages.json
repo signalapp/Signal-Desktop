@@ -6201,6 +6201,70 @@
         "message": "Info",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Nutzername",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Nutzername eingeben",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Nutzernamen sind bei Signal optional. Falls du dich dafür entscheidest, einen Nutzernamen zu erstellen und diesen suchbar zu machen, werden andere Nutzer dich über diesen finden und kontaktieren können, ohne deine Rufnummer zu kennen.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Nutzernamen dürfen nur die Zeichen a – z, 0 – 9 und »_« enthalten",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Nutzernamen dürfen mit keiner Zahl beginnen.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Nutzernamen müssen aus mindestens $min$ Zeichen bestehen.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Nutzernamen dürfen höchstens aus $max$ Zeichen bestehen.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Dieser Nutzername ist vergeben.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Dein Nutzername konnte nicht gespeichert werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Dein Nutzername konnte nicht gelöscht werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Nutzername löschen",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Dies entfernt deinen Nutzernamen, sodass andere Nutzer ihn übernehmen können. Bist du sicher?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Löschen",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Schreib etwas über dich …",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Info",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Dein Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Nutzername",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Dein Profil konnte nicht aktualisiert werden. Bitte versuche es erneut.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Benutzer von Bildschirmlesegeräten können nun leichter durch die Unterhaltungsliste im linken Fensterbereich navigieren.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Du kannst jetzt in archivierten Gesprächen suchen. Stell dir vor, du suchst (schnell) in alten Büchern nach dem nächsten Hinweis.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Falls du jemals nach oben gescrollt und eine Nachricht gesendet hast, kam vielleicht die Frage auf, wo sie geblieben ist! Wann immer du jetzt eine Nachricht sendest, wird sie in den Sichtbereich gescrollt, damit du deine harte Arbeit bewundern kannst.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reaktion auf eine Nachricht? Sie sollten jetzt zuverlässiger gesendet werden (Wiederholungsversuche bis zu 24 Stunden lang)",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",

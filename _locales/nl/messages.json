@@ -218,7 +218,7 @@
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Deze gesprekken worden gearchiveerd en zullen alleen in Postvak IN verschijnen als je nieuwe berichten ontvangt.",
+        "message": "Deze gesprekken zijn gearchiveerd en zullen alleen in Postvak IN verschijnen als je nieuwe berichten ontvangt.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -1032,7 +1032,7 @@
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Dempen",
+        "message": "Meldingen dempen",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
@@ -1426,7 +1426,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Dempen",
+        "message": "Microfoon dempen",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -1546,7 +1546,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal zal $person$ bellen",
+        "message": "Als je doorgaat zul je $person$ bellen",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -2146,7 +2146,7 @@
         "description": "Description for call ringtone notification setting"
     },
     "callSystemNotificationDescription": {
-        "message": "Over oproepen meldingen weergeven",
+        "message": "Meldingen over oproepen weergeven",
         "description": "Description for call notification setting"
     },
     "incomingCallNotificationDescription": {
@@ -3900,15 +3900,15 @@
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
-        "message": "Voor altijd dempen",
+        "message": "Voor onbepaalde tijd dempen",
         "description": "Label for muting the conversation"
     },
     "unmute": {
-        "message": "Niet langer dempen",
+        "message": "Meldingen niet langer dempen",
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {
-        "message": "Voor altijd gedempt",
+        "message": "Voor onbepaalde tijd gedempt",
         "description": "Shown in the mute notifications submenu whenever a conversation has been muted"
     },
     "muteExpirationLabel": {
@@ -6201,6 +6201,70 @@
         "message": "Over mij",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Gebruikersnaam",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Voer een gebruikersnaam in",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Gebruikersnamen in Signal zijn optioneel. Als je een gebruikersnaam aanmaakt en publiekelijk vindbaar maakt zullen andere Signal gebruikers je kunnen vinden met deze naam en contact met je kunnen opnemen zonder je telefoonnummer te kennen.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Gebruikersnamen mogen alleen uit de karakters a-z, 0-9 en _ bestaan.",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Gebruikersnamen mogen niet met een cijfer beginnen.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Gebruikersnamen moeten uit ten minste $min$ karakters bestaan.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Gebruikersnamen mogen uit maximaal $max$ karakters bestaan.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Deze gebruikersnaam is al in gebruik.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Je gebruikersnaam kan niet worden bewaard. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Je gebruikersnaam kan niet worden verwijderd. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Gebruikersnaam verwijderen",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Je staat op het punt je gebruikersnaam te verwijderen. Als je door gaat kunnen anderen deze naam claimen. Weet je het zeker?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Wissen",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Schrijf een paar woorden over jezelf ...",
         "description": "Placeholder text for about input field"
@@ -6248,7 +6312,7 @@
         "description": "A default bio option"
     },
     "Bio--taking-break": {
-        "message": "Ik heb even pauze",
+        "message": "Ik neem even een pauze",
         "description": "A default bio option"
     },
     "ProfileEditorModal--profile": {
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Over mij",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Jouw profielfoto",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Gebruikersnaam",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Je profiel kon niet worden bijgewerkt. Probeer het opnieuw.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Het zou nu makkelijker moeten zijn voor gebruikers van schermlezers om te navigeren door de gesprekkenlijst aan de linker kant.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Je kunt vanaf nu ook gearchive gesprekken doorzoeken.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Als je een bericht verzend terwijl je omhoog hebt gescrolt, dan wordt vanaf nu automatisch naar beneden naar je nieuwe bericht gescrolt.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Het verzenden van een emoji-reactie op een bericht zou vanaf nu betrouwbaarder moeten zijn. Als het niet lukt probeert Signal het automatisch opnieuw.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",

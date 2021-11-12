@@ -878,7 +878,7 @@
         "description": "Shown when you are sent a contact and that contact has a signal account"
     },
     "home": {
-        "message": "domicilio",
+        "message": "privado",
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "work": {
@@ -6201,6 +6201,70 @@
         "message": "Biografía",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Alias (nombre de usuari@)",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Introduce un alias (nombre de usuari@)",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Los alias de Signal (nombre de usuari@) son opcionales. Si decides crear un alias y activarlo para búsquedas, otras personas podrán encontrarte en Signal por ese alias y ponerse en contacto contigo sin conocer tu número de teléfono.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Los alias solo pueden contener a-Z, 0-9 y _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Los alias no pueden comenzar por un número.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Los alias deben contener al menos $min$ caracteres.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Los alias pueden contener $max$ caracteres como máximo.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Este alias ya está en uso por otra persona.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "No se ha podido guardar tu alias. Comprueba tu conexión y prueba de nuevo.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "No se ha podido eliminar tu alias. Comprueba tu conexión y prueba de nuevo.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Eliminar alias (nombre de usuari@)",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Esto eliminará tu alias, permitiendo a otra personas usarlo. ¿Estás segur@?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Eliminar",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Escribe unas pocas palabras sobre ti …",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "Biografía",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Tu avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Alias (nombre de usuari@)",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Fallo al actualizar tu perfil. Por favor, inténtalo de nuevo más tarde.",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Personas con un lector de pantalla podrán navegar mejor la lista de chats en el panel de la izquierda. ",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Ahora puedes buscar en los chat archivados. Imagínate buscando (rápidamente) la siguiente pista entre tomos antiguos.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Si alguna vez te desplazaste hacia arriba en el chat y enviaste un mensaje, es posible que te preguntaras ¿dónde está mi mensaje? Ahora, cada vez que envíes un mensaje, aparecerá en pantalla para que puedas admirar tu arduo trabajo.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "¿Reaccionas a un mensaje? Ahora debería ser más fiable, con reintentos hasta tras 24 horas",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",

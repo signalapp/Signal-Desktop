@@ -6201,6 +6201,70 @@
         "message": "हमारे बारे में",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "उपयोगकर्ता नाम",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "उपयोगकर्ता नाम दर्ज़ करें",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Signal पर यूज़र नाम वैकल्पिक हैं. अगर आप एक यूज़र नाम बनाना चुनते हैं और इसे खोजने लायक बनाते हैं, तो अन्य Signal यूज़र आपको इस यूज़र नाम से ढूंढ सकेंगे और आपका फ़ोन नंबर जाने बिना आपसे संपर्क कर सकेंगे.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "यूज़र के नाम में सिर्फ़ a-z, 0-9 और _ हो सकते हैं",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "उपयोगकर्ता का नाम नंबर से शुरु नहीं हो सकता।",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "यूज़र के नाम में कम से कम $min$ कैरेक्टर होने चाहिए.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "यूज़र के नाम में अधिकतम $max$ कैरेक्टर होने चाहिए.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "इस उपयोगकर्ता का नाम ले लिया गया है|",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "आपका यूज़र नाम सेव नहीं किया जा सका. अपने कनेक्शन की जांच करें और फिर से कोशिश करें.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "आपका यूज़र नाम हटाया नहीं जा सका. अपने कनेक्शन की जांच करें और फिर से कोशिश करें.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "यूज़र नाम डिलीट करें",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "यह आपके यूज़र नाम को हटा देगा, जिससे अन्य यूज़र इस पर दावा कर सकेंगे. क्या आप वाकई यह करना चाहते हैं?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "डिलीट करें",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "अपने बारे में कुछ लिखें...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6326,14 @@
     "ProfileEditorModal--about": {
         "message": "हमारे बारे में",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "आपका अवतार",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "उपयोगकर्ता नाम",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "आपकी प्रोफ़ाइल को अपडेट नहीं किया जा सका। कृपया दोबारा प्रयास करें।",
@@ -6504,6 +6576,18 @@
     "WhatsNew__v5.21--3": {
         "message": "स्क्रीन रीडर यूज़र को अब बाएं पेन पर बातचीत की लिस्ट के ज़रिए नैविगेट करना आसान लगेगा.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "अब आप संग्रहीत बातचीत में सर्च कर सकते हैं. कल्पना कीजिए कि आप अगले सुराग की तलाश प्राचीन वक्त के ज़रिए (जल्दी से) खोज रहे हैं.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "अगर आपने कभी ऊपर स्क्रॉल किया है और मेसेज भेजा है, तो आपको आश्चर्य हो सकता है कि आपका मेसेज कहां था! अब, जब भी आप कोई मेसेज भेजेंगे, तो आप अपनी कड़ी मेहनत की प्रशंसा करने के लिए उसे स्क्रॉल करके देख सकेंगे.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "एक मेसेज पर प्रतिक्रिया देते हुए? अब इसे और ज़्यादा विश्वसनीय होना चाहिए, 24 घंटे तक फिर से कोशिश करते हुए",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
