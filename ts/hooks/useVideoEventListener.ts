@@ -53,7 +53,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           localStream: lLocalStream,
           remoteStream: lRemoteStream,
           isAudioMuted,
-          currentSelectedAudioOutput,
+          currentSelectedAudioOutput: outputSelected,
         } = options;
         if (mountedState()) {
           setLocalStream(lLocalStream);
@@ -61,7 +61,7 @@ export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
           setRemoteStreamVideoIsMuted(isRemoteVideoStreamMuted);
           setLocalStreamVideoIsMuted(isLocalVideoStreamMuted);
           setOurAudioIsMuted(isAudioMuted);
-          setCurrentSelectedAudioOutput(currentSelectedAudioOutput);
+          setCurrentSelectedAudioOutput(outputSelected);
 
           setCurrentConnectedCameras(camerasList);
           setCurrentConnectedAudioInputs(audioInputsList);
