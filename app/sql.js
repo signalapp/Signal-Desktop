@@ -835,7 +835,6 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion14,
   updateToLokiSchemaVersion15,
   updateToLokiSchemaVersion16,
-  updateToLokiSchemaVersion17,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1229,23 +1228,6 @@ function updateToLokiSchemaVersion16(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
-function updateToLokiSchemaVersion17(currentVersion, db) {
-  const targetVersion = 17;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-
-  db.transaction(() => {
-    db.exec(`
-      ALTER TABLE ${CONVERSATIONS_TABLE} ADD COLUMN isApproved BOOLEAN;
-    `);
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
 function writeLokiSchemaVersion(newVersion, db) {
   db.prepare(
     `INSERT INTO loki_schema(
@@ -1618,7 +1600,6 @@ function updateConversation(data) {
     type,
     members,
     name,
-    isApproved,
     profileName,
   } = data;
 
@@ -1631,7 +1612,6 @@ function updateConversation(data) {
     type = $type,
     members = $members,
     name = $name,
-    isApproved = $isApproved,
     profileName = $profileName
     WHERE id = $id;`
     )
@@ -1643,7 +1623,6 @@ function updateConversation(data) {
       type,
       members: members ? members.join(' ') : null,
       name,
-      isApproved,
       profileName,
     });
 }

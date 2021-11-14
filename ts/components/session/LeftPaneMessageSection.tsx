@@ -312,12 +312,11 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
           _.forEach(allConversations, convo => {
             if (convo.isApproved() !== true) {
-              convo.setIsApproved(true);
+              BlockedNumberController.block(convo.id);
               syncRequired = true;
             }
           });
           if (syncRequired) {
-            // syncConfigurationIfNeeded(true);
             await forceSyncConfigurationNowIfNeeded();
           }
         }}

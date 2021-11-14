@@ -146,7 +146,7 @@ export interface ConversationAttributesOptionals {
   triggerNotificationsFor?: ConversationNotificationSettingType;
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
-  isApproved: boolean;
+  isApproved?: boolean;
 }
 
 /**

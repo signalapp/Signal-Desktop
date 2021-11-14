@@ -89,7 +89,6 @@ export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = fal
               resolve(true);
             }
           : undefined;
-          console.warn({configMessage});
         void getMessageQueue().sendSyncMessage(configMessage, callback as any);
         // either we resolve from the callback if we need to wait for it,
         // or we don't want to wait, we resolve it here.

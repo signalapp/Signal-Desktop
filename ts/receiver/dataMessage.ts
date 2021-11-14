@@ -424,7 +424,6 @@ export const isDuplicate = (
     Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
     PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
 
-  debugger;
   return sameUsername && sameText && timestampsSimilar;
 };
 
