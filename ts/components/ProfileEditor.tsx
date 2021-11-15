@@ -35,6 +35,7 @@ import {
 } from './conversation/conversation-details/ConversationDetailsIcon';
 import { Spinner } from './Spinner';
 import { UsernameSaveState } from '../state/ducks/conversationsEnums';
+import { MAX_USERNAME, MIN_USERNAME } from '../types/Username';
 
 export enum EditState {
   None = 'None',
@@ -123,26 +124,24 @@ function getUsernameInvalidKey(
     return undefined;
   }
 
-  const min = 3;
-  if (username.length < min) {
+  if (username.length < MIN_USERNAME) {
     return {
       key: 'ProfileEditor--username--check-character-min',
-      replacements: { min },
+      replacements: { min: MIN_USERNAME },
     };
   }
 
   if (!/^[0-9a-z_]+$/.test(username)) {
     return { key: 'ProfileEditor--username--check-characters' };
   }
-  if (/^[0-9]/.test(username)) {
+  if (!/^[a-z_]/.test(username)) {
     return { key: 'ProfileEditor--username--check-starting-character' };
   }
 
-  const max = 25;
-  if (username.length > max) {
+  if (username.length > MAX_USERNAME) {
     return {
       key: 'ProfileEditor--username--check-character-max',
-      replacements: { max },
+      replacements: { max: MAX_USERNAME },
     };
   }
 
