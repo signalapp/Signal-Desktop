@@ -161,7 +161,7 @@ export const InConversationCallContainer = () => {
       if (currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID) {
         videoRefLocal.current.muted = true;
       } else {
-        void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
+        // void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
         videoRefLocal.current.muted = false;
       }
     }

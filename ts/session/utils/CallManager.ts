@@ -29,9 +29,6 @@ export type InputItem = { deviceId: string; label: string };
 
 let currentCallUUID: string | undefined;
 
-// const VIDEO_WIDTH = 640;
-// const VIDEO_RATIO = 16 / 9;
-
 export type CallManagerOptionsType = {
   localStream: MediaStream | null;
   remoteStream: MediaStream | null;
@@ -280,7 +277,6 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
 export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
   if (audioOutputDeviceId === DEVICE_DISABLED_DEVICE_ID) {
     selectedAudioOutputId = audioOutputDeviceId;
-    console.warn('selectedAudioOutputId', selectedAudioOutputId);
 
     callVideoListeners();
     return;
@@ -288,13 +284,11 @@ export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
   if (audioOutputsList.some(m => m.deviceId === audioOutputDeviceId)) {
     selectedAudioOutputId = audioOutputDeviceId;
 
-    console.warn('selectedAudioOutputId', selectedAudioOutputId);
-
     callVideoListeners();
   }
 }
 
-async function handleNegotiationNeededEvent(_event: Event, recipient: string) {
+async function handleNegotiationNeededEvent(recipient: string) {
   try {
     makingOffer = true;
     window.log.info('got handleNegotiationNeeded event. creating offer');
@@ -573,7 +567,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
 }
 function onDataChannelOnOpen() {
   window.log.info('onDataChannelOnOpen: sending video status');
-
+  setIsRinging(false);
   sendVideoStatusViaDataChannel();
 }
 
@@ -593,8 +587,8 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
   dataChannel.onopen = onDataChannelOnOpen;
 
   if (!isAcceptingCall) {
-    peerConnection.onnegotiationneeded = async (event: Event) => {
-      await handleNegotiationNeededEvent(event, withPubkey);
+    peerConnection.onnegotiationneeded = async () => {
+      await handleNegotiationNeededEvent(withPubkey);
     };
   }
 
@@ -953,7 +947,9 @@ export async function handleCallTypeIceCandidates(
   window.log.info('handling callMessage ICE_CANDIDATES');
 
   pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
-  await addIceCandidateToExistingPeerConnection(callMessage);
+  if (currentCallUUID && callMessage.uuid === currentCallUUID) {
+    await addIceCandidateToExistingPeerConnection(callMessage);
+  }
 }
 
 async function addIceCandidateToExistingPeerConnection(callMessage: SignalService.CallMessage) {
