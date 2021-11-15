@@ -269,7 +269,7 @@ export const ConversationList: React.FC<PropsType> = ({
             'shouldShowDraft',
             'title',
             'type',
-            'typingContact',
+            'typingContactId',
             'unblurredAvatarPath',
             'unreadCount',
           ]);

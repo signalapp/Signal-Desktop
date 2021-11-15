@@ -55,7 +55,7 @@ export type PropsData = Pick<
   | 'shouldShowDraft'
   | 'title'
   | 'type'
-  | 'typingContact'
+  | 'typingContactId'
   | 'unblurredAvatarPath'
   | 'unreadCount'
 > & {
@@ -94,7 +94,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     theme,
     title,
     type,
-    typingContact,
+    typingContactId,
     unblurredAvatarPath,
     unreadCount,
   }) {
@@ -121,7 +121,7 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
           {i18n('ConversationListItem--message-request')}
         </span>
       );
-    } else if (typingContact) {
+    } else if (typingContactId) {
       messageText = <TypingAnimation i18n={i18n} />;
     } else if (shouldShowDraft && draftPreview) {
       messageText = (

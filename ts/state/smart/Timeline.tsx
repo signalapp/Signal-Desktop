@@ -298,7 +298,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     ...pick(conversation, [
       'areWeAdmin',
       'unreadCount',
-      'typingContact',
+      'typingContactId',
       'isGroupV1AndDisabled',
     ]),
     isIncomingMessageRequest: Boolean(

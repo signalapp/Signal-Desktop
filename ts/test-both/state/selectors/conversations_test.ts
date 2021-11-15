@@ -1254,11 +1254,7 @@ describe('both/state/selectors/conversations', () => {
           title: 'No timestamp',
           unreadCount: 1,
           isSelected: false,
-          typingContact: {
-            ...getDefaultConversation(),
-            name: 'Someone There',
-            phoneNumber: '+18005551111',
-          },
+          typingContactId: UUID.generate().toString(),
 
           acceptedMessageRequest: true,
         }),
@@ -1279,11 +1275,7 @@ describe('both/state/selectors/conversations', () => {
           title: 'B',
           unreadCount: 1,
           isSelected: false,
-          typingContact: {
-            ...getDefaultConversation(),
-            name: 'Someone There',
-            phoneNumber: '+18005551111',
-          },
+          typingContactId: UUID.generate().toString(),
 
           acceptedMessageRequest: true,
         }),
@@ -1304,11 +1296,7 @@ describe('both/state/selectors/conversations', () => {
           title: 'C',
           unreadCount: 1,
           isSelected: false,
-          typingContact: {
-            ...getDefaultConversation(),
-            name: 'Someone There',
-            phoneNumber: '+18005551111',
-          },
+          typingContactId: UUID.generate().toString(),
 
           acceptedMessageRequest: true,
         }),
@@ -1329,11 +1317,7 @@ describe('both/state/selectors/conversations', () => {
           title: 'A',
           unreadCount: 1,
           isSelected: false,
-          typingContact: {
-            ...getDefaultConversation(),
-            name: 'Someone There',
-            phoneNumber: '+18005551111',
-          },
+          typingContactId: UUID.generate().toString(),
 
           acceptedMessageRequest: true,
         }),
@@ -1354,11 +1338,7 @@ describe('both/state/selectors/conversations', () => {
           title: 'First!',
           unreadCount: 1,
           isSelected: false,
-          typingContact: {
-            ...getDefaultConversation(),
-            name: 'Someone There',
-            phoneNumber: '+18005551111',
-          },
+          typingContactId: UUID.generate().toString(),
 
           acceptedMessageRequest: true,
         }),
@@ -1400,11 +1380,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin Two',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1426,11 +1402,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin Three',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1452,11 +1424,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1495,11 +1463,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin Two',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1520,11 +1484,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin Three',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1545,11 +1505,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1571,11 +1527,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),
@@ -1596,11 +1548,7 @@ describe('both/state/selectors/conversations', () => {
             title: 'Pin One',
             unreadCount: 1,
             isSelected: false,
-            typingContact: {
-              ...getDefaultConversation(),
-              name: 'Someone There',
-              phoneNumber: '+18005551111',
-            },
+            typingContactId: UUID.generate().toString(),
 
             acceptedMessageRequest: true,
           }),

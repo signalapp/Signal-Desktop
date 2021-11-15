@@ -1400,9 +1400,6 @@ export class ConversationModel extends window.Backbone
     const typingMostRecent = window._.first(
       window._.sortBy(typingValues, 'timestamp')
     );
-    const typingContact = typingMostRecent
-      ? window.ConversationController.get(typingMostRecent.senderId)
-      : null;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const timestamp = this.get('timestamp')!;
@@ -1440,7 +1437,7 @@ export class ConversationModel extends window.Backbone
 
     // TODO: DESKTOP-720
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    const result: ConversationType = {
+    return {
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
@@ -1521,6 +1518,7 @@ export class ConversationModel extends window.Backbone
       sortedGroupMembers,
       timestamp,
       title: this.getTitle()!,
+      typingContactId: typingMostRecent?.senderId,
       searchableTitle: isMe(this.attributes)
         ? window.i18n('noteToSelf')
         : this.getTitle(),
@@ -1537,18 +1535,7 @@ export class ConversationModel extends window.Backbone
             sharedGroupNames: [],
           }),
     };
-
-    if (typingContact) {
-      // We don't want to call .format() on our own conversation
-      if (typingContact.id === this.id) {
-        result.typingContact = result;
-      } else {
-        result.typingContact = typingContact.format();
-      }
-    }
     /* eslint-enable @typescript-eslint/no-non-null-assertion */
-
-    return result;
   }
 
   updateE164(e164?: string | null): void {

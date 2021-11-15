@@ -94,7 +94,7 @@ type PropsHousekeepingType = {
   areWeAdmin?: boolean;
   isGroupV1AndDisabled?: boolean;
   isIncomingMessageRequest: boolean;
-  typingContact?: unknown;
+  typingContactId?: string;
   unreadCount?: number;
 
   selectedMessageId?: string;
@@ -859,7 +859,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   }
 
   public getRowCount(): number {
-    const { oldestUnreadIndex, typingContact } = this.props;
+    const { oldestUnreadIndex, typingContactId } = this.props;
     const { items } = this.props;
     const itemsCount = items && items.length ? items.length : 0;
 
@@ -870,7 +870,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       extraRows += 1;
     }
 
-    if (typingContact) {
+    if (typingContactId) {
       extraRows += 1;
     }
 
@@ -1033,7 +1033,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       resetCounter,
       scrollToBottomCounter,
       scrollToIndex,
-      typingContact,
+      typingContactId,
     } = this.props;
 
     // We recompute the hero row's height if:
@@ -1097,7 +1097,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     if (
       items !== prevProps.items ||
       oldestUnreadIndex !== prevProps.oldestUnreadIndex ||
-      Boolean(typingContact) !== Boolean(prevProps.typingContact)
+      Boolean(typingContactId) !== Boolean(prevProps.typingContactId)
     ) {
       const { atTop } = this.state;
 
@@ -1135,13 +1135,13 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const rowsIterator = Timeline.getEphemeralRows({
         items,
         oldestUnreadIndex,
-        typingContact: Boolean(typingContact),
+        hasTypingContact: Boolean(typingContactId),
         haveOldest,
       });
       const prevRowsIterator = Timeline.getEphemeralRows({
         items: prevProps.items,
         oldestUnreadIndex: prevProps.oldestUnreadIndex,
-        typingContact: Boolean(prevProps.typingContact),
+        hasTypingContact: Boolean(prevProps.typingContactId),
         haveOldest: prevProps.haveOldest,
       });
 
@@ -1578,13 +1578,13 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   }
 
   private static *getEphemeralRows({
-    items,
-    typingContact,
-    oldestUnreadIndex,
+    hasTypingContact,
     haveOldest,
+    items,
+    oldestUnreadIndex,
   }: {
     items: ReadonlyArray<string>;
-    typingContact: boolean;
+    hasTypingContact: boolean;
     oldestUnreadIndex?: number;
     haveOldest: boolean;
   }): Iterator<string> {
@@ -1597,7 +1597,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       yield `item:${items[i]}`;
     }
 
-    if (typingContact) {
+    if (hasTypingContact) {
       yield 'typing-contact';
     }
   }

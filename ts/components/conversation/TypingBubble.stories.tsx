@@ -10,6 +10,8 @@ import enMessages from '../../../_locales/en/messages.json';
 import type { Props } from './TypingBubble';
 import { TypingBubble } from './TypingBubble';
 import { AvatarColors } from '../../types/Colors';
+import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -17,6 +19,7 @@ const story = storiesOf('Components/Conversation/TypingBubble', module);
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: true,
+  badge: overrideProps.badge,
   isMe: false,
   i18n,
   color: select(
@@ -33,6 +36,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
     overrideProps.conversationType || 'direct'
   ),
   sharedGroupNames: [],
+  theme: ThemeType.light,
 });
 
 story.add('Direct', () => {
@@ -43,6 +47,15 @@ story.add('Direct', () => {
 
 story.add('Group', () => {
   const props = createProps({ conversationType: 'group' });
+
+  return <TypingBubble {...props} />;
+});
+
+story.add('Group (with badge)', () => {
+  const props = createProps({
+    badge: getFakeBadge(),
+    conversationType: 'group',
+  });
 
   return <TypingBubble {...props} />;
 });

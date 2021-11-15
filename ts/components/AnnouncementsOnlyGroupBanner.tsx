@@ -41,7 +41,6 @@ export const AnnouncementsOnlyGroupBanner = ({
               draftPreview=""
               lastMessage={undefined}
               lastUpdated={undefined}
-              typingContact={undefined}
               theme={theme}
             />
           ))}

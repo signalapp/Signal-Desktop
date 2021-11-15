@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import * as moment from 'moment';
-import { isBoolean, times } from 'lodash';
+import { times } from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { storiesOf } from '@storybook/react';
 import { text, boolean, number } from '@storybook/addon-knobs';
@@ -25,6 +25,8 @@ import { TypingBubble } from './TypingBubble';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import type { WidthBreakpoint } from '../_util';
+import { ThemeType } from '../../types/Util';
+import { UUID } from '../../types/UUID';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -441,12 +443,14 @@ const renderLoadingRow = () => <TimelineLoadingRow state="loading" />;
 const renderTypingBubble = () => (
   <TypingBubble
     acceptedMessageRequest
+    badge={undefined}
     color={getRandomColor()}
     conversationType="direct"
     phoneNumber="+18005552222"
     i18n={i18n}
     isMe={false}
     title="title"
+    theme={ThemeType.light}
     sharedGroupNames={[]}
   />
 );
@@ -486,10 +490,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderHeroRow,
   renderLoadingRow,
   renderTypingBubble,
-  typingContact: boolean(
-    'typingContact',
-    isBoolean(overrideProps.typingContact) ? overrideProps.typingContact : false
-  ),
+  typingContactId: overrideProps.typingContactId,
 
   ...actions(),
 });
@@ -561,7 +562,7 @@ story.add('Target Index to Top', () => {
 
 story.add('Typing Indicator', () => {
   const props = createProps({
-    typingContact: true,
+    typingContactId: UUID.generate().toString(),
   });
 
   return <Timeline {...props} />;

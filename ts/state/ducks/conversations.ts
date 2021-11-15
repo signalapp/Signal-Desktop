@@ -181,17 +181,7 @@ export type ConversationType = {
   unreadCount?: number;
   isSelected?: boolean;
   isFetchingUUID?: boolean;
-  typingContact?: {
-    acceptedMessageRequest: boolean;
-    avatarPath?: string;
-    color?: AvatarColorType;
-    isMe: boolean;
-    name?: string;
-    phoneNumber?: string;
-    profileName?: string;
-    sharedGroupNames: Array<string>;
-    title: string;
-  } | null;
+  typingContactId?: string;
   recentMediaItems?: Array<MediaItemType>;
   profileSharing?: boolean;
 

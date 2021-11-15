@@ -18,6 +18,7 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { UUID } from '../types/UUID';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -295,10 +296,7 @@ story.add('Contact checkboxes: disabled', () => (
 
   story.add('Conversation: Typing Status', () =>
     renderConversation({
-      typingContact: {
-        ...getDefaultConversation(),
-        name: 'Someone Here',
-      },
+      typingContactId: UUID.generate().toString(),
     })
   );
 
