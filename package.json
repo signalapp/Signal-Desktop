@@ -314,6 +314,7 @@
       "certificates/**",
       "images/**",
       "fonts/*",
+      "sound/*",
       "build/assets",
       "node_modules/**",
       "!node_modules/emoji-panel/dist/*",
