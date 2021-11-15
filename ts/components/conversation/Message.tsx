@@ -62,6 +62,7 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../../types/Util';
+import type { BadgeType } from '../../badges/types';
 import type {
   ContactNameColorType,
   ConversationColorType,
@@ -145,6 +146,7 @@ export type PropsData = {
     ConversationType,
     | 'acceptedMessageRequest'
     | 'avatarPath'
+    | 'badges'
     | 'color'
     | 'id'
     | 'isMe'
@@ -155,6 +157,7 @@ export type PropsData = {
     | 'title'
     | 'unblurredAvatarPath'
   >;
+  authorBadge: undefined | BadgeType;
   reducedMotion?: boolean;
   conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
@@ -203,7 +206,7 @@ export type PropsHousekeeping = {
   containerWidthBreakpoint: WidthBreakpoint;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
-  theme?: ThemeType;
+  theme: ThemeType;
   disableMenu?: boolean;
   disableScroll?: boolean;
   collapseMetadata?: boolean;
@@ -1188,7 +1191,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderAvatar(): JSX.Element | undefined {
-    const { author, i18n, showContactModal } = this.props;
+    const { author, authorBadge, i18n, showContactModal, theme } = this.props;
 
     if (!this.hasAvatar()) {
       return undefined;
@@ -1204,6 +1207,7 @@ export class Message extends React.PureComponent<Props, State> {
         <Avatar
           acceptedMessageRequest={author.acceptedMessageRequest}
           avatarPath={author.avatarPath}
+          badge={authorBadge}
           color={author.color}
           conversationType="direct"
           i18n={i18n}
@@ -1219,6 +1223,7 @@ export class Message extends React.PureComponent<Props, State> {
           profileName={author.profileName}
           sharedGroupNames={author.sharedGroupNames}
           size={28}
+          theme={theme}
           title={author.title}
           unblurredAvatarPath={author.unblurredAvatarPath}
         />

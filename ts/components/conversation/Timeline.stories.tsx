@@ -47,6 +47,7 @@ const items: Record<string, TimelineItemType> = {
       author: getDefaultConversation({
         phoneNumber: '(202) 555-2001',
       }),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -67,6 +68,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -100,6 +102,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -189,6 +192,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -210,6 +214,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -231,6 +236,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -252,6 +258,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -273,6 +280,7 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
+      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -390,6 +398,7 @@ const renderItem = ({
     nextItem={undefined}
     i18n={i18n}
     interactionMode="keyboard"
+    theme={ThemeType.light}
     containerElementRef={containerElementRef}
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""

@@ -134,6 +134,8 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import { computeHash } from '../Crypto';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import { getPreferredBadgeSelector } from '../state/selectors/badges';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -392,6 +394,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ourConversationId,
         ourNumber: window.textsecure.storage.user.getNumber(),
         ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        preferredBadgeSelector: (
+          ...args: Parameters<PreferredBadgeSelectorType>
+        ) => {
+          const state = window.reduxStore.getState();
+          const preferredBadgeSelector = getPreferredBadgeSelector(state);
+          return preferredBadgeSelector(...args);
+        },
         regionCode: window.storage.get('regionCode', 'ZZ'),
         accountSelector: (identifier?: string) => {
           const state = window.reduxStore.getState();

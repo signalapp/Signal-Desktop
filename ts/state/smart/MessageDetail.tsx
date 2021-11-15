@@ -8,7 +8,7 @@ import { MessageDetail } from '../../components/conversation/MessageDetail';
 
 import { mapDispatchToProps } from '../actions';
 import type { StateType } from '../reducer';
-import { getIntl, getInteractionMode } from '../selectors/user';
+import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
@@ -22,6 +22,7 @@ export type OwnProps = Omit<
   | 'renderAudioAttachment'
   | 'renderEmojiPicker'
   | 'renderReactionPicker'
+  | 'theme'
 >;
 
 const mapStateToProps = (
@@ -72,6 +73,7 @@ const mapStateToProps = (
 
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
+    theme: getTheme(state),
 
     showSafetyNumber,
 

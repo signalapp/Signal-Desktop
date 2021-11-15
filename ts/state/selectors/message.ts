@@ -63,6 +63,7 @@ import type {
 } from '../ducks/conversations';
 
 import type { AccountSelectorType } from './accounts';
+import type { PreferredBadgeSelectorType } from './badges';
 import type { CallSelectorType, CallStateType } from './calling';
 import type {
   GetConversationByIdType,
@@ -81,6 +82,7 @@ import {
   someSendStatus,
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
+import type { BadgeType } from '../../badges/types';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -106,6 +108,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   ourConversationId: string;
   ourNumber?: string;
   ourUuid: UUIDStringType;
+  preferredBadgeSelector: PreferredBadgeSelectorType;
   selectedMessageId?: string;
   selectedMessageCounter?: number;
   regionCode: string;
@@ -307,6 +310,7 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
     const {
       acceptedMessageRequest,
       avatarPath,
+      badges,
       color,
       id,
       isMe,
@@ -321,6 +325,7 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
     const unsafe = {
       acceptedMessageRequest,
       avatarPath,
+      badges,
       color,
       id,
       isMe,
@@ -343,6 +348,19 @@ const getCachedAuthorForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   identity,
   getAuthorForMessage,
   (_, author): PropsData['author'] => author
+);
+
+const getAuthorBadgeForMessage: (
+  message: MessageWithUIFieldsType,
+  options: {
+    preferredBadgeSelector: PreferredBadgeSelectorType;
+  }
+) => undefined | BadgeType = createSelectorCreator(memoizeByRoot, isEqual)(
+  // `memoizeByRoot` requirement
+  identity,
+  (_, { preferredBadgeSelector }) => preferredBadgeSelector,
+  getAuthorForMessage,
+  (_, preferredBadgeSelector, author) => preferredBadgeSelector(author.badges)
 );
 
 export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
@@ -496,6 +514,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'ourConversationId'
   | 'ourUuid'
   | 'ourNumber'
+  | 'preferredBadgeSelector'
   | 'selectedMessageId'
   | 'selectedMessageCounter'
   | 'regionCode'
@@ -637,6 +656,7 @@ export const getPropsForMessage: (
   getAttachmentsForMessage,
   processBodyRanges,
   getCachedAuthorForMessage,
+  getAuthorBadgeForMessage,
   getPreviewsForMessage,
   getReactionsForMessage,
   getPropsForQuote,
@@ -646,6 +666,7 @@ export const getPropsForMessage: (
     attachments: Array<AttachmentType>,
     bodyRanges: BodyRangesType | undefined,
     author: PropsData['author'],
+    authorBadge: undefined | BadgeType,
     previews: Array<LinkPreviewType>,
     reactions: PropsData['reactions'],
     quote: PropsData['quote'],
@@ -654,6 +675,7 @@ export const getPropsForMessage: (
     return {
       attachments,
       author,
+      authorBadge,
       bodyRanges,
       previews,
       quote,

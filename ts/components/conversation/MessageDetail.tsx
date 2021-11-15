@@ -14,7 +14,7 @@ import type {
   PropsData as MessagePropsDataType,
 } from './Message';
 import { Message } from './Message';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { groupBy } from '../../util/mapUtil';
 import type { ContactNameColorType } from '../../types/Colors';
@@ -60,6 +60,7 @@ export type PropsData = {
 
   showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
+  theme: ThemeType;
 } & Pick<MessagePropsType, 'interactionMode'>;
 
 export type PropsBackboneActions = Pick<
@@ -288,6 +289,7 @@ export class MessageDetail extends React.Component<Props> {
       showExpiredOutgoingTapToViewToast,
       showForwardMessageModal,
       showVisualAttachment,
+      theme,
     } = this.props;
 
     return (
@@ -350,6 +352,7 @@ export class MessageDetail extends React.Component<Props> {
               log.warn('MessageDetail: deleteMessageForEveryone called!');
             }}
             showVisualAttachment={showVisualAttachment}
+            theme={theme}
           />
         </div>
         <table className="module-message-detail__info">

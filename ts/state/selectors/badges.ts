@@ -51,12 +51,14 @@ export const getBadgesSelector = createSelector(
     }
 );
 
+export type PreferredBadgeSelectorType = (
+  conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
+) => undefined | BadgeType;
+
 export const getPreferredBadgeSelector = createSelector(
   getBadgesById,
-  badgesById =>
-    (
-      conversationBadges: ReadonlyArray<Pick<BadgeType, 'id'>>
-    ): undefined | BadgeType => {
+  (badgesById): PreferredBadgeSelectorType =>
+    conversationBadges => {
       const firstId: undefined | string = conversationBadges[0]?.id;
       if (!firstId) {
         return undefined;
