@@ -50,7 +50,7 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.END_CALL) {
     await removeFromCache(envelope);
 
-    CallManager.handleCallTypeEndCall(sender);
+    CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
 
     return;
   }

@@ -24,7 +24,6 @@ import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots'
 import { CallWindowControls } from './CallButtons';
 import { SessionSpinner } from '../SessionSpinner';
 import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/CallManager';
-// import { useCallAudioLevel } from '../../../hooks/useCallAudioLevel';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -146,8 +145,6 @@ export const InConversationCallContainer = () => {
     isAudioOutputMuted,
   } = useVideoCallEventsListener('InConversationCallContainer', true);
 
-  // const isSpeaking = useCallAudioLevel();
-
   if (videoRefRemote?.current && videoRefLocal?.current) {
     if (videoRefRemote.current.srcObject !== remoteStream) {
       videoRefRemote.current.srcObject = remoteStream;
@@ -161,7 +158,7 @@ export const InConversationCallContainer = () => {
       if (currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID) {
         videoRefLocal.current.muted = true;
       } else {
-        void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
+        // void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
         videoRefLocal.current.muted = false;
       }
     }

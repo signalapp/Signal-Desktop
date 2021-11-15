@@ -444,7 +444,7 @@
   "endCall": "End call",
   "cameraPermissionNeededTitle": "Voice/Video Call permissions required",
   "cameraPermissionNeeded": "You can enable the 'Voice and video calls' permission in the Privacy Settings.",
-  "unableToCall": "cancel your ongoing call first",
+  "unableToCall": "Cancel your ongoing call first",
   "unableToCallTitle": "Cannot start new call",
   "callMissed": "Missed call from $name$",
   "callMissedTitle": "Call missed",
