@@ -22,7 +22,6 @@ import { PubKey } from '../types';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PnServer } from '../../pushnotification';
-// import { SoundMeter } from '../../../ts/components/session/calling/SoundMeter';
 import { setIsRinging } from './RingingManager';
 
 export type InputItem = { deviceId: string; label: string };
@@ -531,8 +530,9 @@ function closeVideoCall() {
   selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
   selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID;
   currentCallUUID = undefined;
-  callVideoListeners();
   window.inboxStore?.dispatch(setFullScreenCall(false));
+
+  callVideoListeners();
 }
 
 function onDataChannelReceivedMessage(ev: MessageEvent<string>) {

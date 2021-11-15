@@ -765,7 +765,7 @@ const conversationsSlice = createSlice({
     incomingCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState !== undefined && existingCallState !== 'none') {
+      if (existingCallState !== undefined) {
         return state;
       }
       const foundConvo = getConversationController().get(callerPubkey);
@@ -784,7 +784,7 @@ const conversationsSlice = createSlice({
     endCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState === 'none') {
+      if (!existingCallState) {
         return state;
       }
 
@@ -796,7 +796,7 @@ const conversationsSlice = createSlice({
       // we have to update the model itself.
       // not the db (as we dont want to store that field in it)
       // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'none';
+      foundConvo.callState = undefined;
 
       void foundConvo.commit();
       return state;
@@ -840,7 +840,7 @@ const conversationsSlice = createSlice({
     startingCallWith(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState && existingCallState !== 'none') {
+      if (existingCallState) {
         return state;
       }
       const foundConvo = getConversationController().get(callerPubkey);

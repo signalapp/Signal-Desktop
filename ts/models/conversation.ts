@@ -176,7 +176,7 @@ export const fillConvoAttributesWithDefaults = (
   });
 };
 
-export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | 'none' | undefined;
+export type CallState = 'offering' | 'incoming' | 'connecting' | 'ongoing' | undefined;
 
 export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public updateLastMessage: () => any;
