@@ -83,7 +83,7 @@ function BadgeDialogWithBadges({
         type="button"
       />
       <div className="BadgeDialog__main">
-        <BadgeImage badge={currentBadge} size={200} />
+        <BadgeImage badge={currentBadge} size={160} />
         <div className="BadgeDialog__name">{currentBadge.name}</div>
         <div className="BadgeDialog__description">
           <BadgeDescription
