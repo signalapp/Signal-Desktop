@@ -13,7 +13,7 @@ import {
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
@@ -277,6 +277,7 @@ export type ConversationsStateType = {
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
   haveDoneFirstScroll: boolean;
+  callIsInFullScreen: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -371,6 +372,7 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
+    callIsInFullScreen: false,
   };
 }
 
@@ -696,6 +698,8 @@ const conversationsSlice = createSlice({
 
       return {
         conversationLookup: state.conversationLookup,
+        callIsInFullScreen: state.callIsInFullScreen,
+
         selectedConversation: action.payload.id,
         areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
@@ -761,7 +765,7 @@ const conversationsSlice = createSlice({
     incomingCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState !== undefined && existingCallState !== 'none') {
+      if (existingCallState !== undefined) {
         return state;
       }
       const foundConvo = getConversationController().get(callerPubkey);
@@ -780,7 +784,7 @@ const conversationsSlice = createSlice({
     endCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState === 'none') {
+      if (!existingCallState) {
         return state;
       }
 
@@ -792,7 +796,7 @@ const conversationsSlice = createSlice({
       // we have to update the model itself.
       // not the db (as we dont want to store that field in it)
       // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'none';
+      foundConvo.callState = undefined;
 
       void foundConvo.commit();
       return state;
@@ -836,7 +840,7 @@ const conversationsSlice = createSlice({
     startingCallWith(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
       const callerPubkey = action.payload.pubkey;
       const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState && existingCallState !== 'none') {
+      if (existingCallState) {
         return state;
       }
       const foundConvo = getConversationController().get(callerPubkey);
@@ -848,6 +852,10 @@ const conversationsSlice = createSlice({
       // and not the redux store directly as it gets overriden by the commit() of the conversationModel
       foundConvo.callState = 'offering';
       void foundConvo.commit();
+      return state;
+    },
+    setFullScreenCall(state: ConversationsStateType, action: PayloadAction<boolean>) {
+      state.callIsInFullScreen = action.payload;
       return state;
     },
   },
@@ -915,6 +923,7 @@ export const {
   answerCall,
   callConnected,
   startingCallWith,
+  setFullScreenCall,
 } = actions;
 
 export async function openConversationWithMessages(args: {

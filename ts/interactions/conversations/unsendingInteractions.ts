@@ -53,7 +53,6 @@ async function unsendMessagesForEveryone(
     // sending to recipient all the messages separately for now
     await Promise.all(
       unsendMsgObjects.map(unsendObject => {
-        console.warn('sending unsend message', unsendObject);
         getMessageQueue()
           .sendToGroup(unsendObject, undefined, new PubKey(destinationId))
           .catch(window?.log?.error);

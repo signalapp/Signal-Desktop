@@ -85,6 +85,14 @@ export function setSignInByLinking(isLinking: boolean) {
   window.textsecure.storage.user.setSignInByLinking(isLinking);
 }
 
+export function isSignWithRecoveryPhrase(): boolean {
+  return window.textsecure.storage.user.isSignWithRecoveryPhrase();
+}
+
+export function setSignWithRecoveryPhrase(isLinking: boolean) {
+  window.textsecure.storage.user.setSignWithRecoveryPhrase(isLinking);
+}
+
 export interface OurLokiProfile {
   displayName: string;
   avatarPointer: string;

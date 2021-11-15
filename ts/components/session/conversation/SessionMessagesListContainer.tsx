@@ -18,7 +18,7 @@ import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { StateType } from '../../../state/reducer';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import {
   getFirstUnreadMessageId,
   getQuotedMessageToAnimate,
@@ -26,11 +26,37 @@ import {
   getSelectedConversationKey,
   getShowScrollButton,
   getSortedMessagesOfSelectedConversation,
+  isFirstUnreadMessageIdAbove,
 } from '../../../state/selectors/conversations';
 import { SessionMessagesList } from './SessionMessagesList';
+import styled from 'styled-components';
 
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
+};
+
+const SessionUnreadAboveIndicator = styled.div`
+  position: sticky;
+  top: 0;
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  background: var(--color-sent-message-background);
+  color: var(--color-sent-message-text);
+`;
+
+const UnreadAboveIndicator = () => {
+  const isFirstUnreadAbove = useSelector(isFirstUnreadMessageIdAbove);
+  const firstUnreadMessageId = useSelector(getFirstUnreadMessageId) as string;
+
+  if (!isFirstUnreadAbove) {
+    return null;
+  }
+  return (
+    <SessionUnreadAboveIndicator key={`above-unread-indicator-${firstUnreadMessageId}`}>
+      {window.i18n('latestUnreadIsAbove')}
+    </SessionUnreadAboveIndicator>
+  );
 };
 
 type Props = SessionMessageListProps & {
@@ -139,6 +165,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
       >
+        <UnreadAboveIndicator />
+
         <TypingBubble
           pubkey={conversationKey}
           conversationType={conversation.type}
@@ -151,6 +179,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           scrollToQuoteMessage={this.scrollToQuoteMessage}
           onPageDownPressed={this.scrollPgDown}
           onPageUpPressed={this.scrollPgUp}
+          onHomePressed={this.scrollTop}
+          onEndPressed={this.scrollEnd}
         />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
@@ -265,6 +295,24 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       top: Math.floor(+messageContainer.clientHeight * 2) / 3,
       behavior: 'smooth',
     });
+  }
+
+  private scrollTop() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, -messageContainer.scrollHeight);
+  }
+
+  private scrollEnd() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, 0);
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {

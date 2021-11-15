@@ -28,3 +28,5 @@ window.getOSRelease = () => `${os.type()} ${os.release} ${os.platform()}`;
 window.getCommitHash = () => config.commitHash;
 
 window.closeDebugLog = () => ipcRenderer.send('close-debug-log');
+
+window.saveLog = logText => ipcRenderer.send('save-debug-log', logText);

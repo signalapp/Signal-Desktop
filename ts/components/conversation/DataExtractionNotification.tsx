@@ -3,7 +3,7 @@ import { PropsForDataExtractionNotification } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
 import { Flex } from '../basic/Flex';
 import { SessionIcon } from '../session/icon';
-import { SpacerXS, Text } from '../basic/Text';
+import { SpacerSM, Text } from '../basic/Text';
 import { ReadableMessage } from './ReadableMessage';
 
 export const DataExtractionNotification = (props: PropsForDataExtractionNotification) => {
@@ -25,13 +25,14 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
     >
       <Flex
         container={true}
-        flexDirection="column"
+        flexDirection="row"
         alignItems="center"
+        justifyContent="center"
         margin={'var(--margins-sm)'}
         id={`msg-${messageId}`}
       >
         <SessionIcon iconType="upload" iconSize={'small'} iconRotation={180} />
-        <SpacerXS />
+        <SpacerSM />
         <Text text={contentText} subtle={true} />
       </Flex>
     </ReadableMessage>

@@ -50,7 +50,7 @@ export class SessionInboxView extends React.Component<any, State> {
 
   public render() {
     if (!this.state.isInitialLoadComplete) {
-      return <></>;
+      return null;
     }
 
     const persistor = persistStore(this.store);

@@ -22,7 +22,7 @@ export const StagedLinkPreview = (props: Props) => {
 
   const isImage = image && isImageAttachment(image);
   if (isLoaded && !(title && domain)) {
-    return <></>;
+    return null;
   }
 
   const isLoading = !isLoaded;

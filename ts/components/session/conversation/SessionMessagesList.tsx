@@ -23,6 +23,8 @@ export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
   onPageUpPressed: () => void;
   onPageDownPressed: () => void;
+  onHomePressed: () => void;
+  onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
 
@@ -32,6 +34,14 @@ export const SessionMessagesList = (props: {
 
   useKey('PageDown', () => {
     props.onPageDownPressed();
+  });
+
+  useKey('Home', () => {
+    props.onHomePressed();
+  });
+
+  useKey('End', () => {
+    props.onEndPressed();
   });
 
   return (

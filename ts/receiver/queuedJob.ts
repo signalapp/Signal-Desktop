@@ -471,7 +471,7 @@ export async function handleMessageJob(
     });
     trotthledAllMessagesAddedDispatch();
     if (message.get('unread')) {
-      await conversation.throttledNotify(message);
+      conversation.throttledNotify(message);
     }
 
     if (confirm) {

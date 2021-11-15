@@ -21,11 +21,6 @@ let logger;
 module.exports = {
   initialize,
   getLogger,
-  // for tests only:
-  isLineAfterDate,
-  eliminateOutOfDateFiles,
-  eliminateOldEntries,
-  fetchLog,
   fetch,
 };
 
@@ -39,6 +34,10 @@ function initialize() {
   mkdirp.sync(logPath);
 
   return cleanupLogs(logPath).then(() => {
+    if (logger) {
+      return;
+    }
+
     const logFile = path.join(logPath, 'log.log');
 
     logger = bunyan.createLogger({
@@ -64,6 +63,8 @@ function initialize() {
     });
 
     ipc.on('fetch-log', event => {
+      mkdirp.sync(logPath);
+
       fetch(logPath).then(
         data => {
           event.sender.send('fetched-log', data);
@@ -107,7 +108,7 @@ async function deleteAllLogs(logPath) {
 async function cleanupLogs(logPath) {
   const now = new Date();
   const earliestDate = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 3)
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 6)
   );
 
   try {
@@ -217,6 +218,11 @@ function fetchLog(logFile) {
 }
 
 function fetch(logPath) {
+  // Check that the file exists locally
+  if (!fs.existsSync(logPath)) {
+    console._log('Log folder not found while fetching its content. Quick! Creating it.');
+    mkdirp.sync(logPath);
+  }
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));
 

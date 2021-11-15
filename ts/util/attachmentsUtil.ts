@@ -1,4 +1,4 @@
-import { StagedAttachmentType } from '../components/session/conversation/SessionCompositionBox';
+import { StagedAttachmentType } from '../components/session/conversation/composition/CompositionBox';
 import { SignalService } from '../protobuf';
 import { Constants } from '../session';
 import loadImage from 'blueimp-load-image';

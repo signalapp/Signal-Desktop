@@ -8,7 +8,7 @@ type SProps = {
   onMainButtonClick: (e: React.MouseEvent<HTMLDivElement>) => void;
   isMuted?: boolean;
   hidePopoverArrow?: boolean;
-  iconType: 'microphone' | 'camera';
+  iconType: 'microphone' | 'camera' | 'volume';
 };
 
 const StyledRoundedButton = styled.div<{ isMuted: boolean }>`
@@ -53,6 +53,12 @@ const CameraIcon = (
   </svg>
 );
 
+const SpeakerIcon = (
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+  </svg>
+);
+
 const MicrophoneIcon = (
   <svg viewBox="0 0 58 58" fill="currentColor">
     <path d="M44,28c-0.552,0-1,0.447-1,1v6c0,7.72-6.28,14-14,14s-14-6.28-14-14v-6c0-0.553-0.448-1-1-1s-1,0.447-1,1v6c0,8.485,6.644,15.429,15,15.949V56h-5c-0.552,0-1,0.447-1,1s0.448,1,1,1h12c0.552,0,1-0.447,1-1s-0.448-1-1-1h-5v-5.051c8.356-0.52,15-7.465,15-15.949v-6C45,28.447,44.552,28,44,28zM29,46c6.065,0,11-4.935,11-11V11c0-6.065-4.935-11-11-11S18,4.935,18,11v24C18,41.065,22.935,46,29,46z" />
@@ -72,7 +78,7 @@ export const DropDownAndToggleButton = (props: SProps) => {
     onMainButtonClick(e);
   };
   const iconToRender =
-    iconType === 'microphone' ? MicrophoneIcon : iconType === 'camera' ? CameraIcon : null;
+    iconType === 'microphone' ? MicrophoneIcon : iconType === 'camera' ? CameraIcon : SpeakerIcon;
 
   return (
     <StyledContainer isMuted={isMuted || false}>

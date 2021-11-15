@@ -26,6 +26,13 @@ export async function handleCallMessage(
     return;
   }
 
+  if (type === SignalService.CallMessage.Type.PRE_OFFER) {
+    await removeFromCache(envelope);
+
+    window.log.info('Skipping callMessage PRE_OFFER');
+    return;
+  }
+
   if (type === SignalService.CallMessage.Type.OFFER) {
     if (Math.max(sentTimestamp - (Date.now() - currentOffset)) > TTL_DEFAULT.CALL_MESSAGE) {
       window?.log?.info('Dropping incoming OFFER callMessage sent a while ago: ', sentTimestamp);
@@ -43,7 +50,7 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.END_CALL) {
     await removeFromCache(envelope);
 
-    CallManager.handleCallTypeEndCall(sender);
+    CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
 
     return;
   }
