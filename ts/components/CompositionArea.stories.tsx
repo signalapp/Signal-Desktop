@@ -13,7 +13,7 @@ import { CompositionArea } from './CompositionArea';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 
-import { fakeAttachment } from '../test-both/helpers/fakeAttachment';
+import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
 import { ThemeType } from '../types/Util';
 import { RecordingState } from '../state/ducks/audioRecorder';
@@ -165,7 +165,7 @@ story.add('SMS-only', () => {
 story.add('Attachments', () => {
   const props = createProps({
     draftAttachments: [
-      fakeAttachment({
+      fakeDraftAttachment({
         contentType: IMAGE_JPEG,
         url: landscapeGreenUrl,
       }),

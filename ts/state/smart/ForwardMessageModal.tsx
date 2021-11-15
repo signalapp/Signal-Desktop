@@ -13,15 +13,15 @@ import { getLinkPreview } from '../selectors/linkPreviews';
 import { getIntl, getTheme } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { selectRecentEmojis } from '../selectors/emojis';
-import type { AttachmentType } from '../../types/Attachment';
+import type { AttachmentDraftType } from '../../types/Attachment';
 
 export type SmartForwardMessageModalProps = {
-  attachments?: Array<AttachmentType>;
+  attachments?: Array<AttachmentDraftType>;
   conversationId: string;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentType>,
+    attachments?: Array<AttachmentDraftType>,
     linkPreview?: LinkPreviewType
   ) => void;
   isSticker: boolean;

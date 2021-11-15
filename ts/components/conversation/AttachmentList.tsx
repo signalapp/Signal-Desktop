@@ -7,21 +7,20 @@ import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 import type { LocalizerType } from '../../types/Util';
-import type { AttachmentType } from '../../types/Attachment';
+import type { AttachmentDraftType } from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
-  getUrl,
   isImageAttachment,
   isVideoAttachment,
 } from '../../types/Attachment';
 
 export type Props = Readonly<{
-  attachments: ReadonlyArray<AttachmentType>;
+  attachments: ReadonlyArray<AttachmentDraftType>;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
-  onClickAttachment?: (attachment: AttachmentType) => void;
+  onClickAttachment?: (attachment: AttachmentDraftType) => void;
   onClose?: () => void;
-  onCloseAttachment: (attachment: AttachmentType) => void;
+  onCloseAttachment: (attachment: AttachmentDraftType) => void;
 }>;
 
 const IMAGE_WIDTH = 120;
@@ -30,6 +29,14 @@ const IMAGE_HEIGHT = 120;
 // This is a 1x1 black square.
 const BLANK_VIDEO_THUMBNAIL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNiAAAABgADm78GJQAAAABJRU5ErkJggg==';
+
+function getUrl(attachment: AttachmentDraftType): string | undefined {
+  if (attachment.pending) {
+    return undefined;
+  }
+
+  return attachment.url;
+}
 
 export const AttachmentList = ({
   attachments,
@@ -65,10 +72,16 @@ export const AttachmentList = ({
 
           const isImage = isImageAttachment(attachment);
           const isVideo = isVideoAttachment(attachment);
+          const closeAttachment = () => onCloseAttachment(attachment);
 
           if (isImage || isVideo || attachment.pending) {
+            const isDownloaded = !attachment.pending;
             const imageUrl =
               url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
+
+            const clickAttachment = onClickAttachment
+              ? () => onClickAttachment(attachment)
+              : undefined;
 
             return (
               <Image
@@ -79,17 +92,16 @@ export const AttachmentList = ({
                 className="module-staged-attachment"
                 i18n={i18n}
                 attachment={attachment}
+                isDownloaded={isDownloaded}
                 softCorners
                 playIconOverlay={isVideo}
                 height={IMAGE_HEIGHT}
                 width={IMAGE_WIDTH}
                 url={imageUrl}
                 closeButton
-                onClick={onClickAttachment}
-                onClickClose={onCloseAttachment}
-                onError={() => {
-                  onCloseAttachment(attachment);
-                }}
+                onClick={clickAttachment}
+                onClickClose={closeAttachment}
+                onError={closeAttachment}
               />
             );
           }
@@ -99,7 +111,7 @@ export const AttachmentList = ({
               key={key}
               attachment={attachment}
               i18n={i18n}
-              onClose={onCloseAttachment}
+              onClose={closeAttachment}
             />
           );
         })}

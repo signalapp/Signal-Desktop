@@ -34,7 +34,10 @@ import type { PropsType as GroupV2PendingApprovalActionsPropsType } from './conv
 import { GroupV2PendingApprovalActions } from './conversation/GroupV2PendingApprovalActions';
 import { AnnouncementsOnlyGroupBanner } from './AnnouncementsOnlyGroupBanner';
 import { AttachmentList } from './conversation/AttachmentList';
-import type { AttachmentType } from '../types/Attachment';
+import type {
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
+} from '../types/Attachment';
 import { isImageAttachment } from '../types/Attachment';
 import { AudioCapture } from './conversation/AudioCapture';
 import { CompositionUpload } from './CompositionUpload';
@@ -67,11 +70,11 @@ export type OwnProps = Readonly<{
   acceptedMessageRequest?: boolean;
   addAttachment: (
     conversationId: string,
-    attachment: AttachmentType
+    attachment: InMemoryAttachmentDraftType
   ) => unknown;
   addPendingAttachment: (
     conversationId: string,
-    pendingAttachment: AttachmentType
+    pendingAttachment: AttachmentDraftType
   ) => unknown;
   announcementsOnly?: boolean;
   areWeAdmin?: boolean;
@@ -80,11 +83,11 @@ export type OwnProps = Readonly<{
   cancelRecording: () => unknown;
   completeRecording: (
     conversationId: string,
-    onSendAudioRecording?: (rec: AttachmentType) => unknown
+    onSendAudioRecording?: (rec: InMemoryAttachmentDraftType) => unknown
   ) => unknown;
   compositionApi?: MutableRefObject<CompositionAPIType>;
   conversationId: string;
-  draftAttachments: ReadonlyArray<AttachmentType>;
+  draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   groupAdmins: Array<ConversationType>;
@@ -105,11 +108,11 @@ export type OwnProps = Readonly<{
   processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
   onSelectMediaQuality(isHQ: boolean): unknown;
   onSendMessage(options: {
-    draftAttachments?: ReadonlyArray<AttachmentType>;
+    draftAttachments?: ReadonlyArray<AttachmentDraftType>;
     mentions?: BodyRangesType;
     message?: string;
     timestamp?: number;
-    voiceNoteAttachment?: AttachmentType;
+    voiceNoteAttachment?: InMemoryAttachmentDraftType;
   }): unknown;
   openConversation(conversationId: string): unknown;
   quotedMessageProps?: Omit<
@@ -373,7 +376,9 @@ export const CompositionArea = ({
       errorRecording={errorRecording}
       i18n={i18n}
       recordingState={recordingState}
-      onSendAudioRecording={(voiceNoteAttachment: AttachmentType) => {
+      onSendAudioRecording={(
+        voiceNoteAttachment: InMemoryAttachmentDraftType
+      ) => {
         onSendMessage({ voiceNoteAttachment });
       }}
       startRecording={startRecording}

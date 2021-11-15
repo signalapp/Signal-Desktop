@@ -16,7 +16,7 @@ import { animated } from '@react-spring/web';
 
 import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentDraftType } from '../types/Attachment';
 import { Button } from './Button';
 import type { InputApi } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
@@ -38,13 +38,13 @@ import { filterAndSortConversationsByRecent } from '../util/filterAndSortConvers
 import { useAnimated } from '../hooks/useAnimated';
 
 export type DataPropsType = {
-  attachments?: Array<AttachmentType>;
+  attachments?: Array<AttachmentDraftType>;
   candidateConversations: ReadonlyArray<ConversationType>;
   conversationId: string;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentType>,
+    attachments?: Array<AttachmentDraftType>,
     linkPreview?: LinkPreviewType
   ) => void;
   i18n: LocalizerType;
@@ -100,7 +100,9 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   const [filteredConversations, setFilteredConversations] = useState(
     filterAndSortConversationsByRecent(candidateConversations, '')
   );
-  const [attachmentsToForward, setAttachmentsToForward] = useState(attachments);
+  const [attachmentsToForward, setAttachmentsToForward] = useState<
+    Array<AttachmentDraftType>
+  >(attachments || []);
   const [isEditingMessage, setIsEditingMessage] = useState(false);
   const [messageBodyText, setMessageBodyText] = useState(messageBody || '');
   const [cannotMessage, setCannotMessage] = useState(false);
@@ -322,7 +324,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                 <AttachmentList
                   attachments={attachmentsToForward}
                   i18n={i18n}
-                  onCloseAttachment={(attachment: AttachmentType) => {
+                  onCloseAttachment={(attachment: AttachmentDraftType) => {
                     const newAttachments = attachmentsToForward.filter(
                       currentAttachment => currentAttachment !== attachment
                     );

@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentDraftType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessageModal';
 import { ForwardMessageModal } from './ForwardMessageModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
@@ -16,15 +16,17 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
-const createAttachment = (
-  props: Partial<AttachmentType> = {}
-): AttachmentType => ({
+const createDraftAttachment = (
+  props: Partial<AttachmentDraftType> = {}
+): AttachmentDraftType => ({
+  pending: false,
+  path: 'fileName.jpg',
   contentType: stringToMIMEType(
     text('attachment contentType', props.contentType || '')
   ),
   fileName: text('attachment fileName', props.fileName || ''),
-  screenshot: props.screenshot,
-  url: text('attachment url', props.url || ''),
+  screenshotPath: props.pending === false ? props.screenshotPath : undefined,
+  url: text('attachment url', props.pending === false ? props.url || '' : ''),
   size: 3433,
 });
 
@@ -81,7 +83,7 @@ story.add('link preview', () => {
           date: Date.now(),
           domain: 'https://www.signal.org',
           url: 'signal.org',
-          image: createAttachment({
+          image: createDraftAttachment({
             url: '/fixtures/kitten-4-112-112.jpg',
             contentType: IMAGE_JPEG,
           }),
@@ -99,22 +101,19 @@ story.add('media attachments', () => {
     <ForwardMessageModal
       {...useProps({
         attachments: [
-          createAttachment({
+          createDraftAttachment({
+            pending: true,
+          }),
+          createDraftAttachment({
             contentType: IMAGE_JPEG,
             fileName: 'tina-rolf-269345-unsplash.jpg',
             url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           }),
-          createAttachment({
+          createDraftAttachment({
             contentType: VIDEO_MP4,
             fileName: 'pixabay-Soap-Bubble-7141.mp4',
             url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
-            screenshot: {
-              height: 112,
-              width: 112,
-              url: '/fixtures/kitten-4-112-112.jpg',
-              contentType: IMAGE_JPEG,
-              path: 'originalPath',
-            },
+            screenshotPath: '/fixtures/kitten-4-112-112.jpg',
           }),
         ],
         messageBody: 'cats',

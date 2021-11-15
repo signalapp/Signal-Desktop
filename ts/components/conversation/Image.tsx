@@ -15,6 +15,7 @@ export type Props = {
   attachment: AttachmentType;
   url?: string;
 
+  isDownloaded?: boolean;
   className?: string;
   height?: number;
   width?: number;
@@ -145,6 +146,7 @@ export class Image extends React.Component<Props> {
       curveTopLeft,
       curveTopRight,
       darkOverlay,
+      isDownloaded,
       height = 0,
       i18n,
       noBackground,
@@ -165,7 +167,9 @@ export class Image extends React.Component<Props> {
 
     const { caption, pending } = attachment || { caption: null, pending: true };
     const canClick = this.canClick();
-    const imgNotDownloaded = hasNotDownloaded(attachment);
+    const imgNotDownloaded = isDownloaded
+      ? false
+      : hasNotDownloaded(attachment);
 
     const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 

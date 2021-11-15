@@ -9,8 +9,8 @@ import { noopAction } from '../../../state/ducks/noop';
 import { reducer as rootReducer } from '../../../state/reducer';
 
 import { IMAGE_JPEG } from '../../../types/MIME';
-import type { AttachmentType } from '../../../types/Attachment';
-import { fakeAttachment } from '../../helpers/fakeAttachment';
+import type { AttachmentDraftType } from '../../../types/Attachment';
+import { fakeDraftAttachment } from '../../helpers/fakeAttachment';
 
 describe('both/state/ducks/composer', () => {
   const QUOTED_MESSAGE = {
@@ -40,8 +40,13 @@ describe('both/state/ducks/composer', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();
 
-      const attachments: Array<AttachmentType> = [
-        { contentType: IMAGE_JPEG, pending: false, url: '', size: 2433 },
+      const attachments: Array<AttachmentDraftType> = [
+        {
+          contentType: IMAGE_JPEG,
+          pending: true,
+          size: 2433,
+          path: 'image.jpg',
+        },
       ];
       replaceAttachments('123', attachments)(
         dispatch,
@@ -57,7 +62,7 @@ describe('both/state/ducks/composer', () => {
     it('sets the high quality setting to false when there are no attachments', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();
-      const attachments: Array<AttachmentType> = [];
+      const attachments: Array<AttachmentDraftType> = [];
 
       replaceAttachments('123', attachments)(
         dispatch,
@@ -83,7 +88,7 @@ describe('both/state/ducks/composer', () => {
       const { replaceAttachments } = actions;
       const dispatch = sinon.spy();
 
-      const attachments = [fakeAttachment()];
+      const attachments = [fakeDraftAttachment()];
       replaceAttachments('123', attachments)(
         dispatch,
         getRootStateFunction('456'),

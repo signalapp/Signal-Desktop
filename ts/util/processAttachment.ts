@@ -4,7 +4,10 @@
 import path from 'path';
 
 import * as log from '../logging/log';
-import type { AttachmentType } from '../types/Attachment';
+import type {
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
+} from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import { fileToBytes } from './fileToBytes';
 import { handleImageAttachment } from './handleImageAttachment';
@@ -14,7 +17,9 @@ import { isFileDangerous } from './isFileDangerous';
 import { isHeic, isImage, stringToMIMEType } from '../types/MIME';
 import { isImageTypeSupported, isVideoTypeSupported } from './GoogleChrome';
 
-export function getPendingAttachment(file: File): AttachmentType | undefined {
+export function getPendingAttachment(
+  file: File
+): AttachmentDraftType | undefined {
   if (!file) {
     return;
   }
@@ -33,7 +38,7 @@ export function getPendingAttachment(file: File): AttachmentType | undefined {
 
 export function preProcessAttachment(
   file: File,
-  draftAttachments: Array<AttachmentType>
+  draftAttachments: Array<AttachmentDraftType>
 ): AttachmentToastType | undefined {
   if (!file) {
     return;
@@ -53,7 +58,7 @@ export function preProcessAttachment(
   }
 
   const haveNonImage = draftAttachments.some(
-    (attachment: AttachmentType) => !isImage(attachment.contentType)
+    (attachment: AttachmentDraftType) => !isImage(attachment.contentType)
   );
   // You can't add another attachment if you already have a non-image staged
   if (haveNonImage) {
@@ -72,10 +77,10 @@ export function preProcessAttachment(
 
 export async function processAttachment(
   file: File
-): Promise<AttachmentType | void> {
+): Promise<InMemoryAttachmentDraftType | void> {
   const fileType = stringToMIMEType(file.type);
 
-  let attachment: AttachmentType;
+  let attachment: InMemoryAttachmentDraftType;
   try {
     if (isImageTypeSupported(fileType) || isHeic(fileType)) {
       attachment = await handleImageAttachment(file);

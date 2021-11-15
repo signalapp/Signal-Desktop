@@ -4,7 +4,7 @@
 import type { ThunkAction } from 'redux-thunk';
 
 import * as log from '../../logging/log';
-import type { AttachmentType } from '../../types/Attachment';
+import type { InMemoryAttachmentDraftType } from '../../types/Attachment';
 import { SignalService as Proto } from '../../protobuf';
 import type { StateType as RootStateType } from '../reducer';
 import { fileToBytes } from '../../util/fileToBytes';
@@ -129,7 +129,7 @@ function completeRecordingAction(): CompleteRecordingAction {
 
 function completeRecording(
   conversationId: string,
-  onSendAudioRecording?: (rec: AttachmentType) => unknown
+  onSendAudioRecording?: (rec: InMemoryAttachmentDraftType) => unknown
 ): ThunkAction<
   void,
   RootStateType,
@@ -158,7 +158,8 @@ function completeRecording(
       }
       const data = await fileToBytes(blob);
 
-      const voiceNoteAttachment = {
+      const voiceNoteAttachment: InMemoryAttachmentDraftType = {
+        pending: false,
         contentType: stringToMIMEType(blob.type),
         data,
         size: data.byteLength,

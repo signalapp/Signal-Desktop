@@ -78,40 +78,46 @@ export type DownloadedAttachmentType = AttachmentType & {
 export type BaseAttachmentDraftType = {
   blurHash?: string;
   contentType: MIME.MIMEType;
-  fileName: string;
-  path: string;
   screenshotContentType?: string;
   screenshotSize?: number;
   size: number;
+  flags?: number;
 };
 
+// An ephemeral attachment type, used between user's request to add the attachment as
+//   a draft and final save on disk and in conversation.draftAttachments.
 export type InMemoryAttachmentDraftType =
   | ({
-      data?: Uint8Array;
+      data: Uint8Array;
       pending: false;
       screenshotData?: Uint8Array;
+      fileName?: string;
+      path?: string;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;
-      fileName: string;
-      path: string;
+      fileName?: string;
+      path?: string;
       pending: true;
       size: number;
     };
 
+// What's stored in conversation.draftAttachments
 export type AttachmentDraftType =
   | ({
-      url: string;
+      url?: string;
       screenshotPath?: string;
       pending: false;
       // Old draft attachments may have a caption, though they are no longer editable
       //   because we removed the caption editor.
       caption?: string;
+      fileName?: string;
+      path: string;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;
-      fileName: string;
-      path: string;
+      fileName?: string;
+      path?: string;
       pending: true;
       size: number;
     };
@@ -612,6 +618,10 @@ export function getThumbnailUrl(
 export function getUrl(attachment: AttachmentType): string | undefined {
   if (attachment.screenshot) {
     return attachment.screenshot.url;
+  }
+
+  if (isVideoAttachment(attachment)) {
+    return undefined;
   }
 
   return attachment.url;

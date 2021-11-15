@@ -7,7 +7,7 @@ import { batch as batchDispatch } from 'react-redux';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentDraftType, AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
@@ -1561,16 +1561,32 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     const attachments = getAttachmentsForMessage(message.attributes);
+    const draftAttachments = attachments
+      .map((item: AttachmentType): AttachmentDraftType | null => {
+        const { path } = item;
+        if (!path) {
+          return null;
+        }
+
+        return {
+          ...item,
+          path,
+          pending: false as const,
+          screenshotPath: item.screenshot?.path,
+        };
+      })
+      .filter(isNotNil);
+
     this.forwardMessageModal = new Whisper.ReactWrapperView({
       JSX: window.Signal.State.Roots.createForwardMessageModal(
         window.reduxStore,
         {
-          attachments,
+          attachments: draftAttachments,
           conversationId: this.model.id,
           doForwardMessage: async (
             conversationIds: Array<string>,
             messageBody?: string,
-            includedAttachments?: Array<AttachmentType>,
+            includedAttachments?: Array<AttachmentDraftType>,
             linkPreview?: LinkPreviewType
           ) => {
             try {
@@ -1619,7 +1635,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     message: MessageModel,
     conversationIds: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentType>,
+    attachments?: Array<AttachmentDraftType>,
     linkPreview?: LinkPreviewType
   ): Promise<boolean> {
     log.info(`maybeForwardMessage/${message.idForLogging()}: Starting...`);

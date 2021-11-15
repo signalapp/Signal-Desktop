@@ -5,7 +5,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import * as moment from 'moment';
 import { noop } from 'lodash';
 
-import type { AttachmentType } from '../../types/Attachment';
+import type {
+  AttachmentDraftType,
+  InMemoryAttachmentDraftType,
+} from '../../types/Attachment';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 import type { LocalizerType } from '../../types/Util';
 import {
@@ -20,7 +23,7 @@ import {
   useKeyboardShortcuts,
 } from '../../hooks/useKeyboardShortcuts';
 
-type OnSendAudioRecordingType = (rec: AttachmentType) => unknown;
+type OnSendAudioRecordingType = (rec: InMemoryAttachmentDraftType) => unknown;
 
 export type PropsType = {
   cancelRecording: () => unknown;
@@ -29,7 +32,7 @@ export type PropsType = {
     conversationId: string,
     onSendAudioRecording?: OnSendAudioRecordingType
   ) => unknown;
-  draftAttachments: ReadonlyArray<AttachmentType>;
+  draftAttachments: ReadonlyArray<AttachmentDraftType>;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   i18n: LocalizerType;

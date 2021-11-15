@@ -4,7 +4,10 @@
 import type { ChangeEventHandler } from 'react';
 import React, { forwardRef, useState } from 'react';
 
-import type { AttachmentType } from '../types/Attachment';
+import type {
+  InMemoryAttachmentDraftType,
+  AttachmentDraftType,
+} from '../types/Attachment';
 import { AttachmentToastType } from '../types/AttachmentToastType';
 import type { LocalizerType } from '../types/Util';
 
@@ -19,14 +22,14 @@ import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachme
 export type PropsType = {
   addAttachment: (
     conversationId: string,
-    attachment: AttachmentType
+    attachment: InMemoryAttachmentDraftType
   ) => unknown;
   addPendingAttachment: (
     conversationId: string,
-    pendingAttachment: AttachmentType
+    pendingAttachment: AttachmentDraftType
   ) => unknown;
   conversationId: string;
-  draftAttachments: ReadonlyArray<AttachmentType>;
+  draftAttachments: ReadonlyArray<AttachmentDraftType>;
   i18n: LocalizerType;
   processAttachments: (options: HandleAttachmentsProcessingArgsType) => unknown;
   removeAttachment: (conversationId: string, filePath: string) => unknown;

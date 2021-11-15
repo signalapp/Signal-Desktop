@@ -4,11 +4,12 @@
 import { pick } from 'lodash';
 
 import * as log from '../logging/log';
-import type { AttachmentType } from '../types/Attachment';
+import type { AttachmentDraftType } from '../types/Attachment';
+import { isVideoAttachment } from '../types/Attachment';
 
-export function resolveAttachmentOnDisk(
-  attachment: AttachmentType
-): AttachmentType {
+export function resolveDraftAttachmentOnDisk(
+  attachment: AttachmentDraftType
+): AttachmentDraftType {
   let url = '';
   if (attachment.pending) {
     return attachment;
@@ -18,7 +19,7 @@ export function resolveAttachmentOnDisk(
     url = window.Signal.Migrations.getAbsoluteDraftPath(
       attachment.screenshotPath
     );
-  } else if (attachment.path) {
+  } else if (!isVideoAttachment(attachment) && attachment.path) {
     url = window.Signal.Migrations.getAbsoluteDraftPath(attachment.path);
   } else {
     log.warn(
