@@ -8,6 +8,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import AbortController from 'abort-controller';
 import type { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import ProxyAgent from 'proxy-agent';
@@ -22,10 +23,12 @@ import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import Long from 'long';
+import type { Readable } from 'stream';
 
 import { assert, strictAssert } from '../util/assert';
 import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
+import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
 import { toWebSafeBase64 } from '../util/webSafeBase64';
 import type { SocketStatus } from '../types/SocketStatus';
@@ -140,6 +143,7 @@ function _validateResponse(response: any, schema: any) {
 }
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
+const GET_ATTACHMENT_CHUNK_TIMEOUT = 10 * durations.SECOND;
 
 type AgentCacheType = {
   [name: string]: {
@@ -177,7 +181,12 @@ type PromiseAjaxOptionsType = {
   proxyUrl?: string;
   redactUrl?: RedactUrl;
   redirect?: 'error' | 'follow' | 'manual';
-  responseType?: 'json' | 'jsonwithdetails' | 'bytes' | 'byteswithdetails';
+  responseType?:
+    | 'json'
+    | 'jsonwithdetails'
+    | 'bytes'
+    | 'byteswithdetails'
+    | 'stream';
   serverUrl?: string;
   stack?: string;
   timeout?: number;
@@ -186,6 +195,7 @@ type PromiseAjaxOptionsType = {
   user?: string;
   validateResponse?: any;
   version: string;
+  abortSignal?: AbortSignal;
 };
 
 type JSONWithDetailsType = {
@@ -295,6 +305,7 @@ async function _promiseAjax(
     agent,
     ca: options.certificateAuthority,
     timeout,
+    abortSignal: options.abortSignal,
   };
 
   if (fetchOptions.body instanceof Uint8Array) {
@@ -329,7 +340,7 @@ async function _promiseAjax(
   }
 
   let response: Response;
-  let result: string | Uint8Array | unknown;
+  let result: string | Uint8Array | Readable | unknown;
   try {
     response = socketManager
       ? await socketManager.fetch(url, fetchOptions)
@@ -362,6 +373,8 @@ async function _promiseAjax(
       options.responseType === 'byteswithdetails'
     ) {
       result = await response.buffer();
+    } else if (options.responseType === 'stream') {
+      result = response.body;
     } else {
       result = await response.textConverted();
     }
@@ -466,6 +479,10 @@ function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType & { responseType: 'byteswithdetails' }
 ): Promise<BytesWithDetailsType>;
+function _outerAjax(
+  providedUrl: string | null,
+  options: PromiseAjaxOptionsType & { responseType?: 'stream' }
+): Promise<Readable>;
 function _outerAjax(
   providedUrl: string | null,
   options: PromiseAjaxOptionsType
@@ -602,7 +619,7 @@ type AjaxOptionsType = {
   jsonData?: unknown;
   password?: string;
   redactUrl?: RedactUrl;
-  responseType?: 'json' | 'bytes' | 'byteswithdetails';
+  responseType?: 'json' | 'bytes' | 'byteswithdetails' | 'stream';
   schema?: unknown;
   timeout?: number;
   unauthenticated?: boolean;
@@ -1123,6 +1140,9 @@ export function initialize({
     function _ajax(
       param: AjaxOptionsType & { responseType: 'byteswithdetails' }
     ): Promise<BytesWithDetailsType>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'stream' }
+    ): Promise<Readable>;
     function _ajax(
       param: AjaxOptionsType & { responseType: 'json' }
     ): Promise<unknown>;
@@ -2023,18 +2043,27 @@ export function initialize({
     }
 
     async function getAttachment(cdnKey: string, cdnNumber?: number) {
+      const abortController = new AbortController();
+
       const cdnUrl = isNumber(cdnNumber)
         ? cdnUrlObject[cdnNumber] || cdnUrlObject['0']
         : cdnUrlObject['0'];
       // This is going to the CDN, not the service, so we use _outerAjax
-      return _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
+      const stream = await _outerAjax(`${cdnUrl}/attachments/${cdnKey}`, {
         certificateAuthority,
         proxyUrl,
-        responseType: 'bytes',
+        responseType: 'stream',
         timeout: 0,
         type: 'GET',
         redactUrl: _createRedactor(cdnKey),
         version,
+        abortSignal: abortController.signal,
+      });
+
+      return getStreamWithTimeout(stream, {
+        name: `getAttachment(${cdnKey})`,
+        timeout: GET_ATTACHMENT_CHUNK_TIMEOUT,
+        abortController,
       });
     }
 
