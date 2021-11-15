@@ -7,6 +7,7 @@ let ringingAudio: HTMLAudioElement | undefined;
 function stopRinging() {
   if (ringingAudio) {
     ringingAudio.pause();
+    ringingAudio.srcObject = null;
   }
 }
 
@@ -14,6 +15,7 @@ function startRinging() {
   if (!ringingAudio) {
     ringingAudio = new Audio(sound);
     ringingAudio.loop = true;
+    ringingAudio.volume = 0.6;
   }
   void ringingAudio.play();
 }

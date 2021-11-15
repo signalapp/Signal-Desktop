@@ -469,12 +469,12 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
   // FIXME this does not sort by timestamp as we do not have a timestamp stored in the SignalService.CallMessage object...
   const allMsg = _.flattenDeep([...msgCacheFromSenderWithDevices.values()]);
   const allMsgFromType = allMsg.filter(m => m.type === msgType);
-  const lastOfferMessage = _.last(allMsgFromType);
+  const lastMessageOfType = _.last(allMsgFromType);
 
-  if (!lastOfferMessage) {
+  if (!lastMessageOfType) {
     return undefined;
   }
-  return lastOfferMessage;
+  return lastMessageOfType;
 };
 
 function handleSignalingStateChangeEvent() {
@@ -486,7 +486,7 @@ function handleSignalingStateChangeEvent() {
 function handleConnectionStateChanged(pubkey: string) {
   window.log.info('handleConnectionStateChanged :', peerConnection?.connectionState);
 
-  if (peerConnection?.signalingState === 'closed') {
+  if (peerConnection?.signalingState === 'closed' || peerConnection?.connectionState === 'failed') {
     closeVideoCall();
   } else if (peerConnection?.connectionState === 'connected') {
     setIsRinging(false);
@@ -496,6 +496,7 @@ function handleConnectionStateChanged(pubkey: string) {
 
 function closeVideoCall() {
   window.log.info('closingVideoCall ');
+  setIsRinging(false);
   if (peerConnection) {
     peerConnection.ontrack = null;
     peerConnection.onicecandidate = null;
@@ -530,8 +531,14 @@ function closeVideoCall() {
   selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
   selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID;
   currentCallUUID = undefined;
-  window.inboxStore?.dispatch(setFullScreenCall(false));
 
+  window.inboxStore?.dispatch(setFullScreenCall(false));
+  remoteVideoStreamIsMuted = true;
+
+  makingOffer = false;
+  ignoreOffer = false;
+  isSettingRemoteAnswerPending = false;
+  lastOutgoingOfferTimestamp = -Infinity;
   callVideoListeners();
 }
 
@@ -552,7 +559,7 @@ function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
       if (!foundEntry || !foundEntry.id) {
         return;
       }
-      handleCallTypeEndCall(foundEntry.id);
+      handleCallTypeEndCall(foundEntry.id, currentCallUUID);
 
       return;
     }
@@ -610,6 +617,24 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
 
   peerConnection.onicecandidate = event => {
     handleIceCandidates(event, withPubkey);
+  };
+
+  peerConnection.oniceconnectionstatechange = () => {
+    window.log.info(
+      'oniceconnectionstatechange peerConnection.iceConnectionState: ',
+      peerConnection?.iceConnectionState
+    );
+
+    if (peerConnection && peerConnection?.iceConnectionState === 'disconnected') {
+      //this will trigger a negotation event with iceRestart set to true in the createOffer options set
+      global.setTimeout(() => {
+        window.log.info('onconnectionstatechange disconnected: restartIce()');
+
+        if (peerConnection?.iceConnectionState === 'disconnected') {
+          (peerConnection as any).restartIce();
+        }
+      }, 2000);
+    }
   };
 
   return peerConnection;
@@ -689,22 +714,31 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
 // tslint:disable-next-line: function-name
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
   setIsRinging(false);
-  const endCallMessage = new CallMessage({
-    type: SignalService.CallMessage.Type.END_CALL,
-    timestamp: Date.now(),
-    uuid: uuidv4(), // just send a random thing, we just want to reject the call
-  });
-  // delete all msg not from that uuid only but from that sender pubkey
+
+  const lastOfferMessage = findLastMessageTypeFromSender(
+    fromSender,
+    SignalService.CallMessage.Type.OFFER
+  );
+
+  const lastCallUUID = lastOfferMessage?.uuid;
+  window.log.info(`USER_rejectIncomingCallRequest ${ed25519Str(fromSender)}: ${lastCallUUID}`);
+  if (lastCallUUID) {
+    const endCallMessage = new CallMessage({
+      type: SignalService.CallMessage.Type.END_CALL,
+      timestamp: Date.now(),
+      uuid: lastCallUUID,
+    });
+    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
+
+    // delete all msg not from that uuid only but from that sender pubkey
+    clearCallCacheFromPubkeyAndUUID(fromSender, lastCallUUID);
+  }
 
   window.inboxStore?.dispatch(
     endCall({
       pubkey: fromSender,
     })
   );
-  window.log.info('USER_rejectIncomingCallRequest');
-  clearCallCacheFromPubkey(fromSender);
-
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
 
   const convos = getConversationController().getConversations();
   const callingConvos = convos.filter(convo => convo.callState !== undefined);
@@ -737,28 +771,18 @@ export async function USER_hangup(fromSender: string) {
 
   sendHangupViaDataChannel();
 
-  clearCallCacheFromPubkey(fromSender);
+  clearCallCacheFromPubkeyAndUUID(fromSender, currentCallUUID);
 
-  const convos = getConversationController().getConversations();
-  const callingConvos = convos.filter(convo => convo.callState !== undefined);
-  if (callingConvos.length > 0) {
-    // we just got a new offer from someone we are already in a call with
-    if (callingConvos.length === 1 && callingConvos[0].id === fromSender) {
-      closeVideoCall();
-    }
-  }
+  closeVideoCall();
 }
 
-export function handleCallTypeEndCall(sender: string) {
-  clearCallCacheFromPubkey(sender);
+export function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
+  window.log.info('handling callMessage END_CALL:', aboutCallUUID);
 
-  window.log.info('handling callMessage END_CALL');
+  if (aboutCallUUID) {
+    clearCallCacheFromPubkeyAndUUID(sender, aboutCallUUID);
 
-  const convos = getConversationController().getConversations();
-  const callingConvos = convos.filter(convo => convo.callState !== undefined);
-  if (callingConvos.length > 0) {
-    // we just got a end call event from whoever we are in a call with
-    if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+    if (aboutCallUUID === currentCallUUID) {
       closeVideoCall();
 
       window.inboxStore?.dispatch(endCall({ pubkey: sender }));
@@ -983,8 +1007,8 @@ export async function handleOtherCallTypes(sender: string, callMessage: SignalSe
   pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
 }
 
-function clearCallCacheFromPubkey(sender: string) {
-  callCache.delete(sender);
+function clearCallCacheFromPubkeyAndUUID(sender: string, callUUID: string) {
+  callCache.get(sender)?.delete(callUUID);
 }
 
 function createCallCacheForPubkeyAndUUID(sender: string, uuid: string) {
