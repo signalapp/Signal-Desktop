@@ -174,6 +174,7 @@ export type ConversationType = {
   typingContact?: {
     acceptedMessageRequest: boolean;
     avatarPath?: string;
+    badges: ConversationType['badges'];
     color?: AvatarColorType;
     isMe: boolean;
     name?: string;

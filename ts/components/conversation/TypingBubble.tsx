@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import { TypingAnimation } from './TypingAnimation';
 import { Avatar } from '../Avatar';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { BadgeType } from '../../badges/types';
 
 export type Props = Pick<
   ConversationType,
@@ -22,8 +23,10 @@ export type Props = Pick<
   | 'sharedGroupNames'
   | 'title'
 > & {
+  badge: undefined | BadgeType;
   conversationType: 'group' | 'direct';
   i18n: LocalizerType;
+  theme: ThemeType;
 };
 
 export class TypingBubble extends React.PureComponent<Props> {
@@ -31,6 +34,7 @@ export class TypingBubble extends React.PureComponent<Props> {
     const {
       acceptedMessageRequest,
       avatarPath,
+      badge,
       color,
       conversationType,
       i18n,
@@ -39,6 +43,7 @@ export class TypingBubble extends React.PureComponent<Props> {
       phoneNumber,
       profileName,
       sharedGroupNames,
+      theme,
       title,
     } = this.props;
 
@@ -51,6 +56,7 @@ export class TypingBubble extends React.PureComponent<Props> {
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}
+          badge={badge}
           color={color}
           conversationType="direct"
           i18n={i18n}
@@ -58,6 +64,7 @@ export class TypingBubble extends React.PureComponent<Props> {
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
+          theme={theme}
           title={title}
           sharedGroupNames={sharedGroupNames}
           size={28}
