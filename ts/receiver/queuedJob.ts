@@ -314,8 +314,8 @@ async function handleRegularMessage(
   if (type === 'outgoing') {
     handleSyncedReceipts(message, conversation);
 
-    // TODO: Can we assume sync receipts are always from linked device outgoings?
-    if (dataMessage.body !== 'unapprove') conversation.setIsApproved(true);
+    // assumes sync receipts are always from linked device outgoings?
+    conversation.setIsApproved(true);
   }
 
   const conversationActiveAt = conversation.get('active_at');

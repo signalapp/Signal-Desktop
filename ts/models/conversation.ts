@@ -1407,6 +1407,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set({
         isApproved: value,
       });
+
+      // to exclude the conversation from left pane messages list and message requests
+      if (value === false) this.set({ active_at: undefined });
+
       await this.commit();
     }
   }
