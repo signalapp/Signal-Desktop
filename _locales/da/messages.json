@@ -36,7 +36,7 @@
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
-        "message": "&Redigér",
+        "message": "&Rediger",
         "description": "The label that is used for the Edit menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuView": {
@@ -80,7 +80,7 @@
         "description": "Edit menu command to remove recently-typed text"
     },
     "editMenuRedo": {
-        "message": "Annuller Fortryd",
+        "message": "Annuller fortryd",
         "description": "Edit menu command to restore previously undone typed text"
     },
     "editMenuCut": {
@@ -156,7 +156,7 @@
         "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
     },
     "menuSetupAsStandalone": {
-        "message": "Opsæt som fristående enhed",
+        "message": "Opsæt som selvstændig enhed",
         "description": "Only available on development modes, menu option to open up the standalone device setup sequence"
     },
     "messageContextMenuButton": {
@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Chatfarve",
+        "message": "Samtalefarve",
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -192,7 +192,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimerer programmet...",
+        "message": "Optimerer applikationen...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -206,7 +206,7 @@
         }
     },
     "archivedConversations": {
-        "message": "Arkiveret samtaler",
+        "message": "Arkiverede samtaler",
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
@@ -214,11 +214,11 @@
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
-        "message": "Chats",
+        "message": "Samtaler",
         "description": "Shown as a header for non-pinned conversations in the left pane"
     },
     "archiveHelperText": {
-        "message": "Disse samtaler arkiveres og vises kun i indbakken, hvis der modtages nye beskeder.",
+        "message": "Disse samtaler er arkiverede og vises kun i indbakken, hvis der modtages nye beskeder.",
         "description": "Shown at the top of the archived conversations list in the left pane"
     },
     "archiveConversation": {
@@ -242,7 +242,7 @@
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
-        "message": "Du kan kun fastgøre op til 4 chats",
+        "message": "Du kan kun fastgøre op til 4 samtaler",
         "description": ""
     },
     "chooseDirectory": {
@@ -320,7 +320,7 @@
         "description": "Used as a label on a button allowing user to see more information"
     },
     "youLeftTheGroup": {
-        "message": "Du er ikke længere medlem af gruppen",
+        "message": "Du er ikke længere medlem af gruppen.",
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
@@ -350,7 +350,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Til din sikkerhed overføres samtalehistorik ikke til nye forbundne enheder.",
+        "message": "For din sikkerheds skyld overføres samtalehistorik ikke til nye forbundne enheder.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -412,7 +412,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Følgende personer kan have geninstalleret eller skiftet enheder. Bekræft dit sikkerhedsnummer med dem for at sikre privatlivets fred",
+        "message": "Følgende personer kan have geninstalleret eller skiftet enheder. Bekræft dit sikkerhedsnummer med dem for at sikre privatlivsbeskyttelsen.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
@@ -732,7 +732,7 @@
         "description": "Item under the Help menu, takes you to the support page"
     },
     "joinTheBeta": {
-        "message": "Tilmeld dig Beta-versionen",
+        "message": "Tilmeld dig beta-versionen",
         "description": "Item under the Help menu, takes you to an article describing how to install the beta release of Signal Desktop"
     },
     "signalDesktopPreferences": {
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Søg efter $conversationName$",
+        "message": "Søg i $conversationName$",
         "description": "Shown in the search box before text is entered when searching in a specific conversation",
         "placeholders": {
             "conversationName": {
@@ -852,7 +852,7 @@
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
-        "message": "Vælg en kontakt eller gruppe for at komme igang med at chatte.",
+        "message": "Vælg en kontakt eller gruppe for at starte en samtale.",
         "description": ""
     },
     "typingAlt": {
@@ -1206,7 +1206,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Chatsession genopfrisket",
+        "message": "Samtalesession genopfrisket",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -1214,7 +1214,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Signal bruger end-to-end kryptering, og det kan undertiden være nødvendigt at opdatere din chatsession. Dette påvirker ikke din chats sikkerhed, men du har muligvis gået glip af en besked fra denne kontakt, og du kan bede dem om at sende det igen.",
+        "message": "Signal bruger end-to-end kryptering, og det kan undertiden være nødvendigt at opdatere din samtalesession. Dette påvirker ikke din samtales sikkerhed, men du er muligvis gået glip af en besked fra denne kontakt, og du kan bede dem om at sende den igen.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1254,7 +1254,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "En besked, et klistermærke, en reaktion, en læsekvittering eller en mediefil kunne ikke leveres til dig fra $sender$ i denne chat.",
+        "message": "En besked, et klistermærke, en reaktion, en læsekvittering eller en mediefil kunne ikke leveres til dig fra $sender$ i denne samtale.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1382,7 +1382,7 @@
         "description": "Header for theme settings"
     },
     "calling": {
-        "message": "Ringer",
+        "message": "Opringning",
         "description": "Header for calling options on the settings screen"
     },
     "calling__call-back": {
@@ -1808,11 +1808,11 @@
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
-        "message": "Stavekontrol bliver aktiveret næste gang Signal starter.",
+        "message": "Stavekontrol aktiveres næste gang Signal starter.",
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Stavekontrol bliver deaktiveret næste gang Signal starter.",
+        "message": "Stavekontrol deaktiveres næste gang Signal starter.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1832,7 +1832,7 @@
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Dette vil rydde alle data i programmet, fjerne alle beskeder og gemte kontooplysninger.",
+        "message": "Dette vil rydde alle data i applikationen, fjerne alle beskeder og gemte kontooplysninger.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -2038,7 +2038,7 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "D. MMM.",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "messageBodyTooLong": {
@@ -2054,7 +2054,7 @@
         "description": "Brief message shown when trying to message a blocked group"
     },
     "youChangedTheTimer": {
-        "message": "Du satte tiden for forsvindende beskeder til $time$",
+        "message": "Du indstillede udløbstiden for forsvindende beskeder til $time$.",
         "description": "Message displayed when you change the message expiration timer in a conversation.",
         "placeholders": {
             "time": {
@@ -2064,7 +2064,7 @@
         }
     },
     "timerSetOnSync": {
-        "message": " Opdaterede tiden for forsvindende beskeder til $time$",
+        "message": " Opdaterede udløbstiden for forsvindende beskeder til $time$.",
         "description": "Message displayed when timer is set on initial link of desktop device.",
         "placeholders": {
             "time": {
@@ -2074,7 +2074,7 @@
         }
     },
     "timerSetByMember": {
-        "message": "Et medlem satte tiden for forsvindende beskeder til $time$",
+        "message": "Et medlem satte udløbstiden for forsvindende beskeder til $time$.",
         "description": "Message displayed when timer is by an unknown group member.",
         "placeholders": {
             "time": {
@@ -2084,7 +2084,7 @@
         }
     },
     "theyChangedTheTimer": {
-        "message": "$name$ satte tiden for forsvindende beskeder til $time$",
+        "message": "$name$ satte udløbstiden for forsvindende beskeder til $time$.",
         "description": "Message displayed when someone else changes the message expiration timer in a conversation.",
         "placeholders": {
             "name": {
@@ -2128,7 +2128,7 @@
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
-        "message": "Tidsindstillet til $time$",
+        "message": "Udløbstid indstillet til $time$",
         "description": "Displayed in the conversation list when the timer is updated by some automatic action, or in the left pane",
         "placeholders": {
             "time": {
@@ -2212,7 +2212,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Brugeren kan ikke verificeres, før i har udvekslet beskeder.",
+        "message": "Denne bruger kan ikke verificeres, før I har udvekslet beskeder.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2360,7 +2360,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Redigér gruppe",
+        "message": "Rediger gruppe",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2864,7 +2864,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Annuller arkiveringen af samtale",
+        "message": "Ophæv arkivering af samtale",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
@@ -2892,7 +2892,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Begynd med at optage stemmenotat",
+        "message": "Begynd at optage stemmenotat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Fjern blokering af $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "I vil være i stand til at sende beskeder og ringe til hinanden",
@@ -5306,7 +5300,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop understøtter ikke beskeder til dem, der ikke er Signal-kontakter. Bed denne person om at installere Signal for en mere sikker beskedoplevelse.",
+        "message": "Signal Desktop understøtter ikke beskeder til kontakter, der ikke bruger Signal. Bed denne person om at installere Signal for en mere sikker beskedoplevelse.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5314,7 +5308,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Inkluder ignorerede samtaler på emblem-tæller",
+        "message": "Inkluder ignorerede samtaler i tæller på programikon.",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5354,7 +5348,7 @@
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
-        "message": "Chatfarve",
+        "message": "Samtalefarve",
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
@@ -5362,11 +5356,11 @@
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "showConversationDetails--direct": {
-        "message": "Indstillinger for chat",
+        "message": "Samtaleindstillinger",
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Slå notifikationer til igen for denne chat?",
+        "message": "Slå notifikationer til igen for denne samtale?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5378,7 +5372,7 @@
         "description": "This is the label for the disappearing messages setting panel"
     },
     "ConversationDetails--disappearing-messages-info": {
-        "message": "Når funktionen er aktiveret, forsvinder sendte og modtagne beskeder i gruppen, efter de er blevet set.",
+        "message": "Når funktionen er aktiveret, forsvinder sendte og modtagne beskeder i samtalen, efter den valgte udløbstid er gået.",
         "description": "This is the info about the disappearing messages setting"
     },
     "ConversationDetails--notifications": {
@@ -5390,7 +5384,7 @@
         "description": "This is the label for the 'who can edit the group' panel"
     },
     "ConversationDetails--group-info-info": {
-        "message": "Vælg hvem som kan redigere gruppens navn, foto, beskrivelse og tidsindstille forsvindende beskeder.",
+        "message": "Vælg hvem som kan redigere gruppens navn, foto, beskrivelse og udløbstiden for forsvindende beskeder.",
         "description": "This is the additional info for the 'who can edit the group' panel"
     },
     "ConversationDetails--add-members-label": {
@@ -5496,7 +5490,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Modtag underretninger, når du omtales i ignorerede chats",
+        "message": "Modtag underretninger, når du omtales i ignorerede samtaler",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5986,7 +5980,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Denne tilpassede farve bruges i $num$ chats. Vil du slette det for alle chats?",
+        "message": "Denne tilpassede farve bruges i $num$ samtaler. Vil du slette det for alle samtaler?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -5996,23 +5990,23 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Global chatfarve",
+        "message": "Global samtalefarve",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Chat farve",
+        "message": "Samtalefarve",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Nulstil chatfarve",
+        "message": "Nulstil samtalefarve",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Nulstil chatfarver",
+        "message": "Nulstil samtalefarver",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Nulstil alle chatfarver",
+        "message": "Nulstil alle samtalefarver",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
@@ -6024,7 +6018,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Vil du tilsidesætte alle chatfarver?",
+        "message": "Vil du tilsidesætte alle samtalefarver?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -6032,7 +6026,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Her er et smugkig af chatfarven.",
+        "message": "Her er et smugkig på samtalefarven.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -6076,7 +6070,7 @@
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Tilpas tidspunkt...",
+        "message": "Tilpas udløbstid...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
@@ -6088,7 +6082,7 @@
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Vælg et brugertilpasset tidspunkt for forsvindende beskeder.",
+        "message": "Vælg en tilpasset udløbstid for forsvindende beskeder.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -6116,15 +6110,15 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Indstil en standard tidsindstilling til forsvindende beskeder for alle nye chats, startet af dig.",
+        "message": "Indstil en udløbstid for forsvindende beskeder, der skal gælde som standard for alle nye samtaler startet af dig.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Standardtimer for nye chats",
+        "message": "Standardudløbstid for nye samtaler",
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "Tidspunktet for forsvindende besked indstilles til $timeValue$, når du sender beskeder til dem.",
+        "message": "Udløbstiden for forsvindende besked indstilles til $timeValue$, når du sender beskeder til dem.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6201,6 +6195,70 @@
         "message": "Om",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Brugernavn",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Skriv et brugernavn",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Brugernavne på Signal er valgfrie. Hvis du vælger at oprette et brugernavn og gør det søgbart, vil andre Signal-brugere kunne finde dig via dette brugernavn og kontakte dig uden at kende dit telefonnummer.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Brugernavne må kun indeholde a-z, 0-9 og _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Brugernavne kan ikke starte med et tal.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Brugernavne skal have mindst $min$ tegn.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Brugernavne må højst have $max$ tegn.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Brugernavnet er optaget.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Dit brugernavn kunne ikke gemmes. Kontroller din forbindelse og prøv igen.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Dit brugernavn kunne ikke fjernes. Kontroller din forbindelse og prøv igen.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Slet brugernavn",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Dette vil fjerne dit brugernavn, hvorefter andre brugere kan gøre krav på det. Er du sikker?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Slet",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Skriv lidt om dig selv...",
         "description": "Placeholder text for about input field"
@@ -6218,7 +6276,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Din profil er krypteret. Din profil og ændringer i den vil være synlige for dine kontakter, og når du starter eller accepterer nye chats. $learnMore$",
+        "message": "Din profil er krypteret. Din profil og ændringer i den vil være synlige for dine kontakter, og når du starter eller accepterer nye samtaler. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6240,7 +6298,7 @@
         "description": "A default bio option"
     },
     "Bio--free-to-chat": {
-        "message": "Klar til at chatte",
+        "message": "Ledig til samtale",
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Om",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Din avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Brugernavn",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Din profil kunne ikke opdateres. Prøv venligst igen.",
@@ -6306,7 +6372,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences__button--chats": {
-        "message": "Chats",
+        "message": "Samtaler",
         "description": "Button to switch the settings view (and a title of pane)"
     },
     "Preferences__button--calls": {
@@ -6344,11 +6410,11 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "Generer forhåndsvisning af link",
+        "message": "Generér forhåndsvisning af link",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Hvis du vil ændre denne indstilling, skal du åbne Signal-appen på din mobilenhed og gå til Indstillinger > Chats",
+        "message": "Hvis du vil ændre denne indstilling, skal du åbne Signal-appen på din mobilenhed og gå til Indstillinger > Samtaler",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6420,7 +6486,7 @@
         "description": "Label for the read receipts setting"
     },
     "Preferences--typing-indicators": {
-        "message": "Skriveindikator",
+        "message": "Skriveindikatorer",
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Brugere af skærmlæsere bør nu have lettere ved at navigere i samtalelisten i venstre rude.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Du kan nu søge i arkiverede samtaler. Forestil dig, at du søger (hurtigt) gennem gamle skrifter på jagt efter det næste spor.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Hvis du nogensinde har scrollet opad og sendt en besked, har du måske undret dig over, hvor din besked var. Når du nu sender en besked, bliver den scrollet op i billedet, så du kan beundre dit hårde arbejde.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reagerer du på en besked? Det skulle nu være mere pålideligt, idet der forsøges igen i op til 24 timer",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",

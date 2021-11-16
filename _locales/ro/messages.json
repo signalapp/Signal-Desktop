@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Deblochez pe $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vei putea să vă trimiteți mesaje și să vă sunați reciproc.",
@@ -6201,6 +6195,70 @@
         "message": "Despre",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Nume utilizator",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Introduceți un nume de utilizator",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Numele de utilizatori pe Signal sunt opționale. Dacă alegeți să creați un nume de utilizator, și să faceți să poată fi căutat, alți utilizatori de Signal vă vor putea găsi cu acest nume și vă vor contacta fără să vă știe numărul de telefon.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Numele de utilizatori pot conține doar a-z, 0-9 și _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Numele de utilizator nu pot începe cu un număr.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Numele de utilizatori trebuie sa aibă cel puțin $min$ caractere.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Numele de utilizatori trebuie sa aibă cel mult $max$ de caractere.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Acest nume de utilizator este luat.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Numele de utilizator nu a putut fi salvat. Verificați conexiunea și încercați din nou.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Numele de utilizator nu a putut fi eliminat. Verificați conexiunea și încercați din nou.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Șterge numele de utilizator",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Această acțiune va elimina numele dvs. de utilizator, permițând altor utilizatori să îl revendice. Sunteți sigur?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Șterge",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Scrieți câte ceva despre dvs...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Despre",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Avatarul dvs.",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Nume utilizator",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Profilul dvs. nu a putut fi actualizat. Vă rugăm încercați din nou.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Utilizatorilor de cititoare de ecran ar trebui să le fie mai ușor acum să navigheze prin lista de conversații din panoul din stânga.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Acum puteți căuta în conversații arhivate. Imaginați-vă căutând (rapid) prin tomuri vechi, pentru a găsi următorul indiciu.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Dacă ați derulat vreodată în sus și apoi ați trimis un mesaj, probabil v-ați întrebat unde este mesajul dvs.! Acum, de fiecare dată când trimiteți un mesaj, acesta va fi adus la vedere pentru ca dvs. să vă puteți admira munca depusă.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacționați la un mesaj? Acum această acțiune ar trebui să fie mai fiabilă, va fi reîncercată timp de până la 24 de ore",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",

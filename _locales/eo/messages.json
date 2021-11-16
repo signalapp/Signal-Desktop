@@ -56,7 +56,7 @@
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
-        "message": "Services",
+        "message": "Servoj",
         "description": "Application menu item for macOS 'Services'"
     },
     "appMenuHide": {
@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Chat Color",
+        "message": "Koloro de interparolo",
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "Sendi pritraktotan mesaĝon",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Sendi $count$ pritraktotajn mesaĝojn",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -470,19 +470,19 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "Tiu protokolo estos afiŝita publike en la reto, por ke kontribuantoj vidu ĝin. Vi povas elŝuti la tutan protokolon antaŭ ĝia sendo.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "Eraro dum la alŝuto! Bv. retpoŝti al support@signal.org kaj aldoni la protokolon kiel tekstan dosieron.",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "Sencimiga protokolo sendita",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "La sencimiga protokolo estas alŝutita. Kiam vi kontaktos la helpservon, kopiu la jenan ligilon kaj algluu ĝin en via mesaĝo kun priskribo de la problemo, kiun vi vidis, kaj de la maniero estigi la problemon.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "Eraro de malĉifrado okazis.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "Sendi protokolon",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -684,11 +684,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "Alklaku por rekonektiĝi.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "Ĝi ne devus longe daŭri",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -708,7 +708,7 @@
         "description": "View menu item to open the debug log (title case)"
     },
     "forceUpdate": {
-        "message": "Force Update",
+        "message": "Devigi ĝisdatigon",
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
@@ -748,7 +748,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Sharing screen",
+        "message": "Kundivido de la ekrano",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -800,7 +800,7 @@
         }
     },
     "noSearchResults--sms-only": {
-        "message": "SMS/MMS contacts are not available on Desktop.",
+        "message": "SMS kaj MMS ne disponeblas en tiu ĉi aplikaĵo.",
         "description": "Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
     },
     "noSearchResultsInConversation": {
@@ -838,7 +838,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "Vidi $whatsNew$ en tiu ĝisdatigo",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -848,7 +848,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "tiun, kiu estas nova",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -934,15 +934,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "Ekregistri vôcmesaĝon",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "Fini la voĉmesaĝon, kaj sendi",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "Nuligi voĉmesaĝon",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -962,15 +962,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "Eraro kun la voĉoregistrilo.",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "Kunsendaĵo konservita.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "Montri en la dosierujo",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1020,7 +1020,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "text": {
-        "message": "Text",
+        "message": "Teksto",
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
@@ -1152,7 +1152,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "Por kontroli la sekurecon de via tutvoja ĉifrado kun $name$, komparu la ĉi-superajn nombrojn kun la nombroj el lia aŭ ŝia aparato.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1226,7 +1226,7 @@
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
-        "message": "A message from $sender$ couldn’t be delivered",
+        "message": "Mesaĝo el $sender$ ne estis liverata.",
         "description": "Shown in timeline when message delivery issue happens",
         "placeholders": {
             "name": {
@@ -1244,7 +1244,7 @@
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$. They may have tried sending it to you directly, or in a group.",
+        "message": "Mesaĝo, glumarko, reago, legokonfirmo aŭ aŭdvidaĵo ne sukcesis esti liverado al vi el $sender$. Ŝi, li aŭ ili eble sendi ĝin rekte al vi aŭ ene de grupo.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in 1:1 conversations",
         "placeholders": {
             "name": {
@@ -1254,7 +1254,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "Mesaĝo, glumarko, reago, legokonfirmo aŭ aŭdvidaĵo ne sukcesis esti liverado al vi el $sender$ en tiu interparolo.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1264,7 +1264,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ ŝanĝis sian numeron.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1338,7 +1338,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "Skani tiun kodon en la aplikaĵo Signal ĉe via telefono",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1386,11 +1386,11 @@
         "description": "Header for calling options on the settings screen"
     },
     "calling__call-back": {
-        "message": "Call Back",
+        "message": "Retelefoni",
         "description": "Button to call someone back"
     },
     "calling__call-again": {
-        "message": "Call Again",
+        "message": "Retelefoni",
         "description": "Button to call someone again"
     },
     "calling__start": {
@@ -1446,31 +1446,31 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Presenting disabled",
+        "message": "Ekrankundivido ne ebligita",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Start presenting",
+        "message": "Ekprezenti",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
-        "message": "Stop presenting",
+        "message": "Haltigi prezenton",
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "Sonoro",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "La grupo tro grandas por sonorigi la partoprenantojn.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "Sciigo, ne sonoro",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "Ŝalti sonoradon",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1546,7 +1546,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "Signal sonorigos $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1556,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal sonorigos $first$ kaj $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal sonorigos $first$, $second$ kaj $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1588,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal sonorigos $first$, $second$ kaj $others$ aliaj",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1606,7 +1606,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ estos sciigita",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1616,7 +1616,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ kaj $second$ estos sciigitaj",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1630,7 +1630,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$ kaj $third$ estos sciigitaj",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1648,7 +1648,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$ kaj $others$ aliaj estos sciigitaj",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1706,15 +1706,15 @@
         "description": "Label for the \"scroll down\" button in a call's overflow area"
     },
     "calling__presenting--notification-title": {
-        "message": "You're presenting to everyone.",
+        "message": "Vi prezentas al ĉiuj.",
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Click here to return to the call when you're ready to stop presenting.",
+        "message": "Alklaku ĉi tie por reiri al la alvoko, kiam vi pretos haltigi la prezenton.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
-        "message": "Signal is sharing $window$.",
+        "message": "Signal kundividas $window$.",
         "description": "Text that appears in the screen sharing controller to inform person that they are presenting",
         "placeholders": {
             "name": {
@@ -1724,15 +1724,15 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Stop sharing",
+        "message": "Haltigi kundividon",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "You stopped presenting",
+        "message": "Vi haltigis prezenti",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
-        "message": "$name$ is presenting",
+        "message": "$name$ prezentas",
         "description": "Title of call when someone is presenting",
         "placeholders": {
             "name": {
@@ -1742,7 +1742,7 @@
         }
     },
     "calling__presenting--person-stopped": {
-        "message": "$name$ stopped presenting",
+        "message": "$name$ haltigis prezenti",
         "description": "Toast that appears when someone stops presenting",
         "placeholders": {
             "name": {
@@ -1752,27 +1752,27 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Permission needed",
+        "message": "Permeso bezonata",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal needs permission to access your computer's screen recording.",
+        "message": "Signas bezonas permeson por registri la ekranon de via komputilo.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Go to System Preferences.",
+        "message": "Iru al sistemagordoj.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
-        "message": "Click on the lock icon on the bottom left and enter your computer’s password.",
+        "message": "Alklaku la ŝlosilan bildsimbolon malsupre kaj maldekstre, kaj entajpu la pasvorton de via komputilo.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "On the right, check the box next to Signal. If you don’t see Signal in the list, click the + to add it.",
+        "message": "Desktren, marku la markobutonon apud „Signal“. Se vi ne vidas „Signal“ en la listo, alklaku „+“ por aldoni ĝin.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Open System Preferences",
+        "message": "Malfermi sistemagordojn.",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1804,7 +1804,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Uzi literumilon por la teksto entajpita en mesaĝa verkejo",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1816,19 +1816,19 @@
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
-        "message": "Minimize to system tray",
+        "message": "Minimumigi al taskopleto",
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Start minimized to tray",
+        "message": "Resti en la taskopleto, kiam la aplikaĵo komenciĝas ",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Open at computer login",
+        "message": "Malfermi, kiam la komputilo ekas",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "Forviŝi la datumojn de la aplikaĵo",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1966,7 +1966,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Alklaku por iri al signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1978,7 +1978,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "Importi la kontaktojn",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2138,7 +2138,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "Ludi sciigajn sonojn",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2270,7 +2270,7 @@
         "description": "Label shown when there are no contacts to compose to"
     },
     "noConversationsFound": {
-        "message": "No conversations found",
+        "message": "Neniu interparolo troviĝis",
         "description": "Label shown when there are no conversations to compose to"
     },
     "chooseGroupMembers__title": {
@@ -2344,7 +2344,7 @@
         "description": "The placeholder for the group name placeholder"
     },
     "setGroupMetadata__group-description-placeholder": {
-        "message": "Description",
+        "message": "Priskribo",
         "description": "The placeholder for the group description"
     },
     "setGroupMetadata__create-group": {
@@ -2380,7 +2380,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Alklaki por re-ligi „Signal Desktop“ al via portebla aparato por daŭrigi mesaĝadon.",
         "description": ""
     },
     "unlinked": {
@@ -2392,15 +2392,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "Ĝisdatigo disponeblas",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Alklaki por restartigi „Signal“",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "Alklaki por elŝuti ĝisdatigon",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Ĉu malbloki $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vi povos mesaĝi kaj alvoki unu la alian.",
@@ -6000,7 +5994,7 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Chat Color",
+        "message": "Koloro de interparolo",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
@@ -6201,6 +6195,70 @@
         "message": "Pri",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Uzantnomo",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Enter a username",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Usernames may only contain a-z, 0-9 and _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Usernames may not begin with a number.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Usernames must have a least $min$ characters.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Usernames must have at most $max$ characters.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Tiu uzantnomo estas uzata de aliulo.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Delete username",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Forigi",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Write something about yourself...",
         "description": "Placeholder text for about input field"
@@ -6263,6 +6321,14 @@
         "message": "Pri",
         "description": "Title for about editing"
     },
+    "ProfileEditorModal--avatar": {
+        "message": "Your Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Uzantnomo",
+        "description": "Title for username editing"
+    },
     "ProfileEditorModal--error": {
         "message": "Your profile could not be updated. Please try again.",
         "description": "Error message when something goes wrong updating your profile."
@@ -6286,7 +6352,7 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Select an avatar",
+        "message": "Elekti avataron",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

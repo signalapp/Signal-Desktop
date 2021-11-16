@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Želite odblokirati skupino $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Lahko si bosta pošiljala sporočila in se klicala.",
@@ -6201,6 +6195,70 @@
         "message": "Več",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Uporabniško ime",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Vnesite uporabniško ime",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Uporabniška imena v aplikaciji Signal so izbirna. Če si boste ustvarili uporabniško ime, vas bodo lahko drugi/e uporabniki/ce Signala našli/e po njem in stopili/e v stik z vami tudi brez poznavanja vaše telefonske številke.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Uporabniško ime lahko vsebuje le črke od a do z, številke od 0 do 9 in _ ",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Uporabniško ime se ne more začeti s števko.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Uporabniško ime mora vsebovati vsaj  $min$ znake.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Uporabniško ime lahko vsebuje največ  $max$ znakov.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Uporabniško ime je že zasedeno.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Vaše uporabniško ime ni moglo biti shranjeno. Preverite internetno povezavo in poskusite znova.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Vaše uporabniško ime ni moglo biti izbrisano. Preverite internetno povezavo in poskusite znova.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Izbriši uporabniško ime",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "S tem ko boste izbrisali svoje uporabniško ime, si ga bo lahko prisvojil kdo drug. Ste prepričani?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Izbriši",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Napišite kaj o sebi ...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Več",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Vaš avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Uporabniško ime",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Vaše ime ni moglo biti posodobljeno. Poskusite znova.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

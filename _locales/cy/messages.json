@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Dad-rwystro $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Byddwch chi'n gallu negesu a galw'ch gilydd.",
@@ -6201,6 +6195,70 @@
         "message": "Ynghylch",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Enw defnyddiwr",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Rhowch enw defnyddiwr",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Mae enwau defnyddwyr ar Signal yn ddewisol. Os dewiswch greu enw defnyddiwr, bydd defnyddwyr Signal eraill yn gallu dod o hyd i chi yn ôl yr enw defnyddiwr hwn a chysylltu â chi heb wybod eich rhif ffôn.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Gall enwau defnyddwyr ddim ond cynnwys a-Z, 0-9, a _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Ni all enw defnyddiwr gychwyn gyda rhif.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Rhaid i enw defnyddiwr fod o leiaf yn $min$ nod o hyd.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Rhaid i enw defnyddiwr fod ar y mwyaf yn $max$ nod o hyd.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Mae'r enw defnyddiwr yma'n wedi ei gymryd.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Methwyd cadw eich enw defnyddiwr. Gwiriwch eich cysylltiad rhyngrwyd a rhowch gynnig arall arni.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Methwyd tynnu eich enw defnyddiwr. Gwiriwch eich cysylltiad rhyngrwyd a rhowch gynnig arall arni.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Dileu enw defnyddiwr",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Bydd hyn yn dileu eich enw defnyddiwr, gan ganiatáu i ddefnyddwyr eraill ei hawlio. Ydych chi'n siŵr?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Dileu",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Ysgrifennwch rhywbeth amdanoch",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Ynghylch",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Eich Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Enw defnyddiwr",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Methwyd diweddaru'ch proffil. Rhowch gynnig arall arni.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Dylai ddefnyddwyr darllenwyr sgrin ei chael hi'n haws i lywio drwy'r rhestrau sgyrsiau ar y paen chwith.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Nawr gallwch chwilio mewn sgyrsiau wedi'u harchifo. Dychmygwch eich hun yn chwilio (yn gyflym) trwy gyfrolau hynafol, yn edrych am y cliw nesaf.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Os ydych chi erioed wedi sgrolio i fyny ac wedi anfon neges, efallai y byddech chi'n meddwl tybed ble roedd eich neges! Nawr, pryd bynnag y byddwch chi'n anfon neges, bydd yn cael ei sgrolio i'r golwg i chi edmygu'ch gwaith caled.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Yn ymateb i neges? Dylai nawr fod yn fwy dibynadwy, gan geisio eto am hyd at 24 awr",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",

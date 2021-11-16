@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "অপেক্ষারত বার্তা পাঠান",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "$count$ মুলতুবি বার্তা পাঠান",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -470,19 +470,19 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "অবদানকারীদের দেখার জন্য এই লগটি সর্বজনীনভাবে অনলাইনে পোস্ট করা হবে। জমা দেওয়ার আগে আপনি সম্পূর্ণ লগ ডাউনলোড করতে পারেন।",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "আপলোডে কিছু ভুল হয়েছে! অনুগ্রহ করে support@signal.org ইমেল করুন এবং একটি পাঠ্য ফাইল হিসাবে আপনার লগ সংযুক্ত করুন৷",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "ডিবাগ লগ জমা দেওয়া হয়েছে।",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "ডিবাগ লগ আপলোড করা হয়েছে। আপনি যখন সহায়তার জন্য যোগাযোগ করেন, তখন নীচের লিঙ্কটি কপি করুন এবং আপনি যে সমস্যাটি দেখেছেন তার বিবরণ এবং এটি পুনরুত্পাদনের পদক্ষেপ সহ এটি সংযুক্ত করুন।",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "ডেস্কটপে একটি ডিক্রিপশন ত্রুটি হয়েছে।",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "লগ জমা দিন",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -684,11 +684,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "পুনরায় সংযোগ করতে ক্লিক করুন।",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "লম্বা হওয়া উচিত নয়",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -838,7 +838,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "এই আপডেটে $whatsNew$ দেখুন",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -848,7 +848,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "নতুন কি",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -934,15 +934,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "ভয়েস বার্তা রেকর্ড করা শুরু করুন",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "সম্পূর্ণ ভয়েস বার্তা এবং পাঠান",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "ভয়েস বার্তা বাতিল করুন",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -962,15 +962,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "ভয়েস রেকর্ডারে একটি ত্রুটি ছিল।",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "সংযুক্তি সংরক্ষিত হয়েছে।",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "ফোল্ডারে দেখান",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1152,7 +1152,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "$name$ এর সাথে আপনার এন্ড-টু-এন্ড এনক্রিপশনের নিরাপত্তা যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলোর তুলনা করুন।",
         "description": "",
         "placeholders": {
             "name": {
@@ -1264,7 +1264,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ একটি নতুন নম্বরে তাদের নম্বর পরিবর্তন করেছে",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1338,7 +1338,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "আপনার ফোনে সিগন্যাল অ্যাপে এই কোডটি স্ক্যান করুন",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1458,19 +1458,19 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "রিং",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "অংশগ্রহণকারীদের কল করার জন্য গ্রুপটি খুব বড়",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "জানিয়ে দিন, রিং করবেন না",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "রিং চালু করুন",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1546,7 +1546,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "Signal $person$ কে রিং করবে",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1556,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "সিগন্যাল $first$ এবং $second$ কে রিং করবে",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "সিগন্যাল কল করবে $first$, $second$, and $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1588,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal $first$, $second$, এবং $others$ অন্যান্যকে রিং করবে",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1606,7 +1606,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ অবহিত করা হবে",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1616,7 +1616,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ এবং $second$ কে অবহিত করা হবে",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1630,7 +1630,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, এবং $third$ কে জানানো হবে",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1648,7 +1648,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$, এবং $others$ অন্যদের জানানো হবে",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1804,7 +1804,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "বার্তা রচনা বাক্সে লিখিত পাঠ্যের বানান চেক করুন",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1828,7 +1828,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "অ্যাপ্লিকেশন ডেটা সাফ করুন",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1966,7 +1966,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "signal.org/download যেতে ক্লিক করুন",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1978,7 +1978,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "কন্টাক্টস ইমপোর্ট করুন",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2138,7 +2138,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "নোটিফিকেশন শব্দ চালু করুন",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2380,7 +2380,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "বার্তা প্রেরণ অবিরত রাখতে আপনার মোবাইল ডিভাইসে  Signal Desktop পুনরায় লিঙ্ক করতে ক্লিক করুন।",
         "description": ""
     },
     "unlinked": {
@@ -2392,15 +2392,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "আপডেট সহজলভ্য",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Signal পুনরায় চালু করতে ক্লিক করুন",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "আপডেট ডাউনলোড করতে ক্লিক করুন",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2416,7 +2416,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "আপডেট উপেক্ষা করুন",
         "description": ""
     },
     "leftTheGroup": {
@@ -2492,7 +2492,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "$title$, $unreadCount$ নতুন বার্তা, শেষ বার্তা: $lastMessage$ এর সাথে কথোপকথন।",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2510,11 +2510,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "শেষ বার্তাটি হয়তো মুছে ফেলা হয়েছে।",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "$title$ এর সাথে কথোপকথনে যান",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2756,7 +2756,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "আরও পড়ুন",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3100,11 +3100,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "স্টিকার সরান",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "একটি স্টিকার যোগ করতে একটি ফাইল ক্লিক করুন বা টেনে আনুন/ড্রপ করুন৷",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3282,7 +3282,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "প্রতিক্রিয়া সরান",
         "description": ""
     },
     "Reactions--error": {
@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "$name$-কে আনব্লক করবেন?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "আপনারা একে অপরকে মেসেজ পাঠাতে এবং কল করতে পারবেন।",
@@ -3520,7 +3514,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "$group1$, $group2$, $group3$ এবং আরও একটির সদস্য",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3638,7 +3632,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ আপনাকে কল করছে",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3648,7 +3642,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ আপনাকে এবং $otherMember$ কে কল করছে",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3662,7 +3656,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ আপনাকে কল করছে, $first$, এবং $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3680,7 +3674,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ আপনাকে কল করছে, $first$, $second$, এবং অন্য 1 জন",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3698,7 +3692,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ আপনাকে কল করছে, $first$, $second$, এবং $remaining$ অন্যদের",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3834,7 +3828,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "শেয়ার করা শুরু করুন",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5314,7 +5308,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "ব্যাজ গণনায় মিউটেড কথোপকথন অন্তর্ভুক্ত করুন",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5340,7 +5334,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "গ্রুপ অ্যাডমিন হিসেবে $contact$ সরাবেন?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5366,7 +5360,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "এই চ্যাটটি আনমিউট করবেন?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5496,7 +5490,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "মিউট চ্যাটে আপনাকে উল্লেখ করা হলে নোটিফিকেশন পান।",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5504,7 +5498,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "মিউট থাকলে জানাবেন না",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5622,7 +5616,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "\"$name$\" এর পাঠানো $number$ আমন্ত্রণগুলি প্রত্যাহার করবেন?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5774,7 +5768,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "কন্টাক্ট $name$ নির্বাচন করুন",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5784,7 +5778,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "পরিচিতি $name$-কে বাদ দিন",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5794,7 +5788,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "কন্টাক্ট $name$ নির্বাচন করতে পারবেন না",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6134,7 +6128,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "এই বার্তাটি প্রদর্শন করা যায়নি৷ একটি ডিবাগ লগ জমা দিতে ক্লিক করুন।",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6201,6 +6195,70 @@
         "message": "সম্পর্কে",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "ইউজারনেম",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "ব্যবহারকারীর নাম প্রবেশ করুন",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "সিগন্যালে ব্যবহারকারীর নাম ঐচ্ছিক। আপনি যদি একটি ব্যবহারকারীর নাম তৈরি করতে চান এবং এটি অনুসন্ধানযোগ্য করে তোলেন, অন্য সিগন্যাল ব্যবহারকারীরা আপনাকে এই ব্যবহারকারীর নাম দ্বারা খুঁজে পেতে এবং আপনার ফোন নম্বর না জেনেই আপনার সাথে যোগাযোগ করতে সক্ষম হবে৷",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "ব্যবহারকারীর নামগুলিতে শুধুমাত্র a-z, 0-9 এবং _ থাকতে পারে",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "ব্যবহারকারীর নাম নাম্বার দিয়ে শুরু হতে পারে না|",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "ব্যবহারকারীর নামগুলিতে কমপক্ষে $min$ অক্ষর থাকতে হবে।",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "ব্যবহারকারীর নামগুলিতে সর্বাধিক $max$ অক্ষর থাকতে হবে।",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "এই ব্যবহারকারীর নাম নেওয়া হয়েছে|",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "আপনার ইউজারনেম সংরক্ষণ করা যায়নি। আপনার সংযোগ চেক করুন এবং আবার চেষ্টা করুন।",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "আপনার ইউজারনেম সরানো যায়নি। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "ব্যবহারকারীর নাম মুছুন",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "এটি আপনার ব্যবহারকারীর নাম মুছে ফেলবে, অন্য ব্যবহারকারীদের এটি দাবি করার অনুমতি দেবে ৷ আপনি কি নিশ্চিত?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "মুছুন",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "আপনার নিজের সম্পর্কে কিছু লিখুন...",
         "description": "Placeholder text for about input field"
@@ -6263,6 +6321,14 @@
         "message": "সম্পর্কে",
         "description": "Title for about editing"
     },
+    "ProfileEditorModal--avatar": {
+        "message": "তোমার অবতার",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "ইউজারনেম",
+        "description": "Title for username editing"
+    },
     "ProfileEditorModal--error": {
         "message": "আপনার প্রোফাইলটি আপডেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।",
         "description": "Error message when something goes wrong updating your profile."
@@ -6290,11 +6356,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "একটি রঙ নির্বাচন করুন",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "গ্রুপ এভাটার",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6322,7 +6388,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "শেষ ইমপোর্ট $date$ $time$ এ",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6340,7 +6406,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "জুম স্তর",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6348,7 +6414,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "এই সেটিং পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে সিগন্যাল অ্যাপটি খুলুন এবং সেটিংস > চ্যাটে নেভিগেট করুন",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6356,7 +6422,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "নোটিফিকেশনের বিষয়বস্তু",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6364,7 +6430,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ কন্টাক্ট",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6374,7 +6440,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ কন্টাক্টস",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6384,11 +6450,11 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Who can...",
+        "message": "কে পারে...",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "এই সেটিংস পরিবর্তন করতে, আপনার মোবাইল ডিভাইসে Signal অ্যাপটি খুলুন এবং সেটিংস > গোপনীয়তায় নেভিগেট করুন",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6412,7 +6478,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "আমার ফোন নম্বর দিয়ে আমাকে খুঁজুন",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6424,23 +6490,23 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "আপডেট",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "স্বয়ংক্রিয়ভাবে আপডেট ডাউনলোড করুন",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "বিজ্ঞপ্তিগুলি সক্রিয় করুন",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Devices",
+        "message": "ডিভাইস",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "$version$ সহজলভ্য সংস্করণে আপডেট করুন",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6450,11 +6516,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal বন্ধ করা যাবে না।",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "অনুগ্রহ করে ম্যানুয়ালি এটি বন্ধ করুন এবং চালিয়ে যেতে Retry এ ক্লিক করুন।",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6462,51 +6528,63 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "একটি ইমোজি প্রতিস্থাপন করতে ক্লিক করুন",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "আপনার সেটিংস সংরক্ষণ করার সময় একটি ত্রুটি ছিল। অনুগ্রহপূর্বক আবার চেষ্টা করুন।",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "নতুন কি",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.19--1": {
-        "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
+        "message": "একটি শ্বাস নিন এবং ডায়ালগ এবং পপআপগুলির জন্য নতুন অ্যানিমেশনগুলিতে শিথিল হোন ৷ সহজে ভিতরে। সহজে বাহিরে। সহজে ভিতরে। সহজে বাহিরে।",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+        "message": "কীবোর্ড লেআউট পরিবর্তন করা সবসময় একটু কঠিন, কিন্তু কীবোর্ড শর্টকাটগুলি এখন আপনার সাথে ট্র্যাক করে, আপনার অভিপ্রায়কে সম্মান জানাতে চাপানো নির্দিষ্ট অক্ষরের বাইরে পৌঁছে যায়।",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
-        "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
+        "message": "যখন একটি গ্রুপ কল শুরু হয়, আপনি এখন একটি বিজ্ঞপ্তি পাবেন। আপনি আর দেরী করবেন না, যদি না আপনি হতে চান।",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
+        "message": "এই বৈশিষ্ট্যটি তাদের প্রত্যেকের কাছে প্রযোজ্য যারা 👍 চেয়ে বেশি💅 সাথে প্রতিক্রিয়া জানায়: আপনি এখন ডিফল্টভাবে প্রদর্শিত ইমোজিগুলি কাস্টমাইজ করতে পারেন যখন আপনি কোনও বার্তায় প্রতিক্রিয়া জানাতে চান।",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.20": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Signal কে মসৃণভাবে চলমান রাখতে এই সংস্করণে বেশ কয়েকটি ছোট ছোট পরিবর্তন এবং বাগ সংশোধন করা হয়েছে।",
         "description": "Release notes for v5.20"
     },
     "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "message": "এক নজরে আরও তথ্য পান 👀। বাম ফলকটি একটি অভিনব নতুন চেহারা এবং শৈলী পেয়েছে 😎",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "message": "জেনে নিন কখন কী করবেন। টাইমস্ট্যাম্প, যদি উপলব্ধ থাকে, বিতরণ করা, পড়া, পাঠানো, এবং অন্যান্য স্থিতি বার্তাগুলির সাথে যুক্ত, এখন বার্তার বিবরণ স্ক্রিনে প্রদর্শিত হয়।",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--3": {
-        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "message": "স্ক্রীন রিডার ব্যবহারকারীদের এখন বাম ফলকে কথোপকথনের তালিকার মাধ্যমে নেভিগেট করা সহজ হওয়া উচিত।",
         "description": "Release notes for v5.21"
     },
+    "WhatsNew__v5.24--1": {
+        "message": "আপনি এখন সংরক্ষণাগারভুক্ত কথোপকথন অনুসন্ধান করতে পারেন. কল্পনা করুন যে আপনি প্রাচীন টোমগুলির মাধ্যমে (দ্রুত) অনুসন্ধান করছেন, পরবর্তী ক্লু খুঁজছেন।",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "আপনি যদি কখনও স্ক্রোল করে একটি বার্তা পাঠিয়ে থাকেন, তাহলে আপনি ভাবতে পারেন যে আপনার বার্তাটি কোথায় ছিল! এখন, আপনি যখনই একটি বার্তা পাঠান, আপনার কঠোর পরিশ্রমের প্রশংসা করার জন্য এটি স্ক্রোল করা হবে",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "কোনও বার্তায় প্রতিক্রিয়া দেখাচ্ছেন? এটি এখন আরও নির্ভরযোগ্য হওয়া উচিত, 24 ঘন্টা পর্যন্ত পুনরায় চেষ্টা করা উচিত",
+        "description": "Release notes for v5.24"
+    },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",
         "description": "Release notes for releases that only include bug fixes"
     }
 }

@@ -1190,7 +1190,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Usuń u wszystkich",
+        "message": "Usuń wszędzie",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Odblokować $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Będziecie w stanie wysyłać wiadomości i wykonywać połączenia do siebie nawzajem.",
@@ -6201,6 +6195,70 @@
         "message": "O mnie",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Nazwa użytkownika",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Wprowadź nazwę użytkownika",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Nazwy użytkownika w Signal są opcjonalne. Jeśli postanowisz utworzyć nazwę użytkownika i umożliwić jej wyszukiwanie, inni użytkownicy Signal będą mogli znaleźć Cię po nazwie użytkownika i skontaktować z Tobą, nie znając Twojego numeru telefonu.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Nazwy użytkownika mogą zawierać wyłącznie a-z, 0-9, i _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Nazwa użytkownika nie może zaczynać się od cyfry.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Nazwa użytkownika musi mieć długość przynajmniej $min$ znaków.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Nazwa użytkownika może mieć długość najwyżej $max$ znaków.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Nazwa użytkownika jest zajęta.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Nie udało się zapisać Twojej nazwy użytkownika. Sprawdź połączenie z siecią i spróbuj ponownie.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Nie udało się usunąć Twojej nazwy użytkownika. Sprawdź połączenie z siecią i spróbuj ponownie.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Usuń nazwę użytkownika",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "To działanie usunie Twoją nazwę użytkownika i pozwoli używać jej innemu użytkownikowi. Na pewno chcesz to zrobić?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Usuń",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Napisz kilka słów o sobie...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "O mnie",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Twój awatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Nazwa użytkownika",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Nie udało się zaktualizować Twojego profilu. Spróbuj później.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Użytkownicy czytników ekranu powinni móc teraz łatwiej nawigować po liście konwersacji na lewym panelu.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Teraz możesz wyszukiwać w konwersacjach w archiwum. Wyobraź sobie, że (błyskawicznie) przeszukujesz starożytne woluminy, w poszukiwaniu kolejnej wskazówki.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Jeśli kiedyś przewinąłeś konwersację w górę i wysłałeś wiadomość, mogłeś się zastanawiać, gdzie się podziała. Teraz, gdy wyślesz wiadomość, konwersacja zostanie przewinięta, abyś mógł podziwiać efekty swojej, ciężkiej pracy.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reagowanie na wiadomość powinno być teraz bardziej niezawodne, ponawiając próby wysłania do 24 godzin.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",

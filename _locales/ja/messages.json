@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "$name$のブロックを解除しますか?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "お互いにメッセージや通話ができるようになります。",
@@ -3946,7 +3940,7 @@
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "このユーザはSignalをアップグレードしていないため、グループに追加できません。",
+        "message": "このユーザーはSignalをアップグレードしていないため、グループに追加できません。",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
@@ -4226,7 +4220,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--admins--unknown": {
-        "message": "管理者がグループのメンバーを変更できるユーザを「管理者のみ」に変更しました。",
+        "message": "管理者がグループのメンバーを変更できるユーザーを「管理者のみ」に変更しました。",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-members--all--other": {
@@ -6201,6 +6195,70 @@
         "message": "自己紹介",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "ユーザー名",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "ユーザー名を入力してください",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Signalのユーザー名設定は任意です。ユーザー名を作成すると、他のSignalユーザーはあなたの電話番号を知らなくても、このユーザー名であなたを検索して連絡できるようになります。",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "ユーザー名には半角の英数字とアンダーバーのみ使用できます",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "ユーザー名の頭文字は数字にできません。",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "ユーザー名は$min$文字以上にしてください。",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "ユーザー名は$max$文字以下にしてください。",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "このユーザー名はすでに使用されています。",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "ユーザー名を保存できませんでした。インターネット接続を確認して再度試してください。",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "ユーザー名を削除できませんでした。インターネット接続を確認して再度試してください。",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "ユーザー名を削除",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "これにより、あなたのユーザー名が削除され、他のユーザーがそのユーザー名を使用できるようになります。よろしいですか？",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "削除する",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "簡単な自己紹介を記入してください…",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "自己紹介",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "アバター",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "ユーザー名",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "プロフィールを更新できませんでした。再度試してください。",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "スクリーンリーダーをお使いの方は、左ペインのチャットリストを簡単に操作できるようになりました。",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "アーカイブされたチャットの中を検索できるようになりました。",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "上にスクロールしてメッセージを送信したことがある人は、自分のメッセージがどこにあるのか気になるかもしれません。メッセージを送信するたびに、スクロールして表示されるようになりました。",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "24時間以内に再試行するなど、メッセージ配送の信頼性が向上しました。",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",

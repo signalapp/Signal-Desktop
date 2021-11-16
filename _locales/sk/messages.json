@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Odblokovať $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Budete si môcť volať a písať.",
@@ -6201,6 +6195,70 @@
         "message": "Informácie",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Používateľské meno",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Zadajte používateľské meno",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Používateľské mená v Signal sú voliteľné. Ak sa rozhodnete vytvoriť si používateľské meno a dať ho vyhľadávať, ostatní používatelia Signal vás budú môcť nájsť podľa tohto používateľského mena a kontaktovať vás bez toho, aby poznali vaše telefónne číslo.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Používateľské mená môžu obsahovať iba a-z, 0-9 a _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Používateľské mená nesmú začínať číslicou.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Používateľské mená musia mať aspoň $min$ znakov.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Používateľské mená môžu mať najviac $max$ znakov.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Toto používateľské meno je obsadené.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Vaše používateľské meno sa nepodarilo uložiť. Skontrolujte pripojenie a skúste to znova.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Vaše používateľské meno sa nepodarilo odstrániť. Skontrolujte pripojenie a skúste to znova.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Odstrániť používateľské meno",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Týmto sa odstráni vaše používateľské meno a ostatní používatelia si ho budú môcť nárokovať. Si si istý?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Odstrániť",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Napíš niečo o sebe...",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Informácie",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Váš Avatar",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Používateľské meno",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Váš profil sa nepodarilo aktualizovať. Prosím skúste to znova.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Používatelia čítačky obrazovky by mali teraz jednoduchšie prechádzať zoznamom konverzácií na ľavom paneli.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Teraz môžete vyhľadávať v archivovaných konverzáciách. Predstavte si, že hľadáte (rýchlo) staroveké zväzky a hľadáte ďalšiu stopu.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Ak ste sa niekedy posunuli nahor a odoslali správu, možno by vás zaujímalo, kde bola vaša správa! Teraz, kedykoľvek odošlete správu, bude rolovaná do zobrazenia, aby ste mohli obdivovať vašu tvrdú prácu.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Reagujete na správu? Teraz by mala byť spoľahlivejšia a mala by sa opakovať až 24 hodín",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",

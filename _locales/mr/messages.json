@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "प्रलंबित संदेश पाठवा",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "$count$ प्रलंबित संदेश पाठवा",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -470,19 +470,19 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "योगदात्यांनी पाहण्यासाठी हा लॉग जाहिरपणे ऑनलाइन पोस्ट केला जाईल. सादर करण्यापूर्वी तुम्ही हा संपूर्ण लॉग डाऊनलोड करू शकता.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": " अपलोड मध्ये काहीतरी चुकले! कृपया support@signal.org ला इमेल करा आणि तुमचा लॉग टेक्स्ट फाईल रूपात संलग्न करा.",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "दुरुस्ती/डिबग लॉग सादर केला",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "दुरुस्ती/डिबग लॉग अपलोड केला. तुम्ही मदत/सपोर्टशी संपर्क कराल, तेव्हा खालील लिंक कॉपी करा आणि तुम्ही पाहिलेल्या समस्येचे वर्णन आणि त्याच्या पुनरावृत्तीसाठी पायर्‍या यासह संलग्न करा.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": " डेस्कटॉपमध्ये डिक्रिप्शन त्रुटी आली",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "लॉग सादर करा",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -684,11 +684,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "पुन्हा जोडणी/रिकनेक्ट साठी क्लिक करा.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "आणखी फारसा वेळ लागणार नाही",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -838,7 +838,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "या अपडेट मध्ये See $whatsNew$ पहा",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -848,7 +848,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "नवीन काय आहे",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -934,15 +934,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "आवाज संदेशाचे ध्वनिमुद्रण सुरु करा",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "आवाज संदेश पूर्ण करा व पाठवा",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "आवाज संदेश रद्द करा",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -962,15 +962,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "व्हॉइस रेकॉर्डरमध्ये दोष होते. ",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "संलग्नक/अटॅचमेंट सेव्ह झाली",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "फोल्डर मध्ये दाखवा",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1152,7 +1152,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "$name$ सह तुमच्या एंड-टु-एंड एन्क्रिप्शनची सुरक्षितता सत्यापित करण्यासाठी, त्यांच्या डिव्हाइसशी वरील आकड्यांची तुलना करा.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1264,7 +1264,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ ने त्याचा क्रमांक एका नवीन क्रमांकात बदलला",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1338,7 +1338,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "तुमच्या फोनवरील Signal ॲपमध्ये हे कोड स्कॅन करा",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1462,15 +1462,15 @@
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "सहभागींना रिंग करण्यासाठी हा गट खूप मोठा आहे.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "सूचित करा, रिंग करू नका",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "रिंगिंग सक्षम करा",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1546,7 +1546,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "$person$ ना Signal रिंग करेल",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1556,7 +1556,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal $first$ व $second$ ना रिंग करेल",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "$first$, $second$, व $third$ यांना Signal रिंग करेल",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1588,7 +1588,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "$first$, $second$, व $others$ इतर यांना Signal रिंग करेल",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1606,7 +1606,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ ना सूचित केले जाईल",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1616,7 +1616,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ व $second$ ना सूचित केले जाईल",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1630,7 +1630,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, व $third$ यांना सूचित केले जाईल",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1648,7 +1648,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "इतर $first$, $second$, व $others$ यांना सूचित केले जाईल",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1804,7 +1804,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "संदेश रचना चौकटीत शब्दलेखन तपासणी मजकूर प्रविष्ट केला",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1828,7 +1828,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "अनुप्रयोग डेटा हटवा",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1966,7 +1966,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "signal.org/download वर जाण्यासाठी क्लिक करा",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1978,7 +1978,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "संपर्क आयात करा",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2138,7 +2138,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "सूचना ध्वनी वाजवा",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2380,7 +2380,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "संदेश पाठवणे चालू ठेवण्यासाठी तुमच्या मोबाईल डिव्हाइसशी Signal Desktop पुन्हा लिंक करण्यासाठी क्लिक करा",
         "description": ""
     },
     "unlinked": {
@@ -2392,15 +2392,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "अद्यतन उपलब्ध",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Signal पुन्हा सुरू करण्यासाठी क्लिक करा",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "अपडेट करण्यासाठी डाऊनलोड क्लिक करा",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2416,7 +2416,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "अपडेट कडे दुर्लक्ष करा",
         "description": ""
     },
     "leftTheGroup": {
@@ -2492,7 +2492,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "$title$ बराेबरचे संभाषण, $unreadCount$ नवीन संदेश, शेवटचा संदेश: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2510,11 +2510,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "अखेरचा संदेश हटवला गेलेला असू शकेल.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "$title$ सह संभाषण वर जा",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2756,7 +2756,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "आणखी वाचा",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3100,11 +3100,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "स्टिकर हटवा",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "स्टिकर जोडण्यासाठी फाइल क्लिक किंवा ड्रॅग/ड्रॉप करा",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3282,7 +3282,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": " प्रतिक्रिया हटवा",
         "description": ""
     },
     "Reactions--error": {
@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "$name$अनब्लॉक करायचा?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "आपण एकमेकांना संदेश पाठवू आणि कॉल करू शकाल.",
@@ -3520,7 +3514,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "$group1$, $group2$, $group3$चा सदस्य व आणखी एक (one)\n",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3638,7 +3632,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ तुम्हाला कॉल करत आहे",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3648,7 +3642,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": " तुम्ही व $otherMember$ सदस्यांना $ringer$ बोलावत आहे",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3662,7 +3656,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ तुम्हाला बोलवत आहे, $first$, आणि $second$\n",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3680,7 +3674,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ तुम्हाला, $first$, $second$ आणि अजून एका व्यक्तीला काॅल करत आहे.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3698,7 +3692,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ तुम्हाला, आणि इतर $first$, $second$, व $remaining$ यांना बोलावत आहे.",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3834,7 +3828,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "शेअरिंग सुरू करा",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5314,7 +5308,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "मूक (म्यूटेड) संभाषणे बॅज गणनात समाविष्ट करा",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5340,7 +5334,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "$contact$ ला ग्रूफ ॲडमिन म्हणून हटवा?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5366,7 +5360,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "ही चॅट मूक करू का?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5496,7 +5490,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "मूक चॅट मध्ये तुमचा उल्लेख असेल तेव्हा सूचना प्राप्त करा",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5504,7 +5498,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "म्युट असल्यास सूचित करू नका.",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5622,7 +5616,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": " \"$name$\" द्वारा पाठवलेली $number$ आमंत्रणे परत घ्यायची का?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5774,7 +5768,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "संपर्क $name$ निवडा ",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5784,7 +5778,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "संपर्क $name$ ची निवड रद्द करा",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5794,7 +5788,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "संपर्क $name$ निवडू शकत नाही",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6134,7 +6128,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "हा संदेश प्रदर्शित करू शकलो नाही, डिबग लॉग सादर करण्यासाठी क्लिक करा.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6166,7 +6160,7 @@
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
-        "message": "उंच",
+        "message": "उच्च",
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
@@ -6182,15 +6176,15 @@
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
-        "message": "याला पाठवले",
+        "message": "यांना पाठवले",
         "description": "In the message details screen, shown above contacts where the message has been sent (but not delivered, read, or viewed)"
     },
     "MessageDetailsHeader--Delivered": {
-        "message": "याला पोहोचवले",
+        "message": "यांना पोहोचवले",
         "description": "In the message details screen, shown above contacts who have received your message"
     },
     "MessageDetailsHeader--Read": {
-        "message": "याने वाचले",
+        "message": "यांनी वाचले",
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
@@ -6198,8 +6192,72 @@
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
-        "message": "याबद्दल",
+        "message": "आपल्याबद्दल",
         "description": "Default text for about field"
+    },
+    "ProfileEditor--username": {
+        "message": "वापरकर्तानाव",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "वापरकर्तानाव प्रविष्ट करा",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Signal वर वापरकर्ता नाव ऐच्छिक आहे. एक वापरकर्ता नाव निर्माण करण्याचे तुम्ही निवडले आणि ते शोधण्याजोगे केले तर इतर Signal वापरकर्ते तुम्हाला या नावाने शोधून काढू शकतील आणि तुमचा फोन नंबर न जाणून घेता तुमच्याशी संपर्क करू शकतील.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "वापरकर्ता नावांत फक्त a-z, 0-9 आणि _ समाविष्ट असू शकतात",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "वापरकर्तानावे अंकांसोबत सोबत चालू होऊ शकत नाहीत.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "वापरकर्ता नावात किमान $min$ वर्ण असलेच पाहिजेत.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "वापरकर्ता नावात कमाल $max$ वर्णच असलेच पाहिजेत.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "हे वापरकर्तानाव घेतलेले आहे.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "तुमचे वापरकर्ता नाव सेव्ह करता आले नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "तुमचे वापरकर्ता नाव हटवता आले नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "वापरकर्ता नाव हटवा",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "हे तुमचे वापरकर्ता नाव हटवेल, इतर वापरकर्त्यांना ते देईल. तुमची खात्री आहे का?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "हटवा",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
         "message": "स्वतःबद्दल काहीतरी लिहा...",
@@ -6260,8 +6318,16 @@
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
-        "message": "याबद्दल",
+        "message": "आपल्याबद्दल",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "तुमचा अवतार",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "वापरकर्तानाव",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "आपली प्रोफाईल अद्यतनित केली जाऊ शकली नाही. कृपया पुन्हा प्रयत्न करा.",
@@ -6290,11 +6356,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "एक रंग निवडा",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "ग्रूप अवतार",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6322,7 +6388,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "$date$ $time$ रोजी शेवटची आयात",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6340,7 +6406,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "झूम स्तर",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6348,7 +6414,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "हे सेटिंग बदलण्यासाठी, तुमच्या मोबाईल डिव्हाइसवरील Signal ॲप उघडा आणि सेटिंग्ज>चॅटस कडे संचालन करा ",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6356,7 +6422,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "सूचना आशय",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6364,7 +6430,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ संपर्क",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6374,7 +6440,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ संपर्क",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6388,7 +6454,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "ही सेटिंग्ज बदलण्यासाठी, तुमच्या मोबाईल डिव्हाइसवर Signal ॲप उघडा आणि सेटिंग्ज>गोपनीयता कडे जा",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6412,7 +6478,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "माझ्या फोन नंबरनुसार मला शोधा",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6424,23 +6490,23 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "अपडेट्स",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "अद्यतने स्वयंचलितपणे डाउनलोड करा",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "सूचना सक्षम करा",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Devices",
+        "message": "डिव्हाइसेस",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "$version$ वर अपडेट आवृती उपलब्ध आहे",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6450,11 +6516,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal बंद करता येत नाही.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "कृपया हाताने/मॅन्युअली बंद करा आणि पुढे चालू ठेवण्यासाठी पुन्हा प्रयत्न/रिट्राय वर क्लिक करा",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6462,51 +6528,63 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": " एक इमोजी बदलण्यासाठी क्लिक करा",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "तुमची सेव्हिंग्ज सेव्ह करतांना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "नवीन काय आहे",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.19--1": {
-        "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
+        "message": "एक श्वास घ्या आणि संभाषण आणि पॉपअप्सच्या नवीन ॲनिमेशनमध्ये आराम करा. अंतर्बाह्य आराम. आराम. आराम. आराम.",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
+        "message": "कीबोर्ड लेआऊट बदलणे नेहमीच काहीसे अवघड असते, परंतु तुमच्या इच्छेचा आदर करण्यासाठी एक विशिष्ट अक्षर दाबण्यापलिकडे पोहोचून, अगदी तुमच्या बरोबरच कीबोर्ड शॉर्टकट्स आता ट्रॅक करतात, .",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--3": {
-        "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
+        "message": "एक ग्रूप कॉल सुरू होतो तेव्हा तुम्हाला एक सूचना मिळते. तुम्हाला पुन्हा कधीही उशीर होणार नाही, तुम्हाला उशीर करायचा असेल तर मात्र गोष्ट वेगळी ",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
+        "message": "💅 शी 💅 पेक्षा अधिक वेळा प्रतिक्रिया करतो त्या प्रत्येकास हे वैशिष्ट्य मिळते: तुम्हाला एका संदेशावर प्रतिक्रिया द्यायची असते तेव्हा डिफॉल्टने दिसून येनारी इमोजीज तुम्ही आता तुमच्या पसंतीनुसार बनवू शकता",
         "description": "Release notes for v5.19"
     },
     "WhatsNew__v5.20": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत.",
         "description": "Release notes for v5.20"
     },
     "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
+        "message": "एका दृष्टीक्षेपात अधिक माहिती मिळवा 👀. डावीकडील फलकास एक ताजे नवीन रूप आणि शैली मिळाली आहे. 😎.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
+        "message": "केव्हा पासून काय पर्यंत जाणून घ्या. वितरित झाला, वाचला, पाठवला आणि इतर संदेश स्थितींशी संलग्न टाइम्स्टॅंप, उपलब्ध असल्यास, आता संदेशाच्या विवरण स्क्रीनवर प्रदर्शित केले जातात.",
         "description": "Release notes for v5.21"
     },
     "WhatsNew__v5.21--3": {
-        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
+        "message": "डाव्या फलकावरील संभाषण सूचीतून संचालन करणे आता स्क्रीन वाचकांना सोपे वाटले पाहिजे. ",
         "description": "Release notes for v5.21"
     },
+    "WhatsNew__v5.24--1": {
+        "message": "आता आपण संग्रहित संभाषणांत शोधू शकता. पुरातन ग्रंथांतून पुढील सूचक स्वत: शोधत (वेगाने) असल्याची कल्पना करा.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "तुम्ही या आधी स्क्रोल अप केले आणि संदेश पाठवला असेल तर तुमचा संदेश कुठे आहे या बद्दल तुम्हाला आश्चर्य वाटले असेल! आता तुम्ही केव्हाही संदेश पाठवाल तेव्हा तुमच्या हस्तकौशल्याची प्रशंसा तुम्ही करण्यासाठी तुम्हाला तो दिसेल असा तुमच्या नजरेत स्क्रोल होईल.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "एका संदेशावर प्रतिक्रिया करत आहात का? आता ते आणखी विश्वासार्ह असले पाहिजे, 24 तासांपर्यंत पुन्हा प्रयत्न करता येतो.",
+        "description": "Release notes for v5.24"
+    },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
         "description": "Release notes for releases that only include bug fixes"
     }
 }

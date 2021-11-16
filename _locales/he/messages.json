@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "לבטל חסימה של $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "תוכלו להתכתב ולהתקשר אחד לשני.",
@@ -6201,6 +6195,70 @@
         "message": "אודות",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "שם משתמש",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "הכנס שם משתמש",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "שמות משתמש ב־Signal הם רשתויים. אם תבחר ליצור שם משתמש ולעשות אותו בר חיפוש, משתמשי Signal אחרים יוכלו למצוא אותך לפי שם המשתמש הזה וליצור איתך קשר בלי לדעת את מספר הטלפון שלך.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "שמות משתמש יכולים להכיל רק a-z, 0-9 וכן _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "שמות משתמש אינם יכולים להתחיל במספר.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "שמות משתמש חייבים להכיל לפחות $min$ תווים.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "לשמות משתמש חייבים להיות לכל היותר $max$ תווים.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "שם משתמש זה תפוס.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "שם המשתמש שלך לא היה יכול להישמר. בדוק את החיבור שלך ונסה שוב.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "שם המשתמש שלך לא היה יכול להיות מוסר. בדוק את החיבור שלך ונסה שוב.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "מחק שם משתמש",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "זה יסיר את שם המשתמש שלך ויאפשר אל משתמשים אחרים לתפוס אותו. האם אתה בטוח?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "מחק",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "כתוב משהו על עצמך…",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "אודות",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "היצגן שלך",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "שם משתמש",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "הפרופיל שלך לא היה יכול להתעדכן. אנא נסה שוב.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "משתמשי קורא מסך יכולים עכשיו לנווט בקלות יותר ברשימת השיחות בחלונית השמאלית.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "אתה יכול לחפש עכשיו בשיחות מאורכבות. דמיין את עצמך מחפש (בזריזות) בכרכים עתיקים, בחיפוש אחר הרמז הבא.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "אם אי פעם גוללת למעלה ושלחת הודעה, בטח תהית איפה ההודעה הייתה! עכשיו, ברגע שתשלח הודעה, היא תגולל לתוך התצוגה בשבילך כדי להעריץ את העבודה הקשה שלך.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "מגיב אל הודעה? זה אמור להיות יותר אמין עכשיו, ניסיון חוזר עד 24 שעות",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",

@@ -3335,13 +3335,7 @@
     },
     "MessageRequests--unblock-confirm-title": {
         "message": "Разблокировать $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Вы сможете отправлять сообщения и звонить друг другу.",
@@ -6201,6 +6195,70 @@
         "message": "Обо мне",
         "description": "Default text for about field"
     },
+    "ProfileEditor--username": {
+        "message": "Имя пользователя",
+        "description": "Default text for username field"
+    },
+    "ProfileEditor--username--placeholder": {
+        "message": "Введите имя пользователя",
+        "description": "Placeholder for the username field"
+    },
+    "ProfileEditor--username--helper": {
+        "message": "Имена пользователей в Signal необязательны. Если вы решите создать имя пользователя и сделать его доступным для поиска, другие пользователи Signal смогут найти вас по этому имени пользователя и связаться с вами, не зная вашего номера телефона.",
+        "description": "Shown on the edit username screen"
+    },
+    "ProfileEditor--username--check-characters": {
+        "message": "Имена пользователей могут содержать только a-z, 0-9 и _",
+        "description": "Shown if user has attempted to use forbidden characters"
+    },
+    "ProfileEditor--username--check-starting-character": {
+        "message": "Имена пользователей не могут начинаться с цифр.",
+        "description": "Shown if user has attempted to begin their username with a number"
+    },
+    "ProfileEditor--username--check-character-min": {
+        "message": "Имя пользователя должно содержать как минимум $min$ символа.",
+        "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
+        "placeholders": {
+            "min": {
+                "content": "$1",
+                "example": "3"
+            }
+        }
+    },
+    "ProfileEditor--username--check-character-max": {
+        "message": "Имя пользователя не может содержать больше чем $max$ символов.",
+        "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
+        "placeholders": {
+            "max": {
+                "content": "$1",
+                "example": "25"
+            }
+        }
+    },
+    "ProfileEditor--username--check-username-taken": {
+        "message": "Это имя пользователя занято.",
+        "description": "Shown if user has attempted to save a username which is not available"
+    },
+    "ProfileEditor--username--general-error": {
+        "message": "Не удалось сохранить имя пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "description": "Shown if something unknown has gone wrong with username save."
+    },
+    "ProfileEditor--username--delete-general-error": {
+        "message": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "description": "Shown if something unknown has gone wrong with username delete."
+    },
+    "ProfileEditor--username--delete-username": {
+        "message": "Удалить имя пользователя",
+        "description": "Shown as aria label for trash icon next to username"
+    },
+    "ProfileEditor--username--confirm-delete-body": {
+        "message": "Это действие удалит ваше имя пользователя, и другие пользователи смогут его использовать. Вы уверены?",
+        "description": "Shown in dialog body if user has saved an empty string to delete their username"
+    },
+    "ProfileEditor--username--confirm-delete-button": {
+        "message": "Удалить",
+        "description": "Shown in dialog button if user has saved an empty string to delete their username"
+    },
     "ProfileEditor--about-placeholder": {
         "message": "Напишите несколько слов о себе…",
         "description": "Placeholder text for about input field"
@@ -6262,6 +6320,14 @@
     "ProfileEditorModal--about": {
         "message": "Обо мне",
         "description": "Title for about editing"
+    },
+    "ProfileEditorModal--avatar": {
+        "message": "Ваш аватар",
+        "description": "Title for profile avatar editing"
+    },
+    "ProfileEditorModal--username": {
+        "message": "Имя пользователя",
+        "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
         "message": "Не удалось обновить ваш профиль. Пожалуйста, попробуйте ещё раз.",
@@ -6504,6 +6570,18 @@
     "WhatsNew__v5.21--3": {
         "message": "Пользователям программ чтения с экрана теперь должно быть легче перемещаться по списку разговоров в панели слева.",
         "description": "Release notes for v5.21"
+    },
+    "WhatsNew__v5.24--1": {
+        "message": "Теперь вы можете искать в архивированных разговорах. Представьте себя (быстро) просматривающим древние тома в поисках следующей подсказки.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--2": {
+        "message": "Если вы когда либо прокрутили вверх и отправили сообщение, то вы могли задуматься — где же ваше сообщение? Теперь после отправки сообщения разговор будет прокручен, чтобы сообщение было видно и вы смогли полюбоваться своей тяжёлой работой.",
+        "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.24--3": {
+        "message": "Реагируете на сообщение? Теперь это действие должно выполняться более надёжно — при необходимости оно будет повторяться в течении 24 часов.",
+        "description": "Release notes for v5.24"
     },
     "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
