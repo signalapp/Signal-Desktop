@@ -14,7 +14,7 @@
     max-width: 420px;
   }
 
-  &__body {
+  &__contents {
     display: flex;
     align-items: center;
   }
@@ -110,5 +110,17 @@
   &__description {
     @include font-body-1;
     @include fixed-height(5.5em);
+    margin-bottom: 12px;
+  }
+
+  &__instructions-button {
+    width: 100%;
+    &--hidden {
+      visibility: hidden;
+    }
+  }
+
+  .BadgeCarouselIndex {
+    margin-top: 24px;
   }
 }

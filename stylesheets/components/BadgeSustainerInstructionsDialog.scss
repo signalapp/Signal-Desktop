@@ -1,0 +1,52 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.BadgeSustainerInstructionsDialog {
+  user-select: none;
+
+  // We use this selector for specificity.
+  &.module-Modal {
+    max-width: 420px;
+  }
+
+  &__header {
+    @include font-title-2;
+    text-align: center;
+  }
+
+  &__subheader {
+    @include font-body-1;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  &__instructions {
+    @include font-body-2;
+    padding: 0;
+    list-style-position: inside;
+
+    &::before {
+      background-size: contain;
+      content: '';
+      display: block;
+      height: 160px;
+      margin: 24px auto;
+      width: 146px;
+
+      @include light-theme {
+        background-image: url('../images/mobile-settings-light.svg');
+      }
+      @include dark-theme {
+        background-image: url('../images/mobile-settings-dark.svg');
+      }
+    }
+
+    > li {
+      margin-top: 1em;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+}

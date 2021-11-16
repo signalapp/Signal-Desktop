@@ -5272,6 +5272,30 @@
     "message": "next",
     "description": "Generic next label"
   },
+  "BadgeDialog__become-a-sustainer-button": {
+    "message": "Become a Sustainer",
+    "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+  },
+  "BadgeSustainerInstructions__header": {
+    "message": "Become a Sustainer",
+    "description": "In the instructions for becoming a sustainer. The heading."
+  },
+  "BadgeSustainerInstructions__subheader": {
+    "message": "Signal is powered by people like you. Contribute and receive a badge.",
+    "description": "In the instructions for becoming a sustainer. The subheading."
+  },
+  "BadgeSustainerInstructions__instructions__1": {
+    "message": "Open Signal on your phone",
+    "description": "In the instructions for becoming a sustainer. First instruction."
+  },
+  "BadgeSustainerInstructions__instructions__2": {
+    "message": "Tap on your profile photo in the top left to open Settings",
+    "description": "In the instructions for becoming a sustainer. Second instruction."
+  },
+  "BadgeSustainerInstructions__instructions__3": {
+    "message": "Tap on \"Become a Sustainer\" and subscribe",
+    "description": "In the instructions for becoming a sustainer. Third instruction."
+  },
   "CompositionArea--expand": {
     "message": "Expand",
     "description": "Aria label for expanding composition area"

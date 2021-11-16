@@ -35,6 +35,11 @@
     cursor: not-allowed;
   }
 
+  &--large {
+    @include font-title-2;
+    font-weight: bold;
+  }
+
   &--medium {
     @include font-body-1-bold;
   }

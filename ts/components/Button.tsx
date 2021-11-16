@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { assert } from '../util/assert';
 
 export enum ButtonSize {
+  Large,
   Medium,
   Small,
 }
@@ -65,6 +66,7 @@ type PropsType = {
   );
 
 const SIZE_CLASS_NAMES = new Map<ButtonSize, string>([
+  [ButtonSize.Large, 'module-Button--large'],
   [ButtonSize.Medium, 'module-Button--medium'],
   [ButtonSize.Small, 'module-Button--small'],
 ]);
