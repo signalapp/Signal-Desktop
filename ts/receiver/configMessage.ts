@@ -124,12 +124,15 @@ const handleContactReceived = async (
     };
     // updateProfile will do a commit for us
     contactConvo.set('active_at', _.toNumber(envelope.timestamp));
-    contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
 
-    if (contactReceived.isBlocked === true) {
-      await BlockedNumberController.block(contactConvo.id);
-    } else {
-      await BlockedNumberController.unblock(contactConvo.id);
+    if (window.lokiFeatureFlags.useMessageRequests === true) {
+      contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+
+      if (contactReceived.isBlocked === true) {
+        await BlockedNumberController.block(contactConvo.id);
+      } else {
+        await BlockedNumberController.unblock(contactConvo.id);
+      }
     }
 
     await updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);

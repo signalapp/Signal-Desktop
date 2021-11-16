@@ -311,7 +311,7 @@ async function handleRegularMessage(
     updateReadStatus(message, conversation);
   }
 
-  if (type === 'outgoing') {
+  if (type === 'outgoing' && window.lokiFeatureFlags.useMessageRequests) {
     handleSyncedReceipts(message, conversation);
 
     // assumes sync receipts are always from linked device outgoings?
