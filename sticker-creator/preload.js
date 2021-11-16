@@ -246,7 +246,7 @@ async function encrypt(data, key, iv) {
   return ciphertext;
 }
 
-const getThemeSetting = createSetting('theme-setting');
+const getThemeSetting = createSetting('themeSetting');
 
 async function resolveTheme() {
   const theme = (await getThemeSetting.getValue()) || 'system';
