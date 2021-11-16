@@ -56,8 +56,6 @@ interface State {
   loading: boolean;
   overlay: false | SessionClosableOverlayType;
   valuePasted: string;
-  approvedConversations: any[];
-  unapprovedConversations: any[];
 }
 
 export class LeftPaneMessageSection extends React.Component<Props, State> {
@@ -66,19 +64,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    const approvedConversations = props.conversations?.filter(convo => Boolean(convo.isApproved));
-    const unapprovedConversations = props.conversations?.filter(
-      convo => !Boolean(convo.isApproved)
-    );
-
     console.warn('convos updated');
 
     this.state = {
       loading: false,
       overlay: false,
       valuePasted: '',
-      approvedConversations: approvedConversations || [],
-      unapprovedConversations: unapprovedConversations || [],
     };
 
     autoBind(this);
@@ -87,23 +78,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
-    const conversationsToShow = conversations?.filter(async c => {
-      return (
-        Boolean(c.isApproved) === true &&
-        (await BlockedNumberController.isBlockedAsync(c.id)) === false
-      );
-    });
-    if (!conversations || !conversationsToShow) {
+
+    //assume conversations that have been marked unapproved should be filtered out by selector.
+    if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    // TODO: make this only filtered when the setting is enabled
     const messageRequestsEnabled =
-      window.inboxStore?.getState().userConfig.messageRequests === true;
+      window.inboxStore?.getState().userConfig.messageRequests === true &&
+      window?.lokiFeatureFlags?.useMessageRequests;
 
     let conversation;
-    if (conversationsToShow?.length) {
-      conversation = conversationsToShow[index];
+    if (conversations?.length) {
+      conversation = conversations[index];
     }
 
     if (!conversation) {
@@ -129,10 +116,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('render: must provided conversations if no search results are provided');
     }
 
-    // TODO: make selectors for this instead.
-    // TODO: only filter conversations if setting for requests is applied
-
-    // TODO: readjust to be approved length as only approved convos will show here.
     const length = this.props.conversations ? this.props.conversations.length : 0;
 
     const listKey = 0;
@@ -145,7 +128,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              // conversations={this.state.approvedConversations}
               conversations={this.props.conversations}
               height={height}
               rowCount={length}
@@ -197,7 +179,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
         />
-        <MessageRequestsBanner handleOnClick={this.handleMessageRequestsClick} />
+        {window.lokiFeatureFlags.useMessageRequests ? (
+          <MessageRequestsBanner handleOnClick={this.handleMessageRequestsClick} />
+        ) : null}
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>

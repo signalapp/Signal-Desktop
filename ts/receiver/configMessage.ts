@@ -54,16 +54,6 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  // const didWeHandleAConfigurationMessageAlready =
-  //   (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
-
-  // TODO: debug
-  // if (didWeHandleAConfigurationMessageAlready) {
-  //   window?.log?.info(
-  //     'Dropping configuration contacts/groups change as we already handled one... '
-  //   );
-  //   return;
-  // }
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,

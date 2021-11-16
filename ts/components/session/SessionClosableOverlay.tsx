@@ -297,9 +297,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
  */
 const MessageRequestList = () => {
   const lists = useSelector(getLeftPaneLists);
-  // const validConversationRequests = lists?.conversations.filter(c => {
   const validConversationRequests = lists?.conversationRequests;
-  console.warn({ unapprovedConversationsListConstructor: validConversationRequests });
   return (
     <div className="message-request-list__container">
       {validConversationRequests.map(conversation => {
@@ -309,7 +307,6 @@ const MessageRequestList = () => {
   );
 };
 
-// const MessageRequestListItem = (props: { conversation: ConversationModel }) => {
 const MessageRequestListItem = (props: { conversation: ConversationListItemProps }) => {
   const { conversation } = props;
   return (

@@ -304,6 +304,10 @@ export const _getLeftPaneLists = (
       };
     }
 
+    if (!Boolean(conversation.isApproved) === true && window.lokiFeatureFlags.useMessageRequests) {
+      continue;
+    }
+
     // Add Open Group to list as soon as the name has been set
     if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
       continue;

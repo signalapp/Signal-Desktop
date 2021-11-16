@@ -403,7 +403,6 @@ export async function isMessageDuplicate({
       return false;
     }
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
-    console.warn({ filteredResult });
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
     window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));

@@ -716,12 +716,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const sentAt = message.get('sent_at');
 
-      // TODO: msgreq for debugging
-      const unapprove = message.get('body')?.includes('unapprove');
-      if (unapprove) {
-        await this.setIsApproved(false);
-      }
-
       if (!sentAt) {
         throw new Error('sendMessageJob() sent_at must be set.');
       }
@@ -743,7 +737,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       const updateApprovalNeeded =
         !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
-      if (updateApprovalNeeded && !unapprove) {
+      if (updateApprovalNeeded) {
         this.setIsApproved(true);
         await syncConfigurationIfNeeded(true);
       }

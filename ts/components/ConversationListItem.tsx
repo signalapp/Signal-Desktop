@@ -303,10 +303,6 @@ const ConversationListItem = (props: Props) => {
   const handleConversationAccept = async () => {
     const conversationToApprove = await getConversationById(conversationId);
     await conversationToApprove?.setIsApproved(true);
-    console.warn({ convoAfterSetIsApproved: conversationToApprove });
-    // TODO: Send sync message to other devices. Using config message
-
-    // await syncConfigurationIfNeeded(true);
     await forceSyncConfigurationNowIfNeeded();
   };
 
@@ -315,10 +311,6 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onMouseDown={openConvo}
-        // onMouseUp={e => {
-        //   e.stopPropagation();
-        //   e.preventDefault();
-        // }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,
