@@ -1714,7 +1714,17 @@ export default class MessageReceiver
     envelope: UnsealedEnvelope,
     msg: Proto.IDataMessage
   ): Promise<void> {
-    log.info('MessageReceiver.handleDataMessage', this.getEnvelopeId(envelope));
+    const logId = this.getEnvelopeId(envelope);
+    log.info('MessageReceiver.handleDataMessage', logId);
+
+    if (msg.storyContext) {
+      log.info(
+        `MessageReceiver.handleDataMessage/${logId}: Dropping incoming dataMessage with storyContext field`
+      );
+      this.removeFromCache(envelope);
+      return undefined;
+    }
+
     let p: Promise<void> = Promise.resolve();
     // eslint-disable-next-line no-bitwise
     const destination = envelope.sourceUuid;
@@ -1897,6 +1907,14 @@ export default class MessageReceiver
     }
     if (content.typingMessage) {
       await this.handleTypingMessage(envelope, content.typingMessage);
+      return;
+    }
+    if (content.storyMessage) {
+      const logId = this.getEnvelopeId(envelope);
+      log.info(
+        `innerHandleContentMessage/${logId}: Dropping incoming message with storyMessage field`
+      );
+      this.removeFromCache(envelope);
       return;
     }
 
