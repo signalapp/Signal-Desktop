@@ -2,14 +2,18 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import { strictAssert } from '../util/assert';
 import type { LocalizerType } from '../types/Util';
 import type { BadgeType } from '../badges/types';
+import { BadgeCategory } from '../badges/BadgeCategory';
 import { Modal } from './Modal';
+import { Button, ButtonSize } from './Button';
 import { BadgeDescription } from './BadgeDescription';
 import { BadgeImage } from './BadgeImage';
 import { BadgeCarouselIndex } from './BadgeCarouselIndex';
+import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog';
 
 type PropsType = Readonly<{
   badges: ReadonlyArray<BadgeType>;
@@ -20,16 +24,32 @@ type PropsType = Readonly<{
 }>;
 
 export function BadgeDialog(props: PropsType): null | JSX.Element {
-  const { badges, onClose } = props;
+  const { badges, i18n, onClose } = props;
+
+  const [isShowingInstructions, setIsShowingInstructions] = useState(false);
 
   const hasBadges = badges.length > 0;
   useEffect(() => {
-    if (!hasBadges) {
+    if (!hasBadges && !isShowingInstructions) {
       onClose();
     }
-  }, [hasBadges, onClose]);
+  }, [hasBadges, isShowingInstructions, onClose]);
 
-  return hasBadges ? <BadgeDialogWithBadges {...props} /> : null;
+  if (isShowingInstructions) {
+    return (
+      <BadgeSustainerInstructionsDialog
+        i18n={i18n}
+        onClose={() => setIsShowingInstructions(false)}
+      />
+    );
+  }
+
+  return hasBadges ? (
+    <BadgeDialogWithBadges
+      {...props}
+      onShowInstructions={() => setIsShowingInstructions(true)}
+    />
+  ) : null;
 }
 
 function BadgeDialogWithBadges({
@@ -37,8 +57,9 @@ function BadgeDialogWithBadges({
   firstName,
   i18n,
   onClose,
+  onShowInstructions,
   title,
-}: PropsType): JSX.Element {
+}: PropsType & { onShowInstructions: () => unknown }): JSX.Element {
   const firstBadge = badges[0];
   strictAssert(
     firstBadge,
@@ -75,35 +96,48 @@ function BadgeDialogWithBadges({
       i18n={i18n}
       onClose={onClose}
     >
-      <button
-        aria-label={i18n('previous')}
-        className="BadgeDialog__nav BadgeDialog__nav--previous"
-        disabled={currentBadgeIndex === 0}
-        onClick={() => navigate(-1)}
-        type="button"
-      />
-      <div className="BadgeDialog__main">
-        <BadgeImage badge={currentBadge} size={160} />
-        <div className="BadgeDialog__name">{currentBadge.name}</div>
-        <div className="BadgeDialog__description">
-          <BadgeDescription
-            firstName={firstName}
-            template={currentBadge.descriptionTemplate}
-            title={title}
+      <div className="BadgeDialog__contents">
+        <button
+          aria-label={i18n('previous')}
+          className="BadgeDialog__nav BadgeDialog__nav--previous"
+          disabled={currentBadgeIndex === 0}
+          onClick={() => navigate(-1)}
+          type="button"
+        />
+        <div className="BadgeDialog__main">
+          <BadgeImage badge={currentBadge} size={160} />
+          <div className="BadgeDialog__name">{currentBadge.name}</div>
+          <div className="BadgeDialog__description">
+            <BadgeDescription
+              firstName={firstName}
+              template={currentBadge.descriptionTemplate}
+              title={title}
+            />
+          </div>
+          <Button
+            className={classNames(
+              'BadgeDialog__instructions-button',
+              currentBadge.category !== BadgeCategory.Donor &&
+                'BadgeDialog__instructions-button--hidden'
+            )}
+            onClick={onShowInstructions}
+            size={ButtonSize.Large}
+          >
+            {i18n('BadgeDialog__become-a-sustainer-button')}
+          </Button>
+          <BadgeCarouselIndex
+            currentIndex={currentBadgeIndex}
+            totalCount={badges.length}
           />
         </div>
-        <BadgeCarouselIndex
-          currentIndex={currentBadgeIndex}
-          totalCount={badges.length}
+        <button
+          aria-label={i18n('next')}
+          className="BadgeDialog__nav BadgeDialog__nav--next"
+          disabled={currentBadgeIndex === badges.length - 1}
+          onClick={() => navigate(1)}
+          type="button"
         />
       </div>
-      <button
-        aria-label={i18n('next')}
-        className="BadgeDialog__nav BadgeDialog__nav--next"
-        disabled={currentBadgeIndex === badges.length - 1}
-        onClick={() => navigate(1)}
-        type="button"
-      />
     </Modal>
   );
 }
