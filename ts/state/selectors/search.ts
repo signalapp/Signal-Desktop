@@ -44,8 +44,9 @@ export const getSearchResults = createSelector(
         state.conversations.map(id => {
           const value = lookup[id];
 
-          // Don't return anything when activeAt is undefined (i.e. no current conversations with this user)
-          if (value.activeAt === undefined) {
+          // Don't return anything when activeAt is unset (i.e. no current conversations with this user)
+          if (value.activeAt === undefined || value.activeAt === 0) {
+            //activeAt can be 0 when linking device
             return null;
           }
 
