@@ -43,6 +43,7 @@ message Content {
   optional TypingMessage  typingMessage                = 6;
   optional bytes          senderKeyDistributionMessage = 7;
   optional bytes          decryptionErrorMessage       = 8;
+  optional StoryMessage   storyMessage                 = 9;
 }
 
 // Everything in CallingMessage must be kept in sync with RingRTC (ringrtc-node).
@@ -248,6 +249,11 @@ message DataMessage {
     optional string eraId = 1;
   }
 
+  message StoryContext {
+    optional string authorUuid = 1;
+    optional uint64 sentTimestamp = 2;
+  }
+
   enum ProtocolVersion {
     option allow_alias = true;
 
@@ -280,6 +286,8 @@ message DataMessage {
   optional Delete             delete                  = 17;
   repeated BodyRange          bodyRanges              = 18;
   optional GroupCallUpdate    groupCallUpdate         = 19;
+  reserved /* Payment         payment */                20;
+  optional StoryContext       storyContext            = 21;
 }
 
 message NullMessage {
@@ -306,6 +314,12 @@ message TypingMessage {
     optional uint64 timestamp = 1;
     optional Action action    = 2;
     optional bytes  groupId   = 3;
+}
+
+message StoryMessage {
+  optional bytes profileKey = 1;
+  optional GroupContextV2 group = 2;
+  optional AttachmentPointer attachment = 3;
 }
 
 message Verified {
