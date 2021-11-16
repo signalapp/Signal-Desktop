@@ -63,6 +63,7 @@ import type {
 } from '../ducks/conversations';
 
 import type { AccountSelectorType } from './accounts';
+import type { PreferredBadgeSelectorType } from './badges';
 import type { CallSelectorType, CallStateType } from './calling';
 import type {
   GetConversationByIdType,
@@ -81,6 +82,7 @@ import {
   someSendStatus,
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
+import type { BadgeType } from '../../badges/types';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -106,6 +108,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   ourConversationId: string;
   ourNumber?: string;
   ourUuid: UUIDStringType;
+  preferredBadgeSelector: PreferredBadgeSelectorType;
   selectedMessageId?: string;
   selectedMessageCounter?: number;
   regionCode: string;
@@ -241,11 +244,7 @@ export const getAttachmentsForMessage = createSelectorCreator(memoizeByRoot)(
 
   ({ sticker }: MessageWithUIFieldsType) => sticker,
   ({ attachments }: MessageWithUIFieldsType) => attachments,
-  (
-    _: MessageWithUIFieldsType,
-    sticker: MessageWithUIFieldsType['sticker'],
-    attachments: MessageWithUIFieldsType['attachments'] = []
-  ): Array<AttachmentType> => {
+  (_, sticker, attachments = []): Array<AttachmentType> => {
     if (sticker && sticker.data) {
       const { data } = sticker;
 
@@ -298,7 +297,7 @@ export const processBodyRanges = createSelectorCreator(memoizeByRoot, isEqual)(
       })
       .sort((a, b) => b.start - a.start);
   },
-  (_: MessageWithUIFieldsType, ranges?: BodyRangesType) => ranges
+  (_, ranges): undefined | BodyRangesType => ranges
 );
 
 const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
@@ -307,13 +306,11 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
 
   getContact,
 
-  (
-    _: MessageWithUIFieldsType,
-    convo: ConversationType
-  ): PropsData['author'] => {
+  (_, convo: ConversationType): PropsData['author'] => {
     const {
       acceptedMessageRequest,
       avatarPath,
+      badges,
       color,
       id,
       isMe,
@@ -328,6 +325,7 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
     const unsafe = {
       acceptedMessageRequest,
       avatarPath,
+      badges,
       color,
       id,
       isMe,
@@ -348,25 +346,28 @@ const getAuthorForMessage = createSelectorCreator(memoizeByRoot)(
 const getCachedAuthorForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   // `memoizeByRoot` requirement
   identity,
-
   getAuthorForMessage,
+  (_, author): PropsData['author'] => author
+);
 
-  (
-    _: MessageWithUIFieldsType,
-    author: PropsData['author']
-  ): PropsData['author'] => author
+const getAuthorBadgeForMessage: (
+  message: MessageWithUIFieldsType,
+  options: {
+    preferredBadgeSelector: PreferredBadgeSelectorType;
+  }
+) => undefined | BadgeType = createSelectorCreator(memoizeByRoot, isEqual)(
+  // `memoizeByRoot` requirement
+  identity,
+  (_, { preferredBadgeSelector }) => preferredBadgeSelector,
+  getAuthorForMessage,
+  (_, preferredBadgeSelector, author) => preferredBadgeSelector(author.badges)
 );
 
 export const getPreviewsForMessage = createSelectorCreator(memoizeByRoot)(
   // `memoizeByRoot` requirement
   identity,
-
   ({ preview }: MessageWithUIFieldsType) => preview,
-
-  (
-    _: MessageWithUIFieldsType,
-    previews: MessageWithUIFieldsType['preview'] = []
-  ): Array<LinkPreviewType> => {
+  (_, previews = []): Array<LinkPreviewType> => {
     return previews.map(preview => ({
       ...preview,
       isStickerPack: isStickerPack(preview.url),
@@ -435,7 +436,7 @@ export const getReactionsForMessage = createSelectorCreator(
     return [...formattedReactions];
   },
 
-  (_: MessageWithUIFieldsType, reactions: PropsData['reactions']) => reactions
+  (_, reactions): PropsData['reactions'] => reactions
 );
 
 export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
@@ -503,7 +504,7 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     };
   },
 
-  (_: unknown, quote: PropsData['quote']) => quote
+  (_, quote): PropsData['quote'] => quote
 );
 
 export type GetPropsForMessageOptions = Pick<
@@ -512,6 +513,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'ourConversationId'
   | 'ourUuid'
   | 'ourNumber'
+  | 'preferredBadgeSelector'
   | 'selectedMessageId'
   | 'selectedMessageCounter'
   | 'regionCode'
@@ -640,22 +642,29 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
   (_: unknown, props: ShallowPropsType) => props
 );
 
-export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
+export const getPropsForMessage: (
+  message: MessageWithUIFieldsType,
+  options: GetPropsForMessageOptions
+) => Omit<PropsForMessage, 'renderingContext'> = createSelectorCreator(
+  memoizeByRoot
+)(
   // `memoizeByRoot` requirement
   identity,
 
   getAttachmentsForMessage,
   processBodyRanges,
   getCachedAuthorForMessage,
+  getAuthorBadgeForMessage,
   getPreviewsForMessage,
   getReactionsForMessage,
   getPropsForQuote,
   getShallowPropsForMessage,
   (
-    _: unknown,
+    _,
     attachments: Array<AttachmentType>,
     bodyRanges: BodyRangesType | undefined,
     author: PropsData['author'],
+    authorBadge: undefined | BadgeType,
     previews: Array<LinkPreviewType>,
     reactions: PropsData['reactions'],
     quote: PropsData['quote'],
@@ -664,6 +673,7 @@ export const getPropsForMessage = createSelectorCreator(memoizeByRoot)(
     return {
       attachments,
       author,
+      authorBadge,
       bodyRanges,
       previews,
       quote,
@@ -678,7 +688,8 @@ export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
   identity,
 
   getPropsForMessage,
-  (_: unknown, data: ReturnType<typeof getPropsForMessage>) => ({
+
+  (_, data): TimelineItemType => ({
     type: 'message' as const,
     data,
   })

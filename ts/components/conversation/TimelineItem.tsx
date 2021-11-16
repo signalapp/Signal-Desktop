@@ -148,7 +148,7 @@ type PropsLocalType = {
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
-  theme?: ThemeType;
+  theme: ThemeType;
   previousItem: undefined | TimelineItemType;
   nextItem: undefined | TimelineItemType;
 };

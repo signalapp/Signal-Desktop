@@ -31,6 +31,8 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 import { WidthBreakpoint } from '../_util';
 
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
+import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -95,6 +97,7 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || getDefaultConversation(),
+  authorBadge: overrideProps.authorBadge,
   reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
@@ -176,6 +179,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   status: overrideProps.status || 'sent',
   text: overrideProps.text || text('text', ''),
   textPending: boolean('textPending', overrideProps.textPending || false),
+  theme: ThemeType.light,
   timestamp: number('timestamp', overrideProps.timestamp || Date.now()),
 });
 
@@ -536,6 +540,17 @@ story.add('Reactions (short message)', () => {
 story.add('Avatar in Group', () => {
   const props = createProps({
     author: getDefaultConversation({ avatarPath: pngUrl }),
+    conversationType: 'group',
+    status: 'sent',
+    text: 'Hello it is me, the saxophone.',
+  });
+
+  return <Message {...props} />;
+});
+
+story.add('Badge in Group', () => {
+  const props = createProps({
+    authorBadge: getFakeBadge(),
     conversationType: 'group',
     status: 'sent',
     text: 'Hello it is me, the saxophone.',

@@ -8,7 +8,8 @@ import { MessageDetail } from '../../components/conversation/MessageDetail';
 
 import { mapDispatchToProps } from '../actions';
 import type { StateType } from '../reducer';
-import { getIntl, getInteractionMode } from '../selectors/user';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
@@ -17,11 +18,13 @@ import { getContactNameColorSelector } from '../selectors/conversations';
 export { Contact } from '../../components/conversation/MessageDetail';
 export type OwnProps = Omit<
   MessageDetailProps,
+  | 'getPreferredBadge'
   | 'i18n'
   | 'interactionMode'
   | 'renderAudioAttachment'
   | 'renderEmojiPicker'
   | 'renderReactionPicker'
+  | 'theme'
 >;
 
 const mapStateToProps = (
@@ -62,6 +65,8 @@ const mapStateToProps = (
         )
       : undefined;
 
+  const getPreferredBadge = getPreferredBadgeSelector(state);
+
   return {
     contacts,
     contactNameColor,
@@ -70,8 +75,10 @@ const mapStateToProps = (
     receivedAt,
     sentAt,
 
+    getPreferredBadge,
     i18n: getIntl(state),
     interactionMode: getInteractionMode(state),
+    theme: getTheme(state),
 
     showSafetyNumber,
 

@@ -16,6 +16,7 @@ import { CallMode } from '../../types/Calling';
 import { AvatarColors } from '../../types/Colors';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -53,6 +54,7 @@ const getDefaultProps = () => ({
   id: 'asdf',
   isSelected: false,
   interactionMode: 'keyboard' as const,
+  theme: ThemeType.light,
   selectMessage: action('selectMessage'),
   reactToMessage: action('reactToMessage'),
   checkForAccount: action('checkForAccount'),

@@ -15,6 +15,8 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
+import { getFakeBadge } from '../../test-both/helpers/getFakeBadge';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -25,6 +27,7 @@ const defaultMessage: MessageDataPropsType = {
     id: 'some-id',
     title: 'Max',
   }),
+  authorBadge: getFakeBadge(),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
@@ -59,8 +62,10 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   receivedAt: number('receivedAt', overrideProps.receivedAt || Date.now()),
   sentAt: number('sentAt', overrideProps.sentAt || Date.now()),
 
+  getPreferredBadge: () => getFakeBadge(),
   i18n,
   interactionMode: 'keyboard',
+  theme: ThemeType.light,
 
   showSafetyNumber: action('showSafetyNumber'),
 

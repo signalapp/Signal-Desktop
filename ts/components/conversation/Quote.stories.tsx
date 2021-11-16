@@ -26,6 +26,7 @@ import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
 import { WidthBreakpoint } from '../_util';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -36,6 +37,7 @@ const defaultMessageProps: MessagesProps = {
     id: 'some-id',
     title: 'Person X',
   }),
+  authorBadge: undefined,
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
@@ -90,6 +92,7 @@ const defaultMessageProps: MessagesProps = {
   showVisualAttachment: action('default--showVisualAttachment'),
   status: 'sent',
   text: 'This is really interesting.',
+  theme: ThemeType.light,
   timestamp: Date.now(),
 };
 

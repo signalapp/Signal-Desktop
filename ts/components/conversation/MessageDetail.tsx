@@ -14,8 +14,9 @@ import type {
   PropsData as MessagePropsDataType,
 } from './Message';
 import { Message } from './Message';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { groupBy } from '../../util/mapUtil';
 import type { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
@@ -27,6 +28,7 @@ export type Contact = Pick<
   ConversationType,
   | 'acceptedMessageRequest'
   | 'avatarPath'
+  | 'badges'
   | 'color'
   | 'id'
   | 'isMe'
@@ -60,6 +62,8 @@ export type PropsData = {
 
   showSafetyNumber: (contactId: string) => void;
   i18n: LocalizerType;
+  theme: ThemeType;
+  getPreferredBadge: PreferredBadgeSelectorType;
 } & Pick<MessagePropsType, 'interactionMode'>;
 
 export type PropsBackboneActions = Pick<
@@ -116,10 +120,11 @@ export class MessageDetail extends React.Component<Props> {
   }
 
   public renderAvatar(contact: Contact): JSX.Element {
-    const { i18n } = this.props;
+    const { getPreferredBadge, i18n, theme } = this.props;
     const {
       acceptedMessageRequest,
       avatarPath,
+      badges,
       color,
       isMe,
       name,
@@ -134,6 +139,7 @@ export class MessageDetail extends React.Component<Props> {
       <Avatar
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={getPreferredBadge(badges)}
         color={color}
         conversationType="direct"
         i18n={i18n}
@@ -141,6 +147,7 @@ export class MessageDetail extends React.Component<Props> {
         name={name}
         phoneNumber={phoneNumber}
         profileName={profileName}
+        theme={theme}
         title={title}
         sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_SIX}
@@ -288,6 +295,7 @@ export class MessageDetail extends React.Component<Props> {
       showExpiredOutgoingTapToViewToast,
       showForwardMessageModal,
       showVisualAttachment,
+      theme,
     } = this.props;
 
     return (
@@ -350,6 +358,7 @@ export class MessageDetail extends React.Component<Props> {
               log.warn('MessageDetail: deleteMessageForEveryone called!');
             }}
             showVisualAttachment={showVisualAttachment}
+            theme={theme}
           />
         </div>
         <table className="module-message-detail__info">
