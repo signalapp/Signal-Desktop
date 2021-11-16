@@ -1070,6 +1070,8 @@ export default class MessageReceiver
       return undefined;
     }
 
+    strictAssert(uuidKind === UUIDKind.ACI, 'Sealed non-ACI envelope');
+
     const ciphertext = envelope.content || envelope.legacyMessage;
     if (!ciphertext) {
       this.removeFromCache(envelope);
@@ -1440,6 +1442,11 @@ export default class MessageReceiver
       );
       return undefined;
     }
+
+    strictAssert(
+      uuidKind === UUIDKind.PNI || uuidKind === UUIDKind.ACI,
+      `Unsupported uuidKind: ${uuidKind}`
+    );
 
     if (envelope.type === envelopeTypeEnum.PLAINTEXT_CONTENT) {
       log.info(`decrypt/${logId}: plaintext message`);
