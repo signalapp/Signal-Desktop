@@ -62,6 +62,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   receivedAt: number('receivedAt', overrideProps.receivedAt || Date.now()),
   sentAt: number('sentAt', overrideProps.sentAt || Date.now()),
 
+  getPreferredBadge: () => getFakeBadge(),
   i18n,
   interactionMode: 'keyboard',
   theme: ThemeType.light,
