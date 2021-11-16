@@ -31,7 +31,6 @@ const {
 const {
   ContactDetail,
 } = require('../../ts/components/conversation/ContactDetail');
-const { ContactListItem } = require('../../ts/components/ContactListItem');
 const {
   ContactModal,
 } = require('../../ts/components/conversation/ContactModal');
@@ -329,7 +328,6 @@ exports.setup = (options = {}) => {
     ChatColorPicker,
     ConfirmationDialog,
     ContactDetail,
-    ContactListItem,
     ContactModal,
     Emojify,
     ErrorModal,
