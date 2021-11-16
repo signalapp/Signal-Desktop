@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { memoize, sortBy } from 'lodash';
+import os from 'os';
 import { ipcRenderer as ipc } from 'electron';
 import { z } from 'zod';
 import FormData from 'form-data';
@@ -131,6 +132,7 @@ const getHeader = (
       'Node version': nodeVersion,
       Environment: getEnvironment(),
       'App version': appVersion,
+      'OS version': os.version(),
     }),
     headerSection('User info', user),
     headerSection('Capabilities', capabilities),
