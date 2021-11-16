@@ -565,6 +565,27 @@
     "reasonDetail": "isn't jquery"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/asar/node_modules/commander/index.js",
+    "line": "          desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/asar/node_modules/commander/index.js",
+    "line": "function wrap(str, width, indent) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/asar/node_modules/commander/index.js",
+    "line": "  return wrap(str, width, indent);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
     "rule": "jQuery-insertAfter(",
     "path": "node_modules/ast-types/lib/path.js",
     "line": "    Pp.insertAfter = function insertAfter(node) {",
@@ -828,13 +849,6 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/cliui/index.js",
-    "line": "    if (_this.wrap) wrapped = wrap(col.text, _this._negatePadding(col), {hard: true}).split('\\n')",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/config/lib/config.js",
     "line": "      configObject = VisionmediaYaml.eval(util.stripYamlComments(content));",
@@ -847,6 +861,13 @@
     "line": "      configObject = Yaml.load(content);",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/configstore/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "jQuery-append(",
@@ -996,40 +1017,6 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/browser-source-map-support.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Most eval() calls are in this format",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Parse nested eval() calls using recursion",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Code called using eval() needs special handling",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
     "reasonCategory": "falseMatch",
@@ -1158,27 +1145,6 @@
     "updated": "2020-04-30T22:35:27.860Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/decompress-zip/lib/extractors.js",
-    "line": "            input.wrap(fs.createReadStream(zip.filename, {start: file._offset, end: file._offset + file.uncompressedSize - 1}));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/decompress-zip/lib/extractors.js",
-    "line": "                input.wrap(fs.createReadStream(zip.filename, {start: file._offset}));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/decompress-zip/lib/extractors.js",
-    "line": "                    input.wrap(fs.createReadStream(path.resolve(parent, linkTo)));",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
     "rule": "thenify-multiArgs",
     "path": "node_modules/del/node_modules/globby/node_modules/pify/index.js",
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
@@ -1227,13 +1193,6 @@
     "line": "exports.enable(load());",
     "reasonCategory": "falseMatch|",
     "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/diff/dist/diff.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T00:10:28.628Z",
-    "reasonDetail": "isn't jquery"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1428,20 +1387,6 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/es6-promisify/dist/promisify.js",
-    "line": "     * @param {bool} settings.multiArgs - Should multiple arguments be returned as an array?",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
-    "rule": "thenify-multiArgs",
-    "path": "node_modules/es6-promisify/dist/promisify.js",
-    "line": "            var returnMultipleArguments = settings && settings.multiArgs;",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:06:35.446Z"
-  },
-  {
     "rule": "React-ref",
     "path": "node_modules/esquery/dist/esquery.esm.min.js",
     "reasonCategory": "falseMatch",
@@ -1454,13 +1399,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
     "reasonDetail": "isn't react"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/execa/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-20T20:01:50.505Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1561,13 +1499,6 @@
     "updated": "2021-10-01T23:53:26.107Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/foreground-child/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-20T20:01:50.505Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/form-data/lib/form_data.js",
     "line": "  append(header);",
@@ -1589,11 +1520,11 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/gauge/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-20T20:01:50.505Z"
+    "rule": "jQuery-$(",
+    "path": "node_modules/global-dirs/index.js",
+    "line": "\t// Homebrew special case: `$(brew --prefix)/lib/node_modules/npm/npmrc`",
+    "reasonCategory": "exampleCode",
+    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1694,61 +1625,6 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "        desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "function wrap(str, width, indent) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "  return wrap(str, width, indent);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/browser-source-map-support.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Most eval() calls are in this format",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Parse nested eval() calls using recursion",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
-    "line": "  // passed to eval() ending in \"//# sourceURL=...\" will return the source file",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/html-minifier-terser/node_modules/source-map-support/source-map-support.js",
-    "line": "  // Code called using eval() needs special handling",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
     "reasonCategory": "falseMatch",
@@ -1840,34 +1716,6 @@
     "line": "        if (tw.before) x = tw.before(this, descend, in_list);",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
   },
   {
     "rule": "jQuery-$(",
@@ -2768,285 +2616,6 @@
     "line": "  // Avoid code execution in load() via toString property",
     "reasonCategory": "falseMatch",
     "updated": "2019-06-19T20:42:32.133Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/dist/jszip.js",
-    "line": "            builder.append(buffer);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/dist/jszip.js",
-    "line": "            builder.append(part);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/jszip/dist/jszip.js",
-    "line": " * @param {String} zipCompression the compression defined at the load() level.",
-    "reasonCategory": "exampleCode",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/jszip/dist/jszip.js",
-    "line": "        zipEntries.load(data);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/dist/jszip.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/dist/jszip.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/jszip/dist/jszip.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/jszip/lib/generate/index.js",
-    "line": " * @param {String} zipCompression the compression defined at the load() level.",
-    "reasonCategory": "exampleCode",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/jszip/lib/load.js",
-    "line": "        zipEntries.load(data);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/lib/support.js",
-    "line": "            builder.append(buffer);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/jszip/lib/utils.js",
-    "line": "            builder.append(part);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/build/index.js",
-    "line": "              if (name.indexOf(ns + \".\") === 0 && !in$(name, experimental)) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/build/index.js",
-    "line": "  function in$(x, xs){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(tag);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
-    "line": "\t    return wrap(wks(name));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.js",
-    "line": "\t  setInterval: wrap(global.setInterval)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/core.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(tag);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
-    "line": "\t    return wrap(wks(name));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/library.js",
-    "line": "\t  setInterval: wrap(global.setInterval)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/library.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
-    "line": "\t      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(tag);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
-    "line": "\t    return wrap(wks(name));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
-    "line": "\t  setTimeout:  wrap(global.setTimeout),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.js",
-    "line": "\t  setInterval: wrap(global.setInterval)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/client/shim.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/library/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/library/modules/web.timers.js",
-    "line": "  setInterval: wrap(global.setInterval)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/jszip/node_modules/core-js/modules/es6.regexp.split.js",
-    "line": "      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\\\s)', flags);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(tag);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/modules/es6.symbol.js",
-    "line": "    return wrap(wks(name));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/modules/web.timers.js",
-    "line": "  setTimeout:  wrap(global.setTimeout),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/jszip/node_modules/core-js/modules/web.timers.js",
-    "line": "  setInterval: wrap(global.setInterval)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
   },
   {
     "rule": "jQuery-$(",
@@ -5452,23 +5021,10 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "node_modules/loud-rejection/node_modules/signal-exit/index.js",
+    "path": "node_modules/mac-screen-capture-permissions/node_modules/signal-exit/index.js",
     "line": "    load()",
     "reasonCategory": "falseMatch",
-    "updated": "2021-05-20T20:01:50.505Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "node_modules/marked/lib/marked.js",
-    "line": "      return this.renderer.html(this.token.text);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "node_modules/marked/marked.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-08-15T17:10:42.360Z"
+    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "jQuery-after(",
@@ -5503,237 +5059,9 @@
   },
   {
     "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/ajv.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/ajv.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "React-ref",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/nodent.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-insertAfter(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-insertBefore(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-prepend(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/mksnapshot/node_modules/ajv/dist/regenerator.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
-    "line": "  append(header);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
-    "line": "  append(footer);",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/form-data/lib/form_data.js",
-    "line": "  append(value);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-09-11T17:24:56.124Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/request/lib/multipart.js",
-    "line": "    return chunked ? body.append(part) : body.push(Buffer.from(part))",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value.value, value.options)",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/mksnapshot/node_modules/request/request.js",
-    "line": "        requestForm.append(key, value)",
-    "reasonCategory": "falseMatch",
-    "updated": "2019-07-19T17:16:02.404Z"
-  },
-  {
-    "rule": "jQuery-$(",
     "path": "node_modules/moment/min/moment.min.js",
     "reasonCategory": "falseMatch",
     "updated": "2021-05-07T01:39:53.992Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nconf/lib/nconf/provider.js",
-    "line": "      return next(new Error('nconf store ' + store.type + ' has no load() method'));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/nconf/lib/nconf/provider.js",
-    "line": "      : store.load(next);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/nconf/node_modules/yargs/index.js",
-    "line": "    usage.wrap(cols)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/needle/lib/multipart.js",
-    "line": "  function append(data, filename) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/needle/lib/multipart.js",
-    "line": "    if (part.buffer) return append(part.buffer, filename);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/needle/lib/multipart.js",
-    "line": "      append(data, filename);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/needle/lib/multipart.js",
-    "line": "    append();",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/common.js",
-    "line": "  createDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/needle/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -6044,132 +5372,11 @@
     "updated": "2019-07-19T17:16:02.404Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object-hash/dist/object_hash.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/object-hash/dist/object_hash_test.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      seperator = defaultString || descriptionString || exampleString ? \"\\n\" + repeatString$('=', pre.length) : '';",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      initialSpace = repeatString$(' ', initialIndent);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "    return str + \"\" + repeatString$(' ', padAmount > 0 ? padAmount : 0);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "  function repeatString$(str, n){",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "      return namesString + \"\" + typeSeparatorString + wrap(type).replace(/^\\s+/, '');",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "          ? \"\\n\" + preDescription + \"\\n\" + wrap(fullDescription)",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "              out(initialSpace + \"\" + pre + \"\\n\" + wrap(desc));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/optionator/lib/help.js",
-    "line": "              out(initialSpace + \"\" + pad(pre, padAmount) + descriptionSeparator + wrap(desc).replace(/^\\s+/, ''));",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-28T16:12:19.904Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/index.js",
-    "line": "      function fn$(it){",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/index.js",
-    "line": "            import$(obj[name], val);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/lib/index.js",
-    "line": "  function import$(obj, src){",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/optionator/node_modules/levn/lib/parse-string.js",
-    "line": "  function not$(x){ return !x; }",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-07T20:07:48.358Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/os-locale/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-20T20:01:50.505Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/pac-proxy-agent/node_modules/socks/build/client/socksclient.js",
-    "line": "        this.receiveBuffer.append(data);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-07T20:07:48.358Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/pac-proxy-agent/node_modules/socks/build/common/receivebuffer.js",
-    "line": "    append(data) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-07T20:07:48.358Z",
-    "reasonDetail": "isn't jquery"
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/package-json/node_modules/@sindresorhus/is/dist/index.js",
+    "line": "        'innerHTML',",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -7849,6 +7056,13 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proper-lockfile/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -8099,22 +7313,6 @@
     "line": "    return this.load(filename, options, SYNC);",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/proxy-agent/node_modules/socks/build/client/socksclient.js",
-    "line": "        this.receiveBuffer.append(data);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-07T20:07:48.358Z",
-    "reasonDetail": "not jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/proxy-agent/node_modules/socks/build/common/receivebuffer.js",
-    "line": "    append(data) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-07T20:07:48.358Z",
-    "reasonDetail": "not jquery"
   },
   {
     "rule": "jQuery-insertBefore(",
@@ -9271,6 +8469,13 @@
     "updated": "2020-04-30T22:45:07.878Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/restore-cursor/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/rx-lite-aggregates/rx.lite.aggregates.min.js",
     "reasonCategory": "falseMatch",
@@ -9303,144 +8508,11 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-module/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-module/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-module/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-module/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-nuget-plugin/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/lib/index.js",
-    "line": "function load(root, options) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/lib/index.js",
-    "line": "    return load(dir, options);",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/lib/index.js",
-    "line": "  load(process.argv[2]).then(function (res) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-policy/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-resolve/node_modules/debug/src/browser.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-resolve/node_modules/debug/src/browser.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-resolve/node_modules/debug/src/node.js",
-    "line": "function load() {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/snyk-resolve/node_modules/debug/src/node.js",
-    "line": "exports.enable(load());",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/socks/build/client/socksclient.js",
-    "line": "        this._receiveBuffer.append(data);",
+    "line": "        this.receiveBuffer.append(data);",
     "reasonCategory": "falseMatch",
-    "updated": "2018-11-27T18:02:26.186Z"
+    "updated": "2021-11-13T01:24:25.496Z"
   },
   {
     "rule": "jQuery-append(",
@@ -9511,6 +8583,13 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/spawn-wrap/node_modules/signal-exit/index.js",
+    "line": "    load()",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:24:25.496Z"
+  },
+  {
     "rule": "jQuery-before(",
     "path": "node_modules/sshpk/lib/dhe.js",
     "line": "\t\tvar secret = nacl.box.before(new Uint8Array(pub),",
@@ -9538,20 +8617,6 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-26T00:10:28.628Z",
     "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
-    "line": "    b.append(data)",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:39:55.418Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/tar-fs/node_modules/tar-stream/extract.js",
-    "line": "  else b.append(data)",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-01-20T22:39:55.418Z"
   },
   {
     "rule": "jQuery-append(",
@@ -9615,34 +8680,6 @@
     "line": "function wrap(inner, prefix, esc) {",
     "reasonCategory": "falseMatch",
     "updated": "2019-07-31T00:19:18.696Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/traverse/examples/stringify.js",
-    "line": "        this.after(function () { s += ']' });",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/traverse/examples/stringify.js",
-    "line": "        this.after(function () { s += '}' });",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/traverse/examples/stringify.js",
-    "line": "        this.before(function () { s += '[' });",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/traverse/examples/stringify.js",
-    "line": "        this.before(function () { s += '{' });",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-15T00:38:04.183Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -11993,5 +11030,26 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "        desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "function wrap(str, width, indent) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "  return wrap(str, width, indent);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
   }
 ]
