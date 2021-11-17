@@ -7,7 +7,7 @@ import { memoize } from 'lodash';
 import { mapDispatchToProps } from '../actions';
 import { CallManager } from '../../components/CallManager';
 import { calling as callingService } from '../../services/calling';
-import { getUserUuid, getIntl } from '../selectors/user';
+import { getUserUuid, getIntl, getTheme } from '../selectors/user';
 import { getMe, getConversationSelector } from '../selectors/conversations';
 import { getActiveCall } from '../ducks/calling';
 import type { ConversationType } from '../ducks/conversations';
@@ -35,6 +35,7 @@ import {
   notificationService,
 } from '../../services/notifications';
 import * as log from '../../logging/log';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 
 function renderDeviceSelection(): JSX.Element {
   return <SmartCallingDeviceSelection />;
@@ -306,6 +307,7 @@ const mapStateToProps = (state: StateType) => ({
   bounceAppIconStop,
   availableCameras: state.calling.availableCameras,
   getGroupCallVideoFrameSource,
+  getPreferredBadge: getPreferredBadgeSelector(state),
   i18n: getIntl(state),
   isGroupCallOutboundRingEnabled: isGroupCallOutboundRingEnabled(),
   incomingCall: mapStateToIncomingCallProp(state),
@@ -320,6 +322,7 @@ const mapStateToProps = (state: StateType) => ({
   stopRingtone,
   renderDeviceSelection,
   renderSafetyNumberViewer,
+  theme: getTheme(state),
 });
 
 const smart = connect(mapStateToProps, mapDispatchToProps);

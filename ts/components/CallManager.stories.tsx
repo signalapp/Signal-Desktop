@@ -23,6 +23,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGr
 import { setupI18n } from '../util/setupI18n';
 import type { Props as SafetyNumberViewerProps } from '../state/smart/SafetyNumberViewer';
 import enMessages from '../../_locales/en/messages.json';
+import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -67,6 +68,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   declineCall: action('decline-call'),
   getGroupCallVideoFrameSource: (_: string, demuxId: number) =>
     fakeGetGroupCallVideoFrameSource(demuxId),
+  getPreferredBadge: () => undefined,
   getPresentingSources: action('get-presenting-sources'),
   hangUp: action('hang-up'),
   i18n,
@@ -98,6 +100,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   setOutgoingRing: action('set-outgoing-ring'),
   startCall: action('start-call'),
   stopRingtone: action('stop-ringtone'),
+  theme: ThemeType.light,
   toggleParticipants: action('toggle-participants'),
   togglePip: action('toggle-pip'),
   toggleScreenRecordingPermissionsDialog: action(

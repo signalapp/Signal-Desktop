@@ -9,6 +9,8 @@ import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -48,11 +50,15 @@ const contactWithNothing = getDefaultConversation({
   title: 'Unknown contact',
 });
 
+const useTheme = () => React.useContext(StorybookThemeContext);
+
 storiesOf('Components/SafetyNumberChangeDialog', module)
   .add('Single Contact Dialog', () => {
+    const theme = useTheme();
     return (
       <SafetyNumberChangeDialog
         contacts={[contactWithAllData]}
+        getPreferredBadge={() => undefined}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -60,14 +66,17 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           action('renderSafetyNumber');
           return <div>This is a mock Safety Number View</div>;
         }}
+        theme={theme}
       />
     );
   })
   .add('Different Confirmation Text', () => {
+    const theme = useTheme();
     return (
       <SafetyNumberChangeDialog
         confirmText="You are awesome"
         contacts={[contactWithAllData]}
+        getPreferredBadge={() => undefined}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -75,10 +84,12 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           action('renderSafetyNumber');
           return <div>This is a mock Safety Number View</div>;
         }}
+        theme={theme}
       />
     );
   })
   .add('Multi Contact Dialog', () => {
+    const theme = useTheme();
     return (
       <SafetyNumberChangeDialog
         contacts={[
@@ -87,6 +98,7 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           contactWithJustNumber,
           contactWithNothing,
         ]}
+        getPreferredBadge={() => undefined}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -94,10 +106,34 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           action('renderSafetyNumber');
           return <div>This is a mock Safety Number View</div>;
         }}
+        theme={theme}
+      />
+    );
+  })
+  .add('Multiple contacts, all with badges', () => {
+    const theme = useTheme();
+    return (
+      <SafetyNumberChangeDialog
+        contacts={[
+          contactWithAllData,
+          contactWithJustProfile,
+          contactWithJustNumber,
+          contactWithNothing,
+        ]}
+        getPreferredBadge={() => getFakeBadge()}
+        i18n={i18n}
+        onCancel={action('cancel')}
+        onConfirm={action('confirm')}
+        renderSafetyNumber={() => {
+          action('renderSafetyNumber');
+          return <div>This is a mock Safety Number View</div>;
+        }}
+        theme={theme}
       />
     );
   })
   .add('Scroll Dialog', () => {
+    const theme = useTheme();
     return (
       <SafetyNumberChangeDialog
         contacts={[
@@ -112,6 +148,7 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           contactWithAllData,
           contactWithAllData,
         ]}
+        getPreferredBadge={() => undefined}
         i18n={i18n}
         onCancel={action('cancel')}
         onConfirm={action('confirm')}
@@ -119,6 +156,7 @@ storiesOf('Components/SafetyNumberChangeDialog', module)
           action('renderSafetyNumber');
           return <div>This is a mock Safety Number View</div>;
         }}
+        theme={theme}
       />
     );
   });

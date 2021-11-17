@@ -26,6 +26,7 @@ export const App = ({
   cancelMessagesPendingConversationVerification,
   conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
+  getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
   numberOfMessagesPendingBecauseOfVerification,
@@ -52,6 +53,7 @@ export const App = ({
           conversationsStoppingMessageSendBecauseOfVerification
         }
         hasInitialLoadCompleted={hasInitialLoadCompleted}
+        getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         isCustomizingPreferredReactions={isCustomizingPreferredReactions}
         numberOfMessagesPendingBecauseOfVerification={
@@ -61,6 +63,7 @@ export const App = ({
           renderCustomizingPreferredReactionsModal
         }
         renderSafetyNumber={renderSafetyNumber}
+        theme={theme}
         verifyConversationsStoppingMessageSend={
           verifyConversationsStoppingMessageSend
         }

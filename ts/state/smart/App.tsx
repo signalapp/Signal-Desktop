@@ -10,6 +10,7 @@ import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredR
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import type { StateType } from '../reducer';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getConversationsStoppingMessageSendBecauseOfVerification,
@@ -24,6 +25,7 @@ const mapStateToProps = (state: StateType) => {
     ...state.app,
     conversationsStoppingMessageSendBecauseOfVerification:
       getConversationsStoppingMessageSendBecauseOfVerification(state),
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
     numberOfMessagesPendingBecauseOfVerification:
