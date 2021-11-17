@@ -165,6 +165,7 @@ export type PropsType = PropsLocalType &
   Pick<
     AllMessageProps,
     | 'containerWidthBreakpoint'
+    | 'getPreferredBadge'
     | 'renderEmojiPicker'
     | 'renderAudioAttachment'
     | 'renderReactionPicker'
@@ -175,6 +176,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
     const {
       containerElementRef,
       conversationId,
+      getPreferredBadge,
       id,
       isSelected,
       item,
@@ -201,6 +203,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
           {...omit(this.props, ['item'])}
           {...item.data}
           containerElementRef={containerElementRef}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           theme={theme}
           renderingContext="conversation/TimelineItem"

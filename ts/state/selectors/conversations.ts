@@ -49,8 +49,6 @@ import { getPinnedConversationIds } from './items';
 import { getPropsForBubble } from './message';
 import type { CallSelectorType, CallStateType } from './calling';
 import { getActiveCall, getCallSelector } from './calling';
-import type { PreferredBadgeSelectorType } from './badges';
-import { getPreferredBadgeSelector } from './badges';
 import type { AccountSelectorType } from './accounts';
 import { getAccountSelector } from './accounts';
 import * as log from '../../logging/log';
@@ -795,7 +793,6 @@ export const getMessageSelector = createSelector(
   getMessages,
   getSelectedMessage,
   getConversationSelector,
-  getPreferredBadgeSelector,
   getRegionCode,
   getUserNumber,
   getUserUuid,
@@ -809,7 +806,6 @@ export const getMessageSelector = createSelector(
     messageLookup: MessageLookupType,
     selectedMessage: SelectedMessageType | undefined,
     conversationSelector: GetConversationByIdType,
-    preferredBadgeSelector: PreferredBadgeSelectorType,
     regionCode: string,
     ourNumber: string,
     ourUuid: UUIDStringType,
@@ -830,7 +826,6 @@ export const getMessageSelector = createSelector(
         ourConversationId,
         ourNumber,
         ourUuid,
-        preferredBadgeSelector,
         regionCode,
         selectedMessageId: selectedMessage?.id,
         selectedMessageCounter: selectedMessage?.counter,

@@ -27,7 +27,6 @@ const defaultMessage: MessageDataPropsType = {
     id: 'some-id',
     title: 'Max',
   }),
-  authorBadge: getFakeBadge(),
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,

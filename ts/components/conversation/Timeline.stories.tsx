@@ -47,7 +47,6 @@ const items: Record<string, TimelineItemType> = {
       author: getDefaultConversation({
         phoneNumber: '(202) 555-2001',
       }),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -68,7 +67,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -102,7 +100,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -192,7 +189,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -214,7 +210,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -236,7 +231,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -258,7 +252,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -280,7 +273,6 @@ const items: Record<string, TimelineItemType> = {
     type: 'message',
     data: {
       author: getDefaultConversation({}),
-      authorBadge: undefined,
       canDeleteForEveryone: false,
       canDownload: true,
       canReply: true,
@@ -389,6 +381,7 @@ const renderItem = ({
   containerWidthBreakpoint: WidthBreakpoint;
 }) => (
   <TimelineItem
+    getPreferredBadge={() => undefined}
     id=""
     isSelected={false}
     renderEmojiPicker={() => <div />}

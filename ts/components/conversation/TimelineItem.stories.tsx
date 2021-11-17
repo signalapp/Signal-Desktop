@@ -51,6 +51,7 @@ const getDefaultProps = () => ({
   containerElementRef: React.createRef<HTMLElement>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationId: 'conversation-id',
+  getPreferredBadge: () => undefined,
   id: 'asdf',
   isSelected: false,
   interactionMode: 'keyboard' as const,

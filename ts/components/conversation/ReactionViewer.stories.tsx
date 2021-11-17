@@ -11,17 +11,20 @@ import { ReactionViewer } from './ReactionViewer';
 import { setupI18n } from '../../util/setupI18n';
 import enMessages from '../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../test-both/helpers/getDefaultConversation';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/ReactionViewer', module);
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+  getPreferredBadge: () => undefined,
   i18n,
   onClose: action('onClose'),
   pickedReaction: overrideProps.pickedReaction,
   reactions: overrideProps.reactions || [],
   style: overrideProps.style,
+  theme: ThemeType.light,
 });
 
 story.add('All Reactions', () => {

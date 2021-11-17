@@ -62,7 +62,7 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../../types/Util';
-import type { BadgeType } from '../../badges/types';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import type {
   ContactNameColorType,
   ConversationColorType,
@@ -157,7 +157,6 @@ export type PropsData = {
     | 'title'
     | 'unblurredAvatarPath'
   >;
-  authorBadge: undefined | BadgeType;
   reducedMotion?: boolean;
   conversationType: ConversationTypeType;
   attachments?: Array<AttachmentType>;
@@ -204,6 +203,7 @@ export type PropsData = {
 export type PropsHousekeeping = {
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme: ThemeType;
@@ -1191,7 +1191,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderAvatar(): JSX.Element | undefined {
-    const { author, authorBadge, i18n, showContactModal, theme } = this.props;
+    const { author, getPreferredBadge, i18n, showContactModal, theme } =
+      this.props;
 
     if (!this.hasAvatar()) {
       return undefined;
@@ -1207,7 +1208,7 @@ export class Message extends React.PureComponent<Props, State> {
         <Avatar
           acceptedMessageRequest={author.acceptedMessageRequest}
           avatarPath={author.avatarPath}
-          badge={authorBadge}
+          badge={getPreferredBadge(author.badges)}
           color={author.color}
           conversationType="direct"
           i18n={i18n}
@@ -1946,7 +1947,7 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public renderReactions(outgoing: boolean): JSX.Element | null {
-    const { reactions = [], i18n } = this.props;
+    const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
 
     if (!this.hasReactions()) {
       return null;
@@ -2095,9 +2096,11 @@ export class Message extends React.PureComponent<Props, State> {
                       ...style,
                       zIndex: 2,
                     }}
+                    getPreferredBadge={getPreferredBadge}
                     reactions={reactions}
                     i18n={i18n}
                     onClose={this.toggleReactionViewer}
+                    theme={theme}
                   />
                 )}
               </Popper>

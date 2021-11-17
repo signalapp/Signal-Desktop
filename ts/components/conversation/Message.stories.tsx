@@ -97,7 +97,6 @@ const renderAudioAttachment: Props['renderAudioAttachment'] = props => (
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   attachments: overrideProps.attachments,
   author: overrideProps.author || getDefaultConversation(),
-  authorBadge: overrideProps.authorBadge,
   reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
   canReply: true,
@@ -128,6 +127,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   expirationTimestamp:
     number('expirationTimestamp', overrideProps.expirationTimestamp || 0) ||
     undefined,
+  getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   i18n,
   id: text('id', overrideProps.id || ''),
   renderingContext: 'storybook',
@@ -544,8 +544,8 @@ story.add('Avatar in Group', () => {
 
 story.add('Badge in Group', () => {
   const props = createProps({
-    authorBadge: getFakeBadge(),
     conversationType: 'group',
+    getPreferredBadge: () => getFakeBadge(),
     status: 'sent',
     text: 'Hello it is me, the saxophone.',
   });
