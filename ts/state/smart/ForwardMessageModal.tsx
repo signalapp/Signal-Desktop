@@ -8,6 +8,7 @@ import { ForwardMessageModal } from '../../components/ForwardMessageModal';
 import type { StateType } from '../reducer';
 import type { BodyRangeType } from '../../types/Util';
 import type { LinkPreviewType } from '../../types/message/LinkPreviews';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getAllComposableConversations } from '../selectors/conversations';
 import { getLinkPreview } from '../selectors/linkPreviews';
 import { getIntl, getTheme } from '../selectors/user';
@@ -60,6 +61,7 @@ const mapStateToProps = (
     candidateConversations,
     conversationId,
     doForwardMessage,
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isSticker,
     linkPreview,

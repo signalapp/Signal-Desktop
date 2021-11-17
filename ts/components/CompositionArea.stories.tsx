@@ -12,10 +12,10 @@ import type { Props } from './CompositionArea';
 import { CompositionArea } from './CompositionArea';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
 import { fakeDraftAttachment } from '../test-both/helpers/fakeAttachment';
 import { landscapeGreenUrl } from '../storybook/Fixtures';
-import { ThemeType } from '../types/Util';
 import { RecordingState } from '../state/ducks/audioRecorder';
 
 const i18n = setupI18n('en', enMessages);
@@ -25,7 +25,7 @@ const story = storiesOf('Components/CompositionArea', module);
 // necessary for the add attachment button to render properly
 story.addDecorator(storyFn => <div className="file-input">{storyFn()}</div>);
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   addAttachment: action('addAttachment'),
   addPendingAttachment: action('addPendingAttachment'),
   conversationId: '123',
@@ -33,7 +33,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onSendMessage: action('onSendMessage'),
   processAttachments: action('processAttachments'),
   removeAttachment: action('removeAttachment'),
-  theme: ThemeType.light,
+  theme: React.useContext(StorybookThemeContext),
 
   // AttachmentList
   draftAttachments: overrideProps.draftAttachments || [],
@@ -66,6 +66,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onTextTooLong: action('onTextTooLong'),
   draftText: overrideProps.draftText || undefined,
   clearQuotedMessage: action('clearQuotedMessage'),
+  getPreferredBadge: () => undefined,
   getQuotedMessage: action('getQuotedMessage'),
   scrollToBottom: action('scrollToBottom'),
   sortedGroupMembers: [],
@@ -115,13 +116,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 story.add('Default', () => {
-  const props = createProps();
+  const props = useProps();
 
   return <CompositionArea {...props} />;
 });
 
 story.add('Starting Text', () => {
-  const props = createProps({
+  const props = useProps({
     draftText: "here's some starting text",
   });
 
@@ -129,7 +130,7 @@ story.add('Starting Text', () => {
 });
 
 story.add('Sticker Button', () => {
-  const props = createProps({
+  const props = useProps({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     knownPacks: [{} as any],
   });
@@ -138,7 +139,7 @@ story.add('Sticker Button', () => {
 });
 
 story.add('Message Request', () => {
-  const props = createProps({
+  const props = useProps({
     messageRequestsEnabled: true,
   });
 
@@ -146,7 +147,7 @@ story.add('Message Request', () => {
 });
 
 story.add('SMS-only fetching UUID', () => {
-  const props = createProps({
+  const props = useProps({
     isSMSOnly: true,
     isFetchingUUID: true,
   });
@@ -155,7 +156,7 @@ story.add('SMS-only fetching UUID', () => {
 });
 
 story.add('SMS-only', () => {
-  const props = createProps({
+  const props = useProps({
     isSMSOnly: true,
   });
 
@@ -163,7 +164,7 @@ story.add('SMS-only', () => {
 });
 
 story.add('Attachments', () => {
-  const props = createProps({
+  const props = useProps({
     draftAttachments: [
       fakeDraftAttachment({
         contentType: IMAGE_JPEG,
@@ -177,7 +178,7 @@ story.add('Attachments', () => {
 
 story.add('Announcements Only group', () => (
   <CompositionArea
-    {...createProps({
+    {...useProps({
       announcementsOnly: true,
       areWeAdmin: false,
     })}

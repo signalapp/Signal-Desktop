@@ -14,8 +14,9 @@ import { MentionCompletion } from '../quill/mentions/completion';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
 import { convertShortName } from './emoji/lib';
-import type { LocalizerType, BodyRangeType } from '../types/Util';
+import type { LocalizerType, BodyRangeType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { isValidUuid } from '../types/UUID';
 import { MentionBlot } from '../quill/mentions/blot';
 import {
@@ -63,12 +64,14 @@ export type Props = {
   readonly i18n: LocalizerType;
   readonly conversationId: string;
   readonly disabled?: boolean;
+  readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly large?: boolean;
   readonly inputApi?: React.MutableRefObject<InputApi | undefined>;
   readonly skinTone?: EmojiPickDataType['skinTone'];
   readonly draftText?: string;
   readonly draftBodyRanges?: Array<BodyRangeType>;
   readonly moduleClassName?: string;
+  readonly theme: ThemeType;
   sortedGroupMembers?: Array<ConversationType>;
   onDirtyChange?(dirty: boolean): unknown;
   onEditorStateChange?(
@@ -104,10 +107,12 @@ export function CompositionInput(props: Props): React.ReactElement {
     skinTone,
     draftText,
     draftBodyRanges,
+    getPreferredBadge,
     getQuotedMessage,
     clearQuotedMessage,
     scrollToBottom,
     sortedGroupMembers,
+    theme,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
@@ -550,12 +555,14 @@ export function CompositionInput(props: Props): React.ReactElement {
               skinTone,
             },
             mentionCompletion: {
+              getPreferredBadge,
               me: sortedGroupMembers
                 ? sortedGroupMembers.find(foo => foo.isMe)
                 : undefined,
               memberRepositoryRef,
               setMentionPickerElement: setMentionCompletionElement,
               i18n,
+              theme,
             },
           }}
           formats={['emoji', 'mention']}

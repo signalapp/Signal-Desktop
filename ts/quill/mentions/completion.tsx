@@ -12,16 +12,19 @@ import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Avatar } from '../../components/Avatar';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { MemberRepository } from '../memberRepository';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { matchBlotTextPartitions } from '../util';
 import { sameWidthModifier } from '../../util/popperUtil';
 
 export type MentionCompletionOptions = {
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
   setMentionPickerElement: (element: JSX.Element | null) => void;
   me?: ConversationType;
+  theme: ThemeType;
 };
 
 declare global {
@@ -213,6 +216,7 @@ export class MentionCompletion {
 
   render(): void {
     const { results: memberResults, index: memberResultsIndex } = this;
+    const { getPreferredBadge, theme } = this.options;
 
     if (memberResults.length === 0) {
       this.options.setMentionPickerElement(null);
@@ -258,11 +262,13 @@ export class MentionCompletion {
                   <Avatar
                     acceptedMessageRequest={member.acceptedMessageRequest}
                     avatarPath={member.avatarPath}
+                    badge={getPreferredBadge(member.badges)}
                     conversationType="direct"
                     i18n={this.options.i18n}
                     isMe={member.isMe}
                     sharedGroupNames={member.sharedGroupNames}
                     size={28}
+                    theme={theme}
                     title={member.title}
                     unblurredAvatarPath={member.unblurredAvatarPath}
                   />

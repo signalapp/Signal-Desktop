@@ -47,6 +47,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   conversationId: 'conversation-id',
   candidateConversations,
   doForwardMessage: action('doForwardMessage'),
+  getPreferredBadge: () => undefined,
   i18n,
   isSticker: Boolean(overrideProps.isSticker),
   linkPreview: overrideProps.linkPreview,

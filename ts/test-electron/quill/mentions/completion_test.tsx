@@ -12,6 +12,7 @@ import type { MentionCompletionOptions } from '../../../quill/mentions/completio
 import { MentionCompletion } from '../../../quill/mentions/completion';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { MemberRepository } from '../../../quill/memberRepository';
+import { ThemeType } from '../../../types/Util';
 import { getDefaultConversationWithUuid } from '../../../test-both/helpers/getDefaultConversation';
 
 const me: ConversationType = getDefaultConversationWithUuid({
@@ -65,10 +66,12 @@ describe('MentionCompletion', () => {
     };
 
     const options: MentionCompletionOptions = {
+      getPreferredBadge: () => undefined,
       i18n: Object.assign(sinon.stub(), { getLocale: sinon.stub() }),
       me,
       memberRepositoryRef,
       setMentionPickerElement: sinon.stub(),
+      theme: ThemeType.dark,
     };
 
     mockQuill = {

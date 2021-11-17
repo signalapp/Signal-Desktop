@@ -10,6 +10,7 @@ import type { StateType } from '../reducer';
 import { isConversationSMSOnly } from '../../util/isConversationSMSOnly';
 import { dropNull } from '../../util/dropNull';
 
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { selectRecentEmojis } from '../selectors/emojis';
 import { getIntl, getTheme, getUserConversationId } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
@@ -80,6 +81,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationId: id,
     i18n: getIntl(state),
     theme: getTheme(state),
+    getPreferredBadge: getPreferredBadgeSelector(state),
     // AudioCapture
     errorDialogAudioRecorderType:
       state.audioRecorder.errorDialogAudioRecorderType,
