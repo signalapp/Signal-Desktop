@@ -25,6 +25,7 @@ import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbo
 import type { Row } from './ConversationList';
 import { ConversationList, RowType } from './ConversationList';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
 import { EmojiButton } from './emoji/EmojiButton';
 import type { EmojiPickDataType } from './emoji/EmojiPicker';
@@ -47,6 +48,7 @@ export type DataPropsType = {
     attachments?: Array<AttachmentDraftType>,
     linkPreview?: LinkPreviewType
   ) => void;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isSticker: boolean;
   linkPreview?: LinkPreviewType;
@@ -77,6 +79,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   candidateConversations,
   conversationId,
   doForwardMessage,
+  getPreferredBadge,
   i18n,
   isSticker,
   linkPreview,
@@ -337,6 +340,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                   conversationId={conversationId}
                   clearQuotedMessage={shouldNeverBeCalled}
                   draftText={messageBodyText}
+                  getPreferredBadge={getPreferredBadge}
                   getQuotedMessage={noop}
                   i18n={i18n}
                   inputApi={inputApiRef}
@@ -354,6 +358,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                   onPickEmoji={onPickEmoji}
                   onSubmit={forwardMessage}
                   onTextTooLong={onTextTooLong}
+                  theme={theme}
                 />
                 <div className="module-ForwardMessageModal__emoji">
                   <EmojiButton

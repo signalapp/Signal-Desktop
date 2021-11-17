@@ -135,6 +135,7 @@ export type Props = Pick<
   | 'draftText'
   | 'draftBodyRanges'
   | 'clearQuotedMessage'
+  | 'getPreferredBadge'
   | 'getQuotedMessage'
 > &
   Pick<
@@ -200,6 +201,7 @@ export const CompositionArea = ({
   draftText,
   draftBodyRanges,
   clearQuotedMessage,
+  getPreferredBadge,
   getQuotedMessage,
   scrollToBottom,
   sortedGroupMembers,
@@ -634,6 +636,7 @@ export const CompositionArea = ({
             disabled={disabled}
             draftBodyRanges={draftBodyRanges}
             draftText={draftText}
+            getPreferredBadge={getPreferredBadge}
             getQuotedMessage={getQuotedMessage}
             inputApi={inputApiRef}
             large={large}
@@ -645,6 +648,7 @@ export const CompositionArea = ({
             scrollToBottom={scrollToBottom}
             skinTone={skinTone}
             sortedGroupMembers={sortedGroupMembers}
+            theme={theme}
           />
         </div>
         {!large ? (
