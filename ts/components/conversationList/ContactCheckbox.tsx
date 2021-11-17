@@ -9,7 +9,8 @@ import {
   HEADER_CONTACT_NAME_CLASS_NAME,
 } from './BaseConversationListItem';
 import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
+import type { BadgeType } from '../../badges/types';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
 
@@ -21,6 +22,7 @@ export enum ContactCheckboxDisabledReason {
 }
 
 export type PropsDataType = {
+  badge: undefined | BadgeType;
   disabledReason?: ContactCheckboxDisabledReason;
   isChecked: boolean;
 } & Pick<
@@ -46,6 +48,7 @@ type PropsHousekeepingType = {
     id: string,
     disabledReason: undefined | ContactCheckboxDisabledReason
   ) => void;
+  theme: ThemeType;
 };
 
 type PropsType = PropsDataType & PropsHousekeepingType;
@@ -55,6 +58,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     about,
     acceptedMessageRequest,
     avatarPath,
+    badge,
     color,
     disabledReason,
     i18n,
@@ -66,6 +70,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     phoneNumber,
     profileName,
     sharedGroupNames,
+    theme,
     title,
     type,
     unblurredAvatarPath,
@@ -97,6 +102,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       <BaseConversationListItem
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={badge}
         checked={isChecked}
         color={color}
         conversationType={type}
@@ -112,6 +118,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}
+        theme={theme}
         title={title}
         unblurredAvatarPath={unblurredAvatarPath}
       />

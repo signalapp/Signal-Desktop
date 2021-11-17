@@ -398,6 +398,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                       >
                         <ConversationList
                           dimensions={contentRect.bounds}
+                          getPreferredBadge={getPreferredBadge}
                           getRow={getRow}
                           i18n={i18n}
                           onClickArchiveButton={shouldNeverBeCalled}

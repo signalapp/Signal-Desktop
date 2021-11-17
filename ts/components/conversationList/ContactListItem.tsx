@@ -9,15 +9,17 @@ import {
   HEADER_CONTACT_NAME_CLASS_NAME,
 } from './BaseConversationListItem';
 import type { ConversationType } from '../../state/ducks/conversations';
-import type { LocalizerType } from '../../types/Util';
+import type { BadgeType } from '../../badges/types';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import { ContactName } from '../conversation/ContactName';
 import { About } from '../conversation/About';
 
-export type PropsDataType = Pick<
+export type ContactListItemConversationType = Pick<
   ConversationType,
   | 'about'
   | 'acceptedMessageRequest'
   | 'avatarPath'
+  | 'badges'
   | 'color'
   | 'id'
   | 'isMe'
@@ -30,9 +32,14 @@ export type PropsDataType = Pick<
   | 'unblurredAvatarPath'
 >;
 
+type PropsDataType = ContactListItemConversationType & {
+  badge: undefined | BadgeType;
+};
+
 type PropsHousekeepingType = {
   i18n: LocalizerType;
   onClick?: (id: string) => void;
+  theme: ThemeType;
 };
 
 type PropsType = PropsDataType & PropsHousekeepingType;
@@ -42,6 +49,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     about,
     acceptedMessageRequest,
     avatarPath,
+    badge,
     color,
     i18n,
     id,
@@ -51,6 +59,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     phoneNumber,
     profileName,
     sharedGroupNames,
+    theme,
     title,
     type,
     unblurredAvatarPath,
@@ -70,6 +79,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       <BaseConversationListItem
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={badge}
         color={color}
         conversationType={type}
         headerName={headerName}
@@ -83,6 +93,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
         phoneNumber={phoneNumber}
         profileName={profileName}
         sharedGroupNames={sharedGroupNames}
+        theme={theme}
         title={title}
         unblurredAvatarPath={unblurredAvatarPath}
       />

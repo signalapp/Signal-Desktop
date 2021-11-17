@@ -14,6 +14,7 @@ import { useRestoreFocus } from '../../../../hooks/useRestoreFocus';
 import { missingCaseError } from '../../../../util/missingCaseError';
 import { filterAndSortConversationsByTitle } from '../../../../util/filterAndSortConversations';
 import type { ConversationType } from '../../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../../state/selectors/badges';
 import { ModalHost } from '../../../ModalHost';
 import { ContactPills } from '../../../ContactPills';
 import { ContactPill } from '../../../ContactPill';
@@ -28,6 +29,7 @@ type PropsType = {
   confirmAdds: () => void;
   contactLookup: Record<string, ConversationType>;
   conversationIdsAlreadyInGroup: Set<string>;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   maxGroupSize: number;
   onClose: () => void;
@@ -48,6 +50,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
   confirmAdds,
   contactLookup,
   conversationIdsAlreadyInGroup,
+  getPreferredBadge,
   i18n,
   maxGroupSize,
   onClose,
@@ -192,6 +195,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
                 >
                   <ConversationList
                     dimensions={contentRect.bounds}
+                    getPreferredBadge={getPreferredBadge}
                     getRow={getRow}
                     i18n={i18n}
                     onClickArchiveButton={shouldNeverBeCalled}

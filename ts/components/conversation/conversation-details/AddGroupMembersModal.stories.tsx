@@ -31,6 +31,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   candidateContacts: allCandidateContacts,
   clearRequestError: action('clearRequestError'),
   conversationIdsAlreadyInGroup: new Set(),
+  getPreferredBadge: () => undefined,
   groupTitle: 'Tahoe Trip',
   i18n,
   onClose: action('onClose'),

@@ -8,17 +8,16 @@ import { List } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
-import { getOwn } from '../util/getOwn';
 import { missingCaseError } from '../util/missingCaseError';
 import { assert } from '../util/assert';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
 import { getConversationListWidthBreakpoint } from './_util';
-import type { BadgeType } from '../badges/types';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 
 import type { PropsData as ConversationListItemPropsType } from './conversationList/ConversationListItem';
 import { ConversationListItem } from './conversationList/ConversationListItem';
-import type { PropsDataType as ContactListItemPropsType } from './conversationList/ContactListItem';
+import type { ContactListItemConversationType as ContactListItemPropsType } from './conversationList/ContactListItem';
 import { ContactListItem } from './conversationList/ContactListItem';
 import type { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import { ContactCheckbox as ContactCheckboxComponent } from './conversationList/ContactCheckbox';
@@ -116,7 +115,6 @@ export type Row =
   | UsernameRowType;
 
 export type PropsType = {
-  badgesById?: Record<string, BadgeType>;
   dimensions?: {
     width: number;
     height: number;
@@ -131,6 +129,7 @@ export type PropsType = {
   shouldRecomputeRowHeights: boolean;
   scrollable?: boolean;
 
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
 
@@ -150,8 +149,8 @@ const NORMAL_ROW_HEIGHT = 76;
 const HEADER_ROW_HEIGHT = 40;
 
 export const ConversationList: React.FC<PropsType> = ({
-  badgesById,
   dimensions,
+  getPreferredBadge,
   getRow,
   i18n,
   onClickArchiveButton,
@@ -231,8 +230,10 @@ export const ConversationList: React.FC<PropsType> = ({
           result = (
             <ContactListItem
               {...row.contact}
+              badge={getPreferredBadge(row.contact.badges)}
               onClick={isClickable ? onSelectConversation : undefined}
               i18n={i18n}
+              theme={theme}
             />
           );
           break;
@@ -241,10 +242,12 @@ export const ConversationList: React.FC<PropsType> = ({
           result = (
             <ContactCheckboxComponent
               {...row.contact}
+              badge={getPreferredBadge(row.contact.badges)}
               isChecked={row.isChecked}
               disabledReason={row.disabledReason}
               onClick={onClickContactCheckbox}
               i18n={i18n}
+              theme={theme}
             />
           );
           break;
@@ -274,12 +277,6 @@ export const ConversationList: React.FC<PropsType> = ({
             'unreadCount',
           ]);
           const { badges, title, unreadCount, lastMessage } = itemProps;
-
-          let badge: undefined | BadgeType;
-          if (badgesById && badges[0]) {
-            badge = getOwn(badgesById, badges[0].id);
-          }
-
           result = (
             <div
               aria-label={i18n('ConversationList__aria-label', {
@@ -293,7 +290,7 @@ export const ConversationList: React.FC<PropsType> = ({
               <ConversationListItem
                 {...itemProps}
                 key={key}
-                badge={badge}
+                badge={getPreferredBadge(badges)}
                 onClick={onSelectConversation}
                 i18n={i18n}
                 theme={theme}
@@ -361,7 +358,7 @@ export const ConversationList: React.FC<PropsType> = ({
       );
     },
     [
-      badgesById,
+      getPreferredBadge,
       getRow,
       i18n,
       onClickArchiveButton,

@@ -25,7 +25,7 @@ import { LeftPaneSetGroupMetadataHelper } from './leftPane/LeftPaneSetGroupMetad
 import * as OS from '../OS';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import { ScrollBehavior } from '../types/Util';
-import type { BadgeType } from '../badges/types';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import { strictAssert } from '../util/assert';
@@ -83,8 +83,8 @@ export type PropsType = {
     | ({
         mode: LeftPaneMode.SetGroupMetadata;
       } & LeftPaneSetGroupMetadataPropsType);
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
-  badgesById: Record<string, BadgeType>;
   preferredWidthFromStorage: number;
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
@@ -147,7 +147,6 @@ export type PropsType = {
 };
 
 export const LeftPane: React.FC<PropsType> = ({
-  badgesById,
   cantAddContactToGroup,
   canResizeLeftPane,
   challengeStatus,
@@ -160,6 +159,7 @@ export const LeftPane: React.FC<PropsType> = ({
   composeReplaceAvatar,
   composeSaveAvatarToDisk,
   createGroup,
+  getPreferredBadge,
   i18n,
   modeSpecificProps,
   openConversationInternal,
@@ -571,11 +571,11 @@ export const LeftPane: React.FC<PropsType> = ({
                 tabIndex={-1}
               >
                 <ConversationList
-                  badgesById={badgesById}
                   dimensions={{
                     width,
                     height: contentRect.bounds?.height || 0,
                   }}
+                  getPreferredBadge={getPreferredBadge}
                   getRow={getRow}
                   i18n={i18n}
                   onClickArchiveButton={showArchivedConversations}

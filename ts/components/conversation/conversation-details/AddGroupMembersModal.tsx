@@ -11,6 +11,7 @@ import {
   AddGroupMemberErrorDialogMode,
 } from '../../AddGroupMemberErrorDialog';
 import type { ConversationType } from '../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import {
   getGroupSizeRecommendedLimit,
   getGroupSizeHardLimit,
@@ -30,6 +31,7 @@ type PropsType = {
   candidateContacts: ReadonlyArray<ConversationType>;
   clearRequestError: () => void;
   conversationIdsAlreadyInGroup: Set<string>;
+  getPreferredBadge: PreferredBadgeSelectorType;
   groupTitle: string;
   i18n: LocalizerType;
   makeRequest: (conversationIds: ReadonlyArray<string>) => Promise<void>;
@@ -147,6 +149,7 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
   candidateContacts,
   clearRequestError,
   conversationIdsAlreadyInGroup,
+  getPreferredBadge,
   groupTitle,
   i18n,
   onClose,
@@ -279,6 +282,7 @@ export const AddGroupMembersModal: FunctionComponent<PropsType> = ({
           confirmAdds={confirmAdds}
           contactLookup={contactLookup}
           conversationIdsAlreadyInGroup={conversationIdsAlreadyInGroup}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           maxGroupSize={maxGroupSize}
           onClose={onClose}

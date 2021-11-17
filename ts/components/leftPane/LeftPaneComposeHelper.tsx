@@ -8,7 +8,7 @@ import type { PhoneNumber } from 'google-libphonenumber';
 import { LeftPaneHelper } from './LeftPaneHelper';
 import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
-import type { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { SearchInput } from '../SearchInput';
 import type { LocalizerType } from '../../types/Util';
@@ -21,7 +21,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { getUsernameFromSearch } from '../../types/Username';
 
 export type LeftPaneComposePropsType = {
-  composeContacts: ReadonlyArray<ContactListItemPropsType>;
+  composeContacts: ReadonlyArray<ContactListItemConversationType>;
   composeGroups: ReadonlyArray<ConversationListItemPropsType>;
 
   regionCode: string;
@@ -37,7 +37,7 @@ enum TopButton {
 }
 
 export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsType> {
-  private readonly composeContacts: ReadonlyArray<ContactListItemPropsType>;
+  private readonly composeContacts: ReadonlyArray<ContactListItemConversationType>;
 
   private readonly composeGroups: ReadonlyArray<ConversationListItemPropsType>;
 

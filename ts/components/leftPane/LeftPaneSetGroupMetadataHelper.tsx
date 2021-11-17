@@ -7,7 +7,7 @@ import React from 'react';
 import { LeftPaneHelper } from './LeftPaneHelper';
 import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
-import type { PropsDataType as ContactListItemPropsType } from '../conversationList/ContactListItem';
+import type { ContactListItemConversationType } from '../conversationList/ContactListItem';
 import { DisappearingTimerSelect } from '../DisappearingTimerSelect';
 import type { LocalizerType } from '../../types/Util';
 import { Alert } from '../Alert';
@@ -32,7 +32,7 @@ export type LeftPaneSetGroupMetadataPropsType = {
   hasError: boolean;
   isCreating: boolean;
   isEditingAvatar: boolean;
-  selectedContacts: ReadonlyArray<ContactListItemPropsType>;
+  selectedContacts: ReadonlyArray<ContactListItemConversationType>;
   userAvatarData: ReadonlyArray<AvatarDataType>;
 };
 
@@ -49,7 +49,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
 
   private readonly isEditingAvatar: boolean;
 
-  private readonly selectedContacts: ReadonlyArray<ContactListItemPropsType>;
+  private readonly selectedContacts: ReadonlyArray<ContactListItemConversationType>;
 
   private readonly userAvatarData: ReadonlyArray<AvatarDataType>;
 

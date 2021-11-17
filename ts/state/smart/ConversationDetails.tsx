@@ -19,7 +19,6 @@ import {
   getBadgesSelector,
   getPreferredBadgeSelector,
 } from '../selectors/badges';
-import type { BadgeType } from '../../badges/types';
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
 
@@ -81,24 +80,15 @@ const mapStateToProps = (
 
   const badges = getBadgesSelector(state)(conversation.badges);
 
-  const preferredBadgeByConversation: Record<string, BadgeType> = {};
-  const getPreferredBadge = getPreferredBadgeSelector(state);
-  groupMemberships.memberships.forEach(({ member }) => {
-    const preferredBadge = getPreferredBadge(member.badges);
-    if (preferredBadge) {
-      preferredBadgeByConversation[member.id] = preferredBadge;
-    }
-  });
-
   return {
     ...props,
     badges,
     canEditGroupInfo,
     candidateContactsToAdd,
     conversation,
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isAdmin,
-    preferredBadgeByConversation,
     ...groupMemberships,
     userAvatarData: conversation.avatars || [],
     hasGroupLink,

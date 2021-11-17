@@ -20,7 +20,7 @@ import {
   isSearching,
 } from '../selectors/search';
 import { getIntl, getRegionCode, getTheme } from '../selectors/user';
-import { getBadgesById } from '../selectors/badges';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getPreferredLeftPaneWidth,
   getUsernamesEnabled,
@@ -166,7 +166,6 @@ const getModeSpecificProps = (
 const mapStateToProps = (state: StateType) => {
   return {
     modeSpecificProps: getModeSpecificProps(state),
-    badgesById: getBadgesById(state),
     canResizeLeftPane: window.Signal.RemoteConfig.isEnabled(
       'desktop.internalUser'
     ),
@@ -174,6 +173,7 @@ const mapStateToProps = (state: StateType) => {
     selectedConversationId: getSelectedConversationId(state),
     selectedMessageId: getSelectedMessage(state)?.id,
     showArchived: getShowArchived(state),
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     regionCode: getRegionCode(state),
     challengeStatus: state.network.challengeStatus,
