@@ -3,14 +3,23 @@
 
 import { isEnabled } from '../RemoteConfig';
 import { getEnvironment, Environment } from '../environment';
+import { isBeta } from '../util/version';
 
 export function shouldShowBadges(): boolean {
-  return (
+  if (
     isEnabled('desktop.showUserBadges') ||
     isEnabled('desktop.internalUser') ||
     getEnvironment() === Environment.Staging ||
     getEnvironment() === Environment.Development ||
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Boolean((window as any).STORYBOOK_ENV)
-  );
+  ) {
+    return true;
+  }
+
+  if (isEnabled('desktop.showUserBadges.beta') && isBeta(window.getVersion())) {
+    return true;
+  }
+
+  return false;
 }
