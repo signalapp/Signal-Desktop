@@ -17,6 +17,7 @@ import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbo
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { ThemeType } from '../types/Util';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { UUID } from '../types/UUID';
 
@@ -60,6 +61,7 @@ const Wrapper = ({
         height: 350,
       }}
       rowCount={rows.length}
+      getPreferredBadge={() => undefined}
       getRow={(index: number) => rows[index]}
       shouldRecomputeRowHeights={false}
       i18n={i18n}
@@ -72,11 +74,13 @@ const Wrapper = ({
           bodyRanges={[]}
           conversationId="marc-convo"
           from={defaultConversations[0]}
+          getPreferredBadge={() => undefined}
           i18n={i18n}
           id={id}
           openConversationInternal={action('openConversationInternal')}
           sentAt={1587358800000}
           snippet="Lorem <<left>>ipsum<<right>> wow"
+          theme={ThemeType.light}
           to={defaultConversations[1]}
         />
       )}

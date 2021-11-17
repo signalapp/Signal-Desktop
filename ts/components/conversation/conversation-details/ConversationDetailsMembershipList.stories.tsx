@@ -11,9 +11,7 @@ import { number } from '@storybook/addon-knobs';
 import { setupI18n } from '../../../util/setupI18n';
 import enMessages from '../../../../_locales/en/messages.json';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
-import { getFakeBadge } from '../../../test-both/helpers/getFakeBadge';
 import { ThemeType } from '../../../types/Util';
-import type { BadgeType } from '../../../badges/types';
 
 import type {
   Props,
@@ -48,20 +46,9 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
     ? overrideProps.canAddNewMembers
     : false,
   conversationId: '123',
+  getPreferredBadge: () => undefined,
   i18n,
   memberships: overrideProps.memberships || [],
-  preferredBadgeByConversation:
-    overrideProps.preferredBadgeByConversation ||
-    (overrideProps.memberships || []).reduce(
-      (result: Record<string, BadgeType>, { member }, index) =>
-        (index + 1) % 3 === 0
-          ? {
-              ...result,
-              [member.id]: getFakeBadge({ alternate: index % 2 !== 0 }),
-            }
-          : result,
-      {}
-    ),
   showContactModal: action('showContactModal'),
   startAddingNewMembers: action('startAddingNewMembers'),
   theme: ThemeType.light,

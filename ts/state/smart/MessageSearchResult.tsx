@@ -8,7 +8,8 @@ import { mapDispatchToProps } from '../actions';
 import type { StateType } from '../reducer';
 
 import { MessageSearchResult } from '../../components/conversationList/MessageSearchResult';
-import { getIntl } from '../selectors/user';
+import { getPreferredBadgeSelector } from '../selectors/badges';
+import { getIntl, getTheme } from '../selectors/user';
 import { getMessageSearchResultSelector } from '../selectors/search';
 
 type SmartProps = {
@@ -26,8 +27,10 @@ function mapStateToProps(state: StateType, ourProps: SmartProps) {
 
   return {
     ...props,
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     style,
+    theme: getTheme(state),
   };
 }
 const smart = connect(mapStateToProps, mapDispatchToProps);

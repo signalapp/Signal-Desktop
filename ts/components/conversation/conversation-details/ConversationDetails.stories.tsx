@@ -46,6 +46,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
       }
     : conversation,
   hasGroupLink,
+  getPreferredBadge: () => undefined,
   i18n,
   isAdmin: false,
   isGroup: true,
@@ -56,7 +57,6 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
       isMe: i === 2,
     }),
   })),
-  preferredBadgeByConversation: {},
   pendingApprovalMemberships: times(8, () => ({
     member: getDefaultConversation(),
   })),

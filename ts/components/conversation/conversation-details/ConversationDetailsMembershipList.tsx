@@ -4,14 +4,13 @@
 import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../../../types/Util';
-import { getOwn } from '../../../util/getOwn';
 
-import type { BadgeType } from '../../../badges/types';
 import { Avatar } from '../../Avatar';
 import { Emojify } from '../Emojify';
 
 import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 import type { ConversationType } from '../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import { PanelRow } from './PanelRow';
 import { PanelSection } from './PanelSection';
 
@@ -23,10 +22,10 @@ export type GroupV2Membership = {
 export type Props = {
   canAddNewMembers: boolean;
   conversationId: string;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: Array<GroupV2Membership>;
-  preferredBadgeByConversation: Record<string, BadgeType>;
   showContactModal: (contactId: string, conversationId: string) => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;
@@ -74,10 +73,10 @@ function sortMemberships(
 export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
   canAddNewMembers,
   conversationId,
+  getPreferredBadge,
   i18n,
   maxShownMemberCount = 5,
   memberships,
-  preferredBadgeByConversation,
   showContactModal,
   startAddingNewMembers,
   theme,
@@ -114,7 +113,7 @@ export const ConversationDetailsMembershipList: React.ComponentType<Props> = ({
           icon={
             <Avatar
               conversationType="direct"
-              badge={getOwn(preferredBadgeByConversation, member.id)}
+              badge={getPreferredBadge(member.badges)}
               i18n={i18n}
               size={32}
               theme={theme}

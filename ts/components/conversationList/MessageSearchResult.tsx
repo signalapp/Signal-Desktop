@@ -9,9 +9,14 @@ import { MessageBodyHighlight } from './MessageBodyHighlight';
 import { ContactName } from '../conversation/ContactName';
 
 import { assert } from '../../util/assert';
-import type { BodyRangesType, LocalizerType } from '../../types/Util';
+import type {
+  BodyRangesType,
+  LocalizerType,
+  ThemeType,
+} from '../../types/Util';
 import { BaseConversationListItem } from './BaseConversationListItem';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 
 export type PropsDataType = {
   isSelected?: boolean;
@@ -29,6 +34,7 @@ export type PropsDataType = {
     ConversationType,
     | 'acceptedMessageRequest'
     | 'avatarPath'
+    | 'badges'
     | 'color'
     | 'isMe'
     | 'name'
@@ -50,11 +56,13 @@ export type PropsDataType = {
 };
 
 type PropsHousekeepingType = {
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   openConversationInternal: (_: {
     conversationId: string;
     messageId?: string;
   }) => void;
+  theme: ThemeType;
 };
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
@@ -136,11 +144,13 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
     bodyRanges,
     conversationId,
     from,
+    getPreferredBadge,
     i18n,
     id,
     openConversationInternal,
     sentAt,
     snippet,
+    theme,
     to,
   }) {
     const onClickItem = useCallback(() => {
@@ -179,6 +189,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
       <BaseConversationListItem
         acceptedMessageRequest={from.acceptedMessageRequest}
         avatarPath={from.avatarPath}
+        badge={getPreferredBadge(from.badges)}
         color={from.color}
         conversationType="direct"
         headerDate={sentAt}
@@ -194,6 +205,7 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
         sharedGroupNames={from.sharedGroupNames}
+        theme={theme}
         title={from.title}
         unblurredAvatarPath={from.unblurredAvatarPath}
       />

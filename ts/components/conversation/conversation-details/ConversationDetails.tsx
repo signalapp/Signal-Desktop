@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
 import type { ConversationType } from '../../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import { assert } from '../../../util/assert';
 import { getMutedUntilText } from '../../../util/getMutedUntilText';
 
@@ -59,12 +60,12 @@ export type StateProps = {
   candidateContactsToAdd: Array<ConversationType>;
   conversation?: ConversationType;
   hasGroupLink: boolean;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isAdmin: boolean;
   isGroup: boolean;
   loadRecentMediaItems: (limit: number) => void;
   memberships: Array<GroupV2Membership>;
-  preferredBadgeByConversation: Record<string, BadgeType>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   setDisappearingMessages: (seconds: number) => void;
@@ -114,6 +115,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   conversation,
   deleteAvatarFromDisk,
   hasGroupLink,
+  getPreferredBadge,
   i18n,
   isAdmin,
   isGroup,
@@ -126,7 +128,6 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   onUnblock,
   pendingApprovalMemberships,
   pendingMemberships,
-  preferredBadgeByConversation,
   replaceAvatar,
   saveAvatarToDisk,
   searchInConversation,
@@ -235,6 +236,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
           conversationIdsAlreadyInGroup={
             new Set(memberships.map(membership => membership.member.id))
           }
+          getPreferredBadge={getPreferredBadge}
           groupTitle={conversation.title}
           i18n={i18n}
           makeRequest={async conversationIds => {
@@ -459,9 +461,9 @@ export const ConversationDetails: React.ComponentType<Props> = ({
         <ConversationDetailsMembershipList
           canAddNewMembers={canEditGroupInfo}
           conversationId={conversation.id}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           memberships={memberships}
-          preferredBadgeByConversation={preferredBadgeByConversation}
           showContactModal={showContactModal}
           startAddingNewMembers={() => {
             setModalState(ModalState.AddingGroupMembers);

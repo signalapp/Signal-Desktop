@@ -14,6 +14,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { ThemeType } from '../types/Util';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
@@ -81,7 +82,6 @@ const defaultModeSpecificProps = {
 const emptySearchResultsGroup = { isLoading: false, results: [] };
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  badgesById: {},
   cantAddContactToGroup: action('cantAddContactToGroup'),
   canResizeLeftPane: true,
   clearGroupCreationError: action('clearGroupCreationError'),
@@ -93,6 +93,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   composeReplaceAvatar: action('composeReplaceAvatar'),
   composeSaveAvatarToDisk: action('composeSaveAvatarToDisk'),
   createGroup: action('createGroup'),
+  getPreferredBadge: () => undefined,
   i18n,
   modeSpecificProps: defaultModeSpecificProps,
   preferredWidthFromStorage: 320,
@@ -112,11 +113,13 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       bodyRanges={[]}
       conversationId="marc-convo"
       from={defaultConversations[0]}
+      getPreferredBadge={() => undefined}
       i18n={i18n}
       id={id}
       openConversationInternal={action('openConversationInternal')}
       sentAt={1587358800000}
       snippet="Lorem <<left>>ipsum<<right>> wow"
+      theme={ThemeType.light}
       to={defaultConversations[1]}
     />
   ),
