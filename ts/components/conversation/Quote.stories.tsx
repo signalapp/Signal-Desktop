@@ -37,7 +37,6 @@ const defaultMessageProps: MessagesProps = {
     id: 'some-id',
     title: 'Person X',
   }),
-  authorBadge: undefined,
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,
@@ -56,6 +55,7 @@ const defaultMessageProps: MessagesProps = {
   doubleCheckMissingQuoteReference: action(
     'default--doubleCheckMissingQuoteReference'
   ),
+  getPreferredBadge: () => undefined,
   i18n,
   id: 'messageId',
   renderingContext: 'storybook',

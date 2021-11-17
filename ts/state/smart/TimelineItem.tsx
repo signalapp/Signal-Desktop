@@ -9,6 +9,7 @@ import { mapDispatchToProps } from '../actions';
 import type { StateType } from '../reducer';
 
 import { TimelineItem } from '../../components/conversation/TimelineItem';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getInteractionMode, getTheme } from '../selectors/user';
 import {
   getConversationSelector,
@@ -68,6 +69,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationId,
     conversationColor: conversation?.conversationColor,
     customColor: conversation?.customColor,
+    getPreferredBadge: getPreferredBadgeSelector(state),
     isSelected,
     renderContact,
     renderUniversalTimerNotification,

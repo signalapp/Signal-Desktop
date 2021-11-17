@@ -64,7 +64,7 @@ export type PropsData = {
   i18n: LocalizerType;
   theme: ThemeType;
   getPreferredBadge: PreferredBadgeSelectorType;
-} & Pick<MessagePropsType, 'interactionMode'>;
+} & Pick<MessagePropsType, 'getPreferredBadge' | 'interactionMode'>;
 
 export type PropsBackboneActions = Pick<
   MessagePropsType,
@@ -276,6 +276,7 @@ export class MessageDetail extends React.Component<Props> {
       contactNameColor,
       displayTapToViewMessage,
       doubleCheckMissingQuoteReference,
+      getPreferredBadge,
       i18n,
       interactionMode,
       kickOffAttachmentDownload,
@@ -327,6 +328,7 @@ export class MessageDetail extends React.Component<Props> {
               log.warn('MessageDetail: deleteMessageForEveryone called!')
             }
             doubleCheckMissingQuoteReference={doubleCheckMissingQuoteReference}
+            getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
