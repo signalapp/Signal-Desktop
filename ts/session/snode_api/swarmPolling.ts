@@ -318,7 +318,6 @@ export class SwarmPolling {
   }
 
   private loadGroupIds() {
-    // Start polling for medium size groups as well (they might be in different swarms)
     const convos = getConversationController().getConversations();
 
     const mediumGroupsOnly = convos.filter(
@@ -328,7 +327,6 @@ export class SwarmPolling {
 
     mediumGroupsOnly.forEach((c: any) => {
       this.addGroupId(new PubKey(c.id));
-      // TODO: unsubscribe if the group is deleted
     });
   }
 
