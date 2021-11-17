@@ -833,6 +833,14 @@
         "message": "Mesaje",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Bun venit la Signal",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Pictogramă ce arată că această imagine are titlu",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Adăugați un titlu...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Salvează",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Resetare",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "Nu s-au găsit conversații",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Alegeți membrii",
@@ -3333,15 +3345,9 @@
         "message": "Deblochează",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Deblochez pe $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vei putea să vă trimiteți mesaje și să vă sunați reciproc.",
@@ -5293,6 +5299,30 @@
         "message": "următorul",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Atingeți poza dvs. de profil din stânga sus pentru a deschide Setările",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Extindeți",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Numele de utilizatori pe Signal sunt opționale. Dacă alegeți să creați un nume de utilizator, și să faceți să poată fi căutat, alți utilizatori de Signal vă vor putea găsi cu acest nume și vă vor contacta fără să vă știe numărul de telefon.",
+        "message": "Numele de utilizator pe Signal sunt opționale. Dacă alegi să creezi un nume de utilizator, alți utilizatori de Signal te vor putea găsi prin acest nume și te vor contacta fără să îți știe numărul de telefon.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Ce este nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Trageți aer în piept și relaxați-vă cu noile animații pentru dialoguri și meniuri tip pop-up. Inspirați. Expirați. Inspirați. Expirați.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Schimbarea aspectului tastaturii este mereu puțin complicată, dar acum comenzile rapide merg un pas mai departe decât prima literă apăsată pentru a onora intenția dvs.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Acum veți primi o notificare atunci când un apel de grup este început. Nu veți mai întârzia niciodată, decât dacă doriți să întârziați.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Această funcție este pentru toți cei care reacționează mai des cu 💅 decât cu 👍: acum puteți personaliza emoji-urile ce apar în mod implicit atunci când doriți sa reacționați la un mesaj.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Obțineți mai multe informații dintr-o singură privire 👀. Panoul din stânga are acum un aspect și un stil nou 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Aflați când și ce. Marca temporală, dacă este disponibilă, asociată cu mesajele de stare, livrat, citit, trimis și altele, va fi afișată în ecranul de detalii al mesajului.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Utilizatorilor de cititoare de ecran ar trebui să le fie mai ușor acum să navigheze prin lista de conversații din panoul din stânga.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Acum puteți căuta în conversații arhivate. Imaginați-vă căutând (rapid) prin tomuri vechi, pentru a găsi următorul indiciu.",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reacționați la un mesaj? Acum această acțiune ar trebui să fie mai fiabilă, va fi reîncercată timp de până la 24 de ore",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",

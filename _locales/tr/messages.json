@@ -833,6 +833,14 @@
         "message": "İletiler",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Signal'e Hoşgeldin",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Bu görüntünün başlığı olduğunu gösteren ikon",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Bir başlık ekleyin...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Kaydet",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Sıfırla",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "Konuşma yok",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Üyeleri seçin",
@@ -3333,15 +3345,9 @@
         "message": "Engeli kaldır",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "$name$ kişisinin engeli kaldırılsın mı?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Birbirinizi arayıp ileti gönderebileceksiniz.",
@@ -5293,6 +5299,30 @@
         "message": "sonraki",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Ayarları açmak için sol üstteki profil fotoğrafınıza dokunun",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Genişlet",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Signal'de kullanıcı adları tamamen isteğe bağlıdır. Eğer oluşturup aranabilir yaparsanız, diğer Signal kullanıcıları telefon numaranızı bilmeden adınızı arayarak sizi bulabileceklerdir.",
+        "message": "Signal'de kullanıcı adları tamamen isteğe bağlıdır. Eğer kullanıcı adı oluşturursanız diğer Signal kullanıcıları bu kullanıcı adı ile sizi bulup telefon numaranızı bilmeden size ulaşabileceklerdir.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Neler Yeni",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Bir nefes alın ve diyaloglardaki ve açılır pencerelerdeki yeni animasyonlarla rahatlayın. Yavaşça. Hızlıca. Yavaşça. Hızlıca.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Klavye düzenini değiştirmek her zaman biraz zor olmuştur, ancak klavye kısayolları şimdi tam olarak sizi takip ediyor, niyetinizi yerine getirmek için basılan belirli harfin ötesine geçiyor.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Şimdi bir grup araması başladığında bir bildirim alacaksınız. Artık geç kalmayacaksınız, eğer niyetiniz geç kalmak değilse.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Bu özellik, 👍 yerine daha çok 💅 ile etkileşim kuranlar için: şimdi artık bir iletiye bırakmak istediğiniz tepkinin varsayılan olarak nasıl gözükebileceğini düzenleyebiliyorsunuz.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Bir bakışta daha fazla bilgi edinin. Sol bölmenin artık yeni bir görünüm ve tarzı var 😎 .",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Neyin ne zaman olduğunu bilin. Varsa teslim edilen, okunan, gönderilen ve diğer durum iletileriyle ilişkili zaman bilgisi artık iletinin ayrıntılar ekranında görüntülenecektir.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Ekran okuyucu kullanıcıları için sol bölmedeki konuşma listesinde gezinme artık daha kolay.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Artık arşivlenmiş konuşmalarda arama yapabilirsiniz. Bir sonraki ipucunu bulmak için eski ciltleri (hızlıca) aradığınızı hayal edin.",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Mesaja tepki mi veriyorsunuz? Artık daha stabil olmalı, 24 saate kadar otomatik tekrar denenecek",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",

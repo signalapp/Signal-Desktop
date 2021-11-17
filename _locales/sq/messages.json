@@ -833,6 +833,14 @@
         "message": "Mesazhe",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Mirë se vini te Signal-i",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Ikonë që tregon  se për këtë figurë ka një titull",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Shtoni një përshkrim…",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Ruaje",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Riktheje",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "S’u gjetën biseda.",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Zgjidhni anëtarë",
@@ -3333,15 +3345,9 @@
         "message": "Zhbllokoje",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Të zhbllokohet $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Do të jeni në gjendje t’i shkruani mesazhe dhe t’i bëni thirrje njëri-tjetrit.",
@@ -5293,6 +5299,30 @@
         "message": "pasuesja",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Prekni mbi foton e profilit tuaj në cepin e majtë sipër, që të hapen Rregullimet.",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Zgjeroje",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "message": "Emrat e përdoruesve në Signal janë opsionalë. Nëse vendosni të krijoni një emër përdoruesi, përdorues të tjerë të Signal-it do të jenë në gjendje t’ju gjejnë me këtë emër përdoruesi dhe të lidhen me ju pa ditur numrin tuaj të telefonit.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Ç’ka të Re",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Merrni frymë fort dhe rehatohuni me animacionet e reja për dialogë dhe flluska. Merrni frymë. Nxirreni. Merrni frymë. Nxirreni.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Ndërrimi i skemave të tastierës është përherë pakëz i ngatërruar, por tanimë shkurtoret e tastierës ndjekin ndryshimet tuaja, duke shkuar tej shkronjës specifike që shtypët, për të plotësuar atë që kishit në mendje.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Kur fillon një thirrje grupi, tani merrni një njoftim. S’do të jeni kurrë më vonë, veç në daçi të jeni.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Kjo veçori vjen për cilindo që reagon me 💅 më shumë se sa me 👍: tani mund t’i përshtatni emoji-t që shfaqen si parazgjedhje, kur doni të reagoni ndaj një mesazhi.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Merrni më tepër informacion, me një vështrim 👀. Kuadrati majtas përfitoi një pamje dhe stil të ri 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Njihni kur-in e diçkaje. Vula kohore, në pastë, e përshoqëruar me mesazhe gjendjeje për të dorëzuar, të lexuar, të dërguar dhe të tjerë, tani shfaqen te skena e hollësive të mesazhit.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Përdoruesit e lexuesit të ekrani tani do të shohin se është më e lehtë të lëvizet nëpër listën e bisedave më kuadratin majtas.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",

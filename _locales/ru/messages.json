@@ -833,6 +833,14 @@
         "message": "Сообщения",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Поиск по имени пользователя",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Добро пожаловать в Signal",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Значок, показывающий, что у этого изображения есть подпись",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Добавить подпись…",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Сохранить",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Сбросить",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "Разговоры не найдены",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Не удалось выполнить запрос по имени пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Пользователь не найден. $atUsername$ — не пользователь Signal; убедитесь, что вы ввели полное имя пользователя.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Выберите участников",
@@ -3333,15 +3345,9 @@
         "message": "Разблокировать",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Разблокировать $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Вы сможете отправлять сообщения и звонить друг другу.",
@@ -5293,6 +5299,30 @@
         "message": "следующее",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Стать поддерживающим",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Стать поддерживающим",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal существует благодаря таким людям, как вы. Поддержите нас и получите значок.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Откройте Signal на своём телефоне",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Нажмите на своё фото профиля в левом верхнем углу, чтобы открыть настройки",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Нажмите на «Стать поддерживающим» и подпишитесь",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Развернуть",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Имена пользователей в Signal необязательны. Если вы решите создать имя пользователя и сделать его доступным для поиска, другие пользователи Signal смогут найти вас по этому имени пользователя и связаться с вами, не зная вашего номера телефона.",
+        "message": "Имена пользователей в Signal необязательны. Если вы решите создать имя пользователя, другие пользователи Signal смогут найти вас по этому имени пользователя и связаться с вами, не зная ваш номер телефона.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Что нового",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Добавлены новые анимации к диалогам и всплывающим окнам.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Горячие клавиши теперь работают вне зависимости от раскладки клавиатуры.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Теперь вы будете получать уведомления о начале групповых звонков.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Теперь вы можете изменить набор эмодзи, который появляется по умолчанию, когда вы хотите отреагировать на сообщение.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Теперь вы будете видеть больше информации с первого взгляда 👀. У панели слева новый вид и стиль 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Знайте, когда что. Отметка времени, связанная с индикаторами «доставлено», «прочитано», «отправлено» и другими индикаторами, теперь показывается на экране подробностей сообщения, если она доступна.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Пользователям программ чтения с экрана теперь должно быть легче перемещаться по списку разговоров в панели слева.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Теперь вы можете искать в архивированных разговорах. Представьте себя (быстро) просматривающим древние тома в поисках следующей подсказки.",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Реагируете на сообщение? Теперь это действие должно выполняться более надёжно — при необходимости оно будет повторяться в течении 24 часов.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",

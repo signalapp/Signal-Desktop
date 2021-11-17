@@ -833,6 +833,14 @@
         "message": "Mesej",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Selamat datang ke Signal",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Ikon menunjukkan bahawa imej ini mempunyai kapsyen",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Tambah kapsyen...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Simpan",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Tetap semula",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "Tiada perbualan dijumpai",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Pilih ahli",
@@ -3333,15 +3345,9 @@
         "message": "Nyahsekat",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Nyahsekat $name$?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Anda akan dapat menghantar mesej dan membuat panggilan satu sama lain.",
@@ -5293,6 +5299,30 @@
         "message": "seterusnya",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Ketik foto profil anda di kiri atas untuk membuka Tetapan",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Kembangkan",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Nama pengguna pada Signal adalah tidak wajib. Jika anda memilih untuk mencipta nama pengguna dan menjadikannya boleh dicari, pengguna Signal lain akan dapat mencari anda melalui nama pengguna ini dan menghubungi anda tanpa mengetahui nombor telefon anda.",
+        "message": "Nama pengguna pada Signal adalah pilihan. Sekiranya anda memilih untuk mencipta pengguna nama , pengguna lain di Signal akan dapat mencari nama pengguna ini dan menghubungi anda tanpa mengetahui nombor telefon anda.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Perkara Baharu",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Ambil nafas dan bertenang dalam animasi baharu untuk dialog dan pop timbul. Tarik nafas. Hembus nafas. Tarik nafas. Hembus nafas.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Menukar reka letak papan kekunci sememangnya rumit, tetapi pintasan papan kekunci ini akan sentiasa menjejaki dan mengiringi anda, menjangkau melebihi huruf tertentu yang ditekan untuk menghormati niat anda.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Apabila panggilan kumpulan bermula, anda akan menerima pemberitahuan. Anda tidak akan terlambat lagi, melainkan anda sendiri mahu lambat.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Ciri ini diberikan kepada semua orang yang bertindak balas dengan 💅 lebih daripada 👍: kini anda boleh menyesuaikan emoji-emoji yang muncul secara lalai apabila anda mahu bertindak balas kepada mesej.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Versi ini mengandungi beberapa pembetulan pepijat dan penambahbaikan untuk memastikan Signal berjalan lancar.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Dapatkan lebih banyak maklumat secara sepintas lalu 👀. Ruang bahagian kiri mempunyai rupa dan gaya baharu yang segar  😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Ketahui segala butirannya. Cap masa, jika ada, adalah berkaitan dengan status disampaikan, dibaca, dihantar, dan lain-lain mesej status kini dipamerkan di skrin butiran mesej.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Pengguna pembaca skrin kini sepatutnya mendapati lebih mudah untuk menavigasi senarai perbualan pada anak tetingkap kiri.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Anda kini boleh mencari dalam perbualan yang diarkibkan. Bayangkan diri anda mencari (dengan pantas) melalui buku-buku kuno, mencari petunjuk seterusnya. ",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Memberi reaksi terhadap mesej? Ia kini lebih dipercayai, mencuba semula sehingga 24 jam",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",

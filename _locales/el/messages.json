@@ -833,6 +833,14 @@
         "message": "Μηνύματα",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Αναζήτηση με όνομα χρήστη",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Καλωσήλθες στο Signal",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "Εικονίδιο που δείχνει ότι αυτή η εικόνα έχει λεζάντα",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Προσθήκη λεζάντας...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Αποθήκευση",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Επαναφορά",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "Δεν βρέθηκαν συνομιλίες",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Αποτυχία λήψης ονόματος χρήστη. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Δεν βρέθηκε ο χρήστης. Ο/Η $atUsername$ δεν είναι χρήστης/τρια του Signal, επιβεβαίωσε πως έχεις γράψει ολόκληρο το όνομα χρήστη.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "Επιλογή μελών",
@@ -3333,15 +3345,9 @@
         "message": "Κατάργηση φραγής",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Κατάργηση φραγής του/της $name$;",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Θα μπορείτε να στέλνετε μηνύματα και να καλείτε ο ένας τον άλλον.",
@@ -5293,6 +5299,30 @@
         "message": "επόμενο",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Γίνε υποστηρικτής",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Γίνε υποστηρικτής",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Το Signal βασίζεται σε άτομα σαν κι εσένα. Με τη συνεισφορά σου λαμβάνεις ένα έμβλημα.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Άνοιξε το Signal στο κινητό σου",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Πάτα στη φωτογραφία προφίλ σου πάνω αριστερά για να ανοίξεις τις Ρυθμίσεις",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Πάτα στο \"Γίνε υποστηρικτής\" και κάνε συνδρομή",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Ανάπτυξη",
         "description": "Aria label for expanding composition area"
@@ -6210,7 +6240,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Τα ονόματα χρήστη στο Signal είναι προαιρετικά. Αν επιλέξεις να δημιουργήσεις ένα όνομα χρήστη και να το κάνεις διαθέσιμο προς αναζήτηση, τότε άλλοι χρήστες του Signal θα μπορούν να σε βρουν με αυτό το όνομα και να επικοινωνήσουν μαζί σου χωρίς να γνωρίζουν τον αριθμό τηλεφώνου σου.",
+        "message": "Τα ονόματα χρήστη του Signal είναι προαιρετικά. Αν διαλέξεις να δημιουργήσεις ένα όνομα χρήστη, τότε άλλοι χρήστες/τριες του Signal θα μπορούν να σε βρουν αναζητώντας σε με αυτό το όνομα χρήστη, και θα μπορούν να επικοινωνούν μαζί σου χωρίς να ξέρουν τον αριθμό τηλεφώνου σου.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6545,38 +6575,6 @@
         "message": "Νέες δυνατότητες",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Παρουσιάζουμε νέα animations για διαλόγους και αναδυόμενα παράθυρα.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Οι συντομεύσεις πληκτρολογίου πλέον λειτουργούν με οποιαδήποτε γλώσσα πληκτρολογίου.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Θα λαμβάνεις πλέον ειδοποίηση όποτε ξεκινά μια ομαδική κλήση. ",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Μπορείς πλέον να προσαρμόσεις τα emoji που εμφανίζονται πρώτα όταν αντιδράς σε μηνύματα.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Περισσότερες πληροφορίες με μια ματιά 👀. Το αριστερό τμήμα απέκτησε νέα όψη και στιλ 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Μάθε το πότε. Η ένδειξη ώρας, αν είναι διαθέσιμη, που αφορά τον χρόνο παράδοσης, ανάγνωσης, αποστολής και άλλα μηνύματα κατάστασης, εμφανίζεται πλέον στην οθόνη λεπτομερειών του μηνύματος.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Οι χρήστες αναγνώστη οθόνης θα μπορούν να πλοηγηθούν στη λίστα συνομιλιών στο αριστερό τμήμα πιο εύκολα.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Μπορείς πλέον να κάνεις αναζήτηση στις αρχειοθετημένες συνομιλίες. Σαν να ψάχνεις για στοιχεία στις αρχαίες γραφές.",
         "description": "Release notes for v5.24"
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Η αντίδραση σε μηνύματα είναι πλέον πιο αξιόπιστη.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",

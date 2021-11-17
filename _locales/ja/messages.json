@@ -833,6 +833,14 @@
         "message": "メッセージ",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "ユーザ名で検索",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?"
+    },
     "welcomeToSignal": {
         "message": "Signalへようこそ",
         "description": ""
@@ -1293,13 +1301,9 @@
         "message": "この画像にキャプションがついていることを示すアイコン",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "キャプション追加...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "保存",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "リセット",
@@ -2272,6 +2276,14 @@
     "noConversationsFound": {
         "message": "チャットが見つかりません",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "ユーザ名を検索できませんでした。インターネット接続を確認して再度試してください。",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "ユーザは見つかりませんでした。$atUsername$ はSignalユーザではありません。ユーザ名を確認してください。",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username"
     },
     "chooseGroupMembers__title": {
         "message": "メンバーの選択",
@@ -3333,15 +3345,9 @@
         "message": "ブロックを解除する",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
-        "message": "$name$のブロックを解除しますか?",
-        "description": "Shown as a button to let the user unblock a message request",
-        "placeholders": {
-            "name": {
-                "content": "$1",
-                "example": "Cayce Pollard"
-            }
-        }
+    "MessageRequests--unblock-direct-confirm-title": {
+        "message": "$name$ のブロックを解除しますか？",
+        "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "お互いにメッセージや通話ができるようになります。",
@@ -5293,6 +5299,30 @@
         "message": "次へ",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "サポーターになる",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "サポーターになってください",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signalはユーザーの皆様によって支えられています。ご支援をお願いします！",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "あなたの電話でSignalを開きます",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "左上の写真をタップして、設定を開きます",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "「サポーターになる」をタップして登録します",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "大きく",
         "description": "Aria label for expanding composition area"
@@ -6206,15 +6236,15 @@
         "description": "Default text for username field"
     },
     "ProfileEditor--username--placeholder": {
-        "message": "ユーザー名を入力",
+        "message": "ユーザー名を入力してください",
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Signalのユーザー名設定は任意です。ユーザー名を作成すると、他のSignalユーザーはあなたの電話番号を知らなくても、このユーザー名であなたを検索して連絡できるようになります。",
+        "message": "Signalのユーザ名作成は任意です。ユーザー名を作成すると、他のSignalユーザはあなたの電話番号を知らなくても、あなたにこのユーザ名で連絡できるようになります。",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "ユーザー名には半角の英数字とアンダーバーのみ使用できます。",
+        "message": "ユーザー名には半角の英数字とアンダーバーのみ使用できます",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6242,15 +6272,15 @@
         }
     },
     "ProfileEditor--username--check-username-taken": {
-        "message": "このユーザー名は既に使用されています。",
+        "message": "このユーザー名はすでに使用されています。",
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "ユーザー名を保存できませんでした。接続を確認してから再度試してください。",
+        "message": "ユーザー名を保存できませんでした。インターネット接続を確認して再度試してください。",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "ユーザー名を削除できませんでした。接続を確認してから再度試してください。",
+        "message": "ユーザー名を削除できませんでした。インターネット接続を確認して再度試してください。",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6258,11 +6288,11 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "この操作によりユーザー名が削除され、他のユーザーがこのユーザー名を使うことができるようになります。よろしいですか?",
+        "message": "これにより、あなたのユーザー名が削除され、他のユーザーがそのユーザー名を使用できるようになります。よろしいですか？",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
-        "message": "削除",
+        "message": "削除する",
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
@@ -6545,40 +6575,8 @@
         "message": "新機能",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "ダイアログやポップアップのアニメーションを変更しました。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "キーボードレイアウトの切り替えにはちょっとしたコツが必要ですが、キーボードショートカットは押した文字だけでなく、その意図を汲んで追従してくれます。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "グループ通話が始まると通知します。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "「👍」よりも「💅」でリアクションする人に向けけて、メッセージにリアクションしたいときにデフォルトで表示される絵文字をカスタマイズできるようになりました。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "このバージョンでは、Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "一目でより多くの情報を得られるように👀、左ペインの外観とスタイルを一新しました😎。",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "「いつ」から「何を」までを把握できるようになりました。ステータスメッセージに関連する、配信済み、既読、送信済みなどのタイムスタンプがある場合、メッセージの詳細画面に表示されます。",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "スクリーンリーダーをお使いの方は、左ペインのチャットリストを簡単に操作できるようになりました。",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
-        "message": "アーカイブされたチャットを検索できるようになりました。昔の記憶を掘り起こしましょう。",
+        "message": "アーカイブされたチャットの中を検索できるようになりました。",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
@@ -6588,6 +6586,10 @@
     "WhatsNew__v5.24--3": {
         "message": "24時間以内に再試行するなど、メッセージ配送の信頼性が向上しました。",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
