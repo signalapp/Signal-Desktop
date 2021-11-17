@@ -108,6 +108,7 @@
 
   &__badge {
     bottom: 0;
+    pointer-events: none;
     position: absolute;
     right: 0;
     z-index: 1;
