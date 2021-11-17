@@ -833,6 +833,20 @@
         "message": "Beskeder",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find via brugernavn",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Velkommen til Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "Ikon, der viser, at dette billede har en billedtekst",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Tilføj en billedtekst...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Gem",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Nulstil",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "Ingen fundne samtaler",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Kunne ikke hente brugernavn. Kontroller din forbindelse og prøv igen.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Bruger ikke fundet. $atUsername$ er ikke en Signal-bruger; sørg for, at du har indtastet det fulde brugernavn.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Vælg medlemmer",
@@ -3333,9 +3357,15 @@
         "message": "Fjern blokering",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Fjern blokering af $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "I vil være i stand til at sende beskeder og ringe til hinanden",
@@ -5287,6 +5317,30 @@
         "message": "næste",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Bliv bidragsyder",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Bliv bidragsyder",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal er drevet af personer som dig. Bidrag og få et emblem.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Åbn Signal på din telefon",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Tryk på dit profilbillede øverst til venstre for at åbne Indstillinger",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tryk på \"Bliv bidragsyder\" og abonnér",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Udvid",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Brugernavne på Signal er valgfrie. Hvis du vælger at oprette et brugernavn og gør det søgbart, vil andre Signal-brugere kunne finde dig via dette brugernavn og kontakte dig uden at kende dit telefonnummer.",
+        "message": "Brugernavne på Signal er frivillige. Hvis du vælger at oprette et brugernavn, vil andre Signal brugere kunne finde dig via dette og de vil kunne kontakte dig uden at kende dit mobilnummer",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "Nyheder",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Tag en dyb indånding og dyk ned i de nye animationer for dialoger og pop-ups. ",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "At skifte tastaturlayouts er altid lidt beværligt, men tastaturgenveje følger nu med dig og rækker ud over det specifikke bogstav, du har trykket på, for at respektere dine intentioner.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Du får nu en notifikation, når et gruppeopkald starter. Du kommer aldrig mere for sent, medmindre du ønsker det.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Denne feature er til alle, som reagerer mere med 💅 end 👍: Du kan nu tilpasse de emojis, der vises som sandard, når du vil reagere på en besked.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Denne version indeholder en række små justeringer og fejlrettelser for at sikre, at Signal kører problemfrit.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Få flere oplysninger med et hurtigt øjekast 👀. Den venstre rude har fået et frisk nyt udseende og en ny stil 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Bliv klogere på hvornår og hvad. Tidsstemplet, hvis det er tilgængeligt, der er knyttet til leveret, læst, sendt og andre statusmeddelelser vises nu på beskedens detaljeskærm.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Brugere af skærmlæsere bør nu have lettere ved at navigere i samtalelisten i venstre rude.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Du kan nu søge i arkiverede samtaler. Forestil dig, at du søger (hurtigt) gennem gamle skrifter på jagt efter det næste spor.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reagerer du på en besked? Det skulle nu være mere pålideligt, idet der forsøges igen i op til 24 timer",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",

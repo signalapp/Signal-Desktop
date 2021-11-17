@@ -833,6 +833,20 @@
         "message": "Mensagens",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Encontre por nome de usuário",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Boas-vindas ao Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "Ícone mostrando que esta imagem possui uma legenda",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Adicionar legenda...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Salvar",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Redefinir",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "Nenhuma conversa encontrada",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Falha ao buscar o nome de usuário. Verifique a sua conexão e tente novamente.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Pessoa não encontrada. $atUsername$ não é um nome de usuário registrado no Signal; certifique-se de que você digitou o nome de usuário completo.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Escolher membros",
@@ -3333,9 +3357,15 @@
         "message": "Desbloquear",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Desbloquear $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vocês poderão trocar mensagens e fazer chamadas entre si.",
@@ -5287,6 +5317,30 @@
         "message": "próximo",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Torne-se um apoiador",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Torne-se um apoiador",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal é mantido por pessoas como você. Contribua e receba um selo.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Abra o Signal no seu celular",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Toque na sua foto de perfil, no canto superior esquerdo, para abrir as Configurações",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Toque em \"Torne-se um apoiador\" e contribua",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Expandir",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Nomes de usuário no Signal são opcionais. Se você optar por criar um nome de usuário, outras pessoas poderão localizá-lo no Signal por meio desse nome de usuário e entrar em contato com você sem saber seu número de telefone.",
+        "message": "Nomes de usuário são opcionais no Signal. Se você decidir criar um nome de usuário, outros usuários poderão usá-lo para encontrar você e entrar em contato, mesmo que não saibam o seu número de telefone.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "Novidades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "As novas animações para diálogos e pop-ups são inspiradas na respiração e no relaxamento. Inspire e expire. Inspire e expire.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Trocar teclados é sempre um pouco complicado porque as teclas de atalhos são diferentes. A partir de agora, os atalhos de teclado vão além da letra específica pressionada, honrando a sua intenção.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "A partir de agora, você receberá uma notificação quando uma chamada em grupo for iniciada. Desse modo, fazemos a nossa parte para você não se atrasar a um encontro.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "A partir de agora, você pode escolher quais emojis aparecem por padrão quando você reage a uma mensagem. Desse modo, você pode reagir com 💅 em vez de 👍.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Essa versão contém variados pequenos retoques e consertos para manter o Signal funcionando confortavelmente.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Receba informações em um piscar de olhos 👀. A lista de conversas recebeu uma repaginada no visual 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "A partir de agora, ao clicar para ler os detalhes de uma mensagem, além da data e a hora, você também poderá ler outras informações associadas às mensagens, se estiverem disponíveis: entregues, lidas, enviadas e situação do envio.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Demos atenção para a lista de conversas, para ela se potencializar e se tornar legível para as pessoas que leem com auxílio de programas de computador.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "A partir de agora, você pode pesquisar mensagens em conversas arquivadas. Imagine-se rememorando livros antigos, procurando neles a próxima pista para o presente.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Se a conexão de rede estiver fraca, não tem problema. Ao reagir a uma mensagem, tentaremos enviar essa reação dentro de 24 horas, se não for possível no presente.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",

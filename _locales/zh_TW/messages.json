@@ -833,6 +833,20 @@
         "message": "訊息",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "以使用者名稱搜尋",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "歡迎來到 Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "圖示顯示此圖片有說明文字",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "加入說明文字…",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "儲存",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "重設",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "找不到對話",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "取得使用者名稱失敗。檢查你的網路連接並重試。",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "未找到該使用者。$atUsername$不是 Signal 使用者；請確定你輸入的是完整的使用者名稱。",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "選擇成員",
@@ -3333,9 +3357,15 @@
         "message": "解除封鎖",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "解除封鎖$name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "你將能夠發訊息並互相打電話。",
@@ -5287,6 +5317,30 @@
         "message": "下一個",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "成為贊助人",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "成為贊助人",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal 由像你這樣提供支援。貢獻並獲得徽章。",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "在手機上開啟 Signal",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "點按左上角的個人資料照片以打開“設定”",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "點擊“成為贊助人”並訂閱",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "擴充",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Signal 上的使用者名稱是可選的。 如果你選擇建立使用者名稱並使可被搜索，其他 Signal 使用者將能夠透過該使用者名稱找到你並在不知道你的電話號碼的情況下與你聯絡。",
+        "message": "Signal上的使用者名稱是選則性的。 如果你選擇創建使用者名稱，其他Signal 使用者將能透過使用者名稱找到你，並在不知道你的電話號碼的情況下與你聯繫。",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "休息一下並放鬆進入對話框和彈出視窗的新動畫。 吸氣呼氣。 吸氣呼氣。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "切換鍵盤佈局總是有點棘手，但鍵盤快捷鍵現在會與你一起移動，按下的特定字母來滿足你的要求。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "當群組通話開始時，你現在會收到通知。 你不會再太遲加入，除非你想遲到。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "此功能適用於對 💅 做出反應超過 👍 的每個人：你現在可以自定義當你想對訊息做出回應時預設顯示的表情符號。",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "一目了然獲取更多信息👀。 左方面板具有全新的外觀和樣式😎。",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "要知道什麼時候該做什麼。 與已送達、已讀、已傳送和其他狀態訊息相關聯的時間戳（如果可用）現在會顯示在訊息詳細訊息畫面中。",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "螢幕閱讀器使用者現在應該可以更輕鬆地瀏覽左側面版中的對話清單。",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "你現在可以在存檔的對話中搜尋。想像一下自己（快速地）搜尋古代書籍，尋找下一條線索。",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "要對訊息作出回應嗎？ 現在應該更可靠了，最多可以重試 24 小時",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",

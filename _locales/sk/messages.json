@@ -833,6 +833,20 @@
         "message": "Správy",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Nájsť podľa používateľského mena",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Vitajte v aplikácii Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "Ikona indukujúca, že tento obrázok má popis",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Pridaj popis...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Uložiť",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Resetovať",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "Nenašli sa žiadne konverzácie",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Používateľské meno sa nepodarilo načítať. Skontrolujte pripojenie a skúste to znova.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Užívateľ nenájdený. $atUsername$ nie je používateľom služby Signal; uistite sa, že ste zadali celé používateľské meno.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Vybrať členov",
@@ -3333,9 +3357,15 @@
         "message": "Odblokovať",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Odblokovať $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Budete si môcť volať a písať.",
@@ -5287,6 +5317,30 @@
         "message": "ďalší",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Staňte sa Sustainerom",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Staňte sa Sustainerom",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal poháňajú ľudia ako vy. Prispejte a získajte odznak.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Otvorte Signal na svojom telefóne",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Ťuknite na svoju profilovú fotku v ľavom hornom rohu pre otvorenie Nastavení",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Klepnite na „Staňte sa Sustainerom“ a prihláste sa na odber",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Rozbaliť",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Používateľské mená v Signal sú voliteľné. Ak sa rozhodnete vytvoriť si používateľské meno a dať ho vyhľadávať, ostatní používatelia Signal vás budú môcť nájsť podľa tohto používateľského mena a kontaktovať vás bez toho, aby poznali vaše telefónne číslo.",
+        "message": "Používateľské mená sú v aplikácii Signal voliteľné. Ak sa rozhodnete vytvoriť používateľské meno, ostatní používatelia Signalu vás budú môcť podľa neho nájsť a spojiť sa s vami bez toho, že by poznali vaše telefónne číslo.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "Čo je nové",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Nadýchnite sa a relaxujte v nových animáciách pre dialógy a vyskakovacie okná. Uvoľnite sa. Uvoľnite sa.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Prepínanie rozložení klávesnice je vždy trochu ošemetné, ale klávesové skratky sa teraz dajú sledovať spolu s vami a presahujú konkrétne písmeno, ktoré bolo stlačené, aby sa dodržal váš zámer.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Teraz keď začne skupinový hovor dostanete upozornenie. Už nikdy nebudete meškať, pokiaľ nebudete chcieť.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Táto funkcia je k dispozícii všetkým, ktorí reagujú s 💅 viac ako 👍: emodži, ktoré sa predvolene zobrazujú, keď chcete reagovať na správu, môžete teraz prispôsobiť.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Získajte viac informácií na prvý pohľad 👀. Ľavý panel dostal úplne nový vzhľad a štýl 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Vedieť, kedy na čo. Časová pečiatka, ak je k dispozícii, spojená s doručenými, prečítanými, odoslanými a inými stavovými správami sa teraz zobrazuje na obrazovke podrobností správy.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Používatelia čítačky obrazovky by mali teraz jednoduchšie prechádzať zoznamom konverzácií na ľavom paneli.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Teraz môžete vyhľadávať v archivovaných konverzáciách. Predstavte si, že hľadáte (rýchlo) staroveké zväzky a hľadáte ďalšiu stopu.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reagujete na správu? Teraz by mala byť spoľahlivejšia a mala by sa opakovať až 24 hodín",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",

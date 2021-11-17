@@ -833,6 +833,20 @@
         "message": "پیغامونه",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Signal  ته ښه راغلاست",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "ایکن ښیي چې دغه انځور یو کپشن لري",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "کپشن ورکړئ",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "ثبت",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "له سره تنظیمول",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "هېڅ محاورې و نه موندل شوې",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "د غړو ټاکنه",
@@ -3333,9 +3357,15 @@
         "message": "له بلاک څخه ایستل",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "غواړئ $name$ له بلاک څخه وباسئ؟",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "تاسې به وکولای شئ چې یوه بل ته پیغام وکړئ او ټلیفوني اړیکې ونیسئ.",
@@ -5287,6 +5317,30 @@
         "message": "بل",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "پر خپل پروفایل انځور باندې پورته کېڼې خوا ته کلیک وکړئ تر څو د تنظیماتو برخه خلاصه شي",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "پراخول",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "message": "په Signal کې کارن نومونه اختیاري دي. که غواړئ چې یو کارن نوم جوړ کړئ، د Signal نور کارنونه به وکولای شي چې تاسې د همدې کارن نوم په مټ ومومي او پرته له دې چې ستاسې د ټلیفون شمېره ولري، تاسې سره اړیکه کې شي.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "څه شی نوي دي",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "د ډیالوګونو او پاپ اپونو لپاره په نویو انیمیشنونو سره ساه واخلئ او ارام وکړئ. هلته هر څه اسانه او اسانه دي.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "د کېبورډ د طرحو بدلول تل یوه اندازه ستونزمن کار وی، خو د کېبورډ شارټ کټونه اوس له تاسې سره یو ځای دي، تر څو تاسې په اسانۍ سره وکولای شئ خپل توري ولیکئ.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "کله چې ګروپي اړیکه پیل کېږي، نو تاسې خبرتیا تر لاسه کوئ. یعنې تاسې به ژر خبریږئ چې پکې ګډون وکړئ که مو غوښت.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "دغه ځانګړنه هر هغه چاته ورځي کوم چې د 👍 په پرتله زیات په 💅 سره خپل غبرګون ښیي؛ اوس تاسې کولای شئ چې ایموجي ګانې کوم چې په عادي حالت کې تاسې ته راځي پیغام ته د غبرګون ښوولو په خاطر سفارشي کړئ.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "لا زیات معلومات په ځغلنده نظر کې تیر لاسه کړئ👀.  کېڼه تخته کې تازه نوې منظره او سټایل راغلی 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "د هر څه وخت باندې پوه شئ. د وخت ټاپه، که چیرته وي، له لیږل شوي، لوستل شوي، لیږل شوي او نور حالت لرونکي پیغامونه د پیغام د جزئیاتو په سکرین کې اوس ښودل کېږي.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "د سکرین لوستونکی کارونکی اوس باید هغه په اسانۍ سره ومومي تر څو په کېڼه تخته کې د محاورې لیست په اسانۍ سره ښکته پورته کړي.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "دغه نسخه یو شمېر واړه کارونه او د بوګ جوړونې لري تر څو Signal په روانه توګه سره کار ورکړي.",

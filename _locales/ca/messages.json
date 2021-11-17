@@ -833,6 +833,20 @@
         "message": "Missatges",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Benvingut/da al Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "Icona que mostra que aquesta imatge té un títol",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Afegiu-hi un títol...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Desa",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Restableix",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "No s'ha trobat cap conversa.",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Trieu-ne els membres",
@@ -3333,9 +3357,15 @@
         "message": "Desbloca",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Voleu desblocar $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Us podreu trucar i enviar missatges.",
@@ -5287,6 +5317,30 @@
         "message": "següent",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Toqueu la foto del perfil a la part superior esquerra per obrir-ne la Configuració.",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Expandeix",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Els noms d’usuari al Signal són opcionals. Si trieu crear un nom d’usuari i fer-lo abastable, altres usuaris del Signal us podran trobar per aquest nom i contactar-vos sense saber el vostre número de telèfon.",
+        "message": "Els noms d’usuari al Signal són opcionals. Si trieu crear un nom d’usuari, altres usuaris de Signal us podran trobar per aquest nom d’usuari i contactar sense saber el vostre número de telèfon.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "Què hi ha de nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Respireu i relaxeu-vos amb les noves animacions per a diàlegs i finestres emergents. Entrada fàcil. Sortida fàcil...",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Canviar la disposició del teclat sempre és una mica complicat, però ara les dreceres de teclat van bé i arriben més enllà de la lletra específica premuda per honorar la vostra intenció.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Quan s'iniciï una trucada de grup, rebreu una notificació. Mai no tornareu a arribar tard, tret que vulgueu arribar-hi.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Aquesta característica s'aplica a tothom que reaccioni amb 💅 més de 👍: ara podeu personalitzar les emoticones que apareixen per defecte quan vulgueu reaccionar a un missatge.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Obteniu més informació d'un colp d'ull 👀. El panell esquerre té un disseny nou 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Coneixeu el quan del què. La marca horària, relacionada amb els estats dels missatges entregats, llegits, enviats i altres, ara es mostra, si està disponible, en la finestra dels detalls del missatge.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Els usuaris de lectors de pantalla haurien de trobar ara més fàcil de navegar per la llista de converses del panell esquerre.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Ara podeu cercar a les converses arxivades. Imagineu-vos buscant (ràpidament) a través de volums antics, buscant la pista següent.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reaccioneu a un missatge? Ara hauria de ser més fiable, tornant-ho a provar fins a 24 hores.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",

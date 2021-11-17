@@ -833,6 +833,20 @@
         "message": "Meddelanden",
         "description": "Shown to separate the types of search results"
     },
+    "findByUsernameHeader": {
+        "message": "Hitta efter användarnamn",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
+    },
     "welcomeToSignal": {
         "message": "Välkommen till Signal",
         "description": ""
@@ -1293,13 +1307,9 @@
         "message": "Ikon visandes att denna bild har en bildtext",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Lägg till en rubrik...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Spara",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Återställ",
@@ -2272,6 +2282,20 @@
     "noConversationsFound": {
         "message": "Inga konversationer hittades",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Det gick inte att hämta användarnamnet. Kontrollera din anslutning och försök igen.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Användaren hittades inte. $atUsername$ är inte en Signal-användare; se till att du har angett hela användarnamnet.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Välj medlemmar",
@@ -3333,9 +3357,15 @@
         "message": "Sluta blockera",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Sluta blockera $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Ni kommer att kunna meddela och ringa varandra.",
@@ -5287,6 +5317,30 @@
         "message": "nästa",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Bli en upprätthållare",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Bli en upprätthållare",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal drivs av människor som du. Bidra och få ett märke.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Öppna Signal på din telefon",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Tryck på ditt profilfoto längst upp till vänster för att öppna Inställningar",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tryck på \"Bli en underhållare\" och prenumerera",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Fäll ut",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6258,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Användarnamn på Signal är valfria. Om du väljer att skapa ett användarnamn och göra det sökbart, kommer andra Signal-användare att kunna hitta dig med det här användarnamnet och kontakta dig utan att veta ditt telefonnummer.",
+        "message": "Användarnamn på Signal är valfritt. Om du väljer att skapa ett användarnamn kommer andra Signal-användare att kunna hitta dig genom detta användarnamn och kontakta dig utan att veta ditt telefonnummer.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6593,6 @@
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Ta ett andetag och koppla av i de nya animationerna för dialoger och popup-fönster. Lätt in. Lätt ut. Lätt in. Lätt ut.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Att byta tangentbordslayout är alltid lite knepigt, men tangentbordsgenvägar spårar nu rätt tillsammans med dig och når längre än den specifika bokstaven som trycks för att hedra din avsikt.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "När ett gruppsamtal startar får du nu ett meddelande. Du kommer aldrig att vara sen igen, om du inte vill vara det.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Denna funktion går ut till alla som reagerar med 💅 mer än 👍: du kan nu anpassa emojier som visas som standard när du vill reagera på ett meddelande.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Få mer information med en överblick 👀. Den vänstra rutan har fått ett nytt utseende och en ny stil 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Vet när till vad. Tidsstämpeln, om den är tillgänglig, associerad med levererade, lästa, skickade och andra statusmeddelanden visas nu i meddelandets detaljskärm.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Skärmläsare bör nu ha lättare att navigera genom konversationslistan i den vänstra rutan.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Du kan nu söka i arkiverade konversationer. Föreställ dig att du letar (snabbt) genom uråldriga böcker och letar efter nästa ledtråd.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6604,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reagerar du på ett meddelande? Det borde nu vara mer tillförlitligt och försöka igen i upp till 24 timmar",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
