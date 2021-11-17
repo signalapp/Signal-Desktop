@@ -5,6 +5,7 @@ export function isCorruptionError(error?: Error): boolean {
   return (
     error?.message?.includes('SQLITE_CORRUPT') ||
     error?.message?.includes('database disk image is malformed') ||
+    error?.message?.includes('file is not a database') ||
     false
   );
 }
