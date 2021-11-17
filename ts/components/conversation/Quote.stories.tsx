@@ -65,7 +65,7 @@ const defaultMessageProps: MessagesProps = {
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
   markAttachmentAsCorrupted: action('default--markAttachmentAsCorrupted'),
   markViewed: action('default--markViewed'),
-  messageExpanded: action('dafult--message-expanded'),
+  messageExpanded: action('default--message-expanded'),
   onHeightChange: action('default--onHeightChange'),
   openConversation: action('default--openConversation'),
   openLink: action('default--openLink'),
