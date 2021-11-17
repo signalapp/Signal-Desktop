@@ -413,16 +413,18 @@ export const LeftPane: React.FC<PropsType> = ({
       event.preventDefault();
     };
 
-    const onMouseUp = () => {
+    const stopResizing = () => {
       setIsResizing(false);
     };
 
     document.body.addEventListener('mousemove', onMouseMove);
-    document.body.addEventListener('mouseup', onMouseUp);
+    document.body.addEventListener('mouseup', stopResizing);
+    document.body.addEventListener('mouseleave', stopResizing);
 
     return () => {
       document.body.removeEventListener('mousemove', onMouseMove);
-      document.body.removeEventListener('mouseup', onMouseUp);
+      document.body.removeEventListener('mouseup', stopResizing);
+      document.body.removeEventListener('mouseleave', stopResizing);
     };
   }, [isResizing, requiresFullWidth]);
 
