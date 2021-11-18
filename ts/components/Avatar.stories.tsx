@@ -53,6 +53,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   name: text('name', overrideProps.name || ''),
   noteToSelf: boolean('noteToSelf', overrideProps.noteToSelf || false),
   onClick: action('onClick'),
+  onClickBadge: action('onClickBadge'),
   phoneNumber: text('phoneNumber', overrideProps.phoneNumber || ''),
   searchResult: boolean(
     'searchResult',

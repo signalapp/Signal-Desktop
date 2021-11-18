@@ -15,7 +15,6 @@ import type { LocalizerType, ThemeType } from '../../../types/Util';
 import { bemGenerator } from './util';
 import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
-import { shouldShowBadges } from '../../../badges/shouldShowBadges';
 
 export type Props = {
   badges?: ReadonlyArray<BadgeType>;
@@ -92,11 +91,10 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
       {...conversation}
       noteToSelf={isMe}
       onClick={() => {
-        setActiveModal(
-          preferredBadge && shouldShowBadges()
-            ? ConversationDetailsHeaderActiveModal.ShowingBadges
-            : ConversationDetailsHeaderActiveModal.ShowingAvatar
-        );
+        setActiveModal(ConversationDetailsHeaderActiveModal.ShowingAvatar);
+      }}
+      onClickBadge={() => {
+        setActiveModal(ConversationDetailsHeaderActiveModal.ShowingBadges);
       }}
       sharedGroupNames={[]}
       theme={theme}

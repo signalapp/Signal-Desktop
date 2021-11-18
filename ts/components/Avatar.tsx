@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type {
+  CSSProperties,
   FunctionComponent,
   MouseEvent,
   ReactChild,
@@ -68,6 +69,7 @@ export type Props = {
   searchResult?: boolean;
 
   onClick?: (event: MouseEvent<HTMLButtonElement>) => unknown;
+  onClickBadge?: (event: MouseEvent<HTMLButtonElement>) => unknown;
 
   // Matches Popper's RefHandler type
   innerRef?: React.Ref<HTMLDivElement>;
@@ -104,6 +106,7 @@ export const Avatar: FunctionComponent<Props> = ({
   loading,
   noteToSelf,
   onClick,
+  onClickBadge,
   sharedGroupNames,
   size,
   theme,
@@ -254,19 +257,35 @@ export const Avatar: FunctionComponent<Props> = ({
       badgeTheme
     );
     if (badgeImagePath) {
-      badgeNode = (
-        <img
-          alt={badge.name}
-          className="module-Avatar__badge"
-          src={badgeImagePath}
-          style={{
-            width: badgePlacement.size,
-            height: badgePlacement.size,
-            bottom: badgePlacement.bottom,
-            right: badgePlacement.right,
-          }}
-        />
-      );
+      const positionStyles: CSSProperties = {
+        width: badgePlacement.size,
+        height: badgePlacement.size,
+        bottom: badgePlacement.bottom,
+        right: badgePlacement.right,
+      };
+      if (onClickBadge) {
+        badgeNode = (
+          <button
+            aria-label={badge.name}
+            className="module-Avatar__badge module-Avatar__badge--button"
+            onClick={onClickBadge}
+            style={{
+              backgroundImage: `url('${encodeURI(badgeImagePath)}')`,
+              ...positionStyles,
+            }}
+            type="button"
+          />
+        );
+      } else {
+        badgeNode = (
+          <img
+            alt={badge.name}
+            className="module-Avatar__badge module-Avatar__badge--static"
+            src={badgeImagePath}
+            style={positionStyles}
+          />
+        );
+      }
     }
   } else if (badge && !theme) {
     log.error('<Avatar> requires a theme if a badge is provided');

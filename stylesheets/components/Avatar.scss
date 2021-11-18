@@ -112,12 +112,30 @@
   }
 
   &__badge {
-    pointer-events: none;
     position: absolute;
     z-index: 1;
 
     // Positioning should be overridden by JavaScript. These are set defensively.
     bottom: 0;
     right: 0;
+
+    &--static {
+      pointer-events: none;
+    }
+
+    &--button {
+      background-color: transparent;
+      background-position: center center;
+      background-size: contain;
+      border: 0;
+      outline: none;
+
+      @include keyboard-mode {
+        &:focus {
+          outline: 2px solid $color-ultramarine;
+          border-radius: 6px;
+        }
+      }
+    }
   }
 }
