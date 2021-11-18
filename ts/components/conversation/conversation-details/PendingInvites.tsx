@@ -6,7 +6,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import type { ConversationType } from '../../../state/ducks/conversations';
-import type { LocalizerType } from '../../../types/Util';
+import type { LocalizerType, ThemeType } from '../../../types/Util';
+import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import type { UUIDStringType } from '../../../types/UUID';
 import { Avatar } from '../../Avatar';
 import { ConfirmationDialog } from '../../ConfirmationDialog';
@@ -16,12 +17,14 @@ import { ConversationDetailsIcon, IconType } from './ConversationDetailsIcon';
 
 export type PropsType = {
   readonly conversation?: ConversationType;
+  readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
   readonly ourUuid: UUIDStringType;
   readonly pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   readonly pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
   readonly approvePendingMembership: (conversationId: string) => void;
   readonly revokePendingMemberships: (conversationIds: Array<string>) => void;
+  readonly theme: ThemeType;
 };
 
 export type GroupV2PendingMembership = {
@@ -54,11 +57,13 @@ type StagedMembershipType = {
 export const PendingInvites: React.ComponentType<PropsType> = ({
   approvePendingMembership,
   conversation,
+  getPreferredBadge,
   i18n,
   ourUuid,
   pendingMemberships,
   pendingApprovalMemberships,
   revokePendingMemberships,
+  theme,
 }) => {
   if (!conversation || !ourUuid) {
     throw new Error(
@@ -119,19 +124,23 @@ export const PendingInvites: React.ComponentType<PropsType> = ({
       {selectedTab === Tab.Requests ? (
         <MembersPendingAdminApproval
           conversation={conversation}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           memberships={pendingApprovalMemberships}
           setStagedMemberships={setStagedMemberships}
+          theme={theme}
         />
       ) : null}
       {selectedTab === Tab.Pending ? (
         <MembersPendingProfileKey
           conversation={conversation}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           members={conversation.sortedGroupMembers || []}
           memberships={pendingMemberships}
           ourUuid={ourUuid}
           setStagedMemberships={setStagedMemberships}
+          theme={theme}
         />
       ) : null}
 
@@ -290,14 +299,18 @@ function getConfirmationMessage({
 
 function MembersPendingAdminApproval({
   conversation,
+  getPreferredBadge,
   i18n,
   memberships,
   setStagedMemberships,
+  theme,
 }: Readonly<{
   conversation: ConversationType;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberships: ReadonlyArray<GroupV2RequestingMembership>;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
+  theme: ThemeType;
 }>) {
   return (
     <PanelSection>
@@ -307,9 +320,11 @@ function MembersPendingAdminApproval({
           key={membership.member.id}
           icon={
             <Avatar
+              badge={getPreferredBadge(membership.member.badges)}
               conversationType="direct"
               size={32}
               i18n={i18n}
+              theme={theme}
               {...membership.member}
             />
           }
@@ -364,13 +379,17 @@ function MembersPendingProfileKey({
   memberships,
   ourUuid,
   setStagedMemberships,
+  getPreferredBadge,
+  theme,
 }: Readonly<{
   conversation: ConversationType;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   members: Array<ConversationType>;
   memberships: ReadonlyArray<GroupV2PendingMembership>;
   ourUuid: string;
   setStagedMemberships: (stagedMembership: Array<StagedMembershipType>) => void;
+  theme: ThemeType;
 }>) {
   const groupedPendingMemberships = _.groupBy(
     memberships,
@@ -397,9 +416,11 @@ function MembersPendingProfileKey({
               key={membership.member.id}
               icon={
                 <Avatar
+                  badge={getPreferredBadge(membership.member.badges)}
                   conversationType="direct"
                   size={32}
                   i18n={i18n}
+                  theme={theme}
                   {...membership.member}
                 />
               }
@@ -431,9 +452,11 @@ function MembersPendingProfileKey({
               key={member.id}
               icon={
                 <Avatar
+                  badge={getPreferredBadge(member.badges)}
                   conversationType="direct"
                   size={32}
                   i18n={i18n}
+                  theme={theme}
                   {...member}
                 />
               }

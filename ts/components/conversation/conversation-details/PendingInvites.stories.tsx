@@ -14,6 +14,8 @@ import type { PropsType } from './PendingInvites';
 import { PendingInvites } from './PendingInvites';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import { getFakeBadge } from '../../../test-both/helpers/getFakeBadge';
+import { StorybookThemeContext } from '../../../../.storybook/StorybookThemeContext';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -44,9 +46,10 @@ const conversation: ConversationType = {
 
 const OUR_UUID = UUID.generate().toString();
 
-const createProps = (): PropsType => ({
+const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   approvePendingMembership: action('approvePendingMembership'),
   conversation,
+  getPreferredBadge: () => undefined,
   i18n,
   ourUuid: OUR_UUID,
   pendingApprovalMemberships: times(5, () => ({
@@ -67,10 +70,18 @@ const createProps = (): PropsType => ({
     })),
   ],
   revokePendingMemberships: action('revokePendingMemberships'),
+  theme: React.useContext(StorybookThemeContext),
+  ...overrideProps,
 });
 
 story.add('Basic', () => {
-  const props = createProps();
+  const props = useProps();
+
+  return <PendingInvites {...props} />;
+});
+
+story.add('With badges', () => {
+  const props = useProps({ getPreferredBadge: () => getFakeBadge() });
 
   return <PendingInvites {...props} />;
 });
