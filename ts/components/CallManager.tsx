@@ -26,6 +26,7 @@ import {
   GroupCallJoinState,
 } from '../types/Calling';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import type {
   AcceptCallType,
   CancelCallType,
@@ -39,7 +40,7 @@ import type {
   SetRendererCanvasType,
   StartCallType,
 } from '../state/ducks/calling';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { UUIDStringType } from '../types/UUID';
 import { missingCaseError } from '../util/missingCaseError';
 
@@ -58,6 +59,7 @@ export type PropsType = {
     conversationId: string,
     demuxId: number
   ) => VideoFrameSource;
+  getPreferredBadge: PreferredBadgeSelectorType;
   getPresentingSources: () => void;
   incomingCall?:
     | {
@@ -96,6 +98,7 @@ export type PropsType = {
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stopRingtone: () => unknown;
   hangUp: (_: HangUpType) => void;
+  theme: ThemeType;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
   toggleSettings: () => void;
@@ -116,6 +119,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   isGroupCallOutboundRingEnabled,
   keyChangeOk,
   getGroupCallVideoFrameSource,
+  getPreferredBadge,
   getPresentingSources,
   me,
   openSystemPreferencesAction,
@@ -129,6 +133,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   setRendererCanvas,
   setOutgoingRing,
   startCall,
+  theme,
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
@@ -343,6 +348,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         <SafetyNumberChangeDialog
           confirmText={i18n('continueCall')}
           contacts={activeCall.conversationsWithSafetyNumberChanges}
+          getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           onCancel={() => {
             hangUp({ conversationId: activeCall.conversation.id });
@@ -351,6 +357,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
             keyChangeOk({ conversationId: activeCall.conversation.id });
           }}
           renderSafetyNumber={renderSafetyNumberViewer}
+          theme={theme}
         />
       ) : null}
     </>

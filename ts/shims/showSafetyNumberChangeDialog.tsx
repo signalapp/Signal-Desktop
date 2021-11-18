@@ -11,6 +11,8 @@ import React from 'react';
 import { unmountComponentAtNode, render } from 'react-dom';
 import type { ConversationModel } from '../models/conversations';
 import { SafetyNumberChangeDialog } from '../components/SafetyNumberChangeDialog';
+import { getPreferredBadgeSelector } from '../state/selectors/badges';
+import { getTheme } from '../state/selectors/user';
 
 export type SafetyNumberChangeViewProps = {
   confirmText?: string;
@@ -42,10 +44,15 @@ export function showSafetyNumberChangeDialog(
   dialogContainerNode = document.createElement('div');
   document.body.appendChild(dialogContainerNode);
 
+  const reduxState = window.reduxStore.getState();
+  const getPreferredBadge = getPreferredBadgeSelector(reduxState);
+  const theme = getTheme(reduxState);
+
   render(
     <SafetyNumberChangeDialog
       confirmText={options.confirmText}
       contacts={options.contacts.map(contact => contact.format())}
+      getPreferredBadge={getPreferredBadge}
       i18n={window.i18n}
       onCancel={() => {
         options.reject();
@@ -61,6 +68,7 @@ export function showSafetyNumberChangeDialog(
           props
         );
       }}
+      theme={theme}
     />,
     dialogContainerNode
   );

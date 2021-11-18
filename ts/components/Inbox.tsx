@@ -7,7 +7,8 @@ import type * as Backbone from 'backbone';
 import type { SafetyNumberProps } from './SafetyNumberChangeDialog';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog';
 import type { ConversationType } from '../state/ducks/conversations';
-import type { LocalizerType } from '../types/Util';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
+import type { LocalizerType, ThemeType } from '../types/Util';
 
 type InboxViewType = Backbone.View & {
   onEmpty?: () => void;
@@ -22,11 +23,13 @@ export type PropsType = {
   cancelMessagesPendingConversationVerification: () => void;
   conversationsStoppingMessageSendBecauseOfVerification: Array<ConversationType>;
   hasInitialLoadCompleted: boolean;
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
   numberOfMessagesPendingBecauseOfVerification: number;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
+  theme: ThemeType;
   verifyConversationsStoppingMessageSend: () => void;
 };
 
@@ -34,11 +37,13 @@ export const Inbox = ({
   cancelMessagesPendingConversationVerification,
   conversationsStoppingMessageSendBecauseOfVerification,
   hasInitialLoadCompleted,
+  getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
   numberOfMessagesPendingBecauseOfVerification,
   renderCustomizingPreferredReactionsModal,
   renderSafetyNumber,
+  theme,
   verifyConversationsStoppingMessageSend,
 }: PropsType): JSX.Element => {
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -82,10 +87,12 @@ export const Inbox = ({
       <SafetyNumberChangeDialog
         confirmText={confirmText}
         contacts={conversationsStoppingMessageSendBecauseOfVerification}
+        getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         onCancel={cancelMessagesPendingConversationVerification}
         onConfirm={verifyConversationsStoppingMessageSend}
         renderSafetyNumber={renderSafetyNumber}
+        theme={theme}
       />
     );
   }
