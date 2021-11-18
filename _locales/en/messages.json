@@ -243,7 +243,7 @@
   },
   "pinnedConversationsFull": {
     "message": "You can only pin up to 4 chats",
-    "descriptin": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
+    "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
   },
   "chooseDirectory": {
     "message": "Choose folder",
