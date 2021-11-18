@@ -133,7 +133,7 @@ const HeaderItem = () => {
     <div className="group-settings-header">
       <SessionIconButton
         iconType="chevron"
-        iconSize={'medium'}
+        iconSize="medium"
         iconRotation={270}
         onClick={() => {
           dispatch(closeRightPanel());

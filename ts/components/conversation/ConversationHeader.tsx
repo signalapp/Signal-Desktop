@@ -107,7 +107,7 @@ const SelectionOverlay = () => {
   return (
     <div className="message-selection-overlay">
       <div className="close-button">
-        <SessionIconButton iconType="exit" iconSize={'medium'} onClick={onCloseOverlay} />
+        <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
       </div>
 
       <div className="button-group">
@@ -145,7 +145,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton iconType="ellipses" iconSize={'medium'} />
+      <SessionIconButton iconType="ellipses" iconSize="medium" />
     </div>
   );
 };

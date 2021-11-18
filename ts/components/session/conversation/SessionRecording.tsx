@@ -125,16 +125,16 @@ export class SessionRecording extends React.Component<Props, State> {
             {isRecording && (
               <SessionIconButton
                 iconType="pause"
-                iconSize={'medium'}
+                iconSize="medium"
                 iconColor={Constants.UI.COLORS.DANGER_ALT}
                 onClick={actionPauseFn}
               />
             )}
             {actionPauseAudio && (
-              <SessionIconButton iconType="pause" iconSize={'medium'} onClick={actionPauseFn} />
+              <SessionIconButton iconType="pause" iconSize="medium" onClick={actionPauseFn} />
             )}
             {hasRecordingAndPaused && (
-              <SessionIconButton iconType="play" iconSize={'medium'} onClick={this.playAudio} />
+              <SessionIconButton iconType="play" iconSize="medium" onClick={this.playAudio} />
             )}
             {hasRecording && (
               <SessionIconButton

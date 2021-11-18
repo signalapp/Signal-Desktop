@@ -23,6 +23,7 @@ type Props = {
   base64Data?: string; // if this is not empty, it will be used to render the avatar with base64 encoded data
   memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   onAvatarClick?: () => void;
+  dataTestId?: string;
 };
 
 const Identicon = (props: Props) => {
@@ -92,7 +93,7 @@ const AvatarImage = (props: {
 };
 
 const AvatarInner = (props: Props) => {
-  const { avatarPath, base64Data, size, memberAvatars, name } = props;
+  const { avatarPath, base64Data, size, memberAvatars, name, dataTestId } = props;
   const [imageBroken, setImageBroken] = useState(false);
   // contentType is not important
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
@@ -122,6 +123,7 @@ const AvatarInner = (props: Props) => {
         props.onAvatarClick?.();
       }}
       role="button"
+      data-testid={dataTestId}
     >
       {hasImage ? (
         <AvatarImage
