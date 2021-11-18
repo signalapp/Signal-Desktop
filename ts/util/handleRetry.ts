@@ -31,7 +31,15 @@ import type {
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
+const RETRY_LIMIT = 5;
+
 // Entrypoints
+
+const retryRecord = new Map<number, number>();
+
+export function _getRetryRecord(): Map<number, number> {
+  return retryRecord;
+}
 
 export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   const { confirm, retryRequest } = event;
@@ -49,6 +57,16 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   if (!RemoteConfig.isEnabled('desktop.senderKey.retry')) {
     log.warn(
       `onRetryRequest/${logId}: Feature flag disabled, returning early.`
+    );
+    confirm();
+    return;
+  }
+
+  const retryCount = (retryRecord.get(sentAt) || 0) + 1;
+  retryRecord.set(sentAt, retryCount);
+  if (retryCount > RETRY_LIMIT) {
+    log.warn(
+      `onRetryRequest/${logId}: retryCount is ${retryCount}; returning early.`
     );
     confirm();
     return;
@@ -74,13 +92,13 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     );
   }
 
-  await archiveSessionOnMatch(retryRequest);
+  const didArchive = await archiveSessionOnMatch(retryRequest);
 
   if (isOlderThan(sentAt, retryRespondMaxAge)) {
     log.info(
       `onRetryRequest/${logId}: Message is too old, refusing to send again.`
     );
-    await sendDistributionMessageOrNullMessage(logId, retryRequest);
+    await sendDistributionMessageOrNullMessage(logId, retryRequest, didArchive);
     confirm();
     return;
   }
@@ -93,7 +111,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
 
   if (!sentProto) {
     log.info(`onRetryRequest/${logId}: Did not find sent proto`);
-    await sendDistributionMessageOrNullMessage(logId, retryRequest);
+    await sendDistributionMessageOrNullMessage(logId, retryRequest, didArchive);
     confirm();
     return;
   }
@@ -153,6 +171,16 @@ export async function onDecryptionError(
 
   log.info(`onDecryptionError/${logId}: Starting...`);
 
+  const retryCount = (retryRecord.get(timestamp) || 0) + 1;
+  retryRecord.set(timestamp, retryCount);
+  if (retryCount > RETRY_LIMIT) {
+    log.warn(
+      `onDecryptionError/${logId}: retryCount is ${retryCount}; returning early.`
+    );
+    confirm();
+    return;
+  }
+
   const conversation = window.ConversationController.getOrCreate(
     senderUuid,
     'private'
@@ -183,13 +211,13 @@ async function archiveSessionOnMatch({
   requesterUuid,
   requesterDevice,
   senderDevice,
-}: RetryRequestEventData): Promise<void> {
+}: RetryRequestEventData): Promise<boolean> {
   const ourDeviceId = parseIntOrThrow(
     window.textsecure.storage.user.getDeviceId(),
     'archiveSessionOnMatch/getDeviceId'
   );
   if (ourDeviceId !== senderDevice || !ratchetKey) {
-    return;
+    return false;
   }
 
   const ourUuid = window.textsecure.storage.user.getCheckedUuid();
@@ -204,12 +232,16 @@ async function archiveSessionOnMatch({
       'archiveSessionOnMatch: Matching device and ratchetKey, archiving session'
     );
     await window.textsecure.storage.protocol.archiveSession(address);
+    return true;
   }
+
+  return false;
 }
 
 async function sendDistributionMessageOrNullMessage(
   logId: string,
-  options: RetryRequestEventData
+  options: RetryRequestEventData,
+  didArchive: boolean
 ): Promise<void> {
   const { groupId, requesterUuid } = options;
   let sentDistributionMessage = false;
@@ -261,6 +293,13 @@ async function sendDistributionMessageOrNullMessage(
   }
 
   if (!sentDistributionMessage) {
+    if (!didArchive) {
+      log.info(
+        `sendDistributionMessageOrNullMessage/${logId}: Did't send distribution message and didn't archive session. Returning early.`
+      );
+      return;
+    }
+
     log.info(
       `sendDistributionMessageOrNullMessage/${logId}: Did not send distribution message, sending null message`
     );
@@ -306,7 +345,7 @@ async function getRetryConversation({
   });
   if (!message) {
     log.warn(
-      `maybeAddSenderKeyDistributionMessage/${logId}: Unable to find message ${messageId}`
+      `getRetryConversation/${logId}: Unable to find message ${messageId}`
     );
     // Fail over to requested groupId
     return window.ConversationController.get(requestGroupId);
@@ -328,7 +367,10 @@ async function maybeAddSenderKeyDistributionMessage({
   messageIds: Array<string>;
   requestGroupId?: string;
   requesterUuid: string;
-}): Promise<{ contentProto: Proto.IContent; groupId?: string }> {
+}): Promise<{
+  contentProto: Proto.IContent;
+  groupId?: string;
+}> {
   const conversation = await getRetryConversation({
     logId,
     messageIds,
