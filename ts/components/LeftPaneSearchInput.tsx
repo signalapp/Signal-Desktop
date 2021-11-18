@@ -37,13 +37,7 @@ export const LeftPaneSearchInput = forwardRef<HTMLInputElement, PropsType>(
     const emptyOrClear =
       searchConversation && value ? () => onChangeValue('') : onClear;
 
-    const label = searchConversation
-      ? i18n('searchIn', [
-          searchConversation.isMe
-            ? i18n('noteToSelf')
-            : searchConversation.title,
-        ])
-      : i18n('search');
+    const label = i18n(searchConversation ? 'searchIn' : 'search');
 
     return (
       <div className="LeftPaneSearchInput">

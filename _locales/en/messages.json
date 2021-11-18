@@ -770,14 +770,8 @@
     "description": "Aria label for clear search button"
   },
   "searchIn": {
-    "message": "Search in $conversationName$",
-    "description": "Shown in the search box before text is entered when searching in a specific conversation",
-    "placeholders": {
-      "conversationName": {
-        "content": "$1",
-        "example": "Friends"
-      }
-    }
+    "message": "Search chat",
+    "description": "Shown in the search box before text is entered when searching in a specific conversation"
   },
   "noSearchResults": {
     "message": "No results for \"$searchTerm$\"",
