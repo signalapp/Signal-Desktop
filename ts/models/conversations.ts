@@ -46,7 +46,7 @@ import { sniffImageMimeType } from '../util/sniffImageMimeType';
 import { isValidE164 } from '../util/isValidE164';
 import type { MIMEType } from '../types/MIME';
 import { IMAGE_JPEG, IMAGE_GIF, IMAGE_WEBP } from '../types/MIME';
-import { UUID, isValidUuid } from '../types/UUID';
+import { UUID, UUIDKind, isValidUuid } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import { deriveAccessKey, decryptProfileName, decryptProfile } from '../Crypto';
 import * as Bytes from '../Bytes';
@@ -2900,12 +2900,22 @@ export class ConversationModel extends window.Backbone
   }
 
   async addChangeNumberNotification(): Promise<void> {
-    log.info(
-      `Conversation ${this.idForLogging()}: adding change number notification`
-    );
-
     const sourceUuid = this.getCheckedUuid(
       'Change number notification without uuid'
+    );
+
+    const { storage } = window.textsecure;
+    if (storage.user.getOurUuidKind(sourceUuid) !== UUIDKind.Unknown) {
+      log.info(
+        `Conversation ${this.idForLogging()}: not adding change number ` +
+          'notification for ourselves'
+      );
+      return;
+    }
+
+    log.info(
+      `Conversation ${this.idForLogging()}: adding change number ` +
+        `notification for ${sourceUuid.toString()}`
     );
 
     const convos = [
