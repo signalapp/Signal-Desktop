@@ -2450,11 +2450,11 @@ function getLastConversationActivity({
           json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
         ) AND NOT
         (
-          type = 'group-v2-change' AND
-          json_extract(json, '$.groupV2Change.from') != $ourUuid AND
-          json_extract(json, '$.groupV2Change.details.length') = 1 AND
-          json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
-          json_extract(json, '$.groupV2Change.details[0].uuid') != $ourUuid
+          type IS 'group-v2-change' AND
+          json_extract(json, '$.groupV2Change.from') IS NOT $ourUuid AND
+          json_extract(json, '$.groupV2Change.details.length') IS 1 AND
+          json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
+          json_extract(json, '$.groupV2Change.details[0].uuid') IS NOT $ourUuid
         )
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
@@ -2501,11 +2501,11 @@ function getLastConversationPreview({
           )
         ) AND NOT
         (
-          type = 'group-v2-change' AND
-          json_extract(json, '$.groupV2Change.from') != $ourUuid AND
-          json_extract(json, '$.groupV2Change.details.length') = 1 AND
-          json_extract(json, '$.groupV2Change.details[0].type') = 'member-remove' AND
-          json_extract(json, '$.groupV2Change.details[0].uuid') != $ourUuid
+          type IS 'group-v2-change' AND
+          json_extract(json, '$.groupV2Change.from') IS NOT $ourUuid AND
+          json_extract(json, '$.groupV2Change.details.length') IS 1 AND
+          json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
+          json_extract(json, '$.groupV2Change.details[0].uuid') IS NOT $ourUuid
         )
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
