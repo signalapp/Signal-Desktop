@@ -20,7 +20,6 @@ describe('parseBadgesFromServer', () => {
     svgs: ['small', 'medium', 'large'].map(size => ({
       dark: `${size} badge dark.svg`,
       light: `${size} badge light.svg`,
-      transparent: `${size} badge transparent.svg`,
     })),
   };
   const validBadge = {
@@ -35,9 +34,6 @@ describe('parseBadgesFromServer', () => {
         },
         [BadgeImageTheme.Light]: {
           url: `https://updates2.signal.org/static/badges/${size}%20badge%20light.svg`,
-        },
-        [BadgeImageTheme.Transparent]: {
-          url: `https://updates2.signal.org/static/badges/${size}%20badge%20transparent.svg`,
         },
       })),
       {
@@ -148,7 +144,6 @@ describe('parseBadgesFromServer', () => {
           {
             dark: 'too.svg',
             light: 'many.svg',
-            transparent: 'badges.svg',
           },
         ],
       },
