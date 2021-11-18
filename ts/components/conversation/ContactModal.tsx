@@ -14,7 +14,6 @@ import { BadgeDialog } from '../BadgeDialog';
 import type { BadgeType } from '../../badges/types';
 import { SharedGroupNames } from '../SharedGroupNames';
 import { ConfirmationDialog } from '../ConfirmationDialog';
-import { shouldShowBadges } from '../../badges/shouldShowBadges';
 
 export type PropsDataType = {
   areWeAdmin: boolean;
@@ -107,13 +106,8 @@ export const ContactModal = ({
               theme={theme}
               title={contact.title}
               unblurredAvatarPath={contact.unblurredAvatarPath}
-              onClick={() => {
-                setView(
-                  preferredBadge && shouldShowBadges()
-                    ? ContactModalView.ShowingBadges
-                    : ContactModalView.ShowingAvatar
-                );
-              }}
+              onClick={() => setView(ContactModalView.ShowingAvatar)}
+              onClickBadge={() => setView(ContactModalView.ShowingBadges)}
             />
             <div className="ContactModal__name">{contact.title}</div>
             <div className="module-about__container">
