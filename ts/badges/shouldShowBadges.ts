@@ -7,7 +7,7 @@ import { isBeta } from '../util/version';
 
 export function shouldShowBadges(): boolean {
   if (
-    isEnabled('desktop.showUserBadges') ||
+    isEnabled('desktop.showUserBadges2') ||
     isEnabled('desktop.internalUser') ||
     getEnvironment() === Environment.Staging ||
     getEnvironment() === Environment.Development ||
