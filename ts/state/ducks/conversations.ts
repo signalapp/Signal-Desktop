@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import { getFirstUnreadMessageIdInConversation, getMessagesByConversation } from '../../data/data';
 import {
-  CallState,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversation';
@@ -253,7 +252,6 @@ export interface ReduxConversationType {
   currentNotificationSetting?: ConversationNotificationSettingType;
 
   isPinned?: boolean;
-  callState?: CallState;
 }
 
 export interface NotificationForConvoOption {
@@ -277,7 +275,6 @@ export type ConversationsStateType = {
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
   haveDoneFirstScroll: boolean;
-  callIsInFullScreen: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -372,7 +369,6 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
-    callIsInFullScreen: false,
   };
 }
 
@@ -698,7 +694,6 @@ const conversationsSlice = createSlice({
 
       return {
         conversationLookup: state.conversationLookup,
-        callIsInFullScreen: state.callIsInFullScreen,
 
         selectedConversation: action.payload.id,
         areMoreMessagesBeingFetched: false,
@@ -762,102 +757,6 @@ const conversationsSlice = createSlice({
       state.mentionMembers = action.payload;
       return state;
     },
-    incomingCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState !== undefined) {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'incoming';
-
-      void foundConvo.commit();
-      return state;
-    },
-    endCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState) {
-        return state;
-      }
-
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = undefined;
-
-      void foundConvo.commit();
-      return state;
-    },
-    answerCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState !== 'incoming') {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-
-      foundConvo.callState = 'connecting';
-      void foundConvo.commit();
-      return state;
-    },
-    callConnected(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState === 'ongoing') {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'ongoing';
-      void foundConvo.commit();
-      return state;
-    },
-    startingCallWith(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState) {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'offering';
-      void foundConvo.commit();
-      return state;
-    },
-    setFullScreenCall(state: ConversationsStateType, action: PayloadAction<boolean>) {
-      state.callIsInFullScreen = action.payload;
-      return state;
-    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -917,13 +816,6 @@ export const {
   quotedMessageToAnimate,
   setNextMessageToPlayId,
   updateMentionsMembers,
-  // calls
-  incomingCall,
-  endCall,
-  answerCall,
-  callConnected,
-  startingCallWith,
-  setFullScreenCall,
 } = actions;
 
 export async function openConversationWithMessages(args: {

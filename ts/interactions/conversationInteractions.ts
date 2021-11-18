@@ -447,8 +447,6 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
   }
 
   if (convo && convo.isPrivate() && !convo.isMe()) {
-    convo.callState = 'offering';
-    await convo.commit();
     await CallManager.USER_callRecipient(convo.id);
   }
 }

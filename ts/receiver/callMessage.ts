@@ -30,7 +30,7 @@ export async function handleCallMessage(
   if (CallManager.isCallRejected(callMessage.uuid)) {
     await removeFromCache(envelope);
 
-    window.log.info(`Dropping already rejected call ${callMessage.uuid}`);
+    window.log.info(`Dropping already rejected call from this device ${callMessage.uuid}`);
     return;
   }
 
@@ -65,7 +65,7 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.END_CALL) {
     await removeFromCache(envelope);
 
-    CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
+    await CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
 
     return;
   }

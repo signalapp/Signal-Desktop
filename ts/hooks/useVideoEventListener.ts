@@ -8,11 +8,8 @@ import {
   DEVICE_DISABLED_DEVICE_ID,
   InputItem,
 } from '../session/utils/CallManager';
-import {
-  getCallIsInFullScreen,
-  getHasOngoingCallWithPubkey,
-  getSelectedConversationKey,
-} from '../state/selectors/conversations';
+import { getSelectedConversationKey } from '../state/selectors/conversations';
+import { getCallIsInFullScreen, getHasOngoingCallWithPubkey } from '../state/selectors/call';
 
 export function useVideoCallEventsListener(uniqueId: string, onSame: boolean) {
   const selectedConversationKey = useSelector(getSelectedConversationKey);

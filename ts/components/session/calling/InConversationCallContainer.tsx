@@ -10,7 +10,7 @@ import {
   getHasOngoingCallWithFocusedConvoIsOffering,
   getHasOngoingCallWithFocusedConvosIsConnecting,
   getHasOngoingCallWithPubkey,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/call';
 import { StyledVideoElement } from './DraggableCallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
 

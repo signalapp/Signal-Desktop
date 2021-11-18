@@ -2,18 +2,18 @@ import _ from 'lodash';
 import { MessageUtils, ToastUtils, UserUtils } from '.';
 import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
 import { getConversationById } from '../../data/data';
-import { ConversationModel } from '../../models/conversation';
 import { MessageModelType } from '../../models/messageType';
 import { SignalService } from '../../protobuf';
+import { openConversationWithMessages } from '../../state/ducks/conversations';
 import {
   answerCall,
   callConnected,
+  CallStatusEnum,
   endCall,
   incomingCall,
-  openConversationWithMessages,
   setFullScreenCall,
   startingCallWith,
-} from '../../state/ducks/conversations';
+} from '../../state/ducks/call';
 import { getConversationController } from '../conversations';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 import { ed25519Str } from '../onions/onionPath';
@@ -26,6 +26,9 @@ import { setIsRinging } from './RingingManager';
 
 export type InputItem = { deviceId: string; label: string };
 
+/**
+ * This uuid is set only once we accepted a call or started one.
+ */
 let currentCallUUID: string | undefined;
 
 const rejectedCallUUIDS: Set<string> = new Set();
@@ -571,17 +574,7 @@ async function closeVideoCall() {
   currentCallUUID = undefined;
 
   window.inboxStore?.dispatch(setFullScreenCall(false));
-  const convos = getConversationController().getConversations();
-  const callingConvos = convos.filter(convo => convo.callState !== undefined);
-  if (callingConvos.length > 0) {
-    // reset all convos callState
-    await Promise.all(
-      callingConvos.map(async m => {
-        m.callState = undefined;
-        await m.commit();
-      })
-    );
-  }
+  window.inboxStore?.dispatch(endCall());
 
   remoteVideoStreamIsMuted = true;
 
@@ -592,24 +585,26 @@ async function closeVideoCall() {
   callVideoListeners();
 }
 
+function getCallingStateOutsideOfRedux() {
+  const ongoingCallWith = window.inboxStore?.getState().call.ongoingWith as string | undefined;
+  const ongoingCallStatus = window.inboxStore?.getState().call.ongoingCallStatus as CallStatusEnum;
+  return { ongoingCallWith, ongoingCallStatus };
+}
+
 function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
   try {
     const parsed = JSON.parse(ev.data);
 
     if (parsed.hangup !== undefined) {
-      const foundEntry = getConversationController()
-        .getConversations()
-        .find(
-          (convo: ConversationModel) =>
-            convo.callState === 'connecting' ||
-            convo.callState === 'offering' ||
-            convo.callState === 'ongoing'
-        );
-
-      if (!foundEntry || !foundEntry.id) {
-        return;
+      const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+      if (
+        (ongoingCallStatus === 'connecting' ||
+          ongoingCallStatus === 'offering' ||
+          ongoingCallStatus === 'ongoing') &&
+        ongoingCallWith
+      ) {
+        void handleCallTypeEndCall(ongoingCallWith, currentCallUUID);
       }
-      handleCallTypeEndCall(foundEntry.id, currentCallUUID);
 
       return;
     }
@@ -761,8 +756,23 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   await buildAnswerAndSendIt(fromSender);
 }
 
+export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUID: string) {
+  setIsRinging(false);
+  window.log.info(`rejectCallAlreadyAnotherCall ${ed25519Str(fromSender)}: ${forcedUUID}`);
+  rejectedCallUUIDS.add(forcedUUID);
+  const rejectCallMessage = new CallMessage({
+    type: SignalService.CallMessage.Type.END_CALL,
+    timestamp: Date.now(),
+    uuid: forcedUUID,
+  });
+  await sendCallMessageAndSync(rejectCallMessage, fromSender);
+
+  // delete all msg not from that uuid only but from that sender pubkey
+  clearCallCacheFromPubkeyAndUUID(fromSender, forcedUUID);
+}
+
 // tslint:disable-next-line: function-name
-export async function USER_rejectIncomingCallRequest(fromSender: string, forcedUUID?: string) {
+export async function USER_rejectIncomingCallRequest(fromSender: string) {
   setIsRinging(false);
 
   const lastOfferMessage = findLastMessageTypeFromSender(
@@ -770,7 +780,7 @@ export async function USER_rejectIncomingCallRequest(fromSender: string, forcedU
     SignalService.CallMessage.Type.OFFER
   );
 
-  const aboutCallUUID = forcedUUID || lastOfferMessage?.uuid;
+  const aboutCallUUID = lastOfferMessage?.uuid;
   window.log.info(`USER_rejectIncomingCallRequest ${ed25519Str(fromSender)}: ${aboutCallUUID}`);
   if (aboutCallUUID) {
     rejectedCallUUIDS.add(aboutCallUUID);
@@ -779,29 +789,25 @@ export async function USER_rejectIncomingCallRequest(fromSender: string, forcedU
       timestamp: Date.now(),
       uuid: aboutCallUUID,
     });
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
-
+    // sync the reject event so our other devices remove the popup too
+    await sendCallMessageAndSync(endCallMessage, fromSender);
     // delete all msg not from that uuid only but from that sender pubkey
     clearCallCacheFromPubkeyAndUUID(fromSender, aboutCallUUID);
   }
+  const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
 
-  // if we got a forceUUID, it means we just to deny another user's device incoming call we are already in a call with.
-  if (!forcedUUID) {
-    window.inboxStore?.dispatch(
-      endCall({
-        pubkey: fromSender,
-      })
-    );
-
-    const convos = getConversationController().getConversations();
-    const callingConvos = convos.filter(convo => convo.callState !== undefined);
-    if (callingConvos.length > 0) {
-      // we just got a new offer from someone we are already in a call with
-      if (callingConvos.length === 1 && callingConvos[0].id === fromSender) {
-        await closeVideoCall();
-      }
-    }
+  // clear the ongoing call if needed
+  if (ongoingCallWith && ongoingCallStatus && ongoingCallWith === fromSender) {
+    await closeVideoCall();
   }
+
+  // close the popup call
+  window.inboxStore?.dispatch(endCall());
+}
+
+async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
+  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage);
+  await getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage);
 }
 
 // tslint:disable-next-line: function-name
@@ -821,7 +827,7 @@ export async function USER_hangup(fromSender: string) {
     void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   }
 
-  window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
+  window.inboxStore?.dispatch(endCall());
   window.log.info('sending hangup with an END_CALL MESSAGE');
 
   sendHangupViaDataChannel();
@@ -831,7 +837,10 @@ export async function USER_hangup(fromSender: string) {
   await closeVideoCall();
 }
 
-export function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
+/**
+ * This can actually be called from either the datachannel or from the receiver END_CALL event
+ */
+export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
   window.log.info('handling callMessage END_CALL:', aboutCallUUID);
 
   if (aboutCallUUID) {
@@ -839,10 +848,25 @@ export function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
 
     clearCallCacheFromPubkeyAndUUID(sender, aboutCallUUID);
 
-    if (aboutCallUUID === currentCallUUID) {
-      void closeVideoCall();
+    // this is a end call from ourself. We must remove the popup about the incoming call
+    // if it matches the owner of this callUUID
+    if (sender === UserUtils.getOurPubKeyStrFromCache()) {
+      const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+      const ownerOfCall = getOwnerOfCallUUID(aboutCallUUID);
 
-      window.inboxStore?.dispatch(endCall({ pubkey: sender }));
+      if (
+        (ongoingCallStatus === 'incoming' || ongoingCallStatus === 'connecting') &&
+        ongoingCallWith === ownerOfCall
+      ) {
+        await closeVideoCall();
+        window.inboxStore?.dispatch(endCall());
+      }
+      return;
+    }
+
+    if (aboutCallUUID === currentCallUUID) {
+      await closeVideoCall();
+      window.inboxStore?.dispatch(endCall());
     }
   }
 }
@@ -871,13 +895,8 @@ async function buildAnswerAndSendIt(sender: string) {
       uuid: currentCallUUID,
     });
 
-    window.log.info('sending ANSWER MESSAGE');
-
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(sender), callAnswerMessage);
-    await getMessageQueue().sendToPubKeyNonDurably(
-      UserUtils.getOurPubKeyFromCache(),
-      callAnswerMessage
-    );
+    window.log.info('sending ANSWER MESSAGE and sync');
+    await sendCallMessageAndSync(callAnswerMessage, sender);
   }
 }
 
@@ -905,12 +924,17 @@ export async function handleCallTypeOffer(
     if (currentCallUUID && currentCallUUID !== remoteCallUUID) {
       // we just got a new offer with a different callUUID. this is a missed call (from either the same sender or another one)
       if (callCache.get(sender)?.has(currentCallUUID)) {
-        // this is a missed call from the same sender (another call from another device maybe?)
-        // just reject it.
-        await USER_rejectIncomingCallRequest(sender, remoteCallUUID);
+        // this is a missed call from the same sender but with a different callID.
+        // another call from another device maybe? just reject it.
+        await rejectCallAlreadyAnotherCall(sender, remoteCallUUID);
         return;
       }
+      // add a message in the convo with this user about the missed call.
       await handleMissedCall(sender, incomingOfferTimestamp, false);
+      // Here, we are in a call, and we got an offer from someone we are in a call with, and not one of his other devices.
+      // Just hangup automatically the call on the calling side.
+
+      await rejectCallAlreadyAnotherCall(sender, remoteCallUUID);
 
       return;
     }
@@ -994,61 +1018,69 @@ export async function handleMissedCall(
   return;
 }
 
+function getOwnerOfCallUUID(callUUID: string) {
+  for (const deviceKey of callCache.keys()) {
+    for (const callUUIDEntry of callCache.get(deviceKey) as Map<
+      string,
+      Array<SignalService.CallMessage>
+    >) {
+      if (callUUIDEntry[0] === callUUID) {
+        return deviceKey;
+      }
+    }
+  }
+  return null;
+}
+
 export async function handleCallTypeAnswer(sender: string, callMessage: SignalService.CallMessage) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
-    window.log.warn('cannot handle answered message without signal description protols');
+    window.log.warn('cannot handle answered message without signal description proto sdps');
     return;
   }
-  const remoteCallUUID = callMessage.uuid;
-  if (!remoteCallUUID || remoteCallUUID.length === 0) {
+  const callMessageUUID = callMessage.uuid;
+  if (!callMessageUUID || callMessageUUID.length === 0) {
     window.log.warn('handleCallTypeAnswer has no valid uuid');
     return;
   }
 
-  // this is an answer we sent to ourself, this must be about another of our device accepting an incoming call
-  // if we accepted that call already from the current device, currentCallUUID is set
-  if (sender === UserUtils.getOurPubKeyStrFromCache() && remoteCallUUID !== currentCallUUID) {
-    window.log.info(`handling callMessage ANSWER from ourself about call ${remoteCallUUID}`);
+  // this is an answer we sent to ourself, this must be about another of our device accepting an incoming call.
+  // if we accepted that call already from the current device, currentCallUUID would be set
+  if (sender === UserUtils.getOurPubKeyStrFromCache()) {
+    // when we answer a call, we get this message on all our devices, including the one we just accepted the call with.
 
-    let foundOwnerOfCallUUID: string | undefined;
-    for (const deviceKey of callCache.keys()) {
-      if (foundOwnerOfCallUUID) {
-        break;
-      }
-      for (const callUUIDEntry of callCache.get(deviceKey) as Map<
-        string,
-        Array<SignalService.CallMessage>
-      >) {
-        if (callUUIDEntry[0] === remoteCallUUID) {
-          foundOwnerOfCallUUID = deviceKey;
-          break;
-        }
-      }
-    }
+    const isDeviceWhichJustAcceptedCall = currentCallUUID === callMessageUUID;
 
-    if (foundOwnerOfCallUUID) {
-      rejectedCallUUIDS.add(remoteCallUUID);
-
-      const convos = getConversationController().getConversations();
-      const callingConvos = convos.filter(convo => convo.callState !== undefined);
-      if (callingConvos.length > 0) {
-        // we just got a new offer from someone we are already in a call with
-        if (callingConvos.length === 1 && callingConvos[0].id === foundOwnerOfCallUUID) {
-          await closeVideoCall();
-        }
-      }
-      window.inboxStore?.dispatch(
-        endCall({
-          pubkey: foundOwnerOfCallUUID,
-        })
+    if (isDeviceWhichJustAcceptedCall) {
+      window.log.info(
+        `isDeviceWhichJustAcceptedCall: skipping message back ANSWER from ourself about call ${callMessageUUID}`
       );
+
       return;
     }
+    window.log.info(`handling callMessage ANSWER from ourself about call ${callMessageUUID}`);
+
+    const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+    const foundOwnerOfCallUUID = getOwnerOfCallUUID(callMessageUUID);
+
+    if (callMessageUUID !== currentCallUUID) {
+      // this is an answer we sent from another of our devices
+      // automatically close that call
+      if (foundOwnerOfCallUUID) {
+        rejectedCallUUIDS.add(callMessageUUID);
+        // if this call is about the one being currently displayed, force close it
+        if (ongoingCallStatus && ongoingCallWith === foundOwnerOfCallUUID) {
+          await closeVideoCall();
+        }
+
+        window.inboxStore?.dispatch(endCall());
+      }
+    }
+    return;
   } else {
-    window.log.info(`handling callMessage ANSWER from ${remoteCallUUID}`);
+    window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
   }
 
-  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+  pushCallMessageToCallCache(sender, callMessageUUID, callMessage);
 
   if (!peerConnection) {
     window.log.info('handleCallTypeAnswer without peer connection. Dropping');
@@ -1066,7 +1098,11 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
 
   // window.log?.info('Setting remote answer pending');
   isSettingRemoteAnswerPending = true;
-  await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
+  try {
+    await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
+  } catch (e) {
+    window.log.warn('setRemoteDescription failed:', e);
+  }
   isSettingRemoteAnswerPending = false;
 }
 

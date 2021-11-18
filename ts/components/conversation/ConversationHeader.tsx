@@ -14,8 +14,6 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
-  getHasIncomingCall,
-  getHasOngoingCall,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
   getSelectedConversation,
@@ -40,6 +38,7 @@ import {
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
+import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
 
 export interface TimerOption {
   name: string;

@@ -1,11 +1,11 @@
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { InputItem } from '../../../session/utils/CallManager';
-import { setFullScreenCall } from '../../../state/ducks/conversations';
+import { setFullScreenCall } from '../../../state/ducks/call';
 import { CallManager, ToastUtils } from '../../../session/utils';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHasOngoingCallWithPubkey } from '../../../state/selectors/conversations';
+import { getHasOngoingCallWithPubkey } from '../../../state/selectors/call';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
 import styled from 'styled-components';
 
