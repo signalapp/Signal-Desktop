@@ -101,6 +101,7 @@ import { getAvatarData } from '../util/getAvatarData';
 import { createIdenticon } from '../util/createIdenticon';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
+import { isMessageUnread } from '../util/isMessageUnread';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -116,13 +117,21 @@ const {
   upgradeMessageSchema,
   writeNewAttachmentData,
 } = window.Signal.Migrations;
-const { addStickerPackReference } = window.Signal.Data;
+const {
+  addStickerPackReference,
+  getOlderMessagesByConversation,
+  getMessageMetricsForConversation,
+  getMessageById,
+  getNewerMessagesByConversation,
+} = window.Signal.Data;
 
 const THREE_HOURS = durations.HOUR * 3;
 const FIVE_MINUTES = durations.MINUTE * 5;
 
 const JOB_REPORTING_THRESHOLD_MS = 25;
 const SEND_REPORTING_THRESHOLD_MS = 25;
+
+const MESSAGE_LOAD_CHUNK_SIZE = 30;
 
 const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
@@ -163,7 +172,7 @@ export class ConversationModel extends window.Backbone
 
   inProgressFetch?: Promise<unknown>;
 
-  incomingMessageQueue?: typeof window.PQueueType;
+  newMessageQueue?: typeof window.PQueueType;
 
   jobQueue?: typeof window.PQueueType;
 
@@ -1303,34 +1312,340 @@ export class ConversationModel extends window.Backbone
     this.debouncedUpdateLastMessage!();
   }
 
-  addSingleMessage(message: MessageModel): void {
-    const { messagesAdded } = window.reduxActions.conversations;
-    const isNewMessage = true;
-    messagesAdded(
-      this.id,
-      [{ ...message.attributes }],
-      isNewMessage,
-      window.isActive()
-    );
+  addIncomingMessage(message: MessageModel): void {
+    this.addSingleMessage(message);
   }
 
-  // For incoming messages, they might arrive while we're in the middle of a bulk fetch
-  //   from the database. We'll wait until that is done to process this newly-arrived
-  //   message.
-  addIncomingMessage(message: MessageModel): void {
-    if (!this.incomingMessageQueue) {
-      this.incomingMessageQueue = new window.PQueue({
+  // New messages might arrive while we're in the middle of a bulk fetch from the
+  //   database. We'll wait until that is done before moving forward.
+  async addSingleMessage(
+    message: MessageModel,
+    { isJustSent }: { isJustSent: boolean } = { isJustSent: false }
+  ): Promise<void> {
+    if (!this.newMessageQueue) {
+      this.newMessageQueue = new window.PQueue({
         concurrency: 1,
         timeout: 1000 * 60 * 2,
       });
     }
 
     // We use a queue here to ensure messages are added to the UI in the order received
-    this.incomingMessageQueue.add(async () => {
+    await this.newMessageQueue.add(async () => {
       await this.inProgressFetch;
-
-      this.addSingleMessage(message);
     });
+
+    const { messagesAdded } = window.reduxActions.conversations;
+    const { conversations } = window.reduxStore.getState();
+    const { messagesByConversation } = conversations;
+
+    const conversationId = this.id;
+    const existingConversation = messagesByConversation[conversationId];
+    const newestId = existingConversation?.metrics?.newest?.id;
+    const messageIds = existingConversation?.messageIds;
+
+    const isLatestInMemory =
+      newestId && messageIds && messageIds[messageIds.length - 1] === newestId;
+
+    if (!isJustSent || isLatestInMemory) {
+      messagesAdded({
+        conversationId,
+        messages: [{ ...message.attributes }],
+        isActive: window.isActive(),
+        isJustSent,
+        isNewMessage: true,
+      });
+    }
+
+    await this.loadNewestMessages(undefined, undefined);
+  }
+
+  setInProgressFetch(): () => unknown {
+    let resolvePromise: (value?: unknown) => void;
+    this.inProgressFetch = new Promise(resolve => {
+      resolvePromise = resolve;
+    });
+
+    const finish = () => {
+      resolvePromise();
+      this.inProgressFetch = undefined;
+    };
+
+    return finish;
+  }
+
+  async loadNewestMessages(
+    newestMessageId: string | undefined,
+    setFocus: boolean | undefined
+  ): Promise<void> {
+    const { messagesReset, setMessagesLoading } =
+      window.reduxActions.conversations;
+    const conversationId = this.id;
+
+    setMessagesLoading(conversationId, true);
+    const finish = this.setInProgressFetch();
+
+    try {
+      let scrollToLatestUnread = true;
+
+      if (newestMessageId) {
+        const newestInMemoryMessage = await getMessageById(newestMessageId, {
+          Message: window.Whisper.Message,
+        });
+        if (newestInMemoryMessage) {
+          // If newest in-memory message is unread, scrolling down would mean going to
+          //   the very bottom, not the oldest unread.
+          if (isMessageUnread(newestInMemoryMessage.attributes)) {
+            scrollToLatestUnread = false;
+          }
+        } else {
+          log.warn(
+            `loadNewestMessages: did not find message ${newestMessageId}`
+          );
+        }
+      }
+
+      const metrics = await getMessageMetricsForConversation(conversationId);
+
+      // If this is a message request that has not yet been accepted, we always show the
+      //   oldest messages, to ensure that the ConversationHero is shown. We don't want to
+      //   scroll directly to the oldest message, because that could scroll the hero off
+      //   the screen.
+      if (!newestMessageId && !this.getAccepted() && metrics.oldest) {
+        this.loadAndScroll(metrics.oldest.id, { disableScroll: true });
+        return;
+      }
+
+      if (scrollToLatestUnread && metrics.oldestUnread) {
+        this.loadAndScroll(metrics.oldestUnread.id, {
+          disableScroll: !setFocus,
+        });
+        return;
+      }
+
+      const messages = await getOlderMessagesByConversation(conversationId, {
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+
+      const cleaned: Array<MessageModel> = await this.cleanModels(messages);
+      const scrollToMessageId =
+        setFocus && metrics.newest ? metrics.newest.id : undefined;
+
+      // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
+      //   the most recent N messages in the conversation. If it has a conflict with
+      //   metrics, fetched a bit before, that's likely a race condition. So we tell our
+      //   reducer to trust the message set we just fetched for determining if we have
+      //   the newest message loaded.
+      const unboundedFetch = true;
+      messagesReset(
+        conversationId,
+        cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
+        metrics,
+        scrollToMessageId,
+        unboundedFetch
+      );
+    } catch (error) {
+      setMessagesLoading(conversationId, false);
+      throw error;
+    } finally {
+      finish();
+    }
+  }
+  async loadOlderMessages(oldestMessageId: string): Promise<void> {
+    const { messagesAdded, setMessagesLoading, repairOldestMessage } =
+      window.reduxActions.conversations;
+    const conversationId = this.id;
+
+    setMessagesLoading(conversationId, true);
+    const finish = this.setInProgressFetch();
+
+    try {
+      const message = await getMessageById(oldestMessageId, {
+        Message: window.Whisper.Message,
+      });
+      if (!message) {
+        throw new Error(
+          `loadOlderMessages: failed to load message ${oldestMessageId}`
+        );
+      }
+
+      const receivedAt = message.get('received_at');
+      const sentAt = message.get('sent_at');
+      const models = await getOlderMessagesByConversation(conversationId, {
+        receivedAt,
+        sentAt,
+        messageId: oldestMessageId,
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+
+      if (models.length < 1) {
+        log.warn('loadOlderMessages: requested, but loaded no messages');
+        repairOldestMessage(conversationId);
+        return;
+      }
+
+      const cleaned = await this.cleanModels(models);
+      messagesAdded({
+        conversationId,
+        messages: cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
+        isActive: window.isActive(),
+        isJustSent: false,
+        isNewMessage: false,
+      });
+    } catch (error) {
+      setMessagesLoading(conversationId, true);
+      throw error;
+    } finally {
+      finish();
+    }
+  }
+
+  async loadNewerMessages(newestMessageId: string): Promise<void> {
+    const { messagesAdded, setMessagesLoading, repairNewestMessage } =
+      window.reduxActions.conversations;
+    const conversationId = this.id;
+
+    setMessagesLoading(conversationId, true);
+    const finish = this.setInProgressFetch();
+
+    try {
+      const message = await getMessageById(newestMessageId, {
+        Message: window.Whisper.Message,
+      });
+      if (!message) {
+        throw new Error(
+          `loadNewerMessages: failed to load message ${newestMessageId}`
+        );
+      }
+
+      const receivedAt = message.get('received_at');
+      const sentAt = message.get('sent_at');
+      const models = await getNewerMessagesByConversation(conversationId, {
+        receivedAt,
+        sentAt,
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+
+      if (models.length < 1) {
+        log.warn('loadNewerMessages: requested, but loaded no messages');
+        repairNewestMessage(conversationId);
+        return;
+      }
+
+      const cleaned = await this.cleanModels(models);
+      messagesAdded({
+        conversationId,
+        messages: cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
+        isActive: window.isActive(),
+        isJustSent: false,
+        isNewMessage: false,
+      });
+    } catch (error) {
+      setMessagesLoading(conversationId, false);
+      throw error;
+    } finally {
+      finish();
+    }
+  }
+
+  async loadAndScroll(
+    messageId: string,
+    options?: { disableScroll?: boolean }
+  ): Promise<void> {
+    const { messagesReset, setMessagesLoading } =
+      window.reduxActions.conversations;
+    const conversationId = this.id;
+
+    setMessagesLoading(conversationId, true);
+    const finish = this.setInProgressFetch();
+
+    try {
+      const message = await getMessageById(messageId, {
+        Message: window.Whisper.Message,
+      });
+      if (!message) {
+        throw new Error(
+          `loadMoreAndScroll: failed to load message ${messageId}`
+        );
+      }
+
+      const receivedAt = message.get('received_at');
+      const sentAt = message.get('sent_at');
+      const older = await getOlderMessagesByConversation(conversationId, {
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        receivedAt,
+        sentAt,
+        messageId,
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+      const newer = await getNewerMessagesByConversation(conversationId, {
+        limit: MESSAGE_LOAD_CHUNK_SIZE,
+        receivedAt,
+        sentAt,
+        MessageCollection: window.Whisper.MessageCollection,
+      });
+      const metrics = await getMessageMetricsForConversation(conversationId);
+
+      const all = [...older.models, message, ...newer.models];
+
+      const cleaned: Array<MessageModel> = await this.cleanModels(all);
+      const scrollToMessageId =
+        options && options.disableScroll ? undefined : messageId;
+
+      messagesReset(
+        conversationId,
+        cleaned.map((messageModel: MessageModel) => ({
+          ...messageModel.attributes,
+        })),
+        metrics,
+        scrollToMessageId
+      );
+    } catch (error) {
+      setMessagesLoading(conversationId, false);
+      throw error;
+    } finally {
+      finish();
+    }
+  }
+
+  async cleanModels(
+    collection: MessageModelCollectionType | Array<MessageModel>
+  ): Promise<Array<MessageModel>> {
+    const result = collection
+      .filter((message: MessageModel) => Boolean(message.id))
+      .map((message: MessageModel) =>
+        window.MessageController.register(message.id, message)
+      );
+
+    const eliminated = collection.length - result.length;
+    if (eliminated > 0) {
+      log.warn(`cleanModels: Eliminated ${eliminated} messages without an id`);
+    }
+
+    for (let max = result.length, i = 0; i < max; i += 1) {
+      const message = result[i];
+      const { attributes } = message;
+      const { schemaVersion } = attributes;
+
+      if (schemaVersion < Message.VERSION_NEEDED_FOR_DISPLAY) {
+        // Yep, we really do want to wait for each of these
+        // eslint-disable-next-line no-await-in-loop
+        const upgradedMessage = await upgradeMessageSchema(attributes);
+        message.set(upgradedMessage);
+        // eslint-disable-next-line no-await-in-loop
+        await window.Signal.Data.saveMessage(upgradedMessage);
+      }
+    }
+
+    return result;
   }
 
   format(): ConversationType {
@@ -3659,7 +3974,7 @@ export class ConversationModel extends window.Backbone
         const enableProfileSharing = Boolean(
           mandatoryProfileSharingEnabled && !this.get('profileSharing')
         );
-        this.addSingleMessage(model);
+        this.addSingleMessage(model, { isJustSent: true });
 
         const draftProperties = dontClearDraft
           ? {}
