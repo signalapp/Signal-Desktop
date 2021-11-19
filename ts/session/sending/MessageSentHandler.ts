@@ -6,6 +6,7 @@ import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/Ope
 import { EncryptionType, RawMessage } from '../types';
 import { UserUtils } from '../utils';
 
+// tslint:disable-next-line: no-unnecessary-class
 export class MessageSentHandler {
   public static async handlePublicMessageSentSuccess(
     sentMessage: OpenGroupVisibleMessage,

@@ -52,7 +52,7 @@ function callVideoListeners() {
   if (videoEventsListeners.length) {
     videoEventsListeners.forEach(item => {
       item.listener?.({
-        localStream: mediaDevices,
+        localStream,
         remoteStream,
         camerasList,
         audioInputsList,
@@ -92,7 +92,7 @@ const callCache = new Map<string, Map<string, Array<SignalService.CallMessage>>>
 let peerConnection: RTCPeerConnection | null;
 let dataChannel: RTCDataChannel | null;
 let remoteStream: MediaStream | null;
-let mediaDevices: MediaStream | null;
+let localStream: MediaStream | null;
 let remoteVideoStreamIsMuted = true;
 
 export const DEVICE_DISABLED_DEVICE_ID = 'off';
@@ -238,29 +238,32 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
       if (!peerConnection) {
         throw new Error('cannot selectCameraByDeviceId without a peer connection');
       }
-      let sender = peerConnection.getSenders().find(s => {
+
+      // video might be completely off on start. adding a track like this triggers a negotationneeded event
+      window.log.info('adding/replacing video track');
+      const sender = peerConnection.getSenders().find(s => {
         return s.track?.kind === videoTrack.kind;
       });
 
-      // video might be completely off
-      if (!sender) {
-        peerConnection.addTrack(videoTrack);
-      }
-      sender = peerConnection.getSenders().find(s => {
-        return s.track?.kind === videoTrack.kind;
-      });
+      videoTrack.enabled = true;
       if (sender) {
+        // this should not trigger a negotationneeded event
+        // and it is needed for when the video cam was never turn on
         await sender.replaceTrack(videoTrack);
-        videoTrack.enabled = true;
-        mediaDevices?.getVideoTracks().forEach(t => {
-          t.stop();
-          mediaDevices?.removeTrack(t);
-        });
-        mediaDevices?.addTrack(videoTrack);
-
-        sendVideoStatusViaDataChannel();
-        callVideoListeners();
+      } else {
+        // this will trigger a negotiationeeded event
+        peerConnection.addTrack(videoTrack, newVideoStream);
       }
+
+      // do the same changes locally
+      localStream?.getVideoTracks().forEach(t => {
+        t.stop();
+        localStream?.removeTrack(t);
+      });
+      localStream?.addTrack(videoTrack);
+
+      sendVideoStatusViaDataChannel();
+      callVideoListeners();
     } catch (e) {
       window.log.warn('selectCameraByDeviceId failed with', e.message);
       callVideoListeners();
@@ -403,19 +406,16 @@ async function openMediaDevicesAndAddTracks() {
       video: false,
     };
 
-    mediaDevices = await navigator.mediaDevices.getUserMedia(devicesConfig);
-    mediaDevices.getTracks().map(track => {
-      // if (track.kind === 'video') {
-      //   track.enabled = false;
-      // }
-      if (mediaDevices) {
-        peerConnection?.addTrack(track, mediaDevices);
+    localStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
+    localStream.getTracks().map(track => {
+      if (localStream) {
+        peerConnection?.addTrack(track, localStream);
       }
     });
   } catch (err) {
     window.log.warn('openMediaDevices: ', err);
     ToastUtils.pushVideoCallPermissionNeeded();
-    await closeVideoCall();
+    closeVideoCall();
   }
   callVideoListeners();
 }
@@ -520,7 +520,7 @@ const findLastMessageTypeFromSender = (sender: string, msgType: SignalService.Ca
 
 function handleSignalingStateChangeEvent() {
   if (peerConnection?.signalingState === 'closed') {
-    void closeVideoCall();
+    closeVideoCall();
   }
 }
 
@@ -528,14 +528,14 @@ function handleConnectionStateChanged(pubkey: string) {
   window.log.info('handleConnectionStateChanged :', peerConnection?.connectionState);
 
   if (peerConnection?.signalingState === 'closed' || peerConnection?.connectionState === 'failed') {
-    void closeVideoCall();
+    closeVideoCall();
   } else if (peerConnection?.connectionState === 'connected') {
     setIsRinging(false);
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }
 }
 
-async function closeVideoCall() {
+function closeVideoCall() {
   window.log.info('closingVideoCall ');
   setIsRinging(false);
   if (peerConnection) {
@@ -551,14 +551,16 @@ async function closeVideoCall() {
       dataChannel.close();
       dataChannel = null;
     }
-    if (mediaDevices) {
-      mediaDevices.getTracks().forEach(track => {
+    if (localStream) {
+      localStream.getTracks().forEach(track => {
         track.stop();
+        localStream?.removeTrack(track);
       });
     }
 
     if (remoteStream) {
       remoteStream.getTracks().forEach(track => {
+        track.stop();
         remoteStream?.removeTrack(track);
       });
     }
@@ -567,7 +569,7 @@ async function closeVideoCall() {
     peerConnection = null;
   }
 
-  mediaDevices = null;
+  localStream = null;
   remoteStream = null;
   selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
   selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID;
@@ -577,6 +579,7 @@ async function closeVideoCall() {
   window.inboxStore?.dispatch(endCall());
 
   remoteVideoStreamIsMuted = true;
+  timestampAcceptedCall = undefined;
 
   makingOffer = false;
   ignoreOffer = false;
@@ -638,11 +641,17 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
   dataChannel.onmessage = onDataChannelReceivedMessage;
   dataChannel.onopen = onDataChannelOnOpen;
 
-  if (!isAcceptingCall) {
-    peerConnection.onnegotiationneeded = async () => {
+  peerConnection.onnegotiationneeded = async () => {
+    const shouldTriggerAnotherNeg =
+      isAcceptingCall && timestampAcceptedCall && Date.now() - timestampAcceptedCall > 1000;
+    if (!isAcceptingCall || shouldTriggerAnotherNeg) {
       await handleNegotiationNeededEvent(withPubkey);
-    };
-  }
+    } else {
+      window.log.info(
+        'should negotaite again but we accepted the call recently, so swallowing this one'
+      );
+    }
+  };
 
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
 
@@ -685,6 +694,8 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
   return peerConnection;
 }
 
+let timestampAcceptedCall: number | undefined;
+
 // tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.log.info('USER_acceptIncomingCallRequest');
@@ -719,6 +730,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   currentCallUUID = lastOfferMessage.uuid;
 
+  timestampAcceptedCall = Date.now();
   peerConnection = createOrGetPeerConnection(fromSender, true);
 
   await openMediaDevicesAndAddTracks();
@@ -774,7 +786,8 @@ export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUI
 // tslint:disable-next-line: function-name
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
   setIsRinging(false);
-
+  // close the popup call
+  window.inboxStore?.dispatch(endCall());
   const lastOfferMessage = findLastMessageTypeFromSender(
     fromSender,
     SignalService.CallMessage.Type.OFFER
@@ -798,16 +811,15 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
 
   // clear the ongoing call if needed
   if (ongoingCallWith && ongoingCallStatus && ongoingCallWith === fromSender) {
-    await closeVideoCall();
+    closeVideoCall();
   }
-
-  // close the popup call
-  window.inboxStore?.dispatch(endCall());
 }
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
-  await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage);
-  await getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage);
+  await Promise.all([
+    getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage),
+    getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage),
+  ]);
 }
 
 // tslint:disable-next-line: function-name
@@ -834,7 +846,7 @@ export async function USER_hangup(fromSender: string) {
 
   clearCallCacheFromPubkeyAndUUID(fromSender, currentCallUUID);
 
-  await closeVideoCall();
+  closeVideoCall();
 }
 
 /**
@@ -858,14 +870,14 @@ export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: stri
         (ongoingCallStatus === 'incoming' || ongoingCallStatus === 'connecting') &&
         ongoingCallWith === ownerOfCall
       ) {
-        await closeVideoCall();
+        closeVideoCall();
         window.inboxStore?.dispatch(endCall());
       }
       return;
     }
 
     if (aboutCallUUID === currentCallUUID) {
-      await closeVideoCall();
+      closeVideoCall();
       window.inboxStore?.dispatch(endCall());
     }
   }
@@ -1069,7 +1081,7 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
         rejectedCallUUIDS.add(callMessageUUID);
         // if this call is about the one being currently displayed, force close it
         if (ongoingCallStatus && ongoingCallWith === foundOwnerOfCallUUID) {
-          await closeVideoCall();
+          closeVideoCall();
         }
 
         window.inboxStore?.dispatch(endCall());
