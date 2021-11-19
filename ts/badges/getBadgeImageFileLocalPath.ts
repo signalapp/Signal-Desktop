@@ -1,9 +1,9 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { first, last } from 'lodash';
-import type { BadgeType, BadgeImageType } from './types';
-import type { BadgeImageTheme } from './BadgeImageTheme';
+import { find, findLast, first, last } from 'lodash';
+import type { BadgeType } from './types';
+import { BadgeImageTheme } from './BadgeImageTheme';
 
 export function getBadgeImageFileLocalPath(
   badge: Readonly<undefined | BadgeType>,
@@ -14,20 +14,23 @@ export function getBadgeImageFileLocalPath(
     return undefined;
   }
 
-  const { images } = badge;
+  const localPathsForTheme: Array<undefined | string> = badge.images.map(
+    image => image[theme]?.localPath
+  );
 
-  // We expect this to be defined for valid input, but defend against unexpected array
-  //   lengths.
-  let idealImage: undefined | BadgeImageType;
-  if (size < 24) {
-    idealImage = first(images);
-  } else if (size < 36) {
-    idealImage = images[1] || first(images);
-  } else if (size < 160) {
-    idealImage = images[2] || first(images);
-  } else {
-    idealImage = last(images);
+  if (theme === BadgeImageTheme.Transparent) {
+    const search = size < 36 ? find : findLast;
+    return search(localPathsForTheme, Boolean);
   }
 
-  return idealImage?.[theme]?.localPath;
+  if (size < 24) {
+    return first(localPathsForTheme);
+  }
+  if (size < 36) {
+    return localPathsForTheme[1];
+  }
+  if (size < 160) {
+    return localPathsForTheme[2];
+  }
+  return last(localPathsForTheme) || localPathsForTheme[2];
 }
