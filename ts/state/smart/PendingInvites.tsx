@@ -7,7 +7,8 @@ import type { PropsType } from '../../components/conversation/conversation-detai
 import { PendingInvites } from '../../components/conversation/conversation-details/PendingInvites';
 import type { StateType } from '../reducer';
 
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 import {
   getConversationByIdSelector,
   getConversationByUuidSelector,
@@ -40,7 +41,9 @@ const mapStateToProps = (
     ...props,
     ...getGroupMemberships(conversation, conversationByUuidSelector),
     conversation,
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
+    theme: getTheme(state),
   };
 };
 
