@@ -708,7 +708,7 @@ export default class MessageReceiver
 
     prefix += `> ${envelope.destinationUuid.toString()}`;
 
-    return `${prefix}${timestamp} (${envelope.id})`;
+    return `${prefix} ${timestamp} (${envelope.id})`;
   }
 
   private clearRetryTimeout(): void {
