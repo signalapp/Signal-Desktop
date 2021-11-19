@@ -185,6 +185,7 @@ try {
     }
 
     const ourUuid = window.textsecure.storage.user.getUuid();
+    const ourPni = window.textsecure.storage.user.getPni();
 
     event.sender.send('additional-log-data-response', {
       capabilities: ourCapabilities || {},
@@ -198,6 +199,7 @@ try {
         deviceId: window.textsecure.storage.user.getDeviceId(),
         e164: window.textsecure.storage.user.getNumber(),
         uuid: ourUuid && ourUuid.toString(),
+        pni: ourPni && ourPni.toString(),
         conversationId: ourConversation && ourConversation.id,
       },
     });
