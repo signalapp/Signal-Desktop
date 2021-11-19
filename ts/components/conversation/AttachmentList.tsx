@@ -10,6 +10,7 @@ import type { LocalizerType } from '../../types/Util';
 import type { AttachmentDraftType } from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
+  canDisplayImage,
   isImageAttachment,
   isVideoAttachment,
 } from '../../types/Attachment';
@@ -74,7 +75,11 @@ export const AttachmentList = ({
           const isVideo = isVideoAttachment(attachment);
           const closeAttachment = () => onCloseAttachment(attachment);
 
-          if (isImage || isVideo || attachment.pending) {
+          if (
+            (isImage && canDisplayImage([attachment])) ||
+            isVideo ||
+            attachment.pending
+          ) {
             const isDownloaded = !attachment.pending;
             const imageUrl =
               url || (isVideo ? BLANK_VIDEO_THUMBNAIL : undefined);
