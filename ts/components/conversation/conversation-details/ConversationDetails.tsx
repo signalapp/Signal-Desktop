@@ -391,7 +391,11 @@ export const ConversationDetails: React.ComponentType<Props> = ({
                 icon={IconType.timer}
               />
             }
-            info={i18n('ConversationDetails--disappearing-messages-info')}
+            info={i18n(
+              isGroup
+                ? 'ConversationDetails--disappearing-messages-info--group'
+                : 'ConversationDetails--disappearing-messages-info--direct'
+            )}
             label={i18n('ConversationDetails--disappearing-messages-label')}
             right={
               <DisappearingTimerSelect

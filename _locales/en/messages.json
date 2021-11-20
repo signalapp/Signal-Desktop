@@ -5404,9 +5404,13 @@
     "message": "Disappearing messages",
     "description": "This is the label for the disappearing messages setting panel"
   },
-  "ConversationDetails--disappearing-messages-info": {
+  "ConversationDetails--disappearing-messages-info--group": {
     "message": "When enabled, messages sent and received in this group will disappear after they've been seen.",
-    "description": "This is the info about the disappearing messages setting"
+    "description": "This is the info about the disappearing messages setting, in groups"
+  },
+  "ConversationDetails--disappearing-messages-info--direct": {
+    "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+    "description": "This is the info about the disappearing messages setting, for direct conversations"
   },
   "ConversationDetails--notifications": {
     "message": "Notifications",
