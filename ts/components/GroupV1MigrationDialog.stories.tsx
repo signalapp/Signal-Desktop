@@ -13,6 +13,7 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
+import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -44,6 +45,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     booleanOr(overrideProps.areWeInvited, false)
   ),
   droppedMembers: overrideProps.droppedMembers || [contact3, contact1],
+  getPreferredBadge: () => undefined,
   hasMigrated: boolean(
     'hasMigrated',
     booleanOr(overrideProps.hasMigrated, false)
@@ -52,6 +54,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   invitedMembers: overrideProps.invitedMembers || [contact2],
   migrate: action('migrate'),
   onClose: action('onClose'),
+  theme: ThemeType.light,
 });
 
 const stories = storiesOf('Components/GroupV1MigrationDialog', module);

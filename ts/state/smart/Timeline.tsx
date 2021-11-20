@@ -18,7 +18,7 @@ import { Timeline } from '../../components/conversation/Timeline';
 import type { StateType } from '../reducer';
 import type { ConversationType } from '../ducks/conversations';
 
-import { getIntl } from '../selectors/user';
+import { getIntl, getTheme } from '../selectors/user';
 import {
   getConversationByUuidSelector,
   getConversationMessagesSelector,
@@ -48,6 +48,7 @@ import {
 } from '../../util/groupMemberNameCollisions';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
 import type { WidthBreakpoint } from '../../components/_util';
+import { getPreferredBadgeSelector } from '../selectors/badges';
 
 type ExternalProps = {
   id: string;
@@ -313,7 +314,9 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     warning: getWarning(conversation, state),
     contactSpoofingReview: getContactSpoofingReview(id, state),
 
+    getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
+    theme: getTheme(state),
     renderItem,
     renderLastSeenIndicator,
     renderHeroRow,

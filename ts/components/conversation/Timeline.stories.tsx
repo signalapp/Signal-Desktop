@@ -457,8 +457,10 @@ const renderTypingBubble = () => (
   />
 );
 
-const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  getPreferredBadge: () => undefined,
   i18n,
+  theme: React.useContext(StorybookThemeContext),
 
   haveNewest: boolean('haveNewest', overrideProps.haveNewest !== false),
   haveOldest: boolean('haveOldest', overrideProps.haveOldest !== false),
@@ -498,13 +500,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 });
 
 story.add('Oldest and Newest', () => {
-  const props = createProps();
+  const props = useProps();
 
   return <Timeline {...props} />;
 });
 
 story.add('With active message request', () => {
-  const props = createProps({
+  const props = useProps({
     isIncomingMessageRequest: true,
   });
 
@@ -512,7 +514,7 @@ story.add('With active message request', () => {
 });
 
 story.add('Without Newest Message', () => {
-  const props = createProps({
+  const props = useProps({
     haveNewest: false,
   });
 
@@ -520,7 +522,7 @@ story.add('Without Newest Message', () => {
 });
 
 story.add('Without newest message, active message request', () => {
-  const props = createProps({
+  const props = useProps({
     haveOldest: false,
     isIncomingMessageRequest: true,
   });
@@ -529,7 +531,7 @@ story.add('Without newest message, active message request', () => {
 });
 
 story.add('Without Oldest Message', () => {
-  const props = createProps({
+  const props = useProps({
     haveOldest: false,
     scrollToIndex: -1,
   });
@@ -538,7 +540,7 @@ story.add('Without Oldest Message', () => {
 });
 
 story.add('Empty (just hero)', () => {
-  const props = createProps({
+  const props = useProps({
     items: [],
   });
 
@@ -546,7 +548,7 @@ story.add('Empty (just hero)', () => {
 });
 
 story.add('Last Seen', () => {
-  const props = createProps({
+  const props = useProps({
     oldestUnreadIndex: 13,
     totalUnread: 2,
   });
@@ -555,7 +557,7 @@ story.add('Last Seen', () => {
 });
 
 story.add('Target Index to Top', () => {
-  const props = createProps({
+  const props = useProps({
     scrollToIndex: 0,
   });
 
@@ -563,7 +565,7 @@ story.add('Target Index to Top', () => {
 });
 
 story.add('Typing Indicator', () => {
-  const props = createProps({
+  const props = useProps({
     typingContactId: UUID.generate().toString(),
   });
 
@@ -571,7 +573,7 @@ story.add('Typing Indicator', () => {
 });
 
 story.add('With invited contacts for a newly-created group', () => {
-  const props = createProps({
+  const props = useProps({
     invitedContactsForNewlyCreatedGroup: [
       getDefaultConversation({
         id: 'abc123',
@@ -588,7 +590,7 @@ story.add('With invited contacts for a newly-created group', () => {
 });
 
 story.add('With "same name in direct conversation" warning', () => {
-  const props = createProps({
+  const props = useProps({
     warning: {
       type: ContactSpoofingType.DirectConversationWithSameTitle,
       safeConversation: getDefaultConversation(),
@@ -600,7 +602,7 @@ story.add('With "same name in direct conversation" warning', () => {
 });
 
 story.add('With "same name in group conversation" warning', () => {
-  const props = createProps({
+  const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
       acknowledgedGroupNameCollisions: {},
