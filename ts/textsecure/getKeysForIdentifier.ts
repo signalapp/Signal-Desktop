@@ -41,8 +41,11 @@ export async function getKeysForIdentifier(
       if (theirUuid) {
         await window.textsecure.storage.protocol.archiveAllSessions(theirUuid);
       }
+
+      throw new UnregisteredUserError(identifier, error);
     }
-    throw new UnregisteredUserError(identifier, error);
+
+    throw error;
   }
 }
 

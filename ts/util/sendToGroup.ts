@@ -168,7 +168,18 @@ export async function sendContentMessageToGroup({
         sendType,
         timestamp,
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      if (!(error instanceof Error)) {
+        throw error;
+      }
+
+      if (error.name.includes('untrusted identity')) {
+        log.error(
+          `sendToGroup/${logId}: Failed with 'untrusted identity' error, re-throwing`
+        );
+        throw error;
+      }
+
       log.error(
         `sendToGroup/${logId}: Sender Key send failed, logging, proceeding to normal send`,
         error && error.stack ? error.stack : error
@@ -1084,6 +1095,7 @@ async function fetchKeysForIdentifiers(
       'fetchKeysForIdentifiers: Failed to fetch keys:',
       error && error.stack ? error.stack : error
     );
+    throw error;
   }
 }
 
