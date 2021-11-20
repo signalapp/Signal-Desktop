@@ -17,8 +17,9 @@ import Measure from 'react-measure';
 
 import { ScrollDownButton } from './ScrollDownButton';
 
-import type { AssertProps, LocalizerType } from '../../types/Util';
+import type { AssertProps, LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { createRefMerger } from '../../util/refMerger';
@@ -102,7 +103,9 @@ type PropsHousekeepingType = {
   warning?: WarningType;
   contactSpoofingReview?: ContactSpoofingReviewPropType;
 
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  theme: ThemeType;
 
   renderItem: (props: {
     actionProps: PropsActionsType;
@@ -1312,6 +1315,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
+      getPreferredBadge,
       i18n,
       id,
       invitedContactsForNewlyCreatedGroup,
@@ -1325,6 +1329,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       removeMember,
       reviewGroupMemberNameCollision,
       reviewMessageRequestNameCollision,
+      theme,
     } = this.props;
     const {
       shouldShowScrollDownButton,
@@ -1561,8 +1566,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         {Boolean(invitedContactsForNewlyCreatedGroup.length) && (
           <NewlyCreatedGroupInvitedContactsDialog
             contacts={invitedContactsForNewlyCreatedGroup}
+            getPreferredBadge={getPreferredBadge}
             i18n={i18n}
             onClose={clearInvitedUuidsForNewlyCreatedGroup}
+            theme={theme}
           />
         )}
 

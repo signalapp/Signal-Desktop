@@ -1,9 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 import type { ConversationType } from '../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { GroupDialog } from './GroupDialog';
 import { sortByTitle } from '../util/sortByTitle';
 
@@ -19,7 +20,9 @@ export type DataPropsType = {
 };
 
 export type HousekeepingPropsType = {
+  readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly i18n: LocalizerType;
+  readonly theme: ThemeType;
 };
 
 export type PropsType = DataPropsType & HousekeepingPropsType;
@@ -29,11 +32,13 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
     const {
       areWeInvited,
       droppedMembers,
+      getPreferredBadge,
       hasMigrated,
       i18n,
       invitedMembers,
       migrate,
       onClose,
+      theme,
     } = props;
 
     const title = hasMigrated
@@ -84,23 +89,39 @@ export const GroupV1MigrationDialog: React.FunctionComponent<PropsType> =
           </GroupDialog.Paragraph>
         ) : (
           <>
-            {renderMembers(
-              invitedMembers,
-              'GroupV1--Migration--info--invited',
-              i18n
-            )}
-            {renderMembers(droppedMembers, droppedMembersKey, i18n)}
+            {renderMembers({
+              getPreferredBadge,
+              i18n,
+              members: invitedMembers,
+              prefix: 'GroupV1--Migration--info--invited',
+              theme,
+            })}
+            {renderMembers({
+              getPreferredBadge,
+              i18n,
+              members: droppedMembers,
+              prefix: droppedMembersKey,
+              theme,
+            })}
           </>
         )}
       </GroupDialog>
     );
   });
 
-function renderMembers(
-  members: Array<ConversationType>,
-  prefix: string,
-  i18n: LocalizerType
-): React.ReactNode {
+function renderMembers({
+  getPreferredBadge,
+  i18n,
+  members,
+  prefix,
+  theme,
+}: Readonly<{
+  getPreferredBadge: PreferredBadgeSelectorType;
+  i18n: LocalizerType;
+  members: Array<ConversationType>;
+  prefix: string;
+  theme: ThemeType;
+}>): React.ReactNode {
   if (!members.length) {
     return null;
   }
@@ -111,7 +132,12 @@ function renderMembers(
   return (
     <>
       <GroupDialog.Paragraph>{i18n(key)}</GroupDialog.Paragraph>
-      <GroupDialog.Contacts contacts={sortByTitle(members)} i18n={i18n} />
+      <GroupDialog.Contacts
+        contacts={sortByTitle(members)}
+        getPreferredBadge={getPreferredBadge}
+        i18n={i18n}
+        theme={theme}
+      />
     </>
   );
 }

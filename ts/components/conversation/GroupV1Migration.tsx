@@ -5,8 +5,9 @@ import * as React from 'react';
 
 import { Button, ButtonSize, ButtonVariant } from '../Button';
 import { SystemMessage } from './SystemMessage';
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import { Intl } from '../Intl';
 import { ContactName } from './ContactName';
 import { GroupV1MigrationDialog } from '../GroupV1MigrationDialog';
@@ -19,13 +20,22 @@ export type PropsDataType = {
 };
 
 export type PropsHousekeepingType = {
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  theme: ThemeType;
 };
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
 
 export function GroupV1Migration(props: PropsType): React.ReactElement {
-  const { areWeInvited, droppedMembers, i18n, invitedMembers } = props;
+  const {
+    areWeInvited,
+    droppedMembers,
+    getPreferredBadge,
+    i18n,
+    invitedMembers,
+    theme,
+  } = props;
   const [showingDialog, setShowingDialog] = React.useState(false);
 
   const showDialog = React.useCallback(() => {
@@ -77,11 +87,13 @@ export function GroupV1Migration(props: PropsType): React.ReactElement {
         <GroupV1MigrationDialog
           areWeInvited={areWeInvited}
           droppedMembers={droppedMembers}
+          getPreferredBadge={getPreferredBadge}
           hasMigrated
           i18n={i18n}
           invitedMembers={invitedMembers}
           migrate={() => log.warn('GroupV1Migration: Modal called migrate()')}
           onClose={dismissDialog}
+          theme={theme}
         />
       ) : null}
     </>
