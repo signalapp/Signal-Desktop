@@ -45,7 +45,7 @@ export enum AvatarSize {
   ONE_HUNDRED_TWELVE = 112,
 }
 
-type BadgePlacementType = { size: number; bottom: number; right: number };
+type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
   avatarPath?: string;
@@ -78,14 +78,16 @@ export type Props = {
 } & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
-  [28, { size: 16, bottom: -4, right: -2 }],
-  [32, { size: 16, bottom: -4, right: -2 }],
-  [36, { size: 16, bottom: -3, right: 0 }],
-  [40, { size: 24, bottom: -6, right: -4 }],
-  [48, { size: 24, bottom: -6, right: -4 }],
-  [56, { size: 24, bottom: -6, right: 0 }],
-  [80, { size: 36, bottom: -8, right: 0 }],
-  [88, { size: 36, bottom: -4, right: 3 }],
+  [28, { bottom: -4, right: -2 }],
+  [32, { bottom: -4, right: -2 }],
+  [36, { bottom: -3, right: 0 }],
+  [40, { bottom: -6, right: -4 }],
+  [48, { bottom: -6, right: -4 }],
+  [56, { bottom: -6, right: 0 }],
+  [64, { bottom: -6, right: 0 }],
+  [80, { bottom: -8, right: 0 }],
+  [88, { bottom: -4, right: 3 }],
+  [112, { bottom: -4, right: 3 }],
 ]);
 
 const getDefaultBlur = (
@@ -241,10 +243,12 @@ export const Avatar: FunctionComponent<Props> = ({
   }
 
   let badgeNode: ReactNode;
+  const badgeSize = _getBadgeSize(size);
   if (
     badge &&
     theme &&
     !noteToSelf &&
+    badgeSize &&
     isBadgeVisible(badge) &&
     shouldShowBadges()
   ) {
@@ -253,15 +257,14 @@ export const Avatar: FunctionComponent<Props> = ({
       theme === ThemeType.light ? BadgeImageTheme.Light : BadgeImageTheme.Dark;
     const badgeImagePath = getBadgeImageFileLocalPath(
       badge,
-      badgePlacement.size,
+      badgeSize,
       badgeTheme
     );
     if (badgeImagePath) {
       const positionStyles: CSSProperties = {
-        width: badgePlacement.size,
-        height: badgePlacement.size,
-        bottom: badgePlacement.bottom,
-        right: badgePlacement.right,
+        width: badgeSize,
+        height: badgeSize,
+        ...badgePlacement,
       };
       if (onClickBadge) {
         badgeNode = (
@@ -313,14 +316,25 @@ export const Avatar: FunctionComponent<Props> = ({
 };
 
 // This is only exported for testing.
+export function _getBadgeSize(avatarSize: number): undefined | number {
+  if (avatarSize < 24) {
+    return undefined;
+  }
+  if (avatarSize <= 36) {
+    return 16;
+  }
+  if (avatarSize <= 64) {
+    return 24;
+  }
+  if (avatarSize <= 112) {
+    return 36;
+  }
+  return Math.round(avatarSize * 0.4);
+}
+
+// This is only exported for testing.
 export function _getBadgePlacement(
   avatarSize: number
 ): Readonly<BadgePlacementType> {
-  return (
-    BADGE_PLACEMENT_BY_SIZE.get(avatarSize) || {
-      size: Math.ceil(avatarSize * 0.425),
-      bottom: 0,
-      right: 0,
-    }
-  );
+  return BADGE_PLACEMENT_BY_SIZE.get(avatarSize) || { bottom: 0, right: 0 };
 }
