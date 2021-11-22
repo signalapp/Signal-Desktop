@@ -314,8 +314,8 @@ async function handleRegularMessage(
   if (type === 'outgoing' && window.lokiFeatureFlags.useMessageRequests) {
     handleSyncedReceipts(message, conversation);
 
-    // assumes sync receipts are always from linked device outgoings?
-    conversation.setIsApproved(true);
+    // assumes sync receipts are always from linked device outgoings
+    await conversation.setIsApproved(true);
   }
 
   const conversationActiveAt = conversation.get('active_at');

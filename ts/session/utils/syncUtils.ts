@@ -38,23 +38,20 @@ const writeLastSyncTimestampToDb = async (timestamp: number) =>
   createOrUpdateItem({ id: ITEM_ID_LAST_SYNC_TIMESTAMP, value: timestamp });
 
 /**
- * Syncs usre configuration with other devices linked to this user.
- * @param force Bypass duration time limit for sending sync messages
- * @returns
+ * Conditionally Syncs user configuration with other devices linked.
  */
-export const syncConfigurationIfNeeded = async (force: boolean = false) => {
+export const syncConfigurationIfNeeded = async () => {
   const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
   const now = Date.now();
 
   // if the last sync was less than 2 days before, return early.
-  if (!force && Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
+  if (Math.abs(now - lastSyncedTimestamp) < DURATION.DAYS * 7) {
     return;
   }
 
-  const allConvos = await (await getAllConversations()).models;
+  const allConvoCollection = await getAllConversations();
+  const allConvos = allConvoCollection.models;
 
-  console.warn({ test: allConvos[0].attributes.isApproved });
-  // const configMessage = await getCurrentConfigurationMessage(allConvos);
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
     // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
@@ -71,7 +68,6 @@ export const syncConfigurationIfNeeded = async (force: boolean = false) => {
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
   new Promise(async resolve => {
-    // const allConvos = getConversationController().getConversations();
     const allConvos = (await getAllConversations()).models;
 
     // if we hang for more than 10sec, force resolve this promise.

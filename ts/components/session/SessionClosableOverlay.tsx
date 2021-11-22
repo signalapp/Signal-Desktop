@@ -199,7 +199,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         {isMessageRequestView ? (
           <>
             <SpacerLG />
-            <div className="message-request-list__container"></div>
             <MessageRequestList />
             <SpacerLG />
           </>
@@ -301,7 +300,7 @@ const MessageRequestList = () => {
   return (
     <div className="message-request-list__container">
       {validConversationRequests.map(conversation => {
-        return <MessageRequestListItem conversation={conversation} />;
+        return <MessageRequestListItem key={conversation.id} conversation={conversation} />;
       })}
     </div>
   );
@@ -309,10 +308,5 @@ const MessageRequestList = () => {
 
 const MessageRequestListItem = (props: { conversation: ConversationListItemProps }) => {
   const { conversation } = props;
-  return (
-    <MemoConversationListItemWithDetails
-      isMessageRequest={true}
-      {...conversation}
-    ></MemoConversationListItemWithDetails>
-  );
+  return <MemoConversationListItemWithDetails isMessageRequest={true} {...conversation} />;
 };

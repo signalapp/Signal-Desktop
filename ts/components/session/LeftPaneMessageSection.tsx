@@ -181,11 +181,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     );
   }
 
-  private handleMessageRequestsClick() {
-    console.warn('handle msg req clicked');
-    this.handleToggleOverlay(SessionClosableOverlayType.MessageRequests);
-  }
-
   public updateSearch(searchTerm: string) {
     if (!searchTerm) {
       window.inboxStore?.dispatch(clearSearch());
@@ -222,6 +217,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         ourNumber: UserUtils.getOurPubKeyStrFromCache(),
       })
     );
+  }
+
+  private handleMessageRequestsClick() {
+    this.handleToggleOverlay(SessionClosableOverlayType.MessageRequests);
   }
 
   private renderClosableOverlay() {
@@ -282,9 +281,8 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.handleToggleOverlay(undefined);
         }}
         onButtonClick={async () => {
+          // block all convo requests. Force sync if there were changes.
           window?.log?.info('Blocking all conversations');
-          // TODO: msgrequest iterate all convos and block
-          // iterate all conversations and set all to approve then
           const { conversationRequests } = this.props;
           let syncRequired = false;
 
@@ -293,9 +291,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
             return;
           }
 
-          _.forEach(conversationRequests, convo => {
+          _.forEach(conversationRequests, async convo => {
             if (convo.isApproved !== true) {
-              BlockedNumberController.block(convo.id);
+              await BlockedNumberController.block(convo.id);
               syncRequired = true;
             }
           });

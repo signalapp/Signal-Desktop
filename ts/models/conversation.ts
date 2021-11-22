@@ -50,7 +50,7 @@ import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsMana
 import { IMAGE_JPEG } from '../types/MIME';
 import { UnsendMessage } from '../session/messages/outgoing/controlMessage/UnsendMessage';
 import { getLatestTimestampOffset, networkDeleteMessages } from '../session/snode_api/SNodeAPI';
-import { syncConfigurationIfNeeded } from '../session/utils/syncUtils';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -738,8 +738,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const updateApprovalNeeded =
         !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
       if (updateApprovalNeeded) {
-        this.setIsApproved(true);
-        await syncConfigurationIfNeeded(true);
+        await this.setIsApproved(true);
+        await forceSyncConfigurationNowIfNeeded();
       }
 
       if (this.isOpenGroupV2()) {
@@ -1397,13 +1397,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async setIsApproved(value: boolean) {
     if (value !== this.get('isApproved')) {
-      console.warn(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
+      window?.log?.info(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
         isApproved: value,
       });
 
       // to exclude the conversation from left pane messages list and message requests
-      if (value === false) this.set({ active_at: undefined });
+      if (value === false) {
+        this.set({ active_at: undefined });
+      }
 
       await this.commit();
     }

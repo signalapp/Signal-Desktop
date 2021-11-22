@@ -130,7 +130,7 @@ const handleContactReceived = async (
       window.inboxStore?.getState().userConfig.messageRequests &&
       contactReceived.isApproved === true
     ) {
-      contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+      await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
 
       if (contactReceived.isBlocked === true) {
         await BlockedNumberController.block(contactConvo.id);
