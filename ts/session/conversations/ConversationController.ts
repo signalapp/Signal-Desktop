@@ -236,7 +236,11 @@ export class ConversationController {
     if (conversation.isPrivate()) {
       window.log.info(`deleteContact isPrivate, marking as inactive: ${id}`);
 
-      conversation.set('active_at', undefined);
+      // conversation.set('active_at', undefined);
+      conversation.set({
+        active_at: undefined,
+        isApproved: false,
+      });
       await conversation.commit();
     } else {
       window.log.info(`deleteContact !isPrivate, removing convo from DB: ${id}`);

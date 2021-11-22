@@ -304,41 +304,49 @@ export const _getLeftPaneLists = (
       };
     }
 
-    if (!Boolean(conversation.isApproved) === true && window.lokiFeatureFlags.useMessageRequests) {
-      continue;
-    }
+    const messageRequestsEnabled =
+      window.inboxStore?.getState().userConfig.messageRequests === true &&
+      window?.lokiFeatureFlags?.useMessageRequests === true;
+
+    // if (!Boolean(conversation.isApproved) === true && window.lokiFeatureFlags.useMessageRequests) {
+    //   continue;
+    // }
 
     // Add Open Group to list as soon as the name has been set
-    if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
-      continue;
+    // if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
+    //   continue;
+    // }
+
+    // if (!conversation.isApproved && !conversation.isBlocked) {
+    //   conversationRequests.push(conversation);
+    // }
+
+    if (shouldShowInRequestList(conversation, messageRequestsEnabled)) {
+      conversationRequests.push(conversation);
     }
 
     // Remove all invalid conversations and conversatons of devices associated
     //  with cancelled attempted links
-    if (!conversation.isPublic && !conversation.activeAt) {
-      continue;
-    }
+    // if (!conversation.isPublic && !conversation.activeAt) {
+    //   continue;
+    // }
 
-    if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+    // if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+    //   directConversations.push(conversation);
+    // }
+
+    if (shouldShowInContacts(conversation)) {
       directConversations.push(conversation);
     }
 
-    if (!conversation.isApproved && !conversation.isBlocked) {
-      conversationRequests.push(conversation);
-    }
-
-    if (
-      unreadCount < 9 &&
-      conversation.unreadCount &&
-      conversation.unreadCount > 0 &&
-      conversation.currentNotificationSetting !== 'disabled'
-    ) {
-      unreadCount += conversation.unreadCount;
-    }
-
-    if (conversation.isApproved) {
+    if (shouldShowInConversationList(conversation, messageRequestsEnabled)) {
       conversations.push(conversation);
+      unreadCount = calculateNewUnreadTotal(unreadCount, conversation);
     }
+
+    // if (conversation.isApproved) {
+    //   conversations.push(conversation);
+    // }
   }
 
   return {
@@ -347,6 +355,84 @@ export const _getLeftPaneLists = (
     conversationRequests,
     unreadCount,
   };
+};
+
+const calculateNewUnreadTotal = (unreadCount: number, conversation: ReduxConversationType) => {
+  if (
+    unreadCount < 9 &&
+    conversation.unreadCount &&
+    conversation.unreadCount > 0 &&
+    conversation.currentNotificationSetting !== 'disabled'
+  ) {
+    unreadCount += conversation.unreadCount;
+  }
+  return unreadCount;
+};
+
+const shouldShowInRequestList = (
+  conversation: ReduxConversationType,
+  messageRequestsEnabled: boolean
+) => {
+  if (conversation.isPublic || conversation.isBlocked || Boolean(conversation.activeAt) === false) {
+    return false;
+  }
+
+  if (messageRequestsEnabled) {
+    if (Boolean(conversation.isApproved || !conversation.isBlocked)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const shouldShowInContacts = (conversation: ReduxConversationType) => {
+  // Add Open Group to list as soon as the name has been set
+  if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
+    return false;
+  }
+
+  // if (shouldShowInRequestList(conversation)) {
+  //   conversationRequests.push(conversation);
+  // }
+
+  // Remove all invalid conversations and conversatons of devices associated
+  //  with cancelled attempted links
+  if (!conversation.isPublic && !conversation.activeAt) {
+    return false;
+  }
+
+  if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+    // directConversations.push(conversation);
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const shouldShowInConversationList = (
+  conversation: ReduxConversationType,
+  messageRequestsEnabled: boolean
+) => {
+  // // Add Open Group to list as soon as the name has been set
+  if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
+    return false;
+  }
+
+  // Remove all invalid conversations and conversatons of devices associated
+  //  with cancelled attempted links
+  if (!conversation.isPublic && !conversation.activeAt) {
+    return false;
+  }
+
+  // if (!conversation.activeAt) {
+  //   return false;
+  // }
+
+  if (messageRequestsEnabled && !conversation.isApproved) {
+    return false;
+  }
+
+  return true;
 };
 
 export const getLeftPaneLists = createSelector(

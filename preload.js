@@ -51,7 +51,7 @@ window.lokiFeatureFlags = {
   padOutgoingAttachments: true,
   enablePinConversations: true,
   useUnsendRequests: false,
-  useMessageRequests: false,
+  useMessageRequests: true,
 };
 
 window.isBeforeVersion = (toCheck, baseVersion) => {

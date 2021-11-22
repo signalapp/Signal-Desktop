@@ -84,10 +84,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    const messageRequestsEnabled =
-      window.inboxStore?.getState().userConfig.messageRequests === true &&
-      window?.lokiFeatureFlags?.useMessageRequests;
-
     let conversation;
     if (conversations?.length) {
       conversation = conversations[index];
@@ -97,10 +93,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return null;
     }
 
-    // TODO: need to confirm what default setting is best here.
-    if (messageRequestsEnabled && !Boolean(conversation.isApproved)) {
-      return null;
-    }
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
   };
 
