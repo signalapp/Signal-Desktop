@@ -268,6 +268,7 @@ export const _getConversationComparator = (testingi18n?: LocalizerType) => {
 export const getConversationComparator = createSelector(getIntl, _getConversationComparator);
 
 // export only because we use it in some of our tests
+// tslint:disable-next-line: cyclomatic-complexity
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
@@ -304,10 +305,13 @@ export const _getLeftPaneLists = (
       };
     }
 
+    let messageRequestsEnabled = false;
     // TODO: if message requests toggle on and msg requesnt enable
-    const messageRequestsEnabled =
-      window.inboxStore?.getState().userConfig.messageRequests === true &&
-      window.lokiFeatureFlags?.useMessageRequests === true;
+    if (window?.inboxStore?.getState()) {
+      messageRequestsEnabled =
+        window.inboxStore?.getState().userConfig.messageRequests === true &&
+        window.lokiFeatureFlags?.useMessageRequests === true;
+    }
 
     // Add Open Group to list as soon as the name has been set
     if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
