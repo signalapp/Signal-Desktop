@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { MessageUtils, ToastUtils, UserUtils } from '.';
-import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
-import { getConversationById } from '../../data/data';
-import { MessageModelType } from '../../models/messageType';
-import { SignalService } from '../../protobuf';
-import { openConversationWithMessages } from '../../state/ducks/conversations';
+import { MessageUtils, ToastUtils, UserUtils } from '../';
+import { getCallMediaPermissionsSettings } from '../../../components/session/settings/SessionSettings';
+import { getConversationById } from '../../../data/data';
+import { MessageModelType } from '../../../models/messageType';
+import { SignalService } from '../../../protobuf';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
   answerCall,
   callConnected,
@@ -13,22 +13,23 @@ import {
   incomingCall,
   setFullScreenCall,
   startingCallWith,
-} from '../../state/ducks/call';
-import { getConversationController } from '../conversations';
-import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
-import { ed25519Str } from '../onions/onionPath';
-import { getMessageQueue, MessageSender } from '../sending';
-import { PubKey } from '../types';
+} from '../../../state/ducks/call';
+import { getConversationController } from '../../conversations';
+import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage';
+import { ed25519Str } from '../../onions/onionPath';
+import { PubKey } from '../../types';
 
 import { v4 as uuidv4 } from 'uuid';
-import { PnServer } from '../../pushnotification';
-import { setIsRinging } from './RingingManager';
+import { PnServer } from '../../../pushnotification';
+import { setIsRinging } from '../RingingManager';
+import { getBlackSilenceMediaStream } from './Silence';
+import { getMessageQueue } from '../..';
+import { MessageSender } from '../../sending';
 
-export type InputItem = { deviceId: string; label: string };
 // tslint:disable: function-name
 
-const maxWidth = 1920;
-const maxHeight = 1080;
+export type InputItem = { deviceId: string; label: string };
+
 /**
  * This uuid is set only once we accepted a call or started one.
  */
@@ -168,28 +169,6 @@ if (typeof navigator !== 'undefined') {
     callVideoListeners();
   });
 }
-
-const silence = () => {
-  const ctx = new AudioContext();
-  const oscillator = ctx.createOscillator();
-  const dst = oscillator.connect(ctx.createMediaStreamDestination());
-  oscillator.start();
-  return Object.assign((dst as any).stream.getAudioTracks()[0], { enabled: false });
-};
-
-const black = () => {
-  const canvas = Object.assign(document.createElement('canvas'), {
-    width: maxWidth,
-    height: maxHeight,
-  });
-  canvas.getContext('2d')?.fillRect(0, 0, maxWidth, maxHeight);
-  const stream = (canvas as any).captureStream();
-  return Object.assign(stream.getVideoTracks()[0], { enabled: false });
-};
-
-const getBlackSilenceMediaStream = () => {
-  return new MediaStream([black(), silence()]);
-};
 
 async function updateConnectedDevices() {
   // Get the set of cameras connected
@@ -339,12 +318,13 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
       if (!peerConnection) {
         throw new Error('cannot selectAudioInputByDeviceId without a peer connection');
       }
-      const sender = peerConnection.getSenders().find(s => {
+      const audioSender = peerConnection.getSenders().find(s => {
         return s.track?.kind === audioTrack.kind;
       });
+      window.log.info('replacing audio track');
 
-      if (sender) {
-        await sender.replaceTrack(audioTrack);
+      if (audioSender) {
+        await audioSender.replaceTrack(audioTrack);
         // we actually do not need to toggle the track here, as toggling it here unmuted here locally (so we start to hear ourselves)
       } else {
         throw new Error('Failed to get sender for selectAudioInputByDeviceId ');
@@ -561,6 +541,11 @@ function handleConnectionStateChanged(pubkey: string) {
     const firstAudioInput = audioInputsList?.[0].deviceId || undefined;
     if (firstAudioInput) {
       void selectAudioInputByDeviceId(firstAudioInput);
+    }
+
+    const firstAudioOutput = audioOutputsList?.[0].deviceId || undefined;
+    if (firstAudioOutput) {
+      void selectAudioOutputByDeviceId(firstAudioOutput);
     }
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }

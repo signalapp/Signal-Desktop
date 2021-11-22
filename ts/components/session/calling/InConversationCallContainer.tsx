@@ -23,7 +23,7 @@ import {
 import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots';
 import { CallWindowControls } from './CallButtons';
 import { SessionSpinner } from '../SessionSpinner';
-import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/CallManager';
+import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/calling/CallManager';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -156,10 +156,10 @@ export const InConversationCallContainer = () => {
 
     if (videoRefRemote.current) {
       if (currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID) {
-        videoRefLocal.current.muted = true;
+        videoRefRemote.current.muted = true;
       } else {
-        // void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
-        videoRefLocal.current.muted = false;
+        // void videoRefRemote.current.setSinkId(currentSelectedAudioOutput);
+        videoRefRemote.current.muted = false;
       }
     }
   }

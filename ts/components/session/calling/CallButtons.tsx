@@ -1,6 +1,6 @@
 import { SessionIconButton } from '../icon';
 import { animation, contextMenu, Item, Menu } from 'react-contexify';
-import { InputItem } from '../../../session/utils/CallManager';
+import { InputItem } from '../../../session/utils/calling/CallManager';
 import { setFullScreenCall } from '../../../state/ducks/call';
 import { CallManager, ToastUtils } from '../../../session/utils';
 import React from 'react';
@@ -71,16 +71,16 @@ export const AudioInputButton = ({
 
 export const AudioOutputButton = ({
   currentConnectedAudioOutputs,
-}: // isAudioOutputMuted,
-// hideArrowIcon = false,
-{
+  isAudioOutputMuted,
+  hideArrowIcon = false,
+}: {
   currentConnectedAudioOutputs: Array<InputItem>;
   isAudioOutputMuted: boolean;
   hideArrowIcon?: boolean;
 }) => {
   return (
     <>
-      {/* <DropDownAndToggleButton
+      <DropDownAndToggleButton
         iconType="volume"
         isMuted={isAudioOutputMuted}
         onMainButtonClick={() => {
@@ -90,7 +90,7 @@ export const AudioOutputButton = ({
           showAudioOutputMenu(currentConnectedAudioOutputs, e);
         }}
         hidePopoverArrow={hideArrowIcon}
-      /> */}
+      />
 
       <AudioOutputMenu
         triggerId={audioOutputTriggerId}
@@ -238,19 +238,19 @@ const showAudioInputMenu = (
   });
 };
 
-// const showAudioOutputMenu = (
-//   currentConnectedAudioOutputs: Array<any>,
-//   e: React.MouseEvent<HTMLDivElement>
-// ) => {
-//   if (currentConnectedAudioOutputs.length === 0) {
-//     ToastUtils.pushNoAudioOutputFound();
-//     return;
-//   }
-//   contextMenu.show({
-//     id: audioOutputTriggerId,
-//     event: e,
-//   });
-// };
+const showAudioOutputMenu = (
+  currentConnectedAudioOutputs: Array<any>,
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  if (currentConnectedAudioOutputs.length === 0) {
+    ToastUtils.pushNoAudioOutputFound();
+    return;
+  }
+  contextMenu.show({
+    id: audioOutputTriggerId,
+    event: e,
+  });
+};
 
 const showVideoInputMenu = (
   currentConnectedCameras: Array<InputItem>,
@@ -300,22 +300,22 @@ const handleMicrophoneToggle = async (
   }
 };
 
-// const handleSpeakerToggle = async (
-//   currentConnectedAudioOutputs: Array<InputItem>,
-//   isAudioOutputMuted: boolean
-// ) => {
-//   if (!currentConnectedAudioOutputs.length) {
-//     ToastUtils.pushNoAudioInputFound();
+const handleSpeakerToggle = async (
+  currentConnectedAudioOutputs: Array<InputItem>,
+  isAudioOutputMuted: boolean
+) => {
+  if (!currentConnectedAudioOutputs.length) {
+    ToastUtils.pushNoAudioInputFound();
 
-//     return;
-//   }
-//   if (isAudioOutputMuted) {
-//     // selects the first one
-//     await CallManager.selectAudioOutputByDeviceId(currentConnectedAudioOutputs[0].deviceId);
-//   } else {
-//     await CallManager.selectAudioOutputByDeviceId(CallManager.DEVICE_DISABLED_DEVICE_ID);
-//   }
-// };
+    return;
+  }
+  if (isAudioOutputMuted) {
+    // selects the first one
+    await CallManager.selectAudioOutputByDeviceId(currentConnectedAudioOutputs[0].deviceId);
+  } else {
+    await CallManager.selectAudioOutputByDeviceId(CallManager.DEVICE_DISABLED_DEVICE_ID);
+  }
+};
 
 const StyledCallWindowControls = styled.div`
   position: absolute;
