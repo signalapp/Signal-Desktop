@@ -257,6 +257,7 @@ const AvatarItem = (props: {
   );
 };
 
+// tslint:disable: max-func-body-length
 const ConversationListItem = (props: Props) => {
   const {
     activeAt,
