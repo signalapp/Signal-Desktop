@@ -1517,7 +1517,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isApproved() {
-    return Boolean(this.get('isApproved'));
+    return this.get('isApproved');
   }
 
   public getTitle() {
