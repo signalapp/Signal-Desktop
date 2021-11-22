@@ -17,11 +17,7 @@ import {
 import { shell } from 'electron';
 import { mapDispatchToProps } from '../../../state/actions';
 import { unblockConvoById } from '../../../interactions/conversationInteractions';
-import {
-  disableMessageRequests,
-  enableMessageRequests,
-  toggleAudioAutoplay,
-} from '../../../state/ducks/userConfig';
+import { toggleAudioAutoplay, toggleMessageRequests } from '../../../state/ducks/userConfig';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 import { SessionIconButton } from '../icon';
@@ -412,22 +408,16 @@ class SettingsViewInner extends React.Component<SettingsViewProps, State> {
       },
       {
         id: 'message-request-setting',
-        title: 'Message Requests', // TODO: translation
-        description: 'Enable Message Request Inbox',
+        title: window.i18n('messageRequests'),
+        description: window.i18n('messageRequestsDescription'),
         hidden: false,
         type: SessionSettingType.Toggle,
         category: SessionSettingCategory.Appearance,
         setFn: () => {
-          window.inboxStore?.dispatch(toggleAudioAutoplay());
-
-          if (window.inboxStore?.getState().userConfig.messageRequests) {
-            window.inboxStore?.dispatch(disableMessageRequests());
-          } else {
-            window.inboxStore?.dispatch(enableMessageRequests());
-          }
+          window.inboxStore?.dispatch(toggleMessageRequests());
         },
         content: {
-          defaultValue: window.inboxStore?.getState().userConfig.audioAutoplay,
+          defaultValue: window.inboxStore?.getState().userConfig.messageRequests,
         },
         comparisonValue: undefined,
         onClick: undefined,

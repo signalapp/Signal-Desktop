@@ -125,7 +125,7 @@ const handleContactReceived = async (
     // updateProfile will do a commit for us
     contactConvo.set('active_at', _.toNumber(envelope.timestamp));
 
-    if (window.lokiFeatureFlags.useMessageRequests === true) {
+    if (window.lokiFeatureFlags.useMessageRequests === true && window.inboxStore?.getState().userConfig.messageRequests) {
       contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
 
       if (contactReceived.isBlocked === true) {

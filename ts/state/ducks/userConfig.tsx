@@ -26,20 +26,12 @@ const userConfigSlice = createSlice({
     disableRecoveryPhrasePrompt: state => {
       state.showRecoveryPhrasePrompt = false;
     },
-    disableMessageRequests: state => {
-      state.messageRequests = false;
-    },
-    enableMessageRequests: state => {
-      state.messageRequests = false;
+    toggleMessageRequests: state => {
+      state.messageRequests = !state.messageRequests;
     },
   },
 });
 
 const { actions, reducer } = userConfigSlice;
-export const {
-  toggleAudioAutoplay,
-  disableRecoveryPhrasePrompt,
-  disableMessageRequests,
-  enableMessageRequests,
-} = actions;
+export const { toggleAudioAutoplay, disableRecoveryPhrasePrompt, toggleMessageRequests } = actions;
 export const userConfigReducer = reducer;

@@ -447,5 +447,6 @@
   "blockAll": "Block All",
   "messageRequests": "Message Requests",
   "requestsSubtitle": "Pending Requests",
-  "requestsPlaceholder": "No requests"
+  "requestsPlaceholder": "No requests",
+  "messageRequestsDescription": "Enable Message Request Inbox"
 }

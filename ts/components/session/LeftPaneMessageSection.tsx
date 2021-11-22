@@ -37,6 +37,7 @@ export interface Props {
 
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
+  conversationRequests?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
 }
 
@@ -281,13 +282,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           this.handleToggleOverlay(undefined);
         }}
         onButtonClick={async () => {
+          window?.log?.info('Blocking all conversations');
           // TODO: msgrequest iterate all convos and block
           // iterate all conversations and set all to approve then
-          const allConversations = getConversationController().getConversations();
+          const { conversationRequests } = this.props;
           let syncRequired = false;
 
-          _.forEach(allConversations, convo => {
-            if (convo.isApproved() !== true) {
+          if (!conversationRequests) {
+            window?.log?.info('No conversation requests to block.');
+            return;
+          }
+
+          _.forEach(conversationRequests, convo => {
+            if (convo.isApproved !== true) {
               BlockedNumberController.block(convo.id);
               syncRequired = true;
             }

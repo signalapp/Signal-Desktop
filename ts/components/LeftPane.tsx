@@ -34,6 +34,7 @@ const InnerLeftPaneMessageSection = () => {
     <LeftPaneMessageSection
       conversations={lists?.conversations || []}
       contacts={lists?.contacts || []}
+      conversationRequests={lists?.conversationRequests}
       searchResults={searchResults}
       searchTerm={searchTerm}
     />
