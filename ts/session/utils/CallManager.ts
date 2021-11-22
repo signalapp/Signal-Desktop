@@ -558,6 +558,10 @@ function handleConnectionStateChanged(pubkey: string) {
     closeVideoCall();
   } else if (peerConnection?.connectionState === 'connected') {
     setIsRinging(false);
+    const firstAudioInput = audioInputsList?.[0].deviceId || undefined;
+    if (firstAudioInput) {
+      void selectAudioInputByDeviceId(firstAudioInput);
+    }
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }
 }
