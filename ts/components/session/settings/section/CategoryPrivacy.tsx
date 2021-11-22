@@ -2,6 +2,7 @@ import React from 'react';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import { sessionPassword, updateConfirmModal } from '../../../../state/ducks/modalDialog';
+import { toggleMessageRequests } from '../../../../state/ducks/userConfig';
 import { PasswordAction } from '../../../dialog/SessionPasswordDialog';
 import { SessionButtonColor } from '../../SessionButton';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
@@ -105,6 +106,17 @@ export const SettingsCategoryPrivacy = (props: {
           }}
           title={window.i18n('autoUpdateSettingTitle')}
           description={window.i18n('autoUpdateSettingDescription')}
+          active={Boolean(window.getSettingValue(settingsAutoUpdate))}
+        />
+        <SessionToggleWithDescription
+          onClickToggle={() => {
+            // const old = Boolean(window.getSettingValue(settingsAutoUpdate));
+            // window.setSettingValue(settingsAutoUpdate, !old);
+            window.inboxStore?.dispatch(toggleMessageRequests());
+            forceUpdate();
+          }}
+          title={window.i18n('messageRequests')}
+          description={window.i18n('messageRequestsDescription')}
           active={Boolean(window.getSettingValue(settingsAutoUpdate))}
         />
         {!props.hasPassword && (
