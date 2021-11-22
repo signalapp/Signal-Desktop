@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'underscore';
+import { replyToMessage } from '../../../interactions/conversationInteractions';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../state/ducks/conversations';
 import {
@@ -15,8 +16,8 @@ import { MessageStatus } from './MessageStatus';
 
 export type MessageContentWithStatusSelectorProps = Pick<
   MessageRenderingProps,
-  'direction' | 'isDeleted'
->;
+  'direction' | 'isDeleted' | 'isTrustedForAttachmentDownload'
+> & { hasAttachments: boolean };
 
 type Props = {
   messageId: string;
@@ -35,35 +36,24 @@ export const MessageContentWithStatuses = (props: Props) => {
 
   const onClickOnMessageOuterContainer = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
-      const selection = window.getSelection();
-      // Text is being selected
-      if (selection && selection.type === 'Range') {
-        return;
-      }
-
-      // User clicked on message body
-      const target = event.target as HTMLDivElement;
-      if (
-        (!multiSelectMode && target.className === 'text-selectable') ||
-        window.contextMenuShown ||
-        props?.isDetailView
-      ) {
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
-      if (messageId) {
+      if (multiSelectMode && messageId) {
+        event.preventDefault();
+        event.stopPropagation();
         dispatch(toggleSelectedMessageId(messageId));
       }
     },
     [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
   );
 
+  const onDoubleClickReplyToMessage = () => {
+    void replyToMessage(messageId);
+  };
+
   const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
   if (!contentProps) {
     return null;
   }
-  const { direction, isDeleted } = contentProps;
+  const { direction, isDeleted, hasAttachments, isTrustedForAttachmentDownload } = contentProps;
   const isIncoming = direction === 'incoming';
 
   return (
@@ -71,6 +61,8 @@ export const MessageContentWithStatuses = (props: Props) => {
       className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
+      onDoubleClick={onDoubleClickReplyToMessage}
+      style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
       <div>

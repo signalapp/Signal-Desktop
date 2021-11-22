@@ -162,7 +162,7 @@ export const SessionJoinableRooms = (props: { onRoomClicked: () => void }) => {
 
   if (!joinableRooms.inProgress && !joinableRooms.rooms?.length) {
     window?.log?.info('no default joinable rooms yet and not in progress');
-    return <></>;
+    return null;
   }
 
   const componentToRender = joinableRooms.inProgress ? (

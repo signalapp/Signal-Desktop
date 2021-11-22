@@ -31,7 +31,16 @@ const SpacerStyled = styled.div<SpacerProps>`
     props.size === 'lg'
       ? 'var(--margins-lg)'
       : props.size === 'md'
-      ? 'var(--margins-nd)'
+      ? 'var(--margins-md)'
+      : props.size === 'sm'
+      ? 'var(--margins-sm)'
+      : 'var(--margins-xs)'};
+
+  width: ${props =>
+    props.size === 'lg'
+      ? 'var(--margins-lg)'
+      : props.size === 'md'
+      ? 'var(--margins-md)'
       : props.size === 'sm'
       ? 'var(--margins-sm)'
       : 'var(--margins-xs)'};

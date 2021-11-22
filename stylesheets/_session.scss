@@ -313,11 +313,16 @@ textarea {
 
 .module-message--incoming {
   margin-inline-start: 0;
-  margin-inline-end: 10px;
+  margin-inline-end: auto;
 }
 .module-message--outgoing {
   margin-inline-end: 0;
-  margin-inline-start: 10px;
+  margin-inline-start: auto;
+}
+
+pre {
+  backdrop-filter: brightness(0.8);
+  padding: $session-margin-xs;
 }
 
 .module-message__container {
@@ -326,7 +331,7 @@ textarea {
   overflow: hidden;
   min-width: 30px;
   // To limit messages with things forcing them wider, like long attachment names
-  max-width: 300px;
+  max-width: calc(100vw - 380px - 100px);
   align-items: center;
 }
 label {
@@ -729,6 +734,8 @@ label {
   display: flex;
   justify-content: center;
 
+  background: white;
+  padding: 0.5rem;
   svg {
     width: 135px;
     height: 135px;

@@ -133,7 +133,7 @@ interface IconButtonProps {
 }
 
 const IconButton = ({ onClick, type }: IconButtonProps) => {
-  const clickHandler = (_event: React.MouseEvent<HTMLAnchorElement>): void => {
+  const clickHandler = (): void => {
     if (!onClick) {
       return;
     }
@@ -196,12 +196,12 @@ const Icon = ({
 export const LightboxObject = ({
   objectURL,
   contentType,
-  videoRef,
+  renderedRef,
   onObjectClick,
 }: {
   objectURL: string;
   contentType: MIME.MIMEType;
-  videoRef: React.MutableRefObject<any>;
+  renderedRef: React.MutableRefObject<any>;
   onObjectClick: (event: any) => any;
 }) => {
   const { urlToLoad } = useEncryptedFileFetch(objectURL, contentType);
@@ -215,10 +215,10 @@ export const LightboxObject = ({
 
   // auto play video on showing a video attachment
   useUnmount(() => {
-    if (!videoRef?.current) {
+    if (!renderedRef?.current) {
       return;
     }
-    videoRef.current.pause.pause();
+    renderedRef.current.pause.pause();
   });
 
   if (isImageTypeSupported) {
@@ -228,6 +228,7 @@ export const LightboxObject = ({
         onDragStart={onDragStart}
         alt={window.i18n('lightboxImageAlt')}
         src={urlToLoad}
+        ref={renderedRef}
       />
     );
   }
@@ -235,15 +236,15 @@ export const LightboxObject = ({
   const isVideoTypeSupported = GoogleChrome.isVideoTypeSupported(contentType);
   if (isVideoTypeSupported) {
     if (urlToLoad) {
-      if (videoRef?.current?.paused) {
-        void videoRef?.current?.play();
+      if (renderedRef?.current?.paused) {
+        void renderedRef?.current?.play();
       }
     }
 
     return (
       <video
         role="button"
-        ref={videoRef}
+        ref={renderedRef}
         controls={true}
         style={styles.object as any}
         key={urlToLoad}
@@ -268,8 +269,7 @@ export const LightboxObject = ({
 };
 
 export const Lightbox = (props: Props) => {
-  const videoRef = useRef<any>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const renderedRef = useRef<any>(null);
   const dispatch = useDispatch();
   const { caption, contentType, objectURL, onNext, onPrevious, onSave } = props;
 
@@ -279,28 +279,23 @@ export const Lightbox = (props: Props) => {
   };
 
   const onContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (containerRef && event.target !== containerRef.current) {
+    if (renderedRef && event.target === renderedRef.current) {
       return;
     }
     dispatch(showLightBox(undefined));
   };
 
   return (
-    <div style={styles.container as any} role="dialog">
+    <div style={styles.container as any} role="dialog" onClick={onContainerClick}>
       <div style={styles.mainContainer as any}>
         <div style={styles.controlsOffsetPlaceholder} />
-        <div
-          style={styles.objectParentContainer}
-          onClick={onContainerClick}
-          ref={containerRef}
-          role="button"
-        >
+        <div style={styles.objectParentContainer} role="button">
           <div style={styles.objectContainer as any}>
             {!is.undefined(contentType) ? (
               <LightboxObject
                 objectURL={objectURL}
                 contentType={contentType}
-                videoRef={videoRef}
+                renderedRef={renderedRef}
                 onObjectClick={onObjectClick}
               />
             ) : null}

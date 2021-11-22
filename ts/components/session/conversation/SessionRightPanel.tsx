@@ -13,7 +13,7 @@ import {
 } from '../../../data/data';
 import { SpacerLG } from '../../basic/Text';
 import {
-  deleteMessagesByConvoIdWithConfirmation,
+  deleteAllMessagesByConvoIdWithConfirmation,
   setDisappearingMessagesByConvoId,
   showAddModeratorsByConvoId,
   showInviteContactByConvoId,
@@ -249,7 +249,7 @@ export const SessionRightPanelWithDetails = () => {
 
   const deleteConvoAction = isPublic
     ? () => {
-        deleteMessagesByConvoIdWithConfirmation(id);
+        deleteAllMessagesByConvoIdWithConfirmation(id);
       }
     : () => {
         showLeaveGroupByConvoId(id);

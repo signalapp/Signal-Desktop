@@ -21,6 +21,7 @@ import { SyncMessageType } from '../utils/syncUtils';
 import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
+import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -113,7 +114,11 @@ export class MessageQueue {
     if (!message) {
       return;
     }
-    if (!(message instanceof ConfigurationMessage) && !(message as any)?.syncTarget) {
+    if (
+      !(message instanceof ConfigurationMessage) &&
+      !(message instanceof UnsendMessage) &&
+      !(message as any)?.syncTarget
+    ) {
       throw new Error('Invalid message given to sendSyncMessage');
     }
 
@@ -129,8 +134,8 @@ export class MessageQueue {
    */
   public async sendToPubKeyNonDurably(
     user: PubKey,
-    message: ClosedGroupNewMessage
-  ): Promise<boolean> {
+    message: ClosedGroupNewMessage | CallMessage
+  ): Promise<boolean | number> {
     let rawMessage;
     try {
       rawMessage = await MessageUtils.toRawMessage(user, message);
@@ -140,7 +145,7 @@ export class MessageQueue {
         effectiveTimestamp,
         wrappedEnvelope
       );
-      return !!wrappedEnvelope;
+      return effectiveTimestamp;
     } catch (error) {
       if (rawMessage) {
         await MessageSentHandler.handleMessageSentFailure(rawMessage, error);
@@ -225,6 +230,7 @@ export class MessageQueue {
       if (
         message instanceof ConfigurationMessage ||
         message instanceof ClosedGroupNewMessage ||
+        message instanceof UnsendMessage ||
         (message as any).syncTarget?.length > 0
       ) {
         window?.log?.warn('Processing sync message');

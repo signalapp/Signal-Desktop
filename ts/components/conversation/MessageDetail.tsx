@@ -5,13 +5,13 @@ import moment from 'moment';
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
 import { Message } from './Message';
-import { deleteMessagesById } from '../../interactions/conversationInteractions';
 import { useSelector } from 'react-redux';
 import { ContactPropsMessageDetail } from '../../state/ducks/conversations';
 import {
   getMessageDetailsViewProps,
   getMessageIsDeletable,
 } from '../../state/selectors/conversations';
+import { deleteMessagesById } from '../../interactions/conversations/unsendingInteractions';
 
 const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
   const { avatarPath, pubkey, name, profileName } = props.contact;
@@ -26,12 +26,12 @@ const DeleteButtonItem = (props: { messageId: string; convoId: string; isDeletab
   return props.isDeletable ? (
     <div className="module-message-detail__delete-button-container">
       <button
-        onClick={() => {
-          void deleteMessagesById([props.messageId], props.convoId, true);
+        onClick={async () => {
+          await deleteMessagesById([props.messageId], props.convoId);
         }}
         className="module-message-detail__delete-button"
       >
-        {i18n('deleteThisMessage')}
+        {i18n('delete')}
       </button>
     </div>
   ) : null;

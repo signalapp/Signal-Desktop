@@ -1,10 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+// tslint:disable-next-line: no-submodule-imports
+import useKey from 'react-use/lib/useKey';
 import { PropsForDataExtractionNotification, QuoteClickOptions } from '../../../models/messageType';
 import {
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
+  PropsForMissedCallNotification,
 } from '../../../state/ducks/conversations';
 import { getSortedMessagesTypesOfSelectedConversation } from '../../../state/selectors/conversations';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
@@ -12,13 +15,34 @@ import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { Message } from '../../conversation/Message';
 import { MessageDateBreak } from '../../conversation/message/DateBreak';
+import { MissedCallNotification } from '../../conversation/MissedCallNotification';
 import { TimerNotification } from '../../conversation/TimerNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  onPageUpPressed: () => void;
+  onPageDownPressed: () => void;
+  onHomePressed: () => void;
+  onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+
+  useKey('PageUp', () => {
+    props.onPageUpPressed();
+  });
+
+  useKey('PageDown', () => {
+    props.onPageDownPressed();
+  });
+
+  useKey('Home', () => {
+    props.onHomePressed();
+  });
+
+  useKey('End', () => {
+    props.onEndPressed();
+  });
 
   return (
     <>
@@ -60,6 +84,16 @@ export const SessionMessagesList = (props: {
           const msgProps = messageProps.message.props as PropsForExpirationTimer;
 
           return [<TimerNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+        }
+
+        if (messageProps.message?.messageType === 'missed-call-notification') {
+          const msgProps = messageProps.message.props as PropsForMissedCallNotification;
+
+          return [
+            <MissedCallNotification key={messageId} {...msgProps} />,
+            dateBreak,
+            unreadIndicator,
+          ];
         }
 
         if (!messageProps) {

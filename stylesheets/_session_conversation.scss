@@ -78,7 +78,7 @@
   }
 
   .message-selection-overlay .button-group {
-    float: right;
+    display: flex;
   }
 }
 
@@ -115,15 +115,6 @@
 
     border-left: var(--border-session);
     border-top: var(--border-session);
-
-    &__blocking-overlay {
-      background-color: rgba(0, 0, 0, 0.8);
-      position: absolute;
-      top: 0px;
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
-    }
   }
 
   .conversation-info-panel {
@@ -164,6 +155,7 @@
   min-height: min-content;
   background: var(--color-cell-background);
   border-top: var(--border-session);
+  z-index: 1;
 
   .session-icon-button {
     // & > .session-icon-button {
@@ -195,7 +187,9 @@
     align-items: center;
     flex-grow: 1;
     min-height: $composition-container-height;
-    padding: $session-margin-md 0;
+    padding: $session-margin-xs 0;
+    z-index: 1;
+    background-color: inherit;
 
     ul {
       max-height: 70vh;

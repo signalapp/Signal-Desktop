@@ -232,12 +232,19 @@ export class SwarmPolling {
       window?.log?.info(
         `Polled for group(${ed25519Str(pubkey.key)}):, got ${messages.length} messages back.`
       );
+      let lastPolledTimestamp = Date.now();
+      if (messages.length >= 95) {
+        // if we get 95 messages or more back, it means there are probably more than this
+        // so make sure to retry the polling in the next 5sec by marking the last polled timestamp way before that it is really
+        // this is a kind of hack
+        lastPolledTimestamp = Date.now() - SWARM_POLLING_TIMEOUT.INACTIVE - 5 * 1000;
+      }
       // update the last fetched timestamp
       this.groupPolling = this.groupPolling.map(group => {
         if (PubKey.isEqual(pubkey, group.pubkey)) {
           return {
             ...group,
-            lastPolledTimestamp: Date.now(),
+            lastPolledTimestamp,
           };
         }
         return group;
@@ -290,7 +297,7 @@ export class SwarmPolling {
 
           onFailedAttempt: e => {
             window?.log?.warn(
-              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}:`
+              `retrieveNextMessages attempt #${e.attemptNumber} failed. ${e.retriesLeft} retries left... ${e.name}`
             );
           },
         }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayBufferFromFile } from '../../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../../util';
-import { StagedLinkPreviewData } from './SessionCompositionBox';
+import { StagedLinkPreviewData } from './composition/CompositionBox';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { fetchLinkPreviewImage } from '../../../util/linkPreviewFetch';
 import { AbortSignal } from 'abort-controller';
@@ -107,7 +107,7 @@ export const getPreview = async (
 
 export const SessionStagedLinkPreview = (props: StagedLinkPreviewProps) => {
   if (!props.url) {
-    return <></>;
+    return null;
   }
 
   return (

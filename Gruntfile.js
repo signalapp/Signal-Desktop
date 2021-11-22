@@ -5,18 +5,32 @@ const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
 
+const toConcatForApp = [
+  'node_modules/jquery/dist/jquery.js',
+  'node_modules/bytebuffer/dist/bytebuffer.min.js',
+  'node_modules/long/dist/long.js',
+  'components/protobuf/**/*.js',
+  'node_modules/mustache/mustache.js',
+  'node_modules/underscore/underscore.js',
+  'node_modules/backbone/backbone.js',
+];
+
+const toConcatForComponentTextsecure = [
+  'node_modules/long/dist/long.js',
+  'components/protobuf/**/*.js',
+];
+
 module.exports = grunt => {
-  const bower = grunt.file.readJSON('bower.json');
   const components = [];
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.app) {
-    components.push(bower.concat.app[i]);
+  for (const i in toConcatForApp) {
+    components.push(toConcatForApp[i]);
   }
 
   const libtextsecurecomponents = [];
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (const i in bower.concat.libtextsecure) {
-    libtextsecurecomponents.push(bower.concat.libtextsecure[i]);
+  for (const i in toConcatForComponentTextsecure) {
+    libtextsecurecomponents.push(toConcatForComponentTextsecure[i]);
   }
 
   const utilWorkerComponents = [
@@ -58,12 +72,7 @@ module.exports = grunt => {
           'libtextsecure/crypto.js',
           'libtextsecure/storage.js',
           'libtextsecure/storage/user.js',
-          'libtextsecure/storage/groups.js',
           'libtextsecure/helpers.js',
-          'libtextsecure/stringview.js',
-          'libtextsecure/event_target.js',
-          'libtextsecure/http-resources.js',
-          'libtextsecure/message_receiver.js',
         ],
         dest: 'js/libtextsecure.js',
       },

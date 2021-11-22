@@ -64,7 +64,7 @@ const SignInContinueButton = (props: {
   handleContinueYourSessionClick: () => any;
 }) => {
   if (props.signInMode === SignInMode.Default) {
-    return <></>;
+    return null;
   }
   return (
     <ContinueYourSessionButton
@@ -80,7 +80,7 @@ const SignInButtons = (props: {
   onLinkDeviceButtonClicked: () => any;
 }) => {
   if (props.signInMode !== SignInMode.Default) {
-    return <></>;
+    return null;
   }
   return (
     <div>

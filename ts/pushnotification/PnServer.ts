@@ -16,7 +16,10 @@ export async function notifyPnServer(wrappedEnvelope: ArrayBuffer, sentTo: strin
     },
   };
   const endpoint = 'notify';
-  return serverRequest(`${pnServerUrl}/${endpoint}`, options);
+  const ret = await serverRequest(`${pnServerUrl}/${endpoint}`, options);
+  if (!ret) {
+    window?.log?.warn('Push notification server request returned false');
+  }
 }
 
 type ServerRequestOptionsType = {

@@ -18,7 +18,7 @@ import { getMessagesBySentAt } from '../../../data/data';
 import autoBind from 'auto-bind';
 import { ConversationTypeEnum } from '../../../models/conversation';
 import { StateType } from '../../../state/reducer';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import {
   getFirstUnreadMessageId,
   getQuotedMessageToAnimate,
@@ -26,11 +26,37 @@ import {
   getSelectedConversationKey,
   getShowScrollButton,
   getSortedMessagesOfSelectedConversation,
+  isFirstUnreadMessageIdAbove,
 } from '../../../state/selectors/conversations';
 import { SessionMessagesList } from './SessionMessagesList';
+import styled from 'styled-components';
 
 export type SessionMessageListProps = {
-  messageContainerRef: React.RefObject<any>;
+  messageContainerRef: React.RefObject<HTMLDivElement>;
+};
+
+const SessionUnreadAboveIndicator = styled.div`
+  position: sticky;
+  top: 0;
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  background: var(--color-sent-message-background);
+  color: var(--color-sent-message-text);
+`;
+
+const UnreadAboveIndicator = () => {
+  const isFirstUnreadAbove = useSelector(isFirstUnreadMessageIdAbove);
+  const firstUnreadMessageId = useSelector(getFirstUnreadMessageId) as string;
+
+  if (!isFirstUnreadAbove) {
+    return null;
+  }
+  return (
+    <SessionUnreadAboveIndicator key={`above-unread-indicator-${firstUnreadMessageId}`}>
+      {window.i18n('latestUnreadIsAbove')}
+    </SessionUnreadAboveIndicator>
+  );
 };
 
 type Props = SessionMessageListProps & {
@@ -82,7 +108,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     const newFirstMesssageId = this.props.messagesProps[0]?.propsForMessage.id;
     const messageAddedWasMoreRecentOne = prevFirstMesssageId !== newFirstMesssageId;
 
-    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength) {
+    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength && currentRef) {
       if (messageAddedWasMoreRecentOne) {
         if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
           // consider that we were scrolled to bottom
@@ -105,13 +131,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   public getSnapshotBeforeUpdate() {
     const messageContainer = this.props.messageContainerRef.current;
 
-    const scrollTop = messageContainer.scrollTop;
-    const scrollHeight = messageContainer.scrollHeight;
+    const scrollTop = messageContainer?.scrollTop || undefined;
+    const scrollHeight = messageContainer?.scrollHeight || undefined;
 
     // as we use column-reverse for displaying message list
     // the top is < 0
     // tslint:disable-next-line: restrict-plus-operands
-    const realScrollTop = scrollHeight + scrollTop;
+    const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
     return {
       realScrollTop,
       fakeScrollTop: scrollTop,
@@ -139,6 +165,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
       >
+        <UnreadAboveIndicator />
+
         <TypingBubble
           pubkey={conversationKey}
           conversationType={conversation.type}
@@ -147,7 +175,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList scrollToQuoteMessage={this.scrollToQuoteMessage} />
+        <SessionMessagesList
+          scrollToQuoteMessage={this.scrollToQuoteMessage}
+          onPageDownPressed={this.scrollPgDown}
+          onPageUpPressed={this.scrollPgUp}
+          onHomePressed={this.scrollTop}
+          onEndPressed={this.scrollEnd}
+        />
 
         <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
       </div>
@@ -237,6 +271,48 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
     messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+  }
+
+  private scrollPgUp() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+    messageContainer.scrollBy({
+      top: Math.floor(-messageContainer.clientHeight * 2) / 3,
+      behavior: 'smooth',
+    });
+  }
+
+  private scrollPgDown() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    // tslint:disable-next-line: restrict-plus-operands
+    messageContainer.scrollBy({
+      top: Math.floor(+messageContainer.clientHeight * 2) / 3,
+      behavior: 'smooth',
+    });
+  }
+
+  private scrollTop() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, -messageContainer.scrollHeight);
+  }
+
+  private scrollEnd() {
+    const messageContainer = this.props.messageContainerRef.current;
+    if (!messageContainer) {
+      return;
+    }
+
+    messageContainer.scrollTo(0, 0);
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {

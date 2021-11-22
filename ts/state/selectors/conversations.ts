@@ -21,7 +21,7 @@ import {
   ConversationHeaderTitleProps,
 } from '../../components/conversation/ConversationHeader';
 import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/SessionCompositionBox';
+import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
 import { MessageAvatarSelectorProps } from '../../components/conversation/message/MessageAvatar';
@@ -50,6 +50,15 @@ export const getConversationsCount = createSelector(getConversationLookup, (stat
   return Object.values(state).length;
 });
 
+export const getBlockedPubkeys = createSelector(
+  // make sure to extends this selector to we are rerun on conversation changes
+  getConversationLookup,
+
+  (_state): Array<string> => {
+    return BlockedNumberController.getBlockedNumbers();
+  }
+);
+
 export const getSelectedConversationKey = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
@@ -66,6 +75,135 @@ export const getSelectedConversation = createSelector(
   }
 );
 
+export const getSelectedConversationIsPublic = createSelector(
+  getSelectedConversation,
+  (state: ReduxConversationType | undefined): boolean => {
+    return state?.isPublic || false;
+  }
+);
+
+const getConversationId = (_whatever: any, id: string) => id;
+
+export const getConversationById = createSelector(
+  getConversations,
+  getConversationId,
+  (
+    state: ConversationsStateType,
+    convoId: string | undefined
+  ): ReduxConversationType | undefined => {
+    return convoId ? state.conversationLookup[convoId] : undefined;
+  }
+);
+
+export const getHasIncomingCallFrom = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | undefined => {
+    const foundEntry = Object.entries(state.conversationLookup).find(
+      ([_convoKey, convo]) => convo.callState === 'incoming'
+    );
+
+    if (!foundEntry) {
+      return undefined;
+    }
+    return foundEntry[1].id;
+  }
+);
+
+export const getHasOngoingCallWith = createSelector(
+  getConversations,
+  (state: ConversationsStateType): ReduxConversationType | undefined => {
+    const foundEntry = Object.entries(state.conversationLookup).find(
+      ([_convoKey, convo]) =>
+        convo.callState === 'connecting' ||
+        convo.callState === 'offering' ||
+        convo.callState === 'ongoing'
+    );
+
+    if (!foundEntry) {
+      return undefined;
+    }
+    return foundEntry[1];
+  }
+);
+
+export const getHasIncomingCall = createSelector(
+  getHasIncomingCallFrom,
+  (withConvo: string | undefined): boolean => !!withConvo
+);
+
+export const getHasOngoingCall = createSelector(
+  getHasOngoingCallWith,
+  (withConvo: ReduxConversationType | undefined): boolean => !!withConvo
+);
+
+export const getHasOngoingCallWithPubkey = createSelector(
+  getHasOngoingCallWith,
+  (withConvo: ReduxConversationType | undefined): string | undefined => withConvo?.id
+);
+
+export const getHasOngoingCallWithFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey === selectedPubkey;
+  }
+);
+
+export const getHasOngoingCallWithFocusedConvoIsOffering = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'offering';
+
+    return Boolean(isOffering);
+  }
+);
+
+export const getHasOngoingCallWithFocusedConvosIsConnecting = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const isOffering = state.conversationLookup[selectedConvoPubkey]?.callState === 'connecting';
+
+    return Boolean(isOffering);
+  }
+);
+
+export const getHasOngoingCallWithNonFocusedConvo = createSelector(
+  getHasOngoingCallWithPubkey,
+  getSelectedConversationKey,
+  (withPubkey, selectedPubkey) => {
+    return withPubkey && withPubkey !== selectedPubkey;
+  }
+);
+
+export const getCallIsInFullScreen = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.callIsInFullScreen
+);
+
+export const getIsTypingEnabled = createSelector(
+  getConversations,
+  getSelectedConversationKey,
+  (state: ConversationsStateType, selectedConvoPubkey?: string): boolean => {
+    if (!selectedConvoPubkey) {
+      return false;
+    }
+    const selectedConvo = state.conversationLookup[selectedConvoPubkey];
+    if (!selectedConvo) {
+      return false;
+    }
+    const { isBlocked, isKickedFromGroup, left } = selectedConvo;
+
+    return !(isBlocked || isKickedFromGroup || left);
+  }
+);
 /**
  * Returns true if the current conversation selected is a group conversation.
  * Returns false if the current conversation selected is not a group conversation, or none are selected
@@ -143,7 +281,8 @@ export type MessagePropsType =
   | 'data-extraction'
   | 'timer-notification'
   | 'regular-message'
-  | 'unread-indicator';
+  | 'unread-indicator'
+  | 'missed-call-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -206,6 +345,20 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           message: {
             messageType: 'timer-notification',
             props: { ...msg.propsForTimerNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForMissedCall) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'missed-call-notification',
+            props: {
+              ...msg.propsForMissedCall,
+              messageId: msg.propsForMessage.id,
+            },
           },
         };
       }
@@ -457,6 +610,20 @@ export const getConversationHeaderProps = createSelector(getSelectedConversation
   };
 });
 
+export const getIsSelectedPrivate = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isPrivate || false;
+  }
+);
+
+export const getIsSelectedNoteToSelf = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isMe || false;
+  }
+);
+
 export const getNumberOfPinnedConversations = createSelector(getConversations, (state): number => {
   const values = Object.values(state.conversationLookup);
   return values.filter(conversation => conversation.isPinned).length;
@@ -662,11 +829,18 @@ export const getMessagePropsByMessageId = createSelector(
 
     const groupAdmins = (isGroup && foundMessageConversation.groupAdmins) || [];
     const weAreAdmin = groupAdmins.includes(ourPubkey) || false;
-    // a message is deletable if
+    // A message is deletable if
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
     // or the convo is public and we are an admin
     const isDeletable = authorPhoneNumber === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+
+    // A message is deletable for everyone if
+    // either we sent it no matter what the conversation type,
+    // or the convo is public and we are an admin
+    const isDeletableForEveryone =
+      authorPhoneNumber === ourPubkey || (isPublic && !!weAreAdmin) || false;
+
     const isSenderAdmin = groupAdmins.includes(authorPhoneNumber);
     const senderIsUs = authorPhoneNumber === ourPubkey;
 
@@ -682,6 +856,7 @@ export const getMessagePropsByMessageId = createSelector(
         isOpenGroupV2: !!isPublic,
         isSenderAdmin,
         isDeletable,
+        isDeletableForEveryone,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
         authorPhoneNumber,
@@ -825,6 +1000,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
     serverTimestamp,
     timestamp,
     isBlocked,
+    isDeletableForEveryone,
   } = props.propsForMessage;
 
   const msgProps: MessageContextMenuSelectorProps = {
@@ -842,6 +1018,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
     serverTimestamp,
     timestamp,
     isBlocked,
+    isDeletableForEveryone,
   };
 
   return msgProps;
@@ -962,11 +1139,18 @@ export const getMessageContentWithStatusesSelectorProps = createSelector(
       return undefined;
     }
 
-    const { direction, isDeleted } = props.propsForMessage;
+    const {
+      direction,
+      isDeleted,
+      attachments,
+      isTrustedForAttachmentDownload,
+    } = props.propsForMessage;
 
     const msgProps: MessageContentWithStatusSelectorProps = {
       direction,
       isDeleted,
+      hasAttachments: Boolean(attachments?.length) || false,
+      isTrustedForAttachmentDownload,
     };
 
     return msgProps;

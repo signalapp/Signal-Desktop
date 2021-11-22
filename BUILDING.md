@@ -59,7 +59,8 @@ Once nvm is installed, just run `nvm install` to install the version from the `.
 Here are the steps to build the app for Linux:
 
 ```
-sudo apt-get install python2
+sudo apt-get install python2 git-lfs
+git lfs install
 # install nvm by following their github README
 nvm install # install the current node version used in this project
 nvm use # use the current node version used in this project
@@ -87,9 +88,9 @@ npm config set msvs_version 2015
 <details>
 <summary>Mac</summary>
 
-If you are going to distribute the binary then make sure you have a `Developer ID Application` certificate in your keychain.
+If you are going (and only if) to distribute the binary then make sure you have a `Developer ID Application` certificate in your keychain.
 
-You will then need to generate an [app specific password](https://support.apple.com/HT204397) for your Apple ID.
+You will also need to generate an [app specific password](https://support.apple.com/HT204397) for your Apple ID.
 
 Then run the following to export the variables
 
@@ -97,6 +98,26 @@ Then run the following to export the variables
 export SIGNING_APPLE_ID=<your apple id>
 export SIGNING_APP_PASSWORD=<your app specific password>
 export SIGNING_TEAM_ID=<your team id if applicable>
+```
+
+Then, to just generate the files and build the app do
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash # install nvm
+
+
+# the script above prints  at the end a few lines you have to run in your terminal
+
+https://git-lfs.github.com/ # visit this page, download and install git-lfs
+
+git lfs install # once git lfs is installed, you have to run this command too
+
+nvm install # install the current node version used in this project
+nvm use # use the current node version used in this project
+npm install -g yarn # install yarn globally for this node version
+yarn install --frozen-lockfile # install all dependecies of this project
+yarn grunt # transpile and assemble files
+yarn start-prod # start the app on production mode (currently this is the only one supported)
 ```
 
 </details>

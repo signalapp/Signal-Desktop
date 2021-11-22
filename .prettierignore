@@ -32,8 +32,7 @@ js/util_worker.js
 libtextsecure/test/blanket_mocha.js
 mnemonic_languages/**
 
-# Managed by package manager (`bower` and `yarn`/`npm`):
-/bower.json
+# Managed by package manager (`yarn`/`npm`):
 /package.json
 
 # Symlink into third-party `components`:

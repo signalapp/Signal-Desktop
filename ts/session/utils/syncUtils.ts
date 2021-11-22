@@ -28,6 +28,7 @@ import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessag
 import { getV2OpenGroupRoom } from '../../data/opengroups';
 import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
+import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 
 const ITEM_ID_LAST_SYNC_TIMESTAMP = 'lastSyncedTimestamp';
 
@@ -305,7 +306,11 @@ const buildSyncExpireTimerMessage = (
   });
 };
 
-export type SyncMessageType = VisibleMessage | ExpirationTimerUpdateMessage | ConfigurationMessage;
+export type SyncMessageType =
+  | VisibleMessage
+  | ExpirationTimerUpdateMessage
+  | ConfigurationMessage
+  | UnsendMessage;
 
 export const buildSyncMessage = (
   identifier: string,

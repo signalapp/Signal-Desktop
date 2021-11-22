@@ -14,7 +14,13 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
+  getHasIncomingCall,
+  getHasOngoingCall,
+  getIsSelectedNoteToSelf,
+  getIsSelectedPrivate,
   getSelectedConversation,
+  getSelectedConversationIsPublic,
+  getSelectedConversationKey,
   getSelectedMessageIds,
   isMessageDetailView,
   isMessageSelectionMode,
@@ -23,13 +29,17 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 
-import { deleteMessagesById } from '../../interactions/conversationInteractions';
+import {
+  deleteMessagesById,
+  deleteMessagesByIdForEveryone,
+} from '../../interactions/conversations/unsendingInteractions';
 import {
   closeMessageDetailsView,
   closeRightPanel,
   openRightPanel,
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
+import { callRecipient } from '../../interactions/conversationInteractions';
 
 export interface TimerOption {
   name: string;
@@ -67,16 +77,32 @@ export type ConversationHeaderProps = {
   left: boolean;
 };
 
-const SelectionOverlay = (props: {
-  onDeleteSelectedMessages: () => void;
-  onCloseOverlay: () => void;
-  isPublic: boolean;
-}) => {
-  const { onDeleteSelectedMessages, onCloseOverlay, isPublic } = props;
+const SelectionOverlay = () => {
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
+  const selectedConversationKey = useSelector(getSelectedConversationKey);
+  const isPublic = useSelector(getSelectedConversationIsPublic);
+  const dispatch = useDispatch();
+
   const { i18n } = window;
 
-  const isServerDeletable = isPublic;
-  const deleteMessageButtonText = i18n(isServerDeletable ? 'deleteForEveryone' : 'delete');
+  function onCloseOverlay() {
+    dispatch(resetSelectedMessageIds());
+  }
+
+  function onDeleteSelectedMessages() {
+    if (selectedConversationKey) {
+      void deleteMessagesById(selectedMessageIds, selectedConversationKey);
+    }
+  }
+  function onDeleteSelectedMessagesForEveryone() {
+    if (selectedConversationKey) {
+      void deleteMessagesByIdForEveryone(selectedMessageIds, selectedConversationKey);
+    }
+  }
+
+  const isOnlyServerDeletable = isPublic;
+  const deleteMessageButtonText = i18n('delete');
+  const deleteForEveroneMessageButtonText = i18n('deleteForEveryone');
 
   return (
     <div className="message-selection-overlay">
@@ -85,11 +111,19 @@ const SelectionOverlay = (props: {
       </div>
 
       <div className="button-group">
+        {!isOnlyServerDeletable && (
+          <SessionButton
+            buttonType={SessionButtonType.Default}
+            buttonColor={SessionButtonColor.Danger}
+            text={deleteMessageButtonText}
+            onClick={onDeleteSelectedMessages}
+          />
+        )}
         <SessionButton
           buttonType={SessionButtonType.Default}
           buttonColor={SessionButtonColor.Danger}
-          text={deleteMessageButtonText}
-          onClick={onDeleteSelectedMessages}
+          text={deleteForEveroneMessageButtonText}
+          onClick={onDeleteSelectedMessagesForEveryone}
         />
       </div>
     </div>
@@ -99,7 +133,7 @@ const SelectionOverlay = (props: {
 const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) => {
   const { showBackButton } = props;
   if (showBackButton) {
-    return <></>;
+    return null;
   }
   return (
     <div
@@ -170,6 +204,32 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 
   return (
     <SessionIconButton iconType="chevron" iconSize={'large'} iconRotation={90} onClick={onGoBack} />
+  );
+};
+
+const CallButton = () => {
+  const isPrivate = useSelector(getIsSelectedPrivate);
+  const isMe = useSelector(getIsSelectedNoteToSelf);
+  const selectedConvoKey = useSelector(getSelectedConversationKey);
+
+  const hasIncomingCall = useSelector(getHasIncomingCall);
+  const hasOngoingCall = useSelector(getHasOngoingCall);
+  const canCall = !(hasIncomingCall || hasOngoingCall);
+
+  if (!isPrivate || isMe || !selectedConvoKey) {
+    return null;
+  }
+
+  return (
+    <SessionIconButton
+      iconType="phone"
+      iconSize="large"
+      iconPadding="2px"
+      margin="0 10px 0 0"
+      onClick={() => {
+        void callRecipient(selectedConvoKey, canCall);
+      }}
+    />
   );
 };
 
@@ -285,7 +345,6 @@ export const ConversationHeaderWithDetails = () => {
   const headerProps = useSelector(getConversationHeaderProps);
 
   const isSelectionMode = useSelector(isMessageSelectionMode);
-  const selectedMessageIds = useSelector(getSelectedMessageIds);
   const selectedConversation = useSelector(getSelectedConversation);
   const memberDetails = useMembersAvatars(selectedConversation);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
@@ -334,17 +393,20 @@ export const ConversationHeaderWithDetails = () => {
         {!isKickedFromGroup && <ExpirationLength expirationSettingName={expirationSettingName} />}
 
         {!isSelectionMode && (
-          <AvatarHeader
-            onAvatarClick={() => {
-              dispatch(openRightPanel());
-            }}
-            pubkey={conversationKey}
-            showBackButton={isMessageDetailOpened}
-            avatarPath={avatarPath}
-            memberAvatars={memberDetails}
-            name={name}
-            profileName={profileName}
-          />
+          <>
+            <CallButton />
+            <AvatarHeader
+              onAvatarClick={() => {
+                dispatch(openRightPanel());
+              }}
+              pubkey={conversationKey}
+              showBackButton={isMessageDetailOpened}
+              avatarPath={avatarPath}
+              memberAvatars={memberDetails}
+              name={name}
+              profileName={profileName}
+            />
+          </>
         )}
 
         <MemoConversationHeaderMenu
@@ -360,18 +422,13 @@ export const ConversationHeaderWithDetails = () => {
           left={left}
           hasNickname={hasNickname}
           currentNotificationSetting={currentNotificationSetting}
+          avatarPath={avatarPath}
+          name={name}
+          profileName={profileName}
         />
       </div>
 
-      {isSelectionMode && (
-        <SelectionOverlay
-          isPublic={isPublic}
-          onCloseOverlay={() => dispatch(resetSelectedMessageIds())}
-          onDeleteSelectedMessages={() => {
-            void deleteMessagesById(selectedMessageIds, conversationKey, true);
-          }}
-        />
-      )}
+      {isSelectionMode && <SelectionOverlay />}
     </div>
   );
 };
