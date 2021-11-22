@@ -25,7 +25,10 @@ import { PnServer } from '../../pushnotification';
 import { setIsRinging } from './RingingManager';
 
 export type InputItem = { deviceId: string; label: string };
+// tslint:disable: function-name
 
+const maxWidth = 1920;
+const maxHeight = 1080;
 /**
  * This uuid is set only once we accepted a call or started one.
  */
@@ -166,6 +169,28 @@ if (typeof navigator !== 'undefined') {
   });
 }
 
+const silence = () => {
+  const ctx = new AudioContext();
+  const oscillator = ctx.createOscillator();
+  const dst = oscillator.connect(ctx.createMediaStreamDestination());
+  oscillator.start();
+  return Object.assign((dst as any).stream.getAudioTracks()[0], { enabled: false });
+};
+
+const black = () => {
+  const canvas = Object.assign(document.createElement('canvas'), {
+    width: maxWidth,
+    height: maxHeight,
+  });
+  canvas.getContext('2d')?.fillRect(0, 0, maxWidth, maxHeight);
+  const stream = (canvas as any).captureStream();
+  return Object.assign(stream.getVideoTracks()[0], { enabled: false });
+};
+
+const getBlackSilenceMediaStream = () => {
+  return new MediaStream([black(), silence()]);
+};
+
 async function updateConnectedDevices() {
   // Get the set of cameras connected
   const videoCameras = await getConnectedDevices('videoinput');
@@ -219,6 +244,14 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+
+    // do the same changes locally
+    localStream?.getVideoTracks().forEach(t => {
+      t.stop();
+      localStream?.removeTrack(t);
+    });
+    localStream?.addTrack(getBlackSilenceMediaStream().getVideoTracks()[0]);
+
     sendVideoStatusViaDataChannel();
     callVideoListeners();
     return;
@@ -235,24 +268,23 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     try {
       const newVideoStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
       const videoTrack = newVideoStream.getVideoTracks()[0];
+
       if (!peerConnection) {
         throw new Error('cannot selectCameraByDeviceId without a peer connection');
       }
 
-      // video might be completely off on start. adding a track like this triggers a negotationneeded event
-      window.log.info('adding/replacing video track');
-      const sender = peerConnection.getSenders().find(s => {
-        return s.track?.kind === videoTrack.kind;
-      });
+      window.log.info('replacing video track');
+      const videoSender = peerConnection
+        .getTransceivers()
+        .find(t => t.sender.track?.kind === 'video')?.sender;
 
       videoTrack.enabled = true;
-      if (sender) {
-        // this should not trigger a negotationneeded event
-        // and it is needed for when the video cam was never turn on
-        await sender.replaceTrack(videoTrack);
+      if (videoSender) {
+        await videoSender.replaceTrack(videoTrack);
       } else {
-        // this will trigger a negotiationeeded event
-        peerConnection.addTrack(videoTrack, newVideoStream);
+        throw new Error(
+          'We should always have a videoSender as we are using a black video when no camera are in use'
+        );
       }
 
       // do the same changes locally
@@ -266,6 +298,7 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
       callVideoListeners();
     } catch (e) {
       window.log.warn('selectCameraByDeviceId failed with', e.message);
+      ToastUtils.pushToastError('selectCamera', e.message);
       callVideoListeners();
     }
   }
@@ -281,6 +314,12 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+    // do the same changes locally
+    localStream?.getAudioTracks().forEach(t => {
+      t.stop();
+      localStream?.removeTrack(t);
+    });
+    localStream?.addTrack(getBlackSilenceMediaStream().getAudioTracks()[0]);
     callVideoListeners();
     return;
   }
@@ -295,6 +334,7 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
 
     try {
       const newAudioStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
+
       const audioTrack = newAudioStream.getAudioTracks()[0];
       if (!peerConnection) {
         throw new Error('cannot selectAudioInputByDeviceId without a peer connection');
@@ -331,18 +371,15 @@ export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
   }
 }
 
-async function handleNegotiationNeededEvent(recipient: string) {
+async function createOfferAndSendIt(recipient: string) {
   try {
     makingOffer = true;
-    window.log.info('got handleNegotiationNeeded event. creating offer');
-    const offer = await peerConnection?.createOffer({
-      offerToReceiveAudio: true,
-      offerToReceiveVideo: true,
-    });
+    window.log.info('got createOfferAndSendIt event. creating offer');
+    await (peerConnection as any)?.setLocalDescription();
+    const offer = peerConnection?.localDescription;
     if (!offer) {
       throw new Error('Could not create an offer');
     }
-    await peerConnection?.setLocalDescription(offer);
 
     if (!currentCallUUID) {
       window.log.warn('cannot send offer without a currentCallUUID');
@@ -357,18 +394,18 @@ async function handleNegotiationNeededEvent(recipient: string) {
         uuid: currentCallUUID,
       });
 
-      window.log.info(`sending OFFER MESSAGE with callUUID: ${currentCallUUID}`);
-      const negotationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
+      window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
+      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
         PubKey.cast(recipient),
         offerMessage
       );
-      if (typeof negotationOfferSendResult === 'number') {
+      if (typeof negotiationOfferSendResult === 'number') {
         // window.log?.warn('setting last sent timestamp');
-        lastOutgoingOfferTimestamp = negotationOfferSendResult;
+        lastOutgoingOfferTimestamp = negotiationOfferSendResult;
       }
     }
   } catch (err) {
-    window.log?.error(`Error on handling negotiation needed ${err}`);
+    window.log?.error(`Error createOfferAndSendIt ${err}`);
   } finally {
     makingOffer = false;
   }
@@ -390,23 +427,13 @@ async function openMediaDevicesAndAddTracks() {
       return;
     }
 
-    selectedAudioInputId = audioInputsList[0].deviceId;
+    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; //audioInputsList[0].deviceId;
     selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
     window.log.info(
       `openMediaDevices videoDevice:${selectedCameraId} audioDevice:${selectedAudioInputId}`
     );
 
-    const devicesConfig = {
-      audio: {
-        deviceId: { exact: selectedAudioInputId },
-
-        echoCancellation: true,
-      },
-      // we don't need a video stream on start
-      video: false,
-    };
-
-    localStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
+    localStream = getBlackSilenceMediaStream();
     localStream.getTracks().map(track => {
       if (localStream) {
         peerConnection?.addTrack(track, localStream);
@@ -420,7 +447,6 @@ async function openMediaDevicesAndAddTracks() {
   callVideoListeners();
 }
 
-// tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
   if (!getCallMediaPermissionsSettings()) {
     ToastUtils.pushVideoCallPermissionNeeded();
@@ -457,6 +483,7 @@ export async function USER_callRecipient(recipient: string) {
 
   await openMediaDevicesAndAddTracks();
   setIsRinging(true);
+  await createOfferAndSendIt(recipient);
 }
 
 const iceCandidates: Array<RTCIceCandidate> = new Array();
@@ -579,7 +606,6 @@ function closeVideoCall() {
   window.inboxStore?.dispatch(endCall());
 
   remoteVideoStreamIsMuted = true;
-  timestampAcceptedCall = undefined;
 
   makingOffer = false;
   ignoreOffer = false;
@@ -626,7 +652,7 @@ function onDataChannelOnOpen() {
   sendVideoStatusViaDataChannel();
 }
 
-function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) {
+function createOrGetPeerConnection(withPubkey: string) {
   if (peerConnection) {
     return peerConnection;
   }
@@ -640,21 +666,7 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
 
   dataChannel.onmessage = onDataChannelReceivedMessage;
   dataChannel.onopen = onDataChannelOnOpen;
-
-  peerConnection.onnegotiationneeded = async () => {
-    const shouldTriggerAnotherNeg =
-      isAcceptingCall && timestampAcceptedCall && Date.now() - timestampAcceptedCall > 1000;
-    if (!isAcceptingCall || shouldTriggerAnotherNeg) {
-      await handleNegotiationNeededEvent(withPubkey);
-    } else {
-      window.log.info(
-        'should negotaite again but we accepted the call recently, so swallowing this one'
-      );
-    }
-  };
-
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
-
   peerConnection.ontrack = event => {
     event.track.onunmute = () => {
       remoteStream?.addTrack(event.track);
@@ -694,9 +706,6 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
   return peerConnection;
 }
 
-let timestampAcceptedCall: number | undefined;
-
-// tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.log.info('USER_acceptIncomingCallRequest');
   setIsRinging(false);
@@ -730,8 +739,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   currentCallUUID = lastOfferMessage.uuid;
 
-  timestampAcceptedCall = Date.now();
-  peerConnection = createOrGetPeerConnection(fromSender, true);
+  peerConnection = createOrGetPeerConnection(fromSender);
 
   await openMediaDevicesAndAddTracks();
 
@@ -783,7 +791,6 @@ export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUI
   clearCallCacheFromPubkeyAndUUID(fromSender, forcedUUID);
 }
 
-// tslint:disable-next-line: function-name
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
   setIsRinging(false);
   // close the popup call
@@ -822,7 +829,6 @@ async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
   ]);
 }
 
-// tslint:disable-next-line: function-name
 export async function USER_hangup(fromSender: string) {
   window.log.info('USER_hangup');
 
@@ -889,16 +895,12 @@ async function buildAnswerAndSendIt(sender: string) {
       window.log.warn('cannot send answer without a currentCallUUID');
       return;
     }
-
-    const answer = await peerConnection.createAnswer({
-      offerToReceiveAudio: true,
-      offerToReceiveVideo: true,
-    });
+    await (peerConnection as any).setLocalDescription();
+    const answer = peerConnection.localDescription;
     if (!answer?.sdp || answer.sdp.length === 0) {
       window.log.warn('failed to create answer');
       return;
     }
-    await peerConnection.setLocalDescription(answer);
     const answerSdp = answer.sdp;
     const callAnswerMessage = new CallMessage({
       timestamp: Date.now(),
@@ -955,25 +957,26 @@ export async function handleCallTypeOffer(
       !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
     const polite = lastOutgoingOfferTimestamp < incomingOfferTimestamp;
     const offerCollision = !readyForOffer;
-
     ignoreOffer = !polite && offerCollision;
+
     if (ignoreOffer) {
       window.log?.warn('Received offer when unready for offer; Ignoring offer.');
       return;
     }
 
-    if (remoteCallUUID === currentCallUUID && currentCallUUID) {
+    if (peerConnection && remoteCallUUID === currentCallUUID && currentCallUUID) {
       window.log.info('Got a new offer message from our ongoing call');
-      isSettingRemoteAnswerPending = false;
-      const remoteDesc = new RTCSessionDescription({
+
+      const remoteOfferDesc = new RTCSessionDescription({
         type: 'offer',
         sdp: callMessage.sdps[0],
       });
       isSettingRemoteAnswerPending = false;
-      if (peerConnection) {
-        await peerConnection.setRemoteDescription(remoteDesc); // SRD rolls back as needed
-        await buildAnswerAndSendIt(sender);
-      }
+
+      await peerConnection.setRemoteDescription(remoteOfferDesc); // SRD rolls back as needed
+      isSettingRemoteAnswerPending = false;
+
+      await buildAnswerAndSendIt(sender);
     } else {
       window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
@@ -1103,19 +1106,21 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
       pubkey: sender,
     })
   );
-  const remoteDesc = new RTCSessionDescription({
-    type: 'answer',
-    sdp: callMessage.sdps[0],
-  });
 
-  // window.log?.info('Setting remote answer pending');
-  isSettingRemoteAnswerPending = true;
   try {
+    isSettingRemoteAnswerPending = true;
+
+    const remoteDesc = new RTCSessionDescription({
+      type: 'answer',
+      sdp: callMessage.sdps[0],
+    });
+
     await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
   } catch (e) {
-    window.log.warn('setRemoteDescription failed:', e);
+    window.log.warn('setRemoteDescriptio failed:', e);
+  } finally {
+    isSettingRemoteAnswerPending = false;
   }
-  isSettingRemoteAnswerPending = false;
 }
 
 export async function handleCallTypeIceCandidates(

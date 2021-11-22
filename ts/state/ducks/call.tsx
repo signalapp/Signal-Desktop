@@ -92,6 +92,7 @@ const callSlice = createSlice({
       // only set in full screen if we have an ongoing call
       if (state.ongoingWith && state.ongoingCallStatus === 'ongoing' && action.payload) {
         state.callIsInFullScreen = true;
+        return state;
       }
       state.callIsInFullScreen = false;
       return state;
