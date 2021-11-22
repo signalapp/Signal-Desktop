@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import _ from 'underscore';
 import { UserUtils } from '../../../session/utils';
 import {
+  getCallIsInFullScreen,
   getHasOngoingCallWith,
   getHasOngoingCallWithFocusedConvo,
   getHasOngoingCallWithFocusedConvoIsOffering,
@@ -119,6 +120,8 @@ export const VideoLoadingSpinner = (props: { fullWidth: boolean }) => {
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
 
+  const isInFullScreen = useSelector(getCallIsInFullScreen);
+
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
@@ -158,10 +161,15 @@ export const InConversationCallContainer = () => {
       if (currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID) {
         videoRefRemote.current.muted = true;
       } else {
-        // void videoRefRemote.current.setSinkId(currentSelectedAudioOutput);
+        void (videoRefRemote.current as any)?.setSinkId(currentSelectedAudioOutput);
         videoRefRemote.current.muted = false;
       }
     }
+  }
+
+  if (isInFullScreen && videoRefRemote.current) {
+    // disable this video element so the one in fullscreen is the only one playing audio
+    videoRefRemote.current.muted = true;
   }
 
   if (!ongoingCallWithFocused) {
