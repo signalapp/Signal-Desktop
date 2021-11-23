@@ -429,7 +429,6 @@ export const _getLeftPaneLists = (
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
-  conversationRequests: Array<ReduxConversationType>;
   unreadCount: number;
 } => {
   const values = Object.values(lookup);
@@ -437,7 +436,6 @@ export const _getLeftPaneLists = (
 
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
-  const conversationRequests: Array<ReduxConversationType> = [];
 
   let unreadCount = 0;
   for (let conversation of sorted) {
@@ -459,7 +457,7 @@ export const _getLeftPaneLists = (
     }
 
     let messageRequestsEnabled = false;
-    // TODO: if message requests toggle on and msg requesnt enable
+
     if (window?.inboxStore?.getState()) {
       messageRequestsEnabled =
         window.inboxStore?.getState().userConfig.messageRequests === true &&
@@ -481,12 +479,9 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (messageRequestsEnabled) {
-      if (!conversation.isApproved && !conversation.isBlocked) {
-        // dont increase unread counter, don't push to convo list.
-        conversationRequests.push(conversation);
-        continue;
-      }
+    if (messageRequestsEnabled && !conversation.isApproved && !conversation.isBlocked) {
+      // dont increase unread counter, don't push to convo list.
+      continue;
     }
 
     if (
@@ -504,10 +499,74 @@ export const _getLeftPaneLists = (
   return {
     conversations,
     contacts: directConversations,
-    conversationRequests,
     unreadCount,
   };
 };
+
+export const _getConversationRequests = (
+  lookup: ConversationLookupType,
+  comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
+  selectedConversation?: string
+): Array<ReduxConversationType> => {
+  const values = Object.values(lookup);
+  const sorted = values.sort(comparator);
+
+  const conversationRequests: Array<ReduxConversationType> = [];
+
+  for (let conversation of sorted) {
+    if (selectedConversation === conversation.id) {
+      conversation = {
+        ...conversation,
+        isSelected: true,
+      };
+    }
+
+    const isBlocked =
+      BlockedNumberController.isBlocked(conversation.id) ||
+      BlockedNumberController.isGroupBlocked(conversation.id);
+
+    if (isBlocked) {
+      conversation = {
+        ...conversation,
+        isBlocked: true,
+      };
+    }
+
+    let messageRequestsEnabled = false;
+
+    if (window?.inboxStore?.getState()) {
+      messageRequestsEnabled =
+        window.inboxStore?.getState().userConfig.messageRequests === true &&
+        window.lokiFeatureFlags?.useMessageRequests === true;
+    }
+
+    // Add Open Group to list as soon as the name has been set
+    if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
+      continue;
+    }
+
+    // Remove all invalid conversations and conversatons of devices associated
+    //  with cancelled attempted links
+    if (!conversation.isPublic && !conversation.activeAt) {
+      continue;
+    }
+
+    if (messageRequestsEnabled && !conversation.isApproved && !conversation.isBlocked) {
+      // dont increase unread counter, don't push to convo list.
+      conversationRequests.push(conversation);
+      continue;
+    }
+  }
+
+  return conversationRequests;
+};
+
+export const getConversationRequests = createSelector(
+  getConversationLookup,
+  getConversationComparator,
+  getSelectedConversationKey,
+  _getConversationRequests
+);
 
 export const getLeftPaneLists = createSelector(
   getConversationLookup,

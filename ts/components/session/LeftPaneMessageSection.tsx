@@ -65,8 +65,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   public constructor(props: Props) {
     super(props);
 
-    console.warn('convos updated');
-
     this.state = {
       loading: false,
       overlay: false,

@@ -10,7 +10,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { useSelector } from 'react-redux';
-import { getLeftPaneLists } from '../../state/selectors/conversations';
+import { getConversationRequests } from '../../state/selectors/conversations';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
@@ -295,11 +295,10 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
  * @returns List of message request items
  */
 const MessageRequestList = () => {
-  const lists = useSelector(getLeftPaneLists);
-  const validConversationRequests = lists?.conversationRequests;
+  const conversationRequests = useSelector(getConversationRequests);
   return (
     <div className="message-request-list__container">
-      {validConversationRequests.map(conversation => {
+      {conversationRequests.map(conversation => {
         return <MessageRequestListItem key={conversation.id} conversation={conversation} />;
       })}
     </div>

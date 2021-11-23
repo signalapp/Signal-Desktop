@@ -8,7 +8,7 @@ import { LeftPaneSettingSection } from './session/LeftPaneSettingSection';
 import { SessionTheme } from '../state/ducks/SessionTheme';
 import { getFocusedSection } from '../state/selectors/section';
 import { useSelector } from 'react-redux';
-import { getLeftPaneLists } from '../state/selectors/conversations';
+import { getConversationRequests, getLeftPaneLists } from '../state/selectors/conversations';
 import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
 import { SectionType } from '../state/ducks/section';
 
@@ -29,12 +29,14 @@ const InnerLeftPaneMessageSection = () => {
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
+  const conversationRequests = useSelector(getConversationRequests);
+
   // tslint:disable: use-simple-attributes
   return (
     <LeftPaneMessageSection
       conversations={lists?.conversations || []}
       contacts={lists?.contacts || []}
-      conversationRequests={lists?.conversationRequests}
+      conversationRequests={conversationRequests}
       searchResults={searchResults}
       searchTerm={searchTerm}
     />

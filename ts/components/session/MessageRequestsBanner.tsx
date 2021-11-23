@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getLeftPaneLists } from '../../state/selectors/conversations';
+import { getConversationRequests } from '../../state/selectors/conversations';
 import { SessionIcon, SessionIconSize, SessionIconType } from './icon';
 
 const StyledMessageRequestBanner = styled.div`
@@ -83,9 +83,9 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
 
 export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
-  const convos = useSelector(getLeftPaneLists).conversationRequests;
+  const conversationRequests = useSelector(getConversationRequests);
 
-  if (!convos.length) {
+  if (!conversationRequests.length) {
     return null;
   }
 
@@ -94,7 +94,7 @@ export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
       <CirclularIcon iconType="messageRequest" iconSize="medium" />
       <StyledMessageRequestBannerHeader>Message Requests</StyledMessageRequestBannerHeader>
       <StyledUnreadCounter>
-        <div>{convos.length || 0}</div>
+        <div>{conversationRequests.length || 0}</div>
       </StyledUnreadCounter>
     </StyledMessageRequestBanner>
   );
