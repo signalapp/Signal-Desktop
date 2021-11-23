@@ -473,7 +473,10 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.isLoadingMessages === false
   ),
   items: overrideProps.items || Object.keys(items),
+  loadCountdownStart: undefined,
+  messageHeightChangeIndex: undefined,
   resetCounter: 0,
+  scrollToBottomCounter: 0,
   scrollToIndex: overrideProps.scrollToIndex,
   scrollToIndexCounter: 0,
   totalUnread: number('totalUnread', overrideProps.totalUnread || 0),
@@ -485,6 +488,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   warning: overrideProps.warning,
 
   id: uuid(),
+  isNearBottom: false,
   renderItem,
   renderLastSeenIndicator,
   renderHeroRow,

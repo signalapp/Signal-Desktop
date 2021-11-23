@@ -62,6 +62,7 @@ export type InputApi = {
 
 export type Props = {
   readonly i18n: LocalizerType;
+  readonly conversationId: string;
   readonly disabled?: boolean;
   readonly getPreferredBadge: PreferredBadgeSelectorType;
   readonly large?: boolean;
@@ -87,6 +88,7 @@ export type Props = {
   ): unknown;
   getQuotedMessage(): unknown;
   clearQuotedMessage(): unknown;
+  scrollToBottom: (converstionId: string) => unknown;
 };
 
 const MAX_LENGTH = 64 * 1024;
@@ -95,6 +97,7 @@ const BASE_CLASS_NAME = 'module-composition-input';
 export function CompositionInput(props: Props): React.ReactElement {
   const {
     i18n,
+    conversationId,
     disabled,
     large,
     inputApi,
@@ -107,6 +110,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     getPreferredBadge,
     getQuotedMessage,
     clearQuotedMessage,
+    scrollToBottom,
     sortedGroupMembers,
     theme,
   } = props;
@@ -237,6 +241,7 @@ export function CompositionInput(props: Props): React.ReactElement {
       `CompositionInput: Submitting message ${timestamp} with ${mentions.length} mentions`
     );
     onSubmit(text, mentions, timestamp);
+    scrollToBottom(conversationId);
   };
 
   if (inputApi) {

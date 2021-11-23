@@ -78,13 +78,14 @@ export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
   isLoadingMessages: boolean;
-  isNearBottom?: boolean;
+  isNearBottom: boolean;
   items: ReadonlyArray<string>;
-  loadCountdownStart?: number;
-  messageHeightChangeIndex?: number;
-  oldestUnreadIndex?: number;
+  loadCountdownStart: number | undefined;
+  messageHeightChangeIndex: number | undefined;
+  oldestUnreadIndex: number | undefined;
   resetCounter: number;
-  scrollToIndex?: number;
+  scrollToBottomCounter: number;
+  scrollToIndex: number | undefined;
   scrollToIndexCounter: number;
   totalUnread: number;
 };
@@ -959,7 +960,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.scrollDown(false);
   };
 
-  public scrollDown = (setFocus?: boolean): void => {
+  public scrollDown = (setFocus?: boolean, forceScrollDown?: boolean): void => {
     const {
       haveNewest,
       id,
@@ -976,7 +977,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const lastId = items[items.length - 1];
     const lastSeenIndicatorRow = this.getLastSeenIndicatorRow();
 
-    if (!this.visibleRows) {
+    if (!this.visibleRows || forceScrollDown) {
       if (haveNewest) {
         this.scrollToBottom(setFocus);
       } else if (!isLoadingMessages) {
@@ -1033,6 +1034,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       messageHeightChangeIndex,
       oldestUnreadIndex,
       resetCounter,
+      scrollToBottomCounter,
       scrollToIndex,
       typingContactId,
     } = this.props;
@@ -1048,6 +1050,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       (!hadOldest && haveOldest) || hadWarning !== haveWarning;
     if (shouldRecomputeRowHeights) {
       this.resizeHeroRow();
+    }
+
+    if (scrollToBottomCounter !== prevProps.scrollToBottomCounter) {
+      this.scrollDown(false, true);
     }
 
     // There are a number of situations which can necessitate that we forget about row
