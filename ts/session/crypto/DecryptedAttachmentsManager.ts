@@ -32,8 +32,6 @@ export const cleanUpOldDecryptedMedias = () => {
       countKept++;
     }
   }
-  urlToDecryptedBlobMap.clear();
-  urlToDecryptingPromise.clear();
   window?.log?.info(`Clean medias blobs: cleaned/kept: ${countCleaned}:${countKept}`);
 };
 
