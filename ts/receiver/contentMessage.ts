@@ -210,7 +210,7 @@ async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
-  window?.log?.info('received unidentified sender message');
+  // window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
 

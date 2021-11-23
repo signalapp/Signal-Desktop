@@ -48,7 +48,7 @@ const SessionInfo = () => {
     <div className="session-settings__version-info">
       <span className="text-selectable">v{window.versionInfo.version}</span>
       <span>
-        <SessionIconButton iconSize={'medium'} iconType="oxen" onClick={openOxenWebsite} />
+        <SessionIconButton iconSize="medium" iconType="oxen" onClick={openOxenWebsite} />
       </span>
       <span className="text-selectable">{window.versionInfo.commitHash}</span>
     </div>

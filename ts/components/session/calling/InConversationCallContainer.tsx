@@ -5,12 +5,13 @@ import styled from 'styled-components';
 import _ from 'underscore';
 import { UserUtils } from '../../../session/utils';
 import {
+  getCallIsInFullScreen,
   getHasOngoingCallWith,
   getHasOngoingCallWithFocusedConvo,
   getHasOngoingCallWithFocusedConvoIsOffering,
   getHasOngoingCallWithFocusedConvosIsConnecting,
   getHasOngoingCallWithPubkey,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/call';
 import { StyledVideoElement } from './DraggableCallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
 
@@ -23,7 +24,7 @@ import {
 import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots';
 import { CallWindowControls } from './CallButtons';
 import { SessionSpinner } from '../SessionSpinner';
-import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/CallManager';
+import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/calling/CallManager';
 
 const VideoContainer = styled.div`
   height: 100%;
@@ -119,6 +120,8 @@ export const VideoLoadingSpinner = (props: { fullWidth: boolean }) => {
 export const InConversationCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
 
+  const isInFullScreen = useSelector(getCallIsInFullScreen);
+
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
   const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
@@ -156,12 +159,17 @@ export const InConversationCallContainer = () => {
 
     if (videoRefRemote.current) {
       if (currentSelectedAudioOutput === DEVICE_DISABLED_DEVICE_ID) {
-        videoRefLocal.current.muted = true;
+        videoRefRemote.current.muted = true;
       } else {
-        // void videoRefLocal.current.setSinkId(currentSelectedAudioOutput);
-        videoRefLocal.current.muted = false;
+        void (videoRefRemote.current as any)?.setSinkId(currentSelectedAudioOutput);
+        videoRefRemote.current.muted = false;
       }
     }
+  }
+
+  if (isInFullScreen && videoRefRemote.current) {
+    // disable this video element so the one in fullscreen is the only one playing audio
+    videoRefRemote.current.muted = true;
   }
 
   if (!ongoingCallWithFocused) {

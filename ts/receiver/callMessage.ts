@@ -17,6 +17,24 @@ export async function handleCallMessage(
 
   const { type } = callMessage;
 
+  // we just allow self send of ANSWER message to remove the incoming call dialog when we accepted it from another device
+  if (
+    sender === UserUtils.getOurPubKeyStrFromCache() &&
+    callMessage.type !== SignalService.CallMessage.Type.ANSWER &&
+    callMessage.type !== SignalService.CallMessage.Type.END_CALL
+  ) {
+    window.log.info('Dropping incoming call from ourself');
+    await removeFromCache(envelope);
+    return;
+  }
+
+  if (CallManager.isCallRejected(callMessage.uuid)) {
+    await removeFromCache(envelope);
+
+    window.log.info(`Dropping already rejected call from this device ${callMessage.uuid}`);
+    return;
+  }
+
   if (type === SignalService.CallMessage.Type.PROVISIONAL_ANSWER) {
     await removeFromCache(envelope);
 
@@ -48,7 +66,7 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.END_CALL) {
     await removeFromCache(envelope);
 
-    CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
+    await CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
 
     return;
   }

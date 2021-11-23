@@ -58,7 +58,7 @@ const LeftPaneSettingsCategoryRow = (props: { item: any }) => {
 
       <div>
         {item.id === focusedSettingsSection && (
-          <SessionIcon iconSize={'medium'} iconType="chevron" iconRotation={270} />
+          <SessionIcon iconSize="medium" iconType="chevron" iconRotation={270} />
         )}
       </div>
     </div>

@@ -8,7 +8,7 @@ import * as UserUtils from './User';
 import * as SyncUtils from './syncUtils';
 import * as AttachmentsV2Utils from './AttachmentsV2';
 import * as AttachmentDownloads from './AttachmentsDownload';
-import * as CallManager from './CallManager';
+import * as CallManager from './calling/CallManager';
 
 export * from './Attachments';
 export * from './TypedEmitter';

@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import styled from 'styled-components';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
-import { setFullScreenCall } from '../../../state/ducks/conversations';
+import { setFullScreenCall } from '../../../state/ducks/call';
 import {
   getCallIsInFullScreen,
   getHasOngoingCallWithFocusedConvo,
-} from '../../../state/selectors/conversations';
+} from '../../../state/selectors/call';
 import { CallWindowControls } from './CallButtons';
 import { StyledVideoElement } from './DraggableCallContainer';
 

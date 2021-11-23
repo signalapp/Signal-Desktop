@@ -20,6 +20,7 @@ import { MessageSender } from '.';
 import { getMessageById } from '../../../ts/data/data';
 import { SNodeAPI } from '../snode_api';
 import { getConversationController } from '../conversations';
+import { ed25519Str } from '../onions/onionPath';
 
 const DEFAULT_CONNECTIONS = 1;
 
@@ -129,7 +130,7 @@ export async function TEST_sendMessageToSnode(
   const data64 = window.dcodeIO.ByteBuffer.wrap(data).toString('base64');
   const swarm = await getSwarmFor(pubKey);
 
-  window?.log?.debug('Sending envelope with timestamp: ', timestamp, ' to ', pubKey);
+  window?.log?.debug('Sending envelope with timestamp: ', timestamp, ' to ', ed25519Str(pubKey));
   // send parameters
   const params = {
     pubKey,
@@ -190,7 +191,9 @@ export async function TEST_sendMessageToSnode(
   }
 
   window?.log?.info(
-    `loki_message:::sendMessage - Successfully stored message to ${pubKey} via ${snode.ip}:${snode.port}`
+    `loki_message:::sendMessage - Successfully stored message to ${ed25519Str(pubKey)} via ${
+      snode.ip
+    }:${snode.port}`
   );
 }
 

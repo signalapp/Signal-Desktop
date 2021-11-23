@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-  getHasIncomingCall,
-  getHasOngoingCall,
-  getNumberOfPinnedConversations,
-} from '../../../state/selectors/conversations';
+import { getHasIncomingCall, getHasOngoingCall } from '../../../state/selectors/call';
+import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Item, Submenu } from 'react-contexify';
 import {

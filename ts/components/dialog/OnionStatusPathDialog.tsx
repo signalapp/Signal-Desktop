@@ -150,8 +150,9 @@ export const ModalStatusLight = (props: StatusLightType) => {
 export const ActionPanelOnionStatusLight = (props: {
   isSelected: boolean;
   handleClick: () => void;
+  dataTestId?: string;
 }) => {
-  const { isSelected, handleClick } = props;
+  const { isSelected, handleClick, dataTestId } = props;
 
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
@@ -179,6 +180,7 @@ export const ActionPanelOnionStatusLight = (props: {
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}
+      dataTestId={dataTestId}
     />
   );
 };
