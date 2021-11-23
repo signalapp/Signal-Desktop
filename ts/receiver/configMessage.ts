@@ -127,10 +127,11 @@ const handleContactReceived = async (
 
     if (
       window.lokiFeatureFlags.useMessageRequests === true &&
-      window.inboxStore?.getState().userConfig.messageRequests &&
-      contactReceived.isApproved === true
+      window.inboxStore?.getState().userConfig.messageRequests
     ) {
-      await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+      if (contactReceived.isApproved === true) {
+        await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+      }
 
       if (contactReceived.isBlocked === true) {
         await BlockedNumberController.block(contactConvo.id);
