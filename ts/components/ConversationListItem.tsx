@@ -377,15 +377,13 @@ const ConversationListItem = (props: Props) => {
               <SessionButton
                 onClick={handleConversationBlock}
                 buttonColor={SessionButtonColor.Danger}
-                text={window.i18n('block')}
-              >
-                Block
-              </SessionButton>
+                text={window.i18n('blockUser')}
+              />
               <SessionButton
                 buttonColor={SessionButtonColor.Green}
                 onClick={handleConversationAccept}
                 text={window.i18n('accept')}
-              ></SessionButton>
+              />
             </Flex>
           ) : null}
         </div>

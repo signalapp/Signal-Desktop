@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { createOrUpdateItem } from '../data/data';
+import { createOrUpdateItem, getItemById, hasSyncedInitialConfigurationItem } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
 import {
   joinOpenGroupV2WithUIEvents,
@@ -58,6 +58,18 @@ async function handleGroupsAndContactsFromConfigMessage(
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
   });
+
+  const didWeHandleAConfigurationMessageAlready =
+    (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
+  if (didWeHandleAConfigurationMessageAlready) {
+    window?.log?.info(
+      'Dropping configuration groups change as we already handled one... Only handling contacts '
+    );
+    if (configMessage.contacts?.length) {
+      await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
+    }
+    return;
+  }
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
 

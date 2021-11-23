@@ -221,6 +221,33 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.handleToggleOverlay(SessionClosableOverlayType.MessageRequests);
   }
 
+  /**
+   * Blocks all message request conversations and synchronizes across linked devices
+   * @returns void
+   */
+  private async handleBlockAllRequestsClick() {
+    // block all convo requests. Force sync if there were changes.
+    window?.log?.info('Blocking all conversations');
+    const { conversationRequests } = this.props;
+    let syncRequired = false;
+
+    if (!conversationRequests) {
+      window?.log?.info('No conversation requests to block.');
+      return;
+    }
+
+    await Promise.all(
+      conversationRequests.map(async convo => {
+        await BlockedNumberController.block(convo.id);
+        syncRequired = true;
+      })
+    );
+
+    if (syncRequired) {
+      await forceSyncConfigurationNowIfNeeded();
+    }
+  }
+
   private renderClosableOverlay() {
     const { searchTerm, searchResults } = this.props;
     const { loading, overlay } = this.state;
@@ -278,28 +305,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
         }}
-        onButtonClick={async () => {
-          // block all convo requests. Force sync if there were changes.
-          window?.log?.info('Blocking all conversations');
-          const { conversationRequests } = this.props;
-          let syncRequired = false;
-
-          if (!conversationRequests) {
-            window?.log?.info('No conversation requests to block.');
-            return;
-          }
-
-          await Promise.all(
-            conversationRequests.map(async convo => {
-              await BlockedNumberController.block(convo.id);
-              syncRequired = true;
-            })
-          );
-
-          if (syncRequired) {
-            await forceSyncConfigurationNowIfNeeded();
-          }
-        }}
+        onButtonClick={this.handleBlockAllRequestsClick}
         searchTerm={searchTerm}
         searchResults={searchResults}
         showSpinner={loading}
