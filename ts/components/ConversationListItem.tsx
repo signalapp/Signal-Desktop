@@ -9,7 +9,6 @@ import { Timestamp } from './conversation/Timestamp';
 import { ContactName } from './conversation/ContactName';
 import { TypingAnimation } from './conversation/TypingAnimation';
 
-import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { MemoConversationListItemContextMenu } from './session/menu/ConversationListItemContextMenu';
 import { createPortal } from 'react-dom';
 import { OutgoingMessageStatus } from './conversation/message/OutgoingMessageStatus';
@@ -21,7 +20,6 @@ import {
   ReduxConversationType,
 } from '../state/ducks/conversations';
 import _ from 'underscore';
-import { useMembersAvatars } from '../hooks/useMembersAvatar';
 import { SessionIcon } from './session/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
@@ -217,13 +215,11 @@ const MessageItem = (props: {
 const AvatarItem = (props: {
   avatarPath: string | null;
   conversationId: string;
-  memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   profileName?: string;
   isPrivate: boolean;
 }) => {
-  const { avatarPath, name, isPrivate, conversationId, profileName, memberAvatars } = props;
-
+  const { avatarPath, name, isPrivate, conversationId, profileName } = props;
   const userName = name || profileName || conversationId;
   const dispatch = useDispatch();
 
@@ -233,7 +229,6 @@ const AvatarItem = (props: {
         avatarPath={avatarPath}
         name={userName}
         size={AvatarSize.S}
-        memberAvatars={memberAvatars}
         pubkey={conversationId}
         onAvatarClick={() => {
           if (isPrivate) {
@@ -278,8 +273,6 @@ const ConversationListItem = (props: Props) => {
   const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
 
-  const membersAvatar = useMembersAvatars(props);
-
   const openConvo = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
@@ -319,7 +312,6 @@ const ConversationListItem = (props: Props) => {
         <AvatarItem
           conversationId={conversationId}
           avatarPath={avatarPath || null}
-          memberAvatars={membersAvatar}
           profileName={profileName}
           name={name}
           isPrivate={isPrivate || false}

@@ -31,7 +31,6 @@ import {
   getSelectedConversation,
   isRightPanelShowing,
 } from '../../../state/selectors/conversations';
-import { useMembersAvatars } from '../../../hooks/useMembersAvatar';
 import { closeRightPanel } from '../../../state/ducks/conversations';
 
 async function getMediaGalleryProps(
@@ -110,7 +109,6 @@ async function getMediaGalleryProps(
 const HeaderItem = () => {
   const selectedConversation = useSelector(getSelectedConversation);
   const dispatch = useDispatch();
-  const memberDetails = useMembersAvatars(selectedConversation);
 
   if (!selectedConversation) {
     return null;
@@ -139,13 +137,7 @@ const HeaderItem = () => {
           dispatch(closeRightPanel());
         }}
       />
-      <Avatar
-        avatarPath={avatarPath || ''}
-        name={userName}
-        size={AvatarSize.XL}
-        memberAvatars={memberDetails}
-        pubkey={id}
-      />
+      <Avatar avatarPath={avatarPath || ''} name={userName} size={AvatarSize.XL} pubkey={id} />
       <div className="invite-friends-container">
         {showInviteContacts && (
           <SessionIconButton

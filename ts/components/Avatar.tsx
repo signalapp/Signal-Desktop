@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 
 import { AvatarPlaceHolder, ClosedGroupAvatar } from './AvatarPlaceHolder';
-import { ConversationAvatar } from './session/usingClosedConversationDetails';
 import { useEncryptedFileFetch } from '../hooks/useEncryptedFileFetch';
 import _ from 'underscore';
+import { useMembersAvatars } from '../hooks/useMembersAvatars';
 
 export enum AvatarSize {
   XS = 28,
@@ -21,7 +21,6 @@ type Props = {
   pubkey?: string;
   size: AvatarSize;
   base64Data?: string; // if this is not empty, it will be used to render the avatar with base64 encoded data
-  memberAvatars?: Array<ConversationAvatar>; // this is added by usingClosedConversationDetails
   onAvatarClick?: () => void;
   dataTestId?: string;
 };
@@ -42,21 +41,17 @@ const Identicon = (props: Props) => {
 };
 
 const NoImage = (props: {
-  memberAvatars?: Array<ConversationAvatar>;
   name?: string;
   pubkey?: string;
   size: AvatarSize;
+  isClosedGroup: boolean;
   onAvatarClick?: () => void;
 }) => {
-  const { name, memberAvatars, size, pubkey } = props;
+  const { name, size, pubkey, isClosedGroup } = props;
   // if no image but we have conversations set for the group, renders group members avatars
-  if (memberAvatars) {
+  if (pubkey && isClosedGroup) {
     return (
-      <ClosedGroupAvatar
-        size={size}
-        memberAvatars={memberAvatars}
-        onAvatarClick={props.onAvatarClick}
-      />
+      <ClosedGroupAvatar size={size} closedGroupId={pubkey} onAvatarClick={props.onAvatarClick} />
     );
   }
 
@@ -93,8 +88,10 @@ const AvatarImage = (props: {
 };
 
 const AvatarInner = (props: Props) => {
-  const { avatarPath, base64Data, size, memberAvatars, name, dataTestId } = props;
+  const { avatarPath, base64Data, size, pubkey, name, dataTestId } = props;
   const [imageBroken, setImageBroken] = useState(false);
+
+  const closedGroupMembers = useMembersAvatars(pubkey);
   // contentType is not important
   const { urlToLoad } = useEncryptedFileFetch(avatarPath || '', '');
   const handleImageError = () => {
@@ -106,7 +103,7 @@ const AvatarInner = (props: Props) => {
     setImageBroken(true);
   };
 
-  const isClosedGroupAvatar = Boolean(memberAvatars?.length);
+  const isClosedGroupAvatar = Boolean(closedGroupMembers?.length);
   const hasImage = (base64Data || urlToLoad) && !imageBroken && !isClosedGroupAvatar;
 
   const isClickable = !!props.onAvatarClick;
@@ -134,7 +131,7 @@ const AvatarInner = (props: Props) => {
           handleImageError={handleImageError}
         />
       ) : (
-        <NoImage {...props} />
+        <NoImage {...props} isClosedGroup={isClosedGroupAvatar} />
       )}
     </div>
   );
