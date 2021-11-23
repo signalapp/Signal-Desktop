@@ -516,7 +516,11 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   private _createSenderKeyQueue(): PQueue {
-    return new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+    return new PQueue({
+      concurrency: 1,
+      timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
+    });
   }
 
   private _getSenderKeyQueue(senderId: QualifiedAddress): PQueue {
@@ -663,7 +667,11 @@ export class SignalProtocolStore extends EventsMixin {
   }
 
   private _createSessionQueue(): PQueue {
-    return new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+    return new PQueue({
+      concurrency: 1,
+      timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
+    });
   }
 
   private _getSessionQueue(id: QualifiedAddress): PQueue {

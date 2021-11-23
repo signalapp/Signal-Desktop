@@ -200,17 +200,27 @@ export default class MessageReceiver
     }
     this.serverTrustRoot = Bytes.fromBase64(serverTrustRoot);
 
-    this.incomingQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
-    this.appQueue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+    this.incomingQueue = new PQueue({
+      concurrency: 1,
+      timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
+    });
+    this.appQueue = new PQueue({
+      concurrency: 1,
+      timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
+    });
 
     // All envelopes start in encryptedQueue and progress to decryptedQueue
     this.encryptedQueue = new PQueue({
       concurrency: 1,
       timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
     });
     this.decryptedQueue = new PQueue({
       concurrency: 1,
       timeout: 1000 * 60 * 2,
+      throwOnTimeout: true,
     });
 
     this.decryptAndCacheBatcher = createBatcher<CacheAddItemType>({

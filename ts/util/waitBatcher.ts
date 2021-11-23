@@ -62,7 +62,11 @@ export function createWaitBatcher<ItemType>(
   let waitBatcher: BatcherType<ItemType>;
   let timeout: NodeJS.Timeout | null;
   let items: Array<ItemHolderType<ItemType>> = [];
-  const queue = new PQueue({ concurrency: 1, timeout: 1000 * 60 * 2 });
+  const queue = new PQueue({
+    concurrency: 1,
+    timeout: 1000 * 60 * 2,
+    throwOnTimeout: true,
+  });
 
   async function _kickBatchOff() {
     const itemsRef = items;

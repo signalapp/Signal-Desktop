@@ -649,6 +649,7 @@ export async function _waitForAll<T>({
   const queue = new PQueue({
     concurrency: maxConcurrency,
     timeout: 2 * 60 * 1000,
+    throwOnTimeout: true,
   });
   return queue.addAll(tasks);
 }
