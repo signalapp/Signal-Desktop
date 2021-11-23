@@ -113,19 +113,9 @@ const HeaderItem = () => {
   if (!selectedConversation) {
     return null;
   }
-  const {
-    avatarPath,
-    id,
-    isGroup,
-    isKickedFromGroup,
-    profileName,
-    isBlocked,
-    left,
-    name,
-  } = selectedConversation;
+  const { id, isGroup, isKickedFromGroup, isBlocked, left } = selectedConversation;
 
   const showInviteContacts = isGroup && !isKickedFromGroup && !isBlocked && !left;
-  const userName = name || profileName || id;
 
   return (
     <div className="group-settings-header">
@@ -137,7 +127,7 @@ const HeaderItem = () => {
           dispatch(closeRightPanel());
         }}
       />
-      <Avatar avatarPath={avatarPath || ''} name={userName} size={AvatarSize.XL} pubkey={id} />
+      <Avatar size={AvatarSize.XL} pubkey={id} />
       <div className="invite-friends-container">
         {showInviteContacts && (
           <SessionIconButton

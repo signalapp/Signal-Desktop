@@ -11,8 +11,6 @@ type Props = {
 function getClosedGroupAvatarsSize(size: AvatarSize): AvatarSize {
   // Always use the size directly under the one requested
   switch (size) {
-    case AvatarSize.XS:
-      return AvatarSize.XS;
     case AvatarSize.S:
       return AvatarSize.XS;
     case AvatarSize.M:
@@ -33,25 +31,13 @@ export const ClosedGroupAvatar = (props: Props) => {
 
   const memberAvatars = useMembersAvatars(closedGroupId);
   const avatarsDiameter = getClosedGroupAvatarsSize(size);
-  const firstMember = memberAvatars?.[0];
-  const secondMember = memberAvatars?.[1];
+  const firstMemberId = memberAvatars?.[0];
+  const secondMemberID = memberAvatars?.[1];
 
   return (
     <div className="module-avatar__icon-closed">
-      <Avatar
-        avatarPath={firstMember?.avatarPath}
-        name={firstMember?.name}
-        size={avatarsDiameter}
-        pubkey={firstMember?.id}
-        onAvatarClick={onAvatarClick}
-      />
-      <Avatar
-        avatarPath={secondMember?.avatarPath}
-        name={secondMember?.name}
-        size={avatarsDiameter}
-        pubkey={secondMember?.id}
-        onAvatarClick={onAvatarClick}
-      />
+      <Avatar size={avatarsDiameter} pubkey={firstMemberId} onAvatarClick={onAvatarClick} />
+      <Avatar size={avatarsDiameter} pubkey={secondMemberID} onAvatarClick={onAvatarClick} />
     </div>
   );
 };

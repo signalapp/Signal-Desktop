@@ -3,16 +3,10 @@ import * as _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { StateType } from '../state/reducer';
 
-export type ConversationAvatar = {
-  avatarPath?: string;
-  id: string; // member's pubkey
-  name: string;
-};
-
 export function useMembersAvatars(closedGroupPubkey: string | undefined) {
   const ourPrimary = UserUtils.getOurPubKeyStrFromCache();
 
-  return useSelector((state: StateType): Array<ConversationAvatar> | undefined => {
+  return useSelector((state: StateType): Array<string> | undefined => {
     if (!closedGroupPubkey) {
       return undefined;
     }
@@ -37,16 +31,7 @@ export function useMembersAvatars(closedGroupPubkey: string | undefined) {
       usAtTheEndMaxTwo
         .map(m => state.conversations.conversationLookup[m])
         .map(m => {
-          if (!m) {
-            return undefined;
-          }
-          const userName = m.name || m.profileName || m.id;
-
-          return {
-            avatarPath: m.avatarPath || undefined,
-            id: m.id,
-            name: userName,
-          };
+          return m?.id || undefined;
         })
     );
 

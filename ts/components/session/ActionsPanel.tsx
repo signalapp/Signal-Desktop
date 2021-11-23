@@ -50,11 +50,11 @@ import { DraggableCallContainer } from './calling/DraggableCallContainer';
 import { IncomingCallDialog } from './calling/IncomingCallDialog';
 import { CallInFullScreenContainer } from './calling/CallInFullScreenContainer';
 
-const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
+const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
   const dispatch = useDispatch();
-  const { type, avatarPath } = props;
+  const { type } = props;
 
   const focusedSection = useSelector(getFocusedSection);
   const isSelected = focusedSection === props.type;
@@ -85,16 +85,10 @@ const Section = (props: { type: SectionType; avatarPath?: string | null }) => {
   };
 
   if (type === SectionType.Profile) {
-    const conversation = getConversationController().get(ourNumber);
-
-    const profile = conversation?.getLokiProfile();
-    const userName = (profile && profile.displayName) || ourNumber;
     return (
       <Avatar
-        avatarPath={avatarPath}
         size={AvatarSize.XS}
         onAvatarClick={handleClick}
-        name={userName}
         pubkey={ourNumber}
         dataTestId="leftpane-primary-avatar"
       />
@@ -287,12 +281,7 @@ export const ActionsPanel = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  useInterval(
-    () => {
-      cleanUpOldDecryptedMedias();
-    },
-    startCleanUpMedia ? cleanUpMediasInterval : null
-  );
+  useInterval(cleanUpOldDecryptedMedias, startCleanUpMedia ? cleanUpMediasInterval : null);
 
   if (!ourPrimaryConversation) {
     window?.log?.warn('ActionsPanel: ourPrimaryConversation is not set');
@@ -328,7 +317,7 @@ export const ActionsPanel = () => {
         className="module-left-pane__sections-container"
         data-testid="leftpane-section-container"
       >
-        <Section type={SectionType.Profile} avatarPath={ourPrimaryConversation.avatarPath} />
+        <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Contact} />
         <Section type={SectionType.Settings} />

@@ -5,9 +5,9 @@ import { StateType } from '../state/reducer';
 export function useAvatarPath(pubkey: string | undefined) {
   return useSelector((state: StateType) => {
     if (!pubkey) {
-      return undefined;
+      return null;
     }
-    return state.conversations.conversationLookup[pubkey]?.avatarPath;
+    return state.conversations.conversationLookup[pubkey]?.avatarPath || null;
   });
 }
 
@@ -15,16 +15,27 @@ export function useOurAvatarPath() {
   return useAvatarPath(UserUtils.getOurPubKeyStrFromCache());
 }
 
-export function useConversationUsername(pubkey: string | undefined) {
+/**
+ *
+ * @returns convo.profileName || convo.name || convo.id or undefined if the convo is not found
+ */
+export function useConversationUsername(pubkey?: string) {
   return useSelector((state: StateType) => {
     if (!pubkey) {
       return undefined;
     }
     const convo = state.conversations.conversationLookup[pubkey];
+    if (!convo) {
+      return pubkey;
+    }
     return convo?.profileName || convo?.name || convo.id;
   });
 }
 
 export function useOurConversationUsername() {
   return useConversationUsername(UserUtils.getOurPubKeyStrFromCache());
+}
+
+export function useIsMe(pubkey?: string) {
+  return pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache();
 }

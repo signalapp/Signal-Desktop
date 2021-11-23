@@ -6,7 +6,6 @@ import _ from 'underscore';
 import { UserUtils } from '../../../session/utils';
 import {
   getCallIsInFullScreen,
-  getHasOngoingCallWith,
   getHasOngoingCallWithFocusedConvo,
   getHasOngoingCallWithFocusedConvoIsOffering,
   getHasOngoingCallWithFocusedConvosIsConnecting,
@@ -16,11 +15,6 @@ import { StyledVideoElement } from './DraggableCallContainer';
 import { Avatar, AvatarSize } from '../../Avatar';
 
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
-import {
-  useAvatarPath,
-  useOurAvatarPath,
-  useOurConversationUsername,
-} from '../../../hooks/useParamSelector';
 import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots';
 import { CallWindowControls } from './CallButtons';
 import { SessionSpinner } from '../SessionSpinner';
@@ -118,22 +112,14 @@ export const VideoLoadingSpinner = (props: { fullWidth: boolean }) => {
 
 // tslint:disable-next-line: max-func-body-length
 export const InConversationCallContainer = () => {
-  const ongoingCallProps = useSelector(getHasOngoingCallWith);
-
   const isInFullScreen = useSelector(getCallIsInFullScreen);
 
   const ongoingCallPubkey = useSelector(getHasOngoingCallWithPubkey);
   const ongoingCallWithFocused = useSelector(getHasOngoingCallWithFocusedConvo);
-  const ongoingCallUsername = ongoingCallProps?.profileName || ongoingCallProps?.name;
   const videoRefRemote = useRef<HTMLVideoElement>(null);
   const videoRefLocal = useRef<HTMLVideoElement>(null);
 
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
-
-  const remoteAvatarPath = useAvatarPath(ongoingCallPubkey);
-  const ourAvatarPath = useOurAvatarPath();
-
-  const ourUsername = useOurConversationUsername();
 
   const {
     currentConnectedAudioInputs,
@@ -190,12 +176,7 @@ export const InConversationCallContainer = () => {
           />
           {remoteStreamVideoIsMuted && (
             <CenteredAvatarInConversation>
-              <Avatar
-                size={AvatarSize.XL}
-                avatarPath={remoteAvatarPath}
-                name={ongoingCallUsername}
-                pubkey={ongoingCallPubkey}
-              />
+              <Avatar size={AvatarSize.XL} pubkey={ongoingCallPubkey} />
             </CenteredAvatarInConversation>
           )}
         </VideoContainer>
@@ -208,12 +189,7 @@ export const InConversationCallContainer = () => {
           />
           {localStreamVideoIsMuted && (
             <CenteredAvatarInConversation>
-              <Avatar
-                size={AvatarSize.XL}
-                avatarPath={ourAvatarPath}
-                name={ourUsername}
-                pubkey={ourPubkey}
-              />
+              <Avatar size={AvatarSize.XL} pubkey={ourPubkey} />
             </CenteredAvatarInConversation>
           )}
         </VideoContainer>

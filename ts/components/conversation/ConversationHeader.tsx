@@ -162,26 +162,20 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
 };
 
 const AvatarHeader = (props: {
-  avatarPath: string | null;
-  name?: string;
   pubkey: string;
-  profileName?: string;
   showBackButton: boolean;
   onAvatarClick?: (pubkey: string) => void;
 }) => {
-  const { avatarPath, name, pubkey, profileName } = props;
-  const userName = name || profileName || pubkey;
+  const { pubkey, onAvatarClick, showBackButton } = props;
 
   return (
     <span className="module-conversation-header__avatar">
       <Avatar
-        avatarPath={avatarPath}
-        name={userName}
         size={AvatarSize.S}
         onAvatarClick={() => {
           // do not allow right panel to appear if another button is shown on the SessionConversation
-          if (props.onAvatarClick && !props.showBackButton) {
-            props.onAvatarClick(pubkey);
+          if (onAvatarClick && !showBackButton) {
+            onAvatarClick(pubkey);
           }
         }}
         pubkey={pubkey}
@@ -393,9 +387,6 @@ export const ConversationHeaderWithDetails = () => {
               }}
               pubkey={conversationKey}
               showBackButton={isMessageDetailOpened}
-              avatarPath={avatarPath}
-              name={name}
-              profileName={profileName}
             />
           </>
         )}
