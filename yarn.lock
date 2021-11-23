@@ -1498,10 +1498,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
-"@electron/fuses@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@electron/fuses/-/fuses-1.2.1.tgz#9417ae4edfa75ff133ae81bdadd5b969ebf7d07b"
-  integrity sha512-FQWAjmLMpo06X4QNEA7ijZ5BeI53BIJGlTiD7Ula7I86hRLABGvswl36QAOlOiM1jETbymQ93h2p9/7/A/bCEQ==
+"@electron/fuses@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@electron/fuses/-/fuses-1.5.0.tgz#e477acd34ba13e93d5c11465b63597d967de6fda"
+  integrity sha512-2NPJdQTPoERxcIWsTAG9ZKay0KsORfs973dbkdksNEeBAfjdyPBNaUrh/DAlpUdAnFmPl+Cs9gIZibRYiOrvqQ==
   dependencies:
     chalk "^4.1.1"
     fs-extra "^9.0.1"
