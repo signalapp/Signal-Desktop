@@ -1042,7 +1042,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const model = new MessageModel(messageAttributes);
 
     const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
-    if (isMe) {
+
+    if (
+      isMe &&
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests
+    ) {
       await this.setIsApproved(true);
     }
 
@@ -1287,11 +1292,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       this.set({
         isApproved: value,
       });
-
-      // to exclude the conversation from left pane messages list and message requests
-      if (value === false) {
-        this.set({ active_at: undefined });
-      }
 
       await this.commit();
     }

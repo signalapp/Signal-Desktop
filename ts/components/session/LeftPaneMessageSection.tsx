@@ -37,7 +37,6 @@ export interface Props {
 
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
-  conversationRequests?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
 }
 
@@ -226,9 +225,47 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
    * @returns void
    */
   private async handleBlockAllRequestsClick() {
+    let messageRequestsEnabled = false;
+    if (window?.inboxStore?.getState()) {
+      messageRequestsEnabled =
+        window.inboxStore?.getState().userConfig.messageRequests === true &&
+        window.lokiFeatureFlags?.useMessageRequests === true;
+    }
+    if (!messageRequestsEnabled) {
+      return;
+    }
+
     // block all convo requests. Force sync if there were changes.
     window?.log?.info('Blocking all conversations');
-    const { conversationRequests } = this.props;
+    const conversations = getConversationController().getConversations();
+
+    if (!conversations) {
+      window?.log?.info('No message requests to block.');
+      return;
+    }
+
+    const conversationRequests = conversations.filter(conversation => {
+      // Add Open Group to list as soon as the name has been set
+      if (
+        conversation.isPublic() &&
+        (!conversation.get('name') || conversation.get('name') === 'Unknown group')
+      ) {
+        return false;
+      }
+
+      // Remove all invalid conversations and conversatons of devices associated
+      //  with cancelled attempted links
+      if (!conversation.isPublic && !conversation.get('active_at')) {
+        return false;
+      }
+
+      if (conversation.attributes.isApproved || !conversation.get('active_at')) {
+        return false;
+      }
+
+      return true;
+    });
+
     let syncRequired = false;
 
     if (!conversationRequests) {

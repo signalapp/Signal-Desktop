@@ -138,14 +138,14 @@ const handleContactReceived = async (
     contactConvo.set('active_at', _.toNumber(envelope.timestamp));
 
     if (
-      window.lokiFeatureFlags.useMessageRequests === true &&
+      window.lokiFeatureFlags.useMessageRequests &&
       window.inboxStore?.getState().userConfig.messageRequests
     ) {
-      if (contactReceived.isApproved === true) {
+      if (contactReceived.isApproved) {
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
       }
 
-      if (contactReceived.isBlocked === true) {
+      if (contactReceived.isBlocked) {
         await BlockedNumberController.block(contactConvo.id);
       } else {
         await BlockedNumberController.unblock(contactConvo.id);

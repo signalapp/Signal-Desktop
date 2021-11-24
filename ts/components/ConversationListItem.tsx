@@ -302,7 +302,7 @@ const ConversationListItem = (props: Props) => {
    * adds ID to block list, syncs the block with linked devices.
    */
   const handleConversationBlock = async () => {
-    blockConvoById(conversationId);
+    await blockConvoById(conversationId);
     await forceSyncConfigurationNowIfNeeded();
   };
 
@@ -371,8 +371,8 @@ const ConversationListItem = (props: Props) => {
               />
               <SessionButton
                 buttonColor={SessionButtonColor.Green}
-                onClick={() => {
-                  approveConversation(conversationId);
+                onClick={async () => {
+                  await approveConversation(conversationId);
                 }}
                 text={window.i18n('accept')}
               />
