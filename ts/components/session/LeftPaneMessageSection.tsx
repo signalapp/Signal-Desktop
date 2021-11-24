@@ -82,12 +82,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
-    let conversation;
-    if (conversations?.length) {
-      conversation = conversations[index];
-    }
-
+    const conversation = conversations[index];
     if (!conversation) {
+      window?.log?.info('No conversation found at index');
       return null;
     }
 

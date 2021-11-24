@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { TTL_DEFAULT } from '../session/constants';
 import { SNodeAPI } from '../session/snode_api';
-import { CallManager, UserUtils } from '../session/utils';
+import { CallManager } from '../session/utils';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
 
