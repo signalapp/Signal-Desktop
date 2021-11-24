@@ -108,7 +108,7 @@ export class SessionInput extends React.PureComponent<Props, State> {
     return (
       <SessionIconButton
         iconType="eye"
-        iconSize={'medium'}
+        iconSize="medium"
         onClick={() => {
           this.setState({
             forceShow: !this.state.forceShow,

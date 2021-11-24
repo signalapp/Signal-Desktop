@@ -10,6 +10,7 @@ interface SProps extends SessionIconProps {
   isSelected?: boolean;
   isHidden?: boolean;
   margin?: string;
+  dataTestId?: string;
 }
 
 const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, ref) => {
@@ -43,6 +44,7 @@ const SessionIconButtonInner = React.forwardRef<HTMLDivElement, SProps>((props, 
       ref={ref}
       onClick={clickHandler}
       style={{ display: isHidden ? 'none' : 'flex', margin: margin ? margin : '' }}
+      data-testid={props.dataTestId}
     >
       <SessionIcon
         iconType={iconType}

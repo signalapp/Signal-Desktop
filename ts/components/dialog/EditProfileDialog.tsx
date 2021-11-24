@@ -82,7 +82,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
         : undefined;
 
     return (
-      <div className="edit-profile-dialog">
+      <div className="edit-profile-dialog" data-testid="edit-profile-dialog">
         <SessionWrapperModal
           title={i18n('editProfileModalTitle')}
           onClose={this.closeDialog}
@@ -97,7 +97,10 @@ export class EditProfileDialog extends React.Component<{}, State> {
 
           <div className="session-id-section">
             <PillDivider text={window.i18n('yourSessionID')} />
-            <p className={classNames('text-selectable', 'session-id-section-display')}>
+            <p
+              className={classNames('text-selectable', 'session-id-section-display')}
+              data-testid="your-session-id"
+            >
               {sessionID}
             </p>
 
@@ -182,10 +185,10 @@ export class EditProfileDialog extends React.Component<{}, State> {
         {this.renderProfileHeader()}
 
         <div className="profile-name-uneditable">
-          <p>{name}</p>
+          <p data-testid="your-profile-name">{name}</p>
           <SessionIconButton
             iconType="pencil"
-            iconSize={'medium'}
+            iconSize="medium"
             onClick={() => {
               this.setState({ mode: 'edit' });
             }}

@@ -6,6 +6,7 @@ import { reducer as user, UserStateType } from './ducks/user';
 import { reducer as theme, ThemeStateType } from './ducks/theme';
 import { reducer as section, SectionStateType } from './ducks/section';
 import { defaultRoomReducer as defaultRooms, DefaultRoomsState } from './ducks/defaultRooms';
+import { callReducer as call, CallStateType } from './ducks/call';
 
 import { defaultOnionReducer as onionPaths, OnionState } from './ducks/onion';
 import { modalReducer as modals, ModalState } from './ducks/modalDialog';
@@ -28,6 +29,7 @@ export type StateType = {
   userConfig: UserConfigState;
   timerOptions: TimerOptionsState;
   stagedAttachments: StagedAttachmentsStateType;
+  call: CallStateType;
 };
 
 export const reducers = {
@@ -42,6 +44,7 @@ export const reducers = {
   userConfig,
   timerOptions,
   stagedAttachments,
+  call,
 };
 
 // Making this work would require that our reducer signature supported AnyAction, not

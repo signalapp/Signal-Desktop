@@ -12,11 +12,7 @@ import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import {
-  getMessageBySender,
-  getMessageBySenderAndServerId,
-  getMessageBySenderAndServerTimestamp,
-} from '../../ts/data/data';
+import { getMessageBySender, getMessageBySenderAndServerTimestamp } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
 import { toHex } from '../session/utils/String';
@@ -371,22 +367,14 @@ export async function isMessageDuplicate({
   try {
     let result;
     if (serverId || serverTimestamp) {
-      // first try to find a duplicate serverId from this sender
-      if (serverId) {
-        result = await getMessageBySenderAndServerId({
-          source,
-          serverId,
-        });
-      }
-      // if no result, try to find a duplicate with the same serverTimestamp from this sender
+      // first try to find a duplicate with the same serverTimestamp from this sender
       if (!result && serverTimestamp) {
         result = await getMessageBySenderAndServerTimestamp({
           source,
           serverTimestamp,
         });
       }
-      // if we have a result, it means a specific user sent two messages either with the same
-      // serverId or the same serverTimestamp.
+      // if we have a result, it means a specific user sent two messages either with the same serverTimestamp.
       // no need to do anything else, those messages must be the same
       // Note: this test is not based on which conversation the user sent the message
       // but we consider that a user sending two messages with the same serverTimestamp is unlikely

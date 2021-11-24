@@ -21,7 +21,7 @@ export const SessionSearchInput = (props: Props) => {
 
   return (
     <div className="session-search-input">
-      <SessionIconButton iconSize={'medium'} iconType="search" />
+      <SessionIconButton iconSize="medium" iconType="search" />
       <input
         value={searchString}
         onChange={e => onChange(e.target.value)}

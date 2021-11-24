@@ -72,7 +72,7 @@ export const SessionMemberListItem = (props: Props) => {
         <span className="session-member-item__name">{name}</span>
       </div>
       <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
-        <SessionIcon iconType="check" iconSize={'medium'} iconColor={Constants.UI.COLORS.GREEN} />
+        <SessionIcon iconType="check" iconSize="medium" iconColor={Constants.UI.COLORS.GREEN} />
       </span>
     </div>
   );

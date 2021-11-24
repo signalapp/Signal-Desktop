@@ -6,7 +6,7 @@ import _ from 'underscore';
 import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
 import { ed25519Str } from '../../../session/onions/onionPath';
 import { CallManager } from '../../../session/utils';
-import { getHasIncomingCall, getHasIncomingCallFrom } from '../../../state/selectors/conversations';
+import { getHasIncomingCall, getHasIncomingCallFrom } from '../../../state/selectors/call';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { SessionButton, SessionButtonColor } from '../SessionButton';
 import { SessionWrapperModal } from '../SessionWrapperModal';

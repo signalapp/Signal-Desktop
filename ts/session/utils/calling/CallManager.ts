@@ -1,32 +1,41 @@
 import _ from 'lodash';
-import { MessageUtils, ToastUtils } from '.';
-import { getCallMediaPermissionsSettings } from '../../components/session/settings/SessionSettings';
-import { getConversationById } from '../../data/data';
-import { ConversationModel } from '../../models/conversation';
-import { MessageModelType } from '../../models/messageType';
-import { SignalService } from '../../protobuf';
+import { MessageUtils, ToastUtils, UserUtils } from '../';
+import { getCallMediaPermissionsSettings } from '../../../components/session/settings/SessionSettings';
+import { getConversationById } from '../../../data/data';
+import { MessageModelType } from '../../../models/messageType';
+import { SignalService } from '../../../protobuf';
+import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
   answerCall,
   callConnected,
+  CallStatusEnum,
   endCall,
   incomingCall,
-  openConversationWithMessages,
   setFullScreenCall,
   startingCallWith,
-} from '../../state/ducks/conversations';
-import { getConversationController } from '../conversations';
-import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
-import { ed25519Str } from '../onions/onionPath';
-import { getMessageQueue, MessageSender } from '../sending';
-import { PubKey } from '../types';
+} from '../../../state/ducks/call';
+import { getConversationController } from '../../conversations';
+import { CallMessage } from '../../messages/outgoing/controlMessage/CallMessage';
+import { ed25519Str } from '../../onions/onionPath';
+import { PubKey } from '../../types';
 
 import { v4 as uuidv4 } from 'uuid';
-import { PnServer } from '../../pushnotification';
-import { setIsRinging } from './RingingManager';
+import { PnServer } from '../../../pushnotification';
+import { setIsRinging } from '../RingingManager';
+import { getBlackSilenceMediaStream } from './Silence';
+import { getMessageQueue } from '../..';
+import { MessageSender } from '../../sending';
+
+// tslint:disable: function-name
 
 export type InputItem = { deviceId: string; label: string };
 
+/**
+ * This uuid is set only once we accepted a call or started one.
+ */
 let currentCallUUID: string | undefined;
+
+const rejectedCallUUIDS: Set<string> = new Set();
 
 export type CallManagerOptionsType = {
   localStream: MediaStream | null;
@@ -47,7 +56,7 @@ function callVideoListeners() {
   if (videoEventsListeners.length) {
     videoEventsListeners.forEach(item => {
       item.listener?.({
-        localStream: mediaDevices,
+        localStream,
         remoteStream,
         camerasList,
         audioInputsList,
@@ -80,14 +89,14 @@ export function removeVideoEventsListener(uniqueId: string) {
 }
 
 /**
- * This field stores all the details received about a specific call with the same uuid. It is a per pubkey and per device cache.
+ * This field stores all the details received about a specific call with the same uuid. It is a per pubkey and per call cache.
  */
 const callCache = new Map<string, Map<string, Array<SignalService.CallMessage>>>();
 
 let peerConnection: RTCPeerConnection | null;
 let dataChannel: RTCDataChannel | null;
 let remoteStream: MediaStream | null;
-let mediaDevices: MediaStream | null;
+let localStream: MediaStream | null;
 let remoteVideoStreamIsMuted = true;
 
 export const DEVICE_DISABLED_DEVICE_ID = 'off';
@@ -103,8 +112,38 @@ const configuration: RTCConfiguration = {
   iceServers: [
     {
       urls: 'turn:freyr.getsession.org',
-      username: 'session',
-      credential: 'session',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:fenrir.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:frigg.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:angus.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:hereford.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:holstein.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
+    },
+    {
+      urls: 'turn:brahman.getsession.org',
+      username: 'session202111',
+      credential: '053c268164bc7bd7',
     },
   ],
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
@@ -184,6 +223,14 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+
+    // do the same changes locally
+    localStream?.getVideoTracks().forEach(t => {
+      t.stop();
+      localStream?.removeTrack(t);
+    });
+    localStream?.addTrack(getBlackSilenceMediaStream().getVideoTracks()[0]);
+
     sendVideoStatusViaDataChannel();
     callVideoListeners();
     return;
@@ -200,28 +247,37 @@ export async function selectCameraByDeviceId(cameraDeviceId: string) {
     try {
       const newVideoStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
       const videoTrack = newVideoStream.getVideoTracks()[0];
+
       if (!peerConnection) {
         throw new Error('cannot selectCameraByDeviceId without a peer connection');
       }
-      const sender = peerConnection.getSenders().find(s => {
-        return s.track?.kind === videoTrack.kind;
-      });
-      if (sender) {
-        await sender.replaceTrack(videoTrack);
-        videoTrack.enabled = true;
-        mediaDevices?.getVideoTracks().forEach(t => {
-          t.stop();
-          mediaDevices?.removeTrack(t);
-        });
-        mediaDevices?.addTrack(videoTrack);
 
-        sendVideoStatusViaDataChannel();
-        callVideoListeners();
+      window.log.info('replacing video track');
+      const videoSender = peerConnection
+        .getTransceivers()
+        .find(t => t.sender.track?.kind === 'video')?.sender;
+
+      videoTrack.enabled = true;
+      if (videoSender) {
+        await videoSender.replaceTrack(videoTrack);
       } else {
-        throw new Error('Failed to get sender for selectCameraByDeviceId ');
+        throw new Error(
+          'We should always have a videoSender as we are using a black video when no camera are in use'
+        );
       }
+
+      // do the same changes locally
+      localStream?.getVideoTracks().forEach(t => {
+        t.stop();
+        localStream?.removeTrack(t);
+      });
+      localStream?.addTrack(videoTrack);
+
+      sendVideoStatusViaDataChannel();
+      callVideoListeners();
     } catch (e) {
       window.log.warn('selectCameraByDeviceId failed with', e.message);
+      ToastUtils.pushToastError('selectCamera', e.message);
       callVideoListeners();
     }
   }
@@ -237,6 +293,12 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+    // do the same changes locally
+    localStream?.getAudioTracks().forEach(t => {
+      t.stop();
+      localStream?.removeTrack(t);
+    });
+    localStream?.addTrack(getBlackSilenceMediaStream().getAudioTracks()[0]);
     callVideoListeners();
     return;
   }
@@ -251,16 +313,18 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
 
     try {
       const newAudioStream = await navigator.mediaDevices.getUserMedia(devicesConfig);
+
       const audioTrack = newAudioStream.getAudioTracks()[0];
       if (!peerConnection) {
         throw new Error('cannot selectAudioInputByDeviceId without a peer connection');
       }
-      const sender = peerConnection.getSenders().find(s => {
+      const audioSender = peerConnection.getSenders().find(s => {
         return s.track?.kind === audioTrack.kind;
       });
+      window.log.info('replacing audio track');
 
-      if (sender) {
-        await sender.replaceTrack(audioTrack);
+      if (audioSender) {
+        await audioSender.replaceTrack(audioTrack);
         // we actually do not need to toggle the track here, as toggling it here unmuted here locally (so we start to hear ourselves)
       } else {
         throw new Error('Failed to get sender for selectAudioInputByDeviceId ');
@@ -287,18 +351,15 @@ export async function selectAudioOutputByDeviceId(audioOutputDeviceId: string) {
   }
 }
 
-async function handleNegotiationNeededEvent(recipient: string) {
+async function createOfferAndSendIt(recipient: string) {
   try {
     makingOffer = true;
-    window.log.info('got handleNegotiationNeeded event. creating offer');
-    const offer = await peerConnection?.createOffer({
-      offerToReceiveAudio: true,
-      offerToReceiveVideo: true,
-    });
+    window.log.info('got createOfferAndSendIt event. creating offer');
+    await (peerConnection as any)?.setLocalDescription();
+    const offer = peerConnection?.localDescription;
     if (!offer) {
       throw new Error('Could not create an offer');
     }
-    await peerConnection?.setLocalDescription(offer);
 
     if (!currentCallUUID) {
       window.log.warn('cannot send offer without a currentCallUUID');
@@ -313,18 +374,18 @@ async function handleNegotiationNeededEvent(recipient: string) {
         uuid: currentCallUUID,
       });
 
-      window.log.info('sending OFFER MESSAGE');
-      const negotationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
+      window.log.info(`sending '${offer.type}'' with callUUID: ${currentCallUUID}`);
+      const negotiationOfferSendResult = await getMessageQueue().sendToPubKeyNonDurably(
         PubKey.cast(recipient),
         offerMessage
       );
-      if (typeof negotationOfferSendResult === 'number') {
+      if (typeof negotiationOfferSendResult === 'number') {
         // window.log?.warn('setting last sent timestamp');
-        lastOutgoingOfferTimestamp = negotationOfferSendResult;
+        lastOutgoingOfferTimestamp = negotiationOfferSendResult;
       }
     }
   } catch (err) {
-    window.log?.error(`Error on handling negotiation needed ${err}`);
+    window.log?.error(`Error createOfferAndSendIt ${err}`);
   } finally {
     makingOffer = false;
   }
@@ -340,51 +401,32 @@ function handleIceCandidates(event: RTCPeerConnectionIceEvent, pubkey: string) {
 async function openMediaDevicesAndAddTracks() {
   try {
     await updateConnectedDevices();
-    if (!camerasList.length) {
-      ToastUtils.pushNoCameraFound();
-      return;
-    }
+
     if (!audioInputsList.length) {
       ToastUtils.pushNoAudioInputFound();
       return;
     }
 
-    selectedAudioInputId = audioInputsList[0].deviceId;
+    selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID; //audioInputsList[0].deviceId;
     selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
     window.log.info(
-      `openMediaDevices videoDevice:${selectedCameraId}:${camerasList[0].label}   audioDevice:${selectedAudioInputId}`
+      `openMediaDevices videoDevice:${selectedCameraId} audioDevice:${selectedAudioInputId}`
     );
 
-    const devicesConfig = {
-      audio: {
-        deviceId: selectedAudioInputId,
-
-        echoCancellation: true,
-      },
-      video: {
-        deviceId: selectedCameraId,
-        // width: VIDEO_WIDTH,
-        // height: Math.floor(VIDEO_WIDTH * VIDEO_RATIO),
-      },
-    };
-
-    mediaDevices = await navigator.mediaDevices.getUserMedia(devicesConfig);
-    mediaDevices.getTracks().map(track => {
-      if (track.kind === 'video') {
-        track.enabled = false;
-      }
-      if (mediaDevices) {
-        peerConnection?.addTrack(track, mediaDevices);
+    localStream = getBlackSilenceMediaStream();
+    localStream.getTracks().map(track => {
+      if (localStream) {
+        peerConnection?.addTrack(track, localStream);
       }
     });
   } catch (err) {
+    window.log.warn('openMediaDevices: ', err);
     ToastUtils.pushVideoCallPermissionNeeded();
     closeVideoCall();
   }
   callVideoListeners();
 }
 
-// tslint:disable-next-line: function-name
 export async function USER_callRecipient(recipient: string) {
   if (!getCallMediaPermissionsSettings()) {
     ToastUtils.pushVideoCallPermissionNeeded();
@@ -412,12 +454,16 @@ export async function USER_callRecipient(recipient: string) {
   });
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
+
+  // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
+  // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
   const { wrappedEnvelope } = await MessageSender.send(rawMessage);
   void PnServer.notifyPnServer(wrappedEnvelope, recipient);
 
   await openMediaDevicesAndAddTracks();
   setIsRinging(true);
+  await createOfferAndSendIt(recipient);
 }
 
 const iceCandidates: Array<RTCIceCandidate> = new Array();
@@ -455,7 +501,9 @@ const iceSenderDebouncer = _.debounce(async (recipient: string) => {
     uuid: currentCallUUID,
   });
 
-  window.log.info('sending ICE CANDIDATES MESSAGE to ', recipient);
+  window.log.info(
+    `sending ICE CANDIDATES MESSAGE to ${ed25519Str(recipient)} about call ${currentCallUUID}`
+  );
 
   await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(recipient), callIceCandicates);
 }, 2000);
@@ -490,6 +538,15 @@ function handleConnectionStateChanged(pubkey: string) {
     closeVideoCall();
   } else if (peerConnection?.connectionState === 'connected') {
     setIsRinging(false);
+    const firstAudioInput = audioInputsList?.[0].deviceId || undefined;
+    if (firstAudioInput) {
+      void selectAudioInputByDeviceId(firstAudioInput);
+    }
+
+    const firstAudioOutput = audioOutputsList?.[0].deviceId || undefined;
+    if (firstAudioOutput) {
+      void selectAudioOutputByDeviceId(firstAudioOutput);
+    }
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }
 }
@@ -510,14 +567,16 @@ function closeVideoCall() {
       dataChannel.close();
       dataChannel = null;
     }
-    if (mediaDevices) {
-      mediaDevices.getTracks().forEach(track => {
+    if (localStream) {
+      localStream.getTracks().forEach(track => {
         track.stop();
+        localStream?.removeTrack(track);
       });
     }
 
     if (remoteStream) {
       remoteStream.getTracks().forEach(track => {
+        track.stop();
         remoteStream?.removeTrack(track);
       });
     }
@@ -526,13 +585,15 @@ function closeVideoCall() {
     peerConnection = null;
   }
 
-  mediaDevices = null;
+  localStream = null;
   remoteStream = null;
   selectedCameraId = DEVICE_DISABLED_DEVICE_ID;
   selectedAudioInputId = DEVICE_DISABLED_DEVICE_ID;
   currentCallUUID = undefined;
 
   window.inboxStore?.dispatch(setFullScreenCall(false));
+  window.inboxStore?.dispatch(endCall());
+
   remoteVideoStreamIsMuted = true;
 
   makingOffer = false;
@@ -542,24 +603,26 @@ function closeVideoCall() {
   callVideoListeners();
 }
 
+function getCallingStateOutsideOfRedux() {
+  const ongoingCallWith = window.inboxStore?.getState().call.ongoingWith as string | undefined;
+  const ongoingCallStatus = window.inboxStore?.getState().call.ongoingCallStatus as CallStatusEnum;
+  return { ongoingCallWith, ongoingCallStatus };
+}
+
 function onDataChannelReceivedMessage(ev: MessageEvent<string>) {
   try {
     const parsed = JSON.parse(ev.data);
 
     if (parsed.hangup !== undefined) {
-      const foundEntry = getConversationController()
-        .getConversations()
-        .find(
-          (convo: ConversationModel) =>
-            convo.callState === 'connecting' ||
-            convo.callState === 'offering' ||
-            convo.callState === 'ongoing'
-        );
-
-      if (!foundEntry || !foundEntry.id) {
-        return;
+      const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+      if (
+        (ongoingCallStatus === 'connecting' ||
+          ongoingCallStatus === 'offering' ||
+          ongoingCallStatus === 'ongoing') &&
+        ongoingCallWith
+      ) {
+        void handleCallTypeEndCall(ongoingCallWith, currentCallUUID);
       }
-      handleCallTypeEndCall(foundEntry.id, currentCallUUID);
 
       return;
     }
@@ -578,7 +641,7 @@ function onDataChannelOnOpen() {
   sendVideoStatusViaDataChannel();
 }
 
-function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) {
+function createOrGetPeerConnection(withPubkey: string) {
   if (peerConnection) {
     return peerConnection;
   }
@@ -592,15 +655,7 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
 
   dataChannel.onmessage = onDataChannelReceivedMessage;
   dataChannel.onopen = onDataChannelOnOpen;
-
-  if (!isAcceptingCall) {
-    peerConnection.onnegotiationneeded = async () => {
-      await handleNegotiationNeededEvent(withPubkey);
-    };
-  }
-
   peerConnection.onsignalingstatechange = handleSignalingStateChangeEvent;
-
   peerConnection.ontrack = event => {
     event.track.onunmute = () => {
       remoteStream?.addTrack(event.track);
@@ -640,7 +695,6 @@ function createOrGetPeerConnection(withPubkey: string, isAcceptingCall = false) 
   return peerConnection;
 }
 
-// tslint:disable-next-line: function-name
 export async function USER_acceptIncomingCallRequest(fromSender: string) {
   window.log.info('USER_acceptIncomingCallRequest');
   setIsRinging(false);
@@ -674,7 +728,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   currentCallUUID = lastOfferMessage.uuid;
 
-  peerConnection = createOrGetPeerConnection(fromSender, true);
+  peerConnection = createOrGetPeerConnection(fromSender);
 
   await openMediaDevicesAndAddTracks();
 
@@ -711,46 +765,59 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   await buildAnswerAndSendIt(fromSender);
 }
 
-// tslint:disable-next-line: function-name
+export async function rejectCallAlreadyAnotherCall(fromSender: string, forcedUUID: string) {
+  setIsRinging(false);
+  window.log.info(`rejectCallAlreadyAnotherCall ${ed25519Str(fromSender)}: ${forcedUUID}`);
+  rejectedCallUUIDS.add(forcedUUID);
+  const rejectCallMessage = new CallMessage({
+    type: SignalService.CallMessage.Type.END_CALL,
+    timestamp: Date.now(),
+    uuid: forcedUUID,
+  });
+  await sendCallMessageAndSync(rejectCallMessage, fromSender);
+
+  // delete all msg not from that uuid only but from that sender pubkey
+  clearCallCacheFromPubkeyAndUUID(fromSender, forcedUUID);
+}
+
 export async function USER_rejectIncomingCallRequest(fromSender: string) {
   setIsRinging(false);
-
+  // close the popup call
+  window.inboxStore?.dispatch(endCall());
   const lastOfferMessage = findLastMessageTypeFromSender(
     fromSender,
     SignalService.CallMessage.Type.OFFER
   );
 
-  const lastCallUUID = lastOfferMessage?.uuid;
-  window.log.info(`USER_rejectIncomingCallRequest ${ed25519Str(fromSender)}: ${lastCallUUID}`);
-  if (lastCallUUID) {
+  const aboutCallUUID = lastOfferMessage?.uuid;
+  window.log.info(`USER_rejectIncomingCallRequest ${ed25519Str(fromSender)}: ${aboutCallUUID}`);
+  if (aboutCallUUID) {
+    rejectedCallUUIDS.add(aboutCallUUID);
     const endCallMessage = new CallMessage({
       type: SignalService.CallMessage.Type.END_CALL,
       timestamp: Date.now(),
-      uuid: lastCallUUID,
+      uuid: aboutCallUUID,
     });
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
-
+    // sync the reject event so our other devices remove the popup too
+    await sendCallMessageAndSync(endCallMessage, fromSender);
     // delete all msg not from that uuid only but from that sender pubkey
-    clearCallCacheFromPubkeyAndUUID(fromSender, lastCallUUID);
+    clearCallCacheFromPubkeyAndUUID(fromSender, aboutCallUUID);
   }
+  const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
 
-  window.inboxStore?.dispatch(
-    endCall({
-      pubkey: fromSender,
-    })
-  );
-
-  const convos = getConversationController().getConversations();
-  const callingConvos = convos.filter(convo => convo.callState !== undefined);
-  if (callingConvos.length > 0) {
-    // we just got a new offer from someone we are already in a call with
-    if (callingConvos.length === 1 && callingConvos[0].id === fromSender) {
-      closeVideoCall();
-    }
+  // clear the ongoing call if needed
+  if (ongoingCallWith && ongoingCallStatus && ongoingCallWith === fromSender) {
+    closeVideoCall();
   }
 }
 
-// tslint:disable-next-line: function-name
+async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
+  await Promise.all([
+    getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(user), callmessage),
+    getMessageQueue().sendToPubKeyNonDurably(UserUtils.getOurPubKeyFromCache(), callmessage),
+  ]);
+}
+
 export async function USER_hangup(fromSender: string) {
   window.log.info('USER_hangup');
 
@@ -758,6 +825,7 @@ export async function USER_hangup(fromSender: string) {
     window.log.warn('should not be able to hangup without a currentCallUUID');
     return;
   } else {
+    rejectedCallUUIDS.add(currentCallUUID);
     const endCallMessage = new CallMessage({
       type: SignalService.CallMessage.Type.END_CALL,
       timestamp: Date.now(),
@@ -766,7 +834,7 @@ export async function USER_hangup(fromSender: string) {
     void getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(fromSender), endCallMessage);
   }
 
-  window.inboxStore?.dispatch(endCall({ pubkey: fromSender }));
+  window.inboxStore?.dispatch(endCall());
   window.log.info('sending hangup with an END_CALL MESSAGE');
 
   sendHangupViaDataChannel();
@@ -776,16 +844,36 @@ export async function USER_hangup(fromSender: string) {
   closeVideoCall();
 }
 
-export function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
+/**
+ * This can actually be called from either the datachannel or from the receiver END_CALL event
+ */
+export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: string) {
   window.log.info('handling callMessage END_CALL:', aboutCallUUID);
 
   if (aboutCallUUID) {
+    rejectedCallUUIDS.add(aboutCallUUID);
+
     clearCallCacheFromPubkeyAndUUID(sender, aboutCallUUID);
+
+    // this is a end call from ourself. We must remove the popup about the incoming call
+    // if it matches the owner of this callUUID
+    if (sender === UserUtils.getOurPubKeyStrFromCache()) {
+      const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+      const ownerOfCall = getOwnerOfCallUUID(aboutCallUUID);
+
+      if (
+        (ongoingCallStatus === 'incoming' || ongoingCallStatus === 'connecting') &&
+        ongoingCallWith === ownerOfCall
+      ) {
+        closeVideoCall();
+        window.inboxStore?.dispatch(endCall());
+      }
+      return;
+    }
 
     if (aboutCallUUID === currentCallUUID) {
       closeVideoCall();
-
-      window.inboxStore?.dispatch(endCall({ pubkey: sender }));
+      window.inboxStore?.dispatch(endCall());
     }
   }
 }
@@ -796,16 +884,12 @@ async function buildAnswerAndSendIt(sender: string) {
       window.log.warn('cannot send answer without a currentCallUUID');
       return;
     }
-
-    const answer = await peerConnection.createAnswer({
-      offerToReceiveAudio: true,
-      offerToReceiveVideo: true,
-    });
+    await (peerConnection as any).setLocalDescription();
+    const answer = peerConnection.localDescription;
     if (!answer?.sdp || answer.sdp.length === 0) {
       window.log.warn('failed to create answer');
       return;
     }
-    await peerConnection.setLocalDescription(answer);
     const answerSdp = answer.sdp;
     const callAnswerMessage = new CallMessage({
       timestamp: Date.now(),
@@ -814,10 +898,13 @@ async function buildAnswerAndSendIt(sender: string) {
       uuid: currentCallUUID,
     });
 
-    window.log.info('sending ANSWER MESSAGE');
-
-    await getMessageQueue().sendToPubKeyNonDurably(PubKey.cast(sender), callAnswerMessage);
+    window.log.info('sending ANSWER MESSAGE and sync');
+    await sendCallMessageAndSync(callAnswerMessage, sender);
   }
+}
+
+export function isCallRejected(uuid: string) {
+  return rejectedCallUUIDS.has(uuid);
 }
 
 export async function handleCallTypeOffer(
@@ -832,45 +919,53 @@ export async function handleCallTypeOffer(
     }
     window.log.info('handling callMessage OFFER with uuid: ', remoteCallUUID);
 
-    const convos = getConversationController().getConversations();
-    const callingConvos = convos.filter(convo => convo.callState !== undefined);
-
     if (!getCallMediaPermissionsSettings()) {
       await handleMissedCall(sender, incomingOfferTimestamp, true);
       return;
     }
 
-    if (callingConvos.length > 0) {
-      // we just got a new offer from someone we are NOT already in a call with
-      if (callingConvos.length !== 1 || callingConvos[0].id !== sender) {
-        await handleMissedCall(sender, incomingOfferTimestamp, false);
+    if (currentCallUUID && currentCallUUID !== remoteCallUUID) {
+      // we just got a new offer with a different callUUID. this is a missed call (from either the same sender or another one)
+      if (callCache.get(sender)?.has(currentCallUUID)) {
+        // this is a missed call from the same sender but with a different callID.
+        // another call from another device maybe? just reject it.
+        await rejectCallAlreadyAnotherCall(sender, remoteCallUUID);
         return;
       }
+      // add a message in the convo with this user about the missed call.
+      await handleMissedCall(sender, incomingOfferTimestamp, false);
+      // Here, we are in a call, and we got an offer from someone we are in a call with, and not one of his other devices.
+      // Just hangup automatically the call on the calling side.
+
+      await rejectCallAlreadyAnotherCall(sender, remoteCallUUID);
+
+      return;
     }
 
     const readyForOffer =
       !makingOffer && (peerConnection?.signalingState === 'stable' || isSettingRemoteAnswerPending);
     const polite = lastOutgoingOfferTimestamp < incomingOfferTimestamp;
     const offerCollision = !readyForOffer;
-
     ignoreOffer = !polite && offerCollision;
+
     if (ignoreOffer) {
       window.log?.warn('Received offer when unready for offer; Ignoring offer.');
       return;
     }
 
-    if (callingConvos.length === 1 && callingConvos[0].id === sender) {
+    if (peerConnection && remoteCallUUID === currentCallUUID && currentCallUUID) {
       window.log.info('Got a new offer message from our ongoing call');
-      isSettingRemoteAnswerPending = false;
-      const remoteDesc = new RTCSessionDescription({
+
+      const remoteOfferDesc = new RTCSessionDescription({
         type: 'offer',
         sdp: callMessage.sdps[0],
       });
       isSettingRemoteAnswerPending = false;
-      if (peerConnection) {
-        await peerConnection.setRemoteDescription(remoteDesc); // SRD rolls back as needed
-        await buildAnswerAndSendIt(sender);
-      }
+
+      await peerConnection.setRemoteDescription(remoteOfferDesc); // SRD rolls back as needed
+      isSettingRemoteAnswerPending = false;
+
+      await buildAnswerAndSendIt(sender);
     } else {
       window.inboxStore?.dispatch(incomingCall({ pubkey: sender }));
 
@@ -927,32 +1022,94 @@ export async function handleMissedCall(
   return;
 }
 
+function getOwnerOfCallUUID(callUUID: string) {
+  for (const deviceKey of callCache.keys()) {
+    for (const callUUIDEntry of callCache.get(deviceKey) as Map<
+      string,
+      Array<SignalService.CallMessage>
+    >) {
+      if (callUUIDEntry[0] === callUUID) {
+        return deviceKey;
+      }
+    }
+  }
+  return null;
+}
+
 export async function handleCallTypeAnswer(sender: string, callMessage: SignalService.CallMessage) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
-    window.log.warn('cannot handle answered message without signal description protols');
+    window.log.warn('cannot handle answered message without signal description proto sdps');
     return;
   }
-  const remoteCallUUID = callMessage.uuid;
-  if (!remoteCallUUID || remoteCallUUID.length === 0) {
+  const callMessageUUID = callMessage.uuid;
+  if (!callMessageUUID || callMessageUUID.length === 0) {
     window.log.warn('handleCallTypeAnswer has no valid uuid');
     return;
   }
 
-  window.log.info('handling callMessage ANSWER');
+  // this is an answer we sent to ourself, this must be about another of our device accepting an incoming call.
+  // if we accepted that call already from the current device, currentCallUUID would be set
+  if (sender === UserUtils.getOurPubKeyStrFromCache()) {
+    // when we answer a call, we get this message on all our devices, including the one we just accepted the call with.
 
-  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+    const isDeviceWhichJustAcceptedCall = currentCallUUID === callMessageUUID;
+
+    if (isDeviceWhichJustAcceptedCall) {
+      window.log.info(
+        `isDeviceWhichJustAcceptedCall: skipping message back ANSWER from ourself about call ${callMessageUUID}`
+      );
+
+      return;
+    }
+    window.log.info(`handling callMessage ANSWER from ourself about call ${callMessageUUID}`);
+
+    const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
+    const foundOwnerOfCallUUID = getOwnerOfCallUUID(callMessageUUID);
+
+    if (callMessageUUID !== currentCallUUID) {
+      // this is an answer we sent from another of our devices
+      // automatically close that call
+      if (foundOwnerOfCallUUID) {
+        rejectedCallUUIDS.add(callMessageUUID);
+        // if this call is about the one being currently displayed, force close it
+        if (ongoingCallStatus && ongoingCallWith === foundOwnerOfCallUUID) {
+          closeVideoCall();
+        }
+
+        window.inboxStore?.dispatch(endCall());
+      }
+    }
+    return;
+  } else {
+    window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
+  }
+
+  pushCallMessageToCallCache(sender, callMessageUUID, callMessage);
 
   if (!peerConnection) {
     window.log.info('handleCallTypeAnswer without peer connection. Dropping');
     return;
   }
-  window.inboxStore?.dispatch(answerCall({ pubkey: sender }));
-  const remoteDesc = new RTCSessionDescription({ type: 'answer', sdp: callMessage.sdps[0] });
+  window.inboxStore?.dispatch(
+    answerCall({
+      pubkey: sender,
+    })
+  );
 
-  // window.log?.info('Setting remote answer pending');
-  isSettingRemoteAnswerPending = true;
-  await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
-  isSettingRemoteAnswerPending = false;
+  try {
+    isSettingRemoteAnswerPending = true;
+
+    const remoteDesc = new RTCSessionDescription({
+      type: 'answer',
+      sdp: callMessage.sdps[0],
+    });
+
+    await peerConnection?.setRemoteDescription(remoteDesc); // SRD rolls back as needed
+  } catch (e) {
+    window.log.warn('setRemoteDescriptio failed:', e);
+  } finally {
+    isSettingRemoteAnswerPending = false;
+  }
 }
 
 export async function handleCallTypeIceCandidates(

@@ -72,7 +72,7 @@ const envelopeQueue = new EnvelopeQueue();
 
 function queueEnvelope(envelope: EnvelopePlus, messageHash?: string) {
   const id = getEnvelopeId(envelope);
-  window?.log?.info('queueing envelope', id);
+  // window?.log?.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope, messageHash);
   const taskWithTimeout = createTaskWithTimeout(task, `queueEnvelope ${id}`);

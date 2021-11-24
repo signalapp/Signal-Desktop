@@ -45,7 +45,7 @@ const Sections = (props: Props & { selectedTab: TabType }) => {
     const label =
       type === 'media' ? window.i18n('mediaEmptyState') : window.i18n('documentsEmptyState');
 
-    return <EmptyState data-test="EmptyState" label={label} />;
+    return <EmptyState data-testid="EmptyState" label={label} />;
   }
 
   return (

@@ -14,8 +14,6 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
-  getHasIncomingCall,
-  getHasOngoingCall,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
   getSelectedConversation,
@@ -40,6 +38,7 @@ import {
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
+import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
 
 export interface TimerOption {
   name: string;
@@ -107,7 +106,7 @@ const SelectionOverlay = () => {
   return (
     <div className="message-selection-overlay">
       <div className="close-button">
-        <SessionIconButton iconType="exit" iconSize={'medium'} onClick={onCloseOverlay} />
+        <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
       </div>
 
       <div className="button-group">
@@ -145,7 +144,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton iconType="ellipses" iconSize={'medium'} />
+      <SessionIconButton iconType="ellipses" iconSize="medium" />
     </div>
   );
 };

@@ -26,13 +26,6 @@ message WebSocketRequestMessage {
     optional uint64 id      = 4;
 }
 
-message WebSocketResponseMessage {
-    optional uint64 id      = 1;
-    optional uint32 status  = 2;
-    optional string message = 3;
-    repeated string headers = 5;
-    optional bytes  body    = 4;
-}
 
 message WebSocketMessage {
     enum Type {
@@ -43,5 +36,4 @@ message WebSocketMessage {
 
     optional Type                     type     = 1;
     optional WebSocketRequestMessage  request  = 2;
-    optional WebSocketResponseMessage response = 3;
 }
