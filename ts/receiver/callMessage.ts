@@ -2,11 +2,9 @@ import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { TTL_DEFAULT } from '../session/constants';
 import { SNodeAPI } from '../session/snode_api';
-import { CallManager } from '../session/utils';
+import { CallManager, UserUtils } from '../session/utils';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
-
-// audric FIXME: refactor this out to persistence, just to help debug the flow and send/receive in synchronous testing
 
 export async function handleCallMessage(
   envelope: EnvelopePlus,
