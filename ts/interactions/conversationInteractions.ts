@@ -22,6 +22,7 @@ import {
 } from '../state/ducks/modalDialog';
 import {
   createOrUpdateItem,
+  getConversationById,
   getItemById,
   getMessageById,
   hasLinkPreviewPopupBeenDisplayed,
@@ -36,6 +37,7 @@ import { fromHexToArray, toHex } from '../session/utils/String';
 import { SessionButtonColor } from '../components/session/SessionButton';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getCallMediaPermissionsSettings } from '../components/session/settings/SessionSettings';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -114,6 +116,15 @@ export async function unblockConvoById(conversationId: string) {
   ToastUtils.pushToastSuccess('unblocked', window.i18n('unblocked'));
   await conversation.commit();
 }
+
+/**
+ * marks the conversation as approved.
+ */
+export const approveConversation = async (conversationId: string) => {
+  const conversationToApprove = await getConversationById(conversationId);
+  await conversationToApprove?.setIsApproved(true);
+  await forceSyncConfigurationNowIfNeeded();
+};
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);

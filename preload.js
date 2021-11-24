@@ -39,11 +39,6 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
-  useFileOnionRequests: true,
-  useFileOnionRequestsV2: true, // more compact encoding of files in response
-  padOutgoingAttachments: true,
-  enablePinConversations: true,
-  useUnsendRequests: false,
   useMessageRequests: true,
   useCallMessage: true,
 };

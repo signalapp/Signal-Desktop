@@ -107,7 +107,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       throw new Error('render: must provided conversations if no search results are provided');
     }
 
-    const length = this.props.conversations ? this.props.conversations.length : 0;
+    const length = conversations.length;
 
     const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
@@ -119,7 +119,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           {({ height, width }) => (
             <List
               className="module-left-pane__virtual-list"
-              conversations={this.props.conversations}
+              conversations={conversations}
               height={height}
               rowCount={length}
               rowHeight={64}
@@ -301,15 +301,10 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     const messageRequestsElement = (
       <SessionClosableOverlay
         overlayMode={SessionClosableOverlayType.MessageRequests}
-        onChangeSessionID={this.handleOnPaste}
         onCloseClick={() => {
           this.handleToggleOverlay(undefined);
         }}
         onButtonClick={this.handleBlockAllRequestsClick}
-        searchTerm={searchTerm}
-        searchResults={searchResults}
-        showSpinner={loading}
-        updateSearch={this.updateSearch}
       />
     );
 

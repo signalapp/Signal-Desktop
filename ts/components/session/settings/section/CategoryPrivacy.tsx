@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
 import { sessionPassword, updateConfirmModal } from '../../../../state/ducks/modalDialog';
 import { toggleMessageRequests } from '../../../../state/ducks/userConfig';
+import { getIsMessageRequestsEnabled } from '../../../../state/selectors/userConfig';
 import { PasswordAction } from '../../../dialog/SessionPasswordDialog';
 import { SessionButtonColor } from '../../SessionButton';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
@@ -53,6 +55,7 @@ export const SettingsCategoryPrivacy = (props: {
   onPasswordUpdated: (action: string) => void;
 }) => {
   const forceUpdate = useUpdate();
+  const dispatch = useDispatch();
 
   if (props.hasPassword !== null) {
     return (
@@ -110,14 +113,11 @@ export const SettingsCategoryPrivacy = (props: {
         />
         <SessionToggleWithDescription
           onClickToggle={() => {
-            // const old = Boolean(window.getSettingValue(settingsAutoUpdate));
-            // window.setSettingValue(settingsAutoUpdate, !old);
-            window.inboxStore?.dispatch(toggleMessageRequests());
-            forceUpdate();
+            dispatch(toggleMessageRequests());
           }}
           title={window.i18n('messageRequests')}
           description={window.i18n('messageRequestsDescription')}
-          active={Boolean(window.getSettingValue(settingsAutoUpdate))}
+          active={useSelector(getIsMessageRequestsEnabled)}
         />
         {!props.hasPassword && (
           <SessionSettingButtonItem

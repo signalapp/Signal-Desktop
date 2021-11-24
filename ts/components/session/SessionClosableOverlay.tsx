@@ -25,7 +25,7 @@ export enum SessionClosableOverlayType {
 
 interface Props {
   overlayMode: SessionClosableOverlayType;
-  onChangeSessionID: any;
+  onChangeSessionID?: any;
   onCloseClick: any;
   onButtonClick: any;
   contacts?: Array<ReduxConversationType>;

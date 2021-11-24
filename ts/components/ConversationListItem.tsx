@@ -29,10 +29,9 @@ import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
 import { Flex } from './basic/Flex';
 import { SessionButton, SessionButtonColor } from './session/SessionButton';
-import { getConversationById } from '../data/data';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { BlockedNumberController } from '../util';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
+import { approveConversation, blockConvoById } from '../interactions/conversationInteractions';
 
 // tslint:disable-next-line: no-empty-interface
 export interface ConversationListItemProps extends ReduxConversationType {}
@@ -303,20 +302,7 @@ const ConversationListItem = (props: Props) => {
    * adds ID to block list, syncs the block with linked devices.
    */
   const handleConversationBlock = async () => {
-    const convoToBlock = await getConversationById(conversationId);
-    if (!convoToBlock) {
-      window?.log?.error('Unable to find conversation to be blocked.');
-    }
-    await BlockedNumberController.block(convoToBlock?.id);
-    await forceSyncConfigurationNowIfNeeded();
-  };
-
-  /**
-   * marks the conversation as approved.
-   */
-  const handleConversationAccept = async () => {
-    const conversationToApprove = await getConversationById(conversationId);
-    await conversationToApprove?.setIsApproved(true);
+    blockConvoById(conversationId);
     await forceSyncConfigurationNowIfNeeded();
   };
 
@@ -325,6 +311,10 @@ const ConversationListItem = (props: Props) => {
       <div
         role="button"
         onMouseDown={openConvo}
+        onMouseUp={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
         onContextMenu={(e: any) => {
           contextMenu.show({
             id: triggerId,
@@ -381,7 +371,9 @@ const ConversationListItem = (props: Props) => {
               />
               <SessionButton
                 buttonColor={SessionButtonColor.Green}
-                onClick={handleConversationAccept}
+                onClick={() => {
+                  approveConversation(conversationId);
+                }}
                 text={window.i18n('accept')}
               />
             </Flex>
