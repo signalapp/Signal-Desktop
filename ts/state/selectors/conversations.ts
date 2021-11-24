@@ -36,6 +36,7 @@ import { MessageAttachmentSelectorProps } from '../../components/conversation/me
 import { MessageContentSelectorProps } from '../../components/conversation/message/MessageContent';
 import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/MessageContentWithStatus';
 import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/GenericReadableMessage';
+import { getIsMessageRequestsEnabled } from './userConfig';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -425,6 +426,7 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 export const _getLeftPaneLists = (
   lookup: ConversationLookupType,
   comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
+  isMessageRequestEnabled?: boolean,
   selectedConversation?: string
 ): {
   conversations: Array<ReduxConversationType>;
@@ -456,13 +458,8 @@ export const _getLeftPaneLists = (
       };
     }
 
-    let messageRequestsEnabled = false;
-
-    if (window?.inboxStore?.getState()) {
-      messageRequestsEnabled =
-        window.inboxStore?.getState().userConfig.messageRequests === true &&
-        window.lokiFeatureFlags?.useMessageRequests === true;
-    }
+    const excludeUnapproved =
+      isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
 
     // Add Open Group to list as soon as the name has been set
     if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
@@ -479,7 +476,7 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (messageRequestsEnabled && !conversation.isApproved && !conversation.isBlocked) {
+    if (excludeUnapproved && !conversation.isApproved && !conversation.isBlocked) {
       // dont increase unread counter, don't push to convo list.
       continue;
     }
@@ -571,6 +568,7 @@ export const getConversationRequests = createSelector(
 export const getLeftPaneLists = createSelector(
   getConversationLookup,
   getConversationComparator,
+  getIsMessageRequestsEnabled,
   getSelectedConversationKey,
   _getLeftPaneLists
 );
