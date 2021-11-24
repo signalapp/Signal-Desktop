@@ -781,7 +781,11 @@ export class ConversationController {
           `ConversationController: Removing ${temporaryConversations.length} temporary conversations`
         );
       }
-      const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+      const queue = new PQueue({
+        concurrency: 3,
+        timeout: 1000 * 60 * 2,
+        throwOnTimeout: true,
+      });
       queue.addAll(
         temporaryConversations.map(item => async () => {
           await removeConversation(item.id, {

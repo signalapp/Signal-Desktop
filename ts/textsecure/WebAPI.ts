@@ -2015,7 +2015,11 @@ export function initialize({
       });
 
       // Upload stickers
-      const queue = new PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
+      const queue = new PQueue({
+        concurrency: 3,
+        timeout: 1000 * 60 * 2,
+        throwOnTimeout: true,
+      });
       await Promise.all(
         stickers.map(async (sticker: ServerAttachmentType, index: number) => {
           const stickerParams = makePutParams(

@@ -7,6 +7,7 @@ import { Sound } from './Sound';
 const ringtoneEventQueue = new PQueue({
   concurrency: 1,
   timeout: 1000 * 60 * 2,
+  throwOnTimeout: true,
 });
 
 class CallingTones {

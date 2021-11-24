@@ -75,7 +75,11 @@ export async function routineProfileRefresh({
     }
   }
 
-  const refreshQueue = new PQueue({ concurrency: 5, timeout: 1000 * 60 * 2 });
+  const refreshQueue = new PQueue({
+    concurrency: 5,
+    timeout: 1000 * 60 * 2,
+    throwOnTimeout: true,
+  });
   for (const conversation of conversationsToRefresh) {
     refreshQueue.add(() => refreshConversation(conversation));
   }
