@@ -1843,10 +1843,10 @@
     "@react-spring/shared" "~9.2.6-beta.0"
     "@react-spring/types" "~9.2.6-beta.0"
 
-"@signalapp/signal-client@0.10.1":
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.10.1.tgz#74b41264044caac4d42df3baf1f5c393f63ec50a"
-  integrity sha512-myVTaqFljakN0fxvmK4FmslOHJPuuoGxpSmlu4KU2D3RP2EiDHmg3Q+Xw9TWh7ehpstUxwe5op6sThq5d3b3Dw==
+"@signalapp/signal-client@0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@signalapp/signal-client/-/signal-client-0.11.0.tgz#a7a4a0b5f94de9c025934a2c99dce13555aefb07"
+  integrity sha512-0ENfmFCadJgp6cEnjvD8+f6a4B//Fo4sH9Urrc7MY4ltdy/7tQ5K8sXR3Hr5rYHdapJW01zVRvOyv6Out5KTFQ==
   dependencies:
     node-gyp-build "^4.2.3"
     uuid "^8.3.0"

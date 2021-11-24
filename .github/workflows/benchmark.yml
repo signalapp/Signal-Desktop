@@ -25,7 +25,7 @@ jobs:
       with:
         repository: 'signalapp/Mock-Signal-Server-Private'
         path: 'Mock-Server'
-        ref: 'beta'
+        ref: 'gamma'
         token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
     - name: Setup node.js
