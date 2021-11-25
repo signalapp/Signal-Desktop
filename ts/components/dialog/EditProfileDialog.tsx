@@ -246,7 +246,12 @@ export class EditProfileDialog extends React.Component<{}, State> {
     const userName = profileName || this.convo.id;
 
     return (
-      <Avatar avatarPath={avatar} name={userName} size={AvatarSize.XL} pubkey={this.convo.id} />
+      <Avatar
+        forcedAvatarPath={avatar}
+        forcedName={userName}
+        size={AvatarSize.XL}
+        pubkey={this.convo.id}
+      />
     );
   }
 

@@ -5,7 +5,6 @@ import { Avatar, AvatarSize } from '../Avatar';
 import { SessionIconButton } from '../session/icon';
 
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
-import { ConversationAvatar } from '../session/usingClosedConversationDetails';
 import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
 import styled from 'styled-components';
@@ -16,7 +15,6 @@ import {
   getCurrentNotificationSettingText,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
-  getSelectedConversation,
   getSelectedConversationIsPublic,
   getSelectedConversationKey,
   getSelectedMessageIds,
@@ -25,7 +23,6 @@ import {
   isRightPanelShowing,
 } from '../../state/selectors/conversations';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 
 import {
   deleteMessagesById,
@@ -165,30 +162,22 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
 };
 
 const AvatarHeader = (props: {
-  avatarPath: string | null;
-  memberAvatars?: Array<ConversationAvatar>;
-  name?: string;
   pubkey: string;
-  profileName?: string;
   showBackButton: boolean;
   onAvatarClick?: (pubkey: string) => void;
 }) => {
-  const { avatarPath, memberAvatars, name, pubkey, profileName } = props;
-  const userName = name || profileName || pubkey;
+  const { pubkey, onAvatarClick, showBackButton } = props;
 
   return (
     <span className="module-conversation-header__avatar">
       <Avatar
-        avatarPath={avatarPath}
-        name={userName}
         size={AvatarSize.S}
         onAvatarClick={() => {
           // do not allow right panel to appear if another button is shown on the SessionConversation
-          if (props.onAvatarClick && !props.showBackButton) {
-            props.onAvatarClick(pubkey);
+          if (onAvatarClick && !showBackButton) {
+            onAvatarClick(pubkey);
           }
         }}
-        memberAvatars={memberAvatars}
         pubkey={pubkey}
       />
     </span>
@@ -344,8 +333,6 @@ export const ConversationHeaderWithDetails = () => {
   const headerProps = useSelector(getConversationHeaderProps);
 
   const isSelectionMode = useSelector(isMessageSelectionMode);
-  const selectedConversation = useSelector(getSelectedConversation);
-  const memberDetails = useMembersAvatars(selectedConversation);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
 
   const dispatch = useDispatch();
@@ -400,10 +387,6 @@ export const ConversationHeaderWithDetails = () => {
               }}
               pubkey={conversationKey}
               showBackButton={isMessageDetailOpened}
-              avatarPath={avatarPath}
-              memberAvatars={memberDetails}
-              name={name}
-              profileName={profileName}
             />
           </>
         )}

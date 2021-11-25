@@ -325,6 +325,7 @@ export const _getConversationComparator = (testingi18n?: LocalizerType) => {
     return collator.compare(leftTitle, rightTitle);
   };
 };
+
 export const getConversationComparator = createSelector(getIntl, _getConversationComparator);
 
 // export only because we use it in some of our tests

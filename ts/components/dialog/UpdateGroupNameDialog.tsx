@@ -191,7 +191,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     return (
       <div className="avatar-center">
         <div className="avatar-center-inner">
-          <Avatar avatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
+          <Avatar forcedAvatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
           <div
             className="image-upload-section"
             role="button"

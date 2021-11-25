@@ -9,7 +9,6 @@ import { getHasOngoingCall, getHasOngoingCallWith } from '../../../state/selecto
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import { Avatar, AvatarSize } from '../../Avatar';
 import { useVideoCallEventsListener } from '../../../hooks/useVideoEventListener';
-import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
 import { VideoLoadingSpinner } from './InConversationCallContainer';
 
 export const DraggableCallWindow = styled.div`
@@ -77,8 +76,6 @@ export const DraggableCallContainer = () => {
     'DraggableCallContainer',
     false
   );
-  const ongoingCallUsername = useConversationUsername(ongoingCallPubkey);
-  const avatarPath = useAvatarPath(ongoingCallPubkey);
   const videoRefRemote = useRef<HTMLVideoElement>(null);
 
   function onWindowResize() {
@@ -140,12 +137,7 @@ export const DraggableCallContainer = () => {
           />
           {remoteStreamVideoIsMuted && (
             <CenteredAvatarInDraggable>
-              <Avatar
-                size={AvatarSize.XL}
-                avatarPath={avatarPath}
-                name={ongoingCallUsername}
-                pubkey={ongoingCallPubkey}
-              />
+              <Avatar size={AvatarSize.XL} pubkey={ongoingCallPubkey} />
             </CenteredAvatarInDraggable>
           )}
         </DraggableCallWindowInner>

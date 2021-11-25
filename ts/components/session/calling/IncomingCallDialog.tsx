@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import _ from 'underscore';
-import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
+import { useConversationUsername } from '../../../hooks/useParamSelector';
 import { ed25519Str } from '../../../session/onions/onionPath';
 import { CallManager } from '../../../session/utils';
 import { getHasIncomingCall, getHasIncomingCallFrom } from '../../../state/selectors/call';
@@ -70,7 +70,6 @@ export const IncomingCallDialog = () => {
     }
   };
   const from = useConversationUsername(incomingCallFromPubkey);
-  const incomingAvatar = useAvatarPath(incomingCallFromPubkey);
   if (!hasIncomingCall) {
     return null;
   }
@@ -79,12 +78,7 @@ export const IncomingCallDialog = () => {
     return (
       <SessionWrapperModal title={window.i18n('incomingCallFrom', from)}>
         <IncomingCallAvatatContainer>
-          <Avatar
-            size={AvatarSize.XL}
-            avatarPath={incomingAvatar}
-            name={from}
-            pubkey={incomingCallFromPubkey}
-          />
+          <Avatar size={AvatarSize.XL} pubkey={incomingCallFromPubkey} />
         </IncomingCallAvatatContainer>
         <div className="session-modal__button-group">
           <SessionButton

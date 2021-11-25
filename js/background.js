@@ -192,27 +192,6 @@
     }
   });
 
-  Whisper.events.on('deleteLocalPublicMessages', async ({ messageServerIds, conversationId }) => {
-    if (!Array.isArray(messageServerIds)) {
-      return;
-    }
-    const messageIds = await window.Signal.Data.getMessageIdsFromServerIds(
-      messageServerIds,
-      conversationId
-    );
-    if (messageIds.length === 0) {
-      return;
-    }
-
-    const conversation = window.getConversationController().get(conversationId);
-    messageIds.forEach(id => {
-      if (conversation) {
-        conversation.removeMessage(id);
-      }
-      window.Signal.Data.removeMessage(id);
-    });
-  });
-
   function manageExpiringData() {
     window.Signal.Data.cleanSeenMessages();
     window.Signal.Data.cleanLastHashes();

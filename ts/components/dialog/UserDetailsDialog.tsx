@@ -25,7 +25,6 @@ export const UserDetailsDialog = (props: Props) => {
   const convo = getConversationController().get(props.conversationId);
 
   const size = isEnlargedImageShown ? AvatarSize.HUGE : AvatarSize.XL;
-  const userName = props.userName || props.conversationId;
 
   const [_, copyToClipboard] = useCopyToClipboard();
 
@@ -57,8 +56,6 @@ export const UserDetailsDialog = (props: Props) => {
       <div className="avatar-center">
         <div className="avatar-center-inner">
           <Avatar
-            avatarPath={props.authorAvatarPath}
-            name={userName}
             size={size}
             onAvatarClick={() => {
               setIsEnlargedImageShown(!isEnlargedImageShown);

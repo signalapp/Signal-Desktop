@@ -1,6 +1,7 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import _ from 'underscore';
+import { useAvatarPath, useConversationUsername } from '../../../hooks/useParamSelector';
 import {
   ConversationNotificationSettingType,
   ConversationTypeEnum,
@@ -34,8 +35,6 @@ export type PropsContextConversationItem = {
   left: boolean;
   theme?: any;
   currentNotificationSetting: ConversationNotificationSettingType;
-  name: string | undefined;
-  profileName: string | undefined;
   avatarPath: string | null;
 };
 
@@ -52,13 +51,12 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
     isKickedFromGroup,
     currentNotificationSetting,
     isPrivate,
-    name,
-    profileName,
-    avatarPath,
   } = props;
 
   const isGroup = type === 'group';
-  const userName = name || profileName || conversationId;
+
+  const userName = useConversationUsername(conversationId);
+  const avatarPath = useAvatarPath(conversationId);
 
   return (
     <Menu id={triggerId} animation={animation.fade}>
@@ -80,7 +78,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
       {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
       {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
       {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName)}
+      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName || '')}
     </Menu>
   );
 };
