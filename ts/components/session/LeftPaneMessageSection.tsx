@@ -240,27 +240,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       return;
     }
 
-    const conversationRequests = conversations.filter(conversation => {
-      // Add Open Group to list as soon as the name has been set
-      if (
-        conversation.isPublic() &&
-        (!conversation.get('name') || conversation.get('name') === 'Unknown group')
-      ) {
-        return false;
-      }
-
-      // Remove all invalid conversations and conversatons of devices associated
-      //  with cancelled attempted links
-      if (!conversation.isPublic && !conversation.get('active_at')) {
-        return false;
-      }
-
-      if (conversation.attributes.isApproved || !conversation.get('active_at')) {
-        return false;
-      }
-
-      return true;
-    });
+    const conversationRequests = conversations.filter(
+      c => c.isPrivate() && c.get('active_at') && c.get('isApproved')
+    );
 
     let syncRequired = false;
 

@@ -22,13 +22,12 @@ import {
 } from '../state/ducks/conversations';
 import _ from 'underscore';
 import { useMembersAvatars } from '../hooks/useMembersAvatar';
-import { SessionIcon } from './session/icon';
+import { SessionIcon, SessionIconButton } from './session/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
 import { Flex } from './basic/Flex';
-import { SessionButton, SessionButtonColor } from './session/SessionButton';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
 import { approveConversation, blockConvoById } from '../interactions/conversationInteractions';
@@ -364,17 +363,25 @@ const ConversationListItem = (props: Props) => {
               flexDirection="row"
               justifyContent="flex-end"
             >
-              <SessionButton
+              <SessionIconButton
+                iconType="exit"
+                iconSize="large"
                 onClick={handleConversationBlock}
-                buttonColor={SessionButtonColor.Danger}
-                text={window.i18n('blockUser')}
+                backgroundColor="var(--color-destructive)"
+                iconColor="var(--color-foreground-primary)"
+                iconPadding="var(--margins-xs)"
+                borderRadius="2px"
               />
-              <SessionButton
-                buttonColor={SessionButtonColor.Green}
+              <SessionIconButton
+                iconType="check"
+                iconSize="large"
                 onClick={async () => {
                   await approveConversation(conversationId);
                 }}
-                text={window.i18n('accept')}
+                backgroundColor="var(--color-accent)"
+                iconColor="var(--color-foreground-primary)"
+                iconPadding="var(--margins-xs)"
+                borderRadius="2px"
               />
             </Flex>
           ) : null}

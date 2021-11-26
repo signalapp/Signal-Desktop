@@ -432,7 +432,7 @@ export const _getConversationRequests = (
   isMessageRequestEnabled?: boolean
 ): Array<ReduxConversationType> => {
   const pushToMessageRequests =
-    isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
+    isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
     return pushToMessageRequests && !conversation.isApproved && !conversation.isBlocked;
   });
