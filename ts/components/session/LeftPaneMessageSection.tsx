@@ -38,6 +38,8 @@ export interface Props {
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
+
+  messageRequestsEnabled?: boolean;
 }
 
 export enum SessionComposeToType {
@@ -84,7 +86,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
 
     const conversation = conversations[index];
     if (!conversation) {
-      window?.log?.info('No conversation found at index');
+      throw new Error('renderRow: conversations selector returned element containing falsy value.');
       return null;
     }
 
@@ -222,12 +224,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
    * @returns void
    */
   private async handleBlockAllRequestsClick() {
-    let messageRequestsEnabled = false;
-    if (window?.inboxStore?.getState()) {
-      messageRequestsEnabled =
-        window.inboxStore?.getState().userConfig.messageRequests === true &&
-        window.lokiFeatureFlags?.useMessageRequests === true;
-    }
+    const messageRequestsEnabled =
+      this.props.messageRequestsEnabled && window?.lokiFeatureFlags?.useMessageRequests;
+
     if (!messageRequestsEnabled) {
       return;
     }

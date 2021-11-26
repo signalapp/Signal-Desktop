@@ -4,11 +4,11 @@ import { ConversationTypeEnum } from '../../../../models/conversation';
 import { ConversationLookupType } from '../../../../state/ducks/conversations';
 import {
   _getConversationComparator,
-  _getLeftPaneLists,
+  _getSortedConversations,
 } from '../../../../state/selectors/conversations';
 
 describe('state/selectors/conversations', () => {
-  describe('#getLeftPaneList', () => {
+  describe('#getSortedConversationsList', () => {
     // tslint:disable-next-line: max-func-body-length
     it('sorts conversations based on timestamp then by intl-friendly title', () => {
       const i18n = (key: string) => key;
@@ -160,7 +160,7 @@ describe('state/selectors/conversations', () => {
         },
       };
       const comparator = _getConversationComparator(i18n);
-      const { conversations } = _getLeftPaneLists(data, comparator);
+      const conversations = _getSortedConversations(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'First!');
       assert.strictEqual(conversations[1].name, 'Á');
@@ -169,7 +169,7 @@ describe('state/selectors/conversations', () => {
     });
   });
 
-  describe('#getLeftPaneListWithPinned', () => {
+  describe('#getSortedConversationsWithPinned', () => {
     // tslint:disable-next-line: max-func-body-length
     it('sorts conversations based on pin, timestamp then by intl-friendly title', () => {
       const i18n = (key: string) => key;
@@ -325,7 +325,7 @@ describe('state/selectors/conversations', () => {
         },
       };
       const comparator = _getConversationComparator(i18n);
-      const { conversations } = _getLeftPaneLists(data, comparator);
+      const conversations = _getSortedConversations(data, comparator);
 
       assert.strictEqual(conversations[0].name, 'Á');
       assert.strictEqual(conversations[1].name, 'C');

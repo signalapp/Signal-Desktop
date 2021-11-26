@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { getLeftPaneLists } from '../state/selectors/conversations';
 import { getQuery, getSearchResults, isSearching } from '../state/selectors/search';
 import { SectionType } from '../state/ducks/section';
+import { getIsMessageRequestsEnabled } from '../state/selectors/userConfig';
 
 // from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
 export type RowRendererParamsType = {
@@ -29,14 +30,15 @@ const InnerLeftPaneMessageSection = () => {
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
   const lists = showSearch ? undefined : useSelector(getLeftPaneLists);
+  const messageRequestsEnabled = useSelector(getIsMessageRequestsEnabled);
 
-  // tslint:disable: use-simple-attributes
   return (
     <LeftPaneMessageSection
       conversations={lists?.conversations || []}
       contacts={lists?.contacts || []}
       searchResults={searchResults}
       searchTerm={searchTerm}
+      messageRequestsEnabled={messageRequestsEnabled}
     />
   );
 };

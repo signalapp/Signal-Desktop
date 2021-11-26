@@ -11,10 +11,7 @@ import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import { useSelector } from 'react-redux';
 import { getConversationRequests } from '../../state/selectors/conversations';
-import {
-  ConversationListItemProps,
-  MemoConversationListItemWithDetails,
-} from '../ConversationListItem';
+import { MemoConversationListItemWithDetails } from '../ConversationListItem';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
@@ -299,13 +296,14 @@ const MessageRequestList = () => {
   return (
     <div className="message-request-list__container">
       {conversationRequests.map(conversation => {
-        return <MessageRequestListItem key={conversation.id} conversation={conversation} />;
+        return (
+          <MemoConversationListItemWithDetails
+            key={conversation.id}
+            isMessageRequest={true}
+            {...conversation}
+          />
+        );
       })}
     </div>
   );
-};
-
-const MessageRequestListItem = (props: { conversation: ConversationListItemProps }) => {
-  const { conversation } = props;
-  return <MemoConversationListItemWithDetails isMessageRequest={true} {...conversation} />;
 };

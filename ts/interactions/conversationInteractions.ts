@@ -122,8 +122,17 @@ export async function unblockConvoById(conversationId: string) {
  */
 export const approveConversation = async (conversationId: string) => {
   const conversationToApprove = await getConversationById(conversationId);
+
+  if (!conversationToApprove || conversationToApprove.isApproved()) {
+    window?.log?.info('Conversation is already approved.');
+    return;
+  }
+
   await conversationToApprove?.setIsApproved(true);
-  await forceSyncConfigurationNowIfNeeded();
+
+  if (conversationToApprove?.isApproved() === true) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
 };
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {

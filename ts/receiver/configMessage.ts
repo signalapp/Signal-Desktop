@@ -54,11 +54,6 @@ async function handleGroupsAndContactsFromConfigMessage(
   envelope: EnvelopePlus,
   configMessage: SignalService.ConfigurationMessage
 ) {
-  await createOrUpdateItem({
-    id: 'hasSyncedInitialConfigurationItem',
-    value: true,
-  });
-
   const didWeHandleAConfigurationMessageAlready =
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
@@ -70,6 +65,11 @@ async function handleGroupsAndContactsFromConfigMessage(
     }
     return;
   }
+
+  await createOrUpdateItem({
+    id: 'hasSyncedInitialConfigurationItem',
+    value: true,
+  });
 
   const numberClosedGroup = configMessage.closedGroups?.length || 0;
 
@@ -152,7 +152,7 @@ const handleContactReceived = async (
       }
     }
 
-    await updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);
+    void updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);
   } catch (e) {
     window?.log?.warn('failed to handle  a new closed group from configuration message');
   }

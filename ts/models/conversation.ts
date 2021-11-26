@@ -738,7 +738,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
       if (updateApprovalNeeded) {
         await this.setIsApproved(true);
-        await forceSyncConfigurationNowIfNeeded();
+        void forceSyncConfigurationNowIfNeeded();
       }
 
       if (this.isOpenGroupV2()) {

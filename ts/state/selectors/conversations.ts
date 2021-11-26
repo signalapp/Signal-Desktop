@@ -331,53 +331,20 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 // export only because we use it in some of our tests
 // tslint:disable-next-line: cyclomatic-complexity
 export const _getLeftPaneLists = (
-  lookup: ConversationLookupType,
-  comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
-  isMessageRequestEnabled?: boolean,
-  selectedConversation?: string
+  sortedConversations: Array<ReduxConversationType>,
+  isMessageRequestEnabled?: boolean
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
   unreadCount: number;
 } => {
-  const values = Object.values(lookup);
-  const sorted = values.sort(comparator);
-
   const conversations: Array<ReduxConversationType> = [];
   const directConversations: Array<ReduxConversationType> = [];
 
   let unreadCount = 0;
-  for (let conversation of sorted) {
-    if (selectedConversation === conversation.id) {
-      conversation = {
-        ...conversation,
-        isSelected: true,
-      };
-    }
-    const isBlocked =
-      BlockedNumberController.isBlocked(conversation.id) ||
-      BlockedNumberController.isGroupBlocked(conversation.id);
-
-    if (isBlocked) {
-      conversation = {
-        ...conversation,
-        isBlocked: true,
-      };
-    }
-
+  for (const conversation of sortedConversations) {
     const excludeUnapproved =
       isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
-
-    // Add Open Group to list as soon as the name has been set
-    if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
-      continue;
-    }
-
-    // Remove all invalid conversations and conversatons of devices associated
-    //  with cancelled attempted links
-    if (!conversation.isPublic && !conversation.activeAt) {
-      continue;
-    }
 
     if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
       directConversations.push(conversation);
@@ -407,7 +374,7 @@ export const _getLeftPaneLists = (
   };
 };
 
-export const _getConversationRequests = (
+export const _getSortedConversations = (
   lookup: ConversationLookupType,
   comparator: (left: ReduxConversationType, right: ReduxConversationType) => number,
   selectedConversation?: string
@@ -415,7 +382,7 @@ export const _getConversationRequests = (
   const values = Object.values(lookup);
   const sorted = values.sort(comparator);
 
-  const conversationRequests: Array<ReduxConversationType> = [];
+  const sortedConversations: Array<ReduxConversationType> = [];
 
   for (let conversation of sorted) {
     if (selectedConversation === conversation.id) {
@@ -436,14 +403,6 @@ export const _getConversationRequests = (
       };
     }
 
-    let messageRequestsEnabled = false;
-
-    if (window?.inboxStore?.getState()) {
-      messageRequestsEnabled =
-        window.inboxStore?.getState().userConfig.messageRequests === true &&
-        window.lokiFeatureFlags?.useMessageRequests === true;
-    }
-
     // Add Open Group to list as soon as the name has been set
     if (conversation.isPublic && (!conversation.name || conversation.name === 'Unknown group')) {
       continue;
@@ -455,28 +414,39 @@ export const _getConversationRequests = (
       continue;
     }
 
-    if (messageRequestsEnabled && !conversation.isApproved && !conversation.isBlocked) {
-      // dont increase unread counter, don't push to convo list.
-      conversationRequests.push(conversation);
-      continue;
-    }
+    sortedConversations.push(conversation);
   }
 
-  return conversationRequests;
+  return sortedConversations;
 };
 
-export const getConversationRequests = createSelector(
+export const getSortedConversations = createSelector(
   getConversationLookup,
   getConversationComparator,
   getSelectedConversationKey,
+  _getSortedConversations
+);
+
+export const _getConversationRequests = (
+  sortedConversations: Array<ReduxConversationType>,
+  isMessageRequestEnabled?: boolean
+): Array<ReduxConversationType> => {
+  const pushToMessageRequests =
+    isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
+  return _.filter(sortedConversations, conversation => {
+    return pushToMessageRequests && !conversation.isApproved && !conversation.isBlocked;
+  });
+};
+
+export const getConversationRequests = createSelector(
+  getSortedConversations,
+  getIsMessageRequestsEnabled,
   _getConversationRequests
 );
 
 export const getLeftPaneLists = createSelector(
-  getConversationLookup,
-  getConversationComparator,
+  getSortedConversations,
   getIsMessageRequestsEnabled,
-  getSelectedConversationKey,
   _getLeftPaneLists
 );
 
