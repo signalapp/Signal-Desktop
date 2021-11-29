@@ -13,11 +13,10 @@ import {
 } from '../../state/selectors/conversations';
 import { deleteMessagesById } from '../../interactions/conversations/unsendingInteractions';
 
-const AvatarItem = (props: { contact: ContactPropsMessageDetail }) => {
-  const { avatarPath, pubkey, name, profileName } = props.contact;
-  const userName = name || profileName || pubkey;
+const AvatarItem = (props: { pubkey: string | undefined }) => {
+  const { pubkey } = props;
 
-  return <Avatar avatarPath={avatarPath} name={userName} size={AvatarSize.S} pubkey={pubkey} />;
+  return <Avatar size={AvatarSize.S} pubkey={pubkey} />;
 };
 
 const DeleteButtonItem = (props: { messageId: string; convoId: string; isDeletable: boolean }) => {
@@ -68,7 +67,7 @@ const ContactItem = (props: { contact: ContactPropsMessageDetail }) => {
 
   return (
     <div key={contact.pubkey} className="module-message-detail__contact">
-      <AvatarItem contact={contact} />
+      <AvatarItem pubkey={contact.pubkey} />
       <div className="module-message-detail__contact__text">
         <div className="module-message-detail__contact__name">
           <ContactName

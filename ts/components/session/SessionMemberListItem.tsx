@@ -23,36 +23,16 @@ type Props = {
   isSelected: boolean;
   // this bool is used to make a zombie appear with less opacity than a normal member
   isZombie?: boolean;
-  onSelect?: any;
-  onUnselect?: any;
+  onSelect?: (selectedMember: ContactType) => void;
+  onUnselect?: (selectedMember: ContactType) => void;
+};
+
+const AvatarItem = (props: { memberPubkey?: string }) => {
+  return <Avatar size={AvatarSize.XS} pubkey={props.memberPubkey} />;
 };
 
 export const SessionMemberListItem = (props: Props) => {
   const { isSelected, member, isZombie, onSelect, onUnselect } = props;
-
-  const renderAvatar = () => {
-    const { authorAvatarPath, authorName, authorPhoneNumber, authorProfileName } = member;
-    const userName = authorName || authorProfileName || authorPhoneNumber;
-    return (
-      <Avatar
-        avatarPath={authorAvatarPath}
-        name={userName}
-        size={AvatarSize.XS}
-        pubkey={authorPhoneNumber}
-      />
-    );
-  };
-
-  const selectMember = () => {
-    onSelect?.(member);
-  };
-  const unselectMember = () => {
-    onUnselect?.(member);
-  };
-
-  const handleSelectionAction = () => {
-    isSelected ? unselectMember() : selectMember();
-  };
 
   const name = member.authorProfileName || PubKey.shorten(member.authorPhoneNumber);
 
@@ -64,11 +44,15 @@ export const SessionMemberListItem = (props: Props) => {
         isSelected && 'selected',
         isZombie && 'zombie'
       )}
-      onClick={handleSelectionAction}
+      onClick={() => {
+        isSelected ? onUnselect?.(member) : onSelect?.(member);
+      }}
       role="button"
     >
       <div className="session-member-item__info">
-        <span className="session-member-item__avatar">{renderAvatar()}</span>
+        <span className="session-member-item__avatar">
+          <AvatarItem memberPubkey={member.id} />
+        </span>
         <span className="session-member-item__name">{name}</span>
       </div>
       <span className={classNames('session-member-item__checkmark', isSelected && 'selected')}>
