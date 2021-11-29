@@ -1371,6 +1371,12 @@ app.on('ready', async () => {
 
   logger = await logging.initialize(getMainWindow);
 
+  if (!locale) {
+    const appLocale =
+      getEnvironment() === Environment.Test ? 'en' : app.getLocale();
+    locale = loadLocale({ appLocale, logger });
+  }
+
   sqlInitPromise = initializeSQL(userDataPath);
 
   const startTime = Date.now();
@@ -1446,12 +1452,6 @@ app.on('ready', async () => {
       getMediaAccessStatus('microphone'),
       getMediaAccessStatus('camera')
     );
-  }
-
-  if (!locale) {
-    const appLocale =
-      getEnvironment() === Environment.Test ? 'en' : app.getLocale();
-    locale = loadLocale({ appLocale, logger });
   }
 
   GlobalErrors.updateLocale(locale.messages);
