@@ -4,7 +4,6 @@
 const { join } = require('path');
 const importOnce = require('node-sass-import-once');
 const rimraf = require('rimraf');
-const mkdirp = require('mkdirp');
 const spectron = require('spectron');
 const asar = require('asar');
 const fs = require('fs');
@@ -184,7 +183,7 @@ module.exports = grunt => {
 
   grunt.registerTask('clean-release', () => {
     rimraf.sync('release');
-    mkdirp.sync('release');
+    fs.mkdirSync('release', { recursive: true });
   });
 
   async function runTests(environment) {

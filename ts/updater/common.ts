@@ -7,6 +7,7 @@ import {
   statSync,
   writeFile as writeFileCallback,
 } from 'fs';
+import { mkdir } from 'fs/promises';
 import { join, normalize, dirname } from 'path';
 import { tmpdir } from 'os';
 import { throttle } from 'lodash';
@@ -21,7 +22,6 @@ import type { StrictOptions as GotOptions } from 'got';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
-import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
@@ -45,7 +45,6 @@ import type { SettingsChannel } from '../main/settingsChannel';
 import type { LoggerType } from '../types/Logging';
 
 const writeFile = pify(writeFileCallback);
-const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
 const { platform } = process;
 
@@ -520,7 +519,7 @@ export async function createTempDir(): Promise<string> {
   const baseTempDir = getBaseTempDir();
   const uniqueName = getGuid();
   const targetDir = join(baseTempDir, uniqueName);
-  await mkdirpPromise(targetDir);
+  await mkdir(targetDir, { recursive: true });
 
   return targetDir;
 }

@@ -7,12 +7,17 @@
 
 import { join } from 'path';
 import split2 from 'split2';
-import { readdirSync, createReadStream, unlinkSync, writeFileSync } from 'fs';
+import {
+  mkdirSync,
+  readdirSync,
+  createReadStream,
+  unlinkSync,
+  writeFileSync,
+} from 'fs';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
 import pinoms from 'pino-multi-stream';
 import pino from 'pino';
-import * as mkdirp from 'mkdirp';
 import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
@@ -56,7 +61,7 @@ export async function initialize(
 
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
-  mkdirp.sync(logPath);
+  mkdirSync(logPath, { recursive: true });
 
   try {
     await cleanupLogs(logPath);
@@ -64,7 +69,7 @@ export async function initialize(
     const errorString = `Failed to clean logs; deleting all. Error: ${error.stack}`;
     console.error(errorString);
     await deleteAllLogs(logPath);
-    mkdirp.sync(logPath);
+    mkdirSync(logPath, { recursive: true });
 
     // If we want this log entry to persist on disk, we need to wait until we've
     //   set up our logging infrastructure.
@@ -204,7 +209,7 @@ async function cleanupLogs(logPath: string) {
 
     // delete and re-create the log directory
     await deleteAllLogs(logPath);
-    mkdirp.sync(logPath);
+    mkdirSync(logPath, { recursive: true });
   }
 }
 
