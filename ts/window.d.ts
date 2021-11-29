@@ -43,6 +43,7 @@ declare global {
     log: any;
     lokiFeatureFlags: {
       useOnionRequests: boolean;
+      useMessageRequests: boolean;
       useCallMessage: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;

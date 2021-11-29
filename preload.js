@@ -39,6 +39,7 @@ window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
+  useMessageRequests: true,
   useCallMessage: true,
 };
 

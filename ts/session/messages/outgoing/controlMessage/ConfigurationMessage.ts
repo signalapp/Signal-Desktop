@@ -93,22 +93,30 @@ export class ConfigurationMessageContact {
   public displayName: string;
   public profilePictureURL?: string;
   public profileKey?: Uint8Array;
+  public isApproved?: boolean;
+  public isBlocked?: boolean;
 
   public constructor({
     publicKey,
     displayName,
     profilePictureURL,
     profileKey,
+    isApproved,
+    isBlocked,
   }: {
     publicKey: string;
     displayName: string;
     profilePictureURL?: string;
     profileKey?: Uint8Array;
+    isApproved?: boolean;
+    isBlocked?: boolean;
   }) {
     this.publicKey = publicKey;
     this.displayName = displayName;
     this.profilePictureURL = profilePictureURL;
     this.profileKey = profileKey;
+    this.isApproved = isApproved;
+    this.isBlocked = isBlocked;
 
     // will throw if public key is invalid
     PubKey.cast(publicKey);
@@ -131,6 +139,8 @@ export class ConfigurationMessageContact {
       name: this.displayName,
       profilePicture: this.profilePictureURL,
       profileKey: this.profileKey,
+      isApproved: this.isApproved,
+      isBlocked: this.isBlocked,
     });
   }
 }

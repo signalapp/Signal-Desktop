@@ -193,6 +193,8 @@ message ConfigurationMessage {
     required string name              = 2;
     optional string profilePicture    = 3;
     optional bytes  profileKey        = 4;
+    optional bool   isApproved        = 5;
+    optional bool   isBlocked         = 6;
   }
 
   repeated ClosedGroup closedGroups    = 1;

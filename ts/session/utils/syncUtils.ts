@@ -1,5 +1,6 @@
 import {
   createOrUpdateItem,
+  getAllConversations,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
 } from '../../../ts/data/data';
@@ -37,6 +38,9 @@ const getLastSyncTimestampFromDb = async (): Promise<number | undefined> =>
 const writeLastSyncTimestampToDb = async (timestamp: number) =>
   createOrUpdateItem({ id: ITEM_ID_LAST_SYNC_TIMESTAMP, value: timestamp });
 
+/**
+ * Conditionally Syncs user configuration with other devices linked.
+ */
 export const syncConfigurationIfNeeded = async () => {
   const lastSyncedTimestamp = (await getLastSyncTimestampFromDb()) || 0;
   const now = Date.now();
@@ -46,7 +50,9 @@ export const syncConfigurationIfNeeded = async () => {
     return;
   }
 
-  const allConvos = getConversationController().getConversations();
+  const allConvoCollection = await getAllConversations();
+  const allConvos = allConvoCollection.models;
+
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
     // window?.log?.info('syncConfigurationIfNeeded with', configMessage);
@@ -62,8 +68,8 @@ export const syncConfigurationIfNeeded = async () => {
 };
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
-  new Promise(resolve => {
-    const allConvos = getConversationController().getConversations();
+  new Promise(async resolve => {
+    const allConvos = (await getAllConversations()).models;
 
     // if we hang for more than 10sec, force resolve this promise.
     setTimeout(() => {
@@ -156,7 +162,7 @@ const getValidClosedGroups = async (convos: Array<ConversationModel>) => {
 const getValidContacts = (convos: Array<ConversationModel>) => {
   // Filter contacts
   const contactsModels = convos.filter(
-    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate() && !c.isBlocked()
+    c => !!c.get('active_at') && c.getLokiProfile()?.displayName && c.isPrivate()
   );
 
   const contacts = contactsModels.map(c => {
@@ -192,6 +198,8 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
         displayName: c.getLokiProfile()?.displayName,
         profilePictureURL: c.get('avatarPointer'),
         profileKey: !profileKeyForContact?.length ? undefined : profileKeyForContact,
+        isApproved: c.isApproved(),
+        isBlocked: c.isBlocked(),
       });
     } catch (e) {
       window?.log.warn('getValidContacts', e);
@@ -201,7 +209,9 @@ const getValidContacts = (convos: Array<ConversationModel>) => {
   return _.compact(contacts);
 };
 
-export const getCurrentConfigurationMessage = async (convos: Array<ConversationModel>) => {
+export const getCurrentConfigurationMessage = async (
+  convos: Array<ConversationModel>
+): Promise<ConfigurationMessage> => {
   const ourPubKey = UserUtils.getOurPubKeyStrFromCache();
   const ourConvo = convos.find(convo => convo.id === ourPubKey);
 

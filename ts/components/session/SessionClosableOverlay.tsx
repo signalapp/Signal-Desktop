@@ -9,16 +9,20 @@ import { SessionSpinner } from './SessionSpinner';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { SessionJoinableRooms } from './SessionJoinableDefaultRooms';
 import { SpacerLG, SpacerMD } from '../basic/Text';
+import { useSelector } from 'react-redux';
+import { getConversationRequests } from '../../state/selectors/conversations';
+import { MemoConversationListItemWithDetails } from '../ConversationListItem';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
   OpenGroup = 'open-group',
   ClosedGroup = 'closed-group',
+  MessageRequests = 'message-requests',
 }
 
 interface Props {
   overlayMode: SessionClosableOverlayType;
-  onChangeSessionID: any;
+  onChangeSessionID?: any;
   onCloseClick: any;
   onButtonClick: any;
   contacts?: Array<ReduxConversationType>;
@@ -106,6 +110,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     const isMessageView = overlayMode === SessionClosableOverlayType.Message;
     const isOpenGroupView = overlayMode === SessionClosableOverlayType.OpenGroup;
     const isClosedGroupView = overlayMode === SessionClosableOverlayType.ClosedGroup;
+    const isMessageRequestView = overlayMode === SessionClosableOverlayType.MessageRequests;
 
     let title;
     let buttonText;
@@ -123,7 +128,6 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
       case 'open-group':
         title = window.i18n('joinOpenGroup');
         buttonText = window.i18n('next');
-        // descriptionLong = '';
         subtitle = window.i18n('openGroupURL');
         placeholder = window.i18n('enterAnOpenGroupURL');
         break;
@@ -132,6 +136,12 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
         buttonText = window.i18n('done');
         subtitle = window.i18n('createClosedGroupNamePrompt');
         placeholder = window.i18n('createClosedGroupPlaceholder');
+        break;
+      case SessionClosableOverlayType.MessageRequests:
+        title = window.i18n('messageRequests');
+        buttonText = window.i18n('blockAll');
+        subtitle = window.i18n('requestsSubtitle');
+        placeholder = window.i18n('requestsPlaceholder');
         break;
       default:
     }
@@ -172,14 +182,24 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               onPressEnter={() => onButtonClick(groupName, selectedMembers)}
             />
           </div>
-        ) : (
+        ) : null}
+
+        {isMessageView ? (
           <SessionIdEditable
             ref={this.inputRef}
             editable={!showLoadingSpinner}
             placeholder={placeholder}
             onChange={onChangeSessionID}
           />
-        )}
+        ) : null}
+
+        {isMessageRequestView ? (
+          <>
+            <SpacerLG />
+            <MessageRequestList />
+            <SpacerLG />
+          </>
+        ) : null}
 
         <SessionSpinner loading={showLoadingSpinner} />
 
@@ -266,3 +286,24 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     }
   }
 }
+
+/**
+ * A request needs to be be unapproved and not blocked to be valid.
+ * @returns List of message request items
+ */
+const MessageRequestList = () => {
+  const conversationRequests = useSelector(getConversationRequests);
+  return (
+    <div className="message-request-list__container">
+      {conversationRequests.map(conversation => {
+        return (
+          <MemoConversationListItemWithDetails
+            key={conversation.id}
+            isMessageRequest={true}
+            {...conversation}
+          />
+        );
+      })}
+    </div>
+  );
+};

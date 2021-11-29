@@ -13,3 +13,8 @@ export const getShowRecoveryPhrasePrompt = createSelector(
   getUserConfig,
   (state: UserConfigState): boolean => state.showRecoveryPhrasePrompt
 );
+
+export const getIsMessageRequestsEnabled = createSelector(
+  getUserConfig,
+  (state: UserConfigState): boolean => state.messageRequests
+);

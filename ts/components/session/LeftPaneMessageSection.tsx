@@ -28,6 +28,9 @@ import { onsNameRegex } from '../../session/snode_api/SNodeAPI';
 import { SNodeAPI } from '../../session/snode_api';
 import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
 import _ from 'lodash';
+import { MessageRequestsBanner } from './MessageRequestsBanner';
+import { BlockedNumberController } from '../../util';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 
 export interface Props {
   searchTerm: string;
@@ -35,6 +38,8 @@ export interface Props {
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
+
+  messageRequestsEnabled?: boolean;
 }
 
 export enum SessionComposeToType {
@@ -51,7 +56,7 @@ export type SessionGroupType = SessionComposeToType;
 
 interface State {
   loading: boolean;
-  overlay: false | SessionComposeToType;
+  overlay: false | SessionClosableOverlayType;
   valuePasted: string;
 }
 
@@ -71,14 +76,19 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     this.debouncedSearch = _.debounce(this.search.bind(this), 20);
   }
 
-  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element => {
+  public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
     const { conversations } = this.props;
 
+    //assume conversations that have been marked unapproved should be filtered out by selector.
     if (!conversations) {
       throw new Error('renderRow: Tried to render without conversations');
     }
 
     const conversation = conversations[index];
+    if (!conversation) {
+      throw new Error('renderRow: conversations selector returned element containing falsy value.');
+      return null;
+    }
 
     return <MemoConversationListItemWithDetails key={key} style={style} {...conversation} />;
   };
@@ -96,6 +106,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
 
     const length = conversations.length;
+
     const listKey = 0;
     // Note: conversations is not a known prop for List, but it is required to ensure that
     //   it re-renders when our conversation data changes. Otherwise it would just render
@@ -144,7 +155,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     return (
       <div className="session-left-pane-section-content">
         {this.renderHeader()}
-        {overlay ? this.renderClosableOverlay(overlay) : this.renderConversations()}
+        {overlay ? this.renderClosableOverlay() : this.renderConversations()}
       </div>
     );
   }
@@ -157,6 +168,9 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
         />
+        {window.lokiFeatureFlags.useMessageRequests ? (
+          <MessageRequestsBanner handleOnClick={this.handleMessageRequestsClick} />
+        ) : null}
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>
@@ -201,9 +215,57 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     );
   }
 
-  private renderClosableOverlay(overlay: SessionComposeToType) {
+  private handleMessageRequestsClick() {
+    this.handleToggleOverlay(SessionClosableOverlayType.MessageRequests);
+  }
+
+  /**
+   * Blocks all message request conversations and synchronizes across linked devices
+   * @returns void
+   */
+  private async handleBlockAllRequestsClick() {
+    const messageRequestsEnabled =
+      this.props.messageRequestsEnabled && window?.lokiFeatureFlags?.useMessageRequests;
+
+    if (!messageRequestsEnabled) {
+      return;
+    }
+
+    // block all convo requests. Force sync if there were changes.
+    window?.log?.info('Blocking all conversations');
+    const conversations = getConversationController().getConversations();
+
+    if (!conversations) {
+      window?.log?.info('No message requests to block.');
+      return;
+    }
+
+    const conversationRequests = conversations.filter(
+      c => c.isPrivate() && c.get('active_at') && c.get('isApproved')
+    );
+
+    let syncRequired = false;
+
+    if (!conversationRequests) {
+      window?.log?.info('No conversation requests to block.');
+      return;
+    }
+
+    await Promise.all(
+      conversationRequests.map(async convo => {
+        await BlockedNumberController.block(convo.id);
+        syncRequired = true;
+      })
+    );
+
+    if (syncRequired) {
+      await forceSyncConfigurationNowIfNeeded();
+    }
+  }
+
+  private renderClosableOverlay() {
     const { searchTerm, searchResults } = this.props;
-    const { loading } = this.state;
+    const { loading, overlay } = this.state;
 
     const openGroupElement = (
       <SessionClosableOverlay
@@ -251,16 +313,32 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
       />
     );
 
+    const messageRequestsElement = (
+      <SessionClosableOverlay
+        overlayMode={SessionClosableOverlayType.MessageRequests}
+        onCloseClick={() => {
+          this.handleToggleOverlay(undefined);
+        }}
+        onButtonClick={this.handleBlockAllRequestsClick}
+      />
+    );
+
     let overlayElement;
     switch (overlay) {
-      case SessionComposeToType.OpenGroup:
+      case SessionClosableOverlayType.OpenGroup:
         overlayElement = openGroupElement;
         break;
-      case SessionComposeToType.ClosedGroup:
+      case SessionClosableOverlayType.ClosedGroup:
         overlayElement = closedGroupElement;
         break;
-      default:
+      case SessionClosableOverlayType.Message:
         overlayElement = messageElement;
+        break;
+      case SessionClosableOverlayType.MessageRequests:
+        overlayElement = messageRequestsElement;
+        break;
+      default:
+        overlayElement = false;
     }
 
     return overlayElement;
@@ -277,7 +355,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.Green}
           onClick={() => {
-            this.handleToggleOverlay(SessionComposeToType.OpenGroup);
+            this.handleToggleOverlay(SessionClosableOverlayType.OpenGroup);
           }}
         />
         <SessionButton
@@ -285,15 +363,15 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
           buttonType={SessionButtonType.SquareOutline}
           buttonColor={SessionButtonColor.White}
           onClick={() => {
-            this.handleToggleOverlay(SessionComposeToType.ClosedGroup);
+            this.handleToggleOverlay(SessionClosableOverlayType.ClosedGroup);
           }}
         />
       </div>
     );
   }
 
-  private handleToggleOverlay(conversationType?: SessionComposeToType) {
-    const overlayState = conversationType || false;
+  private handleToggleOverlay(overlayType?: SessionClosableOverlayType) {
+    const overlayState = overlayType || false;
 
     this.setState({ overlay: overlayState });
 
@@ -403,6 +481,6 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
   }
 
   private handleNewSessionButtonClick() {
-    this.handleToggleOverlay(SessionComposeToType.Message);
+    this.handleToggleOverlay(SessionClosableOverlayType.Message);
   }
 }

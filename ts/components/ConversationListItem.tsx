@@ -25,7 +25,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
+import { Flex } from './basic/Flex';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
+import { approveConversation, blockConvoById } from '../interactions/conversationInteractions';
 import { useAvatarPath, useConversationUsername, useIsMe } from '../hooks/useParamSelector';
 
 // tslint:disable-next-line: no-empty-interface
@@ -42,6 +45,7 @@ export const StyledConversationListItemIconWrapper = styled.div`
 
 type PropsHousekeeping = {
   style?: Object;
+  isMessageRequest?: boolean;
 };
 // tslint:disable: use-simple-attributes
 
@@ -226,6 +230,7 @@ const AvatarItem = (props: { conversationId: string; isPrivate: boolean }) => {
   );
 };
 
+// tslint:disable: max-func-body-length
 const ConversationListItem = (props: Props) => {
   const {
     activeAt,
@@ -247,6 +252,7 @@ const ConversationListItem = (props: Props) => {
     avatarPath,
     isPrivate,
     currentNotificationSetting,
+    isMessageRequest,
   } = props;
   const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
@@ -260,6 +266,15 @@ const ConversationListItem = (props: Props) => {
     },
     [conversationId]
   );
+
+  /**
+   * Removes conversation from requests list,
+   * adds ID to block list, syncs the block with linked devices.
+   */
+  const handleConversationBlock = async () => {
+    await blockConvoById(conversationId);
+    await forceSyncConfigurationNowIfNeeded();
+  };
 
   return (
     <div key={key}>
@@ -302,6 +317,35 @@ const ConversationListItem = (props: Props) => {
             unreadCount={unreadCount || 0}
             lastMessage={lastMessage}
           />
+          {isMessageRequest ? (
+            <Flex
+              className="module-conversation-list-item__button-container"
+              container={true}
+              flexDirection="row"
+              justifyContent="flex-end"
+            >
+              <SessionIconButton
+                iconType="exit"
+                iconSize="large"
+                onClick={handleConversationBlock}
+                backgroundColor="var(--color-destructive)"
+                iconColor="var(--color-foreground-primary)"
+                iconPadding="var(--margins-xs)"
+                borderRadius="2px"
+              />
+              <SessionIconButton
+                iconType="check"
+                iconSize="large"
+                onClick={async () => {
+                  await approveConversation(conversationId);
+                }}
+                backgroundColor="var(--color-accent)"
+                iconColor="var(--color-foreground-primary)"
+                iconPadding="var(--margins-xs)"
+                borderRadius="2px"
+              />
+            </Flex>
+          ) : null}
         </div>
       </div>
       <Portal>

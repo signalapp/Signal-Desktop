@@ -44,7 +44,7 @@
     "transpile": "tsc --incremental",
     "transpile:watch": "tsc -w",
     "integration-test": "mocha --recursive --exit --timeout 30000  \"./ts/test-integration/**/*.test.js\" \"./ts/test/*.test.js\"",
-    "clean-transpile": "rimraf 'ts/**/*.js ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
+    "clean-transpile": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test",
     "build:webpack:sql-worker": "cross-env NODE_ENV=production webpack -c webpack-sql-worker.config.ts",
     "sedtoAppImage": "sed -i 's/\"target\": \\[\"deb\", \"rpm\", \"freebsd\"\\]/\"target\": \"AppImage\"/g' package.json",

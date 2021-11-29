@@ -252,6 +252,7 @@ export interface ReduxConversationType {
   currentNotificationSetting?: ConversationNotificationSettingType;
 
   isPinned?: boolean;
+  isApproved?: boolean;
 }
 
 export interface NotificationForConvoOption {

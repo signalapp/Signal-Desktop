@@ -319,6 +319,11 @@ async function handleRegularMessage(
 
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
+
+    if (window.lokiFeatureFlags.useMessageRequests) {
+      // assumes sync receipts are always from linked device outgoings
+      await conversation.setIsApproved(true);
+    }
   }
 
   const conversationActiveAt = conversation.get('active_at');
@@ -469,7 +474,7 @@ export async function handleMessageJob(
       conversationKey: conversation.id,
       messageModelProps: message.getMessageModelProps(),
     });
-    trotthledAllMessagesAddedDispatch();
+    throttledAllMessagesAddedDispatch();
     if (message.get('unread')) {
       conversation.throttledNotify(message);
     }
@@ -485,7 +490,7 @@ export async function handleMessageJob(
   }
 }
 
-const trotthledAllMessagesAddedDispatch = _.throttle(() => {
+const throttledAllMessagesAddedDispatch = _.throttle(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }

@@ -249,6 +249,14 @@ $session-compose-margin: 20px;
       margin-bottom: 3rem;
       flex-shrink: 0;
     }
+
+    .message-request-list__container {
+      width: 100%;
+
+      .session-button {
+        margin: $session-margin-xs $session-margin-xs $session-margin-xs 0;
+      }
+    }
   }
 }
 .module-search-results {
