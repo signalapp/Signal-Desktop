@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
@@ -27,34 +27,49 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: text('text', overrideProps.text || ''),
 });
 
-story.add('Lots of cake with a cherry on top', () => (
-  <MessageBodyReadMore
-    {...createProps({
-      text: `x${'🍰'.repeat(399)}🍒`,
-    })}
+function MessageBodyReadMoreTest({
+  text: messageBodyText,
+}: {
+  text: string;
+}): JSX.Element {
+  const [displayLimit, setDisplayLimit] = useState<number | undefined>();
+
+  return (
+    <MessageBodyReadMore
+      {...createProps({ text: messageBodyText })}
+      displayLimit={displayLimit}
+      messageExpanded={(_, newDisplayLimit) => setDisplayLimit(newDisplayLimit)}
+    />
+  );
+}
+
+story.add('Long text + 100 more', () => (
+  <MessageBodyReadMoreTest
+    text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
   />
 ));
 
-story.add('Cherry overflow', () => (
-  <MessageBodyReadMore
-    {...createProps({
-      text: `x${'🍰'.repeat(400)}🍒`,
-    })}
+story.add('Lots of cake with some cherries on top', () => (
+  <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
+));
+
+story.add('Leafy not buffered', () => (
+  <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />
+));
+
+story.add('Links', () => (
+  <MessageBodyReadMoreTest
+    text={`${'test '.repeat(176)}https://www.signal.org`}
   />
 ));
 
 story.add('Excessive amounts of cake', () => (
-  <MessageBodyReadMore
-    {...createProps({
-      text: `x${'🍰'.repeat(20000)}`,
-    })}
-  />
+  <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />
 ));
 
 story.add('Long text', () => (
-  <MessageBodyReadMore
-    {...createProps({
-      text: `
+  <MessageBodyReadMoreTest
+    text={`
       SCENE I. Rome. A street.
       Enter FLAVIUS, MARULLUS, and certain Commoners
       FLAVIUS
@@ -151,7 +166,6 @@ story.add('Long text', () => (
       Will make him fly an ordinary pitch,
       Who else would soar above the view of men
       And keep us all in servile fearfulness.
-      `,
-    })}
+      `}
   />
 ));

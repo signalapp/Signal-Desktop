@@ -25,6 +25,7 @@ export type Props = Pick<
 
 const INITIAL_LENGTH = 800;
 const INCREMENT_COUNT = 3000;
+const BUFFER = 100;
 
 function graphemeAwareSlice(
   str: string,
@@ -33,7 +34,7 @@ function graphemeAwareSlice(
   hasReadMore: boolean;
   text: string;
 } {
-  if (str.length <= length) {
+  if (str.length <= length + BUFFER) {
     return { text: str, hasReadMore: false };
   }
 
