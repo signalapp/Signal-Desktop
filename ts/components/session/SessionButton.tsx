@@ -28,15 +28,16 @@ type Props = {
   buttonColor: SessionButtonColor;
   onClick: any;
   children?: ReactNode;
+  dataTestId?: string;
 };
 
 export const SessionButton = (props: Props) => {
-  const { buttonType, buttonColor, text, disabled } = props;
+  const { buttonType, dataTestId, buttonColor, text, disabled, onClick } = props;
 
   const clickHandler = (e: any) => {
-    if (props.onClick) {
+    if (onClick) {
       e.stopPropagation();
-      props.onClick();
+      onClick();
     }
   };
 
@@ -53,6 +54,7 @@ export const SessionButton = (props: Props) => {
       className={classNames('session-button', ...buttonTypes, buttonColor, disabled && 'disabled')}
       role="button"
       onClick={onClickFn}
+      data-testid={dataTestId}
     >
       {props.children || text}
     </div>

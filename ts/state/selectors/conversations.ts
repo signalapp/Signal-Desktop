@@ -83,19 +83,6 @@ export const getSelectedConversationIsPublic = createSelector(
   }
 );
 
-const getConversationId = (_whatever: any, id: string) => id;
-
-export const getConversationById = createSelector(
-  getConversations,
-  getConversationId,
-  (
-    state: ConversationsStateType,
-    convoId: string | undefined
-  ): ReduxConversationType | undefined => {
-    return convoId ? state.conversationLookup[convoId] : undefined;
-  }
-);
-
 export const getIsTypingEnabled = createSelector(
   getConversations,
   getSelectedConversationKey,
@@ -190,7 +177,7 @@ export type MessagePropsType =
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
-  | 'missed-call-notification';
+  | 'call-notification';
 
 export const getSortedMessagesTypesOfSelectedConversation = createSelector(
   getSortedMessagesOfSelectedConversation,
@@ -257,14 +244,14 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
         };
       }
 
-      if (msg.propsForMissedCall) {
+      if (msg.propsForCallNotification) {
         return {
           showUnreadIndicator: isFirstUnread,
           showDateBreak,
           message: {
-            messageType: 'missed-call-notification',
+            messageType: 'call-notification',
             props: {
-              ...msg.propsForMissedCall,
+              ...msg.propsForCallNotification,
               messageId: msg.propsForMessage.id,
             },
           },

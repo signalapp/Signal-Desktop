@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import classNames from 'classnames';
 import { SessionIconButton } from './icon';
 
-interface Props {
+type Props = {
   label?: string;
   error?: string;
   type?: string;
@@ -15,117 +15,100 @@ interface Props {
   onEnterPressed?: any;
   autoFocus?: boolean;
   ref?: any;
-}
+  inputDataTestId?: string;
+};
 
-interface State {
-  inputValue: string;
-  forceShow: boolean;
-}
+const LabelItem = (props: { inputValue: string; label?: string }) => {
+  return (
+    <label
+      htmlFor="session-input-floating-label"
+      className={classNames(
+        props.inputValue !== ''
+          ? 'session-input-with-label-container filled'
+          : 'session-input-with-label-container'
+      )}
+    >
+      {props.label}
+    </label>
+  );
+};
 
-export class SessionInput extends React.PureComponent<Props, State> {
-  constructor(props: any) {
-    super(props);
+const ErrorItem = (props: { error: string | undefined }) => {
+  return (
+    <label
+      htmlFor="session-input-floating-label"
+      className={classNames('session-input-with-label-container filled error')}
+    >
+      {props.error}
+    </label>
+  );
+};
 
-    this.updateInputValue = this.updateInputValue.bind(this);
-    this.renderShowHideButton = this.renderShowHideButton.bind(this);
+const ShowHideButton = (props: { toggleForceShow: () => void }) => {
+  return <SessionIconButton iconType="eye" iconSize="medium" onClick={props.toggleForceShow} />;
+};
 
-    this.state = {
-      inputValue: '',
-      forceShow: false,
-    };
-  }
+export const SessionInput = (props: Props) => {
+  const {
+    autoFocus,
+    placeholder,
+    type,
+    value,
+    maxLength,
+    enableShowHide,
+    error,
+    label,
+    onValueChanged,
+    inputDataTestId,
+  } = props;
+  const [inputValue, setInputValue] = useState('');
+  const [forceShow, setForceShow] = useState(false);
 
-  public render() {
-    const { autoFocus, placeholder, type, value, maxLength, enableShowHide, error } = this.props;
-    const { forceShow } = this.state;
+  const correctType = forceShow ? 'text' : type;
 
-    const correctType = forceShow ? 'text' : type;
+  const updateInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const val = e.target.value;
+    setInputValue(val);
+    if (onValueChanged) {
+      onValueChanged(val);
+    }
+  };
 
-    return (
-      <div className="session-input-with-label-container">
-        {error ? this.renderError() : this.renderLabel()}
-        <input
-          id="session-input-floating-label"
-          type={correctType}
-          placeholder={placeholder}
-          value={value}
-          maxLength={maxLength}
-          autoFocus={autoFocus}
-          onChange={e => {
-            this.updateInputValue(e);
-          }}
-          className={classNames(enableShowHide ? 'session-input-floating-label-show-hide' : '')}
-          // just incase onChange isn't triggered
-          onBlur={e => {
-            this.updateInputValue(e);
-          }}
-          onKeyPress={event => {
-            if (event.key === 'Enter' && this.props.onEnterPressed) {
-              this.props.onEnterPressed();
-            }
-          }}
-        />
-
-        {enableShowHide && this.renderShowHideButton()}
-
-        <hr />
-      </div>
-    );
-  }
-
-  private renderLabel() {
-    const { inputValue } = this.state;
-    const { label } = this.props;
-
-    return (
-      <label
-        htmlFor="session-input-floating-label"
-        className={classNames(
-          inputValue !== ''
-            ? 'session-input-with-label-container filled'
-            : 'session-input-with-label-container'
-        )}
-      >
-        {label}
-      </label>
-    );
-  }
-
-  private renderError() {
-    const { error } = this.props;
-
-    return (
-      <label
-        htmlFor="session-input-floating-label"
-        className={classNames('session-input-with-label-container filled error')}
-      >
-        {error}
-      </label>
-    );
-  }
-
-  private renderShowHideButton() {
-    return (
-      <SessionIconButton
-        iconType="eye"
-        iconSize="medium"
-        onClick={() => {
-          this.setState({
-            forceShow: !this.state.forceShow,
-          });
+  return (
+    <div className="session-input-with-label-container">
+      {error ? (
+        <ErrorItem error={props.error} />
+      ) : (
+        <LabelItem inputValue={inputValue} label={label} />
+      )}
+      <input
+        id="session-input-floating-label"
+        type={correctType}
+        placeholder={placeholder}
+        value={value}
+        maxLength={maxLength}
+        autoFocus={autoFocus}
+        data-testid={inputDataTestId}
+        onChange={updateInputValue}
+        className={classNames(enableShowHide ? 'session-input-floating-label-show-hide' : '')}
+        // just incase onChange isn't triggered
+        onBlur={updateInputValue}
+        onKeyPress={event => {
+          if (event.key === 'Enter' && props.onEnterPressed) {
+            props.onEnterPressed();
+          }
         }}
       />
-    );
-  }
 
-  private updateInputValue(e: any) {
-    e.preventDefault();
-    this.setState({
-      inputValue: e.target.value,
-    });
-
-    if (this.props.onValueChanged) {
-      this.props.onValueChanged(e.target.value);
-    }
-  }
-}
+      {enableShowHide && (
+        <ShowHideButton
+          toggleForceShow={() => {
+            setForceShow(!forceShow);
+          }}
+        />
+      )}
+      <hr />
+    </div>
+  );
+};

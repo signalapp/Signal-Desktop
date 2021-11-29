@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import { LastMessageStatusType } from '../../state/ducks/conversations';
 
 import * as Conversation from '../../types/Conversation';
 import { IncomingMessage } from '../../types/Message';
@@ -9,8 +10,8 @@ describe('Conversation', () => {
       const input = {};
       const expected = {
         lastMessage: '',
-        lastMessageStatus: null,
-        timestamp: null,
+        lastMessageStatus: undefined,
+        timestamp: undefined,
       };
 
       const actual = Conversation.createLastMessageUpdate(input);
@@ -21,7 +22,7 @@ describe('Conversation', () => {
       it('should update last message text and timestamp', () => {
         const input = {
           currentTimestamp: 555,
-          lastMessageStatus: 'read',
+          lastMessageStatus: 'read' as LastMessageStatusType,
           lastMessage: {
             type: 'outgoing',
             conversationId: 'foo',
@@ -32,7 +33,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'New outgoing message',
-          lastMessageStatus: 'read',
+          lastMessageStatus: 'read' as LastMessageStatusType,
           timestamp: 666,
         };
 
@@ -60,7 +61,7 @@ describe('Conversation', () => {
         };
         const expected = {
           lastMessage: 'Last message before expired',
-          lastMessageStatus: null,
+          lastMessageStatus: undefined,
           timestamp: 555,
         };
 

@@ -74,19 +74,19 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.ANSWER) {
     await removeFromCache(envelope);
 
-    await CallManager.handleCallTypeAnswer(sender, callMessage);
+    await CallManager.handleCallTypeAnswer(sender, callMessage, sentTimestamp);
 
     return;
   }
   if (type === SignalService.CallMessage.Type.ICE_CANDIDATES) {
     await removeFromCache(envelope);
 
-    await CallManager.handleCallTypeIceCandidates(sender, callMessage);
+    await CallManager.handleCallTypeIceCandidates(sender, callMessage, sentTimestamp);
 
     return;
   }
   await removeFromCache(envelope);
 
   // if this another type of call message, just add it to the manager
-  await CallManager.handleOtherCallTypes(sender, callMessage);
+  await CallManager.handleOtherCallTypes(sender, callMessage, sentTimestamp);
 }

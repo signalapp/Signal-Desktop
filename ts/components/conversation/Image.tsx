@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { Spinner } from '../basic/Spinner';
 import { AttachmentType, AttachmentTypeWithPath } from '../../types/Attachment';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
+import { useDisableDrag } from '../../hooks/useDisableDrag';
 
 type Props = {
   alt: string;
@@ -48,17 +49,13 @@ export const Image = (props: Props) => {
     width,
   } = props;
 
-  const onDragStart = useCallback((e: any) => {
-    e.preventDefault();
-    return false;
-  }, []);
-
   const onErrorUrlFilterering = useCallback(() => {
     if (url && onError) {
       onError();
     }
     return;
   }, [url, onError]);
+  const disableDrag = useDisableDrag();
 
   const { caption } = attachment || { caption: null };
   let { pending } = attachment || { pending: true };
@@ -68,7 +65,7 @@ export const Image = (props: Props) => {
   }
   const canClick = onClick && !pending;
   const role = canClick ? 'button' : undefined;
-  const { loading, urlToLoad } = useEncryptedFileFetch(url || '', attachment.contentType);
+  const { loading, urlToLoad } = useEncryptedFileFetch(url || '', attachment.contentType, false);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
 
@@ -118,7 +115,7 @@ export const Image = (props: Props) => {
             height: forceSquare ? `${height}px` : '',
           }}
           src={srcData}
-          onDragStart={onDragStart}
+          onDragStart={disableDrag}
         />
       )}
       {caption ? (
@@ -126,7 +123,7 @@ export const Image = (props: Props) => {
           className="module-image__caption-icon"
           src="images/caption-shadow.svg"
           alt={window.i18n('imageCaptionIconAlt')}
-          onDragStart={onDragStart}
+          onDragStart={disableDrag}
         />
       ) : null}
       <div

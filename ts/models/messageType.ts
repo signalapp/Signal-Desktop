@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
-import { PropsForMessageWithConvoProps } from '../state/ducks/conversations';
+import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export type MessageModelType = 'incoming' | 'outgoing';
@@ -109,7 +109,7 @@ export interface MessageAttributes {
    */
   isDeleted?: boolean;
 
-  isMissedCall?: boolean;
+  callNotificationType?: CallNotificationType;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -179,7 +179,7 @@ export interface MessageAttributesOptionals {
   direction?: any;
   messageHash?: string;
   isDeleted?: boolean;
-  isMissedCall?: boolean;
+  callNotificationType?: CallNotificationType;
 }
 
 /**

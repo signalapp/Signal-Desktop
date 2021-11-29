@@ -16,7 +16,7 @@ const MessageStatusSending = () => {
   const iconColor = 'var(--color-text)';
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize={'tiny'} />
+      <SessionIcon rotateDuration={2} iconColor={iconColor} iconType="sending" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
 };
@@ -26,7 +26,7 @@ const MessageStatusSent = () => {
 
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon iconColor={iconColor} iconType="circleCheck" iconSize={'tiny'} />
+      <SessionIcon iconColor={iconColor} iconType="circleCheck" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
 };
@@ -36,7 +36,7 @@ const MessageStatusRead = () => {
 
   return (
     <MessageStatusSendingContainer>
-      <SessionIcon iconColor={iconColor} iconType="doubleCheckCircleFilled" iconSize={'tiny'} />
+      <SessionIcon iconColor={iconColor} iconType="doubleCheckCircleFilled" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
 };
@@ -48,7 +48,7 @@ const MessageStatusError = () => {
 
   return (
     <MessageStatusSendingContainer onClick={showDebugLog} title={window.i18n('sendFailed')}>
-      <SessionIcon iconColor={'var(--color-destructive'} iconType="error" iconSize={'tiny'} />
+      <SessionIcon iconColor={'var(--color-destructive'} iconType="error" iconSize="tiny" />
     </MessageStatusSendingContainer>
   );
 };

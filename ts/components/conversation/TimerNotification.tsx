@@ -1,41 +1,39 @@
 import React from 'react';
 
-import { Intl } from '../Intl';
-
 import { missingCaseError } from '../../util/missingCaseError';
-import { SessionIcon } from '../session/icon';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
 import { ReadableMessage } from './ReadableMessage';
+import { NotificationBubble } from './notification-bubble/NotificationBubble';
 
-const TimerNotificationContent = (props: PropsForExpirationTimer) => {
-  const { pubkey, profileName, timespan, type, disabled } = props;
-  const changeKey = disabled ? 'disabledDisappearingMessages' : 'theyChangedTheTimer';
+export const TimerNotification = (props: PropsForExpirationTimer) => {
+  const { messageId, receivedAt, isUnread, pubkey, profileName, timespan, type, disabled } = props;
 
-  const contact = (
-    <span key={`external-${pubkey}`} className="module-timer-notification__contact">
-      {profileName || pubkey}
-    </span>
-  );
+  const contact = profileName || pubkey;
 
+  let textToRender: string | undefined;
   switch (type) {
     case 'fromOther':
-      return <Intl id={changeKey} components={[contact, timespan]} />;
+      textToRender = disabled
+        ? window.i18n('disabledDisappearingMessages', [contact, timespan])
+        : window.i18n('theyChangedTheTimer', [contact, timespan]);
+      break;
     case 'fromMe':
-      return disabled
+      textToRender = disabled
         ? window.i18n('youDisabledDisappearingMessages')
         : window.i18n('youChangedTheTimer', [timespan]);
+      break;
     case 'fromSync':
-      return disabled
+      textToRender = disabled
         ? window.i18n('disappearingMessagesDisabled')
         : window.i18n('timerSetOnSync', [timespan]);
+      break;
     default:
       throw missingCaseError(type);
   }
-};
 
-export const TimerNotification = (props: PropsForExpirationTimer) => {
-  const { messageId, receivedAt, isUnread } = props;
-
+  if (!textToRender || textToRender.length === 0) {
+    throw new Error('textToRender invalid key used TimerNotification');
+  }
   return (
     <ReadableMessage
       messageId={messageId}
@@ -43,17 +41,11 @@ export const TimerNotification = (props: PropsForExpirationTimer) => {
       isUnread={isUnread}
       key={`readable-message-${messageId}`}
     >
-      <div className="module-timer-notification" id={`msg-${props.messageId}`}>
-        <div className="module-timer-notification__message">
-          <div>
-            <SessionIcon iconType="stopwatch" iconSize={'small'} iconColor={'#ABABAB'} />
-          </div>
-
-          <div>
-            <TimerNotificationContent {...props} />
-          </div>
-        </div>
-      </div>
+      <NotificationBubble
+        iconType="stopwatch"
+        iconColor="inherit"
+        notificationText={textToRender}
+      />
     </ReadableMessage>
   );
 };

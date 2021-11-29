@@ -13,6 +13,7 @@ body {
   margin: 0;
   font-family: $session-font-default;
   font-size: 14px;
+  letter-spacing: 0.3px;
 }
 
 // scrollbars
@@ -230,6 +231,8 @@ $loading-height: 16px;
   display: flex;
   align-items: center;
   user-select: none;
+  // force this to black, to stay consistent with the password prompt being in dark mode too.
+  background-color: black;
 
   .content {
     margin-inline-start: auto;

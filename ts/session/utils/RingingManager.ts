@@ -20,6 +20,10 @@ function startRinging() {
   void ringingAudio.play();
 }
 
+export function getIsRinging() {
+  return currentlyRinging;
+}
+
 export function setIsRinging(isRinging: boolean) {
   if (!currentlyRinging && isRinging) {
     startRinging();

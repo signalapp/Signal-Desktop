@@ -36,6 +36,7 @@ import {
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
+import { useConversationUsername } from '../../hooks/useParamSelector';
 
 export interface TimerOption {
   name: string;
@@ -191,7 +192,7 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   }
 
   return (
-    <SessionIconButton iconType="chevron" iconSize={'large'} iconRotation={90} onClick={onGoBack} />
+    <SessionIconButton iconType="chevron" iconSize="large" iconRotation={90} onClick={onGoBack} />
   );
 };
 
@@ -249,22 +250,14 @@ const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
   const isRightPanelOn = useSelector(isRightPanelShowing);
+
+  const convoName = useConversationUsername(headerTitleProps?.conversationKey);
   const dispatch = useDispatch();
   if (!headerTitleProps) {
     return null;
   }
 
-  const {
-    conversationKey,
-    profileName,
-    isGroup,
-    isPublic,
-    members,
-    subscriberCount,
-    isMe,
-    isKickedFromGroup,
-    name,
-  } = headerTitleProps;
+  const { isGroup, isPublic, members, subscriberCount, isMe, isKickedFromGroup } = headerTitleProps;
 
   const { i18n } = window;
 
@@ -294,8 +287,6 @@ const ConversationHeaderTitle = () => {
     ? `${memberCountText} ● ${notificationSubtitle}`
     : `${notificationSubtitle}`;
 
-  const title = profileName || name || conversationKey;
-
   return (
     <div
       className="module-conversation-header__title"
@@ -308,7 +299,7 @@ const ConversationHeaderTitle = () => {
       }}
       role="button"
     >
-      <span className="module-contact-name__profile-name">{title}</span>
+      <span className="module-contact-name__profile-name">{convoName}</span>
       <StyledSubtitleContainer>
         <ConversationHeaderSubtitle text={fullTextSubtitle} />
       </StyledSubtitleContainer>

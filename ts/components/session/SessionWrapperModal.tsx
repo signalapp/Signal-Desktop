@@ -81,7 +81,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton iconType="exit" iconSize={'small'} onClick={props.onClose} />
+                  <SessionIconButton iconType="exit" iconSize="small" onClick={props.onClose} />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>

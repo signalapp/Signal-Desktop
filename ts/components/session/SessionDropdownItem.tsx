@@ -36,7 +36,7 @@ export const SessionDropdownItem = (props: Props) => {
       role="button"
       onClick={clickHandler}
     >
-      {icon ? <SessionIcon iconType={icon} iconSize={'small'} /> : ''}
+      {icon ? <SessionIcon iconType={icon} iconSize="small" /> : ''}
       <div className="item-content">{content}</div>
     </div>
   );

@@ -39,6 +39,7 @@ const RestoreUsingRecoveryPhraseButton = (props: { onRecoveryButtonClicked: () =
       buttonType={SessionButtonType.BrandOutline}
       buttonColor={SessionButtonColor.Green}
       text={window.i18n('restoreUsingRecoveryPhrase')}
+      dataTestId="restore-using-recovery"
     />
   );
 };

@@ -36,8 +36,8 @@ export const ClosedGroupAvatar = (props: Props) => {
 
   return (
     <div className="module-avatar__icon-closed">
-      <Avatar size={avatarsDiameter} pubkey={firstMemberId} onAvatarClick={onAvatarClick} />
-      <Avatar size={avatarsDiameter} pubkey={secondMemberID} onAvatarClick={onAvatarClick} />
+      <Avatar size={avatarsDiameter} pubkey={firstMemberId || ''} onAvatarClick={onAvatarClick} />
+      <Avatar size={avatarsDiameter} pubkey={secondMemberID || ''} onAvatarClick={onAvatarClick} />
     </div>
   );
 };

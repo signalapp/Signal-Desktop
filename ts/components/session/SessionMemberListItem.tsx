@@ -27,7 +27,7 @@ type Props = {
   onUnselect?: (selectedMember: ContactType) => void;
 };
 
-const AvatarItem = (props: { memberPubkey?: string }) => {
+const AvatarItem = (props: { memberPubkey: string }) => {
   return <Avatar size={AvatarSize.XS} pubkey={props.memberPubkey} />;
 };
 

@@ -269,7 +269,6 @@ textarea {
 
 .module-conversation-header__title-flex,
 .module-conversation-header__title {
-  font-family: $session-font-accent;
   font-weight: bold;
   width: 100%;
   display: flex;
@@ -278,7 +277,6 @@ textarea {
   &-text {
     @include session-color-subtle(var(--color-text));
 
-    font-family: $session-font-default;
     font-weight: 300;
     font-size: $session-font-sm;
     line-height: $session-font-sm;

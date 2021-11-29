@@ -4,18 +4,18 @@ import { useSelector } from 'react-redux';
 import useKey from 'react-use/lib/useKey';
 import { PropsForDataExtractionNotification, QuoteClickOptions } from '../../../models/messageType';
 import {
+  PropsForCallNotification,
   PropsForExpirationTimer,
   PropsForGroupInvitation,
   PropsForGroupUpdate,
-  PropsForMissedCallNotification,
 } from '../../../state/ducks/conversations';
 import { getSortedMessagesTypesOfSelectedConversation } from '../../../state/selectors/conversations';
+import { CallNotification } from '../../conversation/notification-bubble/CallNotification';
 import { DataExtractionNotification } from '../../conversation/DataExtractionNotification';
 import { GroupInvitation } from '../../conversation/GroupInvitation';
 import { GroupNotification } from '../../conversation/GroupNotification';
 import { Message } from '../../conversation/Message';
 import { MessageDateBreak } from '../../conversation/message/DateBreak';
-import { MissedCallNotification } from '../../conversation/MissedCallNotification';
 import { TimerNotification } from '../../conversation/TimerNotification';
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 
@@ -86,14 +86,10 @@ export const SessionMessagesList = (props: {
           return [<TimerNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
-        if (messageProps.message?.messageType === 'missed-call-notification') {
-          const msgProps = messageProps.message.props as PropsForMissedCallNotification;
+        if (messageProps.message?.messageType === 'call-notification') {
+          const msgProps = messageProps.message.props as PropsForCallNotification;
 
-          return [
-            <MissedCallNotification key={messageId} {...msgProps} />,
-            dateBreak,
-            unreadIndicator,
-          ];
+          return [<CallNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
         if (!messageProps) {

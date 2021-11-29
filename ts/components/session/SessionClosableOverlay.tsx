@@ -156,7 +156,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
     return (
       <div className="module-left-pane-overlay">
         <div className="exit">
-          <SessionIconButton iconSize={'small'} iconType="exit" onClick={onCloseClick} />
+          <SessionIconButton iconSize="small" iconType="exit" onClick={onCloseClick} />
         </div>
 
         <SpacerMD />

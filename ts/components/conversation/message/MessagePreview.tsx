@@ -63,7 +63,7 @@ export const MessagePreview = (props: Props) => {
           <div className="module-message__link-preview__icon_container">
             <div className="module-message__link-preview__icon_container__inner">
               <div className="module-message__link-preview__icon-container__circle-background">
-                <SessionIcon iconType="link" iconSize={'small'} />
+                <SessionIcon iconType="link" iconSize="small" />
               </div>
             </div>
           </div>

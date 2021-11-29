@@ -151,7 +151,7 @@ export const saveAttachmentToDisk = async ({
   messageSender: string;
   conversationId: string;
 }) => {
-  const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
+  const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType, false);
   save({
     attachment: { ...attachment, url: decryptedUrl },
     document,

@@ -74,6 +74,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
       size={AvatarSize.XS}
       base64Data={props.base64Data}
       {...props}
+      pubkey=""
       onAvatarClick={() => props.onClick(props.completeUrl)}
     />
   );

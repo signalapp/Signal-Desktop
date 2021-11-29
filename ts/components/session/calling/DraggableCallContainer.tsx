@@ -135,7 +135,7 @@ export const DraggableCallContainer = () => {
             autoPlay={true}
             isVideoMuted={remoteStreamVideoIsMuted}
           />
-          {remoteStreamVideoIsMuted && (
+          {remoteStreamVideoIsMuted && ongoingCallPubkey && (
             <CenteredAvatarInDraggable>
               <Avatar size={AvatarSize.XL} pubkey={ongoingCallPubkey} />
             </CenteredAvatarInDraggable>

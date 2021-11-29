@@ -13,7 +13,7 @@ import {
 } from '../../state/selectors/conversations';
 import { deleteMessagesById } from '../../interactions/conversations/unsendingInteractions';
 
-const AvatarItem = (props: { pubkey: string | undefined }) => {
+const AvatarItem = (props: { pubkey: string }) => {
   const { pubkey } = props;
 
   return <Avatar size={AvatarSize.S} pubkey={pubkey} />;

@@ -1,7 +1,5 @@
 import React from 'react';
-import { flatten } from 'lodash';
 
-import { Intl } from '../Intl';
 import {
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,
@@ -11,6 +9,7 @@ import {
 } from '../../state/ducks/conversations';
 import _ from 'underscore';
 import { ReadableMessage } from './ReadableMessage';
+import { NotificationBubble } from './notification-bubble/NotificationBubble';
 
 // This component is used to display group updates in the conversation view.
 // This is a not a "notification" as the name suggests, but a message inside the conversation
@@ -25,34 +24,22 @@ function isTypeWithContact(change: PropsForGroupUpdateType): change is TypeWithC
 }
 
 function getPeople(change: TypeWithContacts) {
-  return _.compact(
-    flatten(
-      (change.contacts || []).map((contact, index) => {
-        const element = (
-          <span key={`external-${contact.pubkey}`} className="module-group-notification__contact">
-            {contact.profileName || contact.pubkey}
-          </span>
-        );
-
-        return [index > 0 ? ', ' : null, element];
-      })
-    )
-  );
+  return change.contacts?.map(c => c.profileName || c.pubkey).join(', ');
 }
 
-function renderChange(change: PropsForGroupUpdateType) {
+const ChangeItem = (change: PropsForGroupUpdateType): string => {
   const people = isTypeWithContact(change) ? getPeople(change) : [];
+
   switch (change.type) {
     case 'name':
-      return `${window.i18n('titleIsNow', [change.newName || ''])}`;
+      return window.i18n('titleIsNow', change.newName || '');
     case 'add':
       if (!change.contacts || !change.contacts.length) {
         throw new Error('Group update add is missing contacts');
       }
 
       const joinKey = change.contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
-
-      return <Intl id={joinKey} components={[people]} />;
+      return window.i18n(joinKey, people);
     case 'remove':
       if (change.isMe) {
         return window.i18n('youLeftTheGroup');
@@ -63,8 +50,8 @@ function renderChange(change: PropsForGroupUpdateType) {
       }
 
       const leftKey = change.contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
+      return window.i18n(leftKey, people);
 
-      return <Intl id={leftKey} components={[people]} />;
     case 'kicked':
       if (change.isMe) {
         return window.i18n('youGotKickedFromGroup');
@@ -76,17 +63,20 @@ function renderChange(change: PropsForGroupUpdateType) {
 
       const kickedKey =
         change.contacts.length > 1 ? 'multipleKickedFromTheGroup' : 'kickedFromTheGroup';
+      return window.i18n(kickedKey, people);
 
-      return <Intl id={kickedKey} components={[people]} />;
     case 'general':
       return window.i18n('updatedTheGroup');
     default:
-      window.log.error('Missing case error');
+      throw new Error('Missing case error');
   }
-}
+};
 
 export const GroupNotification = (props: PropsForGroupUpdate) => {
   const { changes, messageId, receivedAt, isUnread } = props;
+
+  const textChange = changes.map(ChangeItem)[0];
+
   return (
     <ReadableMessage
       messageId={messageId}
@@ -94,13 +84,7 @@ export const GroupNotification = (props: PropsForGroupUpdate) => {
       isUnread={isUnread}
       key={`readable-message-${messageId}`}
     >
-      <div className="module-group-notification" id={`msg-${props.messageId}`}>
-        {(changes || []).map((change, index) => (
-          <div key={index} className="module-group-notification__change">
-            {renderChange(change)}
-          </div>
-        ))}
-      </div>
+      <NotificationBubble notificationText={textChange} iconType="users" />
     </ReadableMessage>
   );
 };

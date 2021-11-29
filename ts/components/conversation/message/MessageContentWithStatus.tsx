@@ -45,8 +45,22 @@ export const MessageContentWithStatuses = (props: Props) => {
     [window.contextMenuShown, props?.messageId, multiSelectMode, props?.isDetailView]
   );
 
-  const onDoubleClickReplyToMessage = () => {
-    void replyToMessage(messageId);
+  const onDoubleClickReplyToMessage = (e: React.MouseEvent<HTMLDivElement>) => {
+    const currentSelection = window.getSelection();
+    const currentSelectionString = currentSelection?.toString() || undefined;
+
+    // if multiple word are selected, consider that this double click was actually NOT used to reply to
+    // but to select
+    if (
+      !currentSelectionString ||
+      currentSelectionString.length === 0 ||
+      !currentSelectionString.includes(' ')
+    ) {
+      void replyToMessage(messageId);
+      currentSelection?.empty();
+      e.preventDefault();
+      return;
+    }
   };
 
   const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
@@ -61,7 +75,7 @@ export const MessageContentWithStatuses = (props: Props) => {
       className={classNames('module-message', `module-message--${direction}`)}
       role="button"
       onClick={onClickOnMessageOuterContainer}
-      onDoubleClick={onDoubleClickReplyToMessage}
+      onDoubleClickCapture={onDoubleClickReplyToMessage}
       style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
     >
       <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />

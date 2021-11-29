@@ -158,7 +158,7 @@ export const InConversationCallContainer = () => {
     videoRefRemote.current.muted = true;
   }
 
-  if (!ongoingCallWithFocused) {
+  if (!ongoingCallWithFocused || !ongoingCallPubkey) {
     return null;
   }
 

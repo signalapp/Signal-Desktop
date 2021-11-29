@@ -50,6 +50,7 @@ import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsMana
 import { IMAGE_JPEG } from '../types/MIME';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { getLatestTimestampOffset } from '../session/snode_api/SNodeAPI';
+import { createLastMessageUpdate } from '../types/Conversation';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -89,7 +90,7 @@ export interface ConversationAttributes {
   sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
-  avatarPointer?: any;
+  avatarPointer?: string;
   avatar?: any;
   /* Avatar hash is currently used for opengroupv2. it's sha256 hash of the base64 avatar data. */
   avatarHash?: string;
@@ -131,7 +132,7 @@ export interface ConversationAttributesOptionals {
   sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
-  avatarPointer?: any;
+  avatarPointer?: string;
   avatar?: any;
   avatarHash?: string;
   server?: any;
@@ -900,9 +901,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
     const lastMessageStatusModel = lastMessageModel
       ? lastMessageModel.getMessagePropStatus()
-      : null;
-    const lastMessageUpdate = window.Signal.Types.Conversation.createLastMessageUpdate({
-      currentTimestamp: this.get('active_at') || null,
+      : undefined;
+    const lastMessageUpdate = createLastMessageUpdate({
+      currentTimestamp: this.get('active_at'),
       lastMessage: lastMessageJSON,
       lastMessageStatus: lastMessageStatusModel,
       lastMessageNotificationText: lastMessageModel ? lastMessageModel.getNotificationText() : null,
@@ -1057,6 +1058,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     );
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
+    this.updateLastMessage();
+
     await this.commit();
     return model;
   }
@@ -1487,7 +1490,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const avatarUrl = this.getAvatarPath();
     const noIconUrl = 'images/session/session_icon_32.png';
     if (avatarUrl) {
-      const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG);
+      const decryptedAvatarUrl = await getDecryptedMediaUrl(avatarUrl, IMAGE_JPEG, true);
 
       if (!decryptedAvatarUrl) {
         window.log.warn('Could not decrypt avatar stored locally for getNotificationIcon..');

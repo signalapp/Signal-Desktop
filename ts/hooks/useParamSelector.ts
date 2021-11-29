@@ -39,3 +39,16 @@ export function useOurConversationUsername() {
 export function useIsMe(pubkey?: string) {
   return pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache();
 }
+
+export function useIsClosedGroup(convoId?: string) {
+  return useSelector((state: StateType) => {
+    if (!convoId) {
+      return false;
+    }
+    const convo = state.conversations.conversationLookup[convoId];
+    if (!convo) {
+      return false;
+    }
+    return (convo.isGroup && !convo.isPublic) || false;
+  });
+}

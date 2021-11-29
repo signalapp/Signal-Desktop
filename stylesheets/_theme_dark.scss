@@ -225,26 +225,6 @@
     color: $color-light-45;
   }
 
-  // Module: Group Notification
-
-  .module-group-notification {
-    color: $color-dark-30;
-  }
-
-  // Module: Timer Notification
-
-  .module-timer-notification {
-    color: $color-dark-30;
-  }
-
-  .module-timer-notification__icon {
-    @include color-svg('../images/timer.svg', $color-dark-30);
-  }
-
-  .module-timer-notification__icon--disabled {
-    @include color-svg('../images/timer-disabled.svg', $color-dark-30);
-  }
-
   // Module: Contact List Item
 
   .module-contact-list-item {

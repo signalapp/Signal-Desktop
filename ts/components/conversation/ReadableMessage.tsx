@@ -131,6 +131,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onChange={haveDoneFirstScroll && isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
+      key={`inview-msg-${messageId}`}
     >
       {props.children}
     </InView>

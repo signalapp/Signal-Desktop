@@ -1,6 +1,4 @@
-// tslint:disable:react-this-binding-issue
-
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import * as MIME from '../../../ts/types/MIME';
@@ -18,6 +16,7 @@ import {
   isPublicGroupConversation,
 } from '../../state/selectors/conversations';
 import { noop } from 'underscore';
+import { useDisableDrag } from '../../hooks/useDisableDrag';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -116,14 +115,10 @@ export const QuoteImage = (props: {
   icon?: string;
 }) => {
   const { url, icon, contentType, handleImageErrorBound } = props;
+  const disableDrag = useDisableDrag();
 
-  const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType);
+  const { loading, urlToLoad } = useEncryptedFileFetch(url, contentType, false);
   const srcData = !loading ? urlToLoad : '';
-
-  const onDragStart = useCallback((e: any) => {
-    e.preventDefault();
-    return false;
-  }, []);
 
   const iconElement = icon ? (
     <div className="module-quote__icon-container__inner">
@@ -143,7 +138,7 @@ export const QuoteImage = (props: {
       <img
         src={srcData}
         alt={window.i18n('quoteThumbnailAlt')}
-        onDragStart={onDragStart}
+        onDragStart={disableDrag}
         onError={handleImageErrorBound}
       />
       {iconElement}

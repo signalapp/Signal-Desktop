@@ -75,7 +75,7 @@ export const SessionQuotedMessageComposition = () => {
         margin={'var(--margins-xs)'}
       >
         <ReplyingTo>{window.i18n('replyingToMessage')}</ReplyingTo>
-        <SessionIconButton iconType="exit" iconSize={'small'} onClick={removeQuotedMessage} />
+        <SessionIconButton iconType="exit" iconSize="small" onClick={removeQuotedMessage} />
       </Flex>
       <QuotedMessageCompositionReply>
         <Flex container={true} justifyContent="space-between" margin={'var(--margins-xs)'}>

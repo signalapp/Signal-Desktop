@@ -31,7 +31,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
         margin={'var(--margins-sm)'}
         id={`msg-${messageId}`}
       >
-        <SessionIcon iconType="upload" iconSize={'small'} iconRotation={180} />
+        <SessionIcon iconType="upload" iconSize="small" iconRotation={180} />
         <SpacerSM />
         <Text text={contentText} subtle={true} />
       </Flex>

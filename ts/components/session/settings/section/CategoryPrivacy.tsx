@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
+import { CallManager } from '../../../../session/utils';
 import { sessionPassword, updateConfirmModal } from '../../../../state/ducks/modalDialog';
 import { toggleMessageRequests } from '../../../../state/ducks/userConfig';
 import { getIsMessageRequestsEnabled } from '../../../../state/selectors/userConfig';
@@ -23,6 +24,7 @@ const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
         onClickOk: async () => {
           await window.toggleCallMediaPermissionsTo(true);
           triggerUIUpdate();
+          CallManager.onTurnedOnCallMediaPermissions();
         },
         onClickCancel: async () => {
           await window.toggleCallMediaPermissionsTo(false);

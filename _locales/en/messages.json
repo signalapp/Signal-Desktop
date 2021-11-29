@@ -460,5 +460,7 @@
   "callMissedCausePermission": "Call missed from '$name$' because you need to enable the 'Voice and video calls' permission in the Privacy Settings.",
   "callMediaPermissionsDescription": "Allows access to accept voice and video calls from other users",
   "callMediaPermissionsDialogContent": "The current implementation of voice/video calls will expose your IP address to the Oxen Foundation servers and the calling/called user.",
-  "menuCall": "Call"
+  "menuCall": "Call",
+  "startedACall": "You called $name$",
+  "answeredACall": "Call with $name$"
 }

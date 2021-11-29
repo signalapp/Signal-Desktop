@@ -5,6 +5,7 @@ import { KeyPair } from '../../../libtextsecure/libsignal-protocol';
 import { PubKey } from '../types';
 import { fromHexToArray, toHex } from './String';
 import { getConversationController } from '../conversations';
+import { LokiProfile } from '../../types/Message';
 
 export type HexKeyPair = {
   pubKey: string;
@@ -93,13 +94,7 @@ export function setSignWithRecoveryPhrase(isLinking: boolean) {
   window.textsecure.storage.user.setSignWithRecoveryPhrase(isLinking);
 }
 
-export interface OurLokiProfile {
-  displayName: string;
-  avatarPointer: string;
-  profileKey: Uint8Array | null;
-}
-
-export function getOurProfile(): OurLokiProfile | undefined {
+export function getOurProfile(): LokiProfile | undefined {
   try {
     // Secondary devices have their profile stored
     // in their primary device's conversation

@@ -88,7 +88,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
     const propsForGroupNotification = this.getPropsForGroupNotification();
     const propsForTimerNotification = this.getPropsForTimerNotification();
-    const isMissedCall = this.get('isMissedCall');
+    const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
       propsForMessage: this.getPropsForMessage(),
     };
@@ -105,9 +105,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       messageProps.propsForTimerNotification = propsForTimerNotification;
     }
 
-    if (isMissedCall) {
-      messageProps.propsForMissedCall = {
-        isMissedCall,
+    if (callNotificationType) {
+      messageProps.propsForCallNotification = {
+        notificationType: callNotificationType,
         messageId: this.id,
         receivedAt: this.get('received_at') || Date.now(),
         isUnread: this.isUnread(),
@@ -238,6 +238,21 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         'savedTheFile',
         getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source)
       );
+    }
+    if (this.get('callNotificationType')) {
+      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
+        this.get('conversationId')
+      );
+      const callNotificationType = this.get('callNotificationType');
+      if (callNotificationType === 'missed-call') {
+        return window.i18n('callMissed', displayName);
+      }
+      if (callNotificationType === 'started-call') {
+        return window.i18n('startedACall', displayName);
+      }
+      if (callNotificationType === 'answered-a-call') {
+        return window.i18n('answeredACall', displayName);
+      }
     }
     return this.get('body');
   }
@@ -498,7 +513,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       return undefined;
     }
 
-    if (this.isDataExtractionNotification()) {
+    if (this.isDataExtractionNotification() || this.get('callNotificationType')) {
       return undefined;
     }
 

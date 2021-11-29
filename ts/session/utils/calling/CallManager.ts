@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { MessageUtils, ToastUtils, UserUtils } from '../';
 import { getCallMediaPermissionsSettings } from '../../../components/session/settings/SessionSettings';
-import { getConversationById } from '../../../data/data';
 import { MessageModelType } from '../../../models/messageType';
 import { SignalService } from '../../../protobuf';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
@@ -21,14 +20,17 @@ import { PubKey } from '../../types';
 
 import { v4 as uuidv4 } from 'uuid';
 import { PnServer } from '../../../pushnotification';
-import { setIsRinging } from '../RingingManager';
+import { getIsRinging, setIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
 import { MessageSender } from '../../sending';
+import { DURATION } from '../../constants';
 
 // tslint:disable: function-name
 
 export type InputItem = { deviceId: string; label: string };
+
+export const callTimeoutMs = 30000;
 
 /**
  * This uuid is set only once we accepted a call or started one.
@@ -88,10 +90,19 @@ export function removeVideoEventsListener(uniqueId: string) {
   callVideoListeners();
 }
 
+type CachedCallMessageType = {
+  type: SignalService.CallMessage.Type;
+  sdps: Array<string>;
+  sdpMLineIndexes: Array<number>;
+  sdpMids: Array<string>;
+  uuid: string;
+  timestamp: number;
+};
+
 /**
  * This field stores all the details received about a specific call with the same uuid. It is a per pubkey and per call cache.
  */
-const callCache = new Map<string, Map<string, Array<SignalService.CallMessage>>>();
+const callCache = new Map<string, Map<string, Array<CachedCallMessageType>>>();
 
 let peerConnection: RTCPeerConnection | null;
 let dataChannel: RTCDataChannel | null;
@@ -293,6 +304,8 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
     if (sender?.track) {
       sender.track.enabled = false;
     }
+    const silence = getBlackSilenceMediaStream().getAudioTracks()[0];
+    sender?.replaceTrack(silence);
     // do the same changes locally
     localStream?.getAudioTracks().forEach(t => {
       t.stop();
@@ -322,10 +335,14 @@ export async function selectAudioInputByDeviceId(audioInputDeviceId: string) {
         return s.track?.kind === audioTrack.kind;
       });
       window.log.info('replacing audio track');
-
+      // we actually do not need to toggle the track here, as toggling it here unmuted here locally (so we start to hear ourselves)
+      // do the same changes locally
+      localStream?.getAudioTracks().forEach(t => {
+        t.stop();
+        localStream?.removeTrack(t);
+      });
       if (audioSender) {
         await audioSender.replaceTrack(audioTrack);
-        // we actually do not need to toggle the track here, as toggling it here unmuted here locally (so we start to hear ourselves)
       } else {
         throw new Error('Failed to get sender for selectAudioInputByDeviceId ');
       }
@@ -439,22 +456,38 @@ export async function USER_callRecipient(recipient: string) {
     return;
   }
   await updateConnectedDevices();
+  const now = Date.now();
   window?.log?.info(`starting call with ${ed25519Str(recipient)}..`);
-  window.inboxStore?.dispatch(startingCallWith({ pubkey: recipient }));
+  window.inboxStore?.dispatch(
+    startingCallWith({
+      pubkey: recipient,
+    })
+  );
   if (peerConnection) {
     throw new Error('USER_callRecipient peerConnection is already initialized ');
   }
   currentCallUUID = uuidv4();
+  const justCreatedCallUUID = currentCallUUID;
   peerConnection = createOrGetPeerConnection(recipient);
   // send a pre offer just to wake up the device on the remote side
   const preOfferMsg = new CallMessage({
-    timestamp: Date.now(),
+    timestamp: now,
     type: SignalService.CallMessage.Type.PRE_OFFER,
     uuid: currentCallUUID,
   });
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
-
+  const calledConvo = getConversationController().get(recipient);
+  await calledConvo?.addSingleMessage({
+    conversationId: calledConvo.id,
+    source: UserUtils.getOurPubKeyStrFromCache(),
+    type: 'outgoing',
+    sent_at: now,
+    received_at: now,
+    expireTimer: 0,
+    callNotificationType: 'started-call',
+    unread: 0,
+  });
   // we do it manually as the sendToPubkeyNonDurably rely on having a message saved to the db for MessageSentSuccess
   // which is not the case for a pre offer message (the message only exists in memory)
   const rawMessage = await MessageUtils.toRawMessage(PubKey.cast(recipient), preOfferMsg);
@@ -464,6 +497,17 @@ export async function USER_callRecipient(recipient: string) {
   await openMediaDevicesAndAddTracks();
   setIsRinging(true);
   await createOfferAndSendIt(recipient);
+
+  // close and end the call if callTimeoutMs is reached ans still not connected
+  global.setTimeout(async () => {
+    if (justCreatedCallUUID === currentCallUUID && getIsRinging()) {
+      window.log.info(
+        'calling timeout reached. hanging up the call we started:',
+        justCreatedCallUUID
+      );
+      await USER_hangup(recipient);
+    }
+  }, callTimeoutMs);
 }
 
 const iceCandidates: Array<RTCIceCandidate> = new Array();
@@ -762,6 +806,18 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       await peerConnection.addIceCandidate(candicate);
     }
   }
+  const now = Date.now();
+  const callerConvo = getConversationController().get(fromSender);
+  await callerConvo?.addSingleMessage({
+    conversationId: callerConvo.id,
+    source: UserUtils.getOurPubKeyStrFromCache(),
+    type: 'incoming',
+    sent_at: now,
+    received_at: now,
+    expireTimer: 0,
+    callNotificationType: 'answered-a-call',
+    unread: 0,
+  });
   await buildAnswerAndSendIt(fromSender);
 }
 
@@ -809,6 +865,7 @@ export async function USER_rejectIncomingCallRequest(fromSender: string) {
   if (ongoingCallWith && ongoingCallStatus && ongoingCallWith === fromSender) {
     closeVideoCall();
   }
+  await addMissedCallMessage(fromSender, Date.now());
 }
 
 async function sendCallMessageAndSync(callmessage: CallMessage, user: string) {
@@ -907,6 +964,20 @@ export function isCallRejected(uuid: string) {
   return rejectedCallUUIDS.has(uuid);
 }
 
+function getCachedMessageFromCallMessage(
+  callMessage: SignalService.CallMessage,
+  envelopeTimestamp: number
+) {
+  return {
+    type: callMessage.type,
+    sdps: callMessage.sdps,
+    sdpMLineIndexes: callMessage.sdpMLineIndexes,
+    sdpMids: callMessage.sdpMids,
+    uuid: callMessage.uuid,
+    timestamp: envelopeTimestamp,
+  };
+}
+
 export async function handleCallTypeOffer(
   sender: string,
   callMessage: SignalService.CallMessage,
@@ -920,6 +991,9 @@ export async function handleCallTypeOffer(
     window.log.info('handling callMessage OFFER with uuid: ', remoteCallUUID);
 
     if (!getCallMediaPermissionsSettings()) {
+      const cachedMsg = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
+      pushCallMessageToCallCache(sender, remoteCallUUID, cachedMsg);
+
       await handleMissedCall(sender, incomingOfferTimestamp, true);
       return;
     }
@@ -979,8 +1053,9 @@ export async function handleCallTypeOffer(
       }
       setIsRinging(true);
     }
+    const cachedMessage = getCachedMessageFromCallMessage(callMessage, incomingOfferTimestamp);
 
-    pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+    pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
   } catch (err) {
     window.log?.error(`Error handling offer message ${err}`);
   }
@@ -991,7 +1066,7 @@ export async function handleMissedCall(
   incomingOfferTimestamp: number,
   isBecauseOfCallPermission: boolean
 ) {
-  const incomingCallConversation = await getConversationById(sender);
+  const incomingCallConversation = getConversationController().get(sender);
   setIsRinging(false);
   if (!isBecauseOfCallPermission) {
     ToastUtils.pushedMissedCall(
@@ -1007,26 +1082,30 @@ export async function handleMissedCall(
     );
   }
 
+  await addMissedCallMessage(sender, incomingOfferTimestamp);
+  return;
+}
+
+async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
+  const incomingCallConversation = getConversationController().get(callerPubkey);
+
   await incomingCallConversation?.addSingleMessage({
-    conversationId: incomingCallConversation.id,
-    source: sender,
+    conversationId: callerPubkey,
+    source: callerPubkey,
     type: 'incoming' as MessageModelType,
-    sent_at: incomingOfferTimestamp,
+    sent_at: sentAt,
     received_at: Date.now(),
     expireTimer: 0,
-    isMissedCall: true,
+    callNotificationType: 'missed-call',
     unread: 1,
   });
-  incomingCallConversation?.updateLastMessage();
-
-  return;
 }
 
 function getOwnerOfCallUUID(callUUID: string) {
   for (const deviceKey of callCache.keys()) {
     for (const callUUIDEntry of callCache.get(deviceKey) as Map<
       string,
-      Array<SignalService.CallMessage>
+      Array<CachedCallMessageType>
     >) {
       if (callUUIDEntry[0] === callUUID) {
         return deviceKey;
@@ -1036,7 +1115,11 @@ function getOwnerOfCallUUID(callUUID: string) {
   return null;
 }
 
-export async function handleCallTypeAnswer(sender: string, callMessage: SignalService.CallMessage) {
+export async function handleCallTypeAnswer(
+  sender: string,
+  callMessage: SignalService.CallMessage,
+  envelopeTimestamp: number
+) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
     window.log.warn('cannot handle answered message without signal description proto sdps');
     return;
@@ -1083,8 +1166,9 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
   } else {
     window.log.info(`handling callMessage ANSWER from ${callMessageUUID}`);
   }
+  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
 
-  pushCallMessageToCallCache(sender, callMessageUUID, callMessage);
+  pushCallMessageToCallCache(sender, callMessageUUID, cachedMessage);
 
   if (!peerConnection) {
     window.log.info('handleCallTypeAnswer without peer connection. Dropping');
@@ -1114,7 +1198,8 @@ export async function handleCallTypeAnswer(sender: string, callMessage: SignalSe
 
 export async function handleCallTypeIceCandidates(
   sender: string,
-  callMessage: SignalService.CallMessage
+  callMessage: SignalService.CallMessage,
+  envelopeTimestamp: number
 ) {
   if (!callMessage.sdps || callMessage.sdps.length === 0) {
     window.log.warn('cannot handle iceCandicates message without candidates');
@@ -1126,8 +1211,9 @@ export async function handleCallTypeIceCandidates(
     return;
   }
   window.log.info('handling callMessage ICE_CANDIDATES');
+  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
 
-  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+  pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
   if (currentCallUUID && callMessage.uuid === currentCallUUID) {
     await addIceCandidateToExistingPeerConnection(callMessage);
   }
@@ -1155,13 +1241,18 @@ async function addIceCandidateToExistingPeerConnection(callMessage: SignalServic
 }
 
 // tslint:disable-next-line: no-async-without-await
-export async function handleOtherCallTypes(sender: string, callMessage: SignalService.CallMessage) {
+export async function handleOtherCallTypes(
+  sender: string,
+  callMessage: SignalService.CallMessage,
+  envelopeTimestamp: number
+) {
   const remoteCallUUID = callMessage.uuid;
   if (!remoteCallUUID || remoteCallUUID.length === 0) {
     window.log.warn('handleOtherCallTypes has no valid uuid');
     return;
   }
-  pushCallMessageToCallCache(sender, remoteCallUUID, callMessage);
+  const cachedMessage = getCachedMessageFromCallMessage(callMessage, envelopeTimestamp);
+  pushCallMessageToCallCache(sender, remoteCallUUID, cachedMessage);
 }
 
 function clearCallCacheFromPubkeyAndUUID(sender: string, callUUID: string) {
@@ -1181,11 +1272,31 @@ function createCallCacheForPubkeyAndUUID(sender: string, uuid: string) {
 function pushCallMessageToCallCache(
   sender: string,
   uuid: string,
-  callMessage: SignalService.CallMessage
+  callMessage: CachedCallMessageType
 ) {
   createCallCacheForPubkeyAndUUID(sender, uuid);
   callCache
     .get(sender)
     ?.get(uuid)
     ?.push(callMessage);
+}
+
+/**
+ * Called when the settings of call media permissions is set to true from the settings page.
+ * Check for any recent offer and display it to the user if needed.
+ */
+export function onTurnedOnCallMediaPermissions() {
+  // this is not ideal as this might take the not latest sender from callCache
+  callCache.forEach((sender, key) => {
+    sender.forEach(msgs => {
+      for (const msg of msgs.reverse()) {
+        if (
+          msg.type === SignalService.CallMessage.Type.OFFER &&
+          Date.now() - msg.timestamp < DURATION.MINUTES * 1
+        ) {
+          window.inboxStore?.dispatch(incomingCall({ pubkey: key }));
+        }
+      }
+    });
+  });
 }

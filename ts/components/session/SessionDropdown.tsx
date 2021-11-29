@@ -34,7 +34,7 @@ export const SessionDropdown = (props: Props) => {
         role="button"
       >
         {label}
-        <SessionIcon iconType="chevron" iconSize={'small'} iconRotation={chevronOrientation} />
+        <SessionIcon iconType="chevron" iconSize="small" iconRotation={chevronOrientation} />
       </div>
 
       {expanded && (

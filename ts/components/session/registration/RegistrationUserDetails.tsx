@@ -20,6 +20,7 @@ const DisplayNameInput = (props: {
       maxLength={MAX_USERNAME_LENGTH}
       onValueChanged={props.onDisplayNameChanged}
       onEnterPressed={props.handlePressEnter}
+      inputDataTestId="display-name-input"
     />
   );
 };
@@ -41,6 +42,7 @@ const RecoveryPhraseInput = (props: {
       enableShowHide={true}
       onValueChanged={props.onSeedChanged}
       onEnterPressed={props.handlePressEnter}
+      inputDataTestId="recovery-phrase-input"
     />
   );
 };
