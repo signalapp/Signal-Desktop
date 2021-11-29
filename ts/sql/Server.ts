@@ -3,8 +3,8 @@
 
 /* eslint-disable camelcase */
 
+import { mkdirSync } from 'fs';
 import { join } from 'path';
-import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import { randomBytes } from 'crypto';
 import type { Database, Statement } from 'better-sqlite3';
@@ -524,7 +524,7 @@ async function initialize({
   indexedDBPath = join(configDir, 'IndexedDB');
 
   const dbDir = join(configDir, 'sql');
-  mkdirp.sync(dbDir);
+  mkdirSync(dbDir, { recursive: true });
 
   databaseFilePath = join(dbDir, 'db.sqlite');
 

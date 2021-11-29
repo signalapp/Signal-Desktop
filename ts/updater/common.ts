@@ -4,7 +4,7 @@
 /* eslint-disable no-console */
 import { createWriteStream } from 'fs';
 import { pathExists } from 'fs-extra';
-import { readdir, stat, writeFile } from 'fs/promises';
+import { readdir, stat, writeFile, mkdir } from 'fs/promises';
 import { promisify } from 'util';
 import { execFile } from 'child_process';
 import { join, normalize, extname } from 'path';
@@ -19,7 +19,6 @@ import config from 'config';
 import got from 'got';
 import { v4 as getGuid } from 'uuid';
 import pify from 'pify';
-import mkdirp from 'mkdirp';
 import rimraf from 'rimraf';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain } from 'electron';
@@ -51,7 +50,6 @@ import {
   isValidPreparedData as isValidDifferentialData,
 } from './differential';
 
-const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
 
 const INTERVAL = 30 * durations.MINUTE;
@@ -860,7 +858,7 @@ function getBaseTempDir() {
 export async function createTempDir(): Promise<string> {
   const targetDir = await getTempDir();
 
-  await mkdirpPromise(targetDir);
+  await mkdir(targetDir, { recursive: true });
 
   return targetDir;
 }
@@ -871,7 +869,7 @@ export async function getTempDir(): Promise<string> {
 
   // Create parent folder if not already present
   if (!(await pathExists(baseTempDir))) {
-    await mkdirpPromise(baseTempDir);
+    await mkdir(baseTempDir, { recursive: true });
   }
 
   return join(baseTempDir, uniqueName);
@@ -884,7 +882,7 @@ function getUpdateCacheDir() {
 
 export async function createUpdateCacheDirIfNeeded(): Promise<string> {
   const targetDir = getUpdateCacheDir();
-  await mkdirpPromise(targetDir);
+  await mkdir(targetDir, { recursive: true });
 
   return targetDir;
 }

@@ -7,12 +7,17 @@
 
 import { join } from 'path';
 import split2 from 'split2';
-import { readdirSync, createReadStream, unlinkSync, writeFileSync } from 'fs';
+import {
+  mkdirSync,
+  readdirSync,
+  createReadStream,
+  unlinkSync,
+  writeFileSync,
+} from 'fs';
 import type { BrowserWindow } from 'electron';
 import { app, ipcMain as ipc } from 'electron';
 import pino from 'pino';
 import type { StreamEntry } from 'pino';
-import * as mkdirp from 'mkdirp';
 import { filter, flatten, map, pick, sortBy } from 'lodash';
 import readFirstLine from 'firstline';
 import { read as readLastLines } from 'read-last-lines';
@@ -56,7 +61,7 @@ export async function initialize(
 
   const basePath = app.getPath('userData');
   const logPath = join(basePath, 'logs');
-  mkdirp.sync(logPath);
+  mkdirSync(logPath, { recursive: true });
 
   let appMetrics = app.getAppMetrics();
 
@@ -73,7 +78,7 @@ export async function initialize(
       `Error: ${Errors.toLogFormat(error)}`;
     console.error(errorString);
     await deleteAllLogs(logPath);
-    mkdirp.sync(logPath);
+    mkdirSync(logPath, { recursive: true });
 
     // If we want this log entry to persist on disk, we need to wait until we've
     //   set up our logging infrastructure.
@@ -204,7 +209,7 @@ async function cleanupLogs(logPath: string) {
 
     // delete and re-create the log directory
     await deleteAllLogs(logPath);
-    mkdirp.sync(logPath);
+    mkdirSync(logPath, { recursive: true });
   }
 }
 
