@@ -288,6 +288,12 @@ export class CallingClass {
       uxActions.setPresenting();
     });
 
+    ipcRenderer.on('quit', () => {
+      for (const conversationId of Object.keys(this.callsByConversation)) {
+        this.hangup(conversationId);
+      }
+    });
+
     this.cleanExpiredGroupCallRingsAndLoop();
   }
 

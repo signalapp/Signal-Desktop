@@ -1700,6 +1700,10 @@ app.on('before-quit', () => {
   });
 
   windowState.markShouldQuit();
+
+  if (mainWindow) {
+    mainWindow.webContents.send('quit');
+  }
 });
 
 // Quit when all windows are closed.
