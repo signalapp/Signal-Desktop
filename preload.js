@@ -457,7 +457,6 @@ try {
   require('./ts/views/conversation_view');
   require('./ts/views/inbox_view');
   require('./ts/views/install_view');
-  require('./ts/views/standalone_registration_view');
   require('./ts/SignalProtocolStore');
   require('./ts/background');
 

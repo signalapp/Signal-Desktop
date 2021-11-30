@@ -312,6 +312,19 @@ export class ChallengeHandler {
     await this.persist();
   }
 
+  public async requestCaptcha(token = ''): Promise<string> {
+    const request: IPCRequest = { seq: this.seq };
+    this.seq += 1;
+
+    this.options.requestChallenge(request);
+
+    const response = await new Promise<ChallengeResponse>((resolve, reject) => {
+      this.responseHandlers.set(request.seq, { token, resolve, reject });
+    });
+
+    return response.captcha;
+  }
+
   private async persist(): Promise<void> {
     assert(
       this.isLoaded,
@@ -407,16 +420,10 @@ export class ChallengeHandler {
   }
 
   private async solve(token: string): Promise<void> {
-    const request: IPCRequest = { seq: this.seq };
-    this.seq += 1;
-
     this.options.setChallengeStatus('required');
-    this.options.requestChallenge(request);
+    this.challengeToken = token;
 
-    this.challengeToken = token || '';
-    const response = await new Promise<ChallengeResponse>((resolve, reject) => {
-      this.responseHandlers.set(request.seq, { token, resolve, reject });
-    });
+    const captcha = await this.requestCaptcha(token);
 
     // Another `.solve()` has completed earlier than us
     if (this.challengeToken === undefined) {
@@ -434,7 +441,7 @@ export class ChallengeHandler {
       await this.sendChallengeResponse({
         type: 'recaptcha',
         token: lastToken,
-        captcha: response.captcha,
+        captcha,
       });
     } catch (error) {
       log.error(`challenge: challenge failure, error: ${error && error.stack}`);

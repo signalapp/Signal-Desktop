@@ -5,9 +5,16 @@
 @import 'variables';
 @import '../node_modules/intl-tel-input/build/css/intlTelInput.css';
 @import 'progress';
-.iti-flag {
+
+.iti__flag {
   // override intlTelInput's flags image location
-  background: url('../node_modules/intl-tel-input/build/img/flags.png');
+  background-image: url('../node_modules/intl-tel-input/build/img/flags.png');
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {
+    background-image: url('../node_modules/intl-tel-input/build/img/flags@2x.png');
+  }
 }
 
 .intl-tel-input .country-list {

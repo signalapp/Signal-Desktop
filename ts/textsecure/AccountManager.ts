@@ -83,12 +83,12 @@ export default class AccountManager extends EventTarget {
     this.pending = Promise.resolve();
   }
 
-  async requestVoiceVerification(number: string) {
-    return this.server.requestVerificationVoice(number);
+  async requestVoiceVerification(number: string, token: string) {
+    return this.server.requestVerificationVoice(number, token);
   }
 
-  async requestSMSVerification(number: string) {
-    return this.server.requestVerificationSMS(number);
+  async requestSMSVerification(number: string, token: string) {
+    return this.server.requestVerificationSMS(number, token);
   }
 
   encryptDeviceName(name: string, identityKey: KeyPairType) {

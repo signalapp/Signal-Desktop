@@ -2567,6 +2567,13 @@
   resolved "https://registry.yarnpkg.com/@types/humanize-duration/-/humanize-duration-3.18.1.tgz#10090d596053703e7de0ac43a37b96cd9fc78309"
   integrity sha512-MUgbY3CF7hg/a/jogixmAufLjJBQT7WEf8Q+kYJkOc47ytngg1IuZobCngdTjAgY83JWEogippge5O5fplaQlw==
 
+"@types/intl-tel-input@17.0.4":
+  version "17.0.4"
+  resolved "https://registry.yarnpkg.com/@types/intl-tel-input/-/intl-tel-input-17.0.4.tgz#a7be083bd1989830e7e02f6d552a40428fd5ed7c"
+  integrity sha512-AIX0Azxs7fAkeI2wjAsMNE4Lfoa+/NqazWDPM4k4Vm8lhcId0BNMjzC/BACEGE0nAScc71+pznlKnTxBfW5HHA==
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/jquery@*":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.5.0.tgz#ccb7dfd317d02d4227dd3803c75297d0c10dad68"
@@ -10064,10 +10071,10 @@ interpret@~1.1.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
   integrity sha1-ftGxQQxqDg94z5XTuEQMY/eLhhQ=
 
-intl-tel-input@12.1.15:
-  version "12.1.15"
-  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-12.1.15.tgz#7393e6b77572731bbc65ca4585782e8ba3d74de4"
-  integrity sha512-9TN9x6aGdO1eL6iGFpobuLU4UymZqjSnS9UnsOSi//LU3A8nkLOcokSYBYjak18Uu8OM59HsGYDd1jKmwRsskw==
+intl-tel-input@17.0.13:
+  version "17.0.13"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.13.tgz#74a51db3b44f47ae8264df7d101a0810e53c77a6"
+  integrity sha512-+jPgPKUcgbhSSRN0BZLJOdntTaMv8tqowLrVQ3CGCNGpMKb4B9PRyzOZQpwo1FeA+LTOzvErOlBhbCuQog7R3g==
 
 invariant@2.2.4, invariant@^2.2.3, invariant@^2.2.4:
   version "2.2.4"

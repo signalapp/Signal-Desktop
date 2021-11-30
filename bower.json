@@ -36,7 +36,6 @@
       "node_modules/mustache/mustache.js",
       "node_modules/underscore/underscore.js",
       "components/qrcode/**/*.js",
-      "node_modules/intl-tel-input/build/js/intlTelInput.js",
       "components/autosize/**/*.js",
       "components/webaudiorecorder/lib/WebAudioRecorder.js"
     ]

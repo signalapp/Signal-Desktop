@@ -2009,6 +2009,14 @@ export async function startApp(): Promise<void> {
 
       window.textsecure.messaging = new window.textsecure.MessageSender(server);
 
+      // Update our profile key in the conversation if we just got linked.
+      const profileKey = await ourProfileKeyService.get();
+      if (firstRun && profileKey) {
+        const me = window.ConversationController.getOurConversation();
+        strictAssert(me !== undefined, "Didn't find newly created ourselves");
+        await me.setProfileKey(Bytes.toBase64(profileKey));
+      }
+
       if (connectCount === 0) {
         try {
           // Force a re-fetch before we process our queue. We may want to turn on

@@ -1759,6 +1759,10 @@ app.on('will-finish-launching', () => {
     if (isCaptchaHref(incomingHref, getLogger())) {
       const { captcha } = parseCaptchaHref(incomingHref, getLogger());
       challengeHandler.handleCaptcha(captcha);
+
+      // Show window after handling captcha
+      showWindow();
+
       return;
     }
 

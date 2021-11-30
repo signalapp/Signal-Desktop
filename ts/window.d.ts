@@ -591,6 +591,5 @@ export type WhisperType = {
   KeyVerificationPanelView: typeof AnyViewClass;
   ReactWrapperView: typeof BasicReactWrapperViewClass;
   SafetyNumberChangeDialogView: typeof AnyViewClass;
-  StandaloneRegistrationView: typeof AnyViewClass;
   View: typeof AnyViewClass;
 };

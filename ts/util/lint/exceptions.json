@@ -1625,6 +1625,27 @@
     "updated": "2019-12-11T01:10:06.091Z"
   },
   {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "        desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "function wrap(str, width, indent) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
+    "line": "  return wrap(str, width, indent);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
     "reasonCategory": "falseMatch",
@@ -1718,751 +1739,98 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "    $(window).on(\"load\", function() {",
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput-jquery.js",
+    "line": "                    this.selectedDialCode.innerHTML = dialCode;",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "        this.telInput = $(element);",
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput-jquery.js",
+    "line": "                this.telInput.parentNode.insertBefore(wrapper, this.telInput);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "        this.hadInitialPlaceholder = Boolean($(element).attr(\"placeholder\"));",
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput-jquery.js",
+    "line": "                wrapper.parentNode.insertBefore(this.telInput, wrapper);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                $(\"body\").addClass(\"iti-mobile\");",
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput-jquery.min.js",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            this.telInput.wrap($(\"<div>\", {",
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/intl-tel-input/build/js/intlTelInput-jquery.min.js",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-$(",
+    "rule": "DOM-innerHTML",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            this.flagsContainer = $(\"<div>\", {",
+    "line": "                        this.selectedDialCode.innerHTML = dialCode;",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            var selectedFlag = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            this.selectedFlagInner = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                this.selectedDialCode = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                this.countryList = $(\"<ul>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(\"<li>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    this.dropdown = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                this.countryListItems = $();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                this.hiddenInput = $(\"<input>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(window).on(\"load\", function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                            $(\".intl-tel-input input\").intlTelInput(\"handleAutoCountry\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                $(form).on(\"submit\" + this.ns, function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                var pos = this.telInput.offset(), inputTop = pos.top, windowTop = $(window).scrollTop(), // dropdownFitsBelow = (dropdownBottom < windowBottom)",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                dropdownFitsBelow = inputTop + this.telInput.outerHeight() + this.dropdownHeight < windowTop + $(window).height(), dropdownFitsAbove = inputTop - this.dropdownHeight > windowTop;",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                that._highlightListItem($(this));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                that._selectListItem($(this));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            $(\"html\").on(\"click\" + this.ns, function(e) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            $(document).off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            $(\"html\").off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(window).off(\"scroll\" + this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(form).off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(\".intl-tel-input input\").intlTelInput(\"handleUtils\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    $(window).on(\"scroll\" + this.ns, function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input - ns is a controlled string"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            $(document).on(\"keydown\" + this.ns, function(e) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input - ns is a controlled string"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    }).append(this.countryList);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            this.countryList.append(tmp);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "tmp raw HTML, but it is generated from country data"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            selectedFlag.appendTo(this.flagsContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    }).appendTo(this.countryList);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                    this.countryList.appendTo(this.flagsContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                this.dropdown.appendTo(this.options.dropdownContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            container.before(this.telInput).remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Updating existing DOM elements"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            }).insertBefore(this.telInput);",
+    "line": "                    this.telInput.parentNode.insertBefore(wrapper, this.telInput);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "                }).insertBefore(this.telInput);",
+    "line": "                    wrapper.parentNode.insertBefore(this.telInput, wrapper);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.js",
-    "line": "            this.telInput.wrap($(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Making a div with constrained options"
-  },
-  {
-    "rule": "jQuery-append(",
+    "rule": "DOM-innerHTML",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "See other exceptions for intl-tel-input"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "See other exceptions for intl-tel-input"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Updating existing DOM element"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "See other exceptions for intl-tel-input"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/intl-tel-input/build/js/intlTelInput.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "See other exceptions for intl-tel-input"
-  },
-  {
-    "rule": "jQuery-$(",
+    "rule": "DOM-innerHTML",
     "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "$(window).on(\"load\", function() {",
+    "line": "      this.selectedDialCode.innerHTML = dialCode;",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      $(\"body\").addClass(\"iti-mobile\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    this.telInput.wrap($(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    this.flagsContainer = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    var selectedFlag = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    this.selectedFlagInner = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      this.selectedDialCode = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      this.countryList = $(\"<ul>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(\"<li>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        this.dropdown = $(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      this.countryListItems = $();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      this.hiddenInput = $(\"<input>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(window).on(\"load\", function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "            $(\".intl-tel-input input\").intlTelInput(\"handleAutoCountry\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      $(form).on(\"submit\" + this.ns, function () {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        windowTop = $(window).scrollTop(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        dropdownFitsBelow = (inputTop + this.telInput.outerHeight() + this.dropdownHeight < windowTop + $(window).height()),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(window).on(\"scroll\" + this.ns, function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      that._highlightListItem($(this));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      that._selectListItem($(this));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    $(\"html\").on(\"click\" + this.ns, function(e) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    $(document).on(\"keydown\" + this.ns, function(e) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    $(document).off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    $(\"html\").off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(window).off(\"scroll\" + this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(form).off(this.ns);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        $(\".intl-tel-input input\").intlTelInput(\"handleUtils\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "  this.telInput = $(element);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "The Plugin constructor is only called within jquery-bound functions, and given existing DOM elements"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "  this.hadInitialPlaceholder = Boolean($(element).attr(\"placeholder\"));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "The Plugin constructor is only called within jquery-bound functions, and given existing DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        }).append(this.countryList);",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    this.countryList.append(tmp);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "tmp raw HTML, but it is generated from country data"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    selectedFlag.appendTo(this.flagsContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      }).appendTo(selectedFlag);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        }).appendTo(this.countryList);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "        this.countryList.appendTo(this.flagsContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-appendTo(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      this.dropdown.appendTo(this.options.dropdownContainer);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    container.before(this.telInput).remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Updating existing DOM element"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    }).insertBefore(this.telInput);",
+    "line": "    this.telInput.parentNode.insertBefore(wrapper, this.telInput);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "      }).insertBefore(this.telInput);",
+    "line": "    wrapper.parentNode.insertBefore(this.telInput, wrapper);",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Interacting with already-existing DOM elements"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/intl-tel-input/src/js/intlTelInput.js",
-    "line": "    this.telInput.wrap($(\"<div>\", {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T18:13:29.628Z",
-    "reasonDetail": "Making a div with constrained options"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "jQuery-$(",
     "path": "node_modules/intl-tel-input/src/spec/helpers/helpers.js",
-    "line": "  $(\"body\").trigger(getKeyEvent(key, \"keydown\"));",
+    "line": "  $(\"script.iti-load-utils\").remove();",
     "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/spec/helpers/helpers.js",
-    "line": "  $(\"body\").trigger(getKeyEvent(key, \"keyup\"));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-19T21:59:32.770Z",
-    "reasonDetail": "Protected from arbitrary input"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/intl-tel-input/src/spec/helpers/helpers.js",
-    "line": "  $(\"body\").trigger(getKeyEvent(key, \"keypress\"));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-09-11T17:24:56.124Z",
-    "reasonDetail": "Static selector argument"
+    "updated": "2021-11-24T20:55:14.943Z"
   },
   {
     "rule": "DOM-document.write(",
@@ -9625,6 +8993,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/StandaloneRegistration.tsx",
+    "line": "  const pluginRef = useRef<Plugin | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-11-24T20:55:14.943Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/StandaloneRegistration.tsx",
+    "line": "  const elemRef = useRef<HTMLInputElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-11-30T10:15:33.662Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/Tooltip.js",
     "line": "    const wrapperRef = react_1.default.useRef(null);",
     "reasonCategory": "usageTrusted",
@@ -10640,384 +10022,6 @@
     "updated": "2021-09-15T21:07:50.995Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "    template: () => $('#phone-number').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "        this.$('input.number').intlTelInput();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "        const input = this.$('input.number');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "        const regionCode = this.$('li.active')",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "            this.$('.number-container').removeClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "            this.$('.number-container').addClass('valid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "            this.$('.number-container').removeClass('valid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/phone_input_view.js",
-    "line": "    template: () => $('#phone-number').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "  template: () => $('#phone-number').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "    this.$('input.number').intlTelInput();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "    const input = this.$('input.number');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "    const regionCode = this.$('li.active')",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "      this.$('.number-container').removeClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "      this.$('.number-container').addClass('valid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "      this.$('.number-container').removeClass('valid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/phone_input_view.ts",
-    "line": "  template: () => $('#phone-number').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "    template: () => $('#standalone').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('input.number').val(number);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            el: this.$('#phone-number-input'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        this.$('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        const codeHTML = $('#code').val();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        this.$('#status').text(s);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        this.$('#error').hide().text(error).addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        if (this.$('#number-container').hasClass('valid')) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#request-sms, #request-voice').removeAttr('disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#request-sms, #request-voice').prop('disabled', 'disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#code').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#code').removeClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        this.$('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#step2').addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#number-container').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "        $('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#step2').addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "            this.$('#number-container').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/standalone_registration_view.js",
-    "line": "    template: () => $('#standalone').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "  template: () => $('#standalone').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('input.number').val(number);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      el: this.$('#phone-number-input'),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    this.$('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    const codeHTML = $('#code').val();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    this.$('#status').text(s);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    this.$('#error').hide().text(error).addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    if (this.$('#number-container').hasClass('valid')) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#request-sms, #request-voice').removeAttr('disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#request-sms, #request-voice').prop('disabled', 'disabled');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#code').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#code').removeClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    this.$('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#step2').addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#number-container').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "    $('#error').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#step2').addClass('in').fadeIn();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "      this.$('#number-container').addClass('invalid');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/standalone_registration_view.ts",
-    "line": "  template: () => $('#standalone').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "ts/windows/loading/start.js",
     "line": "    message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
@@ -11030,26 +10034,5 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "        desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-11-13T01:38:33.299Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "function wrap(str, width, indent) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-11-13T01:38:33.299Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier-terser/node_modules/commander/index.js",
-    "line": "  return wrap(str, width, indent);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-11-13T01:38:33.299Z"
   }
 ]

@@ -570,7 +570,28 @@ $loading-height: 16px;
     @media (min-height: 750px) and (min-width: 700px) {
       font-size: 20pt;
     }
+
+    &:disabled {
+      background-color: $color-gray-20;
+      cursor: auto;
+    }
   }
+
+  button.link {
+    @include button-reset;
+
+    display: block;
+    margin: 0.5em auto;
+    text-align: center;
+    text-decoration: underline;
+    color: $color-ultramarine;
+
+    &:disabled {
+      color: $color-gray-20;
+      cursor: auto;
+    }
+  }
+
   a.link {
     display: block;
     cursor: pointer;

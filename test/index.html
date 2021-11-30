@@ -54,14 +54,6 @@
       <button class='close'><span class='icon'></span></button>
     </script>
 
-    <script type="text/x-tmpl-mustache" id="phone-number">
-      <div class='phone-input-form'>
-          <div class='number-container'>
-              <input type='tel' class='number' placeholder="Phone Number" />
-          </div>
-      </div>
-    </script>
-
     <script type="text/x-tmpl-mustache" id="file-size-modal">
       {{ file-size-warning }}
       ({{ limit }}{{ units }})
@@ -167,36 +159,6 @@
         </div>
       </div>
       {{/isError}}
-    </script>
-
-    <script type="text/x-tmpl-mustache" id="standalone">
-      <div class='module-title-bar-drag-area'></div>
-
-      <div class='step'>
-        <div class='inner'>
-          <div class='step-body'>
-            <div class="banner-image module-splash-screen__logo module-img--128"></div>
-            <div class='header'>Create your Signal Account</div>
-            <div id='phone-number-input'>
-              <div class='phone-input-form'>
-                  <div id='number-container' class='number-container'>
-                    <input type='tel' class='number' placeholder='Phone Number' />
-                  </div>
-              </div>
-            </div>
-            <div class='clearfix'>
-              <a class='button' id='request-sms'>Send SMS</a>
-              <a class='link' id='request-voice' tabindex='-1'>Call</a>
-            </div>
-            <input class='form-control' type='text' pattern='\s*[0-9]{3}-?[0-9]{3}\s*' title='Enter your 6-digit verification code. If you did not receive a code, click Call or Send SMS to request a new one' id='code' placeholder='Verification Code' autocomplete='off'>
-            <div id='error' class='collapse'></div>
-            <div id='status'></div>
-          </div>
-          <div class='nav'>
-            <a class='button' id='verifyCode' data-loading-text='Please wait...'>Register</a>
-          </div>
-        </div>
-      </div>
     </script>
 
     <script

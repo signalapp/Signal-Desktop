@@ -18,6 +18,13 @@ type PropsType = {
   appView: AppViewType;
   renderCallManager: () => JSX.Element;
   renderGlobalModalContainer: () => JSX.Element;
+  openInbox: () => void;
+  requestVerification: (
+    type: 'sms' | 'voice',
+    number: string,
+    token: string
+  ) => Promise<void>;
+  registerSingleDevice: (number: string, code: string) => Promise<void>;
   theme: ThemeType;
 } & ComponentProps<typeof Inbox>;
 
@@ -34,6 +41,9 @@ export const App = ({
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
   renderSafetyNumber,
+  openInbox,
+  requestVerification,
+  registerSingleDevice,
   theme,
   verifyConversationsStoppingMessageSend,
 }: PropsType): JSX.Element => {
@@ -42,7 +52,17 @@ export const App = ({
   if (appView === AppViewType.Installer) {
     contents = <Install />;
   } else if (appView === AppViewType.Standalone) {
-    contents = <StandaloneRegistration />;
+    const onComplete = () => {
+      window.removeSetupMenuItems();
+      openInbox();
+    };
+    contents = (
+      <StandaloneRegistration
+        onComplete={onComplete}
+        requestVerification={requestVerification}
+        registerSingleDevice={registerSingleDevice}
+      />
+    );
   } else if (appView === AppViewType.Inbox) {
     contents = (
       <Inbox

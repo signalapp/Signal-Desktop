@@ -38,6 +38,22 @@ const mapStateToProps = (state: StateType) => {
     renderSafetyNumber: (props: SafetyNumberProps) => (
       <SmartSafetyNumberViewer {...props} />
     ),
+    requestVerification: (
+      type: 'sms' | 'voice',
+      number: string,
+      token: string
+    ): Promise<void> => {
+      const accountManager = window.getAccountManager();
+
+      if (type === 'sms') {
+        return accountManager.requestSMSVerification(number, token);
+      }
+
+      return accountManager.requestVoiceVerification(number, token);
+    },
+    registerSingleDevice: (number: string, code: string): Promise<void> => {
+      return window.getAccountManager().registerSingleDevice(number, code);
+    },
     theme: getTheme(state),
   };
 };
