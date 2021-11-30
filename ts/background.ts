@@ -1047,6 +1047,8 @@ export async function startApp(): Promise<void> {
 
     convoCollection.on('remove', conversation => {
       const { id } = conversation || {};
+
+      conversation.trigger('unload', 'removed');
       conversationRemoved(id);
     });
     convoCollection.on('add', conversation => {
