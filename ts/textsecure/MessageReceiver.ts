@@ -1570,21 +1570,24 @@ export default class MessageReceiver
       const uuid = envelope.sourceUuid;
       const deviceId = envelope.sourceDevice;
 
-      // We don't do anything if it's just a duplicated message
+      // Job timed out, not a decryption error
       if (
-        error?.message?.includes &&
-        error.message.includes('message with old counter')
+        error?.name === 'TimeoutError' ||
+        error?.message?.includes?.('task did not complete in time')
       ) {
+        this.removeFromCache(envelope);
+        throw error;
+      }
+
+      // We don't do anything if it's just a duplicated message
+      if (error?.message?.includes?.('message with old counter')) {
         this.removeFromCache(envelope);
         throw error;
       }
 
       // We don't do a light session reset if it's an error with the sealed sender
       //   wrapper, since we don't trust the sender information.
-      if (
-        error?.message?.includes &&
-        error.message.includes('trust root validation failed')
-      ) {
+      if (error?.message?.includes?.('trust root validation failed')) {
         this.removeFromCache(envelope);
         throw error;
       }
