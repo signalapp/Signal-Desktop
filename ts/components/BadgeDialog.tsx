@@ -16,6 +16,7 @@ import { BadgeCarouselIndex } from './BadgeCarouselIndex';
 import { BadgeSustainerInstructionsDialog } from './BadgeSustainerInstructionsDialog';
 
 type PropsType = Readonly<{
+  areWeASubscriber: boolean;
   badges: ReadonlyArray<BadgeType>;
   firstName?: string;
   i18n: LocalizerType;
@@ -53,6 +54,7 @@ export function BadgeDialog(props: PropsType): null | JSX.Element {
 }
 
 function BadgeDialogWithBadges({
+  areWeASubscriber,
   badges,
   firstName,
   i18n,
@@ -114,17 +116,19 @@ function BadgeDialogWithBadges({
               title={title}
             />
           </div>
-          <Button
-            className={classNames(
-              'BadgeDialog__instructions-button',
-              currentBadge.category !== BadgeCategory.Donor &&
-                'BadgeDialog__instructions-button--hidden'
-            )}
-            onClick={onShowInstructions}
-            size={ButtonSize.Large}
-          >
-            {i18n('BadgeDialog__become-a-sustainer-button')}
-          </Button>
+          {!areWeASubscriber && (
+            <Button
+              className={classNames(
+                'BadgeDialog__instructions-button',
+                currentBadge.category !== BadgeCategory.Donor &&
+                  'BadgeDialog__instructions-button--hidden'
+              )}
+              onClick={onShowInstructions}
+              size={ButtonSize.Large}
+            >
+              {i18n('BadgeDialog__become-a-sustainer-button')}
+            </Button>
+          )}
           <BadgeCarouselIndex
             currentIndex={currentBadgeIndex}
             totalCount={badges.length}

@@ -29,6 +29,7 @@ const defaultContact: ConversationType = getDefaultConversation({
 });
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
+  areWeASubscriber: false,
   areWeAdmin: boolean('areWeAdmin', overrideProps.areWeAdmin || false),
   badges: overrideProps.badges || [],
   contact: overrideProps.contact || defaultContact,

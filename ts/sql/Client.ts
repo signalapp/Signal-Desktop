@@ -772,6 +772,7 @@ async function removeAllSignedPreKeys() {
 const ITEM_KEYS: Partial<Record<ItemKeyType, Array<string>>> = {
   senderCertificate: ['value.serialized'],
   senderCertificateNoE164: ['value.serialized'],
+  subscriberId: ['value'],
   profileKey: ['value'],
 };
 async function createOrUpdateItem<K extends ItemKeyType>(data: ItemType<K>) {

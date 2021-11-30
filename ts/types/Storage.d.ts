@@ -134,6 +134,10 @@ export type StorageAccessType = {
   paymentAddress: string;
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
+  areWeASubscriber: boolean;
+  subscriberId: Uint8Array;
+  subscriberCurrencyCode: string;
+  displayBadgesOnProfile: boolean;
 
   // Deprecated
   senderCertificateWithUuid: never;

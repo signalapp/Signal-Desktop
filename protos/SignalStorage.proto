@@ -137,4 +137,7 @@ message AccountRecord {
   optional bool                   primarySendsSms              = 18;
   optional string                 e164                         = 19;
   repeated string                 preferredReactionEmoji       = 20;
+  optional bytes                  subscriberId                 = 21;
+  optional string                 subscriberCurrencyCode       = 22;
+  optional bool                   displayBadgesOnProfile       = 23;
 }

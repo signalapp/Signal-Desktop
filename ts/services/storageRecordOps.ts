@@ -293,6 +293,19 @@ export async function toAccountRecord(
   );
 
   accountRecord.pinnedConversations = pinnedConversations;
+
+  const subscriberId = window.storage.get('subscriberId');
+  if (subscriberId instanceof Uint8Array) {
+    accountRecord.subscriberId = subscriberId;
+  }
+  const subscriberCurrencyCode = window.storage.get('subscriberCurrencyCode');
+  if (typeof subscriberCurrencyCode === 'string') {
+    accountRecord.subscriberCurrencyCode = subscriberCurrencyCode;
+  }
+  accountRecord.displayBadgesOnProfile = Boolean(
+    window.storage.get('displayBadgesOnProfile')
+  );
+
   applyUnknownFields(accountRecord, conversation);
 
   return accountRecord;
@@ -845,6 +858,9 @@ export async function mergeAccountRecord(
     universalExpireTimer,
     e164: accountE164,
     preferredReactionEmoji: rawPreferredReactionEmoji,
+    subscriberId,
+    subscriberCurrencyCode,
+    displayBadgesOnProfile,
   } = accountRecord;
 
   window.storage.put('read-receipt-setting', Boolean(readReceipts));
@@ -1017,6 +1033,14 @@ export async function mergeAccountRecord(
 
     window.storage.put('pinnedConversationIds', remotelyPinnedConversationIds);
   }
+
+  if (subscriberId instanceof Uint8Array) {
+    window.storage.put('subscriberId', subscriberId);
+  }
+  if (typeof subscriberCurrencyCode === 'string') {
+    window.storage.put('subscriberCurrencyCode', subscriberCurrencyCode);
+  }
+  window.storage.put('displayBadgesOnProfile', Boolean(displayBadgesOnProfile));
 
   const ourID = window.ConversationController.getOurConversationId();
 

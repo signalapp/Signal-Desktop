@@ -50,6 +50,7 @@ import { initializeAllJobQueues } from './jobs/initializeAllJobQueues';
 import { removeStorageKeyJobQueue } from './jobs/removeStorageKeyJobQueue';
 import { ourProfileKeyService } from './services/ourProfileKey';
 import { notificationService } from './services/notifications';
+import { areWeASubscriberService } from './services/areWeASubscriber';
 import { shouldRespondWithProfileKey } from './util/shouldRespondWithProfileKey';
 import { LatestQueue } from './util/LatestQueue';
 import { parseIntOrThrow } from './util/parseIntOrThrow';
@@ -346,6 +347,8 @@ export async function startApp(): Promise<void> {
       onlineEventTarget: window,
       storage: window.storage,
     });
+
+    areWeASubscriberService.update(window.storage, server);
   });
 
   const eventHandlerQueue = new window.PQueue({
@@ -3476,6 +3479,11 @@ export async function startApp(): Promise<void> {
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:
         log.info('onFetchLatestSync: fetching latest manifest');
         await window.Signal.Services.runStorageServiceSyncJob();
+        break;
+      case FETCH_LATEST_ENUM.SUBSCRIPTION_STATUS:
+        log.info('onFetchLatestSync: fetching latest subscription status');
+        strictAssert(server, 'WebAPI not ready');
+        areWeASubscriberService.update(window.storage, server);
         break;
       default:
         log.info(`onFetchLatestSync: Unknown type encountered ${eventType}`);

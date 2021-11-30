@@ -18,6 +18,7 @@ const i18n = setupI18n('en', enMessages);
 const story = storiesOf('Components/BadgeDialog', module);
 
 const defaultProps: ComponentProps<typeof BadgeDialog> = {
+  areWeASubscriber: false,
   badges: getFakeBadges(3),
   firstName: 'Alice',
   i18n,
@@ -94,4 +95,8 @@ story.add('Five badges', () => (
 
 story.add('Many badges', () => (
   <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />
+));
+
+story.add('Many badges, user is a subscriber', () => (
+  <BadgeDialog {...defaultProps} areWeASubscriber badges={getFakeBadges(50)} />
 ));

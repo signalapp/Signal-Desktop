@@ -26,6 +26,7 @@ import Long from 'long';
 import type { Readable } from 'stream';
 
 import { assert, strictAssert } from '../util/assert';
+import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
 import { getUserAgent } from '../util/getUserAgent';
 import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
@@ -169,7 +170,6 @@ type RedactUrl = (url: string) => string;
 
 type PromiseAjaxOptionsType = {
   socketManager?: SocketManager;
-  accessKey?: string;
   basicAuth?: string;
   certificateAuthority?: string;
   contentType?: string;
@@ -191,12 +191,20 @@ type PromiseAjaxOptionsType = {
   stack?: string;
   timeout?: number;
   type: HTTPCodeType;
-  unauthenticated?: boolean;
   user?: string;
   validateResponse?: any;
   version: string;
   abortSignal?: AbortSignal;
-};
+} & (
+  | {
+      unauthenticated?: false;
+      accessKey?: string;
+    }
+  | {
+      unauthenticated: true;
+      accessKey: undefined | string;
+    }
+);
 
 type JSONWithDetailsType = {
   data: unknown;
@@ -321,13 +329,10 @@ async function _promiseAjax(
   if (basicAuth) {
     fetchOptions.headers.Authorization = `Basic ${basicAuth}`;
   } else if (unauthenticated) {
-    if (!accessKey) {
-      throw new Error(
-        '_promiseAjax: mode is unauthenticated, but accessKey was not provided'
-      );
+    if (accessKey) {
+      // Access key is already a Base64 string
+      fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
     }
-    // Access key is already a Base64 string
-    fetchOptions.headers['Unidentified-Access-Key'] = accessKey;
   } else if (options.user && options.password) {
     const auth = Bytes.toBase64(
       Bytes.fromString(`${options.user}:${options.password}`)
@@ -542,6 +547,7 @@ const URL_CALLS = {
   storageModify: 'v1/storage/',
   storageRead: 'v1/storage/read',
   storageToken: 'v1/storage/auth',
+  subscriptions: 'v1/subscription',
   supportUnauthenticatedDelivery: 'v1/devices/unauthenticated_delivery',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username',
@@ -608,7 +614,6 @@ export type MessageType = Readonly<{
 }>;
 
 type AjaxOptionsType = {
-  accessKey?: string;
   basicAuth?: string;
   call: keyof typeof URL_CALLS;
   contentType?: string;
@@ -622,11 +627,19 @@ type AjaxOptionsType = {
   responseType?: 'json' | 'bytes' | 'byteswithdetails' | 'stream';
   schema?: unknown;
   timeout?: number;
-  unauthenticated?: boolean;
   urlParameters?: string;
   username?: string;
   validateResponse?: any;
-};
+} & (
+  | {
+      unauthenticated?: false;
+      accessKey?: string;
+    }
+  | {
+      unauthenticated: true;
+      accessKey: undefined | string;
+    }
+);
 
 export type WebAPIConnectOptionsType = WebAPICredentials & {
   useWebSocket?: boolean;
@@ -753,6 +766,7 @@ export type WebAPIType = {
   getAttachment: (cdnKey: string, cdnNumber?: number) => Promise<Uint8Array>;
   getAvatar: (path: string) => Promise<Uint8Array>;
   getDevices: () => Promise<GetDevicesResultType>;
+  getHasSubscription: (subscriberId: Uint8Array) => Promise<boolean>;
   getGroup: (options: GroupCredentialsType) => Promise<Proto.Group>;
   getGroupFromLink: (
     inviteLinkPassword: string,
@@ -1092,6 +1106,7 @@ export function initialize({
       getGroupExternalCredential,
       getGroupFromLink,
       getGroupLog,
+      getHasSubscription,
       getIceServers,
       getKeysForIdentifier,
       getKeysForIdentifierUnauth,
@@ -2491,6 +2506,27 @@ export function initialize({
       return {
         changes,
       };
+    }
+
+    async function getHasSubscription(
+      subscriberId: Uint8Array
+    ): Promise<boolean> {
+      const formattedId = toWebSafeBase64(Bytes.toBase64(subscriberId));
+      const data = await _ajax({
+        call: 'subscriptions',
+        httpType: 'GET',
+        urlParameters: `/${formattedId}`,
+        responseType: 'json',
+        unauthenticated: true,
+        accessKey: undefined,
+        redactUrl: _createRedactor(formattedId),
+      });
+
+      return (
+        isRecord(data) &&
+        isRecord(data.subscription) &&
+        Boolean(data.subscription.active)
+      );
     }
 
     function getProvisioningResource(

@@ -16,6 +16,7 @@ import { SharedGroupNames } from '../SharedGroupNames';
 import { ConfirmationDialog } from '../ConfirmationDialog';
 
 export type PropsDataType = {
+  areWeASubscriber: boolean;
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
@@ -50,6 +51,7 @@ enum ContactModalView {
 }
 
 export const ContactModal = ({
+  areWeASubscriber,
   areWeAdmin,
   badges,
   contact,
@@ -219,6 +221,7 @@ export const ContactModal = ({
     case ContactModalView.ShowingBadges:
       return (
         <BadgeDialog
+          areWeASubscriber={areWeASubscriber}
           badges={badges}
           firstName={contact.firstName}
           i18n={i18n}

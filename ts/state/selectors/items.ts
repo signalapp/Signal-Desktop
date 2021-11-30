@@ -20,6 +20,12 @@ const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
 export const getItems = (state: StateType): ItemsStateType => state.items;
 
+export const getAreWeASubscriber = createSelector(
+  getItems,
+  ({ areWeASubscriber }: Readonly<ItemsStateType>): boolean =>
+    Boolean(areWeASubscriber)
+);
+
 export const getUserAgent = createSelector(
   getItems,
   (state: ItemsStateType): string => state.userAgent as string

@@ -13,6 +13,7 @@ import {
   getConversationByUuidSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import type { MediaItemType } from '../../types/MediaItem';
 import {
@@ -82,6 +83,7 @@ const mapStateToProps = (
 
   return {
     ...props,
+    areWeASubscriber: getAreWeASubscriber(state),
     badges,
     canEditGroupInfo,
     candidateContactsToAdd,

@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import {
+  getAreWeASubscriber,
   getEmojiSkinTone,
   getPinnedConversationIds,
   getPreferredLeftPaneWidth,
@@ -20,6 +21,21 @@ describe('both/state/selectors/items', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any;
   }
+
+  describe('#getAreWeASubscriber', () => {
+    it('returns false if the value is not in storage', () => {
+      assert.isFalse(getAreWeASubscriber(getRootState({})));
+    });
+
+    it('returns the value in storage', () => {
+      assert.isFalse(
+        getAreWeASubscriber(getRootState({ areWeASubscriber: false }))
+      );
+      assert.isTrue(
+        getAreWeASubscriber(getRootState({ areWeASubscriber: true }))
+      );
+    });
+  });
 
   describe('#getEmojiSkinTone', () => {
     it('returns 0 if passed anything invalid', () => {

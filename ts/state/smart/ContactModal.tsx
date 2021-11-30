@@ -7,6 +7,7 @@ import type { PropsDataType } from '../../components/conversation/ContactModal';
 import { ContactModal } from '../../components/conversation/ContactModal';
 import type { StateType } from '../reducer';
 
+import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import { getBadgesSelector } from '../selectors/badges';
 import { getConversationSelector } from '../selectors/conversations';
@@ -35,6 +36,7 @@ const mapStateToProps = (state: StateType): PropsDataType => {
   }
 
   return {
+    areWeASubscriber: getAreWeASubscriber(state),
     areWeAdmin,
     badges: getBadgesSelector(state)(contact.badges),
     contact,

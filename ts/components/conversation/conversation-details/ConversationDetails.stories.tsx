@@ -37,6 +37,7 @@ const createProps = (hasGroupLink = false, expireTimer?: number): Props => ({
   addMembers: async () => {
     action('addMembers');
   },
+  areWeASubscriber: false,
   canEditGroupInfo: false,
   candidateContactsToAdd: times(10, () => getDefaultConversation()),
   conversation: expireTimer

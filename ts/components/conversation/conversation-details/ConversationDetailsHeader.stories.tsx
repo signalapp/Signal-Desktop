@@ -41,6 +41,7 @@ const Wrapper = (overrideProps: Partial<Props>) => {
 
   return (
     <ConversationDetailsHeader
+      areWeASubscriber={false}
       conversation={createConversation()}
       i18n={i18n}
       canEdit={false}

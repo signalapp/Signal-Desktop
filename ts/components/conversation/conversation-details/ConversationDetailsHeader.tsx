@@ -17,6 +17,7 @@ import { BadgeDialog } from '../../BadgeDialog';
 import type { BadgeType } from '../../../badges/types';
 
 export type Props = {
+  areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
   canEdit: boolean;
   conversation: ConversationType;
@@ -36,6 +37,7 @@ enum ConversationDetailsHeaderActiveModal {
 const bem = bemGenerator('ConversationDetails-header');
 
 export const ConversationDetailsHeader: React.ComponentType<Props> = ({
+  areWeASubscriber,
   badges,
   canEdit,
   conversation,
@@ -128,6 +130,7 @@ export const ConversationDetailsHeader: React.ComponentType<Props> = ({
     case ConversationDetailsHeaderActiveModal.ShowingBadges:
       modal = (
         <BadgeDialog
+          areWeASubscriber={areWeASubscriber}
           badges={badges || []}
           firstName={conversation.firstName}
           i18n={i18n}

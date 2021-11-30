@@ -55,6 +55,7 @@ enum ModalState {
 
 export type StateProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
+  areWeASubscriber: boolean;
   badges?: ReadonlyArray<BadgeType>;
   canEditGroupInfo: boolean;
   candidateContactsToAdd: Array<ConversationType>;
@@ -109,6 +110,7 @@ export type Props = StateProps & ActionProps;
 
 export const ConversationDetails: React.ComponentType<Props> = ({
   addMembers,
+  areWeASubscriber,
   badges,
   canEditGroupInfo,
   candidateContactsToAdd,
@@ -316,6 +318,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       )}
 
       <ConversationDetailsHeader
+        areWeASubscriber={areWeASubscriber}
         badges={badges}
         canEdit={canEditGroupInfo}
         conversation={conversation}
