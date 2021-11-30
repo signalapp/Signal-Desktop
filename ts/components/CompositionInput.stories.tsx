@@ -21,7 +21,6 @@ const story = storiesOf('Components/CompositionInput', module);
 
 const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   i18n,
-  conversationId: 'conversation-id',
   disabled: boolean('disabled', overrideProps.disabled || false),
   onSubmit: action('onSubmit'),
   onEditorStateChange: action('onEditorStateChange'),
@@ -33,7 +32,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   getQuotedMessage: action('getQuotedMessage'),
   onPickEmoji: action('onPickEmoji'),
   large: boolean('large', overrideProps.large || false),
-  scrollToBottom: action('scrollToBottom'),
   sortedGroupMembers: overrideProps.sortedGroupMembers || [],
   skinTone: select(
     'skinTone',

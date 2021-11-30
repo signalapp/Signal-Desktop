@@ -248,7 +248,6 @@ export type ConversationMessageType = {
   messageIds: Array<string>;
   metrics: MessageMetricsType;
   resetCounter: number;
-  scrollToBottomCounter: number;
   scrollToMessageId?: string;
   scrollToMessageCounter: number;
 };
@@ -552,9 +551,10 @@ export type MessagesAddedActionType = {
   type: 'MESSAGES_ADDED';
   payload: {
     conversationId: string;
-    messages: Array<MessageAttributesType>;
-    isNewMessage: boolean;
     isActive: boolean;
+    isJustSent: boolean;
+    isNewMessage: boolean;
+    messages: Array<MessageAttributesType>;
   };
 };
 
@@ -610,12 +610,6 @@ export type SetConversationHeaderTitleActionType = {
 export type SetSelectedConversationPanelDepthActionType = {
   type: 'SET_SELECTED_CONVERSATION_PANEL_DEPTH';
   payload: { panelDepth: number };
-};
-export type ScrollToBpttomActionType = {
-  type: 'SCROLL_TO_BOTTOM';
-  payload: {
-    conversationId: string;
-  };
 };
 export type ScrollToMessageActionType = {
   type: 'SCROLL_TO_MESSAGE';
@@ -773,7 +767,6 @@ export type ConversationActionType =
   | ReplaceAvatarsActionType
   | ReviewGroupMemberNameCollisionActionType
   | ReviewMessageRequestNameCollisionActionType
-  | ScrollToBpttomActionType
   | ScrollToMessageActionType
   | SelectedConversationChangedActionType
   | SetComposeGroupAvatarActionType
@@ -845,7 +838,6 @@ export const actions = {
   reviewMessageRequestNameCollision,
   saveAvatarToDisk,
   saveUsername,
-  scrollToBottom,
   scrollToMessage,
   selectMessage,
   setComposeGroupAvatar,
@@ -1556,19 +1548,27 @@ function messageSizeChanged(
     },
   };
 }
-function messagesAdded(
-  conversationId: string,
-  messages: Array<MessageAttributesType>,
-  isNewMessage: boolean,
-  isActive: boolean
-): MessagesAddedActionType {
+function messagesAdded({
+  conversationId,
+  isActive,
+  isJustSent,
+  isNewMessage,
+  messages,
+}: {
+  conversationId: string;
+  isActive: boolean;
+  isJustSent: boolean;
+  isNewMessage: boolean;
+  messages: Array<MessageAttributesType>;
+}): MessagesAddedActionType {
   return {
     type: 'MESSAGES_ADDED',
     payload: {
       conversationId,
-      messages,
-      isNewMessage,
       isActive,
+      isJustSent,
+      isNewMessage,
+      messages,
     },
   };
 }
@@ -1734,15 +1734,6 @@ function closeMaximumGroupSizeModal(): CloseMaximumGroupSizeModalActionType {
 function closeRecommendedGroupSizeModal(): CloseRecommendedGroupSizeModalActionType {
   return { type: 'CLOSE_RECOMMENDED_GROUP_SIZE_MODAL' };
 }
-function scrollToBottom(conversationId: string): ScrollToBpttomActionType {
-  return {
-    type: 'SCROLL_TO_BOTTOM',
-    payload: {
-      conversationId,
-    },
-  };
-}
-
 function scrollToMessage(
   conversationId: string,
   messageId: string
@@ -2657,9 +2648,6 @@ export function reducer(
           scrollToMessageCounter: existingConversation
             ? existingConversation.scrollToMessageCounter + 1
             : 0,
-          scrollToBottomCounter: existingConversation
-            ? existingConversation.scrollToBottomCounter
-            : 0,
           messageIds,
           metrics: {
             ...metrics,
@@ -2739,28 +2727,6 @@ export function reducer(
       },
     };
   }
-  if (action.type === 'SCROLL_TO_BOTTOM') {
-    const { payload } = action;
-    const { conversationId } = payload;
-    const { messagesByConversation } = state;
-    const existingConversation = messagesByConversation[conversationId];
-
-    if (!existingConversation) {
-      return state;
-    }
-
-    return {
-      ...state,
-      messagesByConversation: {
-        ...messagesByConversation,
-        [conversationId]: {
-          ...existingConversation,
-          scrollToBottomCounter: existingConversation.scrollToBottomCounter + 1,
-        },
-      },
-    };
-  }
-
   if (action.type === 'SCROLL_TO_MESSAGE') {
     const { payload } = action;
     const { conversationId, messageId } = payload;
@@ -2947,7 +2913,8 @@ export function reducer(
   }
 
   if (action.type === 'MESSAGES_ADDED') {
-    const { conversationId, isActive, isNewMessage, messages } = action.payload;
+    const { conversationId, isActive, isJustSent, isNewMessage, messages } =
+      action.payload;
     const { messagesByConversation, messagesLookup } = state;
 
     const existingConversation = messagesByConversation[conversationId];
@@ -2994,6 +2961,12 @@ export function reducer(
       //   won't add new messages to our message list.
       const haveLatest = newest && newest.id === lastMessageId;
       if (!haveLatest) {
+        if (isJustSent) {
+          log.warn(
+            'reducer/MESSAGES_ADDED: isJustSent is true, but haveLatest is false'
+          );
+        }
+
         return state;
       }
     }
@@ -3055,7 +3028,7 @@ export function reducer(
           isLoadingMessages: false,
           messageIds,
           heightChangeMessageIds,
-          scrollToMessageId: undefined,
+          scrollToMessageId: isJustSent ? last.id : undefined,
           metrics: {
             ...existingConversation.metrics,
             newest,

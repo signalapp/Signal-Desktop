@@ -68,7 +68,6 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   clearQuotedMessage: action('clearQuotedMessage'),
   getPreferredBadge: () => undefined,
   getQuotedMessage: action('getQuotedMessage'),
-  scrollToBottom: action('scrollToBottom'),
   sortedGroupMembers: [],
   // EmojiButton
   onPickEmoji: action('onPickEmoji'),

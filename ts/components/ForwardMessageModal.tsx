@@ -41,7 +41,6 @@ import { useAnimated } from '../hooks/useAnimated';
 export type DataPropsType = {
   attachments?: Array<AttachmentDraftType>;
   candidateConversations: ReadonlyArray<ConversationType>;
-  conversationId: string;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
@@ -77,7 +76,6 @@ const MAX_FORWARD = 5;
 export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   attachments,
   candidateConversations,
-  conversationId,
   doForwardMessage,
   getPreferredBadge,
   i18n,
@@ -188,10 +186,10 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
   }, [candidateConversations]);
 
   const toggleSelectedConversation = useCallback(
-    (selectedConversationId: string) => {
+    (conversationId: string) => {
       let removeContact = false;
       const nextSelectedContacts = selectedContacts.filter(contact => {
-        if (contact.id === selectedConversationId) {
+        if (contact.id === conversationId) {
           removeContact = true;
           return false;
         }
@@ -201,7 +199,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
         setSelectedContacts(nextSelectedContacts);
         return;
       }
-      const selectedContact = contactLookup.get(selectedConversationId);
+      const selectedContact = contactLookup.get(conversationId);
       if (selectedContact) {
         if (selectedContact.announcementsOnly && !selectedContact.areWeAdmin) {
           setCannotMessage(true);
@@ -337,7 +335,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
               ) : null}
               <div className="module-ForwardMessageModal__text-edit-area">
                 <CompositionInput
-                  conversationId={conversationId}
                   clearQuotedMessage={shouldNeverBeCalled}
                   draftText={messageBodyText}
                   getPreferredBadge={getPreferredBadge}
@@ -346,7 +343,6 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                   inputApi={inputApiRef}
                   large
                   moduleClassName="module-ForwardMessageModal__input"
-                  scrollToBottom={noop}
                   onEditorStateChange={(
                     messageText,
                     bodyRanges,
@@ -403,7 +399,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                           i18n={i18n}
                           onClickArchiveButton={shouldNeverBeCalled}
                           onClickContactCheckbox={(
-                            selectedConversationId: string,
+                            conversationId: string,
                             disabledReason:
                               | undefined
                               | ContactCheckboxDisabledReason
@@ -412,9 +408,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                               disabledReason !==
                               ContactCheckboxDisabledReason.MaximumContactsSelected
                             ) {
-                              toggleSelectedConversation(
-                                selectedConversationId
-                              );
+                              toggleSelectedConversation(conversationId);
                             }
                           }}
                           onSelectConversation={shouldNeverBeCalled}
