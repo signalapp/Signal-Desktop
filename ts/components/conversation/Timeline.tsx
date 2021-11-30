@@ -1492,6 +1492,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     let contactSpoofingReviewDialog: ReactNode;
     if (contactSpoofingReview) {
       const commonProps = {
+        getPreferredBadge,
         i18n,
         onBlock,
         onBlockAndReportSpam,
@@ -1500,6 +1501,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         onShowContactModal: showContactModal,
         onUnblock,
         removeMember,
+        theme,
       };
 
       switch (contactSpoofingReview.type) {

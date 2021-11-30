@@ -11,6 +11,7 @@ import { getDefaultConversation } from '../../test-both/helpers/getDefaultConver
 
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import { ContactSpoofingType } from '../../util/contactSpoofing';
+import { ThemeType } from '../../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -20,6 +21,7 @@ const story = storiesOf(
 );
 
 const getCommonProps = () => ({
+  getPreferredBadge: () => undefined,
   i18n,
   onBlock: action('onBlock'),
   onBlockAndReportSpam: action('onBlockAndReportSpam'),
@@ -28,6 +30,7 @@ const getCommonProps = () => ({
   onShowContactModal: action('onShowContactModal'),
   onUnblock: action('onUnblock'),
   removeMember: action('removeMember'),
+  theme: ThemeType.light,
 });
 
 story.add('Direct conversations with same title', () => (
