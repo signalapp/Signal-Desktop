@@ -1,21 +1,20 @@
 import { OpenGroupV2Room } from '../../data/opengroups';
 import { OpenGroupRequestCommonType } from '../opengroupV2/ApiUtil';
 
-const protocolRegex = new RegExp('(https?://)?');
+const protocolRegex = new RegExp('https?://');
 
 const dot = '\\.';
 const qMark = '\\?';
-const hostnameRegex = new RegExp(
-  `(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])${dot})*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])`
-);
-const portRegex = '(:[0-9]+)?';
+const hostSegment = '[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?';
+const hostnameRegex = new RegExp(`(?:${hostSegment}${dot})+${hostSegment}`);
+const portRegex = ':[1-9][0-9]{0,4}';
 
-// roomIds allows between 2 and 64 of '0-9' or 'a-z' or '_' chars
-export const roomIdV2Regex = '[0-9a-z_]{2,64}';
-export const publicKeyRegex = '[0-9a-z]{64}';
+// roomIds allow up to 64 ascii numbers, letters, '_', or '-' chars
+export const roomIdV2Regex = '[0-9a-zA-Z_-]{1,64}';
+export const publicKeyRegex = '[0-9a-fA-F]{64}';
 export const publicKeyParam = 'public_key=';
 export const openGroupV2ServerUrlRegex = new RegExp(
-  `${protocolRegex.source}${hostnameRegex.source}${portRegex}`
+  `(?:${protocolRegex.source})?${hostnameRegex.source}(?:${portRegex})?`
 );
 
 /**
@@ -25,8 +24,7 @@ export const openGroupV2ServerUrlRegex = new RegExp(
  * see https://stackoverflow.com/a/9275499/1680951
  */
 export const openGroupV2CompleteURLRegex = new RegExp(
-  `${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}`,
-  'm'
+  `^${openGroupV2ServerUrlRegex.source}\/${roomIdV2Regex}${qMark}${publicKeyParam}${publicKeyRegex}$`
 );
 
 /**

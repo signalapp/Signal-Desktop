@@ -461,6 +461,7 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
         this.handleToggleOverlay(undefined);
       }
     } else {
+      ToastUtils.pushToastError('invalidOpenGroupUrl', window.i18n('invalidOpenGroupUrl'));
       window.log.warn('Invalid opengroupv2 url');
     }
   }
