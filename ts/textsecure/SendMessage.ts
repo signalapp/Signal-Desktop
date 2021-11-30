@@ -23,7 +23,7 @@ import { SenderKeys } from '../LibSignalStores';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import { MIMETypeToString } from '../types/MIME';
 import type * as Attachment from '../types/Attachment';
-import type { UUIDStringType } from '../types/UUID';
+import type { UUID, UUIDStringType } from '../types/UUID';
 import type {
   ChallengeType,
   GroupCredentialsType,
@@ -2039,7 +2039,7 @@ export default class MessageSender {
     number: string,
     options: Readonly<{
       accessKey?: string;
-      profileKeyVersion?: string;
+      profileKeyVersion: string;
       profileKeyCredentialRequest?: string;
       userLanguages: ReadonlyArray<string>;
     }>
@@ -2055,6 +2055,10 @@ export default class MessageSender {
     }
 
     return this.server.getProfile(number, options);
+  }
+
+  async checkAccountExistence(uuid: UUID): Promise<boolean> {
+    return this.server.checkAccountExistence(uuid);
   }
 
   async getProfileForUsername(

@@ -18,6 +18,7 @@ describe('Conversations', () => {
   it('updates lastMessage even in race conditions with db', async () => {
     const ourNumber = '+15550000000';
     const ourUuid = UUID.generate().toString();
+    const ourPni = UUID.generate().toString();
 
     // Creating a fake conversation
     const conversation = new window.Whisper.Conversation({
@@ -39,6 +40,7 @@ describe('Conversations', () => {
     await window.textsecure.storage.user.setCredentials({
       number: ourNumber,
       uuid: ourUuid,
+      pni: ourPni,
       deviceId: 2,
       deviceName: 'my device',
       password: 'password',

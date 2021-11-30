@@ -375,7 +375,7 @@ export class SignalProtocolStore extends EventsMixin {
     const id: PreKeyIdType = `${ourUuid.toString()}:${keyId}`;
 
     try {
-      this.trigger('removePreKey');
+      this.trigger('removePreKey', ourUuid);
     } catch (error) {
       log.error(
         'removePreKey error triggering removePreKey:',

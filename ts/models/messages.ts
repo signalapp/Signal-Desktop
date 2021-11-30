@@ -40,7 +40,7 @@ import { SendMessageProtoError } from '../textsecure/Errors';
 import * as expirationTimer from '../util/expirationTimer';
 
 import type { ReactionType } from '../types/Reactions';
-import { UUID } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import type { UUIDStringType } from '../types/UUID';
 import * as reactionUtil from '../reactions/util';
 import {
@@ -1470,7 +1470,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     });
 
     if (hadSignedPreKeyRotationError) {
-      promises.push(window.getAccountManager().rotateSignedPreKey());
+      promises.push(
+        window.getAccountManager().rotateSignedPreKey(UUIDKind.ACI)
+      );
     }
 
     attributesToUpdate.sendStateByConversationId = sendStateByConversationId;

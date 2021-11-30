@@ -30,7 +30,8 @@ import {
   generateSignedPreKey,
   generatePreKey,
 } from '../Curve';
-import { UUID } from '../types/UUID';
+import type { UUIDStringType } from '../types/UUID';
+import { UUID, UUIDKind } from '../types/UUID';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
 import { assert, strictAssert } from '../util/assert';
@@ -170,8 +171,12 @@ export default class AccountManager extends EventTarget {
       );
 
       await this.clearSessionsAndPreKeys();
-      const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE);
-      await this.server.registerKeys(keys);
+      // TODO: DESKTOP-2788
+      const keys = await this.generateKeys(
+        SIGNED_KEY_GEN_BATCH_SIZE,
+        UUIDKind.ACI
+      );
+      await this.server.registerKeys(keys, UUIDKind.ACI);
       await this.confirmKeys(keys);
       await this.registrationDone();
     });
@@ -184,11 +189,6 @@ export default class AccountManager extends EventTarget {
   ) {
     const createAccount = this.createAccount.bind(this);
     const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
-    const generateKeys = this.generateKeys.bind(
-      this,
-      SIGNED_KEY_GEN_BATCH_SIZE,
-      progressCallback
-    );
     const provisioningCipher = new ProvisioningCipher();
     const pubKey = await provisioningCipher.getPublicKey();
 
@@ -274,37 +274,40 @@ export default class AccountManager extends EventTarget {
         deviceName,
         provisionMessage.userAgent,
         provisionMessage.readReceipts,
-        { uuid: provisionMessage.uuid }
+        {
+          uuid: provisionMessage.uuid
+            ? UUID.cast(provisionMessage.uuid)
+            : undefined,
+        }
       );
       await clearSessionsAndPreKeys();
-      const keys = await generateKeys();
-      await this.server.registerKeys(keys);
+      // TODO: DESKTOP-2794
+      const keys = await this.generateKeys(
+        SIGNED_KEY_GEN_BATCH_SIZE,
+        UUIDKind.ACI,
+        progressCallback
+      );
+      await this.server.registerKeys(keys, UUIDKind.ACI);
       await this.confirmKeys(keys);
       await this.registrationDone();
     });
   }
 
-  async refreshPreKeys() {
-    const generateKeys = this.generateKeys.bind(
-      this,
-      SIGNED_KEY_GEN_BATCH_SIZE
-    );
-    const registerKeys = this.server.registerKeys.bind(this.server);
-
-    return this.queueTask(async () =>
-      this.server.getMyKeys().then(async preKeyCount => {
-        log.info(`prekey count ${preKeyCount}`);
-        if (preKeyCount < 10) {
-          return generateKeys().then(registerKeys);
-        }
-        return null;
-      })
-    );
+  async refreshPreKeys(uuidKind: UUIDKind) {
+    return this.queueTask(async () => {
+      const preKeyCount = await this.server.getMyKeys(uuidKind);
+      log.info(`prekey count ${preKeyCount}`);
+      if (preKeyCount >= 10) {
+        return;
+      }
+      const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE, uuidKind);
+      await this.server.registerKeys(keys, uuidKind);
+    });
   }
 
-  async rotateSignedPreKey() {
+  async rotateSignedPreKey(uuidKind: UUIDKind) {
     return this.queueTask(async () => {
-      const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+      const ourUuid = window.textsecure.storage.user.getCheckedUuid(uuidKind);
       const signedKeyId = window.textsecure.storage.get('signedKeyId', 1);
       if (typeof signedKeyId !== 'number') {
         throw new Error('Invalid signedKeyId');
@@ -350,11 +353,14 @@ export default class AccountManager extends EventTarget {
           return Promise.all([
             window.textsecure.storage.put('signedKeyId', signedKeyId + 1),
             store.storeSignedPreKey(ourUuid, res.keyId, res.keyPair),
-            server.setSignedPreKey({
-              keyId: res.keyId,
-              publicKey: res.keyPair.pubKey,
-              signature: res.signature,
-            }),
+            server.setSignedPreKey(
+              {
+                keyId: res.keyId,
+                publicKey: res.keyPair.pubKey,
+                signature: res.signature,
+              },
+              uuidKind
+            ),
           ])
             .then(async () => {
               const confirmed = true;
@@ -456,7 +462,7 @@ export default class AccountManager extends EventTarget {
     deviceName: string | null,
     userAgent?: string | null,
     readReceipts?: boolean | null,
-    options: { accessKey?: Uint8Array; uuid?: string } = {}
+    options: { accessKey?: Uint8Array; uuid?: UUIDStringType } = {}
   ): Promise<void> {
     const { storage } = window.textsecure;
     const { accessKey, uuid } = options;
@@ -548,6 +554,7 @@ export default class AccountManager extends EventTarget {
     // information.
     await storage.user.setCredentials({
       uuid: ourUuid,
+      pni: response.pni,
       number,
       deviceId: response.deviceId ?? 1,
       deviceName: deviceName ?? undefined,
@@ -617,8 +624,12 @@ export default class AccountManager extends EventTarget {
     ]);
   }
 
-  async getGroupCredentials(startDay: number, endDay: number) {
-    return this.server.getGroupCredentials(startDay, endDay);
+  async getGroupCredentials(
+    startDay: number,
+    endDay: number,
+    uuidKind: UUIDKind
+  ) {
+    return this.server.getGroupCredentials(startDay, endDay, uuidKind);
   }
 
   // Takes the same object returned by generateKeys
@@ -636,14 +647,18 @@ export default class AccountManager extends EventTarget {
     await store.storeSignedPreKey(ourUuid, key.keyId, key.keyPair, confirmed);
   }
 
-  async generateKeys(count: number, providedProgressCallback?: Function) {
+  async generateKeys(
+    count: number,
+    uuidKind: UUIDKind,
+    providedProgressCallback?: Function
+  ) {
     const progressCallback =
       typeof providedProgressCallback === 'function'
         ? providedProgressCallback
         : null;
     const startId = window.textsecure.storage.get('maxPreKeyId', 1);
     const signedKeyId = window.textsecure.storage.get('signedKeyId', 1);
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid(uuidKind);
 
     if (typeof startId !== 'number') {
       throw new Error('Invalid maxPreKeyId');

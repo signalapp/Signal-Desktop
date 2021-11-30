@@ -3,7 +3,7 @@
 
 import type { ThunkAction } from 'redux-thunk';
 import type { StateType as RootStateType } from '../reducer';
-import { getUserLanguages } from '../../util/userLanguages';
+import { UUID } from '../../types/UUID';
 
 import type { NoopActionType } from './noop';
 
@@ -51,13 +51,9 @@ function checkForAccount(
     let hasAccount = false;
 
     try {
-      await window.textsecure.messaging.getProfile(identifier, {
-        userLanguages: getUserLanguages(
-          navigator.languages,
-          window.getLocale()
-        ),
-      });
-      hasAccount = true;
+      hasAccount = await window.textsecure.messaging.checkAccountExistence(
+        new UUID(identifier)
+      );
     } catch (_error) {
       // Doing nothing with this failed fetch
     }

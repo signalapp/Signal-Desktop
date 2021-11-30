@@ -14,6 +14,7 @@ try {
   const _ = require('lodash');
   const { strictAssert } = require('./ts/util/assert');
   const { parseIntWithFallback } = require('./ts/util/parseIntWithFallback');
+  const { UUIDKind } = require('./ts/types/UUID');
 
   // It is important to call this as early as possible
   const { SignalContext } = require('./ts/windows/context');
@@ -185,7 +186,7 @@ try {
     }
 
     const ourUuid = window.textsecure.storage.user.getUuid();
-    const ourPni = window.textsecure.storage.user.getPni();
+    const ourPni = window.textsecure.storage.user.getUuid(UUIDKind.PNI);
 
     event.sender.send('additional-log-data-response', {
       capabilities: ourCapabilities || {},

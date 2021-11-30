@@ -134,6 +134,7 @@ export type StorageAccessType = {
   paymentAddress: string;
   zoomFactor: ZoomFactorType;
   preferredLeftPaneWidth: number;
+  nextSignedKeyRotationTime: number;
   areWeASubscriber: boolean;
   subscriberId: Uint8Array;
   subscriberCurrencyCode: string;

@@ -10,6 +10,7 @@ import type { GroupCredentialType } from '../textsecure/WebAPI';
 import * as durations from '../util/durations';
 import { BackOff } from '../util/BackOff';
 import { sleep } from '../util/sleep';
+import { UUIDKind } from '../types/UUID';
 import * as log from '../logging/log';
 
 export const GROUP_CREDENTIALS_KEY = 'groupCredentials';
@@ -142,7 +143,7 @@ export async function maybeFetchNewCredentials(): Promise<void> {
     serverPublicParamsBase64
   );
   const newCredentials = sortCredentials(
-    await accountManager.getGroupCredentials(startDay, endDay)
+    await accountManager.getGroupCredentials(startDay, endDay, UUIDKind.ACI)
   ).map((item: GroupCredentialType) => {
     const authCredential = clientZKAuthOperations.receiveAuthCredential(
       uuid,

@@ -35,7 +35,8 @@ import { toWebSafeBase64 } from '../util/webSafeBase64';
 import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
-import type { UUIDStringType } from '../types/UUID';
+import type { UUID, UUIDStringType } from '../types/UUID';
+import { UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import {
   constantTimeEqual,
@@ -164,7 +165,7 @@ function getContentType(response: Response) {
 
 type FetchHeaderListType = { [name: string]: string };
 export type HeaderListType = { [name: string]: string | ReadonlyArray<string> };
-type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+type HTTPCodeType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD';
 
 type RedactUrl = (url: string) => string;
 
@@ -519,6 +520,7 @@ function makeHTTPError(
 
 const URL_CALLS = {
   accounts: 'v1/accounts',
+  accountExistence: 'v1/accounts/account',
   attachmentId: 'v2/attachments/form/upload',
   attestation: 'v1/attestation',
   challenge: 'v1/challenge',
@@ -745,8 +747,15 @@ export type MakeProxiedRequestResultType =
     };
 
 export type WhoamiResultType = Readonly<{
-  uuid?: string;
+  uuid?: UUIDStringType;
+  pni?: UUIDStringType;
   number?: string;
+}>;
+
+export type ConfirmCodeResultType = Readonly<{
+  uuid: UUIDStringType;
+  pni: UUIDStringType;
+  deviceId?: number;
 }>;
 
 export type WebAPIType = {
@@ -756,8 +765,8 @@ export type WebAPIType = {
     newPassword: string,
     registrationId: number,
     deviceName?: string | null,
-    options?: { accessKey?: Uint8Array; uuid?: string }
-  ) => Promise<{ uuid?: string; deviceId?: number }>;
+    options?: { accessKey?: Uint8Array; uuid?: UUIDStringType }
+  ) => Promise<ConfirmCodeResultType>;
   createGroup: (
     group: Proto.IGroup,
     options: GroupCredentialsType
@@ -775,7 +784,8 @@ export type WebAPIType = {
   getGroupAvatar: (key: string) => Promise<Uint8Array>;
   getGroupCredentials: (
     startDay: number,
-    endDay: number
+    endDay: number,
+    uuidKind: UUIDKind
   ) => Promise<Array<GroupCredentialType>>;
   getGroupExternalCredential: (
     options: GroupCredentialsType
@@ -794,13 +804,14 @@ export type WebAPIType = {
     deviceId?: number,
     options?: { accessKey?: string }
   ) => Promise<ServerKeysType>;
-  getMyKeys: () => Promise<number>;
+  getMyKeys: (uuidKind: UUIDKind) => Promise<number>;
   getProfile: (
     identifier: string,
     options: {
-      profileKeyVersion?: string;
+      profileKeyVersion: string;
       profileKeyCredentialRequest?: string;
       userLanguages: ReadonlyArray<string>;
+      credentialType?: 'pni' | 'profileKey';
     }
   ) => Promise<ProfileType>;
   getProfileForUsername: (username: string) => Promise<ProfileType>;
@@ -808,7 +819,7 @@ export type WebAPIType = {
     identifier: string,
     options: {
       accessKey: string;
-      profileKeyVersion?: string;
+      profileKeyVersion: string;
       profileKeyCredentialRequest?: string;
       userLanguages: ReadonlyArray<string>;
     }
@@ -866,11 +877,12 @@ export type WebAPIType = {
   ) => Promise<string>;
   putUsername: (newUsername: string) => Promise<void>;
   registerCapabilities: (capabilities: CapabilitiesUploadType) => Promise<void>;
-  registerKeys: (genKeys: KeysType) => Promise<void>;
+  registerKeys: (genKeys: KeysType, uuidKind: UUIDKind) => Promise<void>;
   registerSupportForUnauthenticatedDelivery: () => Promise<void>;
   reportMessage: (senderE164: string, serverGuid: string) => Promise<void>;
   requestVerificationSMS: (number: string, token: string) => Promise<void>;
   requestVerificationVoice: (number: string, token: string) => Promise<void>;
+  checkAccountExistence: (uuid: UUID) => Promise<boolean>;
   sendMessages: (
     destination: string,
     messageArray: ReadonlyArray<MessageType>,
@@ -890,7 +902,10 @@ export type WebAPIType = {
     timestamp: number,
     online?: boolean
   ) => Promise<MultiRecipient200ResponseType>;
-  setSignedPreKey: (signedPreKey: SignedPreKeyType) => Promise<void>;
+  setSignedPreKey: (
+    signedPreKey: SignedPreKeyType,
+    uuidKind: UUIDKind
+  ) => Promise<void>;
   updateDeviceName: (deviceName: string) => Promise<void>;
   uploadAvatar: (
     uploadAvatarRequestHeaders: UploadAvatarHeadersType,
@@ -1091,6 +1106,7 @@ export function initialize({
       unregisterRequestHandler,
       authenticate,
       logout,
+      checkAccountExistence,
       confirmCode,
       createGroup,
       deleteUsername,
@@ -1180,13 +1196,13 @@ export function initialize({
           (param.jsonData ? JSON.stringify(param.jsonData) : undefined),
         headers: param.headers,
         host: param.host || url,
-        password: param.password || password,
+        password: param.password ?? password,
         path: URL_CALLS[param.call] + param.urlParameters,
         proxyUrl,
         responseType: param.responseType,
         timeout: param.timeout,
         type: param.httpType,
-        user: param.username || username,
+        user: param.username ?? username,
         redactUrl: param.redactUrl,
         serverUrl: url,
         validateResponse: param.validateResponse,
@@ -1207,6 +1223,18 @@ export function initialize({
         }
         throw e;
       }
+    }
+
+    function uuidKindToQuery(kind: UUIDKind): string {
+      let value: string;
+      if (kind === UUIDKind.ACI) {
+        value = 'aci';
+      } else if (kind === UUIDKind.PNI) {
+        value = 'pni';
+      } else {
+        throw new Error(`Unsupported UUIDKind: ${kind}`);
+      }
+      return `identity=${value}`;
     }
 
     async function whoami() {
@@ -1378,16 +1406,14 @@ export function initialize({
 
     function getProfileUrl(
       identifier: string,
-      profileKeyVersion?: string,
-      profileKeyCredentialRequest?: string
+      profileKeyVersion: string,
+      profileKeyCredentialRequest?: string,
+      credentialType: 'pni' | 'profileKey' = 'profileKey'
     ) {
-      let profileUrl = `/${identifier}`;
+      let profileUrl = `/${identifier}/${profileKeyVersion}`;
 
-      if (profileKeyVersion) {
-        profileUrl += `/${profileKeyVersion}`;
-      }
-      if (profileKeyVersion && profileKeyCredentialRequest) {
-        profileUrl += `/${profileKeyCredentialRequest}`;
+      if (profileKeyCredentialRequest) {
+        profileUrl += `/${profileKeyCredentialRequest}?credentialType=${credentialType}`;
       }
 
       return profileUrl;
@@ -1396,13 +1422,18 @@ export function initialize({
     async function getProfile(
       identifier: string,
       options: {
-        profileKeyVersion?: string;
+        profileKeyVersion: string;
         profileKeyCredentialRequest?: string;
         userLanguages: ReadonlyArray<string>;
+        credentialType?: 'pni' | 'profileKey';
       }
     ) {
-      const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
-        options;
+      const {
+        profileKeyVersion,
+        profileKeyCredentialRequest,
+        userLanguages,
+        credentialType = 'profileKey',
+      } = options;
 
       return (await _ajax({
         call: 'profile',
@@ -1410,7 +1441,8 @@ export function initialize({
         urlParameters: getProfileUrl(
           identifier,
           profileKeyVersion,
-          profileKeyCredentialRequest
+          profileKeyCredentialRequest,
+          credentialType
         ),
         headers: {
           'Accept-Language': formatAcceptLanguageHeader(userLanguages),
@@ -1425,9 +1457,13 @@ export function initialize({
     }
 
     async function getProfileForUsername(usernameToFetch: string) {
-      return getProfile(`username/${usernameToFetch}`, {
-        userLanguages: [],
-      });
+      return (await _ajax({
+        call: 'profile',
+        httpType: 'GET',
+        urlParameters: `username/${usernameToFetch}`,
+        responseType: 'json',
+        redactUrl: _createRedactor(usernameToFetch),
+      })) as ProfileType;
     }
 
     async function putProfile(
@@ -1451,7 +1487,7 @@ export function initialize({
       identifier: string,
       options: {
         accessKey: string;
-        profileKeyVersion?: string;
+        profileKeyVersion: string;
         profileKeyCredentialRequest?: string;
         userLanguages: ReadonlyArray<string>;
       }
@@ -1573,13 +1609,32 @@ export function initialize({
       });
     }
 
+    async function checkAccountExistence(uuid: UUID) {
+      try {
+        await _ajax({
+          httpType: 'HEAD',
+          call: 'accountExistence',
+          urlParameters: `/${uuid.toString()}`,
+          unauthenticated: true,
+          accessKey: undefined,
+        });
+        return true;
+      } catch (error) {
+        if (error instanceof HTTPError && error.code === 404) {
+          return false;
+        }
+
+        throw error;
+      }
+    }
+
     async function confirmCode(
       number: string,
       code: string,
       newPassword: string,
       registrationId: number,
       deviceName?: string | null,
-      options: { accessKey?: Uint8Array; uuid?: string } = {}
+      options: { accessKey?: Uint8Array; uuid?: UUIDStringType } = {}
     ) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
@@ -1620,7 +1675,7 @@ export function initialize({
         responseType: 'json',
         urlParameters: urlPrefix + code,
         jsonData,
-      })) as { uuid?: string; deviceId?: number };
+      })) as ConfirmCodeResultType;
 
       // Set final REST credentials to let `registerKeys` succeed.
       username = `${uuid || response.uuid || number}.${response.deviceId || 1}`;
@@ -1670,7 +1725,7 @@ export function initialize({
       }>;
     };
 
-    async function registerKeys(genKeys: KeysType) {
+    async function registerKeys(genKeys: KeysType, uuidKind: UUIDKind) {
       const preKeys = genKeys.preKeys.map(key => ({
         keyId: key.keyId,
         publicKey: Bytes.toBase64(key.publicKey),
@@ -1688,14 +1743,19 @@ export function initialize({
 
       await _ajax({
         call: 'keys',
+        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'PUT',
         jsonData: keys,
       });
     }
 
-    async function setSignedPreKey(signedPreKey: SignedPreKeyType) {
+    async function setSignedPreKey(
+      signedPreKey: SignedPreKeyType,
+      uuidKind: UUIDKind
+    ) {
       await _ajax({
         call: 'signed',
+        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'PUT',
         jsonData: {
           keyId: signedPreKey.keyId,
@@ -1709,9 +1769,10 @@ export function initialize({
       count: number;
     };
 
-    async function getMyKeys(): Promise<number> {
+    async function getMyKeys(uuidKind: UUIDKind): Promise<number> {
       const result = (await _ajax({
         call: 'keys',
+        urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'GET',
         responseType: 'json',
         validateResponse: { count: 'number' },
@@ -2233,11 +2294,12 @@ export function initialize({
 
     async function getGroupCredentials(
       startDay: number,
-      endDay: number
+      endDay: number,
+      uuidKind: UUIDKind
     ): Promise<Array<GroupCredentialType>> {
       const response = (await _ajax({
         call: 'getGroupCredentials',
-        urlParameters: `/${startDay}/${endDay}`,
+        urlParameters: `/${startDay}/${endDay}?${uuidKindToQuery(uuidKind)}`,
         httpType: 'GET',
         responseType: 'json',
       })) as CredentialResponseType;

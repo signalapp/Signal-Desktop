@@ -83,6 +83,7 @@ import type {
 import { VerifiedEvent } from './textsecure/messageReceiverEvents';
 import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
+import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListener';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
 import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
@@ -116,6 +117,8 @@ import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
+import type { UUID } from './types/UUID';
+import { UUIDKind } from './types/UUID';
 import * as log from './logging/log';
 import {
   loadRecentEmojis,
@@ -498,8 +501,9 @@ export async function startApp(): Promise<void> {
   window.document.title = window.getTitle();
 
   KeyChangeListener.init(window.textsecure.storage.protocol);
-  window.textsecure.storage.protocol.on('removePreKey', () => {
-    window.getAccountManager().refreshPreKeys();
+  window.textsecure.storage.protocol.on('removePreKey', (ourUuid: UUID) => {
+    const uuidKind = window.textsecure.storage.user.getOurUuidKind(ourUuid);
+    window.getAccountManager().refreshPreKeys(uuidKind);
   });
 
   window.getSocketStatus = () => {
@@ -2153,6 +2157,18 @@ export async function startApp(): Promise<void> {
         return unlinkAndDisconnect(RemoveAllConfiguration.Full);
       }
 
+      if (!window.textsecure.storage.user.getUuid(UUIDKind.PNI)) {
+        log.info('PNI not captured during registration, fetching');
+        const { pni } = await server.whoami();
+        if (!pni) {
+          log.error('No PNI found, unlinking');
+          return unlinkAndDisconnect(RemoveAllConfiguration.Soft);
+        }
+
+        log.info('Setting PNI to', pni);
+        await window.textsecure.storage.user.setPni(pni);
+      }
+
       if (connectCount === 1) {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
@@ -2321,10 +2337,7 @@ export async function startApp(): Promise<void> {
     window.readyForUpdates();
 
     // Start listeners here, after we get through our queue.
-    window.Whisper.RotateSignedPreKeyListener.init(
-      window.Whisper.events,
-      newVersion
-    );
+    RotateSignedPreKeyListener.init(window.Whisper.events, newVersion);
 
     // Go back to main process before processing delayed actions
     await window.Signal.Data.goBackToMainProcess();

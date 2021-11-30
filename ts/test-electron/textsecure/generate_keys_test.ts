@@ -9,7 +9,7 @@ import { generateKeyPair } from '../../Curve';
 import type { GeneratedKeysType } from '../../textsecure/AccountManager';
 import AccountManager from '../../textsecure/AccountManager';
 import type { PreKeyType, SignedPreKeyType } from '../../textsecure/Types.d';
-import { UUID } from '../../types/UUID';
+import { UUID, UUIDKind } from '../../types/UUID';
 
 const { textsecure } = window;
 
@@ -91,7 +91,7 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager.generateKeys(count);
+      result = await accountManager.generateKeys(count, UUIDKind.ACI);
     });
 
     for (let i = 1; i <= count; i += 1) {
@@ -125,7 +125,7 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager.generateKeys(count);
+      result = await accountManager.generateKeys(count, UUIDKind.ACI);
     });
 
     for (let i = 1; i <= 2 * count; i += 1) {
@@ -159,7 +159,7 @@ describe('Key generation', function thisNeeded() {
     before(async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const accountManager = new AccountManager({} as any);
-      result = await accountManager.generateKeys(count);
+      result = await accountManager.generateKeys(count, UUIDKind.ACI);
     });
 
     for (let i = 1; i <= 3 * count; i += 1) {
