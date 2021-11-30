@@ -888,6 +888,7 @@ export function _conversationMessagesSelector(
     loadCountdownStart,
     items,
     isNearBottom,
+    messageHeightChangeBaton: heightChangeMessageIds,
     messageHeightChangeIndex:
       isNumber(messageHeightChangeIndex) && messageHeightChangeIndex >= 0
         ? messageHeightChangeIndex

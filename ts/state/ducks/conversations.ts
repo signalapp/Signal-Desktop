@@ -622,6 +622,7 @@ export type ClearChangedMessagesActionType = {
   type: 'CLEAR_CHANGED_MESSAGES';
   payload: {
     conversationId: string;
+    baton: unknown;
   };
 };
 export type ClearSelectedMessageActionType = {
@@ -1691,12 +1692,14 @@ function setRecentMediaItems(
   };
 }
 function clearChangedMessages(
-  conversationId: string
+  conversationId: string,
+  baton: unknown
 ): ClearChangedMessagesActionType {
   return {
     type: 'CLEAR_CHANGED_MESSAGES',
     payload: {
       conversationId,
+      baton,
     },
   };
 }
@@ -3048,10 +3051,14 @@ export function reducer(
   }
   if (action.type === 'CLEAR_CHANGED_MESSAGES') {
     const { payload } = action;
-    const { conversationId } = payload;
+    const { conversationId, baton } = payload;
     const existingConversation = state.messagesByConversation[conversationId];
 
-    if (!existingConversation) {
+    if (
+      !existingConversation ||
+      existingConversation.heightChangeMessageIds !== baton
+    ) {
+      log.warn('CLEAR_CHANGED_MESSAGES used expired baton');
       return state;
     }
 

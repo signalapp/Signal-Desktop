@@ -81,6 +81,7 @@ export type PropsDataType = {
   isNearBottom?: boolean;
   items: ReadonlyArray<string>;
   loadCountdownStart?: number;
+  messageHeightChangeBaton?: unknown;
   messageHeightChangeIndex?: number;
   oldestUnreadIndex?: number;
   resetCounter: number;
@@ -132,7 +133,7 @@ export type PropsActionsType = {
   acknowledgeGroupMemberNameCollisions: (
     groupNameCollisions: Readonly<GroupNameCollisionsWithIdsByTitle>
   ) => void;
-  clearChangedMessages: (conversationId: string) => unknown;
+  clearChangedMessages: (conversationId: string, baton: unknown) => unknown;
   clearInvitedUuidsForNewlyCreatedGroup: () => void;
   closeContactSpoofingReview: () => void;
   setLoadCountdownStart: (
@@ -1031,6 +1032,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       isIncomingMessageRequest,
       items,
       messageHeightChangeIndex,
+      messageHeightChangeBaton,
       oldestUnreadIndex,
       resetCounter,
       scrollToIndex,
@@ -1088,7 +1090,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     if (isNumber(messageHeightChangeIndex)) {
       resizeStartRow = this.fromItemIndexToRow(messageHeightChangeIndex);
-      clearChangedMessages(id);
+      clearChangedMessages(id, messageHeightChangeBaton);
     }
 
     if (
