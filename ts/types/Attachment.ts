@@ -113,6 +113,8 @@ export type AttachmentDraftType =
       caption?: string;
       fileName?: string;
       path: string;
+      width?: number;
+      height?: number;
     } & BaseAttachmentDraftType)
   | {
       contentType: MIME.MIMEType;

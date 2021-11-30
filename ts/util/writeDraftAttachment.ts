@@ -6,6 +6,10 @@ import type {
   InMemoryAttachmentDraftType,
   AttachmentDraftType,
 } from '../types/Attachment';
+import { isImageAttachment } from '../types/Attachment';
+import { getImageDimensions } from '../types/VisualAttachment';
+import * as Errors from '../types/errors';
+import * as logger from '../logging/log';
 
 export async function writeDraftAttachment(
   attachment: InMemoryAttachmentDraftType
@@ -24,10 +28,28 @@ export async function writeDraftAttachment(
       )
     : undefined;
 
+  let dimensions: { width?: number; height?: number } = {};
+  if (isImageAttachment(attachment)) {
+    const url = window.Signal.Migrations.getAbsoluteDraftPath(path);
+
+    try {
+      dimensions = await getImageDimensions({
+        objectUrl: url,
+        logger,
+      });
+    } catch (error) {
+      logger.error(
+        'writeDraftAttachment: failed to capture image dimensions',
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+
   return {
     ...omit(attachment, ['data', 'screenshotData']),
     path,
     screenshotPath,
     pending: false,
+    ...dimensions,
   };
 }

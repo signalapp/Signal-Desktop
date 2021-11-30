@@ -34,6 +34,8 @@ export function resolveDraftAttachmentOnDisk(
       'fileName',
       'path',
       'size',
+      'width',
+      'height',
     ]),
     pending: false,
     url,
