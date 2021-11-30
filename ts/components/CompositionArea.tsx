@@ -123,7 +123,6 @@ export type OwnProps = Readonly<{
   setQuotedMessage(message: undefined): unknown;
   shouldSendHighQualityAttachments: boolean;
   startRecording: () => unknown;
-  scrollToBottom: (converstionId: string) => unknown;
   theme: ThemeType;
 }>;
 
@@ -203,7 +202,6 @@ export const CompositionArea = ({
   clearQuotedMessage,
   getPreferredBadge,
   getQuotedMessage,
-  scrollToBottom,
   sortedGroupMembers,
   // EmojiButton
   onPickEmoji,
@@ -630,14 +628,13 @@ export const CompositionArea = ({
         {!large ? leftHandSideButtonsFragment : null}
         <div className="CompositionArea__input">
           <CompositionInput
-            i18n={i18n}
-            conversationId={conversationId}
             clearQuotedMessage={clearQuotedMessage}
             disabled={disabled}
             draftBodyRanges={draftBodyRanges}
             draftText={draftText}
             getPreferredBadge={getPreferredBadge}
             getQuotedMessage={getQuotedMessage}
+            i18n={i18n}
             inputApi={inputApiRef}
             large={large}
             onDirtyChange={setDirty}
@@ -645,7 +642,6 @@ export const CompositionArea = ({
             onPickEmoji={onPickEmoji}
             onSubmit={handleSubmit}
             onTextTooLong={onTextTooLong}
-            scrollToBottom={scrollToBottom}
             skinTone={skinTone}
             sortedGroupMembers={sortedGroupMembers}
             theme={theme}

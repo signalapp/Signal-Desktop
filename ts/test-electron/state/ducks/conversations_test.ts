@@ -337,7 +337,6 @@ describe('both/state/ducks/conversations', () => {
           totalUnread: 0,
         },
         resetCounter: 0,
-        scrollToBottomCounter: 0,
         scrollToMessageCounter: 0,
       };
     }
@@ -840,7 +839,6 @@ describe('both/state/ducks/conversations', () => {
             messageIds: [messageId],
             metrics: { totalUnread: 0 },
             resetCounter: 0,
-            scrollToBottomCounter: 0,
             scrollToMessageCounter: 0,
           },
         },
