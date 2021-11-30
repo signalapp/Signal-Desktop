@@ -5,8 +5,9 @@ import type { FunctionComponent, ReactChild, ReactNode } from 'react';
 import React, { useState } from 'react';
 import { concat, orderBy } from 'lodash';
 
-import type { LocalizerType } from '../../types/Util';
+import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
+import type { PreferredBadgeSelectorType } from '../../state/selectors/badges';
 import {
   MessageRequestActionsConfirmation,
   MessageRequestState,
@@ -24,6 +25,7 @@ import { missingCaseError } from '../../util/missingCaseError';
 import { isInSystemContacts } from '../../util/isInSystemContacts';
 
 type PropsType = {
+  getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onBlock: (conversationId: string) => unknown;
   onBlockAndReportSpam: (conversationId: string) => unknown;
@@ -32,6 +34,7 @@ type PropsType = {
   onShowContactModal: (contactId: string) => unknown;
   onUnblock: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
+  theme: ThemeType;
 } & (
   | {
       type: ContactSpoofingType.DirectConversationWithSameTitle;
@@ -60,6 +63,7 @@ enum ConfirmationStateType {
 export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
   props => {
     const {
+      getPreferredBadge,
       i18n,
       onBlock,
       onBlockAndReportSpam,
@@ -68,6 +72,7 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
       onShowContactModal,
       onUnblock,
       removeMember,
+      theme,
     } = props;
 
     const [confirmationState, setConfirmationState] = useState<
@@ -177,7 +182,9 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
             </h2>
             <ContactSpoofingReviewDialogPerson
               conversation={possiblyUnsafeConversation}
+              getPreferredBadge={getPreferredBadge}
               i18n={i18n}
+              theme={theme}
             >
               <div className="module-ContactSpoofingReviewDialog__buttons">
                 <Button
@@ -208,10 +215,12 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
             <h2>{i18n('ContactSpoofingReviewDialog__safe-title')}</h2>
             <ContactSpoofingReviewDialogPerson
               conversation={safeConversation}
+              getPreferredBadge={getPreferredBadge}
               i18n={i18n}
               onClick={() => {
                 onShowContactModal(safeConversation.id);
               }}
+              theme={theme}
             />
           </>
         );
@@ -297,7 +306,9 @@ export const ContactSpoofingReviewDialog: FunctionComponent<PropsType> =
                   <ContactSpoofingReviewDialogPerson
                     key={conversationInfo.conversation.id}
                     conversation={conversationInfo.conversation}
+                    getPreferredBadge={getPreferredBadge}
                     i18n={i18n}
+                    theme={theme}
                   >
                     {Boolean(oldName) && oldName !== newName && (
                       <div className="module-ContactSpoofingReviewDialogPerson__info__property module-ContactSpoofingReviewDialogPerson__info__property--callout">
