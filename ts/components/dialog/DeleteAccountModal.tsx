@@ -89,10 +89,9 @@ async function deleteEverythingAndNetworkData() {
       window.inboxStore?.dispatch(
         updateConfirmModal({
           title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
-          message: window.i18n(
-            'dialogClearAllDataDeletionFailedMultiple',
-            potentiallyMaliciousSnodes.join(', ')
-          ),
+          message: window.i18n('dialogClearAllDataDeletionFailedMultiple', [
+            potentiallyMaliciousSnodes.join(', '),
+          ]),
           messageSub: window.i18n('dialogClearAllDataDeletionFailedTitleQuestion'),
           okTheme: SessionButtonColor.Danger,
           okText: window.i18n('deviceOnly'),

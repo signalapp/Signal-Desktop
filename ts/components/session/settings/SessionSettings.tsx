@@ -12,6 +12,7 @@ import { SessionNotificationGroupSettings } from './SessionNotificationGroupSett
 import { BlockedUserSettings } from './BlockedUserSettings';
 import { SettingsCategoryPrivacy } from './section/CategoryPrivacy';
 import { SettingsCategoryAppearance } from './section/CategoryAppearance';
+import { LocalizerKeys } from '../../../types/LocalizerKeys';
 
 export function getMediaPermissionsSettings() {
   return window.getSettingValue('media-permissions');
@@ -179,13 +180,18 @@ export class SessionSettingsView extends React.Component<SettingsViewProps, Stat
   public render() {
     const { category } = this.props;
     const shouldRenderPasswordLock = this.state.shouldLockSettings && this.state.hasPassword;
+    const categoryLocalized: LocalizerKeys =
+      category === SessionSettingCategory.Appearance
+        ? 'appearanceSettingsTitle'
+        : category === SessionSettingCategory.Blocked
+        ? 'blockedSettingsTitle'
+        : category === SessionSettingCategory.Notifications
+        ? 'notificationsSettingsTitle'
+        : 'privacySettingsTitle';
 
     return (
       <div className="session-settings">
-        <SettingsHeader
-          category={category}
-          categoryTitle={window.i18n(`${category}SettingsTitle`)}
-        />
+        <SettingsHeader category={category} categoryTitle={window.i18n(categoryLocalized)} />
 
         <div className="session-settings-view">
           {shouldRenderPasswordLock ? (

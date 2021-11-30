@@ -1,3 +1,5 @@
+import { LocalizerKeys } from './LocalizerKeys';
+
 export type RenderTextCallbackType = (options: {
   text: string;
   key: number;
@@ -5,7 +7,7 @@ export type RenderTextCallbackType = (options: {
   convoId?: string;
 }) => JSX.Element | string;
 
-export type LocalizerType = (key: string, values?: Array<string>) => string;
+export type LocalizerType = (key: LocalizerKeys, values?: Array<string>) => string;
 
 export type ColorType =
   | 'gray'

@@ -244,7 +244,7 @@ export const SessionRightPanelWithDetails = () => {
         <>
           <SpacerLG />
           <div role="button" className="subtle">
-            {window.i18n('members', subscriberCount)}
+            {window.i18n('members', [`${subscriberCount}`])}
           </div>
           <SpacerLG />
         </>

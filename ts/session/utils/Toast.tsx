@@ -144,7 +144,7 @@ export function pushedMissedCall(conversationName: string) {
   pushToastInfo(
     'missedCall',
     window.i18n('callMissedTitle'),
-    window.i18n('callMissed', conversationName)
+    window.i18n('callMissed', [conversationName])
   );
 }
 
@@ -158,7 +158,7 @@ export function pushedMissedCallCauseOfPermission(conversationName: string) {
   toast.info(
     <SessionToast
       title={window.i18n('callMissedTitle')}
-      description={window.i18n('callMissedCausePermission', conversationName)}
+      description={window.i18n('callMissedCausePermission', [conversationName])}
       type={SessionToastType.Info}
       onToastClick={openPrivacySettings}
     />,

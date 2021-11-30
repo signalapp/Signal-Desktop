@@ -27,43 +27,44 @@ function getPeople(change: TypeWithContacts) {
   return change.contacts?.map(c => c.profileName || c.pubkey).join(', ');
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 const ChangeItem = (change: PropsForGroupUpdateType): string => {
-  const people = isTypeWithContact(change) ? getPeople(change) : [];
+  const people = isTypeWithContact(change) ? getPeople(change) : undefined;
 
   switch (change.type) {
     case 'name':
-      return window.i18n('titleIsNow', change.newName || '');
+      return window.i18n('titleIsNow', [change.newName || '']);
     case 'add':
-      if (!change.contacts || !change.contacts.length) {
+      if (!change.contacts || !change.contacts.length || !people) {
         throw new Error('Group update add is missing contacts');
       }
 
       const joinKey = change.contacts.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
-      return window.i18n(joinKey, people);
+      return window.i18n(joinKey, [people]);
     case 'remove':
       if (change.isMe) {
         return window.i18n('youLeftTheGroup');
       }
 
-      if (!change.contacts || !change.contacts.length) {
+      if (!change.contacts || !change.contacts.length || !people) {
         throw new Error('Group update remove is missing contacts');
       }
 
       const leftKey = change.contacts.length > 1 ? 'multipleLeftTheGroup' : 'leftTheGroup';
-      return window.i18n(leftKey, people);
+      return window.i18n(leftKey, [people]);
 
     case 'kicked':
       if (change.isMe) {
         return window.i18n('youGotKickedFromGroup');
       }
 
-      if (!change.contacts || !change.contacts.length) {
+      if (!change.contacts || !change.contacts.length || !people) {
         throw new Error('Group update kicked is missing contacts');
       }
 
       const kickedKey =
         change.contacts.length > 1 ? 'multipleKickedFromTheGroup' : 'kickedFromTheGroup';
-      return window.i18n(kickedKey, people);
+      return window.i18n(kickedKey, [people]);
 
     case 'general':
       return window.i18n('updatedTheGroup');

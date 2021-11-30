@@ -8,6 +8,7 @@ import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
+import { LocalizerKeys } from '../../types/LocalizerKeys';
 export type PasswordAction = 'set' | 'change' | 'remove';
 
 interface Props {
@@ -58,12 +59,16 @@ export class SessionPasswordDialog extends React.Component<Props, State> {
 
     const confirmButtonColor =
       passwordAction === 'remove' ? SessionButtonColor.Danger : SessionButtonColor.Green;
+    // do this separately so typescript's compiler likes it
+    const localizedKeyAction: LocalizerKeys =
+      passwordAction === 'change'
+        ? 'changePassword'
+        : passwordAction === 'remove'
+        ? 'removePassword'
+        : 'setPassword';
 
     return (
-      <SessionWrapperModal
-        title={window.i18n(`${passwordAction}Password`)}
-        onClose={this.closeDialog}
-      >
+      <SessionWrapperModal title={window.i18n(localizedKeyAction)} onClose={this.closeDialog}>
         <SpacerSM />
 
         <div className="session-modal__input-group">

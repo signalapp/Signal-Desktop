@@ -281,7 +281,7 @@ const ConversationHeaderTitle = () => {
   }
 
   const notificationSubtitle = notificationSetting
-    ? window.i18n('notificationSubtitle', notificationSetting)
+    ? window.i18n('notificationSubtitle', [notificationSetting])
     : null;
   const fullTextSubtitle = memberCountText
     ? `${memberCountText} ● ${notificationSubtitle}`

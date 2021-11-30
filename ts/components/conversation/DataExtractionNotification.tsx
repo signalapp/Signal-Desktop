@@ -11,9 +11,9 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
 
   let contentText: string;
   if (type === SignalService.DataExtractionNotification.Type.MEDIA_SAVED) {
-    contentText = window.i18n('savedTheFile', name || source);
+    contentText = window.i18n('savedTheFile', [name || source]);
   } else {
-    contentText = window.i18n('tookAScreenshot', name || source);
+    contentText = window.i18n('tookAScreenshot', [name || source]);
   }
 
   return (

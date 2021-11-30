@@ -74,7 +74,7 @@ const AvatarImage = (props: {
     <img
       onError={handleImageError}
       onDragStart={disableDrag}
-      alt={window.i18n('contactAvatarAlt', [name])}
+      alt={window.i18n('contactAvatarAlt', [name || 'avatar'])}
       src={dataToDisplay}
     />
   );

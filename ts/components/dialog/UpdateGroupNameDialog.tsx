@@ -16,7 +16,7 @@ type Props = {
 };
 
 interface State {
-  groupName: string;
+  groupName: string | undefined;
   errorDisplayed: boolean;
   errorMessage: string;
   avatar: string | null;
@@ -50,7 +50,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    if (!this.state.groupName.trim()) {
+    if (!this.state.groupName?.trim()) {
       this.onShowError(window.i18n('emptyGroupNameError'));
 
       return;
@@ -76,7 +76,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   public render() {
     const okText = window.i18n('ok');
     const cancelText = window.i18n('cancel');
-    const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
+    const titleText = window.i18n('updateGroupDialogTitle', [this.convo.getName() || 'Unknown']);
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(

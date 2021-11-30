@@ -906,7 +906,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       currentTimestamp: this.get('active_at'),
       lastMessage: lastMessageJSON,
       lastMessageStatus: lastMessageStatusModel,
-      lastMessageNotificationText: lastMessageModel ? lastMessageModel.getNotificationText() : null,
+      lastMessageNotificationText: lastMessageModel
+        ? lastMessageModel.getNotificationText()
+        : undefined,
     });
     this.set(lastMessageUpdate);
     await this.commit();

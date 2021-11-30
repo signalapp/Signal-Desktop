@@ -139,7 +139,7 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
 
     const okText = window.i18n('ok');
     const cancelText = window.i18n('cancel');
-    const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
+    const titleText = window.i18n('updateGroupDialogTitle', [this.convo.getName() || '']);
 
     return (
       <SessionWrapperModal
@@ -342,6 +342,11 @@ export class UpdateGroupMembersDialog extends React.Component<Props, State> {
     const groupId = this.convo.id;
     const groupName = this.convo.getName();
 
-    void ClosedGroup.initiateGroupUpdate(groupId, groupName, filteredMembers, avatarPath);
+    void ClosedGroup.initiateGroupUpdate(
+      groupId,
+      groupName || 'Unknown',
+      filteredMembers,
+      avatarPath
+    );
   }
 }

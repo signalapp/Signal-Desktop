@@ -38,7 +38,7 @@ export const StagedLinkPreview = (props: Props) => {
       {isLoaded && image && isImage ? (
         <div className="module-staged-link-preview__icon-container">
           <Image
-            alt={window.i18n('stagedPreviewThumbnail', [domain])}
+            alt={window.i18n('stagedPreviewThumbnail', [domain || ''])}
             softCorners={true}
             height={72}
             width={72}

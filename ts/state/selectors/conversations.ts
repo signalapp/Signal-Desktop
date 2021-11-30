@@ -784,7 +784,7 @@ export const getMessagePropsByMessageId = createSelector(
         authorPhoneNumber,
         authorAvatarPath: foundSenderConversation.avatarPath || null,
         isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
-        authorProfileName,
+        authorProfileName: authorProfileName || 'Unknown',
         authorName,
       },
     };

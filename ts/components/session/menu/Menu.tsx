@@ -35,6 +35,7 @@ import {
 import { SessionButtonColor } from '../SessionButton';
 import { getTimerOptions } from '../../../state/selectors/timerOptions';
 import { ToastUtils } from '../../../session/utils';
+import { LocalizerKeys } from '../../../types/LocalizerKeys';
 
 const maxNumberOfPinnedConversations = 5;
 
@@ -155,7 +156,7 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
         ToastUtils.pushToastWarning(
           'pinConversationLimitToast',
           window.i18n('pinConversationLimitTitle'),
-          window.i18n('pinConversationLimitToastDescription', maxNumberOfPinnedConversations)
+          window.i18n('pinConversationLimitToastDescription', [`${maxNumberOfPinnedConversations}`])
         );
       }
     };
@@ -435,8 +436,14 @@ export function getNotificationForConvoMenuItem({
     const notificationForConvoOptions = ConversationNotificationSetting.filter(n =>
       isPrivate ? n !== 'mentions_only' : true
     ).map((n: ConversationNotificationSettingType) => {
-      // this link to the notificationForConvo_all, notificationForConvo_mentions_only, ...
-      return { value: n, name: window.i18n(`notificationForConvo_${n}`) };
+      // do this separately so typescript's compiler likes it
+      const keyToUse: LocalizerKeys =
+        n === 'all'
+          ? 'notificationForConvo_all'
+          : n === 'disabled'
+          ? 'notificationForConvo_disabled'
+          : 'notificationForConvo_mentions_only';
+      return { value: n, name: window.i18n(keyToUse) };
     });
 
     return (

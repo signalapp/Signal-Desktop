@@ -175,10 +175,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         (groupUpdate.left && Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1) ||
         typeof groupUpdate.left === 'string'
       ) {
-        return window.i18n(
-          'leftTheGroup',
-          getConversationController().getContactProfileNameOrShortenedPubKey(groupUpdate.left)
-        );
+        return window.i18n('leftTheGroup', [
+          getConversationController().getContactProfileNameOrShortenedPubKey(groupUpdate.left),
+        ]);
       }
       if (groupUpdate.kicked === 'You') {
         return window.i18n('youGotKickedFromGroup');
@@ -210,9 +209,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
         );
 
         if (names.length > 1) {
-          messages.push(window.i18n('multipleKickedFromTheGroup', names.join(', ')));
+          messages.push(window.i18n('multipleKickedFromTheGroup', [names.join(', ')]));
         } else {
-          messages.push(window.i18n('kickedFromTheGroup', names[0]));
+          messages.push(window.i18n('kickedFromTheGroup', [names[0]]));
         }
       }
       return messages.join(' ');
@@ -223,21 +222,20 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (this.isGroupInvitation()) {
       return `😎 ${window.i18n('openGroupInvitation')}`;
     }
+
     if (this.isDataExtractionNotification()) {
       const dataExtraction = this.get(
         'dataExtractionNotification'
       ) as DataExtractionNotificationMsg;
       if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
-        return window.i18n(
-          'tookAScreenshot',
-          getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source)
-        );
+        return window.i18n('tookAScreenshot', [
+          getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
+        ]);
       }
 
-      return window.i18n(
-        'savedTheFile',
-        getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source)
-      );
+      return window.i18n('savedTheFile', [
+        getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
+      ]);
     }
     if (this.get('callNotificationType')) {
       const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
@@ -245,13 +243,28 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       );
       const callNotificationType = this.get('callNotificationType');
       if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', displayName);
+        return window.i18n('callMissed', [displayName]);
       }
       if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', displayName);
+        return window.i18n('startedACall', [displayName]);
       }
       if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', displayName);
+        return window.i18n('answeredACall', [displayName]);
+      }
+    }
+    if (this.get('callNotificationType')) {
+      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
+        this.get('conversationId')
+      );
+      const callNotificationType = this.get('callNotificationType');
+      if (callNotificationType === 'missed-call') {
+        return window.i18n('callMissed', [displayName]);
+      }
+      if (callNotificationType === 'started-call') {
+        return window.i18n('startedACall', [displayName]);
+      }
+      if (callNotificationType === 'answered-a-call') {
+        return window.i18n('answeredACall', [displayName]);
       }
     }
     return this.get('body');
@@ -276,7 +289,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           pubkey.slice(1)
         );
         if (displayName && displayName.length) {
-          description = description.replace(pubkey, `@${displayName}`);
+          description = description?.replace(pubkey, `@${displayName}`);
         }
       });
       return description;
@@ -690,7 +703,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     } = {
       authorPhoneNumber: author,
       messageId: id,
-      authorName,
+      authorName: authorName || 'Unknown',
     };
 
     if (referencedMessageNotFound) {

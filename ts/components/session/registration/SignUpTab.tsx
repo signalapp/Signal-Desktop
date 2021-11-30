@@ -87,7 +87,7 @@ export const SignUpTab = () => {
     setSignUpMode,
   } = useContext(RegistrationContext);
   const [displayName, setDisplayName] = useState('');
-  const [displayNameError, setDisplayNameError] = useState('');
+  const [displayNameError, setDisplayNameError] = useState<undefined | string>('');
 
   useEffect(() => {
     if (signUpMode === SignUpMode.SessionIDShown) {
