@@ -238,7 +238,7 @@
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Lossa konversation",
+        "message": "Lösgör konversation",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -1972,7 +1972,7 @@
         "description": "Text that links to a support article on verifying safety numbers"
     },
     "expiredWarning": {
-        "message": "Den här versionen av Signal Desktop har gått ut. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
+        "message": "Den här versionen av Signal Desktop har upphört att gälla. Vänligen uppgradera till den senaste versionen för att fortsätta chatta.",
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
@@ -3610,7 +3610,7 @@
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
-        "message": "Neka",
+        "message": "Avfärda",
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
@@ -5010,11 +5010,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Din förfrågan om att gå med i gruppen har nekats av en administratör.",
+        "message": "Din förfrågan om att gå med i gruppen har avfärdats av en administratör.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Du nekade en begäran om att gå med i gruppen från $joinerName$.",
+        "message": "Du avfärdade en begäran om att gå med i gruppen från $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5034,7 +5034,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--other--other": {
-        "message": "$adminName$ nekade en begäran om att gå med i gruppen från $joinerName$.",
+        "message": "$adminName$ avfärdade en begäran om att gå med i gruppen från $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5610,7 +5610,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Neka förfrågan från \"$name$\"?",
+        "message": "Avfärda förfrågan från \"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5692,7 +5692,7 @@
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "Neka förfrågan",
+        "message": "Avfärda förfrågan",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
@@ -6076,7 +6076,7 @@
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Visa anpassad färgredigerare",
+        "message": "Visa anpassad färgändrare",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -6092,7 +6092,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Redigera färg",
+        "message": "Ändra färg",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
@@ -6602,7 +6602,7 @@
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reagerar du på ett meddelande? Det borde nu vara mer tillförlitligt och försöka igen i upp till 24 timmar",
+        "message": "Reagerar du på ett meddelande? Det borde nu vara mer tillförlitligt och försöker igen i upp till 24 timmar",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {

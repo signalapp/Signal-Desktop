@@ -210,7 +210,7 @@
         "description": "Shown in place of the search box when showing archived conversation list"
     },
     "LeftPane--pinned": {
-        "message": "Прикреплённые",
+        "message": "Прикрепленные",
         "description": "Shown as a header for pinned conversations in the left pane"
     },
     "LeftPane--chats": {
@@ -448,7 +448,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to send the message."
     },
     "callAnyway": {
-        "message": "Всё равно позвонить",
+        "message": "Все равно позвонить",
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
@@ -482,7 +482,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Журнал отладки был загружен. Когда вы будете связываться с поддержкой, скопируйте ссылку ниже и вставьте её в письмо с описанием проблемы и шагами для её воспроизведения.",
+        "message": "Журнал отладки был загружен. Когда вы будете связываться с поддержкой, скопируйте ссылку ниже и вставьте ее в письмо с описанием проблемы и шагами для ее воспроизведения.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -1348,7 +1348,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Просканируйте этот код в приложении Signal на своём телефоне",
+        "message": "Просканируйте этот код в приложении Signal на своем телефоне",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1384,7 +1384,7 @@
         "description": ""
     },
     "installTryAgain": {
-        "message": "Попробовать ещё раз",
+        "message": "Попробовать еще раз",
         "description": ""
     },
     "Preferences--theme": {
@@ -1440,7 +1440,7 @@
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
-        "message": "Микрофон отключён",
+        "message": "Микрофон отключен",
         "description": "Button tooltip label when the microphone is disabled"
     },
     "calling__button--audio-off": {
@@ -1456,7 +1456,7 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Показ отключён",
+        "message": "Показ отключен",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
@@ -1538,7 +1538,7 @@
         }
     },
     "calling__pre-call-info--many-people-in-call": {
-        "message": "$first$, $second$ и ещё $others$ человек(-а) в этом звонке",
+        "message": "$first$, $second$ и еще $others$ человек(-а) в этом звонке",
         "description": "Shown in the calling lobby to describe who is in the call",
         "placeholders": {
             "first": {
@@ -1598,7 +1598,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal будет звонить у $first$, $second$ и ещё $others$ человек",
+        "message": "Signal будет звонить у $first$, $second$ и еще $others$ человек",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1658,7 +1658,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$ и ещё $others$ человек(-а) будут уведомлены",
+        "message": "$first$, $second$ и еще $others$ человек(-а) будут уведомлены",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1814,7 +1814,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Проверка орфографии текста, введённого в поле составления сообщения",
+        "message": "Проверка орфографии текста, введенного в поле составления сообщения",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1830,7 +1830,7 @@
         "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"
     },
     "SystemTraySetting__minimize-to-and-start-in-system-tray": {
-        "message": "Запускать свёрнутым в трее",
+        "message": "Запускать свернутым в трее",
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
@@ -1866,7 +1866,7 @@
         "description": "Message shown to user when app is disconnected and data deleted"
     },
     "deleteOldIndexedDBData": {
-        "message": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнёте с нуля.",
+        "message": "У вас есть устаревшие данные из предыдущей установки Signal Desktop. Если вы решите продолжить, они будут удалены, и вы начнете с нуля.",
         "description": "Shown if user last ran Signal Desktop before October 2018"
     },
     "deleteOldData": {
@@ -2164,7 +2164,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ изменил(-а) своё имя профиля с $oldProfile$ на $newProfile$",
+        "message": "$sender$ изменил(-а) свое имя профиля с $oldProfile$ на $newProfile$",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2182,7 +2182,7 @@
         }
     },
     "changedProfileName": {
-        "message": "$oldProfile$ изменил(-а) своё имя профиля на $newProfile$.",
+        "message": "$oldProfile$ изменил(-а) свое имя профиля на $newProfile$.",
         "description": "Shown when a contact not in your address book changes their profile name",
         "placeholders": {
             "oldProfile": {
@@ -2222,7 +2222,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Этот пользователь не может быть подтверждён, пока вы не обменяетесь сообщениями с ним.",
+        "message": "Этот пользователь не может быть подтвержден, пока вы не обменяетесь сообщениями с ним.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2252,7 +2252,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Вы можете добавлять заметки для себя в этом разговоре. Если у вашей учётной записи есть привязанные устройства, то новые заметки будут синхронизированы.",
+        "message": "Вы можете добавлять заметки для себя в этом разговоре. Если у вашей учетной записи есть привязанные устройства, то новые заметки будут синхронизированы.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -2284,7 +2284,7 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Не удалось выполнить запрос по имени пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "message": "Не удалось выполнить запрос по имени пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
@@ -2332,7 +2332,7 @@
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
-        "message": "Группы Signal работают лучше всего с $max$ участниками или меньше. Добавление большего количества участников приведёт к задержкам при отправке и получении сообщений.",
+        "message": "Группы Signal работают лучше всего с $max$ участниками или меньше. Добавление большего количества участников приведет к задержкам при отправке и получении сообщений.",
         "description": "Shown in the alert when you add the maximum recommended number of group members",
         "placeholders": {
             "max": {
@@ -2380,7 +2380,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Не удалось создать эту группу. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "message": "Не удалось создать эту группу. Проверьте ваше подключение к интернету и попробуйте еще раз.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2388,7 +2388,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Не удалось обновить группу. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "message": "Не удалось обновить группу. Проверьте ваше подключение к интернету и попробуйте еще раз.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2478,7 +2478,7 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Аватар группы был обновлён.",
+        "message": "Аватар группы был обновлен.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2952,7 +2952,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Отправить (в развёрнутой панели ввода)",
+        "message": "Отправить (в развернутой панели ввода)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -2968,7 +2968,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Перейти к определённому разговору в списке",
+        "message": "Перейти к определенному разговору в списке",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -3064,7 +3064,7 @@
         "description": "Undo button for archiving a conversation"
     },
     "conversationReturnedToInbox": {
-        "message": "Разговор был возвращён во входящие",
+        "message": "Разговор был возвращен во входящие",
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
@@ -3158,7 +3158,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Ещё несколько деталей…",
+        "message": "Еще несколько деталей…",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3190,7 +3190,7 @@
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Создаём ваш набор стикеров",
+        "message": "Создаем ваш набор стикеров",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
@@ -3234,7 +3234,7 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Создать ещё один набор стикеров",
+        "message": "Создать еще один набор стикеров",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
@@ -3298,7 +3298,7 @@
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Мой стикер в тёмной теме",
+        "message": "Мой стикер в темной теме",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
@@ -3310,7 +3310,7 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Не удалось отправить реакцию. Пожалуйста, попробуйте ещё раз.",
+        "message": "Не удалось отправить реакцию. Пожалуйста, попробуйте еще раз.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -3342,11 +3342,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Присоединиться к этой группе и поделиться своим именем и фото с её участниками? Они не узнают, что вы видели их сообщения, пока вы не примете.",
+        "message": "Присоединиться к этой группе и поделиться своим именем и фото с ее участниками? Они не узнают, что вы видели их сообщения, пока вы не примете.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Разблокировать эту группу и поделиться своим именем и фото с её участниками? Вы не будете получать сообщений, пока не разблокируете эту группу.",
+        "message": "Разблокировать эту группу и поделиться своим именем и фото с ее участниками? Вы не будете получать сообщений, пока не разблокируете эту группу.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3372,7 +3372,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Участники группы смогут снова добавить вас в неё.",
+        "message": "Участники группы смогут снова добавить вас в нее.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
@@ -3408,7 +3408,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Вы больше не будете получать сообщения и обновления от этой группы, и участники группы не смогут снова добавить вас в неё.",
+        "message": "Вы больше не будете получать сообщения и обновления от этой группы, и участники группы не смогут снова добавить вас в нее.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3420,7 +3420,7 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Этот разговор будет удалён со всех ваших устройств.",
+        "message": "Этот разговор будет удален со всех ваших устройств.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
@@ -3454,7 +3454,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Продолжить ваш разговор с этой группой и поделиться своими именем и фото с её участниками? $learnMore$",
+        "message": "Продолжить ваш разговор с этой группой и поделиться своими именем и фото с ее участниками? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3544,7 +3544,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Состоит в $group1$, $group2$, $group3$ и ещё одной группе",
+        "message": "Состоит в $group1$, $group2$, $group3$ и еще одной группе",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3562,7 +3562,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Состоит в $group1$, $group2$, $group3$ и ещё $remainingCount$ группах",
+        "message": "Состоит в $group1$, $group2$, $group3$ и еще $remainingCount$ группах",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -3704,7 +3704,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ звонит вам, $first$, $second$ и ещё 1 человеку",
+        "message": "$ringer$ звонит вам, $first$, $second$ и еще 1 человеку",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3722,7 +3722,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ звонит вам, $first$, $second$ и ещё $remaining$ людям",
+        "message": "$ringer$ звонит вам, $first$, $second$ и еще $remaining$ людям",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3798,7 +3798,7 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "Групповой звонок был завершён",
+        "message": "Групповой звонок был завершен",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
@@ -3954,7 +3954,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Пожалуйста, попробуйте ещё раз или свяжитесь с поддержкой.",
+        "message": "Пожалуйста, попробуйте еще раз или свяжитесь с поддержкой.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3982,11 +3982,11 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Это недействительная ссылка на группу. Убедитесь, что вся ссылка неповреждённая и правильная перед тем, как пытаться присоединиться.",
+        "message": "Это недействительная ссылка на группу. Убедитесь, что вся ссылка неповрежденная и правильная перед тем, как пытаться присоединиться.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Вы хотите присоединиться к этой группе и поделиться своими именем и фото с её участниками?",
+        "message": "Вы хотите присоединиться к этой группе и поделиться своими именем и фото с ее участниками?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4074,7 +4074,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Не удалось присоединиться к группе. Попробуйте ещё раз позже.",
+        "message": "Не удалось присоединиться к группе. Попробуйте еще раз позже.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4308,7 +4308,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--invited--you": {
-        "message": "Вы добавили приглашённого участника $inviteeName$.",
+        "message": "Вы добавили приглашенного участника $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4318,7 +4318,7 @@
         }
     },
     "GroupV2--member-add--invited--other": {
-        "message": "$memberName$ добавил(-а) приглашённого участника $inviteeName$.",
+        "message": "$memberName$ добавил(-а) приглашенного участника $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4332,7 +4332,7 @@
         }
     },
     "GroupV2--member-add--invited--unknown": {
-        "message": "Один из участников добавил приглашённого участника $inviteeName$.",
+        "message": "Один из участников добавил приглашенного участника $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4682,7 +4682,7 @@
         }
     },
     "GroupV2--pending-add--one--other--unknown": {
-        "message": "Один человек был приглашён в группу.",
+        "message": "Один человек был приглашен в группу.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4764,7 +4764,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--decline--unknown": {
-        "message": "1 человек отклонил своё приглашение в группу.",
+        "message": "1 человек отклонил свое приглашение в группу.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--pending-remove--revoke--one--other": {
@@ -4788,7 +4788,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ отозвал(-а) своё приглашение для вас.",
+        "message": "$inviterName$ отозвал(-а) свое приглашение для вас.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4798,7 +4798,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--unknown": {
-        "message": "$inviterName$ отозвал(-а) своё приглашение для 1 человека.",
+        "message": "$inviterName$ отозвал(-а) свое приглашение для 1 человека.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4852,7 +4852,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--other": {
-        "message": "$adminName$ отозвал(-а) приглашение в группу для 1 человека, который был приглашён $memberName$.",
+        "message": "$adminName$ отозвал(-а) приглашение в группу для 1 человека, который был приглашен $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4866,7 +4866,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Вы отозвали приглашение в группу для 1 человека, который был приглашён $memberName$.",
+        "message": "Вы отозвали приглашение в группу для 1 человека, который был приглашен $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4876,7 +4876,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--unknown": {
-        "message": "Один из администраторов отозвал приглашение в группу для 1 человека, который был приглашён $memberName$.",
+        "message": "Один из администраторов отозвал приглашение в группу для 1 человека, который был приглашен $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4896,7 +4896,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Вы отменили своё приглашение для $inviteeName$.",
+        "message": "Вы отменили свое приглашение для $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4972,7 +4972,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "Вы отменили своё приглашение для $count$ людей.",
+        "message": "Вы отменили свое приглашение для $count$ людей.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -5010,7 +5010,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Ваш запрос на присоединение к группе был отклонён администратором.",
+        "message": "Ваш запрос на присоединение к группе был отклонен администратором.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
@@ -5048,11 +5048,11 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Вы включили ссылку на группу с отключённым одобрением администратора.",
+        "message": "Вы включили ссылку на группу с отключенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
-        "message": "$adminName$ включил(-а) ссылку на группу с отключённым одобрением администратора.",
+        "message": "$adminName$ включил(-а) ссылку на группу с отключенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5062,15 +5062,15 @@
         }
     },
     "GroupV2--group-link-add--disabled--unknown": {
-        "message": "Ссылка на группу была включена с отключённым одобрением администратора.",
+        "message": "Ссылка на группу была включена с отключенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Вы включили ссылку на группу со включённым одобрением администратора.",
+        "message": "Вы включили ссылку на группу со включенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
-        "message": "$adminName$ включил(-а) ссылку на группу со включённым одобрением администратора.",
+        "message": "$adminName$ включил(-а) ссылку на группу со включенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5080,7 +5080,7 @@
         }
     },
     "GroupV2--group-link-add--enabled--unknown": {
-        "message": "Ссылка на группу была включена со включённым одобрением администратора.",
+        "message": "Ссылка на группу была включена со включенным одобрением администратора.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
@@ -5192,7 +5192,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Обновите эту группу, чтобы активировать такие новые функции, как @упоминания и администраторы групп. Участники, которые ещё не поделились своими именем или фото с этой группой, будут приглашены присоединиться. $learnMore$",
+        "message": "Обновите эту группу, чтобы активировать такие новые функции, как @упоминания и администраторы групп. Участники, которые еще не поделились своими именем или фото с этой группой, будут приглашены присоединиться. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5250,7 +5250,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Этот участник не может присоединяться к Новым группам и будет удалён из группы:",
+        "message": "Этот участник не может присоединяться к Новым группам и будет удален из группы:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -5258,7 +5258,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Этот участник не мог присоединяться к Новым группам и был удалён из группы:",
+        "message": "Этот участник не мог присоединяться к Новым группам и был удален из группы:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -5266,7 +5266,7 @@
         "description": "Shown in timeline when a group is upgraded and you were invited instead of added"
     },
     "GroupV1--Migration--invited--one": {
-        "message": "$contact$ не мог быть добавлен в Новую группу, поэтому был приглашён присоединиться.",
+        "message": "$contact$ не мог быть добавлен в Новую группу, поэтому был приглашен присоединиться.",
         "description": "Shown in timeline when a group is upgraded and one person was invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5330,11 +5330,11 @@
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Откройте Signal на своём телефоне",
+        "message": "Откройте Signal на своем телефоне",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Нажмите на своё фото профиля в левом верхнем углу, чтобы открыть настройки",
+        "message": "Нажмите на свое фото профиля в левом верхнем углу, чтобы открыть настройки",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
@@ -5362,7 +5362,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Считать разговоры с отключёнными уведомлениями в счётчике на наклейке",
+        "message": "Считать разговоры с отключенными уведомлениями в счетчике на наклейке",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5378,7 +5378,7 @@
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
-        "message": "$contact$ сможет редактировать эту группу и её участников.",
+        "message": "$contact$ сможет редактировать эту группу и ее участников.",
         "description": "Shown in a confirmation dialog when you are about to grant admin privileges to someone",
         "placeholders": {
             "contact": {
@@ -5470,7 +5470,7 @@
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Прежде чем покинуть эту группу, вы должны назначить для неё как минимум одного нового администратора.",
+        "message": "Прежде чем покинуть эту группу, вы должны назначить для нее как минимум одного нового администратора.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5544,7 +5544,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Получать уведомления, когда вас упоминают в чатах с отключёнными уведомлениями",
+        "message": "Получать уведомления, когда вас упоминают в чатах с отключенными уведомлениями",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5624,11 +5624,11 @@
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Приглашённые вами",
+        "message": "Приглашенные вами",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
-        "message": "Приглашённые другими",
+        "message": "Приглашенные другими",
         "description": "This is the title for the list of members who have invited other people"
     },
     "PendingInvites--invited-count": {
@@ -5706,7 +5706,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Подробности людей, приглашённых другими участниками группы, не показываются до того, как они присоединятся. Приглашённые увидят сообщения в группе только после того, как присоединятся.",
+        "message": "Подробности людей, приглашенных другими участниками группы, не показываются до того, как они присоединятся. Приглашенные увидят сообщения в группе только после того, как присоединятся.",
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
@@ -5906,7 +5906,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Внимательно проверяйте запросы. Signal нашёл другого контакта с тем же именем. $link$",
+        "message": "Внимательно проверяйте запросы. Signal нашел другого контакта с тем же именем. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -5966,7 +5966,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Недавно изменил(-а) своё имя профиля с $oldName$ на $newName$",
+        "message": "Недавно изменил(-а) свое имя профиля с $oldName$ на $newName$",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6022,11 +6022,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Проверка не удалась. Пожалуйста, попробуйте ещё раз позже.",
+        "message": "Проверка не удалась. Пожалуйста, попробуйте еще раз позже.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Не удалось удалить сообщение для всех. Пожалуйста, попробуйте ещё раз позже.",
+        "message": "Не удалось удалить сообщение для всех. Пожалуйста, попробуйте еще раз позже.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6084,7 +6084,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Ещё одно сообщение.",
+        "message": "Еще одно сообщение.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
@@ -6294,11 +6294,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Не удалось сохранить имя пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "message": "Не удалось сохранить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте ещё раз.",
+        "message": "Не удалось удалить имя пользователя. Проверьте ваше подключение к интернету и попробуйте еще раз.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6326,7 +6326,7 @@
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
-        "message": "Вы хотите сбросить внесённые изменения?",
+        "message": "Вы хотите сбросить внесенные изменения?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
@@ -6384,7 +6384,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Не удалось обновить ваш профиль. Пожалуйста, попробуйте ещё раз.",
+        "message": "Не удалось обновить ваш профиль. Пожалуйста, попробуйте еще раз.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6468,7 +6468,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Чтобы изменить эту настройку, откройте приложение Signal на своём мобильном устройстве и перейдите в Настройки > Чаты",
+        "message": "Чтобы изменить эту настройку, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Чаты",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6508,7 +6508,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Чтобы изменить эти настройки, откройте приложение Signal на своём мобильном устройстве и перейдите в Настройки > Конфиденциальность",
+        "message": "Чтобы изменить эти настройки, откройте приложение Signal на своем мобильном устройстве и перейдите в Настройки > Конфиденциальность",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6586,7 +6586,7 @@
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "Произошла ошибка при сохранении ваших настроек. Пожалуйста, попробуйте ещё раз.",
+        "message": "Произошла ошибка при сохранении ваших настроек. Пожалуйста, попробуйте еще раз.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "WhatsNew__modal-title": {
@@ -6598,11 +6598,11 @@
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "Если вы когда либо прокрутили вверх и отправили сообщение, то вы могли задуматься — где же ваше сообщение? Теперь после отправки сообщения разговор будет прокручен, чтобы сообщение было видно и вы смогли полюбоваться своей тяжёлой работой.",
+        "message": "Если вы когда либо прокрутили вверх и отправили сообщение, то вы могли задуматься — где же ваше сообщение? Теперь после отправки сообщения разговор будет прокручен, чтобы сообщение было видно и вы смогли полюбоваться своей тяжелой работой.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Реагируете на сообщение? Теперь это действие должно выполняться более надёжно — при необходимости оно будет повторяться в течении 24 часов.",
+        "message": "Реагируете на сообщение? Теперь это действие должно выполняться более надежно — при необходимости оно будет повторяться в течении 24 часов.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {

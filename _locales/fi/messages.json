@@ -5318,15 +5318,15 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Ryhdy tukijaksi",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Ryhdy tukijaksi",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal toimii kaltaistesi käyttäjien panoksella. Osallistu ja ansaitse merkki.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5334,11 +5334,11 @@
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Napauta profiilikuvaasi ja ylävasemmalla avataksesi asetukset",
+        "message": "Paina profiilikuvaasi ja ylävasemmalta avataksesi asetukset",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Paina \"Ryhdy tukijaksi\" ja tilaa",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {

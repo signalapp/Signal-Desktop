@@ -5318,19 +5318,19 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Sostén Signal",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Sostén Signal",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal se mantiene gracias a gente como tú. Contribuye y recibe un distintivo para tu perfil.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Abre Signal en tu teléfono.",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5338,7 +5338,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Toca sobre \"Sostén Signal\" y suscríbete",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {

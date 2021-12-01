@@ -2780,7 +2780,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Les mer",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {

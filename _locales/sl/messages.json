@@ -834,7 +834,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by Username",
+        "message": "Iskanje po uporabniškem imenu",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -2284,11 +2284,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "Iskanje neuspešno. Preverite povezavo in poskusite znova.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "Uporabnik/ca ni bil najden/a. $atUsername$ ni uporabnik/ca Signala. Prepričajte se, da ste vnesli pravo ime.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -5326,11 +5326,11 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal podpirajo ljudje, kot ste vi. Prispevajte in prejmite bedž.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Odprite Signal na vašem telefonu",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5338,7 +5338,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Tapnite na \"Postanite podpornik/ca\" in se naročite",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {

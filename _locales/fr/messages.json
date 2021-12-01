@@ -5318,19 +5318,19 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Devenir un soutien",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Devenir un soutien",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal est alimenté par des gens comme vous. Contribuez et recevez un badge.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Ouvrez Signal sur votre téléphone",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5338,7 +5338,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Appuyez sur \" Devenir un souteneur \" et abonnez-vous",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -6598,11 +6598,11 @@
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "message": "S'il vous est déjà arrivé de faire défiler un message vers le haut et de l'envoyer, vous pourriez vous demander où était votre message ! Désormais, chaque fois que vous enverrez un message, il défilera à l'écran pour que vous puissiez admirer votre travail.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "message": "Vous réagissez à un message ? Il devrait maintenant être plus fiable, en réessayant jusqu'à 24 heures.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {

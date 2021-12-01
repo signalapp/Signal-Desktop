@@ -5318,11 +5318,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Станете поддржувач",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Станете поддржувач",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {

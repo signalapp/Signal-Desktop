@@ -5318,15 +5318,15 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Postanite pretplatnik",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Postanite pretplatnik",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal podržavaju ljudi poput Vas. Donirajte i osvojite svoju značku.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {

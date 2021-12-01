@@ -6548,7 +6548,7 @@
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Güncellemeler otomaik olarak indirilsin",
+        "message": "Güncellemeler otomatik olarak indirilsin",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {

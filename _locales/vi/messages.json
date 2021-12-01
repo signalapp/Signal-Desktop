@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "Gửi tin nhắn chờ",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Gửi $count$ tin nhắn chờ",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -2780,7 +2780,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Đọc thêm",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -5318,11 +5318,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Trở thành người quyên góp",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Trở thành người quyên góp",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -6406,7 +6406,7 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Select an avatar",
+        "message": "Chọn Anhr đại diện",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {

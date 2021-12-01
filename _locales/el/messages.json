@@ -3756,7 +3756,7 @@
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "Γίνε μέλος",
+        "message": "Μπες στη κλήση",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {

@@ -2780,7 +2780,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "بیشتر بخوانید",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -5318,11 +5318,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "به یک حامی تبدیل شوید",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "به یک حامی تبدیل شوید",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {

@@ -412,7 +412,7 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
+        "message": "Die volgende mense het dalk van toestelle verander of ’n herinstallasie gedoen. Verifieer u veiligheidsnomemr met hulle om privaatheid te verseker.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
@@ -2204,7 +2204,7 @@
         "description": "A notification shown in the conversation when a contact reinstalls"
     },
     "safetyNumberChanges": {
-        "message": "Safety Number Changes",
+        "message": "Veiligheidsnommerveranderinge",
         "description": "Title for safety number changed modal"
     },
     "safetyNumberChangedGroup": {

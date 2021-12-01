@@ -3128,7 +3128,7 @@
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "kliknij, lub przeciągnij i upuść, aby dodać naklejkę",
+        "message": "Kliknij lub przeciągnij i upuść, aby dodać naklejkę",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {

@@ -2780,7 +2780,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Read more",
+        "message": "Читати далі",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -5318,19 +5318,19 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "Стати підтримувачем",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "Стати підтримувачем",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal працює завдяки таким людям, як ви. Зробіть внесок та отримайте емблему.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Відкрийте Signal на своєму телефоні",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5338,7 +5338,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Натисніть на «Стати підтримувачем» та підпишіться",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
