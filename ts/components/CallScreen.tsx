@@ -327,6 +327,7 @@ export const CallScreen: React.FC<PropsType> = ({
             <Avatar
               acceptedMessageRequest
               avatarPath={me.avatarPath}
+              badge={undefined}
               color={me.color || AvatarColors[0]}
               noteToSelf={false}
               conversationType="direct"
@@ -364,6 +365,7 @@ export const CallScreen: React.FC<PropsType> = ({
         <Avatar
           acceptedMessageRequest
           avatarPath={me.avatarPath}
+          badge={undefined}
           color={me.color || AvatarColors[0]}
           noteToSelf={false}
           conversationType="direct"

@@ -49,7 +49,6 @@ type BadgePlacementType = { bottom: number; right: number };
 
 export type Props = {
   avatarPath?: string;
-  badge?: BadgeType;
   blur?: AvatarBlur;
   color?: AvatarColorType;
   loading?: boolean;
@@ -63,7 +62,6 @@ export type Props = {
   profileName?: string;
   sharedGroupNames: Array<string>;
   size: AvatarSize;
-  theme?: ThemeType;
   title: string;
   unblurredAvatarPath?: string;
   searchResult?: boolean;
@@ -75,7 +73,11 @@ export type Props = {
   innerRef?: React.Ref<HTMLDivElement>;
 
   i18n: LocalizerType;
-} & Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
+} & (
+  | { badge: undefined; theme?: ThemeType }
+  | { badge: BadgeType; theme: ThemeType }
+) &
+  Pick<React.HTMLProps<HTMLDivElement>, 'className'>;
 
 const BADGE_PLACEMENT_BY_SIZE = new Map<number, BadgePlacementType>([
   [28, { bottom: -4, right: -2 }],
@@ -290,8 +292,6 @@ export const Avatar: FunctionComponent<Props> = ({
         );
       }
     }
-  } else if (badge && !theme) {
-    log.error('<Avatar> requires a theme if a badge is provided');
   }
 
   return (

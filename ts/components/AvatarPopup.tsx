@@ -8,10 +8,11 @@ import type { Props as AvatarProps } from './Avatar';
 import { Avatar } from './Avatar';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 
-import type { LocalizerType } from '../types/Util';
+import type { LocalizerType, ThemeType } from '../types/Util';
 
 export type Props = {
   readonly i18n: LocalizerType;
+  readonly theme: ThemeType;
 
   hasPendingUpdate: boolean;
   startUpdate: () => unknown;

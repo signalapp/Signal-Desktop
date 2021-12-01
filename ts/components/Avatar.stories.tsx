@@ -16,6 +16,7 @@ import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
+import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -64,7 +65,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
-  theme: overrideProps.theme,
+  theme: overrideProps.theme || ThemeType.light,
 });
 
 const sizes: Array<Props['size']> = [112, 96, 80, 52, 32, 28];

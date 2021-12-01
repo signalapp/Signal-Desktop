@@ -56,6 +56,7 @@ export const LeftPaneSearchInput = forwardRef<HTMLInputElement, PropsType>(
             <Avatar
               acceptedMessageRequest={searchConversation.acceptedMessageRequest}
               avatarPath={searchConversation.avatarPath}
+              badge={undefined}
               color={searchConversation.color}
               conversationType={searchConversation.type}
               i18n={i18n}

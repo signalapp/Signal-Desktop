@@ -70,6 +70,7 @@ function renderAvatar(
       <Avatar
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={undefined}
         color={color || AvatarColors[0]}
         noteToSelf={false}
         conversationType="direct"

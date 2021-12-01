@@ -13,6 +13,8 @@ import type { AvatarColorType } from '../types/Colors';
 import { AvatarColors } from '../types/Colors';
 import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
+import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
+import { getFakeBadge } from '../test-both/helpers/getFakeBadge';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -29,9 +31,10 @@ const conversationTypeMap: Record<string, Props['conversationType']> = {
   group: 'group',
 };
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+const useProps = (overrideProps: Partial<Props> = {}): Props => ({
   acceptedMessageRequest: true,
   avatarPath: text('avatarPath', overrideProps.avatarPath || ''),
+  badge: overrideProps.badge,
   color: select('color', colorMap, overrideProps.color || AvatarColors[0]),
   conversationType: select(
     'conversationType',
@@ -52,19 +55,29 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   size: 80,
   startUpdate: action('startUpdate'),
   style: {},
+  theme: React.useContext(StorybookThemeContext),
   title: text('title', overrideProps.title || ''),
 });
 
 const stories = storiesOf('Components/Avatar Popup', module);
 
 stories.add('Avatar Only', () => {
-  const props = createProps();
+  const props = useProps();
+
+  return <AvatarPopup {...props} />;
+});
+
+stories.add('Has badge', () => {
+  const props = useProps({
+    badge: getFakeBadge(),
+    title: 'Janet Yellen',
+  });
 
   return <AvatarPopup {...props} />;
 });
 
 stories.add('Title', () => {
-  const props = createProps({
+  const props = useProps({
     title: 'My Great Title',
   });
 
@@ -72,7 +85,7 @@ stories.add('Title', () => {
 });
 
 stories.add('Profile Name', () => {
-  const props = createProps({
+  const props = useProps({
     profileName: 'Sam Neill',
   });
 
@@ -80,7 +93,7 @@ stories.add('Profile Name', () => {
 });
 
 stories.add('Phone Number', () => {
-  const props = createProps({
+  const props = useProps({
     profileName: 'Sam Neill',
     phoneNumber: '(555) 867-5309',
   });
@@ -89,7 +102,7 @@ stories.add('Phone Number', () => {
 });
 
 stories.add('Update Available', () => {
-  const props = createProps({
+  const props = useProps({
     hasPendingUpdate: true,
   });
 

@@ -47,6 +47,7 @@ export const CallNeedPermissionScreen: React.FC<Props> = ({
       <Avatar
         acceptedMessageRequest={conversation.acceptedMessageRequest}
         avatarPath={conversation.avatarPath}
+        badge={undefined}
         color={conversation.color || AvatarColors[0]}
         noteToSelf={false}
         conversationType="direct"

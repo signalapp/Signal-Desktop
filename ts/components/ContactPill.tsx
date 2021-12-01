@@ -52,6 +52,7 @@ export const ContactPill: FunctionComponent<PropsType> = ({
       <Avatar
         acceptedMessageRequest={acceptedMessageRequest}
         avatarPath={avatarPath}
+        badge={undefined}
         color={color}
         noteToSelf={false}
         conversationType="direct"

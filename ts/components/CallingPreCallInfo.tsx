@@ -164,6 +164,7 @@ export const CallingPreCallInfo: FunctionComponent<PropsType> = ({
     <div className="module-CallingPreCallInfo">
       <Avatar
         avatarPath={conversation.avatarPath}
+        badge={undefined}
         color={conversation.color}
         acceptedMessageRequest={conversation.acceptedMessageRequest}
         conversationType={conversation.type}

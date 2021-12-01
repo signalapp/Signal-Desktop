@@ -37,6 +37,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -65,6 +66,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -92,6 +94,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -114,6 +117,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -136,6 +140,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -158,6 +163,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={getTitle()}
@@ -180,6 +186,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'Cayce Bollard (profile)')}
@@ -202,6 +209,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
         <Wrapper
           about={getAbout()}
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', '+1 (646) 327-2700')}
@@ -226,6 +234,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           isMe={false}
           title={text('title', 'Unknown contact')}
           acceptedMessageRequest
+          badge={undefined}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={text('profileName', '')}
@@ -247,6 +256,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
           isMe={false}
           title={text('title', 'Unknown contact')}
           acceptedMessageRequest={false}
+          badge={undefined}
           avatarPath={getAvatarPath()}
           name={text('name', '')}
           profileName={text('profileName', '')}
@@ -265,6 +275,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'NYC Rock Climbers')}
@@ -284,6 +295,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'NYC Rock Climbers')}
@@ -303,6 +315,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'NYC Rock Climbers')}
@@ -323,6 +336,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'NYC Rock Climbers')}
@@ -343,6 +357,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe={false}
           title={text('title', 'Unknown group')}
@@ -362,6 +377,7 @@ storiesOf('Components/Conversation/ConversationHero', module)
       <div style={{ width: '480px' }}>
         <Wrapper
           acceptedMessageRequest
+          badge={undefined}
           i18n={i18n}
           isMe
           title={getTitle()}

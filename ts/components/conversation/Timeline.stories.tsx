@@ -423,6 +423,7 @@ const renderHeroRow = () => {
       <ConversationHero
         about={getAbout()}
         acceptedMessageRequest
+        badge={undefined}
         i18n={i18n}
         isMe={false}
         title={getTitle()}

@@ -673,6 +673,7 @@ function LightboxHeader({
         <Avatar
           acceptedMessageRequest={conversation.acceptedMessageRequest}
           avatarPath={conversation.avatarPath}
+          badge={undefined}
           color={conversation.color}
           conversationType={conversation.type}
           i18n={i18n}

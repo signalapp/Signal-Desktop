@@ -67,37 +67,37 @@ type PropsType = {
   );
 
 export const BaseConversationListItem: FunctionComponent<PropsType> =
-  React.memo(function BaseConversationListItem({
-    acceptedMessageRequest,
-    avatarPath,
-    badge,
-    checked,
-    color,
-    conversationType,
-    disabled,
-    headerDate,
-    headerName,
-    i18n,
-    id,
-    isMe,
-    isNoteToSelf,
-    isUsernameSearchResult,
-    isSelected,
-    markedUnread,
-    messageStatusIcon,
-    messageText,
-    messageTextIsAlwaysFullSize,
-    name,
-    onClick,
-    phoneNumber,
-    profileName,
-    sharedGroupNames,
-    shouldShowSpinner,
-    theme,
-    title,
-    unblurredAvatarPath,
-    unreadCount,
-  }) {
+  React.memo(function BaseConversationListItem(props) {
+    const {
+      acceptedMessageRequest,
+      avatarPath,
+      checked,
+      color,
+      conversationType,
+      disabled,
+      headerDate,
+      headerName,
+      i18n,
+      id,
+      isMe,
+      isNoteToSelf,
+      isUsernameSearchResult,
+      isSelected,
+      markedUnread,
+      messageStatusIcon,
+      messageText,
+      messageTextIsAlwaysFullSize,
+      name,
+      onClick,
+      phoneNumber,
+      profileName,
+      sharedGroupNames,
+      shouldShowSpinner,
+      title,
+      unblurredAvatarPath,
+      unreadCount,
+    } = props;
+
     const identifier = id ? cleanId(id) : undefined;
     const htmlId = useMemo(() => uuid(), []);
     const isUnread = isConversationUnread({ markedUnread, unreadCount });
@@ -145,7 +145,6 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
         <Avatar
           acceptedMessageRequest={acceptedMessageRequest}
           avatarPath={avatarPath}
-          badge={badge}
           color={color}
           conversationType={conversationType}
           noteToSelf={isAvatarNoteToSelf}
@@ -155,11 +154,14 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
           name={name}
           phoneNumber={phoneNumber}
           profileName={profileName}
-          theme={theme}
           title={title}
           sharedGroupNames={sharedGroupNames}
           size={AvatarSize.FORTY_EIGHT}
           unblurredAvatarPath={unblurredAvatarPath}
+          // This is here to appease the type checker.
+          {...(props.badge
+            ? { badge: props.badge, theme: props.theme }
+            : { badge: undefined })}
         />
         <div
           className={classNames(

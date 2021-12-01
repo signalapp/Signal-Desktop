@@ -49,6 +49,7 @@ export function renderAvatar({
     <Avatar
       acceptedMessageRequest={false}
       avatarPath={avatarPath}
+      badge={undefined}
       blur={AvatarBlur.NoBlur}
       color={AvatarColors[0]}
       conversationType="direct"

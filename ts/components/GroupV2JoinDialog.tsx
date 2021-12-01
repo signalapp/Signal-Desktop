@@ -78,6 +78,7 @@ export const GroupV2JoinDialog = React.memo((props: PropsType) => {
         <Avatar
           acceptedMessageRequest={false}
           avatarPath={avatar ? avatar.url : undefined}
+          badge={undefined}
           blur={AvatarBlur.NoBlur}
           loading={avatar && !avatar.url}
           conversationType="group"
