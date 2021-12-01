@@ -16,7 +16,7 @@ import {
   renderAvatar,
   renderContactShorthand,
   renderName,
-} from './_contactUtil';
+} from './contactUtil';
 
 import type { LocalizerType } from '../../types/Util';
 

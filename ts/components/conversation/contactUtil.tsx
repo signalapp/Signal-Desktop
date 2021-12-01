@@ -12,8 +12,6 @@ import { AvatarColors } from '../../types/Colors';
 import type { EmbeddedContactType } from '../../types/EmbeddedContact';
 import { getName } from '../../types/EmbeddedContact';
 
-// This file starts with _ to keep it from showing up in the StyleGuide.
-
 export function renderAvatar({
   contact,
   i18n,
