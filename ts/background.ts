@@ -749,7 +749,11 @@ export async function startApp(): Promise<void> {
       }
 
       // This one should always be last - it could restart the app
-      if (window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5')) {
+      if (
+        window.isBeforeVersion(lastVersion, 'v1.15.0-beta.5') ||
+        (window.isAfterVersion(lastVersion, 'v5.24.0-alpha') &&
+          window.isBeforeVersion(lastVersion, 'v5.25.0'))
+      ) {
         await deleteAllLogs();
         window.restart();
         return;

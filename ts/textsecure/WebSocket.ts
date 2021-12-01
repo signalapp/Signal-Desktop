@@ -22,6 +22,7 @@ export type IResource = {
 };
 
 export type ConnectOptionsType<Resource extends IResource> = Readonly<{
+  name: string;
   url: string;
   certificateAuthority: string;
   version: string;
@@ -32,6 +33,7 @@ export type ConnectOptionsType<Resource extends IResource> = Readonly<{
 }>;
 
 export function connect<Resource extends IResource>({
+  name,
   url,
   certificateAuthority,
   version,
@@ -109,14 +111,14 @@ export function connect<Resource extends IResource>({
   });
 
   return new AbortableProcess<Resource>(
-    `WebSocket.connect(${url})`,
+    `WebSocket.connect(${name})`,
     {
       abort() {
         if (resource) {
-          log.warn(`WebSocket: closing socket ${url}`);
+          log.warn(`WebSocket: closing socket ${name}`);
           resource.close(3000, 'aborted');
         } else {
-          log.warn(`WebSocket: aborting connection ${url}`);
+          log.warn(`WebSocket: aborting connection ${name}`);
           Timers.clearTimeout(timer);
           client.abort();
         }
