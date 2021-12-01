@@ -9,6 +9,8 @@ import * as log from './logging/log';
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.calling.useWindowsAdm2'
+  | 'desktop.canResizeLeftPane.beta'
+  | 'desktop.canResizeLeftPane.production'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
   | 'desktop.groupCallOutboundRing'
