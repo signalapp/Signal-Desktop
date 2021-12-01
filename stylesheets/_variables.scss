@@ -237,3 +237,24 @@ $header-height: 52px;
 $ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
 $calling-background-color: $color-gray-95;
+
+// General
+
+$z-index-negative: -1;
+$z-index-base: 1;
+$z-index-above-base: 2;
+$z-index-above-above-base: 3;
+$z-index-popup-overlay: 99;
+$z-index-popup: 100;
+$z-index-context-menu: 125;
+$z-index-tooltip: 150;
+$z-index-toast: 200;
+$z-index-on-top-of-everything: 9000;
+
+// Component specific
+// The scroll down button should be above everything in the timeline but
+// popups, tooltips, toasts, and other items should stack above it.
+$z-index-scroll-down-button: 10;
+$z-index-below-popup-overlay: 98;
+$z-index-above-popup: 101;
+$z-index-above-context-menu: 126;

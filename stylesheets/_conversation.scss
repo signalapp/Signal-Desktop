@@ -29,7 +29,7 @@
     position: absolute;
     top: calc(#{$header-height} + var(--title-bar-drag-area-height));
     width: 100%;
-    z-index: 1;
+    z-index: $z-index-base;
 
     @include light-theme() {
       background-color: $color-white;

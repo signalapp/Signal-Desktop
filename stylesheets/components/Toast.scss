@@ -17,7 +17,7 @@
   text-align: center;
   transform: translate(-50%, 0);
   user-select: none;
-  z-index: 100;
+  z-index: $z-index-toast;
 
   @include light-theme {
     background-color: $color-gray-80;

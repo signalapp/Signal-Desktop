@@ -10,7 +10,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 999;
+  z-index: $z-index-on-top-of-everything;
 }
 
 .module-splash-screen {
@@ -256,7 +256,7 @@
     height: 24px;
     // the z-index here is so that this container is above the message and when
     // clicked on, doesn't propagate the click event to the message.
-    z-index: 2;
+    z-index: $z-index-above-base;
 
     @include light-theme {
       background-color: $color-white;
@@ -1070,7 +1070,7 @@
 .module-message__metadata--with-image-no-caption {
   position: absolute;
   bottom: 9px;
-  z-index: 2;
+  z-index: $z-index-above-base;
 
   width: 100%;
   // Because this is absolutely positioned, we 100% is too big, take it down by parent
@@ -1259,7 +1259,7 @@
 
 .module-message__reactions {
   position: relative;
-  z-index: 2;
+  z-index: $z-index-above-base;
   height: 22px;
   display: flex;
   user-select: none;
@@ -2876,7 +2876,7 @@ button.ConversationDetails__action-button {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: $z-index-above-base;
 }
 
 .module-image__border-overlay--with-click-handler {
@@ -2998,7 +2998,7 @@ button.module-image__border-overlay:focus {
   );
   position: absolute;
   bottom: 0;
-  z-index: 1;
+  z-index: $z-index-base;
   left: 0;
   right: 0;
 }
@@ -3035,7 +3035,7 @@ button.module-image__border-overlay:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 3;
+  z-index: $z-index-above-above-base;
 
   // This allows click-through to the overlay button behind it
   pointer-events: none;
@@ -3232,7 +3232,7 @@ button.module-image__border-overlay:focus {
   width: 20px;
   height: 20px;
 
-  z-index: 2;
+  z-index: $z-index-above-base;
   @include color-svg('../images/icons/v2/x-24.svg', $color-black);
 
   @include keyboard-mode {
@@ -3560,7 +3560,7 @@ button.module-image__border-overlay:focus {
   top: 0;
   left: 0;
 
-  z-index: 2;
+  z-index: $z-index-above-base;
   height: 100%;
   width: 100%;
 
@@ -3571,7 +3571,7 @@ button.module-image__border-overlay:focus {
   top: 0;
   left: 0;
 
-  z-index: 3;
+  z-index: $z-index-above-above-base;
   height: 100%;
   width: 100%;
 
@@ -3829,7 +3829,7 @@ button.module-image__border-overlay:focus {
     justify-content: center;
     position: absolute;
     width: 100%;
-    z-index: 2;
+    z-index: $z-index-below-popup-overlay;
   }
 
   &__header {
@@ -3893,7 +3893,7 @@ button.module-image__border-overlay:focus {
     @include font-body-1;
     color: $color-white;
     display: flex;
-    z-index: 1;
+    z-index: $z-index-base;
 
     &::before {
       content: '';
@@ -4153,7 +4153,7 @@ button.module-image__border-overlay:focus {
     background: linear-gradient($color-black-alpha-40, transparent);
     top: 0;
     width: 100%;
-    z-index: 2;
+    z-index: $z-index-above-base;
     padding-bottom: 1rem;
   }
 
@@ -4217,7 +4217,7 @@ button.module-image__border-overlay:focus {
         position: absolute;
         transition: opacity 200ms ease-out;
         width: 100%;
-        z-index: 1;
+        z-index: $z-index-base;
 
         &--hidden {
           opacity: 0;
@@ -4331,7 +4331,7 @@ button.module-image__border-overlay:focus {
       position: absolute;
       user-select: none;
       width: 100%;
-      z-index: 2;
+      z-index: $z-index-above-base;
     }
 
     &--contact-name {
@@ -4352,7 +4352,7 @@ button.module-image__border-overlay:focus {
       position: absolute;
       right: 6px;
       width: 14px;
-      z-index: 1;
+      z-index: $z-index-base;
     }
   }
 
@@ -4365,7 +4365,7 @@ button.module-image__border-overlay:focus {
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: -1;
+    z-index: $z-index-negative;
 
     video {
       @include lonely-local-video-preview;
@@ -4384,7 +4384,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    z-index: 2;
+    z-index: $z-index-above-base;
 
     &__actions {
       align-items: center;
@@ -4433,7 +4433,7 @@ button.module-image__border-overlay:focus {
         position: absolute;
         right: 6px;
         width: 14px;
-        z-index: 1;
+        z-index: $z-index-base;
       }
     }
   }
@@ -4470,7 +4470,7 @@ button.module-image__border-overlay:focus {
     top: 12px;
     transition: top 200ms ease-out, opacity 200ms ease-out;
     user-select: none;
-    z-index: 3;
+    z-index: $z-index-above-above-base;
 
     &--hidden {
       opacity: 0;
@@ -4500,7 +4500,7 @@ button.module-image__border-overlay:focus {
   height: 158px;
   position: absolute;
   width: 120px;
-  z-index: 2;
+  z-index: $z-index-above-base;
 
   & .module-ongoing-call__group-call-remote-participant {
     border-radius: 0;
@@ -4605,7 +4605,7 @@ button.module-image__border-overlay:focus {
     position: absolute;
     top: 0;
     width: 100vw;
-    z-index: 2;
+    z-index: $z-index-above-base;
   }
 
   &__title {
@@ -4674,7 +4674,7 @@ button.module-image__border-overlay:focus {
 
     height: 16px;
     width: 16px;
-    z-index: 2;
+    z-index: $z-index-above-base;
 
     @include keyboard-mode {
       &:focus {
@@ -5589,7 +5589,7 @@ button.module-image__border-overlay:focus {
   height: 100%;
   right: -8px;
   top: 0;
-  z-index: 2;
+  z-index: $z-index-above-base;
   cursor: col-resize;
 }
 
@@ -5643,7 +5643,7 @@ button.module-image__border-overlay:focus {
   width: 332px;
   border-radius: 8px;
   margin-bottom: 6px;
-  z-index: 2;
+  z-index: $z-index-above-base;
   user-select: none;
   overflow: hidden;
 
@@ -6219,7 +6219,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: $z-index-base;
   }
 
   &__container {
@@ -6469,7 +6469,7 @@ button.module-image__border-overlay:focus {
   padding: 7px 12px;
   border-radius: 8px;
   margin-bottom: 6px;
-  z-index: 1;
+  z-index: $z-index-base;
 
   @include light-theme {
     background: $color-white;
@@ -7164,7 +7164,7 @@ button.module-image__border-overlay:focus {
     padding: 0;
     margin-bottom: 6px;
     border-radius: 8px;
-    z-index: 2;
+    z-index: $z-index-above-base;
     overflow: hidden;
 
     &--scroller {
@@ -7269,7 +7269,7 @@ button.module-image__border-overlay:focus {
 // Module: Scroll Down Button
 
 .module-scroll-down {
-  z-index: 100;
+  z-index: $z-index-scroll-down-button;
   position: absolute;
   right: 20px;
   bottom: 10px;
@@ -7533,9 +7533,7 @@ button.module-image__border-overlay:focus {
   align-items: center;
 
   background-color: $color-black-alpha-40;
-
-  // react-contextmenu uses a z-index of 1000
-  z-index: 2000;
+  z-index: $z-index-above-context-menu;
 }
 
 .module-shortcut-guide-container {
@@ -7722,7 +7720,7 @@ button.module-image__border-overlay:focus {
   right: 5px;
   top: 0;
   width: 24px;
-  z-index: 2;
+  z-index: $z-index-above-base;
 
   @include keyboard-mode {
     &:focus {
@@ -7777,7 +7775,7 @@ button.module-image__border-overlay:focus {
     transform-origin: center;
     transform: rotate(-45deg);
     width: 10px;
-    z-index: 2;
+    z-index: $z-index-above-base;
   }
 }
 
@@ -7897,7 +7895,7 @@ button.module-image__border-overlay:focus {
   position: absolute;
   top: 0;
   width: 100vw;
-  z-index: 2;
+  z-index: $z-index-popup-overlay;
 }
 
 .module-modal-host__container {
@@ -7911,7 +7909,7 @@ button.module-image__border-overlay:focus {
   position: absolute;
   top: 0;
   width: 100vw;
-  z-index: 2;
+  z-index: $z-index-popup-overlay;
 }
 
 // Module: GroupV2 Join Dialog
@@ -8045,7 +8043,7 @@ button.module-image__border-overlay:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 5;
+  z-index: $z-index-popup-overlay;
 }
 
 // Module: Error Modal
@@ -8116,7 +8114,7 @@ button.module-image__border-overlay:focus {
   padding: 8px 21px;
   position: fixed;
   text-align: center;
-  z-index: 999;
+  z-index: $z-index-tooltip;
 
   .module-tooltip-arrow {
     position: absolute;
@@ -8249,7 +8247,7 @@ button.module-image__border-overlay:focus {
 .react-contextmenu--visible {
   opacity: 1;
   visibility: visible;
-  z-index: 1000;
+  z-index: $z-index-context-menu;
 }
 
 .react-contextmenu-item {

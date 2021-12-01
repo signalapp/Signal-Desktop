@@ -72,8 +72,7 @@
     width: 24px;
   }
 
-  // specificity
-  &__modal__body.module-Modal__body {
-    overflow-x: hidden;
+  &__modal__body {
+    overflow-x: hidden !important;
   }
 }

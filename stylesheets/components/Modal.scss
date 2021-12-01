@@ -133,7 +133,7 @@
       position: sticky;
       right: 0;
       width: 100%;
-      z-index: 10;
+      z-index: $z-index-above-popup;
 
       @include light-theme() {
         background: $color-white;

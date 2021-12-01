@@ -124,7 +124,7 @@
   }
 
   &--picker-style {
-    z-index: 2;
+    z-index: $z-index-above-base;
 
     #{$root-selector}__button {
       @media (prefers-reduced-motion: no-preference) {

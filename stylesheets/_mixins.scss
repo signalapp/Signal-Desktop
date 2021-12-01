@@ -233,7 +233,7 @@
   right: 8px;
   width: 18px;
   height: 18px;
-  z-index: 2;
+  z-index: $z-index-above-base;
 }
 
 @mixin calling-text-shadow {

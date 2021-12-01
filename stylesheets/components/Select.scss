@@ -49,7 +49,6 @@
     transform-origin: center;
     transform: rotate(-45deg);
     width: 10px;
-    z-index: 2;
 
     @include dark-theme {
       border-color: $color-gray-15;

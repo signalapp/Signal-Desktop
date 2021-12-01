@@ -4,7 +4,7 @@
 .module-CallingLobby {
   &__local-preview {
     position: absolute;
-    z-index: -1;
+    z-index: $z-index-negative;
 
     &--camera-is-on {
       @include lonely-local-video-preview;

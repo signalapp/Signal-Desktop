@@ -9,7 +9,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 10;
+    z-index: $z-index-popup;
   }
 
   &__animated {
@@ -86,7 +86,8 @@
       justify-content: center;
       overflow: hidden;
       position: relative;
-      z-index: 1;
+      // Using this so that the zoom cleanly goes over the footer
+      z-index: $z-index-base;
 
       &--zoom {
         backface-visibility: hidden;
@@ -167,18 +168,20 @@
     text-align: center;
   }
 
-  &__nav-next {
+  &__nav-next,
+  &__nav-prev {
     bottom: 50%;
     position: absolute;
+    // We need this so that the buttons stack above the container
+    z-index: $z-index-above-base;
+  }
+
+  &__nav-next {
     right: 21px;
-    z-index: 2;
   }
 
   &__nav-prev {
-    bottom: 50%;
     left: 21px;
-    position: absolute;
-    z-index: 2;
   }
 
   &__header {

@@ -11,7 +11,7 @@
   top: 0;
   user-select: none;
   width: 100vw;
-  z-index: 2;
+  z-index: $z-index-popup-overlay;
 
   &__container {
     display: flex;

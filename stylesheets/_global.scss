@@ -93,7 +93,7 @@ audio {
   bottom: 0;
 
   opacity: 0.25;
-  z-index: 200;
+  z-index: $z-index-popup-overlay;
 
   @include light-theme {
     background-color: $color-black;
@@ -175,44 +175,6 @@ a {
   }
 }
 
-.banner {
-  z-index: 100;
-
-  background-color: $color-ios-blue-tint;
-  color: $color-black;
-  box-shadow: 0px 3px 5px 0px $color-black-alpha-20;
-
-  position: absolute;
-  top: 25px;
-  right: 30px;
-  left: 30px;
-
-  padding: 5px 25px 5px 10px;
-
-  text-align: center;
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  .warning {
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    vertical-align: text-bottom;
-    @include color-svg('../images/icons/v2/error-solid-24.svg', black);
-  }
-
-  .dismiss {
-    position: absolute;
-    right: 3px;
-    top: 3px;
-
-    height: 23px;
-    width: 23px;
-    @include color-svg('../images/icons/v2/x-24.svg', black);
-  }
-}
-
 $loading-height: 16px;
 
 .loading {
@@ -267,7 +229,7 @@ $loading-height: 16px;
 }
 
 .app-loading-screen {
-  z-index: 99;
+  z-index: $z-index-on-top-of-everything;
   position: absolute;
   left: 0;
   right: 0;
@@ -323,8 +285,7 @@ $loading-height: 16px;
   bottom: 0;
 
   &.overlay {
-    // .modal, used for the settings view, is 100
-    z-index: 200;
+    z-index: $z-index-popup-overlay;
   }
 
   color: $color-black;

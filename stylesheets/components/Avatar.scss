@@ -113,7 +113,7 @@
 
   &__badge {
     position: absolute;
-    z-index: 1;
+    z-index: $z-index-base;
 
     // Positioning should be overridden by JavaScript. These are set defensively.
     bottom: 0;

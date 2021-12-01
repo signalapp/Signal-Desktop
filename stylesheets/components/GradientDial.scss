@@ -17,7 +17,6 @@
       width: 100%;
       overflow: hidden;
       position: relative;
-      z-index: 1;
     }
 
     &--node {
@@ -30,7 +29,6 @@
       top: 50%;
       transform-origin: center;
       width: 4px;
-      z-index: 1;
     }
   }
 
@@ -42,7 +40,7 @@
     margin-top: -20px;
     padding: 2px;
     position: absolute;
-    z-index: 10;
+    z-index: $z-index-base;
 
     &--selected {
       border-color: $color-gray-75;
