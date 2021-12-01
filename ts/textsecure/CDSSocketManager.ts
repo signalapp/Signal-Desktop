@@ -67,6 +67,7 @@ export class CDSSocketManager {
     const url = `${this.options.url}/discovery/${publicKeyHex}/${codeHashHex}`;
 
     return connectWebSocket<CDSSocket>({
+      name: 'CDSSocket',
       url,
       version,
       proxyAgent: this.proxyAgent,

@@ -129,6 +129,7 @@ export class SocketManager extends EventListener {
     this.setStatus(SocketStatus.CONNECTING);
 
     const process = this.connectResource({
+      name: 'authenticated',
       path: '/v1/websocket/',
       query: { login: username, password },
       resourceOptions: {
@@ -253,6 +254,7 @@ export class SocketManager extends EventListener {
     handler: IRequestHandler
   ): Promise<WebSocketResource> {
     return this.connectResource({
+      name: 'provisioning',
       path: '/v1/websocket/provisioning/',
       resourceOptions: {
         handleRequest: (req: IncomingWebSocketRequest): void => {
@@ -426,6 +428,7 @@ export class SocketManager extends EventListener {
     log.info('SocketManager: connecting unauthenticated socket');
 
     const process = this.connectResource({
+      name: 'unauthenticated',
       path: '/v1/websocket/',
       resourceOptions: {
         keepalive: { path: '/v1/keepalive' },
@@ -464,10 +467,12 @@ export class SocketManager extends EventListener {
   }
 
   private connectResource({
+    name,
     path,
     resourceOptions,
     query = {},
   }: {
+    name: string;
     path: string;
     resourceOptions: WebSocketResourceOptions;
     query?: Record<string, string>;
@@ -481,6 +486,7 @@ export class SocketManager extends EventListener {
     const url = `${this.options.url}${path}?${qs.encode(queryWithDefaults)}`;
 
     return connectWebSocket({
+      name,
       url,
       certificateAuthority: this.options.certificateAuthority,
       version: this.options.version,
