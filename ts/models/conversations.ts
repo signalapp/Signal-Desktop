@@ -3895,6 +3895,18 @@ export class ConversationModel extends window.Backbone
       [window.ConversationController.getOurConversationIdOrThrow()]
     );
 
+    // If there are link previews present in the message we shouldn't include
+    // any attachments as well.
+    const attachmentsToSend = preview && preview.length ? [] : attachments;
+
+    if (preview && preview.length) {
+      attachments.forEach(attachment => {
+        if (attachment.path) {
+          deleteAttachmentData(attachment.path);
+        }
+      });
+    }
+
     // Here we move attachments to disk
     const messageWithSchema = await upgradeMessageSchema({
       timestamp: now,
@@ -3903,7 +3915,7 @@ export class ConversationModel extends window.Backbone
       conversationId: this.id,
       quote,
       preview,
-      attachments,
+      attachments: attachmentsToSend,
       sent_at: now,
       received_at: window.Signal.Util.incrementMessageCounter(),
       received_at_ms: now,

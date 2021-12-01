@@ -405,7 +405,7 @@ export const CompositionArea = ({
     />
   ) : null;
 
-  const attButton = (
+  const attButton = linkPreviewResult ? undefined : (
     <div className="CompositionArea__button-cell">
       <button
         type="button"
