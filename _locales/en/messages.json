@@ -6566,6 +6566,90 @@
     "message": "There was an error when saving your settings. Please try again.",
     "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
   },
+  "MediaEditor__control--draw": {
+    "message": "Draw",
+    "description": "Label for the draw button in the media editor"
+  },
+  "MediaEditor__control--text": {
+    "message": "Add text",
+    "description": "Label for the text button in the media editor"
+  },
+  "MediaEditor__control--sticker": {
+    "message": "Stickers",
+    "description": "Label for the sticker button in the media editor"
+  },
+  "MediaEditor__control--crop": {
+    "message": "Crop and rotate",
+    "description": "Label for the crop & rotate button in the media editor"
+  },
+  "MediaEditor__control--undo": {
+    "message": "Undo",
+    "description": "Label for the undo button in the media editor"
+  },
+  "MediaEditor__control--redo": {
+    "message": "Redo",
+    "description": "Label for the redo button in the media editor"
+  },
+  "MediaEditor__text--regular": {
+    "message": "Regular",
+    "description": "Describes what attribute the color picker will change on the text"
+  },
+  "MediaEditor__text--highlight": {
+    "message": "Highlight",
+    "description": "Describes what attribute the color picker will change on the text"
+  },
+  "MediaEditor__text--outline": {
+    "message": "Outline",
+    "description": "Describes what attribute the color picker will change on the text"
+  },
+  "MediaEditor__text--underline": {
+    "message": "Underline",
+    "description": "Describes what attribute the color picker will change on the text"
+  },
+  "MediaEditor__draw--pen": {
+    "message": "Pen",
+    "description": "Type of brush to free draw"
+  },
+  "MediaEditor__draw--highlighter": {
+    "message": "Highlighter",
+    "description": "Type of brush to free draw"
+  },
+  "MediaEditor__draw--thin": {
+    "message": "Thin",
+    "description": "Tip width of the brush"
+  },
+  "MediaEditor__draw--regular": {
+    "message": "Regular",
+    "description": "Tip width of the brush"
+  },
+  "MediaEditor__draw--medium": {
+    "message": "Medium",
+    "description": "Tip width of the brush"
+  },
+  "MediaEditor__draw--heavy": {
+    "message": "Heavy",
+    "description": "Tip width of the brush"
+  },
+  "MediaEditor__crop--reset": {
+    "message": "Reset",
+    "description": "Reset the crop state"
+  },
+  "MediaEditor__crop--rotate": {
+    "message": "Rotate",
+    "description": "Rotate the canvas"
+  },
+  "MediaEditor__crop--flip": {
+    "message": "Flip",
+    "description": "Flip/mirror the canvas"
+  },
+  "MediaEditor__crop--lock": {
+    "message": "Lock",
+    "description": "Lock the aspect ratio"
+  },
+  "MediaEditor__crop--crop": {
+    "message": "Crop",
+    "description": "Performs the crop"
+  },
   "WhatsNew__modal-title": {
     "message": "What's New",
     "description": "Title for the whats new modal"

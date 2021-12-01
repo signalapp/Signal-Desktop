@@ -3188,6 +3188,40 @@ button.module-image__border-overlay:focus {
   position: relative;
 }
 
+.module-attachments__edit-icon {
+  align-items: center;
+  background: $color-black-alpha-60;
+  border-radius: 100%;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -18px;
+  position: absolute;
+  top: 50%;
+  visibility: hidden;
+  width: 36px;
+
+  &::after {
+    @include color-svg('../images/icons/v2/edit-solid-16.svg', $color-white);
+    content: '';
+    height: 20px;
+    width: 20px;
+  }
+}
+
+.module-attachments--editable {
+  display: inline-block;
+  position: relative;
+
+  &:hover {
+    .module-attachments__edit-icon {
+      visibility: visible;
+    }
+  }
+}
+
 .module-attachments__close-button {
   @include button-reset;
 
@@ -5623,9 +5657,9 @@ button.module-image__border-overlay:focus {
   }
 
   @include dark-theme {
-    background: $color-gray-75;
+    background: $color-gray-80;
     ::-webkit-scrollbar-thumb {
-      border: 2px solid $color-gray-75;
+      border: 2px solid $color-gray-80;
     }
   }
 }

@@ -6,13 +6,17 @@ import classNames from 'classnames';
 import { get, noop } from 'lodash';
 import { Manager, Popper, Reference } from 'react-popper';
 import { createPortal } from 'react-dom';
-import { StickerPicker } from './StickerPicker';
-import { countStickers } from './lib';
+
 import type { StickerPackType, StickerType } from '../../state/ducks/stickers';
 import type { LocalizerType } from '../../types/Util';
+import type { Theme } from '../../util/theme';
+import { StickerPicker } from './StickerPicker';
+import { countStickers } from './lib';
 import { offsetDistanceModifier } from '../../util/popperUtil';
+import { themeClassName } from '../../util/theme';
 
 export type OwnProps = {
+  readonly className?: string;
   readonly i18n: LocalizerType;
   readonly receivedPacks: ReadonlyArray<StickerPackType>;
   readonly installedPacks: ReadonlyArray<StickerPackType>;
@@ -21,19 +25,25 @@ export type OwnProps = {
   readonly installedPack?: StickerPackType | null;
   readonly recentStickers: ReadonlyArray<StickerType>;
   readonly clearInstalledStickerPack: () => unknown;
-  readonly onClickAddPack: () => unknown;
-  readonly onPickSticker: (packId: string, stickerId: number) => unknown;
+  readonly onClickAddPack?: () => unknown;
+  readonly onPickSticker: (
+    packId: string,
+    stickerId: number,
+    url: string
+  ) => unknown;
   readonly showIntroduction?: boolean;
   readonly clearShowIntroduction: () => unknown;
   readonly showPickerHint: boolean;
   readonly clearShowPickerHint: () => unknown;
   readonly position?: 'top-end' | 'top-start';
+  readonly theme?: Theme;
 };
 
 export type Props = OwnProps;
 
 export const StickerButton = React.memo(
   ({
+    className,
     i18n,
     clearInstalledStickerPack,
     onClickAddPack,
@@ -49,6 +59,7 @@ export const StickerButton = React.memo(
     showPickerHint,
     clearShowPickerHint,
     position = 'top-end',
+    theme,
   }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [popperRoot, setPopperRoot] = React.useState<HTMLElement | null>(
@@ -62,7 +73,7 @@ export const StickerButton = React.memo(
 
       // Handle button click
       if (installedPacks.length === 0) {
-        onClickAddPack();
+        onClickAddPack?.();
       } else if (popperRoot) {
         setOpen(false);
       } else {
@@ -78,9 +89,9 @@ export const StickerButton = React.memo(
     ]);
 
     const handlePickSticker = React.useCallback(
-      (packId: string, stickerId: number) => {
+      (packId: string, stickerId: number, url: string) => {
         setOpen(false);
-        onPickSticker(packId, stickerId);
+        onPickSticker(packId, stickerId, url);
       },
       [setOpen, onPickSticker]
     );
@@ -94,7 +105,7 @@ export const StickerButton = React.memo(
       if (showPickerHint) {
         clearShowPickerHint();
       }
-      onClickAddPack();
+      onClickAddPack?.();
     }, [onClickAddPack, showPickerHint, clearShowPickerHint]);
 
     const handleClearIntroduction = React.useCallback(() => {
@@ -110,13 +121,16 @@ export const StickerButton = React.memo(
         document.body.appendChild(root);
         const handleOutsideClick = ({ target }: MouseEvent) => {
           const targetElement = target as HTMLElement;
-          const className = targetElement ? targetElement.className || '' : '';
+          const targetClassName = targetElement
+            ? targetElement.className || ''
+            : '';
 
           // We need to special-case sticker picker header buttons, because they can
           //   disappear after being clicked, which breaks the .contains() check below.
           const isMissingButtonClass =
-            !className ||
-            className.indexOf('module-sticker-picker__header__button') < 0;
+            !targetClassName ||
+            targetClassName.indexOf('module-sticker-picker__header__button') <
+              0;
 
           if (!root.contains(targetElement) && isMissingButtonClass) {
             setOpen(false);
@@ -194,10 +208,13 @@ export const StickerButton = React.memo(
               type="button"
               ref={ref}
               onClick={handleClickButton}
-              className={classNames({
-                'module-sticker-button__button': true,
-                'module-sticker-button__button--active': open,
-              })}
+              className={classNames(
+                {
+                  'module-sticker-button__button': true,
+                  'module-sticker-button__button--active': open,
+                },
+                className
+              )}
               aria-label={i18n('stickers--StickerPicker--Open')}
             />
           )}
@@ -209,84 +226,88 @@ export const StickerButton = React.memo(
             modifiers={[offsetDistanceModifier(6)]}
           >
             {({ ref, style, placement, arrowProps }) => (
-              <button
-                type="button"
-                ref={ref}
-                style={style}
-                className="module-sticker-button__tooltip"
-                onClick={clearInstalledStickerPack}
-              >
-                {installedPack.cover ? (
-                  <img
-                    className="module-sticker-button__tooltip__image"
-                    src={installedPack.cover.url}
-                    alt={installedPack.title}
-                  />
-                ) : (
-                  <div className="module-sticker-button__tooltip__image-placeholder" />
-                )}
-                <span className="module-sticker-button__tooltip__text">
-                  <span className="module-sticker-button__tooltip__text__title">
-                    {installedPack.title}
-                  </span>{' '}
-                  installed
-                </span>
-                <div
-                  ref={arrowProps.ref}
-                  style={arrowProps.style}
-                  className={classNames(
-                    'module-sticker-button__tooltip__triangle',
-                    `module-sticker-button__tooltip__triangle--${placement}`
+              <div className={theme ? themeClassName(theme) : undefined}>
+                <button
+                  type="button"
+                  ref={ref}
+                  style={style}
+                  className="module-sticker-button__tooltip"
+                  onClick={clearInstalledStickerPack}
+                >
+                  {installedPack.cover ? (
+                    <img
+                      className="module-sticker-button__tooltip__image"
+                      src={installedPack.cover.url}
+                      alt={installedPack.title}
+                    />
+                  ) : (
+                    <div className="module-sticker-button__tooltip__image-placeholder" />
                   )}
-                />
-              </button>
+                  <span className="module-sticker-button__tooltip__text">
+                    <span className="module-sticker-button__tooltip__text__title">
+                      {installedPack.title}
+                    </span>{' '}
+                    installed
+                  </span>
+                  <div
+                    ref={arrowProps.ref}
+                    style={arrowProps.style}
+                    className={classNames(
+                      'module-sticker-button__tooltip__triangle',
+                      `module-sticker-button__tooltip__triangle--${placement}`
+                    )}
+                  />
+                </button>
+              </div>
             )}
           </Popper>
         ) : null}
         {!open && showIntroduction ? (
           <Popper placement={position} modifiers={[offsetDistanceModifier(6)]}>
             {({ ref, style, placement, arrowProps }) => (
-              <button
-                type="button"
-                ref={ref}
-                style={style}
-                className={classNames(
-                  'module-sticker-button__tooltip',
-                  'module-sticker-button__tooltip--introduction'
-                )}
-                onClick={handleClearIntroduction}
-              >
-                <img
-                  className="module-sticker-button__tooltip--introduction__image"
-                  srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
-                  alt={i18n('stickers--StickerManager--Introduction--Image')}
-                />
-                <div className="module-sticker-button__tooltip--introduction__meta">
-                  <div className="module-sticker-button__tooltip--introduction__meta__title">
-                    {i18n('stickers--StickerManager--Introduction--Title')}
-                  </div>
-                  <div className="module-sticker-button__tooltip--introduction__meta__subtitle">
-                    {i18n('stickers--StickerManager--Introduction--Body')}
-                  </div>
-                </div>
-                <div className="module-sticker-button__tooltip--introduction__close">
-                  <button
-                    type="button"
-                    className="module-sticker-button__tooltip--introduction__close__button"
-                    onClick={handleClearIntroduction}
-                    aria-label={i18n('close')}
-                  />
-                </div>
-                <div
-                  ref={arrowProps.ref}
-                  style={arrowProps.style}
+              <div className={theme ? themeClassName(theme) : undefined}>
+                <button
+                  type="button"
+                  ref={ref}
+                  style={style}
                   className={classNames(
-                    'module-sticker-button__tooltip__triangle',
-                    'module-sticker-button__tooltip__triangle--introduction',
-                    `module-sticker-button__tooltip__triangle--${placement}`
+                    'module-sticker-button__tooltip',
+                    'module-sticker-button__tooltip--introduction'
                   )}
-                />
-              </button>
+                  onClick={handleClearIntroduction}
+                >
+                  <img
+                    className="module-sticker-button__tooltip--introduction__image"
+                    srcSet="images/sticker_splash@1x.png 1x, images/sticker_splash@2x.png 2x"
+                    alt={i18n('stickers--StickerManager--Introduction--Image')}
+                  />
+                  <div className="module-sticker-button__tooltip--introduction__meta">
+                    <div className="module-sticker-button__tooltip--introduction__meta__title">
+                      {i18n('stickers--StickerManager--Introduction--Title')}
+                    </div>
+                    <div className="module-sticker-button__tooltip--introduction__meta__subtitle">
+                      {i18n('stickers--StickerManager--Introduction--Body')}
+                    </div>
+                  </div>
+                  <div className="module-sticker-button__tooltip--introduction__close">
+                    <button
+                      type="button"
+                      className="module-sticker-button__tooltip--introduction__close__button"
+                      onClick={handleClearIntroduction}
+                      aria-label={i18n('close')}
+                    />
+                  </div>
+                  <div
+                    ref={arrowProps.ref}
+                    style={arrowProps.style}
+                    className={classNames(
+                      'module-sticker-button__tooltip__triangle',
+                      'module-sticker-button__tooltip__triangle--introduction',
+                      `module-sticker-button__tooltip__triangle--${placement}`
+                    )}
+                  />
+                </button>
+              </div>
             )}
           </Popper>
         ) : null}
@@ -294,17 +315,21 @@ export const StickerButton = React.memo(
           ? createPortal(
               <Popper placement={position}>
                 {({ ref, style }) => (
-                  <StickerPicker
-                    ref={ref}
-                    i18n={i18n}
-                    style={style}
-                    packs={installedPacks}
-                    onClose={handleClose}
-                    onClickAddPack={handleClickAddPack}
-                    onPickSticker={handlePickSticker}
-                    recentStickers={recentStickers}
-                    showPickerHint={showPickerHint}
-                  />
+                  <div className={theme ? themeClassName(theme) : undefined}>
+                    <StickerPicker
+                      ref={ref}
+                      i18n={i18n}
+                      style={style}
+                      packs={installedPacks}
+                      onClose={handleClose}
+                      onClickAddPack={
+                        onClickAddPack ? handleClickAddPack : undefined
+                      }
+                      onPickSticker={handlePickSticker}
+                      recentStickers={recentStickers}
+                      showPickerHint={showPickerHint}
+                    />
+                  </div>
                 )}
               </Popper>,
               popperRoot

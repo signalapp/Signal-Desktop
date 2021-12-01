@@ -1,0 +1,340 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.MediaEditor {
+  background: $color-gray-95;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  user-select: none;
+  width: 100vw;
+  z-index: 2;
+
+  &__container {
+    display: flex;
+    flex: 1;
+    padding: 22px 60px;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  &__media {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+
+    &--canvas {
+      border-radius: 12px;
+      transition: border-radius 200ms ease-out;
+
+      &--cropping {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &__control {
+    @include button-reset;
+    align-items: center;
+    border-radius: 32px;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    margin: 0 15px;
+    opacity: 1;
+    width: 32px;
+
+    &::after {
+      content: ' ';
+      height: 24px;
+      width: 24px;
+    }
+
+    &--crop::after {
+      @include color-svg('../images/icons/v2/crop-24.svg', $color-white);
+    }
+
+    &--pen::after {
+      @include color-svg('../images/icons/v2/draw-24.svg', $color-white);
+    }
+
+    &--redo {
+      &::after {
+        @include color-svg('../images/icons/v2/redo-24.svg', $color-white);
+      }
+      &:disabled::after {
+        @include color-svg('../images/icons/v2/redo-24.svg', $color-gray-45);
+      }
+    }
+
+    &--sticker.module-sticker-button__button::after {
+      @include color-svg(
+        '../images/icons/v2/sticker-smiley-24.svg',
+        $color-white
+      );
+    }
+
+    &--text::after {
+      @include color-svg('../images/icons/v2/text-24.svg', $color-white);
+    }
+
+    &--undo {
+      &::after {
+        @include color-svg('../images/icons/v2/undo-24.svg', $color-white);
+      }
+      &:disabled::after {
+        @include color-svg('../images/icons/v2/undo-24.svg', $color-gray-45);
+      }
+    }
+
+    &--selected {
+      background-color: $color-white;
+
+      &::after {
+        background-color: $color-black;
+      }
+    }
+
+    &:hover {
+      background-color: $color-gray-80;
+
+      &::after {
+        background-color: $color-white;
+      }
+    }
+  }
+
+  &__toolbar {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 22px;
+    width: 100%;
+
+    &--buttons {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &--space {
+      height: 36px;
+      margin-bottom: 22px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 596px;
+  }
+
+  &__tools {
+    align-items: center;
+    display: flex;
+    height: 36px;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  &__crop-toolbar {
+    align-items: center;
+    background-color: $color-gray-90;
+    border-radius: 10px;
+    color: $color-white;
+    display: flex;
+
+    &--button {
+      @include button-reset;
+      margin: 0 8px;
+      padding: 8px;
+    }
+
+    &--rotate {
+      @include color-svg(
+        '../images/icons/v2/rotate-outline-24.svg',
+        $color-white
+      );
+      height: 20px;
+      width: 20px;
+    }
+
+    &--flip {
+      @include color-svg(
+        '../images/icons/v2/flip-outline-24.svg',
+        $color-white
+      );
+      height: 20px;
+      width: 20px;
+    }
+
+    &--locked {
+      @include color-svg('../images/icons/v2/crop-lock-24.svg', $color-white);
+      height: 20px;
+      width: 20px;
+    }
+
+    &--unlocked {
+      @include color-svg('../images/icons/v2/crop-unlock-24.svg', $color-white);
+      height: 20px;
+      width: 20px;
+    }
+
+    &--reset {
+      padding-left: 24px;
+    }
+
+    &--crop {
+      padding-right: 24px;
+    }
+  }
+
+  &__hue-slider.Slider {
+    background-image: linear-gradient(
+      90deg,
+      hsl(0, 0%, 100%),
+      hsl(0, 0%, 0%),
+      hsl(0, 100%, 50%),
+      hsl(45, 100%, 50%),
+      hsl(90, 100%, 50%),
+      hsl(135, 100%, 50%),
+      hsl(180, 100%, 50%),
+      hsl(225, 100%, 50%),
+      hsl(270, 100%, 50%),
+      hsl(315, 100%, 50%),
+      hsl(360, 100%, 50%)
+    );
+    border-radius: 4px;
+    height: 8px;
+    margin-right: 7px;
+    width: 280px;
+  }
+
+  &__hue-slider__handle.Slider__handle {
+    background-color: transparent;
+    border: 7px solid $color-white;
+    margin-top: -7px;
+    margin-left: -11px;
+    height: 22px;
+    width: 22px;
+  }
+
+  &__button {
+    @mixin button($svg) {
+      height: 20px;
+      margin: 0 7px;
+      opacity: 1;
+      width: 20px;
+
+      &::after {
+        @include color-svg($svg, $color-white);
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        background-color: $color-gray-80;
+      }
+    }
+
+    &__text {
+      @include button('../images/icons/v2/edit-solid-16.svg');
+    }
+
+    &--draw-pen {
+      @include button('../images/icons/v2/pen-20.svg');
+    }
+
+    &--draw-highlighter {
+      @include button('../images/icons/v2/pen-highlighter-20.svg');
+    }
+
+    &--text-regular {
+      @include button('../images/icons/v2/text-regular-20.svg');
+    }
+
+    &--text-highlight {
+      @include button('../images/icons/v2/text-highlight-20.svg');
+    }
+
+    &--text-outline {
+      @include button('../images/icons/v2/text-outline-20.svg');
+    }
+
+    &--width-thin {
+      @include button('../images/icons/v2/pen-light-20.svg');
+    }
+
+    &--width-regular {
+      @include button('../images/icons/v2/pen-regular-20.svg');
+    }
+
+    &--width-medium {
+      @include button('../images/icons/v2/pen-medium-20.svg');
+    }
+
+    &--width-heavy {
+      @include button('../images/icons/v2/pen-heavy-20.svg');
+    }
+  }
+
+  &__icon {
+    &--draw-pen {
+      @include color-svg('../images/icons/v2/pen-20.svg', $color-white);
+    }
+
+    &--draw-highlighter {
+      @include color-svg(
+        '../images/icons/v2/pen-highlighter-20.svg',
+        $color-white
+      );
+    }
+
+    &--text-regular {
+      @include color-svg(
+        '../images/icons/v2/text-regular-20.svg',
+        $color-white
+      );
+    }
+
+    &--text-highlight {
+      @include color-svg(
+        '../images/icons/v2/text-highlight-20.svg',
+        $color-white
+      );
+    }
+
+    &--text-outline {
+      @include color-svg(
+        '../images/icons/v2/text-outline-20.svg',
+        $color-white
+      );
+    }
+
+    &--width-thin {
+      @include color-svg('../images/icons/v2/pen-light-20.svg', $color-white);
+    }
+
+    &--width-regular {
+      @include color-svg('../images/icons/v2/pen-regular-20.svg', $color-white);
+    }
+
+    &--width-medium {
+      @include color-svg('../images/icons/v2/pen-medium-20.svg', $color-white);
+    }
+
+    &--width-heavy {
+      @include color-svg('../images/icons/v2/pen-heavy-20.svg', $color-white);
+    }
+  }
+}

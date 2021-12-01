@@ -43,7 +43,7 @@ story.add('One File', () => {
       }),
     ],
   });
-  return <AttachmentList {...props} />;
+  return <AttachmentList {...props} canEditImages />;
 });
 
 story.add('Multiple Visual Attachments', () => {

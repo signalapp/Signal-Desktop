@@ -1,0 +1,116 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.ContextMenu {
+  &__popper {
+    @extend %module-composition-popper;
+    margin: 0;
+    padding: 6px 0;
+    width: auto;
+  }
+
+  &__title {
+    @include font-body-1-bold;
+    margin-bottom: 12px;
+  }
+
+  &__button {
+    @include button-reset();
+    align-items: center;
+    border-radius: 16px;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    opacity: 0.5;
+    width: 32px;
+
+    &:focus,
+    &:hover {
+      opacity: 1;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      height: 24px;
+      width: 24px;
+    }
+
+    &--active {
+      opacity: 1;
+
+      @include light-theme() {
+        background-color: $color-gray-05;
+      }
+
+      @include dark-theme() {
+        background-color: $color-gray-75;
+      }
+    }
+  }
+
+  &__option {
+    @include button-reset();
+    @include font-body-2;
+    @include dark-theme {
+      color: $color-gray-05;
+    }
+
+    align-items: center;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    min-width: 150px;
+
+    &--container {
+      display: flex;
+    }
+
+    &--icon {
+      height: 16px;
+      margin-right: 8px;
+      width: 16px;
+    }
+
+    &--selected {
+      height: 12px;
+      margin: 0 6px;
+      width: 16px;
+
+      @include light-theme {
+        @include color-svg('../images/icons/v2/check-24.svg', $color-black);
+      }
+      @include dark-theme {
+        @include color-svg('../images/icons/v2/check-24.svg', $color-white);
+      }
+    }
+
+    &--title {
+      @include font-body-2;
+    }
+
+    &--description {
+      @include font-subtitle;
+    }
+
+    &:hover {
+      @include light-theme() {
+        background-color: $color-gray-05;
+      }
+
+      @include dark-theme() {
+        background-color: $color-gray-65;
+      }
+    }
+
+    &--focused,
+    &:focus,
+    &:active {
+      border-radius: 6px;
+      box-shadow: 0 0 1px 1px $color-ultramarine;
+      outline: none;
+    }
+  }
+}

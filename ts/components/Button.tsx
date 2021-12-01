@@ -5,7 +5,9 @@ import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 
+import type { Theme } from '../util/theme';
 import { assert } from '../util/assert';
+import { themeClassName } from '../util/theme';
 
 export enum ButtonSize {
   Large,
@@ -41,6 +43,7 @@ type PropsType = {
   size?: ButtonSize;
   style?: CSSProperties;
   tabIndex?: number;
+  theme?: Theme;
   variant?: ButtonVariant;
 } & (
   | {
@@ -97,6 +100,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
       icon,
       style,
       tabIndex,
+      theme,
       variant = ButtonVariant.Primary,
       size = variant === ButtonVariant.Details
         ? ButtonSize.Small
@@ -120,7 +124,7 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
     const variantClassName = VARIANT_CLASS_NAMES.get(variant);
     assert(variantClassName, '<Button> variant not found');
 
-    return (
+    const buttonElement = (
       <button
         aria-label={ariaLabel}
         className={classNames(
@@ -142,5 +146,11 @@ export const Button = React.forwardRef<HTMLButtonElement, PropsType>(
         {children}
       </button>
     );
+
+    if (theme) {
+      return <div className={themeClassName(theme)}>{buttonElement}</div>;
+    }
+
+    return buttonElement;
   }
 );

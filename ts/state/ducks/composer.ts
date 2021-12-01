@@ -123,9 +123,10 @@ function addAttachment(
       ? getState().composer.attachments
       : getAttachmentsFromConversationModel(conversationId);
 
+    // We expect there to either be a pending draft attachment or an existing
+    // attachment that we'll be replacing.
     const hasDraftAttachmentPending = draftAttachments.some(
-      draftAttachment =>
-        draftAttachment.pending && draftAttachment.path === attachment.path
+      draftAttachment => draftAttachment.path === attachment.path
     );
 
     // User has canceled the draft so we don't need to continue processing

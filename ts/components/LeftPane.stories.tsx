@@ -430,12 +430,8 @@ story.add('Archive: searching a conversation', () => (
       modeSpecificProps: {
         mode: LeftPaneMode.Archive,
         archivedConversations: defaultConversations,
-        searchConversation: defaultConversations[0],
-        searchTerm: 'foo bar',
-        conversationResults: { isLoading: true },
-        contactResults: { isLoading: true },
-        messageResults: { isLoading: true },
-        primarySendsSms: false,
+        searchConversation: undefined,
+        searchTerm: '',
       },
     })}
   />

@@ -17,6 +17,7 @@ import {
 
 export type Props = Readonly<{
   attachments: ReadonlyArray<AttachmentDraftType>;
+  canEditImages?: boolean;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
   onClickAttachment?: (attachment: AttachmentDraftType) => void;
@@ -41,6 +42,7 @@ function getUrl(attachment: AttachmentDraftType): string | undefined {
 
 export const AttachmentList = ({
   attachments,
+  canEditImages,
   i18n,
   onAddAttachment,
   onClickAttachment,
@@ -88,7 +90,7 @@ export const AttachmentList = ({
               ? () => onClickAttachment(attachment)
               : undefined;
 
-            return (
+            const imgElement = (
               <Image
                 key={key}
                 alt={i18n('stagedImageAttachment', [
@@ -109,6 +111,17 @@ export const AttachmentList = ({
                 onError={closeAttachment}
               />
             );
+
+            if (isImage && canEditImages) {
+              return (
+                <div className="module-attachments--editable">
+                  {imgElement}
+                  <div className="module-attachments__edit-icon" />
+                </div>
+              );
+            }
+
+            return imgElement;
           }
 
           return (

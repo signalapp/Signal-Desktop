@@ -55,6 +55,10 @@ import {
   useAttachFileShortcut,
   useKeyboardShortcuts,
 } from '../hooks/useKeyboardShortcuts';
+import { MediaEditor } from './MediaEditor';
+import { IMAGE_PNG } from '../types/MIME';
+import { isImageTypeSupported } from '../util/GoogleChrome';
+import { canEditImages } from '../util/canEditImages';
 
 export type CompositionAPIType =
   | {
@@ -253,6 +257,9 @@ export const CompositionArea = ({
   const [disabled, setDisabled] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
+  const [attachmentToEdit, setAttachmentToEdit] = useState<
+    AttachmentDraftType | undefined
+  >();
   const inputApiRef = useRef<InputApi | undefined>();
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
@@ -285,6 +292,19 @@ export const CompositionArea = ({
       fileInput.click();
     }
   }, []);
+
+  const hasImageEditingEnabled = canEditImages();
+
+  function maybeEditAttachment(attachment: AttachmentDraftType) {
+    if (
+      !hasImageEditingEnabled ||
+      !isImageTypeSupported(attachment.contentType)
+    ) {
+      return;
+    }
+
+    setAttachmentToEdit(attachment);
+  }
 
   const attachFileShortcut = useAttachFileShortcut(launchAttachmentPicker);
   useKeyboardShortcuts(attachFileShortcut);
@@ -560,6 +580,26 @@ export const CompositionArea = ({
 
   return (
     <div className="CompositionArea">
+      {attachmentToEdit && 'url' in attachmentToEdit && attachmentToEdit.url && (
+        <MediaEditor
+          i18n={i18n}
+          imageSrc={attachmentToEdit.url}
+          onClose={() => setAttachmentToEdit(undefined)}
+          onDone={data => {
+            const newAttachment = {
+              ...attachmentToEdit,
+              contentType: IMAGE_PNG,
+              data,
+              size: data.byteLength,
+            };
+
+            addAttachment(conversationId, newAttachment);
+            setAttachmentToEdit(undefined);
+          }}
+          installedPacks={installedPacks}
+          recentStickers={recentStickers}
+        />
+      )}
       <div className="CompositionArea__toggle-large">
         <button
           type="button"
@@ -607,8 +647,10 @@ export const CompositionArea = ({
           <div className="CompositionArea__attachment-list">
             <AttachmentList
               attachments={draftAttachments}
+              canEditImages={hasImageEditingEnabled}
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
+              onClickAttachment={maybeEditAttachment}
               onClose={onClearAttachments}
               onCloseAttachment={attachment => {
                 if (attachment.path) {

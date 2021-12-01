@@ -12,8 +12,12 @@ import type { LocalizerType } from '../../types/Util';
 export type OwnProps = {
   readonly i18n: LocalizerType;
   readonly onClose: () => unknown;
-  readonly onClickAddPack: () => unknown;
-  readonly onPickSticker: (packId: string, stickerId: number) => unknown;
+  readonly onClickAddPack?: () => unknown;
+  readonly onPickSticker: (
+    packId: string,
+    stickerId: number,
+    url: string
+  ) => unknown;
   readonly packs: ReadonlyArray<StickerPackType>;
   readonly recentStickers: ReadonlyArray<StickerType>;
   readonly showPickerHint?: boolean;
@@ -230,20 +234,22 @@ export const StickerPicker = React.memo(
                   />
                 ) : null}
               </div>
-              <button
-                type="button"
-                ref={addPackRef}
-                className={classNames(
-                  'module-sticker-picker__header__button',
-                  'module-sticker-picker__header__button--add-pack',
-                  {
-                    'module-sticker-picker__header__button--hint':
-                      showPickerHint,
-                  }
-                )}
-                onClick={onClickAddPack}
-                aria-label={i18n('stickers--StickerPicker--AddPack')}
-              />
+              {onClickAddPack && (
+                <button
+                  type="button"
+                  ref={addPackRef}
+                  className={classNames(
+                    'module-sticker-picker__header__button',
+                    'module-sticker-picker__header__button--add-pack',
+                    {
+                      'module-sticker-picker__header__button--hint':
+                        showPickerHint,
+                    }
+                  )}
+                  onClick={onClickAddPack}
+                  aria-label={i18n('stickers--StickerPicker--AddPack')}
+                />
+              )}
             </div>
             <div
               className={classNames('module-sticker-picker__body', {
@@ -317,7 +323,7 @@ export const StickerPicker = React.memo(
                         ref={maybeFocusRef}
                         key={`${packId}-${id}`}
                         className="module-sticker-picker__body__cell"
-                        onClick={() => onPickSticker(packId, id)}
+                        onClick={() => onPickSticker(packId, id, url)}
                       >
                         <img
                           className="module-sticker-picker__body__cell__image"

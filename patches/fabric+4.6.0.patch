@@ -1,0 +1,22 @@
+diff --git a/node_modules/fabric/dist/fabric.js b/node_modules/fabric/dist/fabric.js
+index 86536ce..487151b 100644
+--- a/node_modules/fabric/dist/fabric.js
++++ b/node_modules/fabric/dist/fabric.js
+@@ -3306,16 +3306,7 @@ fabric.CommonMethods = {
+   }
+
+   (function () {
+-    var style = fabric.document.documentElement.style,
+-        selectProp = 'userSelect' in style
+-          ? 'userSelect'
+-          : 'MozUserSelect' in style
+-            ? 'MozUserSelect'
+-            : 'WebkitUserSelect' in style
+-              ? 'WebkitUserSelect'
+-              : 'KhtmlUserSelect' in style
+-                ? 'KhtmlUserSelect'
+-                : '';
++    var selectProp = 'userSelect';
+
+     /**
+      * Makes element unselectable
