@@ -1493,11 +1493,8 @@ export function canDeleteForEveryone(
     !message.deletedForEveryone &&
     // Is it too old to delete?
     isMoreRecentThan(message.sent_at, THREE_HOURS) &&
-    // Is it pending/sent to anyone?
-    someSendStatus(
-      message.sendStateByConversationId,
-      sendStatus => sendStatus !== SendStatus.Failed
-    )
+    // Is it sent to anyone?
+    someSendStatus(message.sendStateByConversationId, isSent)
   );
 }
 

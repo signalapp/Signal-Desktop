@@ -78,7 +78,7 @@ describe('state/selectors/messages', () => {
       assert.isFalse(canDeleteForEveryone(message));
     });
 
-    it('returns false for messages that failed to send to anyone', () => {
+    it("returns false for messages that haven't been sent to anyone", () => {
       const message = {
         type: 'outgoing' as const,
         sent_at: Date.now() - 1000,
@@ -88,7 +88,7 @@ describe('state/selectors/messages', () => {
             updatedAt: Date.now(),
           },
           [uuid()]: {
-            status: SendStatus.Failed,
+            status: SendStatus.Pending,
             updatedAt: Date.now(),
           },
         },
@@ -103,11 +103,11 @@ describe('state/selectors/messages', () => {
         sent_at: Date.now() - 1000,
         sendStateByConversationId: {
           [ourConversationId]: {
-            status: SendStatus.Pending,
+            status: SendStatus.Sent,
             updatedAt: Date.now(),
           },
           [uuid()]: {
-            status: SendStatus.Pending,
+            status: SendStatus.Delivered,
             updatedAt: Date.now(),
           },
           [uuid()]: {

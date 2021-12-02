@@ -288,7 +288,7 @@ type State = {
   reactionViewerRoot: HTMLDivElement | null;
   reactionPickerRoot: HTMLDivElement | null;
 
-  canDeleteForEveryone: boolean;
+  hasDeleteForEveryoneTimerExpired: boolean;
 };
 
 const EXPIRATION_CHECK_MINIMUM = 2000;
@@ -328,20 +328,15 @@ export class Message extends React.PureComponent<Props, State> {
       reactionViewerRoot: null,
       reactionPickerRoot: null,
 
-      canDeleteForEveryone: props.canDeleteForEveryone,
+      hasDeleteForEveryoneTimerExpired:
+        this.getTimeRemainingForDeleteForEveryone() <= 0,
     };
   }
 
   public static getDerivedStateFromProps(props: Props, state: State): State {
-    const newState = {
-      ...state,
-      canDeleteForEveryone:
-        props.canDeleteForEveryone && state.canDeleteForEveryone,
-    };
-
     if (!props.isSelected) {
       return {
-        ...newState,
+        ...state,
         isSelected: false,
         prevSelectedCounter: 0,
       };
@@ -352,13 +347,13 @@ export class Message extends React.PureComponent<Props, State> {
       props.isSelectedCounter !== state.prevSelectedCounter
     ) {
       return {
-        ...newState,
+        ...state,
         isSelected: props.isSelected,
         prevSelectedCounter: props.isSelectedCounter,
       };
     }
 
-    return newState;
+    return state;
   }
 
   private hasReactions(): boolean {
@@ -423,7 +418,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public override componentDidMount(): void {
     this.startSelectedTimer();
-    this.startDeleteForEveryoneTimer();
+    this.startDeleteForEveryoneTimerIfApplicable();
 
     const { isSelected } = this.props;
     if (isSelected) {
@@ -466,9 +461,10 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public override componentDidUpdate(prevProps: Props): void {
-    const { canDeleteForEveryone, isSelected, status, timestamp } = this.props;
+    const { isSelected, status, timestamp } = this.props;
 
     this.startSelectedTimer();
+    this.startDeleteForEveryoneTimerIfApplicable();
 
     if (!prevProps.isSelected && isSelected) {
       this.setFocus();
@@ -476,10 +472,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     this.checkExpired();
     this.checkForHeightChange(prevProps);
-
-    if (canDeleteForEveryone !== prevProps.canDeleteForEveryone) {
-      this.startDeleteForEveryoneTimer();
-    }
 
     if (
       prevProps.status === 'sending' &&
@@ -534,27 +526,32 @@ export class Message extends React.PureComponent<Props, State> {
     }
   }
 
-  public startDeleteForEveryoneTimer(): void {
-    if (this.deleteForEveryoneTimeout) {
-      clearTimeout(this.deleteForEveryoneTimeout);
-    }
+  private getTimeRemainingForDeleteForEveryone(): number {
+    const { timestamp } = this.props;
+    return Math.max(timestamp - Date.now() + THREE_HOURS, 0);
+  }
 
+  private canDeleteForEveryone(): boolean {
     const { canDeleteForEveryone } = this.props;
+    const { hasDeleteForEveryoneTimerExpired } = this.state;
+    return canDeleteForEveryone && !hasDeleteForEveryoneTimerExpired;
+  }
 
-    if (!canDeleteForEveryone) {
+  private startDeleteForEveryoneTimerIfApplicable(): void {
+    const { canDeleteForEveryone } = this.props;
+    const { hasDeleteForEveryoneTimerExpired } = this.state;
+    if (
+      !canDeleteForEveryone ||
+      hasDeleteForEveryoneTimerExpired ||
+      this.deleteForEveryoneTimeout
+    ) {
       return;
     }
 
-    const { timestamp } = this.props;
-    const timeToDeletion = timestamp - Date.now() + THREE_HOURS;
-
-    if (timeToDeletion <= 0) {
-      this.setState({ canDeleteForEveryone: false });
-    } else {
-      this.deleteForEveryoneTimeout = setTimeout(() => {
-        this.setState({ canDeleteForEveryone: false });
-      }, timeToDeletion);
-    }
+    this.deleteForEveryoneTimeout = setTimeout(() => {
+      this.setState({ hasDeleteForEveryoneTimerExpired: true });
+      delete this.deleteForEveryoneTimeout;
+    }, this.getTimeRemainingForDeleteForEveryone());
   }
 
   public checkExpired(): void {
@@ -1527,8 +1524,6 @@ export class Message extends React.PureComponent<Props, State> {
 
     const canForward = !isTapToView && !deletedForEveryone;
 
-    const { canDeleteForEveryone } = this.state;
-
     const showRetry =
       (status === 'paused' ||
         status === 'error' ||
@@ -1647,7 +1642,7 @@ export class Message extends React.PureComponent<Props, State> {
         >
           {i18n('deleteMessage')}
         </MenuItem>
-        {canDeleteForEveryone ? (
+        {this.canDeleteForEveryone() ? (
           <MenuItem
             attributes={{
               className:
