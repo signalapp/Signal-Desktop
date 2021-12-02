@@ -43,7 +43,7 @@ const LIMIT = 1000;
 
 type SnapshotStateType = {
   canvasState: string;
-  imageState?: ImageStateType;
+  imageState: ImageStateType;
 };
 
 export class FabricHistory extends EventEmitter {
@@ -83,7 +83,7 @@ export class FabricHistory extends EventEmitter {
       return;
     }
 
-    this.takeSnapshot();
+    this.emit('pleaseTakeSnapshot');
   }
 
   private getUndoState(): SnapshotStateType | undefined {
@@ -103,7 +103,7 @@ export class FabricHistory extends EventEmitter {
     return this.snapshots[this.highWatermark];
   }
 
-  public takeSnapshot(imageState?: ImageStateType): void {
+  public takeSnapshot(imageState: ImageStateType): void {
     if (this.isTimeTraveling) {
       return;
     }

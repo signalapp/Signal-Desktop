@@ -58,6 +58,13 @@ enum DrawTool {
   Highlighter = 'Highlighter',
 }
 
+function isCmdOrCtrl(ev: KeyboardEvent): boolean {
+  const { ctrlKey, metaKey } = ev;
+  const commandKey = get(window, 'platform') === 'darwin' && metaKey;
+  const controlKey = get(window, 'platform') !== 'darwin' && ctrlKey;
+  return commandKey || controlKey;
+}
+
 export const MediaEditor = ({
   i18n,
   imageSrc,
@@ -112,33 +119,158 @@ export const MediaEditor = ({
     };
   }, [canvasId, imageSrc, onClose]);
 
+  const history = useFabricHistory(fabricCanvas);
+
   // Keyboard support
   useEffect(() => {
+    if (!fabricCanvas) {
+      return noop;
+    }
+
+    const globalShortcuts: Array<
+      [(ev: KeyboardEvent) => boolean, () => unknown]
+    > = [
+      [
+        ev => isCmdOrCtrl(ev) && ev.key === 'c',
+        () => setEditMode(EditMode.Crop),
+      ],
+      [
+        ev => isCmdOrCtrl(ev) && ev.key === 'd',
+        () => setEditMode(EditMode.Draw),
+      ],
+      [
+        ev => isCmdOrCtrl(ev) && ev.key === 't',
+        () => setEditMode(EditMode.Text),
+      ],
+      [ev => isCmdOrCtrl(ev) && ev.key === 'z', () => history?.undo()],
+      [
+        ev => ev.key === 'Escape',
+        () => {
+          if (fabricCanvas.getActiveObject()) {
+            fabricCanvas.discardActiveObject();
+            fabricCanvas.requestRenderAll();
+          }
+        },
+      ],
+    ];
+
+    const objectShortcuts: Array<
+      [
+        (ev: KeyboardEvent) => boolean,
+        (obj: fabric.Object, ev: KeyboardEvent) => unknown
+      ]
+    > = [
+      [
+        ev => ev.key === 'Delete',
+        obj => {
+          fabricCanvas.remove(obj);
+          setEditMode(undefined);
+        },
+      ],
+      [
+        ev => ev.key === 'ArrowUp',
+        (obj, ev) => {
+          const px = ev.shiftKey ? 20 : 1;
+          if (ev.altKey) {
+            obj.set('angle', (obj.angle || 0) - px);
+          } else {
+            const { x, y } = obj.getCenterPoint();
+            obj.setPositionByOrigin(
+              new fabric.Point(x, y - px),
+              'center',
+              'center'
+            );
+          }
+          obj.setCoords();
+          fabricCanvas.requestRenderAll();
+        },
+      ],
+      [
+        ev => ev.key === 'ArrowLeft',
+        (obj, ev) => {
+          const px = ev.shiftKey ? 20 : 1;
+          if (ev.altKey) {
+            obj.set('angle', (obj.angle || 0) - px);
+          } else {
+            const { x, y } = obj.getCenterPoint();
+            obj.setPositionByOrigin(
+              new fabric.Point(x - px, y),
+              'center',
+              'center'
+            );
+          }
+          obj.setCoords();
+          fabricCanvas.requestRenderAll();
+        },
+      ],
+      [
+        ev => ev.key === 'ArrowDown',
+        (obj, ev) => {
+          const px = ev.shiftKey ? 20 : 1;
+          if (ev.altKey) {
+            obj.set('angle', (obj.angle || 0) + px);
+          } else {
+            const { x, y } = obj.getCenterPoint();
+            obj.setPositionByOrigin(
+              new fabric.Point(x, y + px),
+              'center',
+              'center'
+            );
+          }
+          obj.setCoords();
+          fabricCanvas.requestRenderAll();
+        },
+      ],
+      [
+        ev => ev.key === 'ArrowRight',
+        (obj, ev) => {
+          const px = ev.shiftKey ? 20 : 1;
+          if (ev.altKey) {
+            obj.set('angle', (obj.angle || 0) + px);
+          } else {
+            const { x, y } = obj.getCenterPoint();
+            obj.setPositionByOrigin(
+              new fabric.Point(x + px, y),
+              'center',
+              'center'
+            );
+          }
+          obj.setCoords();
+          fabricCanvas.requestRenderAll();
+        },
+      ],
+    ];
+
     function handleKeydown(ev: KeyboardEvent) {
       if (!fabricCanvas) {
         return;
       }
 
+      globalShortcuts.forEach(([conditional, runShortcut]) => {
+        if (conditional(ev)) {
+          runShortcut();
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+      });
+
       const obj = fabricCanvas.getActiveObject();
 
-      if (!obj) {
+      if (
+        !obj ||
+        obj.excludeFromExport ||
+        (obj instanceof MediaEditorFabricIText && obj.isEditing)
+      ) {
         return;
       }
 
-      if (ev.key === 'Delete') {
-        if (!obj.excludeFromExport) {
-          fabricCanvas.remove(obj);
+      objectShortcuts.forEach(([conditional, runShortcut]) => {
+        if (conditional(ev)) {
+          runShortcut(obj, ev);
+          ev.preventDefault();
+          ev.stopPropagation();
         }
-        ev.preventDefault();
-        ev.stopPropagation();
-      }
-
-      if (ev.key === 'Escape') {
-        fabricCanvas.discardActiveObject();
-        fabricCanvas.requestRenderAll();
-        ev.preventDefault();
-        ev.stopPropagation();
-      }
+      });
     }
 
     document.addEventListener('keydown', handleKeydown);
@@ -146,9 +278,7 @@ export const MediaEditor = ({
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [fabricCanvas]);
-
-  const history = useFabricHistory(fabricCanvas);
+  }, [fabricCanvas, history]);
 
   // Take a snapshot of history whenever imageState changes
   useEffect(() => {
@@ -270,21 +400,25 @@ export const MediaEditor = ({
       setCanRedo(history.canRedo());
     }
 
-    function restoreImageState(prevImageState?: ImageStateType) {
-      if (prevImageState) {
-        isRestoringImageState.current = true;
-        setImageState(prevImageState);
-      }
+    function restoreImageState(prevImageState: ImageStateType) {
+      isRestoringImageState.current = true;
+      setImageState(curr => ({ ...curr, ...prevImageState }));
     }
 
-    history.on('historyChanged', refreshUndoState);
+    function takeSnapshot() {
+      history?.takeSnapshot({ ...imageState });
+    }
+
     history.on('appliedState', restoreImageState);
+    history.on('historyChanged', refreshUndoState);
+    history.on('pleaseTakeSnapshot', takeSnapshot);
 
     return () => {
-      history.off('historyChanged', refreshUndoState);
       history.off('appliedState', restoreImageState);
+      history.off('historyChanged', refreshUndoState);
+      history.off('pleaseTakeSnapshot', takeSnapshot);
     };
-  }, [history]);
+  }, [history, imageState]);
 
   // If you select a text path auto enter edit mode
   useEffect(() => {
@@ -292,8 +426,8 @@ export const MediaEditor = ({
       return;
     }
 
-    function updateEditMode(ev: fabric.IEvent) {
-      if (ev.target?.get('type') === 'MediaEditorFabricIText') {
+    function updateEditMode() {
+      if (fabricCanvas?.getActiveObject() instanceof MediaEditorFabricIText) {
         setEditMode(EditMode.Text);
       } else if (editMode === EditMode.Text) {
         setEditMode(undefined);
@@ -434,6 +568,47 @@ export const MediaEditor = ({
       });
     }
   }, [editMode, fabricCanvas, imageState.height, imageState.width, zoom]);
+
+  useEffect(() => {
+    if (!fabricCanvas) {
+      return;
+    }
+
+    if (editMode !== EditMode.Text) {
+      return;
+    }
+
+    const obj = fabricCanvas.getActiveObject();
+    if (obj instanceof MediaEditorFabricIText) {
+      return;
+    }
+
+    const FONT_SIZE_RELATIVE_TO_CANVAS = 10;
+    const fontSize =
+      Math.min(imageState.width, imageState.height) /
+      FONT_SIZE_RELATIVE_TO_CANVAS;
+    const text = new MediaEditorFabricIText('', {
+      ...getTextStyleAttributes(textStyle, sliderValue),
+      fontSize,
+    });
+    text.setPositionByOrigin(
+      new fabric.Point(imageState.width / 2, imageState.height / 2),
+      'center',
+      'center'
+    );
+    text.setCoords();
+    fabricCanvas.add(text);
+    fabricCanvas.setActiveObject(text);
+
+    text.enterEditing();
+  }, [
+    editMode,
+    fabricCanvas,
+    imageState.height,
+    imageState.width,
+    sliderValue,
+    textStyle,
+  ]);
 
   // In an ideal world we'd use <ModalHost /> to get the nice animation benefits
   // but because of the way IText is implemented -- with a hidden textarea -- to
@@ -604,7 +779,9 @@ export const MediaEditor = ({
               }
 
               const center = obj.getCenterPoint();
-              obj.set('angle', (imageState.angle + 270) % 360);
+
+              obj.set('angle', ((obj.angle || 0) - 90) % 360);
+
               obj.setPositionByOrigin(
                 new fabric.Point(center.y, imageState.width - center.x),
                 'center',
@@ -793,27 +970,6 @@ export const MediaEditor = ({
                 if (editMode === EditMode.Text) {
                   setEditMode(undefined);
                 } else {
-                  const FONT_SIZE_RELATIVE_TO_CANVAS = 10;
-                  const fontSize =
-                    Math.min(imageState.width, imageState.height) /
-                    FONT_SIZE_RELATIVE_TO_CANVAS;
-                  const text = new MediaEditorFabricIText('', {
-                    ...getTextStyleAttributes(textStyle, sliderValue),
-                    fontSize,
-                  });
-                  text.setPositionByOrigin(
-                    new fabric.Point(
-                      imageState.width / 2,
-                      imageState.height / 2
-                    ),
-                    'center',
-                    'center'
-                  );
-                  text.setCoords();
-                  fabricCanvas.add(text);
-                  fabricCanvas.setActiveObject(text);
-
-                  text.enterEditing();
                   setEditMode(EditMode.Text);
                 }
               }}
