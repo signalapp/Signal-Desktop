@@ -28,9 +28,9 @@ const renderText: RenderTextCallbackType = ({ key, text }) => (
 
 const releaseNotes: ReleaseNotesType = {
   date: new Date(window.getBuildCreation?.() || Date.now()),
-  version: window.getVersion(),
-  features: [1].map(n => ({
-    key: `WhatsNew__v5.25--${n}`,
+  version: window.getVersion?.(),
+  features: [1, 2].map(n => ({
+    key: `WhatsNew__v5.26--${n}`,
     components: undefined,
   })),
 };

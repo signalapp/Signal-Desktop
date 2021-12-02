@@ -6673,5 +6673,13 @@
   "WhatsNew__bugfixes": {
     "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes"
+  },
+  "WhatsNew__v5.26--1": {
+    "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+    "description": "Release notes for v5.26"
+  },
+  "WhatsNew__v5.26--2": {
+    "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+    "description": "Release notes for v5.26"
   }
 }
