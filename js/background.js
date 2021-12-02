@@ -427,7 +427,7 @@
     Whisper.Notifications.disable(); // avoid notification flood until empty
     setTimeout(() => {
       Whisper.Notifications.enable();
-    }, window.CONSTANTS.NOTIFICATION_ENABLE_TIMEOUT_SECONDS * 1000);
+    }, 10 * 1000); // 10 sec
 
     window.NewReceiver.queueAllCached();
     window.libsession.Utils.AttachmentDownloads.start({

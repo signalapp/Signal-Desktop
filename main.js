@@ -246,7 +246,7 @@ async function createWindow() {
       minWidth,
       minHeight,
       autoHideMenuBar: false,
-      backgroundColor: '#fff',
+      backgroundColor: '#000',
       webPreferences: {
         nodeIntegration: false,
         enableRemoteModule: true,
@@ -535,7 +535,7 @@ function showAbout() {
     resizable: false,
     title: locale.messages.about,
     autoHideMenuBar: true,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#000',
     show: false,
     webPreferences: {
       nodeIntegration: false,
@@ -577,7 +577,7 @@ async function showDebugLogWindow() {
     resizable: false,
     title: locale.messages.debugLog,
     autoHideMenuBar: true,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#000',
     show: false,
     modal: true,
     webPreferences: {

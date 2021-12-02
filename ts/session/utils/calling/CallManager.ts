@@ -37,6 +37,8 @@ export const callTimeoutMs = 30000;
  */
 let currentCallUUID: string | undefined;
 
+let currentCallStartTimestamp: number | undefined;
+
 const rejectedCallUUIDS: Set<string> = new Set();
 
 export type CallManagerOptionsType = {
@@ -591,12 +593,16 @@ function handleConnectionStateChanged(pubkey: string) {
     if (firstAudioOutput) {
       void selectAudioOutputByDeviceId(firstAudioOutput);
     }
+
+    currentCallStartTimestamp = Date.now();
+
     window.inboxStore?.dispatch(callConnected({ pubkey }));
   }
 }
 
 function closeVideoCall() {
   window.log.info('closingVideoCall ');
+  currentCallStartTimestamp = undefined;
   setIsRinging(false);
   if (peerConnection) {
     peerConnection.ontrack = null;
@@ -909,13 +915,13 @@ export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: stri
 
   if (aboutCallUUID) {
     rejectedCallUUIDS.add(aboutCallUUID);
+    const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
 
     clearCallCacheFromPubkeyAndUUID(sender, aboutCallUUID);
 
     // this is a end call from ourself. We must remove the popup about the incoming call
     // if it matches the owner of this callUUID
     if (sender === UserUtils.getOurPubKeyStrFromCache()) {
-      const { ongoingCallStatus, ongoingCallWith } = getCallingStateOutsideOfRedux();
       const ownerOfCall = getOwnerOfCallUUID(aboutCallUUID);
 
       if (
@@ -928,8 +934,17 @@ export async function handleCallTypeEndCall(sender: string, aboutCallUUID?: stri
       return;
     }
 
+    // remote user hangup while we were on the call with him
     if (aboutCallUUID === currentCallUUID) {
       closeVideoCall();
+      window.inboxStore?.dispatch(endCall());
+    } else if (
+      ongoingCallWith === sender &&
+      (ongoingCallStatus === 'incoming' || ongoingCallStatus === 'connecting')
+    ) {
+      // remote user hangup an offer he sent but we did not accept it yet
+      setIsRinging(false);
+
       window.inboxStore?.dispatch(endCall());
     }
   }
@@ -1295,8 +1310,15 @@ export function onTurnedOnCallMediaPermissions() {
           Date.now() - msg.timestamp < DURATION.MINUTES * 1
         ) {
           window.inboxStore?.dispatch(incomingCall({ pubkey: key }));
+          break;
         }
       }
     });
   });
+}
+
+export function getCurrentCallDuration() {
+  return currentCallStartTimestamp
+    ? Math.floor((Date.now() - currentCallStartTimestamp) / 1000)
+    : undefined;
 }

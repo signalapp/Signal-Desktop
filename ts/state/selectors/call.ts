@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { CallStateType } from '../ducks/call';
+import { CallStateType, CallStatusEnum } from '../ducks/call';
 import { ConversationsStateType, ReduxConversationType } from '../ducks/conversations';
 import { StateType } from '../reducer';
 import { getConversations, getSelectedConversationKey } from './conversations';
@@ -55,37 +55,40 @@ export const getHasOngoingCallWithFocusedConvo = createSelector(
   }
 );
 
-export const getHasOngoingCallWithFocusedConvoIsOffering = createSelector(
+const getCallStateWithFocusedConvo = createSelector(
   getCallState,
   getSelectedConversationKey,
-  (callState: CallStateType, selectedConvoPubkey?: string): boolean => {
+  (callState: CallStateType, selectedConvoPubkey?: string): CallStatusEnum => {
     if (
-      !selectedConvoPubkey ||
-      !callState.ongoingWith ||
-      callState.ongoingCallStatus !== 'offering' ||
-      selectedConvoPubkey !== callState.ongoingWith
+      selectedConvoPubkey &&
+      callState.ongoingWith &&
+      selectedConvoPubkey === callState.ongoingWith
     ) {
-      return false;
+      return callState.ongoingCallStatus;
     }
 
-    return true;
+    return undefined;
   }
 );
 
-export const getHasOngoingCallWithFocusedConvosIsConnecting = createSelector(
-  getCallState,
-  getSelectedConversationKey,
-  (callState: CallStateType, selectedConvoPubkey?: string): boolean => {
-    if (
-      !selectedConvoPubkey ||
-      !callState.ongoingWith ||
-      callState.ongoingCallStatus !== 'connecting' ||
-      selectedConvoPubkey !== callState.ongoingWith
-    ) {
-      return false;
-    }
+export const getCallWithFocusedConvoIsOffering = createSelector(
+  getCallStateWithFocusedConvo,
+  (callState: CallStatusEnum): boolean => {
+    return callState === 'offering';
+  }
+);
 
-    return true;
+export const getCallWithFocusedConvosIsConnecting = createSelector(
+  getCallStateWithFocusedConvo,
+  (callState: CallStatusEnum): boolean => {
+    return callState === 'connecting';
+  }
+);
+
+export const getCallWithFocusedConvosIsConnected = createSelector(
+  getCallStateWithFocusedConvo,
+  (callState: CallStatusEnum): boolean => {
+    return callState === 'ongoing';
   }
 );
 

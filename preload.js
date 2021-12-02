@@ -55,12 +55,6 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
   }
 };
 
-// eslint-disable-next-line func-names
-window.CONSTANTS = new (function() {
-  // Number of seconds to turn on notifications after reconnect/start of app
-  this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
-})();
-
 window.versionInfo = {
   environment: window.getEnvironment(),
   version: window.getVersion(),
@@ -270,9 +264,7 @@ window.moment.updateLocale(localeSetForMoment, {
 });
 
 window.libsession = require('./ts/session');
-window.models = require('./ts/models');
 
-window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
 window.Signal.Logs = require('./js/modules/logs');
@@ -287,16 +279,6 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
-window.Fsv2 = require('./ts/fileserver/FileServerApiV2');
-window.DataMessageReceiver = require('./ts/receiver/dataMessage');
-window.NewSnodeAPI = require('./ts/session/snode_api/SNodeAPI');
-window.SnodePool = require('./ts/session/snode_api/snodePool');
-
-// eslint-disable-next-line no-extend-native,func-names
-Promise.prototype.ignore = function() {
-  // eslint-disable-next-line more/no-then
-  this.then(() => {});
-};
 
 // Blocking
 

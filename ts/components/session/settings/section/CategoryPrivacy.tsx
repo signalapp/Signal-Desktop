@@ -59,6 +59,8 @@ export const SettingsCategoryPrivacy = (props: {
   const forceUpdate = useUpdate();
   const dispatch = useDispatch();
 
+  const hasMessageRequestFlag = window.lokiFeatureFlags.useMessageRequests;
+
   if (props.hasPassword !== null) {
     return (
       <>
@@ -71,7 +73,6 @@ export const SettingsCategoryPrivacy = (props: {
           description={window.i18n('mediaPermissionsDescription')}
           active={Boolean(window.getSettingValue('media-permissions'))}
         />
-
         {window.lokiFeatureFlags.useCallMessage && (
           <SessionToggleWithDescription
             onClickToggle={async () => {
@@ -113,14 +114,16 @@ export const SettingsCategoryPrivacy = (props: {
           description={window.i18n('autoUpdateSettingDescription')}
           active={Boolean(window.getSettingValue(settingsAutoUpdate))}
         />
-        <SessionToggleWithDescription
-          onClickToggle={() => {
-            dispatch(toggleMessageRequests());
-          }}
-          title={window.i18n('messageRequests')}
-          description={window.i18n('messageRequestsDescription')}
-          active={useSelector(getIsMessageRequestsEnabled)}
-        />
+        {hasMessageRequestFlag && (
+          <SessionToggleWithDescription
+            onClickToggle={() => {
+              dispatch(toggleMessageRequests());
+            }}
+            title={window.i18n('messageRequests')}
+            description={window.i18n('messageRequestsDescription')}
+            active={useSelector(getIsMessageRequestsEnabled)}
+          />
+        )}
         {!props.hasPassword && (
           <SessionSettingButtonItem
             title={window.i18n('setAccountPasswordTitle')}

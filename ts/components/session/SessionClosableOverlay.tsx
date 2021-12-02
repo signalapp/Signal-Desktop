@@ -177,7 +177,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               placeholder={placeholder}
               value={groupName}
               isGroup={true}
-              maxLength={window.CONSTANTS.MAX_GROUPNAME_LENGTH}
+              maxLength={100}
               onChange={this.onGroupNameChanged}
               onPressEnter={() => onButtonClick(groupName, selectedMembers)}
             />

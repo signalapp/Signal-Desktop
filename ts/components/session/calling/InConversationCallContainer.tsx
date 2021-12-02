@@ -1,14 +1,15 @@
-import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
+import React, { useRef, useState } from 'react';
 
 import styled from 'styled-components';
 import _ from 'underscore';
-import { UserUtils } from '../../../session/utils';
+import { CallManager, UserUtils } from '../../../session/utils';
 import {
   getCallIsInFullScreen,
+  getCallWithFocusedConvoIsOffering,
+  getCallWithFocusedConvosIsConnected,
+  getCallWithFocusedConvosIsConnecting,
   getHasOngoingCallWithFocusedConvo,
-  getHasOngoingCallWithFocusedConvoIsOffering,
-  getHasOngoingCallWithFocusedConvosIsConnecting,
   getHasOngoingCallWithPubkey,
 } from '../../../state/selectors/call';
 import { StyledVideoElement } from './DraggableCallContainer';
@@ -19,11 +20,15 @@ import { useModuloWithTripleDots } from '../../../hooks/useModuloWithTripleDots'
 import { CallWindowControls } from './CallButtons';
 import { SessionSpinner } from '../SessionSpinner';
 import { DEVICE_DISABLED_DEVICE_ID } from '../../../session/utils/calling/CallManager';
+// tslint:disable-next-line: no-submodule-imports
+import useInterval from 'react-use/lib/useInterval';
+import moment from 'moment';
 
 const VideoContainer = styled.div`
   height: 100%;
   width: 50%;
   z-index: 0;
+  padding-top: 30px; // leave some space at the top for the connecting/duration of the current call
 `;
 
 const InConvoCallWindow = styled.div`
@@ -66,10 +71,11 @@ const StyledCenteredLabel = styled.div`
   white-space: nowrap;
   color: white;
   text-shadow: 0px 0px 8px white;
+  z-index: 5;
 `;
 
 const RingingLabel = () => {
-  const ongoingCallWithFocusedIsRinging = useSelector(getHasOngoingCallWithFocusedConvoIsOffering);
+  const ongoingCallWithFocusedIsRinging = useSelector(getCallWithFocusedConvoIsOffering);
 
   const modulatedStr = useModuloWithTripleDots(window.i18n('ringing'), 3, 1000);
   if (!ongoingCallWithFocusedIsRinging) {
@@ -79,9 +85,7 @@ const RingingLabel = () => {
 };
 
 const ConnectingLabel = () => {
-  const ongoingCallWithFocusedIsConnecting = useSelector(
-    getHasOngoingCallWithFocusedConvosIsConnecting
-  );
+  const ongoingCallWithFocusedIsConnecting = useSelector(getCallWithFocusedConvosIsConnecting);
 
   const modulatedStr = useModuloWithTripleDots(window.i18n('establishingConnection'), 3, 1000);
 
@@ -90,6 +94,29 @@ const ConnectingLabel = () => {
   }
 
   return <StyledCenteredLabel>{modulatedStr}</StyledCenteredLabel>;
+};
+
+const DurationLabel = () => {
+  const [callDuration, setCallDuration] = useState<undefined | number>(undefined);
+  const ongoingCallWithFocusedIsConnected = useSelector(getCallWithFocusedConvosIsConnected);
+
+  useInterval(() => {
+    const duration = CallManager.getCurrentCallDuration();
+    if (duration) {
+      setCallDuration(duration);
+    }
+  }, 100);
+
+  if (!ongoingCallWithFocusedIsConnected || !callDuration || callDuration < 0) {
+    return null;
+  }
+
+  const ms = callDuration * 1000;
+  const d = moment.duration(ms);
+
+  // tslint:disable-next-line: restrict-plus-operands
+  const dateString = Math.floor(d.asHours()) + moment.utc(ms).format(':mm:ss');
+  return <StyledCenteredLabel>{dateString}</StyledCenteredLabel>;
 };
 
 const StyledSpinner = styled.div<{ fullWidth: boolean }>`
@@ -167,6 +194,7 @@ export const InConversationCallContainer = () => {
       <RelativeCallWindow>
         <RingingLabel />
         <ConnectingLabel />
+        <DurationLabel />
         <VideoContainer>
           <VideoLoadingSpinner fullWidth={false} />
           <StyledVideoElement
