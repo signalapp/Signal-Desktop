@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Otsi vestlusest $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Tulemusi pole: \"$searchTerm$\"",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Sõnumid",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Tere tulemast Signalisse",
@@ -1293,13 +1301,9 @@
         "message": "Ikoon näitamaks, et sellel pildil on seletus.",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Lisa pealkiri...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Salvesta",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Lähtesta",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Vestlusi ei leitud",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Vali liikmed",
@@ -3333,9 +3351,15 @@
         "message": "Eemalda blokeering",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Kas eemaldada $name$ blokeering?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Teil on võimalik üksteisele sõnumeid saata ja helistada.",
@@ -5287,6 +5311,30 @@
         "message": "järgmine",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Sätete avamiseks klõpsa enda profiilifotol üleval vasakul",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Laienda",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "message": "Kasutajanimed on Signalis vabatahtlikud. Kui otsustad endale Signalis kasutajanime luua, siis saavad teised Signali kasutajad leida sind kasutajanime järgi ja võtta ühendust sinu telefoninumbrit teadmata.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Mis on uut",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Tõmba hinge ja lõdvestu uute dialoogide ja hüpikakende animatsioonidega. Kergelt sisse. Kergelt välja. Kergelt sisse. Kergelt välja.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Klaviatuuripaigutuste vahetamine on alati pisut riskantne, aga nüüd liiguvad klaviatuuri kiirklahvid sinuga koos, jõudes täpsest vajutatud tähest kaugemale ja austades sinu tahet.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Nüüd saad grupikõne käivitumisel teavituse. Sa ei jää enam kunagi hiljaks, välja arvatud siis kui seda soovidki.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "See funktsioon on mõeldud neile, kes reageerivad 💅 tihedamini kui 👍: nüüd saad kohandada, millised emojid ilmuvad vaikimisi, kui soovid sõnumile reageerida..",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",

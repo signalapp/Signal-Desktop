@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Ieškoti pokalbyje $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "„$searchTerm$“ negrąžino jokių rezultatų",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Žinutės",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Rasti pagal naudotojo vardą",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Sveiki atvykę į Signal",
@@ -1293,13 +1301,9 @@
         "message": "Piktograma, rodanti, kad šis paveikslas turi paaiškinimą",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Pridėti paaiškinimą...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Įrašyti",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Atstatyti",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Nerasta jokių pokalbių",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Nepavyko gauti naudotojo vardo. Patikrinkite interneto ryšį ir bandykite dar kartą.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Naudotojas nerastas. $atUsername$ nėra Signal naudotojas; įsitikinkite, kad įvedėte pilną naudotojo vardą.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Pasirinkite narius",
@@ -3333,9 +3351,15 @@
         "message": "Atblokuoti",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Atblokuoti $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Galėsite vieni kitiems rašyti žinutes bei skambinti.",
@@ -5287,6 +5311,30 @@
         "message": "kitas",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Tapti remėju",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Tapkite remėju",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal veikia dėka tokių žmonių kaip jūs. Prisidėkite ir gaukite ženkliuką.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Atverkite savo telefone Signal programėlę",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Viršutiniame kairiajame kampe bakstelėkite ant savo profilio nuotraukos, kad būtų atverti Nustatymai",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Spustelėkite ant „Tapti remėju“ ir prenumeruokite",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Išskleisti",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Naudotojo vardai Signal programėlėje yra nebūtini. Jei pasirinksite susikurti naudotojo vardą ir padaryti jį randamą, tuomet kiti Signal naudotojai galės jus rasti pagal tą naudotojo vardą ir susisiekti su jumis, nežinodami jūsų telefono numerio.",
+        "message": "Naudotojo vardai Signal programėlėje yra nebūtini. Jei pasirinksite susikurti naudotojo vardą, kiti Signal naudotojai galės jus rasti pagal tą naudotojo vardą ir su jumis susisiekti, nežinant jūsų telefono numerio.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Giliai įkvėpkite ir mėgaukitės naujomis dialogų ir iškylančiųjų langų animacijomis.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Klaviatūros išdėstymų perjungimas visada būna šiek tiek keblus, bet dabar, spartieji klavišai seks paskui jus ir gerbs jūsų spaudžiamą klavišų pasirinkimą.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Dabar, kas kartą prasidedant grupės skambučiui, gausite pranešimą. Daugiau į skambutį nebevėluosite, nebent patys to norėsite.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Ši ypatybė skirta visiems, kurie daugiau reaguoja 💅 nei 👍: dabar, galite tinkinti šypsenėles, kurios pagal numatymą atsiras, kai norėsite reaguoti į žinutę.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Iš pirmo žvilgsnio pamatykite daugiau informacijos 👀. Kairysis polangis įgavo atnaujintą išvaizdą ir stilių 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Žinokite nuo iki. Dabar išsamesnėje žinutės informacijoje yra rodoma laiko žymą, jei prieinama, susieta su pristatymo, skaitymo, išsiuntimo ir kitais būsenos pranešimais.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Dabar, ekrano skaityklės naudotojams turėtų būti lengviau naršyti po pokalbių sąrašą kairiajame polangyje.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Nuo šiol galite atlikti paiešką archyvuotuose pokalbiuose. Įsivaizduokite save. kaip (greitai) ieškote senuosiuose tomuose, bandydami rasti kitos užuominos.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reaguojate į žinutę? Dabar šis procesas turėtų būti patikimesnis. Nepavykus, bus 24 valandas vis bandoma iš naujo",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",

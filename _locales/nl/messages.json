@@ -696,7 +696,7 @@
         "description": "Displayed when the desktop client has no network connection."
     },
     "checkNetworkConnection": {
-        "message": "Ga na dat je netwerkverbinding werkt.",
+        "message": "Ga na dat je apparaat met het internet is verbonden.",
         "description": "Obvious instructions for when a user's computer loses its network connection"
     },
     "submitDebugLog": {
@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Zoeken in ‘$conversationName$’",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Geen resultaten voor ‘$searchTerm$’",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Berichten",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Zoeken op gebruikersnaam",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Welkom bij Signal",
@@ -1072,7 +1080,7 @@
         "description": ""
     },
     "failedToSend": {
-        "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je apparaat internetverbinding heeft.",
+        "message": "Verzenden naar bepaalde ontvangers mislukt. Ga na dat je apparaat met het internet is verbonden.",
         "description": ""
     },
     "error": {
@@ -1293,13 +1301,9 @@
         "message": "Pictogram dat laat zien dat deze afbeelding een bijschrift heeft",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Voeg een bijschrift toe …",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Opslaan",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Standaardinstelling herstellen",
@@ -2273,6 +2277,20 @@
         "message": "Er zijn geen gesprekken gevonden",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--failed-to-fetch-username": {
+        "message": "Het ophalen van de gebruikersnaam is mislukt. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "De gebruikersnaam is niet gevonden. $atUsername$ is geen Signalgebruiker. Ga na dat je de volledige gebruikersnaam hebt ingevoerd.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
+    },
     "chooseGroupMembers__title": {
         "message": "Kies leden",
         "description": "The title for the 'choose group members' left pane screen"
@@ -2356,7 +2374,7 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Deze groep kan niet worden aangemaakt. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
+        "message": "Deze groep kan niet worden aangemaakt. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
@@ -2364,7 +2382,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "De groep bijwerken is mislukt. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
+        "message": "De groep bijwerken is mislukt. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2694,7 +2712,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Fout bij het openen van een stickerpakket. Ga na dat je apparaat internetverbinding heeft en probeer het opnieuw.",
+        "message": "Fout bij het openen van een stickerpakket. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -3333,9 +3351,15 @@
         "message": "Deblokkeren",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "$name$ deblokkeren?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Jullie zullen weer berichten aan elkaar kunnen verzenden en elkaar weer kunnen bellen via Signal.",
@@ -3816,7 +3840,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Overschakelen naar huidige-spreker weergave",
+        "message": "Overschakelen naar huidige-spreker-weergave",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -5287,6 +5311,30 @@
         "message": "Volgende",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Help Signal mogelijk maken",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Help Signal mogelijk maken",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal wordt onder andere gefinancierd door donaties van mensen zoals jij. Als je ons steunt krijg je een badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open de Signal app op je telefoon",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Tik in de linkerbovenhoek op je profielfoto om de instellingen te openen",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tik op ‘Help Signal mogelijk maken’",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Vergroten",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Gebruikersnamen in Signal zijn optioneel. Als je een gebruikersnaam aanmaakt en publiekelijk vindbaar maakt zullen andere Signal gebruikers je kunnen vinden met deze naam en contact met je kunnen opnemen zonder je telefoonnummer te kennen.",
+        "message": "Gebruikersnamen zijn optioneel op Signal. Als je er voor kiest om een gebruikersnaam aan te maken, dan kunnen andere Signal-gebruikers je vinden via die gebruikersnaam en kunnen ze contact met je opnemen zonder je telefoonnummer te kennen.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Nieuwe animaties voor pop-up vensters",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Als je naar een andere toetsenbord-layout overstapt dan veranderen de sneltoetsen met je mee",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Vanaf nu krijg je een melding als er een groepsoproep wordt gestart",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Je kunt vanaf nu zelf de standaard emoji-reacties instellen",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Zie meer in minder tijd 👀. De gesprekkenlijst aan de linker kant is opnieuw ontworpen 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "De tijdsindicaties over wanneer een bericht is afgeleverd, gelezen, verzonden en andere statussen worden vanaf nu weergegeven in het berichtdetails-scherm.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Het zou nu makkelijker moeten zijn voor gebruikers van schermlezers om te navigeren door de gesprekkenlijst aan de linker kant.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Je kunt vanaf nu ook gearchive gesprekken doorzoeken.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Het verzenden van een emoji-reactie op een bericht zou vanaf nu betrouwbaarder moeten zijn. Als het niet lukt probeert Signal het automatisch opnieuw.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",

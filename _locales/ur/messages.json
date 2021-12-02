@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "$conversationName$ میں تلاش کریں",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "\"$searchTerm$\" کے لئے کوئی نتیجہ نہیں",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "پیغامات",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Signal میں خوش آمدید",
@@ -1293,13 +1301,9 @@
         "message": "آئیکن ظاہر کررہی ہے کہ اس تصویر میں ایک عنوان ہے",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "ایک عنوان شامل کریں ...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "محفوظ",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "دوبارہ بحال کریں",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "کوئی گفتگو نہیں ملی",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "ممبروں کا انتخاب کریں",
@@ -3333,9 +3351,15 @@
         "message": "ان بلاک",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "غیر مسدود $name$؟",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "آپ ایک دوسرے کو پیغام بھیجنے اور کال کرنے کے اہل ہوں گے۔",
@@ -5287,6 +5311,30 @@
         "message": "اگلے",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "ترتیبات کو کھولنے کے لئے بائیں طرف اوپر اپنے پروفائل فوٹو پر ٹیپ کریں",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "پھیلائیں",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Usernames on Signal are optional. If you choose to create a username and make it searchable, other Signal users will be able to find you by this username and contact you without knowing your phone number.",
+        "message": "Signal پر صارف کا نام آپشنل ہے۔ اگر آپ صارف کا نام بنانا منتخب کرتے ہیں دوسرے Signal صارفین  اس صارف کے نام کے زریعے تلاش کرنے کے قابل ہوں گے اور فون نمبر کے بغیر آپ سے رابطہ کرسکتے ہیں۔",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "What's New",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Take a breath and relax into the new animations for dialogs and popups. Ease in. Ease out. Ease in. Ease out.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Switching keyboard layouts is always a bit tricky, but keyboard shortcuts now track right along with you, reaching beyond the specific letter pressed to honor your intent.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "When a group call starts, you now get a notification. You'll never be late again, unless you want to be.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "This feature goes out to everyone who reacts with 💅 more than 👍: you can now customize the emojis that appear by default when you want to react to a message.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Get more information at a glance 👀. The left pane has got a fresh new look and style 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Know the when to the what. The timestamp, if available, associated with delivered, read, sent, and other status messages are now displayed in the message's details screen.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Screen reader users should now find it easier to navigate through the conversation list on the left pane.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

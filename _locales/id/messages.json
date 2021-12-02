@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Cari di $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Tidak ada hasil untuk \"$searchTerm$\"",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Pesan",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Temukan menggunakan Nama pengguna",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Selamat datang di Signal",
@@ -1293,13 +1301,9 @@
         "message": "Ikon menunjukkan bahwa gambar ini memiliki keterangan",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Tambahkan keterangan...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Simpan",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Atur ulang",
@@ -1812,7 +1816,7 @@
         "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
     },
     "spellCheckWillBeDisabled": {
-        "message": "Pengecek ejaan akan padam saat Signal diaktifkan kembali.",
+        "message": "Pengecek ejaan akan dimatikan saat Signal dinyalakan kembali.",
         "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
     },
     "SystemTraySetting__minimize-to-system-tray": {
@@ -1824,7 +1828,7 @@
         "description": "In the settings, shown next to the checkbox option for starting in the system tray"
     },
     "autoLaunchDescription": {
-        "message": "Buka saat menyalakan komputer",
+        "message": "Buka saat masuk komputer",
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
@@ -2154,7 +2158,7 @@
         "description": "Description for incoming calls setting"
     },
     "contactChangedProfileName": {
-        "message": "$sender$ mengubah nama profil dari $oldProfile$ to $newProfile$.",
+        "message": "$sender$ mengubah nama profil dari $oldProfile$ menjadi $newProfile$.",
         "description": "Description for incoming calls setting",
         "placeholders": {
             "sender": {
@@ -2212,7 +2216,7 @@
         "description": "Label on button included with safety number change notification in the conversation"
     },
     "cannotGenerateSafetyNumber": {
-        "message": "Penguna ini tidak bisa diverifikasi sampai Anda menggantikan pesan dengan mereka.",
+        "message": "Penguna ini tidak bisa diverifikasi sampai Anda bertukar pesan dengan mereka.",
         "description": "Shown on the safety number screen if you have never exchanged messages with that contact"
     },
     "yourSafetyNumberWith": {
@@ -2246,7 +2250,7 @@
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
-        "message": "Gambar dalam jendela ini saat notifikasi sampai",
+        "message": "Sorot pada jendela ini saat notifikasi sampai",
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Tidak ada percakapan ditemukan",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Gagal memperoleh nama pengguna. Periksa koneksi Anda dan coba lagi.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Pengguna tidak ditemukan. $atUsername$ bukan pengguna Signal; pastikan Anda memasukkan nama pengguna yang lengkap.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Pilih anggota",
@@ -2322,7 +2340,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" tidak dapat ditambahkan ke dalam grup karena ia menggunakan Signal versi lama. Anda dapat menambahkannya ke dalam grup setelah memperbarui Signal.",
+        "message": "\"$name$\" tidak dapat ditambahkan ke dalam grup karena ia menggunakan Signal versi lama. Anda dapat menambahkannya ke dalam grup setelah mereka memperbarui Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2360,7 +2378,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Ubah grup",
+        "message": "Sunting grup",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2396,7 +2414,7 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Klik untuk memulai Signal kembali",
+        "message": "Klik untuk memulai ulang Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
@@ -2454,7 +2472,7 @@
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
-        "message": "Logo grup telah dimutakhirkan.",
+        "message": "Avatar grup telah diperbarui.",
         "description": "Shown in the conversation history when someone updates the group"
     },
     "titleIsNow": {
@@ -2578,7 +2596,7 @@
         "description": "Shown in notifications and in the left pane when a message has features too new for this signal install."
     },
     "message--getDescription--disappearing-media": {
-        "message": "Media satu-tayangan",
+        "message": "Media sekali-lihat",
         "description": "Shown in notifications and in the left pane after view-once message is deleted. Also shown when quoting a view once media."
     },
     "message--getDescription--disappearing-photo": {
@@ -2804,7 +2822,7 @@
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
-        "message": "Pesan sekali-lihat tidak tersimpan di sejarah percakapan Anda.",
+        "message": "Pesan sekali-lihat tidak tersimpan di riwayat percakapan Anda.",
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
@@ -2908,7 +2926,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Ganti pemilih emoji-reaksi untuk pesan yang dipilih",
+        "message": "Alihkan pemilih tanggapan-emoji untuk pesan yang dipilih",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
@@ -2916,11 +2934,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Hapus pesan yang dipilih?",
+        "message": "Hapus pesan yang dipilih",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Tambahkan baris baru ke dalam pasan",
+        "message": "Tambahkan baris baru ke dalam pesan",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2952,7 +2970,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--option": {
-        "message": "Pilihan",
+        "message": "Option",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--alt": {
@@ -2964,7 +2982,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--enter": {
-        "message": "Masukkan",
+        "message": "Enter",
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--tab": {
@@ -2972,7 +2990,7 @@
         "description": "Key shown in shortcut combination in shortcuts guide"
     },
     "Keyboard--Key--one-to-nine-range": {
-        "message": "1 hingga 9",
+        "message": "1 sampai 9",
         "description": "Expresses that 1, 2, 3, up to 9 are available shortcut keys"
     },
     "Keyboard--header": {
@@ -2988,11 +3006,11 @@
         "description": "Header of the keyboard shortcuts guide - messages section"
     },
     "Keyboard--composer-header": {
-        "message": "Isi pesan",
+        "message": "Penyusun pesan",
         "description": "Header of the keyboard shortcuts guide - composer section"
     },
     "Keyboard--scroll-to-top": {
-        "message": "Lihat ke bagian paling atas dari daftar",
+        "message": "Gulir ke bagian paling atas dari daftar",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--scroll-to-bottom": {
@@ -3004,7 +3022,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
-        "message": "Panggilan",
+        "message": "Memanggil",
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
@@ -3044,7 +3062,7 @@
         "description": "A toast that shows up when the user unarchives a conversation"
     },
     "conversationMarkedUnread": {
-        "message": "Percakapan ditandai telah dibaca",
+        "message": "Percakapan ditandai belum dibaca",
         "description": "A toast that shows up when user marks a conversation as unread"
     },
     "StickerCreator--title": {
@@ -3052,7 +3070,7 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Pilih dan tambahkan gambar ke sini",
+        "message": "Klik untuk tambahkan gambar ke sini",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
@@ -3060,7 +3078,7 @@
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
-        "message": "Koleksi stiker",
+        "message": "Paket stiker",
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
@@ -3096,7 +3114,7 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Tambahkan stiker anda",
+        "message": "Tambahkan stiker Anda",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
@@ -3134,7 +3152,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Beberapa informasi tambahan...",
+        "message": "Beberapa detail tambahan...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3154,7 +3172,7 @@
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Unggah koleksi stiker?",
+        "message": "Apa Anda yakin ingin mengunggah paket stiker Anda?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -3162,15 +3180,15 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Anda tidak dapat mengubah atau menghapus setelah selesai membuat koleksi stiker.",
+        "message": "Anda tidak dapat menyunting atau menghapus setelah selesai membuat paket stiker.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
-        "message": "Buat koleksi stiker Anda",
+        "message": "Buat paket stiker Anda",
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "Terunggah: $count$dari  $total$",
+        "message": "$count$ dari $total$ diunggah",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3184,15 +3202,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Selamat! Anda telah mebuat koleksi stiker.",
+        "message": "Selamat! Anda telah mebuat paket stiker.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Akses stiker baru melalui ikon stiker, atau bagikan koleksi stiker dengan teman melalui tautan di bawah.",
+        "message": "Akses stiker baru Anda melalui ikon stiker, atau bagikan koleksi stiker dengan teman menggunakan tautan di bawah.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Gunakan tagar  $hashtag$ untuk membantu orang lain menemukan URL koleksi stiker yang Anda ingin bagikan kepada publik.",
+        "message": "Gunakan tagar  $hashtag$ untuk membantu orang lain menemukan URL paket stiker yang Anda ingin bagikan kepada publik.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3202,7 +3220,7 @@
         }
     },
     "StickerCreator--ShareStage--copyTitle": {
-        "message": "URL Koleksi Stiker",
+        "message": "URL Paket Stiker",
         "description": "Title for the copy button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--close": {
@@ -3210,15 +3228,15 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Buat koleksi stiker lain",
+        "message": "Buat paket stiker lain",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Lihat koleksi stikerku di Signal. #stikerpribadiku #makeprivacystick",
+        "message": "Lihat paket stiker baru yang saya buat di Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
-        "message": "$count$gambar telah ditambahkan",
+        "message": "$count$ gambar telah ditambahkan",
         "description": "Text for the toast when images are added to the sticker creator",
         "placeholders": {
             "count": {
@@ -3256,7 +3274,7 @@
         "description": "Text for the toast when an APNG image in the sticker creator is too small"
     },
     "StickerCreator--Toasts--errorUploading": {
-        "message": "Gagal mengunggah koleksi stiker:  $message$",
+        "message": "Gagal mengunggah stiker:  $message$",
         "description": "Text for the toast when a sticker pack cannot be uploaded",
         "placeholders": {
             "message": {
@@ -3266,19 +3284,19 @@
         }
     },
     "StickerCreator--Toasts--linkedCopied": {
-        "message": "Tautan tersalin",
+        "message": "Tautan disalin",
         "description": "Text for the toast when a link for sharing is copied from the Sticker Creator"
     },
     "StickerCreator--StickerPreview--light": {
-        "message": "Stikerku dengan tema terang",
+        "message": "Stiker saya dengan tema terang",
         "description": "Text for the sticker preview for the light theme"
     },
     "StickerCreator--StickerPreview--dark": {
-        "message": "Stikerku dengan tema gelap",
+        "message": "Stiker saya dengan tema gelap",
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Atur Signal pada ponsel dan komputer Anda untuk membuat koleksi stiker pribadi.",
+        "message": "Atur Signal pada ponsel dan komputer Anda untuk menggunakan Pembuat Paket Stiker",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
@@ -3286,7 +3304,7 @@
         "description": ""
     },
     "Reactions--error": {
-        "message": "Gagal mengiirim stiker/emoji. Silahkan coba lagi.",
+        "message": "Gagal mengiirim tanggapan. Silahkan coba lagi.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -3298,7 +3316,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Izinkan $name$ mengirimkan Anda pesan dan membagikan nama dan foto Anda dengan mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya.",
+        "message": "Izinkan $name$ mengirimkan Anda pesan dan berbagi nama dan foto Anda dengan mereka? Mereka tidak akan mengetahui jika Anda telah membaca pesan tersebut sampai Anda menerimanya.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3308,7 +3326,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Izinkan $name$ mengirimkan Anda pesan dan membagikan nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apapun sampai Anda membuka blokir mereka.",
+        "message": "Izinkan $name$ mengirimkan Anda pesan dan berbagi nama dan foto Anda dengan mereka? Anda tidak akan menerima pesan apapun sampai Anda membuka blokir mereka.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3333,9 +3351,15 @@
         "message": "Buka blokir",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Buka blokir $name$? ",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Anda akan dapat mengirim pesan dan membuat panggilan satu sama lain.",
@@ -3408,11 +3432,11 @@
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Hapus dan Tinggalkan",
+        "message": "Hapus dan Keluar",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Anda akan meninggalkan grup ini. Catatan mengenai grup akan dihapus dari semua perangkat Anda.",
+        "message": "Anda akan keluar dari grup ini, dan akan dihapus dari semua perangkat Anda.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
@@ -3448,7 +3472,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Pelajari lebih lanjut",
+        "message": "Pelajari lebih lanjut.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -3878,7 +3902,7 @@
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
-        "message": "Senyap untuk satu jam",
+        "message": "Senyapkan selama satu jam",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
@@ -3886,11 +3910,11 @@
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Senyap untuk satu hari",
+        "message": "Senyap selama satu hari",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Senyap untuk satu minggu",
+        "message": "Senyap selama satu minggu",
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
@@ -3956,7 +3980,7 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Apakah Anda ingin bergabung dengan grup ini dan membagikan nama dan foto Anda dengan anggota grup?",
+        "message": "Apakah Anda ingin bergabung dengan grup ini dan berbagi nama dan foto Anda dengan anggota grup?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4064,7 +4088,7 @@
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "Grup telah dibuat.",
+        "message": "Anda telah membuat grup",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -4184,7 +4208,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Seorang admin mengubah akses menyunting informasi grup kepada \"Hanya Admin.\"",
+        "message": "Seorang admin mengubah akses menyunting informasi grup kepada \"Hanya admin.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -4326,7 +4350,7 @@
         }
     },
     "GroupV2--member-add--from-invite--other-no-from": {
-        "message": "$inviteeName$menerima undangan masuk grup",
+        "message": "$inviteeName$ menerima undangan masuk grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4374,7 +4398,7 @@
         }
     },
     "GroupV2--member-add--other--you": {
-        "message": "Kamu menambahkan $memberName$.",
+        "message": "Anda menambahkan $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4384,7 +4408,7 @@
         }
     },
     "GroupV2--member-add--other--unknown": {
-        "message": "Seorang anggota telah menambahkan $memberName$.",
+        "message": "Seorang anggota menambahkan $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4394,7 +4418,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ menambahkan kamu kedalam grup.",
+        "message": "$memberName$ menambahkan Anda ke dalam grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4436,7 +4460,7 @@
         }
     },
     "GroupV2--member-add-from-admin-approval--you--unknown": {
-        "message": "Permintaan Anda bergabung ke grup disetujui.",
+        "message": "Permintaan Anda bergabung ke grup diterima.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-admin-approval--other--you": {
@@ -4474,7 +4498,7 @@
         }
     },
     "GroupV2--member-remove--other--other": {
-        "message": "$adminName$ menghapus $memberName$.",
+        "message": "$adminName$ mengeluarkan $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4498,7 +4522,7 @@
         }
     },
     "GroupV2--member-remove--other--you": {
-        "message": "Kamu telah mengeluarkan $memberName$.",
+        "message": "Anda mengeluarkan $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4518,7 +4542,7 @@
         }
     },
     "GroupV2--member-remove--you--other": {
-        "message": "$adminName$ mengeluarkan kamu.",
+        "message": "$adminName$ mengeluarkan Anda.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4528,7 +4552,7 @@
         }
     },
     "GroupV2--member-remove--you--you": {
-        "message": "Anda telah meninggalkan grup",
+        "message": "Anda telah meninggalkan grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
@@ -4536,7 +4560,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
-        "message": "$adminName$ menjadikan $memberName$sebagai ketua.",
+        "message": "$adminName$ menjadikan $memberName$sebagai admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4550,7 +4574,7 @@
         }
     },
     "GroupV2--member-privilege--promote--other--you": {
-        "message": "Kamu menjadikan $memberName$ sebagai ketua.",
+        "message": "Anda menjadikan $memberName$ sebagai admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4570,7 +4594,7 @@
         }
     },
     "GroupV2--member-privilege--promote--you--other": {
-        "message": "$adminName$ menjadikan kamu sebagai ketua/",
+        "message": "$adminName$ menjadikan kamu sebagai admin.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5068,7 +5092,7 @@
         }
     },
     "GroupV2--group-link-remove--unknown": {
-        "message": "Tautan grup ini telah dinonaktifkan",
+        "message": "Tautan grup ini telah dinonaktifkan.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
@@ -5286,6 +5310,30 @@
     "next": {
         "message": "berikutnya",
         "description": "Generic next label"
+    },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Menjadi Penyokong",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Menjadi Penyokong",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal didukung olejh orang seperti Anda. Berkontribusi dan dapatkan sebuah lencana.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Buka Signal di ponsel Anda",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Ketuk pada foto profil Anda di bagian atas kiri untuk membuka Pengaturan",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Ketuk pada \"Menjadi Penyokong\" dan langganan",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
         "message": "Lebarkan",
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Nama pengguna di Signal bersifat opsional. Jika anda memilih untuk membuat nama pengguna dan membuatnya dapat dicari, pengguna Signal lainnya dapat mencari Anda berdasarkan nama pengguna ini dan mengontak Anda tanpa mengetahui nomor telepon Anda.",
+        "message": "Nama pengguna pada Signal adalah opsional. Jika Anda memilih untuk membuat nama pengguna, pengguna Signal lain akan dapat menemukan Anda dengan nama pengguna Anda tanpa mengetahui nomor telepon Anda.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Yang Baru",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Rehat dan rileks dengan animasi baru untuk dialog dan sembulan. Hirup. Embus. Hirup. Embus. Hirup. Embus.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Mengganti tata letak papan ketik selalu agak sulit, tapi pintasan papan ketik ini mengikuti Anda, menjangkau lebih dari huruf yang ditekan guna menghargai maksud Anda.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Saat panggilan grup dimulai, Anda kini menerima pemberitahuan. Anda takkan pernah terlambat lagi, kecuali jika ingin begitu.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Fitur ini ditujukan bagi siapa pun yang menanggapi dengan 💅 alih-alih 👍: kini Anda dapat mengustomisasi emoji yang muncul secara baku saat Anda ingin menanggapi pesan.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Dapatkan informasi lebih dalam sekilas 👀. Panel kiri kini hadir dengan tampilan dan gaya baru 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Ketahui waktunya. Stempel waktu, bila tersedia, yang terasosiasi dengan sampai, terbaca, terkirim, dan pesan status lainnya kini tampil di layar rincian pesan.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Pengguna pembaca layar kini akan lebih mudah menyusuri daftar percakapan di panel kiri.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Kini Anda dapat mencari percakapan arsip. Bayangkan Anda mencari (dengan cepat) di antara buku-buku kuno untuk mencari petunjuk selanjutnya.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Menanggapi pesan? Kini itu lebih andal, coba ulang hingga 24 jam.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",

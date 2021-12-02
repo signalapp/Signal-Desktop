@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Chwilio yn $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Does dim canlyniadau ar gyfer \"$searchTerm$\"",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Negeseuon",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Canfod yn ôl Enw Defnyddiwr",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Croeso i Signal",
@@ -1293,13 +1301,9 @@
         "message": "Eicon sy'n dangos bod capsiwn i'r ddelwedd hon",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Ychwanegu capsiwn...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Cadw",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Ailosod",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Heb ganfod sgyrsiau",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Wedi methu estyn enw defnyddiwr. Gwiriwch eich cysylltiad a rhoi cynnig arall arni.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Heb ganfod y defnyddiwr. Nid yw $atUsername$ yn ddefnyddiwr Signal; gwnewch yn siŵr eich bod wedi nodi'r enw defnyddiwr cyflawn.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Dewis aelodau",
@@ -3333,9 +3351,15 @@
         "message": "Dad-rwystro",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Dad-rwystro $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Byddwch chi'n gallu negesu a galw'ch gilydd.",
@@ -5287,6 +5311,30 @@
         "message": "nesaf",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Dod yn Gynhaliwr",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Dod yn Gynhaliwr",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Mae grym Signal mewn pobl fel chi. Cyfrannwch a hawlio bathodyn.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Agorwch Signal ar eich ffôn",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Tapiwch eich llun proffil yn y chwith uchaf i agor y Gosodiadau",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tapiwch ar \"Dod yn Gefnogwr\" a thanysgrifio",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Ehangu",
         "description": "Aria label for expanding composition area"
@@ -6539,38 +6587,6 @@
         "message": "Be sy'n Newydd",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Cymerwch hoe ac ymlacio i'r animeiddiadau newydd ar gyfer deialogau a ffenestri newydd. Anadlu i fewn. Anadlu allan. Anadlu i fewn. Anadlu allan.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Mae newid cynlluniau bysellfyrddau bob amser ychydig yn anodd, ond mae llwybrau byr bysellfwrdd bellach yn mynd i'r dde gyda chi, gan gyrraedd y tu hwnt i'r llythyr penodol sydd wedi'i wasgu i gydnabod eich bwriad.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Pan fydd galwad grŵp yn cychwyn, byddwch nawr yn derbyn hysbysiad. Fyddwch chi byth yn hwyr eto, oni bai eich bod chi am fod.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Mae'r nodwedd hon yn mynd i bawb sy'n ymateb gyda 💅 yn fwy na 👍: gallwch nawr gyfaddasu'r emojis sy'n ymddangos fel rhai rhagosodedig pan fyddwch am ymateb i neges.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Cael rhagor o wybodaeth yn hawdd 👀. Mae gan y paen chwith olwg a steil newydd a ffres 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Gwybod pryd i wneud beth. Mae'r stamp amser, os yw ar gael, sy'n gysylltiedig â'r negeseuon statws, trosglwyddo, darllen, anfon ac eraill nawr yn cael eu dangos ar sgrin manylion y neges.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Dylai ddefnyddwyr darllenwyr sgrin ei chael hi'n haws i lywio drwy'r rhestrau sgyrsiau ar y paen chwith.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Nawr gallwch chwilio mewn sgyrsiau wedi'u harchifo. Dychmygwch eich hun yn chwilio (yn gyflym) trwy gyfrolau hynafol, yn edrych am y cliw nesaf.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Yn ymateb i neges? Dylai nawr fod yn fwy dibynadwy, gan geisio eto am hyd at 24 awr",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",

@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "$conversationName$মধ্যে খুঁজুন",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "\"$searchTerm$\" এর জন্য কোন ফলাফল নেই",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "বার্তা সমূহ",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Find by Username",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Signal এ স্বাগতম!",
@@ -1293,13 +1301,9 @@
         "message": "আইকনটি দেখায় যে, এই চিত্রটির একটি ক্যাপশন রয়েছে",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "ক্যাপশন যুক্ত করুন...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "সংরক্ষন",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "রিসেট করুন",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "কোনও কথোপকথন পাওয়া যায়নি",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Failed to fetch username. Check your connection and try again.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "সদস্যকে বেছে নিন",
@@ -3333,9 +3351,15 @@
         "message": "আনব্লক করুন",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "$name$-কে আনব্লক করবেন?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "আপনারা একে অপরকে মেসেজ পাঠাতে এবং কল করতে পারবেন।",
@@ -5287,6 +5311,30 @@
         "message": "পরবর্তী",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Become a Sustainer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Become a Sustainer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Open Signal on your phone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "সেটিংস খুলতে উপরের বাম কোণে আপনার প্রোফাইল ছবির উপর ট্যাপ করুন",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "প্রসারিত করুন",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "সিগন্যালে ব্যবহারকারীর নাম ঐচ্ছিক। আপনি যদি একটি ব্যবহারকারীর নাম তৈরি করতে চান এবং এটি অনুসন্ধানযোগ্য করে তোলেন, অন্য সিগন্যাল ব্যবহারকারীরা আপনাকে এই ব্যবহারকারীর নাম দ্বারা খুঁজে পেতে এবং আপনার ফোন নম্বর না জেনেই আপনার সাথে যোগাযোগ করতে সক্ষম হবে৷",
+        "message": "Signal ব্যবহারকারীর নাম ঐচ্ছিক। আপনি যদি একটি ব্যবহারকারীর নাম তৈরি করবেন বলে চয়ন করেন তবে অন্যান্য সিগন্যাল ব্যবহারকারীরা আপনাকে এই ব্যবহারকারী নাম দ্বারা সন্ধান করতে এবং আপনার ফোন নাম্বার না জেনে আপনার সাথে পরিচিতি করতে পারবেন।",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "নতুন কি",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "একটি শ্বাস নিন এবং ডায়ালগ এবং পপআপগুলির জন্য নতুন অ্যানিমেশনগুলিতে শিথিল হোন ৷ সহজে ভিতরে। সহজে বাহিরে। সহজে ভিতরে। সহজে বাহিরে।",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "কীবোর্ড লেআউট পরিবর্তন করা সবসময় একটু কঠিন, কিন্তু কীবোর্ড শর্টকাটগুলি এখন আপনার সাথে ট্র্যাক করে, আপনার অভিপ্রায়কে সম্মান জানাতে চাপানো নির্দিষ্ট অক্ষরের বাইরে পৌঁছে যায়।",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "যখন একটি গ্রুপ কল শুরু হয়, আপনি এখন একটি বিজ্ঞপ্তি পাবেন। আপনি আর দেরী করবেন না, যদি না আপনি হতে চান।",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "এই বৈশিষ্ট্যটি তাদের প্রত্যেকের কাছে প্রযোজ্য যারা 👍 চেয়ে বেশি💅 সাথে প্রতিক্রিয়া জানায়: আপনি এখন ডিফল্টভাবে প্রদর্শিত ইমোজিগুলি কাস্টমাইজ করতে পারেন যখন আপনি কোনও বার্তায় প্রতিক্রিয়া জানাতে চান।",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Signal কে মসৃণভাবে চলমান রাখতে এই সংস্করণে বেশ কয়েকটি ছোট ছোট পরিবর্তন এবং বাগ সংশোধন করা হয়েছে।",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "এক নজরে আরও তথ্য পান 👀। বাম ফলকটি একটি অভিনব নতুন চেহারা এবং শৈলী পেয়েছে 😎",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "জেনে নিন কখন কী করবেন। টাইমস্ট্যাম্প, যদি উপলব্ধ থাকে, বিতরণ করা, পড়া, পাঠানো, এবং অন্যান্য স্থিতি বার্তাগুলির সাথে যুক্ত, এখন বার্তার বিবরণ স্ক্রিনে প্রদর্শিত হয়।",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "স্ক্রীন রিডার ব্যবহারকারীদের এখন বাম ফলকে কথোপকথনের তালিকার মাধ্যমে নেভিগেট করা সহজ হওয়া উচিত।",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "আপনি এখন সংরক্ষণাগারভুক্ত কথোপকথন অনুসন্ধান করতে পারেন. কল্পনা করুন যে আপনি প্রাচীন টোমগুলির মাধ্যমে (দ্রুত) অনুসন্ধান করছেন, পরবর্তী ক্লু খুঁজছেন।",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "কোনও বার্তায় প্রতিক্রিয়া দেখাচ্ছেন? এটি এখন আরও নির্ভরযোগ্য হওয়া উচিত, 24 ঘন্টা পর্যন্ত পুনরায় চেষ্টা করা উচিত",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",

@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Chercher dans $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Aucun résultat pour « $searchTerm$ »",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Messages",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Trouver par non d’utilisateur",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Bienvenue sur Signal",
@@ -1293,13 +1301,9 @@
         "message": "Icône qui indique que cette image a une légende",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Ajouter un légende…",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Enregistrer",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Réinitialiser",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Aucune conversation trouvée",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Échec de la récupération du nom d'utilisateur. Vérifiez votre connexion et réessayez.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Utilisateur non trouvé.$atUsername$ n’est pas un utilisateur de Signal ; assurez d’avoir saisi le nom d'utilisateur complet.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Choisir des membres",
@@ -3333,9 +3351,15 @@
         "message": "Débloquer",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Débloquer $name$ ?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Vous pourrez échanger des messages et des appels.",
@@ -5287,6 +5311,30 @@
         "message": "suivant",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Devenir un soutien",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Devenir un soutien",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal est alimenté par des gens comme vous. Contribuez et recevez un badge.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Ouvrez Signal sur votre téléphone",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Touchez votre photo de profil dans le coin supérieur gauche pour ouvrir les paramètres",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Appuyez sur \" Devenir un souteneur \" et abonnez-vous",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Étendre",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Sur Signal, les noms d’utilisateur sont facultatifs. Si vous choisissez de créer un nom d’utilisateur et de le rendre accessible par une recherche, les autres utilisateurs de Signal pourront vous trouver avec ce nom d’utilisateur et vous contacter sans connaître votre numéro de téléphone.",
+        "message": "Sur Signal, les noms d’utilisateur sont facultatifs. Si vous choisissez de créer un nom d’utilisateur, les autres utilisateurs de Signal pourront vous trouver avec ce nom d’utilisateur et vous contacter sans connaître votre numéro de téléphone.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,49 +6587,21 @@
         "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Respirez et détendez-vous devant les nouvelles animations des boîtes de dialogue et des fenêtres contextuelles. Fondu à l’ouverture, fondu à la fermeture, etc.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Le changement de la configuration du clavier est toujours un peu délicat, mais les raccourcis-clavier vous suivent désormais à la trace, allant au-delà de la lettre spécifique sur laquelle vous appuyez pour honorer vos intentions.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Lorsqu’un appel de groupe commence, vous recevez désormais une notification. Vous ne serez plus jamais en retard, à moins que vous ne le vouliez.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Cette fonctionnalité s’adresse à tous ceux qui réagissent plus avec des 💅 qu’avec des 👍 : vous pouvez désormais personnaliser les émojis qui apparaissent par défaut pour réagir à un message.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Obtenez plus d’informations en un coup d’œil 👀. Le volet de gauche a un nouveau look et un nouveau style 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Savoir quand et quoi. L’horodatage, si disponible, associé notamment à l’état de remise, de lecture, d’envoi, est désormais affiché dans l’écran de détails du message.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Les utilisateurs de lecteurs d’écran devraient désormais pouvoir naviguer plus facilement dans la liste des conversations du volet de gauche.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Vous pouvez désormais faire une recherche dans les conversations archivées. Imaginez-vous en train de chercher (rapidement) dans des tomes anciens, à la recherche du prochain indice.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "message": "S'il vous est déjà arrivé de faire défiler un message vers le haut et de l'envoyer, vous pourriez vous demander où était votre message ! Désormais, chaque fois que vous enverrez un message, il défilera à l'écran pour que vous puissiez admirer votre travail.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "message": "Vous réagissez à un message ? Il devrait maintenant être plus fiable, en réessayant jusqu'à 24 heures.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",

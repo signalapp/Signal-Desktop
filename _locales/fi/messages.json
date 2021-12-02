@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Etsi: $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Ei tuloksia haulle $searchTerm$",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Viestit",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Etsi käyttäjätunnuksella",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Tervetuloa Signaliin",
@@ -1293,13 +1301,9 @@
         "message": "Kuvake, joka näyttää, että tällä kuvalla on kuvateksti",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Lisää kuvateksti...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Tallenna",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Nollaa",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Yhtään keskustelua ei löytynyt",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Käyttäjätunnuksen noutaminen epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Käyttäjää ei löydy. $atUsername$ ei ole Signal-käyttäjä. Varmista, että olet syöttänyt koko käyttäjätunnuksen.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Valitse jäsenet",
@@ -3333,9 +3351,15 @@
         "message": "Poista esto",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Poistetaanko käyttäjän $name$ esto?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Voitte jatkossa lähettää viestejä ja soittaa toisillenne.",
@@ -5287,6 +5311,30 @@
         "message": "seuraava",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Ryhdy tukijaksi",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Ryhdy tukijaksi",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal toimii kaltaistesi käyttäjien panoksella. Osallistu ja ansaitse merkki.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Avaa Signal puhelimessa",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Paina profiilikuvaasi ja ylävasemmalta avataksesi asetukset",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Paina \"Ryhdy tukijaksi\" ja tilaa",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Suurenna",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Signalin käyttäjätunnukset ovat valinnaisia. Jos päätät luoda käyttäjätunnuksen ja tehdä siitä haettavan, muut Signal-käyttäjät voivat löytää sinut tällä käyttäjänimellä ja ottaa sinuun yhteyttä tietämättä puhelinnumeroasi.",
+        "message": "Signalin käyttäjätunnukset ovat valinnaisia. Jos päätät luoda käyttäjätunnuksen, muut Signalin käyttäjät voivat löytää sinut tällä käyttäjätunnuksella ja ottaa sinuun yhteyttä tietämättään puhelinnumeroasi.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Uudet ominaisuudet",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Vedä henkeä ja rentoudu uusien dialogien ja ponnahdusikkunoiden animaatioiden parissa. Helposti sisään. Helposti ulos. Helposti sisään. Helposti ulos.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Näppäimistöasettelun vaihtaminen on aina hieman hankalaa, mutta pikanäppäimet seuraavat nyt mukanasi ja ulottuvat pidemmälle kuin tietty kirjain, jota painetaan tarkoituksesi kunnioittamiseksi.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Kun ryhmäpuhelu alkaa, saat nyt ilmoituksen. Et enää koskaan myöhästy, ellet itse halua niin.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Tämä ominaisuus tulee kaikille, jotka reagoivat 💅 useammin kuin 👍: Voit nyt säätää emojeja, jotka ilmestyvät oletuksena kun haluat reagoida viestiin.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Saat enemmän tietoja yhdellä silmäyksellä 👀. Vasen paneeli on saanut raikkaan uuden ilmeen ja tyylin 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Tiedä milloin ja mitä. Toimitettuihin, luettuihin, lähetettyihin ja muihin tilaviesteihin liittyy aikaleima, jos se on saatavilla. Aikaleima näkyy nyt viestin tietoruudussa.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Näytönlukuohjelman käyttäjien pitäisi nyt olla helpompi navigoida vasemman ruudun keskusteluluettelossa.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Voit nyt etsiä arkistoiduista keskusteluista. Kuvittele itsesi etsiväsi (nopeasti) muinaisten teosten läpi ja etsiväsi seuraavaa vihjettä.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reagoitko viestiin? Sen pitäisi nyt olla luotettavampi ja yrittää uudelleen jopa 24 tuntia",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",

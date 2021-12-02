@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "חפש בשיחה $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "אין תוצאות עבור \"$searchTerm$\"",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "הודעות",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "מצא לפי שם משתמש",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "ברוך הבא אל Signal",
@@ -1293,13 +1301,9 @@
         "message": "ראות איקון שיש לתמונה זו כיתוב",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "הוסף כיתוב…",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "שמור",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "אפס",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "שיחות לא נמצאו",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "נכשל במשיכת שם משתמש. בדוק את החיבור שלך ונסה שוב.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "המשתמש לא נמצא. $atUsername$ הוא לא משתמש Signal; וודא שהכנסת את שם המשתמש השלם.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "בחר חברי קבוצה",
@@ -3333,9 +3351,15 @@
         "message": "בטל חסימה",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "לבטל חסימה של $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "תוכלו להתכתב ולהתקשר אחד לשני.",
@@ -5287,6 +5311,30 @@
         "message": "הבא",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "הייה מחזיק",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "הייה מחזיק",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal ממונע על ידי אנשים כמוך. תרום וקבל תג.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "פתח את Signal בטלפון שלך",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "הקש על תמונת הפרופיל שלך בקצה העליון השמאלי כדי לפתוח הגדרות",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "הקש על \"הייה מחזיק\" והירשם כמנוי",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "הרחב",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "שמות משתמש ב־Signal הם רשתויים. אם תבחר ליצור שם משתמש ולעשות אותו בר חיפוש, משתמשי Signal אחרים יוכלו למצוא אותך לפי שם המשתמש הזה וליצור איתך קשר בלי לדעת את מספר הטלפון שלך.",
+        "message": "שמות משתמש ב־Signal הם רשותיים. אם אתה בוחר ליצור שם משתמש, משתמשי Signal אחרים יוכלו למצוא אותך לפי שם משתמש זה וליצור איתך קשר בלי לדעת את מספר הטלפון שלך.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "מה חדש",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "קח נשימה והירגע לתוך ההנפשות החדשות והחלונות הקופצים.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "החלפת פריסות מקלדת היא תמיד קצת ערמומית, אבל קיצורי דרך ממקלדת עכשיו עוברים איתך.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "כאשר שיחה קבוצתית מתחילה, תקבל עכשיו התראה. לעולם לא תאחר שוב, אלא אם אתה רוצה לאחר.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "מאפיין זה מיועד לכל מי שמגיב עם 💅 יותר מאשר עם 👍: אתה יכול עכשיו להתאים אישית את האימוג'ים שמופיעים כברירת מחדל כשאתה רוצה להגיב אל הודעה.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "קבל עוד מידע במבט חטוף 👀. החלונית השמאלית קיבלה מראה וסגנון חדשים 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "דע את המתי אל המה. חותמת הזמן, אם זמינה, משויכת עם נמסר, נקרא, נשלח, ומעמדי הודעה אחרים מוצגים עכשיו במסך הפרטים של ההודעה.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "משתמשי קורא מסך יכולים עכשיו לנווט בקלות יותר ברשימת השיחות בחלונית השמאלית.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "אתה יכול לחפש עכשיו בשיחות מאורכבות. דמיין את עצמך מחפש (בזריזות) בכרכים עתיקים, בחיפוש אחר הרמז הבא.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "מגיב אל הודעה? זה אמור להיות יותר אמין עכשיו, ניסיון חוזר עד 24 שעות",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",

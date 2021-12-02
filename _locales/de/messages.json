@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "In $conversationName$ suchen",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "Keine Ergebnisse für »$searchTerm$«",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Nachrichten",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Nutzername suchen",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Willkommen bei Signal",
@@ -1293,13 +1301,9 @@
         "message": "Symbol, das auf eine Beschriftung des Bildes hinweist",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Beschriftung hinzufügen …",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Speichern",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Zurücksetzen",
@@ -2273,6 +2277,20 @@
         "message": "Keine Unterhaltungen gefunden",
         "description": "Label shown when there are no conversations to compose to"
     },
+    "Toast--failed-to-fetch-username": {
+        "message": "Nutzername konnte nicht abgerufen werden. Überprüfe deine Internetverbindung und versuche es erneut.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Nutzername nicht gefunden. $atUsername$ ist kein Signal-Nutzer. Achte darauf, dass du den vollständigen Nutzernamen eingegeben hast.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
+    },
     "chooseGroupMembers__title": {
         "message": "Mitglieder auswählen",
         "description": "The title for the 'choose group members' left pane screen"
@@ -2364,7 +2382,7 @@
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Die Gruppe konnte nicht aktualisiert werden. Überprüfe deine Verbindung und versuche es erneut.",
+        "message": "Die Gruppe konnte nicht aktualisiert werden. Überprüfe deine Internetverbindung und versuche es erneut.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -3333,9 +3351,15 @@
         "message": "Freigeben",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "$name$ freigeben?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Ihr werdet einander schreiben und euch anrufen können.",
@@ -5287,6 +5311,30 @@
         "message": "vor",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Werde Unterstützer",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Werde Unterstützer",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal existiert dank Menschen wie dir. Leiste einen Beitrag und erhalte ein Abzeichen.",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Öffne Signal auf deinem Telefon",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Tippe auf dein Profilbild links oben, um die Einstellungen zu öffnen.",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Tippe auf „Werde Unterstützer“ und wähle einen Geldbetrag aus.",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Erweitern",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Nutzernamen sind bei Signal optional. Falls du dich dafür entscheidest, einen Nutzernamen zu erstellen und diesen suchbar zu machen, werden andere Nutzer dich über diesen finden und kontaktieren können, ohne deine Rufnummer zu kennen.",
+        "message": "Nutzernamen sind bei Signal optional. Falls du dich dafür entscheidest, einen Nutzernamen zu erstellen, werden andere Nutzer dich über diesen finden und kontaktieren können, ohne deine Rufnummer zu kennen.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Was ist neu",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Hol tief Luft und mach dich mit den neuen Animationen für Dialoge und  Pop-ups vertraut. Atme ein. Atme aus. Atme ein. Atme aus.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Das Ändern der Tastaturbelegung war schon immer eine heikle Angelegenheit. Nun aber eröffnet sich mit Tastaturkürzeln eine neue Welt an Möglichkeiten, deinem Willen stets Ausdruck zu verleihen.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Wenn ein Gruppenanruf beginnt, erhältst du nun eine Benachrichtigung. Du wirst nie wieder zu spät kommen, es sei denn, du willst es.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Diese Funktion richtet sich an alle, die häufiger mit 💅 als mit 👍 reagieren. Du kannst jetzt die Emojis ändern, die standardmäßig beim Reagieren auf eine Nachricht angezeigt werden.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Mehr Informationen auf einen Blick 👀. Der linke Fensterbereich hat ein neues Aussehen und einen neuen Stil bekommen 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Kenne das Wann. Der Zeitstempel, wann Nachrichten gesendet, empfangen oder gelesen wurden und anderer Statusnachrichten wird jetzt in den Nachrichtendetails angezeigt.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Benutzer von Bildschirmlesegeräten können nun leichter durch die Unterhaltungsliste im linken Fensterbereich navigieren.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Du kannst jetzt in archivierten Gesprächen suchen. Stell dir vor, du suchst (schnell) in alten Büchern nach dem nächsten Hinweis.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reaktion auf eine Nachricht? Sie sollten jetzt zuverlässiger gesendet werden (Wiederholungsversuche bis zu 24 Stunden lang)",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",

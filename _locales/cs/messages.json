@@ -781,13 +781,7 @@
     },
     "searchIn": {
         "message": "Hledat v  $conversationName$",
-        "description": "Shown in the search box before text is entered when searching in a specific conversation",
-        "placeholders": {
-            "conversationName": {
-                "content": "$1",
-                "example": "Friends"
-            }
-        }
+        "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
         "message": "\"$searchTerm$\" nenalezeno",
@@ -832,6 +826,20 @@
     "messagesHeader": {
         "message": "Zprávy",
         "description": "Shown to separate the types of search results"
+    },
+    "findByUsernameHeader": {
+        "message": "Najít podle uživatelského jména",
+        "description": "Shown to separate the types of search results"
+    },
+    "at-username": {
+        "message": "@$username$",
+        "description": "@ added to username to signify it as a username. Should it be on the right in your language?",
+        "placeholders": {
+            "username": {
+                "content": "$1",
+                "example": "sammy45"
+            }
+        }
     },
     "welcomeToSignal": {
         "message": "Vítejte v Signal",
@@ -1293,13 +1301,9 @@
         "message": "Ikona znázorňující, že tento obrázek má popisek",
         "description": "Used for the icon layered on top of an image in message bubbles"
     },
-    "addACaption": {
-        "message": "Přidat titulek...",
-        "description": "Used as the placeholder text in the caption editor text field"
-    },
     "save": {
         "message": "Uložit",
-        "description": "Used as a 'commit changes' button in the caption editor for outgoing image attachments"
+        "description": "Used on save buttons"
     },
     "reset": {
         "message": "Obnovit",
@@ -2272,6 +2276,20 @@
     "noConversationsFound": {
         "message": "Nenalezeny žádné konverzace",
         "description": "Label shown when there are no conversations to compose to"
+    },
+    "Toast--failed-to-fetch-username": {
+        "message": "Nepodařilo se načíst uživatelské jméno. Zkontrolujte připojení a zkuste to znovu.",
+        "description": "Shown if request to Signal servers to find username fails"
+    },
+    "startConversation--username-not-found": {
+        "message": "Uživatel nenalezen. $atUsername$ není Signal uživatelem; ujistěte se, že jste zadali kompletní uživatelské jméno.",
+        "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
+        "placeholders": {
+            "atUsername": {
+                "content": "$1",
+                "example": "@alex"
+            }
+        }
     },
     "chooseGroupMembers__title": {
         "message": "Zvolte členy",
@@ -3333,9 +3351,15 @@
         "message": "Odblokovat",
         "description": "Shown as a button to let the user unblock a message request"
     },
-    "MessageRequests--unblock-confirm-title": {
+    "MessageRequests--unblock-direct-confirm-title": {
         "message": "Odblokovat uživatele $name$?",
-        "description": "Shown as a button to let the user unblock a message request"
+        "description": "Shown as a button to let the user unblock a message request",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "Cayce Pollard"
+            }
+        }
     },
     "MessageRequests--unblock-direct-confirm-body": {
         "message": "Budete moci vzájemně si posílat zprávy a volat.",
@@ -5287,6 +5311,30 @@
         "message": "další",
         "description": "Generic next label"
     },
+    "BadgeDialog__become-a-sustainer-button": {
+        "message": "Staňte se podporovatelem",
+        "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
+    },
+    "BadgeSustainerInstructions__header": {
+        "message": "Staňte se podporovatelem",
+        "description": "In the instructions for becoming a sustainer. The heading."
+    },
+    "BadgeSustainerInstructions__subheader": {
+        "message": "Signal je aplikace, za kterou stojí lidé jako vy. Prokažte jim dnes svoji podporu!",
+        "description": "In the instructions for becoming a sustainer. The subheading."
+    },
+    "BadgeSustainerInstructions__instructions__1": {
+        "message": "Na svém telefonu otevřete Signal",
+        "description": "In the instructions for becoming a sustainer. First instruction."
+    },
+    "BadgeSustainerInstructions__instructions__2": {
+        "message": "Klepněte na vaši profilovou fotografii v levém horním rohu pro otevření Nastavení",
+        "description": "In the instructions for becoming a sustainer. Second instruction."
+    },
+    "BadgeSustainerInstructions__instructions__3": {
+        "message": "Klepněte na \"Stát se podporovatelem\" a přihlaste se k odběru",
+        "description": "In the instructions for becoming a sustainer. Third instruction."
+    },
     "CompositionArea--expand": {
         "message": "Rozbalit",
         "description": "Aria label for expanding composition area"
@@ -6204,7 +6252,7 @@
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
-        "message": "Uživatelská jména v aplikaci Signal jsou nepovinná. Pokud se rozhodnete vytvořit uživatelské jméno a umožnit jeho vyhledávání, ostatní uživatelé služby Signal vás budou moci podle tohoto uživatelského jména najít a kontaktovat, aniž by znali vaše telefonní číslo.",
+        "message": "Uživatelská jména na Signal jsou nepovinná. Pokud se rozhodnete vytvořit uživatelské jméno, ostatní uživatelé Signal vás budou moci najít podle tohoto uživatelského jména a kontaktovat vás, aniž by znali vaše telefonní číslo.",
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
@@ -6539,38 +6587,6 @@
         "message": "Co je nového",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.19--1": {
-        "message": "Nadechněte se a nechte se unášet novými animacemi dialogových oken a vyskakovacích oken. Uvolněte se. Uvolněte se. Uvolněte se. Uvolněte se.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--2": {
-        "message": "Přepínání rozložení klávesnice je vždy trochu složitější, ale klávesové zkratky nyní jsou s vámi a jdou za konkrétní stisknuté písmeno, aby respektovaly váš záměr.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--3": {
-        "message": "Při zahájení skupinového hovoru se vám nyní zobrazí oznámení. Už nikdy nepřijdete pozdě, pokud nebudete chtít.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.19--4": {
-        "message": "Tato funkce je určena všem, kteří reagují pomocí 💅 více než 👍: nyní si můžete přizpůsobit emotikony, které se ve výchozím nastavení zobrazí, když chcete reagovat na zprávu.",
-        "description": "Release notes for v5.19"
-    },
-    "WhatsNew__v5.20": {
-        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
-        "description": "Release notes for v5.20"
-    },
-    "WhatsNew__v5.21--1": {
-        "message": "Získejte více informací na první pohled 👀. Levý panel má nový vzhled a styl 😎.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--2": {
-        "message": "Zjistěte, kdy se co děje. Časové razítko, pokud je k dispozici, spojené s doručenými, přečtenými, odeslanými a dalšími stavovými zprávami se nyní zobrazuje na obrazovce s podrobnostmi zprávy.",
-        "description": "Release notes for v5.21"
-    },
-    "WhatsNew__v5.21--3": {
-        "message": "Uživatelé čtečky obrazovky by se nyní měli snadněji pohybovat v seznamu konverzací na levém panelu.",
-        "description": "Release notes for v5.21"
-    },
     "WhatsNew__v5.24--1": {
         "message": "Nyní můžete vyhledávat v archivovaných konverzacích. Představte si, že (rychle) prohledáváte staré svazky a hledáte další stopu.",
         "description": "Release notes for v5.24"
@@ -6582,6 +6598,10 @@
     "WhatsNew__v5.24--3": {
         "message": "Reagujete na zprávu? Nyní by měla být reakce spolehlivější s opakovanými pokusy až 24 hodin.",
         "description": "Release notes for v5.24"
+    },
+    "WhatsNew__v5.25--1": {
+        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
+        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
