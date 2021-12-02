@@ -2019,7 +2019,12 @@ export class CallingClass {
     );
     const isAnybodyElseInGroupCall = Boolean(peekInfo.joinedMembers.length);
 
-    if (isNewCall && !wasStartedByMe && isAnybodyElseInGroupCall) {
+    if (
+      isNewCall &&
+      !wasStartedByMe &&
+      isAnybodyElseInGroupCall &&
+      !conversation.isMuted()
+    ) {
       this.notifyForGroupCall(conversation, creatorConversation);
     }
   }
