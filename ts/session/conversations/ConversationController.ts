@@ -1,9 +1,4 @@
-import {
-  getAllConversations,
-  getAllGroupsInvolvingId,
-  removeConversation,
-  saveConversation,
-} from '../../data/data';
+import { getAllConversations, removeConversation, saveConversation } from '../../data/data';
 import {
   ConversationAttributes,
   ConversationCollection,
@@ -179,11 +174,6 @@ export class ConversationController {
 
       return Promise.reject(new Error('getOrCreateAndWait: did not get conversation'));
     });
-  }
-
-  public async getAllGroupsInvolvingId(id: string) {
-    const groups = await getAllGroupsInvolvingId(id);
-    return groups.map((group: any) => this.conversations.add(group));
   }
 
   public async deleteContact(id: string) {

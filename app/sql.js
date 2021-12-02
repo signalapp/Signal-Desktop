@@ -834,6 +834,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion14,
   updateToLokiSchemaVersion15,
   updateToLokiSchemaVersion16,
+  updateToLokiSchemaVersion17,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1220,6 +1221,24 @@ function updateToLokiSchemaVersion16(currentVersion, db) {
       CREATE INDEX messages_messageHash ON unprocessed (
         serverHash
       ) WHERE serverHash IS NOT NULL;
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion17(currentVersion, db) {
+  const targetVersion = 17;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      UPDATE ${CONVERSATIONS_TABLE} SET
+      json = json_set(json, '$.isApproved', 1)
     `);
 
     writeLokiSchemaVersion(targetVersion, db);

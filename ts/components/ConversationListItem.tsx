@@ -25,7 +25,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SectionType } from '../state/ducks/section';
 import { getFocusedSection } from '../state/selectors/section';
 import { ConversationNotificationSettingType } from '../models/conversation';
-import { Flex } from './basic/Flex';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { updateUserDetailsModal } from '../state/ducks/modalDialog';
 import { approveConversation, blockConvoById } from '../interactions/conversationInteractions';
@@ -170,6 +169,8 @@ const MessageItem = (props: {
   lastMessage?: LastMessageType;
   isTyping: boolean;
   unreadCount: number;
+  isMessageRequest: boolean;
+  conversationId: string;
 }) => {
   const { lastMessage, isTyping, unreadCount } = props;
 
@@ -196,7 +197,11 @@ const MessageItem = (props: {
           <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
         )}
       </div>
-      {lastMessage && lastMessage.status ? (
+      <MessageRequestButtons
+        conversationId={props.conversationId}
+        isMessageRequest={props.isMessageRequest}
+      />
+      {lastMessage && lastMessage.status && !props.isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>
@@ -227,6 +232,64 @@ const AvatarItem = (props: { conversationId: string; isPrivate: boolean }) => {
         }}
       />
     </div>
+  );
+};
+
+const RejectMessageRequestButton = ({ conversationId }: { conversationId: string }) => {
+  /**
+   * Removes conversation from requests list,
+   * adds ID to block list, syncs the block with linked devices.
+   */
+  const handleConversationBlock = async () => {
+    await blockConvoById(conversationId);
+    await forceSyncConfigurationNowIfNeeded();
+  };
+  return (
+    <SessionIconButton
+      iconType="exit"
+      iconSize="large"
+      onClick={handleConversationBlock}
+      backgroundColor="var(--color-destructive)"
+      iconColor="var(--color-foreground-primary)"
+      iconPadding="var(--margins-xs)"
+      borderRadius="2px"
+      margin="0 5px 0 0"
+    />
+  );
+};
+
+const ApproveMessageRequestButton = ({ conversationId }: { conversationId: string }) => {
+  return (
+    <SessionIconButton
+      iconType="check"
+      iconSize="large"
+      onClick={async () => {
+        await approveConversation(conversationId);
+      }}
+      backgroundColor="var(--color-accent)"
+      iconColor="var(--color-foreground-primary)"
+      iconPadding="var(--margins-xs)"
+      borderRadius="2px"
+    />
+  );
+};
+
+const MessageRequestButtons = ({
+  conversationId,
+  isMessageRequest,
+}: {
+  conversationId: string;
+  isMessageRequest: boolean;
+}) => {
+  if (!isMessageRequest) {
+    return null;
+  }
+
+  return (
+    <>
+      <RejectMessageRequestButton conversationId={conversationId} />
+      <ApproveMessageRequestButton conversationId={conversationId} />
+    </>
   );
 };
 
@@ -266,15 +329,6 @@ const ConversationListItem = (props: Props) => {
     },
     [conversationId]
   );
-
-  /**
-   * Removes conversation from requests list,
-   * adds ID to block list, syncs the block with linked devices.
-   */
-  const handleConversationBlock = async () => {
-    await blockConvoById(conversationId);
-    await forceSyncConfigurationNowIfNeeded();
-  };
 
   return (
     <div key={key}>
@@ -316,36 +370,9 @@ const ConversationListItem = (props: Props) => {
             isTyping={!!isTyping}
             unreadCount={unreadCount || 0}
             lastMessage={lastMessage}
+            isMessageRequest={Boolean(isMessageRequest)}
+            conversationId={conversationId}
           />
-          {isMessageRequest ? (
-            <Flex
-              className="module-conversation-list-item__button-container"
-              container={true}
-              flexDirection="row"
-              justifyContent="flex-end"
-            >
-              <SessionIconButton
-                iconType="exit"
-                iconSize="large"
-                onClick={handleConversationBlock}
-                backgroundColor="var(--color-destructive)"
-                iconColor="var(--color-foreground-primary)"
-                iconPadding="var(--margins-xs)"
-                borderRadius="2px"
-              />
-              <SessionIconButton
-                iconType="check"
-                iconSize="large"
-                onClick={async () => {
-                  await approveConversation(conversationId);
-                }}
-                backgroundColor="var(--color-accent)"
-                iconColor="var(--color-foreground-primary)"
-                iconPadding="var(--margins-xs)"
-                borderRadius="2px"
-              />
-            </Flex>
-          ) : null}
         </div>
       </div>
       <Portal>

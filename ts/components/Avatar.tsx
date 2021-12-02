@@ -113,6 +113,7 @@ const AvatarInner = (props: Props) => {
       )}
       onClick={e => {
         e.stopPropagation();
+        e.preventDefault();
         props.onAvatarClick?.();
       }}
       role="button"

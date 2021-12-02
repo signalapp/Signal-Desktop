@@ -12,6 +12,7 @@ import { SpacerLG, SpacerMD } from '../basic/Text';
 import { useSelector } from 'react-redux';
 import { getConversationRequests } from '../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../ConversationListItem';
+import styled from 'styled-components';
 
 export enum SessionClosableOverlayType {
   Message = 'message',
@@ -287,6 +288,12 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
   }
 }
 
+const MessageRequestListContainer = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  border: var(--border-session);
+`;
+
 /**
  * A request needs to be be unapproved and not blocked to be valid.
  * @returns List of message request items
@@ -294,7 +301,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
 const MessageRequestList = () => {
   const conversationRequests = useSelector(getConversationRequests);
   return (
-    <div className="message-request-list__container">
+    <MessageRequestListContainer>
       {conversationRequests.map(conversation => {
         return (
           <MemoConversationListItemWithDetails
@@ -304,6 +311,6 @@ const MessageRequestList = () => {
           />
         );
       })}
-    </div>
+    </MessageRequestListContainer>
   );
 };

@@ -40,7 +40,7 @@ export const openGroupPrefix = 'publicChat:';
 export const openGroupPrefixRegex = new RegExp(`^${openGroupPrefix}`);
 
 export const openGroupV2ConversationIdRegex = new RegExp(
-  `${openGroupPrefix}${roomIdV2Regex}@${protocolRegex.source}${hostnameRegex.source}${portRegex}`
+  `${openGroupPrefix}${roomIdV2Regex}@${openGroupV2ServerUrlRegex.source}`
 );
 
 /**
