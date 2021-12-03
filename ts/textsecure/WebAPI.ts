@@ -765,7 +765,7 @@ export type WebAPIType = {
     newPassword: string,
     registrationId: number,
     deviceName?: string | null,
-    options?: { accessKey?: Uint8Array; uuid?: UUIDStringType }
+    options?: { accessKey?: Uint8Array }
   ) => Promise<ConfirmCodeResultType>;
   createGroup: (
     group: Proto.IGroup,
@@ -1634,7 +1634,7 @@ export function initialize({
       newPassword: string,
       registrationId: number,
       deviceName?: string | null,
-      options: { accessKey?: Uint8Array; uuid?: UUIDStringType } = {}
+      options: { accessKey?: Uint8Array } = {}
     ) {
       const capabilities: CapabilitiesUploadType = {
         announcementGroup: true,
@@ -1644,7 +1644,7 @@ export function initialize({
         changeNumber: true,
       };
 
-      const { accessKey, uuid } = options;
+      const { accessKey } = options;
       const jsonData = {
         capabilities,
         fetchesMessages: true,
@@ -1678,7 +1678,7 @@ export function initialize({
       })) as ConfirmCodeResultType;
 
       // Set final REST credentials to let `registerKeys` succeed.
-      username = `${uuid || response.uuid || number}.${response.deviceId || 1}`;
+      username = `${response.uuid || number}.${response.deviceId || 1}`;
       password = newPassword;
 
       return response;

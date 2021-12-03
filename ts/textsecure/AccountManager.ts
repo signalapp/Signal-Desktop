@@ -30,7 +30,6 @@ import {
   generateSignedPreKey,
   generatePreKey,
 } from '../Curve';
-import type { UUIDStringType } from '../types/UUID';
 import { UUID, UUIDKind } from '../types/UUID';
 import { isMoreRecentThan, isOlderThan } from '../util/timestamp';
 import { ourProfileKeyService } from '../services/ourProfileKey';
@@ -72,6 +71,18 @@ export type GeneratedKeysType = {
   };
   identityKey: Uint8Array;
 };
+
+type CreateAccountOptionsType = Readonly<{
+  number: string;
+  verificationCode: string;
+  identityKeyPair: KeyPairType;
+  pniKeyPair?: KeyPairType;
+  profileKey?: Uint8Array;
+  deviceName?: string;
+  userAgent?: string;
+  readReceipts?: boolean;
+  accessKey?: Uint8Array;
+}>;
 
 export default class AccountManager extends EventTarget {
   pending: Promise<void>;
@@ -156,28 +167,28 @@ export default class AccountManager extends EventTarget {
   async registerSingleDevice(number: string, verificationCode: string) {
     return this.queueTask(async () => {
       const identityKeyPair = generateKeyPair();
+      const pniKeyPair = generateKeyPair();
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKey(profileKey);
 
-      await this.createAccount(
+      await this.createAccount({
         number,
         verificationCode,
         identityKeyPair,
+        pniKeyPair,
         profileKey,
-        null,
-        null,
-        null,
-        { accessKey }
-      );
+        accessKey,
+      });
 
       await this.clearSessionsAndPreKeys();
-      // TODO: DESKTOP-2788
-      const keys = await this.generateKeys(
-        SIGNED_KEY_GEN_BATCH_SIZE,
-        UUIDKind.ACI
+
+      await Promise.all(
+        [UUIDKind.ACI, UUIDKind.PNI].map(async kind => {
+          const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE, kind);
+          await this.server.registerKeys(keys, kind);
+          await this.confirmKeys(keys, kind);
+        })
       );
-      await this.server.registerKeys(keys, UUIDKind.ACI);
-      await this.confirmKeys(keys);
       await this.registrationDone();
     });
   }
@@ -187,7 +198,6 @@ export default class AccountManager extends EventTarget {
     confirmNumber: (number?: string) => Promise<string>,
     progressCallback?: Function
   ) {
-    const createAccount = this.createAccount.bind(this);
     const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
     const provisioningCipher = new ProvisioningCipher();
     const pubKey = await provisioningCipher.getPublicKey();
@@ -266,20 +276,15 @@ export default class AccountManager extends EventTarget {
         );
       }
 
-      await createAccount(
-        provisionMessage.number,
-        provisionMessage.provisioningCode,
-        provisionMessage.identityKeyPair,
-        provisionMessage.profileKey,
+      await this.createAccount({
+        number: provisionMessage.number,
+        verificationCode: provisionMessage.provisioningCode,
+        identityKeyPair: provisionMessage.identityKeyPair,
+        profileKey: provisionMessage.profileKey,
         deviceName,
-        provisionMessage.userAgent,
-        provisionMessage.readReceipts,
-        {
-          uuid: provisionMessage.uuid
-            ? UUID.cast(provisionMessage.uuid)
-            : undefined,
-        }
-      );
+        userAgent: provisionMessage.userAgent,
+        readReceipts: provisionMessage.readReceipts,
+      });
       await clearSessionsAndPreKeys();
       // TODO: DESKTOP-2794
       const keys = await this.generateKeys(
@@ -288,7 +293,7 @@ export default class AccountManager extends EventTarget {
         progressCallback
       );
       await this.server.registerKeys(keys, UUIDKind.ACI);
-      await this.confirmKeys(keys);
+      await this.confirmKeys(keys, UUIDKind.ACI);
       await this.registrationDone();
     });
   }
@@ -454,18 +459,18 @@ export default class AccountManager extends EventTarget {
     );
   }
 
-  async createAccount(
-    number: string,
-    verificationCode: string,
-    identityKeyPair: KeyPairType,
-    profileKey: Uint8Array | undefined,
-    deviceName: string | null,
-    userAgent?: string | null,
-    readReceipts?: boolean | null,
-    options: { accessKey?: Uint8Array; uuid?: UUIDStringType } = {}
-  ): Promise<void> {
+  async createAccount({
+    number,
+    verificationCode,
+    identityKeyPair,
+    pniKeyPair,
+    profileKey,
+    deviceName,
+    userAgent,
+    readReceipts,
+    accessKey,
+  }: CreateAccountOptionsType): Promise<void> {
     const { storage } = window.textsecure;
-    const { accessKey, uuid } = options;
     let password = Bytes.toBase64(getRandomBytes(16));
     password = password.substring(0, password.length - 2);
     const registrationId = generateRegistrationId();
@@ -491,11 +496,11 @@ export default class AccountManager extends EventTarget {
       password,
       registrationId,
       encryptedDeviceName,
-      { accessKey, uuid }
+      { accessKey }
     );
 
-    const ourUuid = uuid || response.uuid;
-    strictAssert(ourUuid !== undefined, 'Should have UUID after registration');
+    const ourUuid = UUID.cast(response.uuid);
+    const ourPni = UUID.cast(response.pni);
 
     const uuidChanged = previousUuid && ourUuid && previousUuid !== ourUuid;
 
@@ -554,7 +559,7 @@ export default class AccountManager extends EventTarget {
     // information.
     await storage.user.setCredentials({
       uuid: ourUuid,
-      pni: response.pni,
+      pni: ourPni,
       number,
       deviceId: response.deviceId ?? 1,
       deviceName: deviceName ?? undefined,
@@ -574,15 +579,27 @@ export default class AccountManager extends EventTarget {
       throw new Error('registrationDone: no conversationId!');
     }
 
-    // update our own identity key, which may have changed
-    // if we're relinking after a reinstall on the master device
-    await storage.protocol.saveIdentityWithAttributes(new UUID(ourUuid), {
-      publicKey: identityKeyPair.pubKey,
+    const identityAttrs = {
       firstUse: true,
       timestamp: Date.now(),
       verified: storage.protocol.VerifiedStatus.VERIFIED,
       nonblockingApproval: true,
-    });
+    };
+
+    // update our own identity key, which may have changed
+    // if we're relinking after a reinstall on the master device
+    await Promise.all([
+      storage.protocol.saveIdentityWithAttributes(new UUID(ourUuid), {
+        ...identityAttrs,
+        publicKey: identityKeyPair.pubKey,
+      }),
+      pniKeyPair
+        ? storage.protocol.saveIdentityWithAttributes(new UUID(ourPni), {
+            ...identityAttrs,
+            publicKey: pniKeyPair.pubKey,
+          })
+        : Promise.resolve(),
+    ]);
 
     const identityKeyMap = {
       ...(storage.get('identityKeyMap') || {}),
@@ -590,10 +607,20 @@ export default class AccountManager extends EventTarget {
         pubKey: Bytes.toBase64(identityKeyPair.pubKey),
         privKey: Bytes.toBase64(identityKeyPair.privKey),
       },
+      ...(pniKeyPair
+        ? {
+            [ourPni]: {
+              pubKey: Bytes.toBase64(pniKeyPair.pubKey),
+              privKey: Bytes.toBase64(pniKeyPair.privKey),
+            },
+          }
+        : {}),
     };
     const registrationIdMap = {
       ...(storage.get('registrationIdMap') || {}),
       [ourUuid]: registrationId,
+      // TODO: DESKTOP-2825
+      [ourPni]: registrationId,
     };
 
     await storage.put('identityKeyMap', identityKeyMap);
@@ -633,7 +660,7 @@ export default class AccountManager extends EventTarget {
   }
 
   // Takes the same object returned by generateKeys
-  async confirmKeys(keys: GeneratedKeysType) {
+  async confirmKeys(keys: GeneratedKeysType, uuidKind: UUIDKind) {
     const store = window.textsecure.storage.protocol;
     const key = keys.signedPreKey;
     const confirmed = true;
@@ -642,8 +669,11 @@ export default class AccountManager extends EventTarget {
       throw new Error('confirmKeys: signedPreKey is null');
     }
 
-    log.info('confirmKeys: confirming key', key.keyId);
-    const ourUuid = window.textsecure.storage.user.getCheckedUuid();
+    log.info(
+      `AccountManager.confirmKeys(${uuidKind}): confirming key`,
+      key.keyId
+    );
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid(uuidKind);
     await store.storeSignedPreKey(ourUuid, key.keyId, key.keyPair, confirmed);
   }
 

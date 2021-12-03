@@ -5,7 +5,6 @@ import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-clien
 import { SEALED_SENDER } from '../types/SealedSender';
 import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
-import { UUID } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import { trimForDisplay, verifyAccessKey, decryptProfile } from '../Crypto';
 import {
@@ -62,13 +61,11 @@ export async function getProfile(
     ]);
 
     const profileKey = c.get('profileKey');
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const uuid = c.get('uuid')!;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const identifier = c.getSendTarget()!;
-    const targetUuid = UUID.checkedLookup(identifier);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const profileKeyVersionHex = c.get('profileKeyVersion')!;
+    const uuid = c.getCheckedUuid('getProfile');
+    const profileKeyVersionHex = c.get('profileKeyVersion');
+    if (!profileKeyVersionHex) {
+      throw new Error('No profile key version available');
+    }
     const existingProfileKeyCredential = c.get('profileKeyCredential');
 
     let profileKeyCredentialRequestHex: undefined | string;
@@ -76,31 +73,24 @@ export async function getProfile(
       | undefined
       | ProfileKeyCredentialRequestContext;
 
-    if (
-      profileKey &&
-      uuid &&
-      profileKeyVersionHex &&
-      !existingProfileKeyCredential
-    ) {
+    if (profileKey && profileKeyVersionHex && !existingProfileKeyCredential) {
       log.info('Generating request...');
       ({
         requestHex: profileKeyCredentialRequestHex,
         context: profileCredentialRequestContext,
       } = generateProfileKeyCredentialRequest(
         clientZkProfileCipher,
-        uuid,
+        uuid.toString(),
         profileKey
       ));
     }
 
     const { sendMetadata = {} } = await getSendOptions(c.attributes);
-    const getInfo =
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      sendMetadata[c.get('uuid')!] || sendMetadata[c.get('e164')!] || {};
+    const getInfo = sendMetadata[uuid.toString()] || {};
 
     if (getInfo.accessKey) {
       try {
-        profile = await window.textsecure.messaging.getProfile(identifier, {
+        profile = await window.textsecure.messaging.getProfile(uuid, {
           accessKey: getInfo.accessKey,
           profileKeyVersion: profileKeyVersionHex,
           profileKeyCredentialRequest: profileKeyCredentialRequestHex,
@@ -112,7 +102,7 @@ export async function getProfile(
             `Setting sealedSender to DISABLED for conversation ${c.idForLogging()}`
           );
           c.set({ sealedSender: SEALED_SENDER.DISABLED });
-          profile = await window.textsecure.messaging.getProfile(identifier, {
+          profile = await window.textsecure.messaging.getProfile(uuid, {
             profileKeyVersion: profileKeyVersionHex,
             profileKeyCredentialRequest: profileKeyCredentialRequestHex,
             userLanguages,
@@ -122,7 +112,7 @@ export async function getProfile(
         }
       }
     } else {
-      profile = await window.textsecure.messaging.getProfile(identifier, {
+      profile = await window.textsecure.messaging.getProfile(uuid, {
         profileKeyVersion: profileKeyVersionHex,
         profileKeyCredentialRequest: profileKeyCredentialRequestHex,
         userLanguages,
@@ -132,7 +122,7 @@ export async function getProfile(
     if (profile.identityKey) {
       const identityKey = Bytes.fromBase64(profile.identityKey);
       const changed = await window.textsecure.storage.protocol.saveIdentity(
-        new Address(targetUuid, 1),
+        new Address(uuid, 1),
         identityKey,
         false
       );
@@ -141,7 +131,7 @@ export async function getProfile(
         // must close that one manually.
         const ourUuid = window.textsecure.storage.user.getCheckedUuid();
         await window.textsecure.storage.protocol.archiveSession(
-          new QualifiedAddress(ourUuid, new Address(targetUuid, 1))
+          new QualifiedAddress(ourUuid, new Address(uuid, 1))
         );
       }
     }

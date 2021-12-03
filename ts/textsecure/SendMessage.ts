@@ -2036,7 +2036,7 @@ export default class MessageSender {
   // Simple pass-throughs
 
   async getProfile(
-    number: string,
+    uuid: UUID,
     options: Readonly<{
       accessKey?: string;
       profileKeyVersion: string;
@@ -2051,10 +2051,10 @@ export default class MessageSender {
         ...options,
         accessKey,
       };
-      return this.server.getProfileUnauth(number, unauthOptions);
+      return this.server.getProfileUnauth(uuid.toString(), unauthOptions);
     }
 
-    return this.server.getProfile(number, options);
+    return this.server.getProfile(uuid.toString(), options);
   }
 
   async checkAccountExistence(uuid: UUID): Promise<boolean> {
