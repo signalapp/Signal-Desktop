@@ -14,14 +14,14 @@ import { getLinkPreview } from '../selectors/linkPreviews';
 import { getIntl, getTheme } from '../selectors/user';
 import { getEmojiSkinTone } from '../selectors/items';
 import { selectRecentEmojis } from '../selectors/emojis';
-import type { AttachmentDraftType } from '../../types/Attachment';
+import type { AttachmentType } from '../../types/Attachment';
 
 export type SmartForwardMessageModalProps = {
-  attachments?: Array<AttachmentDraftType>;
+  attachments?: Array<AttachmentType>;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentDraftType>,
+    attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ) => void;
   isSticker: boolean;
