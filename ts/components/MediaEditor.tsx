@@ -94,6 +94,12 @@ export const MediaEditor = ({
 
   // Initial image load and Fabric canvas setup
   useEffect(() => {
+    // This is important. We can't re-run this function if we've already setup
+    //    a canvas since Fabric doesn't like that.
+    if (fabricCanvas) {
+      return;
+    }
+
     const img = new Image();
     img.onload = () => {
       setImage(img);
@@ -117,7 +123,7 @@ export const MediaEditor = ({
       img.onload = noop;
       img.onerror = noop;
     };
-  }, [canvasId, imageSrc, onClose]);
+  }, [canvasId, fabricCanvas, imageSrc, onClose]);
 
   const history = useFabricHistory(fabricCanvas);
 
@@ -142,7 +148,22 @@ export const MediaEditor = ({
         ev => isCmdOrCtrl(ev) && ev.key === 't',
         () => setEditMode(EditMode.Text),
       ],
-      [ev => isCmdOrCtrl(ev) && ev.key === 'z', () => history?.undo()],
+      [
+        ev => isCmdOrCtrl(ev) && ev.key === 'z',
+        () => {
+          if (history?.canUndo()) {
+            history?.undo();
+          }
+        },
+      ],
+      [
+        ev => isCmdOrCtrl(ev) && ev.shiftKey && ev.key === 'z',
+        () => {
+          if (history?.canRedo()) {
+            history?.redo();
+          }
+        },
+      ],
       [
         ev => ev.key === 'Escape',
         () => {
@@ -519,6 +540,7 @@ export const MediaEditor = ({
       return;
     }
 
+    obj.exitEditing();
     obj.set(getTextStyleAttributes(textStyle, sliderValue));
     fabricCanvas.requestRenderAll();
   }, [editMode, fabricCanvas, sliderValue, textStyle]);
@@ -609,6 +631,8 @@ export const MediaEditor = ({
     sliderValue,
     textStyle,
   ]);
+
+  const [isSaving, setIsSaving] = useState(false);
 
   // In an ideal world we'd use <ModalHost /> to get the nice animation benefits
   // but because of the way IText is implemented -- with a hidden textarea -- to
@@ -963,12 +987,12 @@ export const MediaEditor = ({
                 'MediaEditor__control--selected': editMode === EditMode.Text,
               })}
               onClick={() => {
-                if (!fabricCanvas) {
-                  return;
-                }
-
                 if (editMode === EditMode.Text) {
                   setEditMode(undefined);
+                  const obj = fabricCanvas?.getActiveObject();
+                  if (obj instanceof MediaEditorFabricIText) {
+                    obj.exitEditing();
+                  }
                 } else {
                   setEditMode(EditMode.Text);
                 }
@@ -1069,12 +1093,37 @@ export const MediaEditor = ({
             />
           </div>
           <Button
+            disabled={!image || isSaving}
             onClick={async () => {
               if (!fabricCanvas) {
                 return;
               }
-              const renderedCanvas = fabricCanvas.toCanvasElement();
-              const data = await canvasToBytes(renderedCanvas);
+
+              setEditMode(undefined);
+              setIsSaving(true);
+
+              let data: Uint8Array;
+              try {
+                fabricCanvas.discardActiveObject();
+                fabricCanvas.setDimensions({
+                  width: image.width,
+                  height: image.height,
+                });
+                fabricCanvas.setZoom(1);
+                const renderedCanvas = fabricCanvas.toCanvasElement();
+                fabricCanvas.setDimensions({
+                  width: imageState.width * zoom,
+                  height: imageState.height * zoom,
+                });
+                fabricCanvas.setZoom(zoom);
+                data = await canvasToBytes(renderedCanvas);
+              } catch (err) {
+                onClose();
+                throw err;
+              } finally {
+                setIsSaving(false);
+              }
+
               onDone(data);
             }}
             theme={Theme.Dark}
