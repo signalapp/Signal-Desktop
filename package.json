@@ -12,7 +12,7 @@
   },
   "main": "app/main.js",
   "scripts": {
-    "postinstall": "yarn build:acknowledgments && yarn build:fuses && patch-package && electron-builder install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn build:acknowledgments && yarn build:fuses && patch-package && yarn electron:install-app-deps && rimraf node_modules/dtrace-provider",
     "postuninstall": "yarn build:acknowledgments",
     "start": "electron .",
     "grunt": "grunt",
@@ -67,7 +67,8 @@
     "build:zip": "node scripts/zip-macos-release.js",
     "preverify:ts": "yarn build:typed-scss",
     "verify": "run-p --print-label verify:*",
-    "verify:ts": "tsc --noEmit"
+    "verify:ts": "tsc --noEmit",
+    "electron:install-app-deps": "electron-builder install-app-deps"
   },
   "optionalDependencies": {
     "fs-xattr": "0.3.0"
@@ -75,7 +76,7 @@
   "dependencies": {
     "@popperjs/core": "2.9.2",
     "@react-spring/web": "9.2.6",
-    "@signalapp/signal-client": "0.11.0",
+    "@signalapp/signal-client": "0.11.1",
     "@sindresorhus/is": "0.8.0",
     "@types/fabric": "4.5.3",
     "abort-controller": "3.0.0",
@@ -161,7 +162,7 @@
     "rotating-file-stream": "2.1.5",
     "sanitize.css": "11.0.0",
     "semver": "5.4.1",
-    "sharp": "0.28.1",
+    "sharp": "0.29.3",
     "split2": "4.0.0",
     "testcheck": "1.0.0-rc.2",
     "typeface-inter": "3.10.0",
@@ -226,7 +227,7 @@
     "@types/redux-logger": "3.0.7",
     "@types/rimraf": "2.0.2",
     "@types/semver": "5.5.0",
-    "@types/sharp": "0.28.0",
+    "@types/sharp": "0.29.4",
     "@types/sinon": "10.0.2",
     "@types/split2": "3.2.1",
     "@types/storybook__addon-actions": "3.4.3",
@@ -250,7 +251,7 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "electron": "15.3.2",
-    "electron-builder": "22.11.7",
+    "electron-builder": "22.14.5",
     "electron-mocha": "10.1.0",
     "electron-notarize": "0.1.1",
     "eslint": "7.7.0",
@@ -308,7 +309,7 @@
       "asarUnpack": [
         "**/*.node"
       ],
-      "artifactName": "${name}-mac-${version}.${ext}",
+      "artifactName": "${name}-mac-${arch}-${version}.${ext}",
       "category": "public.app-category.social-networking",
       "darkModeSupport": true,
       "hardenedRuntime": true,
@@ -321,8 +322,20 @@
         }
       ],
       "target": [
-        "zip",
-        "dmg"
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
       ],
       "bundleVersion": "1"
     },
@@ -439,13 +452,13 @@
       "node_modules/socks/build/common/*.js",
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
-      "node_modules/sharp/build/**",
+      "node_modules/sharp/build/**/*${arch}*.node",
       "!node_modules/sharp/{install,src,vendor/include,vendor/*/include}",
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
-      "node_modules/@signalapp/signal-client/prebuilds/*${platform}*/*.node",
-      "node_modules/ringrtc/build/${platform}/**",
+      "node_modules/@signalapp/signal-client/prebuilds/${platform}-${arch}/*.node",
+      "node_modules/ringrtc/build/${platform}/*${arch}*.node",
       "node_modules/mac-screen-capture-permissions/build/Release/*.node",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/.cache"

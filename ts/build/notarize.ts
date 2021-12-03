@@ -27,7 +27,7 @@ async function go() {
     return;
   }
 
-  const appPath = await findDMG();
+  const appPaths = await findDMGs();
   const appBundleId = packageJson.build.appId;
   if (!appBundleId) {
     throw new Error(
@@ -50,32 +50,41 @@ async function go() {
   }
 
   console.log('Notarizing with...');
-  console.log(`  file: ${appPath}`);
+  console.log(`  files: ${appPaths.join(', ')}`);
   console.log(`  primaryBundleId: ${appBundleId}`);
   console.log(`  username: ${appleId}`);
 
-  await notarize({
-    appBundleId,
-    appPath,
-    appleId,
-    appleIdPassword,
-  });
+  await Promise.all(
+    appPaths.map(async appPath => {
+      return notarize({
+        appBundleId,
+        appPath,
+        appleId,
+        appleIdPassword,
+      });
+    })
+  );
 }
 
 const IS_DMG = /\.dmg$/;
-async function findDMG(): Promise<string> {
+async function findDMGs(): Promise<Array<string>> {
   const releaseDir = resolve('release');
   const files: Array<string> = await readdir(releaseDir);
 
   const max = files.length;
+  const results = new Array<string>();
   for (let i = 0; i < max; i += 1) {
     const file = files[i];
     const fullPath = join(releaseDir, file);
 
     if (IS_DMG.test(file)) {
-      return fullPath;
+      results.push(fullPath);
     }
   }
 
-  throw new Error("No suitable file found in 'release' folder!");
+  if (results.length === 0) {
+    throw new Error("No suitable files found in 'release' folder!");
+  }
+
+  return results;
 }

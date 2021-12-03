@@ -24,13 +24,21 @@ releaseDate: '2019-03-29T16:58:08.210Z'
 `);
   const mac = parseYaml(`version: 1.23.2
 files:
-  - url: signal-desktop-mac-1.23.2.zip
-    sha512: f4pPo3WulTVi9zBWGsJPNIlvPOTCxPibPPDmRFDoXMmFm6lqJpXZQ9DSWMJumfc4BRp4y/NTQLGYI6b4WuJwhg==
-    size: 105179791
-    blockMapSize: 111109
-path: signal-desktop-mac-1.23.2.zip
-sha512: f4pPo3WulTVi9zBWGsJPNIlvPOTCxPibPPDmRFDoXMmFm6lqJpXZQ9DSWMJumfc4BRp4y/NTQLGYI6b4WuJwhg==
-releaseDate: '2019-03-29T16:57:16.997Z'
+  - url: signal-desktop-mac-x64-1.23.2.zip
+    sha512: STurwHhpE2rwwpwz3/RQBbMbVYY2Hh1DVpeofwIWPXoDTX/41zia+ByKXq8BvnjIMdQ3YmPHu+UppAW/+CFkFQ==
+    size: 150317727
+  - url: signal-desktop-mac-arm64-1.23.2.zip
+    sha512: PGFqCtiFep27rJcE3s8J2BAH9GQIRg460J0IVwbUCQERLZlN8YP71B1xWW09gCmA5YeEY4oDynqBLmgQfEFtfw==
+    size: 148022367
+  - url: signal-desktop-mac-x64-1.23.2.dmg
+    sha512: xbX5QDyzdvQd6rVzpamRLfWu+oIbhlW9pLbpKywQSiEx6BPZHTYCulBx9V5zrKh7TNM9nRpZJ3Sph2bU3v+5uQ==
+    size: 154866781
+  - url: signal-desktop-mac-arm64-1.23.2.dmg
+    sha512: 7wgGWCogQ9OWMGnqEUmiSeRct3w60zyzYp5cIUvJIVFe8WoB/qS7n721n+xCsrdteclR6yu1cqkOh/xN/wgS0Q==
+    size: 152618547
+path: signal-desktop-mac-x64-1.23.2.zip
+sha512: STurwHhpE2rwwpwz3/RQBbMbVYY2Hh1DVpeofwIWPXoDTX/41zia+ByKXq8BvnjIMdQ3YmPHu+UppAW/+CFkFQ==
+releaseDate: '2021-12-03T19:00:23.754Z'
 `);
   const windowsBeta = parseYaml(`version: 1.23.2-beta.1
 files:
@@ -43,13 +51,21 @@ releaseDate: '2019-03-29T01:56:00.544Z'
 `);
   const macBeta = parseYaml(`version: 1.23.2-beta.1
 files:
-  - url: signal-desktop-beta-mac-1.23.2-beta.1.zip
-    sha512: h/01N0DD5Jw2Q6M1n4uLGLTCrMFxcn8QOPtLR3HpABsf3w9b2jFtKb56/2cbuJXP8ol8TkTDWKnRV6mnqnLBDw==
-    size: 105182398
-    blockMapSize: 110894
-path: signal-desktop-beta-mac-1.23.2-beta.1.zip
-sha512: h/01N0DD5Jw2Q6M1n4uLGLTCrMFxcn8QOPtLR3HpABsf3w9b2jFtKb56/2cbuJXP8ol8TkTDWKnRV6mnqnLBDw==
-releaseDate: '2019-03-29T01:53:23.881Z'
+  - url: signal-desktop-mac-x64-1.23.2-beta.1.zip
+    sha512: STurwHhpE2rwwpwz3/RQBbMbVYY2Hh1DVpeofwIWPXoDTX/41zia+ByKXq8BvnjIMdQ3YmPHu+UppAW/+CFkFQ==
+    size: 150317727
+  - url: signal-desktop-mac-arm64-1.23.2-beta.1.zip
+    sha512: PGFqCtiFep27rJcE3s8J2BAH9GQIRg460J0IVwbUCQERLZlN8YP71B1xWW09gCmA5YeEY4oDynqBLmgQfEFtfw==
+    size: 148022367
+  - url: signal-desktop-mac-x64-1.23.2-beta.1.dmg
+    sha512: xbX5QDyzdvQd6rVzpamRLfWu+oIbhlW9pLbpKywQSiEx6BPZHTYCulBx9V5zrKh7TNM9nRpZJ3Sph2bU3v+5uQ==
+    size: 154866781
+  - url: signal-desktop-mac-arm64-1.23.2-beta.1.dmg
+    sha512: 7wgGWCogQ9OWMGnqEUmiSeRct3w60zyzYp5cIUvJIVFe8WoB/qS7n721n+xCsrdteclR6yu1cqkOh/xN/wgS0Q==
+    size: 152618547
+path: signal-desktop-mac-x64-1.23.2-beta.1.zip
+sha512: STurwHhpE2rwwpwz3/RQBbMbVYY2Hh1DVpeofwIWPXoDTX/41zia+ByKXq8BvnjIMdQ3YmPHu+UppAW/+CFkFQ==
+releaseDate: '2021-12-03T19:00:23.754Z'
 `);
 
   describe('#getVersion', () => {
@@ -67,20 +83,28 @@ releaseDate: '2019-03-29T01:53:23.881Z'
   describe('#getUpdateFileName', () => {
     it('successfully gets version', () => {
       assert.strictEqual(
-        getUpdateFileName(windows),
+        getUpdateFileName(windows, 'win32', 'x64'),
         'signal-desktop-win-1.23.2.exe'
       );
       assert.strictEqual(
-        getUpdateFileName(mac),
-        'signal-desktop-mac-1.23.2.zip'
+        getUpdateFileName(mac, 'darwin', 'x64'),
+        'signal-desktop-mac-x64-1.23.2.zip'
       );
       assert.strictEqual(
-        getUpdateFileName(windowsBeta),
+        getUpdateFileName(mac, 'darwin', 'arm64'),
+        'signal-desktop-mac-arm64-1.23.2.zip'
+      );
+      assert.strictEqual(
+        getUpdateFileName(windowsBeta, 'win32', 'x64'),
         'signal-desktop-beta-win-1.23.2-beta.1.exe'
       );
       assert.strictEqual(
-        getUpdateFileName(macBeta),
-        'signal-desktop-beta-mac-1.23.2-beta.1.zip'
+        getUpdateFileName(macBeta, 'darwin', 'x64'),
+        'signal-desktop-mac-x64-1.23.2-beta.1.zip'
+      );
+      assert.strictEqual(
+        getUpdateFileName(macBeta, 'darwin', 'arm64'),
+        'signal-desktop-mac-arm64-1.23.2-beta.1.zip'
       );
     });
   });
@@ -92,7 +116,7 @@ releaseDate: '2019-03-29T01:53:23.881Z'
         true
       );
       assert.strictEqual(
-        isUpdateFileNameValid('signal-desktop-mac-1.23.2-beta.1.zip'),
+        isUpdateFileNameValid('signal-desktop-mac-x64-1.23.2-beta.1.zip'),
         true
       );
     });
@@ -102,11 +126,11 @@ releaseDate: '2019-03-29T01:53:23.881Z'
         false
       );
       assert.strictEqual(
-        isUpdateFileNameValid('%signal-desktop-mac-1.23.2-beta.1.zip'),
+        isUpdateFileNameValid('%signal-desktop-mac-x64-1.23.2-beta.1.zip'),
         false
       );
       assert.strictEqual(
-        isUpdateFileNameValid('@signal-desktop-mac-1.23.2-beta.1.zip'),
+        isUpdateFileNameValid('@signal-desktop-mac-x64-1.23.2-beta.1.zip'),
         false
       );
     });

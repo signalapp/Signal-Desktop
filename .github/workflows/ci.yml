@@ -59,6 +59,8 @@ jobs:
     - run: yarn generate
     - run: yarn prepare-beta-build
     - run: yarn build
+    - name: Rebuild native modules for x64
+      run: yarn electron:install-app-deps
     - run: yarn test-node
     - run: yarn test-electron
     - run: yarn grunt test-release:osx

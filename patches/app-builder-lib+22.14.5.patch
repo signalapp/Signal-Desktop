@@ -1,0 +1,26 @@
+diff --git a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+index ed6b8d3..98495fd 100644
+--- a/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
++++ b/node_modules/app-builder-lib/out/targets/LinuxTargetHelper.js
+@@ -85,7 +85,7 @@ class LinuxTargetHelper {
+                 exec += " ";
+                 exec += executableArgs.join(" ");
+             }
+-            exec += " %U";
++            exec += " --no-sandbox %U";
+         }
+         const desktopMeta = {
+             Name: appInfo.productName,
+diff --git a/node_modules/app-builder-lib/templates/linux/after-install.tpl b/node_modules/app-builder-lib/templates/linux/after-install.tpl
+index 1536059..555f8f5 100644
+--- a/node_modules/app-builder-lib/templates/linux/after-install.tpl
++++ b/node_modules/app-builder-lib/templates/linux/after-install.tpl
+@@ -3,8 +3,5 @@
+ # Link to the binary
+ ln -sf '/opt/${sanitizedProductName}/${executable}' '/usr/bin/${executable}'
+ 
+-# SUID chrome-sandbox for Electron 5+
+-chmod 4755 '/opt/${sanitizedProductName}/chrome-sandbox' || true
+-
+ update-mime-database /usr/share/mime || true
+ update-desktop-database /usr/share/applications || true

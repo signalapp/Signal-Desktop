@@ -7,6 +7,8 @@ import {
   statSync,
   writeFile as writeFileCallback,
 } from 'fs';
+import { promisify } from 'util';
+import { execFile } from 'child_process';
 import { join, normalize, dirname } from 'path';
 import { tmpdir } from 'os';
 import { throttle } from 'lodash';
@@ -47,7 +49,6 @@ import type { LoggerType } from '../types/Logging';
 const writeFile = pify(writeFileCallback);
 const mkdirpPromise = pify(mkdirp);
 const rimrafPromise = pify(rimraf);
-const { platform } = process;
 
 export const GOT_CONNECT_TIMEOUT = 2 * 60 * 1000;
 export const GOT_LOOKUP_TIMEOUT = 2 * 60 * 1000;
@@ -267,7 +268,11 @@ export abstract class Updater {
           `forceUpdate=${forceUpdate}`
       );
 
-      const fileName = getUpdateFileName(parsedYaml);
+      const fileName = getUpdateFileName(
+        parsedYaml,
+        process.platform,
+        await this.getArch()
+      );
 
       return {
         fileName,
@@ -377,6 +382,27 @@ export abstract class Updater {
       this.logger.error(`quitHandler: ${Errors.toLogFormat(error)}`);
     }
   }
+
+  private async getArch(): Promise<typeof process.arch> {
+    if (process.platform !== 'darwin' || process.arch === 'arm64') {
+      return process.arch;
+    }
+
+    try {
+      // We might be running under Rosetta
+      if (promisify(execFile)('uname', ['-m']).toString().trim() === 'arm64') {
+        this.logger.info('updater: running under Rosetta');
+        return 'arm64';
+      }
+    } catch (error) {
+      this.logger.warn(
+        `updater: "uname -m" failed with ${Errors.toLogFormat(error)}`
+      );
+    }
+
+    this.logger.info('updater: not running under Rosetta');
+    return process.arch;
+  }
 }
 
 export function validatePath(basePath: string, targetPath: string): void {
@@ -408,7 +434,7 @@ export function getProxyUrl(): string | undefined {
 export function getUpdatesFileName(): string {
   const prefix = getChannel();
 
-  if (platform === 'darwin') {
+  if (process.platform === 'darwin') {
     return `${prefix}-mac.yml`;
   }
 
@@ -442,12 +468,30 @@ export function isUpdateFileNameValid(name: string): boolean {
   return validFile.test(name);
 }
 
-export function getUpdateFileName(info: JSONUpdateSchema): string {
+export function getUpdateFileName(
+  info: JSONUpdateSchema,
+  platform: typeof process.platform,
+  arch: typeof process.arch
+): string {
   if (!info || !info.path) {
     throw new Error('getUpdateFileName: No path present in YAML file');
   }
 
-  const { path } = info;
+  let path: string | undefined;
+  if (platform === 'darwin') {
+    const { files } = info;
+
+    const candidates = files.filter(
+      ({ url }) => url.includes(arch) && url.endsWith('.zip')
+    );
+
+    if (candidates.length === 1) {
+      path = candidates[0].url;
+    }
+  }
+
+  path = path ?? info.path;
+
   if (!isUpdateFileNameValid(path)) {
     throw new Error(
       `getUpdateFileName: Path '${path}' contains invalid characters`
