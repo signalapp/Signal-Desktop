@@ -54,16 +54,15 @@ async function go() {
   console.log(`  primaryBundleId: ${appBundleId}`);
   console.log(`  username: ${appleId}`);
 
-  await Promise.all(
-    appPaths.map(async appPath => {
-      return notarize({
-        appBundleId,
-        appPath,
-        appleId,
-        appleIdPassword,
-      });
-    })
-  );
+  for (const appPath of appPaths) {
+    // eslint-disable-next-line no-await-in-loop
+    await notarize({
+      appBundleId,
+      appPath,
+      appleId,
+      appleIdPassword,
+    });
+  }
 }
 
 const IS_DMG = /\.dmg$/;
