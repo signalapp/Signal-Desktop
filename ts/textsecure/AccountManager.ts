@@ -194,9 +194,8 @@ export default class AccountManager extends EventTarget {
   }
 
   async registerSecondDevice(
-    setProvisioningUrl: Function,
-    confirmNumber: (number?: string) => Promise<string>,
-    progressCallback?: Function
+    setProvisioningUrl: (url: string) => unknown,
+    confirmNumber: (number?: string) => Promise<string>
   ) {
     const clearSessionsAndPreKeys = this.clearSessionsAndPreKeys.bind(this);
     const provisioningCipher = new ProvisioningCipher();
@@ -289,8 +288,7 @@ export default class AccountManager extends EventTarget {
       // TODO: DESKTOP-2794
       const keys = await this.generateKeys(
         SIGNED_KEY_GEN_BATCH_SIZE,
-        UUIDKind.ACI,
-        progressCallback
+        UUIDKind.ACI
       );
       await this.server.registerKeys(keys, UUIDKind.ACI);
       await this.confirmKeys(keys, UUIDKind.ACI);
@@ -677,15 +675,7 @@ export default class AccountManager extends EventTarget {
     await store.storeSignedPreKey(ourUuid, key.keyId, key.keyPair, confirmed);
   }
 
-  async generateKeys(
-    count: number,
-    uuidKind: UUIDKind,
-    providedProgressCallback?: Function
-  ) {
-    const progressCallback =
-      typeof providedProgressCallback === 'function'
-        ? providedProgressCallback
-        : null;
+  async generateKeys(count: number, uuidKind: UUIDKind) {
     const startId = window.textsecure.storage.get('maxPreKeyId', 1);
     const signedKeyId = window.textsecure.storage.get('signedKeyId', 1);
     const ourUuid = window.textsecure.storage.user.getCheckedUuid(uuidKind);
@@ -717,9 +707,6 @@ export default class AccountManager extends EventTarget {
               keyId: res.keyId,
               publicKey: res.keyPair.pubKey,
             });
-            if (progressCallback) {
-              progressCallback();
-            }
           })
         );
       }
