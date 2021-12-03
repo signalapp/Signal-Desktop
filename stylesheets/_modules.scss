@@ -4500,7 +4500,7 @@ button.module-image__border-overlay:focus {
   height: 158px;
   position: absolute;
   width: 120px;
-  z-index: $z-index-above-base;
+  z-index: $z-index-calling-pip;
 
   & .module-ongoing-call__group-call-remote-participant {
     border-radius: 0;
@@ -4605,7 +4605,7 @@ button.module-image__border-overlay:focus {
     position: absolute;
     top: 0;
     width: 100vw;
-    z-index: $z-index-above-base;
+    z-index: $z-index-popup;
   }
 
   &__title {
@@ -5643,7 +5643,7 @@ button.module-image__border-overlay:focus {
   width: 332px;
   border-radius: 8px;
   margin-bottom: 6px;
-  z-index: $z-index-above-base;
+  z-index: $z-index-context-menu;
   user-select: none;
   overflow: hidden;
 
@@ -5672,6 +5672,7 @@ button.module-image__border-overlay:focus {
   display: grid;
   grid-template-rows: 44px 1fr;
   grid-template-columns: 1fr;
+  z-index: $z-index-context-menu;
 }
 
 .module-sticker-picker__header {
@@ -6219,7 +6220,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: $z-index-base;
+    z-index: $z-index-popup;
   }
 
   &__container {
@@ -6469,7 +6470,7 @@ button.module-image__border-overlay:focus {
   padding: 7px 12px;
   border-radius: 8px;
   margin-bottom: 6px;
-  z-index: $z-index-base;
+  z-index: $z-index-tooltip;
 
   @include light-theme {
     background: $color-white;
