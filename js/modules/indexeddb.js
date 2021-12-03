@@ -1,7 +1,7 @@
 // Copyright 2018-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global window, Whisper, setTimeout */
+/* global window, Whisper, clearTimeout, setTimeout */
 
 const MESSAGE_MINIMUM_VERSION = 7;
 
@@ -21,15 +21,26 @@ async function doesDatabaseExist() {
 
     let existed = true;
 
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       window.SignalContext.log.warn(
         'doesDatabaseExist: Timed out attempting to check IndexedDB status'
       );
       return resolve(false);
     }, 1000);
 
-    req.onerror = reject;
+    const clearTimer = () => {
+      if (timer !== undefined) {
+        clearTimeout(timer);
+        timer = undefined;
+      }
+    };
+
+    req.onerror = error => {
+      clearTimer();
+      reject(error);
+    };
     req.onsuccess = () => {
+      clearTimer();
       req.result.close();
       resolve(existed);
     };

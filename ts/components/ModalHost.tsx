@@ -6,20 +6,22 @@ import { createPortal } from 'react-dom';
 import FocusTrap from 'focus-trap-react';
 import type { SpringValues } from '@react-spring/web';
 import { animated } from '@react-spring/web';
+import classNames from 'classnames';
 
 import type { ModalConfigType } from '../hooks/useAnimated';
 import type { Theme } from '../util/theme';
 import { themeClassName } from '../util/theme';
 import { useEscapeHandling } from '../hooks/useEscapeHandling';
 
-export type PropsType = {
-  readonly children: React.ReactElement;
-  readonly noMouseClose?: boolean;
-  readonly onClose: () => unknown;
-  readonly onEscape?: () => unknown;
-  readonly overlayStyles?: SpringValues<ModalConfigType>;
-  readonly theme?: Theme;
-};
+export type PropsType = Readonly<{
+  children: React.ReactElement;
+  noMouseClose?: boolean;
+  onClose: () => unknown;
+  onEscape?: () => unknown;
+  overlayStyles?: SpringValues<ModalConfigType>;
+  theme?: Theme;
+  onTopOfEverything?: boolean;
+}>;
 
 export const ModalHost = React.memo(
   ({
@@ -29,6 +31,7 @@ export const ModalHost = React.memo(
     onEscape,
     theme,
     overlayStyles,
+    onTopOfEverything,
   }: PropsType) => {
     const [root, setRoot] = React.useState<HTMLElement | null>(null);
     const [isMouseDown, setIsMouseDown] = React.useState(false);
@@ -67,6 +70,11 @@ export const ModalHost = React.memo(
       [onClose, isMouseDown, setIsMouseDown]
     );
 
+    const className = classNames([
+      theme ? themeClassName(theme) : undefined,
+      onTopOfEverything ? 'module-modal-host--on-top-of-everything' : undefined,
+    ]);
+
     return root
       ? createPortal(
           <FocusTrap
@@ -75,7 +83,7 @@ export const ModalHost = React.memo(
               allowOutsideClick: false,
             }}
           >
-            <div className={theme ? themeClassName(theme) : undefined}>
+            <div className={className}>
               <animated.div
                 role="presentation"
                 className="module-modal-host__overlay"

@@ -17,19 +17,20 @@ export type ActionSpec = {
   style?: 'affirmative' | 'negative';
 };
 
-export type OwnProps = {
-  readonly moduleClassName?: string;
-  readonly actions?: Array<ActionSpec>;
-  readonly cancelText?: string;
-  readonly children?: React.ReactNode;
-  readonly i18n: LocalizerType;
-  readonly onCancel?: () => unknown;
-  readonly onClose: () => unknown;
-  readonly title?: string | React.ReactNode;
-  readonly theme?: Theme;
-  readonly hasXButton?: boolean;
-  readonly cancelButtonVariant?: ButtonVariant;
-};
+export type OwnProps = Readonly<{
+  moduleClassName?: string;
+  actions?: Array<ActionSpec>;
+  cancelText?: string;
+  children?: React.ReactNode;
+  i18n: LocalizerType;
+  onCancel?: () => unknown;
+  onClose: () => unknown;
+  title?: string | React.ReactNode;
+  theme?: Theme;
+  hasXButton?: boolean;
+  cancelButtonVariant?: ButtonVariant;
+  onTopOfEverything?: boolean;
+}>;
 
 export type Props = OwnProps;
 
@@ -66,6 +67,7 @@ export const ConfirmationDialog = React.memo(
     title,
     hasXButton,
     cancelButtonVariant,
+    onTopOfEverything,
   }: Props) => {
     const { close, overlayStyles, modalStyles } = useAnimated(onClose, {
       getFrom: () => ({ opacity: 0, transform: 'scale(0.25)' }),
@@ -91,7 +93,12 @@ export const ConfirmationDialog = React.memo(
     const hasActions = Boolean(actions.length);
 
     return (
-      <ModalHost onClose={close} theme={theme} overlayStyles={overlayStyles}>
+      <ModalHost
+        onTopOfEverything={onTopOfEverything}
+        onClose={close}
+        theme={theme}
+        overlayStyles={overlayStyles}
+      >
         <animated.div style={modalStyles}>
           <ModalWindow
             hasXButton={hasXButton}

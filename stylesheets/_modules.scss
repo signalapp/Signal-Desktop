@@ -7913,6 +7913,15 @@ button.module-image__border-overlay:focus {
   z-index: $z-index-popup-overlay;
 }
 
+.module-modal-host--on-top-of-everything {
+  $loading-screen-modal-overlay: $z-index-on-top-of-everything + 1;
+
+  .module-modal-host__overlay,
+  .module-modal-host__container {
+    z-index: $loading-screen-modal-overlay;
+  }
+}
+
 // Module: GroupV2 Join Dialog
 
 .module-group-v2-join-dialog {
