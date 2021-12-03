@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "आपण फक्त 4 गप्पा pin करू शकता",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "फोल्डर निवडा",
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "$conversationName$ मध्ये शोधा",
+        "message": "Search chat",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5419,9 +5419,13 @@
         "message": "हरवणारे संदेश",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "सक्षम केल्यानंतर, या गटात पाठविलेले आणि प्राप्त झालेले संदेश पाहिल्यानंतर हरवतील.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "सूचना",
@@ -6583,6 +6587,90 @@
         "message": "तुमची सेव्हिंग्ज सेव्ह करतांना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "रेखाटा",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Add text",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "स्टिकर",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Crop and rotate",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "अनडू करा",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "रीडू करा",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Regular",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Highlight",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Outline",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Underline",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Pen",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Highlighter",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Thin",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Regular",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "मध्यम",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Heavy",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "रीसेट करा",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Rotate",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "स्विच ",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "लॉक",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Crop",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "नवीन काय आहे",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "description": "Release notes for v5.26"
     }
 }

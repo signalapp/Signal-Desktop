@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Możesz przypiąć maksymalnie 4 rozmowy",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Wybierz folder",
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Szukaj w $conversationName$",
+        "message": "Szukaj w rozmowie",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5419,9 +5419,13 @@
         "message": "Znikające wiadomości",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
-        "message": "Włączenie funkcji spowoduje, że wysyłane i otrzymywane wiadomości w tej rozmowie znikną, gdy zostaną odczytane.",
-        "description": "This is the info about the disappearing messages setting"
+    "ConversationDetails--disappearing-messages-info--group": {
+        "message": "Gdy ta opcja jest włączona, nowe wiadomości, wysłane i otrzymane w tej rozmowie, znikną po odczytaniu.",
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "Gdy ta opcja jest włączona, nowe wiadomości, wysłane i otrzymane w tej, indywidualnej rozmowie, znikną po odczytaniu.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Powiadomienia",
@@ -6583,6 +6587,90 @@
         "message": "Podczas zapisywania Twoich ustawień wystąpił błąd. Spróbuj ponownie.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Rysuj",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Dodaj tekst",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Naklejki",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Przytnij i obróć",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Cofnij",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Powtórz",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Normalny",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Podświetlenie",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Kontur",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Podkreślenie",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Pióro",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Zakreślacz",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Cienki",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Normalny",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Średni",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Gruby",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Zresetuj",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Obróć",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Odbicie lustrzane",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Zablokuj proporcje",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Przytnij",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Co nowego",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Zmęczyło Cię wysyłanie zwyczajnych, niewyedytowanych zdjęć w Signal? Teraz w Signal możesz dodawać naklejki z kotami, neonowy tekst i rysować drzewka, zanim wyślesz zdjęcie.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Czujesz, że w Twoim życiu potrzeba więcej pikseli na prawym panelu? Jesteś fanem awatarów i niczego więcej? Masz na zderzaku nalepkę \"Oszczędzaj przestrzeń ekranową\"? Niezależnie, czy odpowiedziałeś tak, czy nie na powyższe pytania, ta aktualizacja ma dla Ciebie możliwość zmniejszenia lewego panelu.",
+        "description": "Release notes for v5.26"
     }
 }

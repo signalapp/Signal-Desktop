@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Вы можете прикрепить только до 4 чатов",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Выбрать папку",
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Искать в $conversationName$",
+        "message": "Поиск в чате",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5419,9 +5419,13 @@
         "message": "Исчезающие сообщения",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "При включении этой настройки сообщения, отправленные и полученные в этой группе, будут исчезать после прочтения.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "При включении этой настройки сообщения, отправленные и полученные в этом чате, будут исчезать после прочтения.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Уведомления",
@@ -6583,6 +6587,90 @@
         "message": "Произошла ошибка при сохранении ваших настроек. Пожалуйста, попробуйте еще раз.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Нарисовать",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Добавить текст",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Стикеры",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Обрезать и повернуть",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Отменить",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Вернуть",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Обычный",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Выделение",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Контур",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Подчёркивание",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Фломастер",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Текстовыделитель",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Тонкий",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Обычный",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Средний",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Толстый",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Сбросить",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Повернуть",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Зеркально отразить",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Заблокировать соотношение сторон",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Обрезать",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Что нового",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Вы устали отправлять неотредактированные изображения через Signal? Теперь вы можете добавлять стикеры котов и неоновый текст к изображениям и рисовать счастливые деревья на них перед отправкой.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Теперь вы можете изменять размер левой панели.",
+        "description": "Release notes for v5.26"
     }
 }

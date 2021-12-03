@@ -192,11 +192,11 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "S'està optimitzant l'aplicació...",
+        "message": "S'optimitza l'aplicació...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "S'estan optimitzant els missatges... $status$ acabat.",
+        "message": "S'optimitzen els missatges... $status$ fet.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Només podeu fixar fins a 4 converses.",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Trieu una carpeta",
@@ -270,7 +270,7 @@
         "description": "Header of the error screen after a failed import"
     },
     "importingHeader": {
-        "message": "S'estan carregant els contactes i missatges",
+        "message": "Es carreguen els contactes i els missatges",
         "description": "Header of screen shown as data is import"
     },
     "importErrorFirst": {
@@ -302,11 +302,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "S'està actualitzant la base de dades. Això pot trigar una mica...",
+        "message": "S'actualitza la base de dades. Això pot trigar una mica...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "S'estan carregant els missatges. En manquen $count$...",
+        "message": "Es carreguen els missatges. $count$ fins ara...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Cerca a $conversationName$",
+        "message": "Cerca a la conversa",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -914,7 +914,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "S'està baixant",
+        "message": "Es baixa",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
@@ -5419,9 +5419,13 @@
         "message": "Missatges efímers",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "Quan s'activa, els missatges enviats i rebuts al grup desapareixeran després que s'hagin llegit.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "Quan s'activa, els missatges enviats i rebuts en aquesta conversa 1:1 desapareixeran un cop s'hagin vist.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Notificacions",
@@ -6583,6 +6587,90 @@
         "message": "Hi ha hagut un error en desar la configuració. Torneu-ho a provar.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Dibuix",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Afegiu-hi text",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Adhesius",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Retalla i gira",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Desfés",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Refés",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Regular",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Ressaltat",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Contorn",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Subratllat",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Bolígraf",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Retolador",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Prima",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Regular",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Mitjana",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Gruixuda",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Restableix",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Gira",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Canvia",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Bloca",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Retalla",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Què hi ha de nou",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Cansat: enviament de imatges senzills sense editar amb el Signal. Amb cable: addició d'adhesius de gats, text de neó i dibuixos d'arbres feliços a les imatges abans d'enviar-les amb el Signal.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Alguna vegada heu sentit que necessiteu més píxels al plafó? Sou fan dels avatars, però només dels avatars i res més? Teniu un adhesiu estrambòtic al para-xocs del cotxe? Si heu respost sí o no a qualsevol d'aquestes preguntes, aquesta actualització té un plafó esquerre plegable per a vosaltres.",
+        "description": "Release notes for v5.26"
     }
 }

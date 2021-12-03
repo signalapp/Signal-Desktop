@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Solo puedes fijar un máximo de 4 chats",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Seleccionar carpeta",
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Buscar en «$conversationName$» ",
+        "message": "Buscar en chat",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5419,9 +5419,13 @@
         "message": "Desaparición de mensajes",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "Si esta opción está activa, los mensajes enviados y recibidos en este grupo desaparecerán tras ser vistos.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "Si esta opción está activa, los mensajes enviados y recibidos en este chat desaparecerán tras ser vistos.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Notificaciones",
@@ -6583,6 +6587,90 @@
         "message": "Ha ocurrido un fallo al guardar tus ajustes. Por favor, inténtalo de nuevo.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Dibujar",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Añadir texto",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Stickers",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Cortar y rotar",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Deshacer",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Rehacer",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Normal",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Resaltar",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Marcar",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Subrayar",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Lápiz",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Marcador",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Más fina",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Normal",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Mediana",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Más ancha",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Reiniciar",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Rotar",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Girar",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Bloquear",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Recortar",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Novedades",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Cosas del pasado: Enviar mensajes simples en Signal. Cosas del presente: Añade stickers de gatos, texto en colores neón o dibuja árboles sonrientes en tus fotos antes de mandarlas por Signal.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "¿Alguna vez has tenido la sensación de necesitar más píxeles en el panel de los mensajes? ¿Eres fan de avatares, y sólamente avatares? ¿Tienes una pegatina de \"Estás demasiado cerca, necesito espacio entre nosotr@s\" en la parte trasera de tu auto? Si has respondido sí o no a alguna de estas preguntas, te alegrará saber que la vista del panel con la lista de chats se puede reducir.",
+        "description": "Release notes for v5.26"
     }
 }

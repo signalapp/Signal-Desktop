@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Du kannst maximal 4 Unterhaltungen anheften",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Ordner wählen",
@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "In $conversationName$ suchen",
+        "message": "Unterhaltung durchsuchen",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5419,9 +5419,13 @@
         "message": "Verschwindende Nachrichten",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
-        "message": "Bei Aktivierung werden in dieser Gruppe versendete und empfangene Nachrichten nach dem Lesen verschwinden.",
-        "description": "This is the info about the disappearing messages setting"
+    "ConversationDetails--disappearing-messages-info--group": {
+        "message": "Wenn aktiviert, werden versendete und empfangene Nachrichten dieser Gruppe nach dem Lesen verschwinden.",
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "Bei Aktivierung werden in dieser Eins-zu-eins-Unterhaltung versendete Nachrichten nach dem Lesen verschwinden.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Benachrichtigungen",
@@ -6583,6 +6587,90 @@
         "message": "Beim Speichern deiner Einstellungen ist ein Fehler aufgetreten. Versuche es bitte erneut.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Zeichnen",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Text hinzufügen",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Sticker",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Zuschneiden und Drehen",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Rückgängig",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Wiederherstellen",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Normal",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Hervorheben",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Kontur",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Unterstreichen",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Stift",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Textmarker",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Dünn",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Normal",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Mittel",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Dick",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Zurücksetzen",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Drehen",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Spiegeln",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Signal sperren",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Zuschneiden",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Was ist neu",
         "description": "Title for the whats new modal"
@@ -6606,5 +6694,13 @@
     "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Langweilig: unbearbeitete Bilder über Signal senden.\nAufregend: Ergänze Katzensticker, Neonschrift und male glückliche Bäume auf deine Bilder, bevor du sie über Signal verschickst.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Schon mal das Gefühl gehabt, mehr Pixel in der rechten Fensterhälfte zu benötigen? Bist du ein Freund von Avataren und sonst nichts anderem? Hast du einen „Bildschirmplatz sparen“-Aufkleber an deinem Auto? Egal ob du einige Fragen mit Ja oder Nein beantwortet hast, diese Aktualisierung bringt einen einklappbaren linken Fensterbereich.",
+        "description": "Release notes for v5.26"
     }
 }
