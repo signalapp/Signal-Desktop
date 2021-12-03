@@ -16,7 +16,7 @@ import { animated } from '@react-spring/web';
 
 import classNames from 'classnames';
 import { AttachmentList } from './conversation/AttachmentList';
-import type { AttachmentDraftType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { Button } from './Button';
 import type { InputApi } from './CompositionInput';
 import { CompositionInput } from './CompositionInput';
@@ -39,12 +39,12 @@ import { filterAndSortConversationsByRecent } from '../util/filterAndSortConvers
 import { useAnimated } from '../hooks/useAnimated';
 
 export type DataPropsType = {
-  attachments?: Array<AttachmentDraftType>;
+  attachments?: Array<AttachmentType>;
   candidateConversations: ReadonlyArray<ConversationType>;
   doForwardMessage: (
     selectedContacts: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentDraftType>,
+    attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -102,7 +102,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
     filterAndSortConversationsByRecent(candidateConversations, '')
   );
   const [attachmentsToForward, setAttachmentsToForward] = useState<
-    Array<AttachmentDraftType>
+    Array<AttachmentType>
   >(attachments || []);
   const [isEditingMessage, setIsEditingMessage] = useState(false);
   const [messageBodyText, setMessageBodyText] = useState(messageBody || '');
@@ -325,7 +325,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
                 <AttachmentList
                   attachments={attachmentsToForward}
                   i18n={i18n}
-                  onCloseAttachment={(attachment: AttachmentDraftType) => {
+                  onCloseAttachment={(attachment: AttachmentType) => {
                     const newAttachments = attachmentsToForward.filter(
                       currentAttachment => currentAttachment !== attachment
                     );

@@ -6,6 +6,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 
+import type { AttachmentDraftType } from '../../types/Attachment';
 import type { Props } from './AttachmentList';
 import { AttachmentList } from './AttachmentList';
 import {
@@ -24,7 +25,9 @@ const i18n = setupI18n('en', enMessages);
 
 const story = storiesOf('Components/Conversation/AttachmentList', module);
 
-const createProps = (overrideProps: Partial<Props> = {}): Props => ({
+const createProps = (
+  overrideProps: Partial<Props<AttachmentDraftType>> = {}
+): Props<AttachmentDraftType> => ({
   attachments: overrideProps.attachments || [],
   i18n,
   onAddAttachment: action('onAddAttachment'),

@@ -7,7 +7,10 @@ import { Image } from './Image';
 import { StagedGenericAttachment } from './StagedGenericAttachment';
 import { StagedPlaceholderAttachment } from './StagedPlaceholderAttachment';
 import type { LocalizerType } from '../../types/Util';
-import type { AttachmentDraftType } from '../../types/Attachment';
+import type {
+  AttachmentType,
+  AttachmentDraftType,
+} from '../../types/Attachment';
 import {
   areAllAttachmentsVisual,
   canDisplayImage,
@@ -15,14 +18,14 @@ import {
   isVideoAttachment,
 } from '../../types/Attachment';
 
-export type Props = Readonly<{
-  attachments: ReadonlyArray<AttachmentDraftType>;
+export type Props<T extends AttachmentType | AttachmentDraftType> = Readonly<{
+  attachments: ReadonlyArray<T>;
   canEditImages?: boolean;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
-  onClickAttachment?: (attachment: AttachmentDraftType) => void;
+  onClickAttachment?: (attachment: T) => void;
   onClose?: () => void;
-  onCloseAttachment: (attachment: AttachmentDraftType) => void;
+  onCloseAttachment: (attachment: T) => void;
 }>;
 
 const IMAGE_WIDTH = 120;
@@ -32,15 +35,21 @@ const IMAGE_HEIGHT = 120;
 const BLANK_VIDEO_THUMBNAIL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNiAAAABgADm78GJQAAAABJRU5ErkJggg==';
 
-function getUrl(attachment: AttachmentDraftType): string | undefined {
+function getUrl(
+  attachment: AttachmentType | AttachmentDraftType
+): string | undefined {
   if (attachment.pending) {
     return undefined;
+  }
+
+  if ('screenshot' in attachment) {
+    return attachment.screenshot?.url || attachment.url;
   }
 
   return attachment.url;
 }
 
-export const AttachmentList = ({
+export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
   attachments,
   canEditImages,
   i18n,
@@ -48,7 +57,7 @@ export const AttachmentList = ({
   onClickAttachment,
   onCloseAttachment,
   onClose,
-}: Props): JSX.Element | null => {
+}: Props<T>): JSX.Element | null => {
   if (!attachments.length) {
     return null;
   }

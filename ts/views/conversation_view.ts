@@ -7,7 +7,7 @@ import { batch as batchDispatch } from 'react-redux';
 import { debounce, flatten, omit, throttle } from 'lodash';
 import { render } from 'mustache';
 
-import type { AttachmentDraftType, AttachmentType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import * as Attachment from '../types/Attachment';
 import type { StickerPackType as StickerPackDBType } from '../sql/Interface';
@@ -1265,31 +1265,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     const attachments = getAttachmentsForMessage(message.attributes);
-    const draftAttachments = attachments
-      .map((item: AttachmentType): AttachmentDraftType | null => {
-        const { path } = item;
-        if (!path) {
-          return null;
-        }
-
-        return {
-          ...item,
-          path,
-          pending: false as const,
-          screenshotPath: item.screenshot?.path,
-        };
-      })
-      .filter(isNotNil);
 
     this.forwardMessageModal = new Whisper.ReactWrapperView({
       JSX: window.Signal.State.Roots.createForwardMessageModal(
         window.reduxStore,
         {
-          attachments: draftAttachments,
+          attachments,
           doForwardMessage: async (
             conversationIds: Array<string>,
             messageBody?: string,
-            includedAttachments?: Array<AttachmentDraftType>,
+            includedAttachments?: Array<AttachmentType>,
             linkPreview?: LinkPreviewType
           ) => {
             try {
@@ -1338,7 +1323,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     message: MessageModel,
     conversationIds: Array<string>,
     messageBody?: string,
-    attachments?: Array<AttachmentDraftType>,
+    attachments?: Array<AttachmentType>,
     linkPreview?: LinkPreviewType
   ): Promise<boolean> {
     log.info(`maybeForwardMessage/${message.idForLogging()}: Starting...`);

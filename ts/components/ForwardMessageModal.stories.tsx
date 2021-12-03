@@ -8,7 +8,7 @@ import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 
 import enMessages from '../../_locales/en/messages.json';
-import type { AttachmentDraftType } from '../types/Attachment';
+import type { AttachmentType } from '../types/Attachment';
 import type { PropsType } from './ForwardMessageModal';
 import { ForwardMessageModal } from './ForwardMessageModal';
 import { IMAGE_JPEG, VIDEO_MP4, stringToMIMEType } from '../types/MIME';
@@ -16,9 +16,9 @@ import { getDefaultConversation } from '../test-both/helpers/getDefaultConversat
 import { setupI18n } from '../util/setupI18n';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext';
 
-const createDraftAttachment = (
-  props: Partial<AttachmentDraftType> = {}
-): AttachmentDraftType => ({
+const createAttachment = (
+  props: Partial<AttachmentType> = {}
+): AttachmentType => ({
   pending: false,
   path: 'fileName.jpg',
   contentType: stringToMIMEType(
@@ -83,7 +83,7 @@ story.add('link preview', () => {
           date: Date.now(),
           domain: 'https://www.signal.org',
           url: 'signal.org',
-          image: createDraftAttachment({
+          image: createAttachment({
             url: '/fixtures/kitten-4-112-112.jpg',
             contentType: IMAGE_JPEG,
           }),
@@ -101,15 +101,15 @@ story.add('media attachments', () => {
     <ForwardMessageModal
       {...useProps({
         attachments: [
-          createDraftAttachment({
+          createAttachment({
             pending: true,
           }),
-          createDraftAttachment({
+          createAttachment({
             contentType: IMAGE_JPEG,
             fileName: 'tina-rolf-269345-unsplash.jpg',
             url: '/fixtures/tina-rolf-269345-unsplash.jpg',
           }),
-          createDraftAttachment({
+          createAttachment({
             contentType: VIDEO_MP4,
             fileName: 'pixabay-Soap-Bubble-7141.mp4',
             url: '/fixtures/pixabay-Soap-Bubble-7141.mp4',
