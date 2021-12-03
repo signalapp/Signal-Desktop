@@ -8,7 +8,7 @@ const resizeControl = new fabric.Control({
   cursorStyleHandler: () => 'se-resize',
   render: (ctx: CanvasRenderingContext2D, left: number, top: number) => {
     // circle
-    const size = 9;
+    const size = 12;
     ctx.save();
     ctx.fillStyle = '#fff';
     ctx.strokeStyle = '#fff';
@@ -18,7 +18,7 @@ const resizeControl = new fabric.Control({
     ctx.fill();
 
     // arrows NW & SE
-    const arrowSize = 4;
+    const arrowSize = 5;
     ctx.fillStyle = '#3b3b3b';
     ctx.strokeStyle = '#3b3b3b';
     ctx.beginPath();
@@ -96,7 +96,7 @@ const deleteControl = new fabric.Control({
   },
   render: (ctx: CanvasRenderingContext2D, left: number, top: number) => {
     // circle
-    const size = 9;
+    const size = 12;
     ctx.save();
     ctx.fillStyle = '#000';
     ctx.strokeStyle = '#000';
@@ -106,7 +106,7 @@ const deleteControl = new fabric.Control({
     ctx.fill();
 
     // x
-    const xSize = 3;
+    const xSize = 4;
     ctx.fillStyle = '#fff';
     ctx.strokeStyle = '#fff';
     ctx.beginPath();

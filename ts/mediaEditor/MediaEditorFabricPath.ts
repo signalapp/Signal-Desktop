@@ -2,14 +2,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { fabric } from 'fabric';
-import { customFabricObjectControls } from './util/customFabricObjectControls';
 
 export class MediaEditorFabricPath extends fabric.Path {
   constructor(
     path?: string | Array<fabric.Point>,
     options?: fabric.IPathOptions
   ) {
-    super(path, { fill: undefined, lockScalingFlip: true, ...(options || {}) });
+    super(path, {
+      evented: false,
+      fill: undefined,
+      hasControls: false,
+      lockScalingFlip: true,
+      selectable: false,
+      ...(options || {}),
+    });
   }
 
   static override fromObject(
@@ -26,4 +32,3 @@ export class MediaEditorFabricPath extends fabric.Path {
 
 MediaEditorFabricPath.prototype.type = 'MediaEditorFabricPath';
 MediaEditorFabricPath.prototype.borderColor = '#ffffff';
-MediaEditorFabricPath.prototype.controls = customFabricObjectControls;

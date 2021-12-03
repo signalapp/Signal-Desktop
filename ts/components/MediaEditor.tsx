@@ -399,6 +399,7 @@ export const MediaEditor = ({
 
   const [canRedo, setCanRedo] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
+  const [canCrop, setCanCrop] = useState(false);
   const [cropAspectRatioLock, setcropAspectRatioLock] = useState(false);
   const [drawTool, setDrawTool] = useState<DrawTool>(DrawTool.Pen);
   const [drawWidth, setDrawWidth] = useState<DrawWidth>(DrawWidth.Regular);
@@ -572,6 +573,13 @@ export const MediaEditor = ({
           width,
         });
 
+        rect.on('modified', () => {
+          const { height: currHeight, width: currWidth } =
+            rect.getBoundingRect(true);
+
+          setCanCrop(currHeight < height || currWidth < width);
+        });
+
         rect.on('deselected', () => {
           setEditMode(undefined);
         });
@@ -589,6 +597,8 @@ export const MediaEditor = ({
         }
       });
     }
+
+    setCanCrop(false);
   }, [editMode, fabricCanvas, imageState.height, imageState.width, zoom]);
 
   useEffect(() => {
@@ -857,6 +867,7 @@ export const MediaEditor = ({
         <button
           aria-label={i18n('MediaEditor__crop--crop')}
           className="MediaEditor__crop-toolbar--button MediaEditor__crop-toolbar--crop"
+          disabled={!canCrop}
           onClick={() => {
             if (!fabricCanvas) {
               return;

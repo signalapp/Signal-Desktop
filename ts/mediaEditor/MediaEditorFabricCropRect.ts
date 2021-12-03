@@ -85,6 +85,7 @@ MediaEditorFabricCropRect.prototype.controls = {
     x: -0.5,
     y: -0.5,
     actionHandler: fabric.controlsUtils.scalingEqually,
+    cursorStyle: 'nwse-resize',
     render: (
       ctx: CanvasRenderingContext2D,
       left: number,
@@ -111,6 +112,7 @@ MediaEditorFabricCropRect.prototype.controls = {
     x: 0.5,
     y: -0.5,
     actionHandler: fabric.controlsUtils.scalingEqually,
+    cursorStyle: 'nesw-resize',
     render: (
       ctx: CanvasRenderingContext2D,
       left: number,
@@ -137,6 +139,7 @@ MediaEditorFabricCropRect.prototype.controls = {
     x: -0.5,
     y: 0.5,
     actionHandler: fabric.controlsUtils.scalingEqually,
+    cursorStyle: 'nesw-resize',
     render: (
       ctx: CanvasRenderingContext2D,
       left: number,
@@ -163,6 +166,7 @@ MediaEditorFabricCropRect.prototype.controls = {
     x: 0.5,
     y: 0.5,
     actionHandler: fabric.controlsUtils.scalingEqually,
+    cursorStyle: 'nwse-resize',
     render: (
       ctx: CanvasRenderingContext2D,
       left: number,
