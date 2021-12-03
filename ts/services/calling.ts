@@ -602,94 +602,103 @@ export class CallingClass {
     let updateMessageState = GroupCallUpdateMessageState.SentNothing;
     let isRequestingMembershipProof = false;
 
-    const outerGroupCall = RingRTC.getGroupCall(groupIdBuffer, this.sfuUrl, {
-      onLocalDeviceStateChanged: groupCall => {
-        const localDeviceState = groupCall.getLocalDeviceState();
-        const { eraId } = groupCall.getPeekInfo() || {};
-
-        if (localDeviceState.connectionState === ConnectionState.NotConnected) {
-          // NOTE: This assumes that only one call is active at a time. For example, if
-          //   there are two calls using the camera, this will disable both of them.
-          //   That's fine for now, but this will break if that assumption changes.
-          this.disableLocalVideo();
-
-          delete this.callsByConversation[conversationId];
+    const outerGroupCall = RingRTC.getGroupCall(
+      groupIdBuffer,
+      this.sfuUrl,
+      Buffer.alloc(0),
+      {
+        onLocalDeviceStateChanged: groupCall => {
+          const localDeviceState = groupCall.getLocalDeviceState();
+          const { eraId } = groupCall.getPeekInfo() || {};
 
           if (
-            updateMessageState === GroupCallUpdateMessageState.SentJoin &&
-            eraId
+            localDeviceState.connectionState === ConnectionState.NotConnected
           ) {
-            updateMessageState = GroupCallUpdateMessageState.SentLeft;
-            this.sendGroupCallUpdateMessage(conversationId, eraId);
-          }
-        } else {
-          this.callsByConversation[conversationId] = groupCall;
-
-          // NOTE: This assumes only one active call at a time. See comment above.
-          if (localDeviceState.videoMuted) {
+            // NOTE: This assumes that only one call is active at a time. For example, if
+            //   there are two calls using the camera, this will disable both of them.
+            //   That's fine for now, but this will break if that assumption changes.
             this.disableLocalVideo();
+
+            delete this.callsByConversation[conversationId];
+
+            if (
+              updateMessageState === GroupCallUpdateMessageState.SentJoin &&
+              eraId
+            ) {
+              updateMessageState = GroupCallUpdateMessageState.SentLeft;
+              this.sendGroupCallUpdateMessage(conversationId, eraId);
+            }
           } else {
-            this.videoCapturer.enableCaptureAndSend(groupCall);
+            this.callsByConversation[conversationId] = groupCall;
+
+            // NOTE: This assumes only one active call at a time. See comment above.
+            if (localDeviceState.videoMuted) {
+              this.disableLocalVideo();
+            } else {
+              this.videoCapturer.enableCaptureAndSend(groupCall);
+            }
+
+            if (
+              updateMessageState === GroupCallUpdateMessageState.SentNothing &&
+              localDeviceState.joinState === JoinState.Joined &&
+              eraId
+            ) {
+              updateMessageState = GroupCallUpdateMessageState.SentJoin;
+              this.sendGroupCallUpdateMessage(conversationId, eraId);
+            }
           }
 
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        onRemoteDeviceStatesChanged: groupCall => {
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        onPeekChanged: groupCall => {
+          const localDeviceState = groupCall.getLocalDeviceState();
+          const { eraId } = groupCall.getPeekInfo() || {};
           if (
             updateMessageState === GroupCallUpdateMessageState.SentNothing &&
+            localDeviceState.connectionState !== ConnectionState.NotConnected &&
             localDeviceState.joinState === JoinState.Joined &&
             eraId
           ) {
             updateMessageState = GroupCallUpdateMessageState.SentJoin;
             this.sendGroupCallUpdateMessage(conversationId, eraId);
           }
-        }
 
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      onRemoteDeviceStatesChanged: groupCall => {
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      onPeekChanged: groupCall => {
-        const localDeviceState = groupCall.getLocalDeviceState();
-        const { eraId } = groupCall.getPeekInfo() || {};
-        if (
-          updateMessageState === GroupCallUpdateMessageState.SentNothing &&
-          localDeviceState.connectionState !== ConnectionState.NotConnected &&
-          localDeviceState.joinState === JoinState.Joined &&
-          eraId
-        ) {
-          updateMessageState = GroupCallUpdateMessageState.SentJoin;
-          this.sendGroupCallUpdateMessage(conversationId, eraId);
-        }
-
-        this.updateCallHistoryForGroupCall(
-          conversationId,
-          groupCall.getPeekInfo()
-        );
-        this.syncGroupCallToRedux(conversationId, groupCall);
-      },
-      async requestMembershipProof(groupCall) {
-        if (isRequestingMembershipProof) {
-          return;
-        }
-        isRequestingMembershipProof = true;
-        try {
-          const proof = await fetchMembershipProof({
-            publicParams,
-            secretParams,
-          });
-          if (proof) {
-            groupCall.setMembershipProof(Buffer.from(Bytes.fromString(proof)));
+          this.updateCallHistoryForGroupCall(
+            conversationId,
+            groupCall.getPeekInfo()
+          );
+          this.syncGroupCallToRedux(conversationId, groupCall);
+        },
+        async requestMembershipProof(groupCall) {
+          if (isRequestingMembershipProof) {
+            return;
           }
-        } catch (err) {
-          log.error('Failed to fetch membership proof', err);
-        } finally {
-          isRequestingMembershipProof = false;
-        }
-      },
-      requestGroupMembers: groupCall => {
-        groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
-      },
-      onEnded: noop,
-    });
+          isRequestingMembershipProof = true;
+          try {
+            const proof = await fetchMembershipProof({
+              publicParams,
+              secretParams,
+            });
+            if (proof) {
+              groupCall.setMembershipProof(
+                Buffer.from(Bytes.fromString(proof))
+              );
+            }
+          } catch (err) {
+            log.error('Failed to fetch membership proof', err);
+          } finally {
+            isRequestingMembershipProof = false;
+          }
+        },
+        requestGroupMembers: groupCall => {
+          groupCall.setGroupMembers(this.getGroupCallMembers(conversationId));
+        },
+        onEnded: noop,
+      }
+    );
 
     if (!outerGroupCall) {
       // This should be very rare, likely due to RingRTC not being able to get a lock
