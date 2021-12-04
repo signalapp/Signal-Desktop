@@ -81,6 +81,7 @@ import {
   someSendStatus,
 } from '../../messages/MessageSendState';
 import * as log from '../../logging/log';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 
 const THREE_HOURS = 3 * 60 * 60 * 1000;
 
@@ -464,8 +465,8 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
     const firstAttachment = quote.attachments && quote.attachments[0];
     const conversation = getConversation(message, conversationSelector);
 
-    const defaultConversationColor =
-      window.Events.getDefaultConversationColor();
+    const { conversationColor, customColor } =
+      getConversationColorAttributes(conversation);
 
     return {
       authorId,
@@ -474,11 +475,8 @@ export const getPropsForQuote = createSelectorCreator(memoizeByRoot, isEqual)(
       authorProfileName,
       authorTitle,
       bodyRanges: processBodyRanges(quote, { conversationSelector }),
-      conversationColor:
-        conversation.conversationColor || defaultConversationColor.color,
-      customColor:
-        conversation.customColor ||
-        defaultConversationColor.customColorData?.value,
+      conversationColor,
+      customColor,
       isFromMe,
       rawAttachment: firstAttachment
         ? processQuoteAttachment(firstAttachment)
@@ -585,8 +583,8 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
     });
     const contactNameColor = contactNameColorSelector(conversationId, authorId);
 
-    const defaultConversationColor =
-      window.Events.getDefaultConversationColor();
+    const { conversationColor, customColor } =
+      getConversationColorAttributes(conversation);
 
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),
@@ -594,13 +592,10 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
       canReply: canReply(message, ourConversationId, conversationSelector),
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
       contactNameColor,
-      conversationColor:
-        conversation.conversationColor || defaultConversationColor.color,
+      conversationColor,
       conversationId,
       conversationType: isGroup ? 'group' : 'direct',
-      customColor:
-        conversation.customColor ||
-        defaultConversationColor.customColorData?.value,
+      customColor,
       deletedForEveryone: message.deletedForEveryone || false,
       direction: isIncoming(message) ? 'incoming' : 'outgoing',
       displayLimit: message.displayLimit,
