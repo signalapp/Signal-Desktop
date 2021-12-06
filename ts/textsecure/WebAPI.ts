@@ -55,6 +55,7 @@ import type {
   StorageServiceCredentials,
 } from '../textsecure.d';
 import { SocketManager } from './SocketManager';
+import type { CDSResponseType } from './CDSSocketManager';
 import { CDSSocketManager } from './CDSSocketManager';
 import type WebSocketResource from './WebsocketResources';
 import { SignalService as Proto } from '../protobuf';
@@ -758,6 +759,12 @@ export type ConfirmCodeResultType = Readonly<{
   deviceId?: number;
 }>;
 
+export type GetUuidsForE164sV2OptionsType = Readonly<{
+  e164s: ReadonlyArray<string>;
+  acis: ReadonlyArray<UUIDStringType>;
+  accessKeys: ReadonlyArray<string>;
+}>;
+
 export type WebAPIType = {
   confirmCode: (
     number: string,
@@ -840,8 +847,8 @@ export type WebAPIType = {
     e164s: ReadonlyArray<string>
   ) => Promise<Dictionary<UUIDStringType | null>>;
   getUuidsForE164sV2: (
-    e164s: ReadonlyArray<string>
-  ) => Promise<Dictionary<UUIDStringType | null>>;
+    options: GetUuidsForE164sV2OptionsType
+  ) => Promise<CDSResponseType>;
   fetchLinkPreviewMetadata: (
     href: string,
     abortSignal: AbortSignal
@@ -3005,17 +3012,19 @@ export function initialize({
       return zipObject(e164s, uuids);
     }
 
-    async function getUuidsForE164sV2(
-      e164s: ReadonlyArray<string>
-    ): Promise<Dictionary<UUIDStringType | null>> {
+    async function getUuidsForE164sV2({
+      e164s,
+      acis,
+      accessKeys,
+    }: GetUuidsForE164sV2OptionsType): Promise<CDSResponseType> {
       const auth = await getDirectoryAuthV2();
 
-      const uuids = await cdsSocketManager.request({
+      return cdsSocketManager.request({
         auth,
         e164s,
+        acis,
+        accessKeys,
       });
-
-      return zipObject(e164s, uuids);
     }
   }
 }

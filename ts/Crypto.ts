@@ -12,7 +12,7 @@ import { calculateAgreement, generateKeyPair } from './Curve';
 import * as log from './logging/log';
 import { HashType, CipherType } from './types/Crypto';
 import { ProfileDecryptError } from './types/errors';
-import { UUID } from './types/UUID';
+import { UUID, UUID_BYTE_SIZE } from './types/UUID';
 import type { UUIDStringType } from './types/UUID';
 
 export { HashType, CipherType };
@@ -458,7 +458,7 @@ export function uuidToBytes(uuid: string): Uint8Array {
 }
 
 export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
-  if (bytes.byteLength !== 16) {
+  if (bytes.byteLength !== UUID_BYTE_SIZE) {
     log.warn(
       'bytesToUuid: received an Uint8Array of invalid length. ' +
         'Returning undefined'
@@ -475,8 +475,8 @@ export function bytesToUuid(bytes: Uint8Array): undefined | UUIDStringType {
 
 export function splitUuids(buffer: Uint8Array): Array<UUIDStringType | null> {
   const uuids = [];
-  for (let i = 0; i < buffer.byteLength; i += 16) {
-    const bytes = getBytes(buffer, i, 16);
+  for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
+    const bytes = getBytes(buffer, i, UUID_BYTE_SIZE);
     const hex = Bytes.toHex(bytes);
     const chunks = [
       hex.substring(0, 8),

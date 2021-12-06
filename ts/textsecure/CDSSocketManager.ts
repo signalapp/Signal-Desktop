@@ -8,10 +8,14 @@ import type { connection as WebSocket } from 'websocket';
 import * as Bytes from '../Bytes';
 import { prefixPublicKey } from '../Curve';
 import type { AbortableProcess } from '../util/AbortableProcess';
+import * as durations from '../util/durations';
+import { sleep } from '../util/sleep';
 import * as log from '../logging/log';
-import type { UUIDStringType } from '../types/UUID';
 import { CDSSocket } from './CDSSocket';
-import type { CDSRequestOptionsType } from './CDSSocket';
+import type {
+  CDSRequestOptionsType,
+  CDSSocketDictionaryType,
+} from './CDSSocket';
 import { connect as connectWebSocket } from './WebSocket';
 
 export type CDSSocketManagerOptionsType = Readonly<{
@@ -23,12 +27,16 @@ export type CDSSocketManagerOptionsType = Readonly<{
   version: string;
 }>;
 
+export type CDSResponseType = CDSSocketDictionaryType;
+
 export class CDSSocketManager {
   private readonly publicKey: PublicKey;
 
   private readonly codeHash: Buffer;
 
   private readonly proxyAgent?: ReturnType<typeof ProxyAgent>;
+
+  private retryAfter?: number;
 
   constructor(private readonly options: CDSSocketManagerOptionsType) {
     this.publicKey = PublicKey.deserialize(
@@ -42,13 +50,29 @@ export class CDSSocketManager {
 
   public async request(
     options: CDSRequestOptionsType
-  ): Promise<ReadonlyArray<UUIDStringType | null>> {
+  ): Promise<CDSResponseType> {
+    if (this.retryAfter !== undefined) {
+      const delay = Math.max(0, this.retryAfter - Date.now());
+
+      log.info(`CDSSocketManager: waiting ${delay}ms before retrying`);
+      await sleep(delay);
+    }
+
     log.info('CDSSocketManager: connecting socket');
     const socket = await this.connect().getResult();
     log.info('CDSSocketManager: connected socket');
 
     try {
-      return await socket.request(options);
+      const { dictionary, retryAfterSecs = 0 } = await socket.request(options);
+
+      if (retryAfterSecs > 0) {
+        this.retryAfter = Math.max(
+          this.retryAfter ?? Date.now(),
+          Date.now() + retryAfterSecs * durations.SECOND
+        );
+      }
+
+      return dictionary;
     } finally {
       log.info('CDSSocketManager: closing socket');
       socket.close(3000, 'Normal');

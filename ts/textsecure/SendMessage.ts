@@ -41,6 +41,7 @@ import type {
   SendLogCallbackType,
 } from './OutgoingMessage';
 import OutgoingMessage from './OutgoingMessage';
+import type { CDSResponseType } from './CDSSocketManager';
 import * as Bytes from '../Bytes';
 import { getRandomBytes, getZeroes, encryptAttachment } from '../Crypto';
 import type {
@@ -2074,9 +2075,15 @@ export default class MessageSender {
   }
 
   async getUuidsForE164sV2(
-    numbers: ReadonlyArray<string>
-  ): Promise<Dictionary<UUIDStringType | null>> {
-    return this.server.getUuidsForE164sV2(numbers);
+    e164s: ReadonlyArray<string>,
+    acis: ReadonlyArray<UUIDStringType>,
+    accessKeys: ReadonlyArray<string>
+  ): Promise<CDSResponseType> {
+    return this.server.getUuidsForE164sV2({
+      e164s,
+      acis,
+      accessKeys,
+    });
   }
 
   async getAvatar(path: string): Promise<ReturnType<WebAPIType['getAvatar']>> {

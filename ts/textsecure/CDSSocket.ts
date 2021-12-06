@@ -7,12 +7,15 @@ import type { connection as WebSocket } from 'websocket';
 import Long from 'long';
 
 import { strictAssert } from '../util/assert';
+import { dropNull } from '../util/dropNull';
 import { explodePromise } from '../util/explodePromise';
 import * as durations from '../util/durations';
 import type { UUIDStringType } from '../types/UUID';
+import { UUID_BYTE_SIZE } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import * as Timers from '../Timers';
-import { splitUuids } from '../Crypto';
+import { uuidToBytes, bytesToUuid } from '../Crypto';
+import { SignalService as Proto } from '../protobuf';
 
 enum State {
   Handshake,
@@ -22,6 +25,8 @@ enum State {
 
 export type CDSRequestOptionsType = Readonly<{
   e164s: ReadonlyArray<string>;
+  acis: ReadonlyArray<UUIDStringType>;
+  accessKeys: ReadonlyArray<string>;
   auth: CDSAuthType;
   timeout?: number;
 }>;
@@ -31,11 +36,26 @@ export type CDSAuthType = Readonly<{
   password: string;
 }>;
 
+export type CDSSocketDictionaryEntryType = Readonly<{
+  aci: UUIDStringType | undefined;
+  pni: UUIDStringType | undefined;
+}>;
+
+export type CDSSocketDictionaryType = Readonly<
+  Record<string, CDSSocketDictionaryEntryType>
+>;
+
+export type CDSSocketResponseType = Readonly<{
+  dictionary: CDSSocketDictionaryType;
+  retryAfterSecs?: number;
+}>;
+
 const HANDSHAKE_TIMEOUT = 10 * durations.SECOND;
 const REQUEST_TIMEOUT = 10 * durations.SECOND;
-const VERSION = new Uint8Array([0x01]);
+const VERSION = new Uint8Array([0x02]);
 const USERNAME_LENGTH = 32;
 const PASSWORD_LENGTH = 31;
+const E164_BYTE_SIZE = 8;
 
 export class CDSSocket extends EventEmitter {
   private state = State.Handshake;
@@ -96,9 +116,11 @@ export class CDSSocket extends EventEmitter {
 
   public async request({
     e164s,
+    acis,
+    accessKeys,
     auth,
     timeout = REQUEST_TIMEOUT,
-  }: CDSRequestOptionsType): Promise<ReadonlyArray<UUIDStringType | null>> {
+  }: CDSRequestOptionsType): Promise<CDSSocketResponseType> {
     await this.finishedHandshake;
     strictAssert(
       this.state === State.Established,
@@ -116,15 +138,30 @@ export class CDSSocket extends EventEmitter {
       'Invalid password length'
     );
 
-    const request = Bytes.concatenate([
-      VERSION,
+    strictAssert(
+      acis.length === accessKeys.length,
+      `Number of ACIs ${acis.length} is different ` +
+        `from number of access keys ${accessKeys.length}`
+    );
+    const aciUakPair = new Array<Uint8Array>();
+    for (let i = 0; i < acis.length; i += 1) {
+      aciUakPair.push(
+        Bytes.concatenate([
+          uuidToBytes(acis[i]),
+          Bytes.fromBase64(accessKeys[i]),
+        ])
+      );
+    }
+
+    const request = Proto.CDSClientRequest.encode({
       username,
       password,
-      ...e164s.map(e164 => {
+      e164: e164s.map(e164 => {
         // Long.fromString handles numbers with or without a leading '+'
         return new Uint8Array(Long.fromString(e164).toBytesBE());
       }),
-    ]);
+      aciUakPair,
+    }).finish();
 
     const { promise, resolve, reject } = explodePromise<Buffer>();
 
@@ -133,7 +170,7 @@ export class CDSSocket extends EventEmitter {
     }, timeout);
 
     this.socket.sendBytes(
-      this.enclaveClient.establishedSend(Buffer.from(request))
+      this.enclaveClient.establishedSend(Buffer.concat([VERSION, request]))
     );
 
     this.requestQueue.push(resolve);
@@ -141,11 +178,41 @@ export class CDSSocket extends EventEmitter {
       this.requestQueue.length === 1,
       'Concurrent use of CDS shold not happen'
     );
-    const uuids = await promise;
-
+    const responseBytes = await promise;
     Timers.clearTimeout(timer);
 
-    return splitUuids(uuids);
+    const response = Proto.CDSClientResponse.decode(responseBytes);
+
+    const dictionary: Record<string, CDSSocketDictionaryEntryType> =
+      Object.create(null);
+
+    for (const tripleBytes of response.e164PniAciTriple ?? []) {
+      strictAssert(
+        tripleBytes.length === UUID_BYTE_SIZE * 2 + E164_BYTE_SIZE,
+        'Invalid size of CDS response triple'
+      );
+
+      let offset = 0;
+      const e164Bytes = tripleBytes.slice(offset, offset + E164_BYTE_SIZE);
+      offset += E164_BYTE_SIZE;
+
+      const pniBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+      offset += UUID_BYTE_SIZE;
+
+      const aciBytes = tripleBytes.slice(offset, offset + UUID_BYTE_SIZE);
+      offset += UUID_BYTE_SIZE;
+
+      const e164 = `+${Long.fromBytesBE(Array.from(e164Bytes)).toString()}`;
+      const pni = bytesToUuid(pniBytes);
+      const aci = bytesToUuid(aciBytes);
+
+      dictionary[e164] = { pni, aci };
+    }
+
+    return {
+      dictionary,
+      retryAfterSecs: dropNull(response.retryAfterSecs),
+    };
   }
 
   // EventEmitter types

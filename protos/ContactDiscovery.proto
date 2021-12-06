@@ -1,0 +1,40 @@
+// Copyright 2021-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package signalservice;
+
+message CDSClientRequest {
+  // From Signal /v2/directory/auth
+  optional bytes username = 1;
+  optional bytes password = 2;
+
+  // Each e164 is a big-endian uint64 (8 bytes).
+  repeated bytes e164 = 3;
+
+  // Each ACI/UAK pair is a 32-byte buffer, containing the 16-byte ACI followed
+  // by its 16-byte UAK.
+  repeated bytes aci_uak_pair = 4;
+}
+
+message CDSClientResponse {
+  // Each triple is an 8-byte e164, a 16-byte PNI, and a 16-byte ACI.
+  // If the e164 was not found, PNI and ACI are all zeros.  If the PNI
+  // was found but the ACI was not, the PNI will be non-zero and the ACI
+  // will be all zeros.  ACI will be returned if one of the returned
+  // PNIs has an ACI/UAK pair that matches.
+  //
+  // Should the request be successful (IE: a successful status returned),
+  // |e164_pni_aci_triple| will always equal |e164| of the request,
+  // so the entire marshalled size of the response will be (2+32)*|e164|,
+  // where the additional 2 bytes are the id/type/length additions of the
+  // protobuf marshaling added to each byte array.  This avoids any data
+  // leakage based on the size of the encrypted output.
+  repeated bytes e164_pni_aci_triple = 1;
+
+  // If the user has run out of quota for lookups, they will receive
+  // a response with just the following field set, followed by a websocket
+  // closure of type 4008 (RESOURCE_EXHAUSTED).  Should they retry exactly
+  // the same request after the provided number of seconds has passed,
+  // we expect it should work.
+  optional int32 retry_after_secs = 2;
+}
