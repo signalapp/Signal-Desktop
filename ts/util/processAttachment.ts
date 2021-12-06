@@ -82,7 +82,7 @@ export async function processAttachment(
 
   let attachment: InMemoryAttachmentDraftType;
   try {
-    if (isImageTypeSupported(fileType) || isHeic(fileType)) {
+    if (isImageTypeSupported(fileType) || isHeic(fileType, file.name)) {
       attachment = await handleImageAttachment(file);
     } else if (isVideoTypeSupported(fileType)) {
       attachment = await handleVideoAttachment(file);

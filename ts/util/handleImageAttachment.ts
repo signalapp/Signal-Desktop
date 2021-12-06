@@ -18,7 +18,7 @@ export async function handleImageAttachment(
 ): Promise<InMemoryAttachmentDraftType> {
   let processedFile: File | Blob = file;
 
-  if (isHeic(file.type)) {
+  if (isHeic(file.type, file.name)) {
     const uuid = genUuid();
     const bytes = new Uint8Array(await file.arrayBuffer());
 
@@ -41,7 +41,9 @@ export async function handleImageAttachment(
     file: resizedBlob,
     fileName,
   } = await autoScale({
-    contentType: isHeic(file.type) ? IMAGE_JPEG : stringToMIMEType(file.type),
+    contentType: isHeic(file.type, file.name)
+      ? IMAGE_JPEG
+      : stringToMIMEType(file.type),
     fileName: file.name,
     file: processedFile,
   });
