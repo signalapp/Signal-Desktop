@@ -109,7 +109,7 @@
     "got": "11.8.2",
     "heic-convert": "^1.2.4",
     "history": "4.9.0",
-    "humanize-duration": "3.26.0",
+    "humanize-duration": "3.27.1",
     "intl-tel-input": "17.0.13",
     "jquery": "3.5.0",
     "js-yaml": "3.13.1",
