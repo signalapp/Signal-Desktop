@@ -390,13 +390,16 @@ export abstract class Updater {
 
     try {
       // We might be running under Rosetta
-      if (promisify(execFile)('uname', ['-m']).toString().trim() === 'arm64') {
+      const flag = 'sysctl.proc_translated';
+      const { stdout } = await promisify(execFile)('sysctl', ['-i', flag]);
+
+      if (stdout.includes(`${flag}: 1`)) {
         this.logger.info('updater: running under Rosetta');
         return 'arm64';
       }
     } catch (error) {
       this.logger.warn(
-        `updater: "uname -m" failed with ${Errors.toLogFormat(error)}`
+        `updater: Rosetta detection failed with ${Errors.toLogFormat(error)}`
       );
     }
 

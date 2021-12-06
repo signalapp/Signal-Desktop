@@ -50,11 +50,12 @@ async function go() {
   }
 
   console.log('Notarizing with...');
-  console.log(`  files: ${appPaths.join(', ')}`);
   console.log(`  primaryBundleId: ${appBundleId}`);
   console.log(`  username: ${appleId}`);
 
   for (const appPath of appPaths) {
+    console.log(`  file: ${appPath}`);
+
     // eslint-disable-next-line no-await-in-loop
     await notarize({
       appBundleId,
