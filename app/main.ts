@@ -699,7 +699,10 @@ async function createWindow() {
       return;
     }
 
-    if (!startInTray) {
+    const shouldShowWindow =
+      !app.getLoginItemSettings().wasOpenedAsHidden && !startInTray;
+
+    if (shouldShowWindow) {
       getLogger().info('showing main window');
       mainWindow.show();
     }
