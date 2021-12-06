@@ -397,6 +397,7 @@
         "signalcaptcha"
       ]
     },
+    "beforeBuild": "scripts/install-cross-deps.js",
     "asarUnpack": [
       "ts/workers/heicConverter.bundle.js",
       "ts/sql/mainWorker.bundle.js",
@@ -453,7 +454,10 @@
       "node_modules/socks/build/client/*.js",
       "node_modules/smart-buffer/build/*.js",
       "node_modules/sharp/build/**/*${arch}*.node",
-      "!node_modules/sharp/{install,src,vendor/include,vendor/*/include}",
+      "!node_modules/sharp/{install,src,vendor}",
+      "!node_modules/sharp/vendor",
+      "node_modules/sharp/vendor/*/*${arch}*/**",
+      "!node_modules/sharp/vendor/*/*${arch}*/**/include/**",
       "!node_modules/better-sqlite3/deps/*",
       "!node_modules/better-sqlite3/src/*",
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node",
