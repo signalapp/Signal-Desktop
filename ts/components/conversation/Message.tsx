@@ -18,7 +18,10 @@ import type {
 import { ReadStatus } from '../../messages/MessageReadStatus';
 import { Avatar } from '../Avatar';
 import { Spinner } from '../Spinner';
-import { MessageBodyReadMore } from './MessageBodyReadMore';
+import {
+  doesMessageBodyOverflow,
+  MessageBodyReadMore,
+} from './MessageBodyReadMore';
 import { MessageMetadata } from './MessageMetadata';
 import { ImageGrid } from './ImageGrid';
 import { GIF } from './GIF';
@@ -1367,7 +1370,7 @@ export class Message extends React.PureComponent<Props, State> {
         {({ ref: popperRef }) => {
           // Only attach the popper reference to the reaction button if it is
           //   visible (it is hidden when the timeline is narrow)
-          const maybePopperRef = this.shouldShowAdditionalMenuButtons()
+          const maybePopperRef = this.isWindowWidthNotNarrow()
             ? popperRef
             : undefined;
 
@@ -1421,7 +1424,7 @@ export class Message extends React.PureComponent<Props, State> {
         {({ ref: popperRef }) => {
           // Only attach the popper reference to the collapsed menu button if the reaction
           //   button is not visible (it is hidden when the timeline is narrow)
-          const maybePopperRef = !this.shouldShowAdditionalMenuButtons()
+          const maybePopperRef = !this.isWindowWidthNotNarrow()
             ? popperRef
             : undefined;
 
@@ -1459,7 +1462,7 @@ export class Message extends React.PureComponent<Props, State> {
             `module-message__buttons--${direction}`
           )}
         >
-          {this.shouldShowAdditionalMenuButtons() && (
+          {this.isWindowWidthNotNarrow() && (
             <>
               {canReply ? reactButton : null}
               {canDownload ? downloadButton : null}
@@ -1520,6 +1523,7 @@ export class Message extends React.PureComponent<Props, State> {
       showForwardMessageModal,
       showMessageDetail,
       status,
+      text,
     } = this.props;
 
     const canForward = !isTapToView && !deletedForEveryone;
@@ -1531,10 +1535,13 @@ export class Message extends React.PureComponent<Props, State> {
       direction === 'outgoing';
     const multipleAttachments = attachments && attachments.length > 1;
 
+    const shouldShowAdditional =
+      doesMessageBodyOverflow(text || '') || !this.isWindowWidthNotNarrow();
+
     const menu = (
       <ContextMenu id={triggerId}>
         {canDownload &&
-        !this.shouldShowAdditionalMenuButtons() &&
+        shouldShowAdditional &&
         !isSticker &&
         !multipleAttachments &&
         !isTapToView &&
@@ -1550,7 +1557,7 @@ export class Message extends React.PureComponent<Props, State> {
             {i18n('downloadAttachment')}
           </MenuItem>
         ) : null}
-        {canReply && !this.shouldShowAdditionalMenuButtons() ? (
+        {canReply && shouldShowAdditional ? (
           <>
             <MenuItem
               attributes={{
@@ -1664,7 +1671,7 @@ export class Message extends React.PureComponent<Props, State> {
     return ReactDOM.createPortal(menu, document.body);
   }
 
-  private shouldShowAdditionalMenuButtons(): boolean {
+  private isWindowWidthNotNarrow(): boolean {
     const { containerWidthBreakpoint } = this.props;
     return containerWidthBreakpoint !== WidthBreakpoint.Narrow;
   }

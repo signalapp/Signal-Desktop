@@ -27,6 +27,10 @@ const INITIAL_LENGTH = 800;
 const INCREMENT_COUNT = 3000;
 const BUFFER = 100;
 
+export function doesMessageBodyOverflow(str: string): boolean {
+  return str.length > INITIAL_LENGTH + BUFFER;
+}
+
 function graphemeAwareSlice(
   str: string,
   length: number
