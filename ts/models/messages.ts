@@ -3145,9 +3145,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       return;
     }
 
-    const oldReactions = this.get('reactions') || [];
-
-    let newReactions: typeof oldReactions;
+    const previousLength = (this.get('reactions') || []).length;
     if (reaction.get('source') === ReactionSource.FromThisDevice) {
       log.info(
         `handleReaction: sending reaction to ${this.idForLogging()} from this device`
@@ -3165,11 +3163,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         ),
       };
 
-      newReactions = reactionUtil.addOutgoingReaction(
-        oldReactions,
+      const reactions = reactionUtil.addOutgoingReaction(
+        this.get('reactions') || [],
         newReaction
       );
+      this.set({ reactions });
     } else {
+      const oldReactions = this.get('reactions') || [];
+      let reactions: Array<MessageReactionType>;
       const oldReaction = oldReactions.find(
         re => re.fromId === reaction.get('fromId')
       );
@@ -3184,16 +3185,17 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
 
         if (reaction.get('source') === ReactionSource.FromSync) {
-          newReactions = oldReactions.filter(
+          reactions = oldReactions.filter(
             re =>
               re.fromId !== reaction.get('fromId') ||
               re.timestamp > reaction.get('timestamp')
           );
         } else {
-          newReactions = oldReactions.filter(
+          reactions = oldReactions.filter(
             re => re.fromId !== reaction.get('fromId')
           );
         }
+        this.set({ reactions });
 
         await window.Signal.Data.removeReactionFromConversation({
           emoji: reaction.get('emoji'),
@@ -3218,10 +3220,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           reactionToAdd = reaction.toJSON();
         }
 
-        newReactions = oldReactions.filter(
+        reactions = oldReactions.filter(
           re => re.fromId !== reaction.get('fromId')
         );
-        newReactions.push(reactionToAdd);
+        reactions.push(reactionToAdd);
+        this.set({ reactions });
 
         if (
           isOutgoing(this.attributes) &&
@@ -3242,12 +3245,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       }
     }
 
-    this.set({ reactions: newReactions });
-
+    const currentLength = (this.get('reactions') || []).length;
     log.info(
       'handleReaction:',
       `Done processing reaction for message ${this.idForLogging()}.`,
-      `Went from ${oldReactions.length} to ${newReactions.length} reactions.`
+      `Went from ${previousLength} to ${currentLength} reactions.`
     );
 
     if (reaction.get('source') === ReactionSource.FromThisDevice) {
