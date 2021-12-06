@@ -542,6 +542,7 @@ export async function startApp(): Promise<void> {
         try {
           await new Promise<void>((resolve, reject) => {
             window.showConfirmationDialog({
+              onTopOfEverything: true,
               cancelText: window.i18n('quit'),
               confirmStyle: 'negative',
               message: window.i18n('deleteOldIndexedDBData'),

@@ -9,6 +9,7 @@
 // being included in a <script /> tag.
 
 type ConfirmationDialogViewProps = {
+  onTopOfEverything?: boolean;
   cancelText?: string;
   confirmStyle?: 'affirmative' | 'negative';
   message: string;
@@ -50,6 +51,7 @@ function showConfirmationDialog(options: ConfirmationDialogViewProps) {
   window.ReactDOM.render(
     // eslint-disable-next-line react/react-in-jsx-scope, react/jsx-no-undef
     <window.Signal.Components.ConfirmationDialog
+      onTopOfEverything={options.onTopOfEverything}
       actions={[
         {
           action: () => {
