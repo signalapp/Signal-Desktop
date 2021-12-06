@@ -22,6 +22,7 @@ import {
 } from '../selectors/badges';
 import { assert } from '../../util/assert';
 import { SignalService as Proto } from '../../protobuf';
+import { getConversationColorAttributes } from '../../util/getConversationColorAttributes';
 
 export type SmartConversationDetailsProps = {
   addMembers: (conversationIds: ReadonlyArray<string>) => Promise<void>;
@@ -87,7 +88,10 @@ const mapStateToProps = (
     badges,
     canEditGroupInfo,
     candidateContactsToAdd,
-    conversation,
+    conversation: {
+      ...conversation,
+      ...getConversationColorAttributes(conversation),
+    },
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isAdmin,
