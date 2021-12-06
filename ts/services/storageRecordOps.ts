@@ -887,6 +887,15 @@ export async function mergeAccountRecord(
   }
 
   if (preferredReactionEmoji.canBeSynced(rawPreferredReactionEmoji)) {
+    const localPreferredReactionEmoji =
+      window.storage.get('preferredReactionEmoji') || [];
+    if (!isEqual(localPreferredReactionEmoji, rawPreferredReactionEmoji)) {
+      log.info(
+        'storageService: remote and local preferredReactionEmoji do not match',
+        localPreferredReactionEmoji.length,
+        rawPreferredReactionEmoji.length
+      );
+    }
     window.storage.put('preferredReactionEmoji', rawPreferredReactionEmoji);
   }
 
