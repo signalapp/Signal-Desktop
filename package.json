@@ -296,6 +296,8 @@
   },
   "resolutions": {
     "@storybook/react/@storybook/core/node-fetch": "2.6.1",
+    "fabric/canvas": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
+    "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fast-glob/glob-parent": "5.1.2",
     "read-last-lines/mz/thenify-all/thenify": "3.3.1",
     "sharp/color/color-string": "1.5.5"

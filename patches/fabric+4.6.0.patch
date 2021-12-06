@@ -1,10 +1,34 @@
 diff --git a/node_modules/fabric/dist/fabric.js b/node_modules/fabric/dist/fabric.js
-index 86536ce..487151b 100644
+index 86536ce..846c34e 100644
 --- a/node_modules/fabric/dist/fabric.js
 +++ b/node_modules/fabric/dist/fabric.js
-@@ -3306,16 +3306,7 @@ fabric.CommonMethods = {
+@@ -19,23 +19,6 @@ if (typeof document !== 'undefined' && typeof window !== 'undefined') {
    }
-
+   fabric.window = window;
+ }
+-else {
+-  // assume we're running under node.js when document/window are not present
+-  var jsdom = require('jsdom');
+-  var virtualWindow = new jsdom.JSDOM(
+-    decodeURIComponent('%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E'),
+-    {
+-      features: {
+-        FetchExternalResources: ['img']
+-      },
+-      resources: 'usable'
+-    }).window;
+-  fabric.document = virtualWindow.document;
+-  fabric.jsdomImplForWrapper = require('jsdom/lib/jsdom/living/generated/utils').implForWrapper;
+-  fabric.nodeCanvas = require('jsdom/lib/jsdom/utils').Canvas;
+-  fabric.window = virtualWindow;
+-  DOMParser = fabric.window.DOMParser;
+-}
+ 
+ /**
+  * True when in environment that supports touch events
+@@ -3306,16 +3289,7 @@ fabric.CommonMethods = {
+   }
+ 
    (function () {
 -    var style = fabric.document.documentElement.style,
 -        selectProp = 'userSelect' in style
@@ -17,6 +41,6 @@ index 86536ce..487151b 100644
 -                ? 'KhtmlUserSelect'
 -                : '';
 +    var selectProp = 'userSelect';
-
+ 
      /**
       * Makes element unselectable
