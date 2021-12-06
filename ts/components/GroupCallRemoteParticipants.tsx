@@ -1,7 +1,7 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import Measure from 'react-measure';
 import { takeWhile, chunk, maxBy, flatten, noop } from 'lodash';
 import type { VideoFrameSource } from 'ringrtc';
@@ -20,6 +20,8 @@ import { usePageVisibility } from '../hooks/usePageVisibility';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import { missingCaseError } from '../util/missingCaseError';
 import { SECOND } from '../util/durations';
+import { filter } from '../util/iterables';
+import * as setUtil from '../util/setUtil';
 import * as log from '../logging/log';
 
 const MIN_RENDERED_HEIGHT = 180;
@@ -93,6 +95,9 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   });
 
   const getFrameBuffer = useGetCallingFrameBuffer();
+
+  const { invisibleDemuxIds, onParticipantVisibilityChanged } =
+    useInvisibleParticipants(remoteParticipants);
 
   // 1. Figure out the maximum number of possible rows that could fit on the screen.
   //
@@ -310,19 +315,23 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             };
           }),
           ...overflowedParticipants.map(participant => {
-            if (participant.hasRemoteVideo) {
-              return {
-                demuxId: participant.demuxId,
-                width: Math.floor(
-                  OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
-                ),
-                height: Math.floor(
-                  (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
-                    VIDEO_REQUEST_SCALAR
-                ),
-              };
+            if (
+              !participant.hasRemoteVideo ||
+              invisibleDemuxIds.has(participant.demuxId)
+            ) {
+              return nonRenderedRemoteParticipant(participant);
             }
-            return nonRenderedRemoteParticipant(participant);
+
+            return {
+              demuxId: participant.demuxId,
+              width: Math.floor(
+                OVERFLOW_PARTICIPANT_WIDTH * VIDEO_REQUEST_SCALAR
+              ),
+              height: Math.floor(
+                (OVERFLOW_PARTICIPANT_WIDTH / participant.videoAspectRatio) *
+                  VIDEO_REQUEST_SCALAR
+              ),
+            };
           }),
         ];
         break;
@@ -350,6 +359,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   }, [
     gridParticipantHeight,
     videoRequestMode,
+    invisibleDemuxIds,
     overflowedParticipants,
     remoteParticipants,
     setGroupCallVideoRequest,
@@ -396,6 +406,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
+            onParticipantVisibilityChanged={onParticipantVisibilityChanged}
             overflowedParticipants={overflowedParticipants}
           />
         </div>
@@ -403,6 +414,54 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     </Measure>
   );
 };
+
+// This function is only meant for use with `useInvisibleParticipants`. It helps avoid
+//   returning new set instances when the underlying values are equal.
+function pickDifferentSet<T>(a: Readonly<Set<T>>, b: Readonly<Set<T>>): Set<T> {
+  return a.size === b.size ? a : b;
+}
+
+function useInvisibleParticipants(
+  remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>
+): Readonly<{
+  invisibleDemuxIds: Set<number>;
+  onParticipantVisibilityChanged: (demuxId: number, isVisible: boolean) => void;
+}> {
+  const [invisibleDemuxIds, setInvisibleDemuxIds] = useState(new Set<number>());
+
+  const onParticipantVisibilityChanged = useCallback(
+    (demuxId: number, isVisible: boolean) => {
+      setInvisibleDemuxIds(oldInvisibleDemuxIds => {
+        const toggled = setUtil.toggle(
+          oldInvisibleDemuxIds,
+          demuxId,
+          !isVisible
+        );
+        return pickDifferentSet(oldInvisibleDemuxIds, toggled);
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    const remoteParticipantDemuxIds = new Set<number>(
+      remoteParticipants.map(r => r.demuxId)
+    );
+    setInvisibleDemuxIds(oldInvisibleDemuxIds => {
+      const staleIds = filter(
+        oldInvisibleDemuxIds,
+        id => !remoteParticipantDemuxIds.has(id)
+      );
+      const withoutStaleIds = setUtil.remove(oldInvisibleDemuxIds, ...staleIds);
+      return pickDifferentSet(oldInvisibleDemuxIds, withoutStaleIds);
+    });
+  }, [remoteParticipants]);
+
+  return {
+    invisibleDemuxIds,
+    onParticipantVisibilityChanged,
+  };
+}
 
 function useVideoRequestMode(): VideoRequestMode {
   const isPageVisible = usePageVisibility();

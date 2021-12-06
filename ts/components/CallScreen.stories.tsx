@@ -27,7 +27,7 @@ import {
 import { fakeGetGroupCallVideoFrameSource } from '../test-both/helpers/fakeGetGroupCallVideoFrameSource';
 import enMessages from '../../_locales/en/messages.json';
 
-const MAX_PARTICIPANTS = 32;
+const MAX_PARTICIPANTS = 64;
 
 const i18n = setupI18n('en', enMessages);
 
@@ -301,7 +301,7 @@ story.add('Group call - Many', () => {
         callMode: CallMode.Group,
         remoteParticipants: allRemoteParticipants.slice(
           0,
-          number('Participant count', 3, {
+          number('Participant count', 40, {
             range: true,
             min: 0,
             max: MAX_PARTICIPANTS,

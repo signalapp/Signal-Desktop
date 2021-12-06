@@ -6,6 +6,7 @@ import React from 'react';
 import { memoize, times } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import { GroupCallOverflowArea } from './GroupCallOverflowArea';
 import { setupI18n } from '../util/setupI18n';
@@ -37,6 +38,7 @@ const defaultProps = {
   getFrameBuffer: memoize(() => new ArrayBuffer(FRAME_BUFFER_SIZE)),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
+  onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
 };
 
 // This component is usually rendered on a call screen.

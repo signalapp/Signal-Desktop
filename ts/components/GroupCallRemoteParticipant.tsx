@@ -29,6 +29,7 @@ type BasePropsType = {
   getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
   remoteParticipant: GroupCallRemoteParticipantType;
 };
 
@@ -52,7 +53,12 @@ export type PropsType = BasePropsType &
 
 export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
   props => {
-    const { getFrameBuffer, getGroupCallVideoFrameSource, i18n } = props;
+    const {
+      getFrameBuffer,
+      getGroupCallVideoFrameSource,
+      i18n,
+      onVisibilityChanged,
+    } = props;
 
     const {
       acceptedMessageRequest,
@@ -94,6 +100,10 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const isVisible = intersectionObserverEntry
       ? intersectionObserverEntry.isIntersecting
       : true;
+
+    useEffect(() => {
+      onVisibilityChanged?.(demuxId, isVisible);
+    }, [demuxId, isVisible, onVisibilityChanged]);
 
     const wantsToShowVideo = hasRemoteVideo && !isBlocked && isVisible;
     const hasVideoToShow = wantsToShowVideo && hasReceivedVideoRecently;

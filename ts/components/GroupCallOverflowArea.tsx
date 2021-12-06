@@ -19,6 +19,10 @@ type PropsType = {
   getFrameBuffer: () => ArrayBuffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
+  onParticipantVisibilityChanged: (
+    demuxId: number,
+    isVisible: boolean
+  ) => unknown;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
 };
 
@@ -26,6 +30,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
   getFrameBuffer,
   getGroupCallVideoFrameSource,
   i18n,
+  onParticipantVisibilityChanged,
   overflowedParticipants,
 }) => {
   const overflowRef = useRef<HTMLDivElement | null>(null);
@@ -109,6 +114,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
+            onVisibilityChanged={onParticipantVisibilityChanged}
             width={OVERFLOW_PARTICIPANT_WIDTH}
             height={Math.floor(
               OVERFLOW_PARTICIPANT_WIDTH / remoteParticipant.videoAspectRatio

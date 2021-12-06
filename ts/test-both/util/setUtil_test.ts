@@ -1,0 +1,56 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+import { assert } from 'chai';
+
+import { remove, toggle } from '../../util/setUtil';
+
+describe('set utilities', () => {
+  const original = new Set([1, 2, 3]);
+
+  describe('remove', () => {
+    it('accepts zero arguments, returning a new set', () => {
+      const result = remove(original);
+      assert.deepStrictEqual(result, original);
+      assert.notStrictEqual(result, original);
+    });
+
+    it('accepts 1 argument, returning a new set', () => {
+      const result = remove(original, 2);
+      assert.deepStrictEqual(result, new Set([1, 3]));
+      assert.deepStrictEqual(original, new Set([1, 2, 3]));
+    });
+
+    it('accepts multiple arguments, returning a new set', () => {
+      const result = remove(original, 1, 2, 99);
+      assert.deepStrictEqual(result, new Set([3]));
+      assert.deepStrictEqual(original, new Set([1, 2, 3]));
+    });
+  });
+
+  describe('toggle', () => {
+    it('returns a clone if trying to remove an item that was never there', () => {
+      const result = toggle(original, 99, false);
+      assert.deepStrictEqual(result, new Set([1, 2, 3]));
+      assert.notStrictEqual(result, original);
+    });
+
+    it('returns a clone if trying to add an item that was already there', () => {
+      const result = toggle(original, 3, true);
+      assert.deepStrictEqual(result, new Set([1, 2, 3]));
+      assert.notStrictEqual(result, original);
+    });
+
+    it('can add an item to a set', () => {
+      const result = toggle(original, 4, true);
+      assert.deepStrictEqual(result, new Set([1, 2, 3, 4]));
+      assert.deepStrictEqual(original, new Set([1, 2, 3]));
+    });
+
+    it('can remove an item from a set', () => {
+      const result = toggle(original, 2, false);
+      assert.deepStrictEqual(result, new Set([1, 3]));
+      assert.deepStrictEqual(original, new Set([1, 2, 3]));
+    });
+  });
+});
