@@ -68,7 +68,10 @@ export class RecorderClass {
     this.recorder.onError = this.onError.bind(this);
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        // @ts-expect-error Typescript doesn't know about these important options
+        audio: { mandatory: { googAutoGainControl: false } },
+      });
       if (!this.context || !this.input) {
         const err = new Error(
           'Recorder/getUserMedia/stream: Missing context or input!'
