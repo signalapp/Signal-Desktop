@@ -109,7 +109,7 @@ export class FabricHistory extends EventEmitter {
     }
 
     if (this.canRedo()) {
-      this.snapshots.splice(this.highWatermark, this.snapshots.length);
+      this.snapshots.splice(this.highWatermark + 1, this.snapshots.length);
     }
 
     this.snapshots.push({ canvasState: this.getState(), imageState });
