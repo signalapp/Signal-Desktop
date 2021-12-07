@@ -19,6 +19,8 @@ export class MediaEditorFabricSticker extends fabric.Image {
     }
 
     super(normalizedElement, options);
+
+    this.on('modified', () => this.canvas?.bringToFront(this));
   }
 
   static fromObject(
