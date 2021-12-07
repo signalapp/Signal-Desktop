@@ -1,0 +1,188 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallingButton {
+  @mixin icon($path) {
+    @include color-svg($path, $color-white, $mask-origin: padding-box);
+    height: 24px;
+    width: 24px;
+  }
+
+  &__icon {
+    align-items: center;
+    border-radius: 52px;
+    border: none;
+    display: flex;
+    height: 52px;
+    justify-content: center;
+    outline: none;
+    width: 52px;
+
+    @mixin calling-button-icon($icon, $background-color, $icon-color) {
+      background-color: $background-color;
+
+      div {
+        @include color-svg($icon, $icon-color);
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    @mixin calling-button-icon-on($icon) {
+      @include calling-button-icon($icon, $color-white, $color-gray-75);
+    }
+
+    @mixin calling-button-icon-off($icon) {
+      @include calling-button-icon($icon, $color-white-alpha-40, $color-white);
+      backdrop-filter: blur(10px);
+    }
+
+    @mixin calling-button-icon-disabled($icon) {
+      @include calling-button-icon($icon, $color-gray-45, $color-white);
+      opacity: 0.2;
+    }
+
+    // If the on/off states seem backwards, it's because this button reflects "is audio
+    //   muted?", not "is audio on?".
+    &--audio {
+      $icon: '../images/icons/v2/mic-off-solid-28.svg';
+      &--on {
+        @include calling-button-icon-off($icon);
+      }
+      &--off {
+        @include calling-button-icon-on($icon);
+      }
+      &--disabled {
+        @include calling-button-icon-disabled($icon);
+      }
+    }
+
+    &--video {
+      $icon: '../images/icons/v2/video-solid-28.svg';
+      &--on {
+        @include calling-button-icon-on($icon);
+      }
+      &--off {
+        @include calling-button-icon-off($icon);
+      }
+      &--disabled {
+        @include calling-button-icon-disabled($icon);
+      }
+    }
+
+    &--hangup {
+      @include calling-button-icon(
+        '../images/icons/v2/phone-down-28.svg',
+        $color-accent-red,
+        $color-white
+      );
+    }
+
+    &--ring {
+      $icon: '../images/icons/v2/ring-28.svg';
+      &--on {
+        @include calling-button-icon-on($icon);
+      }
+      &--off {
+        @include calling-button-icon-off($icon);
+      }
+      &--disabled {
+        @include calling-button-icon-disabled($icon);
+      }
+    }
+
+    &--presenting {
+      $icon: '../images/icons/v2/share-screen-26.svg';
+      &--on {
+        @include calling-button-icon-on($icon);
+      }
+      &--off {
+        @include calling-button-icon-off($icon);
+      }
+      &--disabled {
+        @include calling-button-icon-disabled($icon);
+      }
+    }
+  }
+
+  &__participants {
+    @include icon('../images/icons/v2/group-solid-24.svg');
+    display: inline-block;
+
+    &--container {
+      @include button-reset;
+      border: none;
+      color: $color-white;
+    }
+
+    &--shown {
+      background-color: $color-gray-75;
+      border-radius: 16px;
+      padding: 6px 8px;
+      padding-bottom: 2px;
+      margin-top: -6px;
+      margin-right: -8px;
+    }
+
+    &--count {
+      @include font-body-2-bold;
+      margin-left: 5px;
+      vertical-align: top;
+    }
+  }
+
+  &__settings {
+    @include icon('../images/icons/v2/settings-solid-16.svg');
+  }
+
+  &__grid-view {
+    @include icon('../images/icons/v2/grid-view-solid-24.svg');
+  }
+
+  &__speaker-view {
+    @include icon('../images/icons/v2/speaker-view-solid-24.svg');
+  }
+
+  &__pip {
+    @include icon('../images/icons/v2/pip-minimize-24.svg');
+  }
+
+  &__cancel {
+    @include icon('../images/icons/v2/x-24.svg');
+  }
+
+  &__container {
+    display: inline-flex;
+    flex-direction: column;
+    margin-left: 12px;
+    margin-right: 12px;
+    max-width: 52px;
+
+    transition: margin-left 0.3s ease-out, opacity 0.3s ease-out;
+    @media (prefers-reduced-motion) {
+      transition: none;
+    }
+
+    &--hidden {
+      margin-left: -100px;
+      opacity: 0;
+      pointer-events: none;
+
+      // The container could be wider than 100px depending on the label. Hiding the label
+      //  ensures that the above `margin-left` will completely hide the button.
+      .CallingButton__label {
+        display: none;
+      }
+    }
+  }
+
+  &__label {
+    @include font-subtitle;
+    margin-top: 8px;
+    text-align: center;
+    text-transform: lowercase;
+    color: $color-white;
+    @include calling-text-shadow;
+    user-select: none;
+  }
+}

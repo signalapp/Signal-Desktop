@@ -55,18 +55,14 @@ export const CallingHeader = ({
               aria-label={i18n('calling__participants', [
                 String(participantCount),
               ])}
-              className={classNames(
-                'module-calling-button__participants--container',
-                {
-                  'module-calling-button__participants--shown':
-                    showParticipantsList,
-                }
-              )}
+              className={classNames('CallingButton__participants--container', {
+                'CallingButton__participants--shown': showParticipantsList,
+              })}
               onClick={toggleParticipants}
               type="button"
             >
-              <i className="module-calling-button__participants" />
-              <span className="module-calling-button__participants--count">
+              <i className="CallingButton__participants" />
+              <span className="CallingButton__participants--count">
                 {participantCount}
               </span>
             </button>
@@ -80,7 +76,7 @@ export const CallingHeader = ({
         >
           <button
             aria-label={i18n('callingDeviceSelection__settings')}
-            className="module-calling-button__settings"
+            className="CallingButton__settings"
             onClick={toggleSettings}
             type="button"
           />
@@ -104,8 +100,8 @@ export const CallingHeader = ({
               )}
               className={
                 isInSpeakerView
-                  ? 'module-calling-button__grid-view'
-                  : 'module-calling-button__speaker-view'
+                  ? 'CallingButton__grid-view'
+                  : 'CallingButton__speaker-view'
               }
               onClick={toggleSpeakerView}
               type="button"
@@ -118,7 +114,7 @@ export const CallingHeader = ({
           <Tooltip content={i18n('calling__pip--on')} theme={Theme.Dark}>
             <button
               aria-label={i18n('calling__pip--on')}
-              className="module-calling-button__pip"
+              className="CallingButton__pip"
               onClick={togglePip}
               type="button"
             />
@@ -130,7 +126,7 @@ export const CallingHeader = ({
           <Tooltip content={i18n('cancel')} theme={Theme.Dark}>
             <button
               aria-label={i18n('cancel')}
-              className="module-calling-button__cancel"
+              className="CallingButton__cancel"
               onClick={onCancel}
               type="button"
             />
