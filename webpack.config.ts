@@ -5,6 +5,7 @@ import { resolve } from 'path';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Configuration, EnvironmentPlugin, ProvidePlugin } from 'webpack';
 import HtmlWebpackPlugin = require('html-webpack-plugin');
+import TerserPlugin = require('terser-webpack-plugin');
 
 const context = __dirname;
 const { NODE_ENV: mode = 'development' } = process.env;
@@ -34,6 +35,19 @@ const stickerCreatorConfig: Configuration = {
     'typeface-inter',
     './sticker-creator/index.tsx',
   ],
+  // Stack-traces have to be readable so don't mangle function names.
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          mangle: false,
+          keep_classnames: true,
+          keep_fnames: true,
+        },
+      }),
+    ],
+  },
   output: {
     path: resolve(context, 'sticker-creator/dist'),
     filename: 'bundle.js',

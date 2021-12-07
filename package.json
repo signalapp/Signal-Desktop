@@ -444,6 +444,7 @@
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme,test,__tests__,tests,powered-test,example,examples,*.d.ts,.snyk-*.flag,benchmark}",
       "!**/node_modules/.bin",
       "!**/node_modules/**/build/**",
+      "node_modules/intl-tel-input/build/**",
       "!**/node_modules/**/prebuilds/**",
       "!**/*.{o,hprof,orig,pyc,pyo,rbc}",
       "!**/._*",
