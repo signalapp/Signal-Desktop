@@ -1114,8 +1114,8 @@ export const MediaEditor = ({
               try {
                 fabricCanvas.discardActiveObject();
                 fabricCanvas.setDimensions({
-                  width: image.width,
-                  height: image.height,
+                  width: imageState.width,
+                  height: imageState.height,
                 });
                 fabricCanvas.setZoom(1);
                 const renderedCanvas = fabricCanvas.toCanvasElement();
