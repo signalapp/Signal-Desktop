@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search chat",
+        "message": "Αναζήτηση συνομιλίας",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -6612,11 +6612,11 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "Κανονικό",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Επισήμανση",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
@@ -6624,23 +6624,23 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "Υπογράμμιση",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "Γραφίδα",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "Επισήμανση",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "Λεπτό",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "Κανονικό",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6648,7 +6648,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "Έντονο",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6696,11 +6696,11 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "Ξεπερασμένο: Αποστολή απλών μη επεξεργασμένων εικόνων στο Signal. Σύγχρονο: Προσθέστε αυτοκόλλητα γάτας, κείμενο νέον και σχεδιάστε χαρούμενα δέντρα στις εικόνες σας πριν τις στείλετε στο Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Νιώσατε ποτέ στη ζωή σας ότι χρειάζεστε περισσότερα pixel στο δεξί παράθυρο; Είστε λάτρης των avatar, αλλά μόνο των avatar και τίποτα άλλο; Έχετε αυτοκόλλητο στον προφυλακτήρα του αυτοκινήτου σας που λέει \"Χρειάζομαι Περισσότερο Χώρο Στην Οθόνη\"; Εάν απαντήσατε ναι ή όχι σε κάποια από αυτές τις ερωτήσεις, τότε αυτή η ενημέρωση έχει ένα πτυσσόμενο αριστερό παράθυρο για εσάς.",
         "description": "Release notes for v5.26"
     }
 }

@@ -192,7 +192,7 @@
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimerar programmet...",
+        "message": "Optimerar applikation...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
@@ -1832,11 +1832,11 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Rensa programdata",
+        "message": "Rensa applikationsdata",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
-        "message": "Det här rensar alla data i programmet, tar bort alla meddelanden och sparad kontoinformation.",
+        "message": "Det här rensar alla data i applikationen, tar bort alla meddelanden och sparad kontoinformation.",
         "description": "Text describing what the clear data button will do."
     },
     "clearDataButton": {
@@ -1848,7 +1848,7 @@
         "description": "Header of the full-screen delete data confirmation screen"
     },
     "deleteAllDataBody": {
-        "message": "Du är på väg att ta bort allt av det här programmets sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
+        "message": "Du är på väg att ta bort allt av den här applikationens sparade kontoinformation, inklusive alla kontakter och alla meddelanden. Du kan alltid länka din mobila enhet igen, men det återställer inte borttagna meddelanden.",
         "description": "Text describing what exactly will happen if the user clicks the button to delete all data"
     },
     "deleteAllDataButton": {
@@ -6624,7 +6624,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "Understrykning",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
@@ -6636,7 +6636,7 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "Tunn",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {

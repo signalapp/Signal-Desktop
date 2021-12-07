@@ -6192,15 +6192,15 @@
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "グループの説明を追加...",
+        "message": "グループの説明を追加してください…",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "メディアの品質を選択",
+        "message": "メディアの画質を選択",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
-        "message": "メディアの品質",
+        "message": "メディアの画質",
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
@@ -6636,19 +6636,19 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "細い",
+        "message": "細字",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "普通",
+        "message": "標準",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
-        "message": "中",
+        "message": "中字",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "太い",
+        "message": "太字",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6660,11 +6660,11 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "切り替え",
+        "message": "反転",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
-        "message": "ロック",
+        "message": "固定",
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
@@ -6700,7 +6700,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "左側にある、「チャット一覧が表示されているパネル」の幅を変えられるようになりました。このパネルと、「チャットの内容の表示部分」との境界を左右にドラッグすると、好きな幅に変えられます。幅を最小にすると、アイコンのみの表示となります。この場合、検索ボックスが消えてしまいますが、ctrl + F で一時的に検索ができるようになります。",
+        "message": "チャット一覧の幅を変えられるようになりました。チャットの表示部分との境界を左右にドラッグすると、好きな幅に変えられます。幅を最小にすると、アイコンのみの表示となります。",
         "description": "Release notes for v5.26"
     }
 }

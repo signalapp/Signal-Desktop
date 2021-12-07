@@ -6636,7 +6636,7 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Tenko",
+        "message": "Tanko",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {

@@ -452,7 +452,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to call the conversation."
     },
     "continueCall": {
-        "message": "Continue Call",
+        "message": "Sit oproep voort",
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
@@ -1402,7 +1402,7 @@
         "description": "Button label in the call lobby for starting a call"
     },
     "calling__join": {
-        "message": "Join Call",
+        "message": "Sluit aan by oproep",
         "description": "Button label in the call lobby for joining a call"
     },
     "calling__return": {
@@ -1674,7 +1674,7 @@
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--one": {
-        "message": "In this call · 1 person",
+        "message": "In hierdie oproep · 1 persoon",
         "description": "Shown in the participants list to describe how many people are in the call"
     },
     "calling__in-this-call--many": {
@@ -1946,7 +1946,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Send paused",
+        "message": "Stuur wagtend",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -2322,7 +2322,7 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Recommended member limit reached",
+        "message": "Aanbevole ledebeperking is bereik",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
@@ -3336,11 +3336,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Join this group and share your name and photo with its members? They won’t know you’ve seen their messages until you accept.",
+        "message": "Sluit by hierdie groep aan en deel u naam en foto met die lede? Hulle sal nie weet dat u hulle boodskappe gesien het nie tot u aanvaar.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Unblock this group and share your name and photo with its members? You won't receive any messages until you unblock them.",
+        "message": "Ontsper hierdie groep aan en deel u naam en foto met die lede? U sal geen boodskappe ontvang nie tot u hulle ontsper.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3792,7 +3792,7 @@
         }
     },
     "calling__call-notification__ended": {
-        "message": "The group call has ended",
+        "message": "Die groepoproep is beëindig",
         "description": "Notification message when a group call has ended"
     },
     "calling__call-notification__started-by-someone": {
@@ -3972,15 +3972,15 @@
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
-        "message": "Invalid Link",
+        "message": "Ongeldige skakel",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "This is not a valid group link. Make sure the entire link is intact and correct before attempting to join.",
+        "message": "Dit is ’n ongeldige groepskakel. Maak seker die skakel is volledig en korrek voor u probeer aansluit.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Do you want to join this group and share your name and photo with its members?",
+        "message": "Wil u by hierdie groep aansluit en u naam en foto met die lede deel?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
@@ -4004,7 +4004,7 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--link-revoked": {
-        "message": "This group link is no longer valid.",
+        "message": "Hierdie groepskakel is nie meer geldig nie.",
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
@@ -4060,7 +4060,7 @@
         }
     },
     "GroupV2--join--requested": {
-        "message": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
+        "message": "U aansluitingsversoek is na die groepadmin gestuur. U sal laat weet word wanneer hulle aksie geneem het.",
         "description": "Shown in composition area when you've requested to join a group"
     },
     "GroupV2--join--general-join-failure--title": {
@@ -4436,7 +4436,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "You joined the group via the group link.",
+        "message": "U het d.m.v. die groepskakel by die groep aangesluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -4986,7 +4986,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "You sent a request to join the group.",
+        "message": "U het ’n versoek gestuur om by die groep aan te sluit.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -5000,7 +5000,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "You canceled your request to join the group.",
+        "message": "U het u versoek om by die groep aan te sluit gekanselleer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
@@ -5078,7 +5078,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "You turned off the group link.",
+        "message": "U het die groepskakel gedeaktiveer.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -5096,7 +5096,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "You reset the group link.",
+        "message": "U het die groepskakel teruggestel.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -5150,7 +5150,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "U het die groepinstellings verander sodat slegs beheerders boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -5168,7 +5168,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "U het die groepinstellings verander sodat alle lede boodskappe kan stuur.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -5196,7 +5196,7 @@
         }
     },
     "GroupV1--Migration--was-upgraded": {
-        "message": "This group was upgraded to a New Group.",
+        "message": "Hierdie groep is na ’n nuwe groep opgegradeer.",
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
@@ -5208,43 +5208,43 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "Wat is nuwe groepe?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "Gradeer op na nuwe groep",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "Nuwe groepe het funksies soos @vermeldings en groepadmin, en sal in die toekoms nog funksies ondersteun.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "Alle goodskapgeskiedenis en media van voor die opgradering is behou.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "Alle boodskapgeskiedenis en media van voor die opgradering sal behou word.",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "U moet weer ’n uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor u aanvaar nie:",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "These members will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Hierdie lede moet weer ’n uitnodiging om by die groep aan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "This member will need to accept an invite to join this group again, and will not receive group messages until they accept:",
+        "message": "Hierdie lid moet weer ’ uitnodiging om by die groep aaan te sluit aanvaar, en sal geen groepboodskappe ontvang voor hulle aanvaar nie:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "Hierdie lede kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "This member is not capable of joining New Groups, and will be removed from the group:",
+        "message": "Hierdie lide kan nie by nuwe groepe aansluit nie en sal van die volgende groep verwyder word:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
@@ -5562,7 +5562,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Are you sure you want to reset the group link? People will no longer be able to join the group using the current link.",
+        "message": "Is u seker u wil die groepskakel terugstel? Mense sal nie meer met die huidige skakel by die groep kan aansluit nie.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5948,7 +5948,7 @@
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
-        "message": "Your contact",
+        "message": "U kontak",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
@@ -6188,11 +6188,11 @@
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Group descriptions will be visible to members of this group and people who have been invited.",
+        "message": "Groepbeskrywings sal sigbaar wees vir lede van hierdie groep en mense wat uitgenooi is.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "Add group description...",
+        "message": "Voeg groepbeskrywing toe…",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
@@ -6240,7 +6240,7 @@
         "description": "In the message details screen, shown above contacts who have read this message"
     },
     "MessageDetailsHeader--Viewed": {
-        "message": "Viewed by",
+        "message": "Gesien deur",
         "description": "In the message details screen, shown above contacts who have viewed this message"
     },
     "ProfileEditor--about": {
