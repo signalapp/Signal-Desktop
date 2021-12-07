@@ -59,7 +59,10 @@ const InnerGrid = SortableContainer(
               const stickerImage = await processStickerImage(path);
               actions.addImageData(stickerImage);
             } catch (e) {
-              window.SignalContext.log.error('Error processing image:', e);
+              window.SignalContext.log.error(
+                'Error processing image:',
+                e?.stack ? e.stack : String(e)
+              );
               actions.removeSticker(path);
               actions.addToast({
                 key:
