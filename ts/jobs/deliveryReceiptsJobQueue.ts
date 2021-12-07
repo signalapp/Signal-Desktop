@@ -10,34 +10,36 @@ import { MAX_RETRY_TIME, runReceiptJob } from './helpers/receiptHelpers';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
-const viewedReceiptsJobDataSchema = z.object({ viewedReceipt: receiptSchema });
+const deliveryReceiptsJobDataSchema = z.object({
+  deliveryReceipts: receiptSchema.array(),
+});
 
-type ViewedReceiptsJobData = z.infer<typeof viewedReceiptsJobDataSchema>;
+type DeliveryReceiptsJobData = z.infer<typeof deliveryReceiptsJobDataSchema>;
 
-export class ViewedReceiptsJobQueue extends JobQueue<ViewedReceiptsJobData> {
-  protected parseData(data: unknown): ViewedReceiptsJobData {
-    return viewedReceiptsJobDataSchema.parse(data);
+export class DeliveryReceiptsJobQueue extends JobQueue<DeliveryReceiptsJobData> {
+  protected parseData(data: unknown): DeliveryReceiptsJobData {
+    return deliveryReceiptsJobDataSchema.parse(data);
   }
 
   protected async run(
     {
       data,
       timestamp,
-    }: Readonly<{ data: ViewedReceiptsJobData; timestamp: number }>,
+    }: Readonly<{ data: DeliveryReceiptsJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
     await runReceiptJob({
       attempt,
       log,
       timestamp,
-      receipts: [data.viewedReceipt],
-      type: ReceiptType.Viewed,
+      receipts: data.deliveryReceipts,
+      type: ReceiptType.Delivery,
     });
   }
 }
 
-export const viewedReceiptsJobQueue = new ViewedReceiptsJobQueue({
+export const deliveryReceiptsJobQueue = new DeliveryReceiptsJobQueue({
   store: jobQueueDatabaseStore,
-  queueType: 'viewed receipts',
+  queueType: 'delivery receipts',
   maxAttempts: exponentialBackoffMaxAttempts(MAX_RETRY_TIME),
 });

@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d';
-import { sendReadReceiptsFor } from './sendReadReceiptsFor';
 import { hasErrors } from '../state/selectors/message';
+import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { readSyncJobQueue } from '../jobs/readSyncJobQueue';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
@@ -115,7 +115,10 @@ export async function markConversationRead(
       readSyncJobQueue.add({ readSyncs });
     }
 
-    await sendReadReceiptsFor(conversationAttrs, unreadMessagesSyncData);
+    await readReceiptsJobQueue.addIfAllowedByUser(
+      window.storage,
+      allReadMessagesSync
+    );
   }
 
   window.Whisper.ExpiringMessagesListener.update();

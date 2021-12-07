@@ -62,7 +62,6 @@ import { isConversationAccepted } from '../util/isConversationAccepted';
 import { markConversationRead } from '../util/markConversationRead';
 import { handleMessageSend } from '../util/handleMessageSend';
 import { getConversationMembers } from '../util/getConversationMembers';
-import { sendReadReceiptsFor } from '../util/sendReadReceiptsFor';
 import { updateConversationsWithUuidLookup } from '../updateConversationsWithUuidLookup';
 import { ReadStatus } from '../messages/MessageReadStatus';
 import { SendStatus } from '../messages/MessageSendState';
@@ -92,6 +91,7 @@ import {
   getMessagePropStatus,
 } from '../state/selectors/message';
 import { normalMessageSendJobQueue } from '../jobs/normalMessageSendJobQueue';
+import { readReceiptsJobQueue } from '../jobs/readReceiptsJobQueue';
 import { Deletes } from '../messageModifiers/Deletes';
 import type { ReactionModel } from '../messageModifiers/Reactions';
 import { isAnnouncementGroupReady } from '../util/isAnnouncementGroupReady';
@@ -1976,21 +1976,18 @@ export class ConversationModel extends window.Backbone
       const readMessages = messages.filter(
         m => !hasErrors(m.attributes) && isIncoming(m.attributes)
       );
-      const receiptSpecs = readMessages.map(m => ({
-        messageId: m.id,
-        senderE164: m.get('source'),
-        senderUuid: m.get('sourceUuid'),
-        senderId: window.ConversationController.ensureContactIds({
-          e164: m.get('source'),
-          uuid: m.get('sourceUuid'),
-        }),
-        timestamp: m.get('sent_at'),
-        hasErrors: hasErrors(m.attributes),
-      }));
 
       if (isLocalAction) {
         // eslint-disable-next-line no-await-in-loop
-        await sendReadReceiptsFor(this.attributes, receiptSpecs);
+        await readReceiptsJobQueue.addIfAllowedByUser(
+          window.storage,
+          readMessages.map(m => ({
+            messageId: m.id,
+            senderE164: m.get('source'),
+            senderUuid: m.get('sourceUuid'),
+            timestamp: m.get('sent_at'),
+          }))
+        );
       }
 
       // eslint-disable-next-line no-await-in-loop

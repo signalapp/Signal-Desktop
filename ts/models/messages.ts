@@ -2524,8 +2524,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         window.Whisper.deliveryReceiptQueue.add(() => {
           window.Whisper.deliveryReceiptBatcher.add({
             messageId,
-            source,
-            sourceUuid,
+            senderE164: source,
+            senderUuid: sourceUuid,
             timestamp: this.get('sent_at'),
           });
         });

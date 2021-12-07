@@ -23,7 +23,8 @@ import type {
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
-import type { WhatIsThis, DeliveryReceiptBatcherItemType } from './window.d';
+import type { WhatIsThis } from './window.d';
+import type { Receipt } from './types/Receipt';
 import { getTitleBarVisibility, TitleBarVisibility } from './types/Settings';
 import { SocketStatus } from './types/SocketStatus';
 import { DEFAULT_CONVERSATION_COLOR } from './types/Colors';
@@ -131,6 +132,7 @@ import { ToastConversationArchived } from './components/ToastConversationArchive
 import { ToastConversationUnarchived } from './components/ToastConversationUnarchived';
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
+import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -378,59 +380,12 @@ export async function startApp(): Promise<void> {
   });
   window.Whisper.deliveryReceiptQueue.pause();
   window.Whisper.deliveryReceiptBatcher =
-    window.Signal.Util.createBatcher<DeliveryReceiptBatcherItemType>({
+    window.Signal.Util.createBatcher<Receipt>({
       name: 'Whisper.deliveryReceiptBatcher',
       wait: 500,
       maxSize: 100,
-      processBatch: async items => {
-        const byConversationId = window._.groupBy(items, item =>
-          window.ConversationController.ensureContactIds({
-            e164: item.source,
-            uuid: item.sourceUuid,
-          })
-        );
-        const ids = Object.keys(byConversationId);
-
-        for (let i = 0, max = ids.length; i < max; i += 1) {
-          const conversationId = ids[i];
-          const ourItems = byConversationId[conversationId];
-          const timestamps = ourItems.map(item => item.timestamp);
-          const messageIds = ourItems.map(item => item.messageId);
-
-          const c = window.ConversationController.get(conversationId);
-          if (!c) {
-            log.warn(
-              `deliveryReceiptBatcher: Conversation ${conversationId} does not exist! ` +
-                `Will not send delivery receipts for timestamps ${timestamps}`
-            );
-            continue;
-          }
-
-          const senderUuid = c.get('uuid');
-          const senderE164 = c.get('e164');
-
-          c.queueJob('sendDeliveryReceipt', async () => {
-            try {
-              const sendOptions = await getSendOptions(c.attributes);
-
-              // eslint-disable-next-line no-await-in-loop
-              await handleMessageSend(
-                window.textsecure.messaging.sendDeliveryReceipt({
-                  senderE164,
-                  senderUuid,
-                  timestamps,
-                  options: sendOptions,
-                }),
-                { messageIds, sendType: 'deliveryReceipt' }
-              );
-            } catch (error) {
-              log.error(
-                `Failed to send delivery receipt to ${senderE164}/${senderUuid} for timestamps ${timestamps}:`,
-                error && error.stack ? error.stack : error
-              );
-            }
-          });
-        }
+      processBatch: async deliveryReceipts => {
+        await deliveryReceiptsJobQueue.add({ deliveryReceipts });
       },
     });
 

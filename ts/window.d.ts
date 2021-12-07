@@ -35,6 +35,7 @@ import { getEnvironment } from './environment';
 import * as zkgroup from './util/zkgroup';
 import { LocalizerType, BodyRangesType, BodyRangeType } from './types/Util';
 import * as EmbeddedContact from './types/EmbeddedContact';
+import type { Receipt } from './types/Receipt';
 import * as Errors from './types/errors';
 import { ConversationController } from './ConversationController';
 import { ReduxActions } from './state/types';
@@ -523,13 +524,6 @@ export class CanvasVideoRenderer {
   constructor(canvas: Ref<HTMLCanvasElement>);
 }
 
-export type DeliveryReceiptBatcherItemType = {
-  messageId: string;
-  source?: string;
-  sourceUuid?: string;
-  timestamp: number;
-};
-
 export class AnyViewClass extends window.Backbone.View<any> {
   public headerTitle?: string;
   static show(view: typeof AnyViewClass, element: Element): void;
@@ -551,7 +545,7 @@ export type WhisperType = {
   WallClockListener: WhatIsThis;
 
   deliveryReceiptQueue: PQueue;
-  deliveryReceiptBatcher: BatcherType<DeliveryReceiptBatcherItemType>;
+  deliveryReceiptBatcher: BatcherType<Receipt>;
   events: Backbone.Events;
   activeConfirmationView: WhatIsThis;
 

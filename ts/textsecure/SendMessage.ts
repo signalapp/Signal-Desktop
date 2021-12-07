@@ -1584,7 +1584,7 @@ export default class MessageSender {
     });
   }
 
-  async sendReadReceipts(
+  async sendReadReceipt(
     options: Readonly<{
       senderE164?: string;
       senderUuid?: string;
@@ -1598,7 +1598,7 @@ export default class MessageSender {
     });
   }
 
-  async sendViewedReceipts(
+  async sendViewedReceipt(
     options: Readonly<{
       senderE164?: string;
       senderUuid?: string;
