@@ -15,6 +15,8 @@ export class MediaEditorFabricIText extends fabric.IText {
       textAlign: 'center',
       ...options,
     });
+
+    this.on('modified', () => this.canvas?.bringToFront(this));
   }
 
   static override fromObject(

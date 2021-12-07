@@ -531,10 +531,6 @@ export const MediaEditor = ({
       return;
     }
 
-    if (editMode !== EditMode.Text) {
-      return;
-    }
-
     const obj = fabricCanvas.getActiveObject();
 
     if (!obj || !(obj instanceof MediaEditorFabricIText)) {
@@ -544,7 +540,7 @@ export const MediaEditor = ({
     obj.exitEditing();
     obj.set(getTextStyleAttributes(textStyle, sliderValue));
     fabricCanvas.requestRenderAll();
-  }, [editMode, fabricCanvas, sliderValue, textStyle]);
+  }, [fabricCanvas, sliderValue, textStyle]);
 
   // Create the CroppingRect
   useEffect(() => {
@@ -601,6 +597,7 @@ export const MediaEditor = ({
     setCanCrop(false);
   }, [editMode, fabricCanvas, imageState.height, imageState.width, zoom]);
 
+  // Create an IText node when edit mode changes to Text
   useEffect(() => {
     if (!fabricCanvas) {
       return;
