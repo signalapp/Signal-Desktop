@@ -1781,7 +1781,12 @@ export async function startApp(): Promise<void> {
     window.Whisper.ExpiringMessagesListener.init(window.Whisper.events);
     window.Whisper.TapToViewMessagesListener.init(window.Whisper.events);
 
-    if (window.Signal.Util.Registration.everDone()) {
+    const isCoreDataValid = Boolean(
+      window.textsecure.storage.user.getUuid() &&
+        window.ConversationController.getOurConversation()
+    );
+
+    if (isCoreDataValid && window.Signal.Util.Registration.everDone()) {
       connect();
       window.reduxActions.app.openInbox();
     } else {
