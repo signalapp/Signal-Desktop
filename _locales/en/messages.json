@@ -623,7 +623,7 @@
     "message": "Thumbnail link preview for $domain$",
     "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
     "placeholders": {
-      "path": {
+      "domain": {
         "content": "$1",
         "example": "instagram.com"
       }
@@ -640,8 +640,18 @@
     }
   },
   "decryptionErrorToast": {
-    "message": "Desktop ran into a decryption error.",
-    "description": "An error popup when we haven't added an error for decryption error."
+    "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+    "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "John"
+      },
+      "deviceId": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
   },
   "decryptionErrorToastAction": {
     "message": "Submit log",

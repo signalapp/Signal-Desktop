@@ -17,6 +17,7 @@
   text-align: center;
   transform: translate(-50%, 0);
   user-select: none;
+  overflow: hidden;
   z-index: $z-index-toast;
 
   @include light-theme {
@@ -34,10 +35,9 @@
 
   &__button {
     @include font-body-2-bold;
-    border-top-right-radius: $border-radius-px;
-    border-bottom-right-radius: $border-radius-px;
     cursor: pointer;
     padding: 8px 12px;
+    white-space: nowrap;
 
     @include light-theme {
       border-left: 1px solid $color-gray-65;
@@ -46,11 +46,21 @@
       border-left: 1px solid $color-gray-60;
     }
 
+    outline: none;
+
     &:hover {
       @include light-theme {
         background-color: $color-gray-65;
       }
       @include dark-theme {
+        background-color: $color-gray-60;
+      }
+    }
+    &:focus {
+      @include keyboard-mode {
+        background-color: $color-gray-65;
+      }
+      @include dark-keyboard-mode {
         background-color: $color-gray-60;
       }
     }

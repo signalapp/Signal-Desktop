@@ -12,7 +12,9 @@ import enMessages from '../../_locales/en/messages.json';
 const i18n = setupI18n('en', enMessages);
 
 const defaultProps = {
+  deviceId: 3,
   i18n,
+  name: 'Someone Somewhere',
   onClose: action('onClose'),
   onShowDebugLog: action('onShowDebugLog'),
 };

@@ -6,6 +6,8 @@ import type { LocalizerType } from '../types/Util';
 import { Toast } from './Toast';
 
 export type ToastPropsType = {
+  deviceId: number;
+  name: string;
   onShowDebugLog: () => unknown;
 };
 
@@ -15,7 +17,9 @@ type PropsType = {
 } & ToastPropsType;
 
 export const ToastDecryptionError = ({
+  deviceId,
   i18n,
+  name,
   onClose,
   onShowDebugLog,
 }: PropsType): JSX.Element => {
@@ -24,12 +28,16 @@ export const ToastDecryptionError = ({
       autoDismissDisabled
       className="decryption-error"
       onClose={onClose}
+      style={{ maxWidth: '500px' }}
       toastAction={{
         label: i18n('decryptionErrorToastAction'),
         onClick: onShowDebugLog,
       }}
     >
-      {i18n('decryptionErrorToast')}
+      {i18n('decryptionErrorToast', {
+        name,
+        deviceId,
+      })}
     </Toast>
   );
 };

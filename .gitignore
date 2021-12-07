@@ -11,7 +11,7 @@ config/local-*.json
 release/
 /dev-app-update.yml
 .nyc_output/
-*.sublime*
+
 /sql/
 /start.sh
 .eslintcache
@@ -24,6 +24,9 @@ libtextsecure/components.js
 libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
+/storybook-static/
+preload.bundle.*
+ts/sql/mainWorker.bundle.js.LICENSE.txt
 
 # React / TypeScript
 app/*.js
@@ -37,7 +40,7 @@ sticker-creator/**/*.js
 # Sticker Creator
 sticker-creator/dist/*
 
+# Editors
 /.idea
-/storybook-static/
-preload.bundle.*
-ts/sql/mainWorker.bundle.js.LICENSE.txt
+/.vscode
+*.sublime*

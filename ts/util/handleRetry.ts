@@ -151,13 +151,19 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
   log.info(`onRetryRequest/${logId}: Resend complete.`);
 }
 
-function maybeShowDecryptionToast(logId: string) {
+function maybeShowDecryptionToast(
+  logId: string,
+  name: string,
+  deviceId: number
+) {
   if (isProduction(window.getVersion())) {
     return;
   }
 
   log.info(`maybeShowDecryptionToast/${logId}: Showing decryption error toast`);
   showToast(ToastDecryptionError, {
+    deviceId,
+    name,
     onShowDebugLog: () => window.showDebugLog(),
   });
 }
@@ -189,7 +195,8 @@ export async function onDecryptionError(
     await conversation.getProfiles();
   }
 
-  maybeShowDecryptionToast(logId);
+  const name = conversation.getTitle();
+  maybeShowDecryptionToast(logId, name, senderDevice);
 
   if (
     conversation.get('capabilities')?.senderKey &&
