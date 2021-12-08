@@ -53,7 +53,7 @@ const ContactListItemSection = () => {
 export const LeftPaneContactSection = () => {
   return (
     <div className="left-pane-contact-section">
-      <LeftPaneSectionHeader label={window.i18n('contactsHeader')} />
+      <LeftPaneSectionHeader />
       <div className="left-pane-contact-content">
         <ContactListItemSection />
       </div>

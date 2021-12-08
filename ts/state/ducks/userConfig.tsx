@@ -13,7 +13,7 @@ export interface UserConfigState {
 export const initialUserConfigState = {
   audioAutoplay: false,
   showRecoveryPhrasePrompt: true,
-  messageRequests: true,
+  messageRequests: false,
 };
 
 const userConfigSlice = createSlice({

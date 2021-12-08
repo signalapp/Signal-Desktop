@@ -139,22 +139,12 @@ export class LeftPaneMessageSection extends React.Component<Props, State> {
     }
   }
 
-  public renderHeader(): JSX.Element {
-    return (
-      <LeftPaneSectionHeader
-        label={window.i18n('messagesHeader')}
-        buttonIcon="plus"
-        buttonClicked={this.handleNewSessionButtonClick}
-      />
-    );
-  }
-
   public render(): JSX.Element {
     const { overlay } = this.state;
 
     return (
       <div className="session-left-pane-section-content">
-        {this.renderHeader()}
+        <LeftPaneSectionHeader buttonClicked={this.handleNewSessionButtonClick} />
         {overlay ? this.renderClosableOverlay() : this.renderConversations()}
       </div>
     );

@@ -1,6 +1,4 @@
 const importOnce = require('node-sass-import-once');
-const rimraf = require('rimraf');
-const mkdirp = require('mkdirp');
 const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
@@ -39,7 +37,6 @@ module.exports = grunt => {
     'js/curve/curve25519_wrapper.js',
     'node_modules/libsodium/dist/modules/libsodium.js',
     'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
-
     'libtextsecure/libsignal-protocol.js',
     'js/util_worker_tasks.js',
   ];
@@ -167,11 +164,6 @@ module.exports = grunt => {
     const gitinfo = grunt.config.get('gitinfo');
     const hash = gitinfo.local.branch.current.SHA;
     updateLocalConfig({ commitHash: hash });
-  });
-
-  grunt.registerTask('clean-release', () => {
-    rimraf.sync('release');
-    mkdirp.sync('release');
   });
 
   grunt.registerTask('dev', ['default', 'watch']);

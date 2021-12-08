@@ -24,7 +24,8 @@ export function pushToastInfo(
   id: string,
   title: string,
   description?: string,
-  onToastClick?: () => void
+  onToastClick?: () => void,
+  delay?: number
 ) {
   toast.info(
     <SessionToast
@@ -33,7 +34,7 @@ export function pushToastInfo(
       type={SessionToastType.Info}
       onToastClick={onToastClick}
     />,
-    { toastId: id, updateId: id }
+    { toastId: id, updateId: id, delay }
   );
 }
 
@@ -163,6 +164,14 @@ export function pushedMissedCallCauseOfPermission(conversationName: string) {
       onToastClick={openPrivacySettings}
     />,
     { toastId: id, updateId: id, autoClose: 10000 }
+  );
+}
+
+export function pushedMissedCallNotApproved(displayName: string) {
+  pushToastInfo(
+    'missedCall',
+    window.i18n('callMissedTitle'),
+    window.i18n('callMissedNotApproved', [displayName])
   );
 }
 

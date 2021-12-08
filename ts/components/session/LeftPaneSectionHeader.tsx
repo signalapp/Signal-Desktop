@@ -1,6 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
-import { SessionIcon, SessionIconType } from './icon';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonType } from './SessionButton';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,52 +9,42 @@ import { Flex } from '../basic/Flex';
 import { getFocusedSection } from '../../state/selectors/section';
 import { SectionType } from '../../state/ducks/section';
 import { UserUtils } from '../../session/utils';
+import { SessionIcon } from './icon';
 
-const Tab = ({
-  isSelected,
-  label,
-  onSelect,
-  type,
-}: {
-  isSelected: boolean;
-  label: string;
-  onSelect?: (event: number) => void;
-  type: number;
-}) => {
-  const handleClick = onSelect
-    ? () => {
-        onSelect(type);
-      }
-    : undefined;
+const SectionTitle = styled.h1`
+  padding: 0 var(--margins-sm);
+  flex-grow: 1;
+  color: var(--color-text);
+`;
 
-  return (
-    <h1
-      className={classNames('module-left-pane__title', isSelected ? 'active' : null)}
-      onClick={handleClick}
-      role="button"
-    >
-      {label}
-    </h1>
-  );
-};
-
-type Props = {
-  label?: string;
-  buttonIcon?: SessionIconType;
-  buttonClicked?: any;
-};
-
-export const LeftPaneSectionHeader = (props: Props) => {
-  const { label, buttonIcon, buttonClicked } = props;
+export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
+  const focusedSection = useSelector(getFocusedSection);
+
+  let label: string | undefined;
+
+  const isMessageSection = focusedSection === SectionType.Message;
+
+  switch (focusedSection) {
+    case SectionType.Contact:
+      label = window.i18n('contactsHeader');
+      break;
+    case SectionType.Settings:
+      label = window.i18n('settingsHeader');
+      break;
+    case SectionType.Message:
+      label = window.i18n('messagesHeader');
+      break;
+    default:
+  }
 
   return (
     <Flex flexDirection="column">
       <div className="module-left-pane__header">
-        {label && <Tab label={label} type={0} isSelected={true} key={label} />}
-        {buttonIcon && (
-          <SessionButton onClick={buttonClicked} key="compose">
-            <SessionIcon iconType={buttonIcon} iconSize="small" iconColor="white" />
+        <SectionTitle>{label}</SectionTitle>
+        {isMessageSection && (
+          <SessionButton onClick={props.buttonClicked}>
+            <SessionIcon iconType="plus" iconSize="small" iconColor="white" />
           </SessionButton>
         )}
       </div>

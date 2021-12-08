@@ -13,6 +13,7 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
+  getIsSelectedBlocked,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
   getSelectedConversationIsPublic,
@@ -198,6 +199,7 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
 
 const CallButton = () => {
   const isPrivate = useSelector(getIsSelectedPrivate);
+  const isBlocked = useSelector(getIsSelectedBlocked);
   const isMe = useSelector(getIsSelectedNoteToSelf);
   const selectedConvoKey = useSelector(getSelectedConversationKey);
 
@@ -205,7 +207,7 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  if (!isPrivate || isMe || !selectedConvoKey) {
+  if (!isPrivate || isMe || !selectedConvoKey || isBlocked) {
     return null;
   }
 

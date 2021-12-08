@@ -149,12 +149,6 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
-
-    &-popup {
-      width: -webkit-fill-available;
-      height: -webkit-fill-available;
-      position: absolute;
-    }
   }
 
   &-overlay {

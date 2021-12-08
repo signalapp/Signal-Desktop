@@ -199,10 +199,12 @@ export class OpenGroupManagerV2 {
       await saveV2OpenGroupRoom(room);
 
       // mark active so it's not in the contacts list but in the conversation list
+      // mark isApproved as this is a public chat
       conversation.set({
         active_at: Date.now(),
         name: room.roomName,
         avatarPath: room.roomName,
+        isApproved: true,
       });
       await conversation.commit();
 

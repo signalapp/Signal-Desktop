@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { getConversationRequests } from '../../state/selectors/conversations';
 import { MemoConversationListItemWithDetails } from '../ConversationListItem';
 import styled from 'styled-components';
+// tslint:disable: use-simple-attributes
 
 export enum SessionClosableOverlayType {
   Message = 'message',
@@ -178,7 +179,7 @@ export class SessionClosableOverlay extends React.Component<Props, State> {
               placeholder={placeholder}
               value={groupName}
               isGroup={true}
-              maxLength={100}
+              maxLength={isOpenGroupView ? 300 : 100}
               onChange={this.onGroupNameChanged}
               onPressEnter={() => onButtonClick(groupName, selectedMembers)}
             />

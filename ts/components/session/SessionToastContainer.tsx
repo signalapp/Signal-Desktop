@@ -6,7 +6,7 @@ const SessionToastContainerPrivate = () => {
   return (
     <WrappedToastContainer
       position="bottom-right"
-      autoClose={3000}
+      autoClose={5000}
       hideProgressBar={true}
       newestOnTop={true}
       closeOnClick={true}

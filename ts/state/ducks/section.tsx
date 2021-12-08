@@ -7,7 +7,6 @@ export enum SectionType {
   Profile,
   Message,
   Contact,
-  Channel,
   Settings,
   Moon,
   PathIndicator,

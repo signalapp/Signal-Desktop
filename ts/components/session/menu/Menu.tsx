@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getHasIncomingCall, getHasOngoingCall } from '../../../state/selectors/call';
 import { getNumberOfPinnedConversations } from '../../../state/selectors/conversations';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Item, Submenu } from 'react-contexify';
@@ -18,7 +17,6 @@ import { SectionType } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import {
   blockConvoById,
-  callRecipient,
   clearNickNameByConvoId,
   copyPublicKeyByConvoId,
   deleteAllMessagesByConvoIdWithConfirmation,
@@ -345,32 +343,6 @@ export function getMarkAllReadMenuItem(conversationId: string): JSX.Element | nu
   return (
     <Item onClick={() => markAllReadByConvoId(conversationId)}>{window.i18n('markAllAsRead')}</Item>
   );
-}
-
-export function getStartCallMenuItem(conversationId: string): JSX.Element | null {
-  if (window?.lokiFeatureFlags.useCallMessage) {
-    const convoOut = getConversationController().get(conversationId);
-    // we don't support calling groups
-
-    const hasIncomingCall = useSelector(getHasIncomingCall);
-    const hasOngoingCall = useSelector(getHasOngoingCall);
-    const canCall = !(hasIncomingCall || hasOngoingCall);
-    if (!convoOut?.isPrivate() || convoOut.isMe()) {
-      return null;
-    }
-
-    return (
-      <Item
-        onClick={() => {
-          void callRecipient(conversationId, canCall);
-        }}
-      >
-        {window.i18n('menuCall')}
-      </Item>
-    );
-  }
-
-  return null;
 }
 
 export function getDisappearingMenuItem(

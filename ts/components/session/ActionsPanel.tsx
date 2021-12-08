@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { SessionIconButton } from './icon';
 import { Avatar, AvatarSize } from '../Avatar';
 import { SessionToastContainer } from './SessionToastContainer';
@@ -6,6 +6,7 @@ import { getConversationController } from '../../session/conversations';
 import { syncConfigurationIfNeeded } from '../../session/utils/syncUtils';
 
 import {
+  createOrUpdateItem,
   generateAttachmentKeyIfEmpty,
   getAllOpenGroupV1Conversations,
   getItemById,
@@ -36,7 +37,11 @@ import { forceRefreshRandomSnodePool } from '../../session/snode_api/snodePool';
 import { getSwarmPollingInstance } from '../../session/snode_api';
 import { DURATION } from '../../session/constants';
 import { conversationChanged, conversationRemoved } from '../../state/ducks/conversations';
-import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
+import {
+  editProfileModal,
+  onionPathModal,
+  updateConfirmModal,
+} from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from '../dialog/ModalContainer';
 import { debounce } from 'underscore';
@@ -49,7 +54,29 @@ import { switchHtmlToDarkTheme, switchHtmlToLightTheme } from '../../state/ducks
 import { DraggableCallContainer } from './calling/DraggableCallContainer';
 import { IncomingCallDialog } from './calling/IncomingCallDialog';
 import { CallInFullScreenContainer } from './calling/CallInFullScreenContainer';
+import { SessionButtonColor } from './SessionButton';
+import { settingsReadReceipt } from './settings/section/CategoryPrivacy';
 
+async function showTurnOnReadAck(dispatch: Dispatch<any>) {
+  const singleShotSettingId = 'read-receipt-turn-on-asked';
+  const item = (await getItemById(singleShotSettingId))?.value || false;
+
+  if (!item) {
+    await createOrUpdateItem({ id: singleShotSettingId, value: true });
+    // set it to true by default, user will be asked to willingfully turn it off
+    window.setSettingValue(settingsReadReceipt, true);
+    dispatch(
+      updateConfirmModal({
+        title: window.i18n('readReceiptSettingTitle'),
+        messageSub: window.i18n('readReceiptDialogDescription'),
+        okTheme: SessionButtonColor.Green,
+        onClickCancel: () => {
+          window.setSettingValue(settingsReadReceipt, false);
+        },
+      })
+    );
+  }
+}
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
   const unreadMessageCount = useSelector(getUnreadMessageCount);
@@ -227,7 +254,7 @@ const triggerAvatarReUploadIfNeeded = async () => {
 /**
  * This function is called only once: on app startup with a logged in user
  */
-const doAppStartUp = () => {
+const doAppStartUp = (dispatch: Dispatch<any>) => {
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
@@ -245,6 +272,8 @@ const doAppStartUp = () => {
   void getSwarmPollingInstance().start();
 
   void loadDefaultRooms();
+
+  void showTurnOnReadAck(dispatch);
 
   debounce(triggerAvatarReUploadIfNeeded, 200);
 };
@@ -267,10 +296,11 @@ export const ActionsPanel = () => {
   const [startCleanUpMedia, setStartCleanUpMedia] = useState(false);
   const ourPrimaryConversation = useSelector(getOurPrimaryConversation);
 
+  const dispatch = useDispatch();
   // this maxi useEffect is called only once: when the component is mounted.
   // For the action panel, it means this is called only one per app start/with a user loggedin
   useEffect(() => {
-    void doAppStartUp();
+    void doAppStartUp(dispatch);
   }, []);
 
   // wait for cleanUpMediasInterval and then start cleaning up medias

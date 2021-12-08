@@ -82,12 +82,10 @@ export interface ConversationAttributes {
   active_at: number;
   lastJoinedTimestamp: number; // ClosedGroup: last time we were added to this group
   groupAdmins?: Array<string>;
-  moderators?: Array<string>; // TODO to merge to groupAdmins with a migration on the db
   isKickedFromGroup?: boolean;
   avatarPath?: string;
   isMe?: boolean;
   subscriberCount?: number;
-  sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
   avatarPointer?: string;
@@ -124,12 +122,10 @@ export interface ConversationAttributesOptionals {
   timestamp?: number; // timestamp of what?
   lastJoinedTimestamp?: number;
   groupAdmins?: Array<string>;
-  moderators?: Array<string>;
   isKickedFromGroup?: boolean;
   avatarPath?: string;
   isMe?: boolean;
   subscriberCount?: number;
-  sessionRestoreSeen?: boolean;
   is_medium_group?: boolean;
   type: string;
   avatarPointer?: string;
@@ -164,11 +160,9 @@ export const fillConvoAttributesWithDefaults = (
     lastMessageStatus: null,
     lastJoinedTimestamp: new Date('1970-01-01Z00:00:00:000').getTime(),
     groupAdmins: [],
-    moderators: [],
     isKickedFromGroup: false,
     isMe: false,
     subscriberCount: 0,
-    sessionRestoreSeen: false,
     is_medium_group: false,
     lastMessage: null,
     expireTimer: 0,
@@ -280,6 +274,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public isMediumGroup() {
     return this.get('is_medium_group');
   }
+
   /**
    * Returns true if this conversation is active
    * i.e. the conversation is visibie on the left pane. (Either we or another user created this convo).
@@ -288,99 +283,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
    */
   public isActive() {
     return Boolean(this.get('active_at'));
-  }
-
-  public async bumpTyping() {
-    // We don't send typing messages if the setting is disabled
-    // or we blocked that user
-    if (
-      this.isPublic() ||
-      this.isMediumGroup() ||
-      !this.isActive() ||
-      !window.storage.get('typing-indicators-setting') ||
-      this.isBlocked()
-    ) {
-      return;
-    }
-
-    if (!this.typingRefreshTimer) {
-      const isTyping = true;
-      this.setTypingRefreshTimer();
-      this.sendTypingMessage(isTyping);
-    }
-
-    this.setTypingPauseTimer();
-  }
-
-  public setTypingRefreshTimer() {
-    if (this.typingRefreshTimer) {
-      global.clearTimeout(this.typingRefreshTimer);
-    }
-    this.typingRefreshTimer = global.setTimeout(this.onTypingRefreshTimeout.bind(this), 10 * 1000);
-  }
-
-  public onTypingRefreshTimeout() {
-    const isTyping = true;
-    this.sendTypingMessage(isTyping);
-
-    // This timer will continue to reset itself until the pause timer stops it
-    this.setTypingRefreshTimer();
-  }
-
-  public setTypingPauseTimer() {
-    if (this.typingPauseTimer) {
-      global.clearTimeout(this.typingPauseTimer);
-    }
-    this.typingPauseTimer = global.setTimeout(this.onTypingPauseTimeout.bind(this), 10 * 1000);
-  }
-
-  public onTypingPauseTimeout() {
-    const isTyping = false;
-    this.sendTypingMessage(isTyping);
-
-    this.clearTypingTimers();
-  }
-
-  public clearTypingTimers() {
-    if (this.typingPauseTimer) {
-      global.clearTimeout(this.typingPauseTimer);
-      this.typingPauseTimer = null;
-    }
-    if (this.typingRefreshTimer) {
-      global.clearTimeout(this.typingRefreshTimer);
-      this.typingRefreshTimer = null;
-    }
-  }
-
-  public sendTypingMessage(isTyping: boolean) {
-    if (!this.isPrivate()) {
-      return;
-    }
-
-    const recipientId = this.id;
-
-    if (!recipientId) {
-      throw new Error('Need to provide either recipientId');
-    }
-
-    const primaryDevicePubkey = window.storage.get('primaryDevicePubKey');
-    if (recipientId && primaryDevicePubkey === recipientId) {
-      // note to self
-      return;
-    }
-
-    const typingParams = {
-      timestamp: Date.now(),
-      isTyping,
-      typingTimestamp: Date.now(),
-    };
-    const typingMessage = new TypingMessage(typingParams);
-
-    // send the message to a single recipient if this is a session chat
-    const device = new PubKey(recipientId);
-    getMessageQueue()
-      .sendToPubKey(device, typingMessage)
-      .catch(window?.log?.error);
   }
 
   public async cleanup() {
@@ -409,12 +311,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // removeMessage();
   }
 
-  public getGroupAdmins() {
+  public getGroupAdmins(): Array<string> {
     const groupAdmins = this.get('groupAdmins');
-    if (groupAdmins?.length) {
-      return groupAdmins;
-    }
-    return this.get('moderators');
+
+    return groupAdmins && groupAdmins?.length > 0 ? groupAdmins : [];
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
@@ -558,9 +458,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const newAdmins = _.uniq(_.sortBy(groupAdmins));
 
     if (_.isEqual(existingAdmins, newAdmins)) {
-      // window?.log?.info(
-      //   'Skipping updates of groupAdmins/moderators. No change detected.'
-      // );
       return;
     }
     this.set({ groupAdmins });
@@ -694,7 +591,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     return {
       author: quotedMessage.getSource(),
       id: `${quotedMessage.get('sent_at')}` || '',
-      text: body,
+      // no need to quote the full message length.
+      text: body?.slice(0, 100),
       attachments: quotedAttachments,
       timestamp: quotedMessage.get('sent_at') || 0,
       convoId: this.id,
@@ -1626,7 +1524,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await this.commit();
       }
     } else {
-      // tslint:disable-next-line: no-dynamic-delete
       this.typingTimer = null;
       if (wasTyping) {
         // User was previously typing, and is no longer. State change!
@@ -1635,7 +1532,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async clearContactTypingTimer(_sender: string) {
+  private async clearContactTypingTimer(_sender: string) {
     if (!!this.typingTimer) {
       global.clearTimeout(this.typingTimer);
       this.typingTimer = null;
@@ -1653,6 +1550,112 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const { expireTimer } = json;
 
     return typeof expireTimer === 'number' && expireTimer > 0;
+  }
+
+  private shouldDoTyping() {
+    // for typing to happen, this must be a private unblocked active convo, and the settings to be on
+    if (
+      !this.isActive() ||
+      !window.storage.get('typing-indicators-setting') ||
+      this.isBlocked() ||
+      !this.isPrivate()
+    ) {
+      return false;
+    }
+    const msgRequestsEnabled =
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests;
+
+    // if msg requests are unused, we have to send typing (this is already a private active unblocked convo)
+    if (!msgRequestsEnabled) {
+      return true;
+    }
+    // with message requests in use, we just need to check for isApproved
+    return Boolean(this.get('isApproved'));
+  }
+
+  private async bumpTyping() {
+    if (!this.shouldDoTyping()) {
+      return;
+    }
+
+    if (!this.typingRefreshTimer) {
+      const isTyping = true;
+      this.setTypingRefreshTimer();
+      this.sendTypingMessage(isTyping);
+    }
+
+    this.setTypingPauseTimer();
+  }
+
+  private setTypingRefreshTimer() {
+    if (this.typingRefreshTimer) {
+      global.clearTimeout(this.typingRefreshTimer);
+    }
+    this.typingRefreshTimer = global.setTimeout(this.onTypingRefreshTimeout.bind(this), 10 * 1000);
+  }
+
+  private onTypingRefreshTimeout() {
+    const isTyping = true;
+    this.sendTypingMessage(isTyping);
+
+    // This timer will continue to reset itself until the pause timer stops it
+    this.setTypingRefreshTimer();
+  }
+
+  private setTypingPauseTimer() {
+    if (this.typingPauseTimer) {
+      global.clearTimeout(this.typingPauseTimer);
+    }
+    this.typingPauseTimer = global.setTimeout(this.onTypingPauseTimeout.bind(this), 10 * 1000);
+  }
+
+  private onTypingPauseTimeout() {
+    const isTyping = false;
+    this.sendTypingMessage(isTyping);
+
+    this.clearTypingTimers();
+  }
+
+  private clearTypingTimers() {
+    if (this.typingPauseTimer) {
+      global.clearTimeout(this.typingPauseTimer);
+      this.typingPauseTimer = null;
+    }
+    if (this.typingRefreshTimer) {
+      global.clearTimeout(this.typingRefreshTimer);
+      this.typingRefreshTimer = null;
+    }
+  }
+
+  private sendTypingMessage(isTyping: boolean) {
+    if (!this.isPrivate()) {
+      return;
+    }
+
+    const recipientId = this.id;
+
+    if (!recipientId) {
+      throw new Error('Need to provide either recipientId');
+    }
+
+    if (this.isMe()) {
+      // note to self
+      return;
+    }
+
+    const typingParams = {
+      timestamp: Date.now(),
+      isTyping,
+      typingTimestamp: Date.now(),
+    };
+    const typingMessage = new TypingMessage(typingParams);
+
+    // send the message to a single recipient if this is a session chat
+    const device = new PubKey(recipientId);
+    getMessageQueue()
+      .sendToPubKey(device, typingMessage)
+      .catch(window?.log?.error);
   }
 }
 

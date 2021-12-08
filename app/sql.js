@@ -1,5 +1,5 @@
 const path = require('path');
-const mkdirp = require('mkdirp');
+const fs = require('fs');
 const rimraf = require('rimraf');
 const SQL = require('better-sqlite3');
 const { app, dialog, clipboard } = require('electron');
@@ -72,6 +72,7 @@ module.exports = {
   getNextExpiringMessage,
   getMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
+  hasConversationOutgoingMessage,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -1240,7 +1241,11 @@ function updateToLokiSchemaVersion17(currentVersion, db) {
       UPDATE ${CONVERSATIONS_TABLE} SET
       json = json_set(json, '$.isApproved', 1)
     `);
-
+    // remove the moderators field. As it was only used for opengroups a long time ago and whatever is there is probably unused
+    db.exec(`
+      UPDATE ${CONVERSATIONS_TABLE} SET
+      json = json_remove(json, '$.moderators', '$.dataMessage', '$.accessKey', '$.profileSharing', '$.sessionRestoreSeen')
+    `);
     writeLokiSchemaVersion(targetVersion, db);
   })();
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
@@ -1311,8 +1316,7 @@ let databaseFilePath;
 
 function _initializePaths(configDir) {
   const dbDir = path.join(configDir, 'sql');
-  mkdirp.sync(dbDir);
-
+  fs.mkdirSync(dbDir, { recursive: true });
   databaseFilePath = path.join(dbDir, 'db.sqlite');
 }
 
@@ -1357,7 +1361,9 @@ function initialize({ configDir, key, messages, passwordAttempt }) {
     // Clear any already deleted db entries on each app start.
     vacuumDatabase(db);
     const msgCount = getMessageCount();
-    console.warn('total message count: ', msgCount);
+    const convoCount = getConversationCount();
+    console.info('total message count: ', msgCount);
+    console.info('total conversation count: ', convoCount);
   } catch (error) {
     if (passwordAttempt) {
       throw error;
@@ -2169,6 +2175,27 @@ function getMessagesByConversation(
       type,
     });
   return map(rows, row => jsonToObject(row.json));
+}
+
+function hasConversationOutgoingMessage(conversationId) {
+  const row = globalInstance
+    .prepare(
+      `
+    SELECT count(*)  FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId AND
+      type IS 'outgoing'
+    `
+    )
+    .get({
+      conversationId,
+    });
+  if (!row) {
+    throw new Error('hasConversationOutgoingMessage: Unable to get coun');
+  }
+
+  console.warn('hasConversationOutgoingMessage', row);
+
+  return Boolean(row['count(*)']);
 }
 
 function getFirstUnreadMessageIdInConversation(conversationId) {

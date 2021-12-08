@@ -10,7 +10,7 @@ import { PasswordAction } from '../../../dialog/SessionPasswordDialog';
 import { SessionButtonColor } from '../../SessionButton';
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
 
-const settingsReadReceipt = 'read-receipt-setting';
+export const settingsReadReceipt = 'read-receipt-setting';
 const settingsTypingIndicator = 'typing-indicators-setting';
 const settingsAutoUpdate = 'auto-update';
 

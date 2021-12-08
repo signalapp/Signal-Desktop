@@ -113,7 +113,7 @@ const LeftPaneBottomButtons = () => {
 export const LeftPaneSettingSection = () => {
   return (
     <div className="left-pane-setting-section">
-      <LeftPaneSectionHeader label={window.i18n('settingsHeader')} />
+      <LeftPaneSectionHeader />
       <div className="left-pane-setting-content">
         <LeftPaneSettingsCategories />
         <LeftPaneBottomButtons />

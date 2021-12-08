@@ -1117,18 +1117,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     await this.commit();
   }
 
-  public async markMessageSyncOnly(dataMessage: DataMessage) {
-    this.set({
-      // These are the same as a normal send()
-      dataMessage,
-      sent_to: [UserUtils.getOurPubKeyStrFromCache()],
-      sent: true,
-      expirationStartTimestamp: Date.now(),
-    });
-
-    await this.commit();
-  }
-
   public async saveErrors(providedErrors: any) {
     let errors = providedErrors;
 

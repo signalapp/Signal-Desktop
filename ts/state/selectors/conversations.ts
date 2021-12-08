@@ -539,6 +539,13 @@ export const getIsSelectedPrivate = createSelector(
   }
 );
 
+export const getIsSelectedBlocked = createSelector(
+  getConversationHeaderProps,
+  (headerProps): boolean => {
+    return headerProps?.isBlocked || false;
+  }
+);
+
 export const getIsSelectedNoteToSelf = createSelector(
   getConversationHeaderProps,
   (headerProps): boolean => {

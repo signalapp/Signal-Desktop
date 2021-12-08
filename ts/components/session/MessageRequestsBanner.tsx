@@ -26,9 +26,9 @@ const StyledMessageRequestBannerHeader = styled.span`
   font-weight: bold;
   font-size: 15px;
   color: var(--color-text-subtle);
-  padding-left: var(--margin-xs);
+  padding-left: var(--margins-xs);
   margin-inline-start: 12px;
-  margin-top: var(--margin-sm);
+  margin-top: var(--margins-sm);
   line-height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -37,7 +37,7 @@ const StyledMessageRequestBannerHeader = styled.span`
 `;
 
 const StyledCircleIcon = styled.div`
-  padding-left: var(--margin-xs);
+  padding-left: var(--margins-xs);
 `;
 
 const StyledUnreadCounter = styled.div`

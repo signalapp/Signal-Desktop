@@ -150,15 +150,14 @@ export class EditProfileDialog extends React.Component<{}, State> {
               name="name"
               onChange={this.onFileSelected}
             />
-            <div className="qr-view-button">
-              <SessionIconButton
-                iconType="qr"
-                iconSize={'small'}
-                iconColor={'rgb(0, 0, 0)'}
-                onClick={() => {
-                  this.setState(state => ({ ...state, mode: 'qr' }));
-                }}
-              />
+            <div
+              className="qr-view-button"
+              onClick={() => {
+                this.setState(state => ({ ...state, mode: 'qr' }));
+              }}
+              role="button"
+            >
+              <SessionIconButton iconType="qr" iconSize="small" iconColor={'rgb(0, 0, 0)'} />
             </div>
           </div>
         </div>

@@ -6,7 +6,6 @@
 const { ipcRenderer } = require('electron');
 const _ = require('lodash');
 
-const debuglogs = require('./modules/debuglogs');
 const Privacy = require('./modules/privacy');
 
 const ipc = ipcRenderer;
@@ -100,7 +99,6 @@ function fetch() {
   });
 }
 
-const publish = debuglogs.upload;
 const development = window.getEnvironment() !== 'production';
 
 // A modern logging interface for the browser
@@ -127,7 +125,6 @@ window.log = {
   debug: _.partial(logAtLevel, 'debug', 'DEBUG'),
   trace: _.partial(logAtLevel, 'trace', 'TRACE'),
   fetch,
-  publish,
 };
 
 window.onerror = (message, script, line, col, error) => {

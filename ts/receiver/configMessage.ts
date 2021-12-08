@@ -123,7 +123,7 @@ const handleContactReceived = async (
   envelope: EnvelopePlus
 ) => {
   try {
-    if (!contactReceived.publicKey) {
+    if (!contactReceived.publicKey?.length) {
       return;
     }
     const contactConvo = await getConversationController().getOrCreateAndWait(
@@ -134,8 +134,11 @@ const handleContactReceived = async (
       displayName: contactReceived.name,
       profilePictre: contactReceived.profilePicture,
     };
-    // updateProfile will do a commit for us
-    contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+
+    const existingActiveAt = contactConvo.get('active_at');
+    if (!existingActiveAt || existingActiveAt === 0) {
+      contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+    }
 
     if (
       window.lokiFeatureFlags.useMessageRequests &&

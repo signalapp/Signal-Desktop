@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { setIsRinging } from '../../session/utils/RingingManager';
 
 export type CallStatusEnum = 'offering' | 'incoming' | 'connecting' | 'ongoing' | undefined;
 
@@ -31,11 +32,13 @@ const callSlice = createSlice({
       }
       state.ongoingWith = callerPubkey;
       state.ongoingCallStatus = 'incoming';
+      setIsRinging(true);
       return state;
     },
     endCall(state: CallStateType) {
       state.ongoingCallStatus = undefined;
       state.ongoingWith = undefined;
+      setIsRinging(false);
 
       return state;
     },
@@ -50,6 +53,7 @@ const callSlice = createSlice({
       }
       state.ongoingCallStatus = 'connecting';
       state.callIsInFullScreen = false;
+      setIsRinging(false);
       return state;
     },
     callConnected(state: CallStateType, action: PayloadAction<{ pubkey: string }>) {
@@ -66,6 +70,7 @@ const callSlice = createSlice({
         );
         return state;
       }
+      setIsRinging(false);
 
       state.ongoingCallStatus = 'ongoing';
       state.callIsInFullScreen = false;
@@ -80,6 +85,7 @@ const callSlice = createSlice({
         window.log.warn('cannot start a call with an ongoing call already: ongoingCallStatus');
         return state;
       }
+      setIsRinging(true);
 
       const callerPubkey = action.payload.pubkey;
       state.ongoingWith = callerPubkey;

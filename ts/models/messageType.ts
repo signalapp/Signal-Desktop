@@ -49,7 +49,7 @@ export interface MessageAttributes {
    */
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  dataMessage: any;
+  // dataMessage: any;
   sent_to: any;
   sent: boolean;
 
