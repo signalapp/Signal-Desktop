@@ -80,7 +80,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const [isWide, setIsWide] = useState<boolean>(
       videoAspectRatio ? videoAspectRatio >= 1 : true
     );
-    const [hasHover, setHover] = useState(false);
     const [showBlockInfo, setShowBlockInfo] = useState(false);
 
     // We have some state (`hasReceivedVideoRecently`) and this ref. We can't have a
@@ -238,8 +237,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       }
     }
 
-    const showHover = hasHover && !props.isInPip;
-
     return (
       <>
         {showBlockInfo && (
@@ -266,22 +263,20 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
         <div
           className="module-ongoing-call__group-call-remote-participant"
           ref={intersectionRef}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
           style={containerStyles}
         >
-          {showHover && (
+          {!props.isInPip && (
             <div
               className={classNames(
-                'module-ongoing-call__group-call-remote-participant--title',
+                'module-ongoing-call__group-call-remote-participant__info',
                 {
-                  'module-ongoing-call__group-call-remote-participant--audio-muted':
+                  'module-ongoing-call__group-call-remote-participant__info--audio-muted':
                     !hasRemoteAudio,
                 }
               )}
             >
               <ContactName
-                module="module-ongoing-call__group-call-remote-participant--contact-name"
+                module="module-ongoing-call__group-call-remote-participant__info__contact-name"
                 title={title}
               />
             </div>

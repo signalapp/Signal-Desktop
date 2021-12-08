@@ -4126,41 +4126,53 @@ button.module-image__border-overlay:focus {
       }
     }
 
-    &--title {
+    &__info {
       @include font-caption;
-      background: linear-gradient(
-        180deg,
-        transparent,
-        $color-black-alpha-60 100%
-      );
       bottom: 0;
       display: flex;
+      justify-content: space-between;
       padding: 6px;
       position: absolute;
       user-select: none;
       width: 100%;
       z-index: $z-index-above-base;
+
+      &__contact-name {
+        color: $color-white;
+        margin-right: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        visibility: hidden;
+        white-space: nowrap;
+      }
+
+      &--audio-muted::after {
+        $size: 14px;
+        @include color-svg(
+          '../images/icons/v2/mic-off-solid-28.svg',
+          $color-white
+        );
+        content: '';
+        height: $size;
+        min-width: $size;
+        right: 6px;
+        width: $size;
+        z-index: $z-index-base;
+      }
     }
 
-    &--contact-name {
-      color: $color-white;
-      margin-right: 20px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    &:hover {
+      .module-ongoing-call__group-call-remote-participant__info {
+        background: linear-gradient(
+          180deg,
+          transparent,
+          $color-black-alpha-60 100%
+        );
 
-    &--audio-muted::after {
-      @include color-svg(
-        '../images/icons/v2/mic-off-solid-28.svg',
-        $color-white
-      );
-      content: '';
-      height: 14px;
-      position: absolute;
-      right: 6px;
-      width: 14px;
-      z-index: $z-index-base;
+        &__contact-name {
+          visibility: visible;
+        }
+      }
     }
   }
 
