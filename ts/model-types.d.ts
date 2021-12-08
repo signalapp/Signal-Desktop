@@ -50,6 +50,12 @@ export type LastMessageStatus =
 
 type TaskResultType = any;
 
+export type SenderKeyInfoType = {
+  createdAtDate: number;
+  distributionId: string;
+  memberDevices: Array<DeviceType>;
+};
+
 export type CustomError = Error & {
   identifier?: string;
   number?: string;
@@ -131,6 +137,7 @@ export type MessageAttributesType = {
   requiredProtocolVersion?: number;
   retryOptions?: RetryOptions;
   sourceDevice?: number;
+  storyId?: string;
   supportedVersionAtReceive?: unknown;
   synced?: boolean;
   unidentifiedDeliveryReceived?: boolean;
@@ -150,6 +157,7 @@ export type MessageAttributesType = {
     | 'message-history-unsynced'
     | 'outgoing'
     | 'profile-change'
+    | 'story'
     | 'timer-notification'
     | 'universal-timer-notification'
     | 'change-number-notification'
@@ -301,11 +309,7 @@ export type ConversationAttributesType = {
   secretParams?: string;
   publicParams?: string;
   revision?: number;
-  senderKeyInfo?: {
-    createdAtDate: number;
-    distributionId: string;
-    memberDevices: Array<DeviceType>;
-  };
+  senderKeyInfo?: SenderKeyInfoType;
 
   // GroupV2 other fields
   accessControl?: {

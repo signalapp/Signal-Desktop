@@ -20,6 +20,7 @@ import updateToSchemaVersion41 from './41-uuid-keys';
 import updateToSchemaVersion42 from './42-stale-reactions';
 import updateToSchemaVersion43 from './43-gv2-uuid';
 import updateToSchemaVersion44 from './44-badges';
+import updateToSchemaVersion45 from './45-stories';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1903,6 +1904,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion42,
   updateToSchemaVersion43,
   updateToSchemaVersion44,
+  updateToSchemaVersion45,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

@@ -80,6 +80,10 @@ import type {
   StickerPackStatusType,
   StickerPackType,
   StickerType,
+  StoryDistributionType,
+  StoryDistributionMemberType,
+  StoryDistributionWithMembersType,
+  StoryReadType,
   UnprocessedType,
   UnprocessedUpdateType,
 } from './Interface';
@@ -217,13 +221,14 @@ const dataInterface: ClientInterface = {
   saveMessages,
   removeMessage,
   removeMessages,
-  getUnreadCountForConversation,
+  getTotalUnreadForConversation,
   getUnreadByConversationAndMarkRead,
   getUnreadReactionsAndMarkRead,
   markReactionAsRead,
   removeReactionFromConversation,
   addReaction,
   _getAllReactions,
+  _removeAllReactions,
 
   getMessageBySender,
   getMessageById,
@@ -236,6 +241,7 @@ const dataInterface: ClientInterface = {
   getNextTapToViewMessageTimestampToAgeOut,
   getTapToViewMessagesNeedingErase,
   getOlderMessagesByConversation,
+  getOlderStories,
   getNewerMessagesByConversation,
   getLastConversationMessages,
   getMessageMetricsForConversation,
@@ -277,6 +283,19 @@ const dataInterface: ClientInterface = {
   updateOrCreateBadges,
   badgeImageFileDownloaded,
 
+  _getAllStoryDistributions,
+  _getAllStoryDistributionMembers,
+  _deleteAllStoryDistributions,
+  createNewStoryDistribution,
+  getAllStoryDistributionsWithMembers,
+  modifyStoryDistributionMembers,
+  deleteStoryDistribution,
+
+  _getAllStoryReads,
+  _deleteAllStoryReads,
+  addNewStoryRead,
+  getLastStoryReadsForAuthor,
+
   removeAll,
   removeAllConfiguration,
 
@@ -300,6 +319,7 @@ const dataInterface: ClientInterface = {
   // Test-only
 
   _getAllMessages,
+  _removeAllMessages,
 
   // Client-side only
 
@@ -1190,6 +1210,9 @@ async function _getAllMessages({
 
   return new MessageCollection(messages);
 }
+async function _removeAllMessages() {
+  await channels._removeAllMessages();
+}
 
 async function getAllMessageIds() {
   const ids = await channels.getAllMessageIds();
@@ -1224,27 +1247,28 @@ async function getMessageBySender(
   return new Message(messages[0]);
 }
 
-async function getUnreadCountForConversation(conversationId: string) {
-  return channels.getUnreadCountForConversation(conversationId);
+async function getTotalUnreadForConversation(
+  conversationId: string,
+  storyId?: UUIDStringType
+) {
+  return channels.getTotalUnreadForConversation(conversationId, storyId);
 }
 
-async function getUnreadByConversationAndMarkRead(
-  conversationId: string,
-  newestUnreadId: number,
-  readAt?: number
-) {
-  return channels.getUnreadByConversationAndMarkRead(
-    conversationId,
-    newestUnreadId,
-    readAt
-  );
+async function getUnreadByConversationAndMarkRead(options: {
+  conversationId: string;
+  newestUnreadAt: number;
+  readAt?: number;
+  storyId?: UUIDStringType;
+}) {
+  return channels.getUnreadByConversationAndMarkRead(options);
 }
 
-async function getUnreadReactionsAndMarkRead(
-  conversationId: string,
-  newestUnreadId: number
-) {
-  return channels.getUnreadReactionsAndMarkRead(conversationId, newestUnreadId);
+async function getUnreadReactionsAndMarkRead(options: {
+  conversationId: string;
+  newestUnreadAt: number;
+  storyId?: UUIDStringType;
+}) {
+  return channels.getUnreadReactionsAndMarkRead(options);
 }
 
 async function markReactionAsRead(
@@ -1270,6 +1294,9 @@ async function addReaction(reactionObj: ReactionType) {
 async function _getAllReactions() {
   return channels._getAllReactions();
 }
+async function _removeAllReactions() {
+  await channels._removeAllReactions();
+}
 
 function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
   return messages.map(message => JSON.parse(message.json));
@@ -1279,16 +1306,18 @@ async function getOlderMessagesByConversation(
   conversationId: string,
   {
     limit = 100,
+    MessageCollection,
+    messageId,
     receivedAt = Number.MAX_VALUE,
     sentAt = Number.MAX_VALUE,
-    messageId,
-    MessageCollection,
+    storyId,
   }: {
     limit?: number;
+    MessageCollection: typeof MessageModelCollectionType;
+    messageId?: string;
     receivedAt?: number;
     sentAt?: number;
-    messageId?: string;
-    MessageCollection: typeof MessageModelCollectionType;
+    storyId?: UUIDStringType;
   }
 ) {
   const messages = await channels.getOlderMessagesByConversation(
@@ -1298,23 +1327,36 @@ async function getOlderMessagesByConversation(
       receivedAt,
       sentAt,
       messageId,
+      storyId,
     }
   );
 
   return new MessageCollection(handleMessageJSON(messages));
 }
+async function getOlderStories(options: {
+  conversationId?: string;
+  limit?: number;
+  receivedAt?: number;
+  sentAt?: number;
+  sourceUuid?: string;
+}): Promise<Array<MessageType>> {
+  return channels.getOlderStories(options);
+}
+
 async function getNewerMessagesByConversation(
   conversationId: string,
   {
     limit = 100,
+    MessageCollection,
     receivedAt = 0,
     sentAt = 0,
-    MessageCollection,
+    storyId,
   }: {
     limit?: number;
+    MessageCollection: typeof MessageModelCollectionType;
     receivedAt?: number;
     sentAt?: number;
-    MessageCollection: typeof MessageModelCollectionType;
+    storyId?: UUIDStringType;
   }
 ) {
   const messages = await channels.getNewerMessagesByConversation(
@@ -1323,6 +1365,7 @@ async function getNewerMessagesByConversation(
       limit,
       receivedAt,
       sentAt,
+      storyId,
     }
   );
 
@@ -1349,9 +1392,13 @@ async function getLastConversationMessages({
     hasUserInitiatedMessages,
   };
 }
-async function getMessageMetricsForConversation(conversationId: string) {
+async function getMessageMetricsForConversation(
+  conversationId: string,
+  storyId?: UUIDStringType
+) {
   const result = await channels.getMessageMetricsForConversation(
-    conversationId
+    conversationId,
+    storyId
   );
 
   return result;
@@ -1595,6 +1642,63 @@ function badgeImageFileDownloaded(
   localPath: string
 ): Promise<void> {
   return channels.badgeImageFileDownloaded(url, localPath);
+}
+
+// Story Distributions
+
+async function _getAllStoryDistributions(): Promise<
+  Array<StoryDistributionType>
+> {
+  return channels._getAllStoryDistributions();
+}
+async function _getAllStoryDistributionMembers(): Promise<
+  Array<StoryDistributionMemberType>
+> {
+  return channels._getAllStoryDistributionMembers();
+}
+async function _deleteAllStoryDistributions(): Promise<void> {
+  await channels._deleteAllStoryDistributions();
+}
+async function createNewStoryDistribution(
+  story: StoryDistributionWithMembersType
+): Promise<void> {
+  await channels.createNewStoryDistribution(story);
+}
+async function getAllStoryDistributionsWithMembers(): Promise<
+  Array<StoryDistributionWithMembersType>
+> {
+  return channels.getAllStoryDistributionsWithMembers();
+}
+async function modifyStoryDistributionMembers(
+  id: string,
+  options: {
+    toAdd: Array<UUIDStringType>;
+    toRemove: Array<UUIDStringType>;
+  }
+): Promise<void> {
+  await channels.modifyStoryDistributionMembers(id, options);
+}
+async function deleteStoryDistribution(id: UUIDStringType): Promise<void> {
+  await channels.deleteStoryDistribution(id);
+}
+
+// Story Reads
+
+async function _getAllStoryReads(): Promise<Array<StoryReadType>> {
+  return channels._getAllStoryReads();
+}
+async function _deleteAllStoryReads(): Promise<void> {
+  await channels._deleteAllStoryReads();
+}
+async function addNewStoryRead(read: StoryReadType): Promise<void> {
+  return channels.addNewStoryRead(read);
+}
+async function getLastStoryReadsForAuthor(options: {
+  authorId: UUIDStringType;
+  conversationId?: UUIDStringType;
+  limit?: number;
+}): Promise<Array<StoryReadType>> {
+  return channels.getLastStoryReadsForAuthor(options);
 }
 
 // Other

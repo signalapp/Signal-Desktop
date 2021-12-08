@@ -4554,14 +4554,14 @@ export class ConversationModel extends window.Backbone
   }
 
   async markRead(
-    newestUnreadId: number,
+    newestUnreadAt: number,
     options: { readAt?: number; sendReadReceipts: boolean } = {
       sendReadReceipts: true,
     }
   ): Promise<void> {
-    await markConversationRead(this.attributes, newestUnreadId, options);
+    await markConversationRead(this.attributes, newestUnreadAt, options);
 
-    const unreadCount = await window.Signal.Data.getUnreadCountForConversation(
+    const unreadCount = await window.Signal.Data.getTotalUnreadForConversation(
       this.id
     );
 

@@ -802,4 +802,111 @@ describe('SQL migrations test', () => {
       });
     });
   });
+
+  describe('updateToSchemaVersion45', () => {
+    it('creates new storyId field and delete trigger for storyReads', () => {
+      const AUTHOR_ID = generateGuid();
+      const STORY_ID_1 = generateGuid();
+      const STORY_ID_2 = generateGuid();
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const MESSAGE_ID_5 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(45);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, storyId, conversationId, type, body)
+          VALUES
+          ('${MESSAGE_ID_1}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'story', 'story 1'),
+          ('${MESSAGE_ID_2}', '${STORY_ID_2}', '${CONVERSATION_ID}', 'story', 'story 2'),
+          ('${MESSAGE_ID_3}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'outgoing', 'reply to story 1'),
+          ('${MESSAGE_ID_4}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'incoming', 'reply to story 1'),
+          ('${MESSAGE_ID_5}', '${STORY_ID_2}', '${CONVERSATION_ID}', 'outgoing', 'reply to story 2');
+
+        INSERT INTO storyReads (authorId, conversationId, storyId, storyReadDate) VALUES
+          ('${AUTHOR_ID}', '${CONVERSATION_ID}', '${STORY_ID_1}', ${Date.now()}),
+          ('${AUTHOR_ID}', '${CONVERSATION_ID}', '${STORY_ID_2}', ${Date.now()});     `
+      );
+
+      const storyReadCount = db
+        .prepare('SELECT COUNT(*) FROM storyReads;')
+        .pluck();
+      const messageCount = db.prepare('SELECT COUNT(*) FROM messages;').pluck();
+
+      assert.strictEqual(storyReadCount.get(), 2);
+      assert.strictEqual(messageCount.get(), 5);
+
+      db.exec(`DELETE FROM messages WHERE id = '${MESSAGE_ID_1}';`);
+
+      assert.strictEqual(storyReadCount.get(), 1);
+      assert.strictEqual(messageCount.get(), 4);
+
+      db.exec(`DELETE FROM messages WHERE storyId = '${STORY_ID_1}';`);
+
+      assert.strictEqual(storyReadCount.get(), 1);
+      assert.strictEqual(messageCount.get(), 2);
+
+      const storyReadIds = db
+        .prepare('SELECT storyId FROM storyReads;')
+        .pluck()
+        .all();
+      assert.sameDeepMembers(storyReadIds, [STORY_ID_2]);
+    });
+
+    it('creates new storyDistributions/Members with cascade delete', () => {
+      const LIST_ID_1 = generateGuid();
+      const LIST_ID_2 = generateGuid();
+      const UUID_1 = generateGuid();
+      const UUID_2 = generateGuid();
+      const UUID_3 = generateGuid();
+      const UUID_4 = generateGuid();
+
+      updateToVersion(45);
+
+      db.exec(
+        `
+        INSERT INTO storyDistributions
+          (id, name)
+          VALUES
+          ('${LIST_ID_1}', 'distribution list 1'),
+          ('${LIST_ID_2}', 'distrubution list 2');
+
+        INSERT INTO storyDistributionMembers (listId, uuid) VALUES
+          ('${LIST_ID_1}', '${UUID_1}'),
+          ('${LIST_ID_1}', '${UUID_2}'),
+          ('${LIST_ID_1}', '${UUID_3}'),
+          ('${LIST_ID_1}', '${UUID_4}'),
+          ('${LIST_ID_2}', '${UUID_1}'),
+          ('${LIST_ID_2}', '${UUID_2}');
+        `
+      );
+
+      const listCount = db
+        .prepare('SELECT COUNT(*) FROM storyDistributions;')
+        .pluck();
+      const memberCount = db
+        .prepare('SELECT COUNT(*) FROM storyDistributionMembers;')
+        .pluck();
+
+      assert.strictEqual(listCount.get(), 2);
+      assert.strictEqual(memberCount.get(), 6);
+
+      db.exec(`DELETE FROM storyDistributions WHERE id = '${LIST_ID_1}';`);
+
+      assert.strictEqual(listCount.get(), 1);
+      assert.strictEqual(memberCount.get(), 2);
+
+      const members = db
+        .prepare('SELECT uuid FROM storyDistributionMembers;')
+        .pluck()
+        .all();
+
+      assert.sameDeepMembers(members, [UUID_1, UUID_2]);
+    });
+  });
 });

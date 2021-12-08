@@ -9,6 +9,7 @@ import type {
   ConversationModelCollectionType,
   MessageAttributesType,
   MessageModelCollectionType,
+  SenderKeyInfoType,
 } from '../model-types.d';
 import type { MessageModel } from '../models/messages';
 import type { ConversationModel } from '../models/conversations';
@@ -239,6 +240,31 @@ export type DeleteSentProtoRecipientOptionsType = Readonly<{
   deviceId: number;
 }>;
 
+export type StoryDistributionType = Readonly<{
+  id: UUIDStringType;
+  name: string;
+
+  avatarUrlPath: string;
+  avatarKey: Uint8Array;
+  senderKeyInfo: SenderKeyInfoType | undefined;
+}>;
+export type StoryDistributionMemberType = Readonly<{
+  listId: UUIDStringType;
+  uuid: UUIDStringType;
+}>;
+export type StoryDistributionWithMembersType = Readonly<
+  {
+    members: Array<UUIDStringType>;
+  } & StoryDistributionType
+>;
+
+export type StoryReadType = Readonly<{
+  authorId: UUIDStringType;
+  conversationId: UUIDStringType;
+  storyId: UUIDStringType;
+  storyReadDate: number;
+}>;
+
 export type DataInterface = {
   close: () => Promise<void>;
   removeDB: () => Promise<void>;
@@ -349,8 +375,16 @@ export type DataInterface = {
   ) => Promise<void>;
   getMessageCount: (conversationId?: string) => Promise<number>;
   getAllMessageIds: () => Promise<Array<string>>;
+  getOlderStories: (options: {
+    conversationId?: string;
+    limit?: number;
+    receivedAt?: number;
+    sentAt?: number;
+    sourceUuid?: string;
+  }) => Promise<Array<MessageType>>;
   getMessageMetricsForConversation: (
-    conversationId: string
+    conversationId: string,
+    storyId?: UUIDStringType
   ) => Promise<ConversationMetricsType>;
   hasGroupCallHistoryMessage: (
     conversationId: string,
@@ -361,21 +395,27 @@ export type DataInterface = {
     currentId: string
   ) => Promise<void>;
   getNextTapToViewMessageTimestampToAgeOut: () => Promise<undefined | number>;
+  _removeAllMessages: () => Promise<void>;
 
-  getUnreadCountForConversation: (conversationId: string) => Promise<number>;
-  getUnreadByConversationAndMarkRead: (
+  getTotalUnreadForConversation: (
     conversationId: string,
-    newestUnreadId: number,
-    readAt?: number
-  ) => Promise<
+    storyId?: UUIDStringType
+  ) => Promise<number>;
+  getUnreadByConversationAndMarkRead: (options: {
+    conversationId: string;
+    newestUnreadAt: number;
+    readAt?: number;
+    storyId?: UUIDStringType;
+  }) => Promise<
     Array<
       Pick<MessageType, 'id' | 'source' | 'sourceUuid' | 'sent_at' | 'type'>
     >
   >;
-  getUnreadReactionsAndMarkRead: (
-    conversationId: string,
-    newestUnreadId: number
-  ) => Promise<
+  getUnreadReactionsAndMarkRead: (options: {
+    conversationId: string;
+    newestUnreadAt: number;
+    storyId?: UUIDStringType;
+  }) => Promise<
     Array<
       Pick<ReactionType, 'targetAuthorUuid' | 'targetTimestamp' | 'messageId'>
     >
@@ -392,6 +432,7 @@ export type DataInterface = {
   }) => Promise<void>;
   addReaction: (reactionObj: ReactionType) => Promise<void>;
   _getAllReactions: () => Promise<Array<ReactionType>>;
+  _removeAllReactions: () => Promise<void>;
 
   getUnprocessedCount: () => Promise<number>;
   getAllUnprocessed: () => Promise<Array<UnprocessedType>>;
@@ -451,6 +492,35 @@ export type DataInterface = {
   getAllBadges(): Promise<Array<BadgeType>>;
   updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): Promise<void>;
   badgeImageFileDownloaded(url: string, localPath: string): Promise<void>;
+
+  _getAllStoryDistributions(): Promise<Array<StoryDistributionType>>;
+  _getAllStoryDistributionMembers(): Promise<
+    Array<StoryDistributionMemberType>
+  >;
+  _deleteAllStoryDistributions(): Promise<void>;
+  createNewStoryDistribution(
+    story: StoryDistributionWithMembersType
+  ): Promise<void>;
+  getAllStoryDistributionsWithMembers(): Promise<
+    Array<StoryDistributionWithMembersType>
+  >;
+  modifyStoryDistributionMembers(
+    id: string,
+    options: {
+      toAdd: Array<UUIDStringType>;
+      toRemove: Array<UUIDStringType>;
+    }
+  ): Promise<void>;
+  deleteStoryDistribution(id: UUIDStringType): Promise<void>;
+
+  _getAllStoryReads(): Promise<Array<StoryReadType>>;
+  _deleteAllStoryReads(): Promise<void>;
+  addNewStoryRead(read: StoryReadType): Promise<void>;
+  getLastStoryReadsForAuthor(options: {
+    authorId: UUIDStringType;
+    conversationId?: UUIDStringType;
+    limit?: number;
+  }): Promise<Array<StoryReadType>>;
 
   removeAll: () => Promise<void>;
   removeAllConfiguration: (type?: RemoveAllConfiguration) => Promise<void>;
@@ -525,14 +595,20 @@ export type ServerInterface = DataInterface & {
     conversationId: string,
     options?: {
       limit?: number;
+      messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      messageId?: string;
+      storyId?: UUIDStringType;
     }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getNewerMessagesByConversation: (
     conversationId: string,
-    options?: { limit?: number; receivedAt?: number; sentAt?: number }
+    options?: {
+      limit?: number;
+      receivedAt?: number;
+      sentAt?: number;
+      storyId?: UUIDStringType;
+    }
   ) => Promise<Array<MessageTypeUnhydrated>>;
   getLastConversationMessages: (options: {
     conversationId: string;
@@ -622,19 +698,21 @@ export type ClientInterface = DataInterface & {
     conversationId: string,
     options: {
       limit?: number;
+      MessageCollection: typeof MessageModelCollectionType;
       messageId?: string;
       receivedAt?: number;
       sentAt?: number;
-      MessageCollection: typeof MessageModelCollectionType;
+      storyId?: UUIDStringType;
     }
   ) => Promise<MessageModelCollectionType>;
   getNewerMessagesByConversation: (
     conversationId: string,
     options: {
       limit?: number;
+      MessageCollection: typeof MessageModelCollectionType;
       receivedAt?: number;
       sentAt?: number;
-      MessageCollection: typeof MessageModelCollectionType;
+      storyId?: UUIDStringType;
     }
   ) => Promise<MessageModelCollectionType>;
   getLastConversationMessages: (options: {

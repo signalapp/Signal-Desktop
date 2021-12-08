@@ -10,7 +10,7 @@ import * as log from '../logging/log';
 
 export async function markConversationRead(
   conversationAttrs: ConversationAttributesType,
-  newestUnreadId: number,
+  newestUnreadAt: number,
   options: { readAt?: number; sendReadReceipts: boolean } = {
     sendReadReceipts: true,
   }
@@ -18,20 +18,20 @@ export async function markConversationRead(
   const { id: conversationId } = conversationAttrs;
 
   const [unreadMessages, unreadReactions] = await Promise.all([
-    window.Signal.Data.getUnreadByConversationAndMarkRead(
+    window.Signal.Data.getUnreadByConversationAndMarkRead({
       conversationId,
-      newestUnreadId,
-      options.readAt
-    ),
-    window.Signal.Data.getUnreadReactionsAndMarkRead(
+      newestUnreadAt,
+      readAt: options.readAt,
+    }),
+    window.Signal.Data.getUnreadReactionsAndMarkRead({
       conversationId,
-      newestUnreadId
-    ),
+      newestUnreadAt,
+    }),
   ]);
 
   log.info('markConversationRead', {
     conversationId,
-    newestUnreadId,
+    newestUnreadAt,
     unreadMessages: unreadMessages.length,
     unreadReactions: unreadReactions.length,
   });

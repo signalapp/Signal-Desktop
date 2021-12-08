@@ -23,7 +23,7 @@ const {
   saveMessage,
 } = dataInterface;
 
-describe('sendLog', () => {
+describe('sql/sendLog', () => {
   beforeEach(async () => {
     await removeAllSentProtos();
   });
