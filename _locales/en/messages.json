@@ -156,7 +156,6 @@
   "spellCheckDirty": "You must restart Session to apply your new settings",
   "notifications": "Notifications",
   "readReceiptSettingDescription": "See and share when messages have been read (enables read receipts in all sessions).",
-  "readReceiptDialogDescription": "Read Receipts are now turned ON by default. Click \"Cancel\" to turn them down.",
   "readReceiptSettingTitle": "Read Receipts",
   "typingIndicatorsSettingDescription": "See and share when messages are being typed (applies to all sessions).",
   "typingIndicatorsSettingTitle": "Typing Indicators",

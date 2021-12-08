@@ -149,9 +149,8 @@ async function createAccount(identityKeyPair: any) {
   await window.textsecure.storage.put('identityKey', identityKeyPair);
   await window.textsecure.storage.put('password', password);
 
-  // enable read-receipt by default
-  await window.textsecure.storage.put('read-receipt-setting', true);
-  await window.textsecure.storage.put('read-receipt-turn-on-asked', true); // this can be removed once enough people upgraded 8/12/2021
+  // disable read-receipt by default
+  await window.textsecure.storage.put('read-receipt-setting', false);
 
   // Enable typing indicators by default
   await window.textsecure.storage.put('typing-indicators-setting', true);
