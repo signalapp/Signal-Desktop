@@ -296,25 +296,10 @@ export const MediaEditor = ({
       });
     }
 
-    function handleMouseup(ev: MouseEvent): void {
-      if (
-        ev.target instanceof HTMLCanvasElement ||
-        ev.target instanceof HTMLButtonElement
-      ) {
-        return;
-      }
-
-      setEditMode(undefined);
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-
     document.addEventListener('keydown', handleKeydown);
-    document.addEventListener('mouseup', handleMouseup);
 
     return () => {
       document.removeEventListener('keydown', handleKeydown);
-      document.removeEventListener('mouseup', handleMouseup);
     };
   }, [fabricCanvas, history]);
 
