@@ -1130,17 +1130,25 @@ export const MediaEditor = ({
               let data: Uint8Array;
               try {
                 fabricCanvas.discardActiveObject();
+                fabricCanvas.remove(
+                  ...fabricCanvas
+                    .getObjects()
+                    .filter(obj => obj.excludeFromExport)
+                );
+
                 fabricCanvas.setDimensions({
                   width: imageState.width,
                   height: imageState.height,
                 });
                 fabricCanvas.setZoom(1);
                 const renderedCanvas = fabricCanvas.toCanvasElement();
+
                 fabricCanvas.setDimensions({
                   width: imageState.width * zoom,
                   height: imageState.height * zoom,
                 });
                 fabricCanvas.setZoom(zoom);
+
                 data = await canvasToBytes(renderedCanvas);
               } catch (err) {
                 onClose();
