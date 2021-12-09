@@ -697,9 +697,6 @@ export async function startApp(): Promise<void> {
         window.storage.remove('remoteBuildExpiration');
       }
 
-      const themeSetting = window.Events.getThemeSetting();
-      const newThemeSetting = mapOldThemeToNew(themeSetting);
-
       if (window.isBeforeVersion(lastVersion, 'v1.29.2-beta.1')) {
         // Stickers flags
         await Promise.all([
@@ -716,14 +713,14 @@ export async function startApp(): Promise<void> {
         );
       }
 
-      if (
-        window.isBeforeVersion(lastVersion, 'v1.25.0') &&
-        window.platform === 'darwin' &&
-        newThemeSetting === window.systemTheme
-      ) {
-        window.Events.setThemeSetting('system');
-      } else {
-        window.Events.setThemeSetting(newThemeSetting);
+      const themeSetting = window.Events.getThemeSetting();
+      const newThemeSetting = mapOldThemeToNew(themeSetting);
+      if (window.isBeforeVersion(lastVersion, 'v1.25.0')) {
+        if (newThemeSetting === window.systemTheme) {
+          window.Events.setThemeSetting('system');
+        } else {
+          window.Events.setThemeSetting(newThemeSetting);
+        }
       }
 
       if (
