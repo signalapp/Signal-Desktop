@@ -18,6 +18,7 @@ import { Spinner } from '../Spinner';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
+const AVATAR_CONTAINER_CLASS_NAME = `${BASE_CLASS_NAME}__avatar-container`;
 const CONTENT_CLASS_NAME = `${BASE_CLASS_NAME}__content`;
 const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
 export const HEADER_NAME_CLASS_NAME = `${HEADER_CLASS_NAME}__name`;
@@ -142,27 +143,30 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
 
     const contents = (
       <>
-        <Avatar
-          acceptedMessageRequest={acceptedMessageRequest}
-          avatarPath={avatarPath}
-          color={color}
-          conversationType={conversationType}
-          noteToSelf={isAvatarNoteToSelf}
-          searchResult={isUsernameSearchResult}
-          i18n={i18n}
-          isMe={isMe}
-          name={name}
-          phoneNumber={phoneNumber}
-          profileName={profileName}
-          title={title}
-          sharedGroupNames={sharedGroupNames}
-          size={AvatarSize.FORTY_EIGHT}
-          unblurredAvatarPath={unblurredAvatarPath}
-          // This is here to appease the type checker.
-          {...(props.badge
-            ? { badge: props.badge, theme: props.theme }
-            : { badge: undefined })}
-        />
+        <div className={AVATAR_CONTAINER_CLASS_NAME}>
+          <Avatar
+            acceptedMessageRequest={acceptedMessageRequest}
+            avatarPath={avatarPath}
+            color={color}
+            conversationType={conversationType}
+            noteToSelf={isAvatarNoteToSelf}
+            searchResult={isUsernameSearchResult}
+            i18n={i18n}
+            isMe={isMe}
+            name={name}
+            phoneNumber={phoneNumber}
+            profileName={profileName}
+            title={title}
+            sharedGroupNames={sharedGroupNames}
+            size={AvatarSize.FORTY_EIGHT}
+            unblurredAvatarPath={unblurredAvatarPath}
+            // This is here to appease the type checker.
+            {...(props.badge
+              ? { badge: props.badge, theme: props.theme }
+              : { badge: undefined })}
+          />
+          <UnreadIndicator count={unreadCount} isUnread={isUnread} />
+        </div>
         <div
           className={classNames(
             CONTENT_CLASS_NAME,
@@ -197,7 +201,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
                 </div>
               )}
               {messageStatusIcon}
-              {isUnread && <UnreadIndicator count={unreadCount} />}
+              <UnreadIndicator count={unreadCount} isUnread={isUnread} />
             </div>
           ) : null}
         </div>
@@ -254,7 +258,14 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
     );
   });
 
-function UnreadIndicator({ count = 0 }: Readonly<{ count?: number }>) {
+function UnreadIndicator({
+  count = 0,
+  isUnread,
+}: Readonly<{ count?: number; isUnread: boolean }>) {
+  if (!isUnread) {
+    return null;
+  }
+
   let classModifier: undefined | string;
   if (count > 99) {
     classModifier = 'many';

@@ -42,7 +42,7 @@ import type {
   SaveAvatarToDiskActionType,
 } from '../types/Avatar';
 
-const MIN_WIDTH = 109;
+const MIN_WIDTH = 97;
 const SNAP_WIDTH = 200;
 const MIN_FULL_WIDTH = 280;
 const MAX_WIDTH = 380;

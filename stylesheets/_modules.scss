@@ -4562,8 +4562,8 @@ button.module-image__border-overlay:focus {
   padding-right: 10px;
 
   &--width-narrow {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   &--scroll-behavior {
@@ -4669,6 +4669,9 @@ button.module-image__border-overlay:focus {
     }
 
     &--contact-or-conversation {
+      $unread-indicator-selector: '#{&}__unread-indicator';
+      $avatar-container-unread-indicator-selector: '#{&}__avatar-container #{$unread-indicator-selector}';
+
       @include button-reset;
 
       align-items: center;
@@ -4683,7 +4686,7 @@ button.module-image__border-overlay:focus {
       width: 100%;
 
       .module-conversation-list--width-narrow & {
-        padding-left: 18px;
+        padding-left: 14px;
         padding-right: 0;
       }
 
@@ -4726,14 +4729,58 @@ button.module-image__border-overlay:focus {
 
       &--is-selected {
         @include light-theme {
-          background-color: $color-gray-15;
+          $background-color: $color-gray-15;
+          background-color: $background-color;
+          '#{$avatar-container-unread-indicator-selector}' {
+            border-color: $background-color;
+          }
         }
         @include dark-theme {
-          background-color: $color-white-alpha-12;
+          $background-color: $color-gray-65;
+          background-color: $background-color;
+          '#{$avatar-container-unread-indicator-selector}' {
+            border-color: $background-color;
+          }
         }
       }
 
-      &__unread-indicator {
+      &__avatar-container {
+        position: relative;
+
+        '#{$unread-indicator-selector}' {
+          $border-width: 3px;
+          $size: 21px + $border-width;
+
+          @include rounded-corners;
+          border: $border-width solid transparent;
+          display: none;
+          height: $size;
+          margin: 0;
+          min-width: $size;
+          position: absolute;
+          right: -(5px + $border-width);
+          top: -(1px + $border-width);
+
+          .module-conversation-list--width-narrow & {
+            display: block;
+          }
+
+          @include light-theme {
+            border-color: $color-gray-02;
+          }
+          @include dark-theme {
+            border-color: $color-gray-80;
+          }
+
+          &--two-digits,
+          &--many {
+            right: -(7px + $border-width);
+          }
+        }
+      }
+
+      // We want this to just be the unread indicator selector, not a child of the parent.
+      @at-root '#{$unread-indicator-selector}' {
         $size: 18px;
 
         @include font-caption-bold;
@@ -4754,8 +4801,7 @@ button.module-image__border-overlay:focus {
         align-items: center;
 
         .module-conversation-list--width-narrow & {
-          margin-left: 6px;
-          box-sizing: border-box;
+          display: none;
         }
 
         @include light-theme {
@@ -4767,7 +4813,6 @@ button.module-image__border-overlay:focus {
 
         &--two-digits,
         &--many {
-          box-sizing: content-box;
           padding-left: 4px;
           padding-right: 4px;
         }
@@ -5129,7 +5174,7 @@ button.module-image__border-overlay:focus {
         @include rounded-corners;
         display: block;
         height: 2px;
-        margin: 19px 0 19px 17px;
+        margin: 19px 0 19px 14px;
         padding-bottom: 0;
         width: 48px;
 
@@ -5168,20 +5213,34 @@ button.module-image__border-overlay:focus {
   position: relative;
 
   @include light-theme {
+    $background-color: $color-gray-02;
+
     border-color: $color-gray-15;
-    background-color: $color-gray-02;
+    background-color: $background-color;
 
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-02;
     }
+
+    .module-conversation-list__item--contact-or-conversation:hover
+      .module-conversation-list__item--contact-or-conversation__unread-indicator {
+      border-color: mix($color-black, $background-color, 6%);
+    }
   }
 
   @include dark-theme {
+    $background-color: $color-gray-80;
+
     border-color: $color-gray-65;
-    background-color: $color-gray-80;
+    background-color: $background-color;
 
     ::-webkit-scrollbar-thumb {
       border: 2px solid $color-gray-80;
+    }
+
+    .module-conversation-list__item--contact-or-conversation:hover
+      .module-conversation-list__item--contact-or-conversation__unread-indicator {
+      border-color: mix($color-white, $background-color, 6%);
     }
   }
 }
