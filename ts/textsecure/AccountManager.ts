@@ -11,12 +11,13 @@ import { omit } from 'lodash';
 import EventTarget from './EventTarget';
 import type { WebAPIType } from './WebAPI';
 import { HTTPError } from './Errors';
-import type { KeyPairType, CompatSignedPreKeyType } from './Types.d';
+import type { KeyPairType } from './Types.d';
 import ProvisioningCipher from './ProvisioningCipher';
 import type { IncomingWebSocketRequest } from './WebsocketResources';
 import createTaskWithTimeout from './TaskWithTimeout';
 import * as Bytes from '../Bytes';
 import { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
+import * as Errors from '../types/errors';
 import { senderCertificateService } from '../services/senderCertificate';
 import {
   deriveAccessKey,
@@ -317,7 +318,7 @@ export default class AccountManager extends EventTarget {
       }
 
       const store = window.textsecure.storage.protocol;
-      const { server, cleanSignedPreKeys } = this;
+      const { server } = this;
 
       const existingKeys = await store.loadSignedPreKeys(ourUuid);
       existingKeys.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
@@ -326,80 +327,97 @@ export default class AccountManager extends EventTarget {
 
       if (isMoreRecentThan(mostRecent?.created_at || 0, PREKEY_ROTATION_AGE)) {
         log.warn(
-          `rotateSignedPreKey: ${confirmedKeys.length} confirmed keys, most recent was created ${mostRecent?.created_at}. Cancelling rotation.`
+          `rotateSignedPreKey(${uuidKind}): ${confirmedKeys.length} ` +
+            `confirmed keys, most recent was created ${mostRecent?.created_at}. Cancelling rotation.`
         );
         return;
       }
 
-      return store
-        .getIdentityKeyPair(ourUuid)
-        .then(
-          async (identityKey: KeyPairType | undefined) => {
-            if (!identityKey) {
-              throw new Error('rotateSignedPreKey: No identity key pair!');
-            }
+      let identityKey: KeyPairType | undefined;
+      try {
+        identityKey = await store.getIdentityKeyPair(ourUuid);
+      } catch (error) {
+        // We swallow any error here, because we don't want to get into
+        //   a loop of repeated retries.
+        log.error(
+          'Failed to get identity key. Canceling key rotation.',
+          Errors.toLogFormat(error)
+        );
+        return;
+      }
 
-            return generateSignedPreKey(identityKey, signedKeyId);
+      if (!identityKey) {
+        // TODO: DESKTOP-2855
+        if (uuidKind === UUIDKind.PNI) {
+          log.warn(`rotateSignedPreKey(${uuidKind}): No identity key pair!`);
+          return;
+        }
+        throw new Error(
+          `rotateSignedPreKey(${uuidKind}): No identity key pair!`
+        );
+      }
+
+      const res = await generateSignedPreKey(identityKey, signedKeyId);
+
+      log.info(
+        `rotateSignedPreKey(${uuidKind}): Saving new signed prekey`,
+        res.keyId
+      );
+
+      await Promise.all([
+        window.textsecure.storage.put('signedKeyId', signedKeyId + 1),
+        store.storeSignedPreKey(ourUuid, res.keyId, res.keyPair),
+      ]);
+
+      try {
+        await server.setSignedPreKey(
+          {
+            keyId: res.keyId,
+            publicKey: res.keyPair.pubKey,
+            signature: res.signature,
           },
-          () => {
-            // We swallow any error here, because we don't want to get into
-            //   a loop of repeated retries.
-            log.error('Failed to get identity key. Canceling key rotation.');
-            return null;
-          }
-        )
-        .then(async (res: CompatSignedPreKeyType | null) => {
-          if (!res) {
-            return null;
-          }
-          log.info('Saving new signed prekey', res.keyId);
-          return Promise.all([
-            window.textsecure.storage.put('signedKeyId', signedKeyId + 1),
-            store.storeSignedPreKey(ourUuid, res.keyId, res.keyPair),
-            server.setSignedPreKey(
-              {
-                keyId: res.keyId,
-                publicKey: res.keyPair.pubKey,
-                signature: res.signature,
-              },
-              uuidKind
-            ),
-          ])
-            .then(async () => {
-              const confirmed = true;
-              log.info('Confirming new signed prekey', res.keyId);
-              return Promise.all([
-                window.textsecure.storage.remove('signedKeyRotationRejected'),
-                store.storeSignedPreKey(
-                  ourUuid,
-                  res.keyId,
-                  res.keyPair,
-                  confirmed
-                ),
-              ]);
-            })
-            .then(cleanSignedPreKeys);
-        })
-        .catch(async (e: Error) => {
-          log.error('rotateSignedPrekey error:', e && e.stack ? e.stack : e);
+          uuidKind
+        );
+      } catch (error) {
+        log.error(
+          `rotateSignedPrekey(${uuidKind}) error:`,
+          Errors.toLogFormat(error)
+        );
 
-          if (
-            e instanceof HTTPError &&
-            e.code &&
-            e.code >= 400 &&
-            e.code <= 599
-          ) {
-            const rejections =
-              1 + window.textsecure.storage.get('signedKeyRotationRejected', 0);
-            await window.textsecure.storage.put(
-              'signedKeyRotationRejected',
-              rejections
-            );
-            log.error('Signed key rotation rejected count:', rejections);
-          } else {
-            throw e;
-          }
-        });
+        if (
+          error instanceof HTTPError &&
+          error.code >= 400 &&
+          error.code <= 599
+        ) {
+          const rejections =
+            1 + window.textsecure.storage.get('signedKeyRotationRejected', 0);
+          await window.textsecure.storage.put(
+            'signedKeyRotationRejected',
+            rejections
+          );
+          log.error(
+            `rotateSignedPreKey(${uuidKind}): Signed key rotation rejected count:`,
+            rejections
+          );
+
+          return;
+        }
+
+        throw error;
+      }
+
+      const confirmed = true;
+      log.info('Confirming new signed prekey', res.keyId);
+      await Promise.all([
+        window.textsecure.storage.remove('signedKeyRotationRejected'),
+        store.storeSignedPreKey(ourUuid, res.keyId, res.keyPair, confirmed),
+      ]);
+
+      try {
+        await this.cleanSignedPreKeys();
+      } catch (_error) {
+        // Ignoring the error
+      }
     });
   }
 
