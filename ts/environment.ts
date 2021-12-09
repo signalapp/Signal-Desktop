@@ -9,7 +9,6 @@ export enum Environment {
   Production = 'production',
   Staging = 'staging',
   Test = 'test',
-  TestLib = 'test-lib',
 }
 
 let environment: undefined | Environment;
@@ -41,4 +40,4 @@ export const parseEnvironment = makeEnumParser(
 );
 
 export const isTestEnvironment = (env: Environment): boolean =>
-  env === Environment.Test || env === Environment.TestLib;
+  env === Environment.Test;

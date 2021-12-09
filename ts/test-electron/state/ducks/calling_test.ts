@@ -1352,7 +1352,7 @@ describe('calling duck', () => {
 
       describe('thunk', () => {
         function noopTest(connectionState: GroupCallConnectionState) {
-          return async function test(this: Mocha.ITestCallbackContext) {
+          return async function test(this: Mocha.Context) {
             const dispatch = sinon.spy();
 
             await peekNotConnectedGroupCall({

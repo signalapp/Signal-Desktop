@@ -105,6 +105,7 @@ const excludedFilesRegexp = RegExp(
 
     // Modules used only in test/development scenarios
     '^node_modules/@babel/.+',
+    '^node_modules/@chanzuckerberg/axe-storybook-testing/.+',
     '^node_modules/@svgr/.+',
     '^node_modules/@types/.+',
     '^node_modules/@webassemblyjs/.+',
@@ -116,8 +117,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/ansi-colors/.+',
     '^node_modules/anymatch/.+',
     '^node_modules/app-builder-lib/.+',
-    '^node_modules/archiver-utils/.+', // Used by spectron
-    '^node_modules/archiver/.+', // Used by spectron
     '^node_modules/asn1\\.js/.+',
     '^node_modules/autoprefixer/.+',
     '^node_modules/babel.+',
@@ -130,6 +129,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/builder-util/.+',
     '^node_modules/catharsis/.+',
     '^node_modules/chai/.+',
+    '^node_modules/chokidar/.+',
     '^node_modules/clean-css/.+',
     '^node_modules/cli-table2/.+',
     '^node_modules/cliui/.+',
@@ -161,10 +161,13 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/@typescript-eslint.+',
     '^node_modules/esprima/.+',
     '^node_modules/express/.+',
+    '^node_modules/fast-glob/.+',
     '^node_modules/file-loader/.+',
     '^node_modules/file-system-cache/.+', // Currently only used in storybook
     '^node_modules/finalhandler/.+',
+    '^node_modules/foreground-chat/.+',
     '^node_modules/fsevents/.+',
+    '^node_modules/gauge/.+',
     '^node_modules/global-agent/.+',
     '^node_modules/globule/.+',
     '^node_modules/grunt-cli/.+',
@@ -208,6 +211,8 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/optionator/.+',
     '^node_modules/plist/.+',
     '^node_modules/phantomjs-prebuilt/.+',
+    '^node_modules/playwright/.+',
+    '^node_modules/playwright-core/.+',
     '^node_modules/postcss.+',
     '^node_modules/preserve/.+',
     '^node_modules/prettier/.+',
@@ -233,7 +238,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/snapdragon-util/.+',
     '^node_modules/snapdragon/.+',
     '^node_modules/sockjs-client/.+',
-    '^node_modules/spectron/.+',
     '^node_modules/style-loader/.+',
     '^node_modules/svgo/.+',
     '^node_modules/terser/.+',

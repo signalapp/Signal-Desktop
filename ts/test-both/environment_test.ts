@@ -37,10 +37,6 @@ describe('environment utilities', () => {
     it('parses "test" as Environment.Test', () => {
       assert.equal(parseEnvironment('test'), Environment.Test);
     });
-
-    it('parses "test-lib" as Environment.TestLib', () => {
-      assert.equal(parseEnvironment('test-lib'), Environment.TestLib);
-    });
   });
 
   describe('isTestEnvironment', () => {
@@ -52,7 +48,6 @@ describe('environment utilities', () => {
 
     it('returns true for test environments', () => {
       assert.isTrue(isTestEnvironment(Environment.Test));
-      assert.isTrue(isTestEnvironment(Environment.TestLib));
     });
   });
 });

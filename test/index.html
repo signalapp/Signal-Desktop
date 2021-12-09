@@ -161,11 +161,6 @@
       {{/isError}}
     </script>
 
-    <script
-      type="text/javascript"
-      src="../libtextsecure/test/fake_web_api.js"
-    ></script>
-
     <script type="text/javascript" src="../js/components.js"></script>
     <script type="text/javascript" src="../ts/backboneJquery.js"></script>
     <script
@@ -173,6 +168,13 @@
       src="../js/reliable_trigger.js"
       data-cover
     ></script>
+    <script
+      type="text/javascript"
+      src="../node_modules/mocha/mocha.js"
+    ></script>
+    <script type="text/javascript">
+      mocha.setup('bdd');
+    </script>
     <script type="text/javascript" src="test.js"></script>
 
     <script type="text/javascript" src="../js/database.js" data-cover></script>
@@ -193,39 +195,13 @@
       src="../js/expiring_tap_to_view_messages.js"
       data-cover
     ></script>
-    <script
-      type="text/javascript"
-      src="../js/notifications.js"
-      data-cover
-    ></script>
 
     <script
       type="text/javascript"
       src="../js/views/react_wrapper_view.js"
     ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/list_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/contact_list_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/group_member_list_view.js"
-      data-cover
-    ></script>
-    <script
-      type="text/javascript"
-      src="../js/views/inbox_view.js"
-      data-cover
-    ></script>
 
     <script type="text/javascript" src="views/whisper_view_test.js"></script>
-    <script type="text/javascript" src="views/list_view_test.js"></script>
 
     <script type="text/javascript" src="libphonenumber_util_test.js"></script>
     <script type="text/javascript" src="reliable_trigger_test.js"></script>
@@ -236,11 +212,33 @@
     <script type="text/javascript">
       window.Signal.conversationControllerStart();
 
-      window.test.pendingDescribeCalls.forEach(args => {
-        describe(...args);
-      });
+      window.test.prepareTests();
+      delete window.test.prepareTests;
 
-      mocha.run();
+      !(function () {
+        const passed = [];
+        const failed = [];
+
+        class Reporter extends Mocha.reporters.HTML {
+          constructor(runner, options) {
+            super(runner, options);
+
+            runner.on('pass', test => passed.push(test.fullTitle()));
+            runner.on('fail', (test, error) => {
+              failed.push({
+                testName: test.fullTitle(),
+                error: error?.stack || String(error),
+              });
+            });
+
+            runner.on('end', () => window.test.onComplete({ passed, failed }));
+          }
+        }
+
+        mocha.reporter(Reporter);
+
+        mocha.run();
+      })();
     </script>
   </body>
 </html>

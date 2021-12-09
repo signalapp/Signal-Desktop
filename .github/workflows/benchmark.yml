@@ -31,7 +31,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16.5.0'
+        node-version: '16.9.1'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10 typescript@4.4.2 ts-node@10.2.1
 

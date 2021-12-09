@@ -21,9 +21,7 @@ tsconfig.tsbuildinfo
 js/components.js
 js/util_worker.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 stylesheets/*.css
-test/test.js
 /storybook-static/
 preload.bundle.*
 ts/sql/mainWorker.bundle.js.LICENSE.txt

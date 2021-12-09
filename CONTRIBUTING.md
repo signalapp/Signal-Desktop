@@ -281,7 +281,7 @@ yarn generate
 yarn build
 ```
 
-Then, run the tests using `grunt test-release:osx --dir=release`, replacing `osx` with `linux` or `win` depending on your platform.
+Then, run the tests using `yarn test-release`.
 
 ## Translations
 

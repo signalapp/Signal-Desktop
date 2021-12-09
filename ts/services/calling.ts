@@ -1,7 +1,8 @@
 // Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { desktopCapturer, ipcRenderer } from 'electron';
+import type { DesktopCapturerSource } from 'electron';
+import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
   CallId,
@@ -1097,11 +1098,8 @@ export class CallingClass {
   }
 
   async getPresentingSources(): Promise<Array<PresentableSource>> {
-    const sources = await desktopCapturer.getSources({
-      fetchWindowIcons: true,
-      thumbnailSize: { height: 102, width: 184 },
-      types: ['window', 'screen'],
-    });
+    const sources: ReadonlyArray<DesktopCapturerSource> =
+      await ipcRenderer.invoke('getScreenCaptureSources');
 
     const presentableSources: Array<PresentableSource> = [];
 

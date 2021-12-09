@@ -43,9 +43,7 @@ let globalLogger: undefined | pino.Logger;
 let shouldRestart = false;
 
 const isRunningFromConsole =
-  Boolean(process.stdout.isTTY) ||
-  getEnvironment() === Environment.Test ||
-  getEnvironment() === Environment.TestLib;
+  Boolean(process.stdout.isTTY) || getEnvironment() === Environment.Test;
 
 export async function initialize(
   getMainWindow: () => undefined | BrowserWindow

@@ -23,6 +23,7 @@ import {
   screen,
   shell,
   systemPreferences,
+  desktopCapturer,
 } from 'electron';
 import { z } from 'zod';
 
@@ -587,11 +588,10 @@ async function createWindow() {
 
   if (getEnvironment() === Environment.Test) {
     mainWindow.loadURL(
-      prepareFileUrl([__dirname, '../test/index.html'], moreKeys)
-    );
-  } else if (getEnvironment() === Environment.TestLib) {
-    mainWindow.loadURL(
-      prepareFileUrl([__dirname, '../libtextsecure/test/index.html'], moreKeys)
+      prepareFileUrl([__dirname, '../test/index.html'], {
+        ...moreKeys,
+        argv: JSON.stringify(process.argv),
+      })
     );
   } else {
     mainWindow.loadURL(
@@ -1424,10 +1424,7 @@ app.on('ready', async () => {
 
   addSensitivePath(userDataPath);
 
-  if (
-    getEnvironment() !== Environment.Test &&
-    getEnvironment() !== Environment.TestLib
-  ) {
+  if (getEnvironment() !== Environment.Test) {
     installFileHandler({
       protocol: electronProtocol,
       userDataPath,
@@ -2120,3 +2117,20 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
     defaultPath,
   });
 });
+
+ipc.handle('getScreenCaptureSources', async () => {
+  return desktopCapturer.getSources({
+    fetchWindowIcons: true,
+    thumbnailSize: { height: 102, width: 184 },
+    types: ['window', 'screen'],
+  });
+});
+
+if (isTestEnvironment(getEnvironment())) {
+  ipc.handle('ci:test-electron:done', async (_event, info) => {
+    process.stdout.write(
+      `ci:test-electron:done=${JSON.stringify(info)}\n`,
+      () => app.quit()
+    );
+  });
+}

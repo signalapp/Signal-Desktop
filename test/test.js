@@ -1,47 +1,7 @@
 // Copyright 2014-2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global chai, Whisper, _, Backbone */
-
-mocha.setup('bdd');
-window.assert = chai.assert;
-
-const OriginalReporter = mocha._reporter;
-
-const SauceReporter = function Constructor(runner) {
-  const failedTests = [];
-
-  runner.on('end', () => {
-    window.mochaResults = runner.stats;
-    window.mochaResults.reports = failedTests;
-  });
-
-  runner.on('fail', (test, err) => {
-    const flattenTitles = item => {
-      const titles = [];
-      while (item.parent.title) {
-        titles.push(item.parent.title);
-        // eslint-disable-next-line no-param-reassign
-        item = item.parent;
-      }
-      return titles.reverse();
-    };
-    failedTests.push({
-      name: test.title,
-      result: false,
-      message: err.message,
-      stack: err.stack,
-      titles: flattenTitles(test),
-    });
-  });
-
-  // eslint-disable-next-line no-new
-  new OriginalReporter(runner);
-};
-
-SauceReporter.prototype = OriginalReporter.prototype;
-
-mocha.reporter(SauceReporter);
+/* global Whisper, _, Backbone */
 
 // Override the database id.
 window.Whisper = window.Whisper || {};

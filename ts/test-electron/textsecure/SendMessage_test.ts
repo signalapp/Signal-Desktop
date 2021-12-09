@@ -1,8 +1,10 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* global textsecure, WebAPI */
-/* eslint-disable no-console */
+import { assert } from 'chai';
+
+import MessageSender from '../../textsecure/SendMessage';
+import type { WebAPIType } from '../../textsecure/WebAPI';
 
 const BUCKET_SIZES = [
   541, 568, 596, 626, 657, 690, 725, 761, 799, 839, 881, 925, 972, 1020, 1071,
@@ -34,17 +36,11 @@ const BUCKET_SIZES = [
   80095580, 84100359, 88305377, 92720646, 97356678, 102224512, 107335738,
 ];
 
-describe('sendmessage', () => {
-  let originalWebAPIConnect = null;
-  let sendmessage = null;
-  before(() => {
-    originalWebAPIConnect = WebAPI.connect;
-    WebAPI.connect = () => null;
+describe('SendMessage', () => {
+  let sendMessage: MessageSender;
 
-    sendmessage = new textsecure.MessageSender();
-  });
-  after(() => {
-    WebAPI.connect = originalWebAPIConnect;
+  before(() => {
+    sendMessage = new MessageSender({} as unknown as WebAPIType);
   });
 
   describe('#_getAttachmentSizeBucket', () => {
@@ -52,7 +48,7 @@ describe('sendmessage', () => {
       for (let size = 0, max = BUCKET_SIZES[0]; size < max; size += 1) {
         assert.strictEqual(
           BUCKET_SIZES[0],
-          sendmessage._getAttachmentSizeBucket(size)
+          sendMessage._getAttachmentSizeBucket(size)
         );
       }
     });
@@ -60,17 +56,18 @@ describe('sendmessage', () => {
     it('properly calculates entire table', () => {
       let count = 0;
 
+      const failures = new Array<string>();
       for (let i = 0, max = BUCKET_SIZES.length - 1; i < max; i += 1) {
         // Exact
         if (
           BUCKET_SIZES[i] !==
-          sendmessage._getAttachmentSizeBucket(BUCKET_SIZES[i])
+          sendMessage._getAttachmentSizeBucket(BUCKET_SIZES[i])
         ) {
           count += 1;
-          console.log(
+          failures.push(
             `${
               BUCKET_SIZES[i]
-            } does not equal ${sendmessage._getAttachmentSizeBucket(
+            } does not equal ${sendMessage._getAttachmentSizeBucket(
               BUCKET_SIZES[i]
             )}`
           );
@@ -79,13 +76,13 @@ describe('sendmessage', () => {
         // Just under
         if (
           BUCKET_SIZES[i] !==
-          sendmessage._getAttachmentSizeBucket(BUCKET_SIZES[i] - 1)
+          sendMessage._getAttachmentSizeBucket(BUCKET_SIZES[i] - 1)
         ) {
           count += 1;
-          console.log(
+          failures.push(
             `${
               BUCKET_SIZES[i]
-            } does not equal ${sendmessage._getAttachmentSizeBucket(
+            } does not equal ${sendMessage._getAttachmentSizeBucket(
               BUCKET_SIZES[i] - 1
             )}`
           );
@@ -94,21 +91,20 @@ describe('sendmessage', () => {
         // Just over
         if (
           BUCKET_SIZES[i + 1] !==
-          sendmessage._getAttachmentSizeBucket(BUCKET_SIZES[i] + 1)
+          sendMessage._getAttachmentSizeBucket(BUCKET_SIZES[i] + 1)
         ) {
           count += 1;
-          console.log(
+          failures.push(
             `${
               BUCKET_SIZES[i + 1]
-            } does not equal ${sendmessage._getAttachmentSizeBucket(
+            } does not equal ${sendMessage._getAttachmentSizeBucket(
               BUCKET_SIZES[i] + 1
             )}`
           );
         }
       }
 
-      console.log(`Failures: ${count}`);
-      assert.strictEqual(count, 0);
+      assert.strictEqual(count, 0, failures.join('\n'));
     });
   });
 });

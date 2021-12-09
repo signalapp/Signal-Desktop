@@ -2,19 +2,29 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
+import { mkdirSync } from 'fs';
 import { app } from 'electron';
 
 import { start } from './base_config';
 import config from './config';
 
+let userData: string | undefined;
 // Use separate data directory for benchmarks & development
 if (config.has('storagePath')) {
-  app.setPath('userData', String(config.get('storagePath')));
+  userData = String(config.get('storagePath'));
 } else if (config.has('storageProfile')) {
-  const userData = join(
+  userData = join(
     app.getPath('appData'),
     `Signal-${config.get('storageProfile')}`
   );
+}
+
+if (userData !== undefined) {
+  try {
+    mkdirSync(userData, { recursive: true });
+  } catch (error) {
+    console.error('Failed to create userData', error?.stack || String(error));
+  }
 
   app.setPath('userData', userData);
 }
