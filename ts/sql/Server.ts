@@ -201,7 +201,6 @@ const dataInterface: ServerInterface = {
 
   getAllConversations,
   getAllConversationIds,
-  getAllPrivateConversations,
   getAllGroupsInvolvingUuid,
 
   searchConversations,
@@ -1489,22 +1488,6 @@ async function getAllConversationIds(): Promise<Array<string>> {
     .all();
 
   return rows.map(row => row.id);
-}
-
-async function getAllPrivateConversations(): Promise<Array<ConversationType>> {
-  const db = getInstance();
-  const rows: ConversationRows = db
-    .prepare<EmptyQuery>(
-      `
-      SELECT json, profileLastFetchedAt
-      FROM conversations
-      WHERE type = 'private'
-      ORDER BY id ASC;
-      `
-    )
-    .all();
-
-  return rows.map(row => rowToConversation(row));
 }
 
 async function getAllGroupsInvolvingUuid(

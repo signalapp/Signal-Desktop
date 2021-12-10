@@ -357,7 +357,6 @@ export type DataInterface = {
 
   getAllConversations: () => Promise<Array<ConversationType>>;
   getAllConversationIds: () => Promise<Array<string>>;
-  getAllPrivateConversations: () => Promise<Array<ConversationType>>;
   getAllGroupsInvolvingUuid: (
     id: UUIDStringType
   ) => Promise<Array<ConversationType>>;
