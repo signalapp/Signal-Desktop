@@ -170,6 +170,7 @@ declare global {
     imageToBlurHash: typeof imageToBlurHash;
     loadImage: any;
     isBehindProxy: () => boolean;
+    isLegacyOS: () => boolean;
     getAutoLaunch: () => Promise<boolean>;
     setAutoLaunch: (value: boolean) => Promise<void>;
 

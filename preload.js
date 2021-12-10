@@ -70,6 +70,7 @@ try {
   window.getServerPublicParams = () => config.serverPublicParams;
   window.getSfuUrl = () => config.sfuUrl;
   window.isBehindProxy = () => Boolean(config.proxyUrl);
+  window.isLegacyOS = () => config.isLegacyOS === 'true';
   window.getAutoLaunch = () => {
     return ipc.invoke('get-auto-launch');
   };
