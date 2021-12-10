@@ -214,6 +214,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
             'normalMessageSendJobQueue',
             () =>
               window.Signal.Util.sendToGroup({
+                contentHint: ContentHint.RESENDABLE,
                 groupSendOptions: {
                   attachments,
                   deletedForEveryoneTimestamp,
@@ -232,10 +233,9 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
                   timestamp: messageTimestamp,
                   mentions,
                 },
-                conversation,
-                contentHint: ContentHint.RESENDABLE,
                 messageId,
                 sendOptions,
+                sendTarget: conversation.toSenderKeyTarget(),
                 sendType: 'message',
               })
           );

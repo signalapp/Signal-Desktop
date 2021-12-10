@@ -949,15 +949,15 @@ export class CallingClass {
       send: () =>
         conversation.queueJob('sendGroupCallUpdateMessage', () =>
           window.Signal.Util.sendToGroup({
+            contentHint: ContentHint.DEFAULT,
             groupSendOptions: {
               groupCallUpdate: { eraId },
               groupV2,
               timestamp,
             },
-            conversation,
-            contentHint: ContentHint.DEFAULT,
             messageId: undefined,
             sendOptions,
+            sendTarget: conversation.toSenderKeyTarget(),
             sendType: 'callingMessage',
           })
         ),
@@ -1567,11 +1567,11 @@ export class CallingClass {
         window.Signal.Util.sendContentMessageToGroup({
           contentHint: ContentHint.DEFAULT,
           contentMessage,
-          conversation,
           isPartialSend: false,
           messageId: undefined,
           recipients: conversation.getRecipients(),
           sendOptions: await getSendOptions(conversation.attributes),
+          sendTarget: conversation.toSenderKeyTarget(),
           sendType: 'callingMessage',
           timestamp,
         }),

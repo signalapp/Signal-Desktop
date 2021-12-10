@@ -499,11 +499,12 @@ export type DataInterface = {
   >;
   _deleteAllStoryDistributions(): Promise<void>;
   createNewStoryDistribution(
-    story: StoryDistributionWithMembersType
+    distribution: StoryDistributionWithMembersType
   ): Promise<void>;
   getAllStoryDistributionsWithMembers(): Promise<
     Array<StoryDistributionWithMembersType>
   >;
+  modifyStoryDistribution(distribution: StoryDistributionType): Promise<void>;
   modifyStoryDistributionMembers(
     id: string,
     options: {

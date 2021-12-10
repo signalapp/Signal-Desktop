@@ -1316,10 +1316,10 @@ export async function modifyGroupV2({
               timestamp,
               profileKey,
             },
-            conversation,
             contentHint: ContentHint.RESENDABLE,
             messageId: undefined,
             sendOptions,
+            sendTarget: conversation.toSenderKeyTarget(),
             sendType: 'groupChange',
           }),
           { messageIds: [], sendType: 'groupChange' }
@@ -1686,15 +1686,15 @@ export async function createGroupV2({
     messageIds: [],
     send: async () =>
       window.Signal.Util.sendToGroup({
+        contentHint: ContentHint.RESENDABLE,
         groupSendOptions: {
           groupV2: groupV2Info,
           timestamp,
           profileKey,
         },
-        conversation,
-        contentHint: ContentHint.RESENDABLE,
         messageId: undefined,
         sendOptions,
+        sendTarget: conversation.toSenderKeyTarget(),
         sendType: 'groupChange',
       }),
     sendType: 'groupChange',
@@ -2213,6 +2213,7 @@ export async function initiateMigrationToGroupV2(
     send: async () =>
       // Minimal message to notify group members about migration
       window.Signal.Util.sendToGroup({
+        contentHint: ContentHint.RESENDABLE,
         groupSendOptions: {
           groupV2: conversation.getGroupV2Info({
             includePendingMembers: true,
@@ -2220,10 +2221,9 @@ export async function initiateMigrationToGroupV2(
           timestamp,
           profileKey: ourProfileKey,
         },
-        conversation,
-        contentHint: ContentHint.RESENDABLE,
         messageId: undefined,
         sendOptions,
+        sendTarget: conversation.toSenderKeyTarget(),
         sendType: 'groupChange',
       }),
     sendType: 'groupChange',

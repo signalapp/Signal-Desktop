@@ -201,6 +201,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
         } else {
           log.info('sending group reaction message');
           promise = window.Signal.Util.sendToGroup({
+            contentHint: ContentHint.RESENDABLE,
             groupSendOptions: {
               groupV1: conversation.getGroupV1Info(
                 recipientIdentifiersWithoutMe
@@ -213,10 +214,9 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
               expireTimer,
               profileKey,
             },
-            conversation,
-            contentHint: ContentHint.RESENDABLE,
             messageId,
             sendOptions,
+            sendTarget: conversation.toSenderKeyTarget(),
             sendType: 'reaction',
           });
         }

@@ -17,6 +17,7 @@ const {
   createNewStoryDistribution,
   deleteStoryDistribution,
   getAllStoryDistributionsWithMembers,
+  modifyStoryDistribution,
   modifyStoryDistributionMembers,
 } = dataInterface;
 
@@ -57,6 +58,55 @@ describe('sql/storyDistribution', () => {
     assert.lengthOf(await _getAllStoryDistributions(), 0);
     assert.lengthOf(await _getAllStoryDistributionMembers(), 0);
     assert.lengthOf(await getAllStoryDistributionsWithMembers(), 0);
+  });
+
+  it('updates core fields with modifyStoryDistribution', async () => {
+    const UUID_1 = getUuid();
+    const UUID_2 = getUuid();
+    const list: StoryDistributionWithMembersType = {
+      id: getUuid(),
+      name: 'My Story',
+      avatarUrlPath: getUuid(),
+      avatarKey: getRandomBytes(128),
+      members: [UUID_1, UUID_2],
+      senderKeyInfo: {
+        createdAtDate: Date.now(),
+        distributionId: getUuid(),
+        memberDevices: [],
+      },
+    };
+
+    await createNewStoryDistribution(list);
+
+    assert.lengthOf(await _getAllStoryDistributions(), 1);
+    assert.lengthOf(await _getAllStoryDistributionMembers(), 2);
+
+    const updated = {
+      ...list,
+      name: 'Updated story',
+      avatarKey: getRandomBytes(128),
+      avatarUrlPath: getUuid(),
+      senderKeyInfo: {
+        createdAtDate: Date.now() + 10,
+        distributionId: getUuid(),
+        memberDevices: [
+          {
+            id: 1,
+            identifier: UUID_1,
+            registrationId: 232,
+          },
+        ],
+      },
+    };
+
+    await modifyStoryDistribution(updated);
+
+    assert.lengthOf(await _getAllStoryDistributions(), 1);
+    assert.lengthOf(await _getAllStoryDistributionMembers(), 2);
+
+    const allHydratedLists = await getAllStoryDistributionsWithMembers();
+    assert.lengthOf(allHydratedLists, 1);
+    assert.deepEqual(allHydratedLists[0], updated);
   });
 
   it('adds and removes with modifyStoryDistributionMembers', async () => {

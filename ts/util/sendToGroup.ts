@@ -34,7 +34,10 @@ import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import type { ConversationModel } from '../models/conversations';
 import type { DeviceType, CallbackResultType } from '../textsecure/Types.d';
 import { getKeysForIdentifier } from '../textsecure/getKeysForIdentifier';
-import type { ConversationAttributesType } from '../model-types.d';
+import type {
+  ConversationAttributesType,
+  SenderKeyInfoType,
+} from '../model-types.d';
 import type { SendTypesType } from './handleMessageSend';
 import {
   handleMessageSend,
@@ -51,7 +54,6 @@ import { SignalService as Proto } from '../protobuf';
 import * as RemoteConfig from '../RemoteConfig';
 
 import { strictAssert } from './assert';
-import { isGroupV2 } from './whatTypeOfConversation';
 import * as log from '../logging/log';
 
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
@@ -70,21 +72,33 @@ const ZERO_ACCESS_KEY = Bytes.toBase64(new Uint8Array(ACCESS_KEY_LENGTH));
 
 // Public API:
 
+export type SenderKeyTargetType = {
+  getGroupId: () => string | undefined;
+  getMembers: () => Array<ConversationModel>;
+  hasMember: (id: string) => boolean;
+  idForLogging: () => string;
+  isGroupV2: () => boolean;
+  isValid: () => boolean;
+
+  getSenderKeyInfo: () => SenderKeyInfoType | undefined;
+  saveSenderKeyInfo: (senderKeyInfo: SenderKeyInfoType) => Promise<void>;
+};
+
 export async function sendToGroup({
   contentHint,
-  conversation,
   groupSendOptions,
-  messageId,
   isPartialSend,
+  messageId,
   sendOptions,
+  sendTarget,
   sendType,
 }: {
   contentHint: number;
-  conversation: ConversationModel;
   groupSendOptions: GroupSendOptionsType;
   isPartialSend?: boolean;
   messageId: string | undefined;
   sendOptions?: SendOptionsType;
+  sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
 }): Promise<CallbackResultType> {
   strictAssert(
@@ -105,11 +119,11 @@ export async function sendToGroup({
   return sendContentMessageToGroup({
     contentHint,
     contentMessage,
-    conversation,
     isPartialSend,
     messageId,
     recipients,
     sendOptions,
+    sendTarget,
     sendType,
     timestamp,
   });
@@ -118,27 +132,27 @@ export async function sendToGroup({
 export async function sendContentMessageToGroup({
   contentHint,
   contentMessage,
-  conversation,
   isPartialSend,
   messageId,
   online,
   recipients,
   sendOptions,
+  sendTarget,
   sendType,
   timestamp,
 }: {
   contentHint: number;
   contentMessage: Proto.Content;
-  conversation: ConversationModel;
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
   recipients: Array<string>;
   sendOptions?: SendOptionsType;
+  sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
   timestamp: number;
 }): Promise<CallbackResultType> {
-  const logId = conversation.idForLogging();
+  const logId = sendTarget.idForLogging();
   strictAssert(
     window.textsecure.messaging,
     'sendContentMessageToGroup: textsecure.messaging not available!'
@@ -152,19 +166,19 @@ export async function sendContentMessageToGroup({
     isEnabled('desktop.sendSenderKey3') &&
     ourConversation?.get('capabilities')?.senderKey &&
     RemoteConfig.isEnabled('desktop.senderKey.send') &&
-    isGroupV2(conversation.attributes)
+    sendTarget.isValid()
   ) {
     try {
       return await sendToGroupViaSenderKey({
         contentHint,
         contentMessage,
-        conversation,
         isPartialSend,
         messageId,
         online,
         recipients,
         recursionCount: 0,
         sendOptions,
+        sendTarget,
         sendType,
         timestamp,
       });
@@ -194,9 +208,7 @@ export async function sendContentMessageToGroup({
     sendType,
     timestamp,
   });
-  const groupId = isGroupV2(conversation.attributes)
-    ? conversation.get('groupId')
-    : undefined;
+  const groupId = sendTarget.isGroupV2() ? sendTarget.getGroupId() : undefined;
   return window.textsecure.messaging.sendGroupProto({
     contentHint,
     groupId,
@@ -213,32 +225,32 @@ export async function sendContentMessageToGroup({
 export async function sendToGroupViaSenderKey(options: {
   contentHint: number;
   contentMessage: Proto.Content;
-  conversation: ConversationModel;
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
   recipients: Array<string>;
   recursionCount: number;
   sendOptions?: SendOptionsType;
+  sendTarget: SenderKeyTargetType;
   sendType: SendTypesType;
   timestamp: number;
 }): Promise<CallbackResultType> {
   const {
     contentHint,
     contentMessage,
-    conversation,
     isPartialSend,
     messageId,
     online,
-    recursionCount,
     recipients,
+    recursionCount,
     sendOptions,
+    sendTarget,
     sendType,
     timestamp,
   } = options;
   const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-  const logId = conversation.idForLogging();
+  const logId = sendTarget.idForLogging();
   log.info(
     `sendToGroupViaSenderKey/${logId}: Starting ${timestamp}, recursion count ${recursionCount}...`
   );
@@ -249,10 +261,10 @@ export async function sendToGroupViaSenderKey(options: {
     );
   }
 
-  const groupId = conversation.get('groupId');
-  if (!groupId || !isGroupV2(conversation.attributes)) {
+  const groupId = sendTarget.getGroupId();
+  if (!sendTarget.isValid()) {
     throw new Error(
-      `sendToGroupViaSenderKey/${logId}: Missing groupId or group is not GV2`
+      `sendToGroupViaSenderKey/${logId}: sendTarget is not valid!`
     );
   }
 
@@ -271,29 +283,40 @@ export async function sendToGroupViaSenderKey(options: {
     'sendToGroupViaSenderKey: textsecure.messaging not available!'
   );
 
-  const { attributes }: { attributes: ConversationAttributesType } =
-    conversation;
-
   // 1. Add sender key info if we have none, or clear out if it's too old
   const THIRTY_DAYS = 30 * DAY;
-  if (!attributes.senderKeyInfo) {
+
+  // Note: From here on, generally need to recurse if we change senderKeyInfo
+  const senderKeyInfo = sendTarget.getSenderKeyInfo();
+
+  if (!senderKeyInfo) {
     log.info(
       `sendToGroupViaSenderKey/${logId}: Adding initial sender key info`
     );
-    conversation.set({
-      senderKeyInfo: {
-        createdAtDate: Date.now(),
-        distributionId: UUID.generate().toString(),
-        memberDevices: [],
-      },
+    await sendTarget.saveSenderKeyInfo({
+      createdAtDate: Date.now(),
+      distributionId: UUID.generate().toString(),
+      memberDevices: [],
     });
-    window.Signal.Data.updateConversation(attributes);
-  } else if (isOlderThan(attributes.senderKeyInfo.createdAtDate, THIRTY_DAYS)) {
-    const { createdAtDate } = attributes.senderKeyInfo;
+
+    // Restart here because we updated senderKeyInfo
+    return sendToGroupViaSenderKey({
+      ...options,
+      recursionCount: recursionCount + 1,
+    });
+  }
+  if (isOlderThan(senderKeyInfo.createdAtDate, THIRTY_DAYS)) {
+    const { createdAtDate } = senderKeyInfo;
     log.info(
       `sendToGroupViaSenderKey/${logId}: Resetting sender key; ${createdAtDate} is too old`
     );
-    await resetSenderKey(conversation);
+    await resetSenderKey(sendTarget);
+
+    // Restart here because we updated senderKeyInfo
+    return sendToGroupViaSenderKey({
+      ...options,
+      recursionCount: recursionCount + 1,
+    });
   }
 
   // 2. Fetch all devices we believe we'll be sending to
@@ -320,15 +343,8 @@ export async function sendToGroupViaSenderKey(options: {
     });
   }
 
-  strictAssert(
-    attributes.senderKeyInfo,
-    `sendToGroupViaSenderKey/${logId}: expect senderKeyInfo`
-  );
-  // Note: From here on, we will need to recurse if we change senderKeyInfo
-  const { memberDevices, distributionId, createdAtDate } =
-    attributes.senderKeyInfo;
-
-  const memberSet = new Set(conversation.getMembers());
+  const { memberDevices, distributionId, createdAtDate } = senderKeyInfo;
+  const memberSet = new Set(sendTarget.getMembers());
 
   // 4. Partition devices into sender key and non-sender key groups
   const [devicesForSenderKey, devicesForNormalSend] = partition(
@@ -366,10 +382,10 @@ export async function sendToGroupViaSenderKey(options: {
   // 7. If members have been removed from the group, we need to reset our sender key, then
   //   start over to get a fresh set of target devices.
   const keyNeedsReset = Array.from(removedFromMemberUuids).some(
-    uuid => !conversation.hasMember(uuid)
+    uuid => !sendTarget.hasMember(uuid)
   );
   if (keyNeedsReset) {
-    await resetSenderKey(conversation);
+    await resetSenderKey(sendTarget);
 
     // Restart here to start over; empty memberDevices means we'll send distribution
     //   message to everyone.
@@ -403,14 +419,11 @@ export async function sendToGroupViaSenderKey(options: {
     // Update memberDevices with new devices
     const updatedMemberDevices = [...memberDevices, ...newToMemberDevices];
 
-    conversation.set({
-      senderKeyInfo: {
-        createdAtDate,
-        distributionId,
-        memberDevices: updatedMemberDevices,
-      },
+    await sendTarget.saveSenderKeyInfo({
+      createdAtDate,
+      distributionId,
+      memberDevices: updatedMemberDevices,
     });
-    window.Signal.Data.updateConversation(conversation.attributes);
 
     // Restart here because we might have discovered new or dropped devices as part of
     //   distributing our sender key.
@@ -430,14 +443,14 @@ export async function sendToGroupViaSenderKey(options: {
       ),
     ];
 
-    conversation.set({
-      senderKeyInfo: {
-        createdAtDate,
-        distributionId,
-        memberDevices: updatedMemberDevices,
-      },
+    await sendTarget.saveSenderKeyInfo({
+      createdAtDate,
+      distributionId,
+      memberDevices: updatedMemberDevices,
     });
-    window.Signal.Data.updateConversation(conversation.attributes);
+
+    // Note, we do not need to restart here because we don't refer back to senderKeyInfo
+    //   after this point.
   }
 
   // 10. Send the Sender Key message!
@@ -513,7 +526,7 @@ export async function sendToGroupViaSenderKey(options: {
       });
     }
     if (error.code === ERROR_STALE_DEVICES) {
-      await handle410Response(conversation, error);
+      await handle410Response(sendTarget, error);
 
       // Restart here to use the right registrationIds for devices we already knew about,
       //   as well as send our sender key to these re-registered or re-linked devices.
@@ -591,7 +604,7 @@ export async function sendToGroupViaSenderKey(options: {
     const recipientUuid = sentToConversation.get('uuid');
     if (!recipientUuid) {
       log.warn(
-        `sendToGroupViaSenderKey/callback: Conversation ${conversation.idForLogging()} had no UUID`
+        `sendToGroupViaSenderKey/callback: Conversation ${sentToConversation.idForLogging()} had no UUID`
       );
       return;
     }
@@ -730,10 +743,10 @@ async function handle409Response(logId: string, error: HTTPError) {
 }
 
 async function handle410Response(
-  conversation: ConversationModel,
+  sendTarget: SenderKeyTargetType,
   error: HTTPError
 ) {
-  const logId = conversation.idForLogging();
+  const logId = sendTarget.idForLogging();
 
   const parsed = multiRecipient410ResponseSchema.safeParse(error.response);
   if (parsed.success) {
@@ -757,21 +770,18 @@ async function handle410Response(
 
           // Forget that we've sent our sender key to these devices, since they've
           //   been re-registered or re-linked.
-          const senderKeyInfo = conversation.get('senderKeyInfo');
+          const senderKeyInfo = sendTarget.getSenderKeyInfo();
           if (senderKeyInfo) {
             const devicesToRemove: Array<PartialDeviceType> =
               devices.staleDevices.map(id => ({ id, identifier: uuid }));
-            conversation.set({
-              senderKeyInfo: {
-                ...senderKeyInfo,
-                memberDevices: differenceWith(
-                  senderKeyInfo.memberDevices,
-                  devicesToRemove,
-                  partialDeviceComparator
-                ),
-              },
+            await sendTarget.saveSenderKeyInfo({
+              ...senderKeyInfo,
+              memberDevices: differenceWith(
+                senderKeyInfo.memberDevices,
+                devicesToRemove,
+                partialDeviceComparator
+              ),
             });
-            window.Signal.Data.updateConversation(conversation.attributes);
           }
         }
       }),
@@ -836,7 +846,7 @@ async function encryptForSenderKey({
   contentMessage: Uint8Array;
   devices: Array<DeviceType>;
   distributionId: string;
-  groupId: string;
+  groupId?: string;
 }): Promise<Buffer> {
   const ourUuid = window.textsecure.storage.user.getCheckedUuid();
   const ourDeviceId = window.textsecure.storage.user.getDeviceId();
@@ -860,7 +870,7 @@ async function encryptForSenderKey({
       () => groupEncrypt(sender, distributionId, senderKeyStore, message)
     );
 
-  const groupIdBuffer = Buffer.from(groupId, 'base64');
+  const groupIdBuffer = groupId ? Buffer.from(groupId, 'base64') : null;
   const senderCertificateObject = await senderCertificateService.get(
     SenderCertificateMode.WithoutE164
   );
@@ -1027,13 +1037,11 @@ function getOurAddress(): Address {
   return new Address(ourUuid, ourDeviceId);
 }
 
-async function resetSenderKey(conversation: ConversationModel): Promise<void> {
-  const logId = conversation.idForLogging();
+async function resetSenderKey(sendTarget: SenderKeyTargetType): Promise<void> {
+  const logId = sendTarget.idForLogging();
 
   log.info(`resetSenderKey/${logId}: Sender key needs reset. Clearing data...`);
-  const { attributes }: { attributes: ConversationAttributesType } =
-    conversation;
-  const { senderKeyInfo } = attributes;
+  const senderKeyInfo = sendTarget.getSenderKeyInfo();
   if (!senderKeyInfo) {
     log.warn(`resetSenderKey/${logId}: No sender key info`);
     return;
@@ -1043,14 +1051,11 @@ async function resetSenderKey(conversation: ConversationModel): Promise<void> {
   const ourAddress = getOurAddress();
 
   // Note: We preserve existing distributionId to minimize space for sender key storage
-  conversation.set({
-    senderKeyInfo: {
-      createdAtDate: Date.now(),
-      distributionId,
-      memberDevices: [],
-    },
+  await sendTarget.saveSenderKeyInfo({
+    createdAtDate: Date.now(),
+    distributionId,
+    memberDevices: [],
   });
-  window.Signal.Data.updateConversation(conversation.attributes);
 
   const ourUuid = window.storage.user.getCheckedUuid();
   await window.textsecure.storage.protocol.removeSenderKey(

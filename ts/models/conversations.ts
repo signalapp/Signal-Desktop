@@ -11,6 +11,7 @@ import type {
   MessageAttributesType,
   MessageModelCollectionType,
   QuotedMessageType,
+  SenderKeyInfoType,
   VerificationOptions,
   WhatIsThis,
 } from '../model-types.d';
@@ -102,6 +103,7 @@ import { createIdenticon } from '../util/createIdenticon';
 import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
+import type { SenderKeyTargetType } from '../util/sendToGroup';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -354,6 +356,23 @@ export class ConversationModel extends window.Backbone
       // the convo saving. If that is indeed the case and it's too disruptive
       // we should add batched saving.
     }
+  }
+
+  toSenderKeyTarget(): SenderKeyTargetType {
+    return {
+      getGroupId: () => this.get('groupId'),
+      getMembers: () => this.getMembers(),
+      hasMember: (id: string) => this.hasMember(id),
+      idForLogging: () => this.idForLogging(),
+      isGroupV2: () => isGroupV2(this.attributes),
+      isValid: () => isGroupV2(this.attributes),
+
+      getSenderKeyInfo: () => this.get('senderKeyInfo'),
+      saveSenderKeyInfo: async (senderKeyInfo: SenderKeyInfoType) => {
+        this.set({ senderKeyInfo });
+        window.Signal.Data.updateConversation(this.attributes);
+      },
+    };
   }
 
   isMemberRequestingToJoin(id: string): boolean {
@@ -1272,11 +1291,11 @@ export class ConversationModel extends window.Backbone
           window.Signal.Util.sendContentMessageToGroup({
             contentHint: ContentHint.IMPLICIT,
             contentMessage,
-            conversation: this,
             messageId: undefined,
             online: true,
             recipients: groupMembers,
             sendOptions,
+            sendTarget: this.toSenderKeyTarget(),
             sendType: 'typing',
             timestamp,
           }),
@@ -3759,6 +3778,7 @@ export class ConversationModel extends window.Backbone
         }
 
         return window.Signal.Util.sendToGroup({
+          contentHint: ContentHint.RESENDABLE,
           groupSendOptions: {
             groupV1: this.getGroupV1Info(),
             groupV2: this.getGroupV2Info(),
@@ -3766,10 +3786,9 @@ export class ConversationModel extends window.Backbone
             timestamp,
             profileKey,
           },
-          conversation: this,
-          contentHint: ContentHint.RESENDABLE,
           messageId,
           sendOptions,
+          sendTarget: this.toSenderKeyTarget(),
           sendType: 'deleteForEveryone',
         });
       })();

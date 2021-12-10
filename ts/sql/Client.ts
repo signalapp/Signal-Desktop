@@ -288,6 +288,7 @@ const dataInterface: ClientInterface = {
   _deleteAllStoryDistributions,
   createNewStoryDistribution,
   getAllStoryDistributionsWithMembers,
+  modifyStoryDistribution,
   modifyStoryDistributionMembers,
   deleteStoryDistribution,
 
@@ -1660,14 +1661,19 @@ async function _deleteAllStoryDistributions(): Promise<void> {
   await channels._deleteAllStoryDistributions();
 }
 async function createNewStoryDistribution(
-  story: StoryDistributionWithMembersType
+  distribution: StoryDistributionWithMembersType
 ): Promise<void> {
-  await channels.createNewStoryDistribution(story);
+  await channels.createNewStoryDistribution(distribution);
 }
 async function getAllStoryDistributionsWithMembers(): Promise<
   Array<StoryDistributionWithMembersType>
 > {
   return channels.getAllStoryDistributionsWithMembers();
+}
+async function modifyStoryDistribution(
+  distribution: StoryDistributionType
+): Promise<void> {
+  await channels.modifyStoryDistribution(distribution);
 }
 async function modifyStoryDistributionMembers(
   id: string,

@@ -280,6 +280,7 @@ const dataInterface: ServerInterface = {
   _deleteAllStoryDistributions,
   createNewStoryDistribution,
   getAllStoryDistributionsWithMembers,
+  modifyStoryDistribution,
   modifyStoryDistributionMembers,
   deleteStoryDistribution,
 
@@ -3848,12 +3849,12 @@ async function _deleteAllStoryDistributions(): Promise<void> {
   db.prepare<EmptyQuery>('DELETE FROM storyDistributions;').run();
 }
 async function createNewStoryDistribution(
-  story: StoryDistributionWithMembersType
+  distribution: StoryDistributionWithMembersType
 ): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
-    const payload = freezeStoryDistribution(story);
+    const payload = freezeStoryDistribution(distribution);
 
     prepare(
       db,
@@ -3874,7 +3875,7 @@ async function createNewStoryDistribution(
       `
     ).run(payload);
 
-    const { id: listId, members } = story;
+    const { id: listId, members } = distribution;
 
     const memberInsertStatement = prepare(
       db,
@@ -3909,6 +3910,24 @@ async function getAllStoryDistributionsWithMembers(): Promise<
     ...list,
     members: (byListId[list.id] || []).map(member => member.uuid),
   }));
+}
+async function modifyStoryDistribution(
+  distribution: StoryDistributionType
+): Promise<void> {
+  const payload = freezeStoryDistribution(distribution);
+  const db = getInstance();
+  prepare(
+    db,
+    `
+    UPDATE storyDistributions
+    SET
+      name = $name,
+      avatarUrlPath = $avatarUrlPath,
+      avatarKey = $avatarKey,
+      senderKeyInfoJson = $senderKeyInfoJson
+    WHERE id = $id
+    `
+  ).run(payload);
 }
 async function modifyStoryDistributionMembers(
   listId: string,
