@@ -658,18 +658,19 @@ export const MediaEditor = ({
     tooling = (
       <>
         <Slider
+          handleStyle={{ backgroundColor: getHSL(sliderValue) }}
           label={i18n('CustomColorEditor__hue')}
-          moduleClassName="MediaEditor__hue-slider"
+          moduleClassName="MediaEditor__hue-slider MediaEditor__tools__tool"
           onChange={setSliderValue}
           value={sliderValue}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__button--text', {
-            'MediaEditor__button--text-regular':
+          buttonClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--text-regular':
               textStyle === TextStyle.Regular,
-            'MediaEditor__button--text-highlight':
+            'MediaEditor__tools__button--text-highlight':
               textStyle === TextStyle.Highlight,
-            'MediaEditor__button--text-outline':
+            'MediaEditor__tools__button--text-outline':
               textStyle === TextStyle.Outline,
           })}
           i18n={i18n}
@@ -694,21 +695,36 @@ export const MediaEditor = ({
           theme={Theme.Dark}
           value={textStyle}
         />
+        <button
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
+          onClick={() => {
+            setEditMode(undefined);
+
+            const activeObject = fabricCanvas?.getActiveObject();
+            if (activeObject instanceof MediaEditorFabricIText) {
+              activeObject.exitEditing();
+            }
+          }}
+          type="button"
+        >
+          {i18n('done')}
+        </button>
       </>
     );
   } else if (editMode === EditMode.Draw) {
     tooling = (
       <>
         <Slider
+          handleStyle={{ backgroundColor: getHSL(sliderValue) }}
           label={i18n('CustomColorEditor__hue')}
-          moduleClassName="MediaEditor__hue-slider"
+          moduleClassName="MediaEditor__tools__tool MediaEditor__hue-slider"
           onChange={setSliderValue}
           value={sliderValue}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__button--draw', {
-            'MediaEditor__button--draw-pen': drawTool === DrawTool.Pen,
-            'MediaEditor__button--draw-highlighter':
+          buttonClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--draw-pen': drawTool === DrawTool.Pen,
+            'MediaEditor__tools__button--draw-highlighter':
               drawTool === DrawTool.Highlighter,
           })}
           i18n={i18n}
@@ -729,12 +745,15 @@ export const MediaEditor = ({
           value={drawTool}
         />
         <ContextMenu
-          buttonClassName={classNames('MediaEditor__button--width', {
-            'MediaEditor__button--width-thin': drawWidth === DrawWidth.Thin,
-            'MediaEditor__button--width-regular':
+          buttonClassName={classNames('MediaEditor__tools__tool', {
+            'MediaEditor__tools__button--width-thin':
+              drawWidth === DrawWidth.Thin,
+            'MediaEditor__tools__button--width-regular':
               drawWidth === DrawWidth.Regular,
-            'MediaEditor__button--width-medium': drawWidth === DrawWidth.Medium,
-            'MediaEditor__button--width-heavy': drawWidth === DrawWidth.Heavy,
+            'MediaEditor__tools__button--width-medium':
+              drawWidth === DrawWidth.Medium,
+            'MediaEditor__tools__button--width-heavy':
+              drawWidth === DrawWidth.Heavy,
           })}
           i18n={i18n}
           menuOptions={[
@@ -763,6 +782,13 @@ export const MediaEditor = ({
           theme={Theme.Dark}
           value={drawWidth}
         />
+        <button
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
+          onClick={() => setEditMode(undefined)}
+          type="button"
+        >
+          {i18n('done')}
+        </button>
       </>
     );
   } else if (editMode === EditMode.Crop) {
@@ -774,10 +800,9 @@ export const MediaEditor = ({
       imageState.angle !== 0;
 
     tooling = (
-      <div className="MediaEditor__crop-toolbar">
+      <>
         <button
-          aria-label={i18n('MediaEditor__crop--reset')}
-          className="MediaEditor__crop-toolbar--button MediaEditor__crop-toolbar--reset"
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
           disabled={!canReset}
           onClick={async () => {
             if (!fabricCanvas) {
@@ -800,7 +825,7 @@ export const MediaEditor = ({
         </button>
         <button
           aria-label={i18n('MediaEditor__crop--rotate')}
-          className="MediaEditor__crop-toolbar--button MediaEditor__crop-toolbar--rotate"
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--rotate"
           onClick={() => {
             if (!fabricCanvas) {
               return;
@@ -834,7 +859,7 @@ export const MediaEditor = ({
         />
         <button
           aria-label={i18n('MediaEditor__crop--flip')}
-          className="MediaEditor__crop-toolbar--button MediaEditor__crop-toolbar--flip"
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--flip"
           onClick={() => {
             if (!fabricCanvas) {
               return;
@@ -851,10 +876,12 @@ export const MediaEditor = ({
         />
         <button
           aria-label={i18n('MediaEditor__crop--lock')}
-          className={classNames('MediaEditor__crop-toolbar--button', {
-            'MediaEditor__crop-toolbar--locked': cropAspectRatioLock,
-            'MediaEditor__crop-toolbar--unlocked': !cropAspectRatioLock,
-          })}
+          className={classNames(
+            'MediaEditor__tools__button',
+            `MediaEditor__tools__button--crop-${
+              cropAspectRatioLock ? '' : 'un'
+            }locked`
+          )}
           onClick={() => {
             if (fabricCanvas) {
               fabricCanvas.uniformScaling = !cropAspectRatioLock;
@@ -864,8 +891,7 @@ export const MediaEditor = ({
           type="button"
         />
         <button
-          aria-label={i18n('MediaEditor__crop--crop')}
-          className="MediaEditor__crop-toolbar--button MediaEditor__crop-toolbar--crop"
+          className="MediaEditor__tools__tool MediaEditor__tools__button MediaEditor__tools__button--words"
           disabled={!canCrop}
           onClick={() => {
             if (!fabricCanvas) {
@@ -920,12 +946,14 @@ export const MediaEditor = ({
               obj.setPositionByOrigin(translatedCenter, 'center', 'center');
               obj.setCoords();
             });
+
+            setEditMode(undefined);
           }}
           type="button"
         >
-          {i18n('MediaEditor__crop--crop')}
+          {i18n('done')}
         </button>
-      </div>
+      </>
     );
   }
 
@@ -1147,7 +1175,7 @@ export const MediaEditor = ({
             theme={Theme.Dark}
             variant={ButtonVariant.Primary}
           >
-            {i18n('done')}
+            {i18n('save')}
           </Button>
         </div>
       </div>

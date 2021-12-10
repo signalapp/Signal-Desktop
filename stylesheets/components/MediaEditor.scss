@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .MediaEditor {
+  $tools-height: 44px;
+
   background: $color-gray-95;
   display: flex;
   flex-direction: column;
@@ -126,7 +128,7 @@
     }
 
     &--space {
-      height: 36px;
+      height: $tools-height;
       margin-bottom: 22px;
     }
   }
@@ -141,61 +143,81 @@
 
   &__tools {
     align-items: center;
-    display: flex;
-    height: 36px;
-    justify-content: center;
-    margin-bottom: 22px;
-  }
-
-  &__crop-toolbar {
-    align-items: center;
     background-color: $color-gray-90;
     border-radius: 10px;
     color: $color-white;
     display: flex;
+    height: $tools-height;
+    justify-content: center;
+    margin-bottom: 22px;
+    padding: 14px 12px;
 
-    &--button {
+    &__tool {
+      margin-right: 14px;
+    }
+
+    &__button {
+      @mixin icon($icon) {
+        @include color-svg('../images/icons/v2/#{$icon}', $color-white);
+        opacity: 1;
+        height: 20px;
+        width: 20px;
+        border-radius: 0;
+
+        &::after {
+          display: none;
+        }
+      }
+
       @include button-reset;
       margin: 0 8px;
       padding: 8px;
-    }
 
-    &--rotate {
-      @include color-svg(
-        '../images/icons/v2/rotate-outline-24.svg',
-        $color-white
-      );
-      height: 20px;
-      width: 20px;
-    }
+      &--words {
+        height: auto;
+        width: auto;
+        padding: 0 6px;
+      }
 
-    &--flip {
-      @include color-svg(
-        '../images/icons/v2/flip-outline-24.svg',
-        $color-white
-      );
-      height: 20px;
-      width: 20px;
-    }
-
-    &--locked {
-      @include color-svg('../images/icons/v2/crop-lock-24.svg', $color-white);
-      height: 20px;
-      width: 20px;
-    }
-
-    &--unlocked {
-      @include color-svg('../images/icons/v2/crop-unlock-24.svg', $color-white);
-      height: 20px;
-      width: 20px;
-    }
-
-    &--reset {
-      padding-left: 24px;
-    }
-
-    &--crop {
-      padding-right: 24px;
+      &--draw-pen {
+        @include icon('pen-20.svg');
+      }
+      &--draw-highlighter {
+        @include icon('pen-highlighter-20.svg');
+      }
+      &--width-thin {
+        @include icon('pen-light-20.svg');
+      }
+      &--width-regular {
+        @include icon('pen-regular-20.svg');
+      }
+      &--width-medium {
+        @include icon('pen-medium-20.svg');
+      }
+      &--width-heavy {
+        @include icon('pen-heavy-20.svg');
+      }
+      &--text-regular {
+        @include icon('text-regular-20.svg');
+      }
+      &--text-highlight {
+        @include icon('text-highlight-20.svg');
+      }
+      &--text-outline {
+        @include icon('text-outline-20.svg');
+      }
+      &--rotate {
+        @include icon('rotate-outline-24.svg');
+      }
+      &--flip {
+        @include icon('flip-outline-24.svg');
+      }
+      &--crop-locked {
+        @include icon('crop-lock-24.svg');
+      }
+      &--crop-unlocked {
+        @include icon('crop-unlock-24.svg');
+      }
     }
   }
 
@@ -216,76 +238,16 @@
     );
     border-radius: 4px;
     height: 8px;
-    margin-right: 7px;
+    margin-left: 7px;
     width: 280px;
   }
 
   &__hue-slider__handle.Slider__handle {
-    background-color: transparent;
     border: 7px solid $color-white;
     margin-top: -7px;
     margin-left: -11px;
     height: 22px;
     width: 22px;
-  }
-
-  &__button {
-    @mixin button($svg) {
-      height: 20px;
-      margin: 0 7px;
-      opacity: 1;
-      width: 20px;
-
-      &::after {
-        @include color-svg($svg, $color-white);
-        width: 20px;
-        height: 20px;
-      }
-
-      &:hover {
-        background-color: $color-gray-80;
-      }
-    }
-
-    &__text {
-      @include button('../images/icons/v2/edit-solid-16.svg');
-    }
-
-    &--draw-pen {
-      @include button('../images/icons/v2/pen-20.svg');
-    }
-
-    &--draw-highlighter {
-      @include button('../images/icons/v2/pen-highlighter-20.svg');
-    }
-
-    &--text-regular {
-      @include button('../images/icons/v2/text-regular-20.svg');
-    }
-
-    &--text-highlight {
-      @include button('../images/icons/v2/text-highlight-20.svg');
-    }
-
-    &--text-outline {
-      @include button('../images/icons/v2/text-outline-20.svg');
-    }
-
-    &--width-thin {
-      @include button('../images/icons/v2/pen-light-20.svg');
-    }
-
-    &--width-regular {
-      @include button('../images/icons/v2/pen-regular-20.svg');
-    }
-
-    &--width-medium {
-      @include button('../images/icons/v2/pen-medium-20.svg');
-    }
-
-    &--width-heavy {
-      @include button('../images/icons/v2/pen-heavy-20.svg');
-    }
   }
 
   &__icon {
