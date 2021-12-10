@@ -19,6 +19,7 @@ import {
   dialog,
   ipcMain as ipc,
   Menu,
+  powerSaveBlocker,
   protocol as electronProtocol,
   screen,
   shell,
@@ -54,6 +55,7 @@ import * as attachments from './attachments';
 import * as attachmentChannel from './attachment_channel';
 import * as bounce from '../ts/services/bounce';
 import * as updater from '../ts/updater/index';
+import { PreventDisplaySleepService } from './PreventDisplaySleepService';
 import { SystemTrayService } from './SystemTrayService';
 import { SystemTraySettingCache } from './SystemTraySettingCache';
 import {
@@ -119,6 +121,10 @@ const enableCI = config.get<boolean>('enableCI');
 
 const sql = new MainSQL();
 const heicConverter = getHeicConverter();
+
+const preventDisplaySleepService = new PreventDisplaySleepService(
+  powerSaveBlocker
+);
 
 let systemTrayService: SystemTrayService | undefined;
 const systemTraySettingCache = new SystemTraySettingCache(
@@ -761,6 +767,8 @@ ipc.on('title-bar-double-click', () => {
 });
 
 ipc.on('set-is-call-active', (_event, isCallActive) => {
+  preventDisplaySleepService.setEnabled(isCallActive);
+
   if (!mainWindow) {
     return;
   }
