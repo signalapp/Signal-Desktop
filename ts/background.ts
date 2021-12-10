@@ -37,6 +37,7 @@ import { dropNull } from './util/dropNull';
 import { normalizeUuid } from './util/normalizeUuid';
 import { filter } from './util/iterables';
 import { isNotNil } from './util/isNotNil';
+import { IdleDetector } from './IdleDetector';
 import { senderCertificateService } from './services/senderCertificate';
 import { GROUP_CREDENTIALS_KEY } from './services/groupCredentialFetcher';
 import * as KeyboardLayout from './services/keyboardLayout';
@@ -160,6 +161,8 @@ export async function cleanupSessionResets(): Promise<void> {
 }
 
 export async function startApp(): Promise<void> {
+  const idleDetector = new IdleDetector();
+
   await KeyboardLayout.initialize();
 
   window.Whisper.events = window._.clone(window.Backbone.Events);
@@ -436,7 +439,7 @@ export async function startApp(): Promise<void> {
   //   of preload.js processing
   window.setImmediate = window.nodeSetImmediate;
 
-  const { IdleDetector, MessageDataMigrator } = window.Signal.Workflow;
+  const { MessageDataMigrator } = window.Signal.Workflow;
   const { removeDatabase: removeIndexedDB, doesDatabaseExist } =
     window.Signal.IndexedDB;
   const { Message } = window.Signal.Types;
@@ -451,7 +454,6 @@ export async function startApp(): Promise<void> {
   log.info('background page reloaded');
   log.info('environment:', window.getEnvironment());
 
-  let idleDetector: WhatIsThis;
   let newVersion = false;
 
   window.document.title = window.getTitle();
@@ -585,9 +587,7 @@ export async function startApp(): Promise<void> {
 
         // Stop background processing
         AttachmentDownloads.stop();
-        if (idleDetector) {
-          idleDetector.stop();
-        }
+        idleDetector.stop();
 
         // Stop processing incoming messages
         if (messageReceiver) {
@@ -747,7 +747,6 @@ export async function startApp(): Promise<void> {
 
     Views.Initialization.setMessage(window.i18n('loading'));
 
-    idleDetector = new IdleDetector();
     let isMigrationWithIndexComplete = false;
     log.info(
       `Starting background data migration. Target version: ${Message.CURRENT_SCHEMA_VERSION}`

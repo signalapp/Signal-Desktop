@@ -1,54 +1,50 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-env browser */
-
-const EventEmitter = require('events');
+import EventEmitter from 'events';
+import * as log from './logging/log';
 
 const POLL_INTERVAL_MS = 5 * 1000;
 const IDLE_THRESHOLD_MS = 20;
 
-class IdleDetector extends EventEmitter {
-  constructor() {
-    super();
-    this.handle = null;
-    this.timeoutId = null;
+export class IdleDetector extends EventEmitter {
+  private handle: undefined | ReturnType<typeof requestIdleCallback>;
+  private timeoutId: undefined | ReturnType<typeof setTimeout>;
+
+  public start(): void {
+    log.info('Start idle detector');
+    this.scheduleNextCallback();
   }
 
-  start() {
-    window.SignalContext.log.info('Start idle detector');
-    this._scheduleNextCallback();
-  }
-
-  stop() {
+  public stop(): void {
     if (!this.handle) {
       return;
     }
 
-    window.SignalContext.log.info('Stop idle detector');
-    this._clearScheduledCallbacks();
+    log.info('Stop idle detector');
+    this.clearScheduledCallbacks();
   }
 
-  _clearScheduledCallbacks() {
+  private clearScheduledCallbacks() {
     if (this.handle) {
       cancelIdleCallback(this.handle);
-      this.handle = null;
+      delete this.handle;
     }
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
-      this.timeoutId = null;
+      delete this.timeoutId;
     }
   }
 
-  _scheduleNextCallback() {
-    this._clearScheduledCallbacks();
+  private scheduleNextCallback() {
+    this.clearScheduledCallbacks();
     this.handle = window.requestIdleCallback(deadline => {
       const { didTimeout } = deadline;
       const timeRemaining = deadline.timeRemaining();
       const isIdle = timeRemaining >= IDLE_THRESHOLD_MS;
       this.timeoutId = setTimeout(
-        () => this._scheduleNextCallback(),
+        () => this.scheduleNextCallback(),
         POLL_INTERVAL_MS
       );
       if (isIdle || didTimeout) {
@@ -57,7 +53,3 @@ class IdleDetector extends EventEmitter {
     });
   }
 }
-
-module.exports = {
-  IdleDetector,
-};

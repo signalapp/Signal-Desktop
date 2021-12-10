@@ -401,7 +401,6 @@ declare global {
       };
       OS: typeof OS;
       Workflow: {
-        IdleDetector: WhatIsThis;
         MessageDataMigrator: WhatIsThis;
       };
       IndexedDB: {

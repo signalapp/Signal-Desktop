@@ -131,7 +131,6 @@ const { QualifiedAddress } = require('../../ts/types/QualifiedAddress');
 const Initialization = require('./views/initialization');
 
 // Workflow
-const { IdleDetector } = require('./idle_detector');
 const MessageDataMigrator = require('./messages_data_migrator');
 
 // Processes / Services
@@ -413,7 +412,6 @@ exports.setup = (options = {}) => {
   };
 
   const Workflow = {
-    IdleDetector,
     MessageDataMigrator,
   };
 
