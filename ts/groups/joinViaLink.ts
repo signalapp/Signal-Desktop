@@ -318,9 +318,7 @@ export async function joinViaLink(hash: string): Promise<void> {
               window.ConversationController.dangerouslyRemoveById(
                 tempConversation.id
               );
-              await window.Signal.Data.removeConversation(tempConversation.id, {
-                Conversation: window.Whisper.Conversation,
-              });
+              await window.Signal.Data.removeConversation(tempConversation.id);
             }
 
             throw error;

@@ -23,12 +23,7 @@ describe('sql/stories', () => {
 
   describe('getOlderStories', () => {
     it('returns N most recent stories overall, or in converation, or by author', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -89,12 +84,7 @@ describe('sql/stories', () => {
         forceSave: true,
       });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        5
-      );
+      assert.lengthOf(await _getAllMessages(), 5);
 
       const stories = await getOlderStories({
         limit: 5,
@@ -155,12 +145,7 @@ describe('sql/stories', () => {
     });
 
     it('returns N stories older than provided receivedAt/sentAt', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const start = Date.now();
       const conversationId = getUuid();
@@ -214,12 +199,7 @@ describe('sql/stories', () => {
         forceSave: true,
       });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        5
-      );
+      assert.lengthOf(await _getAllMessages(), 5);
 
       const stories = await getOlderStories({
         receivedAt: story4.received_at,

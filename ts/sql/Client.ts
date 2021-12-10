@@ -26,6 +26,7 @@ import {
   uniq,
 } from 'lodash';
 
+import { deleteExternalFiles } from '../types/Conversation';
 import * as Bytes from '../Bytes';
 import { CURRENT_SCHEMA_VERSION } from '../../js/modules/types/message';
 import { createBatcher } from '../util/batcher';
@@ -40,12 +41,9 @@ import type { RemoveAllConfiguration } from '../types/RemoveAllConfiguration';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout';
 import * as log from '../logging/log';
 
-import type {
-  ConversationModelCollectionType,
-  MessageModelCollectionType,
-} from '../model-types.d';
 import type { StoredJob } from '../jobs/types';
 import { formatJobForInsert } from '../jobs/formatJobForInsert';
+import { cleanupMessage } from '../util/cleanup';
 
 import type {
   AttachmentDownloadJobType,
@@ -54,18 +52,17 @@ import type {
   ClientSearchResultMessageType,
   ConversationType,
   DeleteSentProtoRecipientOptionsType,
-  IdentityKeyType,
   IdentityKeyIdType,
+  IdentityKeyType,
   ItemKeyType,
   ItemType,
   LastConversationMessagesType,
   MessageType,
   MessageTypeUnhydrated,
-  PreKeyType,
   PreKeyIdType,
-  SearchResultMessageType,
-  SenderKeyType,
+  PreKeyType,
   SenderKeyIdType,
+  SenderKeyType,
   SentMessageDBType,
   SentMessagesType,
   SentProtoType,
@@ -73,15 +70,16 @@ import type {
   SentRecipientsDBType,
   SentRecipientsType,
   ServerInterface,
-  SessionType,
+  ServerSearchResultMessageType,
   SessionIdType,
-  SignedPreKeyType,
+  SessionType,
   SignedPreKeyIdType,
+  SignedPreKeyType,
   StickerPackStatusType,
   StickerPackType,
   StickerType,
-  StoryDistributionType,
   StoryDistributionMemberType,
+  StoryDistributionType,
   StoryDistributionWithMembersType,
   StoryReadType,
   UnprocessedType,
@@ -89,8 +87,6 @@ import type {
 } from './Interface';
 import Server from './Server';
 import { isCorruptionError } from './errors';
-import type { MessageModel } from '../models/messages';
-import type { ConversationModel } from '../models/conversations';
 
 // We listen to a lot of events on ipc, often on the same channel. This prevents
 //   any warnings that might be sent to the console in that case.
@@ -160,16 +156,16 @@ const dataInterface: ClientInterface = {
 
   createOrUpdateSignedPreKey,
   getSignedPreKeyById,
-  getAllSignedPreKeys,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
   removeAllSignedPreKeys,
+  getAllSignedPreKeys,
 
   createOrUpdateItem,
   getItemById,
-  getAllItems,
   removeItemById,
   removeAllItems,
+  getAllItems,
 
   createOrUpdateSenderKey,
   getSenderKeyById,
@@ -197,6 +193,7 @@ const dataInterface: ClientInterface = {
   removeAllSessions,
   getAllSessions,
 
+  eraseStorageServiceStateFromConversations,
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -206,7 +203,6 @@ const dataInterface: ClientInterface = {
   removeConversation,
   updateAllConversationColors,
 
-  eraseStorageServiceStateFromConversations,
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
@@ -229,10 +225,11 @@ const dataInterface: ClientInterface = {
   addReaction,
   _getAllReactions,
   _removeAllReactions,
-
   getMessageBySender,
   getMessageById,
   getMessagesById,
+  _getAllMessages,
+  _removeAllMessages,
   getAllMessageIds,
   getMessagesBySentAt,
   getExpiredMessages,
@@ -243,8 +240,8 @@ const dataInterface: ClientInterface = {
   getOlderMessagesByConversation,
   getOlderStories,
   getNewerMessagesByConversation,
-  getLastConversationMessages,
   getMessageMetricsForConversation,
+  getLastConversationMessages,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
 
@@ -263,13 +260,13 @@ const dataInterface: ClientInterface = {
   removeAttachmentDownloadJob,
   removeAllAttachmentDownloadJobs,
 
-  getStickerCount,
   createOrUpdateStickerPack,
   updateStickerPackStatus,
   createOrUpdateSticker,
   updateStickerLastUsed,
   addStickerPackReference,
   deleteStickerPackReference,
+  getStickerCount,
   deleteStickerPack,
   getAllStickerPacks,
   getAllStickers,
@@ -317,11 +314,6 @@ const dataInterface: ClientInterface = {
 
   getStatisticsForLogging,
 
-  // Test-only
-
-  _getAllMessages,
-  _removeAllMessages,
-
   // Client-side only
 
   shutdown,
@@ -335,7 +327,6 @@ const dataInterface: ClientInterface = {
 
   startInRendererProcess,
   goBackToMainProcess,
-  _removeConversations,
   _jobs,
 };
 
@@ -971,17 +962,8 @@ async function saveConversations(array: Array<ConversationType>) {
   await channels.saveConversations(array);
 }
 
-async function getConversationById(
-  id: string,
-  { Conversation }: { Conversation: typeof ConversationModel }
-) {
-  const data = await channels.getConversationById(id);
-
-  if (!data) {
-    return undefined;
-  }
-
-  return new Conversation(data);
+async function getConversationById(id: string) {
+  return channels.getConversationById(id);
 }
 
 const updateConversationBatcher = createBatcher<ConversationType>({
@@ -1015,40 +997,25 @@ async function updateConversations(array: Array<ConversationType>) {
   await channels.updateConversations(cleaned);
 }
 
-async function removeConversation(
-  id: string,
-  { Conversation }: { Conversation: typeof ConversationModel }
-) {
-  const existing = await getConversationById(id, { Conversation });
+async function removeConversation(id: string) {
+  const existing = await getConversationById(id);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
   if (existing) {
     await channels.removeConversation(id);
-    await existing.cleanup();
+    await deleteExternalFiles(existing, {
+      deleteAttachmentData: window.Signal.Migrations.deleteAttachmentData,
+    });
   }
-}
-
-// Note: this method will not clean up external files, just delete from SQL
-async function _removeConversations(ids: Array<string>) {
-  await channels.removeConversation(ids);
 }
 
 async function eraseStorageServiceStateFromConversations() {
   await channels.eraseStorageServiceStateFromConversations();
 }
 
-async function getAllConversations({
-  ConversationCollection,
-}: {
-  ConversationCollection: typeof ConversationModelCollectionType;
-}): Promise<ConversationModelCollectionType> {
-  const conversations = await channels.getAllConversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-
-  return collection;
+async function getAllConversations() {
+  return channels.getAllConversations();
 }
 
 async function getAllConversationIds() {
@@ -1057,33 +1024,12 @@ async function getAllConversationIds() {
   return ids;
 }
 
-async function getAllPrivateConversations({
-  ConversationCollection,
-}: {
-  ConversationCollection: typeof ConversationModelCollectionType;
-}) {
-  const conversations = await channels.getAllPrivateConversations();
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-
-  return collection;
+async function getAllPrivateConversations() {
+  return channels.getAllPrivateConversations();
 }
 
-async function getAllGroupsInvolvingUuid(
-  uuid: UUIDStringType,
-  {
-    ConversationCollection,
-  }: {
-    ConversationCollection: typeof ConversationModelCollectionType;
-  }
-) {
-  const conversations = await channels.getAllGroupsInvolvingUuid(uuid);
-
-  const collection = new ConversationCollection();
-  collection.add(conversations);
-
-  return collection;
+async function getAllGroupsInvolvingUuid(uuid: UUIDStringType) {
+  return channels.getAllGroupsInvolvingUuid(uuid);
 }
 
 async function searchConversations(query: string) {
@@ -1093,7 +1039,7 @@ async function searchConversations(query: string) {
 }
 
 function handleSearchMessageJSON(
-  messages: Array<SearchResultMessageType>
+  messages: Array<ServerSearchResultMessageType>
 ): Array<ClientSearchResultMessageType> {
   return messages.map(message => ({
     json: message.json,
@@ -1163,17 +1109,14 @@ async function saveMessages(
   window.Whisper.TapToViewMessagesListener.update();
 }
 
-async function removeMessage(
-  id: string,
-  { Message }: { Message: typeof MessageModel }
-) {
-  const message = await getMessageById(id, { Message });
+async function removeMessage(id: string) {
+  const message = await getMessageById(id);
 
   // Note: It's important to have a fully database-hydrated model to delete here because
   //   it needs to delete all associated on-disk files along with the database delete.
   if (message) {
     await channels.removeMessage(id);
-    await message.cleanup();
+    await cleanupMessage(message);
   }
 }
 
@@ -1182,16 +1125,8 @@ async function removeMessages(ids: Array<string>) {
   await channels.removeMessages(ids);
 }
 
-async function getMessageById(
-  id: string,
-  { Message }: { Message: typeof MessageModel }
-) {
-  const message = await channels.getMessageById(id);
-  if (!message) {
-    return undefined;
-  }
-
-  return new Message(message);
+async function getMessageById(id: string) {
+  return channels.getMessageById(id);
 }
 
 async function getMessagesById(messageIds: Array<string>) {
@@ -1202,14 +1137,8 @@ async function getMessagesById(messageIds: Array<string>) {
 }
 
 // For testing only
-async function _getAllMessages({
-  MessageCollection,
-}: {
-  MessageCollection: typeof MessageModelCollectionType;
-}) {
-  const messages = await channels._getAllMessages();
-
-  return new MessageCollection(messages);
+async function _getAllMessages() {
+  return channels._getAllMessages();
 }
 async function _removeAllMessages() {
   await channels._removeAllMessages();
@@ -1221,31 +1150,23 @@ async function getAllMessageIds() {
   return ids;
 }
 
-async function getMessageBySender(
-  {
-    source,
-    sourceUuid,
-    sourceDevice,
-    sent_at,
-  }: {
-    source: string;
-    sourceUuid: string;
-    sourceDevice: number;
-    sent_at: number;
-  },
-  { Message }: { Message: typeof MessageModel }
-) {
-  const messages = await channels.getMessageBySender({
+async function getMessageBySender({
+  source,
+  sourceUuid,
+  sourceDevice,
+  sent_at,
+}: {
+  source: string;
+  sourceUuid: string;
+  sourceDevice: number;
+  sent_at: number;
+}) {
+  return channels.getMessageBySender({
     source,
     sourceUuid,
     sourceDevice,
     sent_at,
   });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new Message(messages[0]);
 }
 
 async function getTotalUnreadForConversation(
@@ -1299,7 +1220,9 @@ async function _removeAllReactions() {
   await channels._removeAllReactions();
 }
 
-function handleMessageJSON(messages: Array<MessageTypeUnhydrated>) {
+function handleMessageJSON(
+  messages: Array<MessageTypeUnhydrated>
+): Array<MessageType> {
   return messages.map(message => JSON.parse(message.json));
 }
 
@@ -1307,14 +1230,12 @@ async function getOlderMessagesByConversation(
   conversationId: string,
   {
     limit = 100,
-    MessageCollection,
     messageId,
     receivedAt = Number.MAX_VALUE,
     sentAt = Number.MAX_VALUE,
     storyId,
   }: {
     limit?: number;
-    MessageCollection: typeof MessageModelCollectionType;
     messageId?: string;
     receivedAt?: number;
     sentAt?: number;
@@ -1332,7 +1253,7 @@ async function getOlderMessagesByConversation(
     }
   );
 
-  return new MessageCollection(handleMessageJSON(messages));
+  return handleMessageJSON(messages);
 }
 async function getOlderStories(options: {
   conversationId?: string;
@@ -1348,13 +1269,11 @@ async function getNewerMessagesByConversation(
   conversationId: string,
   {
     limit = 100,
-    MessageCollection,
     receivedAt = 0,
     sentAt = 0,
     storyId,
   }: {
     limit?: number;
-    MessageCollection: typeof MessageModelCollectionType;
     receivedAt?: number;
     sentAt?: number;
     storyId?: UUIDStringType;
@@ -1370,16 +1289,14 @@ async function getNewerMessagesByConversation(
     }
   );
 
-  return new MessageCollection(handleMessageJSON(messages));
+  return handleMessageJSON(messages);
 }
 async function getLastConversationMessages({
   conversationId,
   ourUuid,
-  Message,
 }: {
   conversationId: string;
   ourUuid: UUIDStringType;
-  Message: typeof MessageModel;
 }): Promise<LastConversationMessagesType> {
   const { preview, activity, hasUserInitiatedMessages } =
     await channels.getLastConversationMessages({
@@ -1388,8 +1305,8 @@ async function getLastConversationMessages({
     });
 
   return {
-    preview: preview ? new Message(preview) : undefined,
-    activity: activity ? new Message(activity) : undefined,
+    preview,
+    activity,
     hasUserInitiatedMessages,
   };
 }
@@ -1421,10 +1338,8 @@ async function removeAllMessagesInConversation(
   conversationId: string,
   {
     logId,
-    MessageCollection,
   }: {
     logId: string;
-    MessageCollection: typeof MessageModelCollectionType;
   }
 ) {
   let messages;
@@ -1437,21 +1352,22 @@ async function removeAllMessagesInConversation(
     //   time so we don't use too much memory.
     messages = await getOlderMessagesByConversation(conversationId, {
       limit: chunkSize,
-      MessageCollection,
     });
 
     if (!messages.length) {
       return;
     }
 
-    const ids = messages.map((message: MessageModel) => message.id);
+    const ids = messages.map(message => message.id);
 
     log.info(`removeAllMessagesInConversation/${logId}: Cleanup...`);
     // Note: It's very important that these models are fully hydrated because
     //   we need to delete all associated on-disk files along with the database delete.
     const queue = new window.PQueue({ concurrency: 3, timeout: 1000 * 60 * 2 });
     queue.addAll(
-      messages.map((message: MessageModel) => async () => message.cleanup())
+      messages.map(
+        (message: MessageType) => async () => cleanupMessage(message)
+      )
     );
     await queue.onIdle();
 
@@ -1460,25 +1376,12 @@ async function removeAllMessagesInConversation(
   } while (messages.length > 0);
 }
 
-async function getMessagesBySentAt(
-  sentAt: number,
-  {
-    MessageCollection,
-  }: { MessageCollection: typeof MessageModelCollectionType }
-) {
-  const messages = await channels.getMessagesBySentAt(sentAt);
-
-  return new MessageCollection(messages);
+async function getMessagesBySentAt(sentAt: number) {
+  return channels.getMessagesBySentAt(sentAt);
 }
 
-async function getExpiredMessages({
-  MessageCollection,
-}: {
-  MessageCollection: typeof MessageModelCollectionType;
-}) {
-  const messages = await channels.getExpiredMessages();
-
-  return new MessageCollection(messages);
+async function getExpiredMessages() {
+  return channels.getExpiredMessages();
 }
 
 function getMessagesUnexpectedlyMissingExpirationStartTimestamp() {
@@ -1492,14 +1395,8 @@ function getSoonestMessageExpiry() {
 async function getNextTapToViewMessageTimestampToAgeOut() {
   return channels.getNextTapToViewMessageTimestampToAgeOut();
 }
-async function getTapToViewMessagesNeedingErase({
-  MessageCollection,
-}: {
-  MessageCollection: typeof MessageModelCollectionType;
-}) {
-  const messages = await channels.getTapToViewMessagesNeedingErase();
-
-  return new MessageCollection(messages);
+async function getTapToViewMessagesNeedingErase() {
+  return channels.getTapToViewMessagesNeedingErase();
 }
 
 // Unprocessed

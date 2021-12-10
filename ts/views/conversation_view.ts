@@ -29,6 +29,7 @@ import type {
   MessageAttributesType as MediaItemMessageType,
 } from '../types/MediaItem';
 import type { MessageModel } from '../models/messages';
+import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
 import { enqueueReactionForSend } from '../reactions/enqueueReactionForSend';
@@ -447,14 +448,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       const { authorId, sentAt } = options;
 
       const conversationId = this.model.id;
-      const messages = await getMessagesBySentAt(sentAt, {
-        MessageCollection: Whisper.MessageCollection,
-      });
+      const messages = await getMessagesBySentAt(sentAt);
       const message = messages.find(item =>
         Boolean(
-          item.get('conversationId') === conversationId &&
+          item.conversationId === conversationId &&
             authorId &&
-            item.getContactId() === authorId
+            getContactId(item) === authorId
         )
       );
 
@@ -471,14 +470,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         return;
       }
 
-      const message = await getMessageById(messageId, {
-        Message: Whisper.Message,
-      });
+      const message = await getMessageById(messageId);
       if (!message) {
         throw new Error(`markMessageRead: failed to load message ${messageId}`);
       }
 
-      await this.model.markRead(message.get('received_at'));
+      await this.model.markRead(message.received_at);
     };
 
     const createMessageRequestResponseHandler =
@@ -883,9 +880,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async scrollToMessage(messageId: string): Promise<void> {
-    const message = await getMessageById(messageId, {
-      Message: Whisper.Message,
-    });
+    const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(`scrollToMessage: failed to load message ${messageId}`);
     }
@@ -1201,9 +1196,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async onOpened(messageId: string): Promise<void> {
     if (messageId) {
-      const message = await getMessageById(messageId, {
-        Message: Whisper.Message,
-      });
+      const message = await getMessageById(messageId);
 
       if (message) {
         this.model.loadAndScroll(messageId);
@@ -1254,16 +1247,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     if (!messageFromCache) {
       log.info('showForwardMessageModal: Fetching message from database');
     }
-    const message =
-      messageFromCache ||
-      (await window.Signal.Data.getMessageById(messageId, {
-        Message: window.Whisper.Message,
-      }));
+    const found =
+      messageFromCache || (await window.Signal.Data.getMessageById(messageId));
 
-    if (!message) {
+    if (!found) {
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }
 
+    const message = window.MessageController.register(found.id, found);
     const attachments = getAttachmentsForMessage(message.attributes);
 
     this.forwardMessageModal = new Whisper.ReactWrapperView({
@@ -1911,10 +1902,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       message: window.i18n('deleteWarning'),
       okText: window.i18n('delete'),
       resolve: () => {
-        window.Signal.Data.removeMessage(message.id, {
-          Message: Whisper.Message,
-        });
-        message.cleanup();
+        window.Signal.Data.removeMessage(message.id);
         if (isOutgoing(message.attributes)) {
           this.model.decrementSentMessageCount();
         } else {
@@ -2676,18 +2664,16 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async setQuoteMessage(messageId: null | string): Promise<void> {
-    const { model }: { model: ConversationModel } = this;
-
-    const message: MessageModel | undefined = messageId
-      ? await getMessageById(messageId, {
-          Message: Whisper.Message,
-        })
+    const { model } = this;
+    const found = messageId ? await getMessageById(messageId) : undefined;
+    const message = found
+      ? window.MessageController.register(found.id, found)
       : undefined;
 
     if (
-      message &&
+      found &&
       !canReply(
-        message.attributes,
+        found,
         window.ConversationController.getOurConversationIdOrThrow(),
         findAndFormatContact
       )
@@ -2724,18 +2710,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     }
 
     if (message) {
-      const quotedMessage = window.MessageController.register(
-        message.id,
-        message
-      );
-      this.quotedMessage = quotedMessage;
+      this.quotedMessage = message;
+      this.quote = await model.makeQuote(this.quotedMessage);
 
-      if (quotedMessage) {
-        this.quote = await model.makeQuote(this.quotedMessage);
-
-        this.enableMessageField();
-        this.focusMessageField();
-      }
+      this.enableMessageField();
+      this.focusMessageField();
     }
 
     this.renderQuotedMessage();

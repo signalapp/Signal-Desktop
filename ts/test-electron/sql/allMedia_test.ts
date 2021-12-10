@@ -28,12 +28,7 @@ describe('sql/allMedia', () => {
 
   describe('getMessagesWithVisualMediaAttachments', () => {
     it('returns messages matching with visual attachments', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -69,12 +64,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const searchResults = await getMessagesWithVisualMediaAttachments(
         conversationId,
@@ -85,12 +75,7 @@ describe('sql/allMedia', () => {
     });
 
     it('excludes stories and story replies', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -129,12 +114,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const searchResults = await getMessagesWithVisualMediaAttachments(
         conversationId,
@@ -147,12 +127,7 @@ describe('sql/allMedia', () => {
 
   describe('getMessagesWithFileAttachments', () => {
     it('returns messages matching with visual attachments', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -188,12 +163,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const searchResults = await getMessagesWithFileAttachments(
         conversationId,
@@ -204,12 +174,7 @@ describe('sql/allMedia', () => {
     });
 
     it('excludes stories and story replies', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -248,12 +213,7 @@ describe('sql/allMedia', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const searchResults = await getMessagesWithFileAttachments(
         conversationId,

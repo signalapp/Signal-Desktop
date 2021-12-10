@@ -4,6 +4,7 @@
 import { ReactionModel } from '../messageModifiers/Reactions';
 import { ReactionSource } from './ReactionSource';
 import { getMessageById } from '../messages/getMessageById';
+import { getSourceUuid } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 
 export async function enqueueReactionForSend({
@@ -18,7 +19,7 @@ export async function enqueueReactionForSend({
   const message = await getMessageById(messageId);
   strictAssert(message, 'enqueueReactionForSend: no message found');
 
-  const targetAuthorUuid = message.getSourceUuid();
+  const targetAuthorUuid = getSourceUuid(message.attributes);
   strictAssert(
     targetAuthorUuid,
     `enqueueReactionForSend: message ${message.idForLogging()} had no source UUID`

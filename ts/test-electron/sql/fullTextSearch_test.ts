@@ -27,12 +27,7 @@ describe('sql/fullTextSearch', () => {
   });
 
   it('returns messages matching query', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
     const conversationId = getUuid();
@@ -66,12 +61,7 @@ describe('sql/fullTextSearch', () => {
 
     await saveMessages([message1, message2, message3], { forceSave: true });
 
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      3
-    );
+    assert.lengthOf(await _getAllMessages(), 3);
 
     const searchResults = await searchMessages('unique');
     assert.lengthOf(searchResults, 1);
@@ -87,12 +77,7 @@ describe('sql/fullTextSearch', () => {
   });
 
   it('excludes messages with isViewOnce = true', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
     const conversationId = getUuid();
@@ -128,12 +113,7 @@ describe('sql/fullTextSearch', () => {
 
     await saveMessages([message1, message2, message3], { forceSave: true });
 
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      3
-    );
+    assert.lengthOf(await _getAllMessages(), 3);
 
     const searchResults = await searchMessages('unique');
     assert.lengthOf(searchResults, 1);
@@ -148,12 +128,7 @@ describe('sql/fullTextSearch', () => {
   });
 
   it('excludes messages with storyId !== null', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const now = Date.now();
     const conversationId = getUuid();
@@ -189,12 +164,7 @@ describe('sql/fullTextSearch', () => {
 
     await saveMessages([message1, message2, message3], { forceSave: true });
 
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      3
-    );
+    assert.lengthOf(await _getAllMessages(), 3);
 
     const searchResults = await searchMessages('unique');
     assert.lengthOf(searchResults, 1);

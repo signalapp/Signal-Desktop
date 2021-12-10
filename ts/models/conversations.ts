@@ -9,7 +9,6 @@ import type {
   ConversationModelCollectionType,
   LastMessageStatus,
   MessageAttributesType,
-  MessageModelCollectionType,
   QuotedMessageType,
   SenderKeyInfoType,
   VerificationOptions,
@@ -38,6 +37,7 @@ import type {
   CustomColorType,
 } from '../types/Colors';
 import type { MessageModel } from './messages';
+import { getContact } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { isMuted } from '../util/isMuted';
 import { isConversationSMSOnly } from '../util/isConversationSMSOnly';
@@ -1305,12 +1305,6 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  async cleanup(): Promise<void> {
-    await Conversation.deleteExternalFiles(this.attributes, {
-      deleteAttachmentData,
-    });
-  }
-
   async onNewMessage(message: MessageModel): Promise<void> {
     const uuid = message.get('sourceUuid');
     const e164 = message.get('source');
@@ -1407,13 +1401,11 @@ export class ConversationModel extends window.Backbone
       let scrollToLatestUnread = true;
 
       if (newestMessageId) {
-        const newestInMemoryMessage = await getMessageById(newestMessageId, {
-          Message: window.Whisper.Message,
-        });
+        const newestInMemoryMessage = await getMessageById(newestMessageId);
         if (newestInMemoryMessage) {
           // If newest in-memory message is unread, scrolling down would mean going to
           //   the very bottom, not the oldest unread.
-          if (isMessageUnread(newestInMemoryMessage.attributes)) {
+          if (isMessageUnread(newestInMemoryMessage)) {
             scrollToLatestUnread = false;
           }
         } else {
@@ -1443,7 +1435,6 @@ export class ConversationModel extends window.Backbone
 
       const messages = await getOlderMessagesByConversation(conversationId, {
         limit: MESSAGE_LOAD_CHUNK_SIZE,
-        MessageCollection: window.Whisper.MessageCollection,
       });
 
       const cleaned: Array<MessageModel> = await this.cleanModels(messages);
@@ -1481,23 +1472,20 @@ export class ConversationModel extends window.Backbone
     const finish = this.setInProgressFetch();
 
     try {
-      const message = await getMessageById(oldestMessageId, {
-        Message: window.Whisper.Message,
-      });
+      const message = await getMessageById(oldestMessageId);
       if (!message) {
         throw new Error(
           `loadOlderMessages: failed to load message ${oldestMessageId}`
         );
       }
 
-      const receivedAt = message.get('received_at');
-      const sentAt = message.get('sent_at');
+      const receivedAt = message.received_at;
+      const sentAt = message.sent_at;
       const models = await getOlderMessagesByConversation(conversationId, {
         receivedAt,
         sentAt,
         messageId: oldestMessageId,
         limit: MESSAGE_LOAD_CHUNK_SIZE,
-        MessageCollection: window.Whisper.MessageCollection,
       });
 
       if (models.length < 1) {
@@ -1533,22 +1521,19 @@ export class ConversationModel extends window.Backbone
     const finish = this.setInProgressFetch();
 
     try {
-      const message = await getMessageById(newestMessageId, {
-        Message: window.Whisper.Message,
-      });
+      const message = await getMessageById(newestMessageId);
       if (!message) {
         throw new Error(
           `loadNewerMessages: failed to load message ${newestMessageId}`
         );
       }
 
-      const receivedAt = message.get('received_at');
-      const sentAt = message.get('sent_at');
+      const receivedAt = message.received_at;
+      const sentAt = message.sent_at;
       const models = await getNewerMessagesByConversation(conversationId, {
         receivedAt,
         sentAt,
         limit: MESSAGE_LOAD_CHUNK_SIZE,
-        MessageCollection: window.Whisper.MessageCollection,
       });
 
       if (models.length < 1) {
@@ -1587,33 +1572,29 @@ export class ConversationModel extends window.Backbone
     const finish = this.setInProgressFetch();
 
     try {
-      const message = await getMessageById(messageId, {
-        Message: window.Whisper.Message,
-      });
+      const message = await getMessageById(messageId);
       if (!message) {
         throw new Error(
           `loadMoreAndScroll: failed to load message ${messageId}`
         );
       }
 
-      const receivedAt = message.get('received_at');
-      const sentAt = message.get('sent_at');
+      const receivedAt = message.received_at;
+      const sentAt = message.sent_at;
       const older = await getOlderMessagesByConversation(conversationId, {
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         receivedAt,
         sentAt,
         messageId,
-        MessageCollection: window.Whisper.MessageCollection,
       });
       const newer = await getNewerMessagesByConversation(conversationId, {
         limit: MESSAGE_LOAD_CHUNK_SIZE,
         receivedAt,
         sentAt,
-        MessageCollection: window.Whisper.MessageCollection,
       });
       const metrics = await getMessageMetricsForConversation(conversationId);
 
-      const all = [...older.models, message, ...newer.models];
+      const all = [...older, message, ...newer];
 
       const cleaned: Array<MessageModel> = await this.cleanModels(all);
       const scrollToMessageId =
@@ -1636,19 +1617,18 @@ export class ConversationModel extends window.Backbone
   }
 
   async cleanModels(
-    collection: MessageModelCollectionType | Array<MessageModel>
+    messages: ReadonlyArray<MessageAttributesType>
   ): Promise<Array<MessageModel>> {
-    const result = collection
-      .filter((message: MessageModel) => Boolean(message.id))
-      .map((message: MessageModel) =>
-        window.MessageController.register(message.id, message)
-      );
+    const result = messages
+      .filter(message => Boolean(message.id))
+      .map(message => window.MessageController.register(message.id, message));
 
-    const eliminated = collection.length - result.length;
+    const eliminated = messages.length - result.length;
     if (eliminated > 0) {
       log.warn(`cleanModels: Eliminated ${eliminated} messages without an id`);
     }
 
+    let upgraded = 0;
     for (let max = result.length, i = 0; i < max; i += 1) {
       const message = result[i];
       const { attributes } = message;
@@ -1661,7 +1641,11 @@ export class ConversationModel extends window.Backbone
         message.set(upgradedMessage);
         // eslint-disable-next-line no-await-in-loop
         await window.Signal.Data.saveMessage(upgradedMessage);
+        upgraded += 1;
       }
+    }
+    if (upgraded > 0) {
+      log.warn(`cleanModels: Upgraded schema of ${upgraded} messages`);
     }
 
     return result;
@@ -1972,18 +1956,17 @@ export class ConversationModel extends window.Backbone
   ): Promise<void> {
     const { isLocalAction } = options;
 
-    let messages: MessageModelCollectionType | undefined;
+    let messages: Array<MessageAttributesType> | undefined;
     do {
-      const first = messages ? messages.first() : undefined;
+      const first = messages ? messages[0] : undefined;
 
       // eslint-disable-next-line no-await-in-loop
       messages = await window.Signal.Data.getOlderMessagesByConversation(
         this.get('id'),
         {
-          MessageCollection: window.Whisper.MessageCollection,
           limit: 100,
-          receivedAt: first ? first.get('received_at') : undefined,
-          sentAt: first ? first.get('sent_at') : undefined,
+          receivedAt: first ? first.received_at : undefined,
+          sentAt: first ? first.sent_at : undefined,
           messageId: first ? first.id : undefined,
         }
       );
@@ -1992,9 +1975,7 @@ export class ConversationModel extends window.Backbone
         return;
       }
 
-      const readMessages = messages.filter(
-        m => !hasErrors(m.attributes) && isIncoming(m.attributes)
-      );
+      const readMessages = messages.filter(m => !hasErrors(m) && isIncoming(m));
 
       if (isLocalAction) {
         // eslint-disable-next-line no-await-in-loop
@@ -2002,9 +1983,9 @@ export class ConversationModel extends window.Backbone
           window.storage,
           readMessages.map(m => ({
             messageId: m.id,
-            senderE164: m.get('source'),
-            senderUuid: m.get('sourceUuid'),
-            timestamp: m.get('sent_at'),
+            senderE164: m.source,
+            senderUuid: m.sourceUuid,
+            timestamp: m.sent_at,
           }))
         );
       }
@@ -3209,10 +3190,7 @@ export class ConversationModel extends window.Backbone
 
     const message = window.MessageController.getById(notificationId);
     if (message) {
-      message.cleanup();
-      window.Signal.Data.removeMessage(message.id, {
-        Message: window.Whisper.Message,
-      });
+      window.Signal.Data.removeMessage(message.id);
     }
 
     if (this.get('expireTimer') || forceRemove) {
@@ -3628,7 +3606,7 @@ export class ConversationModel extends window.Backbone
   async makeQuote(quotedMessage: MessageModel): Promise<QuotedMessageType> {
     const { getName } = EmbeddedContact;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const contact = quotedMessage.getContact()!;
+    const contact = getContact(quotedMessage.attributes)!;
     const attachments = quotedMessage.get('attachments');
     const preview = quotedMessage.get('preview');
     const sticker = quotedMessage.get('sticker');
@@ -4082,7 +4060,6 @@ export class ConversationModel extends window.Backbone
     const lastMessages = await window.Signal.Data.getLastConversationMessages({
       conversationId,
       ourUuid,
-      Message: window.Whisper.Message,
     });
 
     // This runs as a job to avoid race conditions
@@ -4090,22 +4067,21 @@ export class ConversationModel extends window.Backbone
       this.maybeSetPendingUniversalTimer(lastMessages.hasUserInitiatedMessages)
     );
 
-    let { preview: previewMessage, activity: activityMessage } = lastMessages;
+    const { preview, activity } = lastMessages;
+    let previewMessage: MessageModel | undefined;
+    let activityMessage: MessageModel | undefined;
 
     // Register the message with MessageController so that if it already exists
     // in memory we use that data instead of the data from the db which may
     // be out of date.
-    if (previewMessage) {
-      previewMessage = window.MessageController.register(
-        previewMessage.id,
-        previewMessage
-      );
+    if (preview) {
+      previewMessage = window.MessageController.register(preview.id, preview);
     }
 
-    if (activityMessage) {
+    if (activity) {
       activityMessage = window.MessageController.register(
-        activityMessage.id,
-        activityMessage
+        activity.id,
+        activity
       );
     }
 
@@ -4748,9 +4724,7 @@ export class ConversationModel extends window.Backbone
         this.deriveProfileKeyVersionIfNeeded(),
       ]);
 
-      window.Signal.Data.updateConversation(this.attributes, {
-        Conversation: window.Whisper.Conversation,
-      });
+      window.Signal.Data.updateConversation(this.attributes);
     }
   }
 
@@ -4814,7 +4788,6 @@ export class ConversationModel extends window.Backbone
 
     await window.Signal.Data.removeAllMessagesInConversation(this.id, {
       logId: this.idForLogging(),
-      MessageCollection: window.Whisper.MessageCollection,
     });
   }
 
@@ -5090,7 +5063,7 @@ export class ConversationModel extends window.Backbone
 
     const sender = reaction
       ? window.ConversationController.get(reaction.get('fromId'))
-      : message.getContact();
+      : getContact(message.attributes);
     const senderName = sender
       ? sender.getTitle()
       : window.i18n('unknownContact');

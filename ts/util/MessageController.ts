@@ -5,6 +5,7 @@ import type { MessageModel } from '../models/messages';
 import * as durations from './durations';
 import { map, filter } from './iterables';
 import { isNotNil } from './isNotNil';
+import type { MessageAttributesType } from '../model-types.d';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -29,9 +30,12 @@ export class MessageController {
     return instance;
   }
 
-  register(id: string, message: MessageModel): MessageModel {
-    if (!id || !message) {
-      return message;
+  register(
+    id: string,
+    data: MessageModel | MessageAttributesType
+  ): MessageModel {
+    if (!id || !data) {
+      throw new Error('MessageController.register: Got falsey id or message');
     }
 
     const existing = this.messageLookup[id];
@@ -43,6 +47,8 @@ export class MessageController {
       return existing.message;
     }
 
+    const message =
+      'attributes' in data ? data : new window.Whisper.Message(data);
     this.messageLookup[id] = {
       message,
       timestamp: Date.now(),

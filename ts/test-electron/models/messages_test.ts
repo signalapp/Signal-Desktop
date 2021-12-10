@@ -12,6 +12,7 @@ import type { CallbackResultType } from '../../textsecure/Types.d';
 import type { StorageAccessType } from '../../types/Storage.d';
 import { UUID } from '../../types/UUID';
 import { SignalService as Proto } from '../../protobuf';
+import { getContact } from '../../messages/helpers';
 
 describe('Message', () => {
   const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
@@ -204,7 +205,7 @@ describe('Message', () => {
     it('gets outgoing contact', () => {
       const messages = new window.Whisper.MessageCollection();
       const message = messages.add(attributes);
-      message.getContact();
+      assert.exists(getContact(message.attributes));
     });
 
     it('gets incoming contact', () => {
@@ -213,7 +214,7 @@ describe('Message', () => {
         type: 'incoming',
         source,
       });
-      message.getContact();
+      assert.exists(getContact(message.attributes));
     });
   });
 

@@ -80,19 +80,16 @@ export class ReadSyncs extends Collection {
   async onSync(sync: ReadSyncModel): Promise<void> {
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
-        sync.get('timestamp'),
-        {
-          MessageCollection: window.Whisper.MessageCollection,
-        }
+        sync.get('timestamp')
       );
 
       const found = messages.find(item => {
         const senderId = window.ConversationController.ensureContactIds({
-          e164: item.get('source'),
-          uuid: item.get('sourceUuid'),
+          e164: item.source,
+          uuid: item.sourceUuid,
         });
 
-        return isIncoming(item.attributes) && senderId === sync.get('senderId');
+        return isIncoming(item) && senderId === sync.get('senderId');
       });
 
       if (!found) {

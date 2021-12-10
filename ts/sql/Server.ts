@@ -80,13 +80,13 @@ import type {
   IdentityKeyType,
   ItemKeyType,
   ItemType,
-  LastConversationMessagesServerType,
+  LastConversationMessagesType,
   MessageMetricsType,
   MessageType,
   MessageTypeUnhydrated,
   PreKeyIdType,
   PreKeyType,
-  SearchResultMessageType,
+  ServerSearchResultMessageType,
   SenderKeyIdType,
   SenderKeyType,
   SentMessageDBType,
@@ -152,16 +152,16 @@ const dataInterface: ServerInterface = {
 
   createOrUpdateSignedPreKey,
   getSignedPreKeyById,
-  getAllSignedPreKeys,
   bulkAddSignedPreKeys,
   removeSignedPreKeyById,
   removeAllSignedPreKeys,
+  getAllSignedPreKeys,
 
   createOrUpdateItem,
   getItemById,
-  getAllItems,
   removeItemById,
   removeAllItems,
+  getAllItems,
 
   createOrUpdateSenderKey,
   getSenderKeyById,
@@ -189,6 +189,7 @@ const dataInterface: ServerInterface = {
   removeAllSessions,
   getAllSessions,
 
+  eraseStorageServiceStateFromConversations,
   getConversationCount,
   saveConversation,
   saveConversations,
@@ -196,12 +197,12 @@ const dataInterface: ServerInterface = {
   updateConversation,
   updateConversations,
   removeConversation,
-  eraseStorageServiceStateFromConversations,
+  updateAllConversationColors,
+
   getAllConversations,
   getAllConversationIds,
   getAllPrivateConversations,
   getAllGroupsInvolvingUuid,
-  updateAllConversationColors,
 
   searchConversations,
   searchMessages,
@@ -250,8 +251,8 @@ const dataInterface: ServerInterface = {
 
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
-  setAttachmentDownloadJobPending,
   resetAttachmentDownloadPending,
+  setAttachmentDownloadJobPending,
   removeAttachmentDownloadJob,
   removeAllAttachmentDownloadJobs,
 
@@ -1557,7 +1558,7 @@ async function searchConversations(
 async function searchMessages(
   query: string,
   params: { limit?: number; conversationId?: string } = {}
-): Promise<Array<SearchResultMessageType>> {
+): Promise<Array<ServerSearchResultMessageType>> {
   const { limit = 500, conversationId } = params;
 
   const db = getInstance();
@@ -1663,7 +1664,7 @@ async function searchMessagesInConversation(
   query: string,
   conversationId: string,
   { limit = 100 }: { limit?: number } = {}
-): Promise<Array<SearchResultMessageType>> {
+): Promise<Array<ServerSearchResultMessageType>> {
   return searchMessages(query, { conversationId, limit });
 }
 
@@ -2024,7 +2025,7 @@ async function getMessageBySender({
   sourceUuid: string;
   sourceDevice: number;
   sent_at: number;
-}): Promise<Array<MessageType>> {
+}): Promise<MessageType | undefined> {
   const db = getInstance();
   const rows: JSONRows = prepare(
     db,
@@ -2032,7 +2033,8 @@ async function getMessageBySender({
     SELECT json FROM messages WHERE
       (source = $source OR sourceUuid = $sourceUuid) AND
       sourceDevice = $sourceDevice AND
-      sent_at = $sent_at;
+      sent_at = $sent_at
+    LIMIT 2;
     `
   ).all({
     source,
@@ -2041,7 +2043,20 @@ async function getMessageBySender({
     sent_at,
   });
 
-  return rows.map(row => jsonToObject(row.json));
+  if (rows.length > 1) {
+    log.warn('getMessageBySender: More than one message found for', {
+      sent_at,
+      source,
+      sourceUuid,
+      sourceDevice,
+    });
+  }
+
+  if (rows.length < 1) {
+    return undefined;
+  }
+
+  return jsonToObject(rows[0].json);
 }
 
 async function getUnreadByConversationAndMarkRead({
@@ -2605,7 +2620,7 @@ async function getLastConversationMessages({
 }: {
   conversationId: string;
   ourUuid: UUIDStringType;
-}): Promise<LastConversationMessagesServerType> {
+}): Promise<LastConversationMessagesType> {
   const db = getInstance();
 
   return db.transaction(() => {

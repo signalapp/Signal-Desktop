@@ -11,6 +11,7 @@ import type {
   ConversationAttributesTypeType,
 } from './model-types.d';
 import type { ConversationModel } from './models/conversations';
+import { getContactId } from './messages/helpers';
 import { maybeDeriveGroupV2Id } from './groups';
 import { assert } from './util/assert';
 import { map, reduce } from './util/iterables';
@@ -676,9 +677,7 @@ export class ConversationController {
     log.warn(
       'combineConversations: Delete the obsolete conversation from the database'
     );
-    await removeConversation(obsoleteId, {
-      Conversation: window.Whisper.Conversation,
-    });
+    await removeConversation(obsoleteId);
 
     log.warn('combineConversations: Update messages table');
     await migrateConversationMessages(obsoleteId, currentId);
@@ -714,13 +713,11 @@ export class ConversationController {
     targetFromId: string,
     targetTimestamp: number
   ): Promise<ConversationModel | null | undefined> {
-    const messages = await getMessagesBySentAt(targetTimestamp, {
-      MessageCollection: window.Whisper.MessageCollection,
-    });
-    const targetMessage = messages.find(m => m.getContactId() === targetFromId);
+    const messages = await getMessagesBySentAt(targetTimestamp);
+    const targetMessage = messages.find(m => getContactId(m) === targetFromId);
 
     if (targetMessage) {
-      return targetMessage.getConversation();
+      return this.get(targetMessage.conversationId);
     }
 
     return null;
@@ -729,9 +726,7 @@ export class ConversationController {
   async getAllGroupsInvolvingUuid(
     uuid: UUID
   ): Promise<Array<ConversationModel>> {
-    const groups = await getAllGroupsInvolvingUuid(uuid.toString(), {
-      ConversationCollection: window.Whisper.ConversationCollection,
-    });
+    const groups = await getAllGroupsInvolvingUuid(uuid.toString());
     return groups.map(group => {
       const existing = this.get(group.id);
       if (existing) {
@@ -767,13 +762,11 @@ export class ConversationController {
     }
 
     try {
-      const collection = await getAllConversations({
-        ConversationCollection: window.Whisper.ConversationCollection,
-      });
+      const collection = await getAllConversations();
 
       // Get rid of temporary conversations
       const temporaryConversations = collection.filter(conversation =>
-        Boolean(conversation.get('isTemporary'))
+        Boolean(conversation.isTemporary)
       );
 
       if (temporaryConversations.length) {
@@ -788,16 +781,14 @@ export class ConversationController {
       });
       queue.addAll(
         temporaryConversations.map(item => async () => {
-          await removeConversation(item.id, {
-            Conversation: window.Whisper.Conversation,
-          });
+          await removeConversation(item.id);
         })
       );
       await queue.onIdle();
 
       // Hydrate the final set of conversations
       this._conversations.add(
-        collection.filter(conversation => !conversation.get('isTemporary'))
+        collection.filter(conversation => !conversation.isTemporary)
       );
 
       this._initialFetchComplete = true;

@@ -5,6 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
+import { getContactId } from '../messages/helpers';
 import * as log from '../logging/log';
 
 type DeleteAttributesType = {
@@ -30,7 +31,7 @@ export class Deletes extends Collection<DeleteModel> {
     const matchingDeletes = this.filter(item => {
       return (
         item.get('targetSentTimestamp') === message.get('sent_at') &&
-        item.get('fromId') === message.getContactId()
+        item.get('fromId') === getContactId(message.attributes)
       );
     });
 
@@ -68,14 +69,11 @@ export class Deletes extends Collection<DeleteModel> {
         log.info('Handling DOE for', del.get('targetSentTimestamp'));
 
         const messages = await window.Signal.Data.getMessagesBySentAt(
-          del.get('targetSentTimestamp'),
-          {
-            MessageCollection: window.Whisper.MessageCollection,
-          }
+          del.get('targetSentTimestamp')
         );
 
         const targetMessage = messages.find(
-          m => del.get('fromId') === m.getContactId()
+          m => del.get('fromId') === getContactId(m)
         );
 
         if (!targetMessage) {

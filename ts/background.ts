@@ -44,6 +44,7 @@ import { routineProfileRefresh } from './routineProfileRefresh';
 import { isMoreRecentThan, isOlderThan, toDayMillis } from './util/timestamp';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji';
 import type { ConversationModel } from './models/conversations';
+import { getContact } from './messages/helpers';
 import { getMessageById } from './messages/getMessageById';
 import { createBatcher } from './util/batcher';
 import { updateConversationsWithUuidLookup } from './updateConversationsWithUuidLookup';
@@ -2841,7 +2842,7 @@ export async function startApp(): Promise<void> {
       isIncoming(message.attributes) &&
       !message.get('unidentifiedDeliveryReceived')
     ) {
-      const sender = message.getContact();
+      const sender = getContact(message.attributes);
 
       if (!sender) {
         throw new Error('MessageModel has no sender.');

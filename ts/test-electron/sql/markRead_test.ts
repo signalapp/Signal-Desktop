@@ -34,12 +34,7 @@ describe('sql/markRead', () => {
   });
 
   it('properly finds and reads unread messages in current conversation', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const start = Date.now();
     const readAt = start + 20;
@@ -125,12 +120,7 @@ describe('sql/markRead', () => {
       }
     );
 
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      7
-    );
+    assert.lengthOf(await _getAllMessages(), 7);
     assert.strictEqual(
       await getTotalUnreadForConversation(conversationId),
       3,
@@ -179,12 +169,7 @@ describe('sql/markRead', () => {
   });
 
   it('properly finds and reads unread messages in story', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const start = Date.now();
     const readAt = start + 20;
@@ -276,12 +261,7 @@ describe('sql/markRead', () => {
       }
     );
 
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      7
-    );
+    assert.lengthOf(await _getAllMessages(), 7);
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
@@ -311,12 +291,7 @@ describe('sql/markRead', () => {
   });
 
   it('properly starts disappearing message timer, even if message is already read', async () => {
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      0
-    );
+    assert.lengthOf(await _getAllMessages(), 0);
 
     const start = Date.now();
     const readAt = start + 20;
@@ -388,12 +363,7 @@ describe('sql/markRead', () => {
       2,
       'unread count'
     );
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      5
-    );
+    assert.lengthOf(await _getAllMessages(), 5);
 
     const markedRead = await getUnreadByConversationAndMarkRead({
       conversationId,
@@ -413,21 +383,21 @@ describe('sql/markRead', () => {
       'unread count'
     );
 
-    const allMessages = await _getAllMessages({
-      MessageCollection: window.Whisper.MessageCollection,
-    });
+    const allMessages = await _getAllMessages();
+    const sorted = allMessages.sort(
+      (left, right) => left.timestamp - right.timestamp
+    );
 
-    // Ascending order, since it's sorted by MessageCollection
-    assert.strictEqual(allMessages.at(1).id, message2.id);
+    assert.strictEqual(sorted[1].id, message2.id, 'checking message 2');
     assert.isAtMost(
-      allMessages.at(1).get('expirationStartTimestamp') ?? Infinity,
+      sorted[1].expirationStartTimestamp ?? Infinity,
       Date.now(),
       'checking message 2 expirationStartTimestamp'
     );
 
-    assert.strictEqual(allMessages.at(3).id, message4.id, 'checking message 4');
+    assert.strictEqual(sorted[3].id, message4.id, 'checking message 4');
     assert.isAtMost(
-      allMessages.at(3).get('expirationStartTimestamp') ?? Infinity,
+      sorted[3].expirationStartTimestamp ?? Infinity,
       Date.now(),
       'checking message 4 expirationStartTimestamp'
     );
@@ -490,12 +460,7 @@ describe('sql/markRead', () => {
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
     });
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      5
-    );
+    assert.lengthOf(await _getAllMessages(), 5);
 
     const reaction1: ReactionType = {
       conversationId,
@@ -642,12 +607,7 @@ describe('sql/markRead', () => {
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
     });
-    assert.lengthOf(
-      await _getAllMessages({
-        MessageCollection: window.Whisper.MessageCollection,
-      }),
-      5
-    );
+    assert.lengthOf(await _getAllMessages(), 5);
 
     const reaction1: ReactionType = {
       conversationId,

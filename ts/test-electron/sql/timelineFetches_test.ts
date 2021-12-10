@@ -30,12 +30,7 @@ describe('sql/timelineFetches', () => {
 
   describe('getOlderMessagesByConversation', () => {
     it('returns N most recent messages', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -92,30 +87,20 @@ describe('sql/timelineFetches', () => {
         forceSave: true,
       });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        5
-      );
+      assert.lengthOf(await _getAllMessages(), 5);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
       });
       assert.lengthOf(messages, 2);
-      // They are not in DESC order because MessageCollection is sorting them
-      assert.strictEqual(messages.at(0).attributes.id, message1.id);
-      assert.strictEqual(messages.at(1).attributes.id, message2.id);
+
+      // Fetched with DESC query, but with reverse() call afterwards
+      assert.strictEqual(messages[0].id, message1.id);
+      assert.strictEqual(messages[1].id, message2.id);
     });
 
     it('returns N most recent messages for a given story', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -152,29 +137,18 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         storyId,
       });
       assert.lengthOf(messages, 1);
-      assert.strictEqual(messages.at(0).attributes.id, message2.id);
+      assert.strictEqual(messages[0].id, message2.id);
     });
 
     it('returns N messages older than provided received_at', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -208,30 +182,19 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         receivedAt: target,
         sentAt: target,
       });
       assert.lengthOf(messages, 1);
-      assert.strictEqual(messages.at(0).attributes.id, message1.id);
+      assert.strictEqual(messages[0].id, message1.id);
     });
 
     it('returns N older messages with received_at, lesser sent_at', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -265,33 +228,23 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         receivedAt: target,
         sentAt: target,
       });
 
       assert.lengthOf(messages, 2);
-      // They are not in DESC order because MessageCollection is sorting them
-      assert.strictEqual(messages.at(0).attributes.id, message1.id);
-      assert.strictEqual(messages.at(1).attributes.id, message2.id);
+
+      // Fetched with DESC query, but with reverse() call afterwards
+      assert.strictEqual(messages[0].id, message1.id, 'checking message 1');
+      assert.strictEqual(messages[1].id, message2.id, 'checking message 2');
     });
 
     it('returns N older messages, same received_at/sent_at but excludes messageId', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -325,15 +278,9 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getOlderMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         receivedAt: target,
         sentAt: target,
@@ -341,18 +288,13 @@ describe('sql/timelineFetches', () => {
       });
 
       assert.lengthOf(messages, 1);
-      assert.strictEqual(messages.at(0).attributes.id, message1.id);
+      assert.strictEqual(messages[0].id, message1.id);
     });
   });
 
   describe('getNewerMessagesByConversation', () => {
     it('returns N oldest messages with no parameters', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -409,30 +351,19 @@ describe('sql/timelineFetches', () => {
         forceSave: true,
       });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        5
-      );
+      assert.lengthOf(await _getAllMessages(), 5);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
       });
 
       assert.lengthOf(messages, 2);
-      assert.strictEqual(messages.at(0).attributes.id, message4.id);
-      assert.strictEqual(messages.at(1).attributes.id, message5.id);
+      assert.strictEqual(messages[0].id, message4.id, 'checking message 4');
+      assert.strictEqual(messages[1].id, message5.id, 'checking message 5');
     });
 
     it('returns N oldest messages for a given story with no parameters', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const now = Date.now();
       const conversationId = getUuid();
@@ -469,30 +400,19 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         storyId,
       });
 
       assert.lengthOf(messages, 1);
-      assert.strictEqual(messages.at(0).attributes.id, message2.id);
+      assert.strictEqual(messages[0].id, message2.id);
     });
 
     it('returns N messages newer than provided received_at', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -526,30 +446,19 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         receivedAt: target,
         sentAt: target,
       });
       assert.lengthOf(messages, 1);
-      assert.strictEqual(messages.at(0).attributes.id, message3.id);
+      assert.strictEqual(messages[0].id, message3.id);
     });
 
     it('returns N newer messages with same received_at, greater sent_at', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -583,15 +492,9 @@ describe('sql/timelineFetches', () => {
 
       await saveMessages([message1, message2, message3], { forceSave: true });
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        3
-      );
+      assert.lengthOf(await _getAllMessages(), 3);
 
       const messages = await getNewerMessagesByConversation(conversationId, {
-        MessageCollection: window.Whisper.MessageCollection,
         limit: 5,
         receivedAt: target,
         sentAt: target,
@@ -599,19 +502,14 @@ describe('sql/timelineFetches', () => {
 
       assert.lengthOf(messages, 2);
       // They are not in DESC order because MessageCollection is sorting them
-      assert.strictEqual(messages.at(0).attributes.id, message2.id);
-      assert.strictEqual(messages.at(1).attributes.id, message3.id);
+      assert.strictEqual(messages[0].id, message2.id);
+      assert.strictEqual(messages[1].id, message3.id);
     });
   });
 
   describe('getMessageMetricsForConversation', () => {
     it('returns metrics properly for story and non-story timelines', async () => {
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        0
-      );
+      assert.lengthOf(await _getAllMessages(), 0);
 
       const target = Date.now();
       const conversationId = getUuid();
@@ -710,12 +608,7 @@ describe('sql/timelineFetches', () => {
         { forceSave: true }
       );
 
-      assert.lengthOf(
-        await _getAllMessages({
-          MessageCollection: window.Whisper.MessageCollection,
-        }),
-        8
-      );
+      assert.lengthOf(await _getAllMessages(), 8);
 
       const metricsInTimeline = await getMessageMetricsForConversation(
         conversationId

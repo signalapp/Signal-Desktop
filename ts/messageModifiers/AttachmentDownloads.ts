@@ -196,9 +196,7 @@ async function _runJob(job?: AttachmentDownloadJobType): Promise<void> {
 
     const found =
       window.MessageController.getById(messageId) ||
-      (await getMessageById(messageId, {
-        Message: window.Whisper.Message,
-      }));
+      (await getMessageById(messageId));
     if (!found) {
       logger.error('_runJob: Source message not found, deleting job');
       await _finishJob(null, id);

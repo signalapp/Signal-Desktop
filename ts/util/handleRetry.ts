@@ -347,9 +347,7 @@ async function getRetryConversation({
   }
 
   const [messageId] = messageIds;
-  const message = await window.Signal.Data.getMessageById(messageId, {
-    Message: window.Whisper.Message,
-  });
+  const message = await window.Signal.Data.getMessageById(messageId);
   if (!message) {
     log.warn(
       `getRetryConversation/${logId}: Unable to find message ${messageId}`
@@ -358,7 +356,7 @@ async function getRetryConversation({
     return window.ConversationController.get(requestGroupId);
   }
 
-  const conversationId = message.get('conversationId');
+  const { conversationId } = message;
   return window.ConversationController.get(conversationId);
 }
 

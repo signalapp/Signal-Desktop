@@ -187,7 +187,7 @@ export type GetContactOptions = Pick<
   'conversationSelector' | 'ourConversationId' | 'ourNumber' | 'ourUuid'
 >;
 
-function getContactId(
+export function getContactId(
   message: MessageWithUIFieldsType,
   {
     conversationSelector,

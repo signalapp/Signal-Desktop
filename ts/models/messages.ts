@@ -41,11 +41,9 @@ import * as expirationTimer from '../util/expirationTimer';
 
 import type { ReactionType } from '../types/Reactions';
 import { UUID, UUIDKind } from '../types/UUID';
-import type { UUIDStringType } from '../types/UUID';
 import * as reactionUtil from '../reactions/util';
 import {
   copyStickerToAttachments,
-  deletePackReference,
   savePackMetadata,
   getStickerPackStatus,
 } from '../types/Stickers';
@@ -134,6 +132,16 @@ import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import * as log from '../logging/log';
 import * as Bytes from '../Bytes';
 import { computeHash } from '../Crypto';
+import { cleanupMessage, deleteMessageData } from '../util/cleanup';
+import {
+  getContact,
+  getContactId,
+  getSource,
+  getSourceDevice,
+  getSourceUuid,
+  isCustomError,
+  isQuoteAMatch,
+} from '../messages/helpers';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -148,35 +156,9 @@ declare const _: typeof window._;
 window.Whisper = window.Whisper || {};
 
 const { Message: TypedMessage } = window.Signal.Types;
-const { deleteExternalMessageFiles, upgradeMessageSchema } =
-  window.Signal.Migrations;
+const { upgradeMessageSchema } = window.Signal.Migrations;
 const { getTextWithMentions, GoogleChrome } = window.Signal.Util;
-
 const { addStickerPackReference, getMessageBySender } = window.Signal.Data;
-
-export function isQuoteAMatch(
-  message: MessageModel | null | undefined,
-  conversationId: string,
-  quote: QuotedMessageType
-): message is MessageModel {
-  if (!message) {
-    return false;
-  }
-
-  const { authorUuid, id } = quote;
-  const authorConversationId = window.ConversationController.ensureContactIds({
-    e164: 'author' in quote ? quote.author : undefined,
-    uuid: authorUuid,
-  });
-
-  return (
-    message.get('sent_at') === id &&
-    message.get('conversationId') === conversationId &&
-    message.getContactId() === authorConversationId
-  );
-}
-
-const isCustomError = (e: unknown): e is CustomError => e instanceof Error;
 
 export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   static getLongMessageAttachment: (
@@ -307,7 +289,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     let conversationIds: Array<string>;
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
     if (isIncoming(this.attributes)) {
-      conversationIds = [this.getContactId()!];
+      conversationIds = [getContactId(this.attributes)!];
     } else if (!isEmpty(sendStateByConversationId)) {
       if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
         conversationIds = [ourConversationId];
@@ -516,7 +498,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isGroupUpdate(attributes)) {
       const groupUpdate = this.get('group_update');
-      const fromContact = this.getContact();
+      const fromContact = getContact(this.attributes);
       const messages = [];
       if (!groupUpdate) {
         throw new Error('getNotificationData: Missing group_update');
@@ -749,8 +731,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
   // General
   idForLogging(): string {
-    const account = this.getSourceUuid() || this.getSource();
-    const device = this.getSourceDevice();
+    const account =
+      getSourceUuid(this.attributes) || getSource(this.attributes);
+    const device = getSourceDevice(this.attributes);
     const timestamp = this.get('sent_at');
 
     return `${account}.${device} ${timestamp}`;
@@ -785,29 +768,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
   }
 
   async cleanup(): Promise<void> {
-    window.reduxActions?.conversations?.messageDeleted(
-      this.id,
-      this.get('conversationId')
-    );
-
-    this.getConversation()?.debouncedUpdateLastMessage?.();
-
-    window.MessageController.unregister(this.id);
-    await this.deleteData();
+    await cleanupMessage(this.attributes);
   }
 
   async deleteData(): Promise<void> {
-    await deleteExternalMessageFiles(this.attributes);
-
-    const sticker = this.get('sticker');
-    if (!sticker) {
-      return;
-    }
-
-    const { packId } = sticker;
-    if (packId) {
-      await deletePackReference(this.id, packId);
-    }
+    await deleteMessageData(this.attributes);
   }
 
   isValidTapToView(): boolean {
@@ -875,8 +840,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await this.eraseContents();
 
     if (!fromSync) {
-      const sender = this.getSource();
-      const senderUuid = this.getSourceUuid();
+      const sender = getSource(this.attributes);
+      const senderUuid = getSourceUuid(this.attributes);
 
       if (senderUuid === undefined) {
         throw new Error('senderUuid is undefined');
@@ -929,7 +894,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         Number(sentAt)
       );
       const matchingMessage = find(inMemoryMessages, message =>
-        isQuoteAMatch(message, this.get('conversationId'), quote)
+        isQuoteAMatch(message.attributes, this.get('conversationId'), quote)
       );
       if (!matchingMessage) {
         log.info(
@@ -1076,66 +1041,6 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     return unidentifiedDeliveriesSet.has(contactId);
-  }
-
-  getSource(): string | undefined {
-    if (isIncoming(this.attributes)) {
-      return this.get('source');
-    }
-    if (!isOutgoing(this.attributes)) {
-      log.warn(
-        'Message.getSource: Called for non-incoming/non-outoing message'
-      );
-    }
-
-    return window.textsecure.storage.user.getNumber();
-  }
-
-  getSourceDevice(): string | number | undefined {
-    const sourceDevice = this.get('sourceDevice');
-
-    if (isIncoming(this.attributes)) {
-      return sourceDevice;
-    }
-    if (!isOutgoing(this.attributes)) {
-      log.warn(
-        'Message.getSourceDevice: Called for non-incoming/non-outoing message'
-      );
-    }
-
-    return sourceDevice || window.textsecure.storage.user.getDeviceId();
-  }
-
-  getSourceUuid(): UUIDStringType | undefined {
-    if (isIncoming(this.attributes)) {
-      return this.get('sourceUuid');
-    }
-    if (!isOutgoing(this.attributes)) {
-      log.warn(
-        'Message.getSourceUuid: Called for non-incoming/non-outoing message'
-      );
-    }
-
-    return window.textsecure.storage.user.getUuid()?.toString();
-  }
-
-  getContactId(): string | undefined {
-    const source = this.getSource();
-    const sourceUuid = this.getSourceUuid();
-
-    if (!source && !sourceUuid) {
-      return window.ConversationController.getOurConversationId();
-    }
-
-    return window.ConversationController.ensureContactIds({
-      e164: source,
-      uuid: sourceUuid,
-    });
-  }
-
-  getContact(): ConversationModel | undefined {
-    const id = this.getContactId();
-    return window.ConversationController.get(id);
   }
 
   async saveErrors(
@@ -2106,7 +2011,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     const inMemoryMessages = window.MessageController.filterBySentAt(id);
     const matchingMessage = find(inMemoryMessages, item =>
-      isQuoteAMatch(item, conversationId, result)
+      isQuoteAMatch(item.attributes, conversationId, result)
     );
 
     let queryMessage: undefined | MessageModel;
@@ -2115,10 +2020,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       queryMessage = matchingMessage;
     } else {
       log.info('copyFromQuotedMessage: db lookup needed', id);
-      const collection = await window.Signal.Data.getMessagesBySentAt(id, {
-        MessageCollection: window.Whisper.MessageCollection,
-      });
-      const found = collection.find(item =>
+      const messages = await window.Signal.Data.getMessagesBySentAt(id);
+      const found = messages.find(item =>
         isQuoteAMatch(item, conversationId, result)
       );
 
@@ -2256,7 +2159,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const conversationId = message.get('conversationId');
     const GROUP_TYPES = Proto.GroupContext.Type;
 
-    const fromContact = this.getContact();
+    const fromContact = getContact(this.attributes);
     if (fromContact) {
       fromContact.setRegistered();
     }
@@ -2281,10 +2184,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
       }
       const existingMessage =
-        inMemoryMessage ||
-        (await getMessageBySender(this.attributes, {
-          Message: window.Whisper.Message,
-        }));
+        inMemoryMessage || (await getMessageBySender(this.attributes));
       const isUpdate = Boolean(data && data.isRecipientUpdate);
 
       if (existingMessage && type === 'incoming') {
@@ -2702,7 +2602,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
               if (conversation.get('left')) {
                 log.warn('re-added to a left group');
                 attributes.left = false;
-                conversation.set({ addedBy: message.getContactId() });
+                conversation.set({ addedBy: getContactId(message.attributes) });
               }
             } else if (dataMessage.group.type === GROUP_TYPES.QUIT) {
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

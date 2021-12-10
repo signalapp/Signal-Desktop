@@ -8,7 +8,7 @@ import { Collection, Model } from 'backbone';
 
 import type { ConversationModel } from '../models/conversations';
 import type { MessageModel } from '../models/messages';
-import type { MessageModelCollectionType } from '../model-types.d';
+import type { MessageAttributesType } from '../model-types.d';
 import { isOutgoing } from '../state/selectors/message';
 import { isDirectConversation } from '../util/whatTypeOfConversation';
 import { getOwn } from '../util/getOwn';
@@ -60,32 +60,25 @@ const deleteSentProtoBatcher = createWaitBatcher({
 async function getTargetMessage(
   sourceId: string,
   sourceUuid: UUIDStringType,
-  messages: MessageModelCollectionType
+  messages: ReadonlyArray<MessageAttributesType>
 ): Promise<MessageModel | null> {
   if (messages.length === 0) {
     return null;
   }
   const message = messages.find(
-    item =>
-      isOutgoing(item.attributes) && sourceId === item.get('conversationId')
+    item => isOutgoing(item) && sourceId === item.conversationId
   );
   if (message) {
     return window.MessageController.register(message.id, message);
   }
 
-  const groups = await window.Signal.Data.getAllGroupsInvolvingUuid(
-    sourceUuid,
-    {
-      ConversationCollection: window.Whisper.ConversationCollection,
-    }
-  );
+  const groups = await window.Signal.Data.getAllGroupsInvolvingUuid(sourceUuid);
 
-  const ids = groups.pluck('id');
+  const ids = groups.map(item => item.id);
   ids.push(sourceId);
 
   const target = messages.find(
-    item =>
-      isOutgoing(item.attributes) && ids.includes(item.get('conversationId'))
+    item => isOutgoing(item) && ids.includes(item.conversationId)
   );
   if (!target) {
     return null;
@@ -147,10 +140,7 @@ export class MessageReceipts extends Collection<MessageReceiptModel> {
 
     try {
       const messages = await window.Signal.Data.getMessagesBySentAt(
-        messageSentAt,
-        {
-          MessageCollection: window.Whisper.MessageCollection,
-        }
+        messageSentAt
       );
 
       const message = await getTargetMessage(

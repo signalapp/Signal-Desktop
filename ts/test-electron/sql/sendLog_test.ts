@@ -124,7 +124,7 @@ describe('sql/sendLog', () => {
 
     assert.strictEqual(actual.timestamp, proto.timestamp);
 
-    await removeMessage(id, { Message: window.Whisper.Message });
+    await removeMessage(id);
 
     assert.lengthOf(await getAllSentProtos(), 0);
   });

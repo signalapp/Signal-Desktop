@@ -5,6 +5,7 @@
 
 import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
+import { getContactId, getContact } from '../messages/helpers';
 import { isOutgoing } from '../state/selectors/message';
 import type { ReactionAttributesType } from '../model-types.d';
 import * as log from '../logging/log';
@@ -35,7 +36,7 @@ export class Reactions extends Collection<ReactionModel> {
       }
     }
 
-    const senderId = message.getContactId();
+    const senderId = getContactId(message.attributes);
     const sentAt = message.get('sent_at');
     const reactionsBySource = this.filter(re => {
       const targetSenderId = window.ConversationController.ensureContactIds({
@@ -87,15 +88,12 @@ export class Reactions extends Collection<ReactionModel> {
         log.info('Handling reaction for', reaction.get('targetTimestamp'));
 
         const messages = await window.Signal.Data.getMessagesBySentAt(
-          reaction.get('targetTimestamp'),
-          {
-            MessageCollection: window.Whisper.MessageCollection,
-          }
+          reaction.get('targetTimestamp')
         );
         // Message is fetched inside the conversation queue so we have the
         // most recent data
         const targetMessage = messages.find(m => {
-          const contact = m.getContact();
+          const contact = getContact(m);
 
           if (!contact) {
             return false;
