@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { noop } from 'lodash';
 
 import { assert } from '../../util/assert';
+import { showToast } from '../../util/showToast';
 import type { LocalizerType } from '../../types/Util';
 import type { AttachmentType } from '../../types/Attachment';
 import { hasNotDownloaded } from '../../types/Attachment';
@@ -13,6 +14,7 @@ import type { DirectionType, MessageStatusType } from './Message';
 
 import type { ComputePeaksResult } from '../GlobalAudioContext';
 import { MessageMetadata } from './MessageMetadata';
+import { ToastUnableToLoadAttachment } from '../ToastUnableToLoadAttachment';
 import * as log from '../../logging/log';
 
 export type Props = {
@@ -350,6 +352,11 @@ export const MessageAudio: React.FC<Props> = (props: Props) => {
   }, [id, audio, isActive, isPlaying, currentTime]);
 
   const toggleIsPlaying = () => {
+    if (window.isLegacyOS()) {
+      showToast(ToastUnableToLoadAttachment);
+      return;
+    }
+
     setIsPlaying(!isPlaying);
 
     if (!isActive && !isPlaying) {

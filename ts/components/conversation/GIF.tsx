@@ -178,7 +178,7 @@ export const GIF: React.FC<Props> = props => {
   }
 
   let gif: JSX.Element | undefined;
-  if (isNotDownloaded || isPending) {
+  if (isNotDownloaded || isPending || window.isLegacyOS()) {
     gif = (
       <Blurhash
         hash={attachment.blurHash || defaultBlurHash(theme)}
