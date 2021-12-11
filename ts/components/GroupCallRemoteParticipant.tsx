@@ -26,7 +26,7 @@ import { MAX_FRAME_SIZE } from '../calling/constants';
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
 
 type BasePropsType = {
-  getFrameBuffer: () => ArrayBuffer;
+  getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   onVisibilityChanged?: (demuxId: number, isVisible: boolean) => unknown;
@@ -93,6 +93,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     const lastReceivedVideoAt = useRef(-Infinity);
     const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
     const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
+    const imageDataRef = useRef<ImageData | null>(null);
 
     const [intersectionRef, intersectionObserverEntry] =
       useIntersectionObserver();
@@ -134,9 +135,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       //   for other participants, or pixel data from a previous frame. That's why we
       //   return early and use the `frameWidth` and `frameHeight`.
       const frameBuffer = getFrameBuffer();
-      const frameDimensions = videoFrameSource.receiveVideoFrame(
-        Buffer.from(frameBuffer)
-      );
+      const frameDimensions = videoFrameSource.receiveVideoFrame(frameBuffer);
       if (!frameDimensions) {
         return;
       }
@@ -154,15 +153,16 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       canvasEl.width = frameWidth;
       canvasEl.height = frameHeight;
 
-      canvasContext.putImageData(
-        new ImageData(
-          new Uint8ClampedArray(frameBuffer, 0, frameWidth * frameHeight * 4),
-          frameWidth,
-          frameHeight
-        ),
-        0,
-        0
-      );
+      let imageData = imageDataRef.current;
+      if (
+        imageData?.width !== frameWidth ||
+        imageData?.height !== frameHeight
+      ) {
+        imageData = new ImageData(frameWidth, frameHeight);
+        imageDataRef.current = imageData;
+      }
+      imageData.data.set(frameBuffer.subarray(0, frameWidth * frameHeight * 4));
+      canvasContext.putImageData(imageData, 0, 0);
 
       lastReceivedVideoAt.current = Date.now();
 

@@ -16,7 +16,7 @@ const OVERFLOW_SCROLL_BUTTON_RATIO = 0.75;
 export const OVERFLOW_PARTICIPANT_WIDTH = 140;
 
 type PropsType = {
-  getFrameBuffer: () => ArrayBuffer;
+  getFrameBuffer: () => Buffer;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   onParticipantVisibilityChanged: (

@@ -35,7 +35,7 @@ const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => ({
 const story = storiesOf('Components/GroupCallOverflowArea', module);
 
 const defaultProps = {
-  getFrameBuffer: memoize(() => new ArrayBuffer(FRAME_BUFFER_SIZE)),
+  getFrameBuffer: memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE)),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),

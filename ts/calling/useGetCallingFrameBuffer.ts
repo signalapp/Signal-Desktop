@@ -12,12 +12,12 @@ import { FRAME_BUFFER_SIZE } from './constants';
  * of allocating one per participant. Be careful when using this buffer elsewhere, as it
  * is not cleaned up and may hold stale data.
  */
-export function useGetCallingFrameBuffer(): () => ArrayBuffer {
-  const ref = useRef<ArrayBuffer | null>(null);
+export function useGetCallingFrameBuffer(): () => Buffer {
+  const ref = useRef<Buffer | null>(null);
 
   return useCallback(() => {
     if (!ref.current) {
-      ref.current = new ArrayBuffer(FRAME_BUFFER_SIZE);
+      ref.current = Buffer.alloc(FRAME_BUFFER_SIZE);
     }
     return ref.current;
   }, []);

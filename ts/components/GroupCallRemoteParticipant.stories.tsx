@@ -26,7 +26,7 @@ type OverridePropsType =
       width: number;
     };
 
-const getFrameBuffer = memoize(() => new ArrayBuffer(FRAME_BUFFER_SIZE));
+const getFrameBuffer = memoize(() => Buffer.alloc(FRAME_BUFFER_SIZE));
 
 const createProps = (
   overrideProps: OverridePropsType,
