@@ -4128,8 +4128,10 @@ button.module-image__border-overlay:focus {
 
     &__info {
       @include font-caption;
+      align-items: flex-end;
       bottom: 0;
       display: flex;
+      height: 48px;
       justify-content: space-between;
       padding: 6px;
       position: absolute;
