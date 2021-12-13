@@ -4616,8 +4616,7 @@ export class ConversationModel extends window.Backbone
     if (!encryptedName) {
       return;
     }
-    // isn't this already an Uint8Array?
-    const key = this.get('profileKey') as unknown as string;
+    const key = this.get('profileKey');
     if (!key) {
       return;
     }
@@ -4670,8 +4669,7 @@ export class ConversationModel extends window.Backbone
     }
 
     const avatar = await window.textsecure.messaging.getAvatar(avatarPath);
-    // isn't this already an Uint8Array?
-    const key = this.get('profileKey') as unknown as string;
+    const key = this.get('profileKey');
     if (!key) {
       return;
     }
@@ -4729,8 +4727,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async deriveAccessKeyIfNeeded(): Promise<void> {
-    // isn't this already an array buffer?
-    const profileKey = this.get('profileKey') as unknown as string;
+    const profileKey = this.get('profileKey');
     if (!profileKey) {
       return;
     }
