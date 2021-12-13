@@ -18,10 +18,19 @@ contextBridge.exposeInMainWorld('SignalContext', {
       environmentText.push(appInstance);
     }
 
+    let platform = '';
+    if (process.platform === 'darwin') {
+      if (process.arch === 'arm64') {
+        platform = ' (M1)';
+      } else {
+        platform = ' (Intel)';
+      }
+    }
+
     ReactDOM.render(
       React.createElement(About, {
         closeAbout: () => ipcRenderer.send('close-about'),
-        environment: environmentText.join(' - '),
+        environment: `${environmentText.join(' - ')}${platform}`,
         i18n: SignalContext.i18n,
         version: SignalContext.getVersion(),
       }),
