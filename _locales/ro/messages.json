@@ -4418,7 +4418,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "$memberName$ v-a adăugat la grup.",
+        "message": "$memberName$ te-a adăugat la grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4772,7 +4772,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--one--you": {
-        "message": "Ați revocat o invitație la grup pentru o persoană.",
+        "message": "Ai revocat o invitație la grup pentru o persoană.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4782,7 +4782,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-own--to-you": {
-        "message": "$inviterName$ și-a revocat invitația către dvs.",
+        "message": "$inviterName$ și-a revocat invitația către tine.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviterName": {
@@ -4826,7 +4826,7 @@
         }
     },
     "GroupV2--pending-remove--revoke--many--you": {
-        "message": "Ați revocat invitațiile la grup pentru $count$ persoane.",
+        "message": "Ai revocat invitațiile la grup pentru $count$ persoane.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4860,7 +4860,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--one--you": {
-        "message": "Ați revocat invitația la grup pentru o persoană invitată de $memberName$.",
+        "message": "Ai revocat invitația la grup pentru o persoană invitată de $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4890,7 +4890,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Ați retras invitația dvs. pentru $inviteeName$.",
+        "message": "Ai retras invitația dvs. pentru $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4900,7 +4900,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Un administrator a revocat invitația la grup trimisă de dvs. către $inviteeName$.",
+        "message": "Un administrator a revocat invitația la grup trimisă de tine către $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4924,7 +4924,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from--many--you": {
-        "message": "Ați revocat invitațiile la grup pentru $count$ persoane invitate de $memberName$.",
+        "message": "Ai revocat invitațiile la grup pentru $count$ persoane invitate de $memberName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4952,7 +4952,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--other": {
-        "message": "$adminName$ a revocat invitațiile la grup trimise de dvs. către $count$ persoane.",
+        "message": "$adminName$ a revocat invitațiile la grup trimise de tine către $count$ persoane.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4966,7 +4966,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--you": {
-        "message": "Ați retras invitațiile dvs. către $count$ persoane.",
+        "message": "Ai retras invitațiile tale către $count$ persoane.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4976,7 +4976,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--many--unknown": {
-        "message": "Un administrator a revocat invitațiile la grup trimise de dvs. către $count$ persoane.",
+        "message": "Un administrator a revocat invitațiile la grup trimise de tine către $count$ persoane.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "count": {
@@ -4986,7 +4986,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "Ați trimis o cerere de alăturare la grup.",
+        "message": "Ai trimis o cerere de alăturare la grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -5000,15 +5000,15 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Ați anulat solicitarea de a vă alătura grupului.",
+        "message": "Ai anulat solicitarea de a te alătura grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
-        "message": "Solicitarea dvs. de a vă alătura grupului a fost respinsă de un administrator.",
+        "message": "Solicitarea ta de a te alătura grupului a fost respinsă de un administrator.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--other--you": {
-        "message": "Ați respins o solicitare de alăturare la grup de la $joinerName$.",
+        "message": "Ai respins o solicitare de alăturare la grup de la $joinerName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "joinerName": {
@@ -5042,7 +5042,7 @@
         }
     },
     "GroupV2--group-link-add--disabled--you": {
-        "message": "Ați activat linkul de grup cu aprobarea administratorului dezactivată.",
+        "message": "Ai activat linkul de grup cu aprobarea administratorului dezactivată.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--disabled--other": {
@@ -5060,7 +5060,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--you": {
-        "message": "Ați activat linkul de grup cu aprobarea administratorului pentru alăturări activată.",
+        "message": "Ai activat linkul de grup cu aprobarea administratorului pentru alăturări activată.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-add--enabled--other": {
@@ -5078,7 +5078,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Ați dezactivat linkul de grup.",
+        "message": "Ai dezactivat linkul de grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -5096,7 +5096,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Ați resetat linkul grupului.",
+        "message": "Ai resetat linkul grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -5114,7 +5114,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "Ați eliminat descrierea grupului.",
+        "message": "Ai eliminat descrierea grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
@@ -5132,7 +5132,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
-        "message": "Ați schimbat descrierea grupului.",
+        "message": "Ai schimbat descrierea grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
@@ -5150,7 +5150,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Ați modificat setările grupului pentru a permite doar administratorilor să trimită mesaje.",
+        "message": "Ai modificat setările grupului pentru a permite doar administratorilor să trimită mesaje.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -5168,7 +5168,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Ați modificat setările grupului pentru a permite tuturor membrilor să trimită mesaje.",
+        "message": "Ai modificat setările grupului pentru a permite tuturor membrilor să trimită mesaje.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -5186,7 +5186,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
-        "message": "Actualizați acest grup pentru a activa funcții noi precum @mențiuni și administratori. Membrii care nu și-au partajat numele sau fotografia în acest grup vor fi invitați să se alăture. $learnMore$",
+        "message": "Actualizează acest grup pentru a activa funcții noi precum @mențiuni și administratori. Membrii care nu și-au partajat numele sau fotografia în acest grup vor fi invitați să se alăture. $learnMore$",
         "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1).",
         "placeholders": {
             "learnMore": {
@@ -5200,7 +5200,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "Aflați mai multe",
+        "message": "Află mai multe",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5228,7 +5228,7 @@
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "Va trebui să acceptați o invitație pentru a vă alătura din nou acestui grup și nu veți primi mesaje de grup până când nu acceptați.",
+        "message": "Va trebui să accepți o invitație pentru a te alătura din nou acestui grup și nu vei primi mesaje de grup până când nu accepți.",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5320,27 +5320,27 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal este susținut de oameni ca dvs. Contribuiți și primiți o insignă.",
+        "message": "Signal este susținut de oameni ca tine. Contribuie și primești o insignă.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Deschideți Signal pe telefonul dvs.",
+        "message": "Deschide Signal pe telefonul tău",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Atingeți poza dvs. de profil din stânga sus pentru a deschide Setările",
+        "message": "Atinge poza ta de profil din stânga sus pentru a deschide Setările",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Atingeți \"Fii un susținător\" și abonați-vă",
+        "message": "Atinge \"Fii un susținător\" și abonează-te",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
-        "message": "Extindeți",
+        "message": "Extinde",
         "description": "Aria label for expanding composition area"
     },
     "CompositionArea--attach-file": {
-        "message": "Atașați fișierul",
+        "message": "Atașare fișier",
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
@@ -5348,7 +5348,7 @@
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
-        "message": "Signal Desktop nu poate trimite mesaje persoanelor de contact ce nu folosesc Signal. Rugați această persoană să instaleze Signal pentru a avea o conversație mai sigură.",
+        "message": "Signal Desktop nu poate trimite mesaje persoanelor de contact ce nu folosesc Signal. Roagă această persoană să instaleze Signal pentru a avea o conversație mai sigură.",
         "description": "Body for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__spinner-label": {
@@ -5364,11 +5364,11 @@
         "description": "Button text for send message button in Group Contact Details modal"
     },
     "ContactModal--rm-admin": {
-        "message": "Eliminați ca administrator",
+        "message": "Elimină ca administrator",
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Faceți administrator",
+        "message": "Fă administrator",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -5382,7 +5382,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Eliminați pe $contact$ ca administrator de grup?",
+        "message": "Elimini pe $contact$ ca administrator de grup?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5392,7 +5392,7 @@
         }
     },
     "ContactModal--remove-from-group": {
-        "message": "Eliminați din grup",
+        "message": "Elimină din grup",
         "description": "Button text for remove from group button in Group Contact Details modal"
     },
     "showChatColorEditor": {
@@ -5408,7 +5408,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Activați notificările conversației?",
+        "message": "Activezi notificările conversației?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5452,7 +5452,7 @@
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Alegeți cine poate trimite mesaje în acest grup.",
+        "message": "Alege cine poate trimite mesaje în acest grup.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5460,15 +5460,15 @@
         "description": "This is a button to display which members have been invited but have not joined yet"
     },
     "ConversationDetailsActions--leave-group": {
-        "message": "Părăsiți grupul",
+        "message": "Părăsește grupul",
         "description": "This is a button to leave a group"
     },
     "ConversationDetailsActions--block-group": {
-        "message": "Blocați grupul",
+        "message": "Blochează grupul",
         "description": "This is a button to block a group"
     },
     "ConversationDetailsActions--leave-group-must-choose-new-admin": {
-        "message": "Înainte de a pleca, trebuie să alegeți cel puțin un nou administrator pentru acest grup.",
+        "message": "Înainte de a pleca, trebuie să alegi cel puțin un nou administrator pentru acest grup.",
         "description": "Shown if, before leaving a group, you need to choose an admin"
     },
     "ConversationDetailsActions--leave-group-modal-title": {
@@ -5562,7 +5562,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Sigur doriți să resetați linkul de grup? Oamenii nu vor mai putea să se alăture grupului folosind linkul curent.",
+        "message": "Sigur vrei să resetezi linkul de grup? Oamenii nu vor mai putea să se alăture grupului folosind linkul curent.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5574,7 +5574,7 @@
         "description": "Title for the approve new members select area"
     },
     "GroupLinkManagement--approve-info": {
-        "message": "Solicitați unui administrator să aprobe membrii noi care se alătură prin linkul grupului",
+        "message": "Solicită unui administrator să aprobe membrii noi care se alătură prin linkul grupului",
         "description": "Description for the approve new members select area"
     },
     "PendingInvites--tab-requests": {
@@ -5598,7 +5598,7 @@
         }
     },
     "PendingRequests--approve-for": {
-        "message": "Aprobați solicitarea de la \"$name$\"?",
+        "message": "Aprobi solicitarea de la \"$name$\"?",
         "description": "This is the modal content when confirming approving a group request to join",
         "placeholders": {
             "name": {
@@ -5608,7 +5608,7 @@
         }
     },
     "PendingRequests--deny-for": {
-        "message": "Respingeți solicitarea de la \"$name$\"?",
+        "message": "Respingi solicitarea de la \"$name$\"?",
         "description": "This is the modal content when confirming denying a group request to join",
         "placeholders": {
             "name": {
@@ -5618,11 +5618,11 @@
         }
     },
     "PendingInvites--invites": {
-        "message": "Invitați de dvs.",
+        "message": "Invitați de tine",
         "description": "This is the title list of all invites"
     },
     "PendingInvites--invited-by-you": {
-        "message": "Invitați de dvs.",
+        "message": "Invitați de tine",
         "description": "This is the title for the list of members you have invited"
     },
     "PendingInvites--invited-by-others": {
@@ -5640,11 +5640,11 @@
         }
     },
     "PendingInvites--revoke-for-label": {
-        "message": "Revocați invitația de grup",
+        "message": "Revocă invitația de grup",
         "description": "This is aria label for revoking a group invite icon"
     },
     "PendingInvites--revoke-for": {
-        "message": "Revocați invitația de grup pentru “$name$“?",
+        "message": "Revoci invitația de grup pentru “$name$“?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "number": {
@@ -5658,7 +5658,7 @@
         }
     },
     "PendingInvites--revoke-from-singular": {
-        "message": "Revocați 1 invitație trimisă de către \"$name$\"?",
+        "message": "Revoci 1 invitație trimisă de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking a single invite",
         "placeholders": {
             "name": {
@@ -5668,7 +5668,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revocați $number$ invitații trimise de către \"$name$\"?",
+        "message": "Revoci $number$ invitații trimise de către \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5682,7 +5682,7 @@
         }
     },
     "PendingInvites--revoke": {
-        "message": "Revocați",
+        "message": "Revocă",
         "description": "This is the modal button to confirm revoking invites"
     },
     "PendingRequests--approve": {
@@ -5690,7 +5690,7 @@
         "description": "This is the modal button to approve group request to join"
     },
     "PendingRequests--deny": {
-        "message": "Respingeți cererea",
+        "message": "Respinge cererea",
         "description": "This is the modal button to deny group request to join"
     },
     "PendingRequests--info": {
@@ -5708,7 +5708,7 @@
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
-        "message": "Adăugați o poză de grup",
+        "message": "Adaugă o poză de grup",
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
@@ -5720,15 +5720,15 @@
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Încărcați poza",
+        "message": "Încarcă poză",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
-        "message": "Eliminați poza",
+        "message": "Elimină poza",
         "description": "The button text when you click on an uploaded avatar and want to remove it"
     },
     "ContactPill--remove": {
-        "message": "Eliminați contactul",
+        "message": "Elimină contactul",
         "description": "The label for the 'remove' button on the contact pill"
     },
     "ComposeErrorDialog--close": {
@@ -5750,7 +5750,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "$name$ nu poate fi adăugat automat la acest grup de către dvs.",
+        "message": "$name$ nu poate fi adăugat automat la acest grup de către tine.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5760,7 +5760,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Acești utilizatori nu pot fi adăugați automat la acest grup de către dvs.",
+        "message": "Acești utilizatori nu pot fi adăugați automat la acest grup de către tine.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
@@ -5768,7 +5768,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-        "message": "Aflați mai multe",
+        "message": "Află mai multe",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
@@ -5780,7 +5780,7 @@
         "description": "When adding new members to an existing group, this is shown in the dialog"
     },
     "AddGroupMembersModal--confirm-title--one": {
-        "message": "Adăugați pe $person$ la \"$group$\"?",
+        "message": "Adaugi pe $person$ la \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "person": {
@@ -5794,7 +5794,7 @@
         }
     },
     "AddGroupMembersModal--confirm-title--many": {
-        "message": "Adăugați $count$ membri la \"$group$\"?",
+        "message": "Adaugi $count$ membri la \"$group$\"?",
         "description": "When adding new members to an existing group, this is shown in the confirmation dialog",
         "placeholders": {
             "count": {
@@ -5820,7 +5820,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Selectați contactul $name$",
+        "message": "Selectează contactul $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5830,7 +5830,7 @@
         }
     },
     "deselectContact": {
-        "message": "Deselectați contactul $name$",
+        "message": "Deselectează contactul $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5854,15 +5854,15 @@
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
-        "message": "Redați atașamentul audio",
+        "message": "Redă atașamentul audio",
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "Puneți pauză atașamentului audio",
+        "message": "Pune pauză atașamentului audio",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
-        "message": "Descărcați atașamentul audio",
+        "message": "Descarcă atașamentul audio",
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
@@ -5874,7 +5874,7 @@
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Apasă $composeIcon$ de mai sus și căutați contactele sau grupurile cu care vreți să comunicați.",
+        "message": "Apasă $composeIcon$ de mai sus și caută contactele sau grupurile cu care vrei să comunici.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5892,11 +5892,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "MessageRequestWarning__learn-more": {
-        "message": "Aflați mai multe",
+        "message": "Află mai multe",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "Nu aveți grupuri în comun cu această persoană. Examinați cu atenție solicitările înainte de a accepta pentru a evita mesajele nedorite.",
+        "message": "Nu ai grupuri în comun cu această persoană. Examinează cu atenție solicitările înainte de a accepta pentru a evita mesajele nedorite.",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -5932,7 +5932,7 @@
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Apăsați pentru examinare",
+        "message": "Apasă pentru examinare",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
@@ -5940,7 +5940,7 @@
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "Dacă nu sunteți sigur de la cine provine solicitarea, consultați persoanele de contact de mai jos și luați o decizie.",
+        "message": "Dacă nu ești sigur de la cine provine solicitarea, consultă persoanele de contact de mai jos și ia măsuri.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -5956,7 +5956,7 @@
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ membri ai grupului au nume similar, revizuiți membri de mai jos sau alegeți să luați o decizie.",
+        "message": "$count$ membri ai grupului au nume similar, revizuiește membri de mai jos sau alege să iei o decizie.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -5978,11 +5978,11 @@
         }
     },
     "RemoveGroupMemberConfirmation__remove-button": {
-        "message": "Eliminați din grup",
+        "message": "Elimină din grup",
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "Eliminați pe \"$name$\" din grup?",
+        "message": "Elimini pe \"$name$\" din grup?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -5992,27 +5992,27 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verificați pentru a continua conversația",
+        "message": "Verifică pentru a continua conversația",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "Pentru a ajuta la prevenirea spam-ului pe Signal, vă rugăm să completați verificarea.",
+        "message": "Pentru a ajuta la prevenirea spam-ului pe Signal, te rugăm să completezi verificarea.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "După verificare, puteți continua să trimiteți mesaje. Toate mesajele aflate în pauză vor fi trimise automat.",
+        "message": "După verificare, poți continua să trimiți mesaje. Toate mesajele aflate în pauză vor fi trimise automat.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continuați fără verificare?",
+        "message": "Continui fără verificare?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "Dacă alegeți să omiteți verificarea, este posibil să pierdeți mesaje de la alte persoane și este posibil ca mesajele dvs. să nu poată fi trimise.",
+        "message": "Dacă alegi să omiți verificarea, este posibil să pierzi mesaje de la alte persoane și este posibil ca mesajele tale să nu poată fi trimise.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
-        "message": "Omiteți verificarea",
+        "message": "Omite verificarea",
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
@@ -6020,11 +6020,11 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verificarea a eșuat. Vă rugăm încercați mai târziu.",
+        "message": "Verificarea a eșuat. Te rugăm să încerci mai târziu.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Nu s-a putut șterge mesajul pentru toată lumea. Vă rugăm reîncercați mai târziu.",
+        "message": "Nu s-a putut șterge mesajul pentru toată lumea. Te rugăm să reîncerci mai târziu.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6032,7 +6032,7 @@
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "Această culoare personalizată este utilizată în $num$ conversații. Doriți să o ștergeți pentru toate conversațiile?",
+        "message": "Această culoare personalizată este utilizată în $num$ conversații. Vrei să o ștergi pentru toate conversațiile?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6070,11 +6070,11 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Doriți să suprascrieți culorile pentru toate conversațiile?",
+        "message": "Vrei să suprascrii culorile pentru toate conversațiile?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Arătați editorul de culori personalizate",
+        "message": "Arată editorul de culori personalizate",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
@@ -6086,7 +6086,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "Culoarea este vizibilă doar pentru dvs.",
+        "message": "Culoarea este vizibilă doar pentru tine.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
@@ -6134,7 +6134,7 @@
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Alegeți un timp personalizat pentru dispariția mesajelor.",
+        "message": "Alege un timp personalizat pentru dispariția mesajelor.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -6162,7 +6162,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Setați un temporizator implicit de dispariție a mesajelor pentru toate conversațiile noi inițiate de dvs.",
+        "message": "Setează un temporizator implicit de dispariție a mesajelor pentru toate conversațiile noi inițiate de tine.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -6180,11 +6180,11 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Acest mesaj nu s-a putut afișa. Apăsați pentru a trimite un jurnal de depanare.",
+        "message": "Acest mesaj nu s-a putut afișa. Apasă pentru a trimite un jurnal de depanare.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
-        "message": "citiți mai multe",
+        "message": "Citește mai mult",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
@@ -6192,11 +6192,11 @@
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "Adăugați descrierea grupului...",
+        "message": "Adaugă descrierea grupului...",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Selectați calitatea fișierelor media",
+        "message": "Selectează calitatea fișierelor media",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
@@ -6252,7 +6252,7 @@
         "description": "Default text for username field"
     },
     "ProfileEditor--username--placeholder": {
-        "message": "Introduceți un nume de utilizator",
+        "message": "Introdu un nume de utilizator",
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
@@ -6292,11 +6292,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Numele de utilizator nu a putut fi salvat. Verificați conexiunea și încercați din nou.",
+        "message": "Numele de utilizator nu a putut fi salvat. Verifică conexiunea și încearcă din nou.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Numele de utilizator nu a putut fi eliminat. Verificați conexiunea și încercați din nou.",
+        "message": "Numele de utilizator nu a putut fi eliminat. Verifică conexiunea și încearcă din nou.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6304,7 +6304,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Această acțiune va elimina numele dvs. de utilizator, permițând altor utilizatori să îl revendice. Sunteți sigur?",
+        "message": "Această acțiune va elimina numele tău de utilizator, permițând altor utilizatori să îl revendice. Ești sigur?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6312,7 +6312,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Scrieți câte ceva despre dvs...",
+        "message": "Scrie câte ceva despre tine...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6328,7 +6328,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Profilul dvs. este criptat. Profilul dvs. și modificările sale vor fi vizibile pentru contactele dvs., atunci când inițiați sau acceptați conversații noi. $learnMore$",
+        "message": "Profilul tău este criptat. Profilul tău și modificările sale vor fi vizibile pentru contactele tale, atunci când inițiezi sau accepți conversații noi. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6338,7 +6338,7 @@
         }
     },
     "ProfileEditor--learnMore": {
-        "message": "Aflați mai multe",
+        "message": "Află mai multe",
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
@@ -6366,7 +6366,7 @@
         "description": "Title for profile editing"
     },
     "ProfileEditorModal--name": {
-        "message": "Numele dumneavoastră",
+        "message": "Numele tău",
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
@@ -6374,7 +6374,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Avatarul dvs.",
+        "message": "Avatarul tău",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6382,11 +6382,11 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Profilul dvs. nu a putut fi actualizat. Vă rugăm încercați din nou.",
+        "message": "Profilul tău nu a putut fi actualizat. Te rugăm să încerci din nou.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Trimiteți un mesaj unui administrator",
+        "message": "Trimite un mesaj unui administrator",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
@@ -6404,11 +6404,11 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Selectați un avatar",
+        "message": "Selectează un avatar",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Alegeți o culoare",
+        "message": "Alege o culoare",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
@@ -6462,11 +6462,11 @@
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
-        "message": "Generați previzualizări ale linkurilor",
+        "message": "Generează previzualizări ale linkurilor",
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Pentru a modifica această setare, deschideți aplicația Signal pe dispozitivul dvs. mobil și mergeți la Setări > Conversații",
+        "message": "Pentru a modifica această setare, deschide aplicația Signal pe dispozitivul tău mobil și mergi la Setări > Conversații",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6506,7 +6506,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Pentru a modifica aceste setări, deschideți aplicația Signal pe dispozitivul dvs. mobil și mergeți la Setări > Confidențialitate",
+        "message": "Pentru a modifica aceste setări, deschide aplicația Signal pe dispozitivul tău mobil și mergi la Setări > Confidențialitate",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6530,7 +6530,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Găsiți-mă după numărul de telefon",
+        "message": "Să mă găsească după numărul de telefon",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6572,7 +6572,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Vă rugăm închideți-l manual și apăsați Reîncercare pentru a continua.",
+        "message": "Te rugăm să-l închizi manual și apasă Reîncercare pentru a continua.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6580,11 +6580,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Apăsați pentru a înlocui un emoji",
+        "message": "Apasă pentru a înlocui un emoji",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "S-a produs o eroare la salvarea setărilor dvs. Vă rugăm să încercați din nou.",
+        "message": "S-a produs o eroare la salvarea setărilor tale. Te rugăm să încerci din nou.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -6676,15 +6676,15 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.24--1": {
-        "message": "Acum puteți căuta în conversații arhivate. Imaginați-vă căutând (rapid) prin tomuri vechi, pentru a găsi următorul indiciu.",
+        "message": "Acum poți căuta în conversații arhivate. Imaginează-te căutând (rapid) prin tomuri vechi, pentru a găsi următorul indiciu.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "Dacă ați derulat vreodată în sus și apoi ați trimis un mesaj, probabil v-ați întrebat unde este mesajul dvs.! Acum, de fiecare dată când trimiteți un mesaj, acesta va fi adus la vedere pentru ca dvs. să vă puteți admira munca depusă.",
+        "message": "Dacă ai derulat vreodată în sus și apoi ai trimis un mesaj, probabil te-ai întrebat unde este mesajul tău! Acum, de fiecare dată când trimiți un mesaj, acesta va fi adus la vedere ca să poți admira munca depusă.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reacționați la un mesaj? Acum această acțiune ar trebui să fie mai fiabilă, va fi reîncercată timp de până la 24 de ore",
+        "message": "Reacționezi la un mesaj? Acum această acțiune ar trebui să fie mai fiabilă, va fi reîncercată timp de până la 24 de ore",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {

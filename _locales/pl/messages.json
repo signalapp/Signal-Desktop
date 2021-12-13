@@ -1910,7 +1910,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$ zareagował(a) w ten sposób $emoji$ na Twoją wiadomość",
+        "message": "$sender$ zareagował(a) tak $emoji$ na Twoją wiadomość",
         "description": "",
         "placeholders": {
             "sender": {
@@ -1924,7 +1924,7 @@
         }
     },
     "notificationReactionMessage": {
-        "message": "$sender$ zareagował(a) w ten sposób $emoji$ na  $message$",
+        "message": "$sender$ zareagował(a) tak $emoji$ na  $message$",
         "description": "",
         "placeholders": {
             "sender": {

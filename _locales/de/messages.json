@@ -6664,7 +6664,7 @@
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
-        "message": "Signal sperren",
+        "message": "Sperren",
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {

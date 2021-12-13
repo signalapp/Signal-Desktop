@@ -416,11 +416,11 @@
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Send pending message",
+        "message": "Надіслати повідомлення в очікуванні",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Send $count$ pending messages",
+        "message": "Надіслати $count$ повідомлень, що очікують на розгляд",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -470,19 +470,19 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "Цей журнал буде опубліковано для всіх учасників. Ви можете завантажити повний журнал перед відправкою.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "Під час завантаження сталася помилка! Надішліть електронний лист support@signal.org та прикріпіть свій журнал у вигляді текстового файлу.",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "Журнал налагодження надіслано",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Журнал налагодження завантажено. Звертаючись до служби підтримки, скопіюйте посилання нижче та додайте його до опису проблеми, з якою ви зіткнулися, та кроків для її відтворення.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,11 +648,11 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
+        "message": "На робочому столі сталася помилка дешифрування.",
         "description": "An error popup when we haven't added an error for decryption error."
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "Передати журнал",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -1160,7 +1160,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "Щоб перевірити безпеку вашого наскрізного шифрування з $name$, порівняйте наведені вище числа з їхнім пристроєм.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1560,7 +1560,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal зателефонує $first$ та $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1574,7 +1574,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal зателефонує $first$, $second$ та $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1592,7 +1592,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal зателефонує $first$, $second$ та $others$ іншим",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -5356,7 +5356,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Включіть ігноровані бесіди до кількості значків",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5424,7 +5424,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "Якщо ввімкнути, повідомлення, надіслані та отримані в цьому чаті 1:1, зникнуть після того, як їх переглянуть.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5668,7 +5668,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Відкликати $number$ запрошень, надісланих \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5830,7 +5830,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "Скасувати вибір контакту $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5840,7 +5840,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "Не вдається вибрати контакт $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6180,7 +6180,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Не вдалося відобразити це повідомлення. Натисніть, щоб надіслати журнал налагодження.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6268,7 +6268,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "Імена користувачів мають містити щонайменше $min$ символів.",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6278,7 +6278,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "Імена користувачів мають містити щонайбільше $max$ символів.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6292,11 +6292,11 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "Ваше ім’я користувача не вдалося зберегти. Перевірте з’єднання та спробуйте ще раз.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "Ваше ім’я користувача не вдалося видалити. Перевірте з’єднання та спробуйте ще раз.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
@@ -6506,7 +6506,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Щоб змінити ці налаштування, відкрийте застосунок Signal на своєму мобільному пристрої та перейдіть до Налаштування > Конфіденційність",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6572,7 +6572,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "Закрийте його вручну та натисніть Повторити, щоб продовжити.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6616,11 +6616,11 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Виділення",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "Контур",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
@@ -6676,31 +6676,31 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.24--1": {
-        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "message": "Тепер ви можете шукати в заархівованих бесідах. Уявіть, що ви проглядаєте (швидко) стародавні фоліанти, шукаючи наступну підказку.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "message": "Якщо ви коли-небудь прокручували вгору й надсилали повідомлення, ви знаєте, що можете не знайти його! Тепер, коли ви надсилаєте повідомлення, воно прокручуватиметься, щоб ви могли захоплюватися своєю працею.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "message": "Реагуєте на повідомлення? Тепер це має бути більш надійним, можна повторювати спробу протягом 24 годин",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок, щоб забезпечити безперебійну роботу Signal.",
         "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "Втомились: надсилайте прості невідредаговані зображення на Signal. Збадьорились: додавайте стікери з кицьками, неоновий текст та малюйте щасливі дерева на ваших зображеннях, перш ніж надсилати їх на Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Ви коли-небудь відчували, що вам потрібно більше пікселів на правій панелі у вашому житті? Ви любите аватари, але тільки аватари і нічого іншого? У вас є наклейка на бампер \"Зберегти нерухомість екрана\" на вашому автомобілі? Якщо ви відповіли так чи ні на будь-яке з цих запитань, це оновлення має для вас ліву панель, що згортається.",
         "description": "Release notes for v5.26"
     }
 }

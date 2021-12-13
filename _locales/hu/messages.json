@@ -846,7 +846,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "$whatsNew$ ebben a frissítésben megtekintése",
+        "message": "$whatsNew$ ebben a frissítésben",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -856,7 +856,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "mi az újdonság",
+        "message": "újdonságok",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1044,7 +1044,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a  $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
+        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -1272,7 +1272,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ megváltoztatta a számát egy új számra.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -5382,7 +5382,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Elveszed $contact$ csoportadmin jogosultságát?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5408,7 +5408,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "Némítás feloldása?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -6542,7 +6542,7 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Frissítések",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
@@ -6550,7 +6550,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Értesítések engedélyezése",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6592,7 +6592,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "Szöveg hozzáadása",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6600,7 +6600,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "Vágás, forgatás",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6612,11 +6612,11 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "Normál",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Kiemelés",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
@@ -6628,19 +6628,19 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "Toll",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "Kiemelő",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "Vékon",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "Normál",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6648,7 +6648,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "Vastag",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6656,7 +6656,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "Forgatás",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6668,11 +6668,11 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "Vágás",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Újdonságok",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.24--1": {

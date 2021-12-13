@@ -1194,11 +1194,11 @@
         "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
-        "message": "Eliminar mensaje para mi",
+        "message": "Eliminar mensaje sólo para mi",
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Eliminar mensaje para tod@s",
+        "message": "Eliminar mensaje en el chat",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -5332,7 +5332,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Toca sobre \"Sostén Signal\" y suscríbete",
+        "message": "Toca sobre «Sostén Signal» y suscríbete",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -6304,7 +6304,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Esto eliminará tu alias, permitiendo a otra personas usarlo. ¿Estás segur@?",
+        "message": "Esto eliminará tu alias, permitiendo a otra persona usarlo. ¿Estás segur@?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6466,7 +6466,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Para modificar esta opción, abre Signal en tu móvil y vete a Ajustes > Chats",
+        "message": "Para modificar esta opción, abre Signal en tu móvil y ve a Ajustes > Chats",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6506,7 +6506,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Para modificar estas opciones, abre Signal en tu móvil y vete a Ajustes > Privacidad",
+        "message": "Para modificar estas opciones, abre Signal en tu móvil y ve a Ajustes > Privacidad",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6644,7 +6644,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
-        "message": "Mediana",
+        "message": "Media",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
@@ -6696,7 +6696,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Cosas del pasado: Enviar mensajes simples en Signal. Cosas del presente: Añade  tus fotos stickers de gatos, texto en colores neón o dibuja árboles sonrientes antes de enviarlas por Signal.",
+        "message": "Cosas del pasado: Enviar fotos normales en Signal. Cosas del presente: Añade a tus fotos stickers de gatos, texto de color neón o dibuja árboles sonrientes antes de enviarlas por Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {

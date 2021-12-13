@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search chat",
+        "message": "चैट सर्च करें",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -828,7 +828,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by Username",
+        "message": "यूज़र के नाम द्वारा खोजें",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -2278,11 +2278,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "यूज़र का नाम ढूंढने में असफ़ल. अपने कनेक्शन को चेक करें और फिर से कोशिश करें.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "यूज़र नहीं मिला. $atUsername$ एक Signal यूज़र नहीं है; सुनिश्चित करें कि आपने पूरा यूज़र नाम दर्ज किया है.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -5312,19 +5312,19 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "एक सस्टेनर बनें",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "एक सस्टेनर बनें",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal आप जैसे लोगों द्वारा संचालित है. योगदान दें और एक बैज पाएं.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "अपने फ़ोन पर Signal को ओपेन करें",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5332,7 +5332,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "\"एक सस्टेनर बनें\" पर टैप करें और सब्सक्राइब करें",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5424,7 +5424,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "एनेबल होने पर, इस 1:1 चैट में भेजे और पाए गए मेसेज देखे जाने के बाद गायब हो जाएंगे.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -6592,7 +6592,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "टेक्स्ट शामिल करें",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6600,7 +6600,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "छाटें और घुमाएं",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6612,35 +6612,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "नियमित",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "हाइलाइट",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "रूपरेखा",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "रेखांकित करें",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "पेन",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "हाइलाइटर",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "पतला",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "नियमित",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6648,7 +6648,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "भारी",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6656,7 +6656,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "घुमाएं",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6668,7 +6668,7 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "छांटें",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
@@ -6696,11 +6696,11 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "टायर्ड: Signal पर सादा अन-एडिटेड इमेज भेजकर.\nवायर्ड: Signal पर भेजने से पहले अपनी इमेज पर शामिल करें बिल्ली का स्टिकर, नियॉन टेक्स्ट, और ड्रॉ किए हुए ख़ुश पेड़.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "कभी ऐसा महसूस हुआ है कि आपको अपने जीवन में दाएं पेन पर ज़्यादा पिक्सेल की ज़रुरत है? क्या आप अवतारों के प्रशंसक हैं, लेकिन सिर्फ़ अवतार और कुछ नहीं? क्या आपकी कार पर \"सेव द स्क्रीन रियल एस्टेट\" बम्पर स्टिकर है? अगर आपने इनमें से किसी भी सवाल का जवाब हां या ना में दिया है, तो यह अपडेट आपके लिए कुछ संक्षिप्त करने योग्य बायां पेन लेकर आया है.",
         "description": "Release notes for v5.26"
     }
 }

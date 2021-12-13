@@ -780,7 +780,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search chat",
+        "message": "البحث في المحادثة",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -828,7 +828,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by Username",
+        "message": "البحث باسم المستخدم",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -2278,11 +2278,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "فشل إحضار اسم المستخدم هذا. تفقّد اتصال شبكتك وحاول مرة أخرى.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "المستخدم غير موجود. $atUsername$ لا يستخدم Signal. تأكّد من إدخال اسم المستخدم بالكامل.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -5320,11 +5320,11 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal يدعمه أشخاص مثلك. ساهم واحصل على شارة.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "افتح Signal على هاتفك",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5332,7 +5332,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "انقر على \"كُن داعماً\" واشترك",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5424,7 +5424,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "عند التفعيل، ستختفي الرسائل المتبادلة في هذه المحادثة بين شخصين بعد رؤيتها.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -6260,7 +6260,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "يُمكن لاسم المستخدم أن يحتوي على a-z، و0-9، و_ فقط",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6268,7 +6268,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "يجب أن يحتوي اسم المستخدم على $min$ رموز على الأقل.",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6278,7 +6278,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "يجب أن تحتوي أسماء المستخدمين على $max$ رموز كحد أقصى.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6292,19 +6292,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "تعذّر حفظ اسم المستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "تعذّر حذف اسم المستخدم الخاص بك. تفقّد اتصال شبكتك وحاول مرة أخرى.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "حذف اسم المستخدم",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "سيحذف ذلك اسم المستخدم الخاص بك، مما يسمح للمستخدمين الآخرين باستخدامه. هل أنت متأكد؟",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6374,7 +6374,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "صورتك الرمزية",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6466,7 +6466,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم المحادثات",
+        "message": "‫لتعديل هذا الإعداد، يُرجى فتح تطبيق Signal في جهازك المحمول ثم الذهاب إلى الإعدادات ثم المحادثات",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6592,7 +6592,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "أضف نصاً",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6600,7 +6600,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "قص وأدر",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6612,35 +6612,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "عادي",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": " إبراز",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "تحديد",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "إضافة خط تحتي",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "قلم",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "فرشاة إبراز",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "رفيعة",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "عادي",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6648,7 +6648,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "سميك",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6656,7 +6656,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "تدوير",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6668,7 +6668,7 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "قص",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
@@ -6676,15 +6676,15 @@
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.24--1": {
-        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
+        "message": "يُمكنك الآن البحث في المحادثات المحفوظة. تخيّل نفسك تبحث (سريعاً) في مجلدات قديمة بينما تحاول العثور على الدليل التالي.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--2": {
-        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
+        "message": "إذا قُمت بالتمرير للأعلى وأرسلت رسالة، قد تتساءل أين ذهبت رسالتك! الآن، متى ما ترسل رسالة، ستظهر أمامك لتقدر عملك الشاق.",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.24--3": {
-        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
+        "message": "الرد على رسالة؟ يجب أن يُعتمد عليه بشكل أكبر الآن، إعادة المحاولة لما يصل إلى 24 ساعة",
         "description": "Release notes for v5.24"
     },
     "WhatsNew__v5.25--1": {
@@ -6696,11 +6696,11 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "مُتعب: إرسال صور عادية غير مُعدّلة على Signal. متحمس: إضافة ملصقات قطط ورسائل نصية بالنيون، ورسم أشجار سعيدة على صورك قبل إرسالها على Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "هل شعرت من قبل في حياتك أنك تحتاج إلى المزيد من وحدات البيكسل للجزء الأيمن من شاشتك؟ هل تحب الصور الرمزية، ولكن الصور الرمزية فقط ولا شيء غيرها؟ هل لديك ملصق صدام \"توفير مساحة العرض\" على سيارتك؟ إذا أجبت بنعم أو لا على أي من هذه الأسئلة، فسيوفر لك هذا التحديث جزءاً أيسر قابل للطي.",
         "description": "Release notes for v5.26"
     }
 }

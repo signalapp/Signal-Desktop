@@ -2558,7 +2558,7 @@
         "description": "Shown in notifications and in the left pane when a photo is received."
     },
     "message--getNotificationText--video": {
-        "message": "Vaizdo įrašai",
+        "message": "Vaizdo įrašas",
         "description": "Shown in notifications and in the left pane when a video is received."
     },
     "message--getNotificationText--voice-message": {

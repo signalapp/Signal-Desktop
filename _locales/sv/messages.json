@@ -748,7 +748,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Delar skärm",
+        "message": "Skärmdelning",
         "description": "Title for screen sharing window"
     },
     "speech": {
