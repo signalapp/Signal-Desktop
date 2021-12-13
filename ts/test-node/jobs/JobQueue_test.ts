@@ -13,7 +13,6 @@ import PQueue from 'p-queue';
 import { JobError } from '../../jobs/JobError';
 import { TestJobQueueStore } from './TestJobQueueStore';
 import { missingCaseError } from '../../util/missingCaseError';
-import { assertRejects } from '../helpers';
 import type { LoggerType } from '../../types/Logging';
 
 import { JobQueue } from '../../jobs/JobQueue';
@@ -803,8 +802,8 @@ describe('JobQueue', () => {
 
       noopQueue.streamJobs();
 
-      await assertRejects(() => noopQueue.streamJobs());
-      await assertRejects(() => noopQueue.streamJobs());
+      await assert.isRejected(noopQueue.streamJobs());
+      await assert.isRejected(noopQueue.streamJobs());
 
       sinon.assert.calledOnce(fakeStore.stream as sinon.SinonStub);
     });
@@ -834,7 +833,7 @@ describe('JobQueue', () => {
         maxAttempts: 99,
       });
 
-      await assertRejects(() => noopQueue.add(undefined));
+      await assert.isRejected(noopQueue.add(undefined));
 
       sinon.assert.notCalled(fakeStore.stream as sinon.SinonStub);
     });

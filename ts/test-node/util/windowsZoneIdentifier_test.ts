@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -7,7 +7,6 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as Sinon from 'sinon';
-import { assertRejects } from '../helpers';
 
 import { writeWindowsZoneIdentifier } from '../../util/windowsZoneIdentifier';
 
@@ -47,13 +46,13 @@ describe('writeWindowsZoneIdentifier', () => {
     await fse.outputFile(file, 'hello');
     await fs.promises.writeFile(`${file}:Zone.Identifier`, '# already here');
 
-    await assertRejects(() => writeWindowsZoneIdentifier(file));
+    await assert.isRejected(writeWindowsZoneIdentifier(file));
   });
 
   it('fails if the original file does not exist', async function thisNeeded() {
     const file = path.join(this.tmpdir, 'file-never-created.txt');
 
-    await assertRejects(() => writeWindowsZoneIdentifier(file));
+    await assert.isRejected(writeWindowsZoneIdentifier(file));
   });
 
   it('fails if not on Windows', async function thisNeeded() {
@@ -62,6 +61,6 @@ describe('writeWindowsZoneIdentifier', () => {
     const file = path.join(this.tmpdir, 'file.txt');
     await fse.outputFile(file, 'hello');
 
-    await assertRejects(() => writeWindowsZoneIdentifier(file));
+    await assert.isRejected(writeWindowsZoneIdentifier(file));
   });
 });
