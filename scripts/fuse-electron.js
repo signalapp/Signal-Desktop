@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-console */
 
 const { flipFuses, FuseVersion, FuseV1Options } = require('@electron/fuses');
 

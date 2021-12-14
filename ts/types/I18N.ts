@@ -7,6 +7,12 @@ export type LocaleMessagesType = {
   [key: string]: {
     message: string;
     description?: string;
+    placeholders?: {
+      [name: string]: {
+        content: string;
+        example: string;
+      };
+    };
   };
 };
 

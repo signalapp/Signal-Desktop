@@ -38,7 +38,6 @@ const FILES_TO_IGNORE = new Set(
   [
     '.github/ISSUE_TEMPLATE/bug_report.md',
     '.github/PULL_REQUEST_TEMPLATE.md',
-    'components/indexeddb-backbonejs-adapter/backbone-indexeddb.js',
     'components/mp3lameencoder/lib/Mp3LameEncoder.js',
     'components/qrcode/qrcode.js',
     'components/recorderjs/recorder.js',

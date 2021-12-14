@@ -59,7 +59,7 @@ cd Signal-Desktop
 git-lfs install                # Setup Git LFS.
 npm install --global yarn      # (only if you don’t already have `yarn`)
 yarn install --frozen-lockfile # Install and build dependencies (this will take a while)
-yarn grunt                     # Generate final JS and CSS assets
+yarn generate                  # Generate final JS and CSS assets
 yarn build:webpack             # Build parts of the app that use webpack (Sticker Creator)
 yarn test                      # A good idea to make sure tests run first
 yarn start                     # Start Signal!
@@ -72,13 +72,14 @@ is no automatic restart mechanism. Alternatively, keep the developer tools open
 (Windows & Linux).
 
 Also, note that the assets loaded by the application are not necessarily the same files
-you’re touching. You may not see your changes until you run `yarn grunt` on the
+you’re touching. You may not see your changes until you run `yarn generate` on the
 command-line like you did during setup. You can make it easier on yourself by generating
-the latest built assets when you change a file. Run this in its own terminal instance
-while you make changes:
+the latest built assets when you change a file. Run each of these in their own terminal
+instance while you make changes - they'll run until you stop them:
 
 ```
-yarn grunt dev # runs until you stop it, re-generating built assets on file changes
+yarn transpile --watch         # recompiles when you change .ts files
+yarn sass-manifest --watch     # recompiles when you change .scss files
 ```
 
 If you miss the `git-lfs` step, run `yarn cache clean` and remove `node_modules` before trying again.

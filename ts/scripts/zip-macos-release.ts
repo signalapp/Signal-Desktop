@@ -1,8 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable no-console */
-
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';

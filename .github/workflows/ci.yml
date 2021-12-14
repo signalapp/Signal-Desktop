@@ -128,7 +128,6 @@ jobs:
       run: yarn install --frozen-lockfile
 
     - run: yarn generate
-    - run: node build\grunt.js
     - run: yarn test-node
     - run: copy package.json temp.json
     - run: del package.json

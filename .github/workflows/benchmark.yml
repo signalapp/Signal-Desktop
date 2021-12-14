@@ -56,7 +56,7 @@ jobs:
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
     - name: Build typescript
-      run: yarn grunt
+      run: yarn generate
     - name: Bundle
       run: yarn build:webpack
 

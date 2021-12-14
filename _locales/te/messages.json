@@ -425,7 +425,7 @@
         "placeholders": {
             "count": {
                 "content": "$1",
-                "example": 123
+                "example": "123"
             }
         }
     },
@@ -631,7 +631,7 @@
         "message": "$domain$కోసం సూక్ష్మచిత్రం పూర్వప్రదర్శన లింకు ",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area",
         "placeholders": {
-            "path": {
+            "domain": {
                 "content": "$1",
                 "example": "instagram.com"
             }
@@ -649,7 +649,17 @@
     },
     "decryptionErrorToast": {
         "message": "Desktop ran into a decryption error.",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "description": "An error popup when we haven't added an error for decryption error.",
+        "placeholders": {
+            "name": {
+                "content": "$1",
+                "example": "John"
+            },
+            "deviceId": {
+                "content": "$1",
+                "example": "2"
+            }
+        }
     },
     "decryptionErrorToastAction": {
         "message": "Submit log",

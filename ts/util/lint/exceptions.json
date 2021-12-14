@@ -1,19 +1,5 @@
 [
   {
-    "rule": "jQuery-after(",
-    "path": "components/indexeddb-backbonejs-adapter/backbone-indexeddb.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-13T21:24:40.667Z",
-    "line": "                            migration.after(function () {"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "components/indexeddb-backbonejs-adapter/backbone-indexeddb.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-13T21:24:40.667Z",
-    "line": "                    migration.before(function () {"
-  },
-  {
     "rule": "eval",
     "path": "components/mp3lameencoder/lib/Mp3LameEncoder.js",
     "line": "    return eval(funcstr);",
@@ -598,6 +584,101 @@
     "line": "    Pp.insertBefore = function insertBefore(node) {",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T18:13:29.628Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "    if (this.tail) this.insertAfter(this.tail, node);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "    if (this.head) this.insertBefore(this.head, node);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "                q._tasks.insertBefore(nextNode, item);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "function wrap(defer) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "var setImmediate$1 = wrap(_defer);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/async/dist/async.js",
+    "line": "var nextTick = wrap(_defer$1);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/async/dist/async.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/async/dist/async.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/async/dist/async.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertAfter(",
+    "path": "node_modules/async/internal/DoublyLinkedList.js",
+    "line": "    if (this.tail) this.insertAfter(this.tail, node);else setInitial(this, node);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/async/internal/DoublyLinkedList.js",
+    "line": "    if (this.head) this.insertBefore(this.head, node);else setInitial(this, node);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/async/internal/setImmediate.js",
+    "line": "function wrap(defer) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/async/internal/setImmediate.js",
+    "line": "exports.default = wrap(_defer);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/async/priorityQueue.js",
+    "line": "                q._tasks.insertBefore(nextNode, item);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T02:14:15.457Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -6617,26 +6698,6 @@
     "line": "  function in$(x, xs){",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-19T21:59:32.770Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/underscore.string/dist/underscore.string.js",
-    "line": "module.exports = function wrap(str, options){",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/underscore.string/dist/underscore.string.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-06T21:37:22.288Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/underscore.string/wrap.js",
-    "line": "module.exports = function wrap(str, options){",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-after(",

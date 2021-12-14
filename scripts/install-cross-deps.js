@@ -1,6 +1,5 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-/* eslint-disable no-console */
 
 const path = require('path');
 const { execSync } = require('child_process');
