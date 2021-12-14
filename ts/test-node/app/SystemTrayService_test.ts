@@ -6,10 +6,14 @@ import * as sinon from 'sinon';
 import type { MenuItem } from 'electron';
 import { BrowserWindow, Tray, nativeImage } from 'electron';
 import * as path from 'path';
+import { MINUTE } from '../../util/durations';
 
 import { SystemTrayService } from '../../../app/SystemTrayService';
 
-describe('SystemTrayService', () => {
+describe('SystemTrayService', function thisNeeded() {
+  // These tests take more time on CI in some cases, so we increase the timeout.
+  this.timeout(MINUTE);
+
   let sandbox: sinon.SinonSandbox;
 
   /**
