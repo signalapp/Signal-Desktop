@@ -3028,6 +3028,19 @@ async function getUnprocessedCount(): Promise<number> {
 
 async function getAllUnprocessed(): Promise<Array<UnprocessedType>> {
   const db = getInstance();
+
+  const { changes: deletedCount } = db
+    .prepare<Query>('DELETE FROM unprocessed WHERE timestamp < $monthAgo')
+    .run({
+      monthAgo: Date.now() - durations.MONTH,
+    });
+
+  if (deletedCount !== 0) {
+    logger.warn(
+      `getAllUnprocessed: deleting ${deletedCount} old unprocessed envelopes`
+    );
+  }
+
   const rows = db
     .prepare<EmptyQuery>(
       `

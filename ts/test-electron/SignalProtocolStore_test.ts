@@ -13,6 +13,7 @@ import {
 
 import { signal } from '../protobuf/compiled';
 import { sessionStructureToBytes } from '../util/sessionTranslation';
+import * as durations from '../util/durations';
 import { Zone } from '../util/Zone';
 
 import * as Bytes from '../Bytes';
@@ -1477,7 +1478,7 @@ describe('SignalProtocolStore', () => {
           {
             id: '2-two',
             envelope: 'second',
-            timestamp: 2,
+            timestamp: Date.now() + 2,
             version: 2,
             attempts: 0,
           },
@@ -1617,6 +1618,8 @@ describe('SignalProtocolStore', () => {
   });
 
   describe('Not yet processed messages', () => {
+    const NOW = Date.now();
+
     beforeEach(async () => {
       await store.removeAllUnprocessed();
       const items = await store.getAllUnprocessed();
@@ -1626,23 +1629,30 @@ describe('SignalProtocolStore', () => {
     it('adds three and gets them back', async () => {
       await Promise.all([
         store.addUnprocessed({
+          id: '0-dropped',
+          envelope: 'old envelope',
+          timestamp: NOW - 2 * durations.MONTH,
+          version: 2,
+          attempts: 0,
+        }),
+        store.addUnprocessed({
           id: '2-two',
           envelope: 'second',
-          timestamp: 2,
+          timestamp: NOW + 2,
           version: 2,
           attempts: 0,
         }),
         store.addUnprocessed({
           id: '3-three',
           envelope: 'third',
-          timestamp: 3,
+          timestamp: NOW + 3,
           version: 2,
           attempts: 0,
         }),
         store.addUnprocessed({
           id: '1-one',
           envelope: 'first',
-          timestamp: 1,
+          timestamp: NOW + 1,
           version: 2,
           attempts: 0,
         }),
@@ -1662,7 +1672,7 @@ describe('SignalProtocolStore', () => {
       await store.addUnprocessed({
         id,
         envelope: 'first',
-        timestamp: 1,
+        timestamp: NOW + 1,
         version: 2,
         attempts: 0,
       });
@@ -1671,7 +1681,7 @@ describe('SignalProtocolStore', () => {
       const items = await store.getAllUnprocessed();
       assert.strictEqual(items.length, 1);
       assert.strictEqual(items[0].decrypted, 'updated');
-      assert.strictEqual(items[0].timestamp, 1);
+      assert.strictEqual(items[0].timestamp, NOW + 1);
     });
 
     it('removeUnprocessed successfully deletes item', async () => {
@@ -1679,7 +1689,7 @@ describe('SignalProtocolStore', () => {
       await store.addUnprocessed({
         id,
         envelope: 'first',
-        timestamp: 1,
+        timestamp: NOW + 1,
         version: 2,
         attempts: 0,
       });
