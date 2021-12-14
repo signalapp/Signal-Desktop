@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Legfeljebb 4 beszélgetést rögzíthetsz",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Mappa kiválasztása",
@@ -790,7 +790,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Keresés itt: $conversationName$",
+        "message": "Search chat",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -856,7 +856,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "$whatsNew$ ebben a frissítésben megtekintése",
+        "message": "$whatsNew$ ebben a frissítésben",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -866,7 +866,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "mi az újdonság",
+        "message": "újdonságok",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -1054,7 +1054,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a  $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
+        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "url": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ megváltoztatta a számát egy új számra.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -5392,7 +5392,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Elveszed $contact$ csoportadmin jogosultságát?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5418,7 +5418,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "Némítás feloldása?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5429,9 +5429,13 @@
         "message": "Eltűnő üzenetek",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "Bekapcsolt állapotban az ebbe a csoportban küldött és innen fogadott üzenetek a megtekintésük után eltűnnek.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Értesítések",
@@ -6548,7 +6552,7 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Frissítések",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
@@ -6556,7 +6560,7 @@
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Értesítések engedélyezése",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6593,8 +6597,92 @@
         "message": "There was an error when saving your settings. Please try again.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Rajz",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Szöveg hozzáadása",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Matricák",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Vágás, forgatás",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Visszavonás",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Újra",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Normál",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Kiemelés",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Outline",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Underline",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Toll",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Kiemelő",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Vékon",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Normál",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Közepes",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Vastag",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Alaphelyzetbe állítás",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Forgatás",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Átvált",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Lezárás",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Vágás",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Újdonságok",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__v5.24--1": {
@@ -6616,5 +6704,13 @@
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "description": "Release notes for v5.26"
     }
 }

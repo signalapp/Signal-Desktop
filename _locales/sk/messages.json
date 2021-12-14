@@ -243,7 +243,7 @@
     },
     "pinnedConversationsFull": {
         "message": "Môžete pripnúť najviac 4 konverzácie",
-        "description": ""
+        "description": "Shown in a toast when a user attempts to pin more than the maximum number of chats"
     },
     "chooseDirectory": {
         "message": "Zvoľte priečinok",
@@ -790,7 +790,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Hľadať v $conversationName$",
+        "message": "Hľadať konverzáciu",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -5429,9 +5429,13 @@
         "message": "Miznúce správy",
         "description": "This is the label for the disappearing messages setting panel"
     },
-    "ConversationDetails--disappearing-messages-info": {
+    "ConversationDetails--disappearing-messages-info--group": {
         "message": "Keď je táto možnosť povolená, správy odoslané a prijaté v tejto skupine po zobrazení zmiznú.",
-        "description": "This is the info about the disappearing messages setting"
+        "description": "This is the info about the disappearing messages setting, in groups"
+    },
+    "ConversationDetails--disappearing-messages-info--direct": {
+        "message": "Keď je táto možnosť povolená, správy odoslané a prijaté v tomto rozhovore 1:1 zmiznú po tom, ako ich uvidíte.",
+        "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
         "message": "Hlásenia",
@@ -6593,6 +6597,90 @@
         "message": "Pri ukladaní vašich nastavení sa vyskytla chyba. Prosím skúste to znova.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
+    "MediaEditor__control--draw": {
+        "message": "Nakreslite",
+        "description": "Label for the draw button in the media editor"
+    },
+    "MediaEditor__control--text": {
+        "message": "Pridať text",
+        "description": "Label for the text button in the media editor"
+    },
+    "MediaEditor__control--sticker": {
+        "message": "Nálepky",
+        "description": "Label for the sticker button in the media editor"
+    },
+    "MediaEditor__control--crop": {
+        "message": "Orezať a otočiť",
+        "description": "Label for the crop & rotate button in the media editor"
+    },
+    "MediaEditor__control--undo": {
+        "message": "Späť",
+        "description": "Label for the undo button in the media editor"
+    },
+    "MediaEditor__control--redo": {
+        "message": "Znova",
+        "description": "Label for the redo button in the media editor"
+    },
+    "MediaEditor__text--regular": {
+        "message": "Pravidelné",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--highlight": {
+        "message": "Zvýrazniť",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--outline": {
+        "message": "Obrys",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__text--underline": {
+        "message": "Zdôrazniť",
+        "description": "Describes what attribute the color picker will change on the text"
+    },
+    "MediaEditor__draw--pen": {
+        "message": "Pero",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--highlighter": {
+        "message": "Zvýrazňovač",
+        "description": "Type of brush to free draw"
+    },
+    "MediaEditor__draw--thin": {
+        "message": "Tenký",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--regular": {
+        "message": "Pravidelné",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--medium": {
+        "message": "Stredná",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__draw--heavy": {
+        "message": "Ťažký",
+        "description": "Tip width of the brush"
+    },
+    "MediaEditor__crop--reset": {
+        "message": "Resetovať",
+        "description": "Reset the crop state"
+    },
+    "MediaEditor__crop--rotate": {
+        "message": "Otočiť",
+        "description": "Rotate the canvas"
+    },
+    "MediaEditor__crop--flip": {
+        "message": "Preklopiť",
+        "description": "Flip/mirror the canvas"
+    },
+    "MediaEditor__crop--lock": {
+        "message": "Zamknúť",
+        "description": "Lock the aspect ratio"
+    },
+    "MediaEditor__crop--crop": {
+        "message": "Orezať",
+        "description": "Performs the crop"
+    },
     "WhatsNew__modal-title": {
         "message": "Čo je nové",
         "description": "Title for the whats new modal"
@@ -6616,5 +6704,13 @@
     "WhatsNew__bugfixes": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for releases that only include bug fixes"
+    },
+    "WhatsNew__v5.26--1": {
+        "message": "Unavený: Posielanie obyčajných neupravených obrázkov cez Signal. Káblové: Pridanie nálepiek s mačkami, neónového textu a kreslenie šťastných stromov na vaše obrázky pred ich odoslaním na Signal.",
+        "description": "Release notes for v5.26"
+    },
+    "WhatsNew__v5.26--2": {
+        "message": "Mali ste niekedy pocit, že vo svojom živote potrebujete viac pixelov na správnom paneli? Ste fanúšikom avatarov, ale iba avatarov a ničoho iného? Máte na svojom aute nálepku na nárazníku „Šetriť úžitkovou plochou“? Ak ste na niektorú z týchto otázok odpovedali áno alebo nie, táto aktualizácia má pre vás skladací ľavý panel.",
+        "description": "Release notes for v5.26"
     }
 }
