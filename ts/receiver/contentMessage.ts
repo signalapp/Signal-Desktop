@@ -122,8 +122,6 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
     throw new Error(
       `Waiting for an encryption keypair to be received for group ${groupPubKey.key}`
     );
-
-    return null;
   }
 }
 

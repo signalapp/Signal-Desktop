@@ -140,6 +140,7 @@ async function createAccount(identityKeyPair: any) {
     window.textsecure.storage.remove('read-receipt-setting'),
     window.textsecure.storage.remove('typing-indicators-setting'),
     window.textsecure.storage.remove('regionCode'),
+    window.textsecure.storage.remove('local_attachment_encrypted_key'),
   ]);
 
   // update our own identity key, which may have changed
@@ -169,6 +170,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
     ConversationTypeEnum.PRIVATE
   );
   await conversation.setLokiProfile({ displayName });
+  await conversation.setIsApproved(true);
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),

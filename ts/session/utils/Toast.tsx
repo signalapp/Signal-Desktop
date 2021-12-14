@@ -1,8 +1,8 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import { SessionIconType } from '../../components/session/icon';
-import { SessionToast, SessionToastType } from '../../components/session/SessionToast';
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { SessionToast, SessionToastType } from '../../components/basic/SessionToast';
+import { SessionIconType } from '../../components/icon';
+import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 
 // if you push a toast manually with toast...() be sure to set the type attribute of the SessionToast component

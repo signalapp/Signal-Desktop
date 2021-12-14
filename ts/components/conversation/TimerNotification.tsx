@@ -2,8 +2,8 @@ import React from 'react';
 
 import { missingCaseError } from '../../util/missingCaseError';
 import { PropsForExpirationTimer } from '../../state/ducks/conversations';
-import { ReadableMessage } from './ReadableMessage';
-import { NotificationBubble } from './notification-bubble/NotificationBubble';
+import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
+import { ReadableMessage } from './message/message-item/ReadableMessage';
 
 export const TimerNotification = (props: PropsForExpirationTimer) => {
   const { messageId, receivedAt, isUnread, pubkey, profileName, timespan, type, disabled } = props;

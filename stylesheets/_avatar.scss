@@ -8,27 +8,13 @@ $borderAvatarColor: unquote(
   vertical-align: middle;
   display: inline-block;
   border-radius: 50%;
+  flex-shrink: 0;
 
   img {
     object-fit: cover;
     border-radius: 50%;
     border: 1px solid $borderAvatarColor;
   }
-}
-
-.module-avatar__label {
-  width: 100%;
-  text-align: center;
-  font-weight: 300;
-  text-transform: uppercase;
-  color: $color-white;
-}
-
-.module-avatar__icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .module-avatar__icon--crown-wrapper {
@@ -129,7 +115,8 @@ $borderAvatarColor: unquote(
 
 .module-avatar-clickable {
   transition: $session-transition-duration;
+  cursor: pointer;
   &:hover {
-    opacity: $session-subtle-factor;
+    filter: grayscale(0.7);
   }
 }

@@ -8,8 +8,8 @@ import {
   PropsForGroupUpdateType,
 } from '../../state/ducks/conversations';
 import _ from 'underscore';
-import { ReadableMessage } from './ReadableMessage';
-import { NotificationBubble } from './notification-bubble/NotificationBubble';
+import { NotificationBubble } from './message/message-item/notification-bubble/NotificationBubble';
+import { ReadableMessage } from './message/message-item/ReadableMessage';
 
 // This component is used to display group updates in the conversation view.
 // This is a not a "notification" as the name suggests, but a message inside the conversation

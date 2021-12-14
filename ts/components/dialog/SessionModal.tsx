@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import { SessionIconButton, SessionIconType } from '../session/icon';
-import { SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionIconButton, SessionIconType } from '../icon';
 
 interface Props {
   title: string;

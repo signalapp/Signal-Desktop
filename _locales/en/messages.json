@@ -327,7 +327,7 @@
   "addAsModerator": "Add as Moderator",
   "removeFromModerators": "Remove From Moderators",
   "add": "Add",
-  "addingContacts": "Adding contacts to",
+  "addingContacts": "Adding contacts to $name$",
   "noContactsToAdd": "No contacts to add",
   "noMembersInThisGroup": "No other members in this group",
   "noModeratorsToRemove": "no moderators to remove",

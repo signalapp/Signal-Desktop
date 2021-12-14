@@ -35,22 +35,23 @@ import {
 } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
 import { GroupInvitationMessage } from '../session/messages/outgoing/visibleMessage/GroupInvitationMessage';
 import { ReadReceiptMessage } from '../session/messages/outgoing/controlMessage/receipt/ReadReceiptMessage';
-import { OpenGroupUtils } from '../opengroup/utils';
+import { OpenGroupUtils } from '../session/apis/open_group_api/utils';
 import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
-import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
-import { getOpenGroupV2FromConversationId } from '../opengroup/utils/OpenGroupUtils';
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { getOpenGroupV2FromConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import {
-  ReplyingToMessageProps,
-  SendMessageType,
-} from '../components/session/conversation/composition/CompositionBox';
+
 import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getLatestTimestampOffset } from '../session/snode_api/SNodeAPI';
+import { getLatestTimestampOffset } from '../session/apis/snode_api/SNodeAPI';
 import { createLastMessageUpdate } from '../types/Conversation';
+import {
+  ReplyingToMessageProps,
+  SendMessageType,
+} from '../components/conversation/composition/CompositionBox';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -323,6 +324,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const isPublic = this.isPublic();
 
     const members = this.isGroup() && !isPublic ? this.get('members') : [];
+    const zombies = this.isGroup() && !isPublic ? this.get('zombies') : [];
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
     const avatarPath = this.getAvatarPath();
     const isPrivate = this.isPrivate();
@@ -420,14 +422,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       toRet.subscriberCount = subscriberCount;
     }
     if (groupAdmins && groupAdmins.length) {
-      toRet.groupAdmins = groupAdmins;
+      toRet.groupAdmins = _.uniq(groupAdmins);
     }
     if (members && members.length) {
-      toRet.members = members;
+      toRet.members = _.uniq(members);
     }
 
-    if (members && members.length) {
-      toRet.members = members;
+    if (zombies && zombies.length) {
+      toRet.zombies = _.uniq(zombies);
     }
 
     if (expireTimer) {
@@ -1172,7 +1174,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async setIsPinned(value: boolean) {
-    if (value !== this.get('isPinned')) {
+    if (value !== this.isPinned()) {
       this.set({
         isPinned: value,
       });
@@ -1181,7 +1183,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async setIsApproved(value: boolean) {
-    if (value !== this.get('isApproved')) {
+    if (value !== this.isApproved()) {
       window?.log?.info(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
         isApproved: value,
@@ -1272,7 +1274,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
   // returns true if this is a closed/medium or open group
   public isGroup() {
-    return this.get('type') === 'group';
+    return this.get('type') === ConversationTypeEnum.GROUP;
   }
 
   public async removeMessage(messageId: any) {
@@ -1295,11 +1297,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public isPinned() {
-    return this.get('isPinned');
+    return Boolean(this.get('isPinned'));
   }
 
   public isApproved() {
-    return this.get('isApproved');
+    return Boolean(this.get('isApproved'));
   }
 
   public getTitle() {

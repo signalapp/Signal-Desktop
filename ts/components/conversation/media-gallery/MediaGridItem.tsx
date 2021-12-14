@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
-import { MediaItemType } from '../../LightboxGallery';
 import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
 import { showLightBox } from '../../../state/ducks/conversations';
-import { LightBoxOptions } from '../../session/conversation/SessionConversation';
 import { useDisableDrag } from '../../../hooks/useDisableDrag';
+import { LightBoxOptions } from '../SessionConversation';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 type Props = {
   mediaItem: MediaItemType;

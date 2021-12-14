@@ -1,8 +1,11 @@
 import _ from 'lodash';
 import { getV2OpenGroupRoom } from '../data/opengroups';
-import { ApiV2 } from '../opengroup/opengroupV2';
-import { joinOpenGroupV2WithUIEvents } from '../opengroup/opengroupV2/JoinOpenGroupV2';
-import { isOpenGroupV2, openGroupV2CompleteURLRegex } from '../opengroup/utils/OpenGroupUtils';
+import { ApiV2 } from '../session/apis/open_group_api/opengroupV2';
+import { joinOpenGroupV2WithUIEvents } from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import {
+  isOpenGroupV2,
+  openGroupV2CompleteURLRegex,
+} from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getConversationController } from '../session/conversations';
 import { PubKey } from '../session/types';
 import { ToastUtils } from '../session/utils';

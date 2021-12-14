@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
 import { getConversationController } from '../../session/conversations';
 import { adminLeaveClosedGroup } from '../../state/ducks/modalDialog';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
   conversationId: string;

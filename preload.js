@@ -30,11 +30,9 @@ window.getEnvironment = () => config.environment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.isDev = () => config.environment === 'development';
-window.getExpiration = () => config.buildExpiration;
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
-window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
@@ -214,7 +212,7 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-window.getSwarmPollingInstance = require('./ts/session/snode_api/').getSwarmPollingInstance;
+window.getSwarmPollingInstance = require('./ts/session/apis/snode_api/').getSwarmPollingInstance;
 
 const WorkerInterface = require('./js/modules/util_worker_interface');
 

@@ -9,8 +9,8 @@ import {
   getSortedMessagesOfSelectedConversation,
 } from '../../state/selectors/conversations';
 import { getAudioAutoplay } from '../../state/selectors/userConfig';
-import { SessionIcon } from '../session/icon';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionIcon } from '../icon';
 
 export const AudioPlayerWithEncryptedFile = (props: {
   src: string;

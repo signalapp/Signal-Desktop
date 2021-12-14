@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ContactType } from './session/SessionMemberListItem';
 import { ToastUtils } from '../session/utils';
 import { createClosedGroup as createClosedGroupV2 } from '../receiver/closedGroups';
 import { VALIDATION } from '../session/constants';
@@ -38,7 +37,7 @@ export class MessageView extends React.Component {
  */
 async function createClosedGroup(
   groupName: string,
-  groupMembers: Array<ContactType>
+  groupMemberIds: Array<string>
 ): Promise<boolean> {
   // Validate groupName and groupMembers length
   if (groupName.length === 0) {
@@ -53,15 +52,13 @@ async function createClosedGroup(
   // >= because we add ourself as a member AFTER this. so a 10 group is already invalid as it will be 11 with ourself
   // the same is valid with groups count < 1
 
-  if (groupMembers.length < 1) {
+  if (groupMemberIds.length < 1) {
     ToastUtils.pushToastError('pickClosedGroupMember', window.i18n('pickClosedGroupMember'));
     return false;
-  } else if (groupMembers.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
+  } else if (groupMemberIds.length >= VALIDATION.CLOSED_GROUP_SIZE_LIMIT) {
     ToastUtils.pushToastError('closedGroupMaxSize', window.i18n('closedGroupMaxSize'));
     return false;
   }
-
-  const groupMemberIds = groupMembers.map(m => m.id);
 
   await createClosedGroupV2(groupName, groupMemberIds);
 

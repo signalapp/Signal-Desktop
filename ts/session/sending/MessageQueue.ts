@@ -18,7 +18,7 @@ import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupVisibleMessage } from '../messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { SyncMessageType } from '../utils/syncUtils';
 
-import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
+import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';

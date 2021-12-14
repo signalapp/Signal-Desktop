@@ -20,23 +20,23 @@ import {
   ConversationHeaderProps,
   ConversationHeaderTitleProps,
 } from '../../components/conversation/ConversationHeader';
-import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
+import _ from 'lodash';
+import { getIsMessageRequestsEnabled } from './userConfig';
+import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
+import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
+import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
+import { MessageAvatarSelectorProps } from '../../components/conversation/message/message-content/MessageAvatar';
+import { MessageContentSelectorProps } from '../../components/conversation/message/message-content/MessageContent';
+import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/message-content/MessageContentWithStatus';
+import { MessageContextMenuSelectorProps } from '../../components/conversation/message/message-content/MessageContextMenu';
+import { MessagePreviewSelectorProps } from '../../components/conversation/message/message-content/MessagePreview';
+import { MessageQuoteSelectorProps } from '../../components/conversation/message/message-content/MessageQuote';
+import { MessageStatusSelectorProps } from '../../components/conversation/message/message-content/MessageStatus';
+import { MessageTextSelectorProps } from '../../components/conversation/message/message-content/MessageText';
+import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/message-item/GenericReadableMessage';
+import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 import { getConversationController } from '../../session/conversations';
 import { UserUtils } from '../../session/utils';
-import { MessageAvatarSelectorProps } from '../../components/conversation/message/MessageAvatar';
-import _ from 'lodash';
-import { MessagePreviewSelectorProps } from '../../components/conversation/message/MessagePreview';
-import { MessageQuoteSelectorProps } from '../../components/conversation/message/MessageQuote';
-import { MessageStatusSelectorProps } from '../../components/conversation/message/MessageStatus';
-import { MessageTextSelectorProps } from '../../components/conversation/message/MessageText';
-import { MessageContextMenuSelectorProps } from '../../components/conversation/message/MessageContextMenu';
-import { MessageAuthorSelectorProps } from '../../components/conversation/message/MessageAuthorText';
-import { MessageAttachmentSelectorProps } from '../../components/conversation/message/MessageAttachment';
-import { MessageContentSelectorProps } from '../../components/conversation/message/MessageContent';
-import { MessageContentWithStatusSelectorProps } from '../../components/conversation/message/MessageContentWithStatus';
-import { GenericReadableMessageSelectorProps } from '../../components/conversation/message/GenericReadableMessage';
-import { getIsMessageRequestsEnabled } from './userConfig';
 
 export const getConversations = (state: StateType): ConversationsStateType => state.conversations;
 
@@ -415,7 +415,7 @@ export const getSortedConversations = createSelector(
   _getSortedConversations
 );
 
-export const _getConversationRequests = (
+const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>,
   isMessageRequestEnabled?: boolean
 ): Array<ReduxConversationType> => {
@@ -430,6 +430,39 @@ export const getConversationRequests = createSelector(
   getSortedConversations,
   getIsMessageRequestsEnabled,
   _getConversationRequests
+);
+
+const _getPrivateContactsPubkeys = (
+  sortedConversations: Array<ReduxConversationType>,
+  isMessageRequestEnabled?: boolean
+): Array<string> => {
+  const pushToMessageRequests =
+    (isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests) ||
+    !isMessageRequestEnabled;
+
+  return _.filter(sortedConversations, conversation => {
+    return (
+      conversation.isPrivate &&
+      !conversation.isBlocked &&
+      !conversation.isMe &&
+      (conversation.isApproved || !pushToMessageRequests) &&
+      Boolean(conversation.activeAt)
+    );
+  }).map(convo => convo.id);
+};
+
+/**
+ * Returns all the conversation ids of private conversations which are
+ * - private
+ * - not me
+ * - not blocked
+ * - approved (or message requests are disabled)
+ * - active_at is set to something truthy
+ */
+export const getPrivateContactsPubkeys = createSelector(
+  getSortedConversations,
+  getIsMessageRequestsEnabled,
+  _getPrivateContactsPubkeys
 );
 
 export const getLeftPaneLists = createSelector(

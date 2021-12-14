@@ -9,11 +9,12 @@ import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
 import { updateUserDetailsModal } from '../../state/ducks/modalDialog';
-import { Avatar, AvatarSize } from '../Avatar';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionIdEditable } from '../basic/SessionIdEditable';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
-import { SessionIdEditable } from '../session/SessionIdEditable';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+
 type Props = {
   conversationId: string;
   authorAvatarPath: string | null;

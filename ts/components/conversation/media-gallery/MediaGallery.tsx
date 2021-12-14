@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import { AttachmentSection } from './AttachmentSection';
 import { EmptyState } from './EmptyState';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
-import { MediaItemType } from '../../LightboxGallery';
 type Props = {
   documents: Array<MediaItemType>;
   media: Array<MediaItemType>;

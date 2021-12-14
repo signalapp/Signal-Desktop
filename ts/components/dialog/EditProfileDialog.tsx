@@ -2,24 +2,24 @@ import React from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
-import { Avatar, AvatarSize } from '../Avatar';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
-
-import { SessionIconButton } from '../session/icon';
-import { PillDivider } from '../session/PillDivider';
+import { PillDivider } from '../basic/PillDivider';
 import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
-import { MAX_USERNAME_LENGTH } from '../session/registration/RegistrationStages';
-import { SessionSpinner } from '../session/SessionSpinner';
+
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { AttachmentUtil } from '../../util';
 import { getConversationController } from '../../session/conversations';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { editProfileModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionIconButton } from '../icon';
+import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 interface State {
   profileName: string;

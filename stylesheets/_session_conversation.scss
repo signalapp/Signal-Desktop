@@ -158,10 +158,8 @@
   z-index: 1;
 
   .session-icon-button {
-    // & > .session-icon-button {
     margin-right: $session-margin-sm;
-  }
-  .session-icon-button {
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -169,7 +167,7 @@
 
     &:hover {
       opacity: 1;
-      transform: scale(0.93);
+      filter: brightness(0.9);
       transition: $session-transition-duration;
     }
 

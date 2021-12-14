@@ -8,12 +8,14 @@ const OS = require('../../ts/OS');
 const Settings = require('./settings');
 const Util = require('../../ts/util');
 const LinkPreviews = require('./link_previews');
-const { Message } = require('../../ts/components/conversation/Message');
+const { Message } = require('../../ts/components/conversation/message/message-item/Message');
 
 // Components
-const { SessionRegistrationView } = require('../../ts/components/session/SessionRegistrationView');
+const {
+  SessionRegistrationView,
+} = require('../../ts/components/registration/SessionRegistrationView');
 
-const { SessionInboxView } = require('../../ts/components/session/SessionInboxView');
+const { SessionInboxView } = require('../../ts/components/SessionInboxView');
 
 // Types
 const AttachmentType = require('./types/attachment');

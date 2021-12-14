@@ -11,11 +11,11 @@ import {
   MessageModelType,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
-import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
-import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
+import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
+import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
+import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 
 export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
 export type PropsForCallNotification = {
@@ -246,6 +246,7 @@ export interface ReduxConversationType {
   avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+  zombies?: Array<string>; // members for closed groups only
 
   /**
    * If this is undefined, it means all notification are enabled

@@ -1,15 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { Avatar, AvatarSize } from '../Avatar';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SpacerMD } from '../basic/Text';
 import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { ClosedGroup } from '../../session';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 
 type Props = {
   conversationId: string;

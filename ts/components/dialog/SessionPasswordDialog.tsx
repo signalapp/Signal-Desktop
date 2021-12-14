@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { missingCaseError, PasswordUtil } from '../../util';
 import { ToastUtils } from '../../session/utils';
 import { getPasswordHash } from '../../data/data';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM } from '../basic/Text';
 import autoBind from 'auto-bind';
 import { sessionPassword } from '../../state/ducks/modalDialog';
 import { LocalizerKeys } from '../../types/LocalizerKeys';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+
 export type PasswordAction = 'set' | 'change' | 'remove';
 
 interface Props {

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { mapDispatchToProps } from '../actions';
-import { SessionConversation } from '../../components/session/conversation/SessionConversation';
 import { StateType } from '../reducer';
 import { getTheme } from '../selectors/theme';
 import {
@@ -15,6 +14,7 @@ import {
 import { getOurNumber } from '../selectors/user';
 import { getStagedAttachmentsForCurrentConversation } from '../selectors/stagedAttachments';
 import { getHasOngoingCallWithFocusedConvo } from '../selectors/call';
+import { SessionConversation } from '../../components/conversation/SessionConversation';
 
 const mapStateToProps = (state: StateType) => {
   return {

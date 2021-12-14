@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Image } from './Image';
 
 import { AttachmentType, isImageAttachment } from '../../types/Attachment';
-import { SessionSpinner } from '../session/SessionSpinner';
+import { SessionSpinner } from '../basic/SessionSpinner';
 
 type Props = {
   isLoaded: boolean;

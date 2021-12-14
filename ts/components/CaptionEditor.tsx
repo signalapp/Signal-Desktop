@@ -5,9 +5,9 @@ import * as GoogleChrome from '../util/GoogleChrome';
 
 import { AttachmentType } from '../types/Attachment';
 
-import { SessionInput } from './session/SessionInput';
-import { SessionButton, SessionButtonColor, SessionButtonType } from './session/SessionButton';
 import autoBind from 'auto-bind';
+import { SessionButton, SessionButtonColor, SessionButtonType } from './basic/SessionButton';
+import { SessionInput } from './basic/SessionInput';
 
 interface Props {
   attachment: AttachmentType;

@@ -424,6 +424,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     };
   }
 
+  // tslint:disable-next-line: cyclomatic-complexity
   public getPropsForGroupNotification(): PropsForGroupUpdate | null {
     if (!this.isGroupUpdate()) {
       return null;
@@ -431,7 +432,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const groupUpdate = this.get('group_update');
     const changes: PropsForGroupUpdateArray = [];
 
-    if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined) {
+    if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined && !groupUpdate.kicked) {
       const change: PropsForGroupUpdateGeneral = {
         type: 'general',
       };

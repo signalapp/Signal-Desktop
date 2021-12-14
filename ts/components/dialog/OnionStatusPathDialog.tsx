@@ -15,11 +15,11 @@ import {
   getOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconButton } from '../session/icon';
-import { SessionSpinner } from '../session/SessionSpinner';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 // tslint:disable-next-line: no-submodule-imports
 import useHover from 'react-use/lib/useHover';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionIcon, SessionIconButton } from '../icon';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export type StatusLightType = {
   glowStartDelay: number;

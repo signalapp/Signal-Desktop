@@ -6,8 +6,8 @@ import {
   groupMediaItemsByDate,
   Section,
 } from '../../../components/conversation/media-gallery/groupMediaItemsByDate';
-import { MediaItemType } from '../../../components/LightboxGallery';
 import { TestUtils } from '../../test-utils';
+import { MediaItemType } from '../../../components/lightbox/LightboxGallery';
 
 const generatedMessageSenderKey = TestUtils.generateFakePubKey().key;
 

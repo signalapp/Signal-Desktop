@@ -26,7 +26,7 @@ import {
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
 import { ExpirationTimerUpdateMessage } from '../messages/outgoing/controlMessage/ExpirationTimerUpdateMessage';
 import { getV2OpenGroupRoom } from '../../data/opengroups';
-import { getCompleteUrlFromRoom } from '../../opengroup/utils/OpenGroupUtils';
+import { getCompleteUrlFromRoom } from '../apis/open_group_api/utils/OpenGroupUtils';
 import { DURATION } from '../constants';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 
@@ -68,9 +68,8 @@ export const syncConfigurationIfNeeded = async () => {
 };
 
 export const forceSyncConfigurationNowIfNeeded = async (waitForMessageSent = false) =>
-  new Promise(async resolve => {
-    const allConvos = (await getAllConversations()).models;
-
+  new Promise(resolve => {
+    const allConvos = getConversationController().getConversations();
     // if we hang for more than 10sec, force resolve this promise.
     setTimeout(() => {
       resolve(false);

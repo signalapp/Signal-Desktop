@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { MessageUtils, ToastUtils, UserUtils } from '../';
-import { getCallMediaPermissionsSettings } from '../../../components/session/settings/SessionSettings';
 import { MessageModelType } from '../../../models/messageType';
 import { SignalService } from '../../../protobuf';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
@@ -19,13 +18,14 @@ import { ed25519Str } from '../../onions/onionPath';
 import { PubKey } from '../../types';
 
 import { v4 as uuidv4 } from 'uuid';
-import { PnServer } from '../../../pushnotification';
 import { getIsRinging } from '../RingingManager';
 import { getBlackSilenceMediaStream } from './Silence';
 import { getMessageQueue } from '../..';
 import { MessageSender } from '../../sending';
 import { DURATION } from '../../constants';
 import { hasConversationOutgoingMessage } from '../../../data/data';
+import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
+import { PnServer } from '../../apis/push_notification_api';
 
 // tslint:disable: function-name
 

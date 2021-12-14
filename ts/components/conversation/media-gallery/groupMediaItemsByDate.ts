@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { compact, groupBy, sortBy } from 'lodash';
-
-import { MediaItemType } from '../../LightboxGallery';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 // import { missingCaseError } from '../../../util/missingCaseError';
 

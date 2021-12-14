@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { getMessageById } from '../../data/data';
 import { SignalService } from '../../protobuf';
-import { PnServer } from '../../pushnotification';
+import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { EncryptionType, RawMessage } from '../types';
 import { UserUtils } from '../utils';

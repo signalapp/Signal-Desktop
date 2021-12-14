@@ -7,9 +7,9 @@ import { ConversationModel } from '../models/conversation';
 import {
   downloadFileOpenGroupV2,
   downloadFileOpenGroupV2ByUrl,
-} from '../opengroup/opengroupV2/OpenGroupAPIV2';
-import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
-import { FSv2 } from '../fileserver';
+} from '../session/apis/open_group_api/opengroupV2/OpenGroupAPIV2';
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
+import { FSv2 } from '../session/apis/file_server_api';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 
 export async function downloadAttachment(attachment: any) {

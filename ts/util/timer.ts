@@ -1,5 +1,5 @@
 import { padStart } from 'lodash';
-import { SessionIconType } from '../components/session/icon';
+import { SessionIconType } from '../components/icon/Icons';
 
 export function getIncrement(length: number): number {
   if (length < 0) {

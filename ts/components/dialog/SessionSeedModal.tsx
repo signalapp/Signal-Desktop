@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { PasswordUtil } from '../../util';
 import { getPasswordHash } from '../../data/data';
 import { QRCode } from 'react-qr-svg';
 import { mn_decode } from '../../session/crypto/mnemonic';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG, SpacerSM, SpacerXS } from '../basic/Text';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { useDispatch } from 'react-redux';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 interface PasswordProps {
   setPasswordValid: (val: boolean) => any;

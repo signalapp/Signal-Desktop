@@ -12,7 +12,7 @@ import {
 } from '../../types/Attachment';
 
 import { Image } from './Image';
-import { IsMessageVisibleContext } from './message/MessageContent';
+import { IsMessageVisibleContext } from './message/message-content/MessageContent';
 
 type Props = {
   attachments: Array<AttachmentTypeWithPath>;

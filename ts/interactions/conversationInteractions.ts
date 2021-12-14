@@ -2,7 +2,7 @@ import {
   getCompleteUrlFromRoom,
   openGroupPrefixRegex,
   openGroupV2ConversationIdRegex,
-} from '../opengroup/utils/OpenGroupUtils';
+} from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { ConversationNotificationSettingType, ConversationTypeEnum } from '../models/conversation';
@@ -22,7 +22,6 @@ import {
 } from '../state/ducks/modalDialog';
 import {
   createOrUpdateItem,
-  getConversationById,
   getItemById,
   getMessageById,
   hasLinkPreviewPopupBeenDisplayed,
@@ -32,12 +31,12 @@ import {
 import { conversationReset, quoteMessage } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
-import { FSv2 } from '../fileserver';
+import { FSv2 } from '../session/apis/file_server_api';
 import { fromHexToArray, toHex } from '../session/utils/String';
-import { SessionButtonColor } from '../components/session/SessionButton';
-import { perfEnd, perfStart } from '../session/utils/Performance';
-import { getCallMediaPermissionsSettings } from '../components/session/settings/SessionSettings';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { SessionButtonColor } from '../components/basic/SessionButton';
+import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
+import { perfEnd, perfStart } from '../session/utils/Performance';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -121,18 +120,17 @@ export async function unblockConvoById(conversationId: string) {
  * marks the conversation as approved.
  */
 export const approveConversation = async (conversationId: string) => {
-  const conversationToApprove = await getConversationById(conversationId);
+  const conversationToApprove = getConversationController().get(conversationId);
 
   if (!conversationToApprove || conversationToApprove.isApproved()) {
     window?.log?.info('Conversation is already approved.');
     return;
   }
 
-  await conversationToApprove?.setIsApproved(true);
+  await conversationToApprove.setIsApproved(true);
 
-  if (conversationToApprove?.isApproved() === true) {
-    await forceSyncConfigurationNowIfNeeded();
-  }
+  // Conversation was not approved before so a sync is needed
+  await forceSyncConfigurationNowIfNeeded();
 };
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {

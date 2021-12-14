@@ -8,7 +8,7 @@ import {
   Quote,
   QuotedAttachmentWithUrl,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { FSv2 } from '../../fileserver';
+import { FSv2 } from '../apis/file_server_api';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import _ from 'lodash';
 

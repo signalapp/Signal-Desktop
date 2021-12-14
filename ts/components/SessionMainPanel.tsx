@@ -4,7 +4,7 @@ import { useAppIsFocused } from '../hooks/useAppFocused';
 import { getFocusedSettingsSection } from '../state/selectors/section';
 
 import { SmartSessionConversation } from '../state/smart/SessionConversation';
-import { SessionSettingsView } from './session/settings/SessionSettings';
+import { SessionSettingsView } from './settings/SessionSettings';
 
 const FilteredSettingsView = SessionSettingsView as any;
 

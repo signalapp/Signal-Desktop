@@ -4,8 +4,8 @@ import { ConversationTypeEnum } from '../models/conversation';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
-} from '../opengroup/opengroupV2/JoinOpenGroupV2';
-import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
+} from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';

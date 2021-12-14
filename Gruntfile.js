@@ -151,14 +151,6 @@ module.exports = grunt => {
     grunt.file.write(configPath, `${JSON.stringify(localConfig)}\n`);
   }
 
-  grunt.registerTask('getExpireTime', () => {
-    grunt.task.requires('gitinfo');
-    const gitinfo = grunt.config.get('gitinfo');
-    const committed = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
-    updateLocalConfig({ buildExpiration: time });
-  });
-
   grunt.registerTask('getCommitHash', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
@@ -167,7 +159,7 @@ module.exports = grunt => {
   });
 
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
+  grunt.registerTask('date', ['gitinfo']);
   grunt.registerTask('default', [
     'exec:build-protobuf',
     'exec:transpile',
