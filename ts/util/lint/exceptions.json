@@ -1498,6 +1498,55 @@
     "updated": "2021-11-13T01:24:25.496Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "        result.push(append(value, stash, enclose));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "        result.push(Array.isArray(ele) ? append(item, ele, enclose) : (item + ele));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), stringify(node, options)));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), ['{}']));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "      q.push(append(q.pop(), range));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "        q.push(append(q.pop(), queue, enclose));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
+    "rule": "jQuery-append(",
+    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
+    "line": "        queue.push(append(queue.pop(), child.value));",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-11T01:13:16.250Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "reasonCategory": "notExercisedByOurApp",
@@ -6554,13 +6603,6 @@
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
     "reasonCategory": "falseMatch",
     "updated": "2021-12-07T23:11:11.870Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/tsutils/util/convert-ast.js",
-    "line": "    ts.forEachChild(sourceFile, function wrap(node) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-19T18:13:29.628Z"
   },
   {
     "rule": "jQuery-$(",

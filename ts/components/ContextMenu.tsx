@@ -28,7 +28,7 @@ export type PropsType<T> = {
   readonly value: T;
 };
 
-export const ContextMenu = <T extends unknown>({
+export function ContextMenu<T>({
   buttonClassName,
   i18n,
   menuOptions,
@@ -36,7 +36,7 @@ export const ContextMenu = <T extends unknown>({
   theme,
   title,
   value,
-}: PropsType<T>): JSX.Element => {
+}: PropsType<T>): JSX.Element {
   const [menuShowing, setMenuShowing] = useState<boolean>(false);
   const [focusedIndex, setFocusedIndex] = useState<number | undefined>(
     undefined
@@ -183,4 +183,4 @@ export const ContextMenu = <T extends unknown>({
       )}
     </div>
   );
-};
+}

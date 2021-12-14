@@ -23,6 +23,7 @@ const rules = {
 
   // it helps readability to put public API at top,
   'no-use-before-define': 'off',
+  '@typescript-eslint/no-use-before-define': 'off',
 
   // useful for unused or internal fields
   'no-underscore-dangle': 'off',
