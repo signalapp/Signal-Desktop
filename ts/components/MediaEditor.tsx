@@ -58,6 +58,13 @@ enum DrawTool {
   Highlighter = 'Highlighter',
 }
 
+type PendingCropType = {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
 function isCmdOrCtrl(ev: KeyboardEvent): boolean {
   const { ctrlKey, metaKey } = ev;
   const commandKey = get(window, 'platform') === 'darwin' && metaKey;
@@ -346,57 +353,10 @@ export const MediaEditor = ({
 
   // Refresh the background image according to imageState changes
   useEffect(() => {
-    const backgroundImage = new fabric.Image(image, {
-      canvas: fabricCanvas,
-      height: imageState.height || image.height,
-      width: imageState.width || image.width,
-    });
-
-    let left: number;
-    let top: number;
-    switch (imageState.angle) {
-      case 0:
-        left = 0;
-        top = 0;
-        break;
-      case 90:
-        left = imageState.width;
-        top = 0;
-        break;
-      case 180:
-        left = imageState.width;
-        top = imageState.height;
-        break;
-      case 270:
-        left = 0;
-        top = imageState.height;
-        break;
-      default:
-        throw new Error('Unexpected angle');
+    if (!fabricCanvas) {
+      return;
     }
-
-    let { height, width } = imageState;
-    if (imageState.angle % 180) {
-      [width, height] = [height, width];
-    }
-
-    fabricCanvas?.setBackgroundImage(
-      backgroundImage,
-      fabricCanvas.requestRenderAll.bind(fabricCanvas),
-      {
-        angle: imageState.angle,
-        cropX: imageState.cropX,
-        cropY: imageState.cropY,
-        flipX: imageState.flipX,
-        flipY: imageState.flipY,
-        left,
-        top,
-        originX: 'left',
-        originY: 'top',
-        width,
-        height,
-      }
-    );
+    drawFabricBackgroundImage({ fabricCanvas, image, imageState });
   }, [fabricCanvas, image, imageState]);
 
   const [canRedo, setCanRedo] = useState(false);
@@ -898,55 +858,13 @@ export const MediaEditor = ({
               return;
             }
 
-            const cropRect = fabricCanvas.getActiveObject();
-
-            if (!(cropRect instanceof MediaEditorFabricCropRect)) {
+            const pendingCrop = getPendingCrop(fabricCanvas);
+            if (!pendingCrop) {
               return;
             }
 
-            const { left, height, top, width } = cropRect.getBoundingRect(true);
-
-            setImageState(curr => {
-              let cropX: number;
-              let cropY: number;
-              switch (curr.angle) {
-                case 0:
-                  cropX = curr.cropX + left;
-                  cropY = curr.cropY + top;
-                  break;
-                case 90:
-                  cropX = curr.cropX + top;
-                  cropY = curr.cropY + (curr.width - (left + width));
-                  break;
-                case 180:
-                  cropX = curr.cropX + (curr.width - (left + width));
-                  cropY = curr.cropY + (curr.height - (top + height));
-                  break;
-                case 270:
-                  cropX = curr.cropX + (curr.height - (top + height));
-                  cropY = curr.cropY + left;
-                  break;
-                default:
-                  throw new Error('Unexpected angle');
-              }
-
-              return {
-                ...curr,
-                cropX,
-                cropY,
-                height,
-                width,
-              };
-            });
-
-            fabricCanvas.getObjects().forEach(obj => {
-              const { x, y } = obj.getCenterPoint();
-
-              const translatedCenter = new fabric.Point(x - left, y - top);
-              obj.setPositionByOrigin(translatedCenter, 'center', 'center');
-              obj.setCoords();
-            });
-
+            setImageState(curr => getNewImageStateFromCrop(curr, pendingCrop));
+            moveFabricObjectsForCrop(fabricCanvas, pendingCrop);
             setEditMode(undefined);
           }}
           type="button"
@@ -1142,25 +1060,39 @@ export const MediaEditor = ({
 
               let data: Uint8Array;
               try {
-                fabricCanvas.discardActiveObject();
-                fabricCanvas.remove(
-                  ...fabricCanvas
+                const renderFabricCanvas = await cloneFabricCanvas(
+                  fabricCanvas
+                );
+
+                renderFabricCanvas.remove(
+                  ...renderFabricCanvas
                     .getObjects()
                     .filter(obj => obj.excludeFromExport)
                 );
 
-                fabricCanvas.setDimensions({
-                  width: imageState.width,
-                  height: imageState.height,
-                });
-                fabricCanvas.setZoom(1);
-                const renderedCanvas = fabricCanvas.toCanvasElement();
+                let finalImageState: ImageStateType;
+                const pendingCrop = getPendingCrop(fabricCanvas);
+                if (pendingCrop) {
+                  finalImageState = getNewImageStateFromCrop(
+                    imageState,
+                    pendingCrop
+                  );
+                  moveFabricObjectsForCrop(renderFabricCanvas, pendingCrop);
+                  drawFabricBackgroundImage({
+                    fabricCanvas: renderFabricCanvas,
+                    image,
+                    imageState: finalImageState,
+                  });
+                } else {
+                  finalImageState = imageState;
+                }
 
-                fabricCanvas.setDimensions({
-                  width: imageState.width * zoom,
-                  height: imageState.height * zoom,
+                renderFabricCanvas.setDimensions({
+                  width: finalImageState.width,
+                  height: finalImageState.height,
                 });
-                fabricCanvas.setZoom(zoom);
+                renderFabricCanvas.setZoom(1);
+                const renderedCanvas = renderFabricCanvas.toCanvasElement();
 
                 data = await canvasToBytes(renderedCanvas);
               } catch (err) {
@@ -1183,3 +1115,129 @@ export const MediaEditor = ({
     portal
   );
 };
+
+function getPendingCrop(
+  fabricCanvas: fabric.Canvas
+): undefined | PendingCropType {
+  const activeObject = fabricCanvas.getActiveObject();
+  return activeObject instanceof MediaEditorFabricCropRect
+    ? activeObject.getBoundingRect(true)
+    : undefined;
+}
+
+function getNewImageStateFromCrop(
+  state: Readonly<ImageStateType>,
+  { left, height, top, width }: Readonly<PendingCropType>
+): ImageStateType {
+  let cropX: number;
+  let cropY: number;
+  switch (state.angle) {
+    case 0:
+      cropX = state.cropX + left;
+      cropY = state.cropY + top;
+      break;
+    case 90:
+      cropX = state.cropX + top;
+      cropY = state.cropY + (state.width - (left + width));
+      break;
+    case 180:
+      cropX = state.cropX + (state.width - (left + width));
+      cropY = state.cropY + (state.height - (top + height));
+      break;
+    case 270:
+      cropX = state.cropX + (state.height - (top + height));
+      cropY = state.cropY + left;
+      break;
+    default:
+      throw new Error('Unexpected angle');
+  }
+
+  return {
+    ...state,
+    cropX,
+    cropY,
+    height,
+    width,
+  };
+}
+
+function cloneFabricCanvas(original: fabric.Canvas): Promise<fabric.Canvas> {
+  return new Promise(resolve => {
+    original.clone(resolve);
+  });
+}
+
+function moveFabricObjectsForCrop(
+  fabricCanvas: fabric.Canvas,
+  { left, top }: Readonly<PendingCropType>
+): void {
+  fabricCanvas.getObjects().forEach(obj => {
+    const { x, y } = obj.getCenterPoint();
+
+    const translatedCenter = new fabric.Point(x - left, y - top);
+    obj.setPositionByOrigin(translatedCenter, 'center', 'center');
+    obj.setCoords();
+  });
+}
+
+function drawFabricBackgroundImage({
+  fabricCanvas,
+  image,
+  imageState,
+}: Readonly<{
+  fabricCanvas: fabric.Canvas;
+  image: HTMLImageElement;
+  imageState: Readonly<ImageStateType>;
+}>): void {
+  const backgroundImage = new fabric.Image(image, {
+    canvas: fabricCanvas,
+    height: imageState.height || image.height,
+    width: imageState.width || image.width,
+  });
+
+  let left: number;
+  let top: number;
+  switch (imageState.angle) {
+    case 0:
+      left = 0;
+      top = 0;
+      break;
+    case 90:
+      left = imageState.width;
+      top = 0;
+      break;
+    case 180:
+      left = imageState.width;
+      top = imageState.height;
+      break;
+    case 270:
+      left = 0;
+      top = imageState.height;
+      break;
+    default:
+      throw new Error('Unexpected angle');
+  }
+
+  let { height, width } = imageState;
+  if (imageState.angle % 180) {
+    [width, height] = [height, width];
+  }
+
+  fabricCanvas.setBackgroundImage(
+    backgroundImage,
+    fabricCanvas.requestRenderAll.bind(fabricCanvas),
+    {
+      angle: imageState.angle,
+      cropX: imageState.cropX,
+      cropY: imageState.cropY,
+      flipX: imageState.flipX,
+      flipY: imageState.flipY,
+      left,
+      top,
+      originX: 'left',
+      originY: 'top',
+      width,
+      height,
+    }
+  );
+}
