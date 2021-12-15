@@ -20,7 +20,6 @@ import {
 
 export type Props<T extends AttachmentType | AttachmentDraftType> = Readonly<{
   attachments: ReadonlyArray<T>;
-  canEditImages?: boolean;
   i18n: LocalizerType;
   onAddAttachment?: () => void;
   onClickAttachment?: (attachment: T) => void;
@@ -51,7 +50,6 @@ function getUrl(
 
 export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
   attachments,
-  canEditImages,
   i18n,
   onAddAttachment,
   onClickAttachment,
@@ -121,7 +119,7 @@ export const AttachmentList = <T extends AttachmentType | AttachmentDraftType>({
               />
             );
 
-            if (isImage && canEditImages) {
+            if (isImage) {
               return (
                 <div className="module-attachments--editable">
                   {imgElement}
