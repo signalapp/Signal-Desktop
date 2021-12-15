@@ -1257,7 +1257,7 @@
     }
   },
   "ChangeNumber--notification": {
-    "message": "$sender$ changed their number to a new number",
+    "message": "$sender$ changed their phone number",
     "description": "Shown in timeline when a member of a conversation changes their phone number",
     "placeholders": {
       "sender": {
