@@ -8,6 +8,7 @@ module.exports = {
   plugins: [
     'react-hot-loader/babel',
     'lodash',
+    '@babel/plugin-transform-typescript',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-nullish-coalescing-operator',
