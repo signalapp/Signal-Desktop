@@ -7,6 +7,7 @@ import { saveURLAsFile } from '../util/saveURLAsFile';
 import { SignalService } from '../protobuf';
 import { isImageTypeSupported, isVideoTypeSupported } from '../util/GoogleChrome';
 import { fromHexToArray } from '../session/utils/String';
+import { ATTACHMENT_DEFAULT_MAX_SIDE } from '../util/attachmentsUtil';
 
 const MAX_WIDTH = 200;
 const MAX_HEIGHT = MAX_WIDTH;
@@ -107,7 +108,14 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-  return height && height > 0 && height <= 4096 && width && width > 0 && width <= 4096;
+  return (
+    height &&
+    height > 0 &&
+    height <= ATTACHMENT_DEFAULT_MAX_SIDE &&
+    width &&
+    width > 0 &&
+    width <= ATTACHMENT_DEFAULT_MAX_SIDE
+  );
 }
 
 export function getThumbnailUrl(attachment: AttachmentType): string {

@@ -841,10 +841,10 @@
   dependencies:
     "@types/integer" "*"
 
-"@types/blueimp-load-image@^2.23.8":
-  version "2.23.8"
-  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-2.23.8.tgz#0d10f12bf57f050aceac06dcc76390ae759c979a"
-  integrity sha512-dy98N4odO9L1zgo2a6yVHRRYUeYRJfl0hg3dcapyxqNq5KF8Zgz5lFWgDMOsMC06VAs0mnVKDRJE4+U/A5Km3A==
+"@types/blueimp-load-image@5.14.4":
+  version "5.14.4"
+  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-5.14.4.tgz#14a438e88b814b4ede9c79e3b2e68324bd591327"
+  integrity sha512-IoT8BXBuuWWscQnscGtAYH4dGEOr3uQ85MJdE9LAfperio8FQwyFaigHITPJSy+NSS4w9UHKhzmtQXt5A+544g==
 
 "@types/buffer-crc32@^0.2.0":
   version "0.2.0"
@@ -2254,10 +2254,10 @@ blueimp-canvas-to-blob@3.14.0:
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.14.0.tgz#ea075ffbfb1436607b0c75e951fb1ceb3ca0288e"
   integrity sha512-i6I2CiX1VR8YwUNYBo+dM8tg89ns4TTHxSpWjaDeHKcYS3yFalpLCwDaY21/EsJMufLy2tnG4j0JN5L8OVNkKQ==
 
-blueimp-load-image@2.18.0:
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.18.0.tgz#03b93687eb382a7136cfbcbd4f0e936b6763fc0e"
-  integrity sha512-GUrxVE/7FpzAw/WU6GMiI3v+LpFmlAxp7sF36EQB8rGAg97ND8iTeYZ3FQbhsxS5s2dNarGKZEWhKPNKKSmMuA==
+blueimp-load-image@5.14.0:
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-5.14.0.tgz#e8086415e580df802c33ff0da6b37a8d20205cc6"
+  integrity sha512-g5l+4dCOESBG8HkPLdGnBx8dhEwpQHaOZ0en623sl54o3bGhGMLYGc54L5cWfGmPvfKUjbsY7LOAmcW/xlkBSA==
 
 body-parser@1.19.0:
   version "1.19.0"

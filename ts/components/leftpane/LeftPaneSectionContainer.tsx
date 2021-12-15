@@ -9,7 +9,7 @@ export const LeftPaneSectionContainer = styled.div`
   overflow-y: auto;
 
   .session-icon-button {
-    padding: 30px 0;
+    padding: 30px 20px;
   }
 
   .module-avatar {
@@ -21,5 +21,6 @@ export const LeftPaneSectionContainer = styled.div`
   // this is not ideal but it seems that nth-0last-child does not work
   #onion-path-indicator-led-id {
     margin: auto auto 0px auto;
+    opacity: 1;
   }
 `;

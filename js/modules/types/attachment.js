@@ -42,6 +42,14 @@ exports.isValid = rawAttachment => {
   return true;
 };
 
+const UNICODE_LEFT_TO_RIGHT_OVERRIDE = '\u202D';
+const UNICODE_RIGHT_TO_LEFT_OVERRIDE = '\u202E';
+const UNICODE_REPLACEMENT_CHARACTER = '\uFFFD';
+const INVALID_CHARACTERS_PATTERN = new RegExp(
+  `[${UNICODE_LEFT_TO_RIGHT_OVERRIDE}${UNICODE_RIGHT_TO_LEFT_OVERRIDE}]`,
+  'g'
+);
+
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
 // part of re-encoding the image:
@@ -74,14 +82,6 @@ exports.autoOrientJPEG = async attachment => {
 
   return newAttachment;
 };
-
-const UNICODE_LEFT_TO_RIGHT_OVERRIDE = '\u202D';
-const UNICODE_RIGHT_TO_LEFT_OVERRIDE = '\u202E';
-const UNICODE_REPLACEMENT_CHARACTER = '\uFFFD';
-const INVALID_CHARACTERS_PATTERN = new RegExp(
-  `[${UNICODE_LEFT_TO_RIGHT_OVERRIDE}${UNICODE_RIGHT_TO_LEFT_OVERRIDE}]`,
-  'g'
-);
 // NOTE: Expose synchronous version to do property-based testing using `testcheck`,
 // which currently doesn’t support async testing:
 // https://github.com/leebyron/testcheck-js/issues/45

@@ -11,7 +11,7 @@ const StyledCountContainer = styled.div<{ shouldRender: boolean }>`
   height: 20px;
   font-size: 20px;
   top: var(--margins-lg);
-  right: var(--margins-lg);
+  left: var(--margins-sm);
   padding: 3px;
   opacity: 1;
   display: flex;

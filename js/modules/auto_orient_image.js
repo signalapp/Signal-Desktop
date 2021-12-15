@@ -16,6 +16,8 @@ exports.autoOrientImage = (fileOrBlobOrURL, options = {}) => {
     {
       canvas: true,
       orientation: true,
+      maxHeight: 4096, // ATTACHMENT_DEFAULT_MAX_SIDE
+      maxWidth: 4096, // ATTACHMENT_DEFAULT_MAX_SIDE
     }
   );
 

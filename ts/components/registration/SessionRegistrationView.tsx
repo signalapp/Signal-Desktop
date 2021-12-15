@@ -7,7 +7,6 @@ import { SessionToastContainer } from '../SessionToastContainer';
 import { setSignInByLinking } from '../../session/utils/User';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { Flex } from '../basic/Flex';
-import { SpacerLG } from '../basic/Text';
 
 export const SessionRegistrationView = () => {
   useEffect(() => {
@@ -17,29 +16,16 @@ export const SessionRegistrationView = () => {
     <SessionTheme>
       <Flex
         className="session-content"
-        width="100vw"
-        height="100vh"
         alignItems="center"
         flexDirection="column"
         container={true}
+        height="100%"
       >
         <Flex container={true} margin="auto" alignItems="center" flexDirection="column">
           <SessionToastContainer />
-          <SpacerLG />
-          <SpacerLG />
-
           <SessionIcon iconSize={150} iconType="brand" />
-          <SpacerLG />
-
-          <SpacerLG />
-          <SpacerLG />
-          <SpacerLG />
 
           <AccentText />
-          <SpacerLG />
-          <SpacerLG />
-          <SpacerLG />
-
           <RegistrationStages />
         </Flex>
       </Flex>
