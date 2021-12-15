@@ -58,7 +58,6 @@ import {
 import { MediaEditor } from './MediaEditor';
 import { IMAGE_PNG } from '../types/MIME';
 import { isImageTypeSupported } from '../util/GoogleChrome';
-import { canEditImages } from '../util/canEditImages';
 
 export type CompositionAPIType =
   | {
@@ -293,13 +292,8 @@ export const CompositionArea = ({
     }
   }, []);
 
-  const hasImageEditingEnabled = canEditImages();
-
   function maybeEditAttachment(attachment: AttachmentDraftType) {
-    if (
-      !hasImageEditingEnabled ||
-      !isImageTypeSupported(attachment.contentType)
-    ) {
+    if (!isImageTypeSupported(attachment.contentType)) {
       return;
     }
 
@@ -647,7 +641,6 @@ export const CompositionArea = ({
           <div className="CompositionArea__attachment-list">
             <AttachmentList
               attachments={draftAttachments}
-              canEditImages={hasImageEditingEnabled}
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
               onClickAttachment={maybeEditAttachment}
