@@ -298,7 +298,7 @@
     "fabric/jsdom": "https://registry.yarnpkg.com/nop/-/nop-1.0.0.tgz",
     "fast-glob/glob-parent": "5.1.2",
     "read-last-lines/mz/thenify-all/thenify": "3.3.1",
-    "sharp/color/color-string": "1.5.5"
+    "sharp/color/color-string": "1.7.4"
   },
   "engines": {
     "node": "16.9.1"

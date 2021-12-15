@@ -536,22 +536,6 @@
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
-    "line": "  function wrap(innerFn, outerFn, self, tryLocsList) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/aria-query/node_modules/regenerator-runtime/runtime.js",
-    "line": "      wrap(innerFn, outerFn, self, tryLocsList),",
-    "reasonCategory": "falseMatch",
-    "updated": "2020-08-26T18:06:51.702Z",
-    "reasonDetail": "isn't jquery"
-  },
-  {
-    "rule": "jQuery-wrap(",
     "path": "node_modules/asar/node_modules/commander/index.js",
     "line": "          desc.push('  ' + pad(arg.name, width) + '  ' + wrap(argsDescription[arg.name], descriptionWidth, width + 4));",
     "reasonCategory": "falseMatch",
@@ -1084,50 +1068,6 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"innerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/terser/tools/domprops.js",
-    "line": "    \"outerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-06T23:11:04.431Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/corejs-upgrade-webpack-plugin/node_modules/webpack/lib/EvalDevToolModuleTemplatePlugin.js",
     "line": "\t\t\t\t\t`eval(${JSON.stringify(content + footer)});`",
@@ -1168,20 +1108,6 @@
     "line": "\t\t\t\t\t\tparser.state.module.buildMeta.moduleConcatenationBailout = \"eval()\";",
     "reasonCategory": "usageTrusted",
     "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/debug/dist/debug.js",
-    "line": "        createDebug.enable(createDebug.load());",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/debug/dist/debug.js",
-    "line": "        function load() {",
-    "reasonCategory": "falseMatch|",
-    "updated": "2020-04-30T22:35:27.860Z"
   },
   {
     "rule": "jQuery-load(",
@@ -1433,13 +1359,6 @@
     "reasonDetail": "isn't react"
   },
   {
-    "rule": "jQuery-load(",
-    "path": "node_modules/execa/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-07T23:11:11.870Z"
-  },
-  {
     "rule": "jQuery-wrap(",
     "path": "node_modules/expand-range/node_modules/fill-range/index.js",
     "line": "      return wrap([origA, origB], sep, opts);",
@@ -1542,13 +1461,6 @@
     "line": "        // NOTE: `findDOMNode()` does not support CSS selectors; it'll just return",
     "reasonCategory": "exampleCode",
     "updated": "2021-10-01T23:53:26.107Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/foreground-child/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-07T23:11:11.870Z"
   },
   {
     "rule": "jQuery-append(",
@@ -1745,99 +1657,6 @@
     "line": "  return wrap(str, width, indent);",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-13T01:38:33.299Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/dist/bundle.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
-    "line": "    \"innerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/html-minifier-terser/node_modules/terser/tools/domprops.js",
-    "line": "    \"outerHTML\",",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrapAll(",
-    "path": "node_modules/html-minifier/node_modules/clean-css/lib/optimizer/wrap-for-optimizing.js",
-    "line": "function wrapAll(properties, includeVariable, skipProperties) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/simple.js",
-    "line": "  wrap(serializeContext, value);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/simple.js",
-    "line": "function wrap(serializeContext, value) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/source-maps.js",
-    "line": "  wrap(serializeContext, value);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-wrap(",
-    "path": "node_modules/html-minifier/node_modules/clean-css/lib/writer/source-maps.js",
-    "line": "function wrap(serializeContext, value) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/html-minifier/node_modules/uglify-js/lib/transform.js",
-    "line": "                y = tw.after(x, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-before(",
-    "path": "node_modules/html-minifier/node_modules/uglify-js/lib/transform.js",
-    "line": "        if (tw.before) x = tw.before(this, descend, in_list);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -4482,20 +4301,6 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
-    "rule": "jQuery-$(",
-    "path": "node_modules/loose-envify/node_modules/js-tokens/index.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-05-24T17:14:21.037Z",
-    "reasonDetail": "This is inside of a regular expression and is not jQuery."
-  },
-  {
-    "rule": "jQuery-after(",
-    "path": "node_modules/mime/src/test.js",
-    "line": "  after(function() {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-04-13T22:04:17.176Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -4660,13 +4465,6 @@
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
     "reasonCategory": "falseMatch",
     "updated": "2020-09-14T16:19:54.461Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/os-locale/node_modules/signal-exit/index.js",
-    "line": "    load()",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-07T23:11:11.870Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -6326,14 +6124,6 @@
     "reasonDetail": "necessary for quill"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/raw-body/node_modules/depd/index.js",
-    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "What's being eval'd is a static string, with one variable: args. Args is of the form arg1, arg2, generated programmatically."
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/react-quill/dist/react-quill.js",
     "reasonCategory": "usageTrusted",
@@ -6398,34 +6188,6 @@
     "line": "\t\t\t\t} else if (opts.multiArgs) {",
     "reasonCategory": "falseMatch",
     "updated": "2021-12-07T23:11:11.870Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
-    "line": "        load(exts, x, loadAsFilePackage);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
-    "line": "        function load(exts, x, loadPackage) {",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
-    "line": "                    if (r) return load(",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
-  },
-  {
-    "rule": "jQuery-load(",
-    "path": "node_modules/rechoir/node_modules/resolve/lib/async.js",
-    "line": "                load(exts.slice(1), x, pkg);",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-04-05T20:48:36.065Z"
   },
   {
     "rule": "jQuery-$(",
@@ -6628,6 +6390,132 @@
     "line": "    b.append(data)",
     "reasonCategory": "falseMatch",
     "updated": "2021-01-20T22:42:00.662Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "    \"innerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "    \"outerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "                const after_ret = tw.after(transformed, in_list);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "        if (tw.before) transformed = tw.before(this, descend, in_list);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "    before(node, descend) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "        function before(node, descend, in_list) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/dist/bundle.min.js",
+    "line": "            function before(node) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
+    "line": "    before(node, descend) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
+    "line": "        function before(node, descend, in_list) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/compress/index.js",
+    "line": "            function before(node) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-after(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/transform.js",
+    "line": "                const after_ret = tw.after(transformed, in_list);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-before(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/lib/transform.js",
+    "line": "        if (tw.before) transformed = tw.before(this, descend, in_list);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/dist/source-map.js",
+    "line": "  prepend(aChunk) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/dist/source-map.js",
+    "line": "        this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/lib/source-node.js",
+    "line": "  prepend(aChunk) {",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/node_modules/source-map/lib/source-node.js",
+    "line": "        this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"innerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "DOM-outerHTML",
+    "path": "node_modules/terser-webpack-plugin/node_modules/terser/tools/domprops.js",
+    "line": "    \"outerHTML\",",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
   },
   {
     "rule": "jQuery-after(",
@@ -6988,6 +6876,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-16T20:26:31.296Z",
     "reasonDetail": "Dev-only dependency."
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/wrap-ansi/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(identity, offset);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
+  },
+  {
+    "rule": "jQuery-wrap(",
+    "path": "node_modules/wrap-ansi/node_modules/ansi-styles/index.js",
+    "line": "\t\t\tstyles[name] = wrap(suite[targetSpace], offset);",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-14T16:24:36.869Z"
   },
   {
     "rule": "jQuery-$(",
