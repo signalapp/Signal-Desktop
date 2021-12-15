@@ -21,29 +21,31 @@ type Props = {
   conversationId: string;
 };
 
+/**
+ * Admins are always put first in the list of group members.
+ * Also, admins have a little crown on their avatar.
+ */
 const ClassicMemberList = (props: {
   convoId: string;
   selectedMembers: Array<string>;
-  showAdmins?: boolean; // if true, admins of this convo will be put at the top of the list and greyed
   onSelect: (m: string) => void;
   onUnselect: (m: string) => void;
 }) => {
-  const { onSelect, convoId, onUnselect, selectedMembers, showAdmins } = props;
+  const { onSelect, convoId, onUnselect, selectedMembers } = props;
   const weAreAdmin = useWeAreAdmin(convoId);
   const convoProps = useConversationPropsById(convoId);
   if (!convoProps) {
     throw new Error('MemberList needs convoProps');
   }
   let currentMembers = convoProps.members || [];
-  if (showAdmins) {
-    const { groupAdmins } = convoProps;
-    currentMembers = currentMembers.sort(m => (groupAdmins?.includes(m) ? -1 : 0));
-  }
+  const { groupAdmins } = convoProps;
+  currentMembers = currentMembers.sort(m => (groupAdmins?.includes(m) ? -1 : 0));
 
   return (
     <>
-      {currentMembers.map((member: string) => {
+      {currentMembers.map(member => {
         const isSelected = (weAreAdmin && selectedMembers.includes(member)) || false;
+        const isAdmin = groupAdmins?.includes(member);
 
         return (
           <MemberListItem
@@ -52,6 +54,7 @@ const ClassicMemberList = (props: {
             onSelect={onSelect}
             onUnselect={onUnselect}
             key={member}
+            isAdmin={isAdmin}
           />
         );
       })}
@@ -244,7 +247,6 @@ export const UpdateGroupMembersDialog = (props: Props) => {
           onSelect={onAdd}
           onUnselect={onRemove}
           selectedMembers={membersToKeepWithUpdate}
-          showAdmins={true}
         />
       </div>
       <ZombiesList convoId={conversationId} />

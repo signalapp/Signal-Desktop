@@ -149,7 +149,7 @@ const SessionSvg = (props: {
   backgroundColor?: string;
   iconPadding?: string;
 }) => {
-  const colorSvg = props.iconColor || 'var(--colors-text)';
+  const colorSvg = props.iconColor || 'var(--color-text)';
   const pathArray = props.path instanceof Array ? props.path : [props.path];
   const propsToPick = {
     width: props.width,

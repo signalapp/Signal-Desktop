@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import { updateUserDetailsModal } from '../../../../state/ducks/modalDialog';
 import { getMessageAvatarProps } from '../../../../state/selectors/conversations';
-import { Avatar, AvatarSize } from '../../../avatar/Avatar';
+import { Avatar, AvatarSize, CrownIcon } from '../../../avatar/Avatar';
 // tslint:disable: use-simple-attributes
 
 export type MessageAvatarSelectorProps = Pick<
@@ -68,11 +68,7 @@ export const MessageAvatar = (props: Props) => {
         onAvatarClick={(!isPublic && onMessageAvatarClick) || undefined}
         pubkey={authorPhoneNumber}
       />
-      {isPublic && isSenderAdmin && (
-        <div className="module-avatar__icon--crown-wrapper">
-          <div className="module-avatar__icon--crown" />
-        </div>
-      )}
+      {isSenderAdmin && <CrownIcon />}
     </div>
   );
 };

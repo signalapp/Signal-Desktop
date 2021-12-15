@@ -59,7 +59,7 @@ export function useConversationsUsernameOrFull(pubkeys: Array<string>) {
         return window.i18n('you');
       }
       const convo = state.conversations.conversationLookup[pubkey];
-      return convo?.profileName || convo?.name || pubkey;
+      return `"${convo?.profileName}"` || `"${convo?.name}"` || pubkey;
     });
   });
 }

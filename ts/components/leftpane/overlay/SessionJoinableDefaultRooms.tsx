@@ -39,7 +39,7 @@ const SessionJoinableRoomAvatar = (props: JoinableRoomProps) => {
         if (isCancelled) {
           return;
         }
-        void downloadPreviewOpenGroupV2(parsedInfos)
+        downloadPreviewOpenGroupV2(parsedInfos)
           .then(base64 => {
             if (isCancelled) {
               return;

@@ -17,25 +17,6 @@ $borderAvatarColor: unquote(
   }
 }
 
-.module-avatar__icon--crown-wrapper {
-  position: absolute;
-  bottom: 0%;
-  right: 12%;
-  height: 21px;
-  width: 21px;
-  transform: translate(25%, 25%);
-  padding: 9%;
-  background-color: $color-white;
-  border-radius: 50%;
-  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
-}
-
-.module-avatar__icon--crown {
-  @include color-svg('../images/crown.svg', #ffb000);
-  height: 100%;
-  width: 100%;
-}
-
 .module-avatar__icon-closed .module-avatar--28,
 .module-avatar--28 {
   height: 28px;
@@ -99,10 +80,6 @@ $borderAvatarColor: unquote(
     height: 300px;
     width: 300px;
   }
-}
-
-.module-avatar__icon--crown-wrapper {
-  background-color: $color-gray-75;
 }
 
 .module-avatar__icon-closed {

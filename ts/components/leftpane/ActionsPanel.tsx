@@ -50,6 +50,7 @@ import { DraggableCallContainer } from '../calling/DraggableCallContainer';
 import { IncomingCallDialog } from '../calling/IncomingCallDialog';
 import { SessionIconButton } from '../icon';
 import { SessionToastContainer } from '../SessionToastContainer';
+import { LeftPaneSectionContainer } from './LeftPaneSectionContainer';
 
 const Section = (props: { type: SectionType }) => {
   const ourNumber = useSelector(getOurNumber);
@@ -141,6 +142,7 @@ const Section = (props: { type: SectionType }) => {
           dataTestId="onion-status-section"
           handleClick={handleClick}
           isSelected={isSelected}
+          id={'onion-path-indicator-led-id'}
         />
       );
     default:
@@ -314,10 +316,7 @@ export const ActionsPanel = () => {
       <ModalContainer />
 
       <CallContainer />
-      <div
-        className="module-left-pane__sections-container"
-        data-testid="leftpane-section-container"
-      >
+      <LeftPaneSectionContainer data-testid="leftpane-section-container">
         <Section type={SectionType.Profile} />
         <Section type={SectionType.Message} />
         <Section type={SectionType.Contact} />
@@ -327,7 +326,7 @@ export const ActionsPanel = () => {
 
         <Section type={SectionType.PathIndicator} />
         <Section type={SectionType.Moon} />
-      </div>
+      </LeftPaneSectionContainer>
     </>
   );
 };

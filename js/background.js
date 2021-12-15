@@ -42,7 +42,6 @@
   preload([
     'alert-outline.svg',
     'check.svg',
-    'crown.svg',
     'error.svg',
     'file-gradient.svg',
     'file.svg',

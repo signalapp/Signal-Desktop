@@ -10,6 +10,8 @@ import {
 import { AvatarPlaceHolder } from './AvatarPlaceHolder/AvatarPlaceHolder';
 import { ClosedGroupAvatar } from './AvatarPlaceHolder/ClosedGroupAvatar';
 import { useDisableDrag } from '../../hooks/useDisableDrag';
+import styled from 'styled-components';
+import { SessionIcon } from '../icon';
 
 export enum AvatarSize {
   XS = 28,
@@ -36,6 +38,31 @@ const Identicon = (props: Props) => {
   const userName = forcedName || displayName || '0';
 
   return <AvatarPlaceHolder diameter={size} name={userName} pubkey={pubkey} />;
+};
+
+const CrownWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  bottom: 0%;
+  right: 12%;
+  height: 20px;
+  width: 20px;
+  transform: translate(25%, 25%);
+  color: #f7c347;
+  background: var(--color-inbox-background);
+  border-radius: 50%;
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.3));
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const CrownIcon = () => {
+  return (
+    <CrownWrapper>
+      <SessionIcon iconSize={'small'} iconType="crown" iconPadding="1px 0 0 0 " />
+    </CrownWrapper>
+  );
 };
 
 const NoImage = (

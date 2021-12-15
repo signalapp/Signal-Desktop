@@ -151,8 +151,9 @@ export const ActionPanelOnionStatusLight = (props: {
   isSelected: boolean;
   handleClick: () => void;
   dataTestId?: string;
+  id: string;
 }) => {
-  const { isSelected, handleClick, dataTestId } = props;
+  const { isSelected, handleClick, dataTestId, id } = props;
 
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
@@ -181,6 +182,7 @@ export const ActionPanelOnionStatusLight = (props: {
       noScale={true}
       isSelected={isSelected}
       dataTestId={dataTestId}
+      id={id}
     />
   );
 };
