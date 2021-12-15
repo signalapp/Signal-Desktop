@@ -909,4 +909,74 @@ describe('SQL migrations test', () => {
       assert.sameDeepMembers(members, [UUID_1, UUID_2]);
     });
   });
+
+  describe('updateToSchemaVersion46', () => {
+    it('creates new auto-generated isStory field', () => {
+      const STORY_ID_1 = generateGuid();
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(46);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, storyId, conversationId, type, body)
+          VALUES
+          ('${MESSAGE_ID_1}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'story', 'story 1'),
+          ('${MESSAGE_ID_2}', null, '${CONVERSATION_ID}', 'outgoing', 'reply to story 1');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        2
+      );
+      assert.strictEqual(
+        db
+          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 0;')
+          .pluck()
+          .get(),
+        1
+      );
+      assert.strictEqual(
+        db
+          .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 1;')
+          .pluck()
+          .get(),
+        1
+      );
+    });
+
+    it('ensures that index is used for getOlderMessagesByConversation', () => {
+      updateToVersion(46);
+
+      const { detail } = db
+        .prepare(
+          `
+        EXPLAIN QUERY PLAN
+        SELECT json FROM messages WHERE
+          conversationId = 'd8b05bb1-36b3-4478-841b-600af62321eb' AND
+          (NULL IS NULL OR id IS NOT NULL) AND
+          isStory IS 0 AND
+          storyId IS NULL AND
+          (
+            (received_at = 17976931348623157 AND sent_at < NULL) OR
+            received_at < 17976931348623157
+          )
+        ORDER BY received_at DESC, sent_at DESC
+        LIMIT 10;
+        `
+        )
+        .get();
+
+      assert.notInclude(detail, 'B-TREE');
+      assert.notInclude(detail, 'SCAN');
+      assert.include(
+        detail,
+        'SEARCH messages USING INDEX messages_conversation (conversationId=? AND isStory=? AND storyId=? AND received_at<?)'
+      );
+    });
+  });
 });
