@@ -108,7 +108,9 @@ const Seed = (props: SeedProps) => {
         <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
         <SpacerXS />
 
-        <i className="session-modal__text-highlight">{recoveryPhrase}</i>
+        <i data-test-id="recovery-phrase-seed-modal" className="session-modal__text-highlight">
+          {recoveryPhrase}
+        </i>
       </div>
       <SpacerLG />
       <div className="session-modal__button-group">

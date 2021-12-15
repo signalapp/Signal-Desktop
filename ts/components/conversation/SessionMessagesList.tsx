@@ -10,7 +10,7 @@ import {
   PropsForGroupUpdate,
 } from '../../state/ducks/conversations';
 import { getSortedMessagesTypesOfSelectedConversation } from '../../state/selectors/conversations';
-import { GroupNotification } from './GroupNotification';
+import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { MessageDateBreak } from './message/message-item/DateBreak';
 import { GroupInvitation } from './message/message-item/GroupInvitation';
@@ -63,7 +63,7 @@ export const SessionMessagesList = (props: {
           ) : null;
         if (messageProps.message?.messageType === 'group-notification') {
           const msgProps = messageProps.message.props as PropsForGroupUpdate;
-          return [<GroupNotification key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
+          return [<GroupUpdateMessage key={messageId} {...msgProps} />, dateBreak, unreadIndicator];
         }
 
         if (messageProps.message?.messageType === 'group-invitation') {

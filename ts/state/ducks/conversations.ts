@@ -30,7 +30,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
-  propsForGroupNotification?: PropsForGroupUpdate;
+  propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
 };
 
@@ -90,19 +90,17 @@ export type PropsForGroupUpdateGeneral = {
 
 export type PropsForGroupUpdateAdd = {
   type: 'add';
-  contacts?: Array<FindAndFormatContactType>;
+  added: Array<string>;
 };
 
 export type PropsForGroupUpdateKicked = {
   type: 'kicked';
-  isMe: boolean;
-  contacts?: Array<FindAndFormatContactType>;
+  kicked: Array<string>;
 };
 
-export type PropsForGroupUpdateRemove = {
-  type: 'remove';
-  isMe: boolean;
-  contacts?: Array<FindAndFormatContactType>;
+export type PropsForGroupUpdateLeft = {
+  type: 'left';
+  left: Array<string>;
 };
 
 export type PropsForGroupUpdateName = {
@@ -115,12 +113,10 @@ export type PropsForGroupUpdateType =
   | PropsForGroupUpdateAdd
   | PropsForGroupUpdateKicked
   | PropsForGroupUpdateName
-  | PropsForGroupUpdateRemove;
-
-export type PropsForGroupUpdateArray = Array<PropsForGroupUpdateType>;
+  | PropsForGroupUpdateLeft;
 
 export type PropsForGroupUpdate = {
-  changes: PropsForGroupUpdateArray;
+  change: PropsForGroupUpdateType;
   messageId: string;
   receivedAt: number | undefined;
   isUnread: boolean;

@@ -328,7 +328,7 @@ export async function leaveClosedGroup(groupId: string) {
   const diffTimestamp = Date.now() - getLatestTimestampOffset();
 
   const dbMessage = await convo.addSingleMessage({
-    group_update: { left: 'You' },
+    group_update: { left: [source] },
     conversationId: groupId,
     source,
     type: 'outgoing',

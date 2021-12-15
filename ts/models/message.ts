@@ -13,6 +13,7 @@ import {
   fillMessageAttributesWithDefaults,
   MessageAttributes,
   MessageAttributesOptionals,
+  MessageGroupUpdate,
   MessageModelType,
   PropsForDataExtractionNotification,
 } from './messageType';
@@ -31,11 +32,10 @@ import {
   PropsForGroupInvitation,
   PropsForGroupUpdate,
   PropsForGroupUpdateAdd,
-  PropsForGroupUpdateArray,
   PropsForGroupUpdateGeneral,
   PropsForGroupUpdateKicked,
+  PropsForGroupUpdateLeft,
   PropsForGroupUpdateName,
-  PropsForGroupUpdateRemove,
   PropsForMessageWithoutConvoProps,
 } from '../state/ducks/conversations';
 import { VisibleMessage } from '../session/messages/outgoing/visibleMessage/VisibleMessage';
@@ -51,6 +51,23 @@ import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import _ from 'lodash';
+// tslint:disable: cyclomatic-complexity
+
+/**
+ * @returns true if the array contains only a single item being 'You', 'you' or our device pubkey
+ */
+export function arrayContainsUsOnly(arrayToCheck: Array<string> | undefined) {
+  return (
+    arrayToCheck &&
+    arrayToCheck.length === 1 &&
+    (arrayToCheck[0] === UserUtils.getOurPubKeyStrFromCache() ||
+      arrayToCheck[0].toLowerCase() === 'you')
+  );
+}
+
+export function arrayContainsOneItemOnly(arrayToCheck: Array<string> | undefined) {
+  return arrayToCheck && arrayToCheck.length === 1;
+}
 
 export class MessageModel extends Backbone.Model<MessageAttributes> {
   constructor(attributes: MessageAttributesOptionals & { skipTimerInit?: boolean }) {
@@ -86,7 +103,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     perfStart(`getPropsMessage-${this.id}`);
     const propsForDataExtractionNotification = this.getPropsForDataExtractionNotification();
     const propsForGroupInvitation = this.getPropsForGroupInvitation();
-    const propsForGroupNotification = this.getPropsForGroupNotification();
+    const propsForGroupUpdateMessage = this.getPropsForGroupUpdateMessage();
     const propsForTimerNotification = this.getPropsForTimerNotification();
     const callNotificationType = this.get('callNotificationType');
     const messageProps: MessageModelPropsWithoutConvoProps = {
@@ -98,8 +115,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (propsForGroupInvitation) {
       messageProps.propsForGroupInvitation = propsForGroupInvitation;
     }
-    if (propsForGroupNotification) {
-      messageProps.propsForGroupNotification = propsForGroupNotification;
+    if (propsForGroupUpdateMessage) {
+      messageProps.propsForGroupUpdateMessage = propsForGroupUpdateMessage;
     }
     if (propsForTimerNotification) {
       messageProps.propsForTimerNotification = propsForTimerNotification;
@@ -132,10 +149,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     return !!(flags & expirationTimerFlag);
   }
 
-  public isGroupUpdate() {
-    return Boolean(this.get('group_update'));
-  }
-
   public isIncoming() {
     return this.get('type') === 'incoming';
   }
@@ -156,118 +169,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     this.set(attributes);
-  }
-
-  // tslint:disable-next-line: cyclomatic-complexity
-  public getDescription() {
-    if (this.isGroupUpdate()) {
-      const groupUpdate = this.get('group_update');
-
-      const ourPrimary = window.textsecure.storage.get('primaryDevicePubKey');
-      if (
-        groupUpdate.left === 'You' ||
-        (Array.isArray(groupUpdate.left) &&
-          groupUpdate.left.length === 1 &&
-          groupUpdate.left[0] === ourPrimary)
-      ) {
-        return window.i18n('youLeftTheGroup');
-      } else if (
-        (groupUpdate.left && Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1) ||
-        typeof groupUpdate.left === 'string'
-      ) {
-        return window.i18n('leftTheGroup', [
-          getConversationController().getContactProfileNameOrShortenedPubKey(groupUpdate.left),
-        ]);
-      }
-      if (groupUpdate.kicked === 'You') {
-        return window.i18n('youGotKickedFromGroup');
-      }
-
-      const messages = [];
-      if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked) {
-        messages.push(window.i18n('updatedTheGroup'));
-      }
-      if (groupUpdate.name) {
-        messages.push(window.i18n('titleIsNow', groupUpdate.name));
-      }
-      if (groupUpdate.joined && groupUpdate.joined.length) {
-        const names = groupUpdate.joined.map((pubKey: string) =>
-          getConversationController().getContactProfileNameOrFullPubKey(pubKey)
-        );
-
-        if (names.length > 1) {
-          messages.push(window.i18n('multipleJoinedTheGroup', names.join(', ')));
-        } else {
-          messages.push(window.i18n('joinedTheGroup', names[0]));
-        }
-      }
-
-      if (groupUpdate.kicked && groupUpdate.kicked.length) {
-        const names = _.map(
-          groupUpdate.kicked,
-          getConversationController().getContactProfileNameOrShortenedPubKey
-        );
-
-        if (names.length > 1) {
-          messages.push(window.i18n('multipleKickedFromTheGroup', [names.join(', ')]));
-        } else {
-          messages.push(window.i18n('kickedFromTheGroup', [names[0]]));
-        }
-      }
-      return messages.join(' ');
-    }
-    if (this.isIncoming() && this.hasErrors()) {
-      return window.i18n('incomingError');
-    }
-    if (this.isGroupInvitation()) {
-      return `😎 ${window.i18n('openGroupInvitation')}`;
-    }
-
-    if (this.isDataExtractionNotification()) {
-      const dataExtraction = this.get(
-        'dataExtractionNotification'
-      ) as DataExtractionNotificationMsg;
-      if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
-        return window.i18n('tookAScreenshot', [
-          getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
-        ]);
-      }
-
-      return window.i18n('savedTheFile', [
-        getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
-      ]);
-    }
-    if (this.get('callNotificationType')) {
-      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        this.get('conversationId')
-      );
-      const callNotificationType = this.get('callNotificationType');
-      if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', [displayName]);
-      }
-      if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', [displayName]);
-      }
-      if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', [displayName]);
-      }
-    }
-    if (this.get('callNotificationType')) {
-      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
-        this.get('conversationId')
-      );
-      const callNotificationType = this.get('callNotificationType');
-      if (callNotificationType === 'missed-call') {
-        return window.i18n('callMissed', [displayName]);
-      }
-      if (callNotificationType === 'started-call') {
-        return window.i18n('startedACall', [displayName]);
-      }
-      if (callNotificationType === 'answered-a-call') {
-        return window.i18n('answeredACall', [displayName]);
-      }
-    }
-    return this.get('body');
   }
 
   public isGroupInvitation() {
@@ -425,96 +326,56 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   // tslint:disable-next-line: cyclomatic-complexity
-  public getPropsForGroupNotification(): PropsForGroupUpdate | null {
-    if (!this.isGroupUpdate()) {
+  public getPropsForGroupUpdateMessage(): PropsForGroupUpdate | null {
+    const groupUpdate = this.getGroupUpdateAsArray();
+
+    if (!groupUpdate || _.isEmpty(groupUpdate)) {
       return null;
     }
-    const groupUpdate = this.get('group_update');
-    const changes: PropsForGroupUpdateArray = [];
 
-    if (!groupUpdate.name && !groupUpdate.left && !groupUpdate.joined && !groupUpdate.kicked) {
-      const change: PropsForGroupUpdateGeneral = {
-        type: 'general',
-      };
-      changes.push(change);
-    }
+    const sharedProps = {
+      messageId: this.id,
+      isUnread: this.isUnread(),
+      receivedAt: this.get('received_at'),
+    };
 
-    if (groupUpdate.joined) {
+    if (groupUpdate.joined?.length) {
       const change: PropsForGroupUpdateAdd = {
         type: 'add',
-        contacts: _.map(
-          Array.isArray(groupUpdate.joined) ? groupUpdate.joined : [groupUpdate.joined],
-          pubkey => this.findAndFormatContact(pubkey)
-        ),
+        added: groupUpdate.joined,
       };
-      changes.push(change);
+      return { change, ...sharedProps };
     }
 
-    if (groupUpdate.kicked === 'You') {
+    if (groupUpdate.kicked?.length) {
       const change: PropsForGroupUpdateKicked = {
         type: 'kicked',
-        isMe: true,
+        kicked: groupUpdate.kicked,
       };
-      changes.push(change);
-    } else if (groupUpdate.kicked) {
-      const change: PropsForGroupUpdateKicked = {
-        type: 'kicked',
-        isMe: false,
-        contacts: _.map(
-          Array.isArray(groupUpdate.kicked) ? groupUpdate.kicked : [groupUpdate.kicked],
-          pubkey => this.findAndFormatContact(pubkey)
-        ),
-      };
-      changes.push(change);
+      return { change, ...sharedProps };
     }
 
-    if (groupUpdate.left === 'You') {
-      const change: PropsForGroupUpdateRemove = {
-        type: 'remove',
-        isMe: true,
+    if (groupUpdate.left?.length) {
+      const change: PropsForGroupUpdateLeft = {
+        type: 'left',
+        left: groupUpdate.left,
       };
-      changes.push(change);
-    } else if (groupUpdate.left) {
-      if (
-        Array.isArray(groupUpdate.left) &&
-        groupUpdate.left.length === 1 &&
-        groupUpdate.left[0] === UserUtils.getOurPubKeyStrFromCache()
-      ) {
-        const change: PropsForGroupUpdateRemove = {
-          type: 'remove',
-          isMe: true,
-        };
-        changes.push(change);
-      } else if (
-        typeof groupUpdate.left === 'string' ||
-        (Array.isArray(groupUpdate.left) && groupUpdate.left.length === 1)
-      ) {
-        const change: PropsForGroupUpdateRemove = {
-          type: 'remove',
-          isMe: false,
-          contacts: _.map(
-            Array.isArray(groupUpdate.left) ? groupUpdate.left : [groupUpdate.left],
-            pubkey => this.findAndFormatContact(pubkey)
-          ),
-        };
-        changes.push(change);
-      }
+      return { change, ...sharedProps };
     }
 
     if (groupUpdate.name) {
       const change: PropsForGroupUpdateName = {
         type: 'name',
-        newName: groupUpdate.name as string,
+        newName: groupUpdate.name,
       };
-      changes.push(change);
+      return { change, ...sharedProps };
     }
 
-    return {
-      changes,
-      messageId: this.id,
-      isUnread: this.isUnread(),
-      receivedAt: this.get('received_at'),
+    // Just show a "Group Updated" message, not sure what was changed
+    const changeGeneral: PropsForGroupUpdateGeneral = {
+      type: 'general',
     };
+    return { change: changeGeneral, ...sharedProps };
   }
 
   public getMessagePropStatus(): LastMessageStatusType {
@@ -1264,6 +1125,151 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   private dispatchMessageUpdate() {
     updatesToDispatch.set(this.id, this.getMessageModelProps());
     trotthledAllMessagesDispatch();
+  }
+
+  /**
+   * Before, group_update attributes could be just the string 'You' and not an array.
+   * Using this method to get the group update makes sure than the joined, kicked, or left are always an array of string, or undefined
+   */
+  private getGroupUpdateAsArray() {
+    const groupUpdate = this.get('group_update');
+    if (!groupUpdate || _.isEmpty(groupUpdate)) {
+      return undefined;
+    }
+    const left: Array<string> | undefined = Array.isArray(groupUpdate.left)
+      ? groupUpdate.left
+      : groupUpdate.left
+      ? [groupUpdate.left]
+      : undefined;
+    const kicked: Array<string> | undefined = Array.isArray(groupUpdate.kicked)
+      ? groupUpdate.kicked
+      : groupUpdate.kicked
+      ? [groupUpdate.kicked]
+      : undefined;
+    const joined: Array<string> | undefined = Array.isArray(groupUpdate.joined)
+      ? groupUpdate.joined
+      : groupUpdate.joined
+      ? [groupUpdate.joined]
+      : undefined;
+
+    const forcedArrayUpdate: MessageGroupUpdate = {};
+
+    if (left) {
+      forcedArrayUpdate.left = left;
+    }
+    if (joined) {
+      forcedArrayUpdate.joined = joined;
+    }
+    if (kicked) {
+      forcedArrayUpdate.kicked = kicked;
+    }
+    if (groupUpdate.name) {
+      forcedArrayUpdate.name = groupUpdate.name;
+    }
+    return forcedArrayUpdate;
+  }
+
+  private getDescription() {
+    const groupUpdate = this.getGroupUpdateAsArray();
+    if (groupUpdate) {
+      if (arrayContainsUsOnly(groupUpdate.kicked)) {
+        return window.i18n('youGotKickedFromGroup');
+      }
+      if (arrayContainsUsOnly(groupUpdate.left)) {
+        return window.i18n('youLeftTheGroup');
+      }
+
+      if (groupUpdate.left && groupUpdate.left.length === 1) {
+        return window.i18n('leftTheGroup', [
+          getConversationController().getContactProfileNameOrShortenedPubKey(groupUpdate.left[0]),
+        ]);
+      }
+
+      const messages = [];
+      if (!groupUpdate.name && !groupUpdate.joined && !groupUpdate.kicked && !groupUpdate.kicked) {
+        return window.i18n('updatedTheGroup'); // Group Updated
+      }
+      if (groupUpdate.name) {
+        return window.i18n('titleIsNow', [groupUpdate.name]);
+      }
+      if (groupUpdate.joined && groupUpdate.joined.length) {
+        const names = groupUpdate.joined.map((pubKey: string) =>
+          getConversationController().getContactProfileNameOrFullPubKey(pubKey)
+        );
+
+        if (names.length > 1) {
+          messages.push(window.i18n('multipleJoinedTheGroup', [names.join(', ')]));
+        } else {
+          messages.push(window.i18n('joinedTheGroup', names));
+        }
+      }
+
+      if (groupUpdate.kicked && groupUpdate.kicked.length) {
+        const names = _.map(
+          groupUpdate.kicked,
+          getConversationController().getContactProfileNameOrShortenedPubKey
+        );
+
+        if (names.length > 1) {
+          messages.push(window.i18n('multipleKickedFromTheGroup', [names.join(', ')]));
+        } else {
+          messages.push(window.i18n('kickedFromTheGroup', names));
+        }
+      }
+      return messages.join(' ');
+    }
+    if (this.isIncoming() && this.hasErrors()) {
+      return window.i18n('incomingError');
+    }
+    if (this.isGroupInvitation()) {
+      return `😎 ${window.i18n('openGroupInvitation')}`;
+    }
+
+    if (this.isDataExtractionNotification()) {
+      const dataExtraction = this.get(
+        'dataExtractionNotification'
+      ) as DataExtractionNotificationMsg;
+      if (dataExtraction.type === SignalService.DataExtractionNotification.Type.SCREENSHOT) {
+        return window.i18n('tookAScreenshot', [
+          getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
+        ]);
+      }
+
+      return window.i18n('savedTheFile', [
+        getConversationController().getContactProfileNameOrShortenedPubKey(dataExtraction.source),
+      ]);
+    }
+    if (this.get('callNotificationType')) {
+      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
+        this.get('conversationId')
+      );
+      const callNotificationType = this.get('callNotificationType');
+      if (callNotificationType === 'missed-call') {
+        return window.i18n('callMissed', [displayName]);
+      }
+      if (callNotificationType === 'started-call') {
+        return window.i18n('startedACall', [displayName]);
+      }
+      if (callNotificationType === 'answered-a-call') {
+        return window.i18n('answeredACall', [displayName]);
+      }
+    }
+    if (this.get('callNotificationType')) {
+      const displayName = getConversationController().getContactProfileNameOrShortenedPubKey(
+        this.get('conversationId')
+      );
+      const callNotificationType = this.get('callNotificationType');
+      if (callNotificationType === 'missed-call') {
+        return window.i18n('callMissed', [displayName]);
+      }
+      if (callNotificationType === 'started-call') {
+        return window.i18n('startedACall', [displayName]);
+      }
+      if (callNotificationType === 'answered-a-call') {
+        return window.i18n('answeredACall', [displayName]);
+      }
+    }
+    return this.get('body');
   }
 }
 

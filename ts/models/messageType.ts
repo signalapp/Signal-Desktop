@@ -24,7 +24,7 @@ export interface MessageAttributes {
   expires_at?: number;
   recipients: Array<string>;
   type: MessageModelType;
-  group_update?: any;
+  group_update?: MessageGroupUpdate;
   groupInvitation?: any;
   attachments?: any;
   conversationId: string;
@@ -125,6 +125,13 @@ export type PropsForDataExtractionNotification = DataExtractionNotificationMsg &
   isUnread: boolean;
 };
 
+export type MessageGroupUpdate = {
+  left?: Array<string>;
+  joined?: Array<string>;
+  kicked?: Array<string>;
+  name?: string;
+};
+
 export interface MessageAttributesOptionals {
   id?: string;
   source: string;
@@ -141,7 +148,7 @@ export interface MessageAttributesOptionals {
   expires_at?: number;
   recipients?: Array<string>;
   type: MessageModelType;
-  group_update?: any;
+  group_update?: MessageGroupUpdate;
   groupInvitation?: any;
   attachments?: any;
   contact?: any;

@@ -222,13 +222,13 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
         };
       }
 
-      if (msg.propsForGroupNotification) {
+      if (msg.propsForGroupUpdateMessage) {
         return {
           showUnreadIndicator: isFirstUnread,
           showDateBreak,
           message: {
             messageType: 'group-notification',
-            props: { ...msg.propsForGroupNotification, messageId: msg.propsForMessage.id },
+            props: { ...msg.propsForGroupUpdateMessage, messageId: msg.propsForMessage.id },
           },
         };
       }

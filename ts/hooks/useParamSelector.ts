@@ -49,6 +49,21 @@ export function useConversationUsernameOrShorten(pubkey?: string) {
   });
 }
 
+/**
+ * Returns either the nickname, profileName, or the shorten of the pubkeys given
+ */
+export function useConversationsUsernameOrFull(pubkeys: Array<string>) {
+  return useSelector((state: StateType) => {
+    return pubkeys.map(pubkey => {
+      if (pubkey === UserUtils.getOurPubKeyStrFromCache() || pubkey.toLowerCase() === 'you') {
+        return window.i18n('you');
+      }
+      const convo = state.conversations.conversationLookup[pubkey];
+      return convo?.profileName || convo?.name || pubkey;
+    });
+  });
+}
+
 export function useOurConversationUsername() {
   return useConversationUsername(UserUtils.getOurPubKeyStrFromCache());
 }
