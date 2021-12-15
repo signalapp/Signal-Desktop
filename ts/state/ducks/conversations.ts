@@ -1814,10 +1814,6 @@ async function checkForUsername(
       username
     );
 
-    if (!profile.username || profile.username !== username) {
-      log.error("checkForUsername: Returned username didn't match searched");
-      return;
-    }
     if (!profile.uuid) {
       log.error("checkForUsername: Returned profile didn't include a uuid");
       return;
@@ -1825,7 +1821,7 @@ async function checkForUsername(
 
     return {
       uuid: UUID.cast(profile.uuid),
-      username: profile.username,
+      username,
     };
   } catch (error: unknown) {
     if (!isRecord(error)) {

@@ -715,7 +715,6 @@ export type ProfileType = Readonly<{
   avatar?: string;
   unidentifiedAccess?: string;
   unrestrictedUnidentifiedAccess?: string;
-  username?: string;
   uuid?: string;
   credential?: string;
   capabilities?: CapabilitiesType;
@@ -751,6 +750,7 @@ export type WhoamiResultType = Readonly<{
   uuid?: UUIDStringType;
   pni?: UUIDStringType;
   number?: string;
+  username?: string;
 }>;
 
 export type ConfirmCodeResultType = Readonly<{
