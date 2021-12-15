@@ -28,7 +28,6 @@ const StyledMessageRequestBannerHeader = styled.span`
   color: var(--color-text-subtle);
   padding-left: var(--margins-xs);
   margin-inline-start: 12px;
-  margin-top: var(--margins-sm);
   line-height: 18px;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -42,16 +41,17 @@ const StyledCircleIcon = styled.div`
 
 const StyledUnreadCounter = styled.div`
   font-weight: bold;
-  border-radius: 50%;
+  border-radius: var(--margins-sm);
   background-color: var(--color-clickable-hovered);
   margin-left: 10px;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
   line-height: 25px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding: var(--margins-xs);
 `;
 
 const StyledGridContainer = styled.div`
