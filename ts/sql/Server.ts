@@ -2333,7 +2333,7 @@ async function getOlderMessagesByConversation(
       SELECT json FROM messages WHERE
         conversationId = $conversationId AND
         ($messageId IS NULL OR id IS NOT $messageId) AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId AND
         (
           (received_at = $received_at AND sent_at < $sent_at) OR
@@ -2415,7 +2415,7 @@ async function getNewerMessagesByConversation(
       `
       SELECT json FROM messages WHERE
         conversationId = $conversationId AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId AND
         (
           (received_at = $received_at AND sent_at > $sent_at) OR
@@ -2445,7 +2445,7 @@ function getOldestMessageForConversation(
       `
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
@@ -2472,7 +2472,7 @@ function getNewestMessageForConversation(
       `
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
@@ -2632,7 +2632,7 @@ function getOldestUnreadMessageForConversation(
       SELECT * FROM messages WHERE
         conversationId = $conversationId AND
         readStatus = ${ReadStatus.Unread} AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId
       ORDER BY received_at ASC, sent_at ASC
       LIMIT 1;
@@ -2663,7 +2663,7 @@ async function getTotalUnreadForConversation(
       WHERE
         conversationId = $conversationId AND
         readStatus = ${ReadStatus.Unread} AND
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS $storyId;
       `
     )
@@ -4163,7 +4163,7 @@ async function getMessagesWithVisualMediaAttachments(
     .prepare<Query>(
       `
       SELECT json FROM messages WHERE
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS NULL AND
         conversationId = $conversationId AND
         hasVisualMediaAttachments = 1
@@ -4188,7 +4188,7 @@ async function getMessagesWithFileAttachments(
     .prepare<Query>(
       `
       SELECT json FROM messages WHERE
-        type IS NOT 'story' AND
+        isStory IS 0 AND
         storyId IS NULL AND
         conversationId = $conversationId AND
         hasFileAttachments = 1
