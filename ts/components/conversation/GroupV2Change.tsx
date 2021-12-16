@@ -28,7 +28,7 @@ export type PropsDataType = {
 
 export type PropsHousekeepingType = {
   i18n: LocalizerType;
-  renderContact: SmartContactRendererType;
+  renderContact: SmartContactRendererType<FullJSXType>;
 };
 
 export type PropsType = PropsDataType & PropsHousekeepingType;
@@ -141,7 +141,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
 
   return (
     <>
-      {renderChange(change, {
+      {renderChange<FullJSXType>(change, {
         i18n,
         ourUuid,
         renderContact,

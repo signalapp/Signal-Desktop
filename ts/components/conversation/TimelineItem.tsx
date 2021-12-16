@@ -53,6 +53,7 @@ import { ResetSessionNotification } from './ResetSessionNotification';
 import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileChangeNotification';
 import { ProfileChangeNotification } from './ProfileChangeNotification';
 import * as log from '../../logging/log';
+import type { FullJSXType } from '../Intl';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -144,7 +145,7 @@ type PropsLocalType = {
   id: string;
   isSelected: boolean;
   selectMessage: (messageId: string, conversationId: string) => unknown;
-  renderContact: SmartContactRendererType;
+  renderContact: SmartContactRendererType<FullJSXType>;
   renderUniversalTimerNotification: () => JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;

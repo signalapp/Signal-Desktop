@@ -111,6 +111,8 @@ import { CI } from './CI';
 import { IPCEventsType, IPCEventsValuesType } from './util/createIPCEvents';
 import { ConversationView } from './views/conversation_view';
 import type { SignalContextType } from './windows/context';
+import { GroupV2Change } from './components/conversation/GroupV2Change';
+import * as GroupChange from './groupChange';
 
 export { Long } from 'long';
 
@@ -381,9 +383,7 @@ declare global {
         QualifiedAddress: typeof QualifiedAddress;
       };
       Util: typeof Util;
-      GroupChange: {
-        renderChange: (change: unknown, things: unknown) => Array<string>;
-      };
+      GroupChange: typeof GroupChange;
       Components: {
         AttachmentList: typeof AttachmentList;
         ChatColorPicker: typeof ChatColorPicker;

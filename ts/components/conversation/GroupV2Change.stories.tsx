@@ -12,6 +12,7 @@ import type { GroupV2ChangeType } from '../../groups';
 import { SignalService as Proto } from '../../protobuf';
 import type { SmartContactRendererType } from '../../groupChange';
 import { GroupV2Change } from './GroupV2Change';
+import type { FullJSXType } from '../Intl';
 
 const i18n = setupI18n('en', enMessages);
 
@@ -25,7 +26,9 @@ const INVITEE_A = UUID.generate().toString();
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-const renderContact: SmartContactRendererType = (conversationId: string) => (
+const renderContact: SmartContactRendererType<FullJSXType> = (
+  conversationId: string
+) => (
   <React.Fragment key={conversationId}>
     {`Conversation(${conversationId})`}
   </React.Fragment>
