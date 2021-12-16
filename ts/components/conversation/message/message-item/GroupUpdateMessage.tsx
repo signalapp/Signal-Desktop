@@ -8,7 +8,7 @@ import _ from 'underscore';
 import { NotificationBubble } from './notification-bubble/NotificationBubble';
 import { ReadableMessage } from './ReadableMessage';
 import { arrayContainsUsOnly } from '../../../../models/message';
-import { useConversationsUsernameOrFull } from '../../../../hooks/useParamSelector';
+import { useConversationsUsernameWithQuoteOrFullPubkey } from '../../../../hooks/useParamSelector';
 
 // This component is used to display group updates in the conversation view.
 
@@ -16,7 +16,7 @@ const ChangeItemJoined = (added: Array<string>): string => {
   if (!added.length) {
     throw new Error('Group update add is missing contacts');
   }
-  const names = useConversationsUsernameOrFull(added);
+  const names = useConversationsUsernameWithQuoteOrFullPubkey(added);
   const joinKey = added.length > 1 ? 'multipleJoinedTheGroup' : 'joinedTheGroup';
   return window.i18n(joinKey, [names.join(', ')]);
 };
@@ -25,7 +25,7 @@ const ChangeItemKicked = (kicked: Array<string>): string => {
   if (!kicked.length) {
     throw new Error('Group update kicked is missing contacts');
   }
-  const names = useConversationsUsernameOrFull(kicked);
+  const names = useConversationsUsernameWithQuoteOrFullPubkey(kicked);
 
   if (arrayContainsUsOnly(kicked)) {
     return window.i18n('youGotKickedFromGroup');
@@ -40,7 +40,7 @@ const ChangeItemLeft = (left: Array<string>): string => {
     throw new Error('Group update remove is missing contacts');
   }
 
-  const names = useConversationsUsernameOrFull(left);
+  const names = useConversationsUsernameWithQuoteOrFullPubkey(left);
 
   if (arrayContainsUsOnly(left)) {
     return window.i18n('youLeftTheGroup');

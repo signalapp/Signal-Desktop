@@ -4,7 +4,7 @@ import React from 'react';
 import { SpacerLG } from '../../basic/Text';
 import { useDispatch, useSelector } from 'react-redux';
 import { getConversationRequests } from '../../../state/selectors/conversations';
-import { MemoConversationListItemWithDetails } from '../ConversationListItem';
+import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
 import { OverlayHeader } from './OverlayHeader';

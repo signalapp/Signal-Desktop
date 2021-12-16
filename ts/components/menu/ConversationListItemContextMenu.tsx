@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { animation, Menu } from 'react-contexify';
 import _ from 'underscore';
-import { useAvatarPath, useConversationUsername } from '../../hooks/useParamSelector';
 import {
-  ConversationNotificationSettingType,
-  ConversationTypeEnum,
-} from '../../models/conversation';
+  useAvatarPath,
+  useConversationPropsById,
+  useConversationUsername,
+} from '../../hooks/useParamSelector';
+import { ConversationTypeEnum } from '../../models/conversation';
+import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
 
 import {
   getBanMenuItem,
@@ -25,26 +27,18 @@ import {
 } from './Menu';
 
 export type PropsContextConversationItem = {
-  conversationId: string;
   triggerId: string;
-  type: ConversationTypeEnum;
-  isMe: boolean;
-  isPublic: boolean;
-  isPrivate: boolean;
-  isBlocked: boolean;
-  hasNickname: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
-  theme?: any;
-  currentNotificationSetting: ConversationNotificationSettingType;
-  avatarPath: string | null;
-  weAreAdmin?: boolean;
 };
 
 const ConversationListItemContextMenu = (props: PropsContextConversationItem) => {
+  const conversationId = useContext(ContextConversationId);
+
+  const itemMenuProps = useConversationPropsById(conversationId);
+  const { triggerId } = props;
+  if (!itemMenuProps) {
+    return null;
+  }
   const {
-    conversationId,
-    triggerId,
     isBlocked,
     isMe,
     isPublic,
@@ -55,7 +49,7 @@ const ConversationListItemContextMenu = (props: PropsContextConversationItem) =>
     currentNotificationSetting,
     isPrivate,
     weAreAdmin,
-  } = props;
+  } = itemMenuProps;
 
   const isGroup = type === 'group';
 

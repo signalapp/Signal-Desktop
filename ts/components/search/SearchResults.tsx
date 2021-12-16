@@ -2,7 +2,7 @@ import React from 'react';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
-} from '../leftpane/ConversationListItem';
+} from '../leftpane/conversation-list-item/ConversationListItem';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;

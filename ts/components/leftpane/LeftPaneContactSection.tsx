@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MemoConversationListItemWithDetails } from './ConversationListItem';
+import { MemoConversationListItemWithDetails } from './conversation-list-item/ConversationListItem';
 import { AutoSizer, List } from 'react-virtualized';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import { useSelector } from 'react-redux';

@@ -449,7 +449,7 @@ export function getNotificationForConvoMenuItem({
   left: boolean | undefined;
   isBlocked: boolean | undefined;
   isPrivate: boolean | undefined;
-  currentNotificationSetting: ConversationNotificationSettingType;
+  currentNotificationSetting: ConversationNotificationSettingType | undefined;
   conversationId: string;
 }): JSX.Element | null {
   if (showNotificationConvo(Boolean(isKickedFromGroup), Boolean(left), Boolean(isBlocked))) {
@@ -461,7 +461,7 @@ export function getNotificationForConvoMenuItem({
     ).map((n: ConversationNotificationSettingType) => {
       // do this separately so typescript's compiler likes it
       const keyToUse: LocalizerKeys =
-        n === 'all'
+        n === 'all' || !n
           ? 'notificationForConvo_all'
           : n === 'disabled'
           ? 'notificationForConvo_disabled'

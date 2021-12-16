@@ -2,7 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import { PubKey } from '../../session/types';
-import { ConversationListItemProps } from '../leftpane/ConversationListItem';
+import { ConversationListItemProps } from '../leftpane/conversation-list-item/ConversationListItem';
 
 export type Props = {
   contacts: Array<ConversationListItemProps>;

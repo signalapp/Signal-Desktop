@@ -3,7 +3,7 @@ import { AutoSizer, List } from 'react-virtualized';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
-} from './ConversationListItem';
+} from './conversation-list-item/ConversationListItem';
 import { ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../search/SearchResults';
 import { UserUtils } from '../../session/utils';
