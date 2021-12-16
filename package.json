@@ -55,6 +55,8 @@
     "dev:webpack": "cross-env NODE_ENV=development webpack serve --mode development",
     "dev:typed-scss": "yarn build:typed-scss -w",
     "dev:storybook": "cross-env SIGNAL_ENV=storybook start-storybook -p 6006 -s ./",
+    "dev:sass": "npm run sass-manifest -- --watch",
+    "dev:sass-bridge": "npm run sass-manifest-bridge -- --watch",
     "storybook:axe": "build-storybook && axe-storybook",
     "build": "run-s --print-label generate build:typed-scss build:webpack build:fuses:release build:release build:fuses build:zip",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
