@@ -373,7 +373,7 @@ export type LocalizerKeys =
   | 'password'
   | 'usersCanShareTheir...'
   | 'timestampFormat_M'
-  | 'banUserAndDeleteAllConfirm'
+  | 'banAndDeleteAllDialogTitle'
   | 'nicknamePlaceholder'
   | 'linkPreviewsTitle'
   | 'continue'

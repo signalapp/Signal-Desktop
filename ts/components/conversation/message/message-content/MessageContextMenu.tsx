@@ -150,10 +150,6 @@ export const MessageContextMenu = (props: Props) => {
     MessageInteraction.banUser(authorPhoneNumber, convoId);
   }, [authorPhoneNumber, convoId]);
 
-  const onBanAndDeleteAll = useCallback(() => {
-    MessageInteraction.banUser(authorPhoneNumber, convoId, true);
-  }, [authorPhoneNumber, convoId]);
-
   const onUnban = useCallback(() => {
     MessageInteraction.unbanUser(authorPhoneNumber, convoId);
   }, [authorPhoneNumber, convoId]);
@@ -203,9 +199,6 @@ export const MessageContextMenu = (props: Props) => {
         </>
       ) : null}
       {weAreAdmin && isPublic ? <Item onClick={onBan}>{window.i18n('banUser')}</Item> : null}
-      {weAreAdmin && isPublic ? (
-        <Item onClick={onBanAndDeleteAll}>{window.i18n('banUserAndDeleteAll')}</Item>
-      ) : null}
       {weAreAdmin && isOpenGroupV2 ? (
         <Item onClick={onUnban}>{window.i18n('unbanUser')}</Item>
       ) : null}

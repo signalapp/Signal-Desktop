@@ -7,16 +7,12 @@ type Props = {
 export const SessionSpinner = (props: Props) => {
   const { loading } = props;
 
-  return (
-    <>
-      {loading ? (
-        <div className="session-loader">
-          <div />
-          <div />
-          <div />
-          <div />
-        </div>
-      ) : null}
-    </>
-  );
+  return loading ? (
+    <div className="session-loader">
+      <div />
+      <div />
+      <div />
+      <div />
+    </div>
+  ) : null;
 };

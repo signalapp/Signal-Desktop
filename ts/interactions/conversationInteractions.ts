@@ -14,6 +14,7 @@ import {
   adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
+  updateBanOrUnbanUserModal,
   updateConfirmModal,
   updateGroupMembersModal,
   updateGroupNameModal,
@@ -211,6 +212,18 @@ export function showAddModeratorsByConvoId(conversationId: string) {
 
 export function showRemoveModeratorsByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateRemoveModeratorsModal({ conversationId }));
+}
+
+export function showBanUserByConvoId(conversationId: string, pubkey?: string) {
+  window.inboxStore?.dispatch(
+    updateBanOrUnbanUserModal({ banType: 'ban', conversationId, pubkey })
+  );
+}
+
+export function showUnbanUserByConvoId(conversationId: string, pubkey?: string) {
+  window.inboxStore?.dispatch(
+    updateBanOrUnbanUserModal({ banType: 'unban', conversationId, pubkey })
+  );
 }
 
 export async function markAllReadByConvoId(conversationId: string) {

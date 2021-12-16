@@ -252,9 +252,7 @@
   "userUnbanned": "User unbanned successfully",
   "userUnbanFailed": "Unban failed!",
   "banUser": "Ban User",
-  "banUserConfirm": "Are you sure you want to ban the user?",
   "banUserAndDeleteAll": "Ban and Delete All",
-  "banUserAndDeleteAllConfirm": "Are you sure you want to ban the user and delete all his messages?",
   "userBanned": "Banned successfully",
   "userBanFailed": "Ban failed!",
   "leaveGroup": "Leave Group",
@@ -463,5 +461,6 @@
   "callMediaPermissionsDialogContent": "The current implementation of voice/video calls will expose your IP address to the Oxen Foundation servers and the calling/called user.",
   "menuCall": "Call",
   "startedACall": "You called $name$",
-  "answeredACall": "Call with $name$"
+  "answeredACall": "Call with $name$",
+  "banAndDeleteAllDialogTitle": "Ban and Delete All Messages Confirmation"
 }

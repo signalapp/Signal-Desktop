@@ -11,9 +11,11 @@ import {
   setDisappearingMessagesByConvoId,
   setNotificationForConvoId,
   showAddModeratorsByConvoId,
+  showBanUserByConvoId,
   showInviteContactByConvoId,
   showLeaveGroupByConvoId,
   showRemoveModeratorsByConvoId,
+  showUnbanUserByConvoId,
   showUpdateGroupNameByConvoId,
   unblockConvoById,
 } from '../../interactions/conversationInteractions';
@@ -80,6 +82,14 @@ function showDeleteContact(
   // you need to have left a closed group first to be able to delete it completely.
   return !isGroup || (isGroup && (isGroupLeft || isKickedFromGroup || isPublic));
 }
+
+const showUnbanUser = (isAdmin: boolean, isPublic: boolean, isKickedFromGroup: boolean) => {
+  return !isKickedFromGroup && isAdmin && isPublic;
+};
+
+const showBanUser = (isAdmin: boolean, isPublic: boolean, isKickedFromGroup: boolean) => {
+  return !isKickedFromGroup && isAdmin && isPublic;
+};
 
 function showAddModerators(
   isAdmin: boolean,
@@ -321,6 +331,47 @@ export function getAddModeratorsMenuItem(
         }}
       >
         {window.i18n('addModerators')}
+      </Item>
+    );
+  }
+  return null;
+}
+
+export function getUnbanMenuItem(
+  isAdmin: boolean | undefined,
+  isPublic: boolean | undefined,
+  isKickedFromGroup: boolean | undefined,
+  conversationId: string
+): JSX.Element | null {
+  if (showUnbanUser(Boolean(isAdmin), Boolean(isPublic), Boolean(isKickedFromGroup))) {
+    return (
+      <Item
+        onClick={() => {
+          showUnbanUserByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('unbanUser')}
+      </Item>
+    );
+  }
+  // TODO: translations
+  return null;
+}
+
+export function getBanMenuItem(
+  isAdmin: boolean | undefined,
+  isPublic: boolean | undefined,
+  isKickedFromGroup: boolean | undefined,
+  conversationId: string
+): JSX.Element | null {
+  if (showBanUser(Boolean(isAdmin), Boolean(isPublic), Boolean(isKickedFromGroup))) {
+    return (
+      <Item
+        onClick={() => {
+          showBanUserByConvoId(conversationId);
+        }}
+      >
+        {window.i18n('banUser')}
       </Item>
     );
   }

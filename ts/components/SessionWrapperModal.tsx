@@ -106,6 +106,7 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
           <div className="session-modal__body">
             <div className="session-modal__centered">
               {props.children}
+
               <div className="session-modal__button-group">
                 {onConfirm ? (
                   <SessionButton onClick={props.onConfirm}>
