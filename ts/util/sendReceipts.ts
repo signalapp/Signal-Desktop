@@ -79,6 +79,8 @@ export async function sendReceipts({
     new Map()
   );
 
+  await window.ConversationController.load();
+
   await Promise.all(
     map(receiptsBySenderId, async ([senderId, receiptsForSender]) => {
       const sender = window.ConversationController.get(senderId);

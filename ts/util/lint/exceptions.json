@@ -7853,6 +7853,20 @@
   },
   {
     "rule": "jQuery-load(",
+    "path": "ts/jobs/helpers/readAndViewSyncHelpers.js",
+    "line": "    await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-15T19:58:28.089Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/jobs/helpers/readAndViewSyncHelpers.ts",
+    "line": "  await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-15T19:58:28.089Z"
+  },
+  {
+    "rule": "jQuery-load(",
     "path": "ts/jobs/normalMessageSendJobQueue.js",
     "line": "        await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
@@ -8151,6 +8165,20 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-08-18T18:22:55.307Z",
     "reasonDetail": "Legacy code"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/util/sendReceipts.js",
+    "line": "    await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-15T19:58:28.089Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "ts/util/sendReceipts.ts",
+    "line": "  await window.ConversationController.load();",
+    "reasonCategory": "falseMatch",
+    "updated": "2021-12-15T19:58:28.089Z"
   },
   {
     "rule": "jQuery-$(",
