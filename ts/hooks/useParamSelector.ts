@@ -41,7 +41,8 @@ export function useConversationsUsernameWithQuoteOrFullPubkey(pubkeys: Array<str
         return window.i18n('you');
       }
       const convo = state.conversations.conversationLookup[pubkey];
-      return `"${convo?.profileName}"` || `"${convo?.name}"` || pubkey;
+      const nameGot = convo?.profileName || convo?.name;
+      return nameGot?.length ? `"${nameGot}"` : pubkey;
     });
   });
 }

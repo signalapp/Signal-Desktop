@@ -16,7 +16,6 @@ function useMessageItemProps(convoId: string) {
   return {
     isTyping: !!convoProps.isTyping,
     lastMessage: convoProps.lastMessage,
-
     unreadCount: convoProps.unreadCount || 0,
   };
 }
