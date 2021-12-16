@@ -142,6 +142,7 @@ import {
   isCustomError,
   isQuoteAMatch,
 } from '../messages/helpers';
+import type { ReplacementValuesType } from '../types/I18N';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -447,11 +448,14 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     if (isGroupV2Change(attributes)) {
       const change = this.get('groupV2Change');
+      strictAssert(
+        change,
+        'getNotificationData: isGroupV2Change true, but no groupV2Change!'
+      );
 
-      const lines = window.Signal.GroupChange.renderChange(change, {
-        AccessControlEnum: Proto.AccessControl.AccessRequired,
+      const lines = window.Signal.GroupChange.renderChange<string>(change, {
         i18n: window.i18n,
-        ourConversationId: window.ConversationController.getOurConversationId(),
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
         renderContact: (conversationId: string) => {
           const conversation =
             window.ConversationController.get(conversationId);
@@ -462,9 +466,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         renderString: (
           key: string,
           _i18n: unknown,
-          placeholders: Array<string>
-        ) => window.i18n(key, placeholders),
-        RoleEnum: Proto.Member.Role,
+          components: Array<string> | ReplacementValuesType<string> | undefined
+        ) => window.i18n(key, components),
       });
 
       return { text: lines.join(' ') };

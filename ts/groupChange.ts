@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { FullJSXType } from './components/Intl';
 import type { LocalizerType } from './types/Util';
 import type { ReplacementValuesType } from './types/I18N';
 import type { UUIDStringType } from './types/UUID';
@@ -11,42 +10,42 @@ import type { GroupV2ChangeDetailType, GroupV2ChangeType } from './groups';
 import { SignalService as Proto } from './protobuf';
 import * as log from './logging/log';
 
-export type SmartContactRendererType = (uuid: UUIDStringType) => FullJSXType;
-export type StringRendererType = (
+export type SmartContactRendererType<T> = (uuid: UUIDStringType) => T | string;
+export type StringRendererType<T> = (
   id: string,
   i18n: LocalizerType,
-  components?: Array<FullJSXType> | ReplacementValuesType<FullJSXType>
-) => FullJSXType;
+  components?: Array<T | string> | ReplacementValuesType<T | string>
+) => T | string;
 
-export type RenderOptionsType = {
+export type RenderOptionsType<T> = {
   from?: UUIDStringType;
   i18n: LocalizerType;
   ourUuid: UUIDStringType;
-  renderContact: SmartContactRendererType;
-  renderString: StringRendererType;
+  renderContact: SmartContactRendererType<T>;
+  renderString: StringRendererType<T>;
 };
 
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-export function renderChange(
+export function renderChange<T>(
   change: GroupV2ChangeType,
-  options: RenderOptionsType
-): Array<FullJSXType> {
+  options: RenderOptionsType<T>
+): Array<T | string> {
   const { details, from } = change;
 
   return details.map((detail: GroupV2ChangeDetailType) =>
-    renderChangeDetail(detail, {
+    renderChangeDetail<T>(detail, {
       ...options,
       from,
     })
   );
 }
 
-export function renderChangeDetail(
+export function renderChangeDetail<T>(
   detail: GroupV2ChangeDetailType,
-  options: RenderOptionsType
-): FullJSXType {
+  options: RenderOptionsType<T>
+): T | string {
   const { from, i18n, ourUuid, renderContact, renderString } = options;
   const fromYou = Boolean(from && from === ourUuid);
 
