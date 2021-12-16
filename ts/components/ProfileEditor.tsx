@@ -617,6 +617,7 @@ export const ProfileEditor = ({
         <Input
           i18n={i18n}
           disabled={isCurrentlySaving}
+          disableSpellcheck
           onChange={changedUsername => {
             setUsernameError(undefined);
             setNewUsername(changedUsername);

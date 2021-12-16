@@ -135,6 +135,7 @@ import { ToastConversationUnarchived } from './components/ToastConversationUnarc
 import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
+import { updateOurUsername } from './util/updateOurUsername';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -2137,13 +2138,16 @@ export async function startApp(): Promise<void> {
         try {
           // Note: we always have to register our capabilities all at once, so we do this
           //   after connect on every startup
-          await server.registerCapabilities({
-            announcementGroup: true,
-            'gv2-3': true,
-            'gv1-migration': true,
-            senderKey: true,
-            changeNumber: true,
-          });
+          await Promise.all([
+            server.registerCapabilities({
+              announcementGroup: true,
+              'gv2-3': true,
+              'gv1-migration': true,
+              senderKey: true,
+              changeNumber: true,
+            }),
+            updateOurUsername(),
+          ]);
         } catch (error) {
           log.error(
             'Error: Unable to register our capabilities.',
@@ -3458,7 +3462,7 @@ export async function startApp(): Promise<void> {
       case FETCH_LATEST_ENUM.LOCAL_PROFILE: {
         const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
         const ourE164 = window.textsecure.storage.user.getNumber();
-        await getProfile(ourUuid, ourE164);
+        await Promise.all([getProfile(ourUuid, ourE164), updateOurUsername()]);
         break;
       }
       case FETCH_LATEST_ENUM.STORAGE_MANIFEST:

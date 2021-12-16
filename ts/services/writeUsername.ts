@@ -3,6 +3,7 @@
 
 import dataInterface from '../sql/Client';
 import { handleMessageSend } from '../util/handleMessageSend';
+import { updateOurUsername } from '../util/updateOurUsername';
 
 export async function writeUsername({
   username,
@@ -12,7 +13,7 @@ export async function writeUsername({
   previousUsername: string | undefined;
 }): Promise<void> {
   const me = window.ConversationController.getOurConversationOrThrow();
-  await me.getProfiles();
+  await updateOurUsername();
 
   if (me.get('username') !== previousUsername) {
     throw new Error('Username has changed on another device');

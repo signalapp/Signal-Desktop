@@ -18,15 +18,16 @@ import { refMerger } from '../util/refMerger';
 import { byteLength } from '../Bytes';
 
 export type PropsType = {
-  countLength?: (value: string) => number;
   countBytes?: (value: string) => number;
+  countLength?: (value: string) => number;
   disabled?: boolean;
+  disableSpellcheck?: boolean;
   expandable?: boolean;
   hasClearButton?: boolean;
   i18n: LocalizerType;
   icon?: ReactNode;
-  maxLengthCount?: number;
   maxByteCount?: number;
+  maxLengthCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
   onEnter?: () => unknown;
@@ -58,15 +59,16 @@ export const Input = forwardRef<
 >(
   (
     {
-      countLength = grapheme.count,
       countBytes = byteLength,
+      countLength = grapheme.count,
       disabled,
+      disableSpellcheck,
       expandable,
       hasClearButton,
       i18n,
       icon,
-      maxLengthCount = 0,
       maxByteCount = 0,
+      maxLengthCount = 0,
       moduleClassName,
       onChange,
       onEnter,
@@ -201,6 +203,7 @@ export const Input = forwardRef<
         isLarge && getClassName('__input--large')
       ),
       disabled: Boolean(disabled),
+      spellcheck: disableSpellcheck ? 'false' : 'true',
       onChange: handleChange,
       onKeyDown: handleKeyDown,
       onPaste: handlePaste,
