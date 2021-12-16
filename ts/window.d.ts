@@ -129,6 +129,32 @@ type ConfirmationDialogViewProps = {
   resolve: () => void;
 };
 
+declare enum QRCodeCorrectLevel {
+  H = 2,
+  L = 1,
+  M = 0,
+  Q = 3,
+}
+
+declare class QRCode {
+  static CorrectLevel: typeof QRCodeCorrectLevel;
+  constructor(
+    el: HTMLElement | string,
+    vOption?:
+      | string
+      | {
+          colorDark?: string;
+          colorLight?: string;
+          correctLevel?: QRCodeCorrectLevel;
+          height?: number;
+          text?: string;
+          width?: number;
+        }
+  );
+  makeCode(sText: string): void;
+  clear(): void;
+}
+
 export declare class WebAudioRecorderClass {
   constructor(
     node: GainNode,
@@ -158,7 +184,6 @@ declare global {
   interface Window {
     startApp: () => void;
 
-    QRCode: any;
     removeSetupMenuItems: () => unknown;
     showPermissionsPopup: () => Promise<void>;
 
@@ -266,6 +291,8 @@ declare global {
     updateTrayIcon: (count: number) => void;
     Backbone: typeof Backbone;
     CI?: CI;
+    QRCode: typeof QRCode;
+
     Accessibility: {
       reducedMotionSetting: boolean;
     };
@@ -580,7 +607,6 @@ export type WhisperType = {
   ConversationLoadingScreen: typeof AnyViewClass;
   GroupMemberList: typeof AnyViewClass;
   InboxView: typeof AnyViewClass;
-  InstallView: typeof AnyViewClass;
   KeyVerificationPanelView: typeof AnyViewClass;
   ReactWrapperView: typeof BasicReactWrapperViewClass;
   SafetyNumberChangeDialogView: typeof AnyViewClass;

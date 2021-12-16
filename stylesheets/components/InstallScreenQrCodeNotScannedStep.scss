@@ -1,0 +1,136 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-InstallScreenQrCodeNotScannedStep {
+  @include install-screen;
+
+  &__contents {
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    max-width: 760px;
+    padding: 22px;
+    margin: 20px;
+    animation: 500ms module-InstallScreenQrCodeNotScannedStep__slide-in;
+    position: relative;
+
+    @include light-theme {
+      background: $color-white;
+    }
+    @include dark-theme {
+      background: $color-gray-80;
+    }
+  }
+
+  &__qr-code {
+    // This should match the size defined in the JavaScript.
+    $size: 256px;
+
+    align-items: center;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    box-sizing: content-box;
+    display: flex;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 38px;
+    min-height: $size;
+    min-width: $size;
+    width: $size;
+
+    &--loaded {
+      background: $color-white;
+    }
+
+    &--load-failed {
+      @include font-subtitle;
+
+      @include light-theme {
+        color: $color-gray-60;
+        border-color: $color-gray-05;
+      }
+      @include dark-theme {
+        color: $color-gray-25;
+        border-color: $color-gray-60;
+      }
+    }
+
+    &__code {
+      display: flex;
+      flex-direction: column;
+      height: $size;
+      width: $size;
+      animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
+      position: relative;
+    }
+
+    &__error-message {
+      text-align: center;
+
+      &::before {
+        @include color-svg(
+          '../images/icons/v2/error-outline-24.svg',
+          $color-accent-red
+        );
+        content: '';
+        display: block;
+        height: 22px;
+        margin: 8px auto 0 auto;
+        width: 22px;
+      }
+
+      a {
+        color: $color-ultramarine;
+        text-decoration: none;
+      }
+    }
+  }
+
+  ol {
+    @include font-body-1;
+    line-height: 26px;
+    list-style-position: inside;
+    padding-inline-start: 0;
+  }
+
+  &__android-plus {
+    background: $color-gray-25;
+    border-radius: 100%;
+    display: inline-block;
+    padding: 5px;
+    vertical-align: middle;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 12px;
+      width: 12px;
+    }
+
+    @include light-theme {
+      &::before {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
+      }
+    }
+
+    @include dark-theme {
+      &::before {
+        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-80);
+      }
+    }
+  }
+}
+
+@keyframes module-InstallScreenQrCodeNotScannedStep__slide-in {
+  from {
+    top: -8px;
+    opacity: 0;
+  }
+
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}

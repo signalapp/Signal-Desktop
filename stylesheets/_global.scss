@@ -323,64 +323,6 @@ $loading-height: 16px;
     }
   }
 
-  #qr {
-    display: inline-block;
-
-    &.ready {
-      border: 5px solid $color-ultramarine;
-      box-shadow: 2px 2px 4px $color-black-alpha-40;
-    }
-
-    img {
-      height: 20em;
-      border: 5px solid $color-white;
-    }
-
-    @media (max-height: 475px) {
-      img {
-        width: 8em;
-        height: 8em;
-      }
-    }
-
-    .dot {
-      width: 14px;
-      height: 14px;
-      border: 3px solid $color-ultramarine;
-      border-radius: 50%;
-      float: left;
-      margin: 0 6px;
-      transform: scale(0);
-
-      animation: loading 1500ms ease infinite 0ms;
-      &:nth-child(2) {
-        animation: loading 1500ms ease infinite 333ms;
-      }
-      &:nth-child(3) {
-        animation: loading 1500ms ease infinite 666ms;
-      }
-    }
-
-    canvas {
-      display: none;
-    }
-  }
-
-  .os-icon {
-    height: 3em;
-    width: 3em;
-    vertical-align: text-bottom;
-    display: inline-block;
-    margin: 0.5em;
-
-    &.apple {
-      @include color-svg('../images/full-screen-flow/apple.svg', black);
-    }
-    &.android {
-      @include color-svg('../images/full-screen-flow/android.svg', black);
-    }
-  }
-
   .header {
     font-weight: normal;
     line-height: 1em;

@@ -1306,29 +1306,75 @@
     "message": "Privacy is possible. Signal makes it easy.",
     "description": "Tagline displayed under 'installWelcome' string on the install page"
   },
-  "linkYourPhone": {
-    "message": "Link your phone to Signal Desktop",
-    "description": "Shown on the front page when the application first starts, above the QR code"
-  },
-  "signalSettings": {
-    "message": "Signal Settings",
-    "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-  },
   "linkedDevices": {
     "message": "Linked Devices",
     "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-  },
-  "plusButton": {
-    "message": "'+' Button",
-    "description": "The button used in Signal Android to add a new linked device"
   },
   "linkNewDevice": {
     "message": "Link New Device",
     "description": "The menu option shown in Signal iOS to add a new linked device"
   },
-  "LinkScreen__scan-this-code": {
+  "Install__scan-this-code": {
     "message": "Scan this code in the Signal app on your phone",
-    "description": "Alt text for the QR code on the device link screen"
+    "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+  },
+  "Install__instructions__1": {
+    "message": "Open Signal on your phone",
+    "description": "Instructions on the device link screen"
+  },
+  "Install__instructions__2": {
+    "message": "Tap into $settings$, then tap $linkedDevices$",
+    "description": "Instructions on the device link screen",
+    "placeholders": {
+      "settings": {
+        "content": "$1",
+        "example": "<strong>Settings</strong>"
+      },
+      "linkedDevices": {
+        "content": "$2",
+        "example": "<strong>Linked Devices</strong>"
+      }
+    }
+  },
+  "Install__instructions__2__settings": {
+    "message": "Settings",
+    "description": "Part of the 2nd instruction on the device link screen"
+  },
+  "Install__instructions__3": {
+    "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+    "description": "Instructions on the device link screen",
+    "placeholders": {
+      "plusButton": {
+        "content": "$1",
+        "example": "<PlusButton />"
+      },
+      "linkNewDevice": {
+        "content": "$2",
+        "example": "<strong>Link New Device</strong>"
+      }
+    }
+  },
+  "Install__qr-failed": {
+    "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+    "description": "Shown on the install screen if the QR code fails to load",
+    "placeholders": {
+      "learnMore": {
+        "content": "$1",
+        "example": "<a>Learn more</a>"
+      }
+    }
+  },
+  "Install__qr-failed__learn-more": {
+    "message": "Learn more",
+    "description": "Shown on the install screen if the QR code fails to load"
+  },
+  "Install__choose-device-name__description": {
+    "message": "You'll see this name under \"Linked Devices\" on your phone",
+    "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+  },
+  "Install__choose-device-name__placeholder": {
+    "message": "My Computer",
+    "description": "The placeholder for the 'choose device name' input"
   },
   "Preferences--device-name": {
     "message": "Device name",
@@ -1346,6 +1392,10 @@
     "message": "Syncing contacts and groups",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
   },
+  "initialSync__subtitle": {
+    "message": "Note: Your chat history will not be synced to this device",
+    "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+  },
   "installConnectionFailed": {
     "message": "Failed to connect to server.",
     "description": "Displayed when we can't connect to the server."
@@ -1358,6 +1408,9 @@
   },
   "installErrorHeader": {
     "message": "Something went wrong!"
+  },
+  "installUnknownError": {
+    "message": "An unexpected error occurred. Please try again."
   },
   "installTryAgain": {
     "message": "Try again"

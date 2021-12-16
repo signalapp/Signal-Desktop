@@ -1,0 +1,26 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.module-InstallScreenLinkInProgressStep {
+  @include install-screen;
+
+  flex-direction: column;
+  text-align: center;
+
+  h1 {
+    @include font-body-1-bold;
+    margin-top: 18px;
+  }
+
+  h2 {
+    @include font-subtitle;
+    font-weight: normal;
+
+    @include light-theme {
+      color: $color-gray-60;
+    }
+    @include dark-theme {
+      color: $color-gray-25;
+    }
+  }
+}

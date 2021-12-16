@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import { AppViewType } from '../state/ducks/app';
 import { Inbox } from './Inbox';
-import { Install } from './Install';
+import { SmartInstallScreen } from '../state/smart/InstallScreen';
 import { StandaloneRegistration } from './StandaloneRegistration';
 import { ThemeType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
@@ -50,7 +50,7 @@ export const App = ({
   let contents;
 
   if (appView === AppViewType.Installer) {
-    contents = <Install />;
+    contents = <SmartInstallScreen />;
   } else if (appView === AppViewType.Standalone) {
     const onComplete = () => {
       window.removeSetupMenuItems();

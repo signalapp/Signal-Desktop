@@ -1,0 +1,21 @@
+// Copyright 2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.InstallScreenSignalLogo {
+  @include font-title-1;
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  position: absolute;
+  top: calc(35px + var(--title-bar-drag-area-height));
+  left: 32px;
+
+  &::before {
+    @include color-svg('../images/signal-logo.svg', $color-ultramarine);
+    content: '';
+    display: block;
+    height: 32px;
+    margin-right: 6px;
+    width: 32px;
+  }
+}

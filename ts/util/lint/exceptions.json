@@ -7757,6 +7757,22 @@
     "reasonDetail": "Used for setting focus only"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/installScreen/InstallScreenChoosingDeviceNameStep.tsx",
+    "line": "  const hasFocusedRef = useRef<boolean>(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-12-06T23:07:28.947Z",
+    "reasonDetail": "Doesn't touch the DOM."
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/installScreen/InstallScreenQrCodeNotScannedStep.tsx",
+    "line": "  const qrCodeElRef = useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-12-06T23:07:28.947Z",
+    "reasonDetail": "Uses our QR code library."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/stickers/StickerManager.js",
     "line": "    const focusRef = React.createRef();",
@@ -8019,6 +8035,14 @@
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-04T16:14:03.477Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/state/smart/InstallScreen.tsx",
+    "line": "  const chooseDeviceNamePromiseWrapperRef = useRef(explodePromise<string>());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2021-12-06T23:07:28.947Z",
+    "reasonDetail": "Doesn't touch the DOM."
   },
   {
     "rule": "jQuery-load(",
@@ -8307,244 +8331,6 @@
     "rule": "jQuery-prependTo(",
     "path": "ts/views/inbox_view.ts",
     "line": "      this.appLoadingScreen.$el.prependTo(this.el);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "    template: () => $('#link-flow-template').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr img').remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr canvas').remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr .container').show();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr').removeClass('ready');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        if ($('#qr').length === 0) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr .container').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.qr = new window.QRCode(this.$('#qr')[0]).makeCode(url);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr').removeAttr('title');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr').addClass('ready');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$(DEVICE_NAME_SELECTOR).focus();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "            this.$('#link-phone').submit((e) => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "                let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "                    this.$(DEVICE_NAME_SELECTOR).focus();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.js",
-    "line": "        this.$('#qr img').attr('alt', window.i18n('LinkScreen__scan-this-code'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-28T00:13:42.086Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/install_view.js",
-    "line": "    template: () => $('#link-flow-template').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "  template: () => $('#link-flow-template').html(),",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr img').remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr canvas').remove();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr .container').show();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr').removeClass('ready');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    if ($('#qr').length === 0) {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr .container').hide();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.qr = new window.QRCode(this.$('#qr')[0]).makeCode(url);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr').removeAttr('title');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr').addClass('ready');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$(DEVICE_NAME_SELECTOR).val(deviceName || window.getHostName());",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$(DEVICE_NAME_SELECTOR).focus();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "      this.$('#link-phone').submit((e: SubmitEvent) => {",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "        let name = this.$(DEVICE_NAME_SELECTOR).val();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "          this.$(DEVICE_NAME_SELECTOR).focus();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-15T21:07:50.995Z"
-  },
-  {
-    "rule": "jQuery-$(",
-    "path": "ts/views/install_view.ts",
-    "line": "    this.$('#qr img').attr('alt', window.i18n('LinkScreen__scan-this-code'));",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-09-28T00:13:42.086Z"
-  },
-  {
-    "rule": "jQuery-html(",
-    "path": "ts/views/install_view.ts",
-    "line": "  template: () => $('#link-flow-template').html(),",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-15T21:07:50.995Z"
   },
