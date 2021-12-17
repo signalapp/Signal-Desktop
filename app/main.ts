@@ -12,9 +12,9 @@ import normalizePath from 'normalize-path';
 import fastGlob from 'fast-glob';
 import PQueue from 'p-queue';
 import { get, pick, isNumber, isBoolean, some, debounce, noop } from 'lodash';
+import type { BrowserWindow } from 'electron';
 import {
   app,
-  BrowserWindow,
   clipboard,
   dialog,
   ipcMain as ipc,
@@ -72,6 +72,7 @@ import type { MenuOptionsType } from './menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
+import { createBrowserWindow } from '../ts/util/createBrowserWindow';
 import { isProduction } from '../ts/util/version';
 import {
   isSgnlHref,
@@ -530,7 +531,7 @@ async function createWindow() {
   );
 
   // Create the browser window.
-  mainWindow = new BrowserWindow(windowOptions);
+  mainWindow = createBrowserWindow(windowOptions);
   if (settingsChannel) {
     settingsChannel.setMainWindow(mainWindow);
   }
@@ -968,7 +969,7 @@ function showScreenShareWindow(sourceName: string) {
     y: 24,
   };
 
-  screenShareWindow = new BrowserWindow(options);
+  screenShareWindow = createBrowserWindow(options);
 
   handleCommonWindowEvents(screenShareWindow);
 
@@ -1014,7 +1015,7 @@ function showAbout() {
     },
   };
 
-  aboutWindow = new BrowserWindow(options);
+  aboutWindow = createBrowserWindow(options);
 
   handleCommonWindowEvents(aboutWindow);
 
@@ -1057,7 +1058,7 @@ function showSettingsWindow() {
     },
   };
 
-  settingsWindow = new BrowserWindow(options);
+  settingsWindow = createBrowserWindow(options);
 
   handleCommonWindowEvents(settingsWindow);
 
@@ -1128,7 +1129,7 @@ async function showStickerCreator() {
     },
   };
 
-  stickerCreatorWindow = new BrowserWindow(options);
+  stickerCreatorWindow = createBrowserWindow(options);
   setupSpellChecker(stickerCreatorWindow, getLocale().messages);
 
   handleCommonWindowEvents(stickerCreatorWindow);
@@ -1188,7 +1189,7 @@ async function showDebugLogWindow() {
     parent: mainWindow,
   };
 
-  debugLogWindow = new BrowserWindow(options);
+  debugLogWindow = createBrowserWindow(options);
 
   handleCommonWindowEvents(debugLogWindow);
 
@@ -1245,7 +1246,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       parent: mainWindow,
     };
 
-    permissionsPopupWindow = new BrowserWindow(options);
+    permissionsPopupWindow = createBrowserWindow(options);
 
     handleCommonWindowEvents(permissionsPopupWindow);
 
@@ -1482,7 +1483,7 @@ app.on('ready', async () => {
       'sql.initialize is taking more than three seconds; showing loading dialog'
     );
 
-    loadingWindow = new BrowserWindow({
+    loadingWindow = createBrowserWindow({
       show: false,
       width: 300,
       height: 265,
