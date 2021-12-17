@@ -12,7 +12,7 @@
   },
   "main": "app/main.js",
   "scripts": {
-    "postinstall": "yarn build:acknowledgments && yarn build:fuses && patch-package && yarn electron:install-app-deps && rimraf node_modules/dtrace-provider",
+    "postinstall": "yarn build:acknowledgments && patch-package && yarn electron:install-app-deps && rimraf node_modules/dtrace-provider",
     "postuninstall": "yarn build:acknowledgments",
     "start": "electron .",
     "generate": "npm-run-all build-protobuf transpile sass get-expire-time copy-and-concat",
@@ -58,7 +58,7 @@
     "dev:sass": "npm run sass-manifest -- --watch",
     "dev:sass-bridge": "npm run sass-manifest-bridge -- --watch",
     "storybook:axe": "build-storybook && axe-storybook",
-    "build": "run-s --print-label generate build:typed-scss build:webpack build:fuses:release build:release build:fuses build:zip",
+    "build": "run-s --print-label generate build:typed-scss build:webpack build:release build:zip",
     "build:acknowledgments": "node scripts/generate-acknowledgments.js",
     "build:dev": "run-s --print-label generate build:typed-scss build:webpack",
     "build:typed-scss": "tsm sticker-creator",
@@ -69,8 +69,6 @@
     "build:webpack:heic-worker": "cross-env NODE_ENV=production webpack -c webpack-heic-worker.config.ts",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production yarn build:electron -- --config.directories.output=release",
-    "build:fuses": "node scripts/fuse-electron.js",
-    "build:fuses:release": "node scripts/fuse-electron.js --release",
     "build:zip": "node ts/scripts/zip-macos-release.js",
     "preverify:ts": "yarn build:typed-scss",
     "verify": "run-p --print-label verify:*",
@@ -402,7 +400,7 @@
       ]
     },
     "beforeBuild": "scripts/install-cross-deps.js",
-    "afterPack": "ts/scripts/merge-macos-asars.js",
+    "afterPack": "ts/scripts/after-pack.js",
     "asarUnpack": [
       "ts/workers/heicConverter.bundle.js",
       "ts/sql/mainWorker.bundle.js",

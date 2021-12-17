@@ -25,5 +25,3 @@ exports.beforeBuild = async () => {
   // Let electron-builder handle dependencies
   return true;
 };
-
-exports.beforeBuild();

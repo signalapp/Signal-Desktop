@@ -59,6 +59,8 @@ jobs:
     - run: yarn generate
     - run: yarn prepare-beta-build
     - run: yarn build
+      env:
+        DISABLE_INSPECT_FUSE: on
     - name: Rebuild native modules for x64
       run: yarn electron:install-app-deps
     - run: yarn test-node
@@ -94,6 +96,8 @@ jobs:
     - run: yarn generate
     - run: yarn prepare-beta-build
     - run: yarn build
+      env:
+        DISABLE_INSPECT_FUSE: on
     - run: xvfb-run --auto-servernum yarn test-node
     - run: xvfb-run --auto-servernum yarn test-electron
       env:
@@ -134,6 +138,8 @@ jobs:
     - run: type temp.json | findstr /v certificateSubjectName | findstr /v certificateSha1 > package.json
     - run: yarn prepare-beta-build
     - run: yarn build
+      env:
+        DISABLE_INSPECT_FUSE: on
     - run: yarn test-electron
     - run: yarn test-release
       env:
