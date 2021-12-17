@@ -8,13 +8,14 @@
   text-align: center;
 
   h1 {
-    @include font-body-1-bold;
+    @include font-title-2;
     margin-top: 18px;
   }
 
   h2 {
-    @include font-subtitle;
+    @include font-body-1;
     font-weight: normal;
+    margin-block-start: 0;
 
     @include light-theme {
       color: $color-gray-60;
