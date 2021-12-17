@@ -28,6 +28,8 @@ import type { Readable } from 'stream';
 import { assert, strictAssert } from '../util/assert';
 import { isRecord } from '../util/isRecord';
 import * as durations from '../util/durations';
+import type { ExplodePromiseResultType } from '../util/explodePromise';
+import { explodePromise } from '../util/explodePromise';
 import { getUserAgent } from '../util/getUserAgent';
 import { getStreamWithTimeout } from '../util/getStreamWithTimeout';
 import { formatAcceptLanguageHeader } from '../util/userLanguages';
@@ -633,6 +635,7 @@ type AjaxOptionsType = {
   urlParameters?: string;
   username?: string;
   validateResponse?: any;
+  isRegistration?: true;
 } & (
   | {
       unauthenticated?: false;
@@ -766,6 +769,8 @@ export type GetUuidsForE164sV2OptionsType = Readonly<{
 }>;
 
 export type WebAPIType = {
+  startRegistration(): unknown;
+  finishRegistration(baton: unknown): void;
   confirmCode: (
     number: string,
     code: string,
@@ -1067,6 +1072,8 @@ export function initialize({
     const PARSE_GROUP_LOG_RANGE_HEADER =
       /$versions (\d{1,10})-(\d{1,10})\/(d{1,10})/;
 
+    let activeRegistration: ExplodePromiseResultType<void> | undefined;
+
     const socketManager = new SocketManager({
       url,
       certificateAuthority,
@@ -1117,6 +1124,7 @@ export function initialize({
       confirmCode,
       createGroup,
       deleteUsername,
+      finishRegistration,
       fetchLinkPreviewImage,
       fetchLinkPreviewMetadata,
       getAttachment,
@@ -1165,6 +1173,7 @@ export function initialize({
       sendMessagesUnauth,
       sendWithSenderKey,
       setSignedPreKey,
+      startRegistration,
       updateDeviceName,
       uploadAvatar,
       uploadGroupAvatar,
@@ -1186,6 +1195,18 @@ export function initialize({
     ): Promise<unknown>;
 
     async function _ajax(param: AjaxOptionsType): Promise<unknown> {
+      if (
+        !param.unauthenticated &&
+        activeRegistration &&
+        !param.isRegistration
+      ) {
+        log.info('WebAPI: request blocked by active registration');
+        const start = Date.now();
+        await activeRegistration.promise;
+        const duration = Date.now() - start;
+        log.info(`WebAPI: request unblocked after ${duration}ms`);
+      }
+
       if (!param.urlParameters) {
         param.urlParameters = '';
       }
@@ -1635,6 +1656,31 @@ export function initialize({
       }
     }
 
+    function startRegistration() {
+      strictAssert(
+        activeRegistration === undefined,
+        'Registration already in progress'
+      );
+
+      activeRegistration = explodePromise<void>();
+      log.info('WebAPI: starting registration');
+
+      return activeRegistration;
+    }
+
+    function finishRegistration(registration: unknown) {
+      strictAssert(activeRegistration !== undefined, 'No active registration');
+      strictAssert(
+        activeRegistration === registration,
+        'Invalid registration baton'
+      );
+
+      log.info('WebAPI: finishing registration');
+      const current = activeRegistration;
+      activeRegistration = undefined;
+      current.resolve();
+    }
+
     async function confirmCode(
       number: string,
       code: string,
@@ -1677,6 +1723,7 @@ export function initialize({
       password = newPassword;
 
       const response = (await _ajax({
+        isRegistration: true,
         call,
         httpType: 'PUT',
         responseType: 'json',
@@ -1749,6 +1796,7 @@ export function initialize({
       };
 
       await _ajax({
+        isRegistration: true,
         call: 'keys',
         urlParameters: `?${uuidKindToQuery(uuidKind)}`,
         httpType: 'PUT',

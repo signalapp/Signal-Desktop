@@ -172,24 +172,32 @@ export default class AccountManager extends EventTarget {
       const profileKey = getRandomBytes(PROFILE_KEY_LENGTH);
       const accessKey = deriveAccessKey(profileKey);
 
-      await this.createAccount({
-        number,
-        verificationCode,
-        identityKeyPair,
-        pniKeyPair,
-        profileKey,
-        accessKey,
-      });
+      const registrationBaton = this.server.startRegistration();
+      try {
+        await this.createAccount({
+          number,
+          verificationCode,
+          identityKeyPair,
+          pniKeyPair,
+          profileKey,
+          accessKey,
+        });
 
-      await this.clearSessionsAndPreKeys();
+        await this.clearSessionsAndPreKeys();
 
-      await Promise.all(
-        [UUIDKind.ACI, UUIDKind.PNI].map(async kind => {
-          const keys = await this.generateKeys(SIGNED_KEY_GEN_BATCH_SIZE, kind);
-          await this.server.registerKeys(keys, kind);
-          await this.confirmKeys(keys, kind);
-        })
-      );
+        await Promise.all(
+          [UUIDKind.ACI, UUIDKind.PNI].map(async kind => {
+            const keys = await this.generateKeys(
+              SIGNED_KEY_GEN_BATCH_SIZE,
+              kind
+            );
+            await this.server.registerKeys(keys, kind);
+            await this.confirmKeys(keys, kind);
+          })
+        );
+      } finally {
+        this.server.finishRegistration(registrationBaton);
+      }
       await this.registrationDone();
     });
   }
@@ -276,23 +284,30 @@ export default class AccountManager extends EventTarget {
         );
       }
 
-      await this.createAccount({
-        number: provisionMessage.number,
-        verificationCode: provisionMessage.provisioningCode,
-        identityKeyPair: provisionMessage.identityKeyPair,
-        profileKey: provisionMessage.profileKey,
-        deviceName,
-        userAgent: provisionMessage.userAgent,
-        readReceipts: provisionMessage.readReceipts,
-      });
-      await clearSessionsAndPreKeys();
-      // TODO: DESKTOP-2794
-      const keys = await this.generateKeys(
-        SIGNED_KEY_GEN_BATCH_SIZE,
-        UUIDKind.ACI
-      );
-      await this.server.registerKeys(keys, UUIDKind.ACI);
-      await this.confirmKeys(keys, UUIDKind.ACI);
+      const registrationBaton = this.server.startRegistration();
+
+      try {
+        await this.createAccount({
+          number: provisionMessage.number,
+          verificationCode: provisionMessage.provisioningCode,
+          identityKeyPair: provisionMessage.identityKeyPair,
+          profileKey: provisionMessage.profileKey,
+          deviceName,
+          userAgent: provisionMessage.userAgent,
+          readReceipts: provisionMessage.readReceipts,
+        });
+        await clearSessionsAndPreKeys();
+        // TODO: DESKTOP-2794
+        const keys = await this.generateKeys(
+          SIGNED_KEY_GEN_BATCH_SIZE,
+          UUIDKind.ACI
+        );
+        await this.server.registerKeys(keys, UUIDKind.ACI);
+        await this.confirmKeys(keys, UUIDKind.ACI);
+      } finally {
+        this.server.finishRegistration(registrationBaton);
+      }
+
       await this.registrationDone();
     });
   }
