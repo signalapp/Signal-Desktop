@@ -4,13 +4,14 @@ import { ConversationTypeEnum } from '../models/conversation';
 import {
   joinOpenGroupV2WithUIEvents,
   parseOpenGroupV2,
-} from '../opengroup/opengroupV2/JoinOpenGroupV2';
-import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
+} from '../session/apis/open_group_api/opengroupV2/JoinOpenGroupV2';
+import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
 import { UserUtils } from '../session/utils';
 import { toHex } from '../session/utils/String';
 import { configurationMessageReceived, trigger } from '../shims/events';
+import { BlockedNumberController } from '../util';
 import { removeFromCache } from './cache';
 import { handleNewClosedGroup } from './closedGroups';
 import { updateProfileOneAtATime } from './dataMessage';
@@ -57,10 +58,14 @@ async function handleGroupsAndContactsFromConfigMessage(
     (await getItemById(hasSyncedInitialConfigurationItem))?.value || false;
   if (didWeHandleAConfigurationMessageAlready) {
     window?.log?.info(
-      'Dropping configuration contacts/groups change as we already handled one... '
+      'Dropping configuration groups change as we already handled one... Only handling contacts '
     );
+    if (configMessage.contacts?.length) {
+      await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
+    }
     return;
   }
+
   await createOrUpdateItem({
     id: 'hasSyncedInitialConfigurationItem',
     value: true,
@@ -109,36 +114,58 @@ async function handleGroupsAndContactsFromConfigMessage(
     }
   }
   if (configMessage.contacts?.length) {
-    await Promise.all(
-      configMessage.contacts.map(async c => {
-        try {
-          if (!c.publicKey) {
-            return;
-          }
-          const contactConvo = await getConversationController().getOrCreateAndWait(
-            toHex(c.publicKey),
-            ConversationTypeEnum.PRIVATE
-          );
-          const profile: SignalService.DataMessage.ILokiProfile = {
-            displayName: c.name,
-            profilePicture: c.profilePicture,
-          };
-          // updateProfile will do a commit for us
-          contactConvo.set('active_at', _.toNumber(envelope.timestamp));
-
-          await updateProfileOneAtATime(contactConvo, profile, c.profileKey);
-        } catch (e) {
-          window?.log?.warn('failed to handle  a new closed group from configuration message');
-        }
-      })
-    );
+    await Promise.all(configMessage.contacts.map(async c => handleContactReceived(c, envelope)));
   }
 }
+
+const handleContactReceived = async (
+  contactReceived: SignalService.ConfigurationMessage.IContact,
+  envelope: EnvelopePlus
+) => {
+  try {
+    if (!contactReceived.publicKey?.length) {
+      return;
+    }
+    const contactConvo = await getConversationController().getOrCreateAndWait(
+      toHex(contactReceived.publicKey),
+      ConversationTypeEnum.PRIVATE
+    );
+    const profile = {
+      displayName: contactReceived.name,
+      profilePictre: contactReceived.profilePicture,
+    };
+
+    const existingActiveAt = contactConvo.get('active_at');
+    if (!existingActiveAt || existingActiveAt === 0) {
+      contactConvo.set('active_at', _.toNumber(envelope.timestamp));
+    }
+
+    if (
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests
+    ) {
+      if (contactReceived.isApproved) {
+        await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+      }
+
+      if (contactReceived.isBlocked) {
+        await BlockedNumberController.block(contactConvo.id);
+      } else {
+        await BlockedNumberController.unblock(contactConvo.id);
+      }
+    }
+
+    void updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);
+  } catch (e) {
+    window?.log?.warn('failed to handle  a new closed group from configuration message');
+  }
+};
 
 export async function handleConfigurationMessage(
   envelope: EnvelopePlus,
   configurationMessage: SignalService.ConfigurationMessage
 ): Promise<void> {
+  window?.log?.info('Handling configuration message');
   const ourPubkey = UserUtils.getOurPubKeyStrFromCache();
   if (!ourPubkey) {
     return;

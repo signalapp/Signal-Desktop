@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-
-import { SessionIconButton, SessionIconType } from '../session/icon';
-import { SessionButtonColor, SessionButtonType } from '../session/SessionButton';
+import { SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionIconButton, SessionIconType } from '../icon';
 
 interface Props {
   title: string;
@@ -79,7 +78,7 @@ export class SessionModal extends React.PureComponent<Props, State> {
             <div className={classNames('session-modal__header', headerReverse && 'reverse')}>
               <div className="session-modal__header__close">
                 {showExitIcon ? (
-                  <SessionIconButton iconType="exit" iconSize={'small'} onClick={this.close} />
+                  <SessionIconButton iconType="exit" iconSize="small" onClick={this.close} />
                 ) : null}
               </div>
               <div className="session-modal__header__title">{title}</div>

@@ -110,7 +110,6 @@ const channelsToMake = {
   removeAllMessagesInConversation,
 
   getMessageBySender,
-  getMessageBySenderAndServerId,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
@@ -121,6 +120,7 @@ const channelsToMake = {
   getNextExpiringMessage,
   getMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
+  hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
   getLastHashBySnode,
 
@@ -522,7 +522,8 @@ export async function getConversationById(id: string): Promise<ConversationModel
 }
 
 export async function updateConversation(data: ReduxConversationType): Promise<void> {
-  await channels.updateConversation(data);
+  const cleanedData = _cleanData(data);
+  await channels.updateConversation(cleanedData);
 }
 
 export async function removeConversation(id: string): Promise<void> {
@@ -601,7 +602,6 @@ export async function cleanLastHashes(): Promise<void> {
   await channels.cleanLastHashes();
 }
 
-// TODO: Strictly type the following
 export async function saveSeenMessageHashes(
   data: Array<{
     expiresAt: number;
@@ -690,24 +690,6 @@ export async function getMessageBySender({
   return new MessageModel(messages[0]);
 }
 
-export async function getMessageBySenderAndServerId({
-  source,
-  serverId,
-}: {
-  source: string;
-  serverId: number;
-}): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySenderAndServerId({
-    source,
-    serverId,
-  });
-  if (!messages || !messages.length) {
-    return null;
-  }
-
-  return new MessageModel(messages[0]);
-}
-
 export async function getMessageBySenderAndServerTimestamp({
   source,
   serverTimestamp,
@@ -782,6 +764,9 @@ export async function getFirstUnreadMessageIdInConversation(
   return channels.getFirstUnreadMessageIdInConversation(conversationId);
 }
 
+export async function hasConversationOutgoingMessage(conversationId: string): Promise<boolean> {
+  return channels.hasConversationOutgoingMessage(conversationId);
+}
 export async function getLastHashBySnode(convoId: string, snode: string): Promise<string> {
   return channels.getLastHashBySnode(convoId, snode);
 }

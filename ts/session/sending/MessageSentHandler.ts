@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import { getMessageById } from '../../data/data';
-import { MessageModel } from '../../models/message';
 import { SignalService } from '../../protobuf';
-import { PnServer } from '../../pushnotification';
+import { PnServer } from '../apis/push_notification_api';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { EncryptionType, RawMessage } from '../types';
 import { UserUtils } from '../utils';
 
-// tslint:disable-next-line no-unnecessary-class
+// tslint:disable-next-line: no-unnecessary-class
 export class MessageSentHandler {
   public static async handlePublicMessageSentSuccess(
     sentMessage: OpenGroupVisibleMessage,
@@ -54,10 +53,8 @@ export class MessageSentHandler {
 
     let sentTo = fetchedMessage.get('sent_to') || [];
 
-    let isOurDevice = false;
-    if (sentMessage.device) {
-      isOurDevice = UserUtils.isUsFromCache(sentMessage.device);
-    }
+    const isOurDevice = UserUtils.isUsFromCache(sentMessage.device);
+
     // FIXME this is not correct and will cause issues with syncing
     // At this point the only way to check for medium
     // group is by comparing the encryption type
@@ -113,8 +110,9 @@ export class MessageSentHandler {
             window?.log?.warn(
               'Got an error while trying to sendSyncMessage(): fetchedMessage is null'
             );
+            return;
           }
-          fetchedMessage = tempFetchMessage as MessageModel;
+          fetchedMessage = tempFetchMessage;
         } catch (e) {
           window?.log?.warn('Got an error while trying to sendSyncMessage():', e);
         }

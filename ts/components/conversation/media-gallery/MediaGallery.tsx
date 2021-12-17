@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import { AttachmentSection } from './AttachmentSection';
 import { EmptyState } from './EmptyState';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
-import { MediaItemType } from '../../LightboxGallery';
 type Props = {
   documents: Array<MediaItemType>;
   media: Array<MediaItemType>;
@@ -45,7 +45,7 @@ const Sections = (props: Props & { selectedTab: TabType }) => {
     const label =
       type === 'media' ? window.i18n('mediaEmptyState') : window.i18n('documentsEmptyState');
 
-    return <EmptyState data-test="EmptyState" label={label} />;
+    return <EmptyState data-testid="EmptyState" label={label} />;
   }
 
   return (

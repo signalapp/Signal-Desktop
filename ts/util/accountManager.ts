@@ -140,6 +140,7 @@ async function createAccount(identityKeyPair: any) {
     window.textsecure.storage.remove('read-receipt-setting'),
     window.textsecure.storage.remove('typing-indicators-setting'),
     window.textsecure.storage.remove('regionCode'),
+    window.textsecure.storage.remove('local_attachment_encrypted_key'),
   ]);
 
   // update our own identity key, which may have changed
@@ -148,10 +149,12 @@ async function createAccount(identityKeyPair: any) {
 
   await window.textsecure.storage.put('identityKey', identityKeyPair);
   await window.textsecure.storage.put('password', password);
+
+  // disable read-receipt by default
   await window.textsecure.storage.put('read-receipt-setting', false);
 
   // Enable typing indicators by default
-  await window.textsecure.storage.put('typing-indicators-setting', Boolean(true));
+  await window.textsecure.storage.put('typing-indicators-setting', true);
 
   await window.textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
 }
@@ -167,6 +170,7 @@ async function registrationDone(ourPubkey: string, displayName: string) {
     ConversationTypeEnum.PRIVATE
   );
   await conversation.setLokiProfile({ displayName });
+  await conversation.setIsApproved(true);
   const user = {
     ourNumber: getOurPubKeyStrFromCache(),
     ourPrimary: window.textsecure.storage.get('primaryDevicePubKey'),

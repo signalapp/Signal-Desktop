@@ -21,7 +21,7 @@ window.getEnvironment = () => config.environment;
 window.getVersion = () => config.version;
 window.getAppInstance = () => config.appInstance;
 
-const { SessionPasswordPrompt } = require('./ts/components/session/SessionPasswordPrompt');
+const { SessionPasswordPrompt } = require('./ts/components/SessionPasswordPrompt');
 
 window.Signal = {
   Components: {

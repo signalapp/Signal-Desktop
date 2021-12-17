@@ -3,7 +3,7 @@ export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
-import { processMessage } from '../session/snode_api/swarmPolling';
+import { processMessage } from '../session/apis/snode_api/swarmPolling';
 import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
@@ -20,9 +20,9 @@ import { SignalService } from '../protobuf';
 import { getConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
 import { ConversationTypeEnum } from '../models/conversation';
-import { getOpenGroupV2ConversationId } from '../opengroup/utils/OpenGroupUtils';
-import { OpenGroupMessageV2 } from '../opengroup/opengroupV2/OpenGroupMessageV2';
-import { OpenGroupRequestCommonType } from '../opengroup/opengroupV2/ApiUtil';
+import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
+import { OpenGroupMessageV2 } from '../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
+import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
 import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
@@ -72,7 +72,7 @@ const envelopeQueue = new EnvelopeQueue();
 
 function queueEnvelope(envelope: EnvelopePlus, messageHash?: string) {
   const id = getEnvelopeId(envelope);
-  window?.log?.info('queueing envelope', id);
+  // window?.log?.info('queueing envelope', id);
 
   const task = handleEnvelope.bind(null, envelope, messageHash);
   const taskWithTimeout = createTaskWithTimeout(task, `queueEnvelope ${id}`);
@@ -161,12 +161,11 @@ export function handleRequest(body: any, options: ReqOptions, messageHash: strin
 
   incomingMessagePromises.push(promise);
 }
+
 // tslint:enable:cyclomatic-complexity max-func-body-length */
-
-// ***********************************************************************
-// ***********************************************************************
-// ***********************************************************************
-
+/**
+ * Used in background.js
+ */
 export async function queueAllCached() {
   const items = await getAllFromCache();
   items.forEach(async item => {

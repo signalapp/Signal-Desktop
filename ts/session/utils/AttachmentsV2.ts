@@ -1,6 +1,6 @@
 import { Attachment } from '../../types/Attachment';
 
-import { OpenGroupRequestCommonType } from '../../opengroup/opengroupV2/ApiUtil';
+import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/ApiUtil';
 import {
   AttachmentPointer,
   AttachmentPointerWithUrl,
@@ -8,7 +8,7 @@ import {
   Quote,
   QuotedAttachment,
 } from '../messages/outgoing/visibleMessage/VisibleMessage';
-import { uploadFileOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupAPIV2';
+import { uploadFileOpenGroupV2 } from '../apis/open_group_api/opengroupV2/OpenGroupAPIV2';
 import { addAttachmentPadding } from '../crypto/BufferPadding';
 import { RawPreview, RawQuote } from './Attachments';
 import _ from 'lodash';

@@ -122,8 +122,6 @@ async function decryptForClosedGroup(envelope: EnvelopePlus, ciphertext: ArrayBu
     throw new Error(
       `Waiting for an encryption keypair to be received for group ${groupPubKey.key}`
     );
-
-    return null;
   }
 }
 
@@ -210,7 +208,7 @@ async function decryptUnidentifiedSender(
   envelope: EnvelopePlus,
   ciphertext: ArrayBuffer
 ): Promise<ArrayBuffer | null> {
-  window?.log?.info('received unidentified sender message');
+  // window?.log?.info('received unidentified sender message');
   try {
     const userX25519KeyPair = await UserUtils.getIdentityKeyPair();
 

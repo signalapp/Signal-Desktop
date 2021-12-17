@@ -3,7 +3,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import { getFirstUnreadMessageIdInConversation, getMessagesByConversation } from '../../data/data';
 import {
-  CallState,
   ConversationNotificationSettingType,
   ConversationTypeEnum,
 } from '../../models/conversation';
@@ -12,14 +11,15 @@ import {
   MessageModelType,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
-import { LightBoxOptions } from '../../components/session/conversation/SessionConversation';
-import { ReplyingToMessageProps } from '../../components/session/conversation/composition/CompositionBox';
-import { QuotedAttachmentType } from '../../components/conversation/Quote';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
+import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
+import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
+import { LightBoxOptions } from '../../components/conversation/SessionConversation';
 
-export type PropsForMissedCallNotification = {
-  isMissedCall: boolean;
+export type CallNotificationType = 'missed-call' | 'started-call' | 'answered-a-call';
+export type PropsForCallNotification = {
+  notificationType: CallNotificationType;
   messageId: string;
   receivedAt: number;
   isUnread: boolean;
@@ -30,8 +30,8 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForGroupInvitation?: PropsForGroupInvitation;
   propsForTimerNotification?: PropsForExpirationTimer;
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
-  propsForGroupNotification?: PropsForGroupUpdate;
-  propsForMissedCall?: PropsForMissedCallNotification;
+  propsForGroupUpdateMessage?: PropsForGroupUpdate;
+  propsForCallNotification?: PropsForCallNotification;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -90,19 +90,17 @@ export type PropsForGroupUpdateGeneral = {
 
 export type PropsForGroupUpdateAdd = {
   type: 'add';
-  contacts?: Array<FindAndFormatContactType>;
+  added: Array<string>;
 };
 
 export type PropsForGroupUpdateKicked = {
   type: 'kicked';
-  isMe: boolean;
-  contacts?: Array<FindAndFormatContactType>;
+  kicked: Array<string>;
 };
 
-export type PropsForGroupUpdateRemove = {
-  type: 'remove';
-  isMe: boolean;
-  contacts?: Array<FindAndFormatContactType>;
+export type PropsForGroupUpdateLeft = {
+  type: 'left';
+  left: Array<string>;
 };
 
 export type PropsForGroupUpdateName = {
@@ -115,12 +113,10 @@ export type PropsForGroupUpdateType =
   | PropsForGroupUpdateAdd
   | PropsForGroupUpdateKicked
   | PropsForGroupUpdateName
-  | PropsForGroupUpdateRemove;
-
-export type PropsForGroupUpdateArray = Array<PropsForGroupUpdateType>;
+  | PropsForGroupUpdateLeft;
 
 export type PropsForGroupUpdate = {
-  changes: PropsForGroupUpdateArray;
+  change: PropsForGroupUpdateType;
   messageId: string;
   receivedAt: number | undefined;
   isUnread: boolean;
@@ -246,6 +242,7 @@ export interface ReduxConversationType {
   avatarPath?: string | null; // absolute filepath to the avatar
   groupAdmins?: Array<string>; // admins for closed groups and moderators for open groups
   members?: Array<string>; // members for closed groups only
+  zombies?: Array<string>; // members for closed groups only
 
   /**
    * If this is undefined, it means all notification are enabled
@@ -253,7 +250,7 @@ export interface ReduxConversationType {
   currentNotificationSetting?: ConversationNotificationSettingType;
 
   isPinned?: boolean;
-  callState?: CallState;
+  isApproved?: boolean;
 }
 
 export interface NotificationForConvoOption {
@@ -277,7 +274,6 @@ export type ConversationsStateType = {
   quotedMessage?: ReplyingToMessageProps;
   areMoreMessagesBeingFetched: boolean;
   haveDoneFirstScroll: boolean;
-  callIsInFullScreen: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -372,7 +368,6 @@ export function getEmptyConversationState(): ConversationsStateType {
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
-    callIsInFullScreen: false,
   };
 }
 
@@ -698,7 +693,6 @@ const conversationsSlice = createSlice({
 
       return {
         conversationLookup: state.conversationLookup,
-        callIsInFullScreen: state.callIsInFullScreen,
 
         selectedConversation: action.payload.id,
         areMoreMessagesBeingFetched: false,
@@ -762,102 +756,6 @@ const conversationsSlice = createSlice({
       state.mentionMembers = action.payload;
       return state;
     },
-    incomingCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState !== undefined) {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'incoming';
-
-      void foundConvo.commit();
-      return state;
-    },
-    endCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState) {
-        return state;
-      }
-
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = undefined;
-
-      void foundConvo.commit();
-      return state;
-    },
-    answerCall(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState !== 'incoming') {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-
-      foundConvo.callState = 'connecting';
-      void foundConvo.commit();
-      return state;
-    },
-    callConnected(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (!existingCallState || existingCallState === 'ongoing') {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'ongoing';
-      void foundConvo.commit();
-      return state;
-    },
-    startingCallWith(state: ConversationsStateType, action: PayloadAction<{ pubkey: string }>) {
-      const callerPubkey = action.payload.pubkey;
-      const existingCallState = state.conversationLookup[callerPubkey].callState;
-      if (existingCallState) {
-        return state;
-      }
-      const foundConvo = getConversationController().get(callerPubkey);
-      if (!foundConvo) {
-        return state;
-      }
-      // we have to update the model itself.
-      // not the db (as we dont want to store that field in it)
-      // and not the redux store directly as it gets overriden by the commit() of the conversationModel
-      foundConvo.callState = 'offering';
-      void foundConvo.commit();
-      return state;
-    },
-    setFullScreenCall(state: ConversationsStateType, action: PayloadAction<boolean>) {
-      state.callIsInFullScreen = action.payload;
-      return state;
-    },
   },
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -917,13 +815,6 @@ export const {
   quotedMessageToAnimate,
   setNextMessageToPlayId,
   updateMentionsMembers,
-  // calls
-  incomingCall,
-  endCall,
-  answerCall,
-  callConnected,
-  startingCallWith,
-  setFullScreenCall,
 } = actions;
 
 export async function openConversationWithMessages(args: {

@@ -1,16 +1,18 @@
-import { StagedAttachmentType } from '../components/session/conversation/composition/CompositionBox';
 import { SignalService } from '../protobuf';
 import { Constants } from '../session';
 import loadImage from 'blueimp-load-image';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { sendDataExtractionNotification } from '../session/messages/outgoing/controlMessage/DataExtractionNotificationMessage';
 import { AttachmentType, save } from '../types/Attachment';
+import { StagedAttachmentType } from '../components/conversation/composition/CompositionBox';
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;
   maxWidth?: number;
   maxSide?: number; // use this to make avatars cropped if too big and centered if too small.
 }
+
+export const ATTACHMENT_DEFAULT_MAX_SIDE = 4096;
 
 /**
  * Scale down an image to fit in the required dimension.
@@ -43,8 +45,10 @@ export async function autoScale<T extends { contentType: string; file: any }>(
       const maxSize =
         maxMeasurements?.maxSize || Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES;
       const makeSquare = Boolean(maxMeasurements?.maxSide);
-      const maxHeight = maxMeasurements?.maxHeight || maxMeasurements?.maxSide || 4096;
-      const maxWidth = maxMeasurements?.maxWidth || maxMeasurements?.maxSide || 4096;
+      const maxHeight =
+        maxMeasurements?.maxHeight || maxMeasurements?.maxSide || ATTACHMENT_DEFAULT_MAX_SIDE;
+      const maxWidth =
+        maxMeasurements?.maxWidth || maxMeasurements?.maxSide || ATTACHMENT_DEFAULT_MAX_SIDE;
 
       if (
         img.naturalWidth <= maxWidth &&
@@ -151,7 +155,7 @@ export const saveAttachmentToDisk = async ({
   messageSender: string;
   conversationId: string;
 }) => {
-  const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType);
+  const decryptedUrl = await getDecryptedMediaUrl(attachment.url, attachment.contentType, false);
   save({
     attachment: { ...attachment, url: decryptedUrl },
     document,

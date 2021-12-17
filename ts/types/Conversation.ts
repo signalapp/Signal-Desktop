@@ -1,9 +1,10 @@
+import { LastMessageStatusType } from '../state/ducks/conversations';
 import { Message } from './Message';
 
 interface ConversationLastMessageUpdate {
   lastMessage: string;
-  lastMessageStatus: string | null;
-  timestamp: number | null;
+  lastMessageStatus: LastMessageStatusType;
+  timestamp: number | undefined;
 }
 
 export const createLastMessageUpdate = ({
@@ -14,14 +15,14 @@ export const createLastMessageUpdate = ({
 }: {
   currentTimestamp?: number;
   lastMessage?: Message;
-  lastMessageStatus?: string;
+  lastMessageStatus?: LastMessageStatusType;
   lastMessageNotificationText?: string;
 }): ConversationLastMessageUpdate => {
   if (!lastMessage) {
     return {
       lastMessage: '',
-      lastMessageStatus: null,
-      timestamp: null,
+      lastMessageStatus: undefined,
+      timestamp: undefined,
     };
   }
 
@@ -35,7 +36,7 @@ export const createLastMessageUpdate = ({
 
   return {
     lastMessage: lastMessageNotificationText || '',
-    lastMessageStatus: lastMessageStatus || null,
-    timestamp: newTimestamp || null,
+    lastMessageStatus: lastMessageStatus || undefined,
+    timestamp: newTimestamp || undefined,
   };
 };

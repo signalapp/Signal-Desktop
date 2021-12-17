@@ -55,7 +55,7 @@ export const Timestamp = (props: Props) => {
 
   // Use relative time for under 24hrs ago.
   const now = Math.floor(Date.now());
-  const messageAgeInDays = (now - timestamp) / (window.CONSTANTS.SECS_IN_DAY * 1000);
+  const messageAgeInDays = (now - timestamp) / (1000 * 60 * 60 * 24);
   const daysBeforeRelativeTiming = 1;
 
   let dateString;

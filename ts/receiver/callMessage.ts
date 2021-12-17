@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import { SignalService } from '../protobuf';
 import { TTL_DEFAULT } from '../session/constants';
-import { SNodeAPI } from '../session/snode_api';
-import { CallManager } from '../session/utils';
+import { SNodeAPI } from '../session/apis/snode_api';
+import { CallManager, UserUtils } from '../session/utils';
 import { removeFromCache } from './cache';
 import { EnvelopePlus } from './types';
-
-// audric FIXME: refactor this out to persistence, just to help debug the flow and send/receive in synchronous testing
 
 export async function handleCallMessage(
   envelope: EnvelopePlus,
@@ -18,6 +16,24 @@ export async function handleCallMessage(
   const sentTimestamp = _.toNumber(envelope.timestamp);
 
   const { type } = callMessage;
+
+  // we just allow self send of ANSWER message to remove the incoming call dialog when we accepted it from another device
+  if (
+    sender === UserUtils.getOurPubKeyStrFromCache() &&
+    callMessage.type !== SignalService.CallMessage.Type.ANSWER &&
+    callMessage.type !== SignalService.CallMessage.Type.END_CALL
+  ) {
+    window.log.info('Dropping incoming call from ourself');
+    await removeFromCache(envelope);
+    return;
+  }
+
+  if (CallManager.isCallRejected(callMessage.uuid)) {
+    await removeFromCache(envelope);
+
+    window.log.info(`Dropping already rejected call from this device ${callMessage.uuid}`);
+    return;
+  }
 
   if (type === SignalService.CallMessage.Type.PROVISIONAL_ANSWER) {
     await removeFromCache(envelope);
@@ -50,7 +66,7 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.END_CALL) {
     await removeFromCache(envelope);
 
-    CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
+    await CallManager.handleCallTypeEndCall(sender, callMessage.uuid);
 
     return;
   }
@@ -58,19 +74,19 @@ export async function handleCallMessage(
   if (type === SignalService.CallMessage.Type.ANSWER) {
     await removeFromCache(envelope);
 
-    await CallManager.handleCallTypeAnswer(sender, callMessage);
+    await CallManager.handleCallTypeAnswer(sender, callMessage, sentTimestamp);
 
     return;
   }
   if (type === SignalService.CallMessage.Type.ICE_CANDIDATES) {
     await removeFromCache(envelope);
 
-    await CallManager.handleCallTypeIceCandidates(sender, callMessage);
+    await CallManager.handleCallTypeIceCandidates(sender, callMessage, sentTimestamp);
 
     return;
   }
   await removeFromCache(envelope);
 
   // if this another type of call message, just add it to the manager
-  await CallManager.handleOtherCallTypes(sender, callMessage);
+  await CallManager.handleOtherCallTypes(sender, callMessage, sentTimestamp);
 }

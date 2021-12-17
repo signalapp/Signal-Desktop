@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ed25519Str } from '../../session/onions/onionPath';
-import { forceNetworkDeletion } from '../../session/snode_api/SNodeAPI';
+import { forceNetworkDeletion } from '../../session/apis/snode_api/SNodeAPI';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal, updateDeleteAccountModal } from '../../state/ducks/modalDialog';
 import { SpacerLG } from '../basic/Text';
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { SessionHtmlRenderer } from '../session/SessionHTMLRenderer';
-import { SessionSpinner } from '../session/SessionSpinner';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionHtmlRenderer } from '../basic/SessionHTMLRenderer';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 const deleteDbLocally = async () => {
   window?.log?.info('last message sent successfully. Deleting everything');
@@ -89,10 +89,9 @@ async function deleteEverythingAndNetworkData() {
       window.inboxStore?.dispatch(
         updateConfirmModal({
           title: window.i18n('dialogClearAllDataDeletionFailedTitle'),
-          message: window.i18n(
-            'dialogClearAllDataDeletionFailedMultiple',
-            potentiallyMaliciousSnodes.join(', ')
-          ),
+          message: window.i18n('dialogClearAllDataDeletionFailedMultiple', [
+            potentiallyMaliciousSnodes.join(', '),
+          ]),
           messageSub: window.i18n('dialogClearAllDataDeletionFailedTitleQuestion'),
           okTheme: SessionButtonColor.Danger,
           okText: window.i18n('deviceOnly'),

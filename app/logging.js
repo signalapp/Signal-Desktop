@@ -6,7 +6,6 @@ const fs = require('fs');
 
 const electron = require('electron');
 const bunyan = require('bunyan');
-const mkdirp = require('mkdirp');
 const _ = require('lodash');
 const readFirstLine = require('firstline');
 const readLastLines = require('read-last-lines').read;
@@ -31,7 +30,7 @@ function initialize() {
 
   const basePath = app.getPath('userData');
   const logPath = path.join(basePath, 'logs');
-  mkdirp.sync(logPath);
+  fs.mkdirSync(logPath, { recursive: true });
 
   return cleanupLogs(logPath).then(() => {
     if (logger) {
@@ -63,7 +62,7 @@ function initialize() {
     });
 
     ipc.on('fetch-log', event => {
-      mkdirp.sync(logPath);
+      fs.mkdirSync(logPath, { recursive: true });
 
       fetch(logPath).then(
         data => {
@@ -125,7 +124,7 @@ async function cleanupLogs(logPath) {
 
     // delete and re-create the log directory
     await deleteAllLogs(logPath);
-    mkdirp.sync(logPath);
+    fs.mkdirSync(logPath, { recursive: true });
   }
 }
 
@@ -221,7 +220,7 @@ function fetch(logPath) {
   // Check that the file exists locally
   if (!fs.existsSync(logPath)) {
     console._log('Log folder not found while fetching its content. Quick! Creating it.');
-    mkdirp.sync(logPath);
+    fs.mkdirSync(logPath, { recursive: true });
   }
   const files = fs.readdirSync(logPath);
   const paths = files.map(file => path.join(logPath, file));

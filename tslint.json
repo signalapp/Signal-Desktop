@@ -21,6 +21,7 @@
     "mocha-unneeded-done": true,
     "no-angle-bracket-type-assertion": true,
     "no-consecutive-blank-lines": [true, 2],
+    "no-submodule-imports": false,
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-sort-keys": false,
     "no-async-without-await": true,

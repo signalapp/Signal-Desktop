@@ -30,16 +30,15 @@ window.getEnvironment = () => config.environment;
 window.getAppInstance = () => config.appInstance;
 window.getVersion = () => config.version;
 window.isDev = () => config.environment === 'development';
-window.getExpiration = () => config.buildExpiration;
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
 window.getHostName = () => config.hostname;
-window.getServerTrustRoot = () => config.serverTrustRoot;
 window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
-  useCallMessage: true,
+  useMessageRequests: false,
+  useCallMessage: false,
 };
 
 window.isBeforeVersion = (toCheck, baseVersion) => {
@@ -53,12 +52,6 @@ window.isBeforeVersion = (toCheck, baseVersion) => {
     return true;
   }
 };
-
-// eslint-disable-next-line func-names
-window.CONSTANTS = new (function() {
-  // Number of seconds to turn on notifications after reconnect/start of app
-  this.NOTIFICATION_ENABLE_TIMEOUT_SECONDS = 10;
-})();
 
 window.versionInfo = {
   environment: window.getEnvironment(),
@@ -219,7 +212,7 @@ window.Signal = Signal.setup({
   logger: window.log,
 });
 
-window.getSwarmPollingInstance = require('./ts/session/snode_api/').getSwarmPollingInstance;
+window.getSwarmPollingInstance = require('./ts/session/apis/snode_api/').getSwarmPollingInstance;
 
 const WorkerInterface = require('./js/modules/util_worker_interface');
 
@@ -269,9 +262,7 @@ window.moment.updateLocale(localeSetForMoment, {
 });
 
 window.libsession = require('./ts/session');
-window.models = require('./ts/models');
 
-window.Signal = window.Signal || {};
 window.Signal.Data = require('./ts/data/data');
 
 window.Signal.Logs = require('./js/modules/logs');
@@ -286,16 +277,6 @@ window.addEventListener('contextmenu', e => {
 });
 
 window.NewReceiver = require('./ts/receiver/receiver');
-window.Fsv2 = require('./ts/fileserver/FileServerApiV2');
-window.DataMessageReceiver = require('./ts/receiver/dataMessage');
-window.NewSnodeAPI = require('./ts/session/snode_api/SNodeAPI');
-window.SnodePool = require('./ts/session/snode_api/snodePool');
-
-// eslint-disable-next-line no-extend-native,func-names
-Promise.prototype.ignore = function() {
-  // eslint-disable-next-line more/no-then
-  this.then(() => {});
-};
 
 // Blocking
 

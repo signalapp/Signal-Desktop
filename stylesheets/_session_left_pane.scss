@@ -87,34 +87,6 @@ $session-compose-margin: 20px;
     height: 100vh;
   }
 
-  &__sections-container {
-    height: 100vh;
-    flex-shrink: 0;
-    width: 80px;
-    overflow-x: hidden;
-    display: inline-flex;
-    flex-direction: column;
-
-    border-right: var(--border-session);
-
-    .module-avatar,
-    .session-icon-button {
-      cursor: pointer;
-      padding: 30px;
-
-      &:nth-last-child(2) {
-        margin: auto auto 0px auto;
-        opacity: 1 !important;
-        /* Hide theme icon until light theme is ready */
-      }
-
-      &:first-child {
-        padding: 0;
-        margin: 30px auto;
-      }
-    }
-  }
-
   &__header {
     display: flex;
     flex-direction: row;
@@ -149,12 +121,6 @@ $session-compose-margin: 20px;
 
   &__list {
     height: -webkit-fill-available;
-
-    &-popup {
-      width: -webkit-fill-available;
-      height: -webkit-fill-available;
-      position: absolute;
-    }
   }
 
   &-overlay {

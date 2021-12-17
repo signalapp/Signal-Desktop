@@ -1,6 +1,4 @@
 const importOnce = require('node-sass-import-once');
-const rimraf = require('rimraf');
-const mkdirp = require('mkdirp');
 const sass = require('node-sass');
 
 /* eslint-disable more/no-then, no-console  */
@@ -39,7 +37,6 @@ module.exports = grunt => {
     'js/curve/curve25519_wrapper.js',
     'node_modules/libsodium/dist/modules/libsodium.js',
     'node_modules/libsodium-wrappers/dist/modules/libsodium-wrappers.js',
-
     'libtextsecure/libsignal-protocol.js',
     'js/util_worker_tasks.js',
   ];
@@ -154,14 +151,6 @@ module.exports = grunt => {
     grunt.file.write(configPath, `${JSON.stringify(localConfig)}\n`);
   }
 
-  grunt.registerTask('getExpireTime', () => {
-    grunt.task.requires('gitinfo');
-    const gitinfo = grunt.config.get('gitinfo');
-    const committed = gitinfo.local.branch.current.lastCommitTime;
-    const time = Date.parse(committed) + 1000 * 60 * 60 * 24 * 90;
-    updateLocalConfig({ buildExpiration: time });
-  });
-
   grunt.registerTask('getCommitHash', () => {
     grunt.task.requires('gitinfo');
     const gitinfo = grunt.config.get('gitinfo');
@@ -169,13 +158,8 @@ module.exports = grunt => {
     updateLocalConfig({ commitHash: hash });
   });
 
-  grunt.registerTask('clean-release', () => {
-    rimraf.sync('release');
-    mkdirp.sync('release');
-  });
-
   grunt.registerTask('dev', ['default', 'watch']);
-  grunt.registerTask('date', ['gitinfo', 'getExpireTime']);
+  grunt.registerTask('date', ['gitinfo']);
   grunt.registerTask('default', [
     'exec:build-protobuf',
     'exec:transpile',

@@ -2,7 +2,7 @@ import {
   getCompleteUrlFromRoom,
   openGroupPrefixRegex,
   openGroupV2ConversationIdRegex,
-} from '../opengroup/utils/OpenGroupUtils';
+} from '../session/apis/open_group_api/utils/OpenGroupUtils';
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { CallManager, SyncUtils, ToastUtils, UserUtils } from '../session/utils';
 import { ConversationNotificationSettingType, ConversationTypeEnum } from '../models/conversation';
@@ -14,6 +14,7 @@ import {
   adminLeaveClosedGroup,
   changeNickNameModal,
   updateAddModeratorsModal,
+  updateBanOrUnbanUserModal,
   updateConfirmModal,
   updateGroupMembersModal,
   updateGroupNameModal,
@@ -31,11 +32,12 @@ import {
 import { conversationReset, quoteMessage } from '../state/ducks/conversations';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
-import { FSv2 } from '../fileserver';
+import { FSv2 } from '../session/apis/file_server_api';
 import { fromHexToArray, toHex } from '../session/utils/String';
-import { SessionButtonColor } from '../components/session/SessionButton';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { SessionButtonColor } from '../components/basic/SessionButton';
+import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { getCallMediaPermissionsSettings } from '../components/session/settings/SessionSettings';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -115,6 +117,23 @@ export async function unblockConvoById(conversationId: string) {
   await conversation.commit();
 }
 
+/**
+ * marks the conversation as approved.
+ */
+export const approveConversation = async (conversationId: string) => {
+  const conversationToApprove = getConversationController().get(conversationId);
+
+  if (!conversationToApprove || conversationToApprove.isApproved()) {
+    window?.log?.info('Conversation is already approved.');
+    return;
+  }
+
+  await conversationToApprove.setIsApproved(true);
+
+  // Conversation was not approved before so a sync is needed
+  await forceSyncConfigurationNowIfNeeded();
+};
+
 export async function showUpdateGroupNameByConvoId(conversationId: string) {
   const conversation = getConversationController().get(conversationId);
   if (conversation.isMediumGroup()) {
@@ -193,6 +212,18 @@ export function showAddModeratorsByConvoId(conversationId: string) {
 
 export function showRemoveModeratorsByConvoId(conversationId: string) {
   window.inboxStore?.dispatch(updateRemoveModeratorsModal({ conversationId }));
+}
+
+export function showBanUserByConvoId(conversationId: string, pubkey?: string) {
+  window.inboxStore?.dispatch(
+    updateBanOrUnbanUserModal({ banType: 'ban', conversationId, pubkey })
+  );
+}
+
+export function showUnbanUserByConvoId(conversationId: string, pubkey?: string) {
+  window.inboxStore?.dispatch(
+    updateBanOrUnbanUserModal({ banType: 'unban', conversationId, pubkey })
+  );
 }
 
 export async function markAllReadByConvoId(conversationId: string) {
@@ -311,7 +342,7 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
       return;
     }
 
-    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG);
+    const decryptedAvatarUrl = await getDecryptedMediaUrl(currentAttachmentPath, IMAGE_JPEG, true);
 
     if (!decryptedAvatarUrl) {
       window.log.warn('Could not decrypt avatar stored locally..');
@@ -447,8 +478,6 @@ export async function callRecipient(pubkey: string, canCall: boolean) {
   }
 
   if (convo && convo.isPrivate() && !convo.isMe()) {
-    convo.callState = 'offering';
-    await convo.commit();
     await CallManager.USER_callRecipient(convo.id);
   }
 }

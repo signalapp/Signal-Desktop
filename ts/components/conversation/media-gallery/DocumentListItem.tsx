@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import moment from 'moment';
 // tslint:disable-next-line:match-default-export-name
 import formatFileSize from 'filesize';
-import { MediaItemType } from '../../LightboxGallery';
 import { useSelector } from 'react-redux';
 import { getSelectedConversationKey } from '../../../state/selectors/conversations';
 import { saveAttachmentToDisk } from '../../../util/attachmentsUtil';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 type Props = {
   // Required

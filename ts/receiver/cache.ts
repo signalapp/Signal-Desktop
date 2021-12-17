@@ -15,7 +15,7 @@ import {
 
 export async function removeFromCache(envelope: EnvelopePlus) {
   const { id } = envelope;
-  window?.log?.info(`removing from cache envelope: ${id}`);
+  // window?.log?.info(`removing from cache envelope: ${id}`);
   return removeUnprocessed(id);
 }
 
@@ -25,7 +25,7 @@ export async function addToCache(
   messageHash: string
 ) {
   const { id } = envelope;
-  window?.log?.info(`adding to cache envelope: ${id}`);
+  // window?.log?.info(`adding to cache envelope: ${id}`);
 
   const encodedEnvelope = StringUtils.decode(plaintext, 'base64');
   const data: UnprocessedParameter = {

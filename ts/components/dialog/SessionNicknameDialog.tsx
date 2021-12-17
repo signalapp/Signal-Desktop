@@ -5,8 +5,8 @@ import _ from 'lodash';
 import { SpacerLG } from '../basic/Text';
 import { useDispatch } from 'react-redux';
 import { changeNickNameModal } from '../../state/ducks/modalDialog';
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
   conversationId: string;

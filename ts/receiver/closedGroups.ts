@@ -31,7 +31,7 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { ClosedGroupEncryptionPairReplyMessage } from '../session/messages/outgoing/controlMessage/group/ClosedGroupEncryptionPairReplyMessage';
 import { queueAllCachedFromSource } from './receiver';
 import { openConversationWithMessages } from '../state/ducks/conversations';
-import { getSwarmPollingInstance } from '../session/snode_api';
+import { getSwarmPollingInstance } from '../session/apis/snode_api';
 import { MessageModel } from '../models/message';
 
 import { updateConfirmModal } from '../state/ducks/modalDialog';
@@ -678,7 +678,7 @@ async function handleClosedGroupMembersRemoved(
   // Only add update message if we have something to show
   if (membersAfterUpdate.length !== currentMembers.length) {
     const groupDiff: ClosedGroup.GroupDiff = {
-      leavingMembers: effectivelyRemovedMembers,
+      kickedMembers: effectivelyRemovedMembers,
     };
     await ClosedGroup.addUpdateMessage(
       convo,
@@ -754,11 +754,12 @@ async function handleClosedGroupAdminMemberLeft(
   // if the admin was remove and we are the admin, it can only be voluntary
   await markGroupAsLeftOrKicked(groupPublicKey, convo, !isCurrentUserAdmin);
 
-  convo.set('members', []);
   // everybody left ! this is how we disable a group when the admin left
   const groupDiff: ClosedGroup.GroupDiff = {
-    leavingMembers: convo.get('members'),
+    kickedMembers: convo.get('members'),
   };
+  convo.set('members', []);
+
   await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
   convo.updateLastMessage();
 

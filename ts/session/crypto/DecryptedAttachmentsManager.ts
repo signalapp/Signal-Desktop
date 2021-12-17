@@ -11,20 +11,29 @@ import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
 import { DURATION } from '../constants';
 
-// FIXME.
-// add a way to remove the blob when the attachment file path is removed (message removed?)
-// do not hardcode the password
-const urlToDecryptedBlobMap = new Map<string, { decrypted: string; lastAccessTimestamp: number }>();
+const urlToDecryptedBlobMap = new Map<
+  string,
+  { decrypted: string; lastAccessTimestamp: number; forceRetain: boolean }
+>();
 const urlToDecryptingPromise = new Map<string, Promise<string>>();
 
 export const cleanUpOldDecryptedMedias = () => {
   const currentTimestamp = Date.now();
   let countCleaned = 0;
   let countKept = 0;
+  let keptAsAvatars = 0;
+
   window?.log?.info('Starting cleaning of medias blobs...');
   for (const iterator of urlToDecryptedBlobMap) {
-    // if the last access is older than one hour, revoke the url and remove it.
-    if (iterator[1].lastAccessTimestamp < currentTimestamp - DURATION.HOURS * 1) {
+    if (
+      iterator[1].forceRetain &&
+      iterator[1].lastAccessTimestamp < currentTimestamp - DURATION.DAYS * 7
+    ) {
+      // keep forceRetained items for at most 7 days
+      keptAsAvatars++;
+    } else if (iterator[1].lastAccessTimestamp < currentTimestamp - DURATION.HOURS * 1) {
+      // if the last access is older than one hour, revoke the url and remove it.
+
       URL.revokeObjectURL(iterator[1].decrypted);
       urlToDecryptedBlobMap.delete(iterator[0]);
       countCleaned++;
@@ -32,12 +41,16 @@ export const cleanUpOldDecryptedMedias = () => {
       countKept++;
     }
   }
-  urlToDecryptedBlobMap.clear();
-  urlToDecryptingPromise.clear();
-  window?.log?.info(`Clean medias blobs: cleaned/kept: ${countCleaned}:${countKept}`);
+  window?.log?.info(
+    `Clean medias blobs: cleaned/kept/keptAsAvatars: ${countCleaned}:${countKept}:${keptAsAvatars}`
+  );
 };
 
-export const getDecryptedMediaUrl = async (url: string, contentType: string): Promise<string> => {
+export const getDecryptedMediaUrl = async (
+  url: string,
+  contentType: string,
+  isAvatar: boolean
+): Promise<string> => {
   if (!url) {
     return url;
   }
@@ -52,11 +65,13 @@ export const getDecryptedMediaUrl = async (url: string, contentType: string): Pr
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
     if (urlToDecryptedBlobMap.has(url)) {
       // refresh the last access timestamp so we keep the one being currently in use
-      const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
+      const existing = urlToDecryptedBlobMap.get(url);
+      const existingObjUrl = existing?.decrypted as string;
 
       urlToDecryptedBlobMap.set(url, {
         decrypted: existingObjUrl,
         lastAccessTimestamp: Date.now(),
+        forceRetain: existing?.forceRetain || false,
       });
       // typescript does not realize that the has above makes sure the get is not undefined
 
@@ -82,6 +97,7 @@ export const getDecryptedMediaUrl = async (url: string, contentType: string): Pr
               urlToDecryptedBlobMap.set(url, {
                 decrypted: obj,
                 lastAccessTimestamp: Date.now(),
+                forceRetain: isAvatar,
               });
             }
             urlToDecryptingPromise.delete(url);

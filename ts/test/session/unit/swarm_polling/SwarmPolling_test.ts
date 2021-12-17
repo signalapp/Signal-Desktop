@@ -9,8 +9,8 @@ import { TestUtils } from '../../../test-utils';
 import { UserUtils } from '../../../../session/utils';
 import { getConversationController } from '../../../../session/conversations';
 import * as Data from '../../../../../ts/data/data';
-import { getSwarmPollingInstance, SNodeAPI, SnodePool } from '../../../../session/snode_api';
-import { SwarmPolling } from '../../../../session/snode_api/swarmPolling';
+import { getSwarmPollingInstance, SNodeAPI, SnodePool } from '../../../../session/apis/snode_api';
+import { SwarmPolling } from '../../../../session/apis/snode_api/swarmPolling';
 import { SWARM_POLLING_TIMEOUT } from '../../../../session/constants';
 import {
   ConversationCollection,

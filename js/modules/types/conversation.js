@@ -1,7 +1,6 @@
 /* global crypto */
 
 const { isFunction } = require('lodash');
-const { createLastMessageUpdate } = require('../../../ts/types/Conversation');
 const { arrayBufferToBase64 } = require('../crypto');
 
 async function computeHash(arraybuffer) {
@@ -80,6 +79,5 @@ async function deleteExternalFiles(conversation, options = {}) {
 module.exports = {
   deleteExternalFiles,
   maybeUpdateAvatar,
-  createLastMessageUpdate,
   arrayBufferToBase64,
 };

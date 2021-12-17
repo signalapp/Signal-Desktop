@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
 import { StateType } from '../reducer';
-import { SectionStateType, SectionType } from '../ducks/section';
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { OverlayMode, SectionStateType, SectionType } from '../ducks/section';
+import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 
 export const getSection = (state: StateType): SectionStateType => state.section;
 
@@ -19,4 +19,9 @@ export const getFocusedSettingsSection = createSelector(
 export const getIsAppFocused = createSelector(
   getSection,
   (state: SectionStateType): boolean => state.isAppFocused
+);
+
+export const getOverlayMode = createSelector(
+  getSection,
+  (state: SectionStateType): OverlayMode => state.overlayMode
 );

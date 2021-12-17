@@ -1,87 +1,134 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { ContactType, SessionMemberListItem } from '../session/SessionMemberListItem';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import { initiateGroupUpdate } from '../../session/group';
-import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversation';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversationInteractions';
 import _ from 'lodash';
 import { VALIDATION } from '../../session/constants';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 import { SpacerLG } from '../basic/Text';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateInviteContactModal } from '../../state/ducks/modalDialog';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { MemberListItem } from '../MemberListItem';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
+import { useConversationPropsById } from '../../hooks/useParamSelector';
+import { useSet } from '../../hooks/useSet';
 
 type Props = {
   conversationId: string;
 };
 
+const submitForOpenGroup = async (conversationId: string, pubkeys: Array<string>) => {
+  const completeUrl = await getCompleteUrlForV2ConvoId(conversationId);
+  const convo = getConversationController().get(conversationId);
+  if (!convo || !convo.isPublic()) {
+    throw new Error('submitForOpenGroup group not found');
+  }
+  const groupInvitation = {
+    url: completeUrl,
+    name: convo.getName() || 'Unknown',
+  };
+  pubkeys.forEach(async pubkeyStr => {
+    const privateConvo = await getConversationController().getOrCreateAndWait(
+      pubkeyStr,
+      ConversationTypeEnum.PRIVATE
+    );
+
+    if (privateConvo) {
+      void privateConvo.sendMessage({
+        body: '',
+        attachments: undefined,
+        groupInvitation,
+        preview: undefined,
+        quote: undefined,
+      });
+    }
+  });
+};
+
+const submitForClosedGroup = async (convoId: string, pubkeys: Array<string>) => {
+  const convo = getConversationController().get(convoId);
+  if (!convo || !convo.isGroup()) {
+    throw new Error('submitForClosedGroup group not found');
+  }
+  // closed group chats
+  const ourPK = UserUtils.getOurPubKeyStrFromCache();
+  // we only care about real members. If a member is currently a zombie we have to be able to add him back
+  let existingMembers = convo.get('members') || [];
+  // at least make sure it's an array
+  if (!Array.isArray(existingMembers)) {
+    existingMembers = [];
+  }
+  existingMembers = _.compact(existingMembers);
+  const existingZombies = convo.get('zombies') || [];
+  const newMembers = pubkeys.filter(d => !existingMembers.includes(d));
+
+  if (newMembers.length > 0) {
+    // Do not trigger an update if there is too many members
+    // be sure to include current zombies in this count
+    if (
+      newMembers.length + existingMembers.length + existingZombies.length >
+      VALIDATION.CLOSED_GROUP_SIZE_LIMIT
+    ) {
+      ToastUtils.pushTooManyMembers();
+      return;
+    }
+
+    const allMembers = _.concat(existingMembers, newMembers, [ourPK]);
+    const uniqMembers = _.uniq(allMembers);
+
+    const groupId = convo.get('id');
+    const groupName = convo.get('name');
+
+    await initiateGroupUpdate(groupId, groupName || window.i18n('unknown'), uniqMembers, undefined);
+  }
+};
+
+// tslint:disable-next-line: max-func-body-length
 const InviteContactsDialogInner = (props: Props) => {
   const { conversationId } = props;
-
   const dispatch = useDispatch();
 
-  const convo = getConversationController().get(conversationId);
-  // tslint:disable-next-line: max-func-body-length
+  const privateContactPubkeys = useSelector(getPrivateContactsPubkeys);
+  let validContactsForInvite = _.clone(privateContactPubkeys);
 
-  let contacts = getConversationController()
-    .getConversations()
-    .filter(d => !!d && !d.isBlocked() && d.isPrivate() && !d.isMe() && !!d.get('active_at'));
-  if (!convo.isPublic()) {
+  const convoProps = useConversationPropsById(conversationId);
+
+  const { uniqueValues: selectedContacts, addTo, removeFrom } = useSet<string>();
+
+  if (!convoProps) {
+    throw new Error('InviteContactsDialogInner not a valid convoId given');
+  }
+  if (!convoProps.isGroup) {
+    throw new Error('InviteContactsDialogInner must be a group');
+  }
+  if (!convoProps.isPublic) {
     // filter our zombies and current members from the list of contact we can add
-
-    const members = convo.get('members') || [];
-    const zombies = convo.get('zombies') || [];
-    contacts = contacts.filter(d => !members.includes(d.id) && !zombies.includes(d.id));
+    const members = convoProps.members || [];
+    const zombies = convoProps.zombies || [];
+    validContactsForInvite = validContactsForInvite.filter(
+      d => !members.includes(d) && !zombies.includes(d)
+    );
   }
 
-  const chatName = convo.get('name');
-  const isPublicConvo = convo.isPublic();
-
-  const [contactList, setContactList] = useState(
-    contacts.map((d: ConversationModel) => {
-      const lokiProfile = d.getLokiProfile();
-      const nickname = d.getNickname();
-      const name = nickname
-        ? nickname
-        : lokiProfile
-        ? lokiProfile.displayName
-        : window.i18n('anonymous');
-
-      // TODO: should take existing members into account
-      const existingMember = false;
-
-      return {
-        id: d.id,
-        authorPhoneNumber: d.id,
-        authorProfileName: name,
-        authorAvatarPath: d?.getAvatarPath() || '',
-        selected: false,
-        authorName: name,
-        checkmarked: false,
-        existingMember,
-      };
-    })
-  );
+  const chatName = convoProps.name;
+  const isPublicConvo = convoProps.isPublic;
 
   const closeDialog = () => {
     dispatch(updateInviteContactModal(null));
   };
 
   const onClickOK = () => {
-    const selectedContacts = contactList
-      .filter((d: ContactType) => d.checkmarked)
-      .map((d: ContactType) => d.id);
-
     if (selectedContacts.length > 0) {
       if (isPublicConvo) {
-        void submitForOpenGroup(selectedContacts);
+        void submitForOpenGroup(conversationId, selectedContacts);
       } else {
-        void submitForClosedGroup(selectedContacts);
+        void submitForClosedGroup(conversationId, selectedContacts);
       }
     }
 
@@ -96,123 +143,37 @@ const InviteContactsDialogInner = (props: Props) => {
     return event.key === 'Esc' || event.key === 'Escape';
   }, closeDialog);
 
-  const titleText = `${window.i18n('addingContacts')} ${chatName}`;
+  const unknown = window.i18n('unknown');
+
+  const titleText = `${window.i18n('addingContacts', [chatName || unknown])}`;
   const cancelText = window.i18n('cancel');
   const okText = window.i18n('ok');
 
-  const hasContacts = contactList.length !== 0;
-
-  const submitForOpenGroup = async (pubkeys: Array<string>) => {
-    if (convo.isOpenGroupV2()) {
-      const completeUrl = await getCompleteUrlForV2ConvoId(convo.id);
-      const groupInvitation = {
-        url: completeUrl,
-        name: convo.getName(),
-      };
-      pubkeys.forEach(async pubkeyStr => {
-        const privateConvo = await getConversationController().getOrCreateAndWait(
-          pubkeyStr,
-          ConversationTypeEnum.PRIVATE
-        );
-
-        if (privateConvo) {
-          void privateConvo.sendMessage({
-            body: '',
-            attachments: undefined,
-            groupInvitation,
-            preview: undefined,
-            quote: undefined,
-          });
-        }
-      });
-    }
-  };
-
-  const submitForClosedGroup = async (pubkeys: Array<string>) => {
-    // closed group chats
-    const ourPK = UserUtils.getOurPubKeyStrFromCache();
-    // we only care about real members. If a member is currently a zombie we have to be able to add him back
-    let existingMembers = convo.get('members') || [];
-    // at least make sure it's an array
-    if (!Array.isArray(existingMembers)) {
-      existingMembers = [];
-    }
-    existingMembers = _.compact(existingMembers);
-    const existingZombies = convo.get('zombies') || [];
-    const newMembers = pubkeys.filter(d => !existingMembers.includes(d));
-
-    if (newMembers.length > 0) {
-      // Do not trigger an update if there is too many members
-      // be sure to include current zombies in this count
-      if (
-        newMembers.length + existingMembers.length + existingZombies.length >
-        VALIDATION.CLOSED_GROUP_SIZE_LIMIT
-      ) {
-        ToastUtils.pushTooManyMembers();
-        return;
-      }
-
-      const allMembers = _.concat(existingMembers, newMembers, [ourPK]);
-      const uniqMembers = _.uniq(allMembers);
-
-      const groupId = convo.get('id');
-      const groupName = convo.get('name');
-
-      await initiateGroupUpdate(
-        groupId,
-        groupName || window.i18n('unknown'),
-        uniqMembers,
-        undefined
-      );
-    }
-  };
-
-  const renderMemberList = () => {
-    const members = contactList;
-    const selectedContacts = contactList
-      .filter((d: ContactType) => d.checkmarked)
-      .map((d: ContactType) => d.id);
-
-    return members.map((member: ContactType, index: number) => (
-      <SessionMemberListItem
-        member={member}
-        key={member.id}
-        index={index}
-        isSelected={selectedContacts.some(m => m === member.id)}
-        onSelect={(selectedMember: ContactType) => {
-          onMemberClicked(selectedMember);
-        }}
-        onUnselect={(selectedMember: ContactType) => {
-          onMemberClicked(selectedMember);
-        }}
-      />
-    ));
-  };
-
-  const onMemberClicked = (clickedMember: ContactType) => {
-    const updatedContacts = contactList.map((member: ContactType) => {
-      if (member.id === clickedMember.id) {
-        return { ...member, checkmarked: !member.checkmarked };
-      } else {
-        return member;
-      }
-    });
-    setContactList(updatedContacts);
-  };
+  const hasContacts = validContactsForInvite.length > 0;
 
   return (
     <SessionWrapperModal title={titleText} onClose={closeDialog}>
       <SpacerLG />
 
-      <div className="contact-selection-list">{renderMemberList()}</div>
-      {hasContacts ? null : (
-        <>
-          <SpacerLG />
-          <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
-          <SpacerLG />
-        </>
-      )}
-
+      <div className="contact-selection-list">
+        {hasContacts ? (
+          validContactsForInvite.map((member: string) => (
+            <MemberListItem
+              key={member}
+              pubkey={member}
+              isSelected={selectedContacts.includes(member)}
+              onSelect={addTo}
+              onUnselect={removeFrom}
+            />
+          ))
+        ) : (
+          <>
+            <SpacerLG />
+            <p className="no-contacts">{window.i18n('noContactsToAdd')}</p>
+            <SpacerLG />
+          </>
+        )}
+      </div>
       <SpacerLG />
 
       <div className="session-modal__button-group">

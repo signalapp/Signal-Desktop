@@ -15,11 +15,11 @@ import {
   getOnionPathsCount,
 } from '../../state/selectors/onions';
 import { Flex } from '../basic/Flex';
-import { SessionIcon, SessionIconButton } from '../session/icon';
-import { SessionSpinner } from '../session/SessionSpinner';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
 // tslint:disable-next-line: no-submodule-imports
 import useHover from 'react-use/lib/useHover';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionIcon, SessionIconButton } from '../icon';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 export type StatusLightType = {
   glowStartDelay: number;
@@ -150,8 +150,10 @@ export const ModalStatusLight = (props: StatusLightType) => {
 export const ActionPanelOnionStatusLight = (props: {
   isSelected: boolean;
   handleClick: () => void;
+  dataTestId?: string;
+  id: string;
 }) => {
-  const { isSelected, handleClick } = props;
+  const { isSelected, handleClick, dataTestId, id } = props;
 
   const onionPathsCount = useSelector(getOnionPathsCount);
   const firstPathLength = useSelector(getFirstOnionPathLength);
@@ -179,6 +181,8 @@ export const ActionPanelOnionStatusLight = (props: {
       glowStartDelay={0}
       noScale={true}
       isSelected={isSelected}
+      dataTestId={dataTestId}
+      id={id}
     />
   );
 };

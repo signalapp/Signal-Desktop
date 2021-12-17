@@ -8,9 +8,9 @@ import { SignalService } from '../../../../protobuf';
 import { EncryptionType } from '../../../../session/types/EncryptionType';
 import { PubKey, RawMessage } from '../../../../session/types';
 import { MessageUtils, UserUtils } from '../../../../session/utils';
-import { ApiV2 } from '../../../../opengroup/opengroupV2';
+import { ApiV2 } from '../../../../session/apis/open_group_api/opengroupV2';
 import * as Data from '../../../../../ts/data/data';
-import { SNodeAPI } from '../../../../session/snode_api';
+import { SNodeAPI } from '../../../../session/apis/snode_api';
 import _ from 'lodash';
 
 describe('MessageSender', () => {

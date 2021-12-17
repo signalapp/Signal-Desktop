@@ -1,12 +1,7 @@
 import React from 'react';
 
-import { Avatar, AvatarSize } from '../Avatar';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
 
-import { SessionIconButton } from '../session/icon';
-
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
-import { ConversationAvatar } from '../session/usingClosedConversationDetails';
-import { MemoConversationHeaderMenu } from '../session/menu/ConversationHeaderMenu';
 import { contextMenu } from 'react-contexify';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
@@ -14,11 +9,9 @@ import {
   getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
-  getHasIncomingCall,
-  getHasOngoingCall,
+  getIsSelectedBlocked,
   getIsSelectedNoteToSelf,
   getIsSelectedPrivate,
-  getSelectedConversation,
   getSelectedConversationIsPublic,
   getSelectedConversationKey,
   getSelectedMessageIds,
@@ -27,7 +20,6 @@ import {
   isRightPanelShowing,
 } from '../../state/selectors/conversations';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMembersAvatars } from '../../hooks/useMembersAvatar';
 
 import {
   deleteMessagesById,
@@ -40,6 +32,11 @@ import {
   resetSelectedMessageIds,
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
+import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
+import { useConversationUsername } from '../../hooks/useParamSelector';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionIconButton } from '../icon';
+import { MemoConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 
 export interface TimerOption {
   name: string;
@@ -107,7 +104,7 @@ const SelectionOverlay = () => {
   return (
     <div className="message-selection-overlay">
       <div className="close-button">
-        <SessionIconButton iconType="exit" iconSize={'medium'} onClick={onCloseOverlay} />
+        <SessionIconButton iconType="exit" iconSize="medium" onClick={onCloseOverlay} />
       </div>
 
       <div className="button-group">
@@ -145,7 +142,7 @@ const TripleDotsMenu = (props: { triggerId: string; showBackButton: boolean }) =
         });
       }}
     >
-      <SessionIconButton iconType="ellipses" iconSize={'medium'} />
+      <SessionIconButton iconType="ellipses" iconSize="medium" />
     </div>
   );
 };
@@ -166,30 +163,22 @@ const ExpirationLength = (props: { expirationSettingName?: string }) => {
 };
 
 const AvatarHeader = (props: {
-  avatarPath: string | null;
-  memberAvatars?: Array<ConversationAvatar>;
-  name?: string;
   pubkey: string;
-  profileName?: string;
   showBackButton: boolean;
   onAvatarClick?: (pubkey: string) => void;
 }) => {
-  const { avatarPath, memberAvatars, name, pubkey, profileName } = props;
-  const userName = name || profileName || pubkey;
+  const { pubkey, onAvatarClick, showBackButton } = props;
 
   return (
     <span className="module-conversation-header__avatar">
       <Avatar
-        avatarPath={avatarPath}
-        name={userName}
         size={AvatarSize.S}
         onAvatarClick={() => {
           // do not allow right panel to appear if another button is shown on the SessionConversation
-          if (props.onAvatarClick && !props.showBackButton) {
-            props.onAvatarClick(pubkey);
+          if (onAvatarClick && !showBackButton) {
+            onAvatarClick(pubkey);
           }
         }}
-        memberAvatars={memberAvatars}
         pubkey={pubkey}
       />
     </span>
@@ -203,12 +192,13 @@ const BackButton = (props: { onGoBack: () => void; showBackButton: boolean }) =>
   }
 
   return (
-    <SessionIconButton iconType="chevron" iconSize={'large'} iconRotation={90} onClick={onGoBack} />
+    <SessionIconButton iconType="chevron" iconSize="large" iconRotation={90} onClick={onGoBack} />
   );
 };
 
 const CallButton = () => {
   const isPrivate = useSelector(getIsSelectedPrivate);
+  const isBlocked = useSelector(getIsSelectedBlocked);
   const isMe = useSelector(getIsSelectedNoteToSelf);
   const selectedConvoKey = useSelector(getSelectedConversationKey);
 
@@ -216,7 +206,7 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  if (!isPrivate || isMe || !selectedConvoKey) {
+  if (!isPrivate || isMe || !selectedConvoKey || isBlocked) {
     return null;
   }
 
@@ -261,22 +251,14 @@ const ConversationHeaderTitle = () => {
   const headerTitleProps = useSelector(getConversationHeaderTitleProps);
   const notificationSetting = useSelector(getCurrentNotificationSettingText);
   const isRightPanelOn = useSelector(isRightPanelShowing);
+
+  const convoName = useConversationUsername(headerTitleProps?.conversationKey);
   const dispatch = useDispatch();
   if (!headerTitleProps) {
     return null;
   }
 
-  const {
-    conversationKey,
-    profileName,
-    isGroup,
-    isPublic,
-    members,
-    subscriberCount,
-    isMe,
-    isKickedFromGroup,
-    name,
-  } = headerTitleProps;
+  const { isGroup, isPublic, members, subscriberCount, isMe, isKickedFromGroup } = headerTitleProps;
 
   const { i18n } = window;
 
@@ -300,13 +282,11 @@ const ConversationHeaderTitle = () => {
   }
 
   const notificationSubtitle = notificationSetting
-    ? window.i18n('notificationSubtitle', notificationSetting)
+    ? window.i18n('notificationSubtitle', [notificationSetting])
     : null;
   const fullTextSubtitle = memberCountText
     ? `${memberCountText} ● ${notificationSubtitle}`
     : `${notificationSubtitle}`;
-
-  const title = profileName || name || conversationKey;
 
   return (
     <div
@@ -320,7 +300,7 @@ const ConversationHeaderTitle = () => {
       }}
       role="button"
     >
-      <span className="module-contact-name__profile-name">{title}</span>
+      <span className="module-contact-name__profile-name">{convoName}</span>
       <StyledSubtitleContainer>
         <ConversationHeaderSubtitle text={fullTextSubtitle} />
       </StyledSubtitleContainer>
@@ -345,8 +325,6 @@ export const ConversationHeaderWithDetails = () => {
   const headerProps = useSelector(getConversationHeaderProps);
 
   const isSelectionMode = useSelector(isMessageSelectionMode);
-  const selectedConversation = useSelector(getSelectedConversation);
-  const memberDetails = useMembersAvatars(selectedConversation);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
 
   const dispatch = useDispatch();
@@ -401,10 +379,6 @@ export const ConversationHeaderWithDetails = () => {
               }}
               pubkey={conversationKey}
               showBackButton={isMessageDetailOpened}
-              avatarPath={avatarPath}
-              memberAvatars={memberDetails}
-              name={name}
-              profileName={profileName}
             />
           </>
         )}

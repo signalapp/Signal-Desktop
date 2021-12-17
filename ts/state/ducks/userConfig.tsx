@@ -7,11 +7,13 @@ import { createSlice } from '@reduxjs/toolkit';
 export interface UserConfigState {
   audioAutoplay: boolean;
   showRecoveryPhrasePrompt: boolean;
+  messageRequests: boolean;
 }
 
 export const initialUserConfigState = {
   audioAutoplay: false,
   showRecoveryPhrasePrompt: true,
+  messageRequests: false,
 };
 
 const userConfigSlice = createSlice({
@@ -24,9 +26,12 @@ const userConfigSlice = createSlice({
     disableRecoveryPhrasePrompt: state => {
       state.showRecoveryPhrasePrompt = false;
     },
+    toggleMessageRequests: state => {
+      state.messageRequests = !state.messageRequests;
+    },
   },
 });
 
 const { actions, reducer } = userConfigSlice;
-export const { toggleAudioAutoplay, disableRecoveryPhrasePrompt } = actions;
+export const { toggleAudioAutoplay, disableRecoveryPhrasePrompt, toggleMessageRequests } = actions;
 export const userConfigReducer = reducer;

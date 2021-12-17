@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { describe } from 'mocha';
 
 import { TestUtils } from '../../../test-utils';
-import * as SNodeAPI from '../../../../../ts/session/snode_api/';
+import * as SNodeAPI from '../../../../session/apis/snode_api';
 
 import chaiAsPromised from 'chai-as-promised';
 import { OnionPaths } from '../../../../session/onions/';
@@ -13,11 +13,11 @@ import {
   NEXT_NODE_NOT_FOUND_PREFIX,
   OXEN_SERVER_ERROR,
   processOnionResponse,
-} from '../../../../session/snode_api/onions';
+} from '../../../../session/apis/snode_api/onions';
 import AbortController from 'abort-controller';
 import * as Data from '../../../../../ts/data/data';
 import { pathFailureCount } from '../../../../session/onions/onionPath';
-import { SeedNodeAPI } from '../../../../session/seed_node_api';
+import { SeedNodeAPI } from '../../../../session/apis/seed_node_api';
 import { generateFakeSnodeWithEdKey } from '../../../test-utils/utils';
 
 chai.use(chaiAsPromised as any);

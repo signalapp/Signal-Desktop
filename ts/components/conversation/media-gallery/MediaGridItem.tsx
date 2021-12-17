@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { isImageTypeSupported, isVideoTypeSupported } from '../../../util/GoogleChrome';
-import { MediaItemType } from '../../LightboxGallery';
 import { useEncryptedFileFetch } from '../../../hooks/useEncryptedFileFetch';
 import { showLightBox } from '../../../state/ducks/conversations';
-import { LightBoxOptions } from '../../session/conversation/SessionConversation';
+import { useDisableDrag } from '../../../hooks/useDisableDrag';
+import { LightBoxOptions } from '../SessionConversation';
+import { MediaItemType } from '../../lightbox/LightboxGallery';
 
 type Props = {
   mediaItem: MediaItemType;
@@ -20,14 +21,11 @@ const MediaGridItemContent = (props: Props) => {
   const urlToDecrypt = mediaItem.thumbnailObjectUrl || '';
   const [imageBroken, setImageBroken] = useState(false);
 
-  const { loading, urlToLoad } = useEncryptedFileFetch(urlToDecrypt, contentType);
+  const { loading, urlToLoad } = useEncryptedFileFetch(urlToDecrypt, contentType, false);
 
-  const onDragStart = useCallback((e: any) => {
-    e.preventDefault();
-    return false;
-  }, []);
   // data will be url if loading is finished and '' if not
   const srcData = !loading ? urlToLoad : '';
+  const disableDrag = useDisableDrag();
 
   const onImageError = () => {
     // tslint:disable-next-line no-console
@@ -57,7 +55,7 @@ const MediaGridItemContent = (props: Props) => {
         className="module-media-grid-item__image"
         src={srcData}
         onError={onImageError}
-        onDragStart={onDragStart}
+        onDragStart={disableDrag}
       />
     );
   } else if (contentType && isVideoTypeSupported(contentType)) {
@@ -79,7 +77,7 @@ const MediaGridItemContent = (props: Props) => {
           className="module-media-grid-item__image"
           src={srcData}
           onError={onImageError}
-          onDragStart={onDragStart}
+          onDragStart={disableDrag}
         />
         <div className="module-media-grid-item__circle-overlay">
           <div className="module-media-grid-item__play-overlay" />

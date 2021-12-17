@@ -27,9 +27,9 @@ import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { updateOpenGroupV2 } from '../../opengroup/opengroupV2/OpenGroupUpdate';
-import { getSwarmPollingInstance } from '../snode_api';
-import { getLatestTimestampOffset } from '../snode_api/SNodeAPI';
+import { updateOpenGroupV2 } from '../apis/open_group_api/opengroupV2/OpenGroupUpdate';
+import { getSwarmPollingInstance } from '../apis/snode_api';
+import { getLatestTimestampOffset } from '../apis/snode_api/SNodeAPI';
 
 export type GroupInfo = {
   id: string;
@@ -53,8 +53,19 @@ export interface GroupDiff extends MemberChanges {
 export interface MemberChanges {
   joiningMembers?: Array<string>;
   leavingMembers?: Array<string>;
+  kickedMembers?: Array<string>;
 }
 
+/**
+ * This function is only called when the local user makes a change to a group.
+ * So this function is not called on group updates from the network, even from another of our devices.
+ *
+ * @param groupId the conversationID
+ * @param groupName the new name (or just pass the old one if nothing changed)
+ * @param members the new members (or just pass the old one if nothing changed)
+ * @param avatar the new avatar (or just pass the old one if nothing changed)
+ * @returns nothing
+ */
 export async function initiateGroupUpdate(
   groupId: string,
   groupName: string,
@@ -75,9 +86,8 @@ export async function initiateGroupUpdate(
 
     return;
   }
-  const isMediumGroup = convo.isMediumGroup();
 
-  if (!isMediumGroup) {
+  if (!convo.isMediumGroup()) {
     throw new Error('Legacy group are not supported anymore.');
   }
 
@@ -107,19 +117,21 @@ export async function initiateGroupUpdate(
   };
 
   if (diff.newName?.length) {
-    const nameOnlyDiff: GroupDiff = { newName: diff.newName };
+    const nameOnlyDiff: GroupDiff = _.pick(diff, 'newName');
+
     const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
-    const joiningOnlyDiff: GroupDiff = { joiningMembers: diff.joiningMembers };
+    const joiningOnlyDiff: GroupDiff = _.pick(diff, 'joiningMembers');
+
     const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
-    const leavingOnlyDiff: GroupDiff = { leavingMembers: diff.leavingMembers };
+    const leavingOnlyDiff: GroupDiff = { kickedMembers: diff.leavingMembers };
     const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
     const stillMembers = members;
     await sendRemovedMembers(
@@ -150,6 +162,10 @@ export async function addUpdateMessage(
 
   if (diff.leavingMembers) {
     groupUpdate.left = diff.leavingMembers;
+  }
+
+  if (diff.kickedMembers) {
+    groupUpdate.kicked = diff.kickedMembers;
   }
 
   const now = Date.now();
@@ -312,7 +328,7 @@ export async function leaveClosedGroup(groupId: string) {
   const diffTimestamp = Date.now() - getLatestTimestampOffset();
 
   const dbMessage = await convo.addSingleMessage({
-    group_update: { left: 'You' },
+    group_update: { left: [source] },
     conversationId: groupId,
     source,
     type: 'outgoing',

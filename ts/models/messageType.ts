@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { v4 as uuidv4 } from 'uuid';
-import { PropsForMessageWithConvoProps } from '../state/ducks/conversations';
+import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 
 export type MessageModelType = 'incoming' | 'outgoing';
@@ -24,7 +24,7 @@ export interface MessageAttributes {
   expires_at?: number;
   recipients: Array<string>;
   type: MessageModelType;
-  group_update?: any;
+  group_update?: MessageGroupUpdate;
   groupInvitation?: any;
   attachments?: any;
   conversationId: string;
@@ -49,7 +49,7 @@ export interface MessageAttributes {
    */
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  dataMessage: any;
+  // dataMessage: any;
   sent_to: any;
   sent: boolean;
 
@@ -109,7 +109,7 @@ export interface MessageAttributes {
    */
   isDeleted?: boolean;
 
-  isMissedCall?: boolean;
+  callNotificationType?: CallNotificationType;
 }
 
 export interface DataExtractionNotificationMsg {
@@ -123,6 +123,13 @@ export type PropsForDataExtractionNotification = DataExtractionNotificationMsg &
   messageId: string;
   receivedAt?: number;
   isUnread: boolean;
+};
+
+export type MessageGroupUpdate = {
+  left?: Array<string>;
+  joined?: Array<string>;
+  kicked?: Array<string>;
+  name?: string;
 };
 
 export interface MessageAttributesOptionals {
@@ -141,7 +148,7 @@ export interface MessageAttributesOptionals {
   expires_at?: number;
   recipients?: Array<string>;
   type: MessageModelType;
-  group_update?: any;
+  group_update?: MessageGroupUpdate;
   groupInvitation?: any;
   attachments?: any;
   contact?: any;
@@ -179,7 +186,7 @@ export interface MessageAttributesOptionals {
   direction?: any;
   messageHash?: string;
   isDeleted?: boolean;
-  isMissedCall?: boolean;
+  callNotificationType?: CallNotificationType;
 }
 
 /**

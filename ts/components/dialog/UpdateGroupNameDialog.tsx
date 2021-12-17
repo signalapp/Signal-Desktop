@@ -1,22 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SessionButton, SessionButtonColor } from '../session/SessionButton';
-import { Avatar, AvatarSize } from '../Avatar';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { SpacerMD } from '../basic/Text';
 import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
 import { ClosedGroup } from '../../session';
+import { SessionWrapperModal } from '../SessionWrapperModal';
+import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 
 type Props = {
   conversationId: string;
 };
 
 interface State {
-  groupName: string;
+  groupName: string | undefined;
   errorDisplayed: boolean;
   errorMessage: string;
   avatar: string | null;
@@ -50,7 +50,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    if (!this.state.groupName.trim()) {
+    if (!this.state.groupName?.trim()) {
       this.onShowError(window.i18n('emptyGroupNameError'));
 
       return;
@@ -76,7 +76,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   public render() {
     const okText = window.i18n('ok');
     const cancelText = window.i18n('cancel');
-    const titleText = window.i18n('updateGroupDialogTitle', this.convo.getName());
+    const titleText = window.i18n('updateGroupDialogTitle', [this.convo.getName() || 'Unknown']);
 
     const errorMsg = this.state.errorMessage;
     const errorMessageClasses = classNames(
@@ -191,7 +191,7 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     return (
       <div className="avatar-center">
         <div className="avatar-center-inner">
-          <Avatar avatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
+          <Avatar forcedAvatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
           <div
             className="image-upload-section"
             role="button"

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   getAddModeratorsModal,
   getAdminLeaveClosedGroupDialog,
+  getBanOrUnbanUserModalState,
   getChangeNickNameDialog,
   getConfirmModal,
   getDeleteAccountModalState,
@@ -30,6 +31,7 @@ import { RemoveModeratorsDialog } from './ModeratorsRemoveDialog';
 import { UpdateGroupMembersDialog } from './UpdateGroupMembersDialog';
 import { UpdateGroupNameDialog } from './UpdateGroupNameDialog';
 import { SessionNicknameDialog } from './SessionNicknameDialog';
+import { BanOrUnBanUserDialog } from './BanOrUnbanUserDialog';
 
 export const ModalContainer = () => {
   const confirmModalState = useSelector(getConfirmModal);
@@ -46,9 +48,11 @@ export const ModalContainer = () => {
   const adminLeaveClosedGroupModalState = useSelector(getAdminLeaveClosedGroupDialog);
   const sessionPasswordModalState = useSelector(getSessionPasswordDialog);
   const deleteAccountModalState = useSelector(getDeleteAccountModalState);
+  const banOrUnbanUserModalState = useSelector(getBanOrUnbanUserModalState);
 
   return (
     <>
+      {banOrUnbanUserModalState && <BanOrUnBanUserDialog {...banOrUnbanUserModalState} />}
       {inviteModalState && <InviteContactsDialog {...inviteModalState} />}
       {addModeratorsModalState && <AddModeratorsDialog {...addModeratorsModalState} />}
       {removeModeratorsModalState && <RemoveModeratorsDialog {...removeModeratorsModalState} />}

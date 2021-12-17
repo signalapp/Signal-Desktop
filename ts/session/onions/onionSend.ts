@@ -5,7 +5,7 @@ import {
   FinalRelayOptions,
   sendOnionRequestHandlingSnodeEject,
   SnodeResponse,
-} from '../snode_api/onions';
+} from '../apis/snode_api/onions';
 import _, { toNumber } from 'lodash';
 import { PROTOCOLS } from '../constants';
 import { toHex } from '../utils/String';

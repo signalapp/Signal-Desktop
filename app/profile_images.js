@@ -1,12 +1,11 @@
 const fs = require('fs');
-const mkdirp = require('mkdirp');
 const path = require('path');
 
 const { app } = require('electron').remote;
 
 const userDataPath = app.getPath('userData');
 const PATH = path.join(userDataPath, 'profileImages');
-mkdirp.sync(PATH);
+fs.mkdirSync(PATH, { recursive: true });
 
 const hasImage = pubKey => fs.existsSync(getImagePath(pubKey));
 

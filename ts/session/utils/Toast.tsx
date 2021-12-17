@@ -1,8 +1,8 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import { SessionIconType } from '../../components/session/icon';
-import { SessionToast, SessionToastType } from '../../components/session/SessionToast';
-import { SessionSettingCategory } from '../../components/session/settings/SessionSettings';
+import { SessionToast, SessionToastType } from '../../components/basic/SessionToast';
+import { SessionIconType } from '../../components/icon';
+import { SessionSettingCategory } from '../../components/settings/SessionSettings';
 import { SectionType, showLeftPaneSection, showSettingsSection } from '../../state/ducks/section';
 
 // if you push a toast manually with toast...() be sure to set the type attribute of the SessionToast component
@@ -24,7 +24,8 @@ export function pushToastInfo(
   id: string,
   title: string,
   description?: string,
-  onToastClick?: () => void
+  onToastClick?: () => void,
+  delay?: number
 ) {
   toast.info(
     <SessionToast
@@ -33,7 +34,7 @@ export function pushToastInfo(
       type={SessionToastType.Info}
       onToastClick={onToastClick}
     />,
-    { toastId: id, updateId: id }
+    { toastId: id, updateId: id, delay }
   );
 }
 
@@ -144,7 +145,7 @@ export function pushedMissedCall(conversationName: string) {
   pushToastInfo(
     'missedCall',
     window.i18n('callMissedTitle'),
-    window.i18n('callMissed', conversationName)
+    window.i18n('callMissed', [conversationName])
   );
 }
 
@@ -158,11 +159,19 @@ export function pushedMissedCallCauseOfPermission(conversationName: string) {
   toast.info(
     <SessionToast
       title={window.i18n('callMissedTitle')}
-      description={window.i18n('callMissedCausePermission', conversationName)}
+      description={window.i18n('callMissedCausePermission', [conversationName])}
       type={SessionToastType.Info}
       onToastClick={openPrivacySettings}
     />,
     { toastId: id, updateId: id, autoClose: 10000 }
+  );
+}
+
+export function pushedMissedCallNotApproved(displayName: string) {
+  pushToastInfo(
+    'missedCall',
+    window.i18n('callMissedTitle'),
+    window.i18n('callMissedNotApproved', [displayName])
   );
 }
 

@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SessionConfirmDialogProps } from '../../components/dialog/SessionConfirm';
 import { PasswordAction } from '../../components/dialog/SessionPasswordDialog';
+export type BanType = 'ban' | 'unban';
 
 export type ConfirmModalState = SessionConfirmDialogProps | null;
 export type InviteContactModalState = { conversationId: string } | null;
+export type BanOrUnbanUserModalState = {
+  conversationId: string;
+  banType: BanType;
+  pubkey?: string;
+} | null;
 export type AddModeratorsModalState = InviteContactModalState;
 export type RemoveModeratorsModalState = InviteContactModalState;
 export type UpdateGroupMembersModalState = InviteContactModalState;
@@ -26,8 +32,9 @@ export type UserDetailsModalState = {
 export type ModalState = {
   confirmModal: ConfirmModalState;
   inviteContactModal: InviteContactModalState;
-  addModeratorsModal: AddModeratorsModalState;
+  banOrUnbanUserModal: BanOrUnbanUserModalState;
   removeModeratorsModal: RemoveModeratorsModalState;
+  addModeratorsModal: AddModeratorsModalState;
   groupNameModal: UpdateGroupNameModalState;
   groupMembersModal: UpdateGroupMembersModalState;
   userDetailsModal: UserDetailsModalState;
@@ -45,6 +52,7 @@ export const initialModalState: ModalState = {
   inviteContactModal: null,
   addModeratorsModal: null,
   removeModeratorsModal: null,
+  banOrUnbanUserModal: null,
   groupNameModal: null,
   groupMembersModal: null,
   userDetailsModal: null,
@@ -66,6 +74,9 @@ const ModalSlice = createSlice({
     },
     updateInviteContactModal(state, action: PayloadAction<InviteContactModalState | null>) {
       return { ...state, inviteContactModal: action.payload };
+    },
+    updateBanOrUnbanUserModal(state, action: PayloadAction<BanOrUnbanUserModalState | null>) {
+      return { ...state, banOrUnbanUserModal: action.payload };
     },
     updateAddModeratorsModal(state, action: PayloadAction<AddModeratorsModalState | null>) {
       return { ...state, addModeratorsModal: action.payload };
@@ -122,5 +133,6 @@ export const {
   adminLeaveClosedGroup,
   sessionPassword,
   updateDeleteAccountModal,
+  updateBanOrUnbanUserModal,
 } = actions;
 export const modalReducer = reducer;

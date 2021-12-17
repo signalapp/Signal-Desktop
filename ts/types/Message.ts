@@ -51,6 +51,6 @@ type MessageSchemaVersion5 = Partial<
 
 export type LokiProfile = {
   displayName: string;
-  avatarPointer: string;
+  avatarPointer?: string;
   profileKey: Uint8Array | null;
 };

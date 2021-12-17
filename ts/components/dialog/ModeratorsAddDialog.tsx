@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../session/SessionButton';
 import { PubKey } from '../../session/types';
 import { ToastUtils } from '../../session/utils';
-import { SessionSpinner } from '../session/SessionSpinner';
 import { Flex } from '../basic/Flex';
-import { ApiV2 } from '../../opengroup/opengroupV2';
-import { SessionWrapperModal } from '../session/SessionWrapperModal';
+import { ApiV2 } from '../../session/apis/open_group_api/opengroupV2';
 import { getConversationController } from '../../session/conversations';
 import { useDispatch } from 'react-redux';
 import { updateAddModeratorsModal } from '../../state/ducks/modalDialog';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionSpinner } from '../basic/SessionSpinner';
+import { SessionWrapperModal } from '../SessionWrapperModal';
 
 type Props = {
   conversationId: string;

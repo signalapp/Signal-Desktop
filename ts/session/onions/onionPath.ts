@@ -1,9 +1,9 @@
 import * as Data from '../../../ts/data/data';
-import * as SnodePool from '../snode_api/snodePool';
+import * as SnodePool from '../apis/snode_api/snodePool';
 import _ from 'lodash';
 import { default as insecureNodeFetch } from 'node-fetch';
 import { UserUtils } from '../utils';
-import { incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../snode_api/onions';
+import { incrementBadSnodeCountOrDrop, snodeHttpsAgent } from '../apis/snode_api/onions';
 import { allowOnlyOneAtATime } from '../utils/Promise';
 import pRetry from 'p-retry';
 
@@ -11,7 +11,7 @@ const desiredGuardCount = 3;
 const minimumGuardCount = 2;
 
 import { updateOnionPaths } from '../../state/ducks/onion';
-import { ERROR_CODE_NO_CONNECT } from '../snode_api/SNodeAPI';
+import { ERROR_CODE_NO_CONNECT } from '../apis/snode_api/SNodeAPI';
 import { getStoragePubKey } from '../types/PubKey';
 
 import { OnionPaths } from './';

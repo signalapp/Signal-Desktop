@@ -1,9 +1,8 @@
 import {} from 'styled-components/cssprop';
 
-import { LocalizerType } from '../types/Util';
+import { LocalizerType } from '../ts/types/Util';
 import { LibsignalProtocol } from '../../libtextsecure/libsignal-protocol';
 import { SignalInterface } from '../../js/modules/signal';
-
 import { LibTextsecure } from '../libtextsecure';
 
 import { Store } from 'redux';
@@ -43,6 +42,7 @@ declare global {
     log: any;
     lokiFeatureFlags: {
       useOnionRequests: boolean;
+      useMessageRequests: boolean;
       useCallMessage: boolean;
     };
     lokiSnodeAPI: LokiSnodeAPI;

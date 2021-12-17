@@ -16,8 +16,6 @@
   ],
   "updatesEnabled": false,
   "openDevTools": false,
-  "buildExpiration": 0,
   "commitHash": "",
-  "import": false,
-  "serverTrustRoot": "BbqY1DzohE4NUZoVF+L18oUPrK3kILllLEJh2UnPSsEx"
+  "import": false
 }

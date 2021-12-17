@@ -3,8 +3,6 @@ import { queueAttachmentDownloads } from './attachments';
 import { Quote } from './types';
 import { PubKey } from '../session/types';
 import _ from 'lodash';
-import { SignalService } from '../protobuf';
-import { UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { MessageModel } from '../models/message';
@@ -12,71 +10,6 @@ import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
-
-async function handleGroups(
-  conversation: ConversationModel,
-  group: any,
-  source: any
-): Promise<any> {
-  const GROUP_TYPES = SignalService.GroupContext.Type;
-
-  let groupUpdate = null;
-
-  // conversation attributes
-  const attributes: any = {
-    type: 'group',
-    groupId: group.id,
-    ...conversation.attributes,
-  };
-
-  const oldMembers = conversation.get('members');
-
-  if (group.type === GROUP_TYPES.UPDATE) {
-    attributes.name = group.name;
-    attributes.members = group.members;
-
-    groupUpdate = conversation.changedAttributes(_.pick(group, 'name', 'avatar')) || {};
-
-    const addedMembers = _.difference(attributes.members, oldMembers);
-    if (addedMembers.length > 0) {
-      groupUpdate.joined = addedMembers;
-    }
-    if (conversation.get('left')) {
-      // TODO: Maybe we shouldn't assume this message adds us:
-      // we could maybe still get this message by mistake
-      window?.log?.warn('re-added to a left group');
-      attributes.left = false;
-    }
-
-    if (attributes.isKickedFromGroup) {
-      // Assume somebody re-invited us since we received this update
-      attributes.isKickedFromGroup = false;
-    }
-
-    // Check if anyone got kicked:
-    const removedMembers = _.difference(oldMembers, attributes.members);
-    const ourDeviceWasRemoved = removedMembers.some(member => UserUtils.isUsFromCache(member));
-
-    if (ourDeviceWasRemoved) {
-      groupUpdate.kicked = 'You';
-      attributes.isKickedFromGroup = true;
-    } else if (removedMembers.length) {
-      groupUpdate.kicked = removedMembers;
-    }
-  } else if (group.type === GROUP_TYPES.QUIT) {
-    if (UserUtils.isUsFromCache(source)) {
-      attributes.left = true;
-      groupUpdate = { left: 'You' };
-    } else {
-      groupUpdate = { left: source };
-    }
-    attributes.members = _.without(oldMembers, source);
-  }
-
-  conversation.set(attributes);
-
-  return groupUpdate;
-}
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -271,15 +204,6 @@ async function handleRegularMessage(
 
   const now = Date.now();
 
-  // Medium groups might have `group` set even if with group chat messages...
-  if (dataMessage.group && !conversation.isMediumGroup()) {
-    // This is not necessarily a group update message, it could also be a regular group message
-    const groupUpdate = await handleGroups(conversation, dataMessage.group, source);
-    if (groupUpdate !== null) {
-      message.set({ group_update: groupUpdate });
-    }
-  }
-
   if (dataMessage.openGroupInvitation) {
     message.set({ groupInvitation: dataMessage.openGroupInvitation });
   }
@@ -319,6 +243,11 @@ async function handleRegularMessage(
 
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
+
+    if (window.lokiFeatureFlags.useMessageRequests) {
+      // assumes sync receipts are always from linked device outgoings
+      await conversation.setIsApproved(true);
+    }
   }
 
   const conversationActiveAt = conversation.get('active_at');
@@ -469,7 +398,7 @@ export async function handleMessageJob(
       conversationKey: conversation.id,
       messageModelProps: message.getMessageModelProps(),
     });
-    trotthledAllMessagesAddedDispatch();
+    throttledAllMessagesAddedDispatch();
     if (message.get('unread')) {
       conversation.throttledNotify(message);
     }
@@ -485,7 +414,7 @@ export async function handleMessageJob(
   }
 }
 
-const trotthledAllMessagesAddedDispatch = _.throttle(() => {
+const throttledAllMessagesAddedDispatch = _.throttle(() => {
   if (updatesToDispatch.size === 0) {
     return;
   }

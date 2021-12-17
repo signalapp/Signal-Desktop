@@ -841,10 +841,10 @@
   dependencies:
     "@types/integer" "*"
 
-"@types/blueimp-load-image@^2.23.8":
-  version "2.23.8"
-  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-2.23.8.tgz#0d10f12bf57f050aceac06dcc76390ae759c979a"
-  integrity sha512-dy98N4odO9L1zgo2a6yVHRRYUeYRJfl0hg3dcapyxqNq5KF8Zgz5lFWgDMOsMC06VAs0mnVKDRJE4+U/A5Km3A==
+"@types/blueimp-load-image@5.14.4":
+  version "5.14.4"
+  resolved "https://registry.yarnpkg.com/@types/blueimp-load-image/-/blueimp-load-image-5.14.4.tgz#14a438e88b814b4ede9c79e3b2e68324bd591327"
+  integrity sha512-IoT8BXBuuWWscQnscGtAYH4dGEOr3uQ85MJdE9LAfperio8FQwyFaigHITPJSy+NSS4w9UHKhzmtQXt5A+544g==
 
 "@types/buffer-crc32@^0.2.0":
   version "0.2.0"
@@ -1095,13 +1095,6 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
-
-"@types/mkdirp@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-0.5.2.tgz#503aacfe5cc2703d5484326b1b27efa67a339c1f"
-  integrity sha512-U5icWpv7YnZYGsN4/cmh3WD2onMY0aJIiTE6+51TwJCttdHvtCYmkBNOobHlXwrJRL0nkH9jH4kD+1FAdMN4Tg==
-  dependencies:
-    "@types/node" "*"
 
 "@types/mocha@5.0.0":
   version "5.0.0"
@@ -2180,9 +2173,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-"better-sqlite3@https://github.com/signalapp/better-sqlite3#2fa02d2484e9f9a10df5ac7ea4617fb2dff30006":
+"better-sqlite3@https://github.com/signalapp/better-sqlite3#ad0db5dd09c0ea4007b1c46bd4f7273827803347":
   version "7.1.4"
-  resolved "https://github.com/signalapp/better-sqlite3#2fa02d2484e9f9a10df5ac7ea4617fb2dff30006"
+  resolved "https://github.com/signalapp/better-sqlite3#ad0db5dd09c0ea4007b1c46bd4f7273827803347"
   dependencies:
     bindings "^1.5.0"
     tar "^6.1.0"
@@ -2261,10 +2254,10 @@ blueimp-canvas-to-blob@3.14.0:
   resolved "https://registry.yarnpkg.com/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.14.0.tgz#ea075ffbfb1436607b0c75e951fb1ceb3ca0288e"
   integrity sha512-i6I2CiX1VR8YwUNYBo+dM8tg89ns4TTHxSpWjaDeHKcYS3yFalpLCwDaY21/EsJMufLy2tnG4j0JN5L8OVNkKQ==
 
-blueimp-load-image@2.18.0:
-  version "2.18.0"
-  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-2.18.0.tgz#03b93687eb382a7136cfbcbd4f0e936b6763fc0e"
-  integrity sha512-GUrxVE/7FpzAw/WU6GMiI3v+LpFmlAxp7sF36EQB8rGAg97ND8iTeYZ3FQbhsxS5s2dNarGKZEWhKPNKKSmMuA==
+blueimp-load-image@5.14.0:
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/blueimp-load-image/-/blueimp-load-image-5.14.0.tgz#e8086415e580df802c33ff0da6b37a8d20205cc6"
+  integrity sha512-g5l+4dCOESBG8HkPLdGnBx8dhEwpQHaOZ0en623sl54o3bGhGMLYGc54L5cWfGmPvfKUjbsY7LOAmcW/xlkBSA==
 
 body-parser@1.19.0:
   version "1.19.0"

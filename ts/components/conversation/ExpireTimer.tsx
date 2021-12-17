@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { getTimerBucketIcon } from '../../util/timer';
 import { useInterval } from '../../hooks/useInterval';
 import styled from 'styled-components';
-import { SessionIcon } from '../session/icon';
+import { SessionIcon } from '../icon/SessionIcon';
 
 type Props = {
   expirationLength: number;
@@ -64,7 +64,7 @@ export const ExpireTimer = (props: Props) => {
 
   return (
     <ExpireTimerBucket>
-      <SessionIcon iconType={bucket} iconSize={'tiny'} iconColor={expireTimerColor} />
+      <SessionIcon iconType={bucket} iconSize="tiny" iconColor={expireTimerColor} />
     </ExpireTimerBucket>
   );
 };
