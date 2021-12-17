@@ -1,6 +1,5 @@
 import {
   createOrUpdateItem,
-  getAllConversations,
   getItemById,
   getLatestClosedGroupEncryptionKeyPair,
 } from '../../../ts/data/data';
