@@ -21,7 +21,6 @@ export type ConfigKeyType =
   | 'desktop.messageRequests'
   | 'desktop.retryReceiptLifespan'
   | 'desktop.retryRespondMaxAge'
-  | 'desktop.screensharing2'
   | 'desktop.senderKey.send'
   | 'desktop.senderKey.retry'
   | 'desktop.sendSenderKey3'
