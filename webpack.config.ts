@@ -28,7 +28,6 @@ const csp = `
 const stickerCreatorConfig: Configuration = {
   context,
   mode: mode as Configuration['mode'],
-  devtool: 'source-map',
   entry: [
     'react-hot-loader/patch',
     'sanitize.css',
