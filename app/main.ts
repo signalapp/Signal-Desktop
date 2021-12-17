@@ -2138,6 +2138,10 @@ ipc.handle('getScreenCaptureSources', async () => {
 
 if (isTestEnvironment(getEnvironment())) {
   ipc.handle('ci:test-electron:done', async (_event, info) => {
+    if (!process.env.TEST_QUIT_ON_COMPLETE) {
+      return;
+    }
+
     process.stdout.write(
       `ci:test-electron:done=${JSON.stringify(info)}\n`,
       () => app.quit()

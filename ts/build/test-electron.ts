@@ -19,6 +19,7 @@ const stdout = execFileSync(ELECTRON, [ROOT_DIR], {
   env: {
     ...process.env,
     NODE_ENV: 'test',
+    TEST_QUIT_ON_COMPLETE: 'on',
   },
   encoding: 'utf8',
 });
