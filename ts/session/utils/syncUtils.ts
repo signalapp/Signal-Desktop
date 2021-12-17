@@ -50,8 +50,7 @@ export const syncConfigurationIfNeeded = async () => {
     return;
   }
 
-  const allConvoCollection = await getAllConversations();
-  const allConvos = allConvoCollection.models;
+  const allConvos = getConversationController().getConversations();
 
   const configMessage = await getCurrentConfigurationMessage(allConvos);
   try {
