@@ -108,15 +108,14 @@ export const SessionWrapperModal = (props: SessionWrapperModalType) => {
               {props.children}
 
               <div className="session-modal__button-group">
-                {onConfirm ? (
-                  <SessionButton onClick={props.onConfirm}>
-                    {confirmText || window.i18n('ok')}
-                  </SessionButton>
-                ) : null}
-
                 {onClose && showClose ? (
                   <SessionButton onClick={props.onClose}>
                     {cancelText || window.i18n('close')}
+                  </SessionButton>
+                ) : null}
+                {onConfirm ? (
+                  <SessionButton onClick={props.onConfirm}>
+                    {confirmText || window.i18n('ok')}
                   </SessionButton>
                 ) : null}
               </div>

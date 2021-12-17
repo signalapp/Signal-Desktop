@@ -71,9 +71,8 @@ const Password = (props: PasswordProps) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={i18n('ok')} onClick={confirmPassword} />
-
         <SessionButton text={i18n('cancel')} onClick={onClose} />
+        <SessionButton text={i18n('ok')} onClick={confirmPassword} />
       </div>
     </>
   );
