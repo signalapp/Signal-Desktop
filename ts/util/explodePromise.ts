@@ -1,11 +1,13 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export function explodePromise<T>(): {
+export type ExplodePromiseResultType<T> = Readonly<{
   promise: Promise<T>;
   resolve: (value: T) => void;
   reject: (error: Error) => void;
-} {
+}>;
+
+export function explodePromise<T>(): ExplodePromiseResultType<T> {
   let resolve: (value: T) => void;
   let reject: (error: Error) => void;
 
