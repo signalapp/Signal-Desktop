@@ -316,6 +316,9 @@ export class SessionRecording extends React.Component<Props, State> {
    */
   private updateAudioElementAndDuration() {
     // init audio element
+    if (!this.audioBlobMp3) {
+      return;
+    }
     const audioURL = window.URL.createObjectURL(this.audioBlobMp3);
     this.audioElement = new Audio(audioURL);
 
