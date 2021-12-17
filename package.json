@@ -333,7 +333,8 @@
           "target": "dmg",
           "arch": [
             "x64",
-            "arm64"
+            "arm64",
+            "universal"
           ]
         }
       ],
@@ -398,6 +399,7 @@
       ]
     },
     "beforeBuild": "scripts/install-cross-deps.js",
+    "afterPack": "ts/scripts/merge-macos-asars.js",
     "asarUnpack": [
       "ts/workers/heicConverter.bundle.js",
       "ts/sql/mainWorker.bundle.js",

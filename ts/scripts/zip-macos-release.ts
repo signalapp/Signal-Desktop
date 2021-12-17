@@ -7,7 +7,7 @@ import rimraf from 'rimraf';
 import { execSync } from 'child_process';
 import packageJSON from '../../package.json';
 
-export function zipMacOSRelease(): void {
+function zipMacOSRelease(): void {
   if (process.platform !== 'darwin') {
     return;
   }
@@ -82,3 +82,5 @@ export function zipMacOSRelease(): void {
 
   console.log('zip-macos-release is done');
 }
+
+zipMacOSRelease();
