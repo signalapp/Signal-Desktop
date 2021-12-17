@@ -493,21 +493,19 @@ storiesOf('Components/Conversation/TimelineItem', module)
     );
   })
   .add('Unknown Type', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: intentional
     const item = {
       type: 'random',
       data: {
         somethin: 'somethin',
       },
-    } as TimelineItemProps['item'];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any as TimelineItemProps['item'];
 
     return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
   })
   .add('Missing Item', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: intentional
-    const item = null as TimelineItemProps['item'];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const item = null as any as TimelineItemProps['item'];
 
     return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
   });

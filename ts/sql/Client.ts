@@ -581,9 +581,7 @@ function makeChannel(fnName: string) {
 
       try {
         // Ignoring this error TS2556: Expected 3 arguments, but got 0 or more.
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return await Server[serverFnName](...args);
+        return await (Server[serverFnName] as Function)(...args);
       } catch (error) {
         if (isCorruptionError(error)) {
           log.error(

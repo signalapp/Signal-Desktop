@@ -442,9 +442,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.offsetFromBottom = undefined;
     this.resizeFlag = false;
     if (isNumber(row) && row > 0) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.cellSizeCache.clearPlus(row, 0);
+      // This is a private interface we want to use.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (this.cellSizeCache as any).clearPlus(row, 0);
     } else {
       this.cellSizeCache.clearAll();
     }
@@ -1010,14 +1010,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
   public override componentDidMount(): void {
     this.updateWithVisibleRows();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     window.registerForActive(this.updateWithVisibleRows);
   }
 
   public override componentWillUnmount(): void {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     window.unregisterForActive(this.updateWithVisibleRows);
   }
 

@@ -165,11 +165,6 @@ export class ConversationModel extends window.Backbone
 
   debouncedUpdateLastMessage?: () => void;
 
-  // backbone ensures this exists
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  id: string;
-
   initialPromise?: Promise<unknown>;
 
   inProgressFetch?: Promise<unknown>;
@@ -3303,10 +3298,6 @@ export class ConversationModel extends window.Backbone
         this.get('e164')!,
         regionCode
       );
-      // TODO: DESKTOP-723
-      // This is valid, but the typing thinks it's a function.
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       if (number.isValidNumber) {
         this.set({ e164: number.e164 });
         return null;

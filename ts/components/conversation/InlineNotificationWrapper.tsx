@@ -22,8 +22,6 @@ export class InlineNotificationWrapper extends React.Component<PropsType> {
   };
 
   public handleFocus = (): void => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     if (window.getInteractionMode() === 'keyboard') {
       this.setSelected();
     }
