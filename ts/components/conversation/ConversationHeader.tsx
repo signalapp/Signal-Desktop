@@ -206,7 +206,13 @@ const CallButton = () => {
   const hasOngoingCall = useSelector(getHasOngoingCall);
   const canCall = !(hasIncomingCall || hasOngoingCall);
 
-  if (!isPrivate || isMe || !selectedConvoKey || isBlocked) {
+  if (
+    !isPrivate ||
+    isMe ||
+    !selectedConvoKey ||
+    isBlocked ||
+    !window.lokiFeatureFlags.useCallMessage
+  ) {
     return null;
   }
 
