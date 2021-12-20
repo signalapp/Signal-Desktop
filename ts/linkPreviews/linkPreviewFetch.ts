@@ -283,14 +283,12 @@ const parseHtmlBytes = (
 
 const getHtmlDocument = async (
   body: AsyncIterable<string | Uint8Array>,
-  contentLength: number,
   httpCharset: string | null,
   abortSignal: AbortSignal
 ): Promise<HTMLDocument> => {
   let result: HTMLDocument = emptyHtmlDocument();
 
-  const maxHtmlBytesToLoad = Math.min(contentLength, MAX_HTML_BYTES_TO_LOAD);
-  const buffer = new Uint8Array(maxHtmlBytesToLoad);
+  const buffer = new Uint8Array(MAX_HTML_BYTES_TO_LOAD);
   let bytesLoadedSoFar = 0;
 
   try {
@@ -307,16 +305,13 @@ const getHtmlDocument = async (
         chunk = Buffer.from(chunk, httpCharset || 'utf8');
       }
 
-      const truncatedChunk = chunk.slice(
-        0,
-        maxHtmlBytesToLoad - bytesLoadedSoFar
-      );
+      const truncatedChunk = chunk.slice(0, buffer.length - bytesLoadedSoFar);
       buffer.set(truncatedChunk, bytesLoadedSoFar);
       bytesLoadedSoFar += truncatedChunk.byteLength;
 
       result = parseHtmlBytes(buffer.slice(0, bytesLoadedSoFar), httpCharset);
 
-      const hasLoadedMaxBytes = bytesLoadedSoFar >= maxHtmlBytesToLoad;
+      const hasLoadedMaxBytes = bytesLoadedSoFar >= buffer.length;
       if (hasLoadedMaxBytes) {
         break;
       }
@@ -495,7 +490,6 @@ export async function fetchLinkPreviewMetadata(
 
   const document = await getHtmlDocument(
     response.body,
-    contentLength,
     contentType.charset,
     abortSignal
   );
