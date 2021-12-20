@@ -155,11 +155,11 @@ export const getPinConversationMenuItem = (conversationId: string): JSX.Element 
 
   if (isMessagesSection) {
     const conversation = getConversationController().get(conversationId);
-    const isPinned = conversation.isPinned();
+    const isPinned = conversation?.isPinned() || false;
 
     const togglePinConversation = async () => {
       if ((!isPinned && nbOfAlreadyPinnedConvos < maxNumberOfPinnedConversations) || isPinned) {
-        await conversation.setIsPinned(!isPinned);
+        await conversation?.setIsPinned(!isPinned);
       } else {
         ToastUtils.pushToastWarning(
           'pinConversationLimitToast',

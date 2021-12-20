@@ -11,7 +11,8 @@ import { ContextConversationId } from './ConversationListItem';
 import { UserItem } from './UserItem';
 
 const NotificationSettingIcon = (props: { isMessagesSection: boolean }) => {
-  const convoSetting = useSelector(useConversationPropsById)?.currentNotificationSetting;
+  const convoId = useContext(ContextConversationId);
+  const convoSetting = useConversationPropsById(convoId)?.currentNotificationSetting;
 
   if (!props.isMessagesSection) {
     return null;
