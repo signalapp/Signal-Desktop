@@ -2181,7 +2181,7 @@ async function getUnreadReactionsAndMarkRead({
         UPDATE reactions SET
         unread = 0 WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
         `
-      ).run(idsToUpdate);
+      ).run(ids);
     });
 
     return unreadMessages;
