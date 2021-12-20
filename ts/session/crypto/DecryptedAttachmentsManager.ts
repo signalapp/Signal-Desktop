@@ -84,31 +84,39 @@ export const getDecryptedMediaUrl = async (
       urlToDecryptingPromise.set(
         url,
         new Promise(async resolve => {
-          const encryptedFileContent = await fse.readFile(url);
-          const decryptedContent = await decryptAttachmentBuffer(
-            toArrayBuffer(encryptedFileContent)
-          );
-          if (decryptedContent?.length) {
-            const arrayBuffer = decryptedContent.buffer;
-            const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
-            const obj = makeObjectUrl(arrayBuffer, contentType);
+          window.log.info('about to read and decrypt file :', url);
+          try {
+            const encryptedFileContent = await fse.readFile(url);
+            const decryptedContent = await decryptAttachmentBuffer(
+              toArrayBuffer(encryptedFileContent)
+            );
+            if (decryptedContent?.length) {
+              const arrayBuffer = decryptedContent.buffer;
+              const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
+              const obj = makeObjectUrl(arrayBuffer, contentType);
 
-            if (!urlToDecryptedBlobMap.has(url)) {
-              urlToDecryptedBlobMap.set(url, {
-                decrypted: obj,
-                lastAccessTimestamp: Date.now(),
-                forceRetain: isAvatar,
-              });
+              if (!urlToDecryptedBlobMap.has(url)) {
+                urlToDecryptedBlobMap.set(url, {
+                  decrypted: obj,
+                  lastAccessTimestamp: Date.now(),
+                  forceRetain: isAvatar,
+                });
+              }
+              window.log.info(' file decrypted :', url);
+              urlToDecryptingPromise.delete(url);
+              resolve(obj);
+              return;
+            } else {
+              // failed to decrypt, fallback to url image loading
+              // it might be a media we received before the update encrypting attachments locally.
+              urlToDecryptingPromise.delete(url);
+              window.log.info('error decrypting file :', url);
+              resolve(url);
+
+              return;
             }
-            urlToDecryptingPromise.delete(url);
-            resolve(obj);
-            return;
-          } else {
-            // failed to decrypt, fallback to url image loading
-            // it might be a media we received before the update encrypting attachments locally.
-            urlToDecryptingPromise.delete(url);
-            resolve(url);
-            return;
+          } catch (e) {
+            window.log.warn(e);
           }
         })
       );
