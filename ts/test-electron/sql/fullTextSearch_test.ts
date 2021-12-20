@@ -31,6 +31,7 @@ describe('sql/fullTextSearch', () => {
 
     const now = Date.now();
     const conversationId = getUuid();
+    const ourUuid = getUuid();
     const message1: MessageAttributesType = {
       id: getUuid(),
       body: 'message 1 - generic string',
@@ -59,7 +60,10 @@ describe('sql/fullTextSearch', () => {
       timestamp: now,
     };
 
-    await saveMessages([message1, message2, message3], { forceSave: true });
+    await saveMessages([message1, message2, message3], {
+      forceSave: true,
+      ourUuid,
+    });
 
     assert.lengthOf(await _getAllMessages(), 3);
 
@@ -68,7 +72,7 @@ describe('sql/fullTextSearch', () => {
     assert.strictEqual(searchResults[0].id, message2.id);
 
     message3.body = 'message 3 - unique string';
-    await saveMessage(message3);
+    await saveMessage(message3, { ourUuid });
 
     const searchResults2 = await searchMessages('unique');
     assert.lengthOf(searchResults2, 2);
@@ -81,6 +85,7 @@ describe('sql/fullTextSearch', () => {
 
     const now = Date.now();
     const conversationId = getUuid();
+    const ourUuid = getUuid();
     const message1: MessageAttributesType = {
       id: getUuid(),
       body: 'message 1 - unique string',
@@ -111,7 +116,10 @@ describe('sql/fullTextSearch', () => {
       isViewOnce: true,
     };
 
-    await saveMessages([message1, message2, message3], { forceSave: true });
+    await saveMessages([message1, message2, message3], {
+      forceSave: true,
+      ourUuid,
+    });
 
     assert.lengthOf(await _getAllMessages(), 3);
 
@@ -120,7 +128,7 @@ describe('sql/fullTextSearch', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3);
+    await saveMessage(message3, { ourUuid });
 
     const searchResults2 = await searchMessages('unique');
     assert.lengthOf(searchResults2, 1);
@@ -132,6 +140,7 @@ describe('sql/fullTextSearch', () => {
 
     const now = Date.now();
     const conversationId = getUuid();
+    const ourUuid = getUuid();
     const message1: MessageAttributesType = {
       id: getUuid(),
       body: 'message 1 - unique string',
@@ -162,7 +171,10 @@ describe('sql/fullTextSearch', () => {
       storyId: getUuid(),
     };
 
-    await saveMessages([message1, message2, message3], { forceSave: true });
+    await saveMessages([message1, message2, message3], {
+      forceSave: true,
+      ourUuid,
+    });
 
     assert.lengthOf(await _getAllMessages(), 3);
 
@@ -171,7 +183,7 @@ describe('sql/fullTextSearch', () => {
     assert.strictEqual(searchResults[0].id, message1.id);
 
     message1.body = 'message 3 - unique string';
-    await saveMessage(message3);
+    await saveMessage(message3, { ourUuid });
 
     const searchResults2 = await searchMessages('unique');
     assert.lengthOf(searchResults2, 1);

@@ -1622,6 +1622,7 @@ export class ConversationModel extends window.Backbone
     if (eliminated > 0) {
       log.warn(`cleanModels: Eliminated ${eliminated} messages without an id`);
     }
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
 
     let upgraded = 0;
     for (let max = result.length, i = 0; i < max; i += 1) {
@@ -1635,7 +1636,7 @@ export class ConversationModel extends window.Backbone
         const upgradedMessage = await upgradeMessageSchema(attributes);
         message.set(upgradedMessage);
         // eslint-disable-next-line no-await-in-loop
-        await window.Signal.Data.saveMessage(upgradedMessage);
+        await window.Signal.Data.saveMessage(upgradedMessage, { ourUuid });
         upgraded += 1;
       }
     }
@@ -1950,6 +1951,7 @@ export class ConversationModel extends window.Backbone
     options: { isLocalAction?: boolean } = {}
   ): Promise<void> {
     const { isLocalAction } = options;
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
 
     let messages: Array<MessageAttributesType> | undefined;
     do {
@@ -1991,7 +1993,9 @@ export class ConversationModel extends window.Backbone
           const registered = window.MessageController.register(m.id, m);
           const shouldSave = await registered.queueAttachmentDownloads();
           if (shouldSave) {
-            await window.Signal.Data.saveMessage(registered.attributes);
+            await window.Signal.Data.saveMessage(registered.attributes, {
+              ourUuid,
+            });
           }
         })
       );
@@ -2838,7 +2842,9 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2878,7 +2884,9 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2914,7 +2922,9 @@ export class ConversationModel extends window.Backbone
       // this type does not fully implement the interface it is expected to
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -2970,7 +2980,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -3030,7 +3042,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -3090,7 +3104,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType;
 
-    const id = await window.Signal.Data.saveMessage(message);
+    const id = await window.Signal.Data.saveMessage(message, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
     const model = window.MessageController.register(
       id,
       new window.Whisper.Message({
@@ -3131,7 +3147,10 @@ export class ConversationModel extends window.Backbone
 
     const id = await window.Signal.Data.saveMessage(
       // TODO: DESKTOP-722
-      message as MessageAttributesType
+      message as MessageAttributesType,
+      {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      }
     );
     const model = window.MessageController.register(
       id,
@@ -3948,6 +3967,7 @@ export class ConversationModel extends window.Backbone
         await window.Signal.Data.saveMessage(message.attributes, {
           jobToInsert,
           forceSave: true,
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
         });
       }
     );
@@ -4388,7 +4408,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType);
 
-    const id = await window.Signal.Data.saveMessage(model.attributes);
+    const id = await window.Signal.Data.saveMessage(model.attributes, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
 
     model.set({ id });
 
@@ -4484,7 +4506,9 @@ export class ConversationModel extends window.Backbone
       // TODO: DESKTOP-722
     } as unknown as MessageAttributesType);
 
-    const id = await window.Signal.Data.saveMessage(model.attributes);
+    const id = await window.Signal.Data.saveMessage(model.attributes, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
 
     model.set({ id });
 
@@ -4519,7 +4543,9 @@ export class ConversationModel extends window.Backbone
         // TODO: DESKTOP-722
       } as unknown as MessageAttributesType);
 
-      const id = await window.Signal.Data.saveMessage(model.attributes);
+      const id = await window.Signal.Data.saveMessage(model.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
       model.set({ id });
 
       const message = window.MessageController.register(model.id, model);

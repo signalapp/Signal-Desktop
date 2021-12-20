@@ -1688,20 +1688,7 @@ function hasUserInitiatedMessages(conversationId: string): boolean {
           SELECT 1 FROM messages
           WHERE
             conversationId = $conversationId AND
-            (type IS NULL
-              OR
-              type NOT IN (
-                'change-number-notification',
-                'group-v1-migration',
-                'group-v2-change',
-                'keychange',
-                'message-history-unsynced',
-                'profile-change',
-                'story',
-                'universal-timer-notification',
-                'verified-change'
-              )
-            )
+            isUserInitiatedMessage = 1
           LIMIT 1
         );
       `
@@ -1714,17 +1701,19 @@ function hasUserInitiatedMessages(conversationId: string): boolean {
 function saveMessageSync(
   data: MessageType,
   options: {
-    jobToInsert?: StoredJob;
-    forceSave?: boolean;
     alreadyInTransaction?: boolean;
     db?: Database;
-  } = {}
+    forceSave?: boolean;
+    jobToInsert?: StoredJob;
+    ourUuid: UUIDStringType;
+  }
 ): string {
   const {
-    jobToInsert,
-    forceSave,
     alreadyInTransaction,
     db = getInstance(),
+    forceSave,
+    jobToInsert,
+    ourUuid,
   } = options;
 
   if (!alreadyInTransaction) {
@@ -1741,6 +1730,7 @@ function saveMessageSync(
   const {
     body,
     conversationId,
+    groupV2Change,
     hasAttachments,
     hasFileAttachments,
     hasVisualMediaAttachments,
@@ -1772,6 +1762,7 @@ function saveMessageSync(
     hasAttachments: hasAttachments ? 1 : 0,
     hasFileAttachments: hasFileAttachments ? 1 : 0,
     hasVisualMediaAttachments: hasVisualMediaAttachments ? 1 : 0,
+    isChangeCreatedByUs: groupV2Change?.from === ourUuid ? 1 : 0,
     isErased: isErased ? 1 : 0,
     isViewOnce: isViewOnce ? 1 : 0,
     received_at: received_at || null,
@@ -1801,6 +1792,7 @@ function saveMessageSync(
         hasAttachments = $hasAttachments,
         hasFileAttachments = $hasFileAttachments,
         hasVisualMediaAttachments = $hasVisualMediaAttachments,
+        isChangeCreatedByUs = $isChangeCreatedByUs,
         isErased = $isErased,
         isViewOnce = $isViewOnce,
         received_at = $received_at,
@@ -1843,6 +1835,7 @@ function saveMessageSync(
       hasAttachments,
       hasFileAttachments,
       hasVisualMediaAttachments,
+      isChangeCreatedByUs,
       isErased,
       isViewOnce,
       received_at,
@@ -1866,6 +1859,7 @@ function saveMessageSync(
       $hasAttachments,
       $hasFileAttachments,
       $hasVisualMediaAttachments,
+      $isChangeCreatedByUs,
       $isErased,
       $isViewOnce,
       $received_at,
@@ -1895,10 +1889,11 @@ function saveMessageSync(
 
 async function saveMessage(
   data: MessageType,
-  options?: {
+  options: {
     jobToInsert?: StoredJob;
     forceSave?: boolean;
     alreadyInTransaction?: boolean;
+    ourUuid: UUIDStringType;
   }
 ): Promise<string> {
   return saveMessageSync(data, options);
@@ -1906,15 +1901,14 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  options?: { forceSave?: boolean }
+  options: { forceSave?: boolean; ourUuid: UUIDStringType }
 ): Promise<void> {
   const db = getInstance();
-  const { forceSave } = options || {};
 
   db.transaction(() => {
     for (const message of arrayOfMessages) {
       assertSync(
-        saveMessageSync(message, { forceSave, alreadyInTransaction: true })
+        saveMessageSync(message, { ...options, alreadyInTransaction: true })
       );
     }
   })();
@@ -2070,7 +2064,7 @@ async function getUnreadByConversationAndMarkRead({
           expirationStartTimestamp IS NULL OR
           expirationStartTimestamp > $expirationStartTimestamp
         ) AND
-        expireTimer IS NOT NULL AND
+        expireTimer > 0 AND
         conversationId = $conversationId AND
         storyId IS $storyId AND
         received_at <= $newestUnreadAt;
@@ -2161,7 +2155,7 @@ async function getUnreadReactionsAndMarkRead({
         FROM reactions
         JOIN messages on messages.id IS reactions.messageId
         WHERE
-          unread IS NOT 0 AND
+          unread > 0 AND
           messages.conversationId IS $conversationId AND
           messages.received_at <= $newestUnreadAt AND
           messages.storyId IS $storyId
@@ -2504,31 +2498,9 @@ function getLastConversationActivity({
       SELECT json FROM messages
       WHERE
         conversationId = $conversationId AND
-        (type IS NULL
-          OR
-          type NOT IN (
-            'change-number-notification',
-            'group-v1-migration',
-            'keychange',
-            'message-history-unsynced',
-            'profile-change',
-            'story',
-            'universal-timer-notification',
-            'verified-change'
-          )
-        ) AND
-        (
-          json_extract(json, '$.expirationTimerUpdate.fromSync') IS NULL
-          OR
-          json_extract(json, '$.expirationTimerUpdate.fromSync') != 1
-        ) AND NOT
-        (
-          type IS 'group-v2-change' AND
-          json_extract(json, '$.groupV2Change.from') IS NOT $ourUuid AND
-          json_extract(json, '$.groupV2Change.details.length') IS 1 AND
-          json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
-          json_extract(json, '$.groupV2Change.details[0].uuid') IS NOT $ourUuid
-        )
+        shouldAffectActivity IS 1 AND
+        isTimerChangeFromSync IS 0 AND
+        isGroupLeaveEventFromOther IS 0
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;
       `
@@ -2557,29 +2529,12 @@ function getLastConversationPreview({
       SELECT json FROM messages
       WHERE
         conversationId = $conversationId AND
+        shouldAffectPreview IS 1 AND
+        isGroupLeaveEventFromOther IS 0 AND
         (
-          expiresAt IS NULL OR
-          (expiresAt > $now)
-        ) AND
-        (
-          type IS NULL
+          expiresAt IS NULL
           OR
-          type NOT IN (
-            'change-number-notification',
-            'group-v1-migration',
-            'message-history-unsynced',
-            'profile-change',
-            'story',
-            'universal-timer-notification',
-            'verified-change'
-          )
-        ) AND NOT
-        (
-          type IS 'group-v2-change' AND
-          json_extract(json, '$.groupV2Change.from') IS NOT $ourUuid AND
-          json_extract(json, '$.groupV2Change.details.length') IS 1 AND
-          json_extract(json, '$.groupV2Change.details[0].type') IS 'member-remove' AND
-          json_extract(json, '$.groupV2Change.details[0].uuid') IS NOT $ourUuid
+          expiresAt > $now
         )
       ORDER BY received_at DESC, sent_at DESC
       LIMIT 1;

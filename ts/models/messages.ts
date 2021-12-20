@@ -965,7 +965,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     this.getConversation()?.debouncedUpdateLastMessage?.();
 
     if (shouldPersist) {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
 
     await window.Signal.Data.deleteSentProtoByMessageId(this.id);
@@ -1099,7 +1101,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (!skipSave && !this.doNotSave) {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
   }
 
@@ -1161,7 +1165,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await normalMessageSendJobQueue.add(
       { messageId: this.id, conversationId: conversation.id },
       async jobToInsert => {
-        await window.Signal.Data.saveMessage(this.attributes, { jobToInsert });
+        await window.Signal.Data.saveMessage(this.attributes, {
+          jobToInsert,
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
       }
     );
   }
@@ -1256,7 +1263,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (!this.doNotSave) {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
 
     const sendStateByConversationId = {
@@ -1403,7 +1412,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
 
     if (!this.doNotSave) {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
 
     updateLeftPane();
@@ -1460,7 +1471,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         this.saveErrors(errors, { skipSave: true });
       }
     } finally {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
 
       if (updateLeftPane) {
         updateLeftPane();
@@ -1571,7 +1584,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           return result;
         }
 
-        await window.Signal.Data.saveMessage(this.attributes);
+        await window.Signal.Data.saveMessage(this.attributes, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
         return result;
       });
     };
@@ -2097,7 +2112,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           originalMessage.attributes
         );
         originalMessage.set(upgradedMessage);
-        await window.Signal.Data.saveMessage(upgradedMessage);
+        await window.Signal.Data.saveMessage(upgradedMessage, {
+          ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+        });
       }
     } catch (error) {
       log.error(
@@ -2264,7 +2281,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             sendStateByConversationId,
             unidentifiedDeliveries: [...unidentifiedDeliveriesSet],
           });
-          await window.Signal.Data.saveMessage(toUpdate.attributes);
+          await window.Signal.Data.saveMessage(toUpdate.attributes, {
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+          });
 
           confirm();
           return;
@@ -3016,7 +3035,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
       log.info(
         `modifyTargetMessage/${this.idForLogging()}: Changes in second run; saving.`
       );
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
   }
 
@@ -3166,13 +3187,16 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           );
           await window.Signal.Data.saveMessage(this.attributes, {
             jobToInsert,
+            ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
           });
         });
       } else {
         await reactionJobQueue.add(jobData);
       }
     } else if (shouldPersist) {
-      await window.Signal.Data.saveMessage(this.attributes);
+      await window.Signal.Data.saveMessage(this.attributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
   }
 

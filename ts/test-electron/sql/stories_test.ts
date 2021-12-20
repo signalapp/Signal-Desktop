@@ -28,6 +28,7 @@ describe('sql/stories', () => {
       const now = Date.now();
       const conversationId = getUuid();
       const sourceUuid = getUuid();
+      const ourUuid = getUuid();
 
       const story1: MessageAttributesType = {
         id: getUuid(),
@@ -82,6 +83,7 @@ describe('sql/stories', () => {
 
       await saveMessages([story1, story2, story3, story4, story5], {
         forceSave: true,
+        ourUuid,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);
@@ -149,6 +151,8 @@ describe('sql/stories', () => {
 
       const start = Date.now();
       const conversationId = getUuid();
+      const ourUuid = getUuid();
+
       const story1: MessageAttributesType = {
         id: getUuid(),
         body: 'message 1',
@@ -197,6 +201,7 @@ describe('sql/stories', () => {
 
       await saveMessages([story1, story2, story3, story4, story5], {
         forceSave: true,
+        ourUuid,
       });
 
       assert.lengthOf(await _getAllMessages(), 5);

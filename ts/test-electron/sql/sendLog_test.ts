@@ -1,12 +1,16 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { v4 as getGuid } from 'uuid';
-
 import { assert } from 'chai';
 
 import dataInterface from '../../sql/Client';
+import { UUID } from '../../types/UUID';
+import type { UUIDStringType } from '../../types/UUID';
 import { constantTimeEqual, getRandomBytes } from '../../Crypto';
+
+function getUuid(): UUIDStringType {
+  return UUID.generate().toString();
+}
 
 const {
   _getAllSentProtoMessageIds,
@@ -37,9 +41,9 @@ describe('sql/sendLog', () => {
       timestamp,
     };
     await insertSentProto(proto, {
-      messageIds: [getGuid()],
+      messageIds: [getUuid()],
       recipients: {
-        [getGuid()]: [1, 2],
+        [getUuid()]: [1, 2],
       },
     });
     const allProtos = await getAllSentProtos();
@@ -69,10 +73,10 @@ describe('sql/sendLog', () => {
       timestamp,
     };
     await insertSentProto(proto, {
-      messageIds: [getGuid(), getGuid()],
+      messageIds: [getUuid(), getUuid()],
       recipients: {
-        [getGuid()]: [1, 2],
-        [getGuid()]: [1],
+        [getUuid()]: [1, 2],
+        [getUuid()]: [1],
       },
     });
 
@@ -88,21 +92,22 @@ describe('sql/sendLog', () => {
   });
 
   it('trigger deletes payload when referenced message is deleted', async () => {
-    const id = getGuid();
+    const id = getUuid();
     const timestamp = Date.now();
+    const ourUuid = getUuid();
 
     await saveMessage(
       {
         id,
 
         body: 'some text',
-        conversationId: getGuid(),
+        conversationId: getUuid(),
         received_at: timestamp,
         sent_at: timestamp,
         timestamp,
         type: 'outgoing',
       },
-      { forceSave: true }
+      { forceSave: true, ourUuid }
     );
 
     const bytes = getRandomBytes(128);
@@ -114,7 +119,7 @@ describe('sql/sendLog', () => {
     await insertSentProto(proto, {
       messageIds: [id],
       recipients: {
-        [getGuid()]: [1, 2],
+        [getUuid()]: [1, 2],
       },
     });
     const allProtos = await getAllSentProtos();
@@ -133,9 +138,9 @@ describe('sql/sendLog', () => {
     it('supports adding duplicates', async () => {
       const timestamp = Date.now();
 
-      const messageIds = [getGuid()];
+      const messageIds = [getUuid()];
       const recipients = {
-        [getGuid()]: [1],
+        [getUuid()]: [1],
       };
       const proto1 = {
         contentHint: 7,
@@ -170,7 +175,7 @@ describe('sql/sendLog', () => {
     it('handles duplicates, adding new recipients if needed', async () => {
       const timestamp = Date.now();
 
-      const messageIds = [getGuid()];
+      const messageIds = [getUuid()];
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
@@ -184,7 +189,7 @@ describe('sql/sendLog', () => {
       const id = await insertSentProto(proto, {
         messageIds,
         recipients: {
-          [getGuid()]: [1],
+          [getUuid()]: [1],
         },
       });
 
@@ -192,7 +197,7 @@ describe('sql/sendLog', () => {
       assert.lengthOf(await _getAllSentProtoMessageIds(), 1);
       assert.lengthOf(await _getAllSentProtoRecipients(), 1);
 
-      const recipientUuid = getGuid();
+      const recipientUuid = getUuid();
       await insertProtoRecipients({
         id,
         recipientUuid,
@@ -225,21 +230,21 @@ describe('sql/sendLog', () => {
         timestamp: timestamp - 15,
       };
       await insertSentProto(proto1, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
-          [getGuid()]: [1],
+          [getUuid()]: [1],
         },
       });
       await insertSentProto(proto2, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
-          [getGuid()]: [1, 2],
+          [getUuid()]: [1, 2],
         },
       });
       await insertSentProto(proto3, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
-          [getGuid()]: [1, 2, 3],
+          [getUuid()]: [1, 2, 3],
         },
       });
 
@@ -268,7 +273,7 @@ describe('sql/sendLog', () => {
       assert.lengthOf(await _getAllSentProtoMessageIds(), 0);
       assert.lengthOf(await _getAllSentProtoRecipients(), 0);
 
-      const messageId = getGuid();
+      const messageId = getUuid();
       const timestamp = Date.now();
       const proto1 = {
         contentHint: 1,
@@ -286,22 +291,22 @@ describe('sql/sendLog', () => {
         timestamp: timestamp - 20,
       };
       await insertSentProto(proto1, {
-        messageIds: [messageId, getGuid()],
+        messageIds: [messageId, getUuid()],
         recipients: {
-          [getGuid()]: [1, 2],
-          [getGuid()]: [1],
+          [getUuid()]: [1, 2],
+          [getUuid()]: [1],
         },
       });
       await insertSentProto(proto2, {
         messageIds: [messageId],
         recipients: {
-          [getGuid()]: [1],
+          [getUuid()]: [1],
         },
       });
       await insertSentProto(proto3, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
-          [getGuid()]: [1],
+          [getUuid()]: [1],
         },
       });
 
@@ -321,15 +326,15 @@ describe('sql/sendLog', () => {
     it('does not delete payload if recipient remains', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid1 = getGuid();
-      const recipientUuid2 = getGuid();
+      const recipientUuid1 = getUuid();
+      const recipientUuid2 = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid1]: [1, 2],
           [recipientUuid2]: [1],
@@ -352,15 +357,15 @@ describe('sql/sendLog', () => {
     it('deletes payload if no recipients remain', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid1 = getGuid();
-      const recipientUuid2 = getGuid();
+      const recipientUuid1 = getUuid();
+      const recipientUuid2 = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid1]: [1, 2],
           [recipientUuid2]: [1],
@@ -401,15 +406,15 @@ describe('sql/sendLog', () => {
     it('deletes multiple recipients in a single transaction', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid1 = getGuid();
-      const recipientUuid2 = getGuid();
+      const recipientUuid1 = getUuid();
+      const recipientUuid2 = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid1]: [1, 2],
           [recipientUuid2]: [1],
@@ -446,8 +451,8 @@ describe('sql/sendLog', () => {
     it('returns matching payload', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid = getGuid();
-      const messageIds = [getGuid(), getGuid()];
+      const recipientUuid = getUuid();
+      const messageIds = [getUuid(), getUuid()];
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
@@ -482,7 +487,7 @@ describe('sql/sendLog', () => {
     it('returns matching payload with no messageIds', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid = getGuid();
+      const recipientUuid = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
@@ -517,14 +522,14 @@ describe('sql/sendLog', () => {
     it('returns nothing if payload does not have recipient', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid = getGuid();
+      const recipientUuid = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid]: [1, 2],
         },
@@ -536,7 +541,7 @@ describe('sql/sendLog', () => {
       const actual = await getSentProtoByRecipient({
         now: timestamp,
         timestamp,
-        recipientUuid: getGuid(),
+        recipientUuid: getUuid(),
       });
 
       assert.isUndefined(actual);
@@ -545,14 +550,14 @@ describe('sql/sendLog', () => {
     it('returns nothing if timestamp does not match', async () => {
       const timestamp = Date.now();
 
-      const recipientUuid = getGuid();
+      const recipientUuid = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid]: [1, 2],
         },
@@ -574,14 +579,14 @@ describe('sql/sendLog', () => {
       const TWO_DAYS = 2 * 24 * 60 * 60 * 1000;
       const timestamp = Date.now();
 
-      const recipientUuid = getGuid();
+      const recipientUuid = getUuid();
       const proto = {
         contentHint: 1,
         proto: getRandomBytes(128),
         timestamp,
       };
       await insertSentProto(proto, {
-        messageIds: [getGuid()],
+        messageIds: [getUuid()],
         recipients: {
           [recipientUuid]: [1, 2],
         },

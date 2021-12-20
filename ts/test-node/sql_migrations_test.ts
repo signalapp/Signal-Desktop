@@ -910,24 +910,53 @@ describe('SQL migrations test', () => {
     });
   });
 
-  describe('updateToSchemaVersion46', () => {
-    it('creates new auto-generated isStory field', () => {
-      const STORY_ID_1 = generateGuid();
+  describe('updateToSchemaVersion47', () => {
+    it('creates and pre-populates new isChangeCreatedByUs field', () => {
+      const OTHER_UUID = generateGuid();
       const MESSAGE_ID_1 = generateGuid();
       const MESSAGE_ID_2 = generateGuid();
       const CONVERSATION_ID = generateGuid();
 
       updateToVersion(46);
 
+      const uuidItem = JSON.stringify({
+        value: `${OUR_UUID}.4`,
+      });
+      const changeFromUs = JSON.stringify({
+        groupV2Change: {
+          from: OUR_UUID,
+          details: [
+            {
+              type: 'member-remove',
+              uuid: OTHER_UUID,
+            },
+          ],
+        },
+      });
+      const changeFromOther = JSON.stringify({
+        groupV2Change: {
+          from: OTHER_UUID,
+          details: [
+            {
+              type: 'member-remove',
+              uuid: OUR_UUID,
+            },
+          ],
+        },
+      });
+
       db.exec(
         `
+        INSERT INTO items (id, json) VALUES ('uuid_id', '${uuidItem}');
         INSERT INTO messages
-          (id, storyId, conversationId, type, body)
+          (id, conversationId, type, json)
           VALUES
-          ('${MESSAGE_ID_1}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'story', 'story 1'),
-          ('${MESSAGE_ID_2}', null, '${CONVERSATION_ID}', 'outgoing', 'reply to story 1');
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'outgoing', '${changeFromUs}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'outgoing', '${changeFromOther}');
         `
       );
+
+      updateToVersion(47);
 
       assert.strictEqual(
         db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
@@ -935,10 +964,56 @@ describe('SQL migrations test', () => {
       );
       assert.strictEqual(
         db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 0;'
+          )
+          .pluck()
+          .get(),
+        1,
+        'zero'
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isChangeCreatedByUs IS 1;'
+          )
+          .pluck()
+          .get(),
+        1,
+        'one'
+      );
+    });
+
+    it('creates new auto-generated isStory field', () => {
+      const STORY_ID_1 = generateGuid();
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(47);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, storyId, conversationId, type, body)
+          VALUES
+          ('${MESSAGE_ID_1}', '${STORY_ID_1}', '${CONVERSATION_ID}', 'story', 'story 1'),
+          ('${MESSAGE_ID_2}', null, '${CONVERSATION_ID}', 'outgoing', 'reply to story 1'),
+          ('${MESSAGE_ID_3}', null, '${CONVERSATION_ID}', null, 'null type!');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        3
+      );
+      assert.strictEqual(
+        db
           .prepare('SELECT COUNT(*) FROM messages WHERE isStory IS 0;')
           .pluck()
           .get(),
-        1
+        2
       );
       assert.strictEqual(
         db
@@ -949,8 +1024,217 @@ describe('SQL migrations test', () => {
       );
     });
 
+    it('creates new auto-generated shouldAffectActivity/shouldAffectPreview/isUserInitiatedMessage fields', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(47);
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'story'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'keychange'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'outgoing'),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'group-v2-change');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        4
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectPreview IS 1;'
+          )
+          .pluck()
+          .get(),
+        3
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE shouldAffectActivity IS 1;'
+          )
+          .pluck()
+          .get(),
+        2
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isUserInitiatedMessage IS 1;'
+          )
+          .pluck()
+          .get(),
+        1
+      );
+    });
+
+    it('creates new auto-generated isTimerChangeFromSync fields', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+
+      updateToVersion(47);
+
+      const timerUpdate = JSON.stringify({
+        expirationTimerUpdate: {
+          expireTimer: 30,
+          fromSync: false,
+        },
+      });
+      const timerUpdateFromSync = JSON.stringify({
+        expirationTimerUpdate: {
+          expireTimer: 30,
+          fromSync: true,
+        },
+      });
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'outgoing', '${timerUpdate}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'outgoing', '${timerUpdateFromSync}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'outgoing', '{}');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        3
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 1;'
+          )
+          .pluck()
+          .get(),
+        1
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isTimerChangeFromSync IS 0;'
+          )
+          .pluck()
+          .get(),
+        2
+      );
+    });
+
+    it('creates new auto-generated isGroupLeaveEvent fields', () => {
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+      const MESSAGE_ID_4 = generateGuid();
+      const MESSAGE_ID_5 = generateGuid();
+      const CONVERSATION_ID = generateGuid();
+      const FIRST_UUID = generateGuid();
+      const SECOND_UUID = generateGuid();
+      const THIRD_UUID = generateGuid();
+
+      updateToVersion(47);
+
+      const memberRemoveByOther = JSON.stringify({
+        groupV2Change: {
+          from: FIRST_UUID,
+          details: [
+            {
+              type: 'member-remove',
+              uuid: SECOND_UUID,
+            },
+          ],
+        },
+      });
+      const memberLeave = JSON.stringify({
+        groupV2Change: {
+          from: FIRST_UUID,
+          details: [
+            {
+              type: 'member-remove',
+              uuid: FIRST_UUID,
+            },
+          ],
+        },
+      });
+      const multipleRemoves = JSON.stringify({
+        groupV2Change: {
+          from: FIRST_UUID,
+          details: [
+            {
+              type: 'member-remove',
+              uuid: SECOND_UUID,
+            },
+            {
+              type: 'member-remove',
+              uuid: THIRD_UUID,
+            },
+          ],
+        },
+      });
+      const memberAdd = JSON.stringify({
+        groupV2Change: {
+          from: FIRST_UUID,
+          details: [
+            {
+              type: 'member-add',
+              uuid: FIRST_UUID,
+            },
+          ],
+        },
+      });
+
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, type, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID}', 'outgoing', '${memberLeave}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID}', 'group-v2-change', '${memberRemoveByOther}'),
+          ('${MESSAGE_ID_3}', '${CONVERSATION_ID}', 'group-v2-change', '${memberLeave}'),
+          ('${MESSAGE_ID_4}', '${CONVERSATION_ID}', 'group-v2-change', '${multipleRemoves}'),
+          ('${MESSAGE_ID_5}', '${CONVERSATION_ID}', 'group-v2-change', '${memberAdd}');
+        `
+      );
+
+      assert.strictEqual(
+        db.prepare('SELECT COUNT(*) FROM messages;').pluck().get(),
+        5
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 1;'
+          )
+          .pluck()
+          .get(),
+        1
+      );
+      assert.strictEqual(
+        db
+          .prepare(
+            'SELECT COUNT(*) FROM messages WHERE isGroupLeaveEvent IS 0;'
+          )
+          .pluck()
+          .get(),
+        4
+      );
+    });
+
     it('ensures that index is used for getOlderMessagesByConversation', () => {
-      updateToVersion(46);
+      updateToVersion(47);
 
       const { detail } = db
         .prepare(

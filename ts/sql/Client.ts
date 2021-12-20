@@ -1076,7 +1076,11 @@ async function getMessageCount(conversationId?: string) {
 
 async function saveMessage(
   data: MessageType,
-  options: { jobToInsert?: Readonly<StoredJob>; forceSave?: boolean } = {}
+  options: {
+    jobToInsert?: Readonly<StoredJob>;
+    forceSave?: boolean;
+    ourUuid: UUIDStringType;
+  }
 ) {
   const id = await channels.saveMessage(_cleanMessageData(data), {
     ...options,
@@ -1091,7 +1095,7 @@ async function saveMessage(
 
 async function saveMessages(
   arrayOfMessages: Array<MessageType>,
-  options?: { forceSave?: boolean }
+  options: { forceSave?: boolean; ourUuid: UUIDStringType }
 ) {
   await channels.saveMessages(
     arrayOfMessages.map(message => _cleanMessageData(message)),
