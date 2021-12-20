@@ -373,7 +373,6 @@
   "openGroupURL": "Open Group URL",
   "enterAnOpenGroupURL": "Enter an open group URL",
   "next": "Next",
-  "description": "1 minute",
   "invalidGroupNameTooShort": "Please enter a group name",
   "invalidGroupNameTooLong": "Please enter a shorter group name",
   "pickClosedGroupMember": "Please pick at least 1 group member",

@@ -102,7 +102,6 @@ export type LocalizerKeys =
   | 'autoUpdateNewVersionInstructions'
   | 'appMenuUnhide'
   | 'timerOption_30_minutes_abbreviated'
-  | 'description'
   | 'voiceMessage'
   | 'changePasswordTitle'
   | 'copyMessage'
