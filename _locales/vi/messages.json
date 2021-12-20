@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Xác nhận Phần mềm",
+        "message": "Nhìn nhận về Phần mềm",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -238,7 +238,7 @@
         "description": "Shown in menu for conversation, and pins the conversation to the top of the conversation list"
     },
     "unpinConversation": {
-        "message": "Gỡ ghim Cuộc trò chuyện",
+        "message": "Bỏ ghim Cuộc trò chuyện",
         "description": "Undoes Archive Conversation action, and unpins the conversation from the top of the conversation list"
     },
     "pinnedConversationsFull": {
@@ -470,19 +470,19 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "This log will be posted publicly online for contributors to view. You may download the full log before submitting.",
+        "message": "Nhật ký này sẽ được đăng trực tuyến công khai để những người đóng góp có thể xem. Bạn có thể tải xuống toàn bộ nhật ký trước khi gửi.",
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "Đã xảy ra sự cố với quá trình tải lên! Vui lòng gửi email tới support@signal.org và đính kèm nhật ký của bạn dưới dạng tệp văn bản.",
         "description": ""
     },
     "debugLogSuccess": {
-        "message": "Debug log submitted",
+        "message": "Đã gửi nhật ký gỡ lỗi",
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "Đã tải lên nhật ký gỡ lỗi. Khi bạn liên hệ với bộ phận hỗ trợ, hãy sao chép liên kết bên dưới và đính kèm nó cùng với mô tả về sự cố bạn gặp phải và các bước để tái tạo sự cố.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Máy tính để bàn gặp lỗi giải mã từ $name$, thiết bị $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -662,7 +662,7 @@
         }
     },
     "decryptionErrorToastAction": {
-        "message": "Submit log",
+        "message": "Gửi nhật ký",
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
@@ -694,11 +694,11 @@
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
-        "message": "Click to reconnect.",
+        "message": "Nhấp chuột để kết nối lại.",
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Shouldn't be long",
+        "message": "Không nên dài đâu",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -790,7 +790,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Search chat",
+        "message": "Tình kiếm cuộc trò chuyện",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -838,7 +838,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Find by Username",
+        "message": "Tìm theo tên người dùng",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -856,7 +856,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "See $whatsNew$ in this update",
+        "message": "Nhìn xem $whatsNew$ trong bản cập nhật này",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -866,7 +866,7 @@
         }
     },
     "viewReleaseNotes": {
-        "message": "what's new",
+        "message": "có gì mới",
         "description": "Clickable link that displays the latest release notes"
     },
     "selectAContact": {
@@ -952,15 +952,15 @@
         "description": "Shown in toast if user clicks on quote references messages not loaded in view, but in database"
     },
     "voiceRecording--start": {
-        "message": "Start recording voice message",
+        "message": "Bắt đầu ghi âm tin nhắn thoại",
         "description": "Tooltip for microphone button to start voice message"
     },
     "voiceRecording--complete": {
-        "message": "Complete voice message and send",
+        "message": "Hoàn thành việc gửi tin nhắn thoại",
         "description": "Tooltip for green complete voice message and send"
     },
     "voiceRecording--cancel": {
-        "message": "Cancel voice message",
+        "message": "Hủy tin nhắn thoại",
         "description": "Tooltip for red button to cancel voice message"
     },
     "voiceRecordingInterruptedMax": {
@@ -980,15 +980,15 @@
         "description": "Shown in toast if tries to record a voice note with any staged attachments"
     },
     "voiceNoteError": {
-        "message": "There was an error with the voice recorder.",
+        "message": "Có lỗi xảy ra đối với việc ghi âm tin nhắn thoại",
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Attachment saved.",
+        "message": "Đã lưu đính kèm.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
-        "message": "Show in folder",
+        "message": "Hiển thị trong thư mục",
         "description": "Button label for showing the attachment in your file system"
     },
     "you": {
@@ -1170,7 +1170,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "Để xác minh tính bảo mật của mã hóa end-to-end của bạn với $name$, hãy so sánh các số ở trên với thiết bị của họ.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1272,7 +1272,7 @@
         }
     },
     "DeliveryIssue--summary--group": {
-        "message": "A message, sticker, reaction, read receipt or media couldn’t be delivered to you from $sender$ in this chat.",
+        "message": "Tin nhắn, nhãn dán, biểu cảm, biên nhận đã đọc hoặc phương tiện không thể gửi đến bạn từ $sender$ trong cuộc hội thoại này.",
         "description": "Shown on explainer dialog available from delivery issue timeline events in groups",
         "placeholders": {
             "name": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their number to a new number",
+        "message": "$sender$ đã thay đổi số của họ thành một số mới",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1352,7 +1352,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "LinkScreen__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "Quét mã này trong ứng dụng Signal trên điện thoại của bạn.",
         "description": "Alt text for the QR code on the device link screen"
     },
     "Preferences--device-name": {
@@ -1480,11 +1480,11 @@
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
-        "message": "Notify, don't ring",
+        "message": "Thông báo, không đổ chuông",
         "description": "Button tooltip label for turning ringing off"
     },
     "calling__button--ring__on": {
-        "message": "Enable ringing",
+        "message": "Bật đổ chuông",
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
@@ -1560,7 +1560,7 @@
         }
     },
     "calling__pre-call-info--will-ring-1": {
-        "message": "Signal will ring $person$",
+        "message": "Signal sẽ đổ chuông $person$",
         "description": "Shown in the calling lobby to describe who will be rung",
         "placeholders": {
             "person": {
@@ -1570,7 +1570,7 @@
         }
     },
     "calling__pre-call-info--will-ring-2": {
-        "message": "Signal will ring $first$ and $second$",
+        "message": "Signal sẽ đổ chuông $first$ và $second$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1584,7 +1584,7 @@
         }
     },
     "calling__pre-call-info--will-ring-3": {
-        "message": "Signal will ring $first$, $second$, and $third$",
+        "message": "Signal sẽ đổ chuông $first$, $second$, và $third$",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "first": {
@@ -1602,7 +1602,7 @@
         }
     },
     "calling__pre-call-info--will-ring-many": {
-        "message": "Signal will ring $first$, $second$, and $others$ others",
+        "message": "Signal sẽ đổ chuông $first$, $second$, và $others$ khác",
         "description": "Shown in the calling lobby to describe who will be rang",
         "placeholders": {
             "person": {
@@ -1620,7 +1620,7 @@
         }
     },
     "calling__pre-call-info--will-notify-1": {
-        "message": "$person$ will be notified",
+        "message": "$person$ sẽ được thông báo",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1630,7 +1630,7 @@
         }
     },
     "calling__pre-call-info--will-notify-2": {
-        "message": "$first$ and $second$ will be notified",
+        "message": "$first$ và $second$ sẽ được thông báo",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1644,7 +1644,7 @@
         }
     },
     "calling__pre-call-info--will-notify-3": {
-        "message": "$first$, $second$, and $third$ will be notified",
+        "message": "$first$, $second$, và $third$ sẽ được thông báo.",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "first": {
@@ -1662,7 +1662,7 @@
         }
     },
     "calling__pre-call-info--will-notify-many": {
-        "message": "$first$, $second$, and $others$ others will be notified",
+        "message": "$first$, $second$, và $others$ khác sẽ được thông báo",
         "description": "Shown in the calling lobby to describe who will be notified",
         "placeholders": {
             "person": {
@@ -1818,7 +1818,7 @@
         "description": "Header for general options on the settings screen"
     },
     "spellCheckDescription": {
-        "message": "Spell check text entered in message composition box",
+        "message": "Văn bản kiểm tra chính tả được nhập vào hộp soạn thư",
         "description": "Description of the spell check setting"
     },
     "spellCheckWillBeEnabled": {
@@ -1842,7 +1842,7 @@
         "description": "Description for the automatic launch setting"
     },
     "clearDataHeader": {
-        "message": "Clear application data",
+        "message": "Xóa dữ liệu ứng dụng",
         "description": "Header in the settings dialog for the section dealing with data deletion"
     },
     "clearDataExplanation": {
@@ -1980,7 +1980,7 @@
         "description": "Warning notification that this version of the app has expired"
     },
     "upgrade": {
-        "message": "Click to go to signal.org/download",
+        "message": "Nhấn để truy cập signal.org/download",
         "description": "Label text for button to upgrade the app to the latest version"
     },
     "mediaMessage": {
@@ -1992,7 +1992,7 @@
         "description": "Error message displayed when sending to an unregistered user."
     },
     "sync": {
-        "message": "Import contacts",
+        "message": "Nhập danh bạ",
         "description": "Label for contact and group sync settings"
     },
     "syncExplanation": {
@@ -2152,7 +2152,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Play notification sounds",
+        "message": "Phát âm thanh thông báo",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2288,11 +2288,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "Không tìm nạp được tên người dùng. Kiểm tra kết nối của bạn và thử lại.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "Không tìm thấy người dùng. $atUsername$ không phải là người dùng Signal; đảm bảo rằng bạn đã nhập tên người dùng hoàn chỉnh.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2408,7 +2408,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Click to relink Signal Desktop to your mobile device to continue messaging.",
+        "message": "Nhấp để liên kết lại Signal Desktop với thiết bị di động của bạn để tiếp tục nhắn tin.",
         "description": ""
     },
     "unlinked": {
@@ -2420,15 +2420,15 @@
         "description": ""
     },
     "autoUpdateNewVersionTitle": {
-        "message": "Update available",
+        "message": "Cập nhật có sẵn",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Click to restart Signal",
+        "message": "Nhấp để khởi động lại Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Click to download update",
+        "message": "Nhấp để tải bản cập nhật",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2444,7 +2444,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "Bỏ qua bản cập nhật",
         "description": ""
     },
     "leftTheGroup": {
@@ -2520,7 +2520,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "Cuộc trò chuyện với $title$, $unreadCount$ tin nhắn mới, tin nhắn cuối cùng: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2538,11 +2538,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "Tin nhắn cuối cùng có thể đã bị xóa.",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "Chuyển đến cuộc trò chuyện với $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -3128,11 +3128,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "Gỡ nhãn dán",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "Nhấp hoặc kéo/thả một tệp để thêm một nhãn dán",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3310,7 +3310,7 @@
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Remove reaction",
+        "message": "Gỡ biẻu cảm",
         "description": ""
     },
     "Reactions--error": {
@@ -3548,7 +3548,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "Thành viên của $group1$, $group2$, $group3$ và một thành viên khác",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3666,7 +3666,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ is calling you",
+        "message": "$ringer$ đang gọi bạn",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3676,7 +3676,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ is calling you and $otherMember$",
+        "message": "$ringer$ đang gọi bạn và $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3690,7 +3690,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ is calling you, $first$, and $second$",
+        "message": "$ringer$ đang gọi bạn và, $first$, và $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3708,7 +3708,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ is calling you, $first$, $second$, and 1 other",
+        "message": "$ringer$ đang gọi bạn, $first$, $second$, và 1 người khác",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3726,7 +3726,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ is calling you, $first$, $second$, and $remaining$ others",
+        "message": "$ringer$ đang gọi bạn, $first$, $second$, và $remaining$ người khác",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3862,7 +3862,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "Bắt đầu chia sẻ",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -3970,15 +3970,15 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "You cannot send messages to that group.",
+        "message": "Bạn không thể gửi tin nhắn cho nhóm đó.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "These people cannot be added to the group until they upgrade Signal.",
+        "message": "Những người này không thể được thêm vào nhóm cho đến khi họ nâng cấp Signal.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
-        "message": "Only admins of the group can start a call.",
+        "message": "Chỉ quản trị viên của nhóm mới có thể bắt đầu cuộc gọi.",
         "description": "Shown in toast when a non-admin starts a group call in an announcements only group"
     },
     "GroupV2--join--invalid-link--title": {
@@ -4078,7 +4078,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Couldn't join group. Try again later.",
+        "message": "Không thể vào nhóm. Thử lại sau.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -5164,7 +5164,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "$memberName$ changed the group settings to only allow admins to send messages.",
+        "message": "$memberName$ đã thay đổi cài đặt nhóm để chỉ cho phép quản trị viên gửi tin nhắn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5174,7 +5174,7 @@
         }
     },
     "GroupV2--announcements--admin--unknown": {
-        "message": "The group was changed to only allow admins to send messages.",
+        "message": "Nhóm đã được thay đổi để chỉ cho phép quản trị viên gửi tin nhắn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
@@ -5182,7 +5182,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "$memberName$ changed the group settings to allow all members to send messages.",
+        "message": "$memberName$ đã thay đổi cài đặt nhóm để cho phép tất cả các thành viên gửi tin nhắn.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5192,7 +5192,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "The group was changed to allow all members to send messages.",
+        "message": "Nhóm đã được thay đổi để cho phép tất cả các thành viên gửi tin nhắn.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5330,11 +5330,11 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal được hỗ trợ bởi những người như bạn. Đóng góp và nhận huy hiệu.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "Mở Signal trên điện thoại của bạn",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5342,7 +5342,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "Nhấn vào \"Trở thành người hỗ trợ\" và đăng ký",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5366,7 +5366,7 @@
         "description": "Displayed while checking if the contact is SMS-only"
     },
     "countMutedConversationsDescription": {
-        "message": "Include muted conversations in badge count",
+        "message": "Bao gồm các cuộc hội thoại bị tắt tiếng vào số lượng huy hiệu",
         "description": "Description for counting muted conversations in badge setting"
     },
     "ContactModal--message": {
@@ -5392,7 +5392,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "Xóa $contact$ với tư cách quản trị viên của nhóm?",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5418,7 +5418,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "Bật tiếng cuộc trò chuyện này?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5434,7 +5434,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "Khi được bật, các tin nhắn được gửi và nhận trong cuộc trò chuyện 1:1 này sẽ biến mất sau khi chúng được nhìn thấy.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5458,11 +5458,11 @@
         "description": "This is the additional info for the 'who can add members' panel"
     },
     "ConversationDetails--announcement-label": {
-        "message": "Who can send messages",
+        "message": "Ai có thể giử tin nhắn",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--announcement-info": {
-        "message": "Choose who can send messages to the group.",
+        "message": "Chọn người có thể gửi tin nhắn cho nhóm.",
         "description": "This is the additional info for the 'who can send messages' panel"
     },
     "ConversationDetails--requests-and-invites": {
@@ -5552,7 +5552,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Receive notifications when you're mentioned in muted chats",
+        "message": "Nhận thông báo khi bạn được đề cập trong các cuộc trò chuyện bị tắt tiếng",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5560,7 +5560,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Don't notify if muted",
+        "message": "Không thông báo nếu bị tắt tiếng",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5678,7 +5678,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "Thu hồi $number$ lời mời gửi bởi \"$name$\"?",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5722,7 +5722,7 @@
         "description": "The label for the avatar uploader when no group photo is selected"
     },
     "AvatarInput--no-photo-label--profile": {
-        "message": "Add a photo",
+        "message": "Thêm một ảnh",
         "description": "The label for the avatar uploader when no profile photo is selected"
     },
     "AvatarInput--change-photo-label": {
@@ -5830,7 +5830,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "Chọn liên hệ $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5840,7 +5840,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "Bỏ chọn liên hệ $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5850,7 +5850,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "Không thể lựa chọn liên hệ $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6014,7 +6014,7 @@
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "Tiếp tục mà không cần xác minh?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -6190,7 +6190,7 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Không thể hiển thị tin nhắn này. Nhấp để gửi nhật ký gỡ lỗi.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
@@ -6270,7 +6270,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "Tên người dùng chỉ có thể chứa a-z, 0-9 và _",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6278,7 +6278,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "Tên người dùng phải có ít nhất $min$ ký tự.",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6288,7 +6288,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "Tên người dùng phải có tối đa $max$ ký tự.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6302,19 +6302,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "Tên người dùng của bạn không thể lưu. Kiểm tra kết nối của bạn và thử lại.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "Tên người dùng của bạn không thể xóa. Kiểm tra kết nối của bạn và thử lại.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "Xóa tên người dùng",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "Thao tác này sẽ xóa tên người dùng của bạn, cho phép người dùng khác xác nhận quyền sở hữu. Bạn có chắc không?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6322,7 +6322,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Viết vài điều về bản thân bạn...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6338,7 +6338,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "Hồ sơ của bạn đã được mã hóa. Hồ sơ của bạn và các thay đổi đối với hồ sơ sẽ hiển thị với các liên hệ của bạn và khi bạn bắt đầu hoặc chấp nhận các cuộc trò chuyện mới. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6384,7 +6384,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "Hình đại diện của bạn",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6392,7 +6392,7 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "Hồ sơ của bạn không thể cập nhật. Vui lòng thử lại.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
@@ -6400,7 +6400,7 @@
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Chỉ $admins$ có thể gửi tin nhắn",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6418,11 +6418,11 @@
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Chọn một màu sắc",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Hình đại diện nhóm",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6450,7 +6450,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Lần nhập cuối cùng vào lúc $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6468,7 +6468,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Mức độ phóng to",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6476,7 +6476,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Để thay đổi cài đặt này, hãy mở ứng dụng Signal trên thiết bị di động của bạn và điều hướng đến Cài đặt> Trò chuyện",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6484,7 +6484,7 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Nội dung thông báo",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
@@ -6492,7 +6492,7 @@
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ liên hệ",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6502,7 +6502,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ các liên hệ",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6516,7 +6516,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Để thay đổi các cài đặt này, hãy mở ứng dụng Signal trên thiết bị di động của bạn và điều hướng đến Cài đặt> Quyền riêng tư",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6540,7 +6540,7 @@
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "Tìm tôi theo số điện thoại của tôi",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
@@ -6552,15 +6552,15 @@
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Cập nhật",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "Tự động tải các bản cập nhật",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Bật thông báo",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
@@ -6568,7 +6568,7 @@
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Cập nhật liên phiên bản $version$ có sẵn",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6578,11 +6578,11 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal không thể đóng",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "Vui lòng đóng nó theo cách thủ công và nhấp vào Thử lại để tiếp tục.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CustomizingPreferredReactions__title": {
@@ -6590,11 +6590,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "Nhấp để thay thế một biểu tượng cảm xúc",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "Đã xảy ra lỗi khi lưu cài đặt của bạn. Vui lòng thử lại.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -6602,7 +6602,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "Thêm ký tự",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6610,7 +6610,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "Cắt và xoay",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6622,35 +6622,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "Bình thường",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Làm nổi bật",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "Đường viền",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "Đường gạch chân",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "Bút",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "Bút đánh dấu",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "Gầy",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "Bình thường",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6658,7 +6658,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "Nặng",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6666,7 +6666,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "Xoay",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6678,39 +6678,45 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "Cắt",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Có gì mới",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "You can now search in archived conversations. Imagine yourself searching (quickly) through ancient tomes, looking for the next clue.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "If you've ever scrolled up and sent a message, you might wonder where your message was! Now, whenever you send a message, it'll be scrolled into view for you to admire your hard work.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reacting to a message? It should now be more reliable, retrying for up to 24 hours",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Phiên bản này có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
         "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Phiên bản này có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "Mệt mỏi: Đang gửi hình ảnh đơn giản chưa được chỉnh sửa trên Signal. Có dây: Thêm hình dán mèo, văn bản neon và vẽ cây hạnh phúc trên hình ảnh của bạn trước khi gửi chúng trên Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Đã bao giờ bạn cảm thấy như bạn cần nhiều pixel hơn trên khung bên phải trong cuộc sống của mình? Bạn có phải là người yêu thích ảnh đại diện, nhưng chỉ có ảnh đại diện và không có gì khác? Bạn có miếng dán cản \"Save the screen real Estate\" trên ô tô của mình không? Nếu bạn trả lời có hoặc không cho bất kỳ câu hỏi nào trong số đó, thì bản cập nhật này có một số ngăn bên trái có thể thu gọn cho bạn.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop hiện hỗ trợ nguyên bản chip M1 của Apple được sử dụng trong các máy tính mới của họ. Nếu bạn đang sử dụng một trong những thiết bị mới này, ứng dụng sẽ nhanh hơn nhiều. Nếu bạn không, hãy chào đón nồng nhiệt những người dùng đó. Rất cảm ơn $dennis$  vì sự chăm chỉ của anh ấy ở đây!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Có một cuộc gọi dài? Hệ thống của bạn nên thức suốt thời gian, thay vì chìm vào giấc ngủ khi bạn đang thảo luận quan trọng.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Ngoài ra còn có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà, bao gồm một số cải tiến liên quan đến tính năng gọi điện.",
+        "description": "Release notes for v5.27"
     }
 }

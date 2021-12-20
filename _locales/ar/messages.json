@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "واجه سطح المكتب خطأ في فك التشفير.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "‫لقد وقع البرنامج في خطأ يتعلق بفك التعمية انطلاقا من $name$، الجهاز $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "ما الجديد",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "يُمكنك الآن البحث في المحادثات المحفوظة. تخيّل نفسك تبحث (سريعاً) في مجلدات قديمة بينما تحاول العثور على الدليل التالي.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "إذا قُمت بالتمرير للأعلى وأرسلت رسالة، قد تتساءل أين ذهبت رسالتك! الآن، متى ما ترسل رسالة، ستظهر أمامك لتقدر عملك الشاق.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "الرد على رسالة؟ يجب أن يُعتمد عليه بشكل أكبر الآن، إعادة المحاولة لما يصل إلى 24 ساعة",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على تشغيل Signal بسلاسة.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "هل شعرت من قبل في حياتك أنك تحتاج إلى المزيد من وحدات البيكسل للجزء الأيمن من شاشتك؟ هل تحب الصور الرمزية، ولكن الصور الرمزية فقط ولا شيء غيرها؟ هل لديك ملصق صدام \"توفير مساحة العرض\" على سيارتك؟ إذا أجبت بنعم أو لا على أي من هذه الأسئلة، فسيوفر لك هذا التحديث جزءاً أيسر قابل للطي.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "‫لقد أصبح الآن Signal Desktop يدعم بشكل طبيعي « المعالج M1 » لشركة آبل، والتي تُستخدَم في حواسيبهم الجديدة. إن كنت من مستخدمي هذا الصنف من الأجهزة، فمن المفترض أن يكون التطبيق أسرع مما سبق. أما إن كنت على غير ذلك، فيكفيك غبطة أن آخرين تحسن استخدامهم للتطبيق. نود أن نتقدم ببالغ عبارات الامتنان والشكر لـ $dennis$ بفضل العمل الشاق الذي تم إنجازه !",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "أ دامت مكالمتك طويلا ؟ سيبقى نظامك مشتغلا طول تلك المدة، بدل أن يغفو في وسط محادثة مهمة.‏",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "هناك أيضا بضع تعديلات وإصلاحات للعلل لإبقاء عمل Signal سلسا، بما في ذلك عدة تحسينات متعلقة بالمكالمات.",
+        "description": "Release notes for v5.27"
     }
 }

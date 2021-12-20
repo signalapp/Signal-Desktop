@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Cafodd y bwrdd gwaith yn wall dadgryptio.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Cafodd y bwrdd gwaith wall dadgryptio o $name$, device $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Be sy'n Newydd",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Nawr gallwch chwilio mewn sgyrsiau wedi'u harchifo. Dychmygwch eich hun yn chwilio (yn gyflym) trwy gyfrolau hynafol, yn edrych am y cliw nesaf.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Os ydych chi erioed wedi sgrolio i fyny ac wedi anfon neges, efallai y byddech chi'n meddwl tybed ble roedd eich neges! Nawr, pryd bynnag y byddwch chi'n anfon neges, bydd yn cael ei sgrolio i'r golwg i chi edmygu'ch gwaith caled.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Yn ymateb i neges? Dylai nawr fod yn fwy dibynadwy, gan geisio eto am hyd at 24 awr",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Ydych chi erioed wedi teimlo bod angen mwy o bicseli arnoch chi ar y cwarel de yn eich bywyd? Ydych chi'n ffan o afatarau, ond dim ond afatarau a dim byd arall? Oes gennych chi sticer bumper \"Save the screen real estate\" ar eich car? Os gwnaethoch chi ateb ie neu na i unrhyw un o'r cwestiynau hynny, yna mae gan y diweddariad hwn ryw gwarel chwith cwympadwy i chi.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Mae Signal Desktop bellach yn cefnogi'r sglodyn M1 Apple yn frodorol sy'n cael eu defnyddio yn eu cyfrifiaduron diweddaraf. Os ydych chi ar un o'r dyfeisiau newydd hynny, dylai'r ap fod yn llawer mwy chwim. Os nad ydych chi, rhowch groeso cynnes i'r defnyddwyr sydd. Diolch enfawr i $dennis$ am ei waith caled yma!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Ar alwad hir? Dylai eich system aros yn effro trwy'r amser, yn lle cwympo i gysgu tra'ch bod chi yng nghanol sgwrs bwysig.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Mae yna hefyd nifer o newidiadau bach a chywiriadau i gadw Signal i redeg yn llyfn, gan gynnwys sawl gwelliant sy'n gysylltiedig â galwadau.",
+        "description": "Release notes for v5.27"
     }
 }

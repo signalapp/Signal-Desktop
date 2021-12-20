@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktopi hasi një gabim shfshehtëzimi.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktopi ndeshi nëj gabim shfshehtëzimi prej $name$, pajisja $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Ç’ka të Re",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Tanimë mund të kërkoni në biseda të arkivuara. Përfytyroni veten duke kërkuar (shpejt e shpejt) përmes vëllimesh të vjetra, për idenë pasuese.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Nëse rrëshqitët sipër dhe dërguat një mesazh, mund të vrisni mendjen se ku qe mesazhi juaj! Tanimë, kurdo që dërgoni një mesazh, do të rrëshqitet për t’u nxjerrë para syve, që të admironi punën tuaj.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Po reagoni te një mesazh? Kjo tani duhet të jetë më e qëndrueshme, se lejon riprovim për deri 24 orë",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Keni ndjerë ndonjëherë se ju duhen më tepër piksela në kuadratin e djathtë, gjatë jetës tuaj? Jeni tifoz avatarësh, por vetëm avatarësh dhe asgjëje tjetër? Keni një makinën tuaj një ngjitës “Save the screen real estate”? Nëse u përgjigjët po ose jo për cilëndo nga këto pyetje, atëherë ky përditësim sjell për ju një kuadrat majtas që mund të paloset.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal-i për Desktop tani mbulon së brendshmi procesorin M1 të Apple-it që përdoret në kompjuterat e tyre më të rinj. Nëse keni një nga këto pajisje të reja, aplikacioni do të jetë shumë më i zhdërvjellët. Nëse jo, urojuni mirëseardhjen atyre që i kanë. Falënderime pa masë për $dennis$ për punën e tij të palodhur për këtë aspekt!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Telefonatë e gjatë? Sistemi duhet të jetë zgjuar për gjithë kohën, në vend se të dremitë teksa jeni në mes të një diskutimi të rëndësishëm.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Ka gjithashtu një numër përimtimesh të vogla dhe ndreqje të metash, për ta mbajtur Signal-in të xhirojë rrjedhshëm, përfshi disa përmirësime të lidhura me thirrjet.",
+        "description": "Release notes for v5.27"
     }
 }

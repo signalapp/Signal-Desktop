@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal pour ordinateur a rencontré une erreur de déchiffrement.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6626,7 +6626,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Surligneur",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
@@ -6685,18 +6685,6 @@
         "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Vous pouvez désormais faire une recherche dans les conversations archivées. Imaginez-vous en train de chercher (rapidement) dans des tomes anciens, à la recherche du prochain indice.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "S'il vous est déjà arrivé de faire défiler un message vers le haut et de l'envoyer, vous pourriez vous demander où était votre message ! Désormais, chaque fois que vous enverrez un message, il défilera à l'écran pour que vous puissiez admirer votre travail.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Vous réagissez à un message ? Il devrait maintenant être plus fiable, en réessayant jusqu'à 24 heures.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop now natively supports Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "On a long call? Your system should stay awake the whole time, instead of falling asleep while you're in the middle of an important discussion.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "There are also a number of small tweaks and bug fixes to keep Signal running smoothly, including several calling-related improvements.",
+        "description": "Release notes for v5.27"
     }
 }

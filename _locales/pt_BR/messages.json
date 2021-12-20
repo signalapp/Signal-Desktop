@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal encontrou um erro ao descriptografar uma mensagem.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Signal encontrou um erro ao descriptografar uma mensagem de $name$, aparelho $deviceId$.",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Novidades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "A partir de agora, você pode pesquisar mensagens em conversas arquivadas. Imagine-se rememorando livros antigos, procurando neles a próxima pista para o presente.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Você já ficou confuso depois de enviar sua mensagem, sem saber onde ela está dentro da conversa? A partir de agora, sempre que você enviar sua mensagem, nós alegremente guiaremos o seu olhar para ela, de modo que você possa encontrá-la.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Se a conexão de rede estiver fraca, não tem problema. Ao reagir a uma mensagem, tentaremos enviar essa reação dentro de 24 horas, se não for possível no presente.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "A partir de agora, a largura da lista de conversas se ajusta de acordo com o tamanho da janela, para facilitar a leitura de uma conversa.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "A partir de agora, Signal Desktop suporta nativamente o chip M1, que é usado em computadores mais novos da Apple. Se você fizer uso de um desses computadores, o aplicativo do Signal funcionará confortavelmente, como ocorre em outros sistemas. Se este não for o chip do seu computador, também trouxemos mais potência para você. Um grande obrigado ao $dennis$ por seu trabalho árduo aqui!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Você tem honrado suas amizades com ligações prolongadas? A partir de agora, pedimos ao sistema do computador para ficar acordado o tempo todo, em vez de se suspender ou dormir no meio da sua discussão importante.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente. Melhoramos especialmente as chamadas de voz e de vídeo.",
+        "description": "Release notes for v5.27"
     }
 }

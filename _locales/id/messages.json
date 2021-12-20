@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop menemui eror dekripsi.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop mengalami kegagalan dekripsi dari $name$, perangkat $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Yang Baru",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Kini Anda dapat mencari percakapan arsip. Bayangkan Anda mencari (dengan cepat) di antara buku-buku kuno untuk mencari petunjuk selanjutnya.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Jika pernah menggulir ke atas dan mengirim pesan, Anda mungkin bertanya di manakah pesan Anda! Kini setiap Anda mengirim pesan, itu akan digulirkan ke dalam tampilan agar bisa Anda lihat.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Menanggapi pesan? Kini itu lebih andal, coba ulang hingga 24 jam.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Pernah merasa seolah Anda membutuhkan lebih banyak piksel di panel kanan dalam hidup Anda? Apakah Anda penggemar avatar, tetapi hanya avatar dan bukan lainnya? Apakah di mobil Anda terpasang stiker bemper \"Hemat ruang layar monitor\"? Jika Anda menjawab ya ataupun tidak pada salah satu pertanyaan itu, maka pembaruan ini memberikan panel kiri yang dapat dilipat untuk Anda.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop now natively supports Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "On a long call? Your system should stay awake the whole time, instead of falling asleep while you're in the middle of an important discussion.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Ada juga sejumlah perubahan kecil dan perbaikan bug untuk menjaga Signal berjalan dengan lancar, termasuk beberapa peningkatan terkait panggilan.",
+        "description": "Release notes for v5.27"
     }
 }

@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "שולחן העבודה נתקל בשגיאת פיענוח.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "שולחן העבודה נתקל בשגיאת פיענוח מאת $name$, מכשיר $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "מה חדש",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "אתה יכול לחפש עכשיו בשיחות מאורכבות. דמיין את עצמך מחפש (בזריזות) בכרכים עתיקים, בחיפוש אחר הרמז הבא.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "אם אי פעם גוללת למעלה ושלחת הודעה, בטח תהית איפה ההודעה הייתה! עכשיו, ברגע שתשלח הודעה, היא תגולל לתוך התצוגה בשבילך כדי להעריץ את העבודה הקשה שלך.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "מגיב אל הודעה? זה אמור להיות יותר אמין עכשיו, ניסיון חוזר עד 24 שעות",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "החלונית השמאלית ניתנת לקיפול כדי להפוך את החלונית הימנית רחבה יותר.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop תומך באופן טבעי עכשיו בשבב M1 של Apple שנמצא בשימוש במחשבים החדשים יותר שלה. אם אתה על אחד מהמחשבים החדשים האלו, היישום אמור להיות זריז הרבה יותר. תודה ענקית אל $dennis$ על עבודתו הקשה כאן!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "בשיחה ארוכה? המערכת אמורה להישאר ערה כל הזמן, במקום להיכנס למצב שינה בזמן שאתה באמצע דיון חשוב.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "ישנם גם מספר שפצורים ותיקוני תקלים כדי להשאיר את Signal רץ בצורה חלקה, כולל כמה שיפורים קשורי התקשרות.",
+        "description": "Release notes for v5.27"
     }
 }

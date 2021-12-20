@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Masaüstü, şifrə açma xətası ilə qarşılaşdı.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Masaüstü, $name$, $deviceId$ cihazından bir şifrə açma xətası ilə qarşılaşdı",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Yeni nə var",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Artıq arxivlənmiş danışıqlarda axtarış edə bilərsiniz. Qədimi kitablar arasında növbəti ipucu axtardığınızı təsəvvür edin.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Daha əvvəl yuxarı sürüşdürərək bir mesaj göndərmisinizsə, mesajınızın harada olduğu ilə maraqlana bilərsiniz! İndi, bir mesaj göndərəndə, gördüyünüz işə heyran qalmağınız üçün görüntülənəcək.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Bir mesaja reaksiya verirsiniz? Artıq daha güvənli olmaları üçün 24 saata qədər təkrar sınanmalıdır",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Həyatınız boyu heç sağ paneldə daha çox pikselə ehtiyacınız olduğunu hiss etmisiniz? Avatar pərəstişkarısınız, amma yalnız avatarlar, başqa heç nə? Avtomobilinizdə \"Ekran daşınmaz əmlakını saxla\" bufer etiketi var? Bu suallardan hər hansısa birinə bəli cavabı vermisinizsə, bu yeniləmədə sizin üçün yığcamlaşdırıla bilən sol panel var.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Masaüstü, artıq Apple-ın ən son kompüterlərində istifadə edilən M1 çipini yerli olaraq dəstəkləyir. Bu yeni modelləri istifadə edirsinizsə, tətbiq daha sürətli olmalıdır. Əziyyətinə görə çoxlu təşəkkürlər $dennis$!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Uzun-uzun söhbət edirsiniz? Vacib iclasda olarkən sisteminizin yuxuya getmək əvəzinə tam oyaq qalmalıdır.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Həmçinin, zənglərlə əlaqəli bir neçə təkmilləşdirmə daxil olmaqla Signal-ın problemsiz işləməsini təmin etmək üçün bir neçə xəta düzəlişləri də var.",
+        "description": "Release notes for v5.27"
     }
 }
