@@ -240,6 +240,7 @@ const dataInterface: ClientInterface = {
   getOlderStories,
   getNewerMessagesByConversation,
   getMessageMetricsForConversation,
+  getConversationRangeCenteredOnMessage,
   getLastConversationMessages,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
@@ -1318,6 +1319,23 @@ async function getMessageMetricsForConversation(
 
   return result;
 }
+async function getConversationRangeCenteredOnMessage(options: {
+  conversationId: string;
+  limit?: number;
+  messageId: string;
+  receivedAt: number;
+  sentAt?: number;
+  storyId?: UUIDStringType;
+}) {
+  const result = await channels.getConversationRangeCenteredOnMessage(options);
+
+  return {
+    ...result,
+    older: handleMessageJSON(result.older),
+    newer: handleMessageJSON(result.newer),
+  };
+}
+
 function hasGroupCallHistoryMessage(
   conversationId: string,
   eraId: string

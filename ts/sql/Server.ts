@@ -236,6 +236,7 @@ const dataInterface: ServerInterface = {
   getNewerMessagesByConversation,
   getTotalUnreadForConversation,
   getMessageMetricsForConversation,
+  getConversationRangeCenteredOnMessage,
   getLastConversationMessages,
   hasGroupCallHistoryMessage,
   migrateConversationMessages,
@@ -2305,6 +2306,18 @@ async function _removeAllReactions(): Promise<void> {
 
 async function getOlderMessagesByConversation(
   conversationId: string,
+  options?: {
+    limit?: number;
+    messageId?: string;
+    receivedAt?: number;
+    sentAt?: number;
+    storyId?: UUIDStringType;
+  }
+): Promise<Array<MessageTypeUnhydrated>> {
+  return getOlderMessagesByConversationSync(conversationId, options);
+}
+function getOlderMessagesByConversationSync(
+  conversationId: string,
   {
     limit = 100,
     messageId,
@@ -2318,7 +2331,7 @@ async function getOlderMessagesByConversation(
     sentAt?: number;
     storyId?: UUIDStringType;
   } = {}
-): Promise<Array<MessageTypeUnhydrated>> {
+): Array<MessageTypeUnhydrated> {
   const db = getInstance();
 
   return db
@@ -2391,6 +2404,17 @@ async function getOlderStories({
 
 async function getNewerMessagesByConversation(
   conversationId: string,
+  options?: {
+    limit?: number;
+    receivedAt?: number;
+    sentAt?: number;
+    storyId?: UUIDStringType;
+  }
+): Promise<Array<MessageTypeUnhydrated>> {
+  return getNewerMessagesByConversationSync(conversationId, options);
+}
+function getNewerMessagesByConversationSync(
+  conversationId: string,
   {
     limit = 100,
     receivedAt = 0,
@@ -2402,7 +2426,7 @@ async function getNewerMessagesByConversation(
     sentAt?: number;
     storyId?: UUIDStringType;
   } = {}
-): Promise<Array<MessageTypeUnhydrated>> {
+): Array<MessageTypeUnhydrated> {
   const db = getInstance();
   const rows: JSONRows = db
     .prepare<Query>(
@@ -2609,6 +2633,12 @@ async function getTotalUnreadForConversation(
   conversationId: string,
   storyId?: UUIDStringType
 ): Promise<number> {
+  return getTotalUnreadForConversationSync(conversationId, storyId);
+}
+function getTotalUnreadForConversationSync(
+  conversationId: string,
+  storyId?: UUIDStringType
+): number {
   const db = getInstance();
   const row = db
     .prepare<Query>(
@@ -2638,13 +2668,19 @@ async function getMessageMetricsForConversation(
   conversationId: string,
   storyId?: UUIDStringType
 ): Promise<ConversationMetricsType> {
+  return getMessageMetricsForConversationSync(conversationId, storyId);
+}
+function getMessageMetricsForConversationSync(
+  conversationId: string,
+  storyId?: UUIDStringType
+): ConversationMetricsType {
   const oldest = getOldestMessageForConversation(conversationId, storyId);
   const newest = getNewestMessageForConversation(conversationId, storyId);
   const oldestUnread = getOldestUnreadMessageForConversation(
     conversationId,
     storyId
   );
-  const totalUnread = await getTotalUnreadForConversation(
+  const totalUnread = getTotalUnreadForConversationSync(
     conversationId,
     storyId
   );
@@ -2657,6 +2693,47 @@ async function getMessageMetricsForConversation(
       : undefined,
     totalUnread,
   };
+}
+
+async function getConversationRangeCenteredOnMessage({
+  conversationId,
+  limit,
+  messageId,
+  receivedAt,
+  sentAt,
+  storyId,
+}: {
+  conversationId: string;
+  limit?: number;
+  messageId: string;
+  receivedAt: number;
+  sentAt?: number;
+  storyId?: UUIDStringType;
+}): Promise<{
+  older: Array<MessageTypeUnhydrated>;
+  newer: Array<MessageTypeUnhydrated>;
+  metrics: ConversationMetricsType;
+}> {
+  const db = getInstance();
+
+  return db.transaction(() => {
+    return {
+      older: getOlderMessagesByConversationSync(conversationId, {
+        limit,
+        messageId,
+        receivedAt,
+        sentAt,
+        storyId,
+      }),
+      newer: getNewerMessagesByConversationSync(conversationId, {
+        limit,
+        receivedAt,
+        sentAt,
+        storyId,
+      }),
+      metrics: getMessageMetricsForConversationSync(conversationId, storyId),
+    };
+  })();
 }
 
 async function hasGroupCallHistoryMessage(

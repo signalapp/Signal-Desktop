@@ -121,6 +121,7 @@ const {
 } = window.Signal.Migrations;
 const {
   addStickerPackReference,
+  getConversationRangeCenteredOnMessage,
   getOlderMessagesByConversation,
   getMessageMetricsForConversation,
   getMessageById,
@@ -1576,19 +1577,14 @@ export class ConversationModel extends window.Backbone
 
       const receivedAt = message.received_at;
       const sentAt = message.sent_at;
-      const older = await getOlderMessagesByConversation(conversationId, {
-        limit: MESSAGE_LOAD_CHUNK_SIZE,
-        receivedAt,
-        sentAt,
-        messageId,
-      });
-      const newer = await getNewerMessagesByConversation(conversationId, {
-        limit: MESSAGE_LOAD_CHUNK_SIZE,
-        receivedAt,
-        sentAt,
-      });
-      const metrics = await getMessageMetricsForConversation(conversationId);
-
+      const { older, newer, metrics } =
+        await getConversationRangeCenteredOnMessage({
+          conversationId,
+          limit: MESSAGE_LOAD_CHUNK_SIZE,
+          receivedAt,
+          sentAt,
+          messageId,
+        });
       const all = [...older, message, ...newer];
 
       const cleaned: Array<MessageModel> = await this.cleanModels(all);
