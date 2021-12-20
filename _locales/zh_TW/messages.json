@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "電腦遇到解密錯誤。",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "電腦遇到來自$name$，裝置 $deviceId$的解密錯誤",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "上傳日誌",
@@ -6675,18 +6675,6 @@
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "你現在可以在存檔的對話中搜尋。想像一下自己（快速地）搜尋古代書籍，尋找下一條線索。",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "如果你曾經向上捲動並傳送過訊息，你可能想知道你的訊息在哪裡！ 現在，每當你傳送訊息時，它都會捲動到你的眼前，讓你欣賞自己辛勤工作的成果。",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "要對訊息作出回應嗎？ 現在應該更可靠了，最多可以重試 24 小時",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "是否曾經覺得你的生活中需要在右側窗格中新增更多像素？ 你是頭像的粉絲，但只有頭像而沒有別的嗎？ 你的汽車上是否貼有“節省螢幕使用面積”的保險槓貼紙？ 如果你對這些問題中的任何一個回答是或否，那麼此更新為你提供了一些可收放的左邊窗格。",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal 電腦版現在原生支持 Apple 的 M1 晶片，該晶片用於其較新的Mac電腦。 如果你使用的是這些新裝置之一，那麼該應用程式應該會更加快速。 如果你不是，熱烈歡迎那些使用M1晶片 Mac電腦的使用者。 非常感謝 $dennis$ 在這裡的辛苦工作！",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "長時間通話？ 你的系統應該始終保持開啟，而不是在你進行重要討論時進入睡眠。",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "還有一些小的調整和錯誤修復，以維持 Signal 穩定執行，包括一些與通話相關的改進。",
+        "description": "Release notes for v5.27"
     }
 }

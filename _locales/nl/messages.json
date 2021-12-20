@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal-Desktop heeft een probleem met ontsleutelen.",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "Er is in Signal-Desktop een fout opgetreden bij het ontsleutelen van $name$, op apparaat $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "Foutopsporingslog indienen",
@@ -6675,18 +6675,6 @@
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Je kunt vanaf nu ook gearchive gesprekken doorzoeken.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Als je een bericht verzend terwijl je omhoog hebt gescrolt, dan wordt vanaf nu automatisch naar beneden naar je nieuwe bericht gescrolt.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Het verzenden van een emoji-reactie op een bericht zou vanaf nu betrouwbaarder moeten zijn. Als het niet lukt probeert Signal het automatisch opnieuw.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "Het linker paneel kan vanaf nu worden verkleint om gesprekken breder weer te geven.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal-Desktop ondersteunt nu Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Je apparaat gaat niet langer automatisch over naar slaapstand wanneer je nog aan een oproep deelneemt.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Er zijn ook een aantal kleine verbeteringen en foutoplossingen om er onder andere tijdens het bellen voor te zorgen dat Signal goed blijft werken.",
+        "description": "Release notes for v5.27"
     }
 }

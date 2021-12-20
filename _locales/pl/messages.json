@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Aplikacja Desktop napotkała błąd, w trakcie odszyfrowywania.",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "Aplikacja Desktop napotkała błąd, w trakcie odszyfrowywania, pochodzący od użytkownika $name$, z urządzenia $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "Wyślij logi debugowania",
@@ -6675,18 +6675,6 @@
         "message": "Co nowego",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Teraz możesz wyszukiwać w konwersacjach w archiwum. Wyobraź sobie, że (błyskawicznie) przeszukujesz starożytne woluminy, w poszukiwaniu kolejnej wskazówki.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Jeśli kiedyś przewinąłeś konwersację w górę i wysłałeś wiadomość, mogłeś się zastanawiać, gdzie się podziała. Teraz, gdy wyślesz wiadomość, konwersacja zostanie przewinięta, abyś mógł podziwiać efekty swojej, ciężkiej pracy.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagowanie na wiadomość powinno być teraz bardziej niezawodne, ponawiając próby wysłania do 24 godzin.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "Czujesz, że w Twoim życiu potrzeba więcej pikseli na prawym panelu? Jesteś fanem awatarów i niczego więcej? Masz na zderzaku nalepkę \"Oszczędzaj przestrzeń ekranową\"? Niezależnie, czy odpowiedziałeś tak, czy nie na powyższe pytania, ta aktualizacja ma dla Ciebie możliwość zmniejszenia lewego panelu.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Aplikacja Signal Desktop wspiera teraz natywnie chip Apple M1, stosowany w nowszych komputerach tej firmy. Jeśli korzystasz z jednego z tych nowych urządzeń, aplikacja powinna teraz działać dużo płynniej. $dennis$ wykonał tu kawał dobrej roboty, ogromne dzięki!",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Prowadzisz długie rozmowy? Twój system powinien pozostać czujny przez cały czas, zamiast przechodzić w tryb uśpienia, gdy jesteś w środku ważnej dyskusji.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Ta wersja zawiera również wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal, włącznie z kilkoma poprawkami połączeń.",
+        "description": "Release notes for v5.27"
     }
 }

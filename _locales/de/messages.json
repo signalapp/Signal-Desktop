@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Es trat ein Entschlüsselungsfehler auf.",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "Desktop hat einen Entschlüsselungsfehler von $name$, Gerät $deviceId$ festgestellt. ",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "Diagnoseprotokoll übermitteln",
@@ -828,7 +828,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Nutzername suchen",
+        "message": "Nutzernamen suchen",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -5312,11 +5312,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Werde Unterstützer",
+        "message": "Unterstützer werden",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Werde Unterstützer",
+        "message": "Unterstützer werden",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5332,7 +5332,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tippe auf „Werde Unterstützer“ und wähle einen Geldbetrag aus.",
+        "message": "Tippe auf »Unterstützer werden« und wähle einen Geldbetrag aus.",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -6675,18 +6675,6 @@
         "message": "Was ist neu",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Du kannst jetzt in archivierten Gesprächen suchen. Stell dir vor, du suchst (schnell) in alten Büchern nach dem nächsten Hinweis.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Falls du jemals nach oben gescrollt und eine Nachricht gesendet hast, kam vielleicht die Frage auf, wo sie geblieben ist! Wann immer du jetzt eine Nachricht sendest, wird sie in den Sichtbereich gescrollt, damit du deine harte Arbeit bewundern kannst.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reaktion auf eine Nachricht? Sie sollten jetzt zuverlässiger gesendet werden (Wiederholungsversuche bis zu 24 Stunden lang)",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "Schon mal das Gefühl gehabt, mehr Pixel in der rechten Fensterhälfte zu benötigen? Bist du ein Freund von Avataren und sonst nichts anderem? Hast du einen „Bildschirmplatz sparen“-Aufkleber an deinem Auto? Egal ob du einige Fragen mit Ja oder Nein beantwortet hast, diese Aktualisierung bringt einen einklappbaren linken Fensterbereich.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop unterstützt nun nativ Apples M1-Chip, den Apple in seinen neueren Rechnern verbaut. Wenn du so ein neumodisches Gerät benutzt, sollte das Programm deutlich flüssiger laufen. Wenn nicht, heiße die Nutzer, die es tun, herzlich willkommen. Vielen Dank an $dennis$ für seine harte Arbeit hier!",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Bei einem langen Anruf? Dein System sollte jetzt die ganze Zeit aktiv bleiben, anstatt sich Schlafen zu legen, während du gerade in einer wichtigen Besprechung bist.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Es ist auch eine Reihe kleiner Optimierungen und Fehlerbehebungen eingeflossen, eingeschlossen einiger anrufbezogenen Verbesserungen, damit Signal weiterhin flüssig läuft.",
+        "description": "Release notes for v5.27"
     }
 }

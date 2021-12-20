@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Hi ha hagut un error de desencriptació.",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "L'escriptori ha tingut un error de desencriptació de $name$, dispositiu $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "Envia el registre",
@@ -6675,18 +6675,6 @@
         "message": "Què hi ha de nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Ara podeu cercar a les converses arxivades. Imagineu-vos buscant (ràpidament) a través de volums antics, buscant la pista següent.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Si alguna vegada us heu desplaçat cap amunt i heu enviat un missatge, potser us preguntareu on era el missatge! Ara, sempre que envieu un missatge, es desplaçarà a la vista perquè admireu la feina feta.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reaccioneu a un missatge? Ara hauria de ser més fiable, tornant-ho a provar fins a 24 hores.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "Alguna vegada heu sentit que necessiteu més píxels al plafó? Sou fan dels avatars, però només dels avatars i res més? Teniu un adhesiu estrambòtic al para-xocs del cotxe? Si heu respost sí o no a qualsevol d'aquestes preguntes, aquesta actualització té un plafó esquerre plegable per a vosaltres.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "El Signal Desktop ara admet de manera nativa el xip M1 d'Apple que s'usa als seus ordinadors més nous. Si esteu en un d'aquests dispositius nous, l'aplicació hauria de ser molt més ràpida. Si no hi sou, donem la benvinguda als usuaris que hi són. Moltes gràcies a $dennis$ pel seu esforç aquí!",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "En una trucada llarga? El vostre sistema hauria de romandre despert tota l'estona, en lloc d'adormir-se mentre esteu enmig d'una discussió important.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "També hi ha una sèrie de petits retocs i correccions d'errors perquè el Signal funcioni sense problemes, incloses diverses millores relacionades amb les trucades.",
+        "description": "Release notes for v5.27"
     }
 }

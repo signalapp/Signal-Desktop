@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "デスクトップで復号化エラーが発生しました。",
-        "description": "An error popup when we haven't added an error for decryption error."
+        "message": "デスクトップで $name$ ($deviceId$) からの復号化でエラーが発生しました。",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users."
     },
     "decryptionErrorToastAction": {
         "message": "ログを送信",
@@ -1350,7 +1350,7 @@
         "description": "The label in settings panel shown for the user-provided name for this desktop instance"
     },
     "chooseDeviceName": {
-        "message": "この端末の名前を選択",
+        "message": "この端末の名前を設定してください",
         "description": "The header shown on the 'choose device name' screen in the device linking process"
     },
     "finishLinkingPhone": {
@@ -2308,7 +2308,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "グループのサイズが最大値に達しました",
+        "message": "グループメンバー数が上限に達しました",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2350,7 +2350,7 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "このグループに名前を付ける",
+        "message": "このグループの名前",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
@@ -2426,7 +2426,7 @@
         "description": ""
     },
     "autoUpdateRestartButtonLabel": {
-        "message": "Signalを再起動",
+        "message": "Signalを再起動する",
         "description": ""
     },
     "autoUpdateLaterButtonLabel": {
@@ -2668,7 +2668,7 @@
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "ステッカーパックを追加する",
+        "message": "ステッカーパックを追加",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
@@ -5566,7 +5566,7 @@
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
-        "message": "リンクをリセットする",
+        "message": "リンクをリセット",
         "description": "This lets users generate a new group link"
     },
     "GroupLinkManagement--approve-label": {
@@ -5768,7 +5768,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-        "message": "詳しく見る",
+        "message": "さらに詳しく",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
@@ -6675,18 +6675,6 @@
         "message": "更新情報",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "アーカイブされたチャットの中を検索できるようになりました。",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "上にスクロールしてメッセージを送信したことがある人は、自分のメッセージがどこにあるのか気になるかもしれません。メッセージを送信するたびに、スクロールして表示されるようになりました。",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "24時間以内に再試行するなど、メッセージ配送の信頼性が向上しました。",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "このバージョンではSignalをより良くするために、細かい変更とバグ修正を行いました。",
         "description": "Release notes for v5.25"
@@ -6702,5 +6690,17 @@
     "WhatsNew__v5.26--2": {
         "message": "チャット一覧の幅を変えられるようになりました。チャットの表示部分との境界を左右にドラッグすると、好きな幅に変えられます。幅を最小にすると、アイコンのみの表示となります。",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop は、Apple M1 チップにネイティブ対応しました。Apple M1 チップを搭載した端末をお持ちの皆さん、お待たせしました。これは、$dennis$ さんのおかげで実現しました。ありがとうございます。",
+        "description": "Release note for the macOS M1 release"
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "通話中にシステムがスリーブしないようになりました。",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "また、通話に関する修正を含めた、細かな変更とバグ修正を行いました。",
+        "description": "Release notes for v5.27"
     }
 }
