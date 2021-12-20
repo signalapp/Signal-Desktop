@@ -362,7 +362,7 @@ export const MediaEditor = ({
   const [canRedo, setCanRedo] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
   const [canCrop, setCanCrop] = useState(false);
-  const [cropAspectRatioLock, setcropAspectRatioLock] = useState(false);
+  const [cropAspectRatioLock, setCropAspectRatioLock] = useState(false);
   const [drawTool, setDrawTool] = useState<DrawTool>(DrawTool.Pen);
   const [drawWidth, setDrawWidth] = useState<DrawWidth>(DrawWidth.Regular);
   const [editMode, setEditMode] = useState<EditMode | undefined>();
@@ -846,7 +846,7 @@ export const MediaEditor = ({
             if (fabricCanvas) {
               fabricCanvas.uniformScaling = !cropAspectRatioLock;
             }
-            setcropAspectRatioLock(!cropAspectRatioLock);
+            setCropAspectRatioLock(!cropAspectRatioLock);
           }}
           type="button"
         />
