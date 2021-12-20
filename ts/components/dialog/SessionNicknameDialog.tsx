@@ -70,12 +70,12 @@ export const SessionNicknameDialog = (props: Props) => {
       />
 
       <div className="session-modal__button-group">
+        <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
         <SessionButton
           text={window.i18n('ok')}
           onClick={saveNickname}
           buttonColor={SessionButtonColor.Green}
         />
-        <SessionButton text={window.i18n('cancel')} onClick={onClickClose} />
       </div>
     </SessionWrapperModal>
   );

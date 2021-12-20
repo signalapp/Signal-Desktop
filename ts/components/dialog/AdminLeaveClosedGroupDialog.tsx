@@ -37,8 +37,8 @@ export const AdminLeaveClosedGroupDialog = (props: Props) => {
       <p>{warningAsAdmin}</p>
 
       <div className="session-modal__button-group">
-        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
         <SessionButton text={cancelText} onClick={closeDialog} />
+        <SessionButton text={okText} onClick={onClickOK} buttonColor={SessionButtonColor.Danger} />
       </div>
     </SessionWrapperModal>
   );
