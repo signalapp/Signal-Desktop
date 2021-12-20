@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
+import { SettingsKey } from '../../../data/settings-key';
 import { CallManager } from '../../../session/utils';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleMessageRequests } from '../../../state/ducks/userConfig';
@@ -10,10 +11,6 @@ import { SessionButtonColor } from '../../basic/SessionButton';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 
 import { SessionSettingButtonItem, SessionToggleWithDescription } from '../SessionSettingListItem';
-
-const settingsReadReceipt = 'read-receipt-setting';
-const settingsTypingIndicator = 'typing-indicators-setting';
-const settingsAutoUpdate = 'auto-update';
 
 const toggleCallMediaPermissions = async (triggerUIUpdate: () => void) => {
   const currentValue = window.getCallMediaPermissions();
@@ -87,33 +84,33 @@ export const SettingsCategoryPrivacy = (props: {
         )}
         <SessionToggleWithDescription
           onClickToggle={() => {
-            const old = Boolean(window.getSettingValue(settingsReadReceipt));
-            window.setSettingValue(settingsReadReceipt, !old);
+            const old = Boolean(window.getSettingValue(SettingsKey.settingsReadReceipt));
+            window.setSettingValue(SettingsKey.settingsReadReceipt, !old);
             forceUpdate();
           }}
           title={window.i18n('readReceiptSettingTitle')}
           description={window.i18n('readReceiptSettingDescription')}
-          active={window.getSettingValue(settingsReadReceipt)}
+          active={window.getSettingValue(SettingsKey.settingsReadReceipt)}
         />
         <SessionToggleWithDescription
           onClickToggle={() => {
-            const old = Boolean(window.getSettingValue(settingsTypingIndicator));
-            window.setSettingValue(settingsTypingIndicator, !old);
+            const old = Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator));
+            window.setSettingValue(SettingsKey.settingsTypingIndicator, !old);
             forceUpdate();
           }}
           title={window.i18n('typingIndicatorsSettingTitle')}
           description={window.i18n('typingIndicatorsSettingDescription')}
-          active={Boolean(window.getSettingValue(settingsTypingIndicator))}
+          active={Boolean(window.getSettingValue(SettingsKey.settingsTypingIndicator))}
         />
         <SessionToggleWithDescription
           onClickToggle={() => {
-            const old = Boolean(window.getSettingValue(settingsAutoUpdate));
-            window.setSettingValue(settingsAutoUpdate, !old);
+            const old = Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate));
+            window.setSettingValue(SettingsKey.settingsAutoUpdate, !old);
             forceUpdate();
           }}
           title={window.i18n('autoUpdateSettingTitle')}
           description={window.i18n('autoUpdateSettingDescription')}
-          active={Boolean(window.getSettingValue(settingsAutoUpdate))}
+          active={Boolean(window.getSettingValue(SettingsKey.settingsAutoUpdate))}
         />
         {hasMessageRequestFlag && (
           <SessionToggleWithDescription

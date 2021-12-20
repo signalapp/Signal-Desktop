@@ -51,6 +51,7 @@ import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { AttachmentTypeWithPath } from '../types/Attachment';
 import _ from 'lodash';
+import { SettingsKey } from '../data/settings-key';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -393,7 +394,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const readBy = this.get('read_by') || [];
-    if (window.storage.get('read-receipt-setting') && readBy.length > 0) {
+    if (window.storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
     }
     const sent = this.get('sent');

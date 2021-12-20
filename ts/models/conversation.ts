@@ -52,6 +52,7 @@ import {
   ReplyingToMessageProps,
   SendMessageType,
 } from '../components/conversation/composition/CompositionBox';
+import { SettingsKey } from '../data/settings-key';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -1069,7 +1070,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
       window?.log?.info(`Sending ${read.length} read receipts`);
-      if (window.storage.get('read-receipt-setting')) {
+      if (window.storage.get(SettingsKey.settingsReadReceipt)) {
         await Promise.all(
           _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
             const timestamps = _.map(receipts, 'timestamp').filter(t => !!t) as Array<number>;
@@ -1558,7 +1559,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // for typing to happen, this must be a private unblocked active convo, and the settings to be on
     if (
       !this.isActive() ||
-      !window.storage.get('typing-indicators-setting') ||
+      !window.storage.get(SettingsKey.settingsTypingIndicator) ||
       this.isBlocked() ||
       !this.isPrivate()
     ) {

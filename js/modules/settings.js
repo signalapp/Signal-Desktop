@@ -8,7 +8,6 @@ const MESSAGE_COUNT_KEY = 'sqlMigration_messageCount';
 const UNPROCESSED_LAST_INDEX_KEY = 'sqlMigration_unprocessedLastIndex';
 
 // Public API
-exports.READ_RECEIPT_CONFIGURATION_SYNC = 'read-receipt-configuration-sync';
 
 exports.getAttachmentMigrationLastProcessedIndex = connection =>
   exports._getItem(connection, LAST_PROCESSED_INDEX_KEY);
