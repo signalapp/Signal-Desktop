@@ -258,11 +258,7 @@ export function createIPCEvents(
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
       window.storage.put('auto-download-update', value),
-    getThemeSetting: () =>
-      window.storage.get(
-        'theme-setting',
-        window.platform === 'darwin' ? 'system' : 'light'
-      ),
+    getThemeSetting: () => window.storage.get('theme-setting', 'system'),
     setThemeSetting: value => {
       const promise = window.storage.put('theme-setting', value);
       themeChanged();
