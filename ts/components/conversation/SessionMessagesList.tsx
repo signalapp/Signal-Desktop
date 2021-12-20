@@ -20,6 +20,10 @@ import { CallNotification } from './message/message-item/notification-bubble/Cal
 import { SessionLastSeenIndicator } from './SessionLastSeenIndicator';
 import { TimerNotification } from './TimerNotification';
 
+function isNotTextboxEvent(e: KeyboardEvent) {
+  return (e?.target as any)?.type === undefined;
+}
+
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
   onPageUpPressed: () => void;
@@ -37,12 +41,16 @@ export const SessionMessagesList = (props: {
     props.onPageDownPressed();
   });
 
-  useKey('Home', () => {
-    props.onHomePressed();
+  useKey('Home', e => {
+    if (isNotTextboxEvent(e)) {
+      props.onHomePressed();
+    }
   });
 
-  useKey('End', () => {
-    props.onEndPressed();
+  useKey('End', e => {
+    if (isNotTextboxEvent(e)) {
+      props.onEndPressed();
+    }
   });
 
   return (
