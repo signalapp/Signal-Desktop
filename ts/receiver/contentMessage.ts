@@ -23,6 +23,7 @@ import {
   deleteMessagesFromSwarmAndCompletelyLocally,
   deleteMessagesFromSwarmAndMarkAsDeletedLocally,
 } from '../interactions/conversations/unsendingInteractions';
+import { SettingsKey } from '../data/settings-key';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
   try {
@@ -415,7 +416,7 @@ function onReadReceipt(readAt: any, timestamp: any, reader: any) {
 
   window?.log?.info('read receipt', reader, timestamp);
 
-  if (!storage.get('read-receipt-setting')) {
+  if (!storage.get(SettingsKey.settingsReadReceipt)) {
     return;
   }
 
@@ -463,7 +464,7 @@ async function handleTypingMessage(
   await removeFromCache(envelope);
 
   // We don't do anything with incoming typing messages if the setting is disabled
-  if (!window.storage.get('typing-indicators-setting')) {
+  if (!window.storage.get(SettingsKey.settingsTypingIndicator)) {
     return;
   }
 

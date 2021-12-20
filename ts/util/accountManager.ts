@@ -8,6 +8,7 @@ import { trigger } from '../shims/events';
 import { actions as userActions } from '../state/ducks/user';
 import { mn_decode, mn_encode } from '../session/crypto/mnemonic';
 import { ConversationTypeEnum } from '../models/conversation';
+import { SettingsKey } from '../data/settings-key';
 
 /**
  * Might throw
@@ -137,8 +138,8 @@ async function createAccount(identityKeyPair: any) {
     window.textsecure.storage.remove('number_id'),
     window.textsecure.storage.remove('device_name'),
     window.textsecure.storage.remove('userAgent'),
-    window.textsecure.storage.remove('read-receipt-setting'),
-    window.textsecure.storage.remove('typing-indicators-setting'),
+    window.textsecure.storage.remove(SettingsKey.settingsReadReceipt),
+    window.textsecure.storage.remove(SettingsKey.settingsTypingIndicator),
     window.textsecure.storage.remove('regionCode'),
     window.textsecure.storage.remove('local_attachment_encrypted_key'),
   ]);
@@ -151,10 +152,10 @@ async function createAccount(identityKeyPair: any) {
   await window.textsecure.storage.put('password', password);
 
   // disable read-receipt by default
-  await window.textsecure.storage.put('read-receipt-setting', false);
+  await window.textsecure.storage.put(SettingsKey.settingsReadReceipt, false);
 
   // Enable typing indicators by default
-  await window.textsecure.storage.put('typing-indicators-setting', true);
+  await window.textsecure.storage.put(SettingsKey.settingsTypingIndicator, false);
 
   await window.textsecure.storage.user.setNumberAndDeviceId(pubKeyString, 1);
 }
