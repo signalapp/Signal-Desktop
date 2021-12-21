@@ -359,16 +359,15 @@ export async function isMessageDuplicate({
   sourceDevice,
   timestamp,
   message,
-  serverId,
   serverTimestamp,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
   // serverId is only used for opengroupv2
   try {
     let result;
-    if (serverId || serverTimestamp) {
+    if (serverTimestamp) {
       // first try to find a duplicate with the same serverTimestamp from this sender
-      if (!result && serverTimestamp) {
+      if (serverTimestamp) {
         result = await getMessageBySenderAndServerTimestamp({
           source,
           serverTimestamp,

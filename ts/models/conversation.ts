@@ -1069,7 +1069,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     if (this.isPrivate() && read.length && options.sendReadReceipts) {
-      window?.log?.info(`Sending ${read.length} read receipts`);
+      window?.log?.info(
+        `Sending ${read.length} read receipts?`,
+        window.storage.get(SettingsKey.settingsReadReceipt) || false
+      );
       if (window.storage.get(SettingsKey.settingsReadReceipt)) {
         await Promise.all(
           _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
