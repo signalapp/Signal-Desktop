@@ -12,10 +12,7 @@ import { actions as conversationActions } from '../../state/ducks/conversations'
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import _ from 'lodash';
 import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
-import {
-  deleteAuthToken,
-  DeleteAuthTokenRequest,
-} from '../apis/open_group_api/opengroupV2/ApiAuth';
+
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 
 let instance: ConversationController | null;
@@ -201,12 +198,6 @@ export class ConversationController {
       window?.log?.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
-        if (roomInfos.token) {
-          // leave the group on the remote server
-          await deleteAuthToken(
-            _.pick(roomInfos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
-          );
-        }
         getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
 
         // remove the roomInfos locally for this open group room
