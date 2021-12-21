@@ -2157,7 +2157,7 @@ async function getUnreadReactionsAndMarkRead({
     const unreadMessages: Array<ReactionResultType> = db
       .prepare<Query>(
         `
-        SELECT rowid, targetAuthorUuid, targetTimestamp, messageId
+        SELECT reactions.rowid, targetAuthorUuid, targetTimestamp, messageId
         FROM reactions
         JOIN messages on messages.id IS reactions.messageId
         WHERE

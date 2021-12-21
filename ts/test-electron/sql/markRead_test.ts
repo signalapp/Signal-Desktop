@@ -410,6 +410,17 @@ describe('sql/markRead', () => {
     const conversationId = getUuid();
     const storyId = getUuid();
 
+    const pad: Array<MessageAttributesType> = Array.from({ length: 4 }, _ => {
+      return {
+        id: getUuid(),
+        body: 'pad message',
+        type: 'incoming',
+        conversationId,
+        sent_at: start - 1,
+        received_at: start - 1,
+        timestamp: start - 1,
+      };
+    });
     const message1: MessageAttributesType = {
       id: getUuid(),
       body: 'message 1',
@@ -457,10 +468,13 @@ describe('sql/markRead', () => {
       timestamp: start + 5,
     };
 
-    await saveMessages([message1, message2, message3, message4, message5], {
-      forceSave: true,
-    });
-    assert.lengthOf(await _getAllMessages(), 5);
+    await saveMessages(
+      [...pad, message1, message2, message3, message4, message5],
+      {
+        forceSave: true,
+      }
+    );
+    assert.lengthOf(await _getAllMessages(), pad.length + 5);
 
     const reaction1: ReactionType = {
       conversationId,
