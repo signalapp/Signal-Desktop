@@ -904,7 +904,7 @@
         "description": "Shown on contact detail screen as a label for an address/phone/email"
     },
     "mobile": {
-        "message": "携帯",
+        "message": "携帯電話",
         "description": "Shown on contact detail screen as a label for a phone or email"
     },
     "email": {

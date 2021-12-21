@@ -5322,11 +5322,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Стать поддерживающим",
+        "message": "Стать Поддерживающим",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Стать поддерживающим",
+        "message": "Стать Поддерживающим",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5342,7 +5342,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Нажмите на «Стать поддерживающим» и подпишитесь",
+        "message": "Нажмите на «Стать Поддерживающим» и подпишитесь",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {

@@ -258,7 +258,7 @@
         "description": "Header shown on the first screen in the data import process"
     },
     "loadDataDescription": {
-        "message": "Bạn vừa hoàn thành quá trình xuất dữ liệu, các liên hệ và tin nhắn của bạn vẫn còn trên máy tính của bạn. Hãy chọn thư mục dữ liệu Signal đã lưu của bạn.",
+        "message": "Bạn vừa hoàn thành quá trình xuất dữ liệu, các liên hệ và tin nhắn của bạn vẫn còn trên máy tính của bạn. Hãy chọn thư mục chứa dữ liệu Signal đã lưu của bạn.",
         "description": "Introduction to the process of importing messages and contacts from disk"
     },
     "importChooserTitle": {
@@ -350,7 +350,7 @@
         }
     },
     "messageHistoryUnsynced": {
-        "message": "Vì sự an ninh của bạn, lịch sử trò chuyện không được chuyển sang các thiết bị mới được liên kết.",
+        "message": "Vì sự bảo mật của bạn, lịch sử trò chuyện không được chuyển sang các thiết bị mới được liên kết.",
         "description": "Shown in the conversation history when a user links a new device to explain what is not supported."
     },
     "youMarkedAsVerified": {
@@ -494,7 +494,7 @@
         "description": "Shown as the text for the download button on the debug log screen"
     },
     "debugLogLinkCopied": {
-        "message": "Đường dẫn đã được sao chép vào bảng sao chép",
+        "message": "Đường dẫn đã được sao chép vào bộ nhớ tạm",
         "description": "Shown in a toast to let the user know that the link to the debug log has been copied to their clipboard"
     },
     "reportIssue": {
@@ -670,7 +670,7 @@
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
-        "message": "Bạn không thể kết hợp tập tin hình ảnh và tập tin không phải hình ảnh đính kèm trong cùng một tin nhắn.",
+        "message": "Bạn không thể kết hợp tập tin không phải hình ảnh và tập tin hình ảnh đính kèm trong cùng một tin nhắn.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "maximumAttachments": {
@@ -722,7 +722,7 @@
         "description": "View menu item to force the app to update download and install"
     },
     "helpMenuShowKeyboardShortcuts": {
-        "message": "Hiện phím tắt bàn phím",
+        "message": "Hiện Phím tắt bàn phím",
         "description": "Item under the help menu, pops up a screen showing the application's keyboard shortcuts"
     },
     "contactUs": {
@@ -1038,7 +1038,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "text": {
-        "message": "Tin nhắn",
+        "message": "Văn bản",
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
@@ -1240,7 +1240,7 @@
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "DeliveryIssue--preview": {
-        "message": "Lỗi chuyển tin nhắn",
+        "message": "Vấn đề truyền tải",
         "description": "Shown in left pane preview when message delivery issue happens"
     },
     "DeliveryIssue--notification": {
@@ -1258,7 +1258,7 @@
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
-        "message": "Vấn đề Truyền tải",
+        "message": "Lỗi chuyên",
         "description": "Shown on explainer dialog available from delivery issue timeline events"
     },
     "DeliveryIssue--summary": {
@@ -1380,7 +1380,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Cập nhật Signal trên thiết bị này để kết nối thiết bị của bạn.",
+        "message": "Cập nhật Signal trên thiết bị này để kết nối với điện thoại của bạn.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1460,7 +1460,7 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Tắt chế độ Trình bày",
+        "message": "Tắt chế độ trình bày",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
@@ -1724,7 +1724,7 @@
         "description": "Title for the share screen notification"
     },
     "calling__presenting--notification-body": {
-        "message": "Nhấn vào đây để trả lời cuộc điện thoại khi bạn sẵn sàng để ngưng trình bày.",
+        "message": "Nhấn vào đây để trả lời cuộc điện thoại khi bạn sẵn sàng ngưng trình bày.",
         "description": "Body text for the share screen notification"
     },
     "calling__presenting--info": {
@@ -1774,7 +1774,7 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
-        "message": "Đi đến Tuỳ chọn Hệ thống.",
+        "message": "Đi đến Tuỳ chỉnh Hệ thống.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step2": {
@@ -1782,11 +1782,11 @@
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step3": {
-        "message": "Phía bên tay phải, đánh vào ô cạnh chữ Signal. Nếu bạn không thấy Signal trong danh sách, nhấn dấu + để thêm vào.",
+        "message": "Phía bên tay phải, đánh dấu vào ô cạnh chữ Signal. Nếu bạn không thấy Signal trong danh sách, nhấn dấu + để thêm vào.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-open": {
-        "message": "Mở Tuỳ chọn Hệ thống.",
+        "message": "Mở Tuỳ chỉnh Hệ thống.",
         "description": "The button that opens your system preferences for the needs screen record permissions modal"
     },
     "calling__presenting--permission-cancel": {
@@ -1906,7 +1906,7 @@
         "description": "Displayed in notifications for only 1 message"
     },
     "notificationSenderInGroup": {
-        "message": "$sender$ in $group$",
+        "message": "$sender$ trong $group$",
         "description": "Displayed in notifications for messages in a group",
         "placeholders": {
             "sender": {
@@ -1920,7 +1920,7 @@
         }
     },
     "notificationReaction": {
-        "message": "$sender$đã bày tỏ về  $emoji$ trong tin nhắn của bạn",
+        "message": "$sender$đã bày tỏ $emoji$ trong tin nhắn của bạn",
         "description": "",
         "placeholders": {
             "sender": {
@@ -2332,7 +2332,7 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Đã đạt giới hạn thành viên được giới thiệu",
+        "message": "Đã đạt giới hạn thành viên được khuyến nghị",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {

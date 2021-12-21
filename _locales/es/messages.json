@@ -2292,7 +2292,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "Alias de usuari@ no encontrado. $atUsername$ no usa Signal. Asegúrate de haber introducido el alias de usuari@ correcto.",
+        "message": "Alias de usuari@ no encontrado. $atUsername$ no usa Signal. Asegúrate de haber introducido el alias correcto.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -6702,7 +6702,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop funciona nativamente en los procesadores M1 que Apple usa en sus nuevos Macs. Si utilizas uno de esos Macs, Signal funciona de manara más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
+        "message": "Signal Desktop funciona nativamente en los procesadores M1 que Apple usa en sus nuevos Macs. Si utilizas uno de esos Macs, Signal funciona de manera más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
