@@ -179,7 +179,7 @@
     "chai-bytes": "^0.1.2",
     "css-loader": "^3.6.0",
     "dashdash": "1.14.1",
-    "electron": "^13.1.9",
+    "electron": "^13.6.2",
     "electron-builder": "22.8.0",
     "electron-notarize": "^0.2.0",
     "eslint": "4.14.0",
