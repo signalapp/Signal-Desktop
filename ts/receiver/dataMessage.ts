@@ -362,29 +362,28 @@ export async function isMessageDuplicate({
   serverTimestamp,
 }: MessageId) {
   const { Errors } = window.Signal.Types;
-  // serverId is only used for opengroupv2
+  // serverTimestamp is only used for opengroupv2
   try {
     let result;
     if (serverTimestamp) {
       // first try to find a duplicate with the same serverTimestamp from this sender
-      if (serverTimestamp) {
-        result = await getMessageBySenderAndServerTimestamp({
-          source,
-          serverTimestamp,
-        });
-      }
+
+      result = await getMessageBySenderAndServerTimestamp({
+        source,
+        serverTimestamp,
+      });
+
       // if we have a result, it means a specific user sent two messages either with the same serverTimestamp.
       // no need to do anything else, those messages must be the same
       // Note: this test is not based on which conversation the user sent the message
       // but we consider that a user sending two messages with the same serverTimestamp is unlikely
       return Boolean(result);
-    } else {
-      result = await getMessageBySender({
-        source,
-        sourceDevice,
-        sentAt: timestamp,
-      });
     }
+    result = await getMessageBySender({
+      source,
+      sourceDevice,
+      sentAt: timestamp,
+    });
 
     if (!result) {
       return false;
