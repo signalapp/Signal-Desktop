@@ -13,8 +13,6 @@ type Props = {
   isConversationListItem?: boolean;
 };
 
-const UPDATE_FREQUENCY = 60 * 1000;
-
 const TimestampContainerListItem = styled.div`
   flex-shrink: 0;
   margin-inline-start: 6px;
@@ -27,6 +25,8 @@ const TimestampContainerListItem = styled.div`
   text-transform: uppercase;
   color: var(--color-text);
 `;
+
+const UPDATE_FREQUENCY = 60 * 1000;
 
 const TimestampContainerNotListItem = styled.div`
   font-size: 11px;
