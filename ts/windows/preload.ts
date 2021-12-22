@@ -55,6 +55,7 @@ installCallback('syncRequest');
 installSetting('notificationDrawAttention');
 installSetting('notificationSetting');
 installSetting('spellCheck');
+installSetting('doNotSendArchivedToInbox');
 installSetting('lastSyncTime');
 installSetting('systemTraySetting');
 installSetting('themeSetting');

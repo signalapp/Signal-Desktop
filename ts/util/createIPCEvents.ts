@@ -52,6 +52,7 @@ export type IPCEventsValuesType = {
   preferredAudioOutputDevice: AudioDevice | undefined;
   preferredVideoInputDevice: string | undefined;
   spellCheck: boolean;
+  doNotSendArchivedToInbox: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
   universalExpireTimer: number;
@@ -315,6 +316,8 @@ export function createIPCEvents(
 
     getSpellCheck: () => window.storage.get('spell-check', true),
     setSpellCheck: value => window.storage.put('spell-check', value),
+    getDoNotSendArchivedToInbox: () => window.storage.get('do-not-send-archived-to-inbox', false),
+    setDoNotSendArchivedToInbox: value => window.storage.put('do-not-send-archived-to-inbox', value),
 
     getAlwaysRelayCalls: () => window.storage.get('always-relay-calls'),
     setAlwaysRelayCalls: value =>

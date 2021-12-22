@@ -65,6 +65,7 @@ export type PropsType = {
   hasReadReceipts: boolean;
   hasRelayCalls?: boolean;
   hasSpellCheck: boolean;
+  doNotSendArchivedToInbox: boolean;
   hasTypingIndicators: boolean;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
@@ -132,6 +133,7 @@ export type PropsType = {
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSpellCheckChange: CheckboxChangeHandlerType;
+  onDoNotSendArchivedToInboxChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
@@ -212,6 +214,7 @@ export const Preferences = ({
   hasReadReceipts,
   hasRelayCalls,
   hasSpellCheck,
+  doNotSendArchivedToInbox,
   hasTypingIndicators,
   i18n,
   initialSpellCheckSetting,
@@ -247,6 +250,7 @@ export const Preferences = ({
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
   onSpellCheckChange,
+  onDoNotSendArchivedToInboxChange,
   onThemeChange,
   onUniversalExpireTimerChange,
   onZoomFactorChange,
@@ -498,6 +502,13 @@ export const Preferences = ({
             moduleClassName="Preferences__checkbox"
             name="spellcheck"
             onChange={onSpellCheckChange}
+          />
+          <Checkbox
+            checked={doNotSendArchivedToInbox}
+            label={i18n('doNotSendArchivedToInboxDescription')}
+            moduleClassName="Preferences__checkbox"
+            name="doNotSendArchivedToInbox"
+            onChange={onDoNotSendArchivedToInboxChange}
           />
           <Checkbox
             checked={hasLinkPreviews}

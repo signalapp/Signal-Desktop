@@ -78,6 +78,7 @@ export class SettingsChannel {
     this.installSetting('notificationDrawAttention');
     this.installSetting('audioNotification');
     this.installSetting('countMutedConversations');
+    this.installSetting('doNotSendArchivedToInbox');
 
     this.installSetting('spellCheck', {
       isEphemeral: true,

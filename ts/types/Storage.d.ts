@@ -63,6 +63,7 @@ export type StorageAccessType = {
   'notification-setting': NotificationSettingType;
   'read-receipt-setting': boolean;
   'spell-check': boolean;
+  'do-not-send-archived-to-inbox': boolean,
   'theme-setting': ThemeSettingType;
   attachmentMigration_isComplete: boolean;
   attachmentMigration_lastProcessedIndex: number;

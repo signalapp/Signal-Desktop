@@ -13,11 +13,13 @@ import type { StorageAccessType } from '../../types/Storage.d';
 import { UUID } from '../../types/UUID';
 import { SignalService as Proto } from '../../protobuf';
 import { getContact } from '../../messages/helpers';
+import { createIPCEvents } from '../../util/createIPCEvents';
 
 describe('Message', () => {
   const STORAGE_KEYS_TO_RESTORE: Array<keyof StorageAccessType> = [
     'number_id',
     'uuid_id',
+    'do-not-send-archived-to-inbox',
   ];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const oldStorageValues = new Map<keyof StorageAccessType, any>();
@@ -564,6 +566,58 @@ describe('Message', () => {
         }).getNotificationData(),
         { text: 'hello world' }
       );
+    });
+
+    it('keep conversation archived when doNotSendArchivedToInboxIsTrue and message is archived', async function test() {
+      window.textsecure.storage.put('do-not-send-archived-to-inbox', true);
+      window.Events = createIPCEvents();      
+
+      const initialConversation = await window.ConversationController.getOrCreateAndWait(
+        'conversationId',
+        'private',
+        {
+          isArchived: true
+        }
+      );
+
+      const message = createMessage({
+        ...attributes,
+        type: 'incoming',
+        conversationId: 'conversationId'
+      });
+
+      await message.modifyTargetMessage(
+        initialConversation,
+        true);
+
+      const conversation = await window.ConversationController.get('conversationId');
+      assert.strictEqual(conversation?.get('isArchived'), true);
+    });
+
+    it('unarchive conversation when doNotSendArchivedToInbox is false and message is archived', async function test() {
+      window.textsecure.storage.put('do-not-send-archived-to-inbox', false);
+      window.Events = createIPCEvents();  
+
+      const initialConversation = await window.ConversationController.getOrCreateAndWait(
+        'conversationId',
+        'private',
+        {
+          isArchived: true
+        }
+      );
+
+      const message = createMessage({
+        ...attributes,
+        type: 'incoming',
+        conversationId: 'conversationId'
+      });
+
+      await message.modifyTargetMessage(
+        initialConversation,
+        true);
+
+      const conversation = await window.ConversationController.get('conversationId');
+      assert.strictEqual(conversation?.get('isArchived'), false);
     });
   });
 

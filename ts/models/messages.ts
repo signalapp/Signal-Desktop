@@ -2663,6 +2663,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     const type = message.get('type');
     let changed = false;
 
+    const doNotSendArchivedToInbox = window.Events.getDoNotSendArchivedToInbox();
+
     if (type === 'outgoing') {
       const sendActions = MessageReceipts.getSingleton()
         .forMessage(conversation, message)
@@ -2778,7 +2780,8 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         );
       } else if (isFirstRun && !isGroupStoryReply) {
         conversation.set({
-          isArchived: false,
+          unreadCount: (conversation.get('unreadCount') || 0) + 1,
+          isArchived: conversation.get('isArchived') ? doNotSendArchivedToInbox : false,
         });
       }
 

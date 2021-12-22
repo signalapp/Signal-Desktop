@@ -86,6 +86,7 @@ const createProps = (): PropsType => ({
   hasReadReceipts: true,
   hasRelayCalls: false,
   hasSpellCheck: true,
+  doNotSendArchivedToInbox: false,
   hasTypingIndicators: true,
   lastSyncTime: Date.now(),
   notificationContent: 'name',
@@ -152,10 +153,10 @@ const createProps = (): PropsType => ({
   onSelectedMicrophoneChange: action('onSelectedMicrophoneChange'),
   onSelectedSpeakerChange: action('onSelectedSpeakerChange'),
   onSpellCheckChange: action('onSpellCheckChange'),
+  onDoNotSendArchivedToInboxChange: action('onDoNotSendArchivedToInboxChange'),
   onThemeChange: action('onThemeChange'),
   onUniversalExpireTimerChange: action('onUniversalExpireTimerChange'),
   onZoomFactorChange: action('onZoomFactorChange'),
-
   i18n,
 });
 

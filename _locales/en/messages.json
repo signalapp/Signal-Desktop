@@ -1894,6 +1894,10 @@
     "message": "Spell check will be disabled the next time Signal starts.",
     "description": "Shown when the user disables spellcheck to indicate that they must restart Signal."
   },
+  "doNotSendArchivedToInboxDescription": {
+    "message": "Archived chats stay archived when new messages are received",
+    "description": "Description of the archived chats stay archived setting"
+  },
   "SystemTraySetting__minimize-to-system-tray": {
     "message": "Minimize to system tray",
     "description": "In the settings, shown next to the checkbox option for minimizing to the system tray"

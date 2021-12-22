@@ -42,6 +42,7 @@ const settingNotificationDrawAttention = createSetting(
 const settingNotificationSetting = createSetting('notificationSetting');
 const settingRelayCalls = createSetting('alwaysRelayCalls');
 const settingSpellCheck = createSetting('spellCheck');
+const settingDoNotSendArchivedToInbox = createSetting('doNotSendArchivedToInbox');
 const settingTheme = createSetting('themeSetting');
 const settingSystemTraySetting = createSetting('systemTraySetting');
 
@@ -143,6 +144,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
+    doNotSendArchivedToInbox,
     hasTypingIndicators,
     isPhoneNumberSharingSupported,
     lastSyncTime,
@@ -156,7 +158,6 @@ const renderPreferences = async () => {
     whoCanFindMe,
     whoCanSeeMe,
     zoomFactor,
-
     availableIODevices,
     customColors,
     isSyncNotSupported,
@@ -179,6 +180,7 @@ const renderPreferences = async () => {
     hasReadReceipts: settingReadReceipts.getValue(),
     hasRelayCalls: settingRelayCalls.getValue(),
     hasSpellCheck: settingSpellCheck.getValue(),
+    doNotSendArchivedToInbox: settingDoNotSendArchivedToInbox.getValue(),
     hasTypingIndicators: settingTypingIndicators.getValue(),
     isPhoneNumberSharingSupported: ipcPNP(),
     lastSyncTime: settingLastSyncTime.getValue(),
@@ -233,6 +235,7 @@ const renderPreferences = async () => {
     hasReadReceipts,
     hasRelayCalls,
     hasSpellCheck,
+    doNotSendArchivedToInbox,
     hasTypingIndicators,
     lastSyncTime,
     notificationContent,
@@ -324,6 +327,7 @@ const renderPreferences = async () => {
     onSelectedMicrophoneChange: reRender(settingAudioInput.setValue),
     onSelectedSpeakerChange: reRender(settingAudioOutput.setValue),
     onSpellCheckChange: reRender(settingSpellCheck.setValue),
+    onDoNotSendArchivedToInboxChange: reRender(settingDoNotSendArchivedToInbox.setValue),
     onThemeChange: reRender(settingTheme.setValue),
     onUniversalExpireTimerChange: reRender(
       settingUniversalExpireTimer.setValue
