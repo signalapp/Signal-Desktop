@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
+import { useConversationUsername } from '../../hooks/useParamSelector';
 
 type Props = {
   pubkey: string;
@@ -17,13 +18,15 @@ export const ContactName = (props: Props) => {
   const { pubkey, name, profileName, module, boldProfileName, compact, shouldShowPubkey } = props;
   const prefix = module ? module : 'module-contact-name';
 
-  const shouldShowProfile = Boolean(profileName || name);
+  const convoName = useConversationUsername(pubkey);
+
+  const shouldShowProfile = Boolean(convoName || profileName || name);
   const styles = (boldProfileName
     ? {
         fontWeight: 'bold',
       }
     : {}) as React.CSSProperties;
-  const textProfile = profileName || name || window.i18n('anonymous');
+  const textProfile = profileName || name || convoName || window.i18n('anonymous');
   const profileElement = shouldShowProfile ? (
     <span style={styles as any} className={`${prefix}__profile-name`}>
       <Emojify text={textProfile} />
