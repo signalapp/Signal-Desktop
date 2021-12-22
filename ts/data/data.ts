@@ -3,10 +3,15 @@ import { ipcRenderer } from 'electron';
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 
 import _ from 'lodash';
-import { ConversationCollection, ConversationModel } from '../models/conversation';
+import {
+  ConversationCollection,
+  ConversationModel,
+  ConversationTypeEnum,
+} from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
-import { MessageAttributes } from '../models/messageType';
+import { MessageAttributes, MessageDirection } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
+import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
@@ -109,6 +114,7 @@ const channelsToMake = {
 
   removeAllMessagesInConversation,
 
+  getMessageCount,
   getMessageBySender,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
@@ -123,6 +129,7 @@ const channelsToMake = {
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
   getLastHashBySnode,
+  trimMessages,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -155,6 +162,9 @@ const channelsToMake = {
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
   removeOneOpenGroupV1Message,
+
+  // dev performance testing
+  fillWithTestData,
 
   // open group v2
   ...channelstoMakeOpenGroupV2,
@@ -191,8 +201,12 @@ export function init() {
   });
 }
 
-// When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
-// We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
+/**
+ * When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
+ * We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
+ * @param data
+ * @returns
+ */
 function _cleanData(data: any): any {
   const keys = Object.keys(data);
 
@@ -758,6 +772,13 @@ export async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
+/**
+ * @returns Returns count of all messages in the database
+ */
+export async function getMessageCount() {
+  return await channels.getMessageCount();
+}
+
 export async function getFirstUnreadMessageIdInConversation(
   conversationId: string
 ): Promise<string | undefined> {
@@ -799,6 +820,12 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
   } while (messages.length > 0);
+}
+
+export async function trimMessages(): Promise<void> {
+  const count = await channels.trimMessages();
+  console.warn({ count });
+  return;
 }
 
 export async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
@@ -964,3 +991,49 @@ export async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<v
 export async function removeOneOpenGroupV1Message(): Promise<number> {
   return channels.removeOneOpenGroupV1Message();
 }
+
+/**
+ * Generates fake conversations and distributes messages amongst the conversations randomly
+ * @param numConvosToAdd Amount of fake conversations to generate
+ * @param numMsgsToAdd Number of fake messages to generate
+ */
+export async function fillWithTestData(
+  numConvosToAdd: number,
+  numMsgsToAdd: number
+): Promise<void> {
+  if (!channels.fillWithTestData) {
+    return;
+  }
+  const ids = await channels.fillWithTestData(numConvosToAdd, numMsgsToAdd);
+  ids.map(async (id: string) => {
+    const convo = getConversationController().get(id);
+    const convoMsg = 'x';
+    convo.set('lastMessage', convoMsg);
+  });
+}
+
+export const fillWithTestData2 = async (convs: number, msgs: number) => {
+  const newConvos = [];
+  for (let convsAddedCount = 0; convsAddedCount < convs; convsAddedCount++) {
+    const convoId = Date.now() + convsAddedCount + '';
+    const newConvo = await getConversationController().getOrCreateAndWait(
+      convoId,
+      ConversationTypeEnum.PRIVATE
+    );
+    newConvos.push(newConvo);
+  }
+
+  for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
+    if (msgsAddedCount % 100 == 0) {
+      console.warn(msgsAddedCount);
+    }
+    const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
+    convoToChoose.addSingleMessage({
+      source: convoToChoose.id,
+      type: MessageDirection.outgoing,
+      conversationId: convoToChoose.id,
+      body: 'spongebob ' + new Date().toString(),
+      direction: Math.random() > 0.5 ? 'outgoing' : 'incoming',
+    });
+  }
+};

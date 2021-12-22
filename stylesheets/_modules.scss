@@ -1547,7 +1547,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: $color-gray-90;
+  color: var(--color-text-subtle);
 }
 
 .module-message-search-result__header__timestamp {

@@ -118,6 +118,11 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
+export enum MessageDirection {
+  outgoing = 'outgoing',
+  incoming = 'incoming',
+}
+
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;

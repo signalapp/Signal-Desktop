@@ -3,10 +3,13 @@ import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from '../leftpane/conversation-list-item/ConversationListItem';
+import { MessageSearchResult } from './MessageSearchResults';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
   conversations: Array<ConversationListItemProps>;
+  // TODO: ww add proper typing
+  messages: Array<any>;
   hideMessagesHeader: boolean;
   searchTerm: string;
 };
@@ -23,11 +26,12 @@ const ContactsItem = (props: { header: string; items: Array<ConversationListItem
 };
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { conversations, contacts, searchTerm } = props;
+  const { conversations, contacts, messages, searchTerm, hideMessagesHeader } = props;
 
   const haveConversations = conversations && conversations.length;
   const haveContacts = contacts && contacts.length;
-  const noResults = !haveConversations && !haveContacts;
+  const haveMessages = messages && messages.length;
+  const noResults = !haveConversations && !haveContacts && !haveMessages;
 
   return (
     <div className="module-search-results">
@@ -50,7 +54,7 @@ export const SearchResults = (props: SearchResultsProps) => {
         <ContactsItem header={window.i18n('contactsHeader')} items={contacts} />
       ) : null}
 
-      {/* {haveMessages ? (
+      {haveMessages ? (
         <div className="module-search-results__messages">
           {hideMessagesHeader ? null : (
             <div className="module-search-results__messages-header">
@@ -61,7 +65,7 @@ export const SearchResults = (props: SearchResultsProps) => {
             <MessageSearchResult key={message.id} {...message} />
           ))}
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };
