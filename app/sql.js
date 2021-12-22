@@ -73,6 +73,8 @@ module.exports = {
   getMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
+  trimMessages,
+  fillWithTestData,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -3019,7 +3021,39 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     .get()['count(*)'];
 
   const lipsum =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem, non suscipit purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse cursus aliquet velit a dignissim. Integer at nisi sed velit consequat dictum. Phasellus congue tellus ante. Ut rutrum hendrerit dapibus. Fusce luctus, ante nec interdum molestie, purus urna volutpat turpis, eget mattis lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus at nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi ante. Donec aliquam porta nibh, vel scelerisque orci condimentum sed. Proin in mattis ipsum, ac euismod sem. Donec malesuada sem nisl, at vehicula ante efficitur sed. Curabitur in sapien eros. Morbi tempor ante ut metus scelerisque condimentum. Integer sit amet tempus nulla. Vivamus imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla facilisi. Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida mauris in luctus. Fusce dapibus, est vitae tincidunt eleifend, justo odio porta dui, sed ultrices mi arcu vitae ante. Mauris ut libero erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim. Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae viverra augue. Ut turpis quam, cursus quis ex a, convallis ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae aliquet sollicitudin.';
+    // eslint:disable-next-line max-line-length
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem,
+    non suscipit      purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Suspendisse cursus aliquet       velit a dignissim. Integer at nisi sed velit consequat
+    dictum. Phasellus congue tellus ante.        Ut rutrum hendrerit dapibus. Fusce
+    luctus, ante nec interdum molestie, purus urna volutpat         turpis, eget mattis
+    lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus          at
+    nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi
+    ante.           Donec aliquam porta nibh, vel scelerisque orci condimentum sed.
+    Proin in mattis ipsum,            ac euismod sem. Donec malesuada sem nisl, at
+    vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
+    metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
+    imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
+    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur       
+            viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
+    mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
+    odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
+    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.                 
+    Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
+    viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
+    ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
+    fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum
+    malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque
+    eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed
+    justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec
+    auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at
+    tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non
+    augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus
+    elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis
+    lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent
+    faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae
+    aliquet sollicitudin.
+    `;
 
   const msgBeforeCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
     'count(*)'

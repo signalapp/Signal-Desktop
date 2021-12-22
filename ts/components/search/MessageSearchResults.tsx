@@ -116,8 +116,8 @@ export const MessageSearchResult = (props: Props) => {
   return (
     <div
       role="button"
-      onClick={() => {
-        openConversationWithMessages({
+      onClick={async () => {
+        await openConversationWithMessages({
           conversationKey: conversationId,
           messageId: id,
         });

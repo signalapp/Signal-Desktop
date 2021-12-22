@@ -204,8 +204,7 @@ export function init() {
 /**
  * When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
  * We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
- * @param data
- * @returns
+ * @param data - data to be cleaned
  */
 function _cleanData(data: any): any {
   const keys = Object.keys(data);
@@ -776,7 +775,7 @@ export async function getMessagesByConversation(
  * @returns Returns count of all messages in the database
  */
 export async function getMessageCount() {
-  return await channels.getMessageCount();
+  return channels.getMessageCount();
 }
 
 export async function getFirstUnreadMessageIdInConversation(
@@ -1005,7 +1004,7 @@ export async function fillWithTestData(
     return;
   }
   const ids = await channels.fillWithTestData(numConvosToAdd, numMsgsToAdd);
-  ids.map(async (id: string) => {
+  ids.map((id: string) => {
     const convo = getConversationController().get(id);
     const convoMsg = 'x';
     convo.set('lastMessage', convoMsg);
@@ -1015,7 +1014,7 @@ export async function fillWithTestData(
 export const fillWithTestData2 = async (convs: number, msgs: number) => {
   const newConvos = [];
   for (let convsAddedCount = 0; convsAddedCount < convs; convsAddedCount++) {
-    const convoId = Date.now() + convsAddedCount + '';
+    const convoId = `${Date.now()} + ${convsAddedCount}`;
     const newConvo = await getConversationController().getOrCreateAndWait(
       convoId,
       ConversationTypeEnum.PRIVATE
@@ -1024,15 +1023,17 @@ export const fillWithTestData2 = async (convs: number, msgs: number) => {
   }
 
   for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
-    if (msgsAddedCount % 100 == 0) {
+    if (msgsAddedCount % 100 === 0) {
       console.warn(msgsAddedCount);
     }
+    // tslint:disable: insecure-random
     const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
-    convoToChoose.addSingleMessage({
+    await convoToChoose.addSingleMessage({
       source: convoToChoose.id,
       type: MessageDirection.outgoing,
       conversationId: convoToChoose.id,
-      body: 'spongebob ' + new Date().toString(),
+      body: `spongebob ${new Date().toString()}`,
+      // tslint:disable: insecure-random
       direction: Math.random() > 0.5 ? 'outgoing' : 'incoming',
     });
   }

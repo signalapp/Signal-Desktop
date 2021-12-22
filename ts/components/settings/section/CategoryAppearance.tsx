@@ -172,14 +172,14 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
         />
         <SessionSettingButtonItem
           onClick={async () => {
-            fillWithTestData(100, 2000000);
+            await fillWithTestData(100, 2000000);
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={'Spam fill DB'}
         />
         <SessionSettingButtonItem
           onClick={async () => {
-            fillWithTestData2(100, 1000);
+            await fillWithTestData2(100, 1000);
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={'Spam fill DB using cached'}
