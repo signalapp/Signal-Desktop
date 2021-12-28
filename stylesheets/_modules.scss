@@ -6101,7 +6101,7 @@ button.module-image__border-overlay:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: $z-index-popup;
+    z-index: $z-index-popup-overlay;
   }
 
   &__container {
