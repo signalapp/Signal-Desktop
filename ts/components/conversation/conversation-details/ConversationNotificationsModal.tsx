@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useMemo, useState } from 'react';
@@ -59,6 +59,7 @@ export const ConversationNotificationsModal = ({
             checked={muteExpirationValue === option.value}
             disabled={option.disabled}
             isRadio
+            key={option.value}
             label={option.text}
             moduleClassName="ConversationDetails__radio"
             name="mute"
