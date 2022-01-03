@@ -3417,26 +3417,6 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    if (
-      error instanceof HTTPError &&
-      (error.code === -1 || error.code === 502)
-    ) {
-      // Failed to connect to server
-      if (navigator.onLine) {
-        const timeout = reconnectBackOff.getAndIncrement();
-
-        log.info(`retrying in ${timeout}ms`);
-        reconnectTimer = Timers.setTimeout(connect, timeout);
-
-        window.Whisper.events.trigger('reconnectTimer');
-
-        // If we couldn't connect during startup - we should still switch SQL to
-        // the main process to avoid stalling UI.
-        window.Signal.Data.goBackToMainProcess();
-      }
-      return;
-    }
-
     log.warn('background onError: Doing nothing with incoming error');
   }
 

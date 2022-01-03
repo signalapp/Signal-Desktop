@@ -8,6 +8,7 @@ import type {
 import { getSocketStatus } from '../shims/socketStatus';
 import * as log from '../logging/log';
 import { SECOND } from '../util/durations';
+import { SocketStatus } from '../types/SocketStatus';
 
 type NetworkActions = {
   checkNetworkStatus: (x: CheckNetworkStatusPayloadType) => NetworkActionType;
@@ -20,9 +21,17 @@ export function initializeNetworkObserver(
   log.info('Initializing network observer');
 
   const refresh = () => {
+    const socketStatus = getSocketStatus();
+
+    if (socketStatus === SocketStatus.CLOSED) {
+      // If we couldn't connect during startup - we should still switch SQL to
+      // the main process to avoid stalling UI.
+      window.Signal.Data.goBackToMainProcess();
+    }
+
     networkActions.checkNetworkStatus({
       isOnline: navigator.onLine,
-      socketStatus: getSocketStatus(),
+      socketStatus,
     });
   };
 
