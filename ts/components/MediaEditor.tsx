@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Measure from 'react-measure';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import { fabric } from 'fabric';
@@ -27,6 +27,7 @@ import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPe
 import { MediaEditorFabricCropRect } from '../mediaEditor/MediaEditorFabricCropRect';
 import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText';
 import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker';
+import { fabricEffectListener } from '../mediaEditor/fabricEffectListener';
 import { getRGBA, getHSL } from '../mediaEditor/util/color';
 import {
   TextStyle,
@@ -39,6 +40,16 @@ export type PropsType = {
   onClose: () => unknown;
   onDone: (data: Uint8Array) => unknown;
 } & Pick<StickerButtonProps, 'installedPacks' | 'recentStickers'>;
+
+const INITIAL_IMAGE_STATE: ImageStateType = {
+  angle: 0,
+  cropX: 0,
+  cropY: 0,
+  flipX: false,
+  flipY: false,
+  height: 0,
+  width: 0,
+};
 
 enum EditMode {
   Crop = 'Crop',
@@ -85,19 +96,18 @@ export const MediaEditor = ({
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
 
-  const isRestoringImageState = useRef(false);
-
   const canvasId = useUniqueId();
 
-  const [imageState, setImageState] = useState<ImageStateType>({
-    angle: 0,
-    cropX: 0,
-    cropY: 0,
-    flipX: false,
-    flipY: false,
-    height: image.height,
-    width: image.width,
-  });
+  const [imageState, setImageState] =
+    useState<ImageStateType>(INITIAL_IMAGE_STATE);
+
+  // History state
+  const { canRedo, canUndo, redoIfPossible, takeSnapshot, undoIfPossible } =
+    useFabricHistory({
+      fabricCanvas,
+      imageState,
+      setImageState,
+    });
 
   // Initial image load and Fabric canvas setup
   useEffect(() => {
@@ -114,11 +124,14 @@ export const MediaEditor = ({
       const canvas = new fabric.Canvas(canvasId);
       canvas.selection = false;
       setFabricCanvas(canvas);
-      setImageState(curr => ({
-        ...curr,
+
+      const newImageState = {
+        ...INITIAL_IMAGE_STATE,
         height: img.height,
         width: img.width,
-      }));
+      };
+      setImageState(newImageState);
+      takeSnapshot('initial state', newImageState, canvas);
     };
     img.onerror = () => {
       // This is a bad experience, but it should be impossible.
@@ -130,9 +143,7 @@ export const MediaEditor = ({
       img.onload = noop;
       img.onerror = noop;
     };
-  }, [canvasId, fabricCanvas, imageSrc, onClose]);
-
-  const history = useFabricHistory(fabricCanvas);
+  }, [canvasId, fabricCanvas, imageSrc, onClose, takeSnapshot]);
 
   // Keyboard support
   useEffect(() => {
@@ -155,22 +166,8 @@ export const MediaEditor = ({
         ev => isCmdOrCtrl(ev) && ev.key === 't',
         () => setEditMode(EditMode.Text),
       ],
-      [
-        ev => isCmdOrCtrl(ev) && ev.key === 'z',
-        () => {
-          if (history?.canUndo()) {
-            history?.undo();
-          }
-        },
-      ],
-      [
-        ev => isCmdOrCtrl(ev) && ev.shiftKey && ev.key === 'z',
-        () => {
-          if (history?.canRedo()) {
-            history?.redo();
-          }
-        },
-      ],
+      [ev => isCmdOrCtrl(ev) && ev.key === 'z', undoIfPossible],
+      [ev => isCmdOrCtrl(ev) && ev.shiftKey && ev.key === 'z', redoIfPossible],
       [
         ev => ev.key === 'Escape',
         () => {
@@ -308,20 +305,7 @@ export const MediaEditor = ({
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, [fabricCanvas, history]);
-
-  // Take a snapshot of history whenever imageState changes
-  useEffect(() => {
-    if (
-      !imageState.height ||
-      !imageState.width ||
-      isRestoringImageState.current
-    ) {
-      isRestoringImageState.current = false;
-      return;
-    }
-    history?.takeSnapshot(imageState);
-  }, [history, imageState]);
+  }, [fabricCanvas, redoIfPossible, undoIfPossible]);
 
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
@@ -359,8 +343,6 @@ export const MediaEditor = ({
     drawFabricBackgroundImage({ fabricCanvas, image, imageState });
   }, [fabricCanvas, image, imageState]);
 
-  const [canRedo, setCanRedo] = useState(false);
-  const [canUndo, setCanUndo] = useState(false);
   const [canCrop, setCanCrop] = useState(false);
   const [cropAspectRatioLock, setCropAspectRatioLock] = useState(false);
   const [drawTool, setDrawTool] = useState<DrawTool>(DrawTool.Pen);
@@ -369,64 +351,22 @@ export const MediaEditor = ({
   const [sliderValue, setSliderValue] = useState<number>(0);
   const [textStyle, setTextStyle] = useState<TextStyle>(TextStyle.Regular);
 
-  // Check if we can undo/redo & restore the image state on undo/undo
-  useEffect(() => {
-    if (!history) {
-      return;
-    }
-
-    function refreshUndoState() {
-      if (!history) {
-        return;
-      }
-
-      setCanUndo(history.canUndo());
-      setCanRedo(history.canRedo());
-    }
-
-    function restoreImageState(prevImageState: ImageStateType) {
-      isRestoringImageState.current = true;
-      setImageState(curr => ({ ...curr, ...prevImageState }));
-    }
-
-    function takeSnapshot() {
-      history?.takeSnapshot({ ...imageState });
-    }
-
-    history.on('appliedState', restoreImageState);
-    history.on('historyChanged', refreshUndoState);
-    history.on('pleaseTakeSnapshot', takeSnapshot);
-
-    return () => {
-      history.off('appliedState', restoreImageState);
-      history.off('historyChanged', refreshUndoState);
-      history.off('pleaseTakeSnapshot', takeSnapshot);
-    };
-  }, [history, imageState]);
-
   // If you select a text path auto enter edit mode
   useEffect(() => {
     if (!fabricCanvas) {
       return;
     }
-
-    function updateEditMode() {
-      if (fabricCanvas?.getActiveObject() instanceof MediaEditorFabricIText) {
-        setEditMode(EditMode.Text);
-      } else if (editMode === EditMode.Text) {
-        setEditMode(undefined);
+    return fabricEffectListener(
+      fabricCanvas,
+      ['selection:created', 'selection:updated', 'selection:cleared'],
+      () => {
+        if (fabricCanvas?.getActiveObject() instanceof MediaEditorFabricIText) {
+          setEditMode(EditMode.Text);
+        } else if (editMode === EditMode.Text) {
+          setEditMode(undefined);
+        }
       }
-    }
-
-    fabricCanvas.on('selection:created', updateEditMode);
-    fabricCanvas.on('selection:updated', updateEditMode);
-    fabricCanvas.on('selection:cleared', updateEditMode);
-
-    return () => {
-      fabricCanvas.off('selection:created', updateEditMode);
-      fabricCanvas.off('selection:updated', updateEditMode);
-      fabricCanvas.off('selection:cleared', updateEditMode);
-    };
+    );
   }, [editMode, fabricCanvas]);
 
   // Ensure scaling is in locked|unlocked state only when cropping
@@ -769,15 +709,13 @@ export const MediaEditor = ({
               return;
             }
 
-            setImageState({
-              angle: 0,
-              cropX: 0,
-              cropY: 0,
-              flipX: false,
-              flipY: false,
+            const newImageState = {
+              ...INITIAL_IMAGE_STATE,
               height: image.height,
               width: image.width,
-            });
+            };
+            setImageState(newImageState);
+            takeSnapshot('reset', newImageState);
           }}
           type="button"
         >
@@ -808,12 +746,14 @@ export const MediaEditor = ({
               obj.setCoords();
             });
 
-            setImageState(curr => ({
-              ...curr,
-              angle: (curr.angle + 270) % 360,
-              height: curr.width,
-              width: curr.height,
-            }));
+            const newImageState = {
+              ...imageState,
+              angle: (imageState.angle + 270) % 360,
+              height: imageState.width,
+              width: imageState.height,
+            };
+            setImageState(newImageState);
+            takeSnapshot('rotate', newImageState);
           }}
           type="button"
         />
@@ -825,12 +765,14 @@ export const MediaEditor = ({
               return;
             }
 
-            setImageState(curr => ({
-              ...curr,
-              ...(curr.angle % 180
-                ? { flipY: !curr.flipY }
-                : { flipX: !curr.flipX }),
-            }));
+            const newImageState = {
+              ...imageState,
+              ...(imageState.angle % 180
+                ? { flipY: !imageState.flipY }
+                : { flipX: !imageState.flipX }),
+            };
+            setImageState(newImageState);
+            takeSnapshot('flip', newImageState);
           }}
           type="button"
         />
@@ -863,8 +805,13 @@ export const MediaEditor = ({
               return;
             }
 
-            setImageState(curr => getNewImageStateFromCrop(curr, pendingCrop));
+            const newImageState = getNewImageStateFromCrop(
+              imageState,
+              pendingCrop
+            );
+            setImageState(newImageState);
             moveFabricObjectsForCrop(fabricCanvas, pendingCrop);
+            takeSnapshot('crop', newImageState);
             setEditMode(undefined);
           }}
           type="button"
@@ -1031,7 +978,7 @@ export const MediaEditor = ({
                 if (editMode === EditMode.Crop) {
                   setEditMode(undefined);
                 }
-                history?.undo();
+                undoIfPossible();
               }}
               type="button"
             />
@@ -1043,7 +990,7 @@ export const MediaEditor = ({
                 if (editMode === EditMode.Crop) {
                   setEditMode(undefined);
                 }
-                history?.redo();
+                redoIfPossible();
               }}
               type="button"
             />

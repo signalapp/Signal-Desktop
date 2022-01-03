@@ -7463,13 +7463,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/MediaEditor.tsx",
-    "line": "  const isRestoringImageState = useRef(false);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-01T01:13:59.892Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/Modal.tsx",
     "line": "  const modalRef = useRef<HTMLDivElement | null>(null);",
     "reasonCategory": "usageTrusted",
