@@ -20,6 +20,7 @@ import {
 import type {
   MessageAttributesType,
   ConversationAttributesType,
+  ReactionAttributesType,
 } from './model-types.d';
 import * as Bytes from './Bytes';
 import * as Timers from './Timers';
@@ -107,6 +108,12 @@ import { Reactions } from './messageModifiers/Reactions';
 import { ReadSyncs } from './messageModifiers/ReadSyncs';
 import { ViewSyncs } from './messageModifiers/ViewSyncs';
 import { ViewOnceOpenSyncs } from './messageModifiers/ViewOnceOpenSyncs';
+import type { DeleteAttributesType } from './messageModifiers/Deletes';
+import type { MessageReceiptAttributesType } from './messageModifiers/MessageReceipts';
+import type { MessageRequestAttributesType } from './messageModifiers/MessageRequests';
+import type { ReadSyncAttributesType } from './messageModifiers/ReadSyncs';
+import type { ViewSyncAttributesType } from './messageModifiers/ViewSyncs';
+import type { ViewOnceOpenSyncAttributesType } from './messageModifiers/ViewOnceOpenSyncs';
 import { ReadStatus } from './messages/MessageReadStatus';
 import type { SendStateByConversationId } from './messages/MessageSendState';
 import { SendStatus } from './messages/MessageSendState';
@@ -120,8 +127,8 @@ import { onRetryRequest, onDecryptionError } from './util/handleRetry';
 import { themeChanged } from './shims/themeChanged';
 import { createIPCEvents } from './util/createIPCEvents';
 import { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
+import { isValidUuid, UUIDKind } from './types/UUID';
 import type { UUID } from './types/UUID';
-import { UUIDKind } from './types/UUID';
 import * as log from './logging/log';
 import {
   loadRecentEmojis,
@@ -136,6 +143,7 @@ import { showToast } from './util/showToast';
 import { startInteractionMode } from './windows/startInteractionMode';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 import { updateOurUsername } from './util/updateOurUsername';
+import { ReactionSource } from './reactions/ReactionSource';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -2878,18 +2886,27 @@ export async function startApp(): Promise<void> {
         return Promise.resolve();
       }
 
+      strictAssert(
+        reaction.targetTimestamp,
+        'Reaction without targetTimestamp'
+      );
+      const fromId = window.ConversationController.ensureContactIds({
+        e164: data.source,
+        uuid: data.sourceUuid,
+      });
+      strictAssert(fromId, 'Reaction without fromId');
+
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
-      const reactionModel = Reactions.getSingleton().add({
+      const attributes: ReactionAttributesType = {
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
-        fromId: window.ConversationController.ensureContactIds({
-          e164: data.source,
-          uuid: data.sourceUuid,
-        }),
-      });
+        fromId,
+        source: ReactionSource.FromSomeoneElse,
+      };
+      const reactionModel = Reactions.getSingleton().add(attributes);
       // Note: We do not wait for completion here
       Reactions.getSingleton().onReaction(reactionModel);
       confirm();
@@ -2899,16 +2916,28 @@ export async function startApp(): Promise<void> {
     if (data.message.delete) {
       const { delete: del } = data.message;
       log.info('Queuing incoming DOE for', del.targetSentTimestamp);
-      const deleteModel = Deletes.getSingleton().add({
+
+      strictAssert(
+        del.targetSentTimestamp,
+        'Delete missing targetSentTimestamp'
+      );
+      strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
+      const fromId = window.ConversationController.ensureContactIds({
+        e164: data.source,
+        uuid: data.sourceUuid,
+      });
+      strictAssert(fromId, 'Delete missing fromId');
+
+      const attributes: DeleteAttributesType = {
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
-        fromId: window.ConversationController.ensureContactIds({
-          e164: data.source,
-          uuid: data.sourceUuid,
-        }),
-      });
+        fromId,
+      };
+      const deleteModel = Deletes.getSingleton().add(attributes);
+
       // Note: We do not wait for completion here
       Deletes.getSingleton().onDelete(deleteModel);
+
       confirm();
       return Promise.resolve();
     }
@@ -3218,6 +3247,10 @@ export async function startApp(): Promise<void> {
       );
 
       const { reaction, timestamp } = data.message;
+      strictAssert(
+        reaction.targetTimestamp,
+        'Reaction without targetAuthorUuid'
+      );
 
       if (!isValidReactionEmoji(reaction.emoji)) {
         log.warn('Received an invalid reaction emoji. Dropping it');
@@ -3226,15 +3259,16 @@ export async function startApp(): Promise<void> {
       }
 
       log.info('Queuing sent reaction for', reaction.targetTimestamp);
-      const reactionModel = Reactions.getSingleton().add({
+      const attributes: ReactionAttributesType = {
         emoji: reaction.emoji,
         remove: reaction.remove,
         targetAuthorUuid,
         targetTimestamp: reaction.targetTimestamp,
         timestamp,
-        fromId: window.ConversationController.getOurConversationId(),
-        fromSync: true,
-      });
+        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        source: ReactionSource.FromSync,
+      };
+      const reactionModel = Reactions.getSingleton().add(attributes);
       // Note: We do not wait for completion here
       Reactions.getSingleton().onReaction(reactionModel);
 
@@ -3244,12 +3278,20 @@ export async function startApp(): Promise<void> {
 
     if (data.message.delete) {
       const { delete: del } = data.message;
+      strictAssert(
+        del.targetSentTimestamp,
+        'Delete without targetSentTimestamp'
+      );
+      strictAssert(data.serverTimestamp, 'Data has no serverTimestamp');
+
       log.info('Queuing sent DOE for', del.targetSentTimestamp);
-      const deleteModel = Deletes.getSingleton().add({
+
+      const attributes: DeleteAttributesType = {
         targetSentTimestamp: del.targetSentTimestamp,
         serverTimestamp: data.serverTimestamp,
-        fromId: window.ConversationController.getOurConversationId(),
-      });
+        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+      };
+      const deleteModel = Deletes.getSingleton().add(attributes);
       // Note: We do not wait for completion here
       Deletes.getSingleton().onDelete(deleteModel);
       confirm();
@@ -3425,12 +3467,16 @@ export async function startApp(): Promise<void> {
 
     const { source, sourceUuid, timestamp } = ev;
     log.info(`view once open sync ${source} ${timestamp}`);
+    strictAssert(source, 'ViewOnceOpen without source');
+    strictAssert(sourceUuid, 'ViewOnceOpen without sourceUuid');
+    strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
-    const sync = ViewOnceOpenSyncs.getSingleton().add({
+    const attributes: ViewOnceOpenSyncAttributesType = {
       source,
       sourceUuid,
       timestamp,
-    });
+    };
+    const sync = ViewOnceOpenSyncs.getSingleton().add(attributes);
 
     ViewOnceOpenSyncs.getSingleton().onSync(sync);
   }
@@ -3501,13 +3547,19 @@ export async function startApp(): Promise<void> {
       messageRequestResponseType,
     });
 
-    const sync = MessageRequests.getSingleton().add({
+    strictAssert(
+      messageRequestResponseType,
+      'onMessageRequestResponse: missing type'
+    );
+
+    const attributes: MessageRequestAttributesType = {
       threadE164,
       threadUuid,
       groupId,
       groupV2Id,
       type: messageRequestResponseType,
-    });
+    };
+    const sync = MessageRequests.getSingleton().add(attributes);
 
     MessageRequests.getSingleton().onResponse(sync);
   }
@@ -3563,14 +3615,21 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receipt = MessageReceipts.getSingleton().add({
+    strictAssert(
+      isValidUuid(sourceUuid),
+      'onReadOrViewReceipt: Missing sourceUuid'
+    );
+    strictAssert(sourceDevice, 'onReadOrViewReceipt: Missing sourceDevice');
+
+    const attributes: MessageReceiptAttributesType = {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId,
       sourceUuid,
       sourceDevice,
       type,
-    });
+    };
+    const receipt = MessageReceipts.getSingleton().add(attributes);
 
     // Note: We do not wait for completion here
     MessageReceipts.getSingleton().onReceipt(receipt);
@@ -3594,13 +3653,18 @@ export async function startApp(): Promise<void> {
       timestamp
     );
 
-    const receipt = ReadSyncs.getSingleton().add({
+    strictAssert(senderId, 'onReadSync missing senderId');
+    strictAssert(senderUuid, 'onReadSync missing senderUuid');
+    strictAssert(timestamp, 'onReadSync missing timestamp');
+
+    const attributes: ReadSyncAttributesType = {
       senderId,
       sender,
       senderUuid,
       timestamp,
       readAt,
-    });
+    };
+    const receipt = ReadSyncs.getSingleton().add(attributes);
 
     receipt.on('remove', ev.confirm);
 
@@ -3626,13 +3690,18 @@ export async function startApp(): Promise<void> {
       timestamp
     );
 
-    const receipt = ViewSyncs.getSingleton().add({
+    strictAssert(senderId, 'onViewSync missing senderId');
+    strictAssert(senderUuid, 'onViewSync missing senderUuid');
+    strictAssert(timestamp, 'onViewSync missing timestamp');
+
+    const attributes: ViewSyncAttributesType = {
       senderId,
       senderE164,
       senderUuid,
       timestamp,
       viewedAt: envelopeTimestamp,
-    });
+    };
+    const receipt = ViewSyncs.getSingleton().add(attributes);
 
     receipt.on('remove', ev.confirm);
 
@@ -3742,14 +3811,25 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    const receipt = MessageReceipts.getSingleton().add({
+    strictAssert(
+      envelopeTimestamp,
+      'onDeliveryReceipt: missing envelopeTimestamp'
+    );
+    strictAssert(
+      isValidUuid(sourceUuid),
+      'onDeliveryReceipt: missing valid sourceUuid'
+    );
+    strictAssert(sourceDevice, 'onDeliveryReceipt: missing sourceDevice');
+
+    const attributes: MessageReceiptAttributesType = {
       messageSentAt: timestamp,
       receiptTimestamp: envelopeTimestamp,
       sourceConversationId,
       sourceUuid,
       sourceDevice,
       type: MessageReceiptType.Delivery,
-    });
+    };
+    const receipt = MessageReceipts.getSingleton().add(attributes);
 
     // Note: We don't wait for completion here
     MessageReceipts.getSingleton().onReceipt(receipt);

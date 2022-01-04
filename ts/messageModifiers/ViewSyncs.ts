@@ -12,9 +12,9 @@ import { isIncoming } from '../state/selectors/message';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 
-type ViewSyncAttributesType = {
+export type ViewSyncAttributesType = {
   senderId: string;
-  senderE164: string;
+  senderE164?: string;
   senderUuid: string;
   timestamp: number;
   viewedAt: number;

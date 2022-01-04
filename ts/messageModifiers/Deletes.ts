@@ -8,7 +8,7 @@ import type { MessageModel } from '../models/messages';
 import { getContactId } from '../messages/helpers';
 import * as log from '../logging/log';
 
-type DeleteAttributesType = {
+export type DeleteAttributesType = {
   targetSentTimestamp: number;
   serverTimestamp: number;
   fromId: string;

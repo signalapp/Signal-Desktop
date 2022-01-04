@@ -7,7 +7,7 @@ import { Collection, Model } from 'backbone';
 import type { ConversationModel } from '../models/conversations';
 import * as log from '../logging/log';
 
-type MessageRequestAttributesType = {
+export type MessageRequestAttributesType = {
   threadE164?: string;
   threadUuid?: string;
   groupId?: string;

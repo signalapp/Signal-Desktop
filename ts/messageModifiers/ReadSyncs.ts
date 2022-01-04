@@ -11,9 +11,9 @@ import { isMessageUnread } from '../util/isMessageUnread';
 import { notificationService } from '../services/notifications';
 import * as log from '../logging/log';
 
-type ReadSyncAttributesType = {
+export type ReadSyncAttributesType = {
   senderId: string;
-  sender: string;
+  sender?: string;
   senderUuid: string;
   timestamp: number;
   readAt: number;

@@ -32,7 +32,7 @@ export enum MessageReceiptType {
   View = 'View',
 }
 
-type MessageReceiptAttributesType = {
+export type MessageReceiptAttributesType = {
   messageSentAt: number;
   receiptTimestamp: number;
   sourceUuid: UUIDStringType;

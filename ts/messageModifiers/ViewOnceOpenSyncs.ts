@@ -7,7 +7,7 @@ import { Collection, Model } from 'backbone';
 import type { MessageModel } from '../models/messages';
 import * as log from '../logging/log';
 
-type ViewOnceOpenSyncAttributesType = {
+export type ViewOnceOpenSyncAttributesType = {
   source?: string;
   sourceUuid: string;
   timestamp: number;
