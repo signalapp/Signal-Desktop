@@ -18,10 +18,8 @@ import { IMAGE_PNG, isImage, isVideo } from '../types/MIME';
 import type { LocalizerType } from '../types/Util';
 import type { MediaItemType, MessageAttributesType } from '../types/MediaItem';
 import { formatDuration } from '../util/formatDuration';
-import { showToast } from '../util/showToast';
 import { useRestoreFocus } from '../hooks/useRestoreFocus';
 import * as log from '../logging/log';
-import { ToastUnableToLoadAttachment } from './ToastUnableToLoadAttachment';
 
 export type PropsType = {
   children?: ReactNode;
@@ -455,25 +453,6 @@ export function Lightbox({
           />
         );
       }
-    } else if (isVideoTypeSupported && window.isLegacyOS()) {
-      const onLegacyClick = (event: React.MouseEvent<HTMLVideoElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        showToast(ToastUnableToLoadAttachment);
-      };
-
-      content = (
-        <video
-          className="Lightbox__object"
-          controls={false}
-          key={objectURL}
-          loop={false}
-          onClick={onLegacyClick}
-        >
-          <source src={objectURL} />
-        </video>
-      );
     } else if (isVideoTypeSupported) {
       const shouldLoop = loop || isAttachmentGIF || isViewOnce;
 

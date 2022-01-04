@@ -325,7 +325,6 @@ function prepareUrl(
     appStartInitialSpellcheckSetting,
     userDataPath: app.getPath('userData'),
     downloadsPath: app.getPath('downloads'),
-    isLegacyOS: OS.isLegacy(),
     homePath: app.getPath('home'),
     ...moreKeys,
   }).href;
