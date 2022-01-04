@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -2513,10 +2513,10 @@ export class ConversationModel extends window.Backbone
     );
   }
 
-  async _setVerified(
+  private async _setVerified(
     verified: number,
     providedOptions?: VerificationOptions
-  ): Promise<boolean | void> {
+  ): Promise<void> {
     const options = providedOptions || {};
     window._.defaults(options, {
       viaStorageServiceSync: false,
@@ -2537,7 +2537,7 @@ export class ConversationModel extends window.Backbone
 
     const uuid = this.getUuid();
     const beginningVerified = this.get('verified');
-    let keyChange;
+    let keyChange = false;
     if (options.viaSyncMessage) {
       strictAssert(
         uuid,
@@ -2553,10 +2553,7 @@ export class ConversationModel extends window.Backbone
           options.key || undefined
         );
     } else if (uuid) {
-      keyChange = await window.textsecure.storage.protocol.setVerified(
-        uuid,
-        verified
-      );
+      await window.textsecure.storage.protocol.setVerified(uuid, verified);
     } else {
       log.warn(`_setVerified(${this.id}): no uuid to update protocol storage`);
     }
@@ -2572,17 +2569,21 @@ export class ConversationModel extends window.Backbone
       this.captureChange('verified');
     }
 
-    // Three situations result in a verification notice in the conversation:
-    //   1) The message came from an explicit verification in another client (not
-    //      a contact sync)
-    //   2) The verification value received by the contact sync is different
-    //      from what we have on record (and it's not a transition to UNVERIFIED)
-    //   3) Our local verification status is VERIFIED and it hasn't changed,
-    //      but the key did change (Key1/VERIFIED to Key2/VERIFIED - but we don't
-    //      want to show DEFAULT->DEFAULT or UNVERIFIED->UNVERIFIED)
+    const didSomethingChange = keyChange || beginningVerified !== verified;
+    const isExplicitUserAction =
+      !options.viaContactSync && !options.viaStorageServiceSync;
+    const shouldShowFromContactSync =
+      options.viaContactSync && verified !== UNVERIFIED;
     if (
-      !options.viaContactSync ||
-      (beginningVerified !== verified && verified !== UNVERIFIED) ||
+      // The message came from an explicit verification in a client (not a contact sync
+      //   or storage service sync)
+      (didSomethingChange && isExplicitUserAction) ||
+      // The verification value received by the contact sync is different from what we
+      //   have on record (and it's not a transition to UNVERIFIED)
+      (didSomethingChange && shouldShowFromContactSync) ||
+      // Our local verification status is VERIFIED and it hasn't changed, but the key did
+      //   change (Key1/VERIFIED -> Key2/VERIFIED), but we don't want to show DEFAULT ->
+      //   DEFAULT or UNVERIFIED -> UNVERIFIED
       (keyChange && verified === VERIFIED)
     ) {
       await this.addVerifiedChange(this.id, verified === VERIFIED, {
@@ -2592,8 +2593,6 @@ export class ConversationModel extends window.Backbone
     if (!options.viaSyncMessage && uuid) {
       await this.sendVerifySyncMessage(this.get('e164'), uuid, verified);
     }
-
-    return keyChange;
   }
 
   async sendVerifySyncMessage(

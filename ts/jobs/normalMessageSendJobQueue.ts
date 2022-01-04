@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type PQueue from 'p-queue';
@@ -156,6 +156,7 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
           messageId,
           untrustedConversationIds
         );
+        await markMessageFailed(message, messageSendErrors);
         return;
       }
 
