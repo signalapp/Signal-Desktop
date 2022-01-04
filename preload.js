@@ -391,7 +391,6 @@ try {
   const { ActiveWindowService } = require('./ts/services/ActiveWindowService');
 
   window.imageToBlurHash = imageToBlurHash;
-  window.emojiData = require('emoji-datasource');
   window.libphonenumber =
     require('google-libphonenumber').PhoneNumberUtil.getInstance();
   window.libphonenumber.PhoneNumberFormat =
