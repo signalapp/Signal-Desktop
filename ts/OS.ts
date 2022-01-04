@@ -16,16 +16,3 @@ export const isWindows = (minVersion?: string): boolean => {
 
   return is.undefined(minVersion) ? true : semver.gte(osRelease, minVersion);
 };
-
-export const isLegacy = (): boolean => {
-  if (process.platform === 'darwin') {
-    // 17.0.0 - is macOS 10.13
-    return semver.lt(os.release(), '17.0.0');
-  }
-
-  if (process.platform === 'win32') {
-    return semver.lt(os.release(), '9.0.0');
-  }
-
-  return false;
-};
