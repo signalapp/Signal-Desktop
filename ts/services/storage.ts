@@ -1046,6 +1046,8 @@ async function sync(
     }
 
     const localManifestVersion = manifestFromStorage || 0;
+
+    log.info(`storageService.sync: fetching ${localManifestVersion}`);
     manifest = await fetchManifest(localManifestVersion);
 
     // Guarding against no manifests being returned, everything should be ok
@@ -1064,9 +1066,12 @@ async function sync(
       `storageService.sync: manifest versions - previous: ${localManifestVersion}, current: ${version}`
     );
 
+    const hasConflicts = await processManifest(manifest);
+
+    log.info(`storageService.sync: storing new manifest version ${version}`);
+
     window.storage.put('manifestVersion', version);
 
-    const hasConflicts = await processManifest(manifest);
     if (hasConflicts && !ignoreConflicts) {
       await upload(true);
     }
