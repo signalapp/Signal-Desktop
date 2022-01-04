@@ -2388,7 +2388,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Sửa nhóm",
+        "message": "Chỉnh sửa nhóm",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2868,7 +2868,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-unread-conversation": {
-        "message": "Cuộc trò chuyện chưa đọc trước",
+        "message": "Xem trước cuộc trò chuyện chưa đọc",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--next-unread-conversation": {
@@ -2948,7 +2948,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Xuống dòng tin nhắn",
+        "message": "Thêm dòng vào tin nhắn",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -3048,7 +3048,7 @@
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Thêm hình ảnh đính kèmq",
+        "message": "Thêm hình ảnh đính kèm",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
@@ -3216,7 +3216,7 @@
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Truy cập nhãn dán mới thông qua icon nhãn dán, hoặc chia sẻ với bạn bè bằng cách sử dụng đường dẫn thay thế.",
+        "message": "Truy cập nhãn dán mới thông qua icon nhãn dán, hoặc chia sẻ với bạn bè bằng cách sử dụng đường dẫn bên dưới.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
@@ -3242,7 +3242,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Xem gói nhãn dán tôi vừa tạo cho Signal này. #makeprivacystick",
+        "message": "Xem gói nhãn dán tôi vừa tạo cho Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -3362,7 +3362,7 @@
         "description": "Shown as a button to let the user unblock a message request"
     },
     "MessageRequests--unblock-direct-confirm-title": {
-        "message": "Ngưng chặn $name$?",
+        "message": "Bỏ chặn $name$?",
         "description": "Shown as a button to let the user unblock a message request",
         "placeholders": {
             "name": {
@@ -3850,7 +3850,7 @@
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Chuyển sang xem dạng người nói",
+        "message": "Chuyển sang xem người nói",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
@@ -3866,7 +3866,7 @@
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
-        "message": "Toàn bộ màn tình",
+        "message": "Toàn bộ màn hình",
         "description": "Title for the select your screen sharing sources modal and 'Entire Screen' source"
     },
     "calling__SelectPresentingSourcesModal--screen": {
@@ -3904,15 +3904,15 @@
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Tạm im thông báo",
+        "message": "Tắt tiếng thông báo",
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Không tắt thông báo",
+        "message": "Bỏ tắt tiếng thông báo",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
-        "message": "Tạm im một giờ",
+        "message": "Tắt tiếng một giờ",
         "description": "Label for muting the conversation"
     },
     "muteEightHours": {
@@ -3920,11 +3920,11 @@
         "description": "Label for muting the conversation"
     },
     "muteDay": {
-        "message": "Tạm im một ngày",
+        "message": "Tắt tiếng một ngày",
         "description": "Label for muting the conversation"
     },
     "muteWeek": {
-        "message": "Tạm im một tuần",
+        "message": "Tắt tiếng một tuần",
         "description": "Label for muting the conversation"
     },
     "muteAlways": {
@@ -3932,7 +3932,7 @@
         "description": "Label for muting the conversation"
     },
     "unmute": {
-        "message": "Tắt tạm im",
+        "message": "Bỏ tắt tiếng",
         "description": "Label for unmuting the conversation"
     },
     "muteExpirationLabelAlways": {

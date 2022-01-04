@@ -1208,7 +1208,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Eliminar mensaje en el chat",
+        "message": "Eliminar mensaje del chat",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {

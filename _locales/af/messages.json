@@ -5548,7 +5548,7 @@
         "description": "This is a button on the conversation details to show all members"
     },
     "ConversationNotificationsSettings__mentions__label": {
-        "message": "Mentions",
+        "message": "Meldings",
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {

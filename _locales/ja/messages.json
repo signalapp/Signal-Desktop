@@ -2784,7 +2784,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "さらに表示",
+        "message": "続きを読む",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -3318,7 +3318,7 @@
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
-        "message": "さらに",
+        "message": "続き",
         "description": "Use in the reaction picker as the alt text for the 'more' button"
     },
     "ReactionsViewer--all": {
@@ -3482,7 +3482,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "もっと詳しく",
+        "message": "さらに詳しく",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -5210,7 +5210,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "詳細を見る",
+        "message": "さらに詳しく",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5902,7 +5902,7 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "MessageRequestWarning__learn-more": {
-        "message": "詳しく見る",
+        "message": "さらに詳しく",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
