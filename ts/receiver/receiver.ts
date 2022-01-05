@@ -26,7 +26,6 @@ import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/openg
 import { handleMessageJob } from './queuedJob';
 import { fromBase64ToArray } from '../session/utils/String';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
-import { isDuplicateBasedOnHash } from './hashDuplicateFilter';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
@@ -317,7 +316,7 @@ export async function handleOpenGroupV2Message(
       source: sender,
       message: dataMessage,
     };
-    // WARNING this is very important that the isMessageDuplicate is made in the conversation.queueJob
+    // WARNING this is important that the isMessageDuplicate is made in the conversation.queueJob
     const isDuplicate = await isMessageDuplicate(messageCreationData);
 
     if (isDuplicate) {
@@ -325,10 +324,6 @@ export async function handleOpenGroupV2Message(
       return;
     }
 
-    if (isDuplicateBasedOnHash(dataMessage, conversationId, sender)) {
-      window?.log?.info('Received duplicate message based on hash. Dropping it.');
-      return;
-    }
     // this line just create an empty message with some basic stuff set.
     // the whole decoding of data is happening in handleMessageJob()
     const msg = createMessage(messageCreationData, !isMe);
