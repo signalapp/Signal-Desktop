@@ -43,7 +43,7 @@
   "youGotKickedFromGroup": "You were removed from the group.",
   "unreadMessage": "Unread Message",
   "unreadMessages": "Unread Messages",
-  "debugLogExplanation": "This log will be posted publicly online for contributors to view. You may examine and edit it before submitting.",
+  "debugLogExplanation": "This log can be saved on your desktop folder.",
   "debugLogError": "Something went wrong with the upload! Please consider manually adding your log to the bug you file.",
   "reportIssue": "Report an issue",
   "gotIt": "Got it",
