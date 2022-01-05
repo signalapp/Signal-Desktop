@@ -14,7 +14,6 @@ import { openGroupV2GetRoomInfo } from './OpenGroupAPIV2';
 import { OpenGroupServerPoller } from './OpenGroupServerPoller';
 
 import _ from 'lodash';
-import { deleteAuthToken, DeleteAuthTokenRequest } from './ApiAuth';
 import autoBind from 'auto-bind';
 
 let instance: OpenGroupManagerV2 | undefined;
@@ -129,13 +128,6 @@ export class OpenGroupManagerV2 {
           try {
             const roomConvoId = getOpenGroupV2ConversationId(infos.serverUrl, infos.roomId);
             if (!allConvos.get(roomConvoId)) {
-              // leave the group on the remote server
-              // this request doesn't throw
-              if (infos.token) {
-                await deleteAuthToken(
-                  _.pick(infos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
-                );
-              }
               // remove the roomInfos locally for this open group room
               await removeV2OpenGroupRoom(roomConvoId);
               getOpenGroupManager().removeRoomFromPolledRooms(infos);

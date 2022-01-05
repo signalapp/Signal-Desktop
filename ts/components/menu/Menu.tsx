@@ -196,7 +196,9 @@ export function getDeleteContactMenuItem(
     if (isPublic) {
       menuItemText = window.i18n('leaveGroup');
     } else {
-      menuItemText = window.i18n('delete');
+      menuItemText = isGroup
+        ? window.i18n('editMenuDeleteGroup')
+        : window.i18n('editMenuDeleteContact');
     }
 
     const onClickClose = () => {
