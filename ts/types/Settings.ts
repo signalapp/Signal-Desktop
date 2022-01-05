@@ -1,6 +1,9 @@
 // Copyright 2018-2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import semver from 'semver';
+import os from 'os';
+
 import * as OS from '../OS';
 import { isProduction } from '../util/version';
 
@@ -61,3 +64,6 @@ export const isSystemTraySupported = (appVersion: string): boolean =>
 
 export const isAutoDownloadUpdatesSupported = (): boolean =>
   OS.isWindows() || OS.isMacOS();
+
+export const shouldHideExpiringMessageBody = (): boolean =>
+  OS.isWindows() || (OS.isMacOS() && semver.lt(os.release(), '21.1.0'));

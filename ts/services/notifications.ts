@@ -7,6 +7,7 @@ import { Sound } from '../util/Sound';
 import {
   AudioNotificationSupport,
   getAudioNotificationSupport,
+  shouldHideExpiringMessageBody,
 } from '../types/Settings';
 import * as OS from '../OS';
 import * as log from '../logging/log';
@@ -284,9 +285,7 @@ class NotificationService extends EventEmitter {
         notificationTitle = senderTitle;
         ({ notificationIconUrl } = notificationData);
 
-        const shouldHideExpiringMessageBody =
-          isExpiringMessage && (OS.isMacOS() || OS.isWindows());
-        if (shouldHideExpiringMessageBody) {
+        if (isExpiringMessage && shouldHideExpiringMessageBody()) {
           notificationMessage = i18n('newMessage');
         } else if (userSetting === NotificationSetting.NameOnly) {
           if (reaction) {
