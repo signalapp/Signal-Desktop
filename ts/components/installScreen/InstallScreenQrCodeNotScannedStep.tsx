@@ -1,10 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactElement, ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import { noop } from 'lodash';
 
 import type { LocalizerType } from '../../types/Util';
 import { missingCaseError } from '../../util/missingCaseError';
@@ -13,6 +12,7 @@ import { LoadingState } from '../../util/loadable';
 
 import { Intl } from '../Intl';
 import { Spinner } from '../Spinner';
+import { QrCode } from '../QrCode';
 import { TitlebarDragArea } from '../TitlebarDragArea';
 import { InstallScreenSignalLogo } from './InstallScreenSignalLogo';
 import { getClassNamesFor } from '../../util/getClassNamesFor';
@@ -44,7 +44,7 @@ export const InstallScreenQrCodeNotScannedStep = ({
     <InstallScreenSignalLogo />
 
     <div className="module-InstallScreenQrCodeNotScannedStep__contents">
-      <QrCode i18n={i18n} {...provisioningUrl} />
+      <InstallScreenQrCode i18n={i18n} {...provisioningUrl} />
       <div className="module-InstallScreenQrCodeNotScannedStep__instructions">
         <h1>{i18n('Install__scan-this-code')}</h1>
         <ol>
@@ -82,30 +82,10 @@ export const InstallScreenQrCodeNotScannedStep = ({
   </div>
 );
 
-function QrCode(
+function InstallScreenQrCode(
   props: Loadable<string> & { i18n: LocalizerType }
 ): ReactElement {
   const { i18n } = props;
-
-  const qrCodeElRef = useRef<null | HTMLDivElement>(null);
-
-  const valueToRender =
-    props.loadingState === LoadingState.Loaded ? props.value : undefined;
-
-  useEffect(() => {
-    const qrCodeEl = qrCodeElRef.current;
-    if (!qrCodeEl || !valueToRender) {
-      return noop;
-    }
-
-    const qrCode = new window.QRCode(qrCodeEl, {
-      text: valueToRender,
-      width: QR_CODE_SIZE * window.devicePixelRatio,
-      height: QR_CODE_SIZE * window.devicePixelRatio,
-    });
-
-    return qrCode.clear.bind(qrCode);
-  }, [valueToRender]);
 
   let contents: ReactNode;
   switch (props.loadingState) {
@@ -129,7 +109,12 @@ function QrCode(
       break;
     case LoadingState.Loaded:
       contents = (
-        <div className={getQrCodeClassName('__code')} ref={qrCodeElRef} />
+        <QrCode
+          aria-label={i18n('Install__scan-this-code')}
+          className={getQrCodeClassName('__code')}
+          data={props.value}
+          size={QR_CODE_SIZE}
+        />
       );
       break;
     default:

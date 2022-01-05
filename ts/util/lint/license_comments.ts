@@ -1,4 +1,4 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // This file doesn't check the format of license files, just the end year. See
@@ -39,7 +39,6 @@ const FILES_TO_IGNORE = new Set(
     '.github/ISSUE_TEMPLATE/bug_report.md',
     '.github/PULL_REQUEST_TEMPLATE.md',
     'components/mp3lameencoder/lib/Mp3LameEncoder.js',
-    'components/qrcode/qrcode.js',
     'components/recorderjs/recorder.js',
     'components/recorderjs/recorderWorker.js',
     'components/webaudiorecorder/lib/WebAudioRecorder.js',

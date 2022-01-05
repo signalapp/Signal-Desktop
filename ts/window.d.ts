@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Captures the globals put in place by preload.js, background.js and others
@@ -130,32 +130,6 @@ type ConfirmationDialogViewProps = {
   reject?: (error: Error) => void;
   resolve: () => void;
 };
-
-declare enum QRCodeCorrectLevel {
-  H = 2,
-  L = 1,
-  M = 0,
-  Q = 3,
-}
-
-declare class QRCode {
-  static CorrectLevel: typeof QRCodeCorrectLevel;
-  constructor(
-    el: HTMLElement | string,
-    vOption?:
-      | string
-      | {
-          colorDark?: string;
-          colorLight?: string;
-          correctLevel?: QRCodeCorrectLevel;
-          height?: number;
-          text?: string;
-          width?: number;
-        }
-  );
-  makeCode(sText: string): void;
-  clear(): void;
-}
 
 export declare class WebAudioRecorderClass {
   constructor(
@@ -292,7 +266,6 @@ declare global {
     updateTrayIcon: (count: number) => void;
     Backbone: typeof Backbone;
     CI?: CI;
-    QRCode: typeof QRCode;
 
     Accessibility: {
       reducedMotionSetting: boolean;

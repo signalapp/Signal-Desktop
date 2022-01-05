@@ -2600,6 +2600,10 @@ Signal Desktop makes use of the following open source projects.
 
     License: MIT
 
+## qrcode-generator
+
+    License: MIT
+
 ## quill
 
     Copyright (c) 2014, Jason Chen

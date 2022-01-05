@@ -77,22 +77,6 @@
     "line": "  Module['load'] = function load(f) {"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "components/qrcode/qrcode.js",
-    "line": "\t\t\tthis._el.innerHTML = '';",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-15T00:38:04.183Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "DOM-innerHTML",
-    "path": "components/qrcode/qrcode.js",
-    "line": "\t\t\t_el.innerHTML = aHTML.join('');",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Very limited in what HTML can be injected - dark/light options specify colors for the light/dark parts of QRCode"
-  },
-  {
     "rule": "jQuery-append(",
     "path": "node_modules/@discoveryjs/json-ext/dist/json-ext.js",
     "line": "    function append(array, elements) {",
@@ -5136,6 +5120,22 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "DOM-document.write(",
+    "path": "node_modules/qrcode-generator/sample.js",
+    "line": "  document.write(create_qrcode(text, typeNumber, errorCorrectionLevel) );",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-01-04T20:32:10.596Z",
+    "reasonDetail": "Sample code never required by us."
+  },
+  {
+    "rule": "DOM-innerHTML",
+    "path": "node_modules/qrcode-generator/sample.js",
+    "line": "  document.getElementById('qr').innerHTML =",
+    "reasonCategory": "notExercisedByOurApp",
+    "updated": "2022-01-04T20:32:10.596Z",
+    "reasonDetail": "Sample code never required by us."
+  },
+  {
     "rule": "jQuery-insertBefore(",
     "path": "node_modules/quill/blots/block.js",
     "line": "      this.parent.insertBefore(block, index === 0 ? this : this.next);",
@@ -7483,6 +7483,14 @@
     "updated": "2021-07-30T16:57:33.618Z"
   },
   {
+    "rule": "React-useRef",
+    "path": "ts/components/QrCode.tsx",
+    "line": "  const canvasRef = useRef<null | HTMLCanvasElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-04T21:43:17.517Z",
+    "reasonDetail": "Used to draw on the canvas."
+  },
+  {
     "rule": "React-createRef",
     "path": "ts/components/SafetyNumberChangeDialog.js",
     "line": "    const cancelButtonRef = React.createRef();",
@@ -7756,14 +7764,6 @@
     "reasonCategory": "usageTrusted",
     "updated": "2021-12-06T23:07:28.947Z",
     "reasonDetail": "Doesn't touch the DOM."
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/installScreen/InstallScreenQrCodeNotScannedStep.tsx",
-    "line": "  const qrCodeElRef = useRef<null | HTMLDivElement>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2021-12-06T23:07:28.947Z",
-    "reasonDetail": "Uses our QR code library."
   },
   {
     "rule": "React-createRef",
