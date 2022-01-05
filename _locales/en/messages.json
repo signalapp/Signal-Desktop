@@ -6681,7 +6681,7 @@
     "description": "Release notes for v5.26"
   },
   "WhatsNew__macos-m1": {
-    "message": "Signal Desktop now natively supports Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+    "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
     "description": "Release note for the macOS M1 release",
     "placeholders": {
       "dennis": {
