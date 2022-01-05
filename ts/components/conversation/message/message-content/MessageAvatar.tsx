@@ -10,7 +10,7 @@ export type MessageAvatarSelectorProps = Pick<
   MessageRenderingProps,
   | 'authorAvatarPath'
   | 'authorName'
-  | 'authorPhoneNumber'
+  | 'sender'
   | 'authorProfileName'
   | 'isSenderAdmin'
   | 'conversationType'
@@ -33,7 +33,7 @@ export const MessageAvatar = (props: Props) => {
   const {
     authorAvatarPath,
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     conversationType,
     direction,
@@ -45,28 +45,28 @@ export const MessageAvatar = (props: Props) => {
   if (conversationType !== 'group' || direction === 'outgoing') {
     return null;
   }
-  const userName = authorName || authorProfileName || authorPhoneNumber;
+  const userName = authorName || authorProfileName || sender;
 
   const onMessageAvatarClick = useCallback(() => {
     dispatch(
       updateUserDetailsModal({
-        conversationId: authorPhoneNumber,
+        conversationId: sender,
         userName,
         authorAvatarPath,
       })
     );
-  }, [userName, authorPhoneNumber, authorAvatarPath]);
+  }, [userName, sender, authorAvatarPath]);
 
   if (!lastMessageOfSeries) {
-    return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${authorPhoneNumber}`} />;
+    return <div style={{ marginInlineEnd: '60px' }} key={`msg-avatar-${sender}`} />;
   }
 
   return (
-    <div className="module-message__author-avatar" key={`msg-avatar-${authorPhoneNumber}`}>
+    <div className="module-message__author-avatar" key={`msg-avatar-${sender}`}>
       <Avatar
         size={AvatarSize.S}
         onAvatarClick={(!isPublic && onMessageAvatarClick) || undefined}
-        pubkey={authorPhoneNumber}
+        pubkey={sender}
       />
       {isSenderAdmin && <CrownIcon />}
     </div>

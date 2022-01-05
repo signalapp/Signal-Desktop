@@ -466,7 +466,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         .map(user => {
           return {
             display: user.authorProfileName,
-            id: user.authorPhoneNumber,
+            id: user.id,
           };
         }) || [];
     callback(filtered);
@@ -509,7 +509,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
       }
       return {
         id: pubKey,
-        authorPhoneNumber: pubKey,
         authorProfileName: profileName,
       };
     });
@@ -524,7 +523,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     // Transform the users to what react-mentions expects
     const mentionsData = members.map(user => ({
       display: user.authorProfileName || window.i18n('anonymous'),
-      id: user.authorPhoneNumber,
+      id: user.id,
     }));
     callback(mentionsData);
   }

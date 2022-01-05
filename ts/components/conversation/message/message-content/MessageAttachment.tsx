@@ -38,7 +38,7 @@ export type MessageAttachmentSelectorProps = Pick<
   | 'direction'
   | 'timestamp'
   | 'serverTimestamp'
-  | 'authorPhoneNumber'
+  | 'sender'
   | 'convoId'
 > & {
   attachments: Array<PropsForAttachment>;
@@ -81,11 +81,11 @@ export const MessageAttachment = (props: Props) => {
       }
 
       const messageTimestamp = attachmentProps?.timestamp || attachmentProps?.serverTimestamp || 0;
-      if (attachmentProps?.authorPhoneNumber && attachmentProps?.convoId) {
+      if (attachmentProps?.sender && attachmentProps?.convoId) {
         void saveAttachmentToDisk({
           attachment: attachments[0],
           messageTimestamp,
-          messageSender: attachmentProps?.authorPhoneNumber,
+          messageSender: attachmentProps?.sender,
           conversationId: attachmentProps?.convoId,
         });
       }
@@ -94,7 +94,7 @@ export const MessageAttachment = (props: Props) => {
       attachmentProps?.attachments,
       attachmentProps?.timestamp,
       attachmentProps?.serverTimestamp,
-      attachmentProps?.authorPhoneNumber,
+      attachmentProps?.sender,
       attachmentProps?.convoId,
     ]
   );

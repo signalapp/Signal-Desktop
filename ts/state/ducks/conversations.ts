@@ -165,7 +165,7 @@ export type PropsForMessageWithoutConvoProps = {
   id: string; // messageId
   direction: MessageModelType;
   timestamp: number;
-  authorPhoneNumber: string; // this is the sender
+  sender: string; // this is the sender
   convoId: string; // this is the conversation in which this message was sent
   text?: string;
 
@@ -179,7 +179,7 @@ export type PropsForMessageWithoutConvoProps = {
     text?: string;
     attachment?: QuotedAttachmentType;
     isFromMe?: boolean;
-    authorPhoneNumber: string;
+    sender: string;
     authorProfileName?: string;
     authorName?: string;
     messageId?: string;
@@ -283,7 +283,6 @@ export type ConversationsStateType = {
 
 export type MentionsMembersType = Array<{
   id: string;
-  authorPhoneNumber: string;
   authorProfileName: string;
 }>;
 

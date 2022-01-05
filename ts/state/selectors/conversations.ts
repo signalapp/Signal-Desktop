@@ -667,14 +667,13 @@ function updateFirstMessageOfSeries(
   const sortedMessageProps: Array<SortedMessageModelProps> = [];
 
   for (let i = 0; i < messageModelsProps.length; i++) {
-    const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
+    const currentSender = messageModelsProps[i].propsForMessage?.sender;
     // most recent message is at index 0, so the previous message sender is 1+index
     const previousSender =
       i < messageModelsProps.length - 1
-        ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
+        ? messageModelsProps[i + 1].propsForMessage?.sender
         : undefined;
-    const nextSender =
-      i > 0 ? messageModelsProps[i - 1].propsForMessage?.authorPhoneNumber : undefined;
+    const nextSender = i > 0 ? messageModelsProps[i - 1].propsForMessage?.sender : undefined;
     // Handle firstMessageOfSeries for conditional avatar rendering
 
     sortedMessageProps.push({
@@ -773,14 +772,14 @@ export const getMessagePropsByMessageId = createSelector(
     if (!foundMessageProps || !foundMessageProps.propsForMessage.convoId) {
       return undefined;
     }
-    const authorPhoneNumber = foundMessageProps?.propsForMessage?.authorPhoneNumber;
+    const sender = foundMessageProps?.propsForMessage?.sender;
 
     const foundMessageConversation = conversations[foundMessageProps.propsForMessage.convoId];
-    if (!foundMessageConversation || !authorPhoneNumber) {
+    if (!foundMessageConversation || !sender) {
       return undefined;
     }
 
-    const foundSenderConversation = conversations[authorPhoneNumber];
+    const foundSenderConversation = conversations[sender];
     if (!foundSenderConversation) {
       return undefined;
     }
@@ -795,16 +794,15 @@ export const getMessagePropsByMessageId = createSelector(
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
     // or the convo is public and we are an admin
-    const isDeletable = authorPhoneNumber === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
 
     // A message is deletable for everyone if
     // either we sent it no matter what the conversation type,
     // or the convo is public and we are an admin
-    const isDeletableForEveryone =
-      authorPhoneNumber === ourPubkey || (isPublic && !!weAreAdmin) || false;
+    const isDeletableForEveryone = sender === ourPubkey || (isPublic && !!weAreAdmin) || false;
 
-    const isSenderAdmin = groupAdmins.includes(authorPhoneNumber);
-    const senderIsUs = authorPhoneNumber === ourPubkey;
+    const isSenderAdmin = groupAdmins.includes(sender);
+    const senderIsUs = sender === ourPubkey;
 
     const authorName = foundSenderConversation.name || null;
     const authorProfileName = senderIsUs ? window.i18n('you') : foundSenderConversation.profileName;
@@ -821,7 +819,7 @@ export const getMessagePropsByMessageId = createSelector(
         isDeletableForEveryone,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
-        authorPhoneNumber,
+        sender,
         authorAvatarPath: foundSenderConversation.avatarPath || null,
         isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
         authorProfileName: authorProfileName || 'Unknown',
@@ -843,7 +841,7 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
   const {
     authorAvatarPath,
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     conversationType,
     direction,
@@ -856,7 +854,7 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
   const messageAvatarProps: MessageAvatarSelectorProps = {
     authorAvatarPath,
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     conversationType,
     direction,
@@ -949,7 +947,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 
   const {
     attachments,
-    authorPhoneNumber,
+    sender,
     convoId,
     direction,
     status,
@@ -967,7 +965,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 
   const msgProps: MessageContextMenuSelectorProps = {
     attachments,
-    authorPhoneNumber,
+    sender,
     convoId,
     direction,
     status,
@@ -993,12 +991,12 @@ export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, 
     return undefined;
   }
 
-  const { authorName, authorPhoneNumber, authorProfileName, direction } = props.propsForMessage;
+  const { authorName, sender, authorProfileName, direction } = props.propsForMessage;
   const { firstMessageOfSeries } = props;
 
   const msgProps: MessageAuthorSelectorProps = {
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     direction,
     firstMessageOfSeries,
@@ -1031,7 +1029,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     isTrustedForAttachmentDownload,
     timestamp,
     serverTimestamp,
-    authorPhoneNumber,
+    sender,
     convoId,
   } = props.propsForMessage;
   const msgProps: MessageAttachmentSelectorProps = {
@@ -1040,7 +1038,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     isTrustedForAttachmentDownload,
     timestamp,
     serverTimestamp,
-    authorPhoneNumber,
+    sender,
     convoId,
   };
 
