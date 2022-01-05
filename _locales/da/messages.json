@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop stødte på en dekrypteringsfejl.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop stødte på en dekrypteringsfejl fra $name$, enhed $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Nyheder",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Du kan nu søge i arkiverede samtaler. Forestil dig, at du søger (hurtigt) gennem gamle skrifter på jagt efter det næste spor.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Hvis du nogensinde har scrollet opad og sendt en besked, har du måske undret dig over, hvor din besked var. Når du nu sender en besked, bliver den scrollet op i billedet, så du kan beundre dit hårde arbejde.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagerer du på en besked? Det skulle nu være mere pålideligt, idet der forsøges igen i op til 24 timer",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Har du nogensinde følt, at du har brug for flere pixels på en rude? Er du fan af avatarer, men kun avatarer og ikke andet? Har du et \"Bevar skærmpladsen\"-klistermærke på din kofanger? Hvis du har svaret ja eller nej til et af disse spørgsmål, får du med denne opdatering en sammenklappelig venstre rude.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop understøtter nu Apples M1-chip, som bruges i deres nyere computere. Hvis du bruger en af disse nymodens enheder, bør appen være meget hurtigere. Hvis ikke, så giv en varm velkomst til de brugere, der gør. En stor tak til $dennis$ for hans store indsats her!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "I gang med et langt opkald? Dit system burde nu holde sig vågent uafbrudt i stedet for at falde i søvn, mens du er midt i en vigtig diskussion.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Der er også en række små justeringer og fejlrettelser for at få Signal til at køre problemfrit, herunder flere opkaldsrelaterede forbedringer.",
+        "description": "Release notes for v5.27"
     }
 }

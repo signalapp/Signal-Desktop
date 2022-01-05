@@ -482,7 +482,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Journal de débogage téléversé. Lorsque vous contactez l’assistance, copiez le lien ci-dessous et joignez-le avec une description du problème rencontré et les étapes pour le reproduire.",
+        "message": "Le journal de débogage a été téléversé. Quand vous contactez l’assistance, copiez le lien ci-dessous et joignez-le avec une description du problème rencontré, avec les étapes pour le reproduire.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Signal pour ordinateur a rencontré une erreur de déchiffrement.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Signal Desktop a rencontré une erreur de déchiffrement de $name$, appareil $deviceId$.",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5434,7 +5434,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "Si cette option est activée, les messages envoyés et reçus dans cette conversation disparaîtront après avoir été lus.",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -6626,11 +6626,11 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "Surligneur",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "Contour",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
@@ -6685,18 +6685,6 @@
         "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Vous pouvez désormais faire une recherche dans les conversations archivées. Imaginez-vous en train de chercher (rapidement) dans des tomes anciens, à la recherche du prochain indice.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "S'il vous est déjà arrivé de faire défiler un message vers le haut et de l'envoyer, vous pourriez vous demander où était votre message ! Désormais, chaque fois que vous enverrez un message, il défilera à l'écran pour que vous puissiez admirer votre travail.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Vous réagissez à un message ? Il devrait maintenant être plus fiable, en réessayant jusqu'à 24 heures.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for v5.25"
@@ -6706,11 +6694,29 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "Fatiguant : envoyer des images simples et non retouchées sur Signal. Excitant : ajouter des autocollants de chats, du texte fluo et dessiner des arbres heureux sur vos images avant de les envoyer sur Signal.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Vous avez déjà eu l’impression d’avoir besoin de plus de pixels sur le volet droit de votre vie ? Êtes-vous un fan des avatars, mais seulement des avatars et rien d’autre ? Avez-vous un autocollant \"Défendez l'espace libre\" sur votre voiture ? Si vous avez répondu oui ou non à l'une de ces questions, cette mise à jour vous propose un volet gauche rétractable.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop pour ordinateur supporte désormais nativement la puce M1 d'Apple qui est utilisée dans leurs derniers ordinateurs. Si vous êtes sur un de ces appareils dernier cri, l'appli devrait être bien plus rapide. Sinon, souhaitez la bienvenue à ceux qui le sont. Énormes remerciements à $dennis$ pour ce dur travail !",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Dans un long appel ? Votre système devrait rester allumé tout du long, plutôt que de s'endormir au milieu d'une discussion importante.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Il y a aussi quelques petits ajustements et corrections de bugs pour que Signal tourne bien, y compris plusieurs améliorations sur les appels.",
+        "description": "Release notes for v5.27"
     }
 }

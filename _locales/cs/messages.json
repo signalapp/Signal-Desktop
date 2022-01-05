@@ -52,7 +52,7 @@
         "description": "The label that is used for the Help menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuSettings": {
-        "message": "Předvolby...",
+        "message": "Předvolby…",
         "description": "The label that is used for the Preferences menu in the program main menu. This should be consistent with the standard naming for ‘Preferences’ on the operating system."
     },
     "appMenuServices": {
@@ -188,15 +188,15 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
-        "message": "Nahrávání...",
+        "message": "Načítání…",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimalizace aplikace...",
+        "message": "Optimalizace aplikace…",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimalizace zpráv... $status$ dokončeno.",
+        "message": "Optimalizace zpráv… $status$ dokončeno.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -302,7 +302,7 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Aktualizace databáze. To může nějakou chvíli trvat...",
+        "message": "Aktualizace databáze. Může to nějakou chvíli trvat…",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
@@ -614,7 +614,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Načítám náhled...",
+        "message": "Načítání náhledu…",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop narazil na chybu při dešifrování.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Signal narazil na chybu při dešifrování od $name$, zařízení $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -690,7 +690,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Probíhá připojování...",
+        "message": "Připojování…",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -852,7 +852,7 @@
         }
     },
     "welcomeToSignal": {
-        "message": "Vítejte v Signal",
+        "message": "Vítá vás Signal",
         "description": ""
     },
     "whatsNew": {
@@ -924,7 +924,7 @@
         "description": "When rendering an address, used to provide context to a post office box"
     },
     "downloading": {
-        "message": "Stahuji",
+        "message": "Stahování",
         "description": "Shown in the message bubble while a long message attachment is being downloaded"
     },
     "downloadAttachment": {
@@ -2268,7 +2268,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Zahájit novou konverzaci...",
+        "message": "Zahájit novou konverzaci…",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
@@ -2350,7 +2350,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "\"$name$\" nemůže být přidán do skupiny, protože používám starou verzi aplikace Signal. Můžete je přidat do skupiny poté, co si aktualizují aplikaci Signal.",
+        "message": "„$name$“ nelze přidat do skupiny, protože používají starou verzi aplikace Signal. Můžete je přidat do skupiny poté, co si aktualizují aplikaci Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2698,7 +2698,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Instaluji balík nálepek...",
+        "message": "Instalace balíčku nálepek…",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -3162,7 +3162,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Ještě pár detailů...",
+        "message": "Ještě pár detailů…",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3658,7 +3658,7 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Příchozí hovor...",
+        "message": "Příchozí hovor…",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
@@ -6685,18 +6685,6 @@
         "message": "Co je nového",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Nyní můžete vyhledávat v archivovaných konverzacích. Představte si, že (rychle) prohledáváte staré svazky a hledáte další stopu.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Pokud jste někdy posouvali nahoru a odesílali zprávu, možná jste se divili, kde se vaše zpráva nachází! Nyní, kdykoli odešlete zprávu, bude posunuta na obrazovku, abyste mohli obdivovat svou tvrdou práci.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagujete na zprávu? Nyní by měla být reakce spolehlivější s opakovanými pokusy až 24 hodin.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Měli jste někdy pocit, že potřebujete více pixelů na té \"správné\" straně svého života? Jste fanouškem avatarů, ale pouze avatarů a ničeho jiného? Máte na autě samolepku \"Šetřete prostor na obrazovce\"? Pokud jste na některou z těchto otázek odpověděli ano nebo ne, pak má pro vás tato aktualizace schovávací levý panel.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop nyní nativně podporuje čip M1 společnosti Apple, který se používá v novějších počítačích. Pokud používáte jedno z těchto nových zařízení, aplikace by měla být mnohem svižnější. Pokud nejste, ostatním to přejte. Obrovské díky $dennis$ za jeho skvělou práci!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Na dlouhém callu? Váš systém by měl zůstat po celou dobu vzhůru, místo aby usnul uprostřed důležité diskuse.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "K dispozici je také řada drobných vylepšení a oprav chyb, které zajišťují bezproblémový chod aplikace Signal, včetně několika vylepšení souvisejících s voláním.",
+        "description": "Release notes for v5.27"
     }
 }

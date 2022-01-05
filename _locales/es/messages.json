@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Fallo encontrado al descifrar.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Fallo encontrado al descifrar un mensaje de $name$, dispositivo $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1208,7 +1208,7 @@
         "description": "Shown on the drop-down menu for an individual message, deletes single message"
     },
     "deleteMessageForEveryone": {
-        "message": "Eliminar mensaje en el chat",
+        "message": "Eliminar mensaje del chat",
         "description": "Shown on the drop-down menu for an individual message, deletes single message for everyone"
     },
     "deleteMessages": {
@@ -2292,7 +2292,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "Alias de usuari@ no encontrado. $atUsername$ no usa Signal. Asegúrate de haber introducido el alias de usuari@ correcto.",
+        "message": "Alias de usuari@ no encontrado. $atUsername$ no usa Signal. Asegúrate de haber introducido el alias correcto.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -6685,18 +6685,6 @@
         "message": "Novedades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Ahora puedes buscar en los chat archivados. Imagínate buscando (rápidamente) la siguiente pista entre tomos antiguos.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Si alguna vez te desplazaste hacia arriba en el chat y enviaste un mensaje, es posible que te preguntaras ¿dónde está mi mensaje? Ahora, cada vez que envíes un mensaje, aparecerá en pantalla para que puedas admirar tu arduo trabajo.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "¿Reaccionas a un mensaje? Ahora debería ser más fiable, con reintentos hasta tras 24 horas",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "¿Alguna vez has tenido la sensación de necesitar más píxeles en el panel de los mensajes? ¿Eres fan de avatares, y sólamente avatares? ¿Tienes una pegatina de \"Estás demasiado cerca, necesito espacio entre nosotr@s\" en la parte trasera de tu auto? Si has respondido sí o no a alguna de estas preguntas, te alegrará saber que la vista del panel con la lista de chats se puede reducir.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop funciona nativamente en los procesadores M1 que Apple usa en sus nuevos Macs. Si utilizas uno de esos Macs, Signal funciona de manera más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "¿La llamada dura demasiado? Tu sistema permanecerá despierto durante todo el tiempo de la llamada, en lugar de entrar en hibernación en medio de esa conversación tan importante.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "También hemos reparado un par de fallos para que Signal funcione mejor, sobre todo en las llamadas.",
+        "description": "Release notes for v5.27"
     }
 }

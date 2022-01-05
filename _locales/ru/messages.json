@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "В Signal Desktop произошла ошибка расшифровки.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "В Signal Desktop произошла ошибка расшифровки сообщения от $name$, устройство $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5322,11 +5322,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Стать поддерживающим",
+        "message": "Стать Поддерживающим",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Стать поддерживающим",
+        "message": "Стать Поддерживающим",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5342,7 +5342,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Нажмите на «Стать поддерживающим» и подпишитесь",
+        "message": "Нажмите на «Стать Поддерживающим» и подпишитесь",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -6685,18 +6685,6 @@
         "message": "Что нового",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Теперь вы можете искать в архивированных разговорах. Представьте себя (быстро) просматривающим древние тома в поисках следующей подсказки.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Если вы когда либо прокрутили вверх и отправили сообщение, то вы могли задуматься — где же ваше сообщение? Теперь после отправки сообщения разговор будет прокручен, чтобы сообщение было видно и вы смогли полюбоваться своей тяжелой работой.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Реагируете на сообщение? Теперь это действие должно выполняться более надежно — при необходимости оно будет повторяться в течении 24 часов.",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Теперь вы можете изменять размер левой панели.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop теперь напрямую поддерживает процессор Apple M1, который используется в новых компьютерах Apple. Если вы используете одно из таких новоиспечённых устройств, приложение должно работать намного оперативнее. Если нет, тепло поприветствуйте тех пользователей, которые используют такой компьютер. Огромное спасибо $dennis$ за его усердную работу в этой области!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Находитесь в долгом звонке? Ваша система теперь должна бодрствовать всё время, вместо того чтобы засыпать, когда вы в середине важного обсуждения.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Также эта версия содержит несколько небольших изменений и исправлений, чтобы Signal продолжал работать плавно, включая несколько улучшений, связанных со звонками.",
+        "description": "Release notes for v5.27"
     }
 }

@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "डेस्कटॉप एक डिक्रिप्शन एरर में चला गया.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "नया क्या है",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "अब आप संग्रहीत बातचीत में सर्च कर सकते हैं. कल्पना कीजिए कि आप अगले सुराग की तलाश प्राचीन वक्त के ज़रिए (जल्दी से) खोज रहे हैं.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "अगर आपने कभी ऊपर स्क्रॉल किया है और मेसेज भेजा है, तो आपको आश्चर्य हो सकता है कि आपका मेसेज कहां था! अब, जब भी आप कोई मेसेज भेजेंगे, तो आप अपनी कड़ी मेहनत की प्रशंसा करने के लिए उसे स्क्रॉल करके देख सकेंगे.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "एक मेसेज पर प्रतिक्रिया देते हुए? अब इसे और ज़्यादा विश्वसनीय होना चाहिए, 24 घंटे तक फिर से कोशिश करते हुए",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "सिग्नल को सही रूप से चलाने के लिए इस वर्शन में कई छोटे बदलाव और बग फ़िक्स शामिल हैं.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "कभी ऐसा महसूस हुआ है कि आपको अपने जीवन में दाएं पेन पर ज़्यादा पिक्सेल की ज़रुरत है? क्या आप अवतारों के प्रशंसक हैं, लेकिन सिर्फ़ अवतार और कुछ नहीं? क्या आपकी कार पर \"सेव द स्क्रीन रियल एस्टेट\" बम्पर स्टिकर है? अगर आपने इनमें से किसी भी सवाल का जवाब हां या ना में दिया है, तो यह अपडेट आपके लिए कुछ संक्षिप्त करने योग्य बायां पेन लेकर आया है.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop now natively supports Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "एक लंबी कॉल पर हैं ? जब आप किसी महत्वपूर्ण चर्चा के बीच में हों तो आपका सिस्टम बंद जाने की जगह पर पूरे समय जागता रहना चाहिए। ",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Signal को सुचारू रूप से चलाने के लिए कई छोटे बदलाव और त्रुटि ठीक करी गई हैं, जिसमें कई कॉलिंग-संबंधी सुधार भी शामिल हैं।",
+        "description": "Release notes for v5.27"
     }
 }

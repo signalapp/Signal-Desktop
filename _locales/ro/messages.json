@@ -8,7 +8,7 @@
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "Copiază eroare și închide aplicația",
+        "message": "Copiază eroarea și închide aplicația",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
@@ -290,7 +290,7 @@
         "description": "Header shown on the screen at the end of a successful import process"
     },
     "importCompleteStartButton": {
-        "message": "Începi să folosești Signal Desktop",
+        "message": "Începe să folosești Signal Desktop",
         "description": "Button shown at end of successful import process, nothing left but a restart"
     },
     "importCompleteLinkButton": {
@@ -324,7 +324,7 @@
         "description": "Displayed when a user can't send a message because they have left the group"
     },
     "invalidConversation": {
-        "message": "Acest grup este invalid. Te rugăm creează un nou grup.",
+        "message": "Acest grup este invalid. Te rugăm creează un grup nou.",
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop a întâmpinat o eroare de decriptare.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop a întâmpinat o eroare de decriptare de la $name$, dispozitiv $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -1380,7 +1380,7 @@
         "description": ""
     },
     "installTooOld": {
-        "message": "Actualizează Signal de pe acest dispozitiv pentru a asocia telefonul dvs.",
+        "message": "Actualizează Signal de pe acest dispozitiv pentru a asocia telefonul tău.",
         "description": ""
     },
     "installErrorHeader": {
@@ -1770,7 +1770,7 @@
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
-        "message": "Signal are nevoie de permisiune pentru a accesa înregistrarea ecranului dvs.",
+        "message": "Signal are nevoie de permisiune pentru a accesa înregistrarea ecranului tău.",
         "description": "Shown as the description for the modal that requests screen recording permissions"
     },
     "calling__presenting--permission-instruction-step1": {
@@ -2256,7 +2256,7 @@
         "description": "Name for the conversation with your own phone number"
     },
     "noteToSelfHero": {
-        "message": "Puteți adăuga note pentru dvs. în această conversație. Dacă contul dvs. are dispozitive asociate, notele noi vor fi sincronizate.",
+        "message": "Poți adăuga notițe pentru tine în această conversație. Dacă contul tău are dispozitive asociate, notițele noi vor fi sincronizate.",
         "description": "Description for the Note to Self conversation"
     },
     "notificationDrawAttention": {
@@ -2288,11 +2288,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Nu s-a găsit numele de utilizator. Verificați conexiunea și încercați din nou.",
+        "message": "Nu s-a găsit numele de utilizator. Verifică conexiunea și încearcă din nou.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "Utilizatorul nu a fost găsit. $atUsername$ nu este un utilizator Signal, asigurați-vă că ați introdus numele de utilizator complet.",
+        "message": "Utilizatorul nu a fost găsit. $atUsername$ nu este un utilizator Signal, asigură-te că ai introdus numele de utilizator complet.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2302,7 +2302,7 @@
         }
     },
     "chooseGroupMembers__title": {
-        "message": "Alegeți membrii",
+        "message": "Alege membrii",
         "description": "The title for the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__back-button": {
@@ -2310,7 +2310,7 @@
         "description": "Used as alt-text of the back button on the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__skip": {
-        "message": "Omiteți",
+        "message": "Omite",
         "description": "The 'skip' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__next": {
@@ -2350,7 +2350,7 @@
         "description": "Shown in the alert when you try to add someone who can't be added to a group"
     },
     "chooseGroupMembers__cant-add-member__body": {
-        "message": "Utilizatorul \"$name$\" nu a putut fi adăugat acestui grup, deoarece folosește o versiune veche de Signal. Îl puteți adăuga grupului după ce își actualizează Signal.",
+        "message": "Utilizatorul \"$name$\" nu a putut fi adăugat acestui grup, deoarece folosește o versiune veche de Signal. Poți să-l adaugi la grup după ce își actualizează Signal.",
         "description": "Shown in the alert when you try to add someone who can't be added to a group",
         "placeholders": {
             "max": {
@@ -2360,7 +2360,7 @@
         }
     },
     "setGroupMetadata__title": {
-        "message": "Numiți acest grup",
+        "message": "Numește acest grup",
         "description": "The title for the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__back-button": {
@@ -2384,15 +2384,15 @@
         "description": "The header for the members list in the 'set group metadata' left pane screen"
     },
     "setGroupMetadata__error-message": {
-        "message": "Acest grup nu a putut fi creat. Verificați conexiunea și încercați din nou.",
+        "message": "Acest grup nu a putut fi creat. Verifică conexiunea și încearcă din nou.",
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Editați grupul",
+        "message": "Editează grupul",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
-        "message": "Actualizarea grupului a eșuat. Verificați conexiunea și încercați din nou.",
+        "message": "Actualizarea grupului a eșuat. Verifică conexiunea și încearcă din nou.",
         "description": "Shown in the modal when we can't update a group"
     },
     "notSupportedSMS": {
@@ -2408,7 +2408,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Apăsați pentru a asocia din nou Signal Desktop cu dispozitivul dvs. mobil și pentru a continua să trimiteți mesaje.",
+        "message": "Apasă pentru a asocia din nou Signal Desktop cu dispozitivul tău mobil și pentru a continua să trimiți mesaje.",
         "description": ""
     },
     "unlinked": {
@@ -2424,11 +2424,11 @@
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
-        "message": "Apăsați pentru a reporni Signal",
+        "message": "Apasă pentru a reporni Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Apăsați pentru a descărca actualizarea",
+        "message": "Apasă pentru a descărca actualizarea",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2478,7 +2478,7 @@
         }
     },
     "youUpdatedTheGroup": {
-        "message": "Ați actualizat grupul.",
+        "message": "Ai actualizat grupul.",
         "description": "Shown in the conversation history when you update a group"
     },
     "updatedGroupAvatar": {
@@ -2542,7 +2542,7 @@
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Mergeți la conversația cu $title$",
+        "message": "Mergi la conversația cu $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -2650,15 +2650,15 @@
         "description": "Shown in the sticker pack manager when you have not received any sticker packs in messages."
     },
     "stickers--StickerManager--Install": {
-        "message": "Instalați",
+        "message": "Instalează",
         "description": "Shown in the sticker pack manager next to sticker packs which can be installed."
     },
     "stickers--StickerManager--Uninstall": {
-        "message": "Dezinstalați",
+        "message": "Dezinstalează",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--UninstallWarning": {
-        "message": "Este posibil să nu puteți reinstala acest pachet de autocolante dacă nu mai aveți mesajul original.",
+        "message": "Este posibil să nu poți reinstala acest pachet de autocolante dacă nu mai ai mesajul original.",
         "description": "Shown in the sticker pack manager next to sticker packs which are already installed."
     },
     "stickers--StickerManager--Introduction--Image": {
@@ -2670,15 +2670,15 @@
         "description": "Shown as the title on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerManager--Introduction--Body": {
-        "message": "De ce să folosiți cuvinte când puteți folosi autocolante?",
+        "message": "De ce să folosești cuvinte când poți folosi autocolante?",
         "description": "Shown as the body on a tooltip when the user upgrades to a version of Signal supporting stickers."
     },
     "stickers--StickerPicker--Open": {
-        "message": "Deschideți selectorul de autocolante",
+        "message": "Deschide selectorul de autocolante",
         "description": "Label for the open button for the sticker picker"
     },
     "stickers--StickerPicker--AddPack": {
-        "message": "Adăugați un pachet de autocolante",
+        "message": "Adaugă un pachet de autocolante",
         "description": "Label for the add pack button in the sticker picker"
     },
     "stickers--StickerPicker--NextPage": {
@@ -2722,7 +2722,7 @@
         "description": "The title that appears in the sticker pack preview modal."
     },
     "stickers--StickerPreview--Error": {
-        "message": "Eroare la deschiderea pachetului cu autocolante. Verificați conexiunea la internet și încercați din nou.",
+        "message": "Eroare la deschiderea pachetului cu autocolante. Verifică conexiunea la internet și încearcă din nou.",
         "description": "The message that appears in the sticker preview modal when there is an error."
     },
     "EmojiPicker--empty": {
@@ -2730,7 +2730,7 @@
         "description": "Shown in the emoji picker when a search yields 0 results."
     },
     "EmojiPicker--search-placeholder": {
-        "message": "Căutați Emoji",
+        "message": "Căutare emoji",
         "description": "Shown as a placeholder inside the emoji picker search field."
     },
     "EmojiPicker--skin-tone": {
@@ -2784,7 +2784,7 @@
         "description": "Appears on the cancel button in confirmation dialogs."
     },
     "MessageBody--read-more": {
-        "message": "Citiți mai multe",
+        "message": "Citește mai mult",
         "description": "When a message is too long this is the affordance to expand the message"
     },
     "Message--unsupported-message": {
@@ -2798,7 +2798,7 @@
         }
     },
     "Message--unsupported-message-ask-to-resend": {
-        "message": "Îl puteți ruga pe $contact$ să retrimită acest mesaj acum că folosiți o versiune actualizată de Signal.",
+        "message": "Îl poți ruga pe $contact$ să retrimită acest mesaj acum că folosești o versiune actualizată de Signal.",
         "description": "",
         "placeholders": {
             "contact": {
@@ -2808,15 +2808,15 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Unul dintre dispozitivele dvs. a trimis un mesaj ce nu poate fi procesat sau afișat pentru că utilizează o nouă funcționalitate Signal.",
+        "message": "Unul dintre dispozitivele tale a trimis un mesaj ce nu poate fi procesat sau afișat pentru că utilizează o nouă funcționalitate Signal.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
-        "message": "Mesajele viitoare de acest tip vor fi sincronizate acum că folosiți o versiune actualizată a Signal.",
+        "message": "Mesajele viitoare de acest tip vor fi sincronizate acum că folosești o versiune actualizată a Signal.",
         "description": ""
     },
     "Message--update-signal": {
-        "message": "Actualizați Signal",
+        "message": "Actualizează Signal",
         "description": "Text for a button which will take user to Signal download page"
     },
     "Message--tap-to-view-expired": {
@@ -2828,7 +2828,7 @@
         "description": "Text shown on outgoing messages with with individual timers (inaccessible)"
     },
     "Message--tap-to-view--incoming--expired-toast": {
-        "message": "Ați văzut deja acest mesaj.",
+        "message": "Ai văzut deja acest mesaj.",
         "description": "Shown when user clicks on an expired incoming view-once bubble"
     },
     "Message--tap-to-view--outgoing--expired-toast": {
@@ -2836,7 +2836,7 @@
         "description": "Shown when user clicks on an expired outgoing view-once bubble"
     },
     "Message--tap-to-view--incoming": {
-        "message": "Vizualizați poza",
+        "message": "Vezi poza",
         "description": "Text shown on photo messages with with individual timers, before user has viewed it"
     },
     "Message--tap-to-view--incoming-video": {
@@ -2856,7 +2856,7 @@
         "description": "Text shown in left pane as preview for conversation with saved a saved draft message"
     },
     "Keyboard--navigate-by-section": {
-        "message": "Navigați prin secțiuni",
+        "message": "Navighează prin secțiuni",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--previous-conversation": {
@@ -2880,27 +2880,27 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-conversation-menu": {
-        "message": "Deschideți meniul de conversație",
+        "message": "Deschide meniul de conversație",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--new-conversation": {
-        "message": "Începeți o conversație nouă",
+        "message": "Începe o conversație nouă",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--archive-conversation": {
-        "message": "Arhivați conversația",
+        "message": "Arhivează conversația",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--unarchive-conversation": {
-        "message": "Dezarhivați conversația",
+        "message": "Dezarhivează conversația",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search": {
-        "message": "Căutați",
+        "message": "Caută",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--search-in-conversation": {
-        "message": "Căutați în conversație",
+        "message": "Caută în conversație",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--focus-composer": {
@@ -2912,15 +2912,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-emoji-chooser": {
-        "message": "Deschideți sertarul cu emoji",
+        "message": "Deschide sertarul cu emoji",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--open-sticker-chooser": {
-        "message": "Deschideți sertarul cu autocolante",
+        "message": "Deschide sertarul cu autocolante",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--begin-recording-voice-note": {
-        "message": "Începeți să înregistrați o notă vocală",
+        "message": "Începe să înregistrezi o notă vocală",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
@@ -2928,27 +2928,27 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
-        "message": "Vizualizați detaliile pentru mesajul selectat",
+        "message": "Vezi detaliile pentru mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reply": {
-        "message": "Comutați răspunsul la mesajul selectat",
+        "message": "Comută răspunsul la mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-reaction-picker": {
-        "message": "Comutați selectorul de emoji sau reacție pentru mesajul selectat",
+        "message": "Comută selectorul de emoji sau reacție pentru mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--save-attachment": {
-        "message": "Salvați atașamentul din mesajul selectat",
+        "message": "Salvează atașamentul din mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--delete-message": {
-        "message": "Ștergeți mesajul selectat",
+        "message": "Șterge mesajul selectat",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--add-newline": {
-        "message": "Adăugați o linie nouă la mesaj",
+        "message": "Adaugă o linie nouă la mesaj",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--expand-composer": {
@@ -2960,11 +2960,11 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
-        "message": "Atașați fișierul",
+        "message": "Atașare fișier",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Eliminați schița previzualizării linkului",
+        "message": "Elimină schița previzualizării linkului",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -3028,7 +3028,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--close-curent-conversation": {
-        "message": "Închideți conversația curentă",
+        "message": "Închide conversația curentă",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--calling-header": {
@@ -3044,15 +3044,15 @@
         "description": "Shown in the shortcuts guide"
     },
     "close-popup": {
-        "message": "Închideți fereastra",
+        "message": "Închide fereastra",
         "description": "Used as alt text for any button closing a popup"
     },
     "add-image-attachment": {
-        "message": "Adăugați o imagine ca și atașament",
+        "message": "Adaugă o imagine ca și atașament",
         "description": "Used in draft attachment list for the big 'add new attachment' button"
     },
     "remove-attachment": {
-        "message": "Eliminați atașamentul",
+        "message": "Elimină atașamentul",
         "description": "Used in draft attachment list to remove an individual attachment"
     },
     "backToInbox": {
@@ -3080,11 +3080,11 @@
         "description": "The title of the Sticker Pack Creator window"
     },
     "StickerCreator--DropZone--staticText": {
-        "message": "Click pentru a adăuga sau plasați imaginile aici",
+        "message": "Click pentru a adăuga sau plasează imaginile aici",
         "description": "Text which appears on the Sticker Creator drop zone when there is no active drag"
     },
     "StickerCreator--DropZone--activeText": {
-        "message": "Trageți imaginile aici",
+        "message": "Trage imaginile aici",
         "description": "Text which appears on the Sticker Creator drop zone when there is an active drag"
     },
     "StickerCreator--Preview--title": {
@@ -3092,7 +3092,7 @@
         "description": "The 'title' of the sticker pack preview 'modal'"
     },
     "StickerCreator--ConfirmDialog--cancel": {
-        "message": "Anulați",
+        "message": "Anulare",
         "description": "The default text for the confirm dialog cancel button"
     },
     "StickerCreator--CopyText--button": {
@@ -3124,15 +3124,15 @@
         "description": "Default text for the previous button on all stages of the sticker creator"
     },
     "StickerCreator--DropStage--title": {
-        "message": "Adăugați autocolantele dvs.",
+        "message": "Adaugă autocolantele tale",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Eliminați autocolantul",
+        "message": "Elimină autocolantul",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Faceți click sau glisați și fixați un fișier pentru a adăuga un autocolant",
+        "message": "Click sau glisează și fixează un fișier pentru a adăuga un autocolant",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3140,11 +3140,11 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--showMargins": {
-        "message": "Afișați marginile",
+        "message": "Afișează marginile",
         "description": "Text for the show margins toggle on the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--addMore": {
-        "message": "Adăugați $count$ sau mai multe",
+        "message": "Adaugă $count$ sau mai multe",
         "description": "Text to show user how many more stickers they must add",
         "placeholders": {
             "hashtag": {
@@ -3154,11 +3154,11 @@
         }
     },
     "StickerCreator--EmojiStage--title": {
-        "message": "Adăugați un emoji la fiecare autocolant",
+        "message": "Adaugă un emoji la fiecare autocolant",
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--EmojiStage--help": {
-        "message": "Acest lucru ne permite să vă sugerăm autocolante în timp ce scrieți.",
+        "message": "Acest lucru ne permite să îți sugerăm autocolante în timp ce scrii.",
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
@@ -3178,11 +3178,11 @@
         "description": "Label for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--cover--help": {
-        "message": "Aceasta este imaginea care va fi afișată când partajați pachetul dvs. cu autocolante",
+        "message": "Aceasta este imaginea care va fi afișată când partajezi pachetul tău cu autocolante",
         "description": "Help text for the cover image picker of the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--title": {
-        "message": "Sunteți sigur că vreți să încărcați pachetul dvs. cu autocolante?",
+        "message": "Ești sigur că vrei să încarci pachetul tău cu autocolante?",
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
@@ -3190,7 +3190,7 @@
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
-        "message": "Nu veți mai putea modifica sau șterge după crearea unui pachet de autocolante.",
+        "message": "Nu vei mai putea modifica sau șterge după crearea unui pachet de autocolante.",
         "description": "The text inside the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--UploadStage--title": {
@@ -3212,15 +3212,15 @@
         }
     },
     "StickerCreator--ShareStage--title": {
-        "message": "Felicitări! Ați creat un pachet cu autocolante.",
+        "message": "Felicitări! Ai creat un pachet cu autocolante.",
         "description": "Title for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--help": {
-        "message": "Accesați noile autocolante prin pictograma autocolantului sau partajați cu prietenii utilizând linkul de mai jos.",
+        "message": "Accesează noile autocolante prin pictograma autocolantului sau partajează cu prietenii utilizând linkul de mai jos.",
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Utilizați hashtag-ul  $hashtag$ pentru a-i ajuta pe alți oameni să găsească URL-urile pentru orice pachet de autocolante pe care ați dori să-l faceți accesibil public.",
+        "message": "Utilizeazî hashtag-ul  $hashtag$ pentru a-i ajuta pe alți oameni să găsească URL-urile pentru orice pachet de autocolante pe care ai dori să-l faci accesibil public.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3238,7 +3238,7 @@
         "description": "Text for the close button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--createAnother": {
-        "message": "Creeați un alt pachet cu autocolante",
+        "message": "Creează un alt pachet cu autocolante",
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
@@ -3306,15 +3306,15 @@
         "description": "Text for the sticker preview for the dark theme"
     },
     "StickerCreator--Authentication--error": {
-        "message": "Vă rugăm să configurați Signal pe telefonul și desktopul dvs. pentru a utiliza creatorul de autocolante",
+        "message": "Te rugăm să configurezi Signal pe telefonul și desktopul tău pentru a utiliza creatorul de autocolante",
         "description": "The error message which appears when the user has not linked their account and attempts to use the Sticker Creator"
     },
     "Reactions--remove": {
-        "message": "Eliminați reacția",
+        "message": "Elimină reacția",
         "description": ""
     },
     "Reactions--error": {
-        "message": "Reacția nu a putut fi transmisă. Vă rugăm să încercați din nou.",
+        "message": "Reacția nu a putut fi transmisă. Te rugăm să încerci din nou.",
         "description": "Shown when a reaction fails to send"
     },
     "Reactions--more": {
@@ -3326,7 +3326,7 @@
         "description": "Shown in reaction viewer as the title for the 'all' category"
     },
     "MessageRequests--message-direct": {
-        "message": "Permiteți lui $name$ să vă trimită mesaje și partajați numele și fotografia cu ei? Nu vor ști că le-ați văzut mesajul până nu acceptați.",
+        "message": "Permiți lui $name$ să îți trimită mesaje și partajezi numele și fotografia cu ei? Nu vor ști că le-ai văzut mesajul până nu accepți.",
         "description": "Shown as the message for a message request in a direct message",
         "placeholders": {
             "name": {
@@ -3336,7 +3336,7 @@
         }
     },
     "MessageRequests--message-direct-blocked": {
-        "message": "Permiteți lui $name$ să vă trimită mesaje și să vă împărtășiți numele și fotografia cu ei? Nu veți primi niciun mesaj până când nu îi deblocați.",
+        "message": "Permiți lui $name$ să îți trimită mesaje și să îți împărtășești numele și fotografia cu ei? Nu vei primi niciun mesaj până când nu îi deblochezi.",
         "description": "Shown as the message for a message request in a direct message with a blocked account",
         "placeholders": {
             "name": {
@@ -3346,11 +3346,11 @@
         }
     },
     "MessageRequests--message-group": {
-        "message": "Vă alăturați acestui grup și împărtășiți numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
+        "message": "Te alături acestui grup și împărtășești numele și fotografia cu membrii săi? Nu vor ști că le-ai văzut mesajele până nu accepți.",
         "description": "Shown as the message for a message request in a group"
     },
     "MessageRequests--message-group-blocked": {
-        "message": "Deblocați acest grup și împărtășiți numele și fotografia cu membrii săi? Nu veți primi niciun mesaj până când nu îi deblocați.",
+        "message": "Deblochezi acest grup și împărtășești numele și fotografia cu membrii săi? Nu vei primi niciun mesaj până când nu îi deblochezi.",
         "description": "Shown as the message for a message request in a blocked group"
     },
     "MessageRequests--block": {
@@ -3372,15 +3372,15 @@
         }
     },
     "MessageRequests--unblock-direct-confirm-body": {
-        "message": "Vei putea să vă trimiteți mesaje și să vă sunați reciproc.",
+        "message": "Vei putea să trimiți mesaje și să vă sunați reciproc.",
         "description": "Shown as the body in the confirmation modal for unblocking a private message request"
     },
     "MessageRequests--unblock-group-confirm-body": {
-        "message": "Membrii grupului vă vor putea adăuga din nou la acest grup.",
+        "message": "Membrii grupului te vor putea adăuga din nou la acest grup.",
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Raportați spamul și blocați",
+        "message": "Raportează spamul și blochează",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -3398,11 +3398,11 @@
         }
     },
     "MessageRequests--block-direct-confirm-body": {
-        "message": "Persoanele blocate nu vor putea să vă sune sau să vă trimită mesaje.",
+        "message": "Persoanele blocate nu vor putea să te sune sau să îți trimită mesaje.",
         "description": "Shown as the body in the confirmation modal for blocking a private message request"
     },
     "MessageRequests--block-group-confirm-title": {
-        "message": "Blocați și părăsiți $group$?",
+        "message": "Blochezi și părăsești $group$?",
         "description": "Shown as the title in the confirmation modal for blocking a group message request",
         "placeholders": {
             "group": {
@@ -3412,7 +3412,7 @@
         }
     },
     "MessageRequests--block-group-confirm-body": {
-        "message": "Nu veți mai primi mesaje sau actualizări de la acest grup, iar membrii nu vă vor mai putea adăuga la acest grup.",
+        "message": "Nu vei mai primi mesaje sau actualizări de la acest grup, iar membrii nu te vor mai putea adăuga la acest grup.",
         "description": "Shown as the body in the confirmation modal for blocking a group message request"
     },
     "MessageRequests--delete": {
@@ -3424,11 +3424,11 @@
         "description": "Shown as the title in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-direct-confirm-body": {
-        "message": "Această conversație o să fie ștearsă de pe toate dispozitivele dvs.",
+        "message": "Această conversație o să fie ștearsă de pe toate dispozitivele tale.",
         "description": "Shown as the body in the confirmation modal for deleting a private message request"
     },
     "MessageRequests--delete-group-confirm-title": {
-        "message": "Ștergeți și părăsiți $group$?",
+        "message": "Ștergi și părăsești $group$?",
         "description": "Shown as the title in the confirmation modal for deleting a group message request",
         "placeholders": {
             "group": {
@@ -3442,15 +3442,15 @@
         "description": "Shown as a button to let the user delete a direct message request"
     },
     "MessageRequests--delete-group": {
-        "message": "Ștergeți și părăsiți",
+        "message": "Șterge și părăsește",
         "description": "Shown as a button to let the user delete a group message request"
     },
     "MessageRequests--delete-group-confirm-body": {
-        "message": "Veți părăsi acest grup și va fi șters de pe toate dispozitivele dvs.",
+        "message": "Vei părăsi acest grup și va fi șters de pe toate dispozitivele tale.",
         "description": "Shown as the body in the confirmation modal for deleting a group message request"
     },
     "MessageRequests--accept": {
-        "message": "Acceptați",
+        "message": "Acceptă",
         "description": "Shown as a button to let the user accept a message request"
     },
     "MessageRequests--continue": {
@@ -3458,7 +3458,7 @@
         "description": "Shown as a button to share your profile, necessary to continue messaging in a conversation"
     },
     "MessageRequests--profile-sharing--group": {
-        "message": "Continuați conversația cu acest grup și partajați numele și fotografia dvs. cu membrii săi? $learnMore$",
+        "message": "Continui conversația cu acest grup și partajezi numele și fotografia ta cu membrii săi? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a group yet",
         "placeholders": {
             "learnMore": {
@@ -3468,7 +3468,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Continuați această conversație cu $firstName$ și partajați numele si fotografia dvs. cu ei? $learnMore$",
+        "message": "Continui această conversație cu $firstName$ și partajezi numele și fotografia ta cu ei? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -3482,7 +3482,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "Aflați mai multe.",
+        "message": "Află mai multe.",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -3602,7 +3602,7 @@
         "description": "Shown to indicate this user is not a member of any groups"
     },
     "no-groups-in-common-warning": {
-        "message": "Niciun grup în comun. Examinați solicitările cu atenție.",
+        "message": "Niciun grup în comun. Examinează cu atenție solicitările.",
         "description": "When a user has no common groups, show this warning"
     },
     "acceptCall": {
@@ -3610,7 +3610,7 @@
         "description": "Shown in tooltip for the button to accept a call (audio or video)"
     },
     "acceptCallWithoutVideo": {
-        "message": "Răspundeți fără video",
+        "message": "Răspunde fără video",
         "description": "Shown in tooltip for the button to accept a video call without video"
     },
     "declineCall": {
@@ -3618,11 +3618,11 @@
         "description": "Shown in tooltip for the button to decline a call (audio or video)"
     },
     "declinedIncomingAudioCall": {
-        "message": "Ați respins un apel audio.",
+        "message": "Ai respins un apel audio.",
         "description": "Shown in conversation history when you declined an incoming audio call"
     },
     "declinedIncomingVideoCall": {
-        "message": "Ați respins un apel video.",
+        "message": "Ai respins un apel video.",
         "description": "Shown in conversation history when you declined an incoming video call"
     },
     "acceptedIncomingAudioCall": {
@@ -3666,7 +3666,7 @@
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
-        "message": "$ringer$ vă apelează",
+        "message": "$ringer$ te apelează",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3676,7 +3676,7 @@
         }
     },
     "incomingGroupCall__ringing-1-other": {
-        "message": "$ringer$ apelează pe dvs. și $otherMember$",
+        "message": "$ringer$ te apelează pe tine și pe $otherMember$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3690,7 +3690,7 @@
         }
     },
     "incomingGroupCall__ringing-2-others": {
-        "message": "$ringer$ apelează pe dvs, $first$ și $second$",
+        "message": "$ringer$ te apelează pe tine, $first$ și $second$",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3708,7 +3708,7 @@
         }
     },
     "incomingGroupCall__ringing-3-others": {
-        "message": "$ringer$ apelează pe dvs, $first$, $second$ și 1 altul",
+        "message": "$ringer$ te apelează pe tine, $first$, $second$ și 1 altul",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3726,7 +3726,7 @@
         }
     },
     "incomingGroupCall__ringing-many": {
-        "message": "$ringer$ apelează pe dvs, $first$, $second$ și $remaining$ alții",
+        "message": "$ringer$ te apelează pe tine, $first$, $second$ și $remaining$ alții",
         "description": "Shown in the incoming call bar when someone is ringing you for a group call",
         "placeholders": {
             "ringer": {
@@ -3752,19 +3752,19 @@
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
-        "message": "Începeți un apel",
+        "message": "Începe un apel",
         "description": "Title for the call button in a conversation"
     },
     "makeOutgoingVideoCall": {
-        "message": "Începeți un apel video",
+        "message": "Începe un apel video",
         "description": "Title for the video call button in a conversation"
     },
     "joinOngoingCall": {
-        "message": "Alăturați-vă",
+        "message": "Alătură-te",
         "description": "Text that appears in a group when a call is active"
     },
     "callNeedPermission": {
-        "message": "$title$ va primi o solicitare de mesaj de la dvs. Puteți apela odată ce solicitarea dvs. este acceptată.",
+        "message": "$title$ va primi o solicitare de mesaj de la tine. Poți apela odată ce solicitarea ta este acceptată.",
         "description": "Shown when a call is rejected because the other party hasn't approved the message/call request",
         "placeholders": {
             "title": {
@@ -3824,7 +3824,7 @@
         }
     },
     "calling__call-notification__button__in-another-call-tooltip": {
-        "message": "Sunteți deja într-un apel",
+        "message": "Ești deja într-un apel",
         "description": "Tooltip in disabled notification button when you're on another call"
     },
     "calling__call-notification__button__call-full-tooltip": {
@@ -3846,19 +3846,19 @@
         "description": "Title for picture-in-picture toggle"
     },
     "calling__switch-view--to-grid": {
-        "message": "Comutați la vizualizare grilă",
+        "message": "Comută la vizualizare grilă",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__switch-view--to-speaker": {
-        "message": "Comutați la vizualizare vorbitor",
+        "message": "Comută la vizualizare vorbitor",
         "description": "Title for grid/speaker view toggle when on a call"
     },
     "calling__hangup": {
-        "message": "Părăsiți apelul",
+        "message": "Părăsește apelul",
         "description": "Title for hang up button"
     },
     "calling__SelectPresentingSourcesModal--title": {
-        "message": "Partajați ecranul dvs.",
+        "message": "Partajează ecranul tău",
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
@@ -3958,7 +3958,7 @@
         "description": "Title of popup dialog when user-initiated task has gone wrong"
     },
     "ErrorModal--description": {
-        "message": "Vă rugăm încercați din nou sau contactați serviciul de asistență.",
+        "message": "Te rugăm să încerci din nou sau să contactezi serviciul de asistență.",
         "description": "Description text in popup dialog when user-initiated task has gone wrong"
     },
     "Confirmation--confirm": {
@@ -3970,7 +3970,7 @@
         "description": "Shown if you click on a sgnl:// link not currently supported by Desktop"
     },
     "GroupV2--cannot-send": {
-        "message": "Nu puteți trimite mesaje acelui grup.",
+        "message": "Nu poți trimite mesaje acelui grup.",
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
@@ -3986,19 +3986,19 @@
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--invalid-link": {
-        "message": "Acesta nu este un link de grup valid. Asigurați-vă că întregul link este intact și corect înainte de a te alătura grupului.",
+        "message": "Acesta nu este un link de grup valid. Asigură-te că întregul link este intact și corect înainte de a te alătura grupului.",
         "description": "Shown if we are unable to parse a group link"
     },
     "GroupV2--join--prompt": {
-        "message": "Doriți să vă alăturați acestui grup și să vă împărtășiți numele și fotografia cu membrii săi?",
+        "message": "Vrei să te alături acestui grup și să împărtășești numele și fotografia cu membrii săi?",
         "description": "Shown when you click on a group link to confirm"
     },
     "GroupV2--join--already-in-group": {
-        "message": "Sunteți deja în acest grup.",
+        "message": "Ești deja în acest grup.",
         "description": "Shown if you click a group link for a group where you're already a member"
     },
     "GroupV2--join--already-awaiting-approval": {
-        "message": "Ați solicitat deja aprobare să vă alăturați acestui grup.",
+        "message": "Ai solicitat deja aprobare să te alături acestui grup.",
         "description": "Shown if you click a group link for a group where you've already requested approval'"
     },
     "GroupV2--join--unknown-link-version--title": {
@@ -4018,19 +4018,19 @@
         "description": "Shown if you click a group link and we can't get information about it"
     },
     "GroupV2--join--prompt-with-approval": {
-        "message": "Un administrator al acestui grup trebuie să vă aprobe solicitarea înainte de a vă alătura grupului. Dacă este aprobată, numele și fotografia dvs. vor fi partajate cu membrii grupului.",
+        "message": "Un administrator al acestui grup trebuie să îți aprobe solicitarea înainte de a te alătura grupului. Dacă este aprobată, numele și fotografia ta vor fi partajate cu membrii grupului.",
         "description": "Shown when you click on a group link to confirm, if it requires admin approval"
     },
     "GroupV2--join--join-button": {
-        "message": "Alăturați-vă",
+        "message": "Alătură-te",
         "description": "The button to join the group"
     },
     "GroupV2--join--request-to-join-button": {
-        "message": "Solicitați să vă alăturați",
+        "message": "Cerere de înscriere",
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Anulați cererea",
+        "message": "Anulează cererea",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
@@ -4078,7 +4078,7 @@
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--join--general-join-failure": {
-        "message": "Alăturarea la grup nu a reușit. Încercați din nou mai târziu.",
+        "message": "Alăturarea la grup nu a reușit. Încearcă din nou mai târziu.",
         "description": "Shown if something went wrong when you try to join via a group link"
     },
     "GroupV2--admin": {
@@ -4098,7 +4098,7 @@
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "Ați creat grupul.",
+        "message": "Ai creat grupul.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -4130,7 +4130,7 @@
         }
     },
     "GroupV2--title--change--you": {
-        "message": "Ați schimbat numele grupului în \"$newTitle$\".",
+        "message": "Ai schimbat numele grupului în \"$newTitle$\".",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "newTitle": {
@@ -4160,7 +4160,7 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "Ați șters numele grupului.",
+        "message": "Ai șters numele grupului.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
@@ -4384,7 +4384,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add--from-invite--from-you": {
-        "message": "$inviteeName$ a acceptat invitația dvs. la grup.",
+        "message": "$inviteeName$ a acceptat invitația ta la grup.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -4890,7 +4890,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "$adminName$ a revocat invitația la grup trimisă de dvs. către$inviteeName$.",
+        "message": "$adminName$ a revocat invitația la grup trimisă de tine către$inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4900,7 +4900,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--you": {
-        "message": "Ai retras invitația dvs. pentru $inviteeName$.",
+        "message": "Ai retras invitația ta pentru $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -6685,18 +6685,6 @@
         "message": "Ce este nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Acum poți căuta în conversații arhivate. Imaginează-te căutând (rapid) prin tomuri vechi, pentru a găsi următorul indiciu.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Dacă ai derulat vreodată în sus și apoi ai trimis un mesaj, probabil te-ai întrebat unde este mesajul tău! Acum, de fiecare dată când trimiți un mesaj, acesta va fi adus la vedere ca să poți admira munca depusă.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reacționezi la un mesaj? Acum această acțiune ar trebui să fie mai fiabilă, va fi reîncercată timp de până la 24 de ore",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Ai simțit vreodată că ai nevoie de mai mulți pixeli pe panoul din dreapta? Ești un fan al avatarelor, dar numai al avatarelor și nimic altceva? Ai un autocolant pe mașină cu mesajul \"Salvează spațiul pe ecran\"? Dacă ai răspuns da sau nu la oricare dintre aceste întrebări, atunci această actualizare are un panou stâng pliabil pentru tine.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop suportă acum în mod nativ cipul M1 de la Apple, care este utilizat în noile computere. Dacă folosiți unul dintre aceste dispozitive nou-nouțe, aplicația ar trebui să fie mult mai rapidă. Dacă nu, urați-le bun venit utilizatorilor care folosesc. Mulțumim mult lui $dennis$ pentru munca depusă aici!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Într-un apel lung? Sistemul tău ar trebui să rămână activ tot timpul, în loc să intre în repaus în mijlocul unei discuții importante.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Am făcut, de asemenea, o serie de mici ajustări și am reparat câteva erori pentru ca Signal să funcționeze fără probleme, acestea includ și unele îmbunătățiri legate de apelare.",
+        "description": "Release notes for v5.27"
     }
 }

@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop stötte på ett dekrypteringsfel.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop stötte på ett dekrypteringsfel från $name$, enhet $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -5342,7 +5342,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tryck på \"Bli en underhållare\" och prenumerera",
+        "message": "Tryck på \"Bli en underhållare\" och abonnera",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -6638,7 +6638,7 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "Penna",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
@@ -6685,18 +6685,6 @@
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Du kan nu söka i arkiverade konversationer. Föreställ dig att du letar (snabbt) genom uråldriga böcker och letar efter nästa ledtråd.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Om du någonsin har bläddrat upp och skickat ett meddelande kanske du undrar var ditt meddelande var! Nu när du skickar ett meddelande kommer det att bläddras fram så att du kan beundra ditt hårda arbete.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagerar du på ett meddelande? Det borde nu vara mer tillförlitligt och försöker igen i upp till 24 timmar",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop stöder nu Apples M1-chip som används i deras nyare datorer. Om du använder en av dessa nymodiga enheter borde appen vara mycket snabbare. Om inte, hälsa användarna som gör det varmt välkomna. Stort tack till $dennis$ för hans hårda arbete här!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "I ett långt samtal? Ditt system bör vara vaken hela tiden, istället för att somna medan du är mitt i en viktig diskussion.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Det finns också ett antal små justeringar och felrättningar för att hålla Signal igång smidigt, inklusive flera samtalsrelaterade förbättringar.",
+        "description": "Release notes for v5.27"
     }
 }

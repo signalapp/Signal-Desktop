@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "V programe Signal Desktop sa vyskytla chyba pri dešifrovaní.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Signal Desktop narazil na chybu dešifrovania z $name$, zariadenie $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Čo je nové",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Teraz môžete vyhľadávať v archivovaných konverzáciách. Predstavte si, že hľadáte (rýchlo) staroveké zväzky a hľadáte ďalšiu stopu.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Ak ste sa niekedy posunuli nahor a odoslali správu, možno by vás zaujímalo, kde bola vaša správa! Teraz, kedykoľvek odošlete správu, bude rolovaná do zobrazenia, aby ste mohli obdivovať vašu tvrdú prácu.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagujete na správu? Teraz by mala byť spoľahlivejšia a mala by sa opakovať až 24 hodín",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Mali ste niekedy pocit, že vo svojom živote potrebujete viac pixelov na správnom paneli? Ste fanúšikom avatarov, ale iba avatarov a ničoho iného? Máte na svojom aute nálepku na nárazníku „Šetriť úžitkovou plochou“? Ak ste na niektorú z týchto otázok odpovedali áno alebo nie, táto aktualizácia má pre vás skladací ľavý panel.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop teraz natívne podporuje čip Apple M1, ktorý sa používa v ich novších počítačoch. Ak používate jedno z týchto nových zariadení, aplikácia by mala byť oveľa svižnejšia. Ak nie ste jeho majiteľom, srdečne privítajte používateľov ktorí sú. Veľká vďaka $dennis$ za jeho tvrdú prácu tu!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Pri dlhom hovore? Váš systém by mal zostať celý čas bdelý, namiesto toho, aby ste zaspávali, keď ste uprostred dôležitej diskusie.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Existuje tiež množstvo malých vylepšení a opráv chýb, aby Signal fungoval hladko, vrátane niekoľkých vylepšení súvisiacich s volaním.",
+        "description": "Release notes for v5.27"
     }
 }

@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Programa susidūrė su iššifravimo klaida.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Signal Desktop susidūrė su iššifravimo klaida nuo $name$, įrenginio $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Nuo šiol galite atlikti paiešką archyvuotuose pokalbiuose. Įsivaizduokite save. kaip (greitai) ieškote senuosiuose tomuose, bandydami rasti kitos užuominos.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Jei kada nors esate slinkę aukštyn ir išsiuntę žinutę, galbūt, norėjote žinoti, kurioje vietoje buvo jūsų žinutė. Dabar, kas kartą siunčiant žinutę, bus slenkama į rodinį, kad galėtumėte žavėtis savo sunkiu darbu.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reaguojate į žinutę? Dabar šis procesas turėtų būti patikimesnis. Nepavykus, bus 24 valandas vis bandoma iš naujo",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Nuo šiol kairįjį skydelį galima mažinti taip, kad daugiau vietos būtų skirta pokalbiams.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Dabar, Signal Desktop palaiko „Apple“ M1 lustą, kuris yra naudojamas jų naujesniuose kompiuteriuose. Jei turite kurį nors iš tų naujų įrenginių, programa juose veiks žymiai sklandžiau. Jei tokiais įrenginiais nesinaudojate, pasveikinkite naudotojus, kurie jais naudojasi. Didelis ačiū $dennis$ už šį sudėtingą darbą!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "Dalyvaujate ilgame skambutyje? Visą šį laiką, kol dalyvaujate svarbioje diskusijoje, jūsų sistema turėtų išlikti aktyvi ir nepereiti į miego režimą.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Be to, yra daug smulkių patobulinimų ir klaidų ištaisymų, įskaitant su skambučiais susijusius pagerinimus, kurie padės Signal sklandžiai veikti.",
+        "description": "Release notes for v5.27"
     }
 }

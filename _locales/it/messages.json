@@ -648,8 +648,8 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ha riscontrato un errore di decrittazione.",
-        "description": "An error popup when we haven't added an error for decryption error.",
+        "message": "Desktop ha riscontrato un errore di decrittazione da $name$, dispositivo $deviceId$",
+        "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
                 "content": "$1",
@@ -6685,18 +6685,6 @@
         "message": "Cosa c'è di nuovo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.24--1": {
-        "message": "Ora puoi cercare nelle conversazioni archiviate. Immagina di cercare (velocemente) tra antichi tomi, alla ricerca del prossimo indizio.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--2": {
-        "message": "Se hai mai fatto scorrere in alto una chat e inviato un messaggio, potresti esserti chiesto dove fosse finito il tuo messaggio! Ora, ogni volta che invii un messaggio, questo verrà fatto scorrere in vista per farti ammirare il tuo duro lavoro.",
-        "description": "Release notes for v5.24"
-    },
-    "WhatsNew__v5.24--3": {
-        "message": "Reagire a un messaggio? Ora dovrebbe essere più affidabile, riprovando fino a 24 ore",
-        "description": "Release notes for v5.24"
-    },
     "WhatsNew__v5.25--1": {
         "message": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
         "description": "Release notes for v5.25"
@@ -6712,5 +6700,23 @@
     "WhatsNew__v5.26--2": {
         "message": "Vi siete mai sentiti come se aveste bisogno di più pixel sul pannello di destra nella vostra vita? Sei un fan degli avatar, ma solo degli avatar e nient'altro? Avete un adesivo \"Salva lo spazio su schermo\" sulla vostra auto? Se avete risposto sì o no a una qualsiasi di queste domande, allora questo aggiornamento ha del pannello sinistro pieghevole per voi.",
         "description": "Release notes for v5.26"
+    },
+    "WhatsNew__macos-m1": {
+        "message": "Signal Desktop ora supporta nativamente il chip M1 di Apple, utilizzato nei loro nuovi computer. Se sei su uno di questi nuovi dispositivi, l'applicazione dovrebbe essere molto più veloce. Se non lo sei, dai un caldo benvenuto agli utenti che lo sono. Un enorme ringraziamento a $dennis$ per il suo duro lavoro!",
+        "description": "Release note for the macOS M1 release",
+        "placeholders": {
+            "dennis": {
+                "content": "$1",
+                "example": "<a>Dennis Ameling</a>"
+            }
+        }
+    },
+    "WhatsNew__v5.27--1": {
+        "message": "In una lunga telefonata? Il tuo sistema dovrebbe rimanere sveglio per tutto il tempo, invece di addormentarsi mentre sei nel mezzo di una discussione importante.",
+        "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.27--2": {
+        "message": "Ci sono anche una serie di piccole modifiche e correzioni di bug per mantenere Signal senza problemi, compresi diversi miglioramenti relativi alle chiamate.",
+        "description": "Release notes for v5.27"
     }
 }
