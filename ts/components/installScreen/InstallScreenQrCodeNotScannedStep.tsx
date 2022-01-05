@@ -77,6 +77,9 @@ export const InstallScreenQrCodeNotScannedStep = ({
             />
           </li>
         </ol>
+        <a href="https://support.signal.org/hc/articles/360007320451#desktop_multiple_device">
+          {i18n('Install__support-link')}
+        </a>
       </div>
     </div>
   </div>

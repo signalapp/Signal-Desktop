@@ -1368,6 +1368,10 @@
     "message": "Learn more",
     "description": "Shown on the install screen if the QR code fails to load"
   },
+  "Install__support-link": {
+    "message": "Need help?",
+    "description": "Shown on the install screen. Link takes users to a support page"
+  },
   "Install__choose-device-name__description": {
     "message": "You'll see this name under \"Linked Devices\" on your phone",
     "description": "The subheader shown on the 'choose device name' screen in the device linking process"
