@@ -8,7 +8,7 @@ import { strictAssert } from '../util/assert';
 import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 
 const AUTODETECT_TYPE_NUMBER = 0;
-const ERROR_CORRECTION_LEVEL = 'H';
+const ERROR_CORRECTION_LEVEL = 'L';
 
 type PropsType = Readonly<{
   'aria-label': string;
