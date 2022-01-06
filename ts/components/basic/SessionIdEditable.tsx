@@ -11,10 +11,21 @@ type Props = {
   onPressEnter?: any;
   maxLength?: number;
   isGroup?: boolean;
+  dataTestId?: string;
 };
 
 export const SessionIdEditable = (props: Props) => {
-  const { placeholder, onPressEnter, onChange, editable, text, value, maxLength, isGroup } = props;
+  const {
+    placeholder,
+    onPressEnter,
+    onChange,
+    editable,
+    text,
+    value,
+    maxLength,
+    isGroup,
+    dataTestId,
+  } = props;
   const inputRef = useRef(null);
 
   useFocusMount(inputRef, editable);
@@ -48,6 +59,7 @@ export const SessionIdEditable = (props: Props) => {
         onBlur={handleChange}
         value={value || text}
         maxLength={maxLength}
+        data-testid={dataTestId}
       />
     </div>
   );

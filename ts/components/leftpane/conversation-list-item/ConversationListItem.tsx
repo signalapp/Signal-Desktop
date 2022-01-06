@@ -19,7 +19,7 @@ import {
   useIsPrivate,
 } from '../../../hooks/useParamSelector';
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
-import { HeaderItem } from './HeaderItem';
+import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
 
 // tslint:disable-next-line: no-empty-interface
@@ -127,7 +127,7 @@ const ConversationListItem = (props: Props) => {
         >
           <AvatarItem />
           <div className="module-conversation-list-item__content">
-            <HeaderItem />
+            <ConversationListItemHeaderItem />
             <MessageItem isMessageRequest={Boolean(isMessageRequest)} />
           </div>
         </div>

@@ -73,7 +73,7 @@ const ListItemIcons = () => {
   );
 };
 
-export const HeaderItem = () => {
+export const ConversationListItemHeaderItem = () => {
   const conversationId = useContext(ContextConversationId);
 
   const convoProps = useHeaderItemProps(conversationId);

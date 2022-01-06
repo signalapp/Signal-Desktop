@@ -19,6 +19,8 @@
   "editMenuPaste": "Paste",
   "editMenuPasteAndMatchStyle": "Paste and Match Style",
   "editMenuDelete": "Delete",
+  "editMenuDeleteContact": "Delete Contact",
+  "editMenuDeleteGroup": "Delete Group",
   "editMenuSelectAll": "Select all",
   "windowMenuClose": "Close Window",
   "windowMenuMinimize": "Minimize",
