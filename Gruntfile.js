@@ -73,15 +73,6 @@ module.exports = grunt => {
         ],
         dest: 'js/libtextsecure.js',
       },
-      libtextsecuretest: {
-        src: [
-          'node_modules/jquery/dist/jquery.js',
-          'node_modules/mocha/mocha.js',
-          'node_modules/chai/chai.js',
-          'libtextsecure/test/_test.js',
-        ],
-        dest: 'libtextsecure/test/test.js',
-      },
     },
     sass: {
       options: {
