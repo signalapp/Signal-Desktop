@@ -14,12 +14,9 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationNotificationSetting, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
-import {
-  ConversationHeaderProps,
-  ConversationHeaderTitleProps,
-} from '../../components/conversation/ConversationHeader';
+import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
 import { getIsMessageRequestsEnabled } from './userConfig';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
@@ -532,57 +529,24 @@ export const getCurrentNotificationSettingText = createSelector(getSelectedConve
   }
 });
 
-export const getConversationHeaderProps = createSelector(getSelectedConversation, (state):
-  | ConversationHeaderProps
-  | undefined => {
-  if (!state) {
-    return undefined;
-  }
-
-  const expirationSettingName = state.expireTimer
-    ? window.Whisper.ExpirationTimerOptions.getName(state.expireTimer || 0)
-    : null;
-
-  return {
-    conversationKey: state.id,
-    isPrivate: !!state.isPrivate,
-    currentNotificationSetting:
-      state.currentNotificationSetting || ConversationNotificationSetting[0], // if undefined, it is 'all'
-    isBlocked: !!state.isBlocked,
-    left: !!state.left,
-    avatarPath: state.avatarPath || null,
-    expirationSettingName: expirationSettingName,
-    hasNickname: !!state.hasNickname,
-    weAreAdmin: !!state.weAreAdmin,
-    isKickedFromGroup: !!state.isKickedFromGroup,
-    isMe: !!state.isMe,
-    members: state.members || [],
-    isPublic: !!state.isPublic,
-    profileName: state.profileName,
-    name: state.name,
-    subscriberCount: state.subscriberCount,
-    isGroup: !!state.isGroup,
-  };
-});
-
 export const getIsSelectedPrivate = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isPrivate || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isPrivate || false;
   }
 );
 
 export const getIsSelectedBlocked = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isBlocked || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isBlocked || false;
   }
 );
 
 export const getIsSelectedNoteToSelf = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isMe || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isMe || false;
   }
 );
 
