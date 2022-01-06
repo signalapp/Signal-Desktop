@@ -1263,4 +1263,33 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion48', () => {
+    it('creates usable index for hasUserInitiatedMessages', () => {
+      updateToVersion(48);
+
+      const details = db
+        .prepare(
+          `
+        EXPLAIN QUERY PLAN
+        SELECT COUNT(*) as count FROM
+          (
+            SELECT 1 FROM messages
+            WHERE
+              conversationId = 'convo' AND
+              isUserInitiatedMessage = 1
+            LIMIT 1
+          );
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(
+        details,
+        'SEARCH messages USING INDEX message_user_initiated (conversationId=? AND isUserInitiatedMessage=?)'
+      );
+    });
+  });
 });
