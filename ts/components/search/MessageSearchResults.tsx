@@ -96,6 +96,8 @@ export const MessageSearchResult = (props: Props) => {
     direction,
   } = props;
 
+  console.info('rendering search result message ', id);
+
   const sourceOrDestinationDerivable =
     (destination && direction === MessageDirection.outgoing) ||
     !destination ||
@@ -115,6 +117,7 @@ export const MessageSearchResult = (props: Props) => {
 
   return (
     <div
+      key={`div-msg-searchresult-${id}`}
       role="button"
       onClick={async () => {
         await openConversationWithMessages({

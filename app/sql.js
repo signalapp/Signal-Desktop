@@ -839,6 +839,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion16,
   updateToLokiSchemaVersion17,
   updateToLokiSchemaVersion18,
+  updateToLokiSchemaVersion19,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1308,6 +1309,29 @@ function updateToLokiSchemaVersion18(currentVersion, db) {
 
     writeLokiSchemaVersion(targetVersion, db);
   })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion19(currentVersion, db) {
+  const targetVersion = 19;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX messages_schemaVersion;
+      ALTER TABLE ${MESSAGES_TABLE} DROP COLUMN schemaVersion;
+    `);
+    // this is way to slow for now...
+    // db.exec(`
+    //   UPDATE ${MESSAGES_TABLE} SET
+    //   json = json_remove(json, '$.schemaVersion')
+    // `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
@@ -1901,7 +1925,6 @@ function saveMessage(data) {
     serverTimestamp,
     // eslint-disable-next-line camelcase
     received_at,
-    schemaVersion,
     sent,
     // eslint-disable-next-line camelcase
     sent_at,
@@ -1936,7 +1959,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1961,7 +1983,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1982,7 +2003,6 @@ function saveMessage(data) {
     $hasFileAttachments,
     $hasVisualMediaAttachments,
     $received_at,
-    $schemaVersion,
     $sent,
     $sent_at,
     $source,
@@ -3034,11 +3054,11 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
     metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
     imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
-    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur       
+    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur
             viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
     mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
     odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
-    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.                 
+    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.
     Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
     viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
     ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
@@ -3111,7 +3131,6 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
       serverTimestamp: 0,
       // eslint-disable-next-line camelcase
       received_at: Date.now(),
-      schemaVersion: 5,
       sent: 0,
       // eslint-disable-next-line camelcase
       sent_at: Date.now(),

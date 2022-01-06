@@ -33,7 +33,6 @@ export interface MessageAttributes {
   hasAttachments: boolean;
   hasFileAttachments: boolean;
   hasVisualMediaAttachments: boolean;
-  schemaVersion: number;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -163,7 +162,6 @@ export interface MessageAttributesOptionals {
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
-  schemaVersion?: number;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -204,7 +202,6 @@ export const fillMessageAttributesWithDefaults = (
   const defaulted = _.defaults(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
-    schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
     unread: 0, // if nothing is set, this message is considered read
   });
   // this is just to cleanup a bit the db. delivered and delivered_to were removed, so everytime we load a message

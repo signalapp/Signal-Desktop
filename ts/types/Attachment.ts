@@ -268,15 +268,6 @@ export type Attachment = {
   contentType?: MIME.MIMEType;
   size?: number;
   data: ArrayBuffer;
-
-  // // Omit unused / deprecated keys:
-  // schemaVersion?: number;
-  // id?: string;
-  // width?: number;
-  // height?: number;
-  // thumbnail?: ArrayBuffer;
-  // key?: ArrayBuffer;
-  // digest?: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 
 interface AttachmentSchemaVersion3 {

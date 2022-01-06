@@ -567,23 +567,25 @@ const conversationsSlice = createSlice({
       }>
     ) {
       const { payload } = action;
-      const { id, data } = payload;
-      const { conversationLookup, selectedConversation } = state;
+      return applyConversationChanged(state, payload);
+    },
+    conversationsChanged(
+      state: ConversationsStateType,
+      action: PayloadAction<Array<ReduxConversationType>>
+    ) {
+      const { payload } = action;
 
-      const existing = conversationLookup[id];
-      // In the change case we only modify the lookup if we already had that conversation
-      if (!existing) {
-        return state;
+      let updatedState = state;
+      if (payload.length) {
+        payload.forEach(convoProps => {
+          updatedState = applyConversationChanged(updatedState, {
+            id: convoProps.id,
+            data: convoProps,
+          });
+        });
       }
 
-      return {
-        ...state,
-        selectedConversation,
-        conversationLookup: {
-          ...conversationLookup,
-          [id]: data,
-        },
-      };
+      return updatedState;
     },
 
     conversationRemoved(state: ConversationsStateType, action: PayloadAction<string>) {
@@ -784,12 +786,36 @@ const conversationsSlice = createSlice({
   },
 });
 
+function applyConversationChanged(
+  state: ConversationsStateType,
+  payload: { id: string; data: ReduxConversationType }
+) {
+  const { id, data } = payload;
+  const { conversationLookup, selectedConversation } = state;
+
+  const existing = conversationLookup[id];
+  // In the change case we only modify the lookup if we already had that conversation
+  if (!existing) {
+    return state;
+  }
+
+  return {
+    ...state,
+    selectedConversation,
+    conversationLookup: {
+      ...conversationLookup,
+      [id]: data,
+    },
+  };
+}
+
 // destructures
 export const { actions, reducer } = conversationsSlice;
 export const {
   // conversation and messages list
   conversationAdded,
   conversationChanged,
+  conversationsChanged,
   conversationRemoved,
   removeAllConversations,
   messageExpired,

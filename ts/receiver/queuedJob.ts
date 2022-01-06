@@ -18,9 +18,6 @@ function contentTypeSupported(type: string): boolean {
 
 // tslint:disable-next-line: cyclomatic-complexity
 async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<void> {
-  const { upgradeMessageSchema } = window.Signal.Migrations;
-  const { Message: TypedMessage, Errors } = window.Signal.Types;
-
   if (!quote) {
     return;
   }
@@ -217,7 +214,6 @@ async function handleRegularMessage(
     hasFileAttachments: dataMessage.hasFileAttachments,
     hasVisualMediaAttachments: dataMessage.hasVisualMediaAttachments,
     quote: dataMessage.quote,
-    schemaVersion: dataMessage.schemaVersion,
     attachments: dataMessage.attachments,
     body: dataMessage.body,
     conversationId: conversation.id,

@@ -23,6 +23,7 @@ import { toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
+  conversationsChanged,
   LastMessageStatusType,
   MessageModelPropsWithoutConvoProps,
   ReduxConversationType,
@@ -204,10 +205,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       trailing: true,
       leading: true,
     });
-    this.triggerUIRefresh = _.throttle(this.triggerUIRefresh, 1000, {
-      trailing: true,
-      leading: true,
-    });
+
     this.throttledNotify = _.debounce(this.notify, 500, { maxWait: 5000, trailing: true });
     //start right away the function is called, and wait 1sec before calling it again
     const markReadDebounced = _.debounce(this.markReadBouncy, 1000, {
@@ -915,14 +913,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public triggerUIRefresh() {
-    window.inboxStore?.dispatch(
-      conversationChanged({
-        id: this.id,
-        data: {
-          ...this.getConversationModelProps(),
-        },
-      })
-    );
+    updatesToDispatch.set(this.id, this.getConversationModelProps());
+    trotthledAllConversationsDispatch();
   }
 
   public async commit() {
@@ -1249,26 +1241,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
       if (autoCommit) {
         await this.commit();
-      }
-    }
-  }
-
-  public async upgradeMessages(messages: any) {
-    // tslint:disable-next-line: one-variable-per-declaration
-    for (let max = messages.length, i = 0; i < max; i += 1) {
-      const message = messages.at(i);
-      const { attributes } = message;
-      const { schemaVersion } = attributes;
-
-      if (schemaVersion < window.Signal.Types.Message.VERSION_NEEDED_FOR_DISPLAY) {
-        // Yep, we really do want to wait for each of these
-        // eslint-disable-next-line no-await-in-loop
-        const { upgradeMessageSchema } = window.Signal.Migrations;
-
-        const upgradedMessage = await upgradeMessageSchema(attributes);
-        message.set(upgradedMessage);
-        // eslint-disable-next-line no-await-in-loop
-        await upgradedMessage.commit();
       }
     }
   }
@@ -1664,6 +1636,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       .catch(window?.log?.error);
   }
 }
+
+const trotthledAllConversationsDispatch = _.throttle(() => {
+  if (updatesToDispatch.size === 0) {
+    return;
+  }
+  console.warn('updatesToDispatch.size ', updatesToDispatch.size);
+  window.inboxStore?.dispatch(conversationsChanged([...updatesToDispatch.values()]));
+
+  updatesToDispatch.clear();
+}, 500);
+
+const updatesToDispatch: Map<string, ReduxConversationType> = new Map();
 
 export class ConversationCollection extends Backbone.Collection<ConversationModel> {
   constructor(models?: Array<ConversationModel>) {
