@@ -39,7 +39,7 @@ class CallingTones {
 
       this.ringtone = new Sound({
         loop: true,
-        src: 'sounds/ringtone_minimal.ogg',
+        src: 'sounds/ringtone_lively.ogg',
       });
 
       await this.ringtone.play();
