@@ -91,6 +91,11 @@ export async function runReadOrViewSyncJob({
     return;
   }
 
+  const syncTimestamps = syncs.map(sync => sync.timestamp);
+  log.info(
+    `sending ${sendType}(s) for timestamp(s) ${syncTimestamps.join(', ')}`
+  );
+
   const timeRemaining = timestamp + maxRetryTime - Date.now();
 
   const shouldContinue = await commonShouldJobContinue({
