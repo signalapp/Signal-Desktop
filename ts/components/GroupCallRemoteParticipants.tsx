@@ -17,6 +17,7 @@ import type {
 import { useGetCallingFrameBuffer } from '../calling/useGetCallingFrameBuffer';
 import type { LocalizerType } from '../types/Util';
 import { usePageVisibility } from '../hooks/usePageVisibility';
+import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 import { nonRenderedRemoteParticipant } from '../util/ringrtc/nonRenderedRemoteParticipant';
 import { missingCaseError } from '../util/missingCaseError';
 import { SECOND } from '../util/durations';
@@ -93,6 +94,8 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
     width: 0,
     height: 0,
   });
+
+  const devicePixelRatio = useDevicePixelRatio();
 
   const getFrameBuffer = useGetCallingFrameBuffer();
 
@@ -298,9 +301,8 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
           ...gridParticipants.map(participant => {
             let scalar: number;
             if (participant.sharingScreen) {
-              // We want best-resolution video if someone is sharing their screen. This
-              //   code is extra-defensive against strange devicePixelRatios.
-              scalar = Math.max(window.devicePixelRatio || 1, 1);
+              // We want best-resolution video if someone is sharing their screen.
+              scalar = Math.max(devicePixelRatio, 1);
             } else if (participant.hasRemoteVideo) {
               scalar = VIDEO_REQUEST_SCALAR;
             } else {
@@ -357,13 +359,14 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 
     setGroupCallVideoRequest(videoRequest);
   }, [
+    devicePixelRatio,
     gridParticipantHeight,
-    videoRequestMode,
+    gridParticipants,
     invisibleDemuxIds,
     overflowedParticipants,
     remoteParticipants,
     setGroupCallVideoRequest,
-    gridParticipants,
+    videoRequestMode,
   ]);
 
   return (
