@@ -32,7 +32,6 @@ export const SearchResults = (props: SearchResultsProps) => {
   const haveContacts = contacts && contacts.length;
   const haveMessages = messages && messages.length;
   const noResults = !haveConversations && !haveContacts && !haveMessages;
-  console.info('SearchResults ', messages?.length);
 
   return (
     <div className="module-search-results">

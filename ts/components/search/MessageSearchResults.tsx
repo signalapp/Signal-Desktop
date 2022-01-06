@@ -96,8 +96,6 @@ export const MessageSearchResult = (props: Props) => {
     direction,
   } = props;
 
-  console.info('rendering search result message ', id);
-
   const sourceOrDestinationDerivable =
     (destination && direction === MessageDirection.outgoing) ||
     !destination ||

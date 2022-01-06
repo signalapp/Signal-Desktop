@@ -84,7 +84,7 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
   ]);
   const { conversations, contacts } = discussions;
   let filteredMessages = _.compact(messages);
-  console.warn('before filteredMessages ', filteredMessages);
+
   if (isAdvancedQuery) {
     let senderFilter: Array<string> = [];
     if (advancedSearchOptions.from && advancedSearchOptions.from.length > 0) {
@@ -96,7 +96,6 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
     }
     filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
   }
-  console.warn('aftert filteredMessages ', filteredMessages);
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
@@ -203,7 +202,6 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 async function queryMessages(query: string) {
   try {
     const normalized = cleanSearchTerm(query);
-    console.warn('normalized', normalized);
     return searchMessages(normalized);
   } catch (e) {
     return [];
