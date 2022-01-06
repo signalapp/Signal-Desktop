@@ -127,7 +127,7 @@ export class ConfirmableEvent extends Event {
 
 export type DeliveryEventData = Readonly<{
   timestamp: number;
-  envelopeTimestamp?: number;
+  envelopeTimestamp: number;
   source?: string;
   sourceUuid?: string;
   sourceDevice?: number;

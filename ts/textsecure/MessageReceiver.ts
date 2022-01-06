@@ -1277,6 +1277,7 @@ export default class MessageReceiver
       new DeliveryEvent(
         {
           timestamp: envelope.timestamp,
+          envelopeTimestamp: envelope.serverTimestamp,
           source: envelope.source,
           sourceUuid: envelope.sourceUuid,
           sourceDevice: envelope.sourceDevice,
