@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$, nömrəsini dəyişdirdi",
+        "message": "$sender$ changed their phone number",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,49 @@
         "message": "Gizlilik mümkündür. Signal, bunu asanlaşdırır.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Telefonunuzu, Signal Masaüstü ilə əlaqələndirin.",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Tənzimləmələri",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Əlaqə yaradılmış cihazlar",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' düyməsi",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Yeni cihazla əlaqə yarat",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Bu kodu telefonunuzdakı Signal tətbiqində skan edin",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Signal-ı telefonunuzda açın",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Tənzimləmələr",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Daha ətraflı",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "My Computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Cihaz adı",
@@ -1371,6 +1391,10 @@
         "message": "Əlaqələr və qruplar eyniləşdirilir",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Note: Your chat history will not be synced to this device",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Serverlə bağlantı qurulmadı.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Nəsə səhv getdi!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "An unexpected error occurred. Please try again.",
         "description": ""
     },
     "installTryAgain": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Həmçinin, zənglərlə əlaqəli bir neçə təkmilləşdirmə daxil olmaqla Signal-ın problemsiz işləməsini təmin etmək üçün bir neçə xəta düzəlişləri də var.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "description": "Release notes for v5.28"
     }
 }

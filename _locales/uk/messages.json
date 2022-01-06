@@ -648,7 +648,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "message": "У застосунку виникла помилка шифрування з $name$, пристрій $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ змінив номер телефону на новий",
+        "message": "У $sender$ змінився номер телефону",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,49 @@
         "message": "Приватність - це можливо. Signal робить її досягнення простим.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Прив'язати ваш телефон до Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Параметри Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Під’єднані пристрої",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' Кнопка",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Під’єднати новий пристрій",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Проскануйте цей код в застосунку Signal на своєму телефоні",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Відкрийте Signal на своєму телефоні",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Клацніть на $settings$, потім на $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Налаштування",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Клацніть на $plusButton$ (Android) чи $linkNewDevice$(iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "QR-код не вдалось завантажити. Перевірте з'єднання з інтернет та спробуйте пізніше. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Дізнатись більше",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Ви побачите це ім'я у розділі «Прив'язані пристрої» на своєму телефоні",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Мій комп'ютер",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Назва пристрою",
@@ -1371,6 +1391,10 @@
         "message": "Синхронізування контактів та груп",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Примітка: Історія чату не синхронізується з цим пристроєм",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Не вдалося підключитись до сервера.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Щось пішло не так!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Сталася непередбачувана помилка. Спробуйте пізніше, будь ласка.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop now natively supports Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "message": "Signal Desktop відтепер оптимізовано для чипів Apple M1, що використовуються у їхніх нових комп'ютерах. Якщо ви один з володільців цих новітніх пристроїв, застосунок працюватиме ще хутчіше. Якщо ні — тепло зустрічаймо тих, хто вже так. Величезна подяка $dennis$ за його важку працю над цим!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6712,11 +6740,15 @@
         }
     },
     "WhatsNew__v5.27--1": {
-        "message": "On a long call? Your system should stay awake the whole time, instead of falling asleep while you're in the middle of an important discussion.",
+        "message": "Знаходитесь у тривалому виклику? Система залишатиметься пробудженою увесь час, та не засне посередині важливого обговорення.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.27--2": {
-        "message": "There are also a number of small tweaks and bug fixes to keep Signal running smoothly, including several calling-related improvements.",
+        "message": "Також є певна кількість маленьких доопрацювань та виправлень помилок, зокрема декілька покращень, пов'язаних з викликами, що дозволить Signal працювати плавніше.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Новий Рік — нове вікно початкового налаштування. Ми вчасно оновили вигляд вікна початкового налаштування до 2022 року.",
+        "description": "Release notes for v5.28"
     }
 }

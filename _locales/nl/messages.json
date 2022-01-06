@@ -1331,29 +1331,49 @@
         "message": "Privacy is mogelijk. Signal maakt het gemakkelijk.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Koppel je telefoon aan Signal-Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signals instellingen",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Gekoppelde apparaten",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "‘+’-knop",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Nieuw apparaat koppelen",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Scan deze code met de Signal app op je telefoon",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Open de Signal app op je telefoon",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tik op $settings$ en vervolgens op $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Instellingen",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tik op $plusButton$ (Android) of $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "De QR-code kan niet geladen worden. Ga na dat je apparaat met het internet is verbonden en probeer het opnieuw. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Meer leren hierover",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Je zult deze naam zien in het menu ‘Gekoppelde apparaten’ in de Signal app op je telefoon.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Mijn computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Apparaatnaam",
@@ -1371,6 +1391,10 @@
         "message": "Contacten en groepen worden gesynchroniseerd",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Let op: Je gespreksgeschiedenis uit het verleden wordt niet overgezet naar dit apparaat",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Verbinden met server mislukt.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Er ging iets mis!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Er is een onverwachte fout opgetreden. Probeer het opnieuw.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal-Desktop ondersteunt nu Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
+        "message": "Signal-Desktop is nu geoptimaliseerd voor Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Er zijn ook een aantal kleine verbeteringen en foutoplossingen om er onder andere tijdens het bellen voor te zorgen dat Signal goed blijft werken.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Het startscherm voor gebruikers die Signal-Desktop voor het eerst aan hun telefoon koppelen is opnieuw ontworpen.",
+        "description": "Release notes for v5.28"
     }
 }

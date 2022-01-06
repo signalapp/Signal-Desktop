@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ שינה/שינתה את המספר שלו/שלה אל מספר חדש",
+        "message": "$sender$ שינה/שינתה את המספר שלו/שלה",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,49 @@
         "message": "פרטיות היא אפשרית. Signal הופך את זה לקל.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Signal Desktop קשר את הטלפון שלך אל",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "הגדרות Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "מכשירים מקושרים",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "כפתור '+'",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "קשר מכשיר חדש",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "סרוק קוד זה ביישום Signal בטלפון שלך",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "פתח את Signal בטלפון שלך",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "הקש על $settings$, לאחר מכן הקש על $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "הגדרות",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "הקש על $plusButton$ (Android) או $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "קוד ה־QR לא היה יכול להיטען. בדוק את חיבור האינטרנט שלך ונסה שוב. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "למד עוד",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "תראה שם זה תחת \"מכשירים מקושרים\" בטלפון שלך",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "המחשב שלי",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "שם מכשיר",
@@ -1371,6 +1391,10 @@
         "message": "מסנכרן אנשי קשר וקבוצות",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "הערה: היסטורית ההתכתבויות שלך לא תסונכרן אל מכשיר זה",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "נכשל בחיבור לשרת.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "משהו השתבש!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "שגיאה בלתי צפויה התרחשה. אנא נסה שוב.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop תומך באופן טבעי עכשיו בשבב M1 של Apple שנמצא בשימוש במחשבים החדשים יותר שלה. אם אתה על אחד מהמחשבים החדשים האלו, היישום אמור להיות זריז הרבה יותר. תודה ענקית אל $dennis$ על עבודתו הקשה כאן!",
+        "message": "Signal Desktop ממוטב עכשיו עבור שבב M1 של Apple שנמצא בשימוש במחשבים החדשים יותר שלה. אם אתה על אחד מהמחשבים החדשים האלו, היישום אמור להיות זריז הרבה יותר. תודה ענקית אל $dennis$ על עבודתו הקשה כאן!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "ישנם גם מספר שפצורים ותיקוני תקלים כדי להשאיר את Signal רץ בצורה חלקה, כולל כמה שיפורים קשורי התקשרות.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "שנה חדשה, מסך הגדרה ראשונית חדש. עיצבנו מחדש את מסכי ההגדרה הראשונית בדיוק בזמן אל 2022.",
+        "description": "Release notes for v5.28"
     }
 }

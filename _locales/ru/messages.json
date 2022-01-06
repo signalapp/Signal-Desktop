@@ -1331,29 +1331,49 @@
         "message": "Приватное общение возможно. Signal помогает его упростить.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Привяжите свой телефон к Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Настройки Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Привязанные устройства",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Кнопка «+»",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Привязать новое устройство",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Просканируйте этот код в приложении Signal на своем телефоне",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Откройте Signal на своем телефоне",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Нажмите на $settings$, затем на $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Настройки",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Нажмите на $plusButton$ (Android) или $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "Не удалось загрузить QR-код. Проверьте своё подключение к интернету и попробуйте ещё раз. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Узнать больше",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Вы увидите это имя в разделе «Привязанные устройства» на своём телефоне",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Мой компьютер",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Имя устройства",
@@ -1371,6 +1391,10 @@
         "message": "Синхронизация контактов и групп",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Обратите внимание: ваша история сообщений не будет синхронизирована на это устройство",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Не удалось подключиться к серверу.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Что-то пошло не так!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Произошла неожиданная ошибка. Пожалуйста, попробуйте ещё раз.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop теперь напрямую поддерживает процессор Apple M1, который используется в новых компьютерах Apple. Если вы используете одно из таких новоиспечённых устройств, приложение должно работать намного оперативнее. Если нет, тепло поприветствуйте тех пользователей, которые используют такой компьютер. Огромное спасибо $dennis$ за его усердную работу в этой области!",
+        "message": "Signal Desktop теперь оптимизирован для процессора Apple M1, который используется в новых компьютерах Apple. Если вы используете одно из таких новоиспечённых устройств, приложение должно работать намного оперативнее. Если нет, тепло поприветствуйте тех пользователей, которые используют такой компьютер. Огромное спасибо $dennis$ за его усердную работу в этой области!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Также эта версия содержит несколько небольших изменений и исправлений, чтобы Signal продолжал работать плавно, включая несколько улучшений, связанных со звонками.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Новый год, новый экран начальной настройки. Мы обновили экраны начальной настройки как раз вовремя для 2022.",
+        "description": "Release notes for v5.28"
     }
 }

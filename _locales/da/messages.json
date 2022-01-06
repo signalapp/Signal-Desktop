@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ændrede sit nummer til et nyt nummer.",
+        "message": "$sender$ har ændret sit telefonnummer",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,49 @@
         "message": "Privatliv er muligt. Signal gør det nemt",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Forbind din telefon til Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal-indstillinger",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Forbundne enheder",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' knap",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Forbind ny enhed",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Scan denne kode i Signal-appen på din telefon",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Åbn Signal på din telefon",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tryk ind på $settings$, tryk så på $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Indstillinger",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tryk på $plusButton$ (Android) eller $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "QR-kode kunne ikke indlæses. Tjek dit internet, og prøv igen. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Lær mere",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Du vil se dette navn under \"Forbundne enheder\" på din telefon",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Min computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Enhedsnavn",
@@ -1371,6 +1391,10 @@
         "message": "Synkroniserer kontakter og grupper",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Bemærk: Din samtalehistorik vil ikke blive synkroniseret til denne enhed",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Det var ikke muligt at kontakte serveren.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Noget gik galt!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Der opstod en uventet fejl. Prøv venligst igen.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop understøtter nu Apples M1-chip, som bruges i deres nyere computere. Hvis du bruger en af disse nymodens enheder, bør appen være meget hurtigere. Hvis ikke, så giv en varm velkomst til de brugere, der gør. En stor tak til $dennis$ for hans store indsats her!",
+        "message": "Signal Desktop er nu optimeret til Apples M1-chip, som bruges i deres nyere computere. Hvis du bruger en af disse nymodens enheder, burde appen nu være meget hurtigere. Hvis du ikke gør, så giv en varm velkomst til de brugere, der gør. En kæmpe tak til $dennis$ for hans hårde arbejde her!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Der er også en række små justeringer og fejlrettelser for at få Signal til at køre problemfrit, herunder flere opkaldsrelaterede forbedringer.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Nyt år, nyt skærmbillede til startopsætning. Vi har omdesignet skærmbillederne til den indledende opsætning lige i tide til 2022.",
+        "description": "Release notes for v5.28"
     }
 }

@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ndryshoi numrin e vet me një numër të ri",
+        "message": "$sender$ ndryshoi numrin e vet të telefonit",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,49 @@
         "message": "Privatësia është e mundur. Signal-i e bën të lehtë.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Lidheni telefonin tuaj me Signal-in për Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Rregullime Signal-i",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Pajisje të Lidhura",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Butoni '+'",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Lidhini Pajisje të Re",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
-        "message": "Skanojeni këtë kod me aplikacionin Signal në telefonin tuaj",
-        "description": "Alt text for the QR code on the device link screen"
+    "Install__scan-this-code": {
+        "message": "Skanojeni këtë kod te aplikacioni Signal në telefonin tuaj",
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Hapni Signal-in në telefonin tuaj",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Prekni mbi $settings$, mandej prekni $linkedDevices$",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2__settings": {
+        "message": "Rregullime",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Prekni $plusButton$ (Android) ose $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__qr-failed": {
+        "message": "Kodi QR s’u ngarkua dot. Kontrolloni lidhjen tuaj në internet dhe riprovoni. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Mësoni më tepër",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Këtë emër do ta shihni nën “Pajisje të Lidhura”, te telefoni juaj",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Kompjuteri Im",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Emër pajisjeje",
@@ -1371,6 +1391,10 @@
         "message": "Po njëkohësohen kontakte dhe grupe",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Shënim: Historiku i fjalosjes tuaj s’do të njëkohësohet në këtë pajisje",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Dështoi lidhja me shërbyesin.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1409,10 @@
     },
     "installErrorHeader": {
         "message": "Diç shkoi ters!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Ndodhi një gabim i papritur. Ju lutemi, riprovoni.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6730,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal-i për Desktop tani mbulon së brendshmi procesorin M1 të Apple-it që përdoret në kompjuterat e tyre më të rinj. Nëse keni një nga këto pajisje të reja, aplikacioni do të jetë shumë më i zhdërvjellët. Nëse jo, urojuni mirëseardhjen atyre që i kanë. Falënderime pa masë për $dennis$ për punën e tij të palodhur për këtë aspekt!",
+        "message": "Signal-i për Desktop tani është i optimizuar për procesorin M1 të Apple-it që përdoret në kompjuterat e tyre më të rinj. Nëse keni një nga këto pajisje të reja, aplikacioni do të jetë shumë më i zhdërvjellët. Nëse jo, urojuni mirëseardhjen atyre që i kanë. Falënderime pa masë për $dennis$ për punën e tij të palodhur për këtë aspekt!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6746,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Ka gjithashtu një numër përimtimesh të vogla dhe ndreqje të metash, për ta mbajtur Signal-in të xhirojë rrjedhshëm, përfshi disa përmirësime të lidhura me thirrjet.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Vit i ri, skenë e re ujdisjeje fillestare. I kemi rihartuar skenat e ujdisjes fillestare tamam në kohë për 2022-shin.",
+        "description": "Release notes for v5.28"
     }
 }
