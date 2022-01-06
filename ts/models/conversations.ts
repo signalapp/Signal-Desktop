@@ -4590,16 +4590,23 @@ export class ConversationModel extends window.Backbone
     }
 
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
-    const ourGroups =
-      await window.ConversationController.getAllGroupsInvolvingUuid(ourUuid);
     const theirUuid = this.getUuid();
     if (!theirUuid) {
       return;
     }
-    const theirGroups =
-      await window.ConversationController.getAllGroupsInvolvingUuid(theirUuid);
 
-    const sharedGroups = window._.intersection(ourGroups, theirGroups);
+    const ourGroups =
+      await window.ConversationController.getAllGroupsInvolvingUuid(ourUuid);
+    const sharedGroups = ourGroups
+      .filter(
+        c =>
+          c.hasMember(ourUuid.toString()) && c.hasMember(theirUuid.toString())
+      )
+      .sort(
+        (left, right) =>
+          (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
+      );
+
     const sharedGroupNames = sharedGroups.map(conversation =>
       conversation.getTitle()
     );
