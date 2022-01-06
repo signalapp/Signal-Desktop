@@ -184,7 +184,7 @@
     "@babel/plugin-transform-runtime": "7.8.3",
     "@babel/preset-react": "7.7.4",
     "@babel/preset-typescript": "7.16.0",
-    "@chanzuckerberg/axe-storybook-testing": "3.0.2",
+    "@chanzuckerberg/axe-storybook-testing": "5.0.0",
     "@electron/fuses": "1.5.0",
     "@storybook/addon-actions": "5.1.11",
     "@storybook/addon-knobs": "5.1.11",
