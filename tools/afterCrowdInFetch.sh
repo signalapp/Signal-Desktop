@@ -12,3 +12,7 @@ mv $PWD/_locales/sr-CS $PWD/_locales/sr
 mv $PWD/_locales/zh-CN $PWD/_locales/zh_CN
 mv $PWD/_locales/zh-TW $PWD/_locales/zh_TW
 
+echo 'Updated locales from crowdin to session-desktop folder'
+
+python $PWD/tools/updateI18nKeysType.py
+
