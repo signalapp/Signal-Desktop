@@ -221,6 +221,10 @@
     "message": "These conversations are archived and will only appear in the Inbox if new messages are received.",
     "description": "Shown at the top of the archived conversations list in the left pane"
   },
+  "noArchivedConversations": {
+    "message": "No archived conversations.",
+    "description": "Shown at the top of the archived conversations list in the left pane if there is no any archived conversation"
+  },
   "archiveConversation": {
     "message": "Archive",
     "description": "Shown in menu for conversation, and moves conversation out of main conversation list"
