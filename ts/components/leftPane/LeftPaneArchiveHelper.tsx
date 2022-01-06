@@ -117,7 +117,9 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
     return (
       <div className="module-left-pane__archive-helper-text">
-        {i18n('archiveHelperText')}
+        {this.getRowCount() > 0
+          ? i18n('archiveHelperText')
+          : i18n('noArchivedConversations')}
       </div>
     );
   }
