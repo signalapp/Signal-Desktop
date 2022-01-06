@@ -29,7 +29,13 @@ export function _urlToPath(
   options?: { isWindows: boolean }
 ): string {
   const decoded = decodeURIComponent(targetUrl);
-  const withoutScheme = decoded.slice(options?.isWindows ? 8 : 7);
+
+  // We generally expect URLs to start with file:// or file:/// here, but for users with
+  //   their home directory redirected to a UNC share, it will start with //.
+  const withoutScheme = decoded.startsWith('//')
+    ? decoded
+    : decoded.slice(options?.isWindows ? 8 : 7);
+
   const withoutQuerystring = _eliminateAllAfterCharacter(withoutScheme, '?');
   const withoutHash = _eliminateAllAfterCharacter(withoutQuerystring, '#');
 

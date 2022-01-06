@@ -67,8 +67,24 @@ describe('Protocol Filter', () => {
       expect(actual).to.equal(expected);
     });
 
-    // this seems to be the only way to get a relative path through Electron
-    it('handles SMB share path', () => {
+    it('handles UNC path', () => {
+      const path = '//share/path';
+      const expected = '//share/path';
+
+      const actual = _urlToPath(path);
+      expect(actual).to.equal(expected);
+    });
+
+    it('handles UNC path on windows', () => {
+      const path = '//share/path';
+      const expected = '//share/path';
+      const isWindows = true;
+
+      const actual = _urlToPath(path, { isWindows });
+      expect(actual).to.equal(expected);
+    });
+
+    it('handles simple relative path', () => {
       const path = 'file://relative/path';
       const expected = 'relative/path';
 
@@ -76,7 +92,7 @@ describe('Protocol Filter', () => {
       expect(actual).to.equal(expected);
     });
 
-    it('handles SMB share path on windows', () => {
+    it('handles simple relative path', () => {
       const path = 'file://relative/path';
       const expected = 'elative/path';
       const isWindows = true;
