@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-InstallScreenQrCodeNotScannedStep {
@@ -58,8 +58,6 @@
     }
 
     &__code {
-      display: flex;
-      flex-direction: column;
       height: $size;
       width: $size;
       animation: 1s module-InstallScreenQrCodeNotScannedStep__slide-in;
