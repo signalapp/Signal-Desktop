@@ -11,7 +11,7 @@ import { createOrUpdate, getById, removeById } from '../util';
 import type { EmptyQuery, Query } from '../util';
 import type { ItemKeyType } from '../Interface';
 
-function getOurUuid(db: Database): string | undefined {
+export function getOurUuid(db: Database): string | undefined {
   const UUID_ID: ItemKeyType = 'uuid_id';
 
   const row: { json: string } | undefined = db

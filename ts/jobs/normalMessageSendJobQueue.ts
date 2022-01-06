@@ -481,7 +481,9 @@ async function markMessageFailed(
 ): Promise<void> {
   message.markFailed();
   message.saveErrors(errors, { skipSave: true });
-  await window.Signal.Data.saveMessage(message.attributes);
+  await window.Signal.Data.saveMessage(message.attributes, {
+    ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+  });
 }
 
 function didSendToEveryone(message: Readonly<MessageModel>): boolean {

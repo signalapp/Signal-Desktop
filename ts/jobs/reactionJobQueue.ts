@@ -58,6 +58,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
     const { messageId } = data;
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
 
     const timeRemaining = timestamp + MAX_RETRY_TIME - Date.now();
     const isFinalAttempt = attempt >= MAX_ATTEMPTS;
@@ -100,7 +101,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
         `could not react to ${messageId}. Removing this pending reaction`
       );
       markReactionFailed(message, pendingReaction);
-      await window.Signal.Data.saveMessage(message.attributes);
+      await window.Signal.Data.saveMessage(message.attributes, { ourUuid });
       return;
     }
 
@@ -109,7 +110,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
         `reacting to message ${messageId} ran out of time. Giving up on sending it`
       );
       markReactionFailed(message, pendingReaction);
-      await window.Signal.Data.saveMessage(message.attributes);
+      await window.Signal.Data.saveMessage(message.attributes, { ourUuid });
       return;
     }
 
@@ -257,7 +258,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       }
       await handleCommonJobRequestError({ err, log, timeRemaining });
     } finally {
-      await window.Signal.Data.saveMessage(message.attributes);
+      await window.Signal.Data.saveMessage(message.attributes, { ourUuid });
     }
   }
 }

@@ -1475,6 +1475,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
     const DEFAULT_DOCUMENTS_FETCH_COUNT = 150;
 
     const conversationId = this.model.get('id');
+    const ourUuid = window.textsecure.storage.user.getCheckedUuid().toString();
 
     const getProps = async () => {
       const rawMedia =
@@ -1505,7 +1506,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
           // eslint-disable-next-line no-await-in-loop
           rawMedia[i] = await upgradeMessageSchema(message);
           // eslint-disable-next-line no-await-in-loop
-          await window.Signal.Data.saveMessage(rawMedia[i]);
+          await window.Signal.Data.saveMessage(rawMedia[i], { ourUuid });
         }
       }
 

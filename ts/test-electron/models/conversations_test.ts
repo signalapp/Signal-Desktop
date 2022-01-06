@@ -75,6 +75,7 @@ describe('Conversations', () => {
     // Saving to db and updating the convo's last message
     await window.Signal.Data.saveMessage(message.attributes, {
       forceSave: true,
+      ourUuid,
     });
     message = window.MessageController.register(message.id, message);
     await window.Signal.Data.updateConversation(conversation.attributes);

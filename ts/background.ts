@@ -1701,7 +1701,9 @@ export async function startApp(): Promise<void> {
           };
         });
 
-      await window.Signal.Data.saveMessages(newMessageAttributes);
+      await window.Signal.Data.saveMessages(newMessageAttributes, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     }
     log.info('Expiration start timestamp cleanup: complete');
 
@@ -2369,7 +2371,9 @@ export async function startApp(): Promise<void> {
         messagesToSave.push(message.attributes);
       }
     });
-    await window.Signal.Data.saveMessages(messagesToSave);
+    await window.Signal.Data.saveMessages(messagesToSave, {
+      ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+    });
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In

@@ -32,6 +32,7 @@ describe('sql/allMedia', () => {
 
       const now = Date.now();
       const conversationId = getUuid();
+      const ourUuid = getUuid();
       const message1: MessageAttributesType = {
         id: getUuid(),
         body: 'message 1',
@@ -62,7 +63,10 @@ describe('sql/allMedia', () => {
         hasVisualMediaAttachments: true,
       };
 
-      await saveMessages([message1, message2, message3], { forceSave: true });
+      await saveMessages([message1, message2, message3], {
+        forceSave: true,
+        ourUuid,
+      });
 
       assert.lengthOf(await _getAllMessages(), 3);
 
@@ -79,6 +83,7 @@ describe('sql/allMedia', () => {
 
       const now = Date.now();
       const conversationId = getUuid();
+      const ourUuid = getUuid();
       const message1: MessageAttributesType = {
         id: getUuid(),
         body: 'message 1',
@@ -112,7 +117,10 @@ describe('sql/allMedia', () => {
         hasVisualMediaAttachments: true,
       };
 
-      await saveMessages([message1, message2, message3], { forceSave: true });
+      await saveMessages([message1, message2, message3], {
+        forceSave: true,
+        ourUuid,
+      });
 
       assert.lengthOf(await _getAllMessages(), 3);
 
@@ -131,6 +139,7 @@ describe('sql/allMedia', () => {
 
       const now = Date.now();
       const conversationId = getUuid();
+      const ourUuid = getUuid();
       const message1: MessageAttributesType = {
         id: getUuid(),
         body: 'message 1',
@@ -161,7 +170,10 @@ describe('sql/allMedia', () => {
         hasFileAttachments: true,
       };
 
-      await saveMessages([message1, message2, message3], { forceSave: true });
+      await saveMessages([message1, message2, message3], {
+        forceSave: true,
+        ourUuid,
+      });
 
       assert.lengthOf(await _getAllMessages(), 3);
 
@@ -178,6 +190,7 @@ describe('sql/allMedia', () => {
 
       const now = Date.now();
       const conversationId = getUuid();
+      const ourUuid = getUuid();
       const message1: MessageAttributesType = {
         id: getUuid(),
         body: 'message 1',
@@ -211,7 +224,10 @@ describe('sql/allMedia', () => {
         hasFileAttachments: true,
       };
 
-      await saveMessages([message1, message2, message3], { forceSave: true });
+      await saveMessages([message1, message2, message3], {
+        forceSave: true,
+        ourUuid,
+      });
 
       assert.lengthOf(await _getAllMessages(), 3);
 

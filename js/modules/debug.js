@@ -60,7 +60,9 @@ exports.createConversation = async ({
       await sleep(index * 100);
       window.SignalContext.log.info(`Create message ${index + 1}`);
       const message = await createRandomMessage({ conversationId });
-      return Signal.Data.saveMessage(message);
+      return Signal.Data.saveMessage(message, {
+        ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
+      });
     })
   );
 };

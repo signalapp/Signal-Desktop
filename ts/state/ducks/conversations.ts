@@ -1333,7 +1333,8 @@ function cancelMessagesPendingConversationVerification(): ThunkAction<
     });
 
     await window.Signal.Data.saveMessages(
-      messagesStopped.map(message => message.attributes)
+      messagesStopped.map(message => message.attributes),
+      { ourUuid: window.textsecure.storage.user.getCheckedUuid().toString() }
     );
   };
 }

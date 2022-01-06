@@ -371,14 +371,15 @@ export type DataInterface = {
   getMessageCount: (conversationId?: string) => Promise<number>;
   saveMessage: (
     data: MessageType,
-    options?: {
+    options: {
       jobToInsert?: StoredJob;
       forceSave?: boolean;
+      ourUuid: UUIDStringType;
     }
   ) => Promise<string>;
   saveMessages: (
     arrayOfMessages: Array<MessageType>,
-    options?: { forceSave?: boolean }
+    options: { forceSave?: boolean; ourUuid: UUIDStringType }
   ) => Promise<void>;
   removeMessage: (id: string) => Promise<void>;
   removeMessages: (ids: Array<string>) => Promise<void>;

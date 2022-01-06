@@ -39,6 +39,7 @@ describe('sql/markRead', () => {
     const start = Date.now();
     const readAt = start + 20;
     const conversationId = getUuid();
+    const ourUuid = getUuid();
 
     const message1: MessageAttributesType = {
       id: getUuid(),
@@ -117,6 +118,7 @@ describe('sql/markRead', () => {
       [message1, message2, message3, message4, message5, message6, message7],
       {
         forceSave: true,
+        ourUuid,
       }
     );
 
@@ -175,6 +177,7 @@ describe('sql/markRead', () => {
     const readAt = start + 20;
     const conversationId = getUuid();
     const storyId = getUuid();
+    const ourUuid = getUuid();
 
     const message1: MessageAttributesType = {
       id: getUuid(),
@@ -258,6 +261,7 @@ describe('sql/markRead', () => {
       [message1, message2, message3, message4, message5, message6, message7],
       {
         forceSave: true,
+        ourUuid,
       }
     );
 
@@ -297,6 +301,7 @@ describe('sql/markRead', () => {
     const readAt = start + 20;
     const conversationId = getUuid();
     const expireTimer = 15;
+    const ourUuid = getUuid();
 
     const message1: MessageAttributesType = {
       id: getUuid(),
@@ -356,6 +361,7 @@ describe('sql/markRead', () => {
 
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
+      ourUuid,
     });
 
     assert.strictEqual(
@@ -409,6 +415,7 @@ describe('sql/markRead', () => {
     const start = Date.now();
     const conversationId = getUuid();
     const storyId = getUuid();
+    const ourUuid = getUuid();
 
     const pad: Array<MessageAttributesType> = Array.from({ length: 4 }, _ => {
       return {
@@ -472,6 +479,7 @@ describe('sql/markRead', () => {
       [...pad, message1, message2, message3, message4, message5],
       {
         forceSave: true,
+        ourUuid,
       }
     );
     assert.lengthOf(await _getAllMessages(), pad.length + 5);
@@ -567,6 +575,7 @@ describe('sql/markRead', () => {
     const start = Date.now();
     const conversationId = getUuid();
     const storyId = getUuid();
+    const ourUuid = getUuid();
 
     const message1: MessageAttributesType = {
       id: getUuid(),
@@ -620,6 +629,7 @@ describe('sql/markRead', () => {
 
     await saveMessages([message1, message2, message3, message4, message5], {
       forceSave: true,
+      ourUuid,
     });
     assert.lengthOf(await _getAllMessages(), 5);
 
