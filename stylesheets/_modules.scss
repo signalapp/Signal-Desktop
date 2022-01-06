@@ -3223,6 +3223,8 @@ button.module-image__border-overlay:focus {
 }
 
 .module-attachments__close-button {
+  $icon: '../images/icons/v2/x-24.svg';
+
   @include button-reset;
 
   position: absolute;
@@ -3233,11 +3235,17 @@ button.module-image__border-overlay:focus {
   height: 20px;
 
   z-index: $z-index-above-base;
-  @include color-svg('../images/icons/v2/x-24.svg', $color-black);
+
+  @include light-theme {
+    @include color-svg($icon, $color-black);
+  }
+  @include dark-theme {
+    @include color-svg($icon, $color-white);
+  }
 
   @include keyboard-mode {
     &:focus {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-ultramarine);
+      @include color-svg($icon, $color-ultramarine);
     }
   }
 }
