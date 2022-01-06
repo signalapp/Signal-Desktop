@@ -29,10 +29,18 @@ const renderText: RenderTextCallbackType = ({ key, text }) => (
 const releaseNotes: ReleaseNotesType = {
   date: new Date(window.getBuildCreation?.() || Date.now()),
   version: window.getVersion?.(),
-  features: [1, 2].map(n => ({
-    key: `WhatsNew__v5.27--${n}`,
-    components: undefined,
-  })),
+  features: [
+    {
+      key: 'WhatsNew__macos-m1',
+      components: [
+        <a href="https://github.com/dennisameling/">Dennis Ameling</a>,
+      ],
+    },
+    ...[1, 2].map(n => ({
+      key: `WhatsNew__v5.27--${n}`,
+      components: undefined,
+    })),
+  ],
 };
 
 export const WhatsNewModal = ({
