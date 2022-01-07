@@ -29,8 +29,7 @@ type SearchResultsPayloadType = {
   conversations: Array<string>;
   contacts: Array<string>;
 
-  // TODO: ww typing
-  messages?: Array<any>;
+  messages?: Array<string>;
 };
 
 type SearchResultsKickoffActionType = {

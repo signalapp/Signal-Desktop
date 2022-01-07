@@ -143,8 +143,6 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           title={window.i18n('trimDatabase')}
           description={window.i18n('trimDatabaseDescription')}
           onClick={async () => {
-            console.warn('trim the database to last 10k messages');
-
             const msgCount = await getMessageCount();
             const deleteAmount = Math.max(msgCount - 10000, 0);
 
@@ -156,7 +154,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
                 onClickClose: () => {
                   updateConfirmModal(null);
                 },
-                message: `Are you sure you want to delete your ${deleteAmount} oldest received messages?`,
+                message: window.i18n('trimDatabaseConfirmationBody', [`${deleteAmount}`]),
               })
             );
           }}

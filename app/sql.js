@@ -7,6 +7,7 @@ const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
 
 const { map, isString, fromPairs, forEach, last, isEmpty, isObject, isNumber } = require('lodash');
+const { requestSnodesForPubkey } = require('../ts/session/apis/snode_api/SNodeAPI');
 
 /* eslint-disable camelcase */
 
@@ -2283,29 +2284,144 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
 /**
  * Deletes all but the 10,000 last received messages.
  */
-function trimMessages() {
-  globalInstance
+function trimMessages(limit) {
+  // METHOD 1 Start - Seems to take to long and freeze
+  // const convoCount = globalInstance
+  //   .prepare(
+  //     `
+  //       SELECT COUNT(*) FROM ${MESSAGES_TABLE}
+  //       WHERE conversationId = $conversationId
+  //     `
+  //   )
+  //   .all({
+  //     conversationId,
+  //   });
+
+  // if (convoCount < limit) {
+  //   console.log(`Skipping conversation: ${conversationId}`);
+  //   return;
+  // } else {
+  //   console.count('convo surpassed limit');
+  // }
+
+  // globalInstance
+  //   .prepare(
+  //     `
+  //     DELETE FROM ${MESSAGES_TABLE}
+  //     WHERE conversationId = $conversationId
+  //     AND id NOT IN (
+  //       SELECT id FROM ${MESSAGES_TABLE}
+  //       WHERE conversationId = $conversationId
+  //       ORDER BY received_at DESC
+  //       LIMIT $limit
+  //     );
+  //   `
+  //   )
+  //   .run({
+  //     conversationId,
+  //     limit,
+  //   });
+
+  // METHOD 1 END
+
+  // METHOD 2 Start
+  const messages = globalInstance
     .prepare(
       `
-      DELETE FROM ${MESSAGES_TABLE}
-      WHERE id NOT IN (
-        SELECT id FROM ${MESSAGES_TABLE}
-        ORDER BY received_at DESC
-        LIMIT 10000
-      );
-    `
-    )
-    .run();
+        SELECT id, conversationId FROM ${MESSAGES_TABLE}
 
-  const rows = globalInstance
-    .prepare(
-      `SELECT * FROM ${MESSAGES_TABLE}
-     ORDER BY received_at DESC;`
+        CREATE VIRTUAL TABLE IF NOT EXISTS temp_deletion
+        id STRING PRIMARY KEY ASC
+      `
     )
     .all();
 
-  return rows;
-  // return map(rows, row => jsonToObject(row.json));
+  let idsToDelete = [];
+  const convoCountLookup = {};
+
+  for (let index = 0; index < messages.length; index++) {
+    const { conversationId, id } = messages[index];
+    console.log(`run ${index} - convoId: ${conversationId}, messageId: ${id}`);
+
+    if (!convoCountLookup[conversationId]) {
+      convoCountLookup[conversationId] = 1;
+    } else {
+      convoCountLookup[conversationId]++;
+      if (convoCountLookup[conversationId] > limit) {
+        idsToDelete.push(id);
+      }
+    }
+  }
+
+  // Ideally should be able to do WHERE id IN (x, y, z) with an array of IDs
+  // the array might need to be chunked as well for performance
+  const idSlice = [...idsToDelete].slice(0, 30);
+  idSlice.forEach(id => {
+    globalInstance
+      .prepare(
+        `
+          DELETE FROM ${MESSAGES_TABLE}
+          WHERE id = $idSlice
+        `
+      )
+      .run({
+        idSlice,
+      });
+  });
+
+  // Method 2 End
+
+  // Method 3 start - Audric's suggestion
+
+  // const largeConvos = globalInstance
+  //   .prepare(
+  //     `
+  //     SELECT conversationId, count(id) FROM ${MESSAGES_TABLE}
+  //     GROUP BY conversationId
+  //     HAVING COUNT(id) > 1000
+  //     `
+  //   )
+  //   .all();
+
+  // console.log({ largeConvos });
+
+  // // finding 1000th msg timestamp
+  // largeConvos.forEach(convo => {
+  //   const convoId = convo.conversationId;
+  //   console.log({ convoId });
+  //   const lastMsg = globalInstance
+  //     .prepare(
+  //       `
+  //         SELECT received_at, sent_at FROM ${MESSAGES_TABLE}
+  //         WHERE conversationId = $convoId
+  //         ORDER BY received_at DESC
+  //         LIMIT 1
+  //         OFFSET 999
+  //     `
+  //     )
+  //     .all({
+  //       convoId,
+  //     });
+
+  //   // use timestamp with lesserThan as conditional for deletion
+  //   console.log({ lastMsg });
+  //   const timestamp = lastMsg[0].received_at;
+  //   if (timestamp) {
+  //     console.log({ timestamp, convoId });
+  //     globalInstance
+  //       .prepare(
+  //         `
+  //           DELETE FROM ${MESSAGES_TABLE}
+  //           WHERE conversationId = $convoId
+  //           AND received_at < $timestamp
+  //         `
+  //       )
+  //       .run({
+  //         timestamp,
+  //         convoId,
+  //       });
+  //   }
+  // });
 }
 
 function getMessagesBySentAt(sentAt) {

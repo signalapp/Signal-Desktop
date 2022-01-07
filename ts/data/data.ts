@@ -822,8 +822,7 @@ export async function removeAllMessagesInConversation(conversationId: string): P
 }
 
 export async function trimMessages(): Promise<void> {
-  const count = await channels.trimMessages();
-  console.warn({ count });
+  await channels.trimMessages(1000);
   return;
 }
 

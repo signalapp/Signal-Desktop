@@ -10,7 +10,7 @@ import {
 import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
-import { MessageBodyHighlight } from '../basic/MessageBodyHighlist';
+import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 
 type PropsHousekeeping = {
   isSelected?: boolean;
@@ -29,7 +29,7 @@ export type PropsForSearchResults = {
   receivedAt?: number;
 };
 
-type Props = PropsForSearchResults & PropsHousekeeping;
+export type MessageResultProps = PropsForSearchResults & PropsHousekeeping;
 
 const FromName = (props: { source: string; destination: string }) => {
   const { source, destination } = props;
@@ -64,7 +64,6 @@ const From = (props: { source: string; destination: string }) => {
 
   const ourKey = getOurPubKeyStrFromCache();
 
-  // TODO: ww maybe add useConversationUsername hook within contact name
   if (destination !== ourKey) {
     return (
       <div className="module-message-search-result__header__from">
@@ -84,7 +83,7 @@ const AvatarItem = (props: { source: string }) => {
   return <Avatar size={AvatarSize.S} pubkey={source} />;
 };
 
-export const MessageSearchResult = (props: Props) => {
+export const MessageSearchResult = (props: MessageResultProps) => {
   const {
     isSelected,
     id,
@@ -96,6 +95,8 @@ export const MessageSearchResult = (props: Props) => {
     direction,
   } = props;
 
+  // Some messages miss a source or destination. Doing checks to see if the fields can be derived from other sources.
+  // E.g. if the source is missing but the message is outgoing, the source will be our pubkey
   const sourceOrDestinationDerivable =
     (destination && direction === MessageDirection.outgoing) ||
     !destination ||
