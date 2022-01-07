@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Using BEM syntax explained here: https://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/
@@ -4283,28 +4283,6 @@ button.module-image__border-overlay:focus {
       duration: 1200ms;
       timing-function: $ease-out-expo;
       fill-mode: forwards;
-    }
-  }
-
-  &__toast {
-    @include button-reset();
-    @include font-body-1-bold;
-    background-color: $color-gray-75;
-    border-radius: 8px;
-    color: $color-white;
-    max-width: 80%;
-    opacity: 1;
-    padding: 12px;
-    position: absolute;
-    text-align: center;
-    top: 12px;
-    transition: top 200ms ease-out, opacity 200ms ease-out;
-    user-select: none;
-    z-index: $z-index-above-above-base;
-
-    &--hidden {
-      opacity: 0;
-      top: 5px;
     }
   }
 }

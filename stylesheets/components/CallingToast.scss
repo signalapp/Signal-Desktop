@@ -1,0 +1,24 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallingToast {
+  @include button-reset();
+  @include font-body-1-bold;
+  background-color: $color-gray-75;
+  border-radius: 8px;
+  color: $color-white;
+  max-width: 80%;
+  opacity: 1;
+  padding: 12px;
+  position: absolute;
+  text-align: center;
+  top: 12px;
+  transition: top 200ms ease-out, opacity 200ms ease-out;
+  user-select: none;
+  z-index: $z-index-above-above-base;
+
+  &--hidden {
+    opacity: 0;
+    top: 5px;
+  }
+}

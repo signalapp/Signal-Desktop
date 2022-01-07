@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -657,7 +657,6 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async onOutgoingVideoCallInConversation(): Promise<void> {
     log.info('onOutgoingVideoCallInConversation: about to start a video call');
-    const isVideoCall = true;
 
     if (this.model.get('announcementsOnly') && !this.model.areWeAdmin()) {
       showToast(ToastCannotStartGroupCall);
@@ -668,10 +667,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       log.info(
         'onOutgoingVideoCallInConversation: call is deemed "safe". Making call'
       );
-      await window.Signal.Services.calling.startCallingLobby(
-        this.model.id,
-        isVideoCall
-      );
+      window.reduxActions.calling.startCallingLobby({
+        conversationId: this.model.id,
+        isVideoCall: true,
+      });
       log.info('onOutgoingVideoCallInConversation: started the call');
     } else {
       log.info(
@@ -683,16 +682,14 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   async onOutgoingAudioCallInConversation(): Promise<void> {
     log.info('onOutgoingAudioCallInConversation: about to start an audio call');
 
-    const isVideoCall = false;
-
     if (await this.isCallSafe()) {
       log.info(
         'onOutgoingAudioCallInConversation: call is deemed "safe". Making call'
       );
-      await window.Signal.Services.calling.startCallingLobby(
-        this.model.id,
-        isVideoCall
-      );
+      window.reduxActions.calling.startCallingLobby({
+        conversationId: this.model.id,
+        isVideoCall: false,
+      });
       log.info('onOutgoingAudioCallInConversation: started the call');
     } else {
       log.info(

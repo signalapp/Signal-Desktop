@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
@@ -38,6 +38,7 @@ import { LatestQueue } from '../../util/LatestQueue';
 import type { UUIDStringType } from '../../types/UUID';
 import type { ConversationChangedActionType } from './conversations';
 import * as log from '../../logging/log';
+import { strictAssert } from '../../util/assert';
 
 // State
 
@@ -223,7 +224,7 @@ export type StartCallingLobbyType = {
   isVideoCall: boolean;
 };
 
-export type ShowCallLobbyType =
+type StartCallingLobbyPayloadType =
   | {
       callMode: CallMode.Direct;
       conversationId: string;
@@ -299,7 +300,7 @@ const ACCEPT_CALL_PENDING = 'calling/ACCEPT_CALL_PENDING';
 const CANCEL_CALL = 'calling/CANCEL_CALL';
 const CANCEL_INCOMING_GROUP_CALL_RING =
   'calling/CANCEL_INCOMING_GROUP_CALL_RING';
-const SHOW_CALL_LOBBY = 'calling/SHOW_CALL_LOBBY';
+const START_CALLING_LOBBY = 'calling/START_CALLING_LOBBY';
 const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
 const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
@@ -344,9 +345,9 @@ type CancelIncomingGroupCallRingActionType = {
   payload: CancelIncomingGroupCallRingType;
 };
 
-type CallLobbyActionType = {
-  type: 'calling/SHOW_CALL_LOBBY';
-  payload: ShowCallLobbyType;
+type StartCallingLobbyActionType = {
+  type: 'calling/START_CALLING_LOBBY';
+  payload: StartCallingLobbyPayloadType;
 };
 
 type CallStateChangeFulfilledActionType = {
@@ -460,8 +461,8 @@ type SetOutgoingRingActionType = {
 };
 
 type ShowCallLobbyActionType = {
-  type: 'calling/SHOW_CALL_LOBBY';
-  payload: ShowCallLobbyType;
+  type: 'calling/START_CALLING_LOBBY';
+  payload: StartCallingLobbyPayloadType;
 };
 
 type StartDirectCallActionType = {
@@ -493,7 +494,7 @@ export type CallingActionType =
   | AcceptCallPendingActionType
   | CancelCallActionType
   | CancelIncomingGroupCallRingActionType
-  | CallLobbyActionType
+  | StartCallingLobbyActionType
   | CallStateChangeFulfilledActionType
   | ChangeIODeviceFulfilledActionType
   | CloseNeedPermissionScreenActionType
@@ -1081,20 +1082,50 @@ function setOutgoingRing(payload: boolean): SetOutgoingRingActionType {
   };
 }
 
-function startCallingLobby(
-  payload: StartCallingLobbyType
-): ThunkAction<void, RootStateType, unknown, never> {
-  return () => {
-    calling.startCallingLobby(payload.conversationId, payload.isVideoCall);
-  };
-}
+function startCallingLobby({
+  conversationId,
+  isVideoCall,
+}: StartCallingLobbyType): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  StartCallingLobbyActionType
+> {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const conversation = getOwn(
+      state.conversations.conversationLookup,
+      conversationId
+    );
+    strictAssert(
+      conversation,
+      "startCallingLobby: can't start lobby without a conversation"
+    );
 
-// TODO: This action should be replaced with an action dispatched in the
-//   `startCallingLobby` thunk.
-function showCallLobby(payload: ShowCallLobbyType): CallLobbyActionType {
-  return {
-    type: SHOW_CALL_LOBBY,
-    payload,
+    // The group call device count is considered 0 for a direct call.
+    const groupCall = getGroupCall(conversationId, state.calling);
+    const groupCallDeviceCount =
+      groupCall?.peekInfo.deviceCount ||
+      groupCall?.remoteParticipants.length ||
+      0;
+
+    const callLobbyData = await calling.startCallingLobby({
+      conversation,
+      hasLocalAudio: groupCallDeviceCount < 8,
+      hasLocalVideo: isVideoCall,
+    });
+    if (!callLobbyData) {
+      return;
+    }
+
+    dispatch({
+      type: START_CALLING_LOBBY,
+      payload: {
+        ...callLobbyData,
+        conversationId,
+        isConversationTooBigToRing: isConversationTooBigToRing(conversation),
+      },
+    });
   };
 }
 
@@ -1207,7 +1238,6 @@ export const actions = {
   setPresenting,
   setRendererCanvas,
   setOutgoingRing,
-  showCallLobby,
   startCall,
   startCallingLobby,
   toggleParticipants,
@@ -1261,7 +1291,7 @@ export function reducer(
 ): CallingStateType {
   const { callsByConversation } = state;
 
-  if (action.type === SHOW_CALL_LOBBY) {
+  if (action.type === START_CALLING_LOBBY) {
     const { conversationId } = action.payload;
 
     let call: DirectCallStateType | GroupCallStateType;

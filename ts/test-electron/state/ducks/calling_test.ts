@@ -1,8 +1,10 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { cloneDeep, noop } from 'lodash';
+import type { StateType as RootStateType } from '../../../state/reducer';
 import { reducer as rootReducer } from '../../../state/reducer';
 import { noopAction } from '../../../state/ducks/noop';
 import type {
@@ -25,6 +27,8 @@ import {
 } from '../../../types/Calling';
 import { UUID } from '../../../types/UUID';
 import type { UUIDStringType } from '../../../types/UUID';
+import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
+import type { UnwrapPromise } from '../../../types/Util';
 
 describe('calling duck', () => {
   const stateWithDirectCall: CallingStateType = {
@@ -1606,48 +1610,175 @@ describe('calling duck', () => {
       });
     });
 
-    describe('showCallLobby', () => {
-      const { showCallLobby } = actions;
+    describe('startCallingLobby', () => {
+      const { startCallingLobby } = actions;
 
-      it('saves a direct call and makes it active', () => {
-        const result = reducer(
-          getEmptyState(),
-          showCallLobby({
-            callMode: CallMode.Direct,
+      let rootState: RootStateType;
+      let startCallingLobbyStub: sinon.SinonStub;
+
+      beforeEach(function beforeEach() {
+        startCallingLobbyStub = this.sandbox
+          .stub(callingService, 'startCallingLobby')
+          .resolves();
+
+        const emptyRootState = getEmptyRootState();
+        rootState = {
+          ...emptyRootState,
+          conversations: {
+            ...emptyRootState.conversations,
+            conversationLookup: {
+              'fake-conversation-id': getDefaultConversation(),
+            },
+          },
+        };
+      });
+
+      describe('thunk', () => {
+        it('asks the calling service to start the lobby', async () => {
+          await startCallingLobby({
             conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(noop, () => rootState, null);
+
+          sinon.assert.calledOnce(startCallingLobbyStub);
+        });
+
+        it('requests audio by default', async () => {
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(noop, () => rootState, null);
+
+          sinon.assert.calledWithMatch(startCallingLobbyStub, {
+            hasLocalAudio: true,
+          });
+        });
+
+        it("doesn't request audio if the group call already has 8 devices", async () => {
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(
+            noop,
+            () => {
+              const callingState = cloneDeep(stateWithGroupCall);
+              callingState.callsByConversation[
+                'fake-group-call-conversation-id'
+              ].peekInfo.deviceCount = 8;
+              return { ...rootState, calling: callingState };
+            },
+            null
+          );
+
+          sinon.assert.calledWithMatch(startCallingLobbyStub, {
+            hasLocalVideo: true,
+          });
+        });
+
+        it('requests video when starting a video call', async () => {
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(noop, () => rootState, null);
+
+          sinon.assert.calledWithMatch(startCallingLobbyStub, {
+            hasLocalVideo: true,
+          });
+        });
+
+        it("doesn't request video when not a video call", async () => {
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: false,
+          })(noop, () => rootState, null);
+
+          sinon.assert.calledWithMatch(startCallingLobbyStub, {
+            hasLocalVideo: false,
+          });
+        });
+
+        it('dispatches an action if the calling lobby returns something', async () => {
+          startCallingLobbyStub.resolves({
+            callMode: CallMode.Direct,
             hasLocalAudio: true,
             hasLocalVideo: true,
-          })
-        );
+          });
 
-        assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
-          callMode: CallMode.Direct,
-          conversationId: 'fake-conversation-id',
-          isIncoming: false,
-          isVideoCall: true,
+          const dispatch = sinon.stub();
+
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(dispatch, () => rootState, null);
+
+          sinon.assert.calledOnce(dispatch);
         });
-        assert.deepEqual(result.activeCallState, {
-          conversationId: 'fake-conversation-id',
-          hasLocalAudio: true,
-          hasLocalVideo: true,
-          isInSpeakerView: false,
-          showParticipantsList: false,
-          safetyNumberChangedUuids: [],
-          pip: false,
-          settingsDialogOpen: false,
-          outgoingRing: true,
+
+        it("doesn't dispatch an action if the calling lobby returns nothing", async () => {
+          const dispatch = sinon.stub();
+
+          await startCallingLobby({
+            conversationId: 'fake-conversation-id',
+            isVideoCall: true,
+          })(dispatch, () => rootState, null);
+
+          sinon.assert.notCalled(dispatch);
         });
       });
 
-      it('saves a group call and makes it active', () => {
-        const result = reducer(
-          getEmptyState(),
-          showCallLobby({
-            callMode: CallMode.Group,
+      describe('action', () => {
+        const getState = async (
+          callingState: CallingStateType,
+          callingServiceResult: UnwrapPromise<
+            ReturnType<typeof callingService.startCallingLobby>
+          >,
+          conversationId = 'fake-conversation-id'
+        ): Promise<CallingStateType> => {
+          startCallingLobbyStub.resolves(callingServiceResult);
+
+          const dispatch = sinon.stub();
+
+          await startCallingLobby({
+            conversationId,
+            isVideoCall: true,
+          })(dispatch, () => ({ ...rootState, calling: callingState }), null);
+
+          const action = dispatch.getCall(0).args[0];
+
+          return reducer(callingState, action);
+        };
+
+        it('saves a direct call and makes it active', async () => {
+          const result = await getState(getEmptyState(), {
+            callMode: CallMode.Direct as const,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
+          });
+
+          assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
+            callMode: CallMode.Direct,
+            conversationId: 'fake-conversation-id',
+            isIncoming: false,
+            isVideoCall: true,
+          });
+          assert.deepEqual(result.activeCallState, {
             conversationId: 'fake-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
-            isConversationTooBigToRing: false,
+            isInSpeakerView: false,
+            showParticipantsList: false,
+            safetyNumberChangedUuids: [],
+            pip: false,
+            settingsDialogOpen: false,
+            outgoingRing: true,
+          });
+        });
+
+        it('saves a group call and makes it active', async () => {
+          const result = await getState(getEmptyState(), {
+            callMode: CallMode.Group,
+            hasLocalAudio: true,
+            hasLocalVideo: true,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
@@ -1668,74 +1799,63 @@ describe('calling duck', () => {
                 videoAspectRatio: 4 / 3,
               },
             ],
-          })
-        );
+          });
 
-        assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
-          callMode: CallMode.Group,
-          conversationId: 'fake-conversation-id',
-          connectionState: GroupCallConnectionState.Connected,
-          joinState: GroupCallJoinState.NotJoined,
-          peekInfo: {
-            uuids: [creatorUuid],
-            creatorUuid,
-            eraId: 'xyz',
-            maxDevices: 16,
-            deviceCount: 1,
-          },
-          remoteParticipants: [
-            {
-              uuid: remoteUuid,
-              demuxId: 123,
-              hasRemoteAudio: true,
-              hasRemoteVideo: true,
-              presenting: false,
-              sharingScreen: false,
-              videoAspectRatio: 4 / 3,
-            },
-          ],
-        });
-        assert.deepEqual(
-          result.activeCallState?.conversationId,
-          'fake-conversation-id'
-        );
-        assert.isFalse(result.activeCallState?.outgoingRing);
-      });
-
-      it('chooses fallback peek info if none is sent and there is no existing call', () => {
-        const result = reducer(
-          getEmptyState(),
-          showCallLobby({
+          assert.deepEqual(result.callsByConversation['fake-conversation-id'], {
             callMode: CallMode.Group,
-            conversationId: 'fake-group-call-conversation-id',
+            conversationId: 'fake-conversation-id',
+            connectionState: GroupCallConnectionState.Connected,
+            joinState: GroupCallJoinState.NotJoined,
+            peekInfo: {
+              uuids: [creatorUuid],
+              creatorUuid,
+              eraId: 'xyz',
+              maxDevices: 16,
+              deviceCount: 1,
+            },
+            remoteParticipants: [
+              {
+                uuid: remoteUuid,
+                demuxId: 123,
+                hasRemoteAudio: true,
+                hasRemoteVideo: true,
+                presenting: false,
+                sharingScreen: false,
+                videoAspectRatio: 4 / 3,
+              },
+            ],
+          });
+          assert.deepEqual(
+            result.activeCallState?.conversationId,
+            'fake-conversation-id'
+          );
+          assert.isFalse(result.activeCallState?.outgoingRing);
+        });
+
+        it('chooses fallback peek info if none is sent and there is no existing call', async () => {
+          const result = await getState(getEmptyState(), {
+            callMode: CallMode.Group,
             hasLocalAudio: true,
             hasLocalVideo: true,
-            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: undefined,
             remoteParticipants: [],
-          })
-        );
+          });
 
-        const call =
-          result.callsByConversation['fake-group-call-conversation-id'];
-        assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-          uuids: [],
-          maxDevices: Infinity,
-          deviceCount: 0,
+          const call = result.callsByConversation['fake-conversation-id'];
+          assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
+            uuids: [],
+            maxDevices: Infinity,
+            deviceCount: 0,
+          });
         });
-      });
 
-      it("doesn't overwrite an existing group call's peek info if none was sent", () => {
-        const result = reducer(
-          stateWithGroupCall,
-          showCallLobby({
+        it("doesn't overwrite an existing group call's peek info if none was sent", async () => {
+          const result = await getState(stateWithGroupCall, {
             callMode: CallMode.Group,
-            conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
-            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: undefined,
@@ -1750,29 +1870,36 @@ describe('calling duck', () => {
                 videoAspectRatio: 4 / 3,
               },
             ],
-          })
-        );
+          });
 
-        const call =
-          result.callsByConversation['fake-group-call-conversation-id'];
-        assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-          uuids: [creatorUuid],
-          creatorUuid,
-          eraId: 'xyz',
-          maxDevices: 16,
-          deviceCount: 1,
+          const call =
+            result.callsByConversation['fake-group-call-conversation-id'];
+          assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
+            uuids: [creatorUuid],
+            creatorUuid,
+            eraId: 'xyz',
+            maxDevices: 16,
+            deviceCount: 1,
+          });
         });
-      });
 
-      it("can overwrite an existing group call's peek info", () => {
-        const result = reducer(
-          stateWithGroupCall,
-          showCallLobby({
+        it("can overwrite an existing group call's peek info", async () => {
+          const state = {
+            ...getEmptyState(),
+            callsByConversation: {
+              'fake-conversation-id': {
+                ...stateWithGroupCall.callsByConversation[
+                  'fake-group-call-conversation-id'
+                ],
+                conversationId: 'fake-conversation-id',
+              },
+            },
+          };
+
+          const result = await getState(state, {
             callMode: CallMode.Group,
-            conversationId: 'fake-group-call-conversation-id',
             hasLocalAudio: true,
             hasLocalVideo: true,
-            isConversationTooBigToRing: false,
             connectionState: GroupCallConnectionState.Connected,
             joinState: GroupCallJoinState.NotJoined,
             peekInfo: {
@@ -1793,65 +1920,62 @@ describe('calling duck', () => {
                 videoAspectRatio: 4 / 3,
               },
             ],
-          })
-        );
+          });
 
-        const call =
-          result.callsByConversation['fake-group-call-conversation-id'];
-        assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
-          uuids: [differentCreatorUuid],
-          creatorUuid: differentCreatorUuid,
-          eraId: 'abc',
-          maxDevices: 5,
-          deviceCount: 1,
+          const call = result.callsByConversation['fake-conversation-id'];
+          assert.deepEqual(call?.callMode === CallMode.Group && call.peekInfo, {
+            uuids: [differentCreatorUuid],
+            creatorUuid: differentCreatorUuid,
+            eraId: 'abc',
+            maxDevices: 5,
+            deviceCount: 1,
+          });
         });
-      });
 
-      it("doesn't overwrite an existing group call's ring state if it was set previously", () => {
-        const result = reducer(
-          {
-            ...stateWithGroupCall,
-            callsByConversation: {
-              'fake-group-call-conversation-id': {
-                ...stateWithGroupCall.callsByConversation[
-                  'fake-group-call-conversation-id'
-                ],
-                ringId: BigInt(987),
-                ringerUuid,
+        it("doesn't overwrite an existing group call's ring state if it was set previously", async () => {
+          const result = await getState(
+            {
+              ...stateWithGroupCall,
+              callsByConversation: {
+                'fake-group-call-conversation-id': {
+                  ...stateWithGroupCall.callsByConversation[
+                    'fake-group-call-conversation-id'
+                  ],
+                  ringId: BigInt(987),
+                  ringerUuid,
+                },
               },
             },
-          },
-          showCallLobby({
-            callMode: CallMode.Group,
-            conversationId: 'fake-group-call-conversation-id',
-            hasLocalAudio: true,
-            hasLocalVideo: true,
-            isConversationTooBigToRing: false,
-            connectionState: GroupCallConnectionState.Connected,
-            joinState: GroupCallJoinState.NotJoined,
-            peekInfo: undefined,
-            remoteParticipants: [
-              {
-                uuid: remoteUuid,
-                demuxId: 123,
-                hasRemoteAudio: true,
-                hasRemoteVideo: true,
-                presenting: false,
-                sharingScreen: false,
-                videoAspectRatio: 4 / 3,
-              },
-            ],
-          })
-        );
-        const call =
-          result.callsByConversation['fake-group-call-conversation-id'];
-        // It'd be nice to do this with an assert, but Chai doesn't understand it.
-        if (call?.callMode !== CallMode.Group) {
-          throw new Error('Expected to find a group call');
-        }
+            {
+              callMode: CallMode.Group,
+              hasLocalAudio: true,
+              hasLocalVideo: true,
+              connectionState: GroupCallConnectionState.Connected,
+              joinState: GroupCallJoinState.NotJoined,
+              peekInfo: undefined,
+              remoteParticipants: [
+                {
+                  uuid: remoteUuid,
+                  demuxId: 123,
+                  hasRemoteAudio: true,
+                  hasRemoteVideo: true,
+                  presenting: false,
+                  sharingScreen: false,
+                  videoAspectRatio: 4 / 3,
+                },
+              ],
+            }
+          );
+          const call =
+            result.callsByConversation['fake-group-call-conversation-id'];
+          // It'd be nice to do this with an assert, but Chai doesn't understand it.
+          if (call?.callMode !== CallMode.Group) {
+            throw new Error('Expected to find a group call');
+          }
 
-        assert.strictEqual(call.ringId, BigInt(987));
-        assert.strictEqual(call.ringerUuid, ringerUuid);
+          assert.strictEqual(call.ringId, BigInt(987));
+          assert.strictEqual(call.ringerUuid, ringerUuid);
+        });
       });
     });
 

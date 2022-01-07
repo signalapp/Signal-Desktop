@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { DesktopCapturerSource } from 'electron';
@@ -39,10 +39,11 @@ import { uniqBy, noop } from 'lodash';
 
 import type {
   ActionsType as UxActionsType,
+  GroupCallParticipantInfoType,
   GroupCallPeekInfoType,
 } from '../state/ducks/calling';
+import type { ConversationType } from '../state/ducks/conversations';
 import { getConversationCallMode } from '../state/ducks/conversations';
-import { isConversationTooBigToRing } from '../conversations/isConversationTooBigToRing';
 import { isMe } from '../util/whatTypeOfConversation';
 import type {
   AvailableIODevicesType,
@@ -99,6 +100,7 @@ import {
   FALLBACK_NOTIFICATION_TITLE,
 } from './notifications';
 import * as log from '../logging/log';
+import { assert } from '../util/assert';
 
 const {
   processGroupCallRingRequest,
@@ -308,30 +310,47 @@ export class CallingClass {
     RingRTC.setSelfUuid(Buffer.from(uuidToBytes(ourUuid)));
   }
 
-  async startCallingLobby(
-    conversationId: string,
-    isVideoCall: boolean
-  ): Promise<void> {
+  async startCallingLobby({
+    conversation,
+    hasLocalAudio,
+    hasLocalVideo,
+  }: Readonly<{
+    conversation: Readonly<ConversationType>;
+    hasLocalAudio: boolean;
+    hasLocalVideo: boolean;
+  }>): Promise<
+    | undefined
+    | ({ hasLocalAudio: boolean; hasLocalVideo: boolean } & (
+        | { callMode: CallMode.Direct }
+        | {
+            callMode: CallMode.Group;
+            connectionState: GroupCallConnectionState;
+            joinState: GroupCallJoinState;
+            peekInfo?: GroupCallPeekInfoType;
+            remoteParticipants: Array<GroupCallParticipantInfoType>;
+          }
+      ))
+  > {
     log.info('CallingClass.startCallingLobby()');
 
-    const conversation = window.ConversationController.get(conversationId);
-    if (!conversation) {
-      log.error('Could not find conversation, cannot start call lobby');
-      return;
-    }
-
-    const conversationProps = conversation.format();
-    const callMode = getConversationCallMode(conversationProps);
+    const callMode = getConversationCallMode(conversation);
     switch (callMode) {
       case CallMode.None:
         log.error('Conversation does not support calls, new call not allowed.');
         return;
-      case CallMode.Direct:
-        if (!this.getRemoteUserIdFromConversation(conversation)) {
+      case CallMode.Direct: {
+        const conversationModel = window.ConversationController.get(
+          conversation.id
+        );
+        if (
+          !conversationModel ||
+          !this.getRemoteUserIdFromConversation(conversationModel)
+        ) {
           log.error('Missing remote user identifier, new call not allowed.');
           return;
         }
         break;
+      }
       case CallMode.Group:
         break;
       default:
@@ -348,7 +367,7 @@ export class CallingClass {
       return;
     }
 
-    const haveMediaPermissions = await this.requestPermissions(isVideoCall);
+    const haveMediaPermissions = await this.requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info('Permissions were denied, new call not allowed.');
       return;
@@ -374,50 +393,52 @@ export class CallingClass {
     //   is fixed. See DESKTOP-1032.
     await this.startDeviceReselectionTimer();
 
+    const enableLocalCameraIfNecessary = hasLocalVideo
+      ? () => this.enableLocalCamera()
+      : noop;
+
     switch (callMode) {
       case CallMode.Direct:
-        this.uxActions.showCallLobby({
+        // We could easily support this in the future if we need to.
+        assert(
+          hasLocalAudio,
+          'Expected local audio to be enabled for direct call lobbies'
+        );
+        enableLocalCameraIfNecessary();
+        return {
           callMode: CallMode.Direct,
-          conversationId: conversationProps.id,
-          hasLocalAudio: true,
-          hasLocalVideo: isVideoCall,
-        });
-        break;
+          hasLocalAudio,
+          hasLocalVideo,
+        };
       case CallMode.Group: {
         if (
-          !conversationProps.groupId ||
-          !conversationProps.publicParams ||
-          !conversationProps.secretParams
+          !conversation.groupId ||
+          !conversation.publicParams ||
+          !conversation.secretParams
         ) {
           log.error(
             'Conversation is missing required parameters. Cannot connect group call'
           );
           return;
         }
-        const groupCall = this.connectGroupCall(conversationProps.id, {
-          groupId: conversationProps.groupId,
-          publicParams: conversationProps.publicParams,
-          secretParams: conversationProps.secretParams,
+        const groupCall = this.connectGroupCall(conversation.id, {
+          groupId: conversation.groupId,
+          publicParams: conversation.publicParams,
+          secretParams: conversation.secretParams,
         });
 
-        groupCall.setOutgoingAudioMuted(false);
-        groupCall.setOutgoingVideoMuted(!isVideoCall);
+        groupCall.setOutgoingAudioMuted(!hasLocalAudio);
+        groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
-        this.uxActions.showCallLobby({
+        enableLocalCameraIfNecessary();
+
+        return {
           callMode: CallMode.Group,
-          conversationId: conversationProps.id,
-          isConversationTooBigToRing:
-            isConversationTooBigToRing(conversationProps),
           ...this.formatGroupCallForRedux(groupCall),
-        });
-        break;
+        };
       }
       default:
         throw missingCaseError(callMode);
-    }
-
-    if (isVideoCall) {
-      this.enableLocalCamera();
     }
   }
 
@@ -443,7 +464,6 @@ export class CallingClass {
     }
 
     const conversation = window.ConversationController.get(conversationId);
-
     if (!conversation) {
       log.error('Could not find conversation, cannot start call');
       this.stopCallingLobby();

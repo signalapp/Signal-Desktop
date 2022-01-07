@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -51,11 +51,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
       (isGroupCall ? times(3, () => getDefaultConversation()) : undefined),
     hasLocalAudio: boolean(
       'hasLocalAudio',
-      overrideProps.hasLocalAudio || false
+      overrideProps.hasLocalAudio ?? true
     ),
     hasLocalVideo: boolean(
       'hasLocalVideo',
-      overrideProps.hasLocalVideo || false
+      overrideProps.hasLocalVideo ?? false
     ),
     i18n,
     isGroupCall,
@@ -122,9 +122,9 @@ story.add('Local Video', () => {
   return <CallingLobby {...props} />;
 });
 
-story.add('Local Video', () => {
+story.add('Initially muted', () => {
   const props = createProps({
-    hasLocalVideo: true,
+    hasLocalAudio: false,
   });
   return <CallingLobby {...props} />;
 });

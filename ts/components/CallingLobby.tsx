@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -13,6 +13,7 @@ import { CallingButton, CallingButtonType } from './CallingButton';
 import { TooltipPlacement } from './Tooltip';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
 import { CallingHeader } from './CallingHeader';
+import { CallingToast, DEFAULT_LIFETIME } from './CallingToast';
 import { CallingPreCallInfo, RingMode } from './CallingPreCallInfo';
 import {
   CallingLobbyJoinButton,
@@ -92,6 +93,21 @@ export const CallingLobby = ({
   toggleSettings,
   outgoingRing,
 }: PropsType): JSX.Element => {
+  const [isMutedToastVisible, setIsMutedToastVisible] = React.useState(
+    !hasLocalAudio
+  );
+  React.useEffect(() => {
+    if (!isMutedToastVisible) {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      setIsMutedToastVisible(false);
+    }, DEFAULT_LIFETIME);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isMutedToastVisible]);
+
   const localVideoRef = React.useRef<null | HTMLVideoElement>(null);
 
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
@@ -220,6 +236,15 @@ export const CallingLobby = ({
             color={me.color}
           />
         )}
+
+        <CallingToast
+          isVisible={isMutedToastVisible}
+          onClick={() => setIsMutedToastVisible(false)}
+        >
+          {i18n(
+            'calling__lobby-automatically-muted-because-there-are-a-lot-of-people'
+          )}
+        </CallingToast>
 
         <CallingHeader
           i18n={i18n}
