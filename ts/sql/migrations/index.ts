@@ -24,6 +24,7 @@ import updateToSchemaVersion45 from './45-stories';
 import updateToSchemaVersion46 from './46-optimize-stories';
 import updateToSchemaVersion47 from './47-further-optimize';
 import updateToSchemaVersion48 from './48-fix-user-initiated-index';
+import updateToSchemaVersion49 from './49-fix-preview-index';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1911,6 +1912,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion46,
   updateToSchemaVersion47,
   updateToSchemaVersion48,
+  updateToSchemaVersion49,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

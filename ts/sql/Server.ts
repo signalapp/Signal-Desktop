@@ -2541,10 +2541,8 @@ function getLastConversationActivity({
 }
 function getLastConversationPreview({
   conversationId,
-  ourUuid,
 }: {
   conversationId: string;
-  ourUuid: UUIDStringType;
 }): MessageType | undefined {
   const db = getInstance();
   const row = prepare(
@@ -2565,7 +2563,6 @@ function getLastConversationPreview({
       `
   ).get({
     conversationId,
-    ourUuid,
     now: Date.now(),
   });
 
@@ -2591,10 +2588,7 @@ async function getLastConversationMessages({
         conversationId,
         ourUuid,
       }),
-      preview: getLastConversationPreview({
-        conversationId,
-        ourUuid,
-      }),
+      preview: getLastConversationPreview({ conversationId }),
       hasUserInitiatedMessages: hasUserInitiatedMessages(conversationId),
     };
   })();

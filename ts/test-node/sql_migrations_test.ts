@@ -1292,4 +1292,36 @@ describe('SQL migrations test', () => {
       );
     });
   });
+
+  describe('updateToSchemaVersion49', () => {
+    it('creates usable index for messages preview', () => {
+      updateToVersion(49);
+
+      const details = db
+        .prepare(
+          `
+        EXPLAIN QUERY PLAN
+        SELECT json FROM messages
+        WHERE
+          conversationId = 'convo' AND
+          shouldAffectPreview IS 1 AND
+          isGroupLeaveEventFromOther IS 0 AND
+          (
+            expiresAt IS NULL
+            OR
+            expiresAt > 123
+          )
+        ORDER BY received_at DESC, sent_at DESC
+        LIMIT 1;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(details, 'USING INDEX messages_preview');
+      assert.notInclude(details, 'TEMP B-TREE');
+      assert.notInclude(details, 'SCAN');
+    });
+  });
 });
