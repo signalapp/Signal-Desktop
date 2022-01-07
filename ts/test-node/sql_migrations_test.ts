@@ -1324,4 +1324,31 @@ describe('SQL migrations test', () => {
       assert.notInclude(details, 'SCAN');
     });
   });
+
+  describe('updateToSchemaVersion49', () => {
+    it('creates usable index for messages_unread', () => {
+      updateToVersion(50);
+
+      const details = db
+        .prepare(
+          `
+          EXPLAIN QUERY PLAN
+          SELECT * FROM messages WHERE
+            conversationId = 'conversation' AND
+            readStatus = 'something' AND
+            isStory IS 0 AND
+            storyId IS NULL
+          ORDER BY received_at ASC, sent_at ASC
+          LIMIT 1;
+        `
+        )
+        .all()
+        .map(({ detail }) => detail)
+        .join('\n');
+
+      assert.include(details, 'USING INDEX messages_unread');
+      assert.notInclude(details, 'TEMP B-TREE');
+      assert.notInclude(details, 'SCAN');
+    });
+  });
 });
