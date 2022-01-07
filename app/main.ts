@@ -1186,6 +1186,11 @@ async function showDebugLogWindow() {
       nativeWindowOpen: true,
     },
     parent: mainWindow,
+    // Electron has [a macOS bug][0] that causes parent windows to become unresponsive if
+    //   it's fullscreen and opens a fullscreen child window. Until that's fixed, we
+    //   prevent the child window from being fullscreenable, which sidesteps the problem.
+    // [0]: https://github.com/electron/electron/issues/32374
+    fullscreenable: !OS.isMacOS(),
   };
 
   debugLogWindow = createBrowserWindow(options);
@@ -1203,6 +1208,9 @@ async function showDebugLogWindow() {
   debugLogWindow.once('ready-to-show', () => {
     if (debugLogWindow) {
       debugLogWindow.show();
+
+      // Electron sometimes puts the window in a strange spot until it's shown.
+      debugLogWindow.center();
     }
   });
 }
