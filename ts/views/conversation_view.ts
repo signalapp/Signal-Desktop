@@ -1208,8 +1208,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
       await retryPlaceholders.findByConversationAndMarkOpened(this.model.id);
     }
 
-    this.model.loadNewestMessages(undefined, undefined);
-    this.model.updateLastMessage();
+    const loadAndUpdate = async () => {
+      await this.model.loadNewestMessages(undefined, undefined);
+      await this.model.updateLastMessage();
+    };
+
+    loadAndUpdate();
 
     this.focusMessageField();
 
