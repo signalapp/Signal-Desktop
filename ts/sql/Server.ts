@@ -182,7 +182,7 @@ const dataInterface: ServerInterface = {
 
   createOrUpdateSession,
   createOrUpdateSessions,
-  commitSessionsAndUnprocessed,
+  commitDecryptResult,
   bulkAddSessions,
   removeSessionById,
   removeSessionsByConversation,
@@ -757,6 +757,10 @@ async function removeAllItems(): Promise<void> {
 }
 
 async function createOrUpdateSenderKey(key: SenderKeyType): Promise<void> {
+  createOrUpdateSenderKeySync(key);
+}
+
+function createOrUpdateSenderKeySync(key: SenderKeyType): void {
   const db = getInstance();
 
   prepare(
@@ -1175,16 +1179,22 @@ async function createOrUpdateSessions(
   })();
 }
 
-async function commitSessionsAndUnprocessed({
+async function commitDecryptResult({
+  senderKeys,
   sessions,
   unprocessed,
 }: {
+  senderKeys: Array<SenderKeyType>;
   sessions: Array<SessionType>;
   unprocessed: Array<UnprocessedType>;
 }): Promise<void> {
   const db = getInstance();
 
   db.transaction(() => {
+    for (const item of senderKeys) {
+      assertSync(createOrUpdateSenderKeySync(item));
+    }
+
     for (const item of sessions) {
       assertSync(createOrUpdateSessionSync(item));
     }

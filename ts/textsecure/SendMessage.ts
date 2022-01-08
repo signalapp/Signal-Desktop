@@ -15,6 +15,7 @@ import {
   SenderKeyDistributionMessage,
 } from '@signalapp/signal-client';
 
+import { GLOBAL_ZONE } from '../SignalProtocolStore';
 import { assert } from '../util/assert';
 import { parseIntOrThrow } from '../util/parseIntOrThrow';
 import { Address } from '../types/Address';
@@ -1874,7 +1875,7 @@ export default class MessageSender {
       ourUuid,
       new Address(ourUuid, ourDeviceId)
     );
-    const senderKeyStore = new SenderKeys({ ourUuid });
+    const senderKeyStore = new SenderKeys({ ourUuid, zone: GLOBAL_ZONE });
 
     return window.textsecure.storage.protocol.enqueueSenderKeyJob(
       address,

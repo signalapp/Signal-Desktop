@@ -214,15 +214,19 @@ export class PreKeys extends PreKeyStore {
 }
 
 export type SenderKeysOptions = Readonly<{
-  ourUuid: UUID;
+  readonly ourUuid: UUID;
+  readonly zone: Zone | undefined;
 }>;
 
 export class SenderKeys extends SenderKeyStore {
   private readonly ourUuid: UUID;
 
-  constructor({ ourUuid }: SenderKeysOptions) {
+  readonly zone: Zone | undefined;
+
+  constructor({ ourUuid, zone }: SenderKeysOptions) {
     super();
     this.ourUuid = ourUuid;
+    this.zone = zone;
   }
 
   async saveSenderKey(
@@ -235,7 +239,8 @@ export class SenderKeys extends SenderKeyStore {
     await window.textsecure.storage.protocol.saveSenderKey(
       encodedAddress,
       distributionId,
-      record
+      record,
+      { zone: this.zone }
     );
   }
 
@@ -247,7 +252,8 @@ export class SenderKeys extends SenderKeyStore {
 
     const senderKey = await window.textsecure.storage.protocol.getSenderKey(
       encodedAddress,
-      distributionId
+      distributionId,
+      { zone: this.zone }
     );
 
     return senderKey || null;

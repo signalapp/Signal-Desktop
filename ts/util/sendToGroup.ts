@@ -55,6 +55,7 @@ import * as RemoteConfig from '../RemoteConfig';
 
 import { strictAssert } from './assert';
 import * as log from '../logging/log';
+import { GLOBAL_ZONE } from '../SignalProtocolStore';
 
 const ERROR_EXPIRED_OR_MISSING_DEVICES = 409;
 const ERROR_STALE_DEVICES = 410;
@@ -861,7 +862,7 @@ async function encryptForSenderKey({
     parseIntOrThrow(ourDeviceId, 'encryptForSenderKey, ourDeviceId')
   );
   const ourAddress = getOurAddress();
-  const senderKeyStore = new SenderKeys({ ourUuid });
+  const senderKeyStore = new SenderKeys({ ourUuid, zone: GLOBAL_ZONE });
   const message = Buffer.from(padMessage(contentMessage));
 
   const ciphertextMessage =

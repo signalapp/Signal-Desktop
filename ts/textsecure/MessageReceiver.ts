@@ -138,6 +138,7 @@ type CacheAddItemType = {
 };
 
 type LockedStores = {
+  readonly senderKeyStore: SenderKeys;
   readonly sessionStore: Sessions;
   readonly identityKeyStore: IdentityKeys;
   readonly zone?: Zone;
@@ -779,6 +780,7 @@ export default class MessageReceiver
 
     try {
       const zone = new Zone('decryptAndCacheBatch', {
+        pendingSenderKeys: true,
         pendingSessions: true,
         pendingUnprocessed: true,
       });
@@ -814,6 +816,10 @@ export default class MessageReceiver
               let stores = storesMap.get(destinationUuid.toString());
               if (!stores) {
                 stores = {
+                  senderKeyStore: new SenderKeys({
+                    ourUuid: destinationUuid,
+                    zone,
+                  }),
                   sessionStore: new Sessions({
                     zone,
                     ourUuid: destinationUuid,
@@ -1301,7 +1307,7 @@ export default class MessageReceiver
   }
 
   private async decryptSealedSender(
-    { sessionStore, identityKeyStore, zone }: LockedStores,
+    { senderKeyStore, sessionStore, identityKeyStore, zone }: LockedStores,
     envelope: UnsealedEnvelope,
     ciphertext: Uint8Array
   ): Promise<DecryptSealedSenderResult> {
@@ -1352,7 +1358,6 @@ export default class MessageReceiver
       );
       const sealedSenderIdentifier = certificate.senderUuid();
       const sealedSenderSourceDevice = certificate.senderDeviceId();
-      const senderKeyStore = new SenderKeys({ ourUuid: destinationUuid });
 
       const address = new QualifiedAddress(
         destinationUuid,
@@ -2000,7 +2005,6 @@ export default class MessageReceiver
         Buffer.from(distributionMessage)
       );
     const { destinationUuid } = envelope;
-    const senderKeyStore = new SenderKeys({ ourUuid: destinationUuid });
     const address = new QualifiedAddress(
       destinationUuid,
       Address.create(identifier, sourceDevice)
@@ -2012,7 +2016,7 @@ export default class MessageReceiver
         processSenderKeyDistributionMessage(
           sender,
           senderKeyDistributionMessage,
-          senderKeyStore
+          stores.senderKeyStore
         ),
       stores.zone
     );

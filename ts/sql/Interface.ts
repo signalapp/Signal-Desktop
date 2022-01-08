@@ -329,7 +329,8 @@ export type DataInterface = {
 
   createOrUpdateSession: (data: SessionType) => Promise<void>;
   createOrUpdateSessions: (array: Array<SessionType>) => Promise<void>;
-  commitSessionsAndUnprocessed(options: {
+  commitDecryptResult(options: {
+    senderKeys: Array<SenderKeyType>;
     sessions: Array<SessionType>;
     unprocessed: Array<UnprocessedType>;
   }): Promise<void>;
