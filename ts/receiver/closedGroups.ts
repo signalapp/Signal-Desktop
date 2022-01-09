@@ -4,7 +4,7 @@ import { EnvelopePlus } from './types';
 import { PubKey } from '../session/types';
 import { toHex } from '../session/utils/String';
 import { getConversationController } from '../session/conversations';
-import * as ClosedGroup from '../session/group';
+import * as ClosedGroup from '../session/group/closed-group';
 import { BlockedNumberController } from '../util';
 import {
   generateClosedGroupPublicKey,

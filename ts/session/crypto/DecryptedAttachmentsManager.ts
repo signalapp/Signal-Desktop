@@ -10,6 +10,8 @@ import toArrayBuffer from 'to-arraybuffer';
 import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
 import { DURATION } from '../constants';
+import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
+import { getAttachmentPath } from '../../types/MessageAttachment';
 
 const urlToDecryptedBlobMap = new Map<
   string,
@@ -56,10 +58,7 @@ export const getDecryptedMediaUrl = async (
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (
-    window.Signal.Migrations.attachmentsPath &&
-    url.startsWith(window.Signal.Migrations.attachmentsPath)
-  ) {
+  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
     // this is a file encoded by session on our current attachments path.
     // we consider the file is encrypted.
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
@@ -92,7 +91,6 @@ export const getDecryptedMediaUrl = async (
             );
             if (decryptedContent?.length) {
               const arrayBuffer = decryptedContent.buffer;
-              const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
               const obj = makeObjectUrl(arrayBuffer, contentType);
 
               if (!urlToDecryptedBlobMap.has(url)) {
@@ -140,14 +138,16 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (
-    window.Signal.Migrations.attachmentsPath &&
-    url.startsWith(window.Signal.Migrations.attachmentsPath)
-  ) {
+  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
     if (urlToDecryptedBlobMap.has(url)) {
       const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
       return existingObjUrl;
     }
   }
   return null;
+};
+
+export const getDecryptedBlob = async (url: string, contentType: string): Promise<Blob> => {
+  const decryptedUrl = await getDecryptedMediaUrl(url, contentType, false);
+  return urlToBlob(decryptedUrl);
 };

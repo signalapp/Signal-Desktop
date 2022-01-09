@@ -8,6 +8,7 @@ import MicRecorder from 'mic-recorder-to-mp3';
 import styled from 'styled-components';
 import { Constants } from '../../session';
 import { ToastUtils } from '../../session/utils';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 
 interface Props {
   onExitVoiceNoteView: () => void;
@@ -266,8 +267,8 @@ export class SessionRecording extends React.Component<Props, State> {
     }
 
     // Is the audio file > attachment filesize limit
-    if (this.audioBlobMp3.size > Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
-      ToastUtils.pushFileSizeErrorAsByte(Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES);
+    if (this.audioBlobMp3.size > MAX_ATTACHMENT_FILESIZE_BYTES) {
+      ToastUtils.pushFileSizeErrorAsByte(MAX_ATTACHMENT_FILESIZE_BYTES);
       return;
     }
 

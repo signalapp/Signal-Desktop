@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { fromHexToArray, toHex } from '../utils/String';
 import { BlockedNumberController } from '../../util/blockedNumberController';
 import { getConversationController } from '../conversations';
-import { getLatestClosedGroupEncryptionKeyPair } from '../../../ts/data/data';
+import { getLatestClosedGroupEncryptionKeyPair } from '../../data/data';
 import uuid from 'uuid';
 import { SignalService } from '../../protobuf';
 import { generateCurve25519KeyPairWithoutPrefix } from '../crypto';
@@ -27,7 +27,6 @@ import { ClosedGroupEncryptionPairMessage } from '../messages/outgoing/controlMe
 import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNameChangeMessage';
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
-import { updateOpenGroupV2 } from '../apis/open_group_api/opengroupV2/OpenGroupUpdate';
 import { getSwarmPollingInstance } from '../apis/snode_api';
 import { getLatestTimestampOffset } from '../apis/snode_api/SNodeAPI';
 
@@ -66,26 +65,15 @@ export interface MemberChanges {
  * @param avatar the new avatar (or just pass the old one if nothing changed)
  * @returns nothing
  */
-export async function initiateGroupUpdate(
+export async function initiateClosedGroupUpdate(
   groupId: string,
   groupName: string,
-  members: Array<string>,
-  avatar: any
+  members: Array<string>
 ) {
   const convo = await getConversationController().getOrCreateAndWait(
     groupId,
     ConversationTypeEnum.GROUP
   );
-
-  if (convo.isPublic()) {
-    if (!convo.isOpenGroupV2()) {
-      throw new Error('Only opengroupv2 are supported');
-    } else {
-      await updateOpenGroupV2(convo, groupName, avatar);
-    }
-
-    return;
-  }
 
   if (!convo.isMediumGroup()) {
     throw new Error('Legacy group are not supported anymore.');
@@ -101,7 +89,7 @@ export async function initiateGroupUpdate(
     zombies: convo.get('zombies')?.filter(z => members.includes(z)),
     activeAt: Date.now(),
     expireTimer: convo.get('expireTimer'),
-    avatar,
+    avatar: null,
   };
 
   const diff = buildGroupDiff(convo, groupDetails);
@@ -253,20 +241,6 @@ export async function updateOrCreateClosedGroup(details: GroupInfo) {
   }
 
   conversation.set(updates);
-
-  // Update the conversation avatar only if new avatar exists and hash differs
-  const { avatar } = details;
-  if (avatar && avatar.data) {
-    const newAttributes = await window.Signal.Types.Conversation.maybeUpdateAvatar(
-      conversation.attributes,
-      avatar.data,
-      {
-        writeNewAttachmentData: window.Signal.writeNewAttachmentData,
-        deleteAttachmentData: window.Signal.deleteAttachmentData,
-      }
-    );
-    conversation.set(newAttributes);
-  }
 
   const isBlocked = details.blocked || false;
   if (conversation.isClosedGroup() || conversation.isMediumGroup()) {

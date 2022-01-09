@@ -3,10 +3,11 @@ import { toNumber } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { actions as conversationActions } from '../state/ducks/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
+import { toLogFormat } from '../types/attachments/Errors';
 
 export async function onError(ev: any) {
   const { error } = ev;
-  window?.log?.error('background onError:', window.Signal.Errors.toLogFormat(error));
+  window?.log?.error('background onError:', toLogFormat(error));
 
   if (ev.proto) {
     const envelope = ev.proto;

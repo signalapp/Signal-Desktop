@@ -28,7 +28,6 @@ import {
 import { AttachmentType } from '../../../types/Attachment';
 import { connect } from 'react-redux';
 import { showLinkSharingConfirmationModalDialog } from '../../../interactions/conversationInteractions';
-import { Constants } from '../../../session';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
@@ -46,6 +45,7 @@ import { AttachmentUtil } from '../../../util';
 import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
 import { StagedAttachmentList } from '../StagedAttachmentList';
+import { processNewAttachment } from '../../../types/MessageAttachment';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -872,7 +872,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles(): Promise<Array<any>> {
+  private async getFiles(): Promise<Array<StagedAttachmentType & { flags?: number }>> {
     const { stagedAttachments } = this.props;
 
     if (_.isEmpty(stagedAttachments)) {
@@ -880,11 +880,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     }
     // scale them down
     const files = await Promise.all(
-      stagedAttachments.map(attachment =>
-        AttachmentUtil.getFile(attachment, {
-          maxSize: Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES,
-        })
-      )
+      stagedAttachments.map(attachment => AttachmentUtil.getFileAndStoreLocally(attachment))
     );
     window.inboxStore?.dispatch(
       removeAllStagedAttachmentsInConversation({
@@ -899,13 +895,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const savedAudioFile = await window.Signal.Migrations.processNewAttachment({
+    const savedAudioFile = await processNewAttachment({
       data: await audioBlob.arrayBuffer(),
       isRaw: true,
-      url: `session-audio-message-${Date.now()}`,
+      contentType: MIME.AUDIO_MP3,
     });
+    // { ...savedAudioFile, path: savedAudioFile.path },
     const audioAttachment: StagedAttachmentType = {
-      file: { ...savedAudioFile, path: savedAudioFile.path },
+      file: new File([], 'session-audio-message'), // this is just to emulate a file for the staged attachment type of that audio file
       contentType: MIME.AUDIO_MP3,
       size: audioBlob.size,
       fileSize: null,

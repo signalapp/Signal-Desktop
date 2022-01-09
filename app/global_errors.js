@@ -1,7 +1,5 @@
 const electron = require('electron');
 
-const Errors = require('../js/modules/types/errors');
-
 const { app, dialog, clipboard } = electron;
 const { redactAll } = require('../js/modules/privacy');
 
@@ -11,9 +9,9 @@ let copyErrorAndQuitText = 'Copy error and quit';
 
 function handleError(prefix, error) {
   if (console._error) {
-    console._error(`${prefix}:`, Errors.toLogFormat(error));
+    console._error(`${prefix}:`, error);
   }
-  console.error(`${prefix}:`, Errors.toLogFormat(error));
+  console.error(`${prefix}:`, error);
 
   if (app.isReady()) {
     // title field is not shown on macOS, so we don't use it

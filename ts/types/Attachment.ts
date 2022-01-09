@@ -185,7 +185,7 @@ export async function arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
   });
 }
 
-export function getImageDimensions(attachment: AttachmentType): DimensionsType {
+export function getImageDimensionsInAttachment(attachment: AttachmentType): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {
@@ -230,7 +230,7 @@ export function getGridDimensions(attachments?: Array<AttachmentType>): null | D
   }
 
   if (attachments.length === 1) {
-    return getImageDimensions(attachments[0]);
+    return getImageDimensionsInAttachment(attachments[0]);
   }
 
   if (attachments.length === 2) {

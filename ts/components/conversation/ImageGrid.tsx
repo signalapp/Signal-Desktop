@@ -6,7 +6,7 @@ import {
   AttachmentType,
   AttachmentTypeWithPath,
   getAlt,
-  getImageDimensions,
+  getImageDimensionsInAttachment,
   getThumbnailUrl,
   isVideoAttachment,
 } from '../../types/Attachment';
@@ -33,7 +33,7 @@ export const ImageGrid = (props: Props) => {
   }
 
   if (attachments.length === 1 || !areAllAttachmentsVisual(attachments)) {
-    const { height, width } = getImageDimensions(attachments[0]);
+    const { height, width } = getImageDimensionsInAttachment(attachments[0]);
 
     return (
       <div className={classNames('module-image-grid', 'module-image-grid--one-image')}>

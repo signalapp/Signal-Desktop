@@ -63,7 +63,6 @@
   window.setImmediate = window.nodeSetImmediate;
   window.globalOnlineStatus = true; // default to true as we don't get an event on app start
   window.getGlobalOnlineStatus = () => window.globalOnlineStatus;
-  const { Views } = window.Signal;
 
   window.log.info('background page reloaded');
   window.log.info('environment:', window.getEnvironment());
@@ -85,7 +84,6 @@
   Whisper.events = _.clone(Backbone.Events);
   Whisper.events.isListenedTo = eventName =>
     Whisper.events._events ? !!Whisper.events._events[eventName] : false;
-  const cancelInitializationMessage = Views.Initialization.setMessage();
 
   window.log.info('Storage fetch');
   storage.fetch();
@@ -168,10 +166,6 @@
       await window.Signal.Logs.deleteAll();
     }
 
-    Views.Initialization.setMessage(window.i18n('optimizingApplication'));
-
-    Views.Initialization.setMessage(window.i18n('loading'));
-
     const themeSetting = window.Events.getThemeSetting();
     const newThemeSetting = mapOldThemeToNew(themeSetting);
     window.Events.setThemeSetting(newThemeSetting);
@@ -238,7 +232,6 @@
       connect(true);
     });
 
-    cancelInitializationMessage();
     const appView = new Whisper.AppView({
       el: $('body'),
     });

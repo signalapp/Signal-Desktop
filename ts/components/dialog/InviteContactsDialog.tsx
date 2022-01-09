@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
-import { initiateGroupUpdate } from '../../session/group';
 import { ConversationTypeEnum } from '../../models/conversation';
 import { getCompleteUrlForV2ConvoId } from '../../interactions/conversationInteractions';
 import _ from 'lodash';
@@ -18,6 +17,7 @@ import { SessionWrapperModal } from '../SessionWrapperModal';
 import { getPrivateContactsPubkeys } from '../../state/selectors/conversations';
 import { useConversationPropsById } from '../../hooks/useParamSelector';
 import { useSet } from '../../hooks/useSet';
+import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 
 type Props = {
   conversationId: string;
@@ -85,7 +85,7 @@ const submitForClosedGroup = async (convoId: string, pubkeys: Array<string>) => 
     const groupId = convo.get('id');
     const groupName = convo.get('name');
 
-    await initiateGroupUpdate(groupId, groupName || window.i18n('unknown'), uniqMembers, undefined);
+    await initiateClosedGroupUpdate(groupId, groupName || window.i18n('unknown'), uniqMembers);
   }
 };
 

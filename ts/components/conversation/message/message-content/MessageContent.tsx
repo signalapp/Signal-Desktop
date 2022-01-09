@@ -12,7 +12,7 @@ import {
 import {
   canDisplayImage,
   getGridDimensions,
-  getImageDimensions,
+  getImageDimensionsInAttachment,
   hasImage,
   hasVideoScreenshot,
   isImage,
@@ -226,7 +226,7 @@ function getWidth(
     const { width } = first.image;
 
     if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensions(first.image);
+      const dimensions = getImageDimensionsInAttachment(first.image);
       if (dimensions) {
         return dimensions.width;
       }

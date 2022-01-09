@@ -6,7 +6,7 @@ import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleM
 import { PubKey } from '../session/types';
 import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
-import { leaveClosedGroup } from '../session/group';
+import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageModelType } from './messageType';
@@ -54,6 +54,11 @@ import {
   SendMessageType,
 } from '../components/conversation/composition/CompositionBox';
 import { SettingsKey } from '../data/settings-key';
+import {
+  deleteExternalFilesOfConversation,
+  getAbsoluteAttachmentPath,
+  loadAttachmentData,
+} from '../types/MessageAttachment';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -286,10 +291,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async cleanup() {
-    const { deleteAttachmentData } = window.Signal.Migrations;
-    await window.Signal.Types.Conversation.deleteExternalFiles(this.attributes, {
-      deleteAttachmentData,
-    });
+    await deleteExternalFilesOfConversation(this.attributes);
     window.profileImages.removeImage(this.id);
   }
 
@@ -521,8 +523,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async getQuoteAttachment(attachments: any, preview: any) {
-    const { loadAttachmentData, getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
     if (attachments && attachments.length) {
       return Promise.all(
         attachments
@@ -722,15 +722,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       'with timestamp',
       now
     );
-    // be sure an empty quote is marked as undefined rather than being empty
-    // otherwise upgradeMessageSchema() will return an object with an empty array
-    // and this.get('quote') will be true, even if there is no quote.
+
     const editedQuote = _.isEmpty(quote) ? undefined : quote;
-    const { upgradeMessageSchema } = window.Signal.Migrations;
 
     const diffTimestamp = Date.now() - getLatestTimestampOffset();
 
-    const messageWithSchema = await upgradeMessageSchema({
+    const messageObject: MessageAttributesOptionals = {
       type: 'outgoing',
       body,
       conversationId: destination,
@@ -742,19 +739,18 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       expireTimer,
       recipients,
       isDeleted: false,
-    });
+      source: UserUtils.getOurPubKeyStrFromCache(),
+    };
 
     if (!this.isPublic()) {
-      messageWithSchema.destination = destination;
+      messageObject.destination = destination;
     } else {
       // set the serverTimestamp only if this conversation is a public one.
-      messageWithSchema.serverTimestamp = Date.now();
+      messageObject.serverTimestamp = Date.now();
     }
-    messageWithSchema.source = UserUtils.getOurPubKeyStrFromCache();
-    messageWithSchema.sourceDevice = 1;
 
     const attributes: MessageAttributesOptionals = {
-      ...messageWithSchema,
+      ...messageObject,
       groupInvitation,
       conversationId: this.id,
       destination: isPrivate ? destination : undefined,
@@ -1356,9 +1352,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
 
     if (typeof avatar?.path === 'string') {
-      const { getAbsoluteAttachmentPath } = window.Signal.Migrations;
-
-      return getAbsoluteAttachmentPath(avatar.path) as string;
+      return getAbsoluteAttachmentPath(avatar.path);
     }
 
     return null;

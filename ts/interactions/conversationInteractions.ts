@@ -38,6 +38,9 @@ import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
 import { SessionButtonColor } from '../components/basic/SessionButton';
 import { getCallMediaPermissionsSettings } from '../components/settings/SessionSettings';
 import { perfEnd, perfStart } from '../session/utils/Performance';
+import { processNewAttachment } from '../types/MessageAttachment';
+import { urlToBlob } from '../types/attachments/VisualAttachment';
+import { MIME } from '../types';
 
 export const getCompleteUrlForV2ConvoId = async (convoId: string) => {
   if (convoId.match(openGroupV2ConversationIdRegex)) {
@@ -348,8 +351,8 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
       window.log.warn('Could not decrypt avatar stored locally..');
       return;
     }
-    const response = await fetch(decryptedAvatarUrl);
-    const blob = await response.blob();
+    const blob = await urlToBlob(decryptedAvatarUrl);
+
     decryptedAvatarData = await blob.arrayBuffer();
   }
 
@@ -374,10 +377,11 @@ export async function uploadOurAvatar(newAvatarDecrypted?: ArrayBuffer) {
   ourConvo.set('avatarPointer', fileUrl);
 
   // this encrypts and save the new avatar and returns a new attachment path
-  const upgraded = await window.Signal.Migrations.processNewAttachment({
+  const upgraded = await processNewAttachment({
     isRaw: true,
     data: decryptedAvatarData,
-    url: fileUrl,
+    contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
+    // url: fileUrl,
   });
   // Replace our temporary image with the attachment pointer from the server:
   ourConvo.set('avatar', null);

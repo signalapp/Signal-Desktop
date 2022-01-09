@@ -19,7 +19,6 @@ import { InConversationCallContainer } from '../calling/InConversationCallContai
 import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { getPubkeysInPublicConversation } from '../../data/data';
-import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import {
@@ -40,6 +39,10 @@ import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
+import { autoOrientImage } from '../../types/attachments/migrations';
+import { makeVideoScreenshot } from '../../types/attachments/VisualAttachment';
+import { blobToArrayBuffer } from 'blob-util';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -334,19 +337,17 @@ export class SessionConversation extends React.Component<Props, State> {
       ToastUtils.pushCannotMixError();
       return;
     }
-    const { VisualAttachment } = window.Signal.Types;
 
     const renderVideoPreview = async () => {
       const objectUrl = URL.createObjectURL(file);
       try {
         const type = 'image/png';
 
-        const thumbnail = await VisualAttachment.makeVideoScreenshot({
+        const thumbnail = await makeVideoScreenshot({
           objectUrl,
           contentType: type,
-          logger: window.log,
         });
-        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
+        const data = await blobToArrayBuffer(thumbnail);
         const url = window.Signal.Util.arrayBufferToObjectURL({
           data,
           type,
@@ -392,7 +393,7 @@ export class SessionConversation extends React.Component<Props, State> {
         return;
       }
 
-      const url = await window.autoOrientImage(file);
+      const url = await autoOrientImage(file);
 
       this.addAttachments([
         {
@@ -410,15 +411,16 @@ export class SessionConversation extends React.Component<Props, State> {
     };
 
     let blob = null;
+    console.warn('typeof file: ', typeof file);
 
     try {
       blob = await AttachmentUtil.autoScale({
         contentType,
-        file,
+        blob: file,
       });
 
-      if (blob.file.size >= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
-        ToastUtils.pushFileSizeErrorAsByte(Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES);
+      if (blob.blob.size >= MAX_ATTACHMENT_FILESIZE_BYTES) {
+        ToastUtils.pushFileSizeErrorAsByte(MAX_ATTACHMENT_FILESIZE_BYTES);
         return;
       }
     } catch (error) {

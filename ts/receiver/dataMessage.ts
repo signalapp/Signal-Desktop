@@ -16,6 +16,10 @@ import { getMessageBySender, getMessageBySenderAndServerTimestamp } from '../../
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
 import { toHex } from '../session/utils/String';
+import { toLogFormat } from '../types/attachments/Errors';
+import { processNewAttachment } from '../types/MessageAttachment';
+import { MIME } from '../types';
+import { autoScaleForIncomingAvatar } from '../util/attachmentsUtil';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
@@ -38,9 +42,9 @@ export async function updateProfileOneAtATime(
 async function createOrUpdateProfile(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null // was any
+  profileKey?: Uint8Array | null
 ) {
-  const { dcodeIO, textsecure, Signal } = window;
+  const { dcodeIO, textsecure } = window;
 
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
@@ -72,9 +76,11 @@ async function createOrUpdateProfile(
               downloaded.data,
               profileKeyArrayBuffer
             );
-            const upgraded = await Signal.Migrations.processNewAttachment({
-              ...downloaded,
-              data: decryptedData,
+
+            const scaledData = await autoScaleForIncomingAvatar(decryptedData);
+            const upgraded = await processNewAttachment({
+              data: await scaledData.blob.arrayBuffer(),
+              contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
             });
             // Only update the convo if the download and decrypt is a success
             conversation.set('avatarPointer', profile.profilePicture);
@@ -361,7 +367,6 @@ export async function isMessageDuplicate({
   message,
   serverTimestamp,
 }: MessageId) {
-  const { Errors } = window.Signal.Types;
   // serverTimestamp is only used for opengroupv2
   try {
     let result;
@@ -391,7 +396,7 @@ export async function isMessageDuplicate({
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
-    window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));
+    window?.log?.error('isMessageDuplicate error:', toLogFormat(error));
     return false;
   }
 }

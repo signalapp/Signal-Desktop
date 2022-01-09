@@ -14,8 +14,8 @@ import { useConversationPropsById } from '../../hooks/useParamSelector';
 import useKey from 'react-use/lib/useKey';
 import { useWeAreAdmin } from '../../hooks/useWeAreAdmin';
 import { useSet } from '../../hooks/useSet';
-import { ClosedGroup } from '../../session';
 import { getConversationController } from '../../session/conversations';
+import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 
 type Props = {
   conversationId: string;
@@ -164,15 +164,7 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
     memberAfterUpdate => !_.includes(membersToRemove, memberAfterUpdate)
   );
 
-  const avatarPath = convoProps.avatarPath || '';
-  const groupName = convoProps.name;
-
-  void ClosedGroup.initiateGroupUpdate(
-    convoId,
-    groupName || 'Unknown',
-    filteredMembers,
-    avatarPath
-  );
+  void initiateClosedGroupUpdate(convoId, convoProps.name || 'Unknown', filteredMembers);
 }
 
 export const UpdateGroupMembersDialog = (props: Props) => {

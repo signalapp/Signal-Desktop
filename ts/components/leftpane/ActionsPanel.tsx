@@ -234,6 +234,7 @@ const doAppStartUp = () => {
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
+
   void setupTheme();
 
   // keep that one to make sure our users upgrade to new sessionIDS

@@ -49,9 +49,16 @@ import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMes
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { AttachmentTypeWithPath } from '../types/Attachment';
+import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
 import _ from 'lodash';
 import { SettingsKey } from '../data/settings-key';
+import {
+  deleteExternalMessageFiles,
+  getAbsoluteAttachmentPath,
+  loadAttachmentData,
+  loadPreviewData,
+  loadQuoteData,
+} from '../types/MessageAttachment';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -212,7 +219,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async cleanup() {
-    await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
+    await deleteExternalMessageFiles(this.attributes);
   }
 
   public getPropsForTimerNotification(): PropsForExpirationTimer | null {
@@ -487,10 +494,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public processQuoteAttachment(attachment: any) {
     const { thumbnail } = attachment;
-    const path =
-      thumbnail &&
-      thumbnail.path &&
-      window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path);
+    const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
     const objectUrl = thumbnail && thumbnail.objectUrl;
 
     const thumbnailWithObjectUrl =
@@ -502,7 +506,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           });
 
     return Object.assign({}, attachment, {
-      isVoiceMessage: window.Signal.Types.Attachment.isVoiceMessage(attachment),
+      isVoiceMessage: isVoiceMessage(attachment),
       thumbnail: thumbnailWithObjectUrl,
     });
     // tslint:enable: prefer-object-spread
@@ -608,7 +612,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       caption,
     } = attachment;
 
-    const isVoiceMessage =
+    const isVoiceMessageBool =
       // tslint:disable-next-line: no-bitwise
       Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
     return {
@@ -621,19 +625,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       path,
       fileName,
       fileSize: size ? filesize(size) : null,
-      isVoiceMessage,
+      isVoiceMessage: isVoiceMessageBool,
       pending: Boolean(pending),
-      url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
+      url: path ? getAbsoluteAttachmentPath(path) : '',
       screenshot: screenshot
         ? {
             ...screenshot,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(screenshot.path),
+            url: getAbsoluteAttachmentPath(screenshot.path),
           }
         : null,
       thumbnail: thumbnail
         ? {
             ...thumbnail,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path),
+            url: getAbsoluteAttachmentPath(thumbnail.path),
           }
         : null,
     };
@@ -707,13 +711,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // This way we don't upload duplicated data.
 
     const attachmentsWithData = await Promise.all(
-      (this.get('attachments') || []).map(window.Signal.Migrations.loadAttachmentData)
+      (this.get('attachments') || []).map(loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData as Array<any>;
+    const finalAttachments = attachmentsWithData;
 
-    const quoteWithData = await window.Signal.Migrations.loadQuoteData(this.get('quote'));
-    const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
+    const quoteWithData = await loadQuoteData(this.get('quote'));
+    const previewWithData = await loadPreviewData(this.get('preview'));
 
     const conversation = this.getConversation();
 
@@ -741,7 +745,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       linkPreviewPromise,
       quotePromise,
     ]);
-
+    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
     return {
       body,
       attachments,

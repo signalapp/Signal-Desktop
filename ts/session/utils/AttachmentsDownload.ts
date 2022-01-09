@@ -13,6 +13,7 @@ import {
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
+import { processNewAttachment } from '../../types/MessageAttachment';
 
 // this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -30,6 +31,8 @@ let enabled = false;
 let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
+
+// FIXME audric, type those `any` field
 
 export async function start(options: any = {}) {
   ({ logger } = options);
@@ -201,7 +204,13 @@ async function _runJob(job: any) {
       throw error;
     }
 
-    const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(downloaded);
+    if (!attachment.contentType) {
+      window.log.warn('incoming attachment has no contentType');
+    }
+    const upgradedAttachment = await processNewAttachment({
+      ...downloaded,
+      contentType: attachment.contentType,
+    });
     found = await getMessageById(messageId);
 
     await _addAttachmentToMessage(found, upgradedAttachment, { type, index });

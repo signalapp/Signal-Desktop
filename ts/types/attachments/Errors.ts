@@ -1,5 +1,4 @@
-//      toLogFormat :: Error -> String
-exports.toLogFormat = error => {
+export const toLogFormat = (error: any) => {
   if (!error) {
     return error;
   }

@@ -12,7 +12,14 @@ import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/openg
 import { FSv2 } from '../session/apis/file_server_api';
 import { getUnpaddedAttachment } from '../session/crypto/BufferPadding';
 
-export async function downloadAttachment(attachment: any) {
+export async function downloadAttachment(attachment: {
+  url: string;
+  id?: string;
+  isRaw?: boolean;
+  key?: string;
+  digest?: string;
+  size?: number;
+}) {
   const asURL = new URL(attachment.url);
   const serverUrl = asURL.origin;
 
@@ -49,13 +56,16 @@ export async function downloadAttachment(attachment: any) {
     if (!key || !digest) {
       throw new Error('Attachment is not raw but we do not have a key to decode it');
     }
+    if (!size) {
+      throw new Error('Attachment expected size is 0');
+    }
 
     const keyBuffer = await window.callWorker('fromBase64ToArrayBuffer', key);
     const digestBuffer = await window.callWorker('fromBase64ToArrayBuffer', digest);
 
     data = await window.textsecure.crypto.decryptAttachment(data, keyBuffer, digestBuffer);
 
-    if (!size || size !== data.byteLength) {
+    if (size !== data.byteLength) {
       // we might have padding, check that all the remaining bytes are padding bytes
       // otherwise we have an error.
       const unpaddedData = getUnpaddedAttachment(data, size);
@@ -75,28 +85,33 @@ export async function downloadAttachment(attachment: any) {
 }
 
 /**
+ * This method should only be used when you know
+ */
+export async function downloadDataFromOpenGroupV2(
+  fileUrl: string,
+  roomInfos: OpenGroupRequestCommonType
+) {
+  const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(fileUrl, roomInfos);
+
+  if (!dataUintFromUrl?.length) {
+    window?.log?.error('Failed to download attachment. Length is 0');
+    throw new Error(`Failed to download attachment. Length is 0 for ${fileUrl}`);
+  }
+  return dataUintFromUrl;
+}
+
+/**
  *
  * @param attachment Either the details of the attachment to download (on a per room basis), or the pathName to the file you want to get
  */
 export async function downloadAttachmentOpenGroupV2(
-  attachment:
-    | {
-        id: number;
-        url: string;
-        size: number;
-      }
-    | string,
+  attachment: {
+    id: number;
+    url: string;
+    size: number;
+  },
   roomInfos: OpenGroupRequestCommonType
 ) {
-  if (typeof attachment === 'string') {
-    const dataUintFromUrl = await downloadFileOpenGroupV2ByUrl(attachment, roomInfos);
-
-    if (!dataUintFromUrl?.length) {
-      window?.log?.error('Failed to download attachment. Length is 0');
-      throw new Error(`Failed to download attachment. Length is 0 for ${attachment}`);
-    }
-    return dataUintFromUrl;
-  }
   const dataUint = await downloadFileOpenGroupV2(attachment.id, roomInfos);
 
   if (!dataUint?.length) {

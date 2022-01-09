@@ -29,6 +29,7 @@ import { SessionDropdown } from '../basic/SessionDropdown';
 import { SpacerLG } from '../basic/Text';
 import { MediaItemType } from '../lightbox/LightboxGallery';
 import { MediaGallery } from './media-gallery/MediaGallery';
+import { getAbsoluteAttachmentPath } from '../../types/MessageAttachment';
 
 async function getMediaGalleryProps(
   conversationId: string
@@ -58,10 +59,8 @@ async function getMediaGalleryProps(
           const { thumbnail } = attachment;
 
           const mediaItem: MediaItemType = {
-            objectURL: window.Signal.Migrations.getAbsoluteAttachmentPath(attachment.path),
-            thumbnailObjectUrl: thumbnail
-              ? window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path)
-              : null,
+            objectURL: getAbsoluteAttachmentPath(attachment.path),
+            thumbnailObjectUrl: thumbnail ? getAbsoluteAttachmentPath(thumbnail.path) : undefined,
             contentType: attachment.contentType || '',
             index,
             messageTimestamp: timestamp || serverTimestamp || received_at || 0,

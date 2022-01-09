@@ -56,8 +56,8 @@
     "auto-bind": "^4.0.0",
     "backbone": "1.3.3",
     "better-sqlite3": "https://github.com/signalapp/better-sqlite3#ad0db5dd09c0ea4007b1c46bd4f7273827803347",
-    "blob-util": "1.3.0",
-    "blueimp-canvas-to-blob": "3.14.0",
+    "blob-util": "2.0.2",
+    "blueimp-canvas-to-blob": "^3.29.0",
     "blueimp-load-image": "5.14.0",
     "buffer-crc32": "0.2.13",
     "bunyan": "1.8.12",
@@ -80,6 +80,7 @@
     "fs-extra": "9.0.0",
     "glob": "7.1.2",
     "he": "1.2.0",
+    "image-type": "^4.1.0",
     "ip2country": "1.0.1",
     "jquery": "3.3.1",
     "jsbn": "1.1.0",
@@ -268,7 +269,11 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": ["deb", "rpm", "freebsd"],
+      "target": [
+        "deb",
+        "rpm",
+        "freebsd"
+      ],
       "icon": "build/icon.icns"
     },
     "asarUnpack": [
