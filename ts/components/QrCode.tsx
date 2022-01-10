@@ -4,6 +4,7 @@
 import type { ReactElement } from 'react';
 import React, { useEffect, useMemo, useRef } from 'react';
 import qrcode from 'qrcode-generator';
+import { getEnvironment, Environment } from '../environment';
 import { strictAssert } from '../util/assert';
 import { useDevicePixelRatio } from '../hooks/useDevicePixelRatio';
 
@@ -48,6 +49,27 @@ export function QrCode(props: PropsType): ReactElement {
     qrCode.renderTo2dContext(context, cellSize);
   }, [canvasSize, qrCode]);
 
+  // Add a development-only feature to copy a QR code to the clipboard by double-clicking.
+  // This can be used to quickly inspect the code, or to link this Desktop with an iOS
+  // simulator primary, which has a debug-only option to paste the linking URL instead of
+  // scanning it. (By the time you read this comment Android may have a similar feature.)
+  const onDoubleClick = () => {
+    if (getEnvironment() === Environment.Production) {
+      return;
+    }
+
+    navigator.clipboard.writeText(data);
+
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+    canvas.style.filter = 'brightness(50%)';
+    window.setTimeout(() => {
+      canvas.style.filter = '';
+    }, 150);
+  };
+
   return (
     <canvas
       aria-label={ariaLabel}
@@ -56,6 +78,7 @@ export function QrCode(props: PropsType): ReactElement {
       ref={canvasRef}
       style={{ width: size, height: size }}
       width={canvasSize}
+      onDoubleClick={onDoubleClick}
     />
   );
 }
