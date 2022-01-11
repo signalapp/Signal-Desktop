@@ -1,4 +1,4 @@
-<!-- Copyright 2014-2021 Signal Messenger, LLC -->
+<!-- Copyright 2014-2022 Signal Messenger, LLC -->
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 
 # Signal Desktop
@@ -46,6 +46,6 @@ The form and manner of this distribution makes it eligible for export under the 
 
 ## License
 
-Copyright 2013–2021 Signal, a 501c3 nonprofit
+Copyright 2013–2022 Signal, a 501c3 nonprofit
 
 Licensed under the AGPLv3: https://opensource.org/licenses/agpl-3.0
