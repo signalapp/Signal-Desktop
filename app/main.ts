@@ -536,7 +536,7 @@ async function createWindow() {
   }
 
   mainWindowCreated = true;
-  setupSpellChecker(mainWindow, getLocale().messages);
+  setupSpellChecker(mainWindow, getLocale());
   if (!startInTray && windowConfig && windowConfig.maximized) {
     mainWindow.maximize();
   }
@@ -1129,7 +1129,7 @@ async function showStickerCreator() {
   };
 
   stickerCreatorWindow = createBrowserWindow(options);
-  setupSpellChecker(stickerCreatorWindow, getLocale().messages);
+  setupSpellChecker(stickerCreatorWindow, getLocale());
 
   handleCommonWindowEvents(stickerCreatorWindow);
 
@@ -1386,6 +1386,17 @@ ipc.on('database-error', (_event: Electron.Event, error: string) => {
   onDatabaseError(error);
 });
 
+function getAppLocale(): string {
+  const { env } = process;
+  const envLocale = env.LC_ALL || env.LC_MESSAGES || env.LANG || env.LANGUAGE;
+
+  if (envLocale) {
+    return envLocale.replace(/_/g, '-');
+  }
+
+  return getEnvironment() === Environment.Test ? 'en' : app.getLocale();
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -1396,8 +1407,7 @@ app.on('ready', async () => {
   logger = await logging.initialize(getMainWindow);
 
   if (!locale) {
-    const appLocale =
-      getEnvironment() === Environment.Test ? 'en' : app.getLocale();
+    const appLocale = getAppLocale();
     locale = loadLocale({ appLocale, logger });
   }
 

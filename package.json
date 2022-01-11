@@ -130,7 +130,6 @@
     "node-fetch": "2.6.1",
     "node-forge": "0.10.0",
     "normalize-path": "3.0.0",
-    "os-locale": "3.0.1",
     "p-map": "2.1.0",
     "p-props": "4.0.0",
     "p-queue": "6.6.2",
