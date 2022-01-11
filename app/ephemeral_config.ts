@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
@@ -10,8 +10,10 @@ import { start } from './base_config';
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'ephemeral.json');
 
-export const ephemeralConfig = start('ephemeral', targetPath, {
-  allowMalformedOnStartup: true,
+export const ephemeralConfig = start({
+  name: 'ephemeral',
+  targetPath,
+  throwOnFilesystemErrors: false,
 });
 
 export const get = ephemeralConfig.get.bind(ephemeralConfig);

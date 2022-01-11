@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
@@ -34,7 +34,11 @@ console.log(`userData: ${app.getPath('userData')}`);
 const userDataPath = app.getPath('userData');
 const targetPath = join(userDataPath, 'config.json');
 
-export const userConfig = start('user', targetPath);
+export const userConfig = start({
+  name: 'user',
+  targetPath,
+  throwOnFilesystemErrors: true,
+});
 
 export const get = userConfig.get.bind(userConfig);
 export const remove = userConfig.remove.bind(userConfig);

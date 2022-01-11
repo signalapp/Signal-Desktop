@@ -1,9 +1,11 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { readFileSync, writeFileSync, unlinkSync } from 'fs';
 
-import { get, set } from 'lodash';
+import { get } from 'lodash';
+import { set } from 'lodash/fp';
+import { strictAssert } from '../ts/util/assert';
 
 const ENCODING = 'utf8';
 
@@ -18,12 +20,16 @@ export type ConfigType = {
   _getCachedValue: () => InternalConfigType | undefined;
 };
 
-export function start(
-  name: string,
-  targetPath: string,
-  options?: { allowMalformedOnStartup?: boolean }
-): ConfigType {
-  let cachedValue: InternalConfigType | undefined;
+export function start({
+  name,
+  targetPath,
+  throwOnFilesystemErrors,
+}: Readonly<{
+  name: string;
+  targetPath: string;
+  throwOnFilesystemErrors: boolean;
+}>): ConfigType {
+  let cachedValue: InternalConfigType = Object.create(null);
   let incomingJson: string | undefined;
 
   try {
@@ -33,22 +39,22 @@ export function start(
 
     if (!cachedValue) {
       console.log(
-        `config/get: ${name} config value was falsy, cache is now empty object`
+        `config/start: ${name} config value was falsy, cache is now empty object`
       );
       cachedValue = Object.create(null);
     }
   } catch (error) {
-    if (!options?.allowMalformedOnStartup && error.code !== 'ENOENT') {
+    if (throwOnFilesystemErrors && error.code !== 'ENOENT') {
       throw error;
     }
 
     if (incomingJson) {
       console.log(
-        `config/get: ${name} config file was malformed, starting afresh`
+        `config/start: ${name} config file was malformed, starting afresh`
       );
     } else {
       console.log(
-        `config/get: Did not find ${name} config file (or it was empty), cache is now empty object`
+        `config/start: Did not find ${name} config file (or it was empty), cache is now empty object`
       );
     }
     cachedValue = Object.create(null);
@@ -59,19 +65,47 @@ export function start(
   }
 
   function ourSet(keyPath: string, value: unknown): void {
-    if (!cachedValue) {
-      throw new Error('ourSet: no cachedValue!');
-    }
+    const newCachedValue = set(keyPath, value, cachedValue);
 
-    set(cachedValue, keyPath, value);
     console.log(`config/set: Saving ${name} config to disk`);
-    const outgoingJson = JSON.stringify(cachedValue, null, '  ');
-    writeFileSync(targetPath, outgoingJson, ENCODING);
+
+    if (!throwOnFilesystemErrors) {
+      cachedValue = newCachedValue;
+    }
+    const outgoingJson = JSON.stringify(newCachedValue, null, '  ');
+    try {
+      writeFileSync(targetPath, outgoingJson, ENCODING);
+      console.log(`config/set: Saved ${name} config to disk`);
+      cachedValue = newCachedValue;
+    } catch (err: unknown) {
+      if (throwOnFilesystemErrors) {
+        throw err;
+      } else {
+        console.warn(
+          `config/set: Failed to save ${name} config to disk; only updating in-memory data`
+        );
+      }
+    }
   }
 
   function remove(): void {
     console.log(`config/remove: Deleting ${name} config from disk`);
-    unlinkSync(targetPath);
+    try {
+      unlinkSync(targetPath);
+      console.log(`config/remove: Deleted ${name} config from disk`);
+    } catch (err: unknown) {
+      const errCode: unknown = get(err, 'code');
+      if (throwOnFilesystemErrors) {
+        strictAssert(errCode === 'ENOENT', 'Expected deletion of no file');
+        console.log(`config/remove: No ${name} config on disk, did nothing`);
+      } else {
+        console.warn(
+          `config/remove: Got ${String(
+            errCode
+          )} when removing ${name} config from disk`
+        );
+      }
+    }
     cachedValue = Object.create(null);
   }
 
