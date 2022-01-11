@@ -186,6 +186,12 @@ export function useFabricHistory({
     }
     return fabricEffectListener(
       fabricCanvas,
+      // We want to take snapshots when objects are added, removed, and modified. The
+      //   first two are obvious. We DON'T want to take snapshots before those things
+      //   happen (like `object:moving`), and we also don't want to take redundant ones
+      //   (which is why we don't listen to both `object:modified` and `object:rotated`).
+      //
+      // See <http://fabricjs.com/docs/fabric.Canvas.html#Canvas> for the list of events.
       ['object:added', 'object:modified', 'object:removed'],
       ({ target }) => {
         if (isTimeTraveling || target?.excludeFromExport) {
