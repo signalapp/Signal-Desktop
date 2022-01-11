@@ -4,6 +4,8 @@
 /* eslint-disable camelcase */
 import { compact, isNumber } from 'lodash';
 import { batch as batchDispatch } from 'react-redux';
+import PQueue from 'p-queue';
+
 import type {
   ConversationAttributesType,
   ConversationModelCollectionType,
@@ -4617,9 +4619,14 @@ export class ConversationModel extends window.Backbone
     // request all conversation members' keys
     const conversations =
       this.getMembers() as unknown as Array<ConversationModel>;
-    await Promise.all(
-      window._.map(conversations, conversation =>
-        getProfile(conversation.get('uuid'), conversation.get('e164'))
+
+    const queue = new PQueue({
+      concurrency: 3,
+    });
+    await queue.addAll(
+      conversations.map(
+        conversation => () =>
+          getProfile(conversation.get('uuid'), conversation.get('e164'))
       )
     );
   }
