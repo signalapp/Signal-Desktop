@@ -1,10 +1,10 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { SECOND } from './durations';
 import { isNormalNumber } from './isNormalNumber';
 
-const ONE_SECOND = 1000;
-const MINIMAL_RETRY_AFTER = ONE_SECOND;
+const MINIMAL_RETRY_AFTER = SECOND;
 
 export function parseRetryAfter(value: unknown): number {
   if (typeof value !== 'string') {
@@ -16,5 +16,5 @@ export function parseRetryAfter(value: unknown): number {
     retryAfter = 0;
   }
 
-  return Math.max(retryAfter * ONE_SECOND, MINIMAL_RETRY_AFTER);
+  return Math.max(retryAfter * SECOND, MINIMAL_RETRY_AFTER);
 }
