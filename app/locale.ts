@@ -1,4 +1,4 @@
-// Copyright 2017-2020 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join } from 'path';
@@ -43,7 +43,7 @@ export function load({
   logger,
 }: {
   appLocale: string;
-  logger: LoggerType;
+  logger: Pick<LoggerType, 'error'>;
 }): LocaleType {
   if (!appLocale) {
     throw new TypeError('`appLocale` is required');
