@@ -71,3 +71,9 @@ window.getMediaPermissions = () => ipc.invoke('settings:get:mediaPermissions');
 
 window.getMediaCameraPermissions = () =>
   ipc.invoke('settings:get:mediaCameraPermissions');
+
+window.crashReports = {
+  getCount: () => ipc.invoke('crash-reports:get-count'),
+  upload: () => ipc.invoke('crash-reports:upload'),
+  erase: () => ipc.invoke('crash-reports:erase'),
+};

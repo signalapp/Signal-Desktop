@@ -92,6 +92,7 @@ export type PropsType = {
   canResizeLeftPane: boolean;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
+  crashReportCount: number;
   theme: ThemeType;
 
   // Action Creators
@@ -144,12 +145,14 @@ export type PropsType = {
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
   ) => JSX.Element;
   renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
+  renderCrashReportDialog: () => JSX.Element;
 };
 
 export const LeftPane: React.FC<PropsType> = ({
   cantAddContactToGroup,
   canResizeLeftPane,
   challengeStatus,
+  crashReportCount,
   clearGroupCreationError,
   clearSearch,
   closeCantAddContactToGroupModal,
@@ -165,6 +168,7 @@ export const LeftPane: React.FC<PropsType> = ({
   openConversationInternal,
   preferredWidthFromStorage,
   renderCaptchaDialog,
+  renderCrashReportDialog,
   renderExpiredBuildDialog,
   renderMainHeader,
   renderMessageSearchResult,
@@ -641,6 +645,7 @@ export const LeftPane: React.FC<PropsType> = ({
             setChallengeStatus('idle');
           },
         })}
+      {crashReportCount > 0 && renderCrashReportDialog()}
     </div>
   );
 };

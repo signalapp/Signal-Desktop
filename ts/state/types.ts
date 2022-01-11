@@ -9,6 +9,7 @@ import type { actions as badges } from './ducks/badges';
 import type { actions as calling } from './ducks/calling';
 import type { actions as composer } from './ducks/composer';
 import type { actions as conversations } from './ducks/conversations';
+import type { actions as crashReports } from './ducks/crashReports';
 import type { actions as emojis } from './ducks/emojis';
 import type { actions as expiration } from './ducks/expiration';
 import type { actions as globalModals } from './ducks/globalModals';
@@ -30,6 +31,7 @@ export type ReduxActions = {
   calling: typeof calling;
   composer: typeof composer;
   conversations: typeof conversations;
+  crashReports: typeof crashReports;
   emojis: typeof emojis;
   expiration: typeof expiration;
   globalModals: typeof globalModals;

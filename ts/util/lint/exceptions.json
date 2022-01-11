@@ -7888,56 +7888,56 @@
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.js",
+    "path": "ts/logging/uploadDebugLog.js",
     "line": "    form.append('key', uploadKey);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.js",
+    "path": "ts/logging/uploadDebugLog.js",
     "line": "        form.append(key, value);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.js",
+    "path": "ts/logging/uploadDebugLog.js",
     "line": "    form.append('Content-Type', contentType);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.js",
+    "path": "ts/logging/uploadDebugLog.js",
     "line": "    form.append('file', contentBuffer, {",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.ts",
+    "path": "ts/logging/uploadDebugLog.ts",
     "line": "  form.append('key', uploadKey);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.ts",
+    "path": "ts/logging/uploadDebugLog.ts",
     "line": "      form.append(key, value);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.ts",
+    "path": "ts/logging/uploadDebugLog.ts",
     "line": "  form.append('Content-Type', contentType);",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"
   },
   {
     "rule": "jQuery-append(",
-    "path": "ts/logging/debuglogs.ts",
+    "path": "ts/logging/uploadDebugLog.ts",
     "line": "  form.append('file', contentBuffer, {",
     "reasonCategory": "falseMatch",
     "updated": "2020-12-17T18:08:07.752Z"

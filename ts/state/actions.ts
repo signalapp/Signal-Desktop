@@ -9,6 +9,7 @@ import { actions as badges } from './ducks/badges';
 import { actions as calling } from './ducks/calling';
 import { actions as composer } from './ducks/composer';
 import { actions as conversations } from './ducks/conversations';
+import { actions as crashReports } from './ducks/crashReports';
 import { actions as emojis } from './ducks/emojis';
 import { actions as expiration } from './ducks/expiration';
 import { actions as globalModals } from './ducks/globalModals';
@@ -31,6 +32,7 @@ export const actionCreators: ReduxActions = {
   calling,
   composer,
   conversations,
+  crashReports,
   emojis,
   expiration,
   globalModals,
@@ -53,6 +55,7 @@ export const mapDispatchToProps = {
   ...calling,
   ...composer,
   ...conversations,
+  ...crashReports,
   ...emojis,
   ...expiration,
   ...globalModals,

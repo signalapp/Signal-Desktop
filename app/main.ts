@@ -7,7 +7,6 @@ import * as os from 'os';
 import { chmod, realpath, writeFile } from 'fs-extra';
 import { randomBytes } from 'crypto';
 
-import pify from 'pify';
 import normalizePath from 'normalize-path';
 import fastGlob from 'fast-glob';
 import PQueue from 'p-queue';
@@ -30,6 +29,7 @@ import { z } from 'zod';
 
 import packageJson from '../package.json';
 import * as GlobalErrors from './global_errors';
+import { setup as setupCrashReports } from './crashReports';
 import { setup as setupSpellChecker } from './spell_check';
 import { redactAll, addSensitivePath } from '../ts/util/privacy';
 import { strictAssert } from '../ts/util/assert';
@@ -100,7 +100,6 @@ import { load as loadLocale } from './locale';
 import type { LoggerType } from '../ts/types/Logging';
 
 const animationSettings = systemPreferences.getAnimationSettings();
-const getRealPath = pify(realpath);
 
 // Keep a global reference of the window object, if you don't, the window will
 //   be closed automatically when the JavaScript object is garbage collected.
@@ -1402,9 +1401,11 @@ function getAppLocale(): string {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
-  const userDataPath = await getRealPath(app.getPath('userData'));
+  const userDataPath = await realpath(app.getPath('userData'));
 
   logger = await logging.initialize(getMainWindow);
+
+  setupCrashReports(getLogger);
 
   if (!locale) {
     const appLocale = getAppLocale();
@@ -1447,7 +1448,7 @@ app.on('ready', async () => {
     });
   });
 
-  const installPath = await getRealPath(app.getAppPath());
+  const installPath = await realpath(app.getAppPath());
 
   addSensitivePath(userDataPath);
 
@@ -2081,7 +2082,7 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
   getLogger().info('Begin ensuring permissions');
 
   const start = Date.now();
-  const userDataPath = await getRealPath(app.getPath('userData'));
+  const userDataPath = await realpath(app.getPath('userData'));
   // fast-glob uses `/` for all platforms
   const userDataGlob = normalizePath(join(userDataPath, '**', '*'));
 

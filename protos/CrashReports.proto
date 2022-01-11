@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+// Copyright 2020-2021 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package signalservice;
+
+message CrashReport {
+  string filename = 1;
+  bytes content = 2;
+}
+
+message CrashReportList {
+  repeated CrashReport reports = 1;
+}

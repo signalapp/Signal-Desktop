@@ -982,6 +982,10 @@ export async function startApp(): Promise<void> {
         actionCreators.conversations,
         store.dispatch
       ),
+      crashReports: bindActionCreators(
+        actionCreators.crashReports,
+        store.dispatch
+      ),
       emojis: bindActionCreators(actionCreators.emojis, store.dispatch),
       expiration: bindActionCreators(actionCreators.expiration, store.dispatch),
       globalModals: bindActionCreators(
@@ -2382,6 +2386,11 @@ export async function startApp(): Promise<void> {
     await window.Signal.Data.saveMessages(messagesToSave, {
       ourUuid: window.textsecure.storage.user.getCheckedUuid().toString(),
     });
+
+    // Process crash reports if any
+    window.reduxActions.crashReports.setCrashReportCount(
+      await window.crashReports.getCount()
+    );
   }
   function onReconnect() {
     // We disable notifications on first connect, but the same applies to reconnect. In

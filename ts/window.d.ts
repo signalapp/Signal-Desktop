@@ -190,6 +190,11 @@ declare global {
     baseAttachmentsPath: string;
     baseStickersPath: string;
     baseTempPath: string;
+    crashReports: {
+      getCount: () => Promise<number>;
+      upload: () => Promise<void>;
+      erase: () => Promise<void>;
+    };
     drawAttention: () => void;
     enterKeyboardMode: () => void;
     enterMouseMode: () => void;

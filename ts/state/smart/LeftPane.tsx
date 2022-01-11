@@ -58,6 +58,7 @@ import { SmartNetworkStatus } from './NetworkStatus';
 import { SmartRelinkDialog } from './RelinkDialog';
 import { SmartUpdateDialog } from './UpdateDialog';
 import { SmartCaptchaDialog } from './CaptchaDialog';
+import { SmartCrashReportDialog } from './CrashReportDialog';
 
 function renderExpiredBuildDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
@@ -87,6 +88,9 @@ function renderUpdateDialog(
 }
 function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
+}
+function renderCrashReportDialog(): JSX.Element {
+  return <SmartCrashReportDialog />;
 }
 
 const getModeSpecificProps = (
@@ -185,6 +189,7 @@ const mapStateToProps = (state: StateType) => {
     i18n: getIntl(state),
     regionCode: getRegionCode(state),
     challengeStatus: state.network.challengeStatus,
+    crashReportCount: state.crashReports.count,
     renderExpiredBuildDialog,
     renderMainHeader,
     renderMessageSearchResult,
@@ -192,6 +197,7 @@ const mapStateToProps = (state: StateType) => {
     renderRelinkDialog,
     renderUpdateDialog,
     renderCaptchaDialog,
+    renderCrashReportDialog,
     theme: getTheme(state),
   };
 };

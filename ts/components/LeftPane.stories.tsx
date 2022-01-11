@@ -10,6 +10,7 @@ import { storiesOf } from '@storybook/react';
 import type { PropsType } from './LeftPane';
 import { LeftPane, LeftPaneMode } from './LeftPane';
 import { CaptchaDialog } from './CaptchaDialog';
+import { CrashReportDialog } from './CrashReportDialog';
 import type { ConversationType } from '../state/ducks/conversations';
 import { MessageSearchResult } from './conversationList/MessageSearchResult';
 import { setupI18n } from '../util/setupI18n';
@@ -104,6 +105,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     ['idle', 'required', 'pending'],
     'idle'
   ),
+  crashReportCount: select('challengeReportCount', [0, 1], 0),
   setChallengeStatus: action('setChallengeStatus'),
   renderExpiredBuildDialog: () => <div />,
   renderMainHeader: () => <div />,
@@ -132,6 +134,14 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
       isPending={overrideProps.challengeStatus === 'pending'}
       onContinue={action('onCaptchaContinue')}
       onSkip={action('onCaptchaSkip')}
+    />
+  ),
+  renderCrashReportDialog: () => (
+    <CrashReportDialog
+      i18n={i18n}
+      isPending={false}
+      uploadCrashReports={action('uploadCrashReports')}
+      eraseCrashReports={action('eraseCrashReports')}
     />
   ),
   selectedConversationId: undefined,
@@ -629,6 +639,24 @@ story.add('Captcha dialog: pending', () => (
         startSearchCounter: 0,
       },
       challengeStatus: 'pending',
+    })}
+  />
+));
+
+// Crash report flow
+
+story.add('Crash report dialog', () => (
+  <LeftPane
+    {...useProps({
+      modeSpecificProps: {
+        mode: LeftPaneMode.Inbox,
+        pinnedConversations,
+        conversations: defaultConversations,
+        archivedConversations: [],
+        isAboutToSearchInAConversation: false,
+        startSearchCounter: 0,
+      },
+      crashReportCount: 42,
     })}
   />
 ));

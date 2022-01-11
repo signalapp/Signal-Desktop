@@ -8,6 +8,8 @@ import { contextBridge, ipcRenderer } from 'electron';
 import { SignalContext } from '../context';
 import { DebugLogWindow } from '../../components/DebugLogWindow';
 import * as debugLog from '../../logging/debuglogs';
+import { upload } from '../../logging/uploadDebugLog';
+import * as logger from '../../logging/log';
 
 contextBridge.exposeInMainWorld('SignalContext', {
   ...SignalContext,
@@ -32,7 +34,11 @@ contextBridge.exposeInMainWorld('SignalContext', {
           );
         },
         uploadLogs(logs: string) {
-          return debugLog.upload(logs, SignalContext.getVersion());
+          return upload({
+            content: logs,
+            appVersion: SignalContext.getVersion(),
+            logger,
+          });
         },
       }),
       document.getElementById('app')
