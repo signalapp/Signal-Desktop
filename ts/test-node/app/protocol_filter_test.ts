@@ -1,9 +1,9 @@
-// Copyright 2018-2020 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { expect } = require('chai');
+import { assert } from 'chai';
 
-const { _urlToPath } = require('../../app/protocol_filter');
+import { _urlToPath } from '../../../app/protocol_filter';
 
 describe('Protocol Filter', () => {
   describe('_urlToPath', () => {
@@ -14,7 +14,7 @@ describe('Protocol Filter', () => {
         '/Users/someone/Development/signal/electron/background.html';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('returns proper file path for unix style file URI with querystring', () => {
@@ -24,7 +24,7 @@ describe('Protocol Filter', () => {
         '/Users/someone/Development/signal/electron/background.html';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('returns proper file path for unix style file URI with hash and querystring', () => {
@@ -34,7 +34,7 @@ describe('Protocol Filter', () => {
         '/Users/someone/Development/signal/electron/background.html';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('returns proper file path for file URI on windows', () => {
@@ -44,7 +44,7 @@ describe('Protocol Filter', () => {
       const isWindows = true;
 
       const actual = _urlToPath(path, { isWindows });
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('translates from URL format to filesystem format', () => {
@@ -54,7 +54,7 @@ describe('Protocol Filter', () => {
         '/Users/someone/Development Files/signal/electron/background.html';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('translates from URL format to filesystem format', () => {
@@ -64,7 +64,7 @@ describe('Protocol Filter', () => {
         '/Users/someone/Development Files/signal/electron/background.html';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('handles UNC path', () => {
@@ -72,7 +72,7 @@ describe('Protocol Filter', () => {
       const expected = '//share/path';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('handles UNC path on windows', () => {
@@ -81,7 +81,7 @@ describe('Protocol Filter', () => {
       const isWindows = true;
 
       const actual = _urlToPath(path, { isWindows });
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('handles simple relative path', () => {
@@ -89,16 +89,16 @@ describe('Protocol Filter', () => {
       const expected = 'relative/path';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
-    it('handles simple relative path', () => {
+    it('handles simple relative path on Windows', () => {
       const path = 'file://relative/path';
       const expected = 'elative/path';
       const isWindows = true;
 
       const actual = _urlToPath(path, { isWindows });
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
 
     it('hands back a path with .. in it', () => {
@@ -106,7 +106,7 @@ describe('Protocol Filter', () => {
       const expected = '../../..';
 
       const actual = _urlToPath(path);
-      expect(actual).to.equal(expected);
+      assert.strictEqual(actual, expected);
     });
   });
 });

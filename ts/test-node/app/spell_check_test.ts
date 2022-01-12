@@ -1,9 +1,9 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const { assert } = require('chai');
+import { assert } from 'chai';
 
-const { getLanguages } = require('../../app/spell_check');
+import { getLanguages } from '../../../app/spell_check';
 
 describe('SpellCheck', () => {
   describe('getLanguages', () => {
