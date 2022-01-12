@@ -6778,5 +6778,9 @@
   "WhatsNew__v5.28--1": {
     "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
     "description": "Release notes for v5.28"
+  },
+  "WhatsNew__v5.29--1": {
+    "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
+    "description": "Release notes for v5.28"
   }
 }
