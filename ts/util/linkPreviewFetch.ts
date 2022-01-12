@@ -45,7 +45,6 @@ type FetchFn = (href: string, init: RequestInit) => Promise<Response>;
 
 export interface LinkPreviewMetadata {
   title: string;
-  description: null | string;
   date: null | number;
   imageHref: null | string;
 }
@@ -317,14 +316,6 @@ const parseMetadata = (document: HTMLDocument, href: string): LinkPreviewMetadat
     return null;
   }
 
-  const description =
-    getOpenGraphContent(document, ['og:description']) ||
-    document
-      .querySelector('meta[name="description"]')
-      ?.getAttribute('content')
-      ?.trim() ||
-    null;
-
   const rawImageHref =
     getOpenGraphContent(document, ['og:image', 'og:image:url']) ||
     getLinkHrefAttribute(document, ['shortcut icon', 'icon', 'apple-touch-icon']);
@@ -347,7 +338,6 @@ const parseMetadata = (document: HTMLDocument, href: string): LinkPreviewMetadat
 
   return {
     title,
-    description,
     imageHref,
     date,
   };
@@ -368,7 +358,7 @@ const parseMetadata = (document: HTMLDocument, href: string): LinkPreviewMetadat
  * 3. Streams up to `MAX_HTML_BYTES_TO_LOAD`, stopping when (1) it has loaded all of the
  *    HTML (2) loaded the maximum number of bytes (3) finished loading the `<head>`.
  * 4. Parses the resulting HTML with `DOMParser`.
- * 5. Grabs the title, description, image URL, and date.
+ * 5. Grabs the title, image URL, and date.
  */
 export async function fetchLinkPreviewMetadata(
   fetchFn: FetchFn,

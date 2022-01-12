@@ -12,6 +12,25 @@ import { THUMBNAIL_SIDE } from '../types/attachments/VisualAttachment';
 import imageType from 'image-type';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../session/constants';
 
+/**
+ * The logic for sending attachments is as follow:
+ *
+ * 1. The User selects whatever attachments he wants to send with the system file handler.
+ * 2. We generate a preview if possible just to use it in the Composition Box Staged attachments list (preview of attachments scheduled for sending with the next message)
+ * 3. During that preview generation, we also autoscale images if possible and make sure the orientation is right.
+ * 4. If autoscale is not possible, we make sure the size of each attachments is fine with the service nodes limit. Otherwise, a toast is shown and the attachment is not added.
+ * 5. When autoscale is possible, we make sure that the scaled size is OK for the services nodes already
+ * 6. We do not keep those autoscaled attachments in memory for now, just the previews are kept in memory and the original filepath.
+ *
+ * 7. Once the user is ready to send a message and hit ENTER or SEND, we grab the real files again from the staged attachments, autoscale them again if possible, generate thumbnails and screenshot (video) if needed and write them to the attachments folder (encrypting them) with processNewAttachments.
+ *
+ * 8. This operation will give us back the path of the attachment in the attachments folder and the size written for this attachment (make sure to use that one as size for the outgoing attachment)
+ *
+ * 9. Once all attachments are written to the attachments folder, we grab the data from those files directly before sending them. This is done in uploadData() with loadAttachmentsData().
+ *
+ * 10. We use the grabbed data for upload of the attachments, get an url for each of them and send the url with the attachments details to the user/opengroup/closed group
+ */
+
 export interface MaxScaleSize {
   maxSize?: number;
   maxHeight?: number;

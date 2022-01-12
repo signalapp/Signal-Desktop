@@ -10,7 +10,6 @@ type Props = {
   isLoaded: boolean;
   title: null | string;
   url: null | string;
-  description: null | string;
   domain: null | string;
   image?: AttachmentType;
 
@@ -18,7 +17,7 @@ type Props = {
 };
 
 export const StagedLinkPreview = (props: Props) => {
-  const { isLoaded, onClose, title, image, domain, description, url } = props;
+  const { isLoaded, onClose, title, image, domain, url } = props;
 
   const isImage = image && isImageAttachment(image);
   if (isLoaded && !(title && domain)) {
@@ -50,9 +49,7 @@ export const StagedLinkPreview = (props: Props) => {
       {isLoaded ? (
         <div className="module-staged-link-preview__content">
           <div className="module-staged-link-preview__title">{title}</div>
-          {description && (
-            <div className="module-staged-link-preview__description">{description}</div>
-          )}
+
           <div className="module-staged-link-preview__footer">
             <div className="module-staged-link-preview__location">{domain}</div>
           </div>

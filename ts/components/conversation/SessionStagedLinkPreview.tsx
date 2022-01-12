@@ -25,7 +25,6 @@ export interface GetLinkPreviewResult {
   title: string;
   url: string;
   image?: GetLinkPreviewResultImage;
-  description: string | null;
   date: number | null;
 }
 
@@ -48,7 +47,7 @@ export const getPreview = async (
   if (!linkPreviewMetadata) {
     throw new Error('Could not fetch link preview metadata');
   }
-  const { title, imageHref, description, date } = linkPreviewMetadata;
+  const { title, imageHref, date } = linkPreviewMetadata;
 
   let image;
   if (imageHref && window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)) {
@@ -100,7 +99,6 @@ export const getPreview = async (
     title,
     url,
     image,
-    description,
     date,
   };
 };
@@ -118,7 +116,6 @@ export const SessionStagedLinkPreview = (props: StagedLinkPreviewProps) => {
       domain={props.domain}
       url={props.url}
       image={props.image as any}
-      description={props.description}
     />
   );
 };

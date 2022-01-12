@@ -61,7 +61,6 @@ export interface StagedLinkPreviewData {
   title: string | null;
   url: string | null;
   domain: string | null;
-  description: string | null;
   image?: AttachmentType;
 }
 
@@ -556,13 +555,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
-    const { isLoaded, title, description, domain, image } = this.state.stagedLinkPreview;
+    const { isLoaded, title, domain, image } = this.state.stagedLinkPreview;
 
     return (
       <SessionStagedLinkPreview
         isLoaded={isLoaded}
         title={title}
-        description={description}
         domain={domain}
         image={image}
         url={firstLink}
@@ -580,7 +578,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
         isLoaded: false,
         url: firstLink,
         domain: null,
-        description: null,
         image: undefined,
         title: null,
       },
@@ -620,7 +617,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: ret?.title || null,
-              description: ret?.description || '',
               url: ret?.url || null,
               domain: (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
               image,
@@ -631,7 +627,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: false,
               title: null,
-              description: null,
               url: null,
               domain: null,
               image: undefined,
@@ -659,7 +654,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: null,
-              description: null,
               url: firstLink,
               domain: null,
               image: undefined,
