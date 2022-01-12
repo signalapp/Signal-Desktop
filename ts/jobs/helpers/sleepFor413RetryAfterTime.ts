@@ -1,11 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { LoggerType } from '../../types/Logging';
 import { sleep } from '../../util/sleep';
-import { parseRetryAfter } from '../../util/parseRetryAfter';
-import { isRecord } from '../../util/isRecord';
-import { HTTPError } from '../../textsecure/Errors';
+import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError';
 
 export async function sleepFor413RetryAfterTime({
   err,
@@ -20,30 +18,11 @@ export async function sleepFor413RetryAfterTime({
     return;
   }
 
-  const retryAfter = Math.min(
-    parseRetryAfter(findRetryAfterTime(err)),
-    timeRemaining
-  );
+  const retryAfter = Math.min(findRetryAfterTimeFromError(err), timeRemaining);
 
   log.info(
     `Got a 413 response code. Sleeping for ${retryAfter} millisecond(s)`
   );
 
   await sleep(retryAfter);
-}
-
-function findRetryAfterTime(err: unknown): unknown {
-  if (!isRecord(err)) {
-    return undefined;
-  }
-
-  if (isRecord(err.responseHeaders)) {
-    return err.responseHeaders['retry-after'];
-  }
-
-  if (err.httpError instanceof HTTPError) {
-    return err.httpError.responseHeaders?.['retry-after'];
-  }
-
-  return undefined;
 }

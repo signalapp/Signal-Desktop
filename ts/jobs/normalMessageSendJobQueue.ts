@@ -5,7 +5,6 @@ import type PQueue from 'p-queue';
 import type { LoggerType } from '../types/Logging';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
-import { sleepFor413RetryAfterTime } from './helpers/sleepFor413RetryAfterTime';
 import { InMemoryQueues } from './helpers/InMemoryQueues';
 import type { MessageModel } from '../models/messages';
 import { getMessageById } from '../messages/getMessageById';
@@ -21,7 +20,6 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import { isSent } from '../messages/MessageSendState';
 import { getLastChallengeError, isOutgoing } from '../state/selectors/message';
-import * as Errors from '../types/errors';
 import type { AttachmentType } from '../textsecure/SendMessage';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
 import type { BodyRangesType } from '../types/Util';
@@ -29,7 +27,7 @@ import type { WhatIsThis } from '../window.d';
 
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
-import { getHttpErrorCode } from './helpers/getHttpErrorCode';
+import { handleMultipleSendErrors } from './helpers/handleMultipleSendErrors';
 
 const { loadAttachmentData, loadPreviewData, loadQuoteData, loadStickerData } =
   window.Signal.Migrations;
@@ -288,47 +286,14 @@ export class NormalMessageSendJobQueue extends JobQueue<NormalMessageSendJobData
       if (!didFullySend) {
         throw new Error('message did not fully send');
       }
-    } catch (err: unknown) {
-      const formattedMessageSendErrors: Array<string> = [];
-      let serverAskedUsToStop = false;
-      let retryAfterError: unknown;
-      messageSendErrors.forEach((messageSendError: unknown) => {
-        formattedMessageSendErrors.push(Errors.toLogFormat(messageSendError));
-        switch (getHttpErrorCode(messageSendError)) {
-          case 413:
-            retryAfterError ||= messageSendError;
-            break;
-          case 508:
-            serverAskedUsToStop = true;
-            break;
-          default:
-            break;
-        }
+    } catch (thrownError: unknown) {
+      await handleMultipleSendErrors({
+        errors: [thrownError, ...messageSendErrors],
+        isFinalAttempt,
+        log,
+        markFailed: () => markMessageFailed(message, messageSendErrors),
+        timeRemaining,
       });
-      log.info(
-        `${
-          messageSendErrors.length
-        } message send error(s): ${formattedMessageSendErrors.join(',')}`
-      );
-
-      if (isFinalAttempt || serverAskedUsToStop) {
-        await markMessageFailed(message, messageSendErrors);
-      }
-
-      if (serverAskedUsToStop) {
-        log.info('server responded with 508. Giving up on this job');
-        return;
-      }
-
-      if (!isFinalAttempt && retryAfterError) {
-        await sleepFor413RetryAfterTime({
-          err: retryAfterError,
-          log,
-          timeRemaining,
-        });
-      }
-
-      throw err;
     }
   }
 }

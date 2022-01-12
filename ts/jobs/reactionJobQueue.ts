@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as z from 'zod';
@@ -28,7 +28,7 @@ import { UUID } from '../types/UUID';
 import { JobQueue } from './JobQueue';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 import { commonShouldJobContinue } from './helpers/commonShouldJobContinue';
-import { handleCommonJobRequestError } from './helpers/handleCommonJobRequestError';
+import { handleMultipleSendErrors } from './helpers/handleMultipleSendErrors';
 import { InMemoryQueues } from './helpers/InMemoryQueues';
 
 const MAX_RETRY_TIME = durations.DAY;
@@ -114,6 +114,11 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       return;
     }
 
+    let sendErrors: Array<Error> = [];
+    const saveErrors = (errors: Array<Error>): void => {
+      sendErrors = errors;
+    };
+
     try {
       const conversation = message.getConversation();
       if (!conversation) {
@@ -157,6 +162,7 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       });
       ephemeralMessageForReactionSend.doNotSave = true;
 
+      let didFullySend: boolean;
       const successfulConversationIds = new Set<string>();
 
       if (recipientIdentifiersWithoutMe.length === 0) {
@@ -173,8 +179,12 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
           recipients: allRecipientIdentifiers,
           timestamp: pendingReaction.timestamp,
         });
-        await ephemeralMessageForReactionSend.sendSyncMessageOnly(dataMessage);
+        await ephemeralMessageForReactionSend.sendSyncMessageOnly(
+          dataMessage,
+          saveErrors
+        );
 
+        didFullySend = true;
         successfulConversationIds.add(ourConversationId);
       } else {
         const sendOptions = await getSendOptions(conversation.attributes);
@@ -226,9 +236,11 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
           handleMessageSend(promise, {
             messageIds: [messageId],
             sendType: 'reaction',
-          })
+          }),
+          saveErrors
         );
 
+        didFullySend = true;
         const reactionSendStateByConversationId =
           ephemeralMessageForReactionSend.get('sendStateByConversationId') ||
           {};
@@ -237,6 +249,8 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
         )) {
           if (isSent(sendState.status)) {
             successfulConversationIds.add(conversationId);
+          } else {
+            didFullySend = false;
           }
         }
       }
@@ -248,15 +262,17 @@ export class ReactionJobQueue extends JobQueue<ReactionJobData> {
       );
       setReactions(message, newReactions);
 
-      const didFullySend = true;
       if (!didFullySend) {
         throw new Error('reaction did not fully send');
       }
-    } catch (err: unknown) {
-      if (isFinalAttempt) {
-        markReactionFailed(message, pendingReaction);
-      }
-      await handleCommonJobRequestError({ err, log, timeRemaining });
+    } catch (thrownError: unknown) {
+      await handleMultipleSendErrors({
+        errors: [thrownError, ...sendErrors],
+        isFinalAttempt,
+        log,
+        markFailed: () => markReactionFailed(message, pendingReaction),
+        timeRemaining,
+      });
     } finally {
       await window.Signal.Data.saveMessage(message.attributes, { ourUuid });
     }
