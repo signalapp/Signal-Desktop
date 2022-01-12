@@ -1331,29 +1331,75 @@
         "message": "Gizlilik mümkündür. Signal, bunu asanlaşdırır.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Telefonunuzu, Signal Masaüstü ilə əlaqələndirin.",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Tənzimləmələri",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Əlaqə yaradılmış cihazlar",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' düyməsi",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Yeni cihazla əlaqə yarat",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
-        "message": "Bu kodu telefonunuzdakı Signal tətbiqində skan edin",
-        "description": "Alt text for the QR code on the device link screen"
+    "Install__scan-this-code": {
+        "message": "Bu kodu, telefonunuzdakı Signal tətbiqində skan edin",
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Signal-ı telefonunuzda açın",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "$settings$ bölməsinə, daha sonra $linkedDevices$ bölməsinə toxunun",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Tənzimləmələr",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Android üçün $plusButton$, iPhone üçün $linkNewDevice$ düyməsinə toxunun",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "QR kod yüklənilə bilmədi. İnternetinizi yoxlayıb yenidən sınayın. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Daha ətraflı",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Bu adı telefonunuzda \"Əlaqə yaradılmış cihazlar\"ın altında görəcəksiniz.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Kompüterim",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Cihaz adı",
@@ -1371,6 +1417,10 @@
         "message": "Əlaqələr və qruplar eyniləşdirilir",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Qeyd: Söhbət tarixçəniz bu cihazla eyniləşdirilməyəcək",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Serverlə bağlantı qurulmadı.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Nəsə səhv getdi!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Gözlənilməz bir xəta baş verdi. Zəhmət olmasa yenidən sınayın.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Masaüstü, artıq Apple-ın ən son kompüterlərində istifadə edilən M1 çipini yerli olaraq dəstəkləyir. Bu yeni modelləri istifadə edirsinizsə, tətbiq daha sürətli olmalıdır. Əziyyətinə görə çoxlu təşəkkürlər $dennis$!",
+        "message": "Signal Masaüstü, artıq Apple-ın ən son kompüterlərində istifadə edilən M1 çipi üçün optimallaşdırılıb. Bu yeni modelləri istifadə edirsinizsə, tətbiq daha sürətli olmalıdır. İstifadə etmirsinizsə, onda istifadə edənləri mehribanca salamlayın. Əziyyətinə görə çoxlu təşəkkürlər $dennis$!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Həmçinin, zənglərlə əlaqəli bir neçə təkmilləşdirmə daxil olmaqla Signal-ın problemsiz işləməsini təmin etmək üçün bir neçə xəta düzəlişləri də var.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Yeni il, yeni başlanğıc ekranı. Başlanğıc quraşdırma ekranlarını 2022 üçün vaxtında yenidən dizayn etdik.",
+        "description": "Release notes for v5.28"
     }
 }

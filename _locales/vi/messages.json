@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ đã thay đổi số của họ thành một số mới",
+        "message": "$sender$ changed their phone number",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Sự riêng tư là khả thi. Signal khiến điều đó trở nên dễ dàng.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Liên kết điện thoại của bạn với Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal Cài đặt",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Các thiết bị Được liên kết",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Nút '+'",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Liên kết Thiết bị Mới",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Quét mã này trong ứng dụng Signal trên điện thoại của bạn.",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Mở Signal trên điện thoại của bạn",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Cài đặt",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Tìm hiểu thêm",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "My Computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Tên thiết bị",
@@ -1371,6 +1417,10 @@
         "message": "Đồng bộ các liên lạc và nhóm",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Note: Your chat history will not be synced to this device",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Không thể kết nối đến máy chủ.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Đã xảy ra lỗi!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "An unexpected error occurred. Please try again.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop hiện hỗ trợ nguyên bản chip M1 của Apple được sử dụng trong các máy tính mới của họ. Nếu bạn đang sử dụng một trong những thiết bị mới này, ứng dụng sẽ nhanh hơn nhiều. Nếu bạn không, hãy chào đón nồng nhiệt những người dùng đó. Rất cảm ơn $dennis$  vì sự chăm chỉ của anh ấy ở đây!",
+        "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Ngoài ra còn có một số chỉnh sửa nhỏ và sửa lỗi để giữ cho Signal hoạt động mượt mà, bao gồm một số cải tiến liên quan đến tính năng gọi điện.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "description": "Release notes for v5.28"
     }
 }

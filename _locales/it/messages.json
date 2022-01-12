@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ha cambiato il suo numero con un nuovo numero",
+        "message": "$sender$ ha cambiato il suo numero di telefono",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "La riservatezza è possibile. Signal la rende facile.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Collega il tuo telefono a Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Impostazioni di Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Dispositivi collegati",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Pulsante \"+\"",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Collega un nuovo dispositivo",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Scansiona questo codice nell'app Signal sul tuo telefono",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Apri Signal sul tuo telefono",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Clicca nelle $settings$, poi clicca $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Impostazioni",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Clicca $plusButton$ (Android) o $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Non è stato possibile caricare il codice QR. Controlla la tua connessione internet e riprova. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Scopri di più",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Vedrai questo nome sotto \"Dispositivi collegati\" sul tuo telefono",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Il mio computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Nome del dispositivo",
@@ -1371,6 +1417,10 @@
         "message": "Sincronizzazione contatti e gruppi",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Nota: La tua cronologia delle chat non sarà sincronizzata su questo dispositivo",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Connessione al server non riuscita.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Qualcosa non ha funzionato!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Si è verificato un errore inaspettato. Si prega di riprovare.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop ora supporta nativamente il chip M1 di Apple, utilizzato nei loro nuovi computer. Se sei su uno di questi nuovi dispositivi, l'applicazione dovrebbe essere molto più veloce. Se non lo sei, dai un caldo benvenuto agli utenti che lo sono. Un enorme ringraziamento a $dennis$ per il suo duro lavoro!",
+        "message": "Signal Desktop è ora ottimizzato per il chip M1 di Apple, utilizzato nei loro nuovi computer. Se sei su uno di questi nuovi dispositivi, l'applicazione dovrebbe essere molto più veloce. Se non lo sei, dai un caldo benvenuto agli utenti che lo sono. Un enorme ringraziamento a $dennis$ per il suo duro lavoro!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Ci sono anche una serie di piccole modifiche e correzioni di bug per mantenere Signal senza problemi, compresi diversi miglioramenti relativi alle chiamate.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Anno nuovo, nuova schermata di configurazione iniziale. Abbiamo ridisegnato le schermate di configurazione iniziale giusto in tempo per il 2022.",
+        "description": "Release notes for v5.28"
     }
 }

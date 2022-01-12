@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ が電話番号を変更しました",
+        "message": "$sender$ は電話番号を変更しました",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Signalを使えば簡単にプライバシーを守れます。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "携帯電話をSignal Desktopにリンクする",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal設定",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "リンク済み端末",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "「+」ボタン",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "新しい端末をリンク",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "携帯電話のSignalアプリで、このQRコードを読み取ってください。",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "あなたの電話でSignalを開きます",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "$settings$ をタップして、その次に $linkedDevices$ をタップしてください",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "設定",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Androidでは $plusButton$ を、iPhoneでは $linkNewDevice$ をタップしてください",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "QRコードが読みこめません。インターネットの接続を確認して、再度お試しください。$learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "さらに詳しく",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "この名前はスマートフォン版Signalの「リンク済み端末」に表示されます",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "このコンピュータ",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "端末名",
@@ -1371,6 +1417,10 @@
         "message": "連絡先とグループを同期しています",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "注意: このデバイスをリンクする前のチャット履歴は同期されません",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "サーバーに接続できませんでした",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "エラーが発生しました。",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "予期せぬエラーが発生しました。再度お試しください。",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop は、Apple M1 チップにネイティブ対応しました。Apple M1 チップを搭載した端末をお持ちの皆さん、お待たせしました。これは、$dennis$ さんのおかげで実現しました。ありがとうございます。",
+        "message": "Signal Desktop は、Apple M1 チップにネイティブ対応しました。Apple M1 チップを搭載した端末をお持ちの皆さん、お待たせしました。アプリの動作が高速になります！$dennis$ さんのおかげで実現しました。ありがとうございます。",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "また、通話に関する修正を含めた、細かな変更とバグ修正を行いました。",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "初期設定画面をリニューアルしました。2022年もSignalをよろしくお願いします。",
+        "description": "Release notes for v5.28"
     }
 }

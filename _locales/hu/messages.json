@@ -1228,7 +1228,7 @@
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
@@ -1254,7 +1254,7 @@
         }
     },
     "DeliveryIssue--learnMore": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Shown in timeline when message delivery issue happens, to provide access to a popup info dialog"
     },
     "DeliveryIssue--title": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ megváltoztatta a számát egy új számra.",
+        "message": "$sender$ megváltoztatta a telefonszámát",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "A magánélet védelme nem lehetetlen. A Signal ezt egyszerűvé teszi.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Telefonod összepárosítása Signal Desktop-al",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal beállítások",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Párosított eszközök",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' gomb",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Új eszköz párosítása",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Olvasd be ezt a kódot a Signal telefonos alkalmazással!",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Nyisd meg a Signalt a telefonodon!",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Koppints a $settings$, majd a $linkedDevices$ menüpontra",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Beállítások",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Koppints a $plusButton$ (Android) vagy $linkNewDevice$ (iPhone) gombra",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Nem sikerült betölteni a QR kódot. Ellenőrizd a hálózati kapcsolatot és próbáld újra. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Tudj meg többet!",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Ez a név fog megjelenni az \"Összekapcsolt eszközök\" menüpont alatt a telefonodon",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Számítógépem",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Eszköz neve",
@@ -1371,6 +1417,10 @@
         "message": "Kontaktok és csoportok szinkronizálása",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Megjegyzés: A beszélgetés előzményei nem fognak átkerülni erre az eszközre",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Nem sikerült csatlakozni a kiszolgálóhoz.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Probléma merült fel!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Váratlan hiba történt. Próbáld újra!",
         "description": ""
     },
     "installTryAgain": {
@@ -3482,7 +3536,7 @@
         }
     },
     "MessageRequests--learn-more": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Shown at the end of profile sharing messages as a link."
     },
     "ConversationHero--members": {
@@ -5210,7 +5264,7 @@
         "description": "Shown in timeline when a legacy group (GV1) is upgraded to a new group (GV2)"
     },
     "GroupV1--Migration--learn-more": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Shown on a bubble below a 'group was migrated' timeline notification, or as button on Migrate dialog"
     },
     "GroupV1--Migration--migrate": {
@@ -5778,7 +5832,7 @@
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "AddGroupMembersModal--title": {
@@ -5902,7 +5956,7 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "MessageRequestWarning__learn-more": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
@@ -6348,7 +6402,7 @@
         }
     },
     "ProfileEditor--learnMore": {
-        "message": "További információ",
+        "message": "Tudj meg többet!",
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "A Signal Desktop natívan támogatja az Apple új gépeiben használatos M1 processzorát. Ha te is ilyennel rendelkezel, akkor az alkalmazás sokkal gyorsabbnak fog tűnni. Ha neked nem, küldd tiszteletedet azoknak, akiknek igen. Hatalmas köszönet $dennis$ részére a kemény munkájáért!",
+        "message": "A Signal Desktop mostantól natív támogatást nyújt az Apple új gépeiben használatos M1 processzorokhoz. Ha te is rendelkezel ilyennel, akkor az alkalmazás sokkal gyorsabbnak fog érződni. Ha te még nem, akkor küldd meleg üdvözletedet azoknak, akik már igen. Hatalmas köszönet $dennis$ részére áldozatos munkájáért!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Néhány kisebb újítás és hibajavítás (például hívással kapcsolatos fejlesztések) annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Új év, új kezdőképernyő a kezdeti lépésekhez. Épphogy elkészültünk az új beállító-képernyőkkel 2022-re.",
+        "description": "Release notes for v5.28"
     }
 }

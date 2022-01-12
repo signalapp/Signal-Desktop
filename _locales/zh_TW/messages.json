@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ 將他們的號碼變更為新號碼",
+        "message": "$sender$ 變更了他們的電話號碼",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "隱私是有可能的。Signal 讓隱私更簡單。",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "將您的手機連結至 Signal 桌面版",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal 設定",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "已連結的裝置",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "「+」按鈕",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "連結新裝置",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "在手機上的 Signal 應用程式中掃描此代碼",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "在手機上開啟 Signal",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "點擊 $settings$，然後再點擊 $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "設定",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "點擊 $plusButton$ (Android) 或 $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "無法載入二維條碼。 檢查你的網路，然後重試。 $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "了解更多",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "你會在手機上的“已連結的裝置”下看到此名稱",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "本機",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "裝置名稱",
@@ -1371,6 +1417,10 @@
         "message": "正在同步聯絡人與群組",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "注意：你的聊天記錄不會同步到此裝置",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "無法連線到伺服器。",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "發生錯誤！",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "一個未預期的問題發生。 請再試一次。",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal 電腦版現在原生支持 Apple 的 M1 晶片，該晶片用於其較新的Mac電腦。 如果你使用的是這些新裝置之一，那麼該應用程式應該會更加快速。 如果你不是，熱烈歡迎那些使用M1晶片 Mac電腦的使用者。 非常感謝 $dennis$ 在這裡的辛苦工作！",
+        "message": "Signal 電腦版 現在針對 Apple 的 M1 晶片進行了優化，該晶片用於它們較新的電腦。 如果你使用的是這些新裝置之一，那麼該應用程式應該會更加快速。 如果你不是，會喜愛的是那些用戶。 非常感謝 $dennis$ 在這樣的加速運作！",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "還有一些小的調整和錯誤修復，以維持 Signal 穩定執行，包括一些與通話相關的改進。",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "新的一年，新的初始設定螢幕。 我們為 2022 年及時重新設計了初始設定螢幕。",
+        "description": "Release notes for v5.28"
     }
 }

@@ -188,7 +188,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
-        "message": "S'està carregant...",
+        "message": "Es carrega...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ha canviat el número",
+        "message": "$sender$ ha canviat el número de telèfon.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "La privadesa és possible. El Signla la fa fàcil.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Enllaceu el mòbil amb el Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Configuració del Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Dispositius enllaçats",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Botó «+»",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Enllaça un dispositiu nou",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Escanegeu aquest codi a l'aplicació Signal del telèfon",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Obriu el Signal al telèfon.",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Toqueu$settings$ i després $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Configuració",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Toqueu $plusButton$ (Android) o $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "No s'ha pogut carregar el codi QR. Comproveu la connexió a Internet i torneu-ho a provar. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Més informació",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Veureu aquest nom sota \"Dispositius enllaçats\" al telèfon.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "L'ordinador",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Nom del dispositiu",
@@ -1371,6 +1417,10 @@
         "message": "Sincronització de contactes i grups",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Nota: l'historial de converses no se sincronitzarà amb aquest dispositiu.",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "No s'ha pogut connectar al servidor.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Alguna cosa ha anat malament!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Hi ha hagut un error inesperat. Torneu-ho a provar.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "El Signal Desktop ara admet de manera nativa el xip M1 d'Apple que s'usa als seus ordinadors més nous. Si esteu en un d'aquests dispositius nous, l'aplicació hauria de ser molt més ràpida. Si no hi sou, donem la benvinguda als usuaris que hi són. Moltes gràcies a $dennis$ pel seu esforç aquí!",
+        "message": "El Signal Desktop ara està optimitzat per al xip M1 d'Apple, que s'usa als seus ordinadors més nous. Si sou en un d'aquests dispositius nous, l'aplicació hauria de ser molt més ràpida. Si no hi sou, donem la benvinguda als usuaris que hi són. Moltes gràcies a $dennis$ pel seu esforç aquí!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "També hi ha una sèrie de petits retocs i correccions d'errors perquè el Signal funcioni sense problemes, incloses diverses millores relacionades amb les trucades.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Any nou, nova pantalla de configuració inicial. Hem redissenyat les pantalles de configuració inicial just a temps per al 2022.",
+        "description": "Release notes for v5.28"
     }
 }

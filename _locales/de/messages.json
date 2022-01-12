@@ -1331,29 +1331,75 @@
         "message": "Privatsphäre ist möglich. Signal macht sie einfach.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Kopple dein Telefon mit Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal-Einstellungen",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Gekoppelte Geräte",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "»+«-Schaltfläche",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Neues Gerät koppeln",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Scanne diesen Code mit der auf deinem Telefon installierten Signal-App ein",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Öffne Signal auf deinem Telefon",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tippe auf $settings$, dann auf $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Einstellungen",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tippe auf $plusButton$ (Android) oder $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Der QR-Code konnte nicht geladen werden. Überprüfe bitte deine Internetverbindung und versuche es erneut.$learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Mehr erfahren",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Dieser Name wird unter »Gekoppelte Geräte« auf deinem Telefon erscheinen.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Mein Computer",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Gerätename",
@@ -1371,6 +1417,10 @@
         "message": "Kontakte und Gruppen werden synchronisiert …",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Hinweis: Dein bisheriger Unterhaltungsverlauf wird nicht auf dieses Gerät übertragen.",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Verbinden mit Server gescheitert.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Etwas ist schiefgelaufen!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Ein unerwarteter Fehler ist aufgetreten. Versuche es bitte erneut.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop unterstützt nun nativ Apples M1-Chip, den Apple in seinen neueren Rechnern verbaut. Wenn du so ein neumodisches Gerät benutzt, sollte das Programm deutlich flüssiger laufen. Wenn nicht, heiße die Nutzer, die es tun, herzlich willkommen. Vielen Dank an $dennis$ für seine harte Arbeit hier!",
+        "message": "Signal Desktop ist nun für Apples M1-Chip optimiert, den Apple in seinen neueren Rechnern verbaut. Wenn du so ein neumodisches Gerät benutzt, sollte das Programm deutlich flüssiger laufen. Wenn nicht, heiße die Nutzer, die es tun, herzlich willkommen. Vielen Dank an $dennis$ für seine harte Arbeit hier!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Es ist auch eine Reihe kleiner Optimierungen und Fehlerbehebungen eingeflossen, eingeschlossen einiger anrufbezogenen Verbesserungen, damit Signal weiterhin flüssig läuft.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Neues Jahr, neuer Ersteinrichtungsbildschirm. Wir haben den Ersteinrichtungsbildschirm gerade rechtzeitig für 2022 neu gestaltet.",
+        "description": "Release notes for v5.28"
     }
 }
