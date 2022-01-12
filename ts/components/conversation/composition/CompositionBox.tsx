@@ -46,6 +46,7 @@ import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
 import { StagedAttachmentList } from '../StagedAttachmentList';
 import { processNewAttachment } from '../../../types/MessageAttachment';
+import { StagedAttachmentImportedType } from '../../../util/attachmentsUtil';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -71,7 +72,7 @@ export interface StagedAttachmentType extends AttachmentType {
 
 export type SendMessageType = {
   body: string;
-  attachments: Array<StagedAttachmentType> | undefined;
+  attachments: Array<StagedAttachmentImportedType> | undefined;
   quote: any | undefined;
   preview: any | undefined;
   groupInvitation: { url: string | undefined; name: string } | undefined;
@@ -866,7 +867,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles(): Promise<Array<StagedAttachmentType & { flags?: number }>> {
+  private async getFiles(): Promise<Array<StagedAttachmentImportedType>> {
     const { stagedAttachments } = this.props;
 
     if (_.isEmpty(stagedAttachments)) {

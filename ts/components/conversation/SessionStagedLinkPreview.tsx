@@ -6,7 +6,7 @@ import { arrayBufferFromFile } from '../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
 import { StagedLinkPreview } from './StagedLinkPreview';
-import { getImageDimensions } from '../../types/attachments/VisualAttachment';
+import { getImageDimensions, THUMBNAIL_SIDE } from '../../types/attachments/VisualAttachment';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;
@@ -69,7 +69,7 @@ export const getPreview = async (
             type: fullSizeImage.contentType,
           }),
         },
-        { maxSize: 100 * 1000 } // this is a preview image. No need for it to be crazy big. 100k is big enough
+        { maxSide: THUMBNAIL_SIDE, maxSize: 100 * 1000 } // this is a preview image. No need for it to be crazy big. 100k is big enough
       );
 
       const data = await arrayBufferFromFile(withBlob.blob);

@@ -213,9 +213,14 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   };
 }
 
+export type StagedAttachmentImportedType = Omit<
+  StagedAttachmentType,
+  'file' | 'url' | 'fileSize'
+> & { flags?: number };
+
 export async function getFileAndStoreLocally(
   attachment: StagedAttachmentType
-): Promise<(StagedAttachmentType & { flags?: number }) | null> {
+): Promise<StagedAttachmentImportedType | null> {
   if (!attachment) {
     return null;
   }
@@ -244,15 +249,10 @@ export async function getFileAndStoreLocally(
     contentType: attachment.contentType,
   });
 
-  console.warn('attachmentSavedLocally', attachmentSavedLocally);
-
   return {
     caption: attachment.caption,
     contentType: attachment.contentType,
     fileName: attachment.fileName,
-    file: new File([blob], 'getFile-blob'),
-    fileSize: null,
-    url: '',
     path: attachmentSavedLocally.path,
     width: scaled.width,
     height: scaled.height,
