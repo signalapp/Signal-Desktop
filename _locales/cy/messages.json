@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "Newidiodd $sender$ eu rhif i rif newydd",
+        "message": "Newidiodd $sender$ ei rif ffôn",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Mae preifatrwydd yn bosib. Mae Signal yn ei wneud yn hawdd.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Cysylltwch eich ffôn i Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Gosodiadau Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Dyfeisiau Cysylltiedig",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Botwm '+'",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Cysylltu Dyfais Newydd",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Sganio'r cod hwn yn yr ap Signal ar eich ffôn",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Agorwch Signal ar eich ffôn",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tapiwch ar $settings$, yna tapiwch $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Gosodiadau",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tapiwch $plusButton$ (Android) neu $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Nid oedd modd i'r cod QR lwytho. Gwiriwch eich rhyngrwyd a rhoi cynnig arall arni. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Dysgu rhagor",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Byddwch yn gweld yr enw hwn o dan \"Dyfeisiau Cysylltiedig\" ar eich ffôn",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Y Cyfrifiadur",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Enw dyfais",
@@ -1371,6 +1417,10 @@
         "message": "Yn cydweddu cysylltiadau a grwpiau",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Sylw: Ni fydd eich hanes sgwrsio yn cael ei gydweddu a'r ddyfais hon",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Methwyd cysylltu â'r gweinydd.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Aeth rhywbeth o'i le!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Digwyddodd gwall annisgwyl. Ceisiwch eto.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Mae Signal Desktop bellach yn cefnogi'r sglodyn M1 Apple yn frodorol sy'n cael eu defnyddio yn eu cyfrifiaduron diweddaraf. Os ydych chi ar un o'r dyfeisiau newydd hynny, dylai'r ap fod yn llawer mwy chwim. Os nad ydych chi, rhowch groeso cynnes i'r defnyddwyr sydd. Diolch enfawr i $dennis$ am ei waith caled yma!",
+        "message": "Bellach mae Signal Desktop wedi'i optimeiddio ar gyfer sglodyn M1 Apple sy'n cael ei ddefnyddio yn eu cyfrifiaduron diweddaraf. Os ydych chi ar un o'r dyfeisiau newydd sbon hynny, dylai'r ap fod yn llawer mwy cyflym. Os nad ydych chi, rhowch groeso cynnes i'r defnyddwyr sydd. Diolchiadau mawr i $dennis$ am ei waith caled!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Mae yna hefyd nifer o newidiadau bach a chywiriadau i gadw Signal i redeg yn llyfn, gan gynnwys sawl gwelliant sy'n gysylltiedig â galwadau.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Blwyddyn newydd, sgrin sefydlu gychwynnol newydd. Rydym wedi ailgynllunio'r sgriniau gosod cychwynnol mewn pryd ar gyfer 2022.",
+        "description": "Release notes for v5.28"
     }
 }

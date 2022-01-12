@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ skipti yfir í nýtt símanúmer",
+        "message": "$sender$ skipti um símanúmer",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Gagnaleynd er möguleg. Signal gerir hana auðvelda.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Tengja símann þinn við Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal stillingar",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Tengd tæki",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "'+' hnappur",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Tengjast nýju tæki",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Skannaðu þennan kóða með Signal-forritinu á símanum þínum",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Opnaðu Signal á símanum þínum",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Ýttu inn í $settings$, ýttu síðan á $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Stillingar",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Ýttu á $plusButton$ (Android) eða $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Ekki var hægt að hlaða inn QR-kóðanum. Athugaðu nettenginguna þína og prófaðu svo aftur. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Kanna nánar",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Þú munt sjá þetta heiti undir \"Tengd tæki\" á símanum þínum.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Tölvan mín",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Heiti tækis",
@@ -1371,6 +1417,10 @@
         "message": "Samstilla tengiliði og hópa",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Athugaðu: Spjallferillinn þinn verður ekki samstilltur við þetta tæki",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Náði ekki að tengjast netþjóni.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Eitthvað fór úrskeiðis!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Óvænt villa kom upp. Prófaðu aftur.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop styður núna M1-örflöguna frá Apple sem er notuð í tölvunum þeirra. Ef þú ert með eitt af þessum nýkomnu tækjum, ætti forritið að vera með mun betri svörun. Ef svo er ekki, ættirðu að óska til hamingju þeim notendum sem þessa njóta. Gríðarlega góðar þakkir til $dennis$ fyrir vinnu hans við þetta!",
+        "message": "Signal Desktop er núna bestað fyrir M1-örflöguna frá Apple sem er notuð í tölvunum þeirra. Ef þú ert með eitt af þessum nýkomnu tækjum, ætti forritið að vera með mun betri svörun. Ef svo er ekki, ættirðu að óska til hamingju þeim notendum sem þessa njóta. Gríðarlega góðar þakkir til $dennis$ fyrir vinnu hans við þetta!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Það er einnig fjöldi smábreytinga og lagfæringa á göllum sem hjálpa til við að keyra Signal óaðfinnanlega, þar með taldar lagfæringar sem tengjast símtölum.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Nýtt ár, nýr fyrsti uppsetningarskjár. Okkur tókst að endurhanna uppsetningarskjáinn í tæka tíð áður en árið 2022 gekk í garð.",
+        "description": "Release notes for v5.28"
     }
 }

@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ ŝanĝis sian numeron.",
+        "message": "$sender$ ŝanĝis sian telefonnumeron.",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Privateco eblas. Signal tion faciligas.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Ligi vian poŝtelefonon al Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Agordoj de Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Ligitaj aparatoj",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Butono „+“",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Ligi novan aparaton",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Skani tiun kodon en la aplikaĵo Signal ĉe via telefono",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Malfermi Signal ĉe via telefono",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Tuŝetu „$settings$“, poste tusêtu „$linkedDevices$“",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Agordoj",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Tuŝetu $plusButton$ (Android) aŭ $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "La QR-kodo ne funkciis. Kontrolu vian retaliron kaj reprovu. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Scii pli",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Vi vidos tiun nomon ĉe „Ligitaj aparatoj“ ĉe via telefono",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Mia komputilo",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Nomo de la aparato",
@@ -1371,6 +1417,10 @@
         "message": "Sinkronigo de kontaktoj kaj grupoj",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Notu: viaj antaŭaj interparoloj ne sinkroniĝos en tiun aparaton.",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Malsukcesis konekti al servilo.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Ho ve! Okazis eraro!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Neatendita eraro okazis. Bonvolu reprovi.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop nun funkcias senpere ĉe M1-komputiloj de Apple. Sur tiaj komputiloj, la aplikaĵo estu pli rapida. Multajn dankojn al $dennis$ por ties granda laboro pri tio!",
+        "message": "Signal Desktop nun funkcias senpere ĉe novaj M1-komputiloj de Apple. Sur tiaj komputiloj, la aplikaĵo estu pli rapida. Multajn dankojn al $dennis$ por ties granda laboro pri tio!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Estas ankaŭ kelkaj plibonaĵetoj kaj sencimigoj, por ke Signal plu bone funkcias, inkluzive de plibonigoj pri alvokoj.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Nova jaro, nova eka agordo-fenestro. Ni refaris la bonvenigajn fenestrojn ĵuse por 2022. ",
+        "description": "Release notes for v5.28"
     }
 }

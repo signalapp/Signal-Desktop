@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ pasikeitė numerį į naują",
+        "message": "$sender$ pasikeitė telefono numerį",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Privatumas yra įmanomas. Signal padaro jį lengvu.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Susiekite savo telefoną su Signal Desktop",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Signal nustatymai",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Susieti įrenginiai",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "\"+\" mygtukas",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Susieti naują įrenginį",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Nuskenuokite šį kodą naudodami telefone įdiegtą Signal programėlę",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Atverkite savo telefone Signal programėlę",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Bakstelėkite ant $settings$, o tuomet ant $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Nustatymai",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Bakstelėkite ant $plusButton$ („Android“ įrenginiuose) arba ant $linkNewDevice$ („iPhone“ įrenginiuose)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Nepavyko įkelti QR kodo. Patikrinkite interneto ryšį ir bandykite dar kartą. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Sužinoti daugiau",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Jūs matysite šį pavadinimą savo telefone, „Susietų įrenginių“ skyrelyje.",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Mano kompiuteris",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Įrenginio pavadinimas",
@@ -1371,6 +1417,10 @@
         "message": "Sinchronizuojami adresatai ir grupės",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Pastaba: Jūsų pokalbių istorija nebus sinchronizuota į šį įrenginį",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Nepavyko prisijungti prie serverio.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Kažkas nutiko!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Įvyko netikėta klaida. Bandykite dar kartą.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Dabar, Signal Desktop palaiko „Apple“ M1 lustą, kuris yra naudojamas jų naujesniuose kompiuteriuose. Jei turite kurį nors iš tų naujų įrenginių, programa juose veiks žymiai sklandžiau. Jei tokiais įrenginiais nesinaudojate, pasveikinkite naudotojus, kurie jais naudojasi. Didelis ačiū $dennis$ už šį sudėtingą darbą!",
+        "message": "Dabar, Signal Desktop yra optimizuota naudoti su „Apple“ M1 lustais, kurie yra naudojami jų naujesniuose kompiuteriuose. Jei turite kurį nors iš tų naujų įrenginių, programa juose veiks žymiai sklandžiau. Jei tokiais įrenginiais nesinaudojate, pasveikinkite naudotojus, kurie jais naudojasi. Didelis ačiū $dennis$ už šį sudėtingą darbą!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Be to, yra daug smulkių patobulinimų ir klaidų ištaisymų, įskaitant su skambučiais susijusius pagerinimus, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Naujieji metai, naujas pradinės sąrankos langas. Prasidedant 2022-siems, perprojektavome pradinės sąrankos langus.",
+        "description": "Release notes for v5.28"
     }
 }

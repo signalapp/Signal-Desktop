@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ změnili své číslo na nové",
+        "message": "$sender$ změnil své telefonní číslo",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "Soukromí je možné. Signal jej usnadňuje.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Propojit telefon se Signal v počítači",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Nastavení Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Propojená zařízení",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Tlačítko '+'",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Propojit nové zařízení",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
-        "message": "Naskenujte tento kód v aplikaci Signal ve svém telefonu.",
-        "description": "Alt text for the QR code on the device link screen"
+    "Install__scan-this-code": {
+        "message": "Tento kód naskenujte v aplikaci Signal na svém telefonu",
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Na svém telefonu otevřete Signal",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Klepněte na $settings$ a potom na $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Nastavení",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Klepněte na $plusButton$ (Android), nebo na $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "QR kód se nemohl načíst. Zkontrolujte své připojení k internetu a zkuste to znovu. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "Zjistit více",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Název tohoto zařízení uvidíte pod „Spárovaná zařízení“",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Můj počítač",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Název zařízení",
@@ -1371,6 +1417,10 @@
         "message": "Synchronizuji kontakty a skupiny",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Poznámka: Historie chatu nebude synchronizována do tohoto zařízení.",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Připojení k serveru selhalo.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Něco se pokazilo!",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Nastala neočekávaná chyba. Zkuste to prosím znovu.",
         "description": ""
     },
     "installTryAgain": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop nyní nativně podporuje čip M1 společnosti Apple, který se používá v novějších počítačích. Pokud používáte jedno z těchto nových zařízení, aplikace by měla být mnohem svižnější. Pokud nejste, ostatním to přejte. Obrovské díky $dennis$ za jeho skvělou práci!",
+        "message": "Signal Desktop nyní nativně podporuje čip M1 společnosti Apple, který se používá v novějších počítačích. Pokud používáte jedno z těchto nových zařízení, aplikace by měla být mnohem svižnější. Pokud ne, ostatním to přejte. Obrovské díky $dennis$ za jeho skvělou práci!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "K dispozici je také řada drobných vylepšení a oprav chyb, které zajišťují bezproblémový chod aplikace Signal, včetně několika vylepšení souvisejících s voláním.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Nový rok, nová úvodní obrazovka nastavení. Přepracovali jsme obrazovky úvodního nastavení tak akorát na začátek 2022.",
+        "description": "Release notes for v5.28"
     }
 }

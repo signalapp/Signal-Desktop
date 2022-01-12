@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ a changé son numéro pour un nouveau.",
+        "message": "$sender$ a changé de numéro de téléphone",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1331,29 +1331,75 @@
         "message": "La confidentialité est possible. Signal la facilite.",
         "description": "Tagline displayed under 'installWelcome' string on the install page"
     },
-    "linkYourPhone": {
-        "message": "Reliez votre téléphone à Signal Desktop pour ordinateur",
-        "description": "Shown on the front page when the application first starts, above the QR code"
-    },
-    "signalSettings": {
-        "message": "Paramètres de Signal",
-        "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
     "linkedDevices": {
         "message": "Appareils reliés",
         "description": "Used in the guidance to help people find the 'link new device' area of their Signal mobile app"
-    },
-    "plusButton": {
-        "message": "Bouton « + »",
-        "description": "The button used in Signal Android to add a new linked device"
     },
     "linkNewDevice": {
         "message": "Relier un nouvel appareil",
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
-    "LinkScreen__scan-this-code": {
+    "Install__scan-this-code": {
         "message": "Balayez ce code dans l’application Signal sur votre téléphone",
-        "description": "Alt text for the QR code on the device link screen"
+        "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
+    },
+    "Install__instructions__1": {
+        "message": "Ouvrez Signal sur votre téléphone",
+        "description": "Instructions on the device link screen"
+    },
+    "Install__instructions__2": {
+        "message": "Touchez $settings$ puis $linkedDevices$",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "settings": {
+                "content": "$1",
+                "example": "<strong>Settings</strong>"
+            },
+            "linkedDevices": {
+                "content": "$2",
+                "example": "<strong>Linked Devices</strong>"
+            }
+        }
+    },
+    "Install__instructions__2__settings": {
+        "message": "Paramètres",
+        "description": "Part of the 2nd instruction on the device link screen"
+    },
+    "Install__instructions__3": {
+        "message": "Touchez $plusButton$ (Android) ou $linkNewDevice$ (iPhone)",
+        "description": "Instructions on the device link screen",
+        "placeholders": {
+            "plusButton": {
+                "content": "$1",
+                "example": "<PlusButton />"
+            },
+            "linkNewDevice": {
+                "content": "$2",
+                "example": "<strong>Link New Device</strong>"
+            }
+        }
+    },
+    "Install__qr-failed": {
+        "message": "Le code QR n’a pas pu être chargé. Vérifiez votre connexion à Internet puis réessayez. $learnMore$",
+        "description": "Shown on the install screen if the QR code fails to load",
+        "placeholders": {
+            "learnMore": {
+                "content": "$1",
+                "example": "<a>Learn more</a>"
+            }
+        }
+    },
+    "Install__qr-failed__learn-more": {
+        "message": "En apprendre davantage",
+        "description": "Shown on the install screen if the QR code fails to load"
+    },
+    "Install__choose-device-name__description": {
+        "message": "Ce nom apparaîtra sous « Appareils reliés » sur votre téléphone",
+        "description": "The subheader shown on the 'choose device name' screen in the device linking process"
+    },
+    "Install__choose-device-name__placeholder": {
+        "message": "Mon ordinateur",
+        "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
         "message": "Nom de l’appareil ",
@@ -1371,6 +1417,10 @@
         "message": "Synchronisation des contacts et groupes",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
+    "initialSync__subtitle": {
+        "message": "Remarque : l’historique de vos conversations ne sera pas synchronisé avec cet appareil",
+        "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
+    },
     "installConnectionFailed": {
         "message": "Échec de connexion au serveur.",
         "description": "Displayed when we can't connect to the server."
@@ -1385,6 +1435,10 @@
     },
     "installErrorHeader": {
         "message": "Une erreur s’est produite.",
+        "description": ""
+    },
+    "installUnknownError": {
+        "message": "Une erreur inattendue s’est produite. Veuillez réessayer.",
         "description": ""
     },
     "installTryAgain": {
@@ -1424,19 +1478,19 @@
         "description": "Text in the call lobby when you can't join because the call is full"
     },
     "calling__button--video__label": {
-        "message": "Appareil photo",
+        "message": "Caméra",
         "description": "Label under the video button"
     },
     "calling__button--video-disabled": {
-        "message": "L’appareil photo est désactivé",
+        "message": "La caméra est désactivée",
         "description": "Button tooltip label when the camera is disabled"
     },
     "calling__button--video-off": {
-        "message": "Désactiver l’appareil photo",
+        "message": "Désactiver la caméra",
         "description": "Button tooltip label for turning off the camera"
     },
     "calling__button--video-on": {
-        "message": "Activer l’appareil photo",
+        "message": "Activer la caméra",
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
@@ -6180,7 +6234,7 @@
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "La minuterie des messages éphémères sera définie sur $timeValue$ quand vous échanger des messages avec eux.",
+        "message": "La minuterie des messages éphémères sera définie sur $timeValue$ quand vous échangez des messages avec cette personne.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6194,11 +6248,11 @@
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
-        "message": "lire la suite",
+        "message": "Lire la suite",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
-        "message": "Les descriptions de gruope seront visibles aux membres de ce groupe et aux personnes qui ont été invitées.",
+        "message": "Les descriptions de groupe seront visibles aux membres de ce groupe et aux personnes qui ont été invitées.",
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
@@ -6702,7 +6756,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop pour ordinateur supporte désormais nativement la puce M1 d'Apple qui est utilisée dans leurs derniers ordinateurs. Si vous êtes sur un de ces appareils dernier cri, l'appli devrait être bien plus rapide. Sinon, souhaitez la bienvenue à ceux qui le sont. Énormes remerciements à $dennis$ pour ce dur travail !",
+        "message": "Signal Desktop pour ordinateur est désormais optimisé pour la puce M1 d’Apple qui est utilisée dans ses ordinateurs les plus récents. Si vous êtes sur l’un de ces appareils dernier cri, l’appli devrait être beaucoup plus rapide. Sinon, souhaitez chaleureusement la bienvenue aux utilisateurs qui le sont. Un grand merci à $dennis$ pour son travail acharné !",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6718,5 +6772,9 @@
     "WhatsNew__v5.27--2": {
         "message": "Il y a aussi quelques petits ajustements et corrections de bugs pour que Signal tourne bien, y compris plusieurs améliorations sur les appels.",
         "description": "Release notes for v5.27"
+    },
+    "WhatsNew__v5.28--1": {
+        "message": "Nouvelle année, nouvel écran de configuration initiale. Nous avons redessiné les écrans de configuration initiale juste à temps pour 2022.",
+        "description": "Release notes for v5.28"
     }
 }
