@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -84,7 +84,6 @@ const emptySearchResultsGroup = { isLoading: false, results: [] };
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   cantAddContactToGroup: action('cantAddContactToGroup'),
-  canResizeLeftPane: true,
   clearGroupCreationError: action('clearGroupCreationError'),
   clearSearch: action('clearSearch'),
   closeCantAddContactToGroupModal: action('closeCantAddContactToGroupModal'),

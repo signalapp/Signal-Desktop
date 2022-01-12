@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -9,7 +9,6 @@ import type { PropsType as LeftPanePropsType } from '../../components/LeftPane';
 import { LeftPane, LeftPaneMode } from '../../components/LeftPane';
 import type { StateType } from '../reducer';
 import { missingCaseError } from '../../util/missingCaseError';
-import { isAlpha, isBeta } from '../../util/version';
 
 import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
 import {
@@ -168,19 +167,9 @@ const getModeSpecificProps = (
   }
 };
 
-const canResizeLeftPane = () =>
-  window.Signal.RemoteConfig.isEnabled('desktop.internalUser') ||
-  isAlpha(window.getVersion()) ||
-  isBeta(window.getVersion())
-    ? window.Signal.RemoteConfig.isEnabled('desktop.canResizeLeftPane.beta')
-    : window.Signal.RemoteConfig.isEnabled(
-        'desktop.canResizeLeftPane.production'
-      );
-
 const mapStateToProps = (state: StateType) => {
   return {
     modeSpecificProps: getModeSpecificProps(state),
-    canResizeLeftPane: canResizeLeftPane(),
     preferredWidthFromStorage: getPreferredLeftPaneWidth(state),
     selectedConversationId: getSelectedConversationId(state),
     selectedMessageId: getSelectedMessage(state)?.id,

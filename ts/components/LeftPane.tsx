@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
@@ -89,7 +89,6 @@ export type PropsType = {
   selectedConversationId: undefined | string;
   selectedMessageId: undefined | string;
   regionCode: string;
-  canResizeLeftPane: boolean;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
   crashReportCount: number;
@@ -150,7 +149,6 @@ export type PropsType = {
 
 export const LeftPane: React.FC<PropsType> = ({
   cantAddContactToGroup,
-  canResizeLeftPane,
   challengeStatus,
   crashReportCount,
   clearGroupCreationError,
@@ -628,17 +626,15 @@ export const LeftPane: React.FC<PropsType> = ({
       {footerContents && (
         <div className="module-left-pane__footer">{footerContents}</div>
       )}
-      {canResizeLeftPane && (
-        <>
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <div
-            className="module-left-pane__resize-grab-area"
-            onMouseDown={() => {
-              setIsResizing(true);
-            }}
-          />
-        </>
-      )}
+      <>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <div
+          className="module-left-pane__resize-grab-area"
+          onMouseDown={() => {
+            setIsResizing(true);
+          }}
+        />
+      </>
       {challengeStatus !== 'idle' &&
         renderCaptchaDialog({
           onSkip() {
