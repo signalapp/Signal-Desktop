@@ -237,8 +237,8 @@ export async function getFileAndStoreLocally(
     path: attachmentSavedLocally.path,
     width: scaled.width,
     height: scaled.height,
-    screenshot: null,
-    thumbnail: null,
+    screenshot: attachmentSavedLocally.screenshot,
+    thumbnail: attachmentSavedLocally.thumbnail,
     size: attachmentSavedLocally.size,
 
     // url: undefined,

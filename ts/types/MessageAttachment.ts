@@ -177,7 +177,7 @@ export const processNewAttachment = async (attachment: {
 
   const onDiskAttachmentPath = await migrateDataToFileSystem(rotatedAttachment.data);
 
-  const attachmentWithoutData = omit({ ...attachment, path: onDiskAttachmentPath }, 'data');
+  const attachmentWithoutData = omit({ ...attachment, path: onDiskAttachmentPath }, ['data']);
   const finalAttachment = await captureDimensionsAndScreenshot(attachmentWithoutData);
 
   return { ...finalAttachment, size: rotatedAttachment.data.byteLength };

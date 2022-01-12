@@ -193,33 +193,22 @@ type CaptureDimensionType = { contentType: string; path: string };
 
 export const captureDimensionsAndScreenshot = async (
   attachment: CaptureDimensionType
-): Promise<| CaptureDimensionType
-| (CaptureDimensionType & {
+): Promise<CaptureDimensionType & {
+  width?: number;
+  height?: number;
+  thumbnail: {
+    path: string;
+    contentType: string;
     width: number;
     height: number;
-    thumbnail: {
-      path: string;
-      contentType: string;
-      width: number;
-      height: number;
-    };
-  })
-| (CaptureDimensionType & {
+  } | null;
+  screenshot: {
+    path: string;
+    contentType: string;
     width: number;
     height: number;
-    thumbnail: {
-      path: string;
-      contentType: string;
-      width: number;
-      height: number;
-    };
-    screenshot: {
-      path: string;
-      contentType: string;
-      width: number;
-      height: number;
-    };
-  })> => {
+  } | null;
+}> => {
   const { contentType } = attachment;
 
   if (
@@ -227,12 +216,12 @@ export const captureDimensionsAndScreenshot = async (
     (!GoogleChrome.isImageTypeSupported(contentType) &&
       !GoogleChrome.isVideoTypeSupported(contentType))
   ) {
-    return attachment;
+    return { ...attachment, screenshot: null, thumbnail: null };
   }
 
   // If the attachment hasn't been downloaded yet, we won't have a path
   if (!attachment.path) {
-    return attachment;
+    return { ...attachment, screenshot: null, thumbnail: null };
   }
 
   const absolutePath = getAbsoluteAttachmentPath(attachment.path);
@@ -258,6 +247,7 @@ export const captureDimensionsAndScreenshot = async (
           width: THUMBNAIL_SIDE,
           height: THUMBNAIL_SIDE,
         },
+        screenshot: null,
       };
     } catch (error) {
       window.log.error(
@@ -265,7 +255,7 @@ export const captureDimensionsAndScreenshot = async (
         'error processing image; skipping screenshot generation',
         toLogFormat(error)
       );
-      return attachment;
+      return { ...attachment, screenshot: null, thumbnail: null };
     }
   }
 
@@ -312,7 +302,7 @@ export const captureDimensionsAndScreenshot = async (
       'captureDimensionsAndScreenshot: error processing video; skipping screenshot generation',
       toLogFormat(error)
     );
-    return attachment;
+    return { ...attachment, screenshot: null, thumbnail: null };
   } finally {
     if (screenshotObjectUrl) {
       revokeObjectUrl(screenshotObjectUrl);

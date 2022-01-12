@@ -746,6 +746,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       quotePromise,
     ]);
     window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
+
     return {
       body,
       attachments,

@@ -609,6 +609,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async sendMessageJob(message: MessageModel, expireTimer: number | undefined) {
     try {
+
       const uploads = await message.uploadData();
       const { id } = message;
       const destination = this.id;
