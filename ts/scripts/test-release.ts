@@ -66,7 +66,11 @@ const main = async () => {
 
   console.log('Waiting for a first window');
   const window = await app.firstWindow();
-  await window.waitForLoadState();
+
+  console.log('Waiting for app to fully load');
+  await window.waitForSelector(
+    '.App, .app-loading-screen:has-text("Optimizing")'
+  );
 
   console.log('Checking window title');
   assert.strictEqual(await window.title(), packageJson.productName);
