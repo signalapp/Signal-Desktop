@@ -27,8 +27,6 @@ import { StateType } from '../state/reducer';
 import { makeLookup } from '../util';
 import { SessionMainPanel } from './SessionMainPanel';
 import { createStore } from '../state/createStore';
-import { remote } from 'electron';
-import { initializeAttachmentLogic } from '../types/MessageAttachment';
 
 // Workaround: A react component's required properties are filtering up through connect()
 //   https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31363
@@ -77,9 +75,6 @@ export class SessionInboxView extends React.Component<any, State> {
   }
 
   private setupLeftPane() {
-    const userDataPath = remote.app.getPath('userData');
-
-    initializeAttachmentLogic(userDataPath);
     // Here we set up a full redux store with initial state for our LeftPane Root
     const conversations = getConversationController()
       .getConversations()

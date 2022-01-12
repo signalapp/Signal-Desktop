@@ -27,40 +27,15 @@ const DEFAULT_JPEG_QUALITY = 0.85;
 //
 // Documentation for `options` (`LoadImageOptions`):
 // https://github.com/blueimp/JavaScript-Load-Image/tree/v2.18.0#options
-export const autoOrientImage = async (
-  fileOrBlobOrURL: string | File | Blob,
-  options = {}
+export const autoOrientJpegImage = async (
+  fileOrBlobOrURL: string | File | Blob
 ): Promise<string> => {
-  const optionsWithDefaults = {
-    type: 'image/jpeg',
-    quality: DEFAULT_JPEG_QUALITY,
-    ...options,
+  const loadedImage = await loadImage(fileOrBlobOrURL, { orientation: true, canvas: true });
 
-    canvas: true,
-    orientation: true,
-    maxHeight: 4096, // ATTACHMENT_DEFAULT_MAX_SIDE
-    maxWidth: 4096,
-  };
+  const canvas = loadedImage.image as HTMLCanvasElement;
+  const dataURL = canvas.toDataURL(MIME.IMAGE_JPEG, DEFAULT_JPEG_QUALITY);
 
-  return new Promise((resolve, reject) => {
-    loadImage(
-      fileOrBlobOrURL,
-      canvasOrError => {
-        if ((canvasOrError as any).type === 'error') {
-          const error = new Error('autoOrientImage: Failed to process image');
-          (error as any).cause = canvasOrError;
-          reject(error);
-          return;
-        }
-
-        const canvas = canvasOrError as HTMLCanvasElement;
-        const dataURL = canvas.toDataURL(optionsWithDefaults.type, optionsWithDefaults.quality);
-
-        resolve(dataURL);
-      },
-      optionsWithDefaults
-    );
-  });
+  return dataURL;
 };
 
 // Returns true if `rawAttachment` is a valid attachment based on our current schema.
@@ -87,7 +62,7 @@ const INVALID_CHARACTERS_PATTERN = new RegExp(
 // Upgrade steps
 // NOTE: This step strips all EXIF metadata from JPEG images as
 // part of re-encoding the image:
-export const autoOrientJPEG = async (attachment: {
+export const autoOrientJPEGAttachment = async (attachment: {
   contentType: string;
   data: ArrayBuffer;
 }): Promise<{ contentType: string; data: ArrayBuffer; shouldDeleteDigest: boolean }> => {
@@ -101,7 +76,7 @@ export const autoOrientJPEG = async (attachment: {
   }
 
   const dataBlob = arrayBufferToBlob(attachment.data, attachment.contentType);
-  const newDataBlob = dataURLToBlob(await autoOrientImage(dataBlob));
+  const newDataBlob = dataURLToBlob(await autoOrientJpegImage(dataBlob));
   const newDataArrayBuffer = await blobToArrayBuffer(newDataBlob);
 
   // IMPORTANT: We overwrite the existing `data` `ArrayBuffer` losing the original
@@ -172,28 +147,23 @@ export const _replaceUnicodeOrderOverridesSync = (attachment: any) => {
 export const hasData = (attachment: any) =>
   attachment.data instanceof ArrayBuffer || ArrayBuffer.isView(attachment.data);
 
-//      loadData :: (RelativePath -> IO (Promise ArrayBuffer))
-//                  Attachment ->
-//                  IO (Promise Attachment)
-export const loadData = () => {
-  return async (attachment: any) => {
-    if (!isValid(attachment)) {
-      throw new TypeError("'attachment' is not valid");
-    }
+export const loadData = async (attachment: any) => {
+  if (!isValid(attachment)) {
+    throw new TypeError("'attachment' is not valid");
+  }
 
-    const isAlreadyLoaded = hasData(attachment);
+  const isAlreadyLoaded = hasData(attachment);
 
-    if (isAlreadyLoaded) {
-      return attachment;
-    }
+  if (isAlreadyLoaded) {
+    return attachment;
+  }
 
-    if (!isString(attachment.path)) {
-      throw new TypeError("'attachment.path' is required");
-    }
+  if (!isString(attachment.path)) {
+    throw new TypeError("'attachment.path' is required");
+  }
 
-    const data = await readAttachmentData(attachment.path);
-    return { ...attachment, data };
-  };
+  const data = await readAttachmentData(attachment.path);
+  return { ...attachment, data };
 };
 
 //      deleteData :: (RelativePath -> IO Unit)

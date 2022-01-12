@@ -1,3 +1,4 @@
+import { remote } from 'electron';
 import { isArrayBuffer, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
@@ -7,7 +8,7 @@ import {
   getPath,
 } from '../attachments/attachments';
 import {
-  autoOrientJPEG,
+  autoOrientJPEGAttachment,
   captureDimensionsAndScreenshot,
   deleteData,
   loadData,
@@ -16,7 +17,7 @@ import {
 // tslint:disable: prefer-object-spread
 
 // FIXME audric
-// upgrade: exports._mapAttachments(autoOrientJPEG),
+// upgrade: exports._mapAttachments(autoOrientJPEGAttachment),
 // upgrade: exports._mapAttachments(replaceUnicodeOrderOverrides),
 // upgrade: _mapAttachments(migrateDataToFileSystem),
 // upgrade: ._mapQuotedAttachments(migrateDataToFileSystem),
@@ -86,7 +87,8 @@ let internalDeleteOnDisk: ((relativePath: string) => Promise<void>) | undefined;
 let internalWriteNewAttachmentData: ((arrayBuffer: ArrayBuffer) => Promise<string>) | undefined;
 
 // userDataPath must be app.getPath('userData');
-export function initializeAttachmentLogic(userDataPath: string) {
+export function initializeAttachmentLogic() {
+  const userDataPath = remote.app.getPath('userData');
   if (attachmentsPath) {
     throw new Error('attachmentsPath already initialized');
   }
@@ -108,7 +110,7 @@ export const getAttachmentPath = () => {
   return attachmentsPath;
 };
 
-export const loadAttachmentData = loadData();
+export const loadAttachmentData = loadData;
 
 export const loadPreviewData = async (preview: any) => {
   if (!preview || !preview.length) {
@@ -160,11 +162,13 @@ export const processNewAttachment = async (attachment: {
   path?: string;
   isRaw?: boolean;
 }) => {
-  const rotatedData = await autoOrientJPEG(attachment);
+  // this operation might change the size (as we might print the content to a canvas and get the data back)
+  const rotatedData = await autoOrientJPEGAttachment(attachment);
   const rotatedAttachment = {
     ...attachment,
     contentType: rotatedData.contentType,
     data: rotatedData.data,
+
     digest: attachment.digest as string | undefined,
   };
   if (rotatedData.shouldDeleteDigest) {
@@ -176,7 +180,7 @@ export const processNewAttachment = async (attachment: {
   const attachmentWithoutData = omit({ ...attachment, path: onDiskAttachmentPath }, 'data');
   const finalAttachment = await captureDimensionsAndScreenshot(attachmentWithoutData);
 
-  return finalAttachment;
+  return { ...finalAttachment, size: rotatedAttachment.data.byteLength };
 };
 
 export const readAttachmentData = async (relativePath: string): Promise<ArrayBufferLike> => {

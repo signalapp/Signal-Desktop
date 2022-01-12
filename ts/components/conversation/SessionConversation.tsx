@@ -33,14 +33,18 @@ import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { AttachmentUtil, GoogleChrome } from '../../util';
+import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
-import { autoOrientImage } from '../../types/attachments/migrations';
-import { makeVideoScreenshot } from '../../types/attachments/VisualAttachment';
+import { autoOrientJpegImage } from '../../types/attachments/migrations';
+import {
+  makeImageThumbnailBuffer,
+  makeVideoScreenshot,
+  THUMBNAIL_CONTENT_TYPE,
+} from '../../types/attachments/VisualAttachment';
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 // tslint:disable: jsx-curly-spacing
@@ -338,80 +342,7 @@ export class SessionConversation extends React.Component<Props, State> {
       return;
     }
 
-    const renderVideoPreview = async () => {
-      const objectUrl = URL.createObjectURL(file);
-      try {
-        const type = 'image/png';
-
-        const thumbnail = await makeVideoScreenshot({
-          objectUrl,
-          contentType: type,
-        });
-        const data = await blobToArrayBuffer(thumbnail);
-        const url = window.Signal.Util.arrayBufferToObjectURL({
-          data,
-          type,
-        });
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            fileName,
-            contentType,
-            videoUrl: objectUrl,
-            url,
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
-      } catch (error) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-
-    const renderImagePreview = async () => {
-      if (!MIME.isJPEG(contentType)) {
-        const urlImage = URL.createObjectURL(file);
-        if (!urlImage) {
-          throw new Error('Failed to create object url for image!');
-        }
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            fileName,
-            contentType,
-            url: urlImage,
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
-        return;
-      }
-
-      const url = await autoOrientImage(file);
-
-      this.addAttachments([
-        {
-          file,
-          size: file.size,
-          fileName,
-          contentType,
-          url,
-          isVoiceMessage: false,
-          fileSize: null,
-          screenshot: null,
-          thumbnail: null,
-        },
-      ]);
-    };
-
     let blob = null;
-    console.warn('typeof file: ', typeof file);
 
     try {
       blob = await AttachmentUtil.autoScale({
@@ -439,9 +370,11 @@ export class SessionConversation extends React.Component<Props, State> {
         // this is just for us, for the list of attachments we are sending
         // the files are scaled down under getFiles()
 
-        await renderImagePreview();
+        const attachmentWithPreview = await renderImagePreview(contentType, file, fileName);
+        this.addAttachments([attachmentWithPreview]);
       } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
-        await renderVideoPreview();
+        const attachmentWithVideoPreview = await renderVideoPreview(contentType, file, fileName);
+        this.addAttachments([attachmentWithVideoPreview]);
       } else {
         this.addAttachments([
           {
@@ -542,3 +475,79 @@ export class SessionConversation extends React.Component<Props, State> {
     window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
 }
+
+const renderVideoPreview = async (contentType: string, file: File, fileName: string) => {
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const type = THUMBNAIL_CONTENT_TYPE;
+
+    const thumbnail = await makeVideoScreenshot({
+      objectUrl,
+      contentType: type,
+    });
+    const data = await blobToArrayBuffer(thumbnail);
+    const url = arrayBufferToObjectURL({
+      data,
+      type,
+    });
+    return {
+      file,
+      size: file.size,
+      fileName,
+      contentType,
+      videoUrl: objectUrl,
+      url,
+      isVoiceMessage: false,
+      fileSize: null,
+      screenshot: null,
+      thumbnail: null,
+    };
+  } catch (error) {
+    URL.revokeObjectURL(objectUrl);
+    throw error;
+  }
+};
+
+const renderImagePreview = async (contentType: string, file: File, fileName: string) => {
+  if (!MIME.isJPEG(contentType)) {
+    const urlImage = URL.createObjectURL(file);
+    if (!urlImage) {
+      throw new Error('Failed to create object url for image!');
+    }
+    return {
+      file,
+      size: file.size,
+      fileName,
+      contentType,
+      url: urlImage,
+      isVoiceMessage: false,
+      fileSize: null,
+      screenshot: null,
+      thumbnail: null,
+    };
+  }
+
+  // orient the image correctly based on the EXIF data, if needed
+  const orientedImageUrl = await autoOrientJpegImage(file);
+
+  const thumbnailBuffer = await makeImageThumbnailBuffer({
+    objectUrl: orientedImageUrl,
+    contentType,
+  });
+  const url = arrayBufferToObjectURL({
+    data: thumbnailBuffer,
+    type: THUMBNAIL_CONTENT_TYPE,
+  });
+
+  return {
+    file,
+    size: file.size,
+    fileName,
+    contentType,
+    url,
+    isVoiceMessage: false,
+    fileSize: null,
+    screenshot: null,
+    thumbnail: null,
+  };
+};

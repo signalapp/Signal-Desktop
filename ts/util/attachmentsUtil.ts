@@ -157,10 +157,6 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
     blob.size <= maxSize &&
     !makeSquare
   ) {
-    readAndResizedBlob = dataURLToBlob(
-      (canvas.image as HTMLCanvasElement).toDataURL('image/jpeg', 1)
-    );
-
     // the canvas has a size of whatever was given by the caller of autoscale().
     // so we have to return those measures as the loaded file has now those measures.
     return {
@@ -223,6 +219,7 @@ export async function getFileAndStoreLocally(
     maxMeasurements
   );
 
+  // this operation might change the file size, so be sure to rely on it on return here.
   const attachmentSavedLocally = await processNewAttachment({
     data: await scaled.blob.arrayBuffer(),
     contentType: attachment.contentType,
@@ -242,7 +239,7 @@ export async function getFileAndStoreLocally(
     height: scaled.height,
     screenshot: null,
     thumbnail: null,
-    size: scaled.blob.size,
+    size: attachmentSavedLocally.size,
 
     // url: undefined,
     flags: attachmentFlags || undefined,

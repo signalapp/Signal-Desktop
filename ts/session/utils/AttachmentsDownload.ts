@@ -13,7 +13,7 @@ import {
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
-import { processNewAttachment } from '../../types/MessageAttachment';
+import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
 
 // this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -350,3 +350,5 @@ function _replaceAttachment(object: any, key: any, newAttachment: any, logPrefix
   // eslint-disable-next-line no-param-reassign
   object[key] = newAttachment;
 }
+
+export const initAttachmentPaths = initializeAttachmentLogic;

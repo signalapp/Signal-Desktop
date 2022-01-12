@@ -879,9 +879,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return [];
     }
     // scale them down
-    const files = await Promise.all(
-      stagedAttachments.map(attachment => AttachmentUtil.getFileAndStoreLocally(attachment))
-    );
+    const files = await Promise.all(stagedAttachments.map(AttachmentUtil.getFileAndStoreLocally));
     window.inboxStore?.dispatch(
       removeAllStagedAttachmentsInConversation({
         conversationKey: this.props.selectedConversationKey,
@@ -904,7 +902,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const audioAttachment: StagedAttachmentType = {
       file: new File([], 'session-audio-message'), // this is just to emulate a file for the staged attachment type of that audio file
       contentType: MIME.AUDIO_MP3,
-      size: audioBlob.size,
+      size: savedAudioFile.size,
       fileSize: null,
       screenshot: null,
       fileName: 'session-audio-message',

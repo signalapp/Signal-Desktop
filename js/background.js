@@ -144,7 +144,6 @@
       shutdown: async () => {
         // Stop background processing
         window.libsession.Utils.AttachmentDownloads.stop();
-
         // Stop processing incoming messages
         // FIXME audric stop polling opengroupv2 and swarm nodes
 
@@ -171,6 +170,8 @@
     window.Events.setThemeSetting(newThemeSetting);
 
     try {
+      window.libsession.Utils.AttachmentDownloads.initAttachmentPaths();
+
       await Promise.all([
         window.getConversationController().load(),
         BlockedNumberController.load(),
