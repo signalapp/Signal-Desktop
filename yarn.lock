@@ -1291,50 +1291,51 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
-"@react-spring/animated@~9.2.6-beta.0":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.2.6.tgz#58f30fb75d8bfb7ccbc156cfd6b974a8f3dfd54e"
-  integrity sha512-xjL6nmixYNDvnpTs1FFMsMfSC0tURwPCU3b2jWNriYGLfwZ7c/TcyaEZA7yiNnmdFnuR3f3Z27AqIgaFC083Cw==
+"@react-spring/animated@~9.4.0":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.4.1.tgz#6b5e57725408ba8347f098a5111a9fb4de74a81b"
+  integrity sha512-uAJkcrSlpg8uSe8zy7eJcDdNpI5QvRXrZUKhn5dlGAPk3psgY5qj6pahzB0k5NZZQ27ls8Z5Nt4VKhGaXPJNDQ==
   dependencies:
-    "@react-spring/shared" "~9.2.6-beta.0"
-    "@react-spring/types" "~9.2.6-beta.0"
+    "@react-spring/shared" "~9.4.0"
+    "@react-spring/types" "~9.4.0"
 
-"@react-spring/core@~9.2.6-beta.0":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/core/-/core-9.2.6.tgz#ae22338fe55d070caf03abb4293b5519ba620d93"
-  integrity sha512-uPHUxmu+w6mHJrfQTMtmGJ8iZEwiVxz9kH7dRyk69bkZJt9z+w0Oj3UF4J3VcECZsbm3HRhN2ogXSAaqGjwhQw==
+"@react-spring/core@~9.4.0":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/core/-/core-9.4.1.tgz#0658611dd961d745ac9cfc9dde5e86f2895e182a"
+  integrity sha512-sXQmGg4wNeyoVZ/LdEF01xtzQKZtLIyFDX03hoa0oa9VTgLNTVSbVXD9q2xsH8HtWpY4OFPTi/9Noi93gjnYyg==
   dependencies:
-    "@react-spring/animated" "~9.2.6-beta.0"
-    "@react-spring/shared" "~9.2.6-beta.0"
-    "@react-spring/types" "~9.2.6-beta.0"
+    "@react-spring/animated" "~9.4.0"
+    "@react-spring/rafz" "~9.4.0"
+    "@react-spring/shared" "~9.4.0"
+    "@react-spring/types" "~9.4.0"
 
-"@react-spring/rafz@~9.2.6-beta.0":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/rafz/-/rafz-9.2.6.tgz#d97484003875bf5fb5e6ec22dee97cc208363e48"
-  integrity sha512-62SivLKEpo7EfHPkxO5J3g9Cr9LF6+1A1RVOMJhkcpEYtbdbmma/d63Xp8qpMPEpk7uuWxaTb6jjyxW33pW3sg==
+"@react-spring/rafz@~9.4.0":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/rafz/-/rafz-9.4.1.tgz#66ed8eadf5c1784d89b210f443fd2ec9fdb59fb6"
+  integrity sha512-R/mNOQ4axraWsL/jwzoaqfeX6RwUODg3WOGweL8zYbHHheRqQV+QwnhGmDATepBZ1H3UUulhXvOqkzWzjnpuQQ==
 
-"@react-spring/shared@~9.2.6-beta.0":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/shared/-/shared-9.2.6.tgz#2c84e62cc0cfbbbbeb5546acd46c1f4b248bc562"
-  integrity sha512-Qrm9fopKG/RxZ3Rw+4euhrpnB3uXSyiON9skHbcBfmkkzagpkUR66MX1YLrhHw0UchcZuSDnXs0Lonzt1rpWag==
+"@react-spring/shared@~9.4.0":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/shared/-/shared-9.4.1.tgz#6c688cbe093ada7f6cd8ed2b9d28a807b6665ede"
+  integrity sha512-7atTQOhEQmw5UEYbb5yk7YEaf11AcRF7UISfAmr9FJ2FJD4VUVCn1R4V78omiFiRvnU6qI3GRhkRnIvYM8aAZw==
   dependencies:
-    "@react-spring/rafz" "~9.2.6-beta.0"
-    "@react-spring/types" "~9.2.6-beta.0"
+    "@react-spring/rafz" "~9.4.0"
+    "@react-spring/types" "~9.4.0"
 
-"@react-spring/types@~9.2.6-beta.0":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.2.6.tgz#f60722fcf9f8492ae16d0bdc47f0ea3c2a16d2cf"
-  integrity sha512-l7mCw182DtDMnCI8CB9orgTAEoFZRtdQ6aS6YeEAqYcy3nQZPmPggIHH9DxyLw7n7vBPRSzu9gCvUMgXKpTflg==
+"@react-spring/types@~9.4.0":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.4.1.tgz#93a203e5b922362e6643b95aff0989dd1a33b77b"
+  integrity sha512-eZmlFRc+XkY/HJi4RswLkIHH0nKQkqKRHPUqnseffcBuZ5FNXKDUmNnLUpqkrCpl746QCFVQtI5QptLklDATfQ==
 
-"@react-spring/web@9.2.6":
-  version "9.2.6"
-  resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.2.6.tgz#c4fba69e1b1b43bd1d6a62346530cfb07f2be09b"
-  integrity sha512-0HkRsEYR/CO3Uw46FWDWaF2wg2rUXcWE2R9AoZXthEYLUn5w9uE1mf2Jel7BxBxWGQ73owkqSQv+klA1Hb+ViQ==
+"@react-spring/web@9.4.1":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@react-spring/web/-/web-9.4.1.tgz#dd8560af6834a9c41cd7061bc98721e9f64a8557"
+  integrity sha512-ajlGJl0Zqa3idhZw0KL5chP8AIn4wPHpDY7WjtWaWjVZSZRSBAeHmfqNLtAGCjazeO/Q6zmt6wdGs8bX8q42rQ==
   dependencies:
-    "@react-spring/animated" "~9.2.6-beta.0"
-    "@react-spring/core" "~9.2.6-beta.0"
-    "@react-spring/shared" "~9.2.6-beta.0"
-    "@react-spring/types" "~9.2.6-beta.0"
+    "@react-spring/animated" "~9.4.0"
+    "@react-spring/core" "~9.4.0"
+    "@react-spring/shared" "~9.4.0"
+    "@react-spring/types" "~9.4.0"
 
 "@signalapp/signal-client@0.11.1":
   version "0.11.1"
