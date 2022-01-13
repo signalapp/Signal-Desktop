@@ -92,8 +92,10 @@ async function createOrUpdateProfile(
         }
         newProfile.avatar = path;
       } catch (e) {
-        window.log.warn('Failed to download attachment at', profile.profilePicture);
-        return;
+        window.log.warn(
+          `Failed to download attachment at ${profile.profilePicture}. Maybe it expired? ${e.message}`
+        );
+        // do not return here, we still want to update the display name even if the avatar failed to download
       }
     }
   } else if (profileKey) {
