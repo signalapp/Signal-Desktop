@@ -3,15 +3,17 @@ import classNames from 'classnames';
 
 import { Image } from './Image';
 
-import { AttachmentType, isImageAttachment } from '../../types/Attachment';
 import { SessionSpinner } from '../basic/SessionSpinner';
+import { StagedLinkPreviewImage } from './composition/CompositionBox';
+import { isImage } from '../../types/MIME';
+import { fromArrayBufferToBase64 } from '../../session/utils/String';
 
 type Props = {
   isLoaded: boolean;
   title: null | string;
   url: null | string;
   domain: null | string;
-  image?: AttachmentType;
+  image?: StagedLinkPreviewImage;
 
   onClose: (url: string) => void;
 };
@@ -19,12 +21,16 @@ type Props = {
 export const StagedLinkPreview = (props: Props) => {
   const { isLoaded, onClose, title, image, domain, url } = props;
 
-  const isImage = image && isImageAttachment(image);
+  const isContentTypeImage = image && isImage(image.contentType);
   if (isLoaded && !(title && domain)) {
     return null;
   }
 
   const isLoading = !isLoaded;
+
+  const dataToRender = image?.data
+    ? `data:image/jpeg;base64, ${fromArrayBufferToBase64(image?.data)}`
+    : '';
 
   return (
     <div
@@ -34,15 +40,15 @@ export const StagedLinkPreview = (props: Props) => {
       )}
     >
       {isLoading ? <SessionSpinner loading={isLoading} /> : null}
-      {isLoaded && image && isImage ? (
+      {isLoaded && image && isContentTypeImage ? (
         <div className="module-staged-link-preview__icon-container">
           <Image
             alt={window.i18n('stagedPreviewThumbnail', [domain || ''])}
             softCorners={true}
             height={72}
             width={72}
-            url={image.url}
-            attachment={image}
+            url={dataToRender}
+            attachment={image as any}
           />
         </div>
       ) : null}

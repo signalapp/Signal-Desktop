@@ -1,5 +1,5 @@
 import { remote } from 'electron';
-import { isArrayBuffer, isUndefined, omit } from 'lodash';
+import { isArrayBuffer, isUndefined, omit, isEmpty } from 'lodash';
 import {
   createAbsolutePathGetter,
   createDeleter,
@@ -112,46 +112,52 @@ export const getAttachmentPath = () => {
 
 export const loadAttachmentData = loadData;
 
-export const loadPreviewData = async (preview: any) => {
-  if (!preview || !preview.length) {
+export const loadPreviewData = async (preview: any): Promise<Array<any>> => {
+  if (!preview || !preview.length || isEmpty(preview[0])) {
     return [];
   }
 
-  return Promise.all(
-    preview.map(async (item: any) => {
-      if (!item.image) {
-        return item;
-      }
+  const firstPreview = preview[0];
+  if (!firstPreview.image) {
+    return [firstPreview];
+  }
 
-      return {
-        ...item,
-        image: await loadAttachmentData(item.image),
-      };
-    })
-  );
+  return [
+    {
+      ...firstPreview,
+      image: await loadAttachmentData(firstPreview.image),
+    },
+  ];
 };
 
 export const loadQuoteData = async (quote: any) => {
   if (!quote) {
     return null;
   }
+  console.warn('loadQuoteData', quote);
+
+  if (!quote.attachments?.length || isEmpty(quote.attachments[0])) {
+    return quote;
+  }
+
+  const quotedFirstAttachment = await quote.attachments[0];
+
+  const { thumbnail } = quotedFirstAttachment;
+
+  if (!thumbnail || !thumbnail.path) {
+    return {
+      ...quote,
+      attachments: [quotedFirstAttachment],
+    };
+  }
+  const quotedAttachmentWithThumbnail = {
+    ...quotedFirstAttachment,
+    thumbnail: await loadAttachmentData(thumbnail),
+  };
 
   return {
     ...quote,
-    attachments: await Promise.all(
-      (quote.attachments || []).map(async (attachment: any) => {
-        const { thumbnail } = attachment;
-
-        if (!thumbnail || !thumbnail.path) {
-          return attachment;
-        }
-
-        return {
-          ...attachment,
-          thumbnail: await loadAttachmentData(thumbnail),
-        };
-      })
-    ),
+    attachments: [quotedAttachmentWithThumbnail],
   };
 };
 

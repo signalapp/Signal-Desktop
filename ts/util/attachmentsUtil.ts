@@ -95,6 +95,10 @@ export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
   );
 }
 
+/**
+ * Auto scale an attachment to get a thumbnail from it. We consider that a thumbnail is currently at most 200 ko, is a square and has a maxSize of THUMBNAIL_SIDE
+ * @param attachment the attachment to auto scale
+ */
 export async function autoScaleForThumbnail<T extends { contentType: string; blob: Blob }>(
   attachment: T
 ) {
@@ -218,6 +222,24 @@ export type StagedAttachmentImportedType = Omit<
   'file' | 'url' | 'fileSize'
 > & { flags?: number };
 
+/**
+ * This is the type of the image of a link preview once it was saved in the attachment folder
+ */
+export type StagedImagePreviewImportedType = Pick<
+  StagedAttachmentType,
+  'contentType' | 'path' | 'size' | 'width' | 'height'
+>;
+
+/**
+ * This is the type of a complete preview imported in the app, hence with the image being a StagedImagePreviewImportedType.
+ * This is the one to be used in uploadData and which should be saved in the database message models
+ */
+export type StagedPreviewImportedType = {
+  url: string;
+  title: string;
+  image?: StagedImagePreviewImportedType;
+};
+
 export async function getFileAndStoreLocally(
   attachment: StagedAttachmentType
 ): Promise<StagedAttachmentImportedType | null> {
@@ -262,6 +284,35 @@ export async function getFileAndStoreLocally(
 
     // url: undefined,
     flags: attachmentFlags || undefined,
+  };
+}
+
+export async function getFileAndStoreLocallyImageBuffer(imageBuffer: ArrayBuffer) {
+  if (!imageBuffer || !imageBuffer.byteLength) {
+    return null;
+  }
+
+  const contentType = imageType(new Uint8Array(imageBuffer))?.mime || IMAGE_UNKNOWN;
+
+  const blob = new Blob([imageBuffer], { type: contentType });
+
+  const scaled = await autoScaleForThumbnail({
+    contentType,
+    blob,
+  });
+
+  // this operation might change the file size, so be sure to rely on it on return here.
+  const attachmentSavedLocally = await processNewAttachment({
+    data: await scaled.blob.arrayBuffer(),
+    contentType: scaled.contentType,
+  });
+
+  return {
+    contentType: scaled.contentType,
+    path: attachmentSavedLocally.path,
+    width: scaled.width,
+    height: scaled.height,
+    size: attachmentSavedLocally.size,
   };
 }
 

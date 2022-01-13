@@ -6,7 +6,7 @@ import { arrayBufferFromFile } from '../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
 import { StagedLinkPreview } from './StagedLinkPreview';
-import { getImageDimensions, THUMBNAIL_SIDE } from '../../types/attachments/VisualAttachment';
+import { getImageDimensions } from '../../types/attachments/VisualAttachment';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;
@@ -62,15 +62,12 @@ export const getPreview = async (
 
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
-      const withBlob = await AttachmentUtil.autoScale(
-        {
-          contentType: fullSizeImage.contentType,
-          blob: new Blob([fullSizeImage.data], {
-            type: fullSizeImage.contentType,
-          }),
-        },
-        { maxSide: THUMBNAIL_SIDE, maxSize: 100 * 1000 } // this is a preview image. No need for it to be crazy big. 100k is big enough
-      );
+      const withBlob = await AttachmentUtil.autoScaleForThumbnail({
+        contentType: fullSizeImage.contentType,
+        blob: new Blob([fullSizeImage.data], {
+          type: fullSizeImage.contentType,
+        }),
+      });
 
       const data = await arrayBufferFromFile(withBlob.blob);
       objectUrl = URL.createObjectURL(withBlob.blob);
@@ -115,7 +112,7 @@ export const SessionStagedLinkPreview = (props: StagedLinkPreviewProps) => {
       title={props.title}
       domain={props.domain}
       url={props.url}
-      image={props.image as any}
+      image={props.image}
     />
   );
 };
