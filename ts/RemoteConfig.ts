@@ -14,6 +14,7 @@ export type ConfigKeyType =
   | 'desktop.groupCalling'
   | 'desktop.gv2'
   | 'desktop.internalUser'
+  | 'desktop.messageCleanup'
   | 'desktop.mandatoryProfileSharing'
   | 'desktop.mediaQuality.levels'
   | 'desktop.messageRequests'

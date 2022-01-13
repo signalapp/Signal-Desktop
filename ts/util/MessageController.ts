@@ -6,6 +6,7 @@ import * as durations from './durations';
 import { map, filter } from './iterables';
 import { isNotNil } from './isNotNil';
 import type { MessageAttributesType } from '../model-types.d';
+import { isEnabled } from '../RemoteConfig';
 
 const FIVE_MINUTES = 5 * durations.MINUTE;
 
@@ -125,6 +126,9 @@ export class MessageController {
   }
 
   startCleanupInterval(): NodeJS.Timeout | number {
-    return setInterval(this.cleanup.bind(this), durations.HOUR);
+    return setInterval(
+      this.cleanup.bind(this),
+      isEnabled('desktop.messageCleanup') ? FIVE_MINUTES : durations.HOUR
+    );
   }
 }
