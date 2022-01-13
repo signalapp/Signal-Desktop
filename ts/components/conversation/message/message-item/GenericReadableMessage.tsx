@@ -56,7 +56,8 @@ function useIsExpired(props: ExpiringProps) {
   const dispatch = useDispatch();
 
   const [isExpired] = useState(isExpiredProps);
-  async function checkExpired() {
+
+  const checkExpired = useCallback(async () => {
     const now = Date.now();
 
     if (!expirationTimestamp || !expirationLength) {
@@ -76,10 +77,13 @@ function useIsExpired(props: ExpiringProps) {
         convo?.updateLastMessage();
       }
     }
-  }
+  }, [expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
 
-  const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
-  const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+  let checkFrequency: number | null = null;
+  if (expirationLength) {
+    const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
+    checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+  }
 
   useEffect(() => {
     void checkExpired();
@@ -171,22 +175,26 @@ export const GenericReadableMessage = (props: Props) => {
       key={`readable-message-${messageId}`}
     >
       <MessageAvatar messageId={messageId} />
-      <ExpireTimer
-        isCorrectSide={!isIncoming}
-        expirationLength={expirationLength || 0}
-        expirationTimestamp={expirationTimestamp || null}
-      />
+      {expirationLength && expirationTimestamp && (
+        <ExpireTimer
+          isCorrectSide={!isIncoming}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+        />
+      )}
       <MessageContentWithStatuses
         ctxMenuID={props.ctxMenuID}
         messageId={messageId}
         onQuoteClick={props.onQuoteClick}
         isDetailView={isDetailView}
       />
-      <ExpireTimer
-        isCorrectSide={isIncoming}
-        expirationLength={expirationLength || 0}
-        expirationTimestamp={expirationTimestamp || null}
-      />
+      {expirationLength && expirationTimestamp && (
+        <ExpireTimer
+          isCorrectSide={isIncoming}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+        />
+      )}
     </ReadableMessage>
   );
 };
