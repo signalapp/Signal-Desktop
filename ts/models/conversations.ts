@@ -1753,7 +1753,10 @@ export class ConversationModel extends window.Backbone
       id: this.id,
       uuid: this.get('uuid'),
       e164: this.get('e164'),
-      username: this.get('username'),
+
+      // We had previously stored `null` instead of `undefined` in some cases. We should
+      //   be able to remove this `dropNull` once usernames have gone to production.
+      username: dropNull(this.get('username')),
 
       about: this.getAboutText(),
       aboutText: this.get('about'),

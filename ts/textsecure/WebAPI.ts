@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-param-reassign */
@@ -38,7 +38,7 @@ import type { SocketStatus } from '../types/SocketStatus';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
 import type { UUID, UUIDStringType } from '../types/UUID';
-import { UUIDKind } from '../types/UUID';
+import { isValidUuid, UUIDKind } from '../types/UUID';
 import * as Bytes from '../Bytes';
 import {
   constantTimeEqual,
@@ -1265,12 +1265,25 @@ export function initialize({
       return `identity=${value}`;
     }
 
-    async function whoami() {
-      return (await _ajax({
+    async function whoami(): Promise<WhoamiResultType> {
+      const response = await _ajax({
         call: 'whoami',
         httpType: 'GET',
         responseType: 'json',
-      })) as WhoamiResultType;
+      });
+
+      if (!isRecord(response)) {
+        return {};
+      }
+
+      return {
+        uuid: isValidUuid(response.uuid) ? response.uuid : undefined,
+        pni: isValidUuid(response.pni) ? response.pni : undefined,
+        number:
+          typeof response.number === 'string' ? response.number : undefined,
+        username:
+          typeof response.username === 'string' ? response.username : undefined,
+      };
     }
 
     async function sendChallengeResponse(challengeResponse: ChallengeType) {
