@@ -472,9 +472,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (status) {
       props.status = status;
     }
-    const attachmentsProps = attachments
-      .filter((attachment: any) => !attachment.error)
-      .map((attachment: any) => this.getPropsForAttachment(attachment));
+
+    const attachmentsProps = attachments.map(this.getPropsForAttachment);
     if (attachmentsProps && attachmentsProps.length) {
       props.attachments = attachmentsProps;
     }
@@ -615,6 +614,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const isVoiceMessageBool =
       // tslint:disable-next-line: no-bitwise
       Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
+
     return {
       id,
       contentType,

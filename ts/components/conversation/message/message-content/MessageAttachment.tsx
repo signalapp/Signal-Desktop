@@ -130,7 +130,7 @@ export const MessageAttachment = (props: Props) => {
         />
       </div>
     );
-  } else if (!firstAttachment.pending && isAudio(attachments)) {
+  } else if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
     return (
       <div
         role="main"

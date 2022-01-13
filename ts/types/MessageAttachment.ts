@@ -1,5 +1,5 @@
 import { remote } from 'electron';
-import { isArrayBuffer, isUndefined, omit, isEmpty } from 'lodash';
+import { isArrayBuffer, isEmpty, isUndefined, omit } from 'lodash';
 import {
   createAbsolutePathGetter,
   createDeleter,

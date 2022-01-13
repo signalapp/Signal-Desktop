@@ -145,6 +145,7 @@ export type PropsForAttachment = {
   isVoiceMessage: boolean;
   pending: boolean;
   fileName: string;
+  error?: number; // if the download somhehow failed, this will be set to true and be 0-1 once saved in the db
   screenshot: {
     contentType: string;
     width: number;

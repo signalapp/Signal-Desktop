@@ -8,7 +8,6 @@ import {
   removeAttachmentDownloadJob,
   resetAttachmentDownloadPending,
   saveAttachmentDownloadJob,
-  saveMessage,
   setAttachmentDownloadJobPending,
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
@@ -197,7 +196,7 @@ async function _runJob(job: any) {
         await _finishJob(found, id);
         found = await getMessageById(messageId);
 
-        await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+        _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
         return;
       }
@@ -213,7 +212,7 @@ async function _runJob(job: any) {
     });
     found = await getMessageById(messageId);
 
-    await _addAttachmentToMessage(found, upgradedAttachment, { type, index });
+    _addAttachmentToMessage(found, upgradedAttachment, { type, index });
 
     await _finishJob(found, id);
   } catch (error) {
@@ -227,8 +226,8 @@ async function _runJob(job: any) {
       );
       found = await getMessageById(messageId);
 
+      _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
       await _finishJob(found || null, id);
-      await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
       return;
     }
@@ -254,7 +253,6 @@ async function _runJob(job: any) {
 
 async function _finishJob(message: MessageModel | null, id: string) {
   if (message) {
-    await saveMessage(message.attributes);
     const conversation = message.getConversation();
     if (conversation) {
       await message.commit();
@@ -275,11 +273,12 @@ function _markAttachmentAsError(attachment: any) {
   return {
     ...omit(attachment, ['key', 'digest', 'id']),
     error: true,
+    pending: false,
   };
 }
 
 // tslint:disable-next-line: cyclomatic-complexity
-async function _addAttachmentToMessage(
+function _addAttachmentToMessage(
   message: MessageModel | null | undefined,
   attachment: any,
   { type, index }: any
@@ -298,6 +297,7 @@ async function _addAttachmentToMessage(
       );
     }
     _replaceAttachment(attachments, index, attachment, logPrefix);
+
     return;
   }
 
@@ -331,6 +331,7 @@ async function _addAttachmentToMessage(
       throw new Error(`_addAttachmentToMessage: attachment ${index} was falsey`);
     }
     _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
+
     return;
   }
 
