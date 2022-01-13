@@ -134,8 +134,6 @@ export const loadQuoteData = async (quote: any) => {
   if (!quote) {
     return null;
   }
-  console.warn('loadQuoteData', quote);
-
   if (!quote.attachments?.length || isEmpty(quote.attachments[0])) {
     return quote;
   }

@@ -874,7 +874,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
     } else {
       // scale them down
       const files = await Promise.all(stagedAttachments.map(AttachmentUtil.getFileAndStoreLocally));
-
       attachments = _.compact(files);
     }
 

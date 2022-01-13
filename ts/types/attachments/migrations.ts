@@ -271,6 +271,7 @@ export const captureDimensionsAndScreenshot = async (
     const { width, height } = await getImageDimensions({
       objectUrl: screenshotObjectUrl,
     });
+
     const screenshotPath = await writeNewAttachmentData(screenshotBuffer);
 
     const thumbnailBuffer = await makeImageThumbnailBuffer({

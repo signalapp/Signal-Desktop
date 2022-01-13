@@ -108,13 +108,13 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-  return (
+  return Boolean(
     height &&
-    height > 0 &&
-    height <= ATTACHMENT_DEFAULT_MAX_SIDE &&
-    width &&
-    width > 0 &&
-    width <= ATTACHMENT_DEFAULT_MAX_SIDE
+      height > 0 &&
+      height <= ATTACHMENT_DEFAULT_MAX_SIDE &&
+      width &&
+      width > 0 &&
+      width <= ATTACHMENT_DEFAULT_MAX_SIDE
   );
 }
 
@@ -164,7 +164,6 @@ export function isVideoAttachment(attachment?: AttachmentType): boolean {
 
 export function hasVideoScreenshot(attachments?: Array<AttachmentType>): boolean {
   const firstAttachment = attachments ? attachments[0] : null;
-
   return Boolean(firstAttachment?.screenshot?.url);
 }
 
