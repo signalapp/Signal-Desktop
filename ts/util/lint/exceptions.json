@@ -205,6 +205,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.dev.js",
+    "line": "  const exitingTransitions = React.useRef(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.dev.js",
+    "line": "  const forceChange = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
     "line": "  const layoutId = React.useRef(0);",
     "reasonCategory": "usageTrusted",
@@ -226,6 +240,20 @@
   },
   {
     "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
+    "line": "  const exitingTransitions = React.useRef(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.cjs.prod.js",
+    "line": "  const forceChange = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
     "line": "  const layoutId = useRef(0);",
     "reasonCategory": "usageTrusted",
@@ -244,6 +272,20 @@
     "line": "  const usedTransitions = useRef(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-27T21:37:06.339Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
+    "line": "  const exitingTransitions = useRef(new Map());",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/@react-spring/core/dist/react-spring-core.esm.js",
+    "line": "  const forceChange = useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-12T23:16:33.623Z"
   },
   {
     "rule": "React-useRef",

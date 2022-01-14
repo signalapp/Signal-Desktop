@@ -80,7 +80,7 @@
   },
   "dependencies": {
     "@popperjs/core": "2.9.2",
-    "@react-spring/web": "9.2.6",
+    "@react-spring/web": "9.4.1",
     "@signalapp/signal-client": "0.11.1",
     "@sindresorhus/is": "0.8.0",
     "@types/fabric": "4.5.3",
