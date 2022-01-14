@@ -4096,7 +4096,6 @@ async function removeAll(): Promise<void> {
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
-      DELETE FROM jobs;
       DELETE FROM messages_fts;
       DELETE FROM messages;
       DELETE FROM preKeys;

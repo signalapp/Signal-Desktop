@@ -18,7 +18,7 @@ export async function handleMultipleSendErrors({
   errors: ReadonlyArray<unknown>;
   isFinalAttempt: boolean;
   log: Pick<LoggerType, 'info'>;
-  markFailed: (() => void) | (() => Promise<void>);
+  markFailed?: (() => void) | (() => Promise<void>);
   timeRemaining: number;
 }>): Promise<void> {
   strictAssert(errors.length, 'Expected at least one error');
@@ -50,7 +50,7 @@ export async function handleMultipleSendErrors({
   );
 
   if (isFinalAttempt || serverAskedUsToStop) {
-    await markFailed();
+    await markFailed?.();
   }
 
   if (serverAskedUsToStop) {

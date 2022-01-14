@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { WebAPIType } from '../textsecure/WebAPI';
@@ -10,6 +10,7 @@ import { readReceiptsJobQueue } from './readReceiptsJobQueue';
 import { readSyncJobQueue } from './readSyncJobQueue';
 import { removeStorageKeyJobQueue } from './removeStorageKeyJobQueue';
 import { reportSpamJobQueue } from './reportSpamJobQueue';
+import { singleProtoJobQueue } from './singleProtoJobQueue';
 import { viewSyncJobQueue } from './viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from './viewedReceiptsJobQueue';
 
@@ -30,6 +31,7 @@ export function initializeAllJobQueues({
   readSyncJobQueue.streamJobs();
   removeStorageKeyJobQueue.streamJobs();
   reportSpamJobQueue.streamJobs();
+  singleProtoJobQueue.streamJobs();
   viewSyncJobQueue.streamJobs();
   viewedReceiptsJobQueue.streamJobs();
 }

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -19,6 +19,7 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { ToastDecryptionError } from '../components/ToastDecryptionError';
 import { showToast } from './showToast';
+import * as Errors from '../types/errors';
 
 import type { ConversationModel } from '../models/conversations';
 import type {
@@ -30,6 +31,7 @@ import type {
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 const RETRY_LIMIT = 5;
 
@@ -311,22 +313,17 @@ async function sendDistributionMessageOrNullMessage(
       `sendDistributionMessageOrNullMessage/${logId}: Did not send distribution message, sending null message`
     );
 
+    // Enqueue a null message using the newly-created session
     try {
-      const sendOptions = await getSendOptions(conversation.attributes);
-      const result = await handleMessageSend(
-        window.textsecure.messaging.sendNullMessage(
-          { uuid: requesterUuid },
-          sendOptions
-        ),
-        { messageIds: [], sendType: 'nullMessage' }
+      await singleProtoJobQueue.add(
+        window.textsecure.messaging.getNullMessage({
+          uuid: requesterUuid,
+        })
       );
-      if (result && result.errors && result.errors.length > 0) {
-        throw result.errors[0];
-      }
     } catch (error) {
       log.error(
-        `maybeSendDistributionMessage/${logId}: Failed to send null message`,
-        error && error.stack ? error.stack : error
+        'sendDistributionMessageOrNullMessage: Failed to queue null message',
+        Errors.toLogFormat(error)
       );
     }
   }

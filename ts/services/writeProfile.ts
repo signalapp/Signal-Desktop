@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import dataInterface from '../sql/Client';
@@ -6,7 +6,9 @@ import type { ConversationType } from '../state/ducks/conversations';
 import { computeHash } from '../Crypto';
 import { encryptProfileData } from '../util/encryptProfileData';
 import { getProfile } from '../util/getProfile';
-import { handleMessageSend } from '../util/handleMessageSend';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import * as Errors from '../types/errors';
+import * as log from '../logging/log';
 
 export async function writeProfile(
   conversation: ConversationType,
@@ -85,8 +87,14 @@ export async function writeProfile(
   dataInterface.updateConversation(model.attributes);
   model.captureChange('writeProfile');
 
-  await handleMessageSend(
-    window.textsecure.messaging.sendFetchLocalProfileSyncMessage(),
-    { messageIds: [], sendType: 'otherSync' }
-  );
+  try {
+    await singleProtoJobQueue.add(
+      window.textsecure.messaging.getFetchLocalProfileSyncMessage()
+    );
+  } catch (error) {
+    log.error(
+      'writeProfile: Failed to queue sync message',
+      Errors.toLogFormat(error)
+    );
+  }
 }

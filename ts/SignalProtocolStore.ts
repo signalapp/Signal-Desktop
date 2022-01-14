@@ -1,4 +1,4 @@
-// Copyright 2016-2021 Signal Messenger, LLC
+// Copyright 2016-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import PQueue from 'p-queue';
@@ -18,7 +18,6 @@ import {
 import * as Bytes from './Bytes';
 import { constantTimeEqual } from './Crypto';
 import { assert, strictAssert } from './util/assert';
-import { handleMessageSend } from './util/handleMessageSend';
 import { isNotNil } from './util/isNotNil';
 import { Zone } from './util/Zone';
 import { isMoreRecentThan } from './util/timestamp';
@@ -44,7 +43,6 @@ import type {
   UnprocessedType,
   UnprocessedUpdateType,
 } from './textsecure/Types.d';
-import { getSendOptions } from './util/getSendOptions';
 import type { RemoveAllConfiguration } from './types/RemoveAllConfiguration';
 import type { UUIDStringType } from './types/UUID';
 import { UUID } from './types/UUID';
@@ -52,6 +50,8 @@ import type { Address } from './types/Address';
 import type { QualifiedAddressStringType } from './types/QualifiedAddress';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
+import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
+import * as Errors from './types/errors';
 
 const TIMESTAMP_THRESHOLD = 5 * 1000; // 5 seconds
 
@@ -1384,29 +1384,22 @@ export class SignalProtocolStore extends EventsMixin {
       // Archive open session with this device
       await this.archiveSession(qualifiedAddress);
 
-      // Send a null message with newly-created session
-      const sendOptions = await getSendOptions(conversation.attributes);
-      const result = await handleMessageSend(
-        window.textsecure.messaging.sendNullMessage(
-          {
-            uuid: uuid.toString(),
-          },
-          sendOptions
-        ),
-        { messageIds: [], sendType: 'nullMessage' }
+      // Enqueue a null message with newly-created session
+      await singleProtoJobQueue.add(
+        window.textsecure.messaging.getNullMessage({
+          uuid: uuid.toString(),
+        })
       );
-
-      if (result && result.errors && result.errors.length) {
-        throw result.errors[0];
-      }
     } catch (error) {
       // If we failed to do the session reset, then we'll allow another attempt sooner
       //   than one hour from now.
       delete sessionResets[id];
       window.storage.put('sessionResets', sessionResets);
 
-      const errorString = error && error.stack ? error.stack : error;
-      log.error(`lightSessionReset/${id}: Encountered error`, errorString);
+      log.error(
+        `lightSessionReset/${id}: Encountered error`,
+        Errors.toLogFormat(error)
+      );
     }
   }
 

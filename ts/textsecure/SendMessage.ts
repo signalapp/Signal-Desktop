@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-nested-ternary */
@@ -6,6 +6,7 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable max-classes-per-file */
 
+import { z } from 'zod';
 import type { Dictionary } from 'lodash';
 import Long from 'long';
 import PQueue from 'p-queue';
@@ -62,7 +63,7 @@ import type {
 } from '../linkPreviews/linkPreviewFetch';
 import { concat, isEmpty, map } from '../util/iterables';
 import type { SendTypesType } from '../util/handleMessageSend';
-import { handleMessageSend, shouldSaveProto } from '../util/handleMessageSend';
+import { shouldSaveProto, sendTypesEnum } from '../util/handleMessageSend';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 
@@ -138,6 +139,17 @@ export type AttachmentType = {
 
   blurHash?: string;
 };
+
+export const singleProtoJobDataSchema = z.object({
+  contentHint: z.number(),
+  identifier: z.string(),
+  isSyncMessage: z.boolean(),
+  messageIds: z.array(z.string()).optional(),
+  protoBase64: z.string(),
+  type: sendTypesEnum,
+});
+
+export type SingleProtoJobData = z.infer<typeof singleProtoJobDataSchema>;
 
 function makeAttachmentSendReady(
   attachment: Attachment.AttachmentType
@@ -956,17 +968,17 @@ export default class MessageSender {
   }
 
   async sendIndividualProto({
+    contentHint,
     identifier,
+    options,
     proto,
     timestamp,
-    contentHint,
-    options,
   }: Readonly<{
+    contentHint: number;
     identifier: string | undefined;
+    options?: SendOptionsType;
     proto: Proto.DataMessage | Proto.Content | PlaintextContent;
     timestamp: number;
-    contentHint: number;
-    options?: SendOptionsType;
   }>): Promise<CallbackResultType> {
     assert(identifier, "Identifier can't be undefined");
     return new Promise((resolve, reject) => {
@@ -1087,7 +1099,7 @@ export default class MessageSender {
       sentMessage.isRecipientUpdate = true;
     }
 
-    // Though this field has 'unidenified' in the name, it should have entries for each
+    // Though this field has 'unidentified' in the name, it should have entries for each
     //   number we sent to.
     if (!isEmpty(conversationIdsSentTo)) {
       sentMessage.unidentifiedStatus = [
@@ -1128,9 +1140,7 @@ export default class MessageSender {
     });
   }
 
-  async sendRequestBlockSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getRequestBlockSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
@@ -1142,18 +1152,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'blockSyncRequest',
+    };
   }
 
-  async sendRequestConfigurationSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getRequestConfigurationSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
@@ -1165,18 +1175,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'configurationSyncRequest',
+    };
   }
 
-  async sendRequestGroupSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getRequestGroupSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
@@ -1188,18 +1198,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'groupSyncRequest',
+    };
   }
 
-  async sendRequestContactSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getRequestContactSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
@@ -1211,18 +1221,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'contactSyncRequest',
+    };
   }
 
-  async sendFetchManifestSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getFetchManifestSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
@@ -1235,18 +1245,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'fetchLatestManifestSync',
+    };
   }
 
-  async sendFetchLocalProfileSyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getFetchLocalProfileSyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const fetchLatest = new Proto.SyncMessage.FetchLatest();
@@ -1259,18 +1269,18 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'fetchLocalProfileSync',
+    };
   }
 
-  async sendRequestKeySyncMessage(
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getRequestKeySyncMessage(): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const request = new Proto.SyncMessage.Request();
@@ -1283,13 +1293,15 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'keySyncRequest',
+    };
   }
 
   async syncReadMessages(
@@ -1381,30 +1393,29 @@ export default class MessageSender {
     });
   }
 
-  async syncMessageRequestResponse(
-    responseArgs: Readonly<{
+  getMessageRequestResponseSync(
+    options: Readonly<{
       threadE164?: string;
       threadUuid?: string;
       groupId?: Uint8Array;
       type: number;
-    }>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+    }>
+  ): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
 
     const response = new Proto.SyncMessage.MessageRequestResponse();
-    if (responseArgs.threadE164 !== undefined) {
-      response.threadE164 = responseArgs.threadE164;
+    if (options.threadE164 !== undefined) {
+      response.threadE164 = options.threadE164;
     }
-    if (responseArgs.threadUuid !== undefined) {
-      response.threadUuid = responseArgs.threadUuid;
+    if (options.threadUuid !== undefined) {
+      response.threadUuid = options.threadUuid;
     }
-    if (responseArgs.groupId) {
-      response.groupId = responseArgs.groupId;
+    if (options.groupId) {
+      response.groupId = options.groupId;
     }
-    response.type = responseArgs.type;
+    response.type = options.type;
     syncMessage.messageRequestResponse = response;
 
     const contentMessage = new Proto.Content();
@@ -1412,23 +1423,24 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
-      identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
+    return {
       contentHint: ContentHint.RESENDABLE,
-      options,
-    });
+      identifier: myUuid.toString(),
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'messageRequestSync',
+    };
   }
 
-  async sendStickerPackSync(
+  getStickerPackSync(
     operations: ReadonlyArray<{
       packId: string;
       packKey: string;
       installed: boolean;
-    }>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+    }>
+  ): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
 
@@ -1451,43 +1463,30 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier: myUuid.toString(),
-      proto: contentMessage,
-      timestamp: Date.now(),
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'stickerPackSync',
+    };
   }
 
-  async syncVerification(
+  getVerificationSync(
     destinationE164: string | undefined,
     destinationUuid: string | undefined,
     state: number,
-    identityKey: Readonly<Uint8Array>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+    identityKey: Readonly<Uint8Array>
+  ): SingleProtoJobData {
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
-    const now = Date.now();
 
     if (!destinationE164 && !destinationUuid) {
       throw new Error('syncVerification: Neither e164 nor UUID were provided');
     }
 
-    // Get padding which we can share between null message and verified sync
     const padding = this.getRandomPadding();
-
-    // First send a null message to mask the sync message.
-    await handleMessageSend(
-      this.sendNullMessage(
-        { uuid: destinationUuid, e164: destinationE164, padding },
-        options
-      ),
-      {
-        messageIds: [],
-        sendType: 'nullMessage',
-      }
-    );
 
     const verified = new Proto.Verified();
     verified.state = state;
@@ -1503,18 +1502,20 @@ export default class MessageSender {
     const syncMessage = this.createSyncMessage();
     syncMessage.verified = verified;
 
-    const secondMessage = new Proto.Content();
-    secondMessage.syncMessage = syncMessage;
+    const contentMessage = new Proto.Content();
+    contentMessage.syncMessage = syncMessage;
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    return this.sendIndividualProto({
-      identifier: myUuid.toString(),
-      proto: secondMessage,
-      timestamp: now,
+    return {
       contentHint: ContentHint.RESENDABLE,
-      options,
-    });
+      identifier: myUuid.toString(),
+      isSyncMessage: true,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'verificationSync',
+    };
   }
 
   // Sending messages to contacts
@@ -1542,7 +1543,7 @@ export default class MessageSender {
             }
           : {}),
       },
-      contentHint: ContentHint.IMPLICIT,
+      contentHint: ContentHint.RESENDABLE,
       groupId: undefined,
       options,
     });
@@ -1650,14 +1651,15 @@ export default class MessageSender {
     });
   }
 
-  async sendNullMessage(
-    {
-      uuid,
-      e164,
-      padding,
-    }: Readonly<{ uuid?: string; e164?: string; padding?: Uint8Array }>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
+  getNullMessage({
+    uuid,
+    e164,
+    padding,
+  }: Readonly<{
+    uuid?: string;
+    e164?: string;
+    padding?: Uint8Array;
+  }>): SingleProtoJobData {
     const nullMessage = new Proto.NullMessage();
 
     const identifier = uuid || e164;
@@ -1672,15 +1674,15 @@ export default class MessageSender {
 
     const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
 
-    // We want the NullMessage to look like a normal outgoing message
-    const timestamp = Date.now();
-    return this.sendIndividualProto({
+    return {
+      contentHint: ContentHint.RESENDABLE,
       identifier,
-      proto: contentMessage,
-      timestamp,
-      contentHint: ContentHint.IMPLICIT,
-      options,
-    });
+      isSyncMessage: false,
+      protoBase64: Bytes.toBase64(
+        Proto.Content.encode(contentMessage).finish()
+      ),
+      type: 'nullMessage',
+    };
   }
 
   async sendExpirationTimerUpdateToIdentifier(

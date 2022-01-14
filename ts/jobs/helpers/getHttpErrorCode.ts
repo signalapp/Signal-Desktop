@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isRecord } from '../../util/isRecord';
@@ -13,11 +13,13 @@ export function getHttpErrorCode(maybeError: unknown): number {
     return -1;
   }
 
+  // This might be a textsecure/Errors/HTTPError
   const maybeTopLevelCode = parseIntWithFallback(maybeError.code, -1);
   if (maybeTopLevelCode !== -1) {
     return maybeTopLevelCode;
   }
 
+  // Various errors in textsecure/Errors have a nested httpError property
   const { httpError } = maybeError;
   if (!isRecord(httpError)) {
     return -1;

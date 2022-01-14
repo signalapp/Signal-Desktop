@@ -1,6 +1,7 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { z } from 'zod';
 import { isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
@@ -15,37 +16,44 @@ export const SEALED_SENDER = {
   UNRESTRICTED: 3,
 };
 
-export type SendTypesType =
-  | 'callingMessage' // excluded from send log
-  | 'deleteForEveryone'
-  | 'deliveryReceipt'
-  | 'expirationTimerUpdate'
-  | 'groupChange'
-  | 'legacyGroupChange'
-  | 'message'
-  | 'nullMessage' // excluded from send log
-  | 'otherSync'
-  | 'profileKeyUpdate'
-  | 'reaction'
-  | 'readReceipt'
-  | 'readSync'
-  | 'resendFromLog' // excluded from send log
-  | 'resetSession'
-  | 'retryRequest' // excluded from send log
-  | 'senderKeyDistributionMessage'
-  | 'sentSync'
-  | 'typing' // excluded from send log
-  | 'verificationSync'
-  | 'viewOnceSync'
-  | 'viewSync'
-  | 'viewedReceipt';
+export const sendTypesEnum = z.enum([
+  'blockSyncRequest',
+  'callingMessage', // excluded from send log
+  'configurationSyncRequest',
+  'contactSyncRequest',
+  'deleteForEveryone',
+  'deliveryReceipt',
+  'expirationTimerUpdate',
+  'fetchLatestManifestSync',
+  'fetchLocalProfileSync',
+  'groupChange',
+  'groupSyncRequest',
+  'keySyncRequest',
+  'legacyGroupChange',
+  'message',
+  'messageRequestSync',
+  'nullMessage',
+  'profileKeyUpdate',
+  'reaction',
+  'readReceipt',
+  'readSync',
+  'resendFromLog', // excluded from send log
+  'resetSession',
+  'retryRequest', // excluded from send log
+  'senderKeyDistributionMessage',
+  'sentSync',
+  'stickerPackSync',
+  'typing', // excluded from send log
+  'verificationSync',
+  'viewOnceSync',
+  'viewSync',
+  'viewedReceipt',
+]);
+
+export type SendTypesType = z.infer<typeof sendTypesEnum>;
 
 export function shouldSaveProto(sendType: SendTypesType): boolean {
   if (sendType === 'callingMessage') {
-    return false;
-  }
-
-  if (sendType === 'nullMessage') {
     return false;
   }
 

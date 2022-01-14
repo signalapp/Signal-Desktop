@@ -6630,7 +6630,7 @@
     "description": "A title of the dialog displayed when starting an application after a recent crash"
   },
   "CrashReportDialog__body": {
-    "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+    "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
     "description": "The body of the dialog displayed when starting an application after a recent crash"
   },
   "CrashReportDialog__submit": {

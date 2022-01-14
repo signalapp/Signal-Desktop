@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable more/no-then */
@@ -12,9 +12,9 @@ import MessageReceiver from './MessageReceiver';
 import type { ContactSyncEvent, GroupSyncEvent } from './messageReceiverEvents';
 import MessageSender from './SendMessage';
 import { assert } from '../util/assert';
-import { getSendOptions } from '../util/getSendOptions';
-import { handleMessageSend } from '../util/handleMessageSend';
 import * as log from '../logging/log';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import * as Errors from '../types/errors';
 
 class SyncRequestInner extends EventTarget {
   private started = false;
@@ -65,47 +65,28 @@ class SyncRequestInner extends EventTarget {
 
     const { sender } = this;
 
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
-    const sendOptions = await getSendOptions(ourConversation.attributes, {
-      syncMessage: true,
-    });
-
     if (window.ConversationController.areWePrimaryDevice()) {
       log.warn('SyncRequest.start: We are primary device; returning early');
       return;
     }
 
-    log.info('SyncRequest created. Sending config sync request...');
-    handleMessageSend(sender.sendRequestConfigurationSyncMessage(sendOptions), {
-      messageIds: [],
-      sendType: 'otherSync',
-    });
+    log.info(
+      'SyncRequest created. Sending config, block, contact, and group requests...'
+    );
+    try {
+      await Promise.all([
+        singleProtoJobQueue.add(sender.getRequestConfigurationSyncMessage()),
+        singleProtoJobQueue.add(sender.getRequestBlockSyncMessage()),
+        singleProtoJobQueue.add(sender.getRequestContactSyncMessage()),
+        singleProtoJobQueue.add(sender.getRequestGroupSyncMessage()),
+      ]);
+    } catch (error: unknown) {
+      log.error(
+        'SyncRequest: Failed to add request jobs',
+        Errors.toLogFormat(error)
+      );
+    }
 
-    log.info('SyncRequest now sending block sync request...');
-    handleMessageSend(sender.sendRequestBlockSyncMessage(sendOptions), {
-      messageIds: [],
-      sendType: 'otherSync',
-    });
-
-    log.info('SyncRequest now sending contact sync message...');
-    handleMessageSend(sender.sendRequestContactSyncMessage(sendOptions), {
-      messageIds: [],
-      sendType: 'otherSync',
-    })
-      .then(() => {
-        log.info('SyncRequest now sending group sync message...');
-        return handleMessageSend(
-          sender.sendRequestGroupSyncMessage(sendOptions),
-          { messageIds: [], sendType: 'otherSync' }
-        );
-      })
-      .catch((error: Error) => {
-        log.error(
-          'SyncRequest error:',
-          error && error.stack ? error.stack : error
-        );
-      });
     this.timeout = setTimeout(this.onTimeout.bind(this), this.timeoutMillis);
   }
 

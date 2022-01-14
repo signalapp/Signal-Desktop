@@ -106,6 +106,7 @@ import * as log from '../logging/log';
 import * as Errors from '../types/errors';
 import { isMessageUnread } from '../util/isMessageUnread';
 import type { SenderKeyTargetType } from '../util/sendToGroup';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 /* eslint-disable more/no-then */
 window.Whisper = window.Whisper || {};
@@ -2401,12 +2402,6 @@ export class ConversationModel extends window.Backbone
     //   server updates were successful.
     await this.applyMessageRequestResponse(response);
 
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
-    const sendOptions = await getSendOptions(ourConversation.attributes, {
-      syncMessage: true,
-    });
-
     const groupId = this.getGroupIdBuffer();
 
     if (window.ConversationController.areWePrimaryDevice()) {
@@ -2417,20 +2412,19 @@ export class ConversationModel extends window.Backbone
     }
 
     try {
-      await handleMessageSend(
-        window.textsecure.messaging.syncMessageRequestResponse(
-          {
-            threadE164: this.get('e164'),
-            threadUuid: this.get('uuid'),
-            groupId,
-            type: response,
-          },
-          sendOptions
-        ),
-        { messageIds: [], sendType: 'otherSync' }
+      await singleProtoJobQueue.add(
+        window.textsecure.messaging.getMessageRequestResponseSync({
+          threadE164: this.get('e164'),
+          threadUuid: this.get('uuid'),
+          groupId,
+          type: response,
+        })
       );
-    } catch (result) {
-      this.processSendResponse(result);
+    } catch (error) {
+      log.error(
+        'syncMessageRequestResponse: Failed to queue sync message',
+        Errors.toLogFormat(error)
+      );
     }
   }
 
@@ -2619,17 +2613,6 @@ export class ConversationModel extends window.Backbone
       return;
     }
 
-    // Because syncVerification sends a (null) message to the target of the verify and
-    //   a sync message to our own devices, we need to send the accessKeys down for both
-    //   contacts. So we merge their sendOptions.
-    const ourConversation =
-      window.ConversationController.getOurConversationOrThrow();
-    const sendOptions = await getSendOptions(ourConversation.attributes, {
-      syncMessage: true,
-    });
-    const contactSendOptions = await getSendOptions(this.attributes);
-    const options = { ...sendOptions, ...contactSendOptions };
-
     const key = await window.textsecure.storage.protocol.loadIdentityKey(
       UUID.checkedLookup(identifier)
     );
@@ -2639,16 +2622,21 @@ export class ConversationModel extends window.Backbone
       );
     }
 
-    await handleMessageSend(
-      window.textsecure.messaging.syncVerification(
-        e164,
-        uuid.toString(),
-        state,
-        key,
-        options
-      ),
-      { messageIds: [], sendType: 'verificationSync' }
-    );
+    try {
+      await singleProtoJobQueue.add(
+        window.textsecure.messaging.getVerificationSync(
+          e164,
+          uuid.toString(),
+          state,
+          key
+        )
+      );
+    } catch (error) {
+      log.error(
+        'sendVerifySyncMessage: Failed to queue sync message',
+        Errors.toLogFormat(error)
+      );
+    }
   }
 
   isVerified(): boolean {

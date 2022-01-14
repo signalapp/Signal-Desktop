@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable guard-for-in */
@@ -53,12 +53,10 @@ export type SendLogCallbackType = (options: {
   deviceIds: Array<number>;
 }) => Promise<void>;
 
-export const serializedCertificateSchema = z
-  .object({
-    expires: z.number().optional(),
-    serialized: z.instanceof(Uint8Array),
-  })
-  .nonstrict();
+export const serializedCertificateSchema = z.object({
+  expires: z.number().optional(),
+  serialized: z.instanceof(Uint8Array),
+});
 
 export type SerializedCertificateType = z.infer<
   typeof serializedCertificateSchema

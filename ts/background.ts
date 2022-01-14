@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { webFrame } from 'electron';
@@ -89,9 +89,7 @@ import type { WebAPIType } from './textsecure/WebAPI';
 import * as KeyChangeListener from './textsecure/KeyChangeListener';
 import { RotateSignedPreKeyListener } from './textsecure/RotateSignedPreKeyListener';
 import { isDirectConversation, isGroupV2 } from './util/whatTypeOfConversation';
-import { getSendOptions } from './util/getSendOptions';
 import { BackOff, FIBONACCI_TIMEOUTS } from './util/BackOff';
-import { handleMessageSend } from './util/handleMessageSend';
 import { AppViewType } from './state/ducks/app';
 import { UsernameSaveState } from './state/ducks/conversationsEnums';
 import type { BadgesStateType } from './state/ducks/badges';
@@ -144,6 +142,7 @@ import { startInteractionMode } from './windows/startInteractionMode';
 import { deliveryReceiptsJobQueue } from './jobs/deliveryReceiptsJobQueue';
 import { updateOurUsername } from './util/updateOurUsername';
 import { ReactionSource } from './reactions/ReactionSource';
+import { singleProtoJobQueue } from './jobs/singleProtoJobQueue';
 
 const MAX_ATTACHMENT_DOWNLOAD_AGE = 3600 * 72 * 1000;
 
@@ -1607,7 +1606,7 @@ export async function startApp(): Promise<void> {
     unlinkAndDisconnect(RemoveAllConfiguration.Full);
   });
 
-  function runStorageService() {
+  async function runStorageService() {
     window.Signal.Services.enableStorageService();
 
     if (window.ConversationController.areWePrimaryDevice()) {
@@ -1617,10 +1616,16 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    handleMessageSend(window.textsecure.messaging.sendRequestKeySyncMessage(), {
-      messageIds: [],
-      sendType: 'otherSync',
-    });
+    try {
+      await singleProtoJobQueue.add(
+        window.textsecure.messaging.getRequestKeySyncMessage()
+      );
+    } catch (error) {
+      log.error(
+        'runStorageService: Failed to queue sync message',
+        Errors.toLogFormat(error)
+      );
+    }
   }
 
   let challengeHandler: ChallengeHandler | undefined;
@@ -1865,10 +1870,16 @@ export async function startApp(): Promise<void> {
           return;
         }
 
-        await handleMessageSend(
-          window.textsecure.messaging.sendRequestKeySyncMessage(),
-          { messageIds: [], sendType: 'otherSync' }
-        );
+        try {
+          await singleProtoJobQueue.add(
+            window.textsecure.messaging.getRequestKeySyncMessage()
+          );
+        } catch (error) {
+          log.error(
+            'desktop.storage/onChange: Failed to queue sync message',
+            Errors.toLogFormat(error)
+          );
+        }
       }
     );
 
@@ -2196,12 +2207,6 @@ export async function startApp(): Promise<void> {
           runStorageService();
         });
 
-        const ourConversation =
-          window.ConversationController.getOurConversationOrThrow();
-        const sendOptions = await getSendOptions(ourConversation.attributes, {
-          syncMessage: true,
-        });
-
         const installedStickerPacks = Stickers.getInstalledStickerPacks();
         if (installedStickerPacks.length) {
           const operations = installedStickerPacks.map(pack => ({
@@ -2217,18 +2222,16 @@ export async function startApp(): Promise<void> {
             return;
           }
 
-          handleMessageSend(
-            window.textsecure.messaging.sendStickerPackSync(
-              operations,
-              sendOptions
-            ),
-            { messageIds: [], sendType: 'otherSync' }
-          ).catch(error => {
-            log.error(
-              'Failed to send installed sticker packs via sync message',
-              error && error.stack ? error.stack : error
+          try {
+            await singleProtoJobQueue.add(
+              window.textsecure.messaging.getStickerPackSync(operations)
             );
-          });
+          } catch (error) {
+            log.error(
+              'connect: Failed to queue sticker sync message',
+              Errors.toLogFormat(error)
+            );
+          }
         }
       }
 

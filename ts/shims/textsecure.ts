@@ -1,20 +1,16 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { handleMessageSend } from '../util/handleMessageSend';
-import { getSendOptions } from '../util/getSendOptions';
 import * as log from '../logging/log';
+import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
+import * as Errors from '../types/errors';
 
 export async function sendStickerPackSync(
   packId: string,
   packKey: string,
   installed: boolean
 ): Promise<void> {
-  const { ConversationController, textsecure } = window;
-  const ourConversation = ConversationController.getOurConversationOrThrow();
-  const sendOptions = await getSendOptions(ourConversation.attributes, {
-    syncMessage: true,
-  });
+  const { textsecure } = window;
 
   if (!textsecure.messaging) {
     log.error(
@@ -31,22 +27,20 @@ export async function sendStickerPackSync(
     return;
   }
 
-  handleMessageSend(
-    textsecure.messaging.sendStickerPackSync(
-      [
+  try {
+    await singleProtoJobQueue.add(
+      textsecure.messaging.getStickerPackSync([
         {
           packId,
           packKey,
           installed,
         },
-      ],
-      sendOptions
-    ),
-    { messageIds: [], sendType: 'otherSync' }
-  ).catch(error => {
-    log.error(
-      'shim: Error calling sendStickerPackSync:',
-      error && error.stack ? error.stack : error
+      ])
     );
-  });
+  } catch (error) {
+    log.error(
+      'sendStickerPackSync: Failed to queue sync message',
+      Errors.toLogFormat(error)
+    );
+  }
 }

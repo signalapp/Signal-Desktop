@@ -3,7 +3,7 @@
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import { noop } from 'lodash';
+import { noop, omit } from 'lodash';
 import { HTTPError } from '../../../textsecure/Errors';
 import { SECOND } from '../../../util/durations';
 
@@ -61,6 +61,17 @@ describe('handleMultipleSendErrors', () => {
     );
 
     sinon.assert.calledOnceWithExactly(markFailed);
+  });
+
+  it("doesn't require `markFailed`", async () => {
+    await assert.isRejected(
+      handleMultipleSendErrors({
+        ...omit(defaultOptions, 'markFailed'),
+        errors: [new Error('Test message')],
+        isFinalAttempt: true,
+      }),
+      'Test message'
+    );
   });
 
   describe('413 handling', () => {
