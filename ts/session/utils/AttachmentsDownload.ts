@@ -208,6 +208,7 @@ async function _runJob(job: any) {
     }
     const upgradedAttachment = await processNewAttachment({
       ...downloaded,
+      fileName: attachment.fileName,
       contentType: attachment.contentType,
     });
     found = await getMessageById(messageId);

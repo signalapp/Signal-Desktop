@@ -40,6 +40,8 @@ export interface MaxScaleSize {
 
 export const ATTACHMENT_DEFAULT_MAX_SIDE = 4096;
 
+export const AVATAR_MAX_SIDE = 640;
+
 /**
  * Resize a jpg/gif/png file to our definition on an avatar before upload
  */
@@ -47,7 +49,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
   attachment: T
 ) {
   const maxMeasurements = {
-    maxSide: 640,
+    maxSide: AVATAR_MAX_SIDE,
     maxSize: 1000 * 1024,
   };
 
@@ -70,7 +72,7 @@ export async function autoScaleForAvatar<T extends { contentType: string; blob: 
  */
 export async function autoScaleForIncomingAvatar(incomingAvatar: ArrayBuffer) {
   const maxMeasurements = {
-    maxSide: 640,
+    maxSide: AVATAR_MAX_SIDE,
     maxSize: 1000 * 1024,
   };
 
@@ -269,12 +271,13 @@ export async function getFileAndStoreLocally(
   const attachmentSavedLocally = await processNewAttachment({
     data: await scaled.blob.arrayBuffer(),
     contentType: attachment.contentType,
+    fileName: attachment.fileName,
   });
 
   return {
     caption: attachment.caption,
     contentType: attachment.contentType,
-    fileName: attachment.fileName,
+    fileName: attachmentSavedLocally.fileName,
     path: attachmentSavedLocally.path,
     width: attachmentSavedLocally.width,
     height: attachmentSavedLocally.height,

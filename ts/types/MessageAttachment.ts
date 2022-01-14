@@ -12,6 +12,7 @@ import {
   captureDimensionsAndScreenshot,
   deleteData,
   loadData,
+  replaceUnicodeV2,
 } from './attachments/migrations';
 
 // tslint:disable: prefer-object-spread
@@ -160,31 +161,28 @@ export const loadQuoteData = async (quote: any) => {
 };
 
 export const processNewAttachment = async (attachment: {
+  fileName?: string;
   contentType: string;
   data: ArrayBuffer;
   digest?: string;
   path?: string;
   isRaw?: boolean;
 }) => {
+  const fileName = attachment.fileName ? replaceUnicodeV2(attachment.fileName) : '';
   // this operation might change the size (as we might print the content to a canvas and get the data back)
   const rotatedData = await autoOrientJPEGAttachment(attachment);
-  const rotatedAttachment = {
-    ...attachment,
-    contentType: rotatedData.contentType,
-    data: rotatedData.data,
 
-    digest: attachment.digest as string | undefined,
-  };
+  const onDiskAttachmentPath = await migrateDataToFileSystem(rotatedData.data);
+
+  const attachmentWithoutData = omit({ ...attachment, fileName, path: onDiskAttachmentPath }, [
+    'data',
+  ]);
   if (rotatedData.shouldDeleteDigest) {
-    delete rotatedAttachment.digest;
+    delete attachmentWithoutData.digest;
   }
-
-  const onDiskAttachmentPath = await migrateDataToFileSystem(rotatedAttachment.data);
-
-  const attachmentWithoutData = omit({ ...attachment, path: onDiskAttachmentPath }, ['data']);
   const finalAttachment = await captureDimensionsAndScreenshot(attachmentWithoutData);
 
-  return { ...finalAttachment, size: rotatedAttachment.data.byteLength };
+  return { ...finalAttachment, fileName, size: rotatedData.data.byteLength };
 };
 
 export const readAttachmentData = async (relativePath: string): Promise<ArrayBufferLike> => {

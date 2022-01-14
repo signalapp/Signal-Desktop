@@ -112,25 +112,20 @@ export const _replaceUnicodeOrderOverridesSync = (attachment: any) => {
 // const replaceUnicodeOrderOverrides = async (attachment: any) =>
 //   _replaceUnicodeOrderOverridesSync(attachment);
 
-// // \u202A-\u202E is LRE, RLE, PDF, LRO, RLO
-// // \u2066-\u2069 is LRI, RLI, FSI, PDI
-// // \u200E is LRM
-// // \u200F is RLM
-// // \u061C is ALM
-// const V2_UNWANTED_UNICODE = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C]/g;
+// \u202A-\u202E is LRE, RLE, PDF, LRO, RLO
+// \u2066-\u2069 is LRI, RLI, FSI, PDI
+// \u200E is LRM
+// \u200F is RLM
+// \u061C is ALM
+const V2_UNWANTED_UNICODE = /[\u202A-\u202E\u2066-\u2069\u200E\u200F\u061C]/g;
 
-// const replaceUnicodeV2 = async (attachment: any) => {
-//   if (!isString(attachment.fileName)) {
-//     return attachment;
-//   }
+export const replaceUnicodeV2 = (fileName: string) => {
+  if (!isString(fileName)) {
+    throw new Error('replaceUnicodeV2 should not be called without a filename');
+  }
 
-//   const fileName = attachment.fileName.replace(V2_UNWANTED_UNICODE, UNICODE_REPLACEMENT_CHARACTER);
-
-//   return {
-//     ...attachment,
-//     fileName,
-//   };
-// };
+  return fileName.replace(V2_UNWANTED_UNICODE, UNICODE_REPLACEMENT_CHARACTER);
+};
 
 // const removeSchemaVersion = ({ attachment }: any) => {
 //   if (!isValid(attachment)) {
@@ -196,6 +191,7 @@ export const captureDimensionsAndScreenshot = async (
 ): Promise<CaptureDimensionType & {
   width?: number;
   height?: number;
+
   thumbnail: {
     path: string;
     contentType: string;
