@@ -155,7 +155,7 @@ export const MessageAttachment = (props: Props) => {
       <div className={classNames('module-message__generic-attachment')}>
         {pending ? (
           <div className="module-message__generic-attachment__spinner-container">
-            <Spinner size="small" direction={direction} />
+            <Spinner size="small" />
           </div>
         ) : (
           <div className="module-message__generic-attachment__icon-container">

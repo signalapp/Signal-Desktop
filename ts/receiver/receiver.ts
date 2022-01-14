@@ -262,7 +262,7 @@ export async function handleOpenGroupV2Message(
   const { base64EncodedData, sentTimestamp, sender, serverId } = message;
   const { serverUrl, roomId } = roomInfos;
   if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
-    window?.log?.warn('Invalid data passed to handleMessageEvent.', message);
+    window?.log?.warn('Invalid data passed to handleOpenGroupV2Message.', message);
     return;
   }
 
