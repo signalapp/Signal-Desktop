@@ -119,28 +119,14 @@ const development =
 
 const enableCI = config.get<boolean>('enableCI');
 
-const sql = new MainSQL();
-const heicConverter = getHeicConverter();
-
 const preventDisplaySleepService = new PreventDisplaySleepService(
   powerSaveBlocker
-);
-
-let systemTrayService: SystemTrayService | undefined;
-const systemTraySettingCache = new SystemTraySettingCache(
-  sql,
-  ephemeralConfig,
-  process.argv,
-  app.getVersion()
 );
 
 const challengeHandler = new ChallengeMainHandler();
 
 const nativeThemeNotifier = new NativeThemeNotifier();
 nativeThemeNotifier.initialize();
-
-let sqlInitTimeStart = 0;
-let sqlInitTimeEnd = 0;
 
 let appStartInitialSpellcheckSetting = true;
 
@@ -150,25 +136,6 @@ const defaultWebPrefs = {
     getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
 };
-
-async function getSpellCheckSetting() {
-  const fastValue = ephemeralConfig.get('spell-check');
-  if (fastValue !== undefined) {
-    getLogger().info('got fast spellcheck setting', fastValue);
-    return fastValue;
-  }
-
-  const json = await sql.sqlCall('getItemById', ['spell-check']);
-
-  // Default to `true` if setting doesn't exist yet
-  const slowValue = json ? json.value : true;
-
-  ephemeralConfig.set('spell-check', slowValue);
-
-  getLogger().info('got slow spellcheck setting', slowValue);
-
-  return slowValue;
-}
 
 function showWindow() {
   if (!mainWindow) {
@@ -230,6 +197,39 @@ if (!process.mas) {
   }
 }
 /* eslint-enable no-console */
+
+let sqlInitTimeStart = 0;
+let sqlInitTimeEnd = 0;
+
+const sql = new MainSQL();
+const heicConverter = getHeicConverter();
+
+async function getSpellCheckSetting() {
+  const fastValue = ephemeralConfig.get('spell-check');
+  if (fastValue !== undefined) {
+    getLogger().info('got fast spellcheck setting', fastValue);
+    return fastValue;
+  }
+
+  const json = await sql.sqlCall('getItemById', ['spell-check']);
+
+  // Default to `true` if setting doesn't exist yet
+  const slowValue = json ? json.value : true;
+
+  ephemeralConfig.set('spell-check', slowValue);
+
+  getLogger().info('got slow spellcheck setting', slowValue);
+
+  return slowValue;
+}
+
+let systemTrayService: SystemTrayService | undefined;
+const systemTraySettingCache = new SystemTraySettingCache(
+  sql,
+  ephemeralConfig,
+  process.argv,
+  app.getVersion()
+);
 
 const windowFromUserConfig = userConfig.get('window');
 const windowFromEphemeral = ephemeralConfig.get('window');
