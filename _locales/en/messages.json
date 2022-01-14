@@ -2078,7 +2078,7 @@
     }
   },
   "justNow": {
-    "message": "now",
+    "message": "Now",
     "description": "Shown if a message is very recent, less than 60 seconds old"
   },
   "timestampFormat_M": {
