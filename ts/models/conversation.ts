@@ -715,17 +715,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const recipients = this.getRecipients();
 
     const now = Date.now();
+    const networkTimestamp = now - getLatestTimestampOffset();
 
     window?.log?.info(
       'Sending message to conversation',
       this.idForLogging(),
-      'with timestamp',
-      now
+      'with networkTimestamp: ',
+      networkTimestamp
     );
 
     const editedQuote = _.isEmpty(quote) ? undefined : quote;
-
-    const diffTimestamp = Date.now() - getLatestTimestampOffset();
 
     const messageObject: MessageAttributesOptionals = {
       type: 'outgoing',
@@ -734,7 +733,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       quote: editedQuote,
       preview,
       attachments,
-      sent_at: diffTimestamp,
+      sent_at: networkTimestamp,
       received_at: now,
       expireTimer,
       recipients,
