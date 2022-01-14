@@ -106,6 +106,7 @@ export function setup(getLogger: () => LoggerType): void {
         extension: 'dmp',
         contentType: 'application/octet-stream',
         compress: false,
+        prefix: 'desktop-crash-',
       });
 
       logger.info('crashReports: upload complete');

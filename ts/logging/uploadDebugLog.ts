@@ -46,6 +46,7 @@ export type UploadOptionsType = Readonly<{
   extension?: string;
   contentType?: string;
   compress?: boolean;
+  prefix?: string;
 }>;
 
 export const upload = async ({
@@ -55,10 +56,17 @@ export const upload = async ({
   extension = 'gz',
   contentType = 'application/gzip',
   compress = true,
+  prefix,
 }: UploadOptionsType): Promise<string> => {
   const headers = { 'User-Agent': getUserAgent(appVersion) };
 
-  const signedForm = await got.get(BASE_URL, {
+  const formUrl = new URL(BASE_URL);
+
+  if (prefix !== undefined) {
+    formUrl.searchParams.set('prefix', prefix);
+  }
+
+  const signedForm = await got.get(formUrl.toString(), {
     responseType: 'json',
     headers,
     timeout: UPLOAD_TIMEOUT,
