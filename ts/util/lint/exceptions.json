@@ -7527,10 +7527,10 @@
   {
     "rule": "React-useRef",
     "path": "ts/components/QrCode.tsx",
-    "line": "  const canvasRef = useRef<null | HTMLCanvasElement>(null);",
+    "line": "  const elRef = useRef<null | HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
     "updated": "2022-01-04T21:43:17.517Z",
-    "reasonDetail": "Used to draw on the canvas."
+    "reasonDetail": "Used to change the style in non-production builds."
   },
   {
     "rule": "React-createRef",

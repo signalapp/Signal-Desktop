@@ -25,8 +25,6 @@ type PropsType = {
   provisioningUrl: Loadable<string>;
 };
 
-// This should match the size in the CSS.
-const QR_CODE_SIZE = 256;
 const QR_CODE_FAILED_LINK =
   'https://support.signal.org/hc/articles/360007320451#desktop_multiple_device';
 
@@ -113,10 +111,9 @@ function InstallScreenQrCode(
     case LoadingState.Loaded:
       contents = (
         <QrCode
-          aria-label={i18n('Install__scan-this-code')}
+          alt={i18n('Install__scan-this-code')}
           className={getQrCodeClassName('__code')}
           data={props.value}
-          size={QR_CODE_SIZE}
         />
       );
       break;
