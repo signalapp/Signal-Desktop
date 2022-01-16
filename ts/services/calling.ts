@@ -674,6 +674,9 @@ export class CallingClass {
         onRemoteDeviceStatesChanged: groupCall => {
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
+        onAudioLevels: _groupCall => {
+          // TODO: Implement audio level handling for group calls.
+        },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
           const { eraId } = groupCall.getPeekInfo() || {};
