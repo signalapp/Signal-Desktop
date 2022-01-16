@@ -33,7 +33,7 @@ export const DataExtractionNotification = (props: PropsForDataExtractionNotifica
       >
         <SessionIcon iconType="upload" iconSize="small" iconRotation={180} />
         <SpacerSM />
-        <Text text={contentText} subtle={true} />
+        <Text text={contentText} subtle={true} ellipsisOverflow={true} />
       </Flex>
     </ReadableMessage>
   );

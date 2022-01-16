@@ -455,7 +455,7 @@
   "noAudioOutputFound": "لا يوجد سماعات أو مكبر صوت",
   "callMediaPermissionsTitle": "مكالمات الصوت و الفيديو",
   "callMissedCausePermission": "مكالمة لم يتم الرد عليها من '$name$' بسبب عدم تفعيل صلاحيات 'مكالمات الصوت و الفيديو' في تعديلات الخصوصية.",
-  "callMissedNotApproved": "Call missed from '$name$' as you haven't approved this conversation yet. Send a message to him first.",
+  "callMissedNotApproved": "مكالمة لم يرد عليها من $name$ بما انك لم تقبل هذه المحادثة. ارسل رسالة اولا.",
   "callMediaPermissionsDescription": "قم بتفعيل صلاحيات 'مكالمات الصوت و الفيديو' لاستقبال المكالمات من المستخدمين الآخرين",
   "callMediaPermissionsDialogContent": "الاستعمال الحالي لمكالمات الصوت/الفيديو سيظهر عنوانك IP لخوادم مؤسسة Oxen و للمتصل بالمستخدم.",
   "menuCall": "اتصال",

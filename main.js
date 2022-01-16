@@ -944,13 +944,17 @@ ipc.on('close-debug-log', () => {
     debugLogWindow.close();
   }
 });
-ipc.on('save-debug-log', (event, logText) => {
-  const outputPath = path.join(app.getPath('desktop'), `session_debug_${new Date()}.log`);
+ipc.on('save-debug-log', (_event, logText) => {
+  const osSpecificDesktopFolder = app.getPath('desktop');
+  console.info(`Trying to save logs to log Desktop ${osSpecificDesktopFolder}`);
+
+  const outputPath = path.join(osSpecificDesktopFolder, `session_debug_${Date.now()}.log`);
   fs.writeFile(outputPath, logText, err => {
     if (err) {
-      console.error('Error saving debug log');
+      console.error(`Error saving debug log to ${outputPath}`);
+      return;
     }
-    console.error(`Saved log - ${outputPath}`);
+    console.info(`Saved log - ${outputPath}`);
   });
 });
 
