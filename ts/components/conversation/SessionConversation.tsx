@@ -532,7 +532,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
       return {
         id: pubKey,
-        authorPhoneNumber: pubKey,
         authorProfileName: profileName,
       };
     });

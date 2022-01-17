@@ -52,7 +52,7 @@ export function useOurConversationUsername() {
 }
 
 export function useIsMe(pubkey?: string) {
-  return pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache();
+  return Boolean(pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache());
 }
 
 export function useIsClosedGroup(convoId?: string) {
@@ -63,6 +63,45 @@ export function useIsClosedGroup(convoId?: string) {
 export function useIsPrivate(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.isPrivate);
+}
+
+export function useHasNickname(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.hasNickname);
+}
+
+export function useNotificationSetting(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return convoProps?.currentNotificationSetting || 'all';
+}
+export function useIsPublic(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isPublic);
+}
+
+export function useIsBlocked(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isBlocked);
+}
+
+export function useIsLeft(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.left);
+}
+
+export function useIsKickedFromGroup(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isKickedFromGroup);
+}
+
+export function useWeAreAdmin(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.weAreAdmin);
+}
+
+export function useExpireTimer(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.expireTimer);
 }
 
 export function useIsPinned(convoId?: string) {

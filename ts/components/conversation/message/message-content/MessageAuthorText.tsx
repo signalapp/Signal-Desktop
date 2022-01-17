@@ -12,7 +12,7 @@ import { ContactName } from '../../ContactName';
 
 export type MessageAuthorSelectorProps = Pick<
   MessageRenderingProps,
-  'authorName' | 'authorProfileName' | 'authorPhoneNumber' | 'direction' | 'firstMessageOfSeries'
+  'authorName' | 'authorProfileName' | 'sender' | 'direction' | 'firstMessageOfSeries'
 >;
 
 type Props = {
@@ -27,23 +27,17 @@ export const MessageAuthorText = (props: Props) => {
   if (!selected) {
     return null;
   }
-  const {
-    authorName,
-    authorPhoneNumber,
-    authorProfileName,
-    direction,
-    firstMessageOfSeries,
-  } = selected;
+  const { authorName, sender, authorProfileName, direction, firstMessageOfSeries } = selected;
 
-  const title = authorName ? authorName : authorPhoneNumber;
+  const title = authorName ? authorName : sender;
 
   if (direction !== 'incoming' || !isGroup || !title || !firstMessageOfSeries) {
     return null;
   }
 
-  const shortenedPubkey = PubKey.shorten(authorPhoneNumber);
+  const shortenedPubkey = PubKey.shorten(sender);
 
-  const displayedPubkey = authorProfileName ? shortenedPubkey : authorPhoneNumber;
+  const displayedPubkey = authorProfileName ? shortenedPubkey : sender;
 
   return (
     <Flex container={true}>

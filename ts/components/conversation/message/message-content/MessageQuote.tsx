@@ -40,11 +40,11 @@ export const MessageQuote = (props: Props) => {
 
         return;
       }
-      const { authorPhoneNumber, referencedMessageNotFound, messageId } = selected.quote;
+      const { sender, referencedMessageNotFound, messageId } = selected.quote;
       const quoteId = _.toNumber(messageId);
 
       scrollToQuote?.({
-        quoteAuthor: authorPhoneNumber,
+        quoteAuthor: sender,
         quoteId,
         referencedMessageNotFound: referencedMessageNotFound || false,
       });
@@ -57,12 +57,12 @@ export const MessageQuote = (props: Props) => {
 
   const { quote, direction } = selected;
 
-  if (!quote || !quote.authorPhoneNumber || !quote.messageId) {
+  if (!quote || !quote.sender || !quote.messageId) {
     return null;
   }
-  const shortenedPubkey = PubKey.shorten(quote.authorPhoneNumber);
+  const shortenedPubkey = PubKey.shorten(quote.sender);
 
-  const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.authorPhoneNumber;
+  const displayedPubkey = quote.authorProfileName ? shortenedPubkey : quote.sender;
 
   return (
     <Quote
@@ -70,7 +70,7 @@ export const MessageQuote = (props: Props) => {
       text={quote.text || ''}
       attachment={quote.attachment}
       isIncoming={direction === 'incoming'}
-      authorPhoneNumber={displayedPubkey}
+      sender={displayedPubkey}
       authorProfileName={quote.authorProfileName}
       authorName={quote.authorName}
       referencedMessageNotFound={quote.referencedMessageNotFound || false}
