@@ -464,4 +464,5 @@ export type LocalizerKeys =
   | 'editGroupName'
   | 'trimDatabase'
   | 'trimDatabaseDescription'
+  | 'trimDatabaseConfirmationBody'
   | 'reportIssue';

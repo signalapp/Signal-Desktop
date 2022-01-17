@@ -22,7 +22,8 @@ with open(EN_FILE,'r') as jsonFile:
     keys = data.keys()
 
     stringToWrite += json.dumps(keys, sort_keys=True).replace(',', '\n  |').replace('"', '\'')[1:-1]
-    print(stringToWrite)
+    # print(stringToWrite)
     with open(LOCALIZED_KEYS_FILE, "w") as typeFile:
         typeFile.write(stringToWrite)
 
+print('Updated LocalizerKeys.ts')

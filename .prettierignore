@@ -9,7 +9,6 @@ js/components.js
 js/util_worker.js
 js/libtextsecure.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
 libloki/test/test.js
@@ -20,6 +19,7 @@ ts/protobuf/*.d.ts
 ts/protobuf/*.js
 stylesheets/manifest.css
 ts/util/lint/exceptions.json
+ts/test/automation/notes
 
 # Third-party files
 node_modules/**

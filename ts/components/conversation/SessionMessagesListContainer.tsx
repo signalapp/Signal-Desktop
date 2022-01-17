@@ -166,6 +166,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         className="messages-container"
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
+        data-testid="messages-container"
       >
         <UnreadAboveIndicator />
 
@@ -330,7 +331,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
     // Look for message in memory first, which would tell us if we could scroll to it
     const targetMessage = messagesProps.find(item => {
-      const messageAuthor = item.propsForMessage?.authorPhoneNumber;
+      const messageAuthor = item.propsForMessage?.sender;
 
       if (!messageAuthor || quoteAuthor !== messageAuthor) {
         return false;

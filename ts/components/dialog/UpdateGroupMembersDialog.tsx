@@ -9,10 +9,9 @@ import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { useDispatch } from 'react-redux';
-import { useConversationPropsById } from '../../hooks/useParamSelector';
+import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { useWeAreAdmin } from '../../hooks/useWeAreAdmin';
 import { useSet } from '../../hooks/useSet';
 import { getConversationController } from '../../session/conversations';
 import { initiateClosedGroupUpdate } from '../../session/group/closed-group';

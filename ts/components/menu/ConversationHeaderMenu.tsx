@@ -1,98 +1,64 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
 import {
-  getAddModeratorsMenuItem,
-  getBanMenuItem,
-  getBlockMenuItem,
-  getChangeNicknameMenuItem,
-  getClearNicknameMenuItem,
-  getCopyMenuItem,
-  getDeleteContactMenuItem,
-  getDeleteMessagesMenuItem,
-  getDisappearingMenuItem,
-  getInviteContactMenuItem,
-  getLeaveGroupMenuItem,
-  getMarkAllReadMenuItem,
-  getNotificationForConvoMenuItem,
-  getPinConversationMenuItem,
-  getRemoveModeratorsMenuItem,
-  getShowUserDetailsMenuItem,
-  getUnbanMenuItem,
-  getUpdateGroupNameMenuItem,
+  AddModeratorsMenuItem,
+  BanMenuItem,
+  BlockMenuItem,
+  ChangeNicknameMenuItem,
+  ClearNicknameMenuItem,
+  CopyMenuItem,
+  DeleteContactMenuItem,
+  DeleteMessagesMenuItem,
+  DisappearingMessageMenuItem,
+  InviteContactMenuItem,
+  LeaveGroupMenuItem,
+  MarkAllReadMenuItem,
+  NotificationForConvoMenuItem,
+  PinConversationMenuItem,
+  RemoveModeratorsMenuItem,
+  ShowUserDetailsMenuItem,
+  UnbanMenuItem,
+  UpdateGroupNameMenuItem,
 } from './Menu';
 import _ from 'lodash';
-import { ConversationNotificationSettingType } from '../../models/conversation';
+import { ContextConversationId } from '../leftpane/conversation-list-item/ConversationListItem';
+import { getSelectedConversationKey } from '../../state/selectors/conversations';
+import { useSelector } from 'react-redux';
 
 export type PropsConversationHeaderMenu = {
-  conversationId: string;
   triggerId: string;
-  isMe: boolean;
-  isPublic: boolean;
-  isKickedFromGroup: boolean;
-  left: boolean;
-  isGroup: boolean;
-  weAreAdmin: boolean;
-  currentNotificationSetting: ConversationNotificationSettingType;
-  isPrivate: boolean;
-  isBlocked: boolean;
-  hasNickname: boolean;
-  name: string | undefined;
-  profileName: string | undefined;
-  avatarPath: string | null;
 };
 
-const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
-  const {
-    conversationId,
-    triggerId,
-    isMe,
-    isPublic,
-    isGroup,
-    isKickedFromGroup,
-    weAreAdmin,
-    isBlocked,
-    isPrivate,
-    left,
-    hasNickname,
-    currentNotificationSetting,
-    name,
-    profileName,
-    avatarPath,
-  } = props;
-  const userName = name || profileName || conversationId;
+export const ConversationHeaderMenu = (props: PropsConversationHeaderMenu) => {
+  const { triggerId } = props;
 
+  const selectedConversation = useSelector(getSelectedConversationKey);
+
+  if (!selectedConversation) {
+    throw new Error('selectedConversation must be set for a header to be visible!');
+  }
   return (
-    <Menu id={triggerId} animation={animation.fade}>
-      {getDisappearingMenuItem(isPublic, isKickedFromGroup, left, isBlocked, conversationId)}
-      {getNotificationForConvoMenuItem({
-        isKickedFromGroup,
-        left,
-        isBlocked,
-        isPrivate,
-        currentNotificationSetting,
-        conversationId,
-      })}
-      {getPinConversationMenuItem(conversationId)}
-      {getBlockMenuItem(isMe, isPrivate, isBlocked, conversationId)}
-      {getCopyMenuItem(isPublic, isGroup, conversationId)}
-      {getMarkAllReadMenuItem(conversationId)}
-      {getChangeNicknameMenuItem(isMe, isGroup, conversationId)}
-      {getClearNicknameMenuItem(isMe, hasNickname, isGroup, conversationId)}
-      {getDeleteMessagesMenuItem(conversationId)}
-      {getAddModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
-      {getRemoveModeratorsMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
-      {getBanMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
-      {getUnbanMenuItem(weAreAdmin, isPublic, isKickedFromGroup, conversationId)}
-      {getUpdateGroupNameMenuItem(weAreAdmin, isKickedFromGroup, left, conversationId)}
-      {getLeaveGroupMenuItem(isKickedFromGroup, left, isGroup, isPublic, conversationId)}
-      {getInviteContactMenuItem(isGroup, isPublic, conversationId)}
-      {getDeleteContactMenuItem(isGroup, isPublic, left, isKickedFromGroup, conversationId)}
-      {getShowUserDetailsMenuItem(isPrivate, conversationId, avatarPath, userName)}
-    </Menu>
+    <ContextConversationId.Provider value={selectedConversation}>
+      <Menu id={triggerId} animation={animation.fade}>
+        <DisappearingMessageMenuItem />
+        <NotificationForConvoMenuItem />
+        <PinConversationMenuItem />
+        <BlockMenuItem />
+        <CopyMenuItem />
+        <MarkAllReadMenuItem />
+        <ChangeNicknameMenuItem />
+        <ClearNicknameMenuItem />
+        <DeleteMessagesMenuItem />
+        <AddModeratorsMenuItem />
+        <RemoveModeratorsMenuItem />
+        <BanMenuItem />
+        <UnbanMenuItem />
+        <UpdateGroupNameMenuItem />
+        <LeaveGroupMenuItem />
+        <InviteContactMenuItem />
+        <DeleteContactMenuItem />
+        <ShowUserDetailsMenuItem />
+      </Menu>
+    </ContextConversationId.Provider>
   );
 };
-
-function propsAreEqual(prev: PropsConversationHeaderMenu, next: PropsConversationHeaderMenu) {
-  return _.isEqual(prev, next);
-}
-export const MemoConversationHeaderMenu = React.memo(ConversationHeaderMenu, propsAreEqual);

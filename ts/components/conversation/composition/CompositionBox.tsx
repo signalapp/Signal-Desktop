@@ -40,7 +40,6 @@ import {
   getSelectedConversation,
   getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
-import { getTheme } from '../../../state/selectors/theme';
 import { AttachmentUtil } from '../../../util';
 import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
@@ -211,6 +210,18 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
+// this is dirty but we have to replace all @(xxx) by @xxx manually here
+function cleanMentions(text: string): string {
+  const matches = text.match(mentionsRegex);
+  let replacedMentions = text;
+  (matches || []).forEach(match => {
+    const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
+    replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
+  });
+
+  return replacedMentions;
+}
+
 class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
@@ -243,7 +254,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.abortLinkPreviewFetch();
+    this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
 
     const div = this.container;
@@ -384,6 +395,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
           ref={el => {
             this.container = el;
           }}
+          data-testid="message-input"
         >
           {this.renderTextArea()}
         </div>
@@ -466,7 +478,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         .map(user => {
           return {
             display: user.authorProfileName,
-            id: user.authorPhoneNumber,
+            id: user.id,
           };
         }) || [];
     callback(filtered);
@@ -509,7 +521,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
       }
       return {
         id: pubKey,
-        authorPhoneNumber: pubKey,
         authorProfileName: profileName,
       };
     });
@@ -524,7 +535,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     // Transform the users to what react-mentions expects
     const mentionsData = members.map(user => ({
       display: user.authorProfileName || window.i18n('anonymous'),
-      id: user.authorPhoneNumber,
+      id: user.id,
     }));
     callback(mentionsData);
   }
@@ -595,7 +606,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       },
     });
     const abortController = new AbortController();
-    this.abortLinkPreviewFetch();
+    this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = abortController;
     setTimeout(() => {
       abortController.abort();
@@ -760,19 +771,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    this.abortLinkPreviewFetch();
-
-    // this is dirty but we have to replace all @(xxx) by @xxx manually here
-    const cleanMentions = (text: string): string => {
-      const matches = text.match(mentionsRegex);
-      let replacedMentions = text;
-      (matches || []).forEach(match => {
-        const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
-        replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
-      });
-
-      return replacedMentions;
-    };
+    this.linkPreviewAbortController?.abort();
 
     const messagePlaintext = cleanMentions(parseEmojis(this.state.draft));
 
@@ -1002,10 +1001,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
   }
-
-  private abortLinkPreviewFetch() {
-    this.linkPreviewAbortController?.abort();
-  }
 }
 
 const mapStateToProps = (state: StateType) => {
@@ -1014,7 +1009,6 @@ const mapStateToProps = (state: StateType) => {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
     typingEnabled: getIsTypingEnabled(state),
-    theme: getTheme(state),
   };
 };
 

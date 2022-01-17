@@ -421,7 +421,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       id: this.id,
       direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
       timestamp: this.get('sent_at') || 0,
-      authorPhoneNumber: sender,
+      sender,
       convoId: this.get('conversationId'),
     };
     if (body) {
@@ -553,14 +553,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const firstAttachment = quote.attachments && quote.attachments[0];
     const quoteProps: {
       referencedMessageNotFound?: boolean;
-      authorPhoneNumber: string;
+      sender: string;
       messageId: string;
       authorName: string;
       text?: string;
       attachment?: any;
       isFromMe?: boolean;
     } = {
-      authorPhoneNumber: author,
+      sender: author,
       messageId: id,
       authorName: authorName || 'Unknown',
     };

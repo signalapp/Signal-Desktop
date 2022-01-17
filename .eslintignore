@@ -9,7 +9,6 @@ js/components.js
 js/libtextsecure.js
 js/util_worker.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 test/test.js
 libloki/test/components.js
 libloki/test/test.js
@@ -25,3 +24,5 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js
+
+playwright.config.js

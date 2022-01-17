@@ -60,8 +60,8 @@ export const AudioPlayerWithEncryptedFile = (props: {
     // justEndedMessageIndex cannot be -1 nor 0, so it is >= 1
     const nextMessageIndex = justEndedMessageIndex - 1;
     // stop auto-playing when the audio messages change author.
-    const prevAuthorNumber = messageProps[justEndedMessageIndex].propsForMessage.authorPhoneNumber;
-    const nextAuthorNumber = messageProps[nextMessageIndex].propsForMessage.authorPhoneNumber;
+    const prevAuthorNumber = messageProps[justEndedMessageIndex].propsForMessage.sender;
+    const nextAuthorNumber = messageProps[nextMessageIndex].propsForMessage.sender;
     const differentAuthor = prevAuthorNumber !== nextAuthorNumber;
     if (differentAuthor) {
       dispatch(setNextMessageToPlayId(undefined));

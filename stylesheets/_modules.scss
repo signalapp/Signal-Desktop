@@ -1364,7 +1364,7 @@
 .module-search-results {
   overflow-y: auto;
   max-height: 100%;
-  color: white;
+  color: var(--color-text);
 }
 
 .module-search-results__conversations-header {
@@ -1456,7 +1456,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: var(--color-text-subtle);
+  color: var(--color-text);
 }
 
 .module-message-search-result__header__timestamp {
@@ -1490,7 +1490,7 @@
 
   font-size: 13px;
 
-  color: $color-gray-60;
+  color: var(--color-text-subtle);
 
   max-height: 3.6em;
 

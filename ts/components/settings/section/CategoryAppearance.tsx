@@ -6,11 +6,7 @@ import useUpdate from 'react-use/lib/useUpdate';
 import {
   createOrUpdateItem,
   fillWithTestData,
-  fillWithTestData2,
-  // fillWithTestData2,
-  getMessageCount,
   hasLinkPreviewPopupBeenDisplayed,
-  trimMessages,
 } from '../../../data/data';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
@@ -139,12 +135,10 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('translation')}
         />
-        <SessionSettingButtonItem
+        {/* <SessionSettingButtonItem
           title={window.i18n('trimDatabase')}
           description={window.i18n('trimDatabaseDescription')}
           onClick={async () => {
-            console.warn('trim the database to last 10k messages');
-
             const msgCount = await getMessageCount();
             const deleteAmount = Math.max(msgCount - 10000, 0);
 
@@ -156,13 +150,13 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
                 onClickClose: () => {
                   updateConfirmModal(null);
                 },
-                message: `Are you sure you want to delete your ${deleteAmount} oldest received messages?`,
+                message: window.i18n('trimDatabaseConfirmationBody', [`${deleteAmount}`]),
               })
             );
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('trimDatabase')}
-        />
+        /> */}
         <SessionSettingButtonItem
           onClick={() => {
             ipcRenderer.send('show-debug-log');
@@ -172,14 +166,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
         />
         <SessionSettingButtonItem
           onClick={async () => {
-            await fillWithTestData(100, 2000000);
-          }}
-          buttonColor={SessionButtonColor.Primary}
-          buttonText={'Spam fill DB'}
-        />
-        <SessionSettingButtonItem
-          onClick={async () => {
-            await fillWithTestData2(100, 1000);
+            await fillWithTestData(100, 1000);
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={'Spam fill DB using cached'}

@@ -114,6 +114,7 @@ export const OverlayClosedGroup = () => {
         text={buttonText}
         disabled={noContactsForClosedGroup}
         onClick={onEnterPressed}
+        dataTestId="next-button"
       />
     </div>
   );

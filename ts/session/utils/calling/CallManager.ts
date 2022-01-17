@@ -491,6 +491,8 @@ export async function USER_callRecipient(recipient: string) {
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
+  calledConvo.set('active_at', Date.now()); // addSingleMessage does the commit for us on the convo
+
   await calledConvo?.addSingleMessage({
     conversationId: calledConvo.id,
     source: UserUtils.getOurPubKeyStrFromCache(),
@@ -820,6 +822,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
   }
   const now = Date.now();
   const callerConvo = getConversationController().get(fromSender);
+  callerConvo.set('active_at', now);
   await callerConvo?.addSingleMessage({
     conversationId: callerConvo.id,
     source: UserUtils.getOurPubKeyStrFromCache(),
@@ -1129,6 +1132,10 @@ export async function handleMissedCall(
 
 async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
+
+  if (incomingCallConversation.isActive()) {
+    incomingCallConversation.set('active_at', Date.now());
+  }
 
   await incomingCallConversation?.addSingleMessage({
     conversationId: callerPubkey,
