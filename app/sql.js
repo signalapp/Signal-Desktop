@@ -73,6 +73,8 @@ module.exports = {
   getMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
+  trimMessages,
+  fillWithTestData,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -836,6 +838,8 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion15,
   updateToLokiSchemaVersion16,
   updateToLokiSchemaVersion17,
+  updateToLokiSchemaVersion18,
+  updateToLokiSchemaVersion19,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1248,6 +1252,86 @@ function updateToLokiSchemaVersion17(currentVersion, db) {
     `);
     writeLokiSchemaVersion(targetVersion, db);
   })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion18(currentVersion, db) {
+  const targetVersion = 18;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  // Dropping all pre-existing schema relating to message searching.
+  // Recreating the full text search and related triggers
+  db.transaction(() => {
+    db.exec(`
+      DROP TRIGGER IF EXISTS messages_on_insert;
+      DROP TRIGGER IF EXISTS messages_on_delete;
+      DROP TRIGGER IF EXISTS messages_on_update;
+      DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
+  db.transaction(() => {
+    db.exec(`
+    -- Then we create our full-text search table and populate it
+    CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
+      USING fts5(id UNINDEXED, body);
+    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
+      SELECT id, body FROM ${MESSAGES_TABLE};
+    -- Then we set up triggers to keep the full-text search table up to date
+    CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
+      INSERT INTO ${MESSAGES_FTS_TABLE} (
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+    CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+    END;
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+      INSERT INTO ${MESSAGES_FTS_TABLE}(
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion19(currentVersion, db) {
+  const targetVersion = 19;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX messages_schemaVersion;
+      ALTER TABLE ${MESSAGES_TABLE} DROP COLUMN schemaVersion;
+    `);
+    // this is way to slow for now...
+    // db.exec(`
+    //   UPDATE ${MESSAGES_TABLE} SET
+    //   json = json_remove(json, '$.schemaVersion')
+    // `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
@@ -1841,7 +1925,6 @@ function saveMessage(data) {
     serverTimestamp,
     // eslint-disable-next-line camelcase
     received_at,
-    schemaVersion,
     sent,
     // eslint-disable-next-line camelcase
     sent_at,
@@ -1876,7 +1959,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1901,7 +1983,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1922,7 +2003,6 @@ function saveMessage(data) {
     $hasFileAttachments,
     $hasVisualMediaAttachments,
     $received_at,
-    $schemaVersion,
     $sent,
     $sent_at,
     $source,
@@ -2218,6 +2298,34 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
     return undefined;
   }
   return rows[0].id;
+}
+
+/**
+ * Deletes all but the 10,000 last received messages.
+ */
+function trimMessages() {
+  globalInstance
+    .prepare(
+      `
+      DELETE FROM ${MESSAGES_TABLE}
+      WHERE id NOT IN (
+        SELECT id FROM ${MESSAGES_TABLE}
+        ORDER BY received_at DESC
+        LIMIT 10000
+      );
+    `
+    )
+    .run();
+
+  const rows = globalInstance
+    .prepare(
+      `SELECT * FROM ${MESSAGES_TABLE}
+     ORDER BY received_at DESC;`
+    )
+    .all();
+
+  return rows;
+  // return map(rows, row => jsonToObject(row.json));
 }
 
 function getMessagesBySentAt(sentAt) {
@@ -2920,4 +3028,140 @@ function removeOneOpenGroupV1Message() {
   console.timeEnd('removeOneOpenGroupV1Message');
 
   return toRemoveCount - 1;
+}
+
+/**
+ * Only using this for development. Populate conversation and message tables.
+ * @param {*} numConvosToAdd
+ * @param {*} numMsgsToAdd
+ */
+function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
+  const convoBeforeCount = globalInstance
+    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
+    .get()['count(*)'];
+
+  const lipsum =
+    // eslint:disable-next-line max-line-length
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem,
+    non suscipit      purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Suspendisse cursus aliquet       velit a dignissim. Integer at nisi sed velit consequat
+    dictum. Phasellus congue tellus ante.        Ut rutrum hendrerit dapibus. Fusce
+    luctus, ante nec interdum molestie, purus urna volutpat         turpis, eget mattis
+    lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus          at
+    nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi
+    ante.           Donec aliquam porta nibh, vel scelerisque orci condimentum sed.
+    Proin in mattis ipsum,            ac euismod sem. Donec malesuada sem nisl, at
+    vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
+    metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
+    imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
+    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur
+            viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
+    mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
+    odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
+    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.
+    Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
+    viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
+    ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
+    fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum
+    malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque
+    eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed
+    justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec
+    auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at
+    tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non
+    augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus
+    elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis
+    lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent
+    faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae
+    aliquet sollicitudin.
+    `;
+
+  const msgBeforeCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
+    'count(*)'
+  ];
+
+  console.warn('==== fillWithTestData ====');
+  console.warn({
+    convoBeforeCount,
+    msgBeforeCount,
+    convoToAdd: numConvosToAdd,
+    msgToAdd: numMsgsToAdd,
+  });
+
+  const convosIdsAdded = [];
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < numConvosToAdd; index++) {
+    const activeAt = Date.now() - index;
+    const id = Date.now() - 1000 * index;
+    const convoObjToAdd = {
+      active_at: activeAt,
+      members: [],
+      profileName: `${activeAt}`,
+      name: `${activeAt}`,
+      id: `05${id}`,
+      type: 'group',
+    };
+    convosIdsAdded.push(id);
+    try {
+      saveConversation(convoObjToAdd);
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  }
+  console.warn('convosIdsAdded', convosIdsAdded);
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < numMsgsToAdd; index++) {
+    const activeAt = Date.now() - index;
+    const id = Date.now() - 1000 * index;
+
+    const lipsumStartIdx = Math.floor(Math.random() * lipsum.length);
+    const lipsumLength = Math.floor(Math.random() * lipsum.length - lipsumStartIdx);
+    const fakeBodyText = lipsum.substring(lipsumStartIdx, lipsumStartIdx + lipsumLength);
+
+    const convoId = convosIdsAdded[Math.floor(Math.random() * convosIdsAdded.length)];
+    const msgObjToAdd = {
+      // body: `fake body ${activeAt}`,
+      body: `fakeMsgIdx-spongebob-${index} ${fakeBodyText} ${activeAt}`,
+      conversationId: `${convoId}`,
+      // eslint-disable-next-line camelcase
+      expires_at: 0,
+      hasAttachments: 0,
+      hasFileAttachments: 0,
+      hasVisualMediaAttachments: 0,
+      id: `${id}`,
+      serverId: 0,
+      serverTimestamp: 0,
+      // eslint-disable-next-line camelcase
+      received_at: Date.now(),
+      sent: 0,
+      // eslint-disable-next-line camelcase
+      sent_at: Date.now(),
+      source: `${convoId}`,
+      sourceDevice: 1,
+      type: '%',
+      unread: 1,
+      expireTimer: 0,
+      expirationStartTimestamp: 0,
+    };
+
+    if (convoId % 10 === 0) {
+      console.info('uyo , convoId ', { index, convoId });
+    }
+
+    try {
+      saveMessage(msgObjToAdd);
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
+  const convoAfterCount = globalInstance
+    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
+    .get()['count(*)'];
+
+  const msgAfterCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
+    'count(*)'
+  ];
+
+  console.warn({ convoAfterCount, msgAfterCount });
+  return convosIdsAdded;
 }

@@ -5,6 +5,7 @@ import { searchConversations, searchMessages } from '../../../ts/data/data';
 import { ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
+import _ from 'lodash';
 
 // State
 
@@ -16,6 +17,10 @@ export type SearchStateType = {
   // For conversations we store just the id, and pull conversation props in the selector
   conversations: Array<string>;
   contacts: Array<string>;
+
+  // TODO: ww typing
+  messages?: Array<any>;
+  messagesLookup?: any;
 };
 
 // Actions
@@ -24,6 +29,9 @@ type SearchResultsPayloadType = {
   normalizedPhoneNumber?: string;
   conversations: Array<string>;
   contacts: Array<string>;
+
+  // TODO: ww typing
+  messages?: Array<any>;
 };
 
 type SearchResultsKickoffActionType = {
@@ -75,7 +83,7 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
     queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  let filteredMessages = messages.filter(message => message !== undefined);
+  let filteredMessages = _.compact(messages);
 
   if (isAdvancedQuery) {
     let senderFilter: Array<string> = [];
@@ -88,12 +96,12 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
     }
     filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
   }
-
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
     conversations,
     contacts,
+    messages: filteredMessages,
   };
 }
 export function clearSearch(): ClearSearchActionType {
@@ -194,7 +202,6 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 async function queryMessages(query: string) {
   try {
     const normalized = cleanSearchTerm(query);
-
     return searchMessages(normalized);
   } catch (e) {
     return [];
@@ -247,6 +254,8 @@ export const initialSearchState: SearchStateType = {
   query: '',
   conversations: [],
   contacts: [],
+  messages: [],
+  messagesLookup: {},
 };
 
 function getEmptyState(): SearchStateType {
@@ -274,8 +283,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, normalizedPhoneNumber, conversations, contacts } = payload;
-
+    const { query, normalizedPhoneNumber, conversations, contacts, messages } = payload;
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
@@ -287,6 +295,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
       normalizedPhoneNumber,
       conversations,
       contacts,
+      messages,
     };
   }
 

@@ -462,4 +462,6 @@ export type LocalizerKeys =
   | 'searchFor...'
   | 'joinedTheGroup'
   | 'editGroupName'
+  | 'trimDatabase'
+  | 'trimDatabaseDescription'
   | 'reportIssue';
