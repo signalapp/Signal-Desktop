@@ -3,13 +3,12 @@ import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
 } from '../leftpane/conversation-list-item/ConversationListItem';
-import { MessageSearchResult } from './MessageSearchResults';
+import { MessageResultProps, MessageSearchResult } from './MessageSearchResults';
 
 export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
   conversations: Array<ConversationListItemProps>;
-  // TODO: ww add proper typing
-  messages: Array<any>;
+  messages: Array<MessageResultProps>;
   hideMessagesHeader: boolean;
   searchTerm: string;
 };
