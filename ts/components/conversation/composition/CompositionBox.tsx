@@ -384,6 +384,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
           ref={el => {
             this.container = el;
           }}
+          data-testid="message-input"
         >
           {this.renderTextArea()}
         </div>

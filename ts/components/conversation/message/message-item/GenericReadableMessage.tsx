@@ -181,6 +181,7 @@ export const GenericReadableMessage = (props: Props) => {
         messageId={messageId}
         onQuoteClick={props.onQuoteClick}
         isDetailView={isDetailView}
+        dataTestId={`message-content-${messageId}`}
       />
       <ExpireTimer
         isCorrectSide={isIncoming}

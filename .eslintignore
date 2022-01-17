@@ -25,3 +25,5 @@ test/blanket_mocha.js
 # TypeScript generated files
 ts/**/*.js
 **/ts/**/*.js
+
+playwright.config.js
