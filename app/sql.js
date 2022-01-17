@@ -7,7 +7,6 @@ const { redactAll } = require('../js/modules/privacy');
 const { remove: removeUserConfig } = require('./user_config');
 
 const { map, isString, fromPairs, forEach, last, isEmpty, isObject, isNumber } = require('lodash');
-const { requestSnodesForPubkey } = require('../ts/session/apis/snode_api/SNodeAPI');
 
 /* eslint-disable camelcase */
 
@@ -2285,6 +2284,7 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
  * Deletes all but the 10,000 last received messages.
  */
 function trimMessages(limit) {
+  console.log(limit); // adding this for linting purposes.
   // METHOD 1 Start - Seems to take to long and freeze
   // const convoCount = globalInstance
   //   .prepare(
@@ -2296,14 +2296,12 @@ function trimMessages(limit) {
   //   .all({
   //     conversationId,
   //   });
-
   // if (convoCount < limit) {
   //   console.log(`Skipping conversation: ${conversationId}`);
   //   return;
   // } else {
   //   console.count('convo surpassed limit');
   // }
-
   // globalInstance
   //   .prepare(
   //     `
@@ -2321,58 +2319,48 @@ function trimMessages(limit) {
   //     conversationId,
   //     limit,
   //   });
-
   // METHOD 1 END
-
   // METHOD 2 Start
-  const messages = globalInstance
-    .prepare(
-      `
-        SELECT id, conversationId FROM ${MESSAGES_TABLE}
-
-        CREATE VIRTUAL TABLE IF NOT EXISTS temp_deletion
-        id STRING PRIMARY KEY ASC
-      `
-    )
-    .all();
-
-  let idsToDelete = [];
-  const convoCountLookup = {};
-
-  for (let index = 0; index < messages.length; index++) {
-    const { conversationId, id } = messages[index];
-    console.log(`run ${index} - convoId: ${conversationId}, messageId: ${id}`);
-
-    if (!convoCountLookup[conversationId]) {
-      convoCountLookup[conversationId] = 1;
-    } else {
-      convoCountLookup[conversationId]++;
-      if (convoCountLookup[conversationId] > limit) {
-        idsToDelete.push(id);
-      }
-    }
-  }
-
-  // Ideally should be able to do WHERE id IN (x, y, z) with an array of IDs
-  // the array might need to be chunked as well for performance
-  const idSlice = [...idsToDelete].slice(0, 30);
-  idSlice.forEach(id => {
-    globalInstance
-      .prepare(
-        `
-          DELETE FROM ${MESSAGES_TABLE}
-          WHERE id = $idSlice
-        `
-      )
-      .run({
-        idSlice,
-      });
-  });
-
+  // const messages = globalInstance
+  //   .prepare(
+  //     `
+  //       SELECT id, conversationId FROM ${MESSAGES_TABLE}
+  //       CREATE VIRTUAL TABLE IF NOT EXISTS temp_deletion
+  //       id STRING PRIMARY KEY ASC
+  //     `
+  //   )
+  //   .all();
+  // const idsToDelete = [];
+  // const convoCountLookup = {};
+  // for (let index = 0; index < messages.length; index + 1) {
+  //   const { conversationId, id } = messages[index];
+  //   console.log(`run ${index} - convoId: ${conversationId}, messageId: ${id}`);
+  //   if (!convoCountLookup[conversationId]) {
+  //     convoCountLookup[conversationId] = 1;
+  //   } else {
+  //     convoCountLookup[conversationId] + 1;
+  //     if (convoCountLookup[conversationId] > limit) {
+  //       idsToDelete.push(id);
+  //     }
+  //   }
+  // }
+  // // Ideally should be able to do WHERE id IN (x, y, z) with an array of IDs
+  // // the array might need to be chunked as well for performance
+  // const idSlice = [...idsToDelete].slice(0, 30);
+  // idSlice.forEach(() => {
+  //   globalInstance
+  //     .prepare(
+  //       `
+  //         DELETE FROM ${MESSAGES_TABLE}
+  //         WHERE id = $idSlice
+  //       `
+  //     )
+  //     .run({
+  //       idSlice,
+  //     });
+  // });
   // Method 2 End
-
   // Method 3 start - Audric's suggestion
-
   // const largeConvos = globalInstance
   //   .prepare(
   //     `
@@ -2382,9 +2370,7 @@ function trimMessages(limit) {
   //     `
   //   )
   //   .all();
-
   // console.log({ largeConvos });
-
   // // finding 1000th msg timestamp
   // largeConvos.forEach(convo => {
   //   const convoId = convo.conversationId;
@@ -2402,7 +2388,6 @@ function trimMessages(limit) {
   //     .all({
   //       convoId,
   //     });
-
   //   // use timestamp with lesserThan as conditional for deletion
   //   console.log({ lastMsg });
   //   const timestamp = lastMsg[0].received_at;

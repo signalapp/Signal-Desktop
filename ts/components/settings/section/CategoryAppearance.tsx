@@ -6,11 +6,7 @@ import useUpdate from 'react-use/lib/useUpdate';
 import {
   createOrUpdateItem,
   fillWithTestData,
-  fillWithTestData2,
-  // fillWithTestData2,
-  getMessageCount,
   hasLinkPreviewPopupBeenDisplayed,
-  trimMessages,
 } from '../../../data/data';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
@@ -139,7 +135,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('translation')}
         />
-        <SessionSettingButtonItem
+        {/* <SessionSettingButtonItem
           title={window.i18n('trimDatabase')}
           description={window.i18n('trimDatabaseDescription')}
           onClick={async () => {
@@ -160,7 +156,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('trimDatabase')}
-        />
+        /> */}
         <SessionSettingButtonItem
           onClick={() => {
             ipcRenderer.send('show-debug-log');
@@ -170,14 +166,7 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
         />
         <SessionSettingButtonItem
           onClick={async () => {
-            await fillWithTestData(100, 2000000);
-          }}
-          buttonColor={SessionButtonColor.Primary}
-          buttonText={'Spam fill DB'}
-        />
-        <SessionSettingButtonItem
-          onClick={async () => {
-            await fillWithTestData2(100, 1000);
+            await fillWithTestData(100, 1000);
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={'Spam fill DB using cached'}

@@ -5,10 +5,6 @@ import { AddNewLines } from '../conversation/AddNewLines';
 import { Emojify } from '../conversation/Emojify';
 import { MessageBody } from '../conversation/message/message-content/MessageBody';
 
-interface Props {
-  text: string;
-}
-
 const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
   <AddNewLines key={key} text={text} />
 );
@@ -25,7 +21,7 @@ const renderEmoji = ({
   renderNonEmoji: RenderTextCallbackType;
 }) => <Emojify key={key} text={text} sizeClass={sizeClass} renderNonEmoji={renderNonEmoji} />;
 
-export const MessageBodyHighlight = (props: Props) => {
+export const MessageBodyHighlight = (props: { text: string }) => {
   const { text } = props;
   const results: Array<JSX.Element> = [];
   const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;

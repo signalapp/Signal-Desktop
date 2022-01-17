@@ -995,22 +995,7 @@ export async function removeOneOpenGroupV1Message(): Promise<number> {
  * @param numConvosToAdd Amount of fake conversations to generate
  * @param numMsgsToAdd Number of fake messages to generate
  */
-export async function fillWithTestData(
-  numConvosToAdd: number,
-  numMsgsToAdd: number
-): Promise<void> {
-  if (!channels.fillWithTestData) {
-    return;
-  }
-  const ids = await channels.fillWithTestData(numConvosToAdd, numMsgsToAdd);
-  ids.map((id: string) => {
-    const convo = getConversationController().get(id);
-    const convoMsg = 'x';
-    convo.set('lastMessage', convoMsg);
-  });
-}
-
-export const fillWithTestData2 = async (convs: number, msgs: number) => {
+export async function fillWithTestData(convs: number, msgs: number) {
   const newConvos = [];
   for (let convsAddedCount = 0; convsAddedCount < convs; convsAddedCount++) {
     const convoId = `${Date.now()} + ${convsAddedCount}`;
@@ -1036,4 +1021,4 @@ export const fillWithTestData2 = async (convs: number, msgs: number) => {
       direction: Math.random() > 0.5 ? 'outgoing' : 'incoming',
     });
   }
-};
+}
