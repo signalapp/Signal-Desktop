@@ -7,12 +7,13 @@ import { OutgoingMessageStatus } from './OutgoingMessageStatus';
 type Props = {
   isCorrectSide: boolean;
   messageId: string;
+  dataTestId?: string;
 };
 
 export type MessageStatusSelectorProps = Pick<MessageRenderingProps, 'direction' | 'status'>;
 
 export const MessageStatus = (props: Props) => {
-  const { isCorrectSide } = props;
+  const { isCorrectSide, dataTestId } = props;
 
   const selected = useSelector(state => getMessageStatusProps(state as any, props.messageId));
   if (!selected) {
@@ -30,5 +31,5 @@ export const MessageStatus = (props: Props) => {
     return null;
   }
 
-  return <OutgoingMessageStatus status={status} />;
+  return <OutgoingMessageStatus dataTestId={dataTestId} status={status} />;
 };

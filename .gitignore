@@ -27,6 +27,8 @@ ts/protobuf/*.d.ts
 ts/**/*.js.map
 test/ts/**/*.js.map
 test/ts/**/*.js
+ts/test/automation/**/*.js
+ts/test/automation/**/*.js.map
 
 
 # Swapfiles
@@ -45,3 +47,6 @@ yarn-error.log
 .vscode/
 
 libloki/test/test.js
+
+playwright.config.js
+playwright.config.js.map

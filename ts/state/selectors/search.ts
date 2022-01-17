@@ -23,11 +23,17 @@ export const isSearching = createSelector(getSearch, (state: SearchStateType) =>
 });
 
 export const getSearchResults = createSelector(
-  [getSearch, getConversationLookup, getSelectedConversationKey],
-  (state: SearchStateType, lookup: ConversationLookupType, selectedConversation?: string) => {
+  [getSearch, getConversationLookup, getSelectedConversationKey, getSelectedMessage],
+  (
+    searchState: SearchStateType,
+    lookup: ConversationLookupType,
+    selectedConversation?: string,
+    selectedMessage?: string
+  ) => {
+    console.warn({ state: searchState });
     return {
       contacts: compact(
-        state.contacts.map(id => {
+        searchState.contacts.map(id => {
           const value = lookup[id];
 
           if (value && id === selectedConversation) {
@@ -41,7 +47,7 @@ export const getSearchResults = createSelector(
         })
       ),
       conversations: compact(
-        state.conversations.map(id => {
+        searchState.conversations.map(id => {
           const value = lookup[id];
 
           // Don't return anything when activeAt is unset (i.e. no current conversations with this user)
@@ -60,9 +66,21 @@ export const getSearchResults = createSelector(
           return value;
         })
       ),
+      messages: compact(
+        searchState.messages?.map(message => {
+          if (message.id === selectedMessage) {
+            return {
+              ...message,
+              isSelected: true,
+            };
+          }
+
+          return message;
+        })
+      ),
       hideMessagesHeader: false,
 
-      searchTerm: state.query,
+      searchTerm: searchState.query,
     };
   }
 );

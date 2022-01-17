@@ -3,7 +3,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useUpdate from 'react-use/lib/useUpdate';
-import { createOrUpdateItem, hasLinkPreviewPopupBeenDisplayed } from '../../../data/data';
+import {
+  createOrUpdateItem,
+  fillWithTestData,
+  hasLinkPreviewPopupBeenDisplayed,
+} from '../../../data/data';
 import { ToastUtils } from '../../../session/utils';
 import { updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { toggleAudioAutoplay } from '../../../state/ducks/userConfig';
@@ -131,12 +135,41 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('translation')}
         />
+        {/* <SessionSettingButtonItem
+          title={window.i18n('trimDatabase')}
+          description={window.i18n('trimDatabaseDescription')}
+          onClick={async () => {
+            const msgCount = await getMessageCount();
+            const deleteAmount = Math.max(msgCount - 10000, 0);
+
+            dispatch(
+              updateConfirmModal({
+                onClickOk: () => {
+                  void trimMessages();
+                },
+                onClickClose: () => {
+                  updateConfirmModal(null);
+                },
+                message: window.i18n('trimDatabaseConfirmationBody', [`${deleteAmount}`]),
+              })
+            );
+          }}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={window.i18n('trimDatabase')}
+        /> */}
         <SessionSettingButtonItem
           onClick={() => {
             ipcRenderer.send('show-debug-log');
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('showDebugLog')}
+        />
+        <SessionSettingButtonItem
+          onClick={async () => {
+            await fillWithTestData(100, 1000);
+          }}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={'Spam fill DB using cached'}
         />
       </>
     );

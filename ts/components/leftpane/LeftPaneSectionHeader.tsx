@@ -43,7 +43,7 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
       <div className="module-left-pane__header">
         <SectionTitle>{label}</SectionTitle>
         {isMessageSection && (
-          <SessionButton onClick={props.buttonClicked}>
+          <SessionButton onClick={props.buttonClicked} dataTestId="new-conversation-button">
             <SessionIcon iconType="plus" iconSize="small" iconColor="white" />
           </SessionButton>
         )}

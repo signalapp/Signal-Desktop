@@ -25,6 +25,7 @@ type Props = {
   onQuoteClick: (quote: QuoteClickOptions) => void;
   ctxMenuID: string;
   isDetailView?: boolean;
+  dataTestId?: string;
 };
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -64,7 +65,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     }
   };
 
-  const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
+  const { messageId, onQuoteClick, ctxMenuID, isDetailView, dataTestId } = props;
   if (!contentProps) {
     return null;
   }
@@ -78,8 +79,13 @@ export const MessageContentWithStatuses = (props: Props) => {
       onClick={onClickOnMessageOuterContainer}
       onDoubleClickCapture={onDoubleClickReplyToMessage}
       style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
+      data-testid={dataTestId}
     >
-      <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
+      <MessageStatus
+        dataTestId="msg-status-incoming"
+        messageId={messageId}
+        isCorrectSide={isIncoming}
+      />
       <div>
         <MessageAuthorText messageId={messageId} />
 
@@ -89,7 +95,11 @@ export const MessageContentWithStatuses = (props: Props) => {
           onQuoteClick={onQuoteClick}
         />
       </div>
-      <MessageStatus messageId={messageId} isCorrectSide={!isIncoming} />
+      <MessageStatus
+        dataTestId="msg-status-outgoing"
+        messageId={messageId}
+        isCorrectSide={!isIncoming}
+      />
       {!isDeleted && <MessageContextMenu messageId={messageId} contextMenuId={ctxMenuID} />}
     </div>
   );

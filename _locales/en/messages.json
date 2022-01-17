@@ -462,5 +462,8 @@
   "callMediaPermissionsDialogContent": "The current implementation of voice/video calls will expose your IP address to the Oxen Foundation servers and the calling/called user.",
   "menuCall": "Call",
   "startedACall": "You called $name$",
-  "answeredACall": "Call with $name$"
+  "answeredACall": "Call with $name$",
+  "trimDatabase": "Trim Database",
+  "trimDatabaseDescription": "Reduces your message database size to your last 10,000 messages.",
+  "trimDatabaseConfirmationBody": "Are you sure you want to delete your $deleteAmount$ oldest received messages?"
 }

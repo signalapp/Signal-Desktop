@@ -75,13 +75,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
 
-    this.set(
-      window.Signal.Types.Message.initializeSchemaVersion({
-        message: filledAttrs,
-        logger: window.log,
-      })
-    );
-
     if (!this.attributes.id) {
       throw new Error('A message always needs to have an id.');
     }
