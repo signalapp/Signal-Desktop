@@ -280,7 +280,6 @@
     "patch-package": "6.4.7",
     "playwright": "1.17.1",
     "prettier": "2.4.1",
-    "react-docgen-typescript": "1.2.6",
     "sass-loader": "10.2.0",
     "sinon": "11.1.1",
     "style-loader": "1.0.0",
