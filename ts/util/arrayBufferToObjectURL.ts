@@ -1,5 +1,4 @@
-import is from '@sindresorhus/is';
-
+import { isArrayBuffer } from 'lodash';
 import { MIMEType } from '../types/MIME';
 
 export const arrayBufferToObjectURL = ({
@@ -9,7 +8,7 @@ export const arrayBufferToObjectURL = ({
   data: ArrayBuffer;
   type: MIMEType;
 }): string => {
-  if (!is.arrayBuffer(data)) {
+  if (!isArrayBuffer(data)) {
     throw new TypeError('`data` must be an ArrayBuffer');
   }
 

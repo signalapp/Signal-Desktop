@@ -1,6 +1,6 @@
 import React from 'react';
 import { animation, Menu } from 'react-contexify';
-import _ from 'underscore';
+import _ from 'lodash';
 
 import {
   BanMenuItem,

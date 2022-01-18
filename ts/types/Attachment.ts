@@ -1,6 +1,5 @@
-import is from '@sindresorhus/is';
 import moment from 'moment';
-import { isArrayBuffer, padStart } from 'lodash';
+import { isArrayBuffer, isUndefined, padStart } from 'lodash';
 
 import * as MIME from './MIME';
 import { saveURLAsFile } from '../util/saveURLAsFile';
@@ -276,7 +275,7 @@ interface AttachmentSchemaVersion3 {
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
 
-  if (is.undefined(contentType)) {
+  if (isUndefined(contentType)) {
     return false;
   }
 
@@ -290,7 +289,7 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
 export const isFile = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
 
-  if (is.undefined(contentType)) {
+  if (isUndefined(contentType)) {
     return false;
   }
 
@@ -309,13 +308,13 @@ export const isVoiceMessage = (attachment: Attachment): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // tslint:disable-next-line no-bitwise
-    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+    !isUndefined(attachment.flags) && (attachment.flags & flag) === flag;
   if (hasFlag) {
     return true;
   }
 
   const isLegacyAndroidVoiceMessage =
-    !is.undefined(attachment.contentType) &&
+    !isUndefined(attachment.contentType) &&
     MIME.isAudio(attachment.contentType) &&
     !attachment.fileName;
   if (isLegacyAndroidVoiceMessage) {
@@ -337,7 +336,7 @@ export const save = ({
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
-  const isObjectURLRequired = is.undefined(attachment.fileName);
+  const isObjectURLRequired = isUndefined(attachment.fileName);
   const filename = getSuggestedFilename({ attachment, timestamp, index });
   saveURLAsFile({ url: attachment.url, filename, document });
   if (isObjectURLRequired) {

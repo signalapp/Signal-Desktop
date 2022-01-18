@@ -103,6 +103,7 @@ window.getStartInTray = () =>
   });
 
 window.libsession = require('./ts/session');
+window._ = require('lodash');
 
 window.getConversationController = window.libsession.Conversations.getConversationController;
 

@@ -6,7 +6,6 @@
  *
  */
 
-import toArrayBuffer from 'to-arraybuffer';
 import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
 import { DURATION } from '../constants';
@@ -86,9 +85,7 @@ export const getDecryptedMediaUrl = async (
           window.log.info('about to read and decrypt file :', url);
           try {
             const encryptedFileContent = await fse.readFile(url);
-            const decryptedContent = await decryptAttachmentBuffer(
-              toArrayBuffer(encryptedFileContent)
-            );
+            const decryptedContent = await decryptAttachmentBuffer(encryptedFileContent.buffer);
             if (decryptedContent?.length) {
               const arrayBuffer = decryptedContent.buffer;
               const obj = makeObjectUrl(arrayBuffer, contentType);

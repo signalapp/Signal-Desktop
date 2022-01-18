@@ -34,7 +34,7 @@ import { conversationChanged, conversationRemoved } from '../../state/ducks/conv
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from '../dialog/ModalContainer';
-import { debounce } from 'underscore';
+import { debounce } from 'lodash';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 

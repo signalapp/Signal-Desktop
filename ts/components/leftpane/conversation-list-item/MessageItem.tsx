@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
-import { isEmpty } from 'underscore';
+import { isEmpty } from 'lodash';
 import { useConversationPropsById } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';

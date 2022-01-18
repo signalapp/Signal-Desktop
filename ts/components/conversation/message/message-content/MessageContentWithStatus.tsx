@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'underscore';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';

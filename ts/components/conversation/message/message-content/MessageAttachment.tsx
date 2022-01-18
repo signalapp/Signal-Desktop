@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'underscore';
+import { clone } from 'lodash';
 import { getMessageById } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import {
@@ -223,7 +223,7 @@ const onClickAttachment = async (onClickProps: {
       found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
 
     return {
-      index: _.clone(index),
+      index: clone(index),
       objectURL: attachmentForMedia.url || undefined,
       contentType: attachmentForMedia.contentType,
       attachment: attachmentForMedia,

@@ -4,7 +4,6 @@ import path from 'path';
 import pify from 'pify';
 import { default as glob } from 'glob';
 import fse from 'fs-extra';
-import toArrayBuffer from 'to-arraybuffer';
 import { isArrayBuffer, isString, map } from 'lodash';
 import { decryptAttachmentBuffer, encryptAttachmentBuffer } from '../../ts/types/Attachment';
 
@@ -53,7 +52,7 @@ export const createReader = (root: string) => {
     }
     const buffer = await fse.readFile(normalized);
 
-    const decryptedData = await decryptAttachmentBuffer(toArrayBuffer(buffer));
+    const decryptedData = await decryptAttachmentBuffer(buffer.buffer);
 
     return decryptedData.buffer;
   };

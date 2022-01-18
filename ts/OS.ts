@@ -1,4 +1,4 @@
-import is from '@sindresorhus/is';
+import _ from 'lodash';
 import os from 'os';
 import semver from 'semver';
 
@@ -11,5 +11,5 @@ export const isWindows = (minVersion?: string) => {
     return false;
   }
 
-  return is.undefined(minVersion) ? true : semver.gte(osRelease, minVersion);
+  return _.isUndefined(minVersion) ? true : semver.gte(osRelease, minVersion);
 };

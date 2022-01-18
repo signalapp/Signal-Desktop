@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
-import _ from 'underscore';
 import { useConversationUsername } from '../../hooks/useParamSelector';
 import { ed25519Str } from '../../session/onions/onionPath';
 import { CallManager } from '../../session/utils';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useEncryptedFileFetch } from '../../hooks/useEncryptedFileFetch';
-import _ from 'underscore';
+import { isEqual } from 'lodash';
 import {
   useAvatarPath,
   useConversationUsername,
@@ -163,4 +163,4 @@ const AvatarInner = (props: Props) => {
   );
 };
 
-export const Avatar = React.memo(AvatarInner, _.isEqual);
+export const Avatar = React.memo(AvatarInner, isEqual);

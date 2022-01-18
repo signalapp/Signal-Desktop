@@ -9,7 +9,6 @@ const toConcatForApp = [
   'node_modules/long/dist/long.js',
   'components/protobuf/**/*.js',
   'node_modules/mustache/mustache.js',
-  'node_modules/underscore/underscore.js',
   'node_modules/backbone/backbone.js',
 ];
 

@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 import React, { useRef, useState } from 'react';
 
 import styled from 'styled-components';
-import _ from 'underscore';
 import { CallManager, UserUtils } from '../../session/utils';
 import {
   getCallIsInFullScreen,

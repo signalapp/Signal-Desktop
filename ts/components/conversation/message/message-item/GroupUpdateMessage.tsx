@@ -4,7 +4,6 @@ import {
   PropsForGroupUpdate,
   PropsForGroupUpdateType,
 } from '../../../../state/ducks/conversations';
-import _ from 'underscore';
 import { NotificationBubble } from './notification-bubble/NotificationBubble';
 import { ReadableMessage } from './ReadableMessage';
 import { arrayContainsUsOnly } from '../../../../models/message';
