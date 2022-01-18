@@ -588,7 +588,6 @@ export async function searchConversations(query: string): Promise<Array<any>> {
 
 export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
   const messages = await channels.searchMessages(query, { limit });
-  console.warn('searched message', messages);
   return messages;
 }
 

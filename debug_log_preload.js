@@ -11,6 +11,8 @@ const localeMessages = ipcRenderer.sendSync('locale-data');
 global.dcodeIO = global.dcodeIO || {};
 global.dcodeIO.ByteBuffer = require('bytebuffer');
 
+window._ = require('lodash');
+
 window.getVersion = () => config.version;
 window.theme = config.theme;
 window.i18n = i18n.setup(locale, localeMessages);

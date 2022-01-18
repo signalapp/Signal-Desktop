@@ -2271,8 +2271,6 @@ function hasConversationOutgoingMessage(conversationId) {
     throw new Error('hasConversationOutgoingMessage: Unable to get coun');
   }
 
-  console.warn('hasConversationOutgoingMessage', row);
-
   return Boolean(row['count(*)']);
 }
 

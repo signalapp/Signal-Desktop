@@ -30,7 +30,6 @@ export const getSearchResults = createSelector(
     selectedConversation?: string,
     selectedMessage?: string
   ) => {
-    console.warn({ state: searchState });
     return {
       contacts: compact(
         searchState.contacts.map(id => {
