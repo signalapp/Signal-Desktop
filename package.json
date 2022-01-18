@@ -42,7 +42,7 @@
     "tslint": "tslint --format stylish --project .",
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
-    "transpile:watch": "tsc -w",
+    "transpile:watch": "yarn grunt  --force; tsc -w",
     "integration-test": "mocha --recursive --exit --timeout 30000  \"./ts/test-integration/**/*.test.js\" \"./ts/test/*.test.js\"",
     "clean-transpile": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test",
