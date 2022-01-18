@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import { compact } from 'lodash';
 import { getMessageById } from '../../data/data';
 import { ConversationModel } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
@@ -67,7 +67,7 @@ async function unsendMessagesForEveryone(
 
 function getUnsendMessagesObjects(messages: Array<MessageModel>) {
   //#region building request
-  return _.compact(
+  return compact(
     messages.map(message => {
       const author = message.get('source');
 
@@ -98,7 +98,7 @@ function getUnsendMessagesObjects(messages: Array<MessageModel>) {
  */
 export async function deleteMessagesFromSwarmOnly(messages: Array<MessageModel>) {
   try {
-    const deletionMessageHashes = _.compact(messages.map(m => m.get('messageHash')));
+    const deletionMessageHashes = compact(messages.map(m => m.get('messageHash')));
     if (deletionMessageHashes.length > 0) {
       const errorOnSnode = await networkDeleteMessages(deletionMessageHashes);
       return errorOnSnode === null || errorOnSnode.length === 0;
@@ -332,7 +332,7 @@ export async function deleteMessagesByIdForEveryone(
   conversationId: string
 ) {
   const conversation = getConversationController().getOrThrow(conversationId);
-  const selectedMessages = _.compact(
+  const selectedMessages = compact(
     await Promise.all(messageIds.map(m => getMessageById(m, false)))
   );
 
@@ -360,7 +360,7 @@ export async function deleteMessagesByIdForEveryone(
 
 export async function deleteMessagesById(messageIds: Array<string>, conversationId: string) {
   const conversation = getConversationController().getOrThrow(conversationId);
-  const selectedMessages = _.compact(
+  const selectedMessages = compact(
     await Promise.all(messageIds.map(m => getMessageById(m, false)))
   );
 
@@ -407,13 +407,13 @@ async function deleteOpenGroupMessages(
   const roomInfos = convo.toOpenGroupV2();
   // on v2 servers we can only remove a single message per request..
   // so logic here is to delete each messages and get which one where not removed
-  const validServerIdsToRemove = _.compact(
+  const validServerIdsToRemove = compact(
     messages.map(msg => {
       return msg.get('serverId');
     })
   );
 
-  const validMessageModelsToRemove = _.compact(
+  const validMessageModelsToRemove = compact(
     messages.map(msg => {
       const serverId = msg.get('serverId');
       if (serverId) {

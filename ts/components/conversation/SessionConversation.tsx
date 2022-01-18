@@ -19,7 +19,6 @@ import { InConversationCallContainer } from '../calling/InConversationCallContai
 import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
 import { getPubkeysInPublicConversation } from '../../data/data';
-import { Constants } from '../../session';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import {
@@ -34,12 +33,20 @@ import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAttachments';
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
-import { AttachmentUtil, GoogleChrome } from '../../util';
+import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
 import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
 import { SessionRightPanelWithDetails } from './SessionRightPanel';
+import { autoOrientJpegImage } from '../../types/attachments/migrations';
+import {
+  makeImageThumbnailBuffer,
+  makeVideoScreenshot,
+  THUMBNAIL_CONTENT_TYPE,
+} from '../../types/attachments/VisualAttachment';
+import { blobToArrayBuffer } from 'blob-util';
+import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -334,91 +341,17 @@ export class SessionConversation extends React.Component<Props, State> {
       ToastUtils.pushCannotMixError();
       return;
     }
-    const { VisualAttachment } = window.Signal.Types;
-
-    const renderVideoPreview = async () => {
-      const objectUrl = URL.createObjectURL(file);
-      try {
-        const type = 'image/png';
-
-        const thumbnail = await VisualAttachment.makeVideoScreenshot({
-          objectUrl,
-          contentType: type,
-          logger: window.log,
-        });
-        const data = await VisualAttachment.blobToArrayBuffer(thumbnail);
-        const url = window.Signal.Util.arrayBufferToObjectURL({
-          data,
-          type,
-        });
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            fileName,
-            contentType,
-            videoUrl: objectUrl,
-            url,
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
-      } catch (error) {
-        URL.revokeObjectURL(objectUrl);
-      }
-    };
-
-    const renderImagePreview = async () => {
-      if (!MIME.isJPEG(contentType)) {
-        const urlImage = URL.createObjectURL(file);
-        if (!urlImage) {
-          throw new Error('Failed to create object url for image!');
-        }
-        this.addAttachments([
-          {
-            file,
-            size: file.size,
-            fileName,
-            contentType,
-            url: urlImage,
-            isVoiceMessage: false,
-            fileSize: null,
-            screenshot: null,
-            thumbnail: null,
-          },
-        ]);
-        return;
-      }
-
-      const url = await window.autoOrientImage(file);
-
-      this.addAttachments([
-        {
-          file,
-          size: file.size,
-          fileName,
-          contentType,
-          url,
-          isVoiceMessage: false,
-          fileSize: null,
-          screenshot: null,
-          thumbnail: null,
-        },
-      ]);
-    };
 
     let blob = null;
 
     try {
       blob = await AttachmentUtil.autoScale({
         contentType,
-        file,
+        blob: file,
       });
 
-      if (blob.file.size >= Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES) {
-        ToastUtils.pushFileSizeErrorAsByte(Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES);
+      if (blob.blob.size >= MAX_ATTACHMENT_FILESIZE_BYTES) {
+        ToastUtils.pushFileSizeErrorAsByte(MAX_ATTACHMENT_FILESIZE_BYTES);
         return;
       }
     } catch (error) {
@@ -437,9 +370,11 @@ export class SessionConversation extends React.Component<Props, State> {
         // this is just for us, for the list of attachments we are sending
         // the files are scaled down under getFiles()
 
-        await renderImagePreview();
+        const attachmentWithPreview = await renderImagePreview(contentType, file, fileName);
+        this.addAttachments([attachmentWithPreview]);
       } else if (GoogleChrome.isVideoTypeSupported(contentType)) {
-        await renderVideoPreview();
+        const attachmentWithVideoPreview = await renderVideoPreview(contentType, file, fileName);
+        this.addAttachments([attachmentWithVideoPreview]);
       } else {
         this.addAttachments([
           {
@@ -539,3 +474,79 @@ export class SessionConversation extends React.Component<Props, State> {
     window.inboxStore?.dispatch(updateMentionsMembers(allMembers));
   }
 }
+
+const renderVideoPreview = async (contentType: string, file: File, fileName: string) => {
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const type = THUMBNAIL_CONTENT_TYPE;
+
+    const thumbnail = await makeVideoScreenshot({
+      objectUrl,
+      contentType: type,
+    });
+    const data = await blobToArrayBuffer(thumbnail);
+    const url = arrayBufferToObjectURL({
+      data,
+      type,
+    });
+    return {
+      file,
+      size: file.size,
+      fileName,
+      contentType,
+      videoUrl: objectUrl,
+      url,
+      isVoiceMessage: false,
+      fileSize: null,
+      screenshot: null,
+      thumbnail: null,
+    };
+  } catch (error) {
+    URL.revokeObjectURL(objectUrl);
+    throw error;
+  }
+};
+
+const renderImagePreview = async (contentType: string, file: File, fileName: string) => {
+  if (!MIME.isJPEG(contentType)) {
+    const urlImage = URL.createObjectURL(file);
+    if (!urlImage) {
+      throw new Error('Failed to create object url for image!');
+    }
+    return {
+      file,
+      size: file.size,
+      fileName,
+      contentType,
+      url: urlImage,
+      isVoiceMessage: false,
+      fileSize: null,
+      screenshot: null,
+      thumbnail: null,
+    };
+  }
+
+  // orient the image correctly based on the EXIF data, if needed
+  const orientedImageUrl = await autoOrientJpegImage(file);
+
+  const thumbnailBuffer = await makeImageThumbnailBuffer({
+    objectUrl: orientedImageUrl,
+    contentType,
+  });
+  const url = arrayBufferToObjectURL({
+    data: thumbnailBuffer,
+    type: THUMBNAIL_CONTENT_TYPE,
+  });
+
+  return {
+    file,
+    size: file.size,
+    fileName,
+    contentType,
+    url,
+    isVoiceMessage: false,
+    fileSize: null,
+    screenshot: null,
+    thumbnail: null,
+  };
+};

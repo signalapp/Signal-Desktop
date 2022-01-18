@@ -115,7 +115,7 @@ const channelsToMake = {
   removeAllMessagesInConversation,
 
   getMessageCount,
-  getMessageBySender,
+  getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
@@ -588,7 +588,6 @@ export async function searchConversations(query: string): Promise<Array<any>> {
 
 export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
   const messages = await channels.searchMessages(query, { limit });
-  console.warn('searched message', messages);
   return messages;
 }
 
@@ -683,18 +682,15 @@ export async function getMessageById(
   return new MessageModel(message);
 }
 
-export async function getMessageBySender({
+export async function getMessageBySenderAndSentAt({
   source,
-  sourceDevice,
   sentAt,
 }: {
   source: string;
-  sourceDevice: number;
   sentAt: number;
 }): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySender({
+  const messages = await channels.getMessageBySenderAndSentAt({
     source,
-    sourceDevice,
     sentAt,
   });
   if (!messages || !messages.length) {
@@ -853,11 +849,11 @@ export async function getUnprocessedCount(): Promise<number> {
   return channels.getUnprocessedCount();
 }
 
-export async function getAllUnprocessed(): Promise<any> {
+export async function getAllUnprocessed(): Promise<Array<UnprocessedParameter>> {
   return channels.getAllUnprocessed();
 }
 
-export async function getUnprocessedById(id: string): Promise<any> {
+export async function getUnprocessedById(id: string): Promise<UnprocessedParameter | undefined> {
   return channels.getUnprocessedById(id);
 }
 
@@ -869,6 +865,8 @@ export type UnprocessedParameter = {
   attempts: number;
   messageHash: string;
   senderIdentity?: string;
+  decrypted?: string; // added once the envelopes's content is decrypted with updateCache
+  source?: string; // added once the envelopes's content is decrypted with updateCache
 };
 
 export async function saveUnprocessed(data: UnprocessedParameter): Promise<string> {

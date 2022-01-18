@@ -4,14 +4,13 @@ import path from 'path';
 import pify from 'pify';
 import { default as glob } from 'glob';
 import fse from 'fs-extra';
-import toArrayBuffer from 'to-arraybuffer';
 import { isArrayBuffer, isString, map } from 'lodash';
 import { decryptAttachmentBuffer, encryptAttachmentBuffer } from '../../ts/types/Attachment';
 
 const PATH = 'attachments.noindex';
 
 export const getAllAttachments = async (userDataPath: string) => {
-  const dir = exports.getPath(userDataPath);
+  const dir = getPath(userDataPath);
   const pattern = path.join(dir, '**', '*');
 
   const files = await pify(glob)(pattern, { nodir: true });
@@ -31,7 +30,7 @@ export const ensureDirectory = async (userDataPath: string) => {
   if (!isString(userDataPath)) {
     throw new TypeError("'userDataPath' must be a string");
   }
-  await fse.ensureDir(exports.getPath(userDataPath));
+  await fse.ensureDir(getPath(userDataPath));
 };
 
 //      createReader :: AttachmentsPath ->
@@ -53,7 +52,7 @@ export const createReader = (root: string) => {
     }
     const buffer = await fse.readFile(normalized);
 
-    const decryptedData = await decryptAttachmentBuffer(toArrayBuffer(buffer));
+    const decryptedData = await decryptAttachmentBuffer(buffer.buffer);
 
     return decryptedData.buffer;
   };
@@ -72,9 +71,9 @@ export const createWriterForNew = (root: string) => {
       throw new TypeError("'arrayBuffer' must be an array buffer");
     }
 
-    const name = exports.createName();
-    const relativePath = exports.getRelativePath(name);
-    return exports.createWriterForExisting(root)({
+    const name = createName();
+    const relativePath = getRelativePath(name);
+    return createWriterForExisting(root)({
       data: arrayBuffer,
       path: relativePath,
     });
@@ -84,7 +83,7 @@ export const createWriterForNew = (root: string) => {
 //      createWriter :: AttachmentsPath ->
 //                      { data: ArrayBuffer, path: RelativePath } ->
 //                      IO (Promise RelativePath)
-export const createWriterForExisting = (root: any) => {
+export const createWriterForExisting = (root: string) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
@@ -120,12 +119,12 @@ export const createWriterForExisting = (root: any) => {
 //      createDeleter :: AttachmentsPath ->
 //                       RelativePath ->
 //                       IO Unit
-export const createDeleter = (root: any) => {
+export const createDeleter = (root: string) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (relativePath: any) => {
+  return async (relativePath: string) => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -139,8 +138,14 @@ export const createDeleter = (root: any) => {
   };
 };
 
-export const deleteAll = async ({ userDataPath, attachments }: any) => {
-  const deleteFromDisk = exports.createDeleter(exports.getPath(userDataPath));
+export const deleteAll = async ({
+  userDataPath,
+  attachments,
+}: {
+  userDataPath: string;
+  attachments: any;
+}) => {
+  const deleteFromDisk = createDeleter(getPath(userDataPath));
 
   // tslint:disable-next-line: one-variable-per-declaration
   for (let index = 0, max = attachments.length; index < max; index += 1) {
@@ -160,7 +165,7 @@ export const createName = () => {
 };
 
 //      getRelativePath :: String -> Path
-export const getRelativePath = (name: any) => {
+export const getRelativePath = (name: string) => {
   if (!isString(name)) {
     throw new TypeError("'name' must be a string");
   }

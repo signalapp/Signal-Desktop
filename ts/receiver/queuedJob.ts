@@ -55,20 +55,6 @@ async function copyFromQuotedMessage(msg: MessageModel, quote?: Quote): Promise<
 
   firstAttachment.thumbnail = null;
 
-  try {
-    if ((found.get('schemaVersion') || 0) < TypedMessage.VERSION_NEEDED_FOR_DISPLAY) {
-      const upgradedMessage = await upgradeMessageSchema(found.attributes);
-      found.set(upgradedMessage);
-      await upgradedMessage.commit();
-    }
-  } catch (error) {
-    window?.log?.error(
-      'Problem upgrading message quoted message from database',
-      Errors.toLogFormat(error)
-    );
-    return;
-  }
-
   const queryAttachments = found.get('attachments') || [];
 
   if (queryAttachments.length > 0) {
@@ -191,13 +177,10 @@ async function handleRegularMessage(
   ourNumber: string,
   messageHash: string
 ) {
-  const { upgradeMessageSchema } = window.Signal.Migrations;
-
   const type = message.get('type');
   await copyFromQuotedMessage(message, initialMessage.quote);
 
-  // `upgradeMessageSchema` only seems to add `schemaVersion: 10` to the message
-  const dataMessage = await upgradeMessageSchema(initialMessage);
+  const dataMessage = initialMessage;
 
   const now = Date.now();
 

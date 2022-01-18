@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 import styled from 'styled-components';
-import _ from 'underscore';
 import { getSelectedConversationKey } from '../../state/selectors/conversations';
 import { getHasOngoingCall, getHasOngoingCallWith } from '../../state/selectors/call';
 import { openConversationWithMessages } from '../../state/ducks/conversations';

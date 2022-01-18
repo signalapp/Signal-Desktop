@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
@@ -199,7 +199,7 @@ export interface MessageAttributesOptionals {
 export const fillMessageAttributesWithDefaults = (
   optAttributes: MessageAttributesOptionals
 ): MessageAttributes => {
-  const defaulted = _.defaults(optAttributes, {
+  const defaulted = defaultsDeep(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
     unread: 0, // if nothing is set, this message is considered read

@@ -37,7 +37,7 @@ interface ReqOptions {
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
-async function handleEnvelope(envelope: EnvelopePlus, messageHash?: string) {
+async function handleEnvelope(envelope: EnvelopePlus, messageHash: string) {
   if (envelope.content && envelope.content.length > 0) {
     return handleContentMessage(envelope, messageHash);
   }
@@ -69,7 +69,7 @@ class EnvelopeQueue {
 
 const envelopeQueue = new EnvelopeQueue();
 
-function queueEnvelope(envelope: EnvelopePlus, messageHash?: string) {
+function queueEnvelope(envelope: EnvelopePlus, messageHash: string) {
   const id = getEnvelopeId(envelope);
   // window?.log?.info('queueing envelope', id);
 
@@ -201,9 +201,9 @@ async function queueCached(item: any) {
     if (decrypted) {
       const payloadPlaintext = StringUtils.encode(decrypted, 'base64');
 
-      queueDecryptedEnvelope(envelope, payloadPlaintext);
+      queueDecryptedEnvelope(envelope, payloadPlaintext, envelope.messageHash);
     } else {
-      queueEnvelope(envelope);
+      queueEnvelope(envelope, envelope.messageHash);
     }
   } catch (error) {
     window?.log?.error(
@@ -227,11 +227,11 @@ async function queueCached(item: any) {
   }
 }
 
-function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
+function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer, messageHash: string) {
   const id = getEnvelopeId(envelope);
   window?.log?.info('queueing decrypted envelope', id);
 
-  const task = handleDecryptedEnvelope.bind(null, envelope, plaintext);
+  const task = handleDecryptedEnvelope.bind(null, envelope, plaintext, messageHash);
   const taskWithTimeout = createTaskWithTimeout(task, `queueEncryptedEnvelope ${id}`);
   try {
     envelopeQueue.add(taskWithTimeout);
@@ -243,13 +243,17 @@ function queueDecryptedEnvelope(envelope: any, plaintext: ArrayBuffer) {
   }
 }
 
-async function handleDecryptedEnvelope(envelope: EnvelopePlus, plaintext: ArrayBuffer) {
+async function handleDecryptedEnvelope(
+  envelope: EnvelopePlus,
+  plaintext: ArrayBuffer,
+  messageHash: string
+) {
   // if (this.stoppingProcessing) {
   //   return Promise.resolve();
   // }
 
   if (envelope.content) {
-    await innerHandleContentMessage(envelope, plaintext);
+    await innerHandleContentMessage(envelope, plaintext, messageHash);
   } else {
     await removeFromCache(envelope);
   }
@@ -262,7 +266,7 @@ export async function handleOpenGroupV2Message(
   const { base64EncodedData, sentTimestamp, sender, serverId } = message;
   const { serverUrl, roomId } = roomInfos;
   if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
-    window?.log?.warn('Invalid data passed to handleMessageEvent.', message);
+    window?.log?.warn('Invalid data passed to handleOpenGroupV2Message.', message);
     return;
   }
 
@@ -315,9 +319,10 @@ export async function handleOpenGroupV2Message(
       expirationStartTimestamp: undefined,
       source: sender,
       message: dataMessage,
+      messageHash: '', // we do not care of a hash for an opengroup message
     };
     // WARNING this is important that the isMessageDuplicate is made in the conversation.queueJob
-    const isDuplicate = await isMessageDuplicate(messageCreationData);
+    const isDuplicate = await isMessageDuplicate({ ...messageCreationData });
 
     if (isDuplicate) {
       window?.log?.info('Received duplicate message. Dropping it.');

@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce } from 'lodash';
+import _, { debounce, isEmpty } from 'lodash';
 
 import * as MIME from '../../../types/MIME';
 
@@ -28,7 +28,6 @@ import {
 import { AttachmentType } from '../../../types/Attachment';
 import { connect } from 'react-redux';
 import { showLinkSharingConfirmationModalDialog } from '../../../interactions/conversationInteractions';
-import { Constants } from '../../../session';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
@@ -45,6 +44,11 @@ import { AttachmentUtil } from '../../../util';
 import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
 import { StagedAttachmentList } from '../StagedAttachmentList';
+import { processNewAttachment } from '../../../types/MessageAttachment';
+import {
+  StagedAttachmentImportedType,
+  StagedPreviewImportedType,
+} from '../../../util/attachmentsUtil';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -55,13 +59,20 @@ export interface ReplyingToMessageProps {
   attachments?: Array<any>;
 }
 
+export type StagedLinkPreviewImage = {
+  data: ArrayBuffer;
+  size: number;
+  width: number;
+  height: number;
+  contentType: string;
+};
+
 export interface StagedLinkPreviewData {
   isLoaded: boolean;
   title: string | null;
   url: string | null;
   domain: string | null;
-  description: string | null;
-  image?: AttachmentType;
+  image?: StagedLinkPreviewImage;
 }
 
 export interface StagedAttachmentType extends AttachmentType {
@@ -71,7 +82,7 @@ export interface StagedAttachmentType extends AttachmentType {
 
 export type SendMessageType = {
   body: string;
-  attachments: Array<StagedAttachmentType> | undefined;
+  attachments: Array<StagedAttachmentImportedType> | undefined;
   quote: any | undefined;
   preview: any | undefined;
   groupInvitation: { url: string | undefined; name: string } | undefined;
@@ -567,13 +578,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
-    const { isLoaded, title, description, domain, image } = this.state.stagedLinkPreview;
+    const { isLoaded, title, domain, image } = this.state.stagedLinkPreview;
 
     return (
       <SessionStagedLinkPreview
         isLoaded={isLoaded}
         title={title}
-        description={description}
         domain={domain}
         image={image}
         url={firstLink}
@@ -591,7 +601,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
         isLoaded: false,
         url: firstLink,
         domain: null,
-        description: null,
         image: undefined,
         title: null,
       },
@@ -605,25 +614,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     getPreview(firstLink, abortController.signal)
       .then(ret => {
-        let image: AttachmentType | undefined;
-        if (ret) {
-          if (ret.image?.width) {
-            if (ret.image) {
-              const blob = new Blob([ret.image.data], {
-                type: ret.image.contentType,
-              });
-              const imageAttachment = {
-                ...ret.image,
-                url: URL.createObjectURL(blob),
-                fileName: 'preview',
-                fileSize: null,
-                screenshot: null,
-                thumbnail: null,
-              };
-              image = imageAttachment;
-            }
-          }
-        }
         // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
         // => update the staged preview
         if (this.linkPreviewAbortController && !this.linkPreviewAbortController.signal.aborted) {
@@ -631,10 +621,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: ret?.title || null,
-              description: ret?.description || '',
               url: ret?.url || null,
               domain: (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
-              image,
+              image: ret?.image,
             },
           });
         } else if (this.linkPreviewAbortController) {
@@ -642,7 +631,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: false,
               title: null,
-              description: null,
               url: null,
               domain: null,
               image: undefined,
@@ -670,7 +658,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: null,
-              description: null,
               url: firstLink,
               domain: null,
               image: undefined,
@@ -831,20 +818,19 @@ class CompositionBoxInner extends React.Component<Props, State> {
       'attachments'
     );
 
-    // we consider that a link previews without a title at least is not a preview
-    const linkPreviews =
-      (stagedLinkPreview &&
-        stagedLinkPreview.isLoaded &&
-        stagedLinkPreview.title?.length && [_.pick(stagedLinkPreview, 'url', 'image', 'title')]) ||
-      [];
+    // we consider that a link preview without a title at least is not a preview
+    const linkPreview =
+      stagedLinkPreview?.isLoaded && stagedLinkPreview.title?.length
+        ? _.pick(stagedLinkPreview, 'url', 'image', 'title')
+        : undefined;
 
     try {
-      const attachments = await this.getFiles();
+      const { attachments, previews } = await this.getFiles(linkPreview);
       this.props.sendMessage({
         body: messagePlaintext,
         attachments: attachments || [],
         quote: extractedQuotedMessageProps,
-        preview: linkPreviews,
+        preview: previews,
         groupInvitation: undefined,
       });
 
@@ -871,26 +857,53 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles(): Promise<Array<any>> {
+  private async getFiles(
+    linkPreview?: Pick<StagedLinkPreviewData, 'url' | 'title' | 'image'>
+  ): Promise<{
+    attachments: Array<StagedAttachmentImportedType>;
+    previews: Array<StagedPreviewImportedType>;
+  }> {
     const { stagedAttachments } = this.props;
 
+    let attachments: Array<StagedAttachmentImportedType> = [];
+    let previews: Array<StagedPreviewImportedType> = [];
+
     if (_.isEmpty(stagedAttachments)) {
-      return [];
+      attachments = [];
+    } else {
+      // scale them down
+      const files = await Promise.all(stagedAttachments.map(AttachmentUtil.getFileAndStoreLocally));
+      attachments = _.compact(files);
     }
-    // scale them down
-    const files = await Promise.all(
-      stagedAttachments.map(attachment =>
-        AttachmentUtil.getFile(attachment, {
-          maxSize: Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES,
-        })
-      )
-    );
+
+    if (!linkPreview || _.isEmpty(linkPreview) || !linkPreview.url || !linkPreview.title) {
+      previews = [];
+    } else {
+      const sharedDetails = { url: linkPreview.url, title: linkPreview.title };
+      // store the first image preview locally and get the path and details back to include them in the message
+      const firstLinkPreviewImage = linkPreview.image;
+      if (firstLinkPreviewImage && !isEmpty(firstLinkPreviewImage)) {
+        const storedLinkPreviewAttachment = await AttachmentUtil.getFileAndStoreLocallyImageBuffer(
+          firstLinkPreviewImage.data
+        );
+        if (storedLinkPreviewAttachment) {
+          previews = [{ ...sharedDetails, image: storedLinkPreviewAttachment }];
+        } else {
+          // we couldn't save the image or whatever error happened, just return the url + title
+          previews = [sharedDetails];
+        }
+      } else {
+        // we did not fetch an image from the server
+        previews = [sharedDetails];
+      }
+    }
+
     window.inboxStore?.dispatch(
       removeAllStagedAttachmentsInConversation({
         conversationKey: this.props.selectedConversationKey,
       })
     );
-    return _.compact(files);
+    return { attachments, previews };
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -898,15 +911,16 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const savedAudioFile = await window.Signal.Migrations.processNewAttachment({
+    const savedAudioFile = await processNewAttachment({
       data: await audioBlob.arrayBuffer(),
       isRaw: true,
-      url: `session-audio-message-${Date.now()}`,
-    });
-    const audioAttachment: StagedAttachmentType = {
-      file: { ...savedAudioFile, path: savedAudioFile.path },
       contentType: MIME.AUDIO_MP3,
-      size: audioBlob.size,
+    });
+    // { ...savedAudioFile, path: savedAudioFile.path },
+    const audioAttachment: StagedAttachmentType = {
+      file: new File([], 'session-audio-message'), // this is just to emulate a file for the staged attachment type of that audio file
+      contentType: MIME.AUDIO_MP3,
+      size: savedAudioFile.size,
       fileSize: null,
       screenshot: null,
       fileName: 'session-audio-message',

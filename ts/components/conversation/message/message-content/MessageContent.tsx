@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { createContext, useCallback, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import _ from 'underscore';
+import { isEmpty } from 'lodash';
 import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
@@ -12,7 +12,7 @@ import {
 import {
   canDisplayImage,
   getGridDimensions,
-  getImageDimensions,
+  getImageDimensionsInAttachment,
   hasImage,
   hasVideoScreenshot,
   isImage,
@@ -143,8 +143,8 @@ export const MessageContent = (props: Props) => {
   const width = getWidth({ previews, attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
   const hasText = Boolean(text);
-  const hasQuote = !_.isEmpty(quote);
-  const hasContentAfterAttachmentAndQuote = !_.isEmpty(previews) || !_.isEmpty(text);
+  const hasQuote = !isEmpty(quote);
+  const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
 
   const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
@@ -226,7 +226,7 @@ function getWidth(
     const { width } = first.image;
 
     if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensions(first.image);
+      const dimensions = getImageDimensionsInAttachment(first.image);
       if (dimensions) {
         return dimensions.width;
       }

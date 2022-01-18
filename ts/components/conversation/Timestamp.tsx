@@ -2,7 +2,9 @@ import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 
 import { formatRelativeTime } from '../../util/formatRelativeTime';
-import { useInterval } from '../../hooks/useInterval';
+
+// tslint:disable-next-line: no-submodule-imports
+import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 
 type Props = {

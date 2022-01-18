@@ -164,13 +164,13 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('showDebugLog')}
         />
-        <SessionSettingButtonItem
+        {/* <SessionSettingButtonItem
           onClick={async () => {
             await fillWithTestData(100, 1000);
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={'Spam fill DB using cached'}
-        />
+        /> */}
       </>
     );
   }

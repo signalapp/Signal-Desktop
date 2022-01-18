@@ -94,6 +94,8 @@ export const Image = (props: Props) => {
           style={{
             maxHeight: `${height}px`,
             maxWidth: `${width}px`,
+            width: `${width}px`,
+            height: `${height}px`,
             lineHeight: `${height}px`,
             textAlign: 'center',
           }}

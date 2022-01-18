@@ -20,6 +20,8 @@ import { handleOpenGroupV2Message } from '../../../../receiver/receiver';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../../crypto';
 import { DURATION } from '../../../constants';
+import { processNewAttachment } from '../../../../types/MessageAttachment';
+import { MIME } from '../../../../types';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;
@@ -488,12 +490,11 @@ const handleBase64AvatarUpdate = async (
       if (newHash !== existingHash) {
         // write the file to the disk (automatically encrypted),
         // ArrayBuffer
-        const { processNewAttachment } = window.Signal.Migrations;
 
         const upgradedAttachment = await processNewAttachment({
           isRaw: true,
           data: await window.callWorker('fromBase64ToArrayBuffer', res.base64),
-          url: `${serverUrl}/${res.roomId}`,
+          contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.          // url: `${serverUrl}/${res.roomId}`,
         });
         // update the hash on the conversationModel
         await convo.setLokiProfile({

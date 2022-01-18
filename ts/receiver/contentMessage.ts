@@ -25,7 +25,7 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { SettingsKey } from '../data/settings-key';
 
-export async function handleContentMessage(envelope: EnvelopePlus, messageHash?: string) {
+export async function handleContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
     const plaintext = await decrypt(envelope, envelope.content);
 
@@ -329,7 +329,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
 export async function innerHandleContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer,
-  messageHash?: string
+  messageHash: string
 ): Promise<void> {
   try {
     perfStart(`SignalService.Content.decode-${envelope.id}`);

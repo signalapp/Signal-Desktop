@@ -96,7 +96,7 @@ export async function send(
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
       const found = await getMessageById(message.identifier);
 
-      // make sure to not update the send timestamp if this a currently syncing message
+      // make sure to not update the sent timestamp if this a currently syncing message
       if (found && !found.get('sentSync')) {
         found.set({ sent_at: diffTimestamp });
         await found.commit();

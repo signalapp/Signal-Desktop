@@ -6,7 +6,7 @@ import * as GoogleChrome from '../../../../../ts/util/GoogleChrome';
 
 import { useSelector } from 'react-redux';
 
-import { noop } from 'underscore';
+import { noop } from 'lodash';
 import { useDisableDrag } from '../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';

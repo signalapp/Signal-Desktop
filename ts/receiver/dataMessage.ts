@@ -12,10 +12,17 @@ import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
 import { MessageModelType } from '../models/messageType';
-import { getMessageBySender, getMessageBySenderAndServerTimestamp } from '../../ts/data/data';
+import {
+  getMessageBySenderAndSentAt,
+  getMessageBySenderAndServerTimestamp,
+} from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from '../models/conversation';
 import { allowOnlyOneAtATime } from '../session/utils/Promise';
 import { toHex } from '../session/utils/String';
+import { toLogFormat } from '../types/attachments/Errors';
+import { processNewAttachment } from '../types/MessageAttachment';
+import { MIME } from '../types';
+import { autoScaleForIncomingAvatar } from '../util/attachmentsUtil';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
@@ -38,9 +45,9 @@ export async function updateProfileOneAtATime(
 async function createOrUpdateProfile(
   conversation: ConversationModel,
   profile: SignalService.DataMessage.ILokiProfile,
-  profileKey?: Uint8Array | null // was any
+  profileKey?: Uint8Array | null
 ) {
-  const { dcodeIO, textsecure, Signal } = window;
+  const { dcodeIO, textsecure } = window;
 
   // Retain old values unless changed:
   const newProfile = conversation.get('profile') || {};
@@ -72,9 +79,11 @@ async function createOrUpdateProfile(
               downloaded.data,
               profileKeyArrayBuffer
             );
-            const upgraded = await Signal.Migrations.processNewAttachment({
-              ...downloaded,
-              data: decryptedData,
+
+            const scaledData = await autoScaleForIncomingAvatar(decryptedData);
+            const upgraded = await processNewAttachment({
+              data: await scaledData.blob.arrayBuffer(),
+              contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
             });
             // Only update the convo if the download and decrypt is a success
             conversation.set('avatarPointer', profile.profilePicture);
@@ -86,8 +95,10 @@ async function createOrUpdateProfile(
         }
         newProfile.avatar = path;
       } catch (e) {
-        window.log.warn('Failed to download attachment at', profile.profilePicture);
-        return;
+        window.log.warn(
+          `Failed to download attachment at ${profile.profilePicture}. Maybe it expired? ${e.message}`
+        );
+        // do not return here, we still want to update the display name even if the avatar failed to download
       }
     }
   } else if (profileKey) {
@@ -264,7 +275,7 @@ function isBodyEmpty(body: string) {
 export async function handleDataMessage(
   envelope: EnvelopePlus,
   dataMessage: SignalService.IDataMessage,
-  messageHash?: string
+  messageHash: string
 ): Promise<void> {
   // we handle group updates from our other devices in handleClosedGroupControlMessage()
   if (dataMessage.closedGroupControlMessage) {
@@ -306,15 +317,10 @@ export async function handleDataMessage(
     return removeFromCache(envelope);
   }
 
-  const ev: any = {};
-  if (isMe) {
-    // Data messages for medium groups don't arrive as sync messages. Instead,
-    // linked devices poll for group messages independently, thus they need
-    // to recognise some of those messages at their own.
-    ev.type = 'sent';
-  } else {
-    ev.type = 'message';
-  }
+  // Data messages for medium groups don't arrive as sync messages. Instead,
+  // linked devices poll for group messages independently, thus they need
+  // to recognise some of those messages at their own.
+  const messageEventType: 'sent' | 'message' = isMe ? 'sent' : 'message';
 
   if (envelope.senderIdentity) {
     message.group = {
@@ -322,19 +328,22 @@ export async function handleDataMessage(
     };
   }
 
-  ev.confirm = () => removeFromCache(envelope);
+  const confirm = () => removeFromCache(envelope);
 
-  ev.data = {
+  const data: MessageCreationData = {
     source: senderPubKey,
-    destination: isMe ? message.syncTarget : undefined,
+    destination: isMe ? message.syncTarget : envelope.source,
     sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
     message,
     messageHash,
+    isPublic: false,
+    serverId: null,
+    serverTimestamp: null,
   };
 
-  await handleMessageEvent(ev); // dataMessage
+  await handleMessageEvent(messageEventType, data, confirm);
 }
 
 type MessageDuplicateSearchType = {
@@ -346,8 +355,8 @@ type MessageDuplicateSearchType = {
 
 export type MessageId = {
   source: string;
-  serverId: number;
-  serverTimestamp: number;
+  serverId?: number | null;
+  serverTimestamp?: number | null;
   sourceDevice: number;
   timestamp: number;
   message: MessageDuplicateSearchType;
@@ -356,15 +365,14 @@ const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
 export async function isMessageDuplicate({
   source,
-  sourceDevice,
   timestamp,
   message,
   serverTimestamp,
 }: MessageId) {
-  const { Errors } = window.Signal.Types;
   // serverTimestamp is only used for opengroupv2
   try {
     let result;
+
     if (serverTimestamp) {
       // first try to find a duplicate with the same serverTimestamp from this sender
 
@@ -379,9 +387,8 @@ export async function isMessageDuplicate({
       // but we consider that a user sending two messages with the same serverTimestamp is unlikely
       return Boolean(result);
     }
-    result = await getMessageBySender({
+    result = await getMessageBySenderAndSentAt({
       source,
-      sourceDevice,
       sentAt: timestamp,
     });
 
@@ -391,7 +398,7 @@ export async function isMessageDuplicate({
     const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
     return filteredResult.some(m => isDuplicate(m, message, source));
   } catch (error) {
-    window?.log?.error('isMessageDuplicate error:', Errors.toLogFormat(error));
+    window?.log?.error('isMessageDuplicate error:', toLogFormat(error));
     return false;
   }
 }
@@ -435,21 +442,21 @@ async function handleProfileUpdate(
   }
 }
 
-export interface MessageCreationData {
+export type MessageCreationData = {
   timestamp: number;
-  isPublic: boolean;
   receivedAt: number;
-  sourceDevice: number; // always 1 isn't it?
+  sourceDevice: number; // always 1 for Session
   source: string;
-  serverId: number;
   message: any;
-  serverTimestamp: any;
+  isPublic: boolean;
+  serverId: number | null;
+  serverTimestamp: number | null;
 
   // Needed for synced outgoing messages
-  expirationStartTimestamp: any; // ???
+  expirationStartTimestamp?: any; // ???
   destination: string;
-  messageHash?: string;
-}
+  messageHash: string;
+};
 
 export function initIncomingMessage(data: MessageCreationData): MessageModel {
   const {
@@ -465,24 +472,24 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
   } = data;
 
   const messageGroupId = message?.group?.id;
-  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
-
-  if (groupId) {
-    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
+  const groupIdWithPrefix = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId: string | undefined;
+  if (groupIdWithPrefix) {
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupIdWithPrefix);
   }
 
   const messageData: any = {
     source,
     sourceDevice,
-    serverId, // + (not present below in `createSentMessage`)
+    serverId,
     sent_at: timestamp,
     serverTimestamp,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
     type: 'incoming',
     direction: 'incoming', // +
-    unread: 1, // +
-    isPublic, // +
+    unread: 1,
+    isPublic,
     messageHash: messageHash || null,
   };
 
@@ -512,17 +519,17 @@ function createSentMessage(data: MessageCreationData): MessageModel {
   };
 
   const messageGroupId = message?.group?.id;
-  let groupId = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
-
-  if (groupId) {
-    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupId);
+  const groupIdWithPrefix = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
+  let groupId: string | undefined;
+  if (groupIdWithPrefix) {
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupIdWithPrefix);
   }
 
   const messageData = {
     source: UserUtils.getOurPubKeyStrFromCache(),
     sourceDevice,
-    serverTimestamp,
-    serverId,
+    serverTimestamp: serverTimestamp || undefined,
+    serverId: serverId || undefined,
     sent_at: timestamp,
     received_at: isPublic ? receivedAt : now,
     isPublic,
@@ -543,17 +550,13 @@ export function createMessage(data: MessageCreationData, isIncoming: boolean): M
   }
 }
 
-export interface MessageEvent {
-  data: any;
-  type: string;
-  confirm: () => void;
-}
-
 // tslint:disable:cyclomatic-complexity max-func-body-length */
-export async function handleMessageEvent(event: MessageEvent): Promise<void> {
-  const { data, confirm } = event;
-
-  const isIncoming = event.type === 'message';
+async function handleMessageEvent(
+  messageEventType: 'sent' | 'message',
+  data: MessageCreationData,
+  confirm: () => void
+): Promise<void> {
+  const isIncoming = messageEventType === 'message';
 
   if (!data || !data.message) {
     window?.log?.warn('Invalid data passed to handleMessageEvent.', event);

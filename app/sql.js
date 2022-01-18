@@ -59,7 +59,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getUnreadCountByConversation,
-  getMessageBySender,
+  getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
@@ -2145,17 +2145,15 @@ function getMessageById(id) {
   return jsonToObject(row.json);
 }
 
-function getMessageBySender({ source, sourceDevice, sentAt }) {
+function getMessageBySenderAndSentAt({ source, sentAt }) {
   const rows = globalInstance
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
-      sourceDevice = $sourceDevice AND
       sent_at = $sent_at;`
     )
     .all({
       source,
-      sourceDevice,
       sent_at: sentAt,
     });
 
@@ -2272,8 +2270,6 @@ function hasConversationOutgoingMessage(conversationId) {
   if (!row) {
     throw new Error('hasConversationOutgoingMessage: Unable to get coun');
   }
-
-  console.warn('hasConversationOutgoingMessage', row);
 
   return Boolean(row['count(*)']);
 }

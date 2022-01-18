@@ -9,7 +9,6 @@ import {
   openConversationWithMessages,
   ReduxConversationType,
 } from '../../../state/ducks/conversations';
-import _ from 'underscore';
 import { useDispatch } from 'react-redux';
 import { updateUserDetailsModal } from '../../../state/ducks/modalDialog';
 
@@ -21,6 +20,7 @@ import {
 import { MemoConversationListItemContextMenu } from '../../menu/ConversationListItemContextMenu';
 import { ConversationListItemHeaderItem } from './HeaderItem';
 import { MessageItem } from './MessageItem';
+import _ from 'lodash';
 
 // tslint:disable-next-line: no-empty-interface
 export type ConversationListItemProps = Pick<

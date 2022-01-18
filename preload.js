@@ -103,6 +103,7 @@ window.getStartInTray = () =>
   });
 
 window.libsession = require('./ts/session');
+window._ = require('lodash');
 
 window.getConversationController = window.libsession.Conversations.getConversationController;
 
@@ -204,13 +205,8 @@ window.nodeSetImmediate = setImmediate;
 
 const Signal = require('./js/modules/signal');
 const i18n = require('./js/modules/i18n');
-const Attachments = require('./ts/attachments/attachments');
 
-window.Signal = Signal.setup({
-  Attachments,
-  userDataPath: app.getPath('userData'),
-  logger: window.log,
-});
+window.Signal = Signal.setup();
 
 window.getSwarmPollingInstance = require('./ts/session/apis/snode_api/').getSwarmPollingInstance;
 
@@ -226,11 +222,7 @@ setInterval(() => {
   window.nodeSetImmediate(() => {});
 }, 1000);
 
-const { autoOrientImage } = require('./js/modules/auto_orient_image');
-
-window.autoOrientImage = autoOrientImage;
 window.loadImage = require('blueimp-load-image');
-window.dataURLToBlobSync = require('blueimp-canvas-to-blob');
 window.filesize = require('filesize');
 window.profileImages = require('./app/profile_images');
 
