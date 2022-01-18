@@ -274,16 +274,17 @@
 // animate when user is scrolling to a quoted message
 @keyframes blinker {
   0% {
-    background-color: subtle($session-color-green);
+    border-color: rgba($session-color-green, 1);
   }
-  50% {
-    background-color: subtle($session-color-green);
+  80% {
+    border-color: rgba($session-color-green, 1);
   }
   100% {
-    background-color: none;
+    border-color: transparent;
   }
 }
 
 .flash-green-once {
+  border-color: $session-color-green;
   animation: blinker 2s 1 normal forwards;
 }

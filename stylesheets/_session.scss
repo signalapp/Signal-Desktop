@@ -331,6 +331,9 @@ pre {
   // To limit messages with things forcing them wider, like long attachment names
   max-width: calc(100vw - 380px - 100px);
   align-items: center;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 3px;
 }
 label {
   user-select: none;

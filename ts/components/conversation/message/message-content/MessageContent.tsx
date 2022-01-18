@@ -8,6 +8,7 @@ import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/mes
 import {
   getMessageContentSelectorProps,
   getMessageTextProps,
+  getQuotedMessageToAnimate,
 } from '../../../../state/selectors/conversations';
 import {
   canDisplayImage,
@@ -135,10 +136,13 @@ export const MessageContent = (props: Props) => {
   } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+
   let isDeleted = false;
   if (selectedMsg && selectedMsg.isDeleted !== undefined) {
     isDeleted = selectedMsg.isDeleted;
   }
+  const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
 
   const width = getWidth({ previews, attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
@@ -162,7 +166,8 @@ export const MessageContent = (props: Props) => {
           : '',
         lastMessageOfSeries || props.isDetailView
           ? `module-message__container--${direction}--last-of-series`
-          : ''
+          : '',
+        isQuotedMessageToAnimate && 'flash-green-once'
       )}
       style={{
         width: isShowingImage ? width : undefined,

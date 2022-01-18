@@ -115,7 +115,6 @@ export const GenericReadableMessage = (props: Props) => {
   };
   const { isExpired } = useIsExpired(expiringProps);
 
-  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
   const isMessageSelected = useSelector(state =>
     getIsMessageSelected(state as any, props.messageId)
   );
@@ -156,7 +155,6 @@ export const GenericReadableMessage = (props: Props) => {
 
   const selected = isMessageSelected || false;
   const isGroup = conversationType === 'group';
-  const isQuotedMessageToAnimate = quotedMessageToAnimate === messageId;
   const isIncoming = direction === 'incoming';
 
   return (
@@ -166,7 +164,6 @@ export const GenericReadableMessage = (props: Props) => {
         'session-message-wrapper',
         selected && 'message-selected',
         isGroup && 'public-chat-message-wrapper',
-        isQuotedMessageToAnimate && 'flash-green-once',
         isIncoming ? 'session-message-wrapper-incoming' : 'session-message-wrapper-outgoing'
       )}
       onContextMenu={handleContextMenu}
