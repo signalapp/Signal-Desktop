@@ -99,14 +99,7 @@
     max-width: 100%;
     object-fit: contain;
     outline: none;
-    padding: 0 40px;
     width: auto;
-  }
-
-  &__object--container--fill &__object {
-    height: 100%;
-    padding: 0;
-    width: 100%;
   }
 
   &__unsupported {
@@ -139,6 +132,7 @@
   &__zoom-button {
     @include button-reset;
     cursor: zoom-in;
+    margin: 0 40px;
   }
 
   &__object--container--zoom,

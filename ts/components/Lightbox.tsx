@@ -281,7 +281,10 @@ export function Lightbox({
         return;
       }
 
-      const { screenWidth, screenHeight } = zoomCache;
+      const { maxX, maxY, screenWidth, screenHeight } = zoomCache;
+
+      const shouldTranslateX = maxX * ZOOM_SCALE > screenWidth;
+      const shouldTranslateY = maxY * ZOOM_SCALE > screenHeight;
 
       const offsetX = screenWidth / 2 - ev.clientX;
       const offsetY = screenHeight / 2 - ev.clientY;
@@ -291,8 +294,8 @@ export function Lightbox({
 
       springApi.start({
         scale: ZOOM_SCALE,
-        translateX: x,
-        translateY: y,
+        translateX: shouldTranslateX ? x : undefined,
+        translateY: shouldTranslateY ? y : undefined,
       });
     },
     [maxBoundsLimiter, springApi]
@@ -349,12 +352,20 @@ export function Lightbox({
       }
 
       if (!isZoomed) {
+        const maxX = imageNode.offsetWidth;
+        const maxY = imageNode.offsetHeight;
+        const screenHeight = window.innerHeight;
+        const screenWidth = window.innerWidth;
+
         zoomCacheRef.current = {
-          maxX: imageNode.offsetWidth,
-          maxY: imageNode.offsetHeight,
-          screenHeight: window.innerHeight,
-          screenWidth: window.innerWidth,
+          maxX,
+          maxY,
+          screenHeight,
+          screenWidth,
         };
+
+        const shouldTranslateX = maxX * ZOOM_SCALE > screenWidth;
+        const shouldTranslateY = maxY * ZOOM_SCALE > screenHeight;
 
         const { height, left, top, width } =
           animateNode.getBoundingClientRect();
@@ -367,8 +378,8 @@ export function Lightbox({
 
         springApi.start({
           scale: ZOOM_SCALE,
-          translateX: x,
-          translateY: y,
+          translateX: shouldTranslateX ? x : undefined,
+          translateY: shouldTranslateY ? y : undefined,
         });
 
         setIsZoomed(true);
