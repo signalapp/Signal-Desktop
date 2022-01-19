@@ -76,9 +76,9 @@ import type {
   ProcessedEnvelope,
   IRequestHandler,
 } from './Types.d';
-import type { ReconnectEvent, EnvelopeEvent } from './messageReceiverEvents';
 import {
   EmptyEvent,
+  EnvelopeEvent,
   ProgressEvent,
   TypingEvent,
   ErrorEvent,
@@ -360,11 +360,6 @@ export default class MessageReceiver
   //
   // EventTarget types
   //
-
-  public override addEventListener(
-    name: 'reconnect',
-    handler: (ev: ReconnectEvent) => void
-  ): void;
 
   public override addEventListener(
     name: 'empty',
@@ -1001,6 +996,11 @@ export default class MessageReceiver
       }
 
       logId = this.getEnvelopeId(unsealedEnvelope);
+
+      this.addToQueue(
+        async () => this.dispatchEvent(new EnvelopeEvent(unsealedEnvelope)),
+        TaskType.Decrypted
+      );
 
       return this.decryptEnvelope(stores, unsealedEnvelope, uuidKind);
     }, `MessageReceiver: unseal and decrypt ${logId}`);
