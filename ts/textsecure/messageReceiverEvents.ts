@@ -15,12 +15,6 @@ import type {
   ModifiedGroupDetails,
 } from './ContactsParser';
 
-export class ReconnectEvent extends Event {
-  constructor() {
-    super('reconnect');
-  }
-}
-
 export class EmptyEvent extends Event {
   constructor() {
     super('empty');

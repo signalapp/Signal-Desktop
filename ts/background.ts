@@ -306,10 +306,6 @@ export async function startApp(): Promise<void> {
     );
     messageReceiver.addEventListener('empty', queuedEventListener(onEmpty));
     messageReceiver.addEventListener(
-      'reconnect',
-      queuedEventListener(onReconnect)
-    );
-    messageReceiver.addEventListener(
       'configuration',
       queuedEventListener(onConfiguration)
     );
@@ -2394,18 +2390,6 @@ export async function startApp(): Promise<void> {
     window.reduxActions.crashReports.setCrashReportCount(
       await window.crashReports.getCount()
     );
-  }
-  function onReconnect() {
-    // We disable notifications on first connect, but the same applies to reconnect. In
-    //   scenarios where we're coming back from sleep, we can get offline/online events
-    //   very fast, and it looks like a network blip. But we need to suppress
-    //   notifications in these scenarios too. So we listen for 'reconnect' events.
-    profileKeyResponseQueue.pause();
-    lightSessionResetQueue.pause();
-    onDecryptionErrorQueue.pause();
-    onRetryRequestQueue.pause();
-    window.Whisper.deliveryReceiptQueue.pause();
-    notificationService.disable();
   }
 
   let initialStartupCount = 0;
