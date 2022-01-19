@@ -1,7 +1,7 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as chai from 'chai';
+import { assert as chaiAssert } from 'chai';
 
 import { assert, strictAssert } from '../../util/assert';
 
@@ -12,7 +12,7 @@ describe('assert utilities', () => {
     });
 
     it("throws if the assertion fails, because we're in a test environment", () => {
-      chai.assert.throws(() => {
+      chaiAssert.throws(() => {
         assert(false, 'foo bar');
       }, 'foo bar');
     });
@@ -24,7 +24,7 @@ describe('assert utilities', () => {
     });
 
     it('throws if the assertion fails', () => {
-      chai.assert.throws(() => {
+      chaiAssert.throws(() => {
         strictAssert(false, 'foo bar');
       }, 'foo bar');
     });

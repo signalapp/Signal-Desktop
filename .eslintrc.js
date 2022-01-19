@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // For reference: https://github.com/airbnb/javascript
@@ -126,6 +126,12 @@ const typescriptRules = {
           name: 'electron',
           importNames: ['BrowserWindow'],
           message: 'Please use createBrowserWindow',
+          allowTypeImports: true,
+        },
+        {
+          name: 'chai',
+          importNames: ['expect', 'should', 'Should'],
+          message: 'Please use assert',
           allowTypeImports: true,
         },
       ],

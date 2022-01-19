@@ -1,7 +1,7 @@
-// Copyright 2020 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { expect } from 'chai';
+import { assert } from 'chai';
 import { getTextWithMentions } from '../../util/getTextWithMentions';
 
 describe('getTextWithMentions', () => {
@@ -16,7 +16,8 @@ describe('getTextWithMentions', () => {
         },
       ];
       const text = "Hey \uFFFC, I'm here";
-      expect(getTextWithMentions(bodyRanges, text)).to.eql(
+      assert.strictEqual(
+        getTextWithMentions(bodyRanges, text),
         "Hey @fred, I'm here"
       );
     });
@@ -37,7 +38,8 @@ describe('getTextWithMentions', () => {
         },
       ];
       const text = "\uFFFC says \uFFFC, I'm here";
-      expect(getTextWithMentions(bodyRanges, text)).to.eql(
+      assert.strictEqual(
+        getTextWithMentions(bodyRanges, text),
         "@jerry says @fred, I'm here"
       );
     });

@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // NOTE: Temporarily allow `then` until we convert the entire file to `async` / `await`:
@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
-import { expect } from 'chai';
+import { assert } from 'chai';
 
 import {
   eliminateOutOfDateFiles,
@@ -49,34 +49,34 @@ describe('logging', () => {
   describe('#isLineAfterDate', () => {
     it('returns false if falsy', () => {
       const actual = isLineAfterDate('', new Date());
-      expect(actual).to.equal(false);
+      assert.isFalse(actual);
     });
     it('returns false if invalid JSON', () => {
       const actual = isLineAfterDate('{{}', new Date());
-      expect(actual).to.equal(false);
+      assert.isFalse(actual);
     });
     it('returns false if date is invalid', () => {
       const line = JSON.stringify({ time: '2018-01-04T19:17:05.014Z' });
       const actual = isLineAfterDate(line, new Date('try6'));
-      expect(actual).to.equal(false);
+      assert.isFalse(actual);
     });
     it('returns false if log time is invalid', () => {
       const line = JSON.stringify({ time: 'try7' });
       const date = new Date('2018-01-04T19:17:00.000Z');
       const actual = isLineAfterDate(line, date);
-      expect(actual).to.equal(false);
+      assert.isFalse(actual);
     });
     it('returns false if date before provided date', () => {
       const line = JSON.stringify({ time: '2018-01-04T19:17:00.000Z' });
       const date = new Date('2018-01-04T19:17:05.014Z');
       const actual = isLineAfterDate(line, date);
-      expect(actual).to.equal(false);
+      assert.isFalse(actual);
     });
     it('returns true if date is after provided date', () => {
       const line = JSON.stringify({ time: '2018-01-04T19:17:05.014Z' });
       const date = new Date('2018-01-04T19:17:00.000Z');
       const actual = isLineAfterDate(line, date);
-      expect(actual).to.equal(true);
+      assert.isTrue(actual);
     });
   });
 
@@ -88,7 +88,7 @@ describe('logging', () => {
       fs.writeFileSync(target, log);
 
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
-        expect(fs.existsSync(target)).to.equal(false);
+        assert.isFalse(fs.existsSync(target));
       });
     });
     it('deletes a file with invalid JSON lines', () => {
@@ -98,7 +98,7 @@ describe('logging', () => {
       fs.writeFileSync(target, log);
 
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
-        expect(fs.existsSync(target)).to.equal(false);
+        assert.isFalse(fs.existsSync(target));
       });
     });
     it('deletes a file with all dates before provided date', () => {
@@ -113,7 +113,7 @@ describe('logging', () => {
       fs.writeFileSync(target, contents);
 
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
-        expect(fs.existsSync(target)).to.equal(false);
+        assert.isFalse(fs.existsSync(target));
       });
     });
     it('keeps a file with first line date before provided date', () => {
@@ -128,7 +128,7 @@ describe('logging', () => {
       fs.writeFileSync(target, contents);
 
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
-        expect(fs.existsSync(target)).to.equal(true);
+        assert.isTrue(fs.existsSync(target));
       });
     });
     it('keeps a file with last line date before provided date', () => {
@@ -143,7 +143,7 @@ describe('logging', () => {
       fs.writeFileSync(target, contents);
 
       return eliminateOutOfDateFiles(tmpDir, date).then(() => {
-        expect(fs.existsSync(target)).to.equal(true);
+        assert.isTrue(fs.existsSync(target));
       });
     });
   });
@@ -179,7 +179,7 @@ describe('logging', () => {
           .map(line => line.trim())
           .filter(Boolean)
           .map(line => JSON.parse(line));
-        expect(actualEntries).to.deep.equal(expected);
+        assert.deepStrictEqual(actualEntries, expected);
       });
     });
     it('preserves all lines if before target date', () => {
@@ -203,7 +203,8 @@ describe('logging', () => {
 
       return eliminateOldEntries(files, date).then(() => {
         // There should only be 1 line, so we can parse it safely.
-        expect(JSON.parse(fs.readFileSync(target, 'utf8'))).to.deep.equal(
+        assert.deepStrictEqual(
+          JSON.parse(fs.readFileSync(target, 'utf8')),
           expected
         );
       });
@@ -218,9 +219,7 @@ describe('logging', () => {
           throw new Error('Expected an error!');
         },
         error => {
-          expect(error)
-            .to.have.property('message')
-            .that.match(/random_file/);
+          assert.match(error.message, /random_file/);
         }
       );
     });
@@ -231,7 +230,7 @@ describe('logging', () => {
       fs.writeFileSync(target, contents);
 
       return fetchLog(target).then(result => {
-        expect(result).to.deep.equal([]);
+        assert.isEmpty(result);
       });
     });
     it('returns just three fields in each returned line', () => {
@@ -270,7 +269,7 @@ describe('logging', () => {
       fs.writeFileSync(target, contents);
 
       return fetchLog(target).then(result => {
-        expect(result).to.deep.equal(expected);
+        assert.deepStrictEqual(result, expected);
       });
     });
   });
@@ -278,8 +277,8 @@ describe('logging', () => {
   describe('#fetchLogs', () => {
     it('returns single entry if no files', () => {
       return fetchLogs(tmpDir).then(results => {
-        expect(results).to.have.length(1);
-        expect(results[0].msg).to.match(/Loaded this list/);
+        assert.lengthOf(results, 1);
+        assert.match(results[0]?.msg || '', /Loaded this list/);
       });
     });
     it('returns sorted entries from all files', () => {
@@ -297,10 +296,10 @@ describe('logging', () => {
       fs.writeFileSync(path.join(tmpDir, 'second.log'), second);
 
       return fetchLogs(tmpDir).then(results => {
-        expect(results).to.have.length(4);
-        expect(results[0].msg).to.equal('1');
-        expect(results[1].msg).to.equal('2');
-        expect(results[2].msg).to.equal('3');
+        assert.lengthOf(results, 4);
+        assert.strictEqual(results[0]?.msg, '1');
+        assert.strictEqual(results[1]?.msg, '2');
+        assert.strictEqual(results[2]?.msg, '3');
       });
     });
   });
