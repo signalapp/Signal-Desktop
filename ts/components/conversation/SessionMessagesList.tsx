@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
@@ -9,7 +9,10 @@ import {
   PropsForGroupInvitation,
   PropsForGroupUpdate,
 } from '../../state/ducks/conversations';
-import { getSortedMessagesTypesOfSelectedConversation } from '../../state/selectors/conversations';
+import {
+  getOldTopMessageId,
+  getSortedMessagesTypesOfSelectedConversation,
+} from '../../state/selectors/conversations';
 import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
 import { DataExtractionNotification } from './message/message-item/DataExtractionNotification';
 import { MessageDateBreak } from './message/message-item/DateBreak';
@@ -26,12 +29,32 @@ function isNotTextboxEvent(e: KeyboardEvent) {
 
 export const SessionMessagesList = (props: {
   scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  scrollAfterLoadMore: (
+    messageIdToScrollTo: string,
+    block: ScrollLogicalPosition | undefined
+  ) => void;
   onPageUpPressed: () => void;
   onPageDownPressed: () => void;
   onHomePressed: () => void;
   onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+  const oldTopMessageId = useSelector(getOldTopMessageId);
+
+  useLayoutEffect(() => {
+    const newTopMessageId = messagesProps.length
+      ? messagesProps[messagesProps.length - 1].message.props.messageId
+      : undefined;
+    console.warn('useLayoutEffect ', {
+      oldTopMessageId,
+      newTopMessageId,
+      length: messagesProps.length,
+    });
+
+    if (oldTopMessageId !== newTopMessageId && oldTopMessageId && newTopMessageId) {
+      props.scrollAfterLoadMore(oldTopMessageId, 'center');
+    }
+  });
 
   useKey('PageUp', () => {
     props.onPageUpPressed();

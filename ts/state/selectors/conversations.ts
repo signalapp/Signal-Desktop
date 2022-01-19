@@ -590,9 +590,9 @@ export const getQuotedMessage = createSelector(
   (state: ConversationsStateType): ReplyingToMessageProps | undefined => state.quotedMessage
 );
 
-export const areMoreMessagesBeingFetched = createSelector(
+export const areMoreTopMessagesBeingFetched = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
+  (state: ConversationsStateType): boolean => state.areMoreTopMessagesBeingFetched || false
 );
 
 export const getHaveDoneFirstScroll = createSelector(
@@ -1115,4 +1115,9 @@ export const getGenericReadableMessageSelectorProps = createSelector(
 
     return msgProps;
   }
+);
+
+export const getOldTopMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldTopMessageId || null
 );

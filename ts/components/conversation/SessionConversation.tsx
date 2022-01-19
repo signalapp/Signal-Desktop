@@ -87,7 +87,7 @@ export class SessionConversation extends React.Component<Props, State> {
     };
     this.messageContainerRef = React.createRef();
     this.dragCounter = 0;
-    this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 1000);
+    this.updateMemberList = _.debounce(this.updateMemberListBouncy.bind(this), 10000);
 
     autoBind(this);
   }

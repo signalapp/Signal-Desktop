@@ -1,4 +1,3 @@
-import { Constants } from '../../session';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import { getFirstUnreadMessageIdInConversation, getMessagesByConversation } from '../../data/data';
@@ -273,7 +272,8 @@ export type ConversationsStateType = {
   selectedMessageIds: Array<string>;
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
-  areMoreMessagesBeingFetched: boolean;
+  areMoreTopMessagesBeingFetched: boolean;
+  oldTopMessageId: string | null;
   haveDoneFirstScroll: boolean;
 
   showScrollButton: boolean;
@@ -287,28 +287,23 @@ export type MentionsMembersType = Array<{
   authorProfileName: string;
 }>;
 
-async function getMessages(
-  conversationKey: string,
-  numMessagesToFetch: number
-): Promise<Array<MessageModelPropsWithoutConvoProps>> {
+async function getMessages({
+  conversationKey,
+  messageId,
+}: {
+  conversationKey: string;
+  messageId: string | null;
+}): Promise<Array<MessageModelPropsWithoutConvoProps>> {
   const conversation = getConversationController().get(conversationKey);
   if (!conversation) {
     // no valid conversation, early return
     window?.log?.error('Failed to get convo on reducer.');
     return [];
   }
-  let msgCount = numMessagesToFetch;
-  msgCount =
-    msgCount > Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
-      ? Constants.CONVERSATION.MAX_MESSAGE_FETCH_COUNT
-      : msgCount;
-
-  if (msgCount < Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT) {
-    msgCount = Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
-  }
+  console.warn('getMessages with messageId', messageId);
 
   const messageSet = await getMessagesByConversation(conversationKey, {
-    limit: msgCount,
+    messageId,
   });
 
   const messageProps: Array<MessageModelPropsWithoutConvoProps> = messageSet.models.map(m =>
@@ -325,24 +320,27 @@ export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
 type FetchedMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  oldTopMessageId: string | null;
 };
 
-export const fetchMessagesForConversation = createAsyncThunk(
+export const fetchTopMessagesForConversation = createAsyncThunk(
   'messages/fetchByConversationKey',
   async ({
     conversationKey,
-    count,
+    oldTopMessageId,
   }: {
     conversationKey: string;
-    count: number;
+    oldTopMessageId: string | null;
   }): Promise<FetchedMessageResults> => {
+    console.warn('fetchTopMessagesForConversation oldTop:', oldTopMessageId);
     const beforeTimestamp = Date.now();
-    // tslint:disable-next-line: no-console
-    perfStart('fetchMessagesForConversation');
-    const messagesProps = await getMessages(conversationKey, count);
+    perfStart('fetchTopMessagesForConversation');
+    const messagesProps = await getMessages({
+      conversationKey,
+      messageId: oldTopMessageId,
+    });
     const afterTimestamp = Date.now();
-    // tslint:disable-next-line: no-console
-    perfEnd('fetchMessagesForConversation', 'fetchMessagesForConversation');
+    perfEnd('fetchTopMessagesForConversation', 'fetchTopMessagesForConversation');
 
     const time = afterTimestamp - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
@@ -350,6 +348,7 @@ export const fetchMessagesForConversation = createAsyncThunk(
     return {
       conversationKey,
       messagesProps,
+      oldTopMessageId,
     };
   }
 );
@@ -363,11 +362,12 @@ export function getEmptyConversationState(): ConversationsStateType {
     messageDetailProps: undefined,
     showRightPanel: false,
     selectedMessageIds: [],
-    areMoreMessagesBeingFetched: false,
+    areMoreTopMessagesBeingFetched: false,
     showScrollButton: false,
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
+    oldTopMessageId: null,
   };
 }
 
@@ -697,7 +697,7 @@ const conversationsSlice = createSlice({
         conversationLookup: state.conversationLookup,
 
         selectedConversation: action.payload.id,
-        areMoreMessagesBeingFetched: false,
+        areMoreTopMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
         showRightPanel: false,
         selectedMessageIds: [],
@@ -708,6 +708,7 @@ const conversationsSlice = createSlice({
         nextMessageToPlay: undefined,
         showScrollButton: false,
         animateQuotedMessageId: undefined,
+        oldTopMessageId: null,
         mentionMembers: [],
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
 
@@ -762,26 +763,28 @@ const conversationsSlice = createSlice({
   extraReducers: (builder: any) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
-      fetchMessagesForConversation.fulfilled,
+      fetchTopMessagesForConversation.fulfilled,
       (state: ConversationsStateType, action: PayloadAction<FetchedMessageResults>) => {
         // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey } = action.payload;
+        const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
+          console.warn('fullfilled', oldTopMessageId);
           return {
             ...state,
+            oldTopMessageId,
             messages: messagesProps,
-            areMoreMessagesBeingFetched: false,
+            areMoreTopMessagesBeingFetched: false,
           };
         }
         return state;
       }
     );
-    builder.addCase(fetchMessagesForConversation.pending, (state: ConversationsStateType) => {
-      state.areMoreMessagesBeingFetched = true;
+    builder.addCase(fetchTopMessagesForConversation.pending, (state: ConversationsStateType) => {
+      state.areMoreTopMessagesBeingFetched = true;
     });
-    builder.addCase(fetchMessagesForConversation.rejected, (state: ConversationsStateType) => {
-      state.areMoreMessagesBeingFetched = false;
+    builder.addCase(fetchTopMessagesForConversation.rejected, (state: ConversationsStateType) => {
+      state.areMoreTopMessagesBeingFetched = false;
     });
   },
 });
@@ -855,7 +858,10 @@ export async function openConversationWithMessages(args: {
   // preload 30 messages
   perfStart('getMessages');
 
-  const initialMessages = await getMessages(conversationKey, 30);
+  const initialMessages = await getMessages({
+    conversationKey,
+    messageId: null,
+  });
   perfEnd('getMessages', 'getMessages');
 
   window.inboxStore?.dispatch(

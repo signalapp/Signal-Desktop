@@ -125,6 +125,7 @@ const channelsToMake = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
@@ -753,13 +754,40 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%', skipTimerInit = false }
+  {
+    skipTimerInit = false,
+    messageId = null,
+  }: { limit?: number; skipTimerInit?: false; messageId: string | null }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
-    limit,
-    receivedAt,
-    type,
+    messageId,
   });
+  if (skipTimerInit) {
+    for (const message of messages) {
+      message.skipTimerInit = skipTimerInit;
+    }
+  }
+  console.warn('messages length got: ', messages.length);
+  return new MessageCollection(messages);
+}
+
+/**
+ * This function should only be used when you don't want to render the messages.
+ * It just grabs the last messages of a conversation.
+ *
+ * To be used when you want for instance to remove messages from a conversations, in order.
+ * Or to trigger downloads of a attachments from a just approved contact (clicktotrustSender)
+ * @param conversationId the conversationId to fetch messages from
+ * @param limit the maximum number of messages to return
+ * @param skipTimerInit  see MessageModel.skipTimerInit
+ * @returns the fetched messageModels
+ */
+export async function getLastMessagesByConversation(
+  conversationId: string,
+  limit: number,
+  skipTimerInit: boolean
+): Promise<MessageCollection> {
+  const messages = await channels.getLastMessagesByConversation(conversationId, limit);
   if (skipTimerInit) {
     for (const message of messages) {
       message.skipTimerInit = skipTimerInit;
@@ -795,12 +823,10 @@ export async function getSeenMessagesByHashList(hashes: Array<string>): Promise<
 export async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
   let messages;
   do {
-    // Yes, we really want the await in the loop. We're deleting 100 at a
+    // Yes, we really want the await in the loop. We're deleting 500 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getMessagesByConversation(conversationId, {
-      limit: 500,
-    });
+    messages = await getLastMessagesByConversation(conversationId, 500, false);
     if (!messages.length) {
       return;
     }

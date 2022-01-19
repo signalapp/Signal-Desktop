@@ -95,56 +95,59 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
   public componentDidUpdate(
     prevProps: Props,
-    _prevState: any,
-    snapShot: { fakeScrollTop: number; realScrollTop: number; scrollHeight: number }
+    _prevState: any
+    // snapShot: {
+    //   fakeScrollTop: number;
+    //   realScrollTop: number;
+    //   scrollHeight: number;
+    //   oldTopMessageId?: string;
+    // }
   ) {
-    // this was hard to write, it should be hard to read
-    // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
-    const currentRef = this.props.messageContainerRef.current;
+    // const { oldTopMessageId } = snapShot;
+    // console.warn('didupdate with oldTopMessageId', oldTopMessageId);
+    // // If you want to mess with this, be my guest.
+    // // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
+    // // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    const prevMsgLength = prevProps.messagesProps.length;
-    const newMsgLength = this.props.messagesProps.length;
-
-    const prevFirstMesssageId = prevProps.messagesProps[0]?.propsForMessage.id;
-    const newFirstMesssageId = this.props.messagesProps[0]?.propsForMessage.id;
-    const messageAddedWasMoreRecentOne = prevFirstMesssageId !== newFirstMesssageId;
-
-    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength && currentRef) {
-      if (messageAddedWasMoreRecentOne) {
-        if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
-          // consider that we were scrolled to bottom
-          currentRef.scrollTop = 0;
-        } else {
-          currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
-        }
-      } else {
-        currentRef.scrollTop = snapShot.fakeScrollTop;
-      }
-    }
-    if (!isSameConvo || (prevMsgLength === 0 && newMsgLength !== 0)) {
+    // if (isSameConvo && oldTopMessageId) {
+    //   this.scrollToMessage(oldTopMessageId, 'center');
+    //   // if (messageAddedWasMoreRecentOne) {
+    //   //   if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
+    //   //     // consider that we were scrolled to bottom
+    //   //     currentRef.scrollTop = 0;
+    //   //   } else {
+    //   //     currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
+    //   //   }
+    //   // } else {
+    //   //   currentRef.scrollTop = snapShot.fakeScrollTop;
+    //   // }
+    // }
+    if (!isSameConvo) {
+      console.info('Not same convo, resetting scrolling posiiton');
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
-
       // displayed conversation changed. We have a bit of cleaning to do here
       this.initialMessageLoadingPosition();
     }
   }
 
   public getSnapshotBeforeUpdate() {
-    const messageContainer = this.props.messageContainerRef.current;
-
-    const scrollTop = messageContainer?.scrollTop || undefined;
-    const scrollHeight = messageContainer?.scrollHeight || undefined;
-
-    // as we use column-reverse for displaying message list
-    // the top is < 0
-    // tslint:disable-next-line: restrict-plus-operands
-    const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
-    return {
-      realScrollTop,
-      fakeScrollTop: scrollTop,
-      scrollHeight: scrollHeight,
-    };
+    // const messagePropsBeforeUpdate = this.props.messagesProps;
+    // const oldTopMessageId = messagePropsBeforeUpdate.length
+    //   ? messagePropsBeforeUpdate[messagePropsBeforeUpdate.length - 1].propsForMessage.id
+    //   : undefined;
+    // console.warn('oldTopMessageId', oldTopMessageId);
+    // const messageContainer = this.props.messageContainerRef.current;
+    // const scrollTop = messageContainer?.scrollTop || undefined;
+    // const scrollHeight = messageContainer?.scrollHeight || undefined;
+    // // as we use column-reverse for displaying message list
+    // // the top is < 0
+    // const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
+    // return {
+    //   realScrollTop,
+    //   fakeScrollTop: scrollTop,
+    //   scrollHeight: scrollHeight,
+    //   oldTopMessageId,
+    // };
   }
 
   public render() {
@@ -180,6 +183,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
         <SessionMessagesList
           scrollToQuoteMessage={this.scrollToQuoteMessage}
+          scrollAfterLoadMore={this.scrollToMessage}
           onPageDownPressed={this.scrollPgDown}
           onPageUpPressed={this.scrollPgUp}
           onHomePressed={this.scrollTop}
@@ -207,6 +211,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
 
+    console.warn('firstUnreadOnOpen', firstUnreadOnOpen);
+
     if (
       (conversation.unreadCount && conversation.unreadCount <= 0) ||
       firstUnreadOnOpen === undefined
@@ -218,6 +224,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       const firstUnreadIndex = messagesProps.findIndex(
         m => m.propsForMessage.id === firstUnreadOnOpen
       );
+      console.warn('firstUnreadIndex', firstUnreadIndex);
 
       if (firstUnreadIndex === -1) {
         // the first unread message is not in the 30 most recent messages
@@ -260,8 +267,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, block: 'center' | 'end' | 'nearest' | 'start') {
+  private scrollToMessage(messageId: string, block: ScrollLogicalPosition | undefined) {
     const messageElementDom = document.getElementById(`msg-${messageId}`);
+    console.warn('scrollToMessage', messageElementDom);
+    debugger;
     messageElementDom?.scrollIntoView({
       behavior: 'auto',
       block,

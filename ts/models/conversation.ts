@@ -12,7 +12,7 @@ import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageModelType } from './messageType';
 import autoBind from 'auto-bind';
 import {
-  getMessagesByConversation,
+  getLastMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
   removeMessage as dataRemoveMessage,
@@ -787,10 +787,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (!this.get('active_at')) {
       return;
     }
-    const messages = await getMessagesByConversation(this.id, {
-      limit: 1,
-      skipTimerInit: true,
-    });
+    const messages = await getLastMessagesByConversation(this.id, 1, true);
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
     const lastMessageStatusModel = lastMessageModel

@@ -12,7 +12,6 @@ import { messageExpired } from '../../../../state/ducks/conversations';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
-  getQuotedMessageToAnimate,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { getIncrement } from '../../../../util/timer';

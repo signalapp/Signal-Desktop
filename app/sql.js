@@ -71,6 +71,7 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   trimMessages,
@@ -2230,27 +2231,83 @@ function getUnreadCountByConversation(conversationId) {
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
+const orderByClause =
+  'ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC';
+function getMessagesByConversation(conversationId, { messageId = null } = {}) {
+  const absLimit = 30;
+  // If messageId is given it means we are opening the conversation to that specific messageId,
+  // or that we just scrolled to it by a quote click and needs to load around it.
+  // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
+  const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
-function getMessagesByConversation(
-  conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
-) {
+  if (messageId || firstUnread) {
+    const messageFound = getMessageById(messageId || firstUnread);
+
+    if (messageFound && messageFound.conversationId === conversationId) {
+      console.warn('firstUnread', messageId, firstUnread, messageFound);
+
+      const rows = globalInstance
+        .prepare(
+          `WITH cte AS (
+            SELECT id, json, row_number() OVER (${orderByClause}) as row_number
+              FROM messages
+          ), current AS (
+          SELECT row_number
+            FROM cte
+          WHERE id = $messageId
+        )
+        SELECT cte.*
+          FROM cte, current
+            WHERE ABS(cte.row_number - current.row_number) <= $limit
+          ORDER BY cte.row_number;
+          `
+        )
+        .all({
+          conversationId,
+          messageId: messageId || firstUnread,
+          limit: absLimit,
+        });
+      console.warn('rows', rows);
+      return map(rows, row => jsonToObject(row.json));
+    }
+    console.warn(
+      `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
+    );
+  }
+
   const rows = globalInstance
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId AND
-      received_at < $received_at AND
-      type LIKE $type
-      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC
+      conversationId = $conversationId
+      ${orderByClause}
     LIMIT $limit;
     `
     )
     .all({
       conversationId,
-      received_at: receivedAt,
+      limit: 2 * absLimit,
+    });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function getLastMessagesByConversation(conversationId, limit) {
+  if (!isNumber(limit)) {
+    throw new Error('limit must be a number');
+  }
+
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClause}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
       limit,
-      type,
     });
   return map(rows, row => jsonToObject(row.json));
 }
