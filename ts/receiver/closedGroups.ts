@@ -949,7 +949,7 @@ export async function createClosedGroup(groupName: string, members: Array<string
 
   await forceSyncConfigurationNowIfNeeded();
 
-  await openConversationWithMessages({ conversationKey: groupPublicKey });
+  await openConversationWithMessages({ conversationKey: groupPublicKey, messageId: null });
 }
 
 /**

@@ -92,7 +92,7 @@ const ConversationListItem = (props: Props) => {
     async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
-        await openConversationWithMessages({ conversationKey: conversationId });
+        await openConversationWithMessages({ conversationKey: conversationId, messageId: null });
       }
     },
     [conversationId]

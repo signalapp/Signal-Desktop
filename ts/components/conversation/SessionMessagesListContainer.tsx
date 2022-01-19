@@ -15,8 +15,10 @@ import { QuoteClickOptions } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils } from '../../session/utils';
 import {
+  openConversationOnQuoteClick,
   quotedMessageToAnimate,
   ReduxConversationType,
+  resetOldTopMessageId,
   showScrollToBottomButton,
   SortedMessageModelProps,
   updateHaveDoneFirstScroll,
@@ -122,8 +124,12 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     //   //   currentRef.scrollTop = snapShot.fakeScrollTop;
     //   // }
     // }
-    if (!isSameConvo) {
-      console.info('Not same convo, resetting scrolling posiiton');
+    if (
+      !isSameConvo &&
+      this.props.messagesProps.length &&
+      this.props.messagesProps[0].propsForMessage.convoId === this.props.conversationKey
+    ) {
+      console.info('Not same convo, resetting scrolling posiiton', this.props.messagesProps.length);
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
       // displayed conversation changed. We have a bit of cleaning to do here
       this.initialMessageLoadingPosition();
@@ -183,7 +189,9 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
         <SessionMessagesList
           scrollToQuoteMessage={this.scrollToQuoteMessage}
-          scrollAfterLoadMore={this.scrollToMessage}
+          scrollAfterLoadMore={(...args) => {
+            this.scrollToMessage(...args, { isLoadMoreTop: true });
+          }}
           onPageDownPressed={this.scrollPgDown}
           onPageUpPressed={this.scrollPgUp}
           onHomePressed={this.scrollTop}
@@ -211,8 +219,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       return;
     }
 
-    console.warn('firstUnreadOnOpen', firstUnreadOnOpen);
-
     if (
       (conversation.unreadCount && conversation.unreadCount <= 0) ||
       firstUnreadOnOpen === undefined
@@ -224,7 +230,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       const firstUnreadIndex = messagesProps.findIndex(
         m => m.propsForMessage.id === firstUnreadOnOpen
       );
-      console.warn('firstUnreadIndex', firstUnreadIndex);
 
       if (firstUnreadIndex === -1) {
         // the first unread message is not in the 30 most recent messages
@@ -236,7 +241,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         const messageElementDom = document.getElementById('unread-indicator');
         messageElementDom?.scrollIntoView({
           behavior: 'auto',
-          block: 'end',
+          block: 'center',
         });
       }
     }
@@ -267,14 +272,22 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, block: ScrollLogicalPosition | undefined) {
+  private scrollToMessage(
+    messageId: string,
+    block: ScrollLogicalPosition | undefined,
+    options?: { isLoadMoreTop: boolean | undefined }
+  ) {
     const messageElementDom = document.getElementById(`msg-${messageId}`);
-    console.warn('scrollToMessage', messageElementDom);
-    debugger;
+
     messageElementDom?.scrollIntoView({
       behavior: 'auto',
       block,
     });
+
+    if (options?.isLoadMoreTop) {
+      // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again
+      window.inboxStore?.dispatch(resetOldTopMessageId());
+    }
   }
 
   private scrollToBottom() {
@@ -328,6 +341,9 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   }
 
   private async scrollToQuoteMessage(options: QuoteClickOptions) {
+    if (!this.props.conversationKey) {
+      return;
+    }
     const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
 
     const { messagesProps } = this.props;
@@ -356,15 +372,17 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     //   some more information then show an informative toast to the user.
     if (!targetMessage) {
       const collection = await getMessagesBySentAt(quoteId);
-      const found = Boolean(
-        collection.find((item: MessageModel) => {
-          const messageAuthor = item.getSource();
+      const found = collection.find((item: MessageModel) => {
+        const messageAuthor = item.getSource();
 
-          return Boolean(messageAuthor && quoteAuthor === messageAuthor);
-        })
-      );
+        return Boolean(messageAuthor && quoteAuthor === messageAuthor);
+      });
 
       if (found) {
+        void openConversationOnQuoteClick({
+          conversationKey: this.props.conversationKey,
+          messageIdToNavigateTo: found.get('id'),
+        });
         ToastUtils.pushFoundButNotLoaded();
       } else {
         ToastUtils.pushOriginalNoLongerAvailable();

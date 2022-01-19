@@ -780,7 +780,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     return;
   }
   window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
-  await openConversationWithMessages({ conversationKey: fromSender });
+  await openConversationWithMessages({ conversationKey: fromSender, messageId: null });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }

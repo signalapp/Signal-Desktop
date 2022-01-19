@@ -186,9 +186,11 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
     return sortedMessages.map((msg, index) => {
       const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
       const messageTimestamp = msg.propsForMessage.serverTimestamp || msg.propsForMessage.timestamp;
+      // do not show the date break if we are the oldest message (no previous)
+      // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? 0
+          ? Number.MAX_SAFE_INTEGER
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 

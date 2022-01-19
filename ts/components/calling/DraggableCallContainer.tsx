@@ -100,7 +100,7 @@ export const DraggableCallContainer = () => {
 
   const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
-      void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
+      void openConversationWithMessages({ conversationKey: ongoingCallPubkey, messageId: null });
     }
   };
 

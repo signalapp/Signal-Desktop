@@ -937,12 +937,12 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (setToExpire) {
       await model.setToExpire();
     }
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: this.id,
-        messageModelProps: model.getMessageModelProps(),
-      })
-    );
+    // window.inboxStore?.dispatch(
+    //   conversationActions.messageAdded({
+    //     conversationKey: this.id,
+    //     messageModelProps: model.getMessageModelProps(),
+    //   })
+    // );
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
     this.updateLastMessage();

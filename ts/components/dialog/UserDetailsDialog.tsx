@@ -39,7 +39,7 @@ export const UserDetailsDialog = (props: Props) => {
       ConversationTypeEnum.PRIVATE
     );
 
-    await openConversationWithMessages({ conversationKey: conversation.id });
+    await openConversationWithMessages({ conversationKey: conversation.id, messageId: null });
     closeDialog();
   }
 

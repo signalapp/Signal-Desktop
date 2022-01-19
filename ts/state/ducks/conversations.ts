@@ -300,7 +300,6 @@ async function getMessages({
     window?.log?.error('Failed to get convo on reducer.');
     return [];
   }
-  console.warn('getMessages with messageId', messageId);
 
   const messageSet = await getMessagesByConversation(conversationKey, {
     messageId,
@@ -332,7 +331,6 @@ export const fetchTopMessagesForConversation = createAsyncThunk(
     conversationKey: string;
     oldTopMessageId: string | null;
   }): Promise<FetchedMessageResults> => {
-    console.warn('fetchTopMessagesForConversation oldTop:', oldTopMessageId);
     const beforeTimestamp = Date.now();
     perfStart('fetchTopMessagesForConversation');
     const messagesProps = await getMessages({
@@ -683,20 +681,19 @@ const conversationsSlice = createSlice({
     openConversationExternal(
       state: ConversationsStateType,
       action: PayloadAction<{
-        id: string;
+        conversationKey: string;
         firstUnreadIdOnOpen: string | undefined;
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
-        messageId?: string;
       }>
     ) {
-      if (state.selectedConversation === action.payload.id) {
+      if (state.selectedConversation === action.payload.conversationKey) {
         return state;
       }
 
       return {
         conversationLookup: state.conversationLookup,
 
-        selectedConversation: action.payload.id,
+        selectedConversation: action.payload.conversationKey,
         areMoreTopMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
         showRightPanel: false,
@@ -714,6 +711,31 @@ const conversationsSlice = createSlice({
 
         haveDoneFirstScroll: false,
       };
+    },
+    navigateInConversationToMessageId(
+      state: ConversationsStateType,
+      action: PayloadAction<{
+        conversationKey: string;
+        messageIdToNavigateTo: string;
+        initialMessages: Array<MessageModelPropsWithoutConvoProps>;
+      }>
+    ) {
+      if (state.selectedConversation !== action.payload.conversationKey) {
+        return state;
+      }
+
+      return {
+        ...state,
+        areMoreTopMessagesBeingFetched: false,
+        messages: action.payload.initialMessages,
+        showScrollButton: true,
+        animateQuotedMessageId: action.payload.messageIdToNavigateTo,
+        oldTopMessageId: null,
+      };
+    },
+    resetOldTopMessageId(state: ConversationsStateType) {
+      state.oldTopMessageId = null;
+      return state;
     },
     updateHaveDoneFirstScroll(state: ConversationsStateType) {
       state.haveDoneFirstScroll = true;
@@ -769,7 +791,6 @@ const conversationsSlice = createSlice({
         const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
-          console.warn('fullfilled', oldTopMessageId);
           return {
             ...state,
             oldTopMessageId,
@@ -828,6 +849,7 @@ export const {
   conversationReset,
   messageChanged,
   messagesChanged,
+  resetOldTopMessageId,
   updateHaveDoneFirstScroll,
   markConversationFullyRead,
   // layout stuff
@@ -848,28 +870,48 @@ export const {
 
 export async function openConversationWithMessages(args: {
   conversationKey: string;
-  messageId?: string;
+  messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
-  perfStart('getFirstUnreadMessageIdInConversation');
+  console.warn('openConversationWithMessages', conversationKey);
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
-  perfEnd('getFirstUnreadMessageIdInConversation', 'getFirstUnreadMessageIdInConversation');
-
-  // preload 30 messages
-  perfStart('getMessages');
 
   const initialMessages = await getMessages({
     conversationKey,
-    messageId: null,
+    messageId: messageId || null,
   });
-  perfEnd('getMessages', 'getMessages');
 
   window.inboxStore?.dispatch(
     actions.openConversationExternal({
-      id: conversationKey,
+      conversationKey,
       firstUnreadIdOnOpen,
-      messageId,
       initialMessages,
+    })
+  );
+}
+
+export async function openConversationOnQuoteClick(args: {
+  conversationKey: string;
+  messageIdToNavigateTo: string;
+}) {
+  const { conversationKey, messageIdToNavigateTo } = args;
+  console.warn('openConversationOnQuoteClick', { conversationKey, messageIdToNavigateTo });
+
+  const messagesAroundThisMessage = await getMessages({
+    conversationKey,
+    messageId: messageIdToNavigateTo,
+  });
+
+  console.warn(
+    'position of navigate to message is ',
+    messagesAroundThisMessage.findIndex(m => m.propsForMessage.id === messageIdToNavigateTo)
+  );
+
+  window.inboxStore?.dispatch(
+    actions.navigateInConversationToMessageId({
+      conversationKey,
+      messageIdToNavigateTo,
+      initialMessages: messagesAroundThisMessage,
     })
   );
 }

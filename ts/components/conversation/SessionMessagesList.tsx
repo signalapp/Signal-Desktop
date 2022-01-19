@@ -45,14 +45,9 @@ export const SessionMessagesList = (props: {
     const newTopMessageId = messagesProps.length
       ? messagesProps[messagesProps.length - 1].message.props.messageId
       : undefined;
-    console.warn('useLayoutEffect ', {
-      oldTopMessageId,
-      newTopMessageId,
-      length: messagesProps.length,
-    });
 
     if (oldTopMessageId !== newTopMessageId && oldTopMessageId && newTopMessageId) {
-      props.scrollAfterLoadMore(oldTopMessageId, 'center');
+      props.scrollAfterLoadMore(oldTopMessageId, 'start');
     }
   });
 

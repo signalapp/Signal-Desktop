@@ -71,7 +71,7 @@ declare global {
     inboxStore?: Store;
     openConversationWithMessages: (args: {
       conversationKey: string;
-      messageId?: string | undefined;
+      messageId: string | null;
     }) => Promise<void>;
     LokiPushNotificationServer: any;
     getGlobalOnlineStatus: () => boolean;

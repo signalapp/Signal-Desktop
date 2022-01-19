@@ -34,12 +34,12 @@ export async function onError(ev: any) {
 
     conversation.updateLastMessage();
     await conversation.notify(message);
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: conversation.id,
-        messageModelProps: message.getMessageModelProps(),
-      })
-    );
+    // window.inboxStore?.dispatch(
+    //   conversationActions.messageAdded({
+    //     conversationKey: conversation.id,
+    //     messageModelProps: message.getMessageModelProps(),
+    //   })
+    // );
 
     if (ev.confirm) {
       ev.confirm();

@@ -271,20 +271,6 @@
   }
 }
 
-// animate when user is scrolling to a quoted message
-@keyframes blinker {
-  0% {
-    border-color: rgba($session-color-green, 1);
-  }
-  80% {
-    border-color: rgba($session-color-green, 1);
-  }
-  100% {
-    border-color: transparent;
-  }
-}
-
 .flash-green-once {
-  border-color: $session-color-green;
-  animation: blinker 2s 1 normal forwards;
+  box-shadow: 0px 0px 6px 3px $session-color-green;
 }

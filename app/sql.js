@@ -2233,28 +2233,29 @@ function getUnreadCountByConversation(conversationId) {
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
 const orderByClause =
   'ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC';
+
 function getMessagesByConversation(conversationId, { messageId = null } = {}) {
-  const absLimit = 30;
+  const absLimit = 20;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
 
+
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);
 
     if (messageFound && messageFound.conversationId === conversationId) {
-      console.warn('firstUnread', messageId, firstUnread, messageFound);
-
       const rows = globalInstance
         .prepare(
           `WITH cte AS (
-            SELECT id, json, row_number() OVER (${orderByClause}) as row_number
-              FROM messages
+            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
+              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
           ), current AS (
           SELECT row_number
             FROM cte
           WHERE id = $messageId
+
         )
         SELECT cte.*
           FROM cte, current
@@ -2267,13 +2268,15 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
           messageId: messageId || firstUnread,
           limit: absLimit,
         });
-      console.warn('rows', rows);
+
       return map(rows, row => jsonToObject(row.json));
     }
     console.warn(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
     );
   }
+
+  const limit = 2 * absLimit;
 
   const rows = globalInstance
     .prepare(
@@ -2286,8 +2289,9 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
     )
     .all({
       conversationId,
-      limit: 2 * absLimit,
+      limit,
     });
+
   return map(rows, row => jsonToObject(row.json));
 }
 

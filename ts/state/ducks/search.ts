@@ -298,39 +298,5 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
     };
   }
 
-  // if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
-  //   return getEmptyState();
-  // }
-
-  // if (action.type === openConversationExternal.name) {
-  //   const { payload } = action;
-  //   const { messageId } = payload;
-
-  //   if (!messageId) {
-  //     return state;
-  //   }
-
-  //   return {
-  //     ...state,
-  //     selectedMessage: messageId,
-  //   };
-  // }
-
-  // if (action.type === 'MESSAGE_EXPIRED') {
-  //   const { messages, messageLookup } = state;
-  //   if (!messages.length) {
-  //     return state;
-  //   }
-
-  //   const { payload } = action;
-  //   const { messageId } = payload;
-
-  //   return {
-  //     ...state,
-  //     messages: reject(messages, message => messageId === message.id),
-  //     messageLookup: omit(messageLookup, ['id']),
-  //   };
-  // }
-
   return state;
 }

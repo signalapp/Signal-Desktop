@@ -754,10 +754,7 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  {
-    skipTimerInit = false,
-    messageId = null,
-  }: { limit?: number; skipTimerInit?: false; messageId: string | null }
+  { skipTimerInit = false, messageId = null }: { skipTimerInit?: false; messageId: string | null }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
     messageId,
@@ -767,7 +764,7 @@ export async function getMessagesByConversation(
       message.skipTimerInit = skipTimerInit;
     }
   }
-  console.warn('messages length got: ', messages.length);
+  console.warn(`messages length got: ${messages.length}  for ${conversationId}:${messageId}`);
   return new MessageCollection(messages);
 }
 
