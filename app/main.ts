@@ -325,6 +325,7 @@ function prepareUrl(
     userDataPath: app.getPath('userData'),
     downloadsPath: app.getPath('downloads'),
     homePath: app.getPath('home'),
+    crashDumpsPath: app.getPath('crashDumps'),
     ...moreKeys,
   }).href;
 }
@@ -1401,11 +1402,14 @@ function getAppLocale(): string {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
-  const userDataPath = await realpath(app.getPath('userData'));
+  const [userDataPath, crashDumpsPath] = await Promise.all([
+    realpath(app.getPath('userData')),
+    realpath(app.getPath('crashDumps')),
+  ]);
 
   logger = await logging.initialize(getMainWindow);
 
-  setupCrashReports(getLogger);
+  await setupCrashReports(getLogger);
 
   if (!locale) {
     const appLocale = getAppLocale();
@@ -1451,6 +1455,7 @@ app.on('ready', async () => {
   const installPath = await realpath(app.getAppPath());
 
   addSensitivePath(userDataPath);
+  addSensitivePath(crashDumpsPath);
 
   if (getEnvironment() !== Environment.Test) {
     installFileHandler({
