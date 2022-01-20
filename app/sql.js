@@ -205,7 +205,7 @@ function getUserVersion(db) {
   try {
     return db.pragma('user_version', { simple: true });
   } catch (e) {
-    console.warn('getUserVersion error', e);
+    console.error('getUserVersion error', e);
     return 0;
   }
 }
@@ -300,9 +300,9 @@ function vacuumDatabase(db) {
     throw new Error('vacuum: db is not initialized');
   }
   console.time('vaccumming db');
-  console.warn('Vacuuming DB. This might take a while.');
+  console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
-  console.warn('Vacuuming DB Finished');
+  console.info('Vacuuming DB Finished');
   console.timeEnd('vaccumming db');
 }
 
@@ -2068,7 +2068,7 @@ function saveSeenMessageHash(data) {
         hash,
       });
   } catch (e) {
-    console.warn('saveSeenMessageHash failed:', e);
+    console.error('saveSeenMessageHash failed:', e.message);
   }
 }
 
@@ -2271,7 +2271,7 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
 
       return map(rows, row => jsonToObject(row.json));
     }
-    console.warn(
+    console.info(
       `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
     );
   }
@@ -3019,7 +3019,7 @@ function updateExistingClosedGroupV1ToClosedGroupV2(db) {
       };
       addClosedGroupEncryptionKeyPair(groupId, keyPair, db);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   });
 }
@@ -3171,7 +3171,7 @@ function removeOneOpenGroupV1Message() {
   if (toRemoveCount <= 0) {
     return 0;
   }
-  console.warn('left opengroupv1 message to remove: ', toRemoveCount);
+  console.info('left opengroupv1 message to remove: ', toRemoveCount);
   const rowMessageIds = globalInstance
     .prepare(
       `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
@@ -3237,8 +3237,8 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     'count(*)'
   ];
 
-  console.warn('==== fillWithTestData ====');
-  console.warn({
+  console.info('==== fillWithTestData ====');
+  console.info({
     convoBeforeCount,
     msgBeforeCount,
     convoToAdd: numConvosToAdd,
@@ -3264,7 +3264,6 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
       // eslint-disable-next-line no-empty
     } catch (e) {}
   }
-  console.warn('convosIdsAdded', convosIdsAdded);
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < numMsgsToAdd; index++) {
     const activeAt = Date.now() - index;
@@ -3308,7 +3307,7 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
       saveMessage(msgObjToAdd);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 
@@ -3320,6 +3319,6 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     'count(*)'
   ];
 
-  console.warn({ convoAfterCount, msgAfterCount });
+  console.info({ convoAfterCount, msgAfterCount });
   return convosIdsAdded;
 }

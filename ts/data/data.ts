@@ -764,7 +764,6 @@ export async function getMessagesByConversation(
       message.skipTimerInit = skipTimerInit;
     }
   }
-  console.warn(`messages length got: ${messages.length}  for ${conversationId}:${messageId}`);
   return new MessageCollection(messages);
 }
 
@@ -1029,9 +1028,6 @@ export async function fillWithTestData(convs: number, msgs: number) {
   }
 
   for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
-    if (msgsAddedCount % 100 === 0) {
-      console.warn(msgsAddedCount);
-    }
     // tslint:disable: insecure-random
     const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
     await convoToChoose.addSingleMessage({

@@ -873,7 +873,6 @@ export async function openConversationWithMessages(args: {
   messageId: string | null;
 }) {
   const { conversationKey, messageId } = args;
-  console.warn('openConversationWithMessages', conversationKey);
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
 
   const initialMessages = await getMessages({
@@ -890,22 +889,16 @@ export async function openConversationWithMessages(args: {
   );
 }
 
-export async function openConversationOnQuoteClick(args: {
+export async function openConversationToSpecificMessage(args: {
   conversationKey: string;
   messageIdToNavigateTo: string;
 }) {
   const { conversationKey, messageIdToNavigateTo } = args;
-  console.warn('openConversationOnQuoteClick', { conversationKey, messageIdToNavigateTo });
 
   const messagesAroundThisMessage = await getMessages({
     conversationKey,
     messageId: messageIdToNavigateTo,
   });
-
-  console.warn(
-    'position of navigate to message is ',
-    messagesAroundThisMessage.findIndex(m => m.propsForMessage.id === messageIdToNavigateTo)
-  );
 
   window.inboxStore?.dispatch(
     actions.navigateInConversationToMessageId({
