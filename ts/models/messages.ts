@@ -2247,6 +2247,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                   uuid: destinationUuid,
                   e164: destination,
                   highTrust: true,
+                  reason: `handleDataMessage(${initialMessage.timestamp})`,
                 });
               if (!destinationConversationId) {
                 return;

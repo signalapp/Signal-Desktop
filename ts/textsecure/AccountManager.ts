@@ -604,6 +604,7 @@ export default class AccountManager extends EventTarget {
       e164: number,
       uuid: ourUuid,
       highTrust: true,
+      reason: 'createAccount',
     });
 
     if (!conversationId) {

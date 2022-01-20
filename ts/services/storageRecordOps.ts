@@ -770,6 +770,7 @@ export async function mergeContactRecord(
     e164,
     uuid,
     highTrust: true,
+    reason: 'mergeContactRecord',
   });
 
   if (!id) {

@@ -1870,7 +1870,7 @@ export class ConversationModel extends window.Backbone
       this.set('e164', e164);
 
       if (oldValue) {
-        this.addChangeNumberNotification();
+        this.addChangeNumberNotification(oldValue, e164);
       }
 
       window.Signal.Data.updateConversation(this.attributes);
@@ -3220,7 +3220,10 @@ export class ConversationModel extends window.Backbone
     this.set('pendingUniversalTimer', undefined);
   }
 
-  async addChangeNumberNotification(): Promise<void> {
+  async addChangeNumberNotification(
+    oldValue: string,
+    newValue: string
+  ): Promise<void> {
     const sourceUuid = this.getCheckedUuid(
       'Change number notification without uuid'
     );
@@ -3236,7 +3239,7 @@ export class ConversationModel extends window.Backbone
 
     log.info(
       `Conversation ${this.idForLogging()}: adding change number ` +
-        `notification for ${sourceUuid.toString()}`
+        `notification for ${sourceUuid.toString()} from ${oldValue} to ${newValue}`
     );
 
     const convos = [
