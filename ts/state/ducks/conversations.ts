@@ -276,7 +276,6 @@ export type ConversationsStateType = {
   areMoreBottomMessagesBeingFetched: boolean;
   oldTopMessageId: string | null;
   oldBottomMessageId: string | null;
-  haveDoneFirstScroll: boolean;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -394,7 +393,6 @@ export function getEmptyConversationState(): ConversationsStateType {
     showScrollButton: false,
     mentionMembers: [],
     firstUnreadMessageId: undefined,
-    haveDoneFirstScroll: false,
     oldTopMessageId: null,
     oldBottomMessageId: null,
   };
@@ -741,8 +739,6 @@ const conversationsSlice = createSlice({
         oldBottomMessageId: null,
         mentionMembers: [],
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
-
-        haveDoneFirstScroll: false,
       };
     },
     navigateInConversationToMessageId(
@@ -771,10 +767,6 @@ const conversationsSlice = createSlice({
     },
     resetOldBottomMessageId(state: ConversationsStateType) {
       state.oldBottomMessageId = null;
-      return state;
-    },
-    updateHaveDoneFirstScroll(state: ConversationsStateType) {
-      state.haveDoneFirstScroll = true;
       return state;
     },
     showLightBox(
@@ -913,7 +905,6 @@ export const {
   messagesChanged,
   resetOldTopMessageId,
   resetOldBottomMessageId,
-  updateHaveDoneFirstScroll,
   markConversationFullyRead,
   // layout stuff
   showMessageDetailsView,

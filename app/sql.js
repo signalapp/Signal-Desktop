@@ -1839,7 +1839,7 @@ function searchConversations(query, { limit } = {}) {
         id LIKE $id OR
         name LIKE $name OR
         profileName LIKE $profileName
-      )
+      ) AND active_at IS NOT NULL AND active_at > 0
      ORDER BY id ASC
      LIMIT $limit`
     )

@@ -17,7 +17,6 @@ import {
   resetOldTopMessageId,
   showScrollToBottomButton,
   SortedMessageModelProps,
-  updateHaveDoneFirstScroll,
 } from '../../state/ducks/conversations';
 import { StateType } from '../../state/reducer';
 import {
@@ -211,10 +210,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
         });
       }
     }
-
-    setTimeout(() => {
-      window.inboxStore?.dispatch(updateHaveDoneFirstScroll());
-    }, 100);
   }
 
   /**
@@ -249,6 +244,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       behavior: 'auto',
       block,
     });
+
+    this.props.messageContainerRef.current?.scrollBy({ top: -50 });
 
     if (options?.isLoadMoreTop) {
       // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again

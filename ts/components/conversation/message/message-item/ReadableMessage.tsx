@@ -13,7 +13,6 @@ import {
 import {
   areMoreBottomMessagesBeingFetched,
   areMoreTopMessagesBeingFetched,
-  getHaveDoneFirstScroll,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
@@ -63,7 +62,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
 
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
-  const haveDoneFirstScroll = useSelector(getHaveDoneFirstScroll);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
   const youngestMessageId = useSelector(getYoungestMessageId);
@@ -74,14 +72,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
-      // when the view first loads, it needs to scroll to the unread messages.
-      // we need to disable the inview on the first loading
-      if (!haveDoneFirstScroll) {
-        if (inView === true) {
-          window.log.info('onVisible but waiting for first scroll event');
-        }
-        return;
-      }
       // we are the most recent message
       if (mostRecentMessageId === messageId) {
         // make sure the app is focused, because we mark message as read here
@@ -137,7 +127,6 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
     },
     [
       selectedConversationKey,
-      haveDoneFirstScroll,
       mostRecentMessageId,
       oldestMessageId,
       fetchingTopMore,
@@ -158,8 +147,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       className={className}
       as="div"
       threshold={0.5}
-      delay={haveDoneFirstScroll && isAppFocused ? 100 : 200}
-      onChange={haveDoneFirstScroll && isAppFocused ? onVisible : noop}
+      delay={isAppFocused ? 100 : 200}
+      onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}

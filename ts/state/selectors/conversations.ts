@@ -602,11 +602,6 @@ export const areMoreBottomMessagesBeingFetched = createSelector(
   (state: ConversationsStateType): boolean => state.areMoreBottomMessagesBeingFetched || false
 );
 
-export const getHaveDoneFirstScroll = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.haveDoneFirstScroll
-);
-
 export const getShowScrollButton = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.showScrollButton || false

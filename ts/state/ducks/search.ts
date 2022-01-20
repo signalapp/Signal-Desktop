@@ -6,6 +6,7 @@ import { ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
 import _ from 'lodash';
+import { getConversationController } from '../../session/conversations';
 
 // State
 
@@ -84,19 +85,15 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
   const { conversations, contacts } = discussions;
   let filteredMessages = _.compact(messages);
   if (isAdvancedQuery) {
-    if (advancedSearchOptions.from && advancedSearchOptions.from.length > 0) {
-      const senderFilterQuery = await queryConversationsAndContacts(
-        advancedSearchOptions.from,
-        options
-      );
-      filteredMessages = filterMessages(
-        filteredMessages,
-        advancedSearchOptions,
-        senderFilterQuery.contacts
-      );
-    } else {
-      filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, []);
-    }
+    const senderFilterQuery =
+      advancedSearchOptions.from && advancedSearchOptions.from.length > 0
+        ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
+        : undefined;
+    filteredMessages = advancedFilterMessages(
+      filteredMessages,
+      advancedSearchOptions,
+      senderFilterQuery?.contacts || []
+    );
   }
   return {
     query,
@@ -123,7 +120,7 @@ export function updateSearchTerm(query: string): UpdateSearchTermActionType {
 
 // Helper functions for search
 
-function filterMessages(
+function advancedFilterMessages(
   messages: Array<any>,
   filters: AdvancedSearchOptions,
   contacts: Array<string>
@@ -222,13 +219,12 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   const max = searchResults.length;
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
-    const primaryDevice = searchResults[i].id;
 
-    if (primaryDevice) {
-      if (primaryDevice === ourNumber) {
+    if (conversation.id && conversation.activeAt) {
+      if (conversation.id === ourNumber) {
         conversations.push(ourNumber);
       } else {
-        conversations.push(primaryDevice);
+        conversations.push(conversation.id);
       }
     } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
@@ -240,11 +236,14 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   }
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
   if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
-    // ensure that we don't have duplicates in our results
-    contacts = contacts.filter(id => id !== ourNumber);
-    conversations = conversations.filter(id => id !== ourNumber);
+    const ourConvo = getConversationController().get(ourNumber);
+    if (ourConvo && ourConvo.isActive()) {
+      // ensure that we don't have duplicates in our results
+      contacts = contacts.filter(id => id !== ourNumber);
+      conversations = conversations.filter(id => id !== ourNumber);
 
-    contacts.unshift(ourNumber);
+      contacts.unshift(ourNumber);
+    }
   }
 
   return { conversations, contacts };
