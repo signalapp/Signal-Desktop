@@ -436,6 +436,9 @@ try {
   const { addSensitivePath } = require('./ts/util/privacy');
 
   addSensitivePath(window.baseAttachmentsPath);
+  if (config.crashDumpsPath) {
+    addSensitivePath(config.crashDumpsPath);
+  }
 
   window.Signal = Signal.setup({
     Attachments,

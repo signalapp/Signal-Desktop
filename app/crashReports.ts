@@ -10,10 +10,18 @@ import * as Errors from '../ts/types/errors';
 import { isProduction } from '../ts/util/version';
 import { upload as uploadDebugLog } from '../ts/logging/uploadDebugLog';
 import { SignalService as Proto } from '../ts/protobuf';
+import * as OS from '../ts/OS';
 
 async function getPendingDumps(): Promise<ReadonlyArray<string>> {
   const crashDumpsPath = await realpath(app.getPath('crashDumps'));
-  const pendingDir = join(crashDumpsPath, 'pending');
+  let pendingDir: string;
+  if (OS.isWindows()) {
+    pendingDir = join(crashDumpsPath, 'reports');
+  } else {
+    // macOS and Linux
+    pendingDir = join(crashDumpsPath, 'pending');
+  }
+
   const files = await readdir(pendingDir);
 
   return files.map(file => join(pendingDir, file));
@@ -38,7 +46,7 @@ async function eraseDumps(
   );
 }
 
-export function setup(getLogger: () => LoggerType): void {
+export async function setup(getLogger: () => LoggerType): Promise<void> {
   const isEnabled = !isProduction(app.getVersion());
 
   if (isEnabled) {
