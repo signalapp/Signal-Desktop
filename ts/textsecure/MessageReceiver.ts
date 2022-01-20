@@ -4,7 +4,7 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable camelcase */
 
-import { isNumber, map } from 'lodash';
+import { isNumber } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 
@@ -2626,24 +2626,40 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     blocked: Proto.SyncMessage.IBlocked
   ): Promise<void> {
-    log.info('Setting these numbers as blocked:', blocked.numbers);
     if (blocked.numbers) {
+      log.info('handleBlocked: Blocking these numbers:', blocked.numbers);
       await this.storage.put('blocked', blocked.numbers);
     }
     if (blocked.uuids) {
       const uuids = blocked.uuids.map((uuid, index) => {
         return normalizeUuid(uuid, `handleBlocked.uuids.${index}`);
       });
-      log.info('Setting these uuids as blocked:', uuids);
+      log.info('handleBlocked: Blocking these uuids:', uuids);
       await this.storage.put('blocked-uuids', uuids);
     }
 
-    const groupIds = map(blocked.groupIds, groupId => Bytes.toBinary(groupId));
-    log.info(
-      'Setting these groups as blocked:',
-      groupIds.map(groupId => `group(${groupId})`)
-    );
-    await this.storage.put('blocked-groups', groupIds);
+    if (blocked.groupIds) {
+      const groupV1Ids: Array<string> = [];
+      const groupIds: Array<string> = [];
+
+      blocked.groupIds.forEach(groupId => {
+        if (groupId.byteLength === GROUPV1_ID_LENGTH) {
+          groupV1Ids.push(Bytes.toBinary(groupId));
+          groupIds.push(this.deriveGroupV2FromV1(groupId));
+        } else if (groupId.byteLength === GROUPV2_ID_LENGTH) {
+          groupIds.push(Bytes.toBase64(groupId));
+        } else {
+          log.error('handleBlocked: Received invalid groupId value');
+        }
+      });
+      log.info(
+        'handleBlocked: Blocking these groups - v2:',
+        groupIds.map(groupId => `groupv2(${groupId})`),
+        'v1:',
+        groupV1Ids.map(groupId => `group(${groupId})`)
+      );
+      await this.storage.put('blocked-groups', [...groupIds, ...groupV1Ids]);
+    }
 
     this.removeFromCache(envelope);
   }

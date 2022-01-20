@@ -2507,6 +2507,23 @@ export async function startApp(): Promise<void> {
       );
       return;
     }
+    if (conversation?.isBlocked()) {
+      log.info(
+        `onTyping: conversation ${conversation.idForLogging()} is blocked, dropping typing message`
+      );
+      return;
+    }
+    const senderConversation = window.ConversationController.get(senderId);
+    if (!senderConversation) {
+      log.warn('onTyping: No conversation for sender!');
+      return;
+    }
+    if (senderConversation.isBlocked()) {
+      log.info(
+        `onTyping: sender ${conversation.idForLogging()} is blocked, dropping typing message`
+      );
+      return;
+    }
 
     conversation.notifyTyping({
       isTyping: started,

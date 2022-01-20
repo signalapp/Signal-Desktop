@@ -879,7 +879,7 @@ export class ConversationModel extends window.Backbone
 
   block({ viaStorageServiceSync = false } = {}): void {
     let blocked = false;
-    const isBlocked = this.isBlocked();
+    const wasBlocked = this.isBlocked();
 
     const uuid = this.get('uuid');
     if (uuid) {
@@ -899,14 +899,19 @@ export class ConversationModel extends window.Backbone
       blocked = true;
     }
 
-    if (!viaStorageServiceSync && !isBlocked && blocked) {
-      this.captureChange('block');
+    if (blocked && !wasBlocked) {
+      // We need to force a props refresh - blocked state is not in backbone attributes
+      this.trigger('change', this, { force: true });
+
+      if (!viaStorageServiceSync) {
+        this.captureChange('block');
+      }
     }
   }
 
   unblock({ viaStorageServiceSync = false } = {}): boolean {
     let unblocked = false;
-    const isBlocked = this.isBlocked();
+    const wasBlocked = this.isBlocked();
 
     const uuid = this.get('uuid');
     if (uuid) {
@@ -926,8 +931,13 @@ export class ConversationModel extends window.Backbone
       unblocked = true;
     }
 
-    if (!viaStorageServiceSync && isBlocked && unblocked) {
-      this.captureChange('unblock');
+    if (unblocked && wasBlocked) {
+      // We need to force a props refresh - blocked state is not in backbone attributes
+      this.trigger('change', this, { force: true });
+
+      if (!viaStorageServiceSync) {
+        this.captureChange('unblock');
+      }
     }
 
     return unblocked;
