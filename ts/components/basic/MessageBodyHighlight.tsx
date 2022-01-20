@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { RenderTextCallbackType } from '../../types/Util';
 import { SizeClassType } from '../../util/emoji';
 import { AddNewLines } from '../conversation/AddNewLines';
@@ -8,6 +9,10 @@ import { MessageBody } from '../conversation/message/message-content/MessageBody
 const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
   <AddNewLines key={key} text={text} />
 );
+
+const SnippetHighlight = styled.span`
+  font-weight: bold;
+`;
 
 const renderEmoji = ({
   text,
@@ -51,14 +56,14 @@ export const MessageBodyHighlight = (props: { text: string }) => {
 
     const [, toHighlight] = match;
     results.push(
-      <span className="module-message-body__highlight" key={count++}>
+      <SnippetHighlight key={count++}>
         {renderEmoji({
           text: toHighlight,
           sizeClass,
           key: count++,
           renderNonEmoji: renderNewLines,
         })}
-      </span>
+      </SnippetHighlight>
     );
 
     // @ts-ignore

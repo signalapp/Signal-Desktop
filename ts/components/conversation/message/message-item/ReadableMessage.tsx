@@ -5,17 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';
 import {
+  fetchBottomMessagesForConversation,
   fetchTopMessagesForConversation,
   markConversationFullyRead,
   showScrollToBottomButton,
 } from '../../../../state/ducks/conversations';
 import {
+  areMoreBottomMessagesBeingFetched,
   areMoreTopMessagesBeingFetched,
   getHaveDoneFirstScroll,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
   getSelectedConversationKey,
+  getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
 
@@ -40,6 +43,18 @@ const debouncedTriggerLoadMoreTop = _.debounce(
   100
 );
 
+const debouncedTriggerLoadMoreBottom = _.debounce(
+  (selectedConversationKey: string, youngestMessageId: string) => {
+    (window.inboxStore?.dispatch as any)(
+      fetchBottomMessagesForConversation({
+        conversationKey: selectedConversationKey,
+        oldBottomMessageId: youngestMessageId,
+      })
+    );
+  },
+  100
+);
+
 export const ReadableMessage = (props: ReadableMessageProps) => {
   const { messageId, onContextMenu, className, receivedAt, isUnread } = props;
 
@@ -51,7 +66,9 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const haveDoneFirstScroll = useSelector(getHaveDoneFirstScroll);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
-  const fetchingMore = useSelector(areMoreTopMessagesBeingFetched);
+  const youngestMessageId = useSelector(getYoungestMessageId);
+  const fetchingTopMore = useSelector(areMoreTopMessagesBeingFetched);
+  const fetchingBottomMore = useSelector(areMoreBottomMessagesBeingFetched);
   const shouldMarkReadWhenVisible = isUnread;
 
   const onVisible = useCallback(
@@ -85,10 +102,20 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         oldestMessageId === messageId &&
-        !fetchingMore &&
+        !fetchingTopMore &&
         selectedConversationKey
       ) {
         debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
+      }
+
+      if (
+        inView === true &&
+        isAppFocused &&
+        youngestMessageId === messageId &&
+        !fetchingBottomMore &&
+        selectedConversationKey
+      ) {
+        debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
       }
 
       // this part is just handling the marking of the message as read if needed
@@ -113,7 +140,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       haveDoneFirstScroll,
       mostRecentMessageId,
       oldestMessageId,
-      fetchingMore,
+      fetchingTopMore,
+      fetchingBottomMore,
       isAppFocused,
       loadedMessagesLength,
       receivedAt,

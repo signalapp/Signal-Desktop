@@ -597,6 +597,11 @@ export const areMoreTopMessagesBeingFetched = createSelector(
   (state: ConversationsStateType): boolean => state.areMoreTopMessagesBeingFetched || false
 );
 
+export const areMoreBottomMessagesBeingFetched = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean => state.areMoreBottomMessagesBeingFetched || false
+);
+
 export const getHaveDoneFirstScroll = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.haveDoneFirstScroll
@@ -693,6 +698,15 @@ export const getOldestMessageId = createSelector(
       messages.length > 0 ? messages[messages.length - 1].propsForMessage.id : undefined;
 
     return oldest;
+  }
+);
+
+export const getYoungestMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    const youngest = messages.length > 0 ? messages[0].propsForMessage.id : undefined;
+
+    return youngest;
   }
 );
 
@@ -1122,4 +1136,9 @@ export const getGenericReadableMessageSelectorProps = createSelector(
 export const getOldTopMessageId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | null => state.oldTopMessageId || null
+);
+
+export const getOldBottomMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
 );

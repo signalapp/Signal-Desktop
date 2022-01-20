@@ -9,7 +9,6 @@ export type SearchResultsProps = {
   contacts: Array<ConversationListItemProps>;
   conversations: Array<ConversationListItemProps>;
   messages: Array<MessageResultProps>;
-  hideMessagesHeader: boolean;
   searchTerm: string;
 };
 
@@ -18,14 +17,17 @@ const ContactsItem = (props: { header: string; items: Array<ConversationListItem
     <div className="module-search-results__contacts">
       <div className="module-search-results__contacts-header">{props.header}</div>
       {props.items.map(contact => (
-        <MemoConversationListItemWithDetails {...contact} />
+        <MemoConversationListItemWithDetails
+          {...contact}
+          key={`search-result-contact-${contact.id}`}
+        />
       ))}
     </div>
   );
 };
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { conversations, contacts, messages, searchTerm, hideMessagesHeader } = props;
+  const { conversations, contacts, messages, searchTerm } = props;
 
   const haveConversations = conversations && conversations.length;
   const haveContacts = contacts && contacts.length;
@@ -45,7 +47,11 @@ export const SearchResults = (props: SearchResultsProps) => {
             {window.i18n('conversationsHeader')}
           </div>
           {conversations.map(conversation => (
-            <MemoConversationListItemWithDetails {...conversation} />
+            <MemoConversationListItemWithDetails
+              {...conversation}
+              mentionedUs={false}
+              key={`search-result-convo-${conversation.id}`}
+            />
           ))}
         </div>
       ) : null}
@@ -55,13 +61,11 @@ export const SearchResults = (props: SearchResultsProps) => {
 
       {haveMessages ? (
         <div className="module-search-results__messages">
-          {hideMessagesHeader ? null : (
-            <div className="module-search-results__messages-header">
-              {window.i18n('messagesHeader')}
-            </div>
-          )}
+          <div className="module-search-results__messages-header">
+            {`${window.i18n('messagesHeader')}: ${messages.length}`}
+          </div>
           {messages.map(message => (
-            <MessageSearchResult key={`search-result-${message.id}`} {...message} />
+            <MessageSearchResult key={`search-result-message-${message.id}`} {...message} />
           ))}
         </div>
       ) : null}

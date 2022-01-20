@@ -1853,17 +1853,19 @@ function searchConversations(query, { limit } = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function searchMessages(query, { limit } = {}) {
+function searchMessages(query, limit) {
+  // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
+
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 15) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query
-    ORDER BY messages.received_at DESC
+     ${MESSAGES_FTS_TABLE} match $query
+    ORDER BY ${MESSAGES_TABLE}.serverTimestamp DESC, ${MESSAGES_TABLE}.serverId DESC, ${MESSAGES_TABLE}.sent_at DESC, ${MESSAGES_TABLE}.received_at DESC
     LIMIT $limit;`
     )
     .all({
@@ -1877,7 +1879,7 @@ function searchMessages(query, { limit } = {}) {
   }));
 }
 
-function searchMessagesInConversation(query, conversationId, { limit } = {}) {
+function searchMessagesInConversation(query, conversationId, limit) {
   const rows = globalInstance
     .prepare(
       `SELECT
@@ -2240,7 +2242,6 @@ function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
   const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
-
 
   if (messageId || firstUnread) {
     const messageFound = getMessageById(messageId || firstUnread);

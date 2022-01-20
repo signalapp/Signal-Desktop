@@ -1425,10 +1425,6 @@
   }
 }
 
-.module-message-search-result--is-selected {
-  background-color: $color-gray-05;
-}
-
 .module-message-search-result__text {
   flex-grow: 1;
   margin-inline-start: 12px;
@@ -1481,29 +1477,6 @@
 }
 .module-mesages-search-result__header__group {
   font-weight: 300;
-}
-
-.module-message-search-result__body {
-  margin-top: 1px;
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  font-size: 13px;
-
-  color: var(--color-text-subtle);
-
-  max-height: 3.6em;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
 // Module: Left Pane

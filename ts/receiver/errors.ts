@@ -1,7 +1,6 @@
 import { initIncomingMessage } from './dataMessage';
 import { toNumber } from 'lodash';
 import { getConversationController } from '../session/conversations';
-import { actions as conversationActions } from '../state/ducks/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
 import { toLogFormat } from '../types/attachments/Errors';
 

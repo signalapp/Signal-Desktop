@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import _ from 'lodash';
 import { removeMessage } from '../../../../data/data';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { messageExpired } from '../../../../state/ducks/conversations';
 import {
@@ -94,7 +94,6 @@ function useIsExpired(props: ExpiringProps) {
 
 type Props = {
   messageId: string;
-  onQuoteClick: (quote: QuoteClickOptions) => void;
   ctxMenuID: string;
   isDetailView?: boolean;
 };
@@ -181,7 +180,6 @@ export const GenericReadableMessage = (props: Props) => {
       <MessageContentWithStatuses
         ctxMenuID={props.ctxMenuID}
         messageId={messageId}
-        onQuoteClick={props.onQuoteClick}
         isDetailView={isDetailView}
         dataTestId={`message-content-${messageId}`}
       />

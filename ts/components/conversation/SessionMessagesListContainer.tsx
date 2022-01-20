@@ -8,16 +8,12 @@ import { connect, useSelector } from 'react-redux';
 import { SessionMessagesList } from './SessionMessagesList';
 import styled from 'styled-components';
 import autoBind from 'auto-bind';
-import { getMessagesBySentAt } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
-import { MessageModel } from '../../models/message';
-import { QuoteClickOptions } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
-import { ToastUtils } from '../../session/utils';
 import {
-  openConversationOnQuoteClick,
   quotedMessageToAnimate,
   ReduxConversationType,
+  resetOldBottomMessageId,
   resetOldTopMessageId,
   showScrollToBottomButton,
   SortedMessageModelProps,
@@ -38,6 +34,11 @@ import { TypingBubble } from './TypingBubble';
 export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
 };
+
+export const ScrollToLoadedMessageContext = React.createContext(
+  // tslint:disable-next-line: no-empty
+  (_loadedMessageIdToScrollTo: string) => {}
+);
 
 const SessionUnreadAboveIndicator = styled.div`
   position: sticky;
@@ -95,65 +96,21 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  public componentDidUpdate(
-    prevProps: Props,
-    _prevState: any
-    // snapShot: {
-    //   fakeScrollTop: number;
-    //   realScrollTop: number;
-    //   scrollHeight: number;
-    //   oldTopMessageId?: string;
-    // }
-  ) {
-    // const { oldTopMessageId } = snapShot;
-    // console.warn('didupdate with oldTopMessageId', oldTopMessageId);
+  public componentDidUpdate(prevProps: Props, _prevState: any) {
     // // If you want to mess with this, be my guest.
     // // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
     // // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    // if (isSameConvo && oldTopMessageId) {
-    //   this.scrollToMessage(oldTopMessageId, 'center');
-    //   // if (messageAddedWasMoreRecentOne) {
-    //   //   if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
-    //   //     // consider that we were scrolled to bottom
-    //   //     currentRef.scrollTop = 0;
-    //   //   } else {
-    //   //     currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
-    //   //   }
-    //   // } else {
-    //   //   currentRef.scrollTop = snapShot.fakeScrollTop;
-    //   // }
-    // }
+
     if (
       !isSameConvo &&
       this.props.messagesProps.length &&
       this.props.messagesProps[0].propsForMessage.convoId === this.props.conversationKey
     ) {
-      console.info('Not same convo, resetting scrolling posiiton', this.props.messagesProps.length);
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
       // displayed conversation changed. We have a bit of cleaning to do here
       this.initialMessageLoadingPosition();
     }
-  }
-
-  public getSnapshotBeforeUpdate() {
-    // const messagePropsBeforeUpdate = this.props.messagesProps;
-    // const oldTopMessageId = messagePropsBeforeUpdate.length
-    //   ? messagePropsBeforeUpdate[messagePropsBeforeUpdate.length - 1].propsForMessage.id
-    //   : undefined;
-    // console.warn('oldTopMessageId', oldTopMessageId);
-    // const messageContainer = this.props.messageContainerRef.current;
-    // const scrollTop = messageContainer?.scrollTop || undefined;
-    // const scrollHeight = messageContainer?.scrollHeight || undefined;
-    // // as we use column-reverse for displaying message list
-    // // the top is < 0
-    // const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
-    // return {
-    //   realScrollTop,
-    //   fakeScrollTop: scrollTop,
-    //   scrollHeight: scrollHeight,
-    //   oldTopMessageId,
-    // };
   }
 
   public render() {
@@ -187,18 +144,27 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList
-          scrollToQuoteMessage={this.scrollToQuoteMessage}
-          scrollAfterLoadMore={(...args) => {
-            this.scrollToMessage(...args, { isLoadMoreTop: true });
-          }}
-          onPageDownPressed={this.scrollPgDown}
-          onPageUpPressed={this.scrollPgUp}
-          onHomePressed={this.scrollTop}
-          onEndPressed={this.scrollEnd}
-        />
+        <ScrollToLoadedMessageContext.Provider value={this.scrollToQuoteMessage}>
+          <SessionMessagesList
+            scrollAfterLoadMore={(
+              messageIdToScrollTo: string,
+              type: 'load-more-top' | 'load-more-bottom'
+            ) => {
+              const isLoadMoreTop = type === 'load-more-top';
+              const isLoadMoreBottom = type === 'load-more-bottom';
+              this.scrollToMessage(messageIdToScrollTo, isLoadMoreTop ? 'start' : 'end', {
+                isLoadMoreTop,
+                isLoadMoreBottom,
+              });
+            }}
+            onPageDownPressed={this.scrollPgDown}
+            onPageUpPressed={this.scrollPgUp}
+            onHomePressed={this.scrollTop}
+            onEndPressed={this.scrollEnd}
+          />
+        </ScrollToLoadedMessageContext.Provider>
 
-        <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
+        <SessionScrollButton onClick={this.scrollToMostRecentMessage} key="scroll-down-button" />
       </div>
     );
   }
@@ -223,7 +189,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       (conversation.unreadCount && conversation.unreadCount <= 0) ||
       firstUnreadOnOpen === undefined
     ) {
-      this.scrollToBottom();
+      this.scrollToMostRecentMessage();
     } else {
       // just assume that this need to be shown by default
       window.inboxStore?.dispatch(showScrollToBottomButton(true));
@@ -275,7 +241,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   private scrollToMessage(
     messageId: string,
     block: ScrollLogicalPosition | undefined,
-    options?: { isLoadMoreTop: boolean | undefined }
+    options?: { isLoadMoreTop: boolean | undefined; isLoadMoreBottom: boolean | undefined }
   ) {
     const messageElementDom = document.getElementById(`msg-${messageId}`);
 
@@ -288,9 +254,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
       // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again
       window.inboxStore?.dispatch(resetOldTopMessageId());
     }
+    if (options?.isLoadMoreBottom) {
+      // reset the oldBottomInRedux so that a refresh/new message does not scroll us back here again
+      window.inboxStore?.dispatch(resetOldBottomMessageId());
+    }
   }
 
-  private scrollToBottom() {
+  private scrollToMostRecentMessage() {
     const messageContainer = this.props.messageContainerRef.current;
     if (!messageContainer) {
       return;
@@ -340,61 +310,23 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     messageContainer.scrollTo(0, 0);
   }
 
-  private async scrollToQuoteMessage(options: QuoteClickOptions) {
-    if (!this.props.conversationKey) {
+  private scrollToQuoteMessage(loadedQuoteMessageToScrollTo: string) {
+    if (!this.props.conversationKey || !loadedQuoteMessageToScrollTo) {
       return;
     }
-    const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
 
     const { messagesProps } = this.props;
 
-    // For simplicity's sake, we show the 'not found' toast no matter what if we were
-    //   not able to find the referenced message when the quote was received.
-    if (referencedMessageNotFound) {
-      ToastUtils.pushOriginalNotFound();
-      return;
-    }
-    // Look for message in memory first, which would tell us if we could scroll to it
-    const targetMessage = messagesProps.find(item => {
-      const messageAuthor = item.propsForMessage?.sender;
-
-      if (!messageAuthor || quoteAuthor !== messageAuthor) {
-        return false;
-      }
-      if (quoteId !== item.propsForMessage?.timestamp) {
-        return false;
-      }
-
-      return true;
-    });
-
     // If there's no message already in memory, we won't be scrolling. So we'll gather
     //   some more information then show an informative toast to the user.
-    if (!targetMessage) {
-      const collection = await getMessagesBySentAt(quoteId);
-      const found = collection.find((item: MessageModel) => {
-        const messageAuthor = item.getSource();
-
-        return Boolean(messageAuthor && quoteAuthor === messageAuthor);
-      });
-
-      if (found) {
-        void openConversationOnQuoteClick({
-          conversationKey: this.props.conversationKey,
-          messageIdToNavigateTo: found.get('id'),
-        });
-        ToastUtils.pushFoundButNotLoaded();
-      } else {
-        ToastUtils.pushOriginalNoLongerAvailable();
-      }
-      return;
+    if (!messagesProps.find(m => m.propsForMessage.id === loadedQuoteMessageToScrollTo)) {
+      throw new Error('this message is not loaded');
     }
 
-    const databaseId = targetMessage.propsForMessage.id;
-    this.scrollToMessage(databaseId, 'center');
+    this.scrollToMessage(loadedQuoteMessageToScrollTo, 'start');
     // Highlight this message on the UI
-    window.inboxStore?.dispatch(quotedMessageToAnimate(databaseId));
-    this.setupTimeoutResetQuotedHighlightedMessage(databaseId);
+    window.inboxStore?.dispatch(quotedMessageToAnimate(loadedQuoteMessageToScrollTo));
+    this.setupTimeoutResetQuotedHighlightedMessage(loadedQuoteMessageToScrollTo);
   }
 }
 

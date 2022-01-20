@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import moment from 'moment';
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
   getMessageTextProps,
@@ -26,6 +26,7 @@ import { MessageAttachment } from './MessageAttachment';
 import { MessagePreview } from './MessagePreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -42,7 +43,6 @@ export type MessageContentSelectorProps = Pick<
 
 type Props = {
   messageId: string;
-  onQuoteClick?: (quote: QuoteClickOptions) => void;
   isDetailView?: boolean;
 };
 
@@ -97,10 +97,13 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
 export const IsMessageVisibleContext = createContext(false);
 
 export const MessageContent = (props: Props) => {
+  const [flashGreen, setFlashGreen] = useState(false);
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
   const [isMessageVisible, setMessageIsVisible] = useState(false);
+
+  const scrollToMessage = useContext(ScrollToLoadedMessageContext);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -119,6 +122,24 @@ export const MessageContent = (props: Props) => {
     setImageBroken(true);
   }, [setImageBroken]);
 
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+  const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
+
+  useLayoutEffect(() => {
+    if (isQuotedMessageToAnimate) {
+      if (!flashGreen) {
+        //scroll to me and flash me
+        scrollToMessage(props.messageId);
+        setFlashGreen(true);
+      }
+      return;
+    }
+    if (flashGreen) {
+      setFlashGreen(false);
+    }
+    return;
+  });
+
   if (!contentProps) {
     return null;
   }
@@ -136,13 +157,11 @@ export const MessageContent = (props: Props) => {
   } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
-  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
 
   let isDeleted = false;
   if (selectedMsg && selectedMsg.isDeleted !== undefined) {
     isDeleted = selectedMsg.isDeleted;
   }
-  const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
 
   const width = getWidth({ previews, attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
@@ -167,7 +186,7 @@ export const MessageContent = (props: Props) => {
         lastMessageOfSeries || props.isDetailView
           ? `module-message__container--${direction}--last-of-series`
           : '',
-        isQuotedMessageToAnimate && 'flash-green-once'
+        flashGreen && 'flash-green-once'
       )}
       style={{
         width: isShowingImage ? width : undefined,
@@ -186,7 +205,7 @@ export const MessageContent = (props: Props) => {
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {!isDeleted && (
             <>
-              <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
+              <MessageQuote messageId={props.messageId} />
               <MessageAttachment
                 messageId={props.messageId}
                 imageBroken={imageBroken}

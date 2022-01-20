@@ -5,12 +5,13 @@ import { MessageDirection } from '../../models/messageType';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import {
   FindAndFormatContactType,
-  openConversationWithMessages,
+  openConversationToSpecificMessage,
 } from '../../state/ducks/conversations';
 import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
+import styled from 'styled-components';
 
 type PropsHousekeeping = {
   isSelected?: boolean;
@@ -83,17 +84,25 @@ const AvatarItem = (props: { source: string }) => {
   return <Avatar size={AvatarSize.S} pubkey={source} />;
 };
 
+const ResultBody = styled.div`
+  margin-top: 1px;
+  flex-grow: 1;
+  flex-shrink: 1;
+
+  font-size: 13px;
+
+  color: var(--color-text-subtle);
+
+  max-height: 3.6em;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
+
 export const MessageSearchResult = (props: MessageResultProps) => {
-  const {
-    isSelected,
-    id,
-    conversationId,
-    receivedAt,
-    snippet,
-    destination,
-    source,
-    direction,
-  } = props;
+  const { id, conversationId, receivedAt, snippet, destination, source, direction } = props;
 
   // Some messages miss a source or destination. Doing checks to see if the fields can be derived from other sources.
   // E.g. if the source is missing but the message is outgoing, the source will be our pubkey
@@ -119,15 +128,12 @@ export const MessageSearchResult = (props: MessageResultProps) => {
       key={`div-msg-searchresult-${id}`}
       role="button"
       onClick={async () => {
-        await openConversationWithMessages({
+        await openConversationToSpecificMessage({
           conversationKey: conversationId,
-          messageId: id,
+          messageIdToNavigateTo: id,
         });
       }}
-      className={classNames(
-        'module-message-search-result',
-        isSelected ? 'module-message-search-result--is-selected' : null
-      )}
+      className={classNames('module-message-search-result')}
     >
       <AvatarItem source={effectiveSource} />
       <div className="module-message-search-result__text">
@@ -137,9 +143,9 @@ export const MessageSearchResult = (props: MessageResultProps) => {
             <Timestamp timestamp={receivedAt} />
           </div>
         </div>
-        <div className="module-message-search-result__body">
+        <ResultBody>
           <MessageBodyHighlight text={snippet || ''} />
-        </div>
+        </ResultBody>
       </div>
     </div>
   );

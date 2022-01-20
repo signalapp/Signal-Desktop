@@ -1,61 +1,90 @@
 import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import { PubKey } from '../../../../session/types';
-import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
+import { openConversationToSpecificMessage } from '../../../../state/ducks/conversations';
 import {
   getMessageQuoteProps,
+  isMessageDetailView,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { Quote } from './Quote';
+import { ToastUtils } from '../../../../session/utils';
+import { getMessagesBySentAt } from '../../../../data/data';
+import { MessageModel } from '../../../../models/message';
 
 // tslint:disable: use-simple-attributes
 
 type Props = {
-  onQuoteClick?: (quote: QuoteClickOptions) => void;
   messageId: string;
 };
 
 export type MessageQuoteSelectorProps = Pick<MessageRenderingProps, 'quote' | 'direction'>;
 
 export const MessageQuote = (props: Props) => {
-  const { onQuoteClick: scrollToQuote } = props;
-
   const selected = useSelector(state => getMessageQuoteProps(state as any, props.messageId));
-  const dispatch = useDispatch();
   const multiSelectMode = useSelector(isMessageSelectionMode);
+  const isMessageDetailViewMode = useSelector(isMessageDetailView);
+
+  // const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+  const quote = selected ? selected.quote : undefined;
+  const direction = selected ? selected.direction : undefined;
 
   const onQuoteClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    async (event: React.MouseEvent<HTMLDivElement>) => {
       event.preventDefault();
       event.stopPropagation();
 
-      if (!selected?.quote) {
+      if (!quote) {
         window.log.warn('onQuoteClick: quote not valid');
         return;
       }
-      if (multiSelectMode && props.messageId) {
-        dispatch(toggleSelectedMessageId(props.messageId));
 
+      if (isMessageDetailViewMode) {
+        // trying to scroll while in the container while the message detail view is shown has unknown effects
         return;
       }
-      const { sender, referencedMessageNotFound, messageId } = selected.quote;
-      const quoteId = _.toNumber(messageId);
 
-      scrollToQuote?.({
-        quoteAuthor: sender,
-        quoteId,
-        referencedMessageNotFound: referencedMessageNotFound || false,
+      const {
+        referencedMessageNotFound,
+        messageId: quotedMessageSentAt,
+        sender: quoteAuthor,
+      } = quote;
+      // For simplicity's sake, we show the 'not found' toast no matter what if we were
+      //   not able to find the referenced message when the quote was received.
+      if (referencedMessageNotFound || !quotedMessageSentAt || !quoteAuthor) {
+        ToastUtils.pushOriginalNotFound();
+        return;
+      }
+
+      const collection = await getMessagesBySentAt(_.toNumber(quotedMessageSentAt));
+      const foundInDb = collection.find((item: MessageModel) => {
+        const messageAuthor = item.getSource();
+
+        return Boolean(messageAuthor && quoteAuthor === messageAuthor);
       });
+
+      if (!foundInDb) {
+        ToastUtils.pushOriginalNotFound();
+        return;
+      }
+      void openConversationToSpecificMessage({
+        conversationKey: foundInDb.get('conversationId'),
+        messageIdToNavigateTo: foundInDb.get('id'),
+      });
+
+      // scrollToLoadedMessage?.({
+      //   quoteAuthor: sender,
+      //   quoteId,
+      //   referencedMessageNotFound: referencedMessageNotFound || false,
+      // });
     },
-    [scrollToQuote, selected?.quote, multiSelectMode, props.messageId]
+    [quote, multiSelectMode, props.messageId]
   );
   if (!selected) {
     return null;
   }
-
-  const { quote, direction } = selected;
 
   if (!quote || !quote.sender || !quote.messageId) {
     return null;

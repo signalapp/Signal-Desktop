@@ -216,12 +216,6 @@ export const fillMessageAttributesWithDefaults = (
   return defaulted;
 };
 
-export type QuoteClickOptions = {
-  quoteAuthor: string;
-  quoteId: number;
-  referencedMessageNotFound: boolean;
-};
-
 /**
  * Those props are the one generated from a single Message improved by the one by the app itself.
  * Some of the one added comes from the MessageList, some from redux, etc..
@@ -235,5 +229,4 @@ export type MessageRenderingProps = PropsForMessageWithConvoProps & {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   lastMessageOfSeries: boolean;
-  onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 };

@@ -587,9 +587,12 @@ export async function searchConversations(query: string): Promise<Array<any>> {
   return conversations;
 }
 
-export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
-  const messages = await channels.searchMessages(query, { limit });
-  return messages;
+export async function searchMessages(query: string, limit: number): Promise<Array<Object>> {
+  const messages = await channels.searchMessages(query, limit);
+
+  return _.uniqWith(messages, (left: { id: string }, right: { id: string }) => {
+    return left.id === right.id;
+  });
 }
 
 /**
@@ -598,10 +601,10 @@ export async function searchMessages(query: string, { limit }: any = {}): Promis
 export async function searchMessagesInConversation(
   query: string,
   conversationId: string,
-  options: { limit: number } | undefined
+  limit: number
 ): Promise<Object> {
   const messages = await channels.searchMessagesInConversation(query, conversationId, {
-    limit: options?.limit,
+    limit,
   });
   return messages;
 }

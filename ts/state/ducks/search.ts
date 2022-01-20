@@ -30,7 +30,7 @@ type SearchResultsPayloadType = {
   conversations: Array<string>;
   contacts: Array<string>;
 
-  messages?: Array<string>;
+  messages?: Array<Object>;
 };
 
 type SearchResultsKickoffActionType = {
@@ -83,17 +83,20 @@ async function doSearch(query: string, options: SearchOptions): Promise<SearchRe
   ]);
   const { conversations, contacts } = discussions;
   let filteredMessages = _.compact(messages);
-
   if (isAdvancedQuery) {
-    let senderFilter: Array<string> = [];
     if (advancedSearchOptions.from && advancedSearchOptions.from.length > 0) {
       const senderFilterQuery = await queryConversationsAndContacts(
         advancedSearchOptions.from,
         options
       );
-      senderFilter = senderFilterQuery.contacts;
+      filteredMessages = filterMessages(
+        filteredMessages,
+        advancedSearchOptions,
+        senderFilterQuery.contacts
+      );
+    } else {
+      filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, []);
     }
-    filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
   }
   return {
     query,
@@ -201,7 +204,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 async function queryMessages(query: string) {
   try {
     const normalized = cleanSearchTerm(query);
-    return searchMessages(normalized);
+    return searchMessages(normalized, 1000);
   } catch (e) {
     return [];
   }

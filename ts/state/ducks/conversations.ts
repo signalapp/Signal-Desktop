@@ -273,7 +273,9 @@ export type ConversationsStateType = {
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
   areMoreTopMessagesBeingFetched: boolean;
+  areMoreBottomMessagesBeingFetched: boolean;
   oldTopMessageId: string | null;
+  oldBottomMessageId: string | null;
   haveDoneFirstScroll: boolean;
 
   showScrollButton: boolean;
@@ -316,37 +318,64 @@ export type SortedMessageModelProps = MessageModelPropsWithoutConvoProps & {
   lastMessageOfSeries: boolean;
 };
 
-type FetchedMessageResults = {
+type FetchedTopMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
   oldTopMessageId: string | null;
 };
 
 export const fetchTopMessagesForConversation = createAsyncThunk(
-  'messages/fetchByConversationKey',
+  'messages/fetchTopByConversationKey',
   async ({
     conversationKey,
     oldTopMessageId,
   }: {
     conversationKey: string;
     oldTopMessageId: string | null;
-  }): Promise<FetchedMessageResults> => {
+  }): Promise<FetchedTopMessageResults> => {
     const beforeTimestamp = Date.now();
-    perfStart('fetchTopMessagesForConversation');
     const messagesProps = await getMessages({
       conversationKey,
       messageId: oldTopMessageId,
     });
-    const afterTimestamp = Date.now();
-    perfEnd('fetchTopMessagesForConversation', 'fetchTopMessagesForConversation');
-
-    const time = afterTimestamp - beforeTimestamp;
+    const time = Date.now() - beforeTimestamp;
     window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
 
     return {
       conversationKey,
       messagesProps,
       oldTopMessageId,
+    };
+  }
+);
+
+type FetchedBottomMessageResults = {
+  conversationKey: string;
+  messagesProps: Array<MessageModelPropsWithoutConvoProps>;
+  oldBottomMessageId: string | null;
+};
+
+export const fetchBottomMessagesForConversation = createAsyncThunk(
+  'messages/fetchBottomByConversationKey',
+  async ({
+    conversationKey,
+    oldBottomMessageId,
+  }: {
+    conversationKey: string;
+    oldBottomMessageId: string | null;
+  }): Promise<FetchedBottomMessageResults> => {
+    const beforeTimestamp = Date.now();
+    const messagesProps = await getMessages({
+      conversationKey,
+      messageId: oldBottomMessageId,
+    });
+    const time = Date.now() - beforeTimestamp;
+    window?.log?.info(`Loading ${messagesProps.length} messages took ${time}ms to load.`);
+
+    return {
+      conversationKey,
+      messagesProps,
+      oldBottomMessageId,
     };
   }
 );
@@ -361,11 +390,13 @@ export function getEmptyConversationState(): ConversationsStateType {
     showRightPanel: false,
     selectedMessageIds: [],
     areMoreTopMessagesBeingFetched: false,
+    areMoreBottomMessagesBeingFetched: false,
     showScrollButton: false,
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     haveDoneFirstScroll: false,
     oldTopMessageId: null,
+    oldBottomMessageId: null,
   };
 }
 
@@ -695,6 +726,7 @@ const conversationsSlice = createSlice({
 
         selectedConversation: action.payload.conversationKey,
         areMoreTopMessagesBeingFetched: false,
+        areMoreBottomMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
         showRightPanel: false,
         selectedMessageIds: [],
@@ -706,6 +738,7 @@ const conversationsSlice = createSlice({
         showScrollButton: false,
         animateQuotedMessageId: undefined,
         oldTopMessageId: null,
+        oldBottomMessageId: null,
         mentionMembers: [],
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
 
@@ -720,21 +753,24 @@ const conversationsSlice = createSlice({
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
       }>
     ) {
-      if (state.selectedConversation !== action.payload.conversationKey) {
-        return state;
-      }
-
       return {
         ...state,
+        selectedConversation: action.payload.conversationKey,
         areMoreTopMessagesBeingFetched: false,
+        areMoreBottomMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
         showScrollButton: true,
         animateQuotedMessageId: action.payload.messageIdToNavigateTo,
         oldTopMessageId: null,
+        oldBottomMessageId: null,
       };
     },
     resetOldTopMessageId(state: ConversationsStateType) {
       state.oldTopMessageId = null;
+      return state;
+    },
+    resetOldBottomMessageId(state: ConversationsStateType) {
+      state.oldBottomMessageId = null;
       return state;
     },
     updateHaveDoneFirstScroll(state: ConversationsStateType) {
@@ -786,7 +822,7 @@ const conversationsSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
       fetchTopMessagesForConversation.fulfilled,
-      (state: ConversationsStateType, action: PayloadAction<FetchedMessageResults>) => {
+      (state: ConversationsStateType, action: PayloadAction<FetchedTopMessageResults>) => {
         // this is called once the messages are loaded from the db for the currently selected conversation
         const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
         // double check that this update is for the shown convo
@@ -807,6 +843,32 @@ const conversationsSlice = createSlice({
     builder.addCase(fetchTopMessagesForConversation.rejected, (state: ConversationsStateType) => {
       state.areMoreTopMessagesBeingFetched = false;
     });
+    builder.addCase(
+      fetchBottomMessagesForConversation.fulfilled,
+      (state: ConversationsStateType, action: PayloadAction<FetchedBottomMessageResults>) => {
+        // this is called once the messages are loaded from the db for the currently selected conversation
+        const { messagesProps, conversationKey, oldBottomMessageId } = action.payload;
+        // double check that this update is for the shown convo
+        if (conversationKey === state.selectedConversation) {
+          return {
+            ...state,
+            oldBottomMessageId,
+            messages: messagesProps,
+            areMoreBottomMessagesBeingFetched: false,
+          };
+        }
+        return state;
+      }
+    );
+    builder.addCase(fetchBottomMessagesForConversation.pending, (state: ConversationsStateType) => {
+      state.areMoreBottomMessagesBeingFetched = true;
+    });
+    builder.addCase(
+      fetchBottomMessagesForConversation.rejected,
+      (state: ConversationsStateType) => {
+        state.areMoreBottomMessagesBeingFetched = false;
+      }
+    );
   },
 });
 
@@ -850,6 +912,7 @@ export const {
   messageChanged,
   messagesChanged,
   resetOldTopMessageId,
+  resetOldBottomMessageId,
   updateHaveDoneFirstScroll,
   markConversationFullyRead,
   // layout stuff
