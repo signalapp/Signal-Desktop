@@ -1456,15 +1456,15 @@ export class ConversationModel extends window.Backbone
       //   reducer to trust the message set we just fetched for determining if we have
       //   the newest message loaded.
       const unboundedFetch = true;
-      messagesReset(
+      messagesReset({
         conversationId,
-        cleaned.map((messageModel: MessageModel) => ({
+        messages: cleaned.map((messageModel: MessageModel) => ({
           ...messageModel.attributes,
         })),
         metrics,
         scrollToMessageId,
-        unboundedFetch
-      );
+        unboundedFetch,
+      });
     } catch (error) {
       setMessagesLoading(conversationId, false);
       throw error;
@@ -1604,14 +1604,14 @@ export class ConversationModel extends window.Backbone
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
-      messagesReset(
+      messagesReset({
         conversationId,
-        cleaned.map((messageModel: MessageModel) => ({
+        messages: cleaned.map((messageModel: MessageModel) => ({
           ...messageModel.attributes,
         })),
         metrics,
-        scrollToMessageId
-      );
+        scrollToMessageId,
+      });
     } catch (error) {
       setMessagesLoading(conversationId, false);
       throw error;
@@ -5280,6 +5280,19 @@ export class ConversationModel extends window.Backbone
   ): void {
     this.set('acknowledgedGroupNameCollisions', groupNameCollisions);
     window.Signal.Data.updateConversation(this.attributes);
+  }
+
+  onOpenStart(): void {
+    log.info(`conversation ${this.idForLogging()} open start`);
+    window.ConversationController.onConvoOpenStart(this.id);
+  }
+
+  onOpenComplete(startedAt: number): void {
+    const now = Date.now();
+    const delta = now - startedAt;
+
+    log.info(`conversation ${this.idForLogging()} open took ${delta}ms`);
+    window.CI?.handleEvent('conversation:open', { delta });
   }
 }
 

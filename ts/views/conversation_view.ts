@@ -1192,6 +1192,8 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async onOpened(messageId: string): Promise<void> {
+    this.model.onOpenStart();
+
     if (messageId) {
       const message = await getMessageById(messageId);
 

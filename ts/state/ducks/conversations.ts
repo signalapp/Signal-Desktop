@@ -1613,13 +1613,21 @@ function reviewMessageRequestNameCollision(
   return { type: 'REVIEW_MESSAGE_REQUEST_NAME_COLLISION', payload };
 }
 
-function messagesReset(
-  conversationId: string,
-  messages: Array<MessageAttributesType>,
-  metrics: MessageMetricsType,
-  scrollToMessageId?: string,
-  unboundedFetch?: boolean
-): MessagesResetActionType {
+export type MessageResetOptionsType = Readonly<{
+  conversationId: string;
+  messages: Array<MessageAttributesType>;
+  metrics: MessageMetricsType;
+  scrollToMessageId?: string;
+  unboundedFetch?: boolean;
+}>;
+
+function messagesReset({
+  conversationId,
+  messages,
+  metrics,
+  scrollToMessageId,
+  unboundedFetch,
+}: MessageResetOptionsType): MessagesResetActionType {
   return {
     type: 'MESSAGES_RESET',
     payload: {

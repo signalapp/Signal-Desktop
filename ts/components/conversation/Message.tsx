@@ -420,6 +420,9 @@ export class Message extends React.PureComponent<Props, State> {
   };
 
   public override componentDidMount(): void {
+    const { conversationId } = this.props;
+    window.ConversationController.onConvoMessageMount(conversationId);
+
     this.startSelectedTimer();
     this.startDeleteForEveryoneTimerIfApplicable();
 

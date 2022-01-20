@@ -119,6 +119,8 @@ export class ConversationController {
 
   private _initialPromise: undefined | Promise<void>;
 
+  private _conversationOpenStart = new Map<string, number>();
+
   constructor(private _conversations: ConversationModelCollectionType) {}
 
   get(id?: string | null): ConversationModel | undefined {
@@ -752,6 +754,20 @@ export class ConversationController {
   load(): Promise<void> {
     this._initialPromise ||= this.doLoad();
     return this._initialPromise;
+  }
+
+  onConvoOpenStart(conversationId: string): void {
+    this._conversationOpenStart.set(conversationId, Date.now());
+  }
+
+  onConvoMessageMount(conversationId: string): void {
+    const loadStart = this._conversationOpenStart.get(conversationId);
+    if (loadStart === undefined) {
+      return;
+    }
+
+    this._conversationOpenStart.delete(conversationId);
+    this.get(conversationId)?.onOpenComplete(loadStart);
   }
 
   private async doLoad(): Promise<void> {
