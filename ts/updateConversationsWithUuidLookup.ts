@@ -43,6 +43,7 @@ export async function updateConversationsWithUuidLookup({
         e164,
         uuid: uuidFromServer,
         highTrust: true,
+        reason: 'updateConversationsWithUuidLookup',
       });
       const maybeFinalConversation =
         conversationController.get(finalConversationId);

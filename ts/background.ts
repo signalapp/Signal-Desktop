@@ -2464,6 +2464,7 @@ export async function startApp(): Promise<void> {
       e164: sender,
       uuid: senderUuid,
       highTrust: true,
+      reason: `onTyping(${typing.timestamp})`,
     });
 
     // We multiplex between GV1/GV2 groups here, but we don't kick off migrations
@@ -2604,6 +2605,7 @@ export async function startApp(): Promise<void> {
         e164: details.number,
         uuid: details.uuid,
         highTrust: true,
+        reason: 'onContactReceived',
       });
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conversation = window.ConversationController.get(detailsId)!;
@@ -2832,6 +2834,7 @@ export async function startApp(): Promise<void> {
         e164: envelope.source,
         uuid: envelope.sourceUuid,
         highTrust: true,
+        reason: `onEnvelopeReceived(${envelope.timestamp})`,
       });
     }
   }
@@ -2967,6 +2970,7 @@ export async function startApp(): Promise<void> {
       e164: data.source,
       uuid: data.sourceUuid,
       highTrust: true,
+      reason: 'onProfileKeyUpdate',
     });
     const conversation = window.ConversationController.get(conversationId);
 
@@ -3052,6 +3056,7 @@ export async function startApp(): Promise<void> {
               uuid: destinationUuid,
               e164: destination,
               highTrust: true,
+              reason: `unidentifiedStatus(${timestamp})`,
             }
           );
           if (!conversationId || conversationId === ourId) {
@@ -3184,6 +3189,7 @@ export async function startApp(): Promise<void> {
         e164: source,
         uuid: sourceUuid,
         highTrust: true,
+        reason: `getMessageDescriptor(${message.timestamp}): group v1`,
       });
 
       const conversationId = window.ConversationController.ensureGroup(id, {
@@ -3200,6 +3206,7 @@ export async function startApp(): Promise<void> {
       e164: destination,
       uuid: destinationUuid,
       highTrust: true,
+      reason: `getMessageDescriptor(${message.timestamp}): private`,
     });
     if (!id) {
       confirm();
@@ -3606,6 +3613,7 @@ export async function startApp(): Promise<void> {
         e164: source,
         uuid: sourceUuid,
         highTrust: true,
+        reason: `onReadOrViewReceipt(${envelopeTimestamp})`,
       }
     );
     log.info(
@@ -3772,6 +3780,7 @@ export async function startApp(): Promise<void> {
       e164,
       uuid,
       highTrust: true,
+      reason: 'onVerified',
     });
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const contact = window.ConversationController.get(verifiedId)!;
@@ -3802,6 +3811,7 @@ export async function startApp(): Promise<void> {
         e164: source,
         uuid: sourceUuid,
         highTrust: true,
+        reason: `onDeliveryReceipt(${envelopeTimestamp})`,
       }
     );
 
