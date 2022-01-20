@@ -24,6 +24,7 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { MAX_FRAME_SIZE } from '../calling/constants';
 
 const MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES = 5000;
+const MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES = 60000;
 
 type BasePropsType = {
   getFrameBuffer: () => Buffer;
@@ -71,6 +72,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isMe,
       profileName,
       sharedGroupNames,
+      sharingScreen,
       title,
       videoAspectRatio,
     } = props.remoteParticipant;
@@ -114,10 +116,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
     );
 
     const renderVideoFrame = useCallback(() => {
-      if (
-        Date.now() - lastReceivedVideoAt.current >
-        MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES
-      ) {
+      const frameAge = Date.now() - lastReceivedVideoAt.current;
+      const maxFrameAge = sharingScreen
+        ? MAX_TIME_TO_SHOW_STALE_SCREENSHARE_FRAMES
+        : MAX_TIME_TO_SHOW_STALE_VIDEO_FRAMES;
+      if (frameAge > maxFrameAge) {
         setHasReceivedVideoRecently(false);
       }
 
@@ -168,7 +171,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
 
       setHasReceivedVideoRecently(true);
       setIsWide(frameWidth > frameHeight);
-    }, [getFrameBuffer, videoFrameSource]);
+    }, [getFrameBuffer, videoFrameSource, sharingScreen]);
 
     useEffect(() => {
       if (!hasRemoteVideo) {
