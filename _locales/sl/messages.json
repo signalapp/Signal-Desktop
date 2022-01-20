@@ -1,6 +1,6 @@
 {
     "softwareAcknowledgments": {
-        "message": "Razvijalci programske opreme",
+        "message": "Informacije o programski opremi",
         "description": "Shown in the about box for the link to software acknowledgments"
     },
     "privacyPolicy": {
@@ -12,7 +12,7 @@
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
-        "message": "Neznan uporabnik",
+        "message": "Neznan kontakt",
         "description": "Shown as the name of a contact if we don't have any displayable information about them"
     },
     "unknownGroup": {
@@ -1393,6 +1393,10 @@
         "message": "Izvedite več",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Potrebujete pomoč?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "To ime boste na svojem telefonu videli pod \"Povezane naprave\"",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Nazaj na klic",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Mikrofon je ugasnjen zaradi obsega klica",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Klic je polno zaseden",
@@ -5384,7 +5392,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal podpirajo ljudje, kot ste vi. Prispevajte in prejmite bedž.",
+        "message": "Signal podpirajo ljudje, kot ste vi. Prispevajte in prejmite značko podpornika.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -6639,6 +6647,22 @@
         "message": "Poskusite ga zapreti ročno in kliknite Ponovi za nadaljevanje.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Aplikacija se je zrušila",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal se je ponovno zagnal po zrušitvi. Lahko oddate poročilo o zrušitvi in s tem pomagate razvijalcem razrešiti zadevo.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Pošlji",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Ne pošlji",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Prilagodi reakcije",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
         "description": "Release notes for v5.28"
     }
 }

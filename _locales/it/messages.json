@@ -1393,6 +1393,10 @@
         "message": "Scopri di più",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Hai bisogno di aiuto?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "Vedrai questo nome sotto \"Dispositivi collegati\" sul tuo telefono",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Torna alla chiamata",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Microfono disattivato visto il numero di utenti nella chiamata",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "La chiamata è piena",
@@ -6639,6 +6647,22 @@
         "message": "Per favore, chiudilo manualmente e clicca su Riprova per continuare.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "L'applicazione si è bloccata",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal si è riavviato dopo un crash. Puoi inviare un rapporto di crash per aiutare Signal ad analizzare il problema.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Invia",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Non inviare",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Personalizza reazioni",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "Anno nuovo, nuova schermata di configurazione iniziale. Abbiamo ridisegnato le schermate di configurazione iniziale giusto in tempo per il 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Niente più ricerche frenetiche per il dattilografo rumoroso o il masticatore accanito! Nella lobby delle chiamate, Signal ora disabilita automaticamente l'audio se ci sono otto o più persone nella chiamata.",
         "description": "Release notes for v5.28"
     }
 }

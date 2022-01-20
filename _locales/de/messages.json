@@ -474,7 +474,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Beim Hochladen gab es ein Problem. Schreibe bitte eine E-Mail an support@signal.org und hänge das Diagnoseprotokoll als eine Textdatei an.",
+        "message": "Beim Hochladen gab es ein Problem. Schreib bitte eine E-Mail an support@signal.org und hänge das Diagnoseprotokoll als Textdatei an.",
         "description": ""
     },
     "debugLogSuccess": {
@@ -482,7 +482,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Diagnoseprotokoll hochgeladen. Wenn du dich an den Support wendest, kopiere den unten stehenden Link und füge ihn zusammen mit einer Beschreibung des aufgetretenen Problems und den Schritten zur Reproduktion des Problems an.",
+        "message": "Diagnoseprotokoll hochgeladen. Wenn du dich an den Support wendest, kopiere den unten stehenden Link und füge ihn zusammen mit einer Beschreibung des aufgetretenen Problems und den Schritten zur Reproduktion des Problems bei.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -1380,7 +1380,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "Der QR-Code konnte nicht geladen werden. Überprüfe bitte deine Internetverbindung und versuche es erneut.$learnMore$",
+        "message": "Der QR-Code konnte nicht geladen werden. Überprüfe bitte deine Internetverbindung und versuche es erneut. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1393,8 +1393,12 @@
         "message": "Mehr erfahren",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Hilfe benötigt?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
-        "message": "Dieser Name wird unter »Gekoppelte Geräte« auf deinem Telefon erscheinen.",
+        "message": "Dieser Name wird auf deinem Telefon unter »Gekoppelte Geräte« erscheinen",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -1418,7 +1422,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Hinweis: Dein bisheriger Unterhaltungsverlauf wird nicht auf dieses Gerät übertragen.",
+        "message": "Hinweis: Dein bisheriger Unterhaltungsverlauf wird nicht auf dieses Gerät übertragen",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Zurück zum Anruf",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Mikrofon ist stummgeschaltet aufgrund der Anzahl der Teilnehmer im Anruf",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Anruf ist voll",
@@ -5392,7 +5400,7 @@
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
-        "message": "Tippe auf dein Profilbild links oben, um die Einstellungen zu öffnen.",
+        "message": "Tippe auf dein Profilbild links oben, um die Einstellungen zu öffnen",
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
@@ -5472,7 +5480,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Stummschaltung für die Unterhaltung aufheben?",
+        "message": "Stummschaltung dieser Unterhaltung aufheben?",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -6316,7 +6324,7 @@
         "description": "Default text for username field"
     },
     "ProfileEditor--username--placeholder": {
-        "message": "Nutzername eingeben",
+        "message": "Nutzernamen eingeben",
         "description": "Placeholder for the username field"
     },
     "ProfileEditor--username--helper": {
@@ -6368,7 +6376,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Dies entfernt deinen Nutzernamen, sodass andere Nutzer ihn übernehmen können. Bist du sicher?",
+        "message": "Dies löscht deinen Nutzernamen, sodass andere Nutzer ihn übernehmen können. Bist du sicher?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6639,6 +6647,22 @@
         "message": "Schließ es bitte manuell und klicke auf »Wiederholen«, um fortzufahren.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Anwendung abgestürzt",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal wurde nach einem Absturz neu gestartet. Du kannst ein Absturzprotokoll übermitteln, um Signal bei der Problemdiagnose zu helfen.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Senden",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Nicht senden",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Reaktionen anpassen",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6766,7 +6790,7 @@
         }
     },
     "WhatsNew__v5.27--1": {
-        "message": "Bei einem langen Anruf? Dein System sollte jetzt die ganze Zeit aktiv bleiben, anstatt sich Schlafen zu legen, während du gerade in einer wichtigen Besprechung bist.",
+        "message": "In einem langen Anruf? Dein System sollte nun die ganze Zeit aktiv bleiben, anstatt sich mitten in einer wichtigen Besprechung schlafen zu legen.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.27--2": {
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "Neues Jahr, neuer Ersteinrichtungsbildschirm. Wir haben den Ersteinrichtungsbildschirm gerade rechtzeitig für 2022 neu gestaltet.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Jetzt mit weniger hektischen Suchen nach dem lauten Tipper oder dem Schwerkauenden! Im Anrufsraum deaktiviert Signal Desktop ab jetzt den Ton, wenn sich acht oder mehr Personen im Anruf befinden.",
         "description": "Release notes for v5.28"
     }
 }

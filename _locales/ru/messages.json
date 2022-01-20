@@ -1393,6 +1393,10 @@
         "message": "Узнать больше",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Нужна помощь?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "Вы увидите это имя в разделе «Привязанные устройства» на своём телефоне",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Вернуться к звонку",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Микрофон был отключён из-за размера звонка",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Звонок заполнен",
@@ -6639,6 +6647,22 @@
         "message": "Пожалуйста, закройте его вручную и нажмите «Повторить», чтобы продолжить.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "В приложении произошёл сбой",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal перезапустился после сбоя. Вы можете отправить журнал сбоя, чтобы помочь Signal исследовать эту проблему.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Отправить",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Не отправлять",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Настроить реакции",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "Новый год, новый экран начальной настройки. Мы обновили экраны начальной настройки как раз вовремя для 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Теперь с меньшим количеством поисков того, кто громко печатает! В лобби звонка Signal Desktop теперь автоматически отключит аудио, если в звонке 8 человек или больше.",
         "description": "Release notes for v5.28"
     }
 }
