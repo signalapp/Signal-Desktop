@@ -1393,6 +1393,10 @@
         "message": "Més informació",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Us cal ajuda?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "Veureu aquest nom sota \"Dispositius enllaçats\" al telèfon.",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Torna a la trucada",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "S'ha silenciat el micròfon a causa de la mida de la trucada.",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "La trucada és plena",
@@ -6639,6 +6647,22 @@
         "message": "Tanqueu-lo manualment i cliqueu a tornar-ho a provar per continuar.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Ha fallat l'aplicació.",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "El Signal s'ha reiniciat després d'una fallada. Podeu enviar un informe d'error per ajudar el Signal a investigar el problema.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Envia",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "No l'enviïs",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Personalització de reaccions",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "Any nou, nova pantalla de configuració inicial. Hem redissenyat les pantalles de configuració inicial just a temps per al 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Ara, amb menys cerques frenètiques per al mecanògraf fort o el mastegador pesat! Al vestíbul de trucades, el Desktop ara desactivarà automàticament l'àudio si hi ha vuit o més persones a la trucada.",
         "description": "Release notes for v5.28"
     }
 }

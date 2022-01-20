@@ -1393,6 +1393,10 @@
         "message": "Läs mer",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Behöver du hjälp?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "Du kommer att se det här namnet under \"Länkade enheter\" på din telefon",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Återgå till samtalet",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Mikrofonen är tystad på grund av samtalets storlek",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Samtalet är fullt",
@@ -6639,6 +6647,22 @@
         "message": "Vänligen stäng det manuellt och klicka på Försök igen för att fortsätta.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Applikationen kraschade",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal startade om efter en krasch. Du kan skicka en kraschrapport för att hjälpa Signal att undersöka problemet.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Skicka",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Skicka inte",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Anpassa reaktioner",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6756,7 +6780,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "message": "Signal Desktop är nu optimerat för Apples M1-chip som används i deras nyare datorer. Om du använder en av dessa nymodiga enheter borde appen vara mycket snabbare. Om inte, hälsa användarna som gör det varmt välkomna. Stort tack till $dennis$ för hans hårda arbete här!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Nu, med färre frenetiska sökningar efter den högljudda maskinskrivaren eller tungtuggaren! I samtalslobbyn kommer Desktop nu automatiskt att inaktivera ljudet om det finns åtta eller fler personer i samtalet.",
         "description": "Release notes for v5.28"
     }
 }

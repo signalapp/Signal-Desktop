@@ -1393,6 +1393,10 @@
         "message": "Zjistit více",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Potřebujete pomoc?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
         "message": "Název tohoto zařízení uvidíte pod „Spárovaná zařízení“",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Zpátky k hovoru",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Mikrofon byl ztlumen kvůli velkému počtu lidí v hovoru",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Hovor je plný",
@@ -6639,6 +6647,22 @@
         "message": "Zavřete ji ručně a poté klikněte na Opakovat pro pokračování.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Aplikace spadla",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal se po havárii znovu spustil. Můžete odeslat hlášení o pádu a pomoci tak společnosti Signal problém prošetřit.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Odeslat",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Neodesílat",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Přizpůsobení reakcí",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6775,6 +6799,10 @@
     },
     "WhatsNew__v5.28--1": {
         "message": "Nový rok, nová úvodní obrazovka nastavení. Přepracovali jsme obrazovky úvodního nastavení tak akorát na začátek 2022.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Nyní už nebudete muset zběsile hledat hlasitého písaře nebo přežvýkavce! Při připojování k hovoru Signal Desktop automaticky vypne zvuk, pokud se účastní osm nebo více osob.",
         "description": "Release notes for v5.28"
     }
 }

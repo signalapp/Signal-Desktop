@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their phone number",
+        "message": "$sender$ on vaihtanut puhelinnumeronsa",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1348,7 +1348,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "Valitse ensin $settings$ ja seuraavaksi $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1366,7 +1366,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "message": "Napauta $plusButton$ (Android) tai $linkNewDevice$ (iPhone)",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1380,7 +1380,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "message": "QR-koodin lataaminen ei onnistunut. Tarkista internet-yhteytesi ja yritä uudelleen. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1393,12 +1393,16 @@
         "message": "Lue lisää",
         "description": "Shown on the install screen if the QR code fails to load"
     },
+    "Install__support-link": {
+        "message": "Tarvitsetko apua?",
+        "description": "Shown on the install screen. Link takes users to a support page"
+    },
     "Install__choose-device-name__description": {
-        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "message": "Tämä nimi näytetään Yhdistetyt laitteet -näkymässä.",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "My Computer",
+        "message": "Oma tietokone",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1418,7 +1422,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Note: Your chat history will not be synced to this device",
+        "message": "Huomio: keskusteluhistoriaa ei synkronoida tälle laitteelle",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1438,7 +1442,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "An unexpected error occurred. Please try again.",
+        "message": "Tapahtui odottamaton virhe. Yritä uudelleen.",
         "description": ""
     },
     "installTryAgain": {
@@ -1472,6 +1476,10 @@
     "calling__return": {
         "message": "Palaa puheluun",
         "description": "Button label in the call lobby for returning to a call"
+    },
+    "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
+        "message": "Mikrofonisi on mykistetty, koska puhelussa on paljon osanottajia.",
+        "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
         "message": "Puhelu on täynnä",
@@ -6639,6 +6647,22 @@
         "message": "Sulje se itse ja napsauta Yritä uudelleen jatkaaksesi.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
+    "CrashReportDialog__title": {
+        "message": "Sovellus kaatui",
+        "description": "A title of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__body": {
+        "message": "Signal käynnistettiin uudelleen virheen jälkeen. Voit lähettää virheraportin Signalille, tämä auttaa ohjelmistovirheen tutkimisessa ja korjaamisessa.",
+        "description": "The body of the dialog displayed when starting an application after a recent crash"
+    },
+    "CrashReportDialog__submit": {
+        "message": "Lähetä",
+        "description": "A button label for submission of the crash reporter data after a recent crash"
+    },
+    "CrashReportDialog__erase": {
+        "message": "Älä lähetä",
+        "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
+    },
     "CustomizingPreferredReactions__title": {
         "message": "Mukauta reaktiot",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
@@ -6752,11 +6776,11 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Tuntuuko sinusta koskaan siltä, että haluaisit lisää pikseleitä elämäsi oikeaan sivupalkkiin? Oletko avatarien ja vain avatarien ystävä? Onko sinulla \"säästä näytöllä käytettyä tilaa\" -puskuritarra autossasi? Vastasitpa kyllä tai ei edellisiin kysymyksiin, tämä päivitys tuo sinulle vasemman sivupalkin pienentämismahdollisuuden.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "message": "Signal Desktop pyörii nyt natiivitilassa uusilla Applen M1 -tietokoneilla. Jos sinulla on tällainen tietokone, ohjelman pitäisi nyt toimia nopeammin. Jos ei ole, voit olla iloinen sellaisten ihmisten puolesta. Suuret kiitokset käyttäjälle $dennis$ hänen suuresta työpanoksestaan M1-tuen mahdollistamisessa!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6774,7 +6798,11 @@
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.28--1": {
-        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "message": "Uusi vuosi, uusi ensiasetusten syöttönäkymä. Olemme uudistaneet ensiasetusten syöttönäkymän juuri ajoissa vuotta 2022 ajatellen.",
+        "description": "Release notes for v5.28"
+    },
+    "WhatsNew__v5.29--1": {
+        "message": "Uutta: vähemmän näppäimistön hakkaajan tai äänekkään purukuminsyöjän jahtaamista! Signal Desktop mykistää nyt mikrofonisi automaattisesti, mikäli puhelussa on vähintään kahdeksan osallistujaa.",
         "description": "Release notes for v5.28"
     }
 }
