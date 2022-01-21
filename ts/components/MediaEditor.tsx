@@ -439,9 +439,13 @@ export const MediaEditor = ({
       return;
     }
 
+    const { isEditing } = obj;
     obj.exitEditing();
     obj.set(getTextStyleAttributes(textStyle, sliderValue));
     fabricCanvas.requestRenderAll();
+    if (isEditing) {
+      obj.enterEditing();
+    }
   }, [fabricCanvas, sliderValue, textStyle]);
 
   // Create the CroppingRect
