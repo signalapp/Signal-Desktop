@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ReactNode } from 'react';
@@ -385,7 +385,7 @@ export class MessageDetail extends React.Component<Props> {
                 </span>
               </td>
             </tr>
-            {receivedAt ? (
+            {receivedAt && message.direction === 'incoming' ? (
               <tr>
                 <td className="module-message-detail__label">
                   {i18n('received')}
