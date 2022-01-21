@@ -963,6 +963,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // TODO DESKTOP-2426
   async processAttachments(files: Array<File>): Promise<void> {
+    if (this.preview) {
+      return;
+    }
+
     const {
       addAttachment,
       addPendingAttachment,
