@@ -103,7 +103,7 @@ export const MessageContent = (props: Props) => {
   );
   const [isMessageVisible, setMessageIsVisible] = useState(false);
 
-  const scrollToMessage = useContext(ScrollToLoadedMessageContext);
+  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -129,7 +129,7 @@ export const MessageContent = (props: Props) => {
     if (isQuotedMessageToAnimate) {
       if (!flashGreen) {
         //scroll to me and flash me
-        scrollToMessage(props.messageId);
+        scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
         setFlashGreen(true);
       }
       return;

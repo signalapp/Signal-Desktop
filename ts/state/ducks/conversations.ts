@@ -406,31 +406,33 @@ function handleMessageAdded(
   }
 ) {
   const { messages } = state;
-  const { conversationKey, messageModelProps: addedMessageProps } = payload;
-  if (conversationKey === state.selectedConversation) {
-    const messageInStoreIndex = state?.messages?.findIndex(
-      m => m.propsForMessage.id === addedMessageProps.propsForMessage.id
-    );
-    if (messageInStoreIndex >= 0) {
-      // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
-      const editedMessages = [
-        ...state.messages.slice(0, messageInStoreIndex),
-        addedMessageProps,
-        ...state.messages.slice(messageInStoreIndex + 1),
-      ];
 
-      return {
-        ...state,
-        messages: editedMessages,
-      };
-    }
+  const { conversationKey, messageModelProps: addedMessageProps } = payload;
+  if (conversationKey !== state.selectedConversation) {
+    return state;
+  }
+
+  const messageInStoreIndex = state.messages.findIndex(
+    m => m.propsForMessage.id === addedMessageProps.propsForMessage.id
+  );
+  if (messageInStoreIndex >= 0) {
+    // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
+    const editedMessages = [
+      ...state.messages.slice(0, messageInStoreIndex),
+      addedMessageProps,
+      ...state.messages.slice(messageInStoreIndex + 1),
+    ];
 
     return {
       ...state,
-      messages: [...messages, addedMessageProps], // sorting happens in the selector
+      messages: editedMessages,
     };
   }
-  return state;
+
+  return {
+    ...state,
+    messages: [...messages, addedMessageProps], // sorting happens in the selector
+  };
 }
 
 function handleMessageChanged(
@@ -630,15 +632,6 @@ const conversationsSlice = createSlice({
       return getEmptyConversationState();
     },
 
-    messageAdded(
-      state: ConversationsStateType,
-      action: PayloadAction<{
-        conversationKey: string;
-        messageModelProps: MessageModelPropsWithoutConvoProps;
-      }>
-    ) {
-      return handleMessageAdded(state, action.payload);
-    },
     messagesAdded(
       state: ConversationsStateType,
       action: PayloadAction<
@@ -741,7 +734,7 @@ const conversationsSlice = createSlice({
         firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
       };
     },
-    navigateInConversationToMessageId(
+    openConversationToSpecificMessage(
       state: ConversationsStateType,
       action: PayloadAction<{
         conversationKey: string;
@@ -897,7 +890,6 @@ export const {
   conversationRemoved,
   removeAllConversations,
   messageExpired,
-  messageAdded,
   messagesAdded,
   messageDeleted,
   conversationReset,
@@ -955,7 +947,7 @@ export async function openConversationToSpecificMessage(args: {
   });
 
   window.inboxStore?.dispatch(
-    actions.navigateInConversationToMessageId({
+    actions.openConversationToSpecificMessage({
       conversationKey,
       messageIdToNavigateTo,
       initialMessages: messagesAroundThisMessage,

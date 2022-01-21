@@ -15,7 +15,6 @@ import {
   ReduxConversationType,
   resetOldBottomMessageId,
   resetOldTopMessageId,
-  showScrollToBottomButton,
   SortedMessageModelProps,
 } from '../../state/ducks/conversations';
 import { StateType } from '../../state/reducer';
@@ -34,9 +33,18 @@ export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
 };
 
+export const messageContainerDomID = 'messages-container';
+
+export type ScrollToLoadedReasons =
+  | 'quote-or-search-result'
+  | 'go-to-bottom'
+  | 'unread-indicator'
+  | 'load-more-top'
+  | 'load-more-bottom';
+
 export const ScrollToLoadedMessageContext = React.createContext(
   // tslint:disable-next-line: no-empty
-  (_loadedMessageIdToScrollTo: string) => {}
+  (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
 );
 
 const SessionUnreadAboveIndicator = styled.div`
@@ -85,10 +93,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public componentDidMount() {
-    this.initialMessageLoadingPosition();
-  }
-
   public componentWillUnmount() {
     if (this.timeoutResetQuotedScroll) {
       global.clearTimeout(this.timeoutResetQuotedScroll);
@@ -108,7 +112,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     ) {
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.initialMessageLoadingPosition();
     }
   }
 
@@ -129,6 +132,7 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     return (
       <div
         className="messages-container"
+        id={messageContainerDomID}
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
         data-testid="messages-container"
@@ -143,18 +147,13 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <ScrollToLoadedMessageContext.Provider value={this.scrollToQuoteMessage}>
+        <ScrollToLoadedMessageContext.Provider value={this.scrollToLoadedMessage}>
           <SessionMessagesList
             scrollAfterLoadMore={(
               messageIdToScrollTo: string,
               type: 'load-more-top' | 'load-more-bottom'
             ) => {
-              const isLoadMoreTop = type === 'load-more-top';
-              const isLoadMoreBottom = type === 'load-more-bottom';
-              this.scrollToMessage(messageIdToScrollTo, isLoadMoreTop ? 'start' : 'end', {
-                isLoadMoreTop,
-                isLoadMoreBottom,
-              });
+              this.scrollToMessage(messageIdToScrollTo, type);
             }}
             onPageDownPressed={this.scrollPgDown}
             onPageUpPressed={this.scrollPgUp}
@@ -173,43 +172,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private handleScroll() {
     contextMenu.hideAll();
-  }
-
-  /**
-   * Position the list to the middle of the loaded list if the conversation has unread messages and we have some messages loaded
-   */
-  private initialMessageLoadingPosition() {
-    const { messagesProps, conversation, firstUnreadOnOpen } = this.props;
-    if (!conversation || !messagesProps.length) {
-      return;
-    }
-
-    if (
-      (conversation.unreadCount && conversation.unreadCount <= 0) ||
-      firstUnreadOnOpen === undefined
-    ) {
-      this.scrollToMostRecentMessage();
-    } else {
-      // just assume that this need to be shown by default
-      window.inboxStore?.dispatch(showScrollToBottomButton(true));
-      const firstUnreadIndex = messagesProps.findIndex(
-        m => m.propsForMessage.id === firstUnreadOnOpen
-      );
-
-      if (firstUnreadIndex === -1) {
-        // the first unread message is not in the 30 most recent messages
-        // just scroll to the middle as we don't have enough loaded message nevertheless
-        const middle = Math.floor(messagesProps.length / 2);
-        const idToStringTo = messagesProps[middle].propsForMessage.id;
-        this.scrollToMessage(idToStringTo, 'center');
-      } else {
-        const messageElementDom = document.getElementById('unread-indicator');
-        messageElementDom?.scrollIntoView({
-          behavior: 'auto',
-          block: 'center',
-        });
-      }
-    }
   }
 
   /**
@@ -233,27 +195,57 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(
-    messageId: string,
-    block: ScrollLogicalPosition | undefined,
-    options?: { isLoadMoreTop: boolean | undefined; isLoadMoreBottom: boolean | undefined }
-  ) {
+  private scrollToMessage(messageId: string, reason: ScrollToLoadedReasons) {
     const messageElementDom = document.getElementById(`msg-${messageId}`);
+    // annoyingly, useLayoutEffect, which is calling this function, is run before ref are set on a react component.
+    // so the only way to scroll in the container at this time, is with the DOM itself
+    const messageContainerDom = document.getElementById(messageContainerDomID);
 
-    messageElementDom?.scrollIntoView({
-      behavior: 'auto',
-      block,
-    });
+    // * if quote or search result we want to scroll to start AND do a -50px
+    // * if scroll-to-unread we want to scroll end AND do a +200px to be really at the end
+    // * if load-more-top or bottom we want to center
 
-    this.props.messageContainerRef.current?.scrollBy({ top: -50 });
+    switch (reason) {
+      case 'load-more-bottom':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
+        // reset the oldBottomInRedux so that a refresh/new message does not scroll us back here again
+        window.inboxStore?.dispatch(resetOldBottomMessageId());
+        break;
+      case 'load-more-top':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+        });
+        // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again
+        window.inboxStore?.dispatch(resetOldTopMessageId());
+        break;
+      case 'quote-or-search-result':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+        });
+        messageContainerDom?.scrollBy({ top: -50 });
 
-    if (options?.isLoadMoreTop) {
-      // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again
-      window.inboxStore?.dispatch(resetOldTopMessageId());
-    }
-    if (options?.isLoadMoreBottom) {
-      // reset the oldBottomInRedux so that a refresh/new message does not scroll us back here again
-      window.inboxStore?.dispatch(resetOldBottomMessageId());
+        break;
+      case 'go-to-bottom':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
+        messageContainerDom?.scrollBy({ top: 200 });
+
+        break;
+      case 'unread-indicator':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+        });
+        messageContainerDom?.scrollBy({ top: -50 });
+        break;
+      default:
     }
   }
 
@@ -307,8 +299,8 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     messageContainer.scrollTo(0, 0);
   }
 
-  private scrollToQuoteMessage(loadedQuoteMessageToScrollTo: string) {
-    if (!this.props.conversationKey || !loadedQuoteMessageToScrollTo) {
+  private scrollToLoadedMessage(loadedMessageToScrollTo: string, reason: ScrollToLoadedReasons) {
+    if (!this.props.conversationKey || !loadedMessageToScrollTo) {
       return;
     }
 
@@ -316,14 +308,16 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
 
     // If there's no message already in memory, we won't be scrolling. So we'll gather
     //   some more information then show an informative toast to the user.
-    if (!messagesProps.find(m => m.propsForMessage.id === loadedQuoteMessageToScrollTo)) {
+    if (!messagesProps.find(m => m.propsForMessage.id === loadedMessageToScrollTo)) {
       throw new Error('this message is not loaded');
     }
 
-    this.scrollToMessage(loadedQuoteMessageToScrollTo, 'start');
+    this.scrollToMessage(loadedMessageToScrollTo, reason);
     // Highlight this message on the UI
-    window.inboxStore?.dispatch(quotedMessageToAnimate(loadedQuoteMessageToScrollTo));
-    this.setupTimeoutResetQuotedHighlightedMessage(loadedQuoteMessageToScrollTo);
+    if (reason === 'quote-or-search-result') {
+      window.inboxStore?.dispatch(quotedMessageToAnimate(loadedMessageToScrollTo));
+      this.setupTimeoutResetQuotedHighlightedMessage(loadedMessageToScrollTo);
+    }
   }
 }
 

@@ -3,6 +3,7 @@ import { toNumber } from 'lodash';
 import { getConversationController } from '../session/conversations';
 import { ConversationTypeEnum } from '../models/conversation';
 import { toLogFormat } from '../types/attachments/Errors';
+import { messagesAdded } from '../state/ducks/conversations';
 
 export async function onError(ev: any) {
   const { error } = ev;
@@ -33,12 +34,14 @@ export async function onError(ev: any) {
 
     conversation.updateLastMessage();
     await conversation.notify(message);
-    // window.inboxStore?.dispatch(
-    //   conversationActions.messageAdded({
-    //     conversationKey: conversation.id,
-    //     messageModelProps: message.getMessageModelProps(),
-    //   })
-    // );
+    window.inboxStore?.dispatch(
+      messagesAdded([
+        {
+          conversationKey: conversation.id,
+          messageModelProps: message.getMessageModelProps(),
+        },
+      ])
+    );
 
     if (ev.confirm) {
       ev.confirm();

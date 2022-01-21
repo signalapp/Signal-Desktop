@@ -27,7 +27,6 @@ export const MessageQuote = (props: Props) => {
   const multiSelectMode = useSelector(isMessageSelectionMode);
   const isMessageDetailViewMode = useSelector(isMessageDetailView);
 
-  // const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
   const quote = selected ? selected.quote : undefined;
   const direction = selected ? selected.direction : undefined;
 
@@ -73,12 +72,6 @@ export const MessageQuote = (props: Props) => {
         conversationKey: foundInDb.get('conversationId'),
         messageIdToNavigateTo: foundInDb.get('id'),
       });
-
-      // scrollToLoadedMessage?.({
-      //   quoteAuthor: sender,
-      //   quoteId,
-      //   referencedMessageNotFound: referencedMessageNotFound || false,
-      // });
     },
     [quote, multiSelectMode, props.messageId]
   );

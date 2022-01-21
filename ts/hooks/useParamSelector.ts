@@ -101,7 +101,7 @@ export function useWeAreAdmin(convoId?: string) {
 
 export function useExpireTimer(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.expireTimer);
+  return convoProps && convoProps.expireTimer;
 }
 
 export function useIsPinned(convoId?: string) {

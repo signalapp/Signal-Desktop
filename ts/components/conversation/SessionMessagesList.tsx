@@ -85,7 +85,7 @@ export const SessionMessagesList = (props: {
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
-          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} />
+          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} messageId={messageId} />
         ) : null;
 
         const dateBreak =

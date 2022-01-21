@@ -1,5 +1,5 @@
 import _, { noop } from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../../../data/data';
@@ -13,13 +13,16 @@ import {
 import {
   areMoreBottomMessagesBeingFetched,
   areMoreTopMessagesBeingFetched,
+  getFirstUnreadMessageId,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
+  getQuotedMessageToAnimate,
   getSelectedConversationKey,
   getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -67,21 +70,44 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const youngestMessageId = useSelector(getYoungestMessageId);
   const fetchingTopMore = useSelector(areMoreTopMessagesBeingFetched);
   const fetchingBottomMore = useSelector(areMoreBottomMessagesBeingFetched);
+  const conversationHasUnread = Boolean(useSelector(getFirstUnreadMessageId));
   const shouldMarkReadWhenVisible = isUnread;
+
+  const [didScroll, setDidScroll] = useState(false);
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+
+  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+
+  // if this unread-indicator is rendered,
+  // we want to scroll here only if the conversation was not opened to a specific message
+
+  useLayoutEffect(() => {
+    if (
+      props.messageId === youngestMessageId &&
+      !quotedMessageToAnimate &&
+      !didScroll &&
+      !conversationHasUnread
+    ) {
+      scrollToLoadedMessage(props.messageId, 'go-to-bottom');
+      setDidScroll(true);
+    } else if (quotedMessageToAnimate) {
+      setDidScroll(true);
+    }
+  });
 
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
       // we are the most recent message
-      if (mostRecentMessageId === messageId) {
+      if (mostRecentMessageId === messageId && selectedConversationKey) {
         // make sure the app is focused, because we mark message as read here
         if (inView === true && isAppFocused) {
           dispatch(showScrollToBottomButton(false));
           void getConversationController()
-            .get(selectedConversationKey as string)
+            .get(selectedConversationKey)
             ?.markRead(receivedAt || 0)
             .then(() => {
-              dispatch(markConversationFullyRead(selectedConversationKey as string));
+              dispatch(markConversationFullyRead(selectedConversationKey));
             });
         } else if (inView === false) {
           dispatch(showScrollToBottomButton(true));

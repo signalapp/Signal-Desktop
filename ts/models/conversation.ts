@@ -930,19 +930,21 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await this.setIsApproved(true);
     }
 
-    // no need to trigger a UI update now, we trigger a messageAdded just below
+    // no need to trigger a UI update now, we trigger a messagesAdded just below
     const messageId = await model.commit(false);
     model.set({ id: messageId });
 
     if (setToExpire) {
       await model.setToExpire();
     }
-    // window.inboxStore?.dispatch(
-    //   conversationActions.messageAdded({
-    //     conversationKey: this.id,
-    //     messageModelProps: model.getMessageModelProps(),
-    //   })
-    // );
+    window.inboxStore?.dispatch(
+      conversationActions.messagesAdded([
+        {
+          conversationKey: this.id,
+          messageModelProps: model.getMessageModelProps(),
+        },
+      ])
+    );
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
     this.updateLastMessage();
