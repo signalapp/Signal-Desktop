@@ -1863,8 +1863,11 @@ export default class MessageReceiver
 
     try {
       if (!conversation) {
+        const idForLogging = envelope.groupId
+          ? `groupv2(${envelope.groupId})`
+          : envelope.sourceUuid;
         log.info(
-          `maybeUpdateTimestamp/${timestamp}: No conversation found for identifier ${identifier}`
+          `maybeUpdateTimestamp/${timestamp}: No conversation found for identifier ${idForLogging}`
         );
         return envelope;
       }
