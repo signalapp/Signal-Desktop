@@ -187,22 +187,6 @@ export default class MessageReceiver
 
   private stoppingProcessing?: boolean;
 
-  pause(): void {
-    this.incomingQueue.pause();
-    this.encryptedQueue.pause();
-    this.decryptedQueue.pause();
-    this.appQueue.pause();
-    log.info('MessageReceiver: Paused');
-  }
-
-  resume(): void {
-    this.appQueue.start();
-    this.decryptedQueue.start();
-    this.encryptedQueue.start();
-    this.incomingQueue.start();
-    log.info('MessageReceiver: Resumed');
-  }
-
   constructor({ server, storage, serverTrustRoot }: MessageReceiverOptions) {
     super();
 
