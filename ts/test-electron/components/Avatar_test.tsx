@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -57,6 +57,7 @@ describe('<Avatar>', () => {
         [36, { bottom: -3, right: 0 }],
         [40, { bottom: -6, right: -4 }],
         [48, { bottom: -6, right: -4 }],
+        [52, { bottom: -6, right: -2 }],
         [56, { bottom: -6, right: 0 }],
         [64, { bottom: -6, right: 0 }],
         [80, { bottom: -8, right: 0 }],
