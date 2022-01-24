@@ -514,13 +514,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     return current;
   }
-  public getRecipients() {
-    if (this.isPrivate()) {
-      return [this.id];
-    }
-    const me = UserUtils.getOurPubKeyStrFromCache();
-    return _.without(this.get('members'), me);
-  }
 
   public async getQuoteAttachment(attachments: any, preview: any) {
     if (attachments && attachments.length) {
@@ -710,12 +703,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.clearTypingTimers();
 
     const destination = this.id;
-    const isPrivate = this.isPrivate();
     const expireTimer = this.get('expireTimer');
-    const recipients = this.getRecipients();
 
-    const now = Date.now();
-    const networkTimestamp = now - getLatestTimestampOffset();
+    const networkTimestamp = getNowWithNetworkOffset();
 
     window?.log?.info(
       'Sending message to conversation',
@@ -734,16 +724,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       preview,
       attachments,
       sent_at: networkTimestamp,
-      received_at: now,
+      received_at: networkTimestamp,
       expireTimer,
-      recipients,
       isDeleted: false,
       source: UserUtils.getOurPubKeyStrFromCache(),
     };
 
-    if (!this.isPublic()) {
-      messageObject.destination = destination;
-    } else {
+    if (this.isPublic()) {
       // set the serverTimestamp only if this conversation is a public one.
       messageObject.serverTimestamp = Date.now();
     }
@@ -752,7 +739,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       ...messageObject,
       groupInvitation,
       conversationId: this.id,
-      destination: isPrivate ? destination : undefined,
     };
 
     const messageModel = await this.addSingleMessage(attributes);
@@ -771,7 +757,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.set({
       lastMessage: messageModel.getNotificationText(),
       lastMessageStatus: 'sending',
-      active_at: now,
+      active_at: networkTimestamp,
     });
     await this.commit();
 
@@ -806,7 +792,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateExpireTimer(
-    providedExpireTimer: any,
+    providedExpireTimer: number | null,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
     options: {
@@ -874,12 +860,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireUpdate = {
       identifier: message.id,
       timestamp,
-      expireTimer,
+      expireTimer: expireTimer ? expireTimer : (null as number | null),
     };
-
-    if (!expireUpdate.expireTimer) {
-      delete expireUpdate.expireTimer;
-    }
 
     if (this.isMe()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
@@ -1519,7 +1501,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const { expireTimer } = json;
 
-    return typeof expireTimer === 'number' && expireTimer > 0;
+    return isFinite(expireTimer) && expireTimer > 0;
   }
 
   private shouldDoTyping() {

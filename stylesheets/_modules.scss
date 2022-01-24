@@ -1421,7 +1421,7 @@
 
   cursor: pointer;
   &:hover {
-    background-color: $color-gray-05;
+    background-color: var(--color-clickable-hovered);
   }
 }
 

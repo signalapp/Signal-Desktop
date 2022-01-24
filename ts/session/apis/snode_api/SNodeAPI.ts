@@ -39,6 +39,10 @@ function handleTimestampOffset(_request: string, snodeTimestamp: number) {
   }
 }
 
+/**
+ * This function has no use to be called except during tests.
+ * @returns the current offset we have with the rest of the network.
+ */
 export function getLatestTimestampOffset() {
   if (latestTimestampOffset === Number.MAX_SAFE_INTEGER) {
     window.log.warn('latestTimestampOffset is not set yet');

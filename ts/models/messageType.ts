@@ -15,14 +15,12 @@ export interface MessageAttributes {
   expireTimer: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp: number;
   read_by: Array<string>;
   decrypted_at: number;
   expires_at?: number;
-  recipients: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -48,8 +46,7 @@ export interface MessageAttributes {
    */
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  // dataMessage: any;
-  sent_to: any;
+  sent_to: Array<string>;
   sent: boolean;
 
   /**
@@ -113,11 +110,6 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
-export enum MessageDirection {
-  outgoing = 'outgoing',
-  incoming = 'incoming',
-}
-
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
@@ -139,14 +131,12 @@ export interface MessageAttributesOptionals {
   expireTimer?: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp?: number;
   read_by?: Array<string>;
   decrypted_at?: number;
   expires_at?: number;
-  recipients?: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;

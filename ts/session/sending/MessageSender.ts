@@ -119,6 +119,7 @@ export async function send(
   );
 }
 
+// tslint:disable-next-line: function-name
 export async function TEST_sendMessageToSnode(
   pubKey: string,
   data: Uint8Array,

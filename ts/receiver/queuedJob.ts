@@ -167,23 +167,8 @@ function updateReadStatus(message: MessageModel, conversation: ConversationModel
 }
 
 async function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
-  const readReceipts = window.Whisper.ReadReceipts.forMessage(conversation, message);
-  if (readReceipts.length) {
-    const readBy = readReceipts.map((receipt: any) => receipt.get('reader'));
-    message.set({
-      read_by: _.union(message.get('read_by'), readBy),
-    });
-  }
-
-  // A sync'd message to ourself is automatically considered read
-  const recipients = conversation.getRecipients();
-  if (conversation.isMe()) {
-    message.set({
-      read_by: recipients,
-    });
-  }
-
-  message.set({ recipients });
+  console.warn('handleSyncedReceipts', message);
+  debugger;
 
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
