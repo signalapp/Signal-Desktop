@@ -751,6 +751,31 @@ function hangUp(payload: HangUpType): HangUpActionType {
   };
 }
 
+function hangUpActiveCall(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HangUpActionType
+> {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    const activeCall = getActiveCall(state.calling);
+    if (!activeCall) {
+      return;
+    }
+
+    const { conversationId } = activeCall;
+
+    dispatch({
+      type: HANG_UP,
+      payload: {
+        conversationId,
+      },
+    });
+  };
+}
+
 function keyChanged(
   payload: KeyChangedType
 ): ThunkAction<void, RootStateType, unknown, KeyChangedActionType> {
@@ -1219,6 +1244,7 @@ export const actions = {
   getPresentingSources,
   groupCallStateChange,
   hangUp,
+  hangUpActiveCall,
   keyChangeOk,
   keyChanged,
   openSystemPreferencesAction,

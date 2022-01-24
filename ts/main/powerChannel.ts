@@ -22,5 +22,8 @@ export class PowerChannel {
     powerMonitor.on('resume', () => {
       send('power-channel:resume');
     });
+    powerMonitor.on('lock-screen', () => {
+      send('power-channel:lock-screen');
+    });
   }
 }

@@ -226,6 +226,10 @@ try {
     Whisper.events.trigger('powerMonitorResume');
   });
 
+  ipc.on('power-channel:lock-screen', () => {
+    Whisper.events.trigger('powerMonitorLockScreen');
+  });
+
   window.sendChallengeRequest = request =>
     ipc.send('challenge:request', request);
 
