@@ -30,9 +30,9 @@ export interface MessageAttributes {
   conversationId: string;
   errors?: any;
   flags?: number;
-  hasAttachments: boolean;
-  hasFileAttachments: boolean;
-  hasVisualMediaAttachments: boolean;
+  hasAttachments: 1 | 0;
+  hasFileAttachments: 1 | 0;
+  hasVisualMediaAttachments: 1 | 0;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -86,11 +86,7 @@ export interface MessageAttributes {
   synced: boolean;
   sync: boolean;
 
-  /**
-   * This field is used for search only
-   */
-  snippet?: any;
-  direction: any;
+  direction: MessageModelType;
 
   /**
    * This is used for when a user screenshots or saves an attachment you sent.
@@ -176,7 +172,6 @@ export interface MessageAttributesOptionals {
   group?: any;
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  dataMessage?: any;
   sent_to?: Array<string>;
   sent?: boolean;
   serverId?: number;
@@ -185,8 +180,7 @@ export interface MessageAttributesOptionals {
   sentSync?: boolean;
   synced?: boolean;
   sync?: boolean;
-  snippet?: any;
-  direction?: any;
+  direction?: MessageModelType;
   messageHash?: string;
   isDeleted?: boolean;
   callNotificationType?: CallNotificationType;

@@ -360,7 +360,11 @@ export async function innerHandleContentMessage(
         content.dataMessage.profileKey = null;
       }
       perfStart(`handleDataMessage-${envelope.id}`);
-      await handleDataMessage(envelope, content.dataMessage, messageHash);
+      await handleDataMessage(
+        envelope,
+        content.dataMessage as SignalService.DataMessage,
+        messageHash
+      );
       perfEnd(`handleDataMessage-${envelope.id}`, 'handleDataMessage');
       return;
     }

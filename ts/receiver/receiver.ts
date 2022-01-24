@@ -285,7 +285,6 @@ export async function handleOpenGroupV2Message(
     window?.log?.error('Invalid decoded opengroup message: no dataMessage');
     return;
   }
-  const dataMessage = idataMessage as SignalService.DataMessage;
 
   if (!getConversationController().get(conversationId)) {
     window?.log?.error('Received a message for an unknown convo. Skipping');
@@ -310,7 +309,6 @@ export async function handleOpenGroupV2Message(
     // for an opengroupv2 incoming message the serverTimestamp and the timestamp
     const messageCreationData: MessageCreationData = {
       isPublic: true,
-      sourceDevice: 1,
       serverId,
       serverTimestamp: sentTimestamp,
       receivedAt: Date.now(),
@@ -318,9 +316,10 @@ export async function handleOpenGroupV2Message(
       timestamp: sentTimestamp,
       expirationStartTimestamp: undefined,
       source: sender,
-      message: dataMessage,
+      groupId: null,
       messageHash: '', // we do not care of a hash for an opengroup message
     };
+
     // WARNING this is important that the isMessageDuplicate is made in the conversation.queueJob
     const isDuplicate = await isMessageDuplicate({ ...messageCreationData });
 
@@ -334,6 +333,14 @@ export async function handleOpenGroupV2Message(
     const msg = createMessage(messageCreationData, !isMe);
     const ourNumber = UserUtils.getOurPubKeyStrFromCache();
 
-    await handleMessageJob(msg, conversation, decoded?.dataMessage, ourNumber, noop, sender, '');
+    await handleMessageJob(
+      msg,
+      conversation,
+      decoded?.dataMessage as SignalService.DataMessage,
+      ourNumber,
+      noop,
+      sender,
+      ''
+    );
   });
 }

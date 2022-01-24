@@ -1475,8 +1475,11 @@
 .module-message-search-result__header__name {
   font-weight: 300;
 }
-.module-mesages-search-result__header__group {
+.module-messages-search-result__header__group {
   font-weight: 300;
+  .module-contact-name {
+    display: initial;
+  }
 }
 
 // Module: Left Pane

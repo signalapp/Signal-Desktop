@@ -7,6 +7,7 @@ import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
 import _ from 'lodash';
 import { getConversationController } from '../../session/conversations';
+import { MessageResultProps } from '../../components/search/MessageSearchResults';
 
 // State
 
@@ -19,9 +20,7 @@ export type SearchStateType = {
   conversations: Array<string>;
   contacts: Array<string>;
 
-  // TODO: ww typing
-  messages?: Array<any>;
-  messagesLookup?: any;
+  messages?: Array<MessageResultProps>;
 };
 
 // Actions
@@ -30,8 +29,7 @@ type SearchResultsPayloadType = {
   normalizedPhoneNumber?: string;
   conversations: Array<string>;
   contacts: Array<string>;
-
-  messages?: Array<Object>;
+  messages?: Array<MessageResultProps>;
 };
 
 type SearchResultsKickoffActionType = {
@@ -76,25 +74,25 @@ export function search(query: string, options: SearchOptions): SearchResultsKick
 async function doSearch(query: string, options: SearchOptions): Promise<SearchResultsPayloadType> {
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
-  const isAdvancedQuery = query !== processedQuery;
+  // const isAdvancedQuery = query !== processedQuery;
 
   const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(processedQuery, options),
     queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  let filteredMessages = _.compact(messages);
-  if (isAdvancedQuery) {
-    const senderFilterQuery =
-      advancedSearchOptions.from && advancedSearchOptions.from.length > 0
-        ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
-        : undefined;
-    filteredMessages = advancedFilterMessages(
-      filteredMessages,
-      advancedSearchOptions,
-      senderFilterQuery?.contacts || []
-    );
-  }
+  const filteredMessages = _.compact(messages);
+  // if (isAdvancedQuery) {
+  //   const senderFilterQuery =
+  //     advancedSearchOptions.from && advancedSearchOptions.from.length > 0
+  //       ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
+  //       : undefined;
+  //   filteredMessages = advancedFilterMessages(
+  //     filteredMessages,
+  //     advancedSearchOptions,
+  //     senderFilterQuery?.contacts || []
+  //   );
+  // }
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
@@ -120,35 +118,35 @@ export function updateSearchTerm(query: string): UpdateSearchTermActionType {
 
 // Helper functions for search
 
-function advancedFilterMessages(
-  messages: Array<any>,
-  filters: AdvancedSearchOptions,
-  contacts: Array<string>
-) {
-  let filteredMessages = messages;
-  if (filters.from && filters.from.length > 0) {
-    if (filters.from === '@me') {
-      filteredMessages = filteredMessages.filter(message => message.sent);
-    } else {
-      filteredMessages = [];
-      for (const contact of contacts) {
-        for (const message of messages) {
-          if (message.source === contact) {
-            filteredMessages.push(message);
-          }
-        }
-      }
-    }
-  }
-  if (filters.before > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at < filters.before);
-  }
-  if (filters.after > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at > filters.after);
-  }
+// function advancedFilterMessages(
+//   messages: Array<MessageResultProps>,
+//   filters: AdvancedSearchOptions,
+//   contacts: Array<string>
+// ): Array<MessageResultProps> {
+//   let filteredMessages = messages;
+//   if (filters.from && filters.from.length > 0) {
+//     if (filters.from === '@me') {
+//       filteredMessages = filteredMessages.filter(message => message.sent);
+//     } else {
+//       filteredMessages = [];
+//       for (const contact of contacts) {
+//         for (const message of messages) {
+//           if (message.source === contact) {
+//             filteredMessages.push(message);
+//           }
+//         }
+//       }
+//     }
+//   }
+//   if (filters.before > 0) {
+//     filteredMessages = filteredMessages.filter(message => message.received_at < filters.before);
+//   }
+//   if (filters.after > 0) {
+//     filteredMessages = filteredMessages.filter(message => message.received_at > filters.after);
+//   }
 
-  return filteredMessages;
-}
+//   return filteredMessages;
+// }
 
 function getUnixMillisecondsTimestamp(timestamp: string): number {
   const timestampInt = parseInt(timestamp, 10);
@@ -198,7 +196,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
   return filters;
 }
 
-async function queryMessages(query: string) {
+async function queryMessages(query: string): Promise<Array<MessageResultProps>> {
   try {
     const normalized = cleanSearchTerm(query);
     return searchMessages(normalized, 1000);
@@ -256,7 +254,6 @@ export const initialSearchState: SearchStateType = {
   conversations: [],
   contacts: [],
   messages: [],
-  messagesLookup: {},
 };
 
 function getEmptyState(): SearchStateType {

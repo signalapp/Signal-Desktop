@@ -196,8 +196,6 @@ export async function processDecrypted(
   }
 
   if (decrypted.group) {
-    // decrypted.group.id = new TextDecoder('utf-8').decode(decrypted.group.id);
-
     switch (decrypted.group.type) {
       case SignalService.GroupContext.Type.UPDATE:
         decrypted.body = '';
@@ -274,32 +272,32 @@ function isBodyEmpty(body: string) {
  */
 export async function handleDataMessage(
   envelope: EnvelopePlus,
-  dataMessage: SignalService.IDataMessage,
+  rawDataMessage: SignalService.DataMessage,
   messageHash: string
 ): Promise<void> {
   // we handle group updates from our other devices in handleClosedGroupControlMessage()
-  if (dataMessage.closedGroupControlMessage) {
+  if (rawDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
-      dataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+      rawDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
     );
     return;
   }
 
-  const message = await processDecrypted(envelope, dataMessage);
-  const source = dataMessage.syncTarget || envelope.source;
+  const message = await processDecrypted(envelope, rawDataMessage);
+  const source = rawDataMessage.syncTarget || envelope.source;
   const senderPubKey = envelope.senderIdentity || envelope.source;
   const isMe = UserUtils.isUsFromCache(senderPubKey);
-  const isSyncMessage = Boolean(dataMessage.syncTarget?.length);
+  const isSyncMessage = Boolean(rawDataMessage.syncTarget?.length);
 
   window?.log?.info(`Handle dataMessage from ${source} `);
 
   if (isSyncMessage && !isMe) {
     window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
-  } else if (isSyncMessage && dataMessage.syncTarget) {
+  } else if (isSyncMessage && rawDataMessage.syncTarget) {
     // override the envelope source
-    envelope.source = dataMessage.syncTarget;
+    envelope.source = rawDataMessage.syncTarget;
   }
 
   const senderConversation = await getConversationController().getOrCreateAndWait(
@@ -328,47 +326,37 @@ export async function handleDataMessage(
     };
   }
 
+  let groupId: string | null = null;
+  if (message.group?.id?.length) {
+    // remove the prefix from the source object so this is correct for all other
+    groupId = PubKey.removeTextSecurePrefixIfNeeded(toHex(message.group?.id));
+  }
+
   const confirm = () => removeFromCache(envelope);
 
   const data: MessageCreationData = {
     source: senderPubKey,
     destination: isMe ? message.syncTarget : envelope.source,
-    sourceDevice: 1,
     timestamp: _.toNumber(envelope.timestamp),
     receivedAt: envelope.receivedAt,
-    message,
     messageHash,
     isPublic: false,
     serverId: null,
     serverTimestamp: null,
+    groupId,
   };
 
-  await handleMessageEvent(messageEventType, data, confirm);
+  await handleMessageEvent(messageEventType, data, message, confirm);
 }
-
-type MessageDuplicateSearchType = {
-  body: string;
-  id: string;
-  timestamp: number;
-  serverId?: number;
-};
 
 export type MessageId = {
   source: string;
   serverId?: number | null;
   serverTimestamp?: number | null;
-  sourceDevice: number;
   timestamp: number;
-  message: MessageDuplicateSearchType;
 };
-const PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES = 10 * 1000; // 10s
 
-export async function isMessageDuplicate({
-  source,
-  timestamp,
-  message,
-  serverTimestamp,
-}: MessageId) {
+export async function isMessageDuplicate({ source, timestamp, serverTimestamp }: MessageId) {
   // serverTimestamp is only used for opengroupv2
   try {
     let result;
@@ -392,32 +380,12 @@ export async function isMessageDuplicate({
       sentAt: timestamp,
     });
 
-    if (!result) {
-      return false;
-    }
-    const filteredResult = [result].filter((m: any) => m.attributes.body === message.body);
-    return filteredResult.some(m => isDuplicate(m, message, source));
+    return Boolean(result);
   } catch (error) {
     window?.log?.error('isMessageDuplicate error:', toLogFormat(error));
     return false;
   }
 }
-
-export const isDuplicate = (
-  m: MessageModel,
-  testedMessage: MessageDuplicateSearchType,
-  source: string
-) => {
-  // The username in this case is the users pubKey
-  const sameUsername = m.attributes.source === source;
-  const sameText = m.attributes.body === testedMessage.body;
-  // Don't filter out messages that are too far apart from each other
-  const timestampsSimilar =
-    Math.abs(m.attributes.sent_at - testedMessage.timestamp) <=
-    PUBLICCHAT_MIN_TIME_BETWEEN_DUPLICATE_MESSAGES;
-
-  return sameUsername && sameText && timestampsSimilar;
-};
 
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
@@ -432,25 +400,24 @@ async function handleProfileUpdate(
     // Will do the save for us if needed
     await me.setProfileKey(profileKeyBuffer);
   } else {
-    const sender = await getConversationController().getOrCreateAndWait(
+    const senderConvo = await getConversationController().getOrCreateAndWait(
       convoId,
       ConversationTypeEnum.PRIVATE
     );
 
     // Will do the save for us
-    await sender.setProfileKey(profileKeyBuffer);
+    await senderConvo.setProfileKey(profileKeyBuffer);
   }
 }
 
 export type MessageCreationData = {
   timestamp: number;
   receivedAt: number;
-  sourceDevice: number; // always 1 for Session
   source: string;
-  message: any;
   isPublic: boolean;
   serverId: number | null;
   serverTimestamp: number | null;
+  groupId: string | null;
 
   // Needed for synced outgoing messages
   expirationStartTimestamp?: any; // ???
@@ -463,24 +430,15 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     timestamp,
     isPublic,
     receivedAt,
-    sourceDevice,
     source,
     serverId,
-    message,
     serverTimestamp,
     messageHash,
+    groupId,
   } = data;
-
-  const messageGroupId = message?.group?.id;
-  const groupIdWithPrefix = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
-  let groupId: string | undefined;
-  if (groupIdWithPrefix) {
-    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupIdWithPrefix);
-  }
 
   const messageData: any = {
     source,
-    sourceDevice,
     serverId,
     sent_at: timestamp,
     serverTimestamp,
@@ -505,10 +463,9 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     serverId,
     isPublic,
     receivedAt,
-    sourceDevice,
     expirationStartTimestamp,
     destination,
-    message,
+    groupId,
     messageHash,
   } = data;
 
@@ -518,16 +475,8 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
   };
 
-  const messageGroupId = message?.group?.id;
-  const groupIdWithPrefix = messageGroupId && messageGroupId.length > 0 ? messageGroupId : null;
-  let groupId: string | undefined;
-  if (groupIdWithPrefix) {
-    groupId = PubKey.removeTextSecurePrefixIfNeeded(groupIdWithPrefix);
-  }
-
   const messageData = {
     source: UserUtils.getOurPubKeyStrFromCache(),
-    sourceDevice,
     serverTimestamp: serverTimestamp || undefined,
     serverId: serverId || undefined,
     sent_at: timestamp,
@@ -553,22 +502,23 @@ export function createMessage(data: MessageCreationData, isIncoming: boolean): M
 // tslint:disable:cyclomatic-complexity max-func-body-length */
 async function handleMessageEvent(
   messageEventType: 'sent' | 'message',
-  data: MessageCreationData,
+  messageCreationData: MessageCreationData,
+  rawDataMessage: SignalService.DataMessage,
   confirm: () => void
 ): Promise<void> {
   const isIncoming = messageEventType === 'message';
 
-  if (!data || !data.message) {
+  if (!messageCreationData || !rawDataMessage) {
     window?.log?.warn('Invalid data passed to handleMessageEvent.', event);
     confirm();
     return;
   }
 
-  const { message, destination, messageHash } = data;
+  const { destination, messageHash } = messageCreationData;
 
-  let { source } = data;
+  let { source } = messageCreationData;
 
-  const isGroupMessage = Boolean(message.group);
+  const isGroupMessage = Boolean(rawDataMessage.group);
 
   const type = isGroupMessage ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE;
 
@@ -578,11 +528,11 @@ async function handleMessageEvent(
     confirm();
     return;
   }
-  if (message.profileKey?.length) {
-    await handleProfileUpdate(message.profileKey, conversationId, isIncoming);
+  if (rawDataMessage.profileKey?.length) {
+    await handleProfileUpdate(rawDataMessage.profileKey, conversationId, isIncoming);
   }
 
-  const msg = createMessage(data, isIncoming);
+  const msg = createMessage(messageCreationData, isIncoming);
 
   // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
   source = source || msg.get('source');
@@ -593,9 +543,11 @@ async function handleMessageEvent(
   //  - group.id if it is a group message
   if (isGroupMessage) {
     // remove the prefix from the source object so this is correct for all other
-    message.group.id = PubKey.removeTextSecurePrefixIfNeeded(message.group.id);
+    (rawDataMessage as any).group.id = PubKey.removeTextSecurePrefixIfNeeded(
+      (rawDataMessage as any).group.id
+    );
 
-    conversationId = message.group.id;
+    conversationId = (rawDataMessage as any).group.id;
   }
 
   if (!conversationId) {
@@ -605,7 +557,7 @@ async function handleMessageEvent(
 
   // =========================================
 
-  if (!isGroupMessage && source !== ourNumber) {
+  if (!rawDataMessage.group && source !== ourNumber) {
     // Ignore auth from our devices
     conversationId = source;
   }
@@ -619,11 +571,19 @@ async function handleMessageEvent(
   }
 
   void conversation.queueJob(async () => {
-    if (await isMessageDuplicate(data)) {
+    if (await isMessageDuplicate(messageCreationData)) {
       window?.log?.info('Received duplicate message. Dropping it.');
       confirm();
       return;
     }
-    await handleMessageJob(msg, conversation, message, ourNumber, confirm, source, messageHash);
+    await handleMessageJob(
+      msg,
+      conversation,
+      rawDataMessage,
+      ourNumber,
+      confirm,
+      source,
+      messageHash
+    );
   });
 }

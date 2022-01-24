@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { MessageDirection } from '../../models/messageType';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import {
   FindAndFormatContactType,
@@ -12,10 +11,9 @@ import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 import styled from 'styled-components';
-
-type PropsHousekeeping = {
-  isSelected?: boolean;
-};
+import { MessageAttributes } from '../../models/messageType';
+import { useIsPrivate } from '../../hooks/useParamSelector';
+import { UserUtils } from '../../session/utils';
 
 export type PropsForSearchResults = {
   from: FindAndFormatContactType;
@@ -30,7 +28,7 @@ export type PropsForSearchResults = {
   receivedAt?: number;
 };
 
-export type MessageResultProps = PropsForSearchResults & PropsHousekeeping;
+export type MessageResultProps = MessageAttributes & { snippet: string };
 
 const FromName = (props: { source: string; destination: string }) => {
   const { source, destination } = props;
@@ -69,7 +67,7 @@ const From = (props: { source: string; destination: string }) => {
     return (
       <div className="module-message-search-result__header__from">
         {fromName} {window.i18n('to')}
-        <span className="module-mesages-search-result__header__group">
+        <span className="module-messages-search-result__header__group">
           <ContactName pubkey={destination} shouldShowPubkey={false} />
         </span>
       </div>
@@ -80,8 +78,7 @@ const From = (props: { source: string; destination: string }) => {
 };
 
 const AvatarItem = (props: { source: string }) => {
-  const { source } = props;
-  return <Avatar size={AvatarSize.S} pubkey={source} />;
+  return <Avatar size={AvatarSize.S} pubkey={props.source} />;
 };
 
 const ResultBody = styled.div`
@@ -102,45 +99,57 @@ const ResultBody = styled.div`
 `;
 
 export const MessageSearchResult = (props: MessageResultProps) => {
-  const { id, conversationId, receivedAt, snippet, destination, source, direction } = props;
+  const {
+    id,
+    conversationId,
+    received_at,
+    snippet,
+    source,
+    sent_at,
+    serverTimestamp,
+    timestamp,
+    direction,
+  } = props;
 
-  // Some messages miss a source or destination. Doing checks to see if the fields can be derived from other sources.
-  // E.g. if the source is missing but the message is outgoing, the source will be our pubkey
-  const sourceOrDestinationDerivable =
-    (destination && direction === MessageDirection.outgoing) ||
-    !destination ||
-    !source ||
-    (source && direction === MessageDirection.incoming);
+  /** destination is only used for search results (showing the `from:` and `to`)
+   *  1.  for messages we sent or synced from another of our devices
+   *    - the conversationId for a private convo
+   *    - the conversationId for a closed group convo
+   *    - the conversationId for an opengroup
+   *
+   *  2. for messages we received
+   *    - our own pubkey for a private conversation
+   *    - the conversationID for a closed group
+   *    - the conversationID for a public group
+   */
+  const me = UserUtils.getOurPubKeyStrFromCache();
 
-  if (!sourceOrDestinationDerivable) {
+  const convoIsPrivate = useIsPrivate(conversationId);
+  const destination =
+    direction === 'incoming' ? conversationId : convoIsPrivate ? me : conversationId;
+
+  if (!source && !destination) {
     return null;
   }
-
-  const effectiveSource =
-    !source && direction === MessageDirection.outgoing ? getOurPubKeyStrFromCache() : source;
-  const effectiveDestination =
-    !destination && direction === MessageDirection.incoming
-      ? getOurPubKeyStrFromCache()
-      : destination;
 
   return (
     <div
       key={`div-msg-searchresult-${id}`}
       role="button"
-      onClick={async () => {
-        await openConversationToSpecificMessage({
+      onClick={() => {
+        void openConversationToSpecificMessage({
           conversationKey: conversationId,
           messageIdToNavigateTo: id,
         });
       }}
       className={classNames('module-message-search-result')}
     >
-      <AvatarItem source={effectiveSource} />
+      <AvatarItem source={source || me} />
       <div className="module-message-search-result__text">
         <div className="module-message-search-result__header">
-          <From source={effectiveSource} destination={effectiveDestination} />
+          <From source={source} destination={destination} />
           <div className="module-message-search-result__header__timestamp">
-            <Timestamp timestamp={receivedAt} />
+            <Timestamp timestamp={serverTimestamp || timestamp || sent_at || received_at} />
           </div>
         </div>
         <ResultBody>

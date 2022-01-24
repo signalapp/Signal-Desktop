@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron';
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
 
 import _ from 'lodash';
+import { MessageResultProps } from '../components/search/MessageSearchResults';
 import {
   ConversationCollection,
   ConversationModel,
@@ -587,9 +588,11 @@ export async function searchConversations(query: string): Promise<Array<any>> {
   return conversations;
 }
 
-export async function searchMessages(query: string, limit: number): Promise<Array<Object>> {
-  const messages = await channels.searchMessages(query, limit);
-
+export async function searchMessages(
+  query: string,
+  limit: number
+): Promise<Array<MessageResultProps>> {
+  const messages = (await channels.searchMessages(query, limit)) as Array<MessageResultProps>;
   return _.uniqWith(messages, (left: { id: string }, right: { id: string }) => {
     return left.id === right.id;
   });
@@ -602,10 +605,10 @@ export async function searchMessagesInConversation(
   query: string,
   conversationId: string,
   limit: number
-): Promise<Object> {
-  const messages = await channels.searchMessagesInConversation(query, conversationId, {
+): Promise<Array<MessageAttributes>> {
+  const messages = (await channels.searchMessagesInConversation(query, conversationId, {
     limit,
-  });
+  })) as Array<MessageAttributes>;
   return messages;
 }
 

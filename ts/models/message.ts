@@ -766,8 +766,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       quote: undefined,
       groupInvitation: undefined,
       dataExtractionNotification: undefined,
-      hasAttachments: false,
-      hasVisualMediaAttachments: false,
+      hasAttachments: 0,
+      hasFileAttachments: 0,
+      hasVisualMediaAttachments: 0,
       attachments: undefined,
       preview: undefined,
     });

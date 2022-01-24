@@ -1883,15 +1883,15 @@ function searchMessagesInConversation(query, conversationId, limit) {
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+    FROM ${MESSAGES_FTS_TABLE}
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query AND
-      messages.conversationId = $conversationId
-    ORDER BY messages.received_at DESC
-    LIMIT $limit;`
+    ${MESSAGES_FTS_TABLE} match $query AND
+      ${MESSAGES_TABLE}.conversationId = $conversationId
+    ORDER BY ${MESSAGES_TABLE}.serverTimestamp DESC, ${MESSAGES_TABLE}.serverId DESC, ${MESSAGES_TABLE}.sent_at DESC, ${MESSAGES_TABLE}.received_at DESC
+      LIMIT $limit;`
     )
     .all({
       query,
