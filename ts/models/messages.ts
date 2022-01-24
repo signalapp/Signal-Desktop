@@ -461,7 +461,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
             window.ConversationController.get(conversationId);
           return conversation
             ? conversation.getTitle()
-            : window.i18n('unnkownContact');
+            : window.i18n('unknownContact');
         },
         renderString: (
           key: string,
