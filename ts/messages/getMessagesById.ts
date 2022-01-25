@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as log from '../logging/log';
@@ -7,19 +7,19 @@ import type { MessageAttributesType } from '../model-types.d';
 import * as Errors from '../types/errors';
 
 export async function getMessagesById(
-  messageIds: ReadonlyArray<string>
+  messageIds: Iterable<string>
 ): Promise<Array<MessageModel>> {
   const messagesFromMemory: Array<MessageModel> = [];
   const messageIdsToLookUpInDatabase: Array<string> = [];
 
-  messageIds.forEach(messageId => {
+  for (const messageId of messageIds) {
     const message = window.MessageController.getById(messageId);
     if (message) {
       messagesFromMemory.push(message);
     } else {
       messageIdsToLookUpInDatabase.push(messageId);
     }
-  });
+  }
 
   let rawMessagesFromDatabase: Array<MessageAttributesType>;
   try {
