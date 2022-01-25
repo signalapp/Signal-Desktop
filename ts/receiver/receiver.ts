@@ -3,29 +3,15 @@ export { downloadAttachment } from './attachments';
 import { v4 as uuidv4 } from 'uuid';
 
 import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
-import { processMessage } from '../session/apis/snode_api/swarmPolling';
-import { onError } from './errors';
 
 // innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
 import { handleContentMessage, innerHandleContentMessage } from './contentMessage';
-import _, { noop } from 'lodash';
-
-export { processMessage };
-
-import { createMessage, isMessageDuplicate, MessageCreationData } from './dataMessage';
+import _ from 'lodash';
 
 import { getEnvelopeId } from './common';
 import { StringUtils, UserUtils } from '../session/utils';
 import { SignalService } from '../protobuf';
-import { getConversationController } from '../session/conversations';
 import { removeUnprocessed } from '../data/data';
-import { ConversationTypeEnum } from '../models/conversation';
-import { getOpenGroupV2ConversationId } from '../session/apis/open_group_api/utils/OpenGroupUtils';
-import { OpenGroupMessageV2 } from '../session/apis/open_group_api/opengroupV2/OpenGroupMessageV2';
-import { OpenGroupRequestCommonType } from '../session/apis/open_group_api/opengroupV2/ApiUtil';
-import { handleMessageJob } from './queuedJob';
-import { fromBase64ToArray } from '../session/utils/String';
-import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { createTaskWithTimeout } from '../session/utils/TaskWithTimeout';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 
@@ -146,16 +132,12 @@ async function handleRequestDetail(
   }
 }
 
-export function handleRequest(body: any, options: ReqOptions, messageHash: string): void {
+export function handleRequest(plaintext: any, options: ReqOptions, messageHash: string): void {
   // tslint:disable-next-line no-promise-as-boolean
   const lastPromise = _.last(incomingMessagePromises) || Promise.resolve();
 
-  const plaintext = body;
-
   const promise = handleRequestDetail(plaintext, options, lastPromise, messageHash).catch(e => {
     window?.log?.error('Error handling incoming message:', e && e.stack ? e.stack : e);
-
-    void onError(e);
   });
 
   incomingMessagePromises.push(promise);
@@ -257,90 +239,4 @@ async function handleDecryptedEnvelope(
   } else {
     await removeFromCache(envelope);
   }
-}
-
-export async function handleOpenGroupV2Message(
-  message: OpenGroupMessageV2,
-  roomInfos: OpenGroupRequestCommonType
-) {
-  const { base64EncodedData, sentTimestamp, sender, serverId } = message;
-  const { serverUrl, roomId } = roomInfos;
-  if (!base64EncodedData || !sentTimestamp || !sender || !serverId) {
-    window?.log?.warn('Invalid data passed to handleOpenGroupV2Message.', message);
-    return;
-  }
-
-  // Note: opengroup messages are not padded
-  const dataUint = new Uint8Array(removeMessagePadding(fromBase64ToArray(base64EncodedData)));
-
-  const decoded = SignalService.Content.decode(dataUint);
-
-  const conversationId = getOpenGroupV2ConversationId(serverUrl, roomId);
-  if (!conversationId) {
-    window?.log?.error('We cannot handle a message without a conversationId');
-    return;
-  }
-  const idataMessage = decoded?.dataMessage;
-  if (!idataMessage) {
-    window?.log?.error('Invalid decoded opengroup message: no dataMessage');
-    return;
-  }
-
-  if (!getConversationController().get(conversationId)) {
-    window?.log?.error('Received a message for an unknown convo. Skipping');
-    return;
-  }
-
-  // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
-  // source = source || msg.get('source');
-
-  const conversation = await getConversationController().getOrCreateAndWait(
-    conversationId,
-    ConversationTypeEnum.GROUP
-  );
-
-  if (!conversation) {
-    window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
-    return;
-  }
-
-  void conversation.queueJob(async () => {
-    const isMe = UserUtils.isUsFromCache(sender);
-    // for an opengroupv2 incoming message the serverTimestamp and the timestamp
-    const messageCreationData: MessageCreationData = {
-      isPublic: true,
-      serverId,
-      serverTimestamp: sentTimestamp,
-      receivedAt: Date.now(),
-      destination: conversationId,
-      timestamp: sentTimestamp,
-      expirationStartTimestamp: undefined,
-      source: sender,
-      groupId: null,
-      messageHash: '', // we do not care of a hash for an opengroup message
-    };
-
-    // WARNING this is important that the isMessageDuplicate is made in the conversation.queueJob
-    const isDuplicate = await isMessageDuplicate({ ...messageCreationData });
-
-    if (isDuplicate) {
-      window?.log?.info('Received duplicate message. Dropping it.');
-      return;
-    }
-
-    // this line just create an empty message with some basic stuff set.
-    // the whole decoding of data is happening in handleMessageJob()
-    const msg = createMessage(messageCreationData, !isMe);
-    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-
-    await handleMessageJob(
-      msg,
-      conversation,
-      decoded?.dataMessage as SignalService.DataMessage,
-      ourNumber,
-      noop,
-      sender,
-      ''
-    );
-  });
 }

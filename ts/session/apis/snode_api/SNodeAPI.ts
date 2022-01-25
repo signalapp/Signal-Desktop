@@ -53,6 +53,10 @@ export function getLatestTimestampOffset() {
   return latestTimestampOffset;
 }
 
+export function getNowWithNetworkOffset() {
+  return Date.now() - getLatestTimestampOffset();
+}
+
 export type SendParams = {
   pubKey: string;
   ttl: string;

@@ -233,12 +233,12 @@ export async function handleNewClosedGroup(
     await removeFromCache(envelope);
     return;
   }
-  const maybeConvo = getConversationController().get(groupId);
+  const groupConvo = getConversationController().get(groupId);
   const expireTimer = groupUpdate.expireTimer;
 
-  if (maybeConvo) {
+  if (groupConvo) {
     // if we did not left this group, just add the keypair we got if not already there
-    if (!maybeConvo.get('isKickedFromGroup') && !maybeConvo.get('left')) {
+    if (!groupConvo.get('isKickedFromGroup') && !groupConvo.get('left')) {
       const ecKeyPairAlreadyExistingConvo = new ECKeyPair(
         // tslint:disable: no-non-null-assertion
         encryptionKeyPair!.publicKey,
@@ -249,7 +249,7 @@ export async function handleNewClosedGroup(
         ecKeyPairAlreadyExistingConvo.toHexKeyPair()
       );
 
-      await maybeConvo.updateExpireTimer(expireTimer, sender, Date.now());
+      await groupConvo.updateExpireTimer(expireTimer, sender, Date.now());
 
       if (isKeyPairAlreadyHere) {
         window.log.info('Dropping already saved keypair for group', groupId);
@@ -266,15 +266,18 @@ export async function handleNewClosedGroup(
     }
     // convo exists and we left or got kicked, enable typing and continue processing
     // Enable typing:
-    maybeConvo.set('isKickedFromGroup', false);
-    maybeConvo.set('left', false);
-    maybeConvo.set('lastJoinedTimestamp', _.toNumber(envelope.timestamp));
-    // we just got readded. Consider the zombie list to have been cleared
-    maybeConvo.set('zombies', []);
+    groupConvo.set({
+      left: false,
+      isKickedFromGroup: false,
+      lastJoinedTimestamp: _.toNumber(envelope.timestamp),
+      // we just got readded. Consider the zombie list to have been cleared
+
+      zombies: [],
+    });
   }
 
   const convo =
-    maybeConvo ||
+    groupConvo ||
     (await getConversationController().getOrCreateAndWait(groupId, ConversationTypeEnum.GROUP));
   // ***** Creating a new group *****
   window?.log?.info('Received a new ClosedGroup of id:', groupId);

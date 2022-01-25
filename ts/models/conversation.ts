@@ -9,7 +9,7 @@ import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
-import { MessageAttributesOptionals, MessageModelType } from './messageType';
+import { MessageAttributesOptionals } from './messageType';
 import autoBind from 'auto-bind';
 import {
   getLastMessagesByConversation,
@@ -47,7 +47,7 @@ import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getLatestTimestampOffset } from '../session/apis/snode_api/SNodeAPI';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 import { createLastMessageUpdate } from '../types/Conversation';
 import {
   ReplyingToMessageProps,
@@ -701,10 +701,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
-
-    const destination = this.id;
     const expireTimer = this.get('expireTimer');
-
     const networkTimestamp = getNowWithNetworkOffset();
 
     window?.log?.info(
@@ -714,34 +711,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       networkTimestamp
     );
 
-    const editedQuote = _.isEmpty(quote) ? undefined : quote;
-
-    const messageObject: MessageAttributesOptionals = {
-      type: 'outgoing',
+    const messageModel = await this.addSingleOutgoingMessage({
       body,
-      conversationId: destination,
-      quote: editedQuote,
+      quote: _.isEmpty(quote) ? undefined : quote,
       preview,
       attachments,
       sent_at: networkTimestamp,
-      received_at: networkTimestamp,
       expireTimer,
-      isDeleted: false,
-      source: UserUtils.getOurPubKeyStrFromCache(),
-    };
-
-    if (this.isPublic()) {
-      // set the serverTimestamp only if this conversation is a public one.
-      messageObject.serverTimestamp = Date.now();
-    }
-
-    const attributes: MessageAttributesOptionals = {
-      ...messageObject,
+      serverTimestamp: this.isPublic() ? Date.now() : undefined,
       groupInvitation,
-      conversationId: this.id,
-    };
-
-    const messageModel = await this.addSingleMessage(attributes);
+    });
 
     // We're offline!
     if (!window.textsecure.messaging) {
@@ -827,15 +806,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.set({ expireTimer });
 
-    const messageAttributes = {
-      // Even though this isn't reflected to the user, we want to place the last seen
-      //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: isOutgoing ? 0 : 1,
-      conversationId: this.id,
-      source,
-      // No type; 'incoming' messages are specially treated by conversation.markRead()
-      sent_at: timestamp,
-      received_at: timestamp,
+    const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
@@ -843,11 +814,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         fromSync: options.fromSync,
       },
       expireTimer: 0,
-      type: isOutgoing ? 'outgoing' : ('incoming' as MessageModelType),
-      destination: this.id,
-      recipients: isOutgoing ? this.getRecipients() : undefined,
     };
-    const message = await this.addSingleMessage(messageAttributes);
+
+    let message: MessageModel | undefined;
+
+    if (isOutgoing) {
+      message = await this.addSingleOutgoingMessage({
+        ...commonAttributes,
+        unread: 0,
+        sent_at: timestamp,
+      });
+    } else {
+      message = await this.addSingleIncomingMessage({
+        ...commonAttributes,
+        // Even though this isn't reflected to the user, we want to place the last seen
+        //   indicator above it. We set it to 'unread' to trigger that placement.
+        unread: 1,
+        source,
+        sent_at: timestamp,
+        received_at: timestamp,
+      });
+    }
 
     // tell the UI this conversation was updated
     await this.commit();
@@ -899,40 +886,39 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
-  public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
-    const model = new MessageModel(messageAttributes);
-
-    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
-
-    if (
-      isMe &&
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
-      await this.setIsApproved(true);
-    }
-
-    // no need to trigger a UI update now, we trigger a messagesAdded just below
-    const messageId = await model.commit(false);
-    model.set({ id: messageId });
-
-    if (setToExpire) {
-      await model.setToExpire();
-    }
-    window.inboxStore?.dispatch(
-      conversationActions.messagesAdded([
-        {
-          conversationKey: this.id,
-          messageModelProps: model.getMessageModelProps(),
-        },
-      ])
+  public async addSingleOutgoingMessage(
+    messageAttributes: Omit<
+      MessageAttributesOptionals,
+      'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
+    >,
+    setToExpire = true
+  ) {
+    return this.addSingleMessage(
+      {
+        ...messageAttributes,
+        conversationId: this.id,
+        source: UserUtils.getOurPubKeyStrFromCache(),
+        type: 'outgoing',
+        direction: 'outgoing',
+        received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
+      },
+      setToExpire
     );
-    const unreadCount = await this.getUnreadCount();
-    this.set({ unreadCount });
-    this.updateLastMessage();
+  }
 
-    await this.commit();
-    return model;
+  public async addSingleIncomingMessage(
+    messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>,
+    setToExpire = true
+  ) {
+    return this.addSingleMessage(
+      {
+        ...messageAttributes,
+        conversationId: this.id,
+        type: 'incoming',
+        direction: 'outgoing',
+      },
+      setToExpire
+    );
   }
 
   public async leaveClosedGroup() {
@@ -1482,6 +1468,45 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         await this.commit();
       }
     }
+  }
+
+  private async addSingleMessage(
+    messageAttributes: MessageAttributesOptionals,
+    setToExpire = true
+  ) {
+    const model = new MessageModel(messageAttributes);
+
+    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
+
+    if (
+      isMe &&
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests
+    ) {
+      await this.setIsApproved(true);
+    }
+
+    // no need to trigger a UI update now, we trigger a messagesAdded just below
+    const messageId = await model.commit(false);
+    model.set({ id: messageId });
+
+    if (setToExpire) {
+      await model.setToExpire();
+    }
+    window.inboxStore?.dispatch(
+      conversationActions.messagesAdded([
+        {
+          conversationKey: this.id,
+          messageModelProps: model.getMessageModelProps(),
+        },
+      ])
+    );
+    const unreadCount = await this.getUnreadCount();
+    this.set({ unreadCount });
+    this.updateLastMessage();
+
+    await this.commit();
+    return model;
   }
 
   private async clearContactTypingTimer(_sender: string) {

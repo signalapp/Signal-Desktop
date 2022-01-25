@@ -10,6 +10,7 @@ import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import { SignalService } from '../protobuf';
+import { UserUtils } from '../session/utils';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -182,7 +183,6 @@ async function handleRegularMessage(
   message: MessageModel,
   rawDataMessage: SignalService.DataMessage,
   source: string,
-  ourNumber: string,
   messageHash: string
 ) {
   const type = message.get('type');
@@ -215,7 +215,7 @@ async function handleRegularMessage(
   // Expire timer updates are now explicit.
   // We don't handle an expire timer from a incoming message except if it is an ExpireTimerUpdate message.
 
-  const ourPubKey = PubKey.cast(ourNumber);
+  const ourPubKey = UserUtils.getOurPubKeyFromCache();
 
   handleMentions(message, conversation, ourPubKey);
 
@@ -295,7 +295,6 @@ export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,
   rawDataMessage: SignalService.DataMessage,
-  ourNumber: string,
   confirm: () => void,
   source: string,
   messageHash: string
@@ -320,14 +319,7 @@ export async function handleMessageJob(
       }
       await handleExpirationTimerUpdate(conversation, messageModel, source, expireTimer);
     } else {
-      await handleRegularMessage(
-        conversation,
-        messageModel,
-        rawDataMessage,
-        source,
-        ourNumber,
-        messageHash
-      );
+      await handleRegularMessage(conversation, messageModel, rawDataMessage, source, messageHash);
     }
 
     const id = await messageModel.commit();

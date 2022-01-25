@@ -11,7 +11,7 @@ import {
   ConversationTypeEnum,
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
-import { MessageAttributes, MessageDirection } from '../models/messageType';
+import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
@@ -1037,13 +1037,17 @@ export async function fillWithTestData(convs: number, msgs: number) {
   for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
     // tslint:disable: insecure-random
     const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
-    await convoToChoose.addSingleMessage({
-      source: convoToChoose.id,
-      type: MessageDirection.outgoing,
-      conversationId: convoToChoose.id,
-      body: `spongebob ${new Date().toString()}`,
-      // tslint:disable: insecure-random
-      direction: Math.random() > 0.5 ? 'outgoing' : 'incoming',
-    });
+    const direction = Math.random() > 0.5 ? 'outgoing' : 'incoming';
+    const body = `spongebob ${new Date().toString()}`;
+    if (direction === 'outgoing') {
+      await convoToChoose.addSingleOutgoingMessage({
+        body,
+      });
+    } else {
+      await convoToChoose.addSingleIncomingMessage({
+        source: convoToChoose.id,
+        body,
+      });
+    }
   }
 }

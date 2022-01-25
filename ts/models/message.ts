@@ -707,11 +707,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // TODO: In the future it might be best if we cache the upload results if possible.
     // This way we don't upload duplicated data.
 
-    const attachmentsWithData = await Promise.all(
+    const finalAttachments = await Promise.all(
       (this.get('attachments') || []).map(loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData;
 
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));

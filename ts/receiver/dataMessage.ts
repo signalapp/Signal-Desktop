@@ -11,7 +11,7 @@ import { StringUtils, UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
 import { MessageModel } from '../models/message';
-import { MessageModelType } from '../models/messageType';
+import { MessageAttributesOptionals, MessageModelType } from '../models/messageType';
 import {
   getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
@@ -318,18 +318,11 @@ export async function handleDataMessage(
   // Data messages for medium groups don't arrive as sync messages. Instead,
   // linked devices poll for group messages independently, thus they need
   // to recognise some of those messages at their own.
-  const messageEventType: 'sent' | 'message' = isMe ? 'sent' : 'message';
 
   if (envelope.senderIdentity) {
     message.group = {
       id: envelope.source as any, // FIXME Uint8Array vs string
     };
-  }
-
-  let groupId: string | null = null;
-  if (message.group?.id?.length) {
-    // remove the prefix from the source object so this is correct for all other
-    groupId = PubKey.removeTextSecurePrefixIfNeeded(toHex(message.group?.id));
   }
 
   const confirm = () => removeFromCache(envelope);
@@ -343,10 +336,12 @@ export async function handleDataMessage(
     isPublic: false,
     serverId: null,
     serverTimestamp: null,
-    groupId,
+    groupId: message.group?.id?.length
+      ? PubKey.removeTextSecurePrefixIfNeeded(toHex(message.group?.id))
+      : null,
   };
 
-  await handleMessageEvent(messageEventType, data, message, confirm);
+  await handleMessageEvent(!isMe, data, message, confirm);
 }
 
 export type MessageId = {
@@ -387,6 +382,31 @@ export async function isMessageDuplicate({ source, timestamp, serverTimestamp }:
   }
 }
 
+export async function isOpengroupMessageDuplicate({
+  sender,
+  serverTimestamp,
+}: {
+  sender: string;
+  serverTimestamp: number;
+}) {
+  // serverTimestamp is only used for opengroupv2
+  try {
+    const result = await getMessageBySenderAndServerTimestamp({
+      source: sender,
+      serverTimestamp,
+    });
+
+    // if we have a result, it means a specific user sent two messages either with the same serverTimestamp.
+    // no need to do anything else, those messages must be the same
+    // Note: this test is not based on which conversation the user sent the message
+    // but we consider that a user sending two messages with the same serverTimestamp is unlikely
+    return Boolean(result);
+  } catch (error) {
+    window?.log?.error('isOpengroupMessageDuplicate error:', toLogFormat(error));
+    return false;
+  }
+}
+
 async function handleProfileUpdate(
   profileKeyBuffer: Uint8Array,
   convoId: string,
@@ -418,14 +438,12 @@ export type MessageCreationData = {
   serverId: number | null;
   serverTimestamp: number | null;
   groupId: string | null;
-
-  // Needed for synced outgoing messages
-  expirationStartTimestamp?: any; // ???
+  expirationStartTimestamp?: number;
   destination: string;
   messageHash: string;
 };
 
-export function initIncomingMessage(data: MessageCreationData): MessageModel {
+function initIncomingMessage(data: MessageCreationData): MessageModel {
   const {
     timestamp,
     isPublic,
@@ -437,18 +455,18 @@ export function initIncomingMessage(data: MessageCreationData): MessageModel {
     groupId,
   } = data;
 
-  const messageData: any = {
+  const messageData: MessageAttributesOptionals = {
     source,
-    serverId,
+    serverId: serverId || undefined,
     sent_at: timestamp,
-    serverTimestamp,
+    serverTimestamp: serverTimestamp || undefined,
     received_at: receivedAt || Date.now(),
     conversationId: groupId ?? source,
     type: 'incoming',
-    direction: 'incoming', // +
+    direction: 'incoming',
     unread: 1,
     isPublic,
-    messageHash: messageHash || null,
+    messageHash: messageHash || undefined,
   };
 
   return new MessageModel(messageData);
@@ -475,7 +493,7 @@ function createSentMessage(data: MessageCreationData): MessageModel {
     expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
   };
 
-  const messageData = {
+  const messageData: MessageAttributesOptionals = {
     source: UserUtils.getOurPubKeyStrFromCache(),
     serverTimestamp: serverTimestamp || undefined,
     serverId: serverId || undefined,
@@ -501,13 +519,11 @@ export function createMessage(data: MessageCreationData, isIncoming: boolean): M
 
 // tslint:disable:cyclomatic-complexity max-func-body-length */
 async function handleMessageEvent(
-  messageEventType: 'sent' | 'message',
+  isIncoming: boolean,
   messageCreationData: MessageCreationData,
   rawDataMessage: SignalService.DataMessage,
   confirm: () => void
 ): Promise<void> {
-  const isIncoming = messageEventType === 'message';
-
   if (!messageCreationData || !rawDataMessage) {
     window?.log?.warn('Invalid data passed to handleMessageEvent.', event);
     confirm();
@@ -576,14 +592,6 @@ async function handleMessageEvent(
       confirm();
       return;
     }
-    await handleMessageJob(
-      msg,
-      conversation,
-      rawDataMessage,
-      ourNumber,
-      confirm,
-      source,
-      messageHash
-    );
+    await handleMessageJob(msg, conversation, rawDataMessage, confirm, source, messageHash);
   });
 }

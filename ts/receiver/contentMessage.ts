@@ -591,14 +591,9 @@ export async function handleDataExtractionNotification(
   if (timestamp) {
     const envelopeTimestamp = Lodash.toNumber(timestamp);
     const referencedAttachmentTimestamp = Lodash.toNumber(referencedAttachment);
-    const now = Date.now();
 
-    await convo.addSingleMessage({
-      conversationId: convo.get('id'),
-      source,
-      type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+    await convo.addSingleOutgoingMessage({
       sent_at: envelopeTimestamp,
-      received_at: now,
       dataExtractionNotification: {
         type,
         referencedAttachmentTimestamp, // currently unused
