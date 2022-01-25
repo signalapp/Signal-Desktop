@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { addToCache, getAllFromCache, getAllFromCacheForSource, removeFromCache } from './cache';
 
-// innerHandleContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
-import { handleContentMessage, innerHandleContentMessage } from './contentMessage';
+// innerHandleSwarmContentMessage is only needed because of code duplication in handleDecryptedEnvelope...
+import { handleSwarmContentMessage, innerHandleSwarmContentMessage } from './contentMessage';
 import _ from 'lodash';
 
 import { getEnvelopeId } from './common';
@@ -23,9 +23,9 @@ interface ReqOptions {
 
 const incomingMessagePromises: Array<Promise<any>> = [];
 
-async function handleEnvelope(envelope: EnvelopePlus, messageHash: string) {
+async function handleSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) {
   if (envelope.content && envelope.content.length > 0) {
-    return handleContentMessage(envelope, messageHash);
+    return handleSwarmContentMessage(envelope, messageHash);
   }
 
   await removeFromCache(envelope);
@@ -55,18 +55,18 @@ class EnvelopeQueue {
 
 const envelopeQueue = new EnvelopeQueue();
 
-function queueEnvelope(envelope: EnvelopePlus, messageHash: string) {
+function queueSwarmEnvelope(envelope: EnvelopePlus, messageHash: string) {
   const id = getEnvelopeId(envelope);
   // window?.log?.info('queueing envelope', id);
 
-  const task = handleEnvelope.bind(null, envelope, messageHash);
-  const taskWithTimeout = createTaskWithTimeout(task, `queueEnvelope ${id}`);
+  const task = handleSwarmEnvelope.bind(null, envelope, messageHash);
+  const taskWithTimeout = createTaskWithTimeout(task, `queueSwarmEnvelope ${id}`);
 
   try {
     envelopeQueue.add(taskWithTimeout);
   } catch (error) {
     window?.log?.error(
-      'queueEnvelope error handling envelope',
+      'queueSwarmEnvelope error handling envelope',
       id,
       ':',
       error && error.stack ? error.stack : error
@@ -123,7 +123,7 @@ async function handleRequestDetail(
 
     await lastPromise;
 
-    queueEnvelope(envelope, messageHash);
+    queueSwarmEnvelope(envelope, messageHash);
   } catch (error) {
     window?.log?.error(
       'handleRequest error trying to add message to cache:',
@@ -185,7 +185,7 @@ async function queueCached(item: any) {
 
       queueDecryptedEnvelope(envelope, payloadPlaintext, envelope.messageHash);
     } else {
-      queueEnvelope(envelope, envelope.messageHash);
+      queueSwarmEnvelope(envelope, envelope.messageHash);
     }
   } catch (error) {
     window?.log?.error(
@@ -230,12 +230,8 @@ async function handleDecryptedEnvelope(
   plaintext: ArrayBuffer,
   messageHash: string
 ) {
-  // if (this.stoppingProcessing) {
-  //   return Promise.resolve();
-  // }
-
   if (envelope.content) {
-    await innerHandleContentMessage(envelope, plaintext, messageHash);
+    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
   } else {
     await removeFromCache(envelope);
   }

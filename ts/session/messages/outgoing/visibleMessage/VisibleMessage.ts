@@ -66,7 +66,7 @@ export interface VisibleMessageParams extends MessageParams {
   expireTimer?: number;
   lokiProfile?: LokiProfile;
   preview?: Array<PreviewWithAttachmentUrl>;
-  syncTarget?: string; // null means it is not a synced message
+  syncTarget?: string; // undefined means it is not a synced message
 }
 
 export class VisibleMessage extends DataMessage {

@@ -1,5 +1,5 @@
 import { EnvelopePlus } from './types';
-import { handleDataMessage } from './dataMessage';
+import { handleSwarmDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
@@ -25,20 +25,20 @@ import {
 } from '../interactions/conversations/unsendingInteractions';
 import { SettingsKey } from '../data/settings-key';
 
-export async function handleContentMessage(envelope: EnvelopePlus, messageHash: string) {
+export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
     const plaintext = await decrypt(envelope, envelope.content);
 
     if (!plaintext) {
-      // window?.log?.warn('handleContentMessage: plaintext was falsey');
+      // window?.log?.warn('handleSwarmContentMessage: plaintext was falsey');
       return;
     } else if (plaintext instanceof ArrayBuffer && plaintext.byteLength === 0) {
       return;
     }
-    perfStart(`innerHandleContentMessage-${envelope.id}`);
+    perfStart(`innerHandleSwarmContentMessage-${envelope.id}`);
 
-    await innerHandleContentMessage(envelope, plaintext, messageHash);
-    perfEnd(`innerHandleContentMessage-${envelope.id}`, 'innerHandleContentMessage');
+    await innerHandleSwarmContentMessage(envelope, plaintext, messageHash);
+    perfEnd(`innerHandleSwarmContentMessage-${envelope.id}`, 'innerHandleSwarmContentMessage');
   } catch (e) {
     window?.log?.warn(e);
   }
@@ -326,7 +326,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   return !isControlDataMessageOnly;
 }
 
-export async function innerHandleContentMessage(
+export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer,
   messageHash: string
@@ -350,22 +350,43 @@ export async function innerHandleContentMessage(
       }
     }
 
-    await getConversationController().getOrCreateAndWait(
-      envelope.source,
+    // if this is a direct message, envelope.senderIdentity is undefined
+    // if this is a closed group message, envelope.senderIdentity is the sender's pubkey and envelope.source is the closed group's pubkey
+    const isPrivateConversationMessage = !envelope.senderIdentity;
+
+    /**
+     * For a closed group message, this holds the conversation with that specific user outside of the closed group.
+     * For a private conversation message, this is just the conversation with that user
+     */
+    const senderConversationModel = await getConversationController().getOrCreateAndWait(
+      isPrivateConversationMessage ? envelope.source : envelope.senderIdentity,
       ConversationTypeEnum.PRIVATE
     );
+
+    /**
+     * For a closed group message, this holds the closed group's conversation.
+     * For a private conversation message, this is just the conversation with that user
+     */
+    if (!isPrivateConversationMessage) {
+      // this is a closed group message, we have a second conversation to make sure exists
+      await getConversationController().getOrCreateAndWait(
+        envelope.source,
+        ConversationTypeEnum.GROUP
+      );
+    }
 
     if (content.dataMessage) {
       if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
         content.dataMessage.profileKey = null;
       }
-      perfStart(`handleDataMessage-${envelope.id}`);
-      await handleDataMessage(
+      perfStart(`handleSwarmDataMessage-${envelope.id}`);
+      await handleSwarmDataMessage(
         envelope,
         content.dataMessage as SignalService.DataMessage,
-        messageHash
+        messageHash,
+        senderConversationModel
       );
-      perfEnd(`handleDataMessage-${envelope.id}`, 'handleDataMessage');
+      perfEnd(`handleSwarmDataMessage-${envelope.id}`, 'handleSwarmDataMessage');
       return;
     }
 

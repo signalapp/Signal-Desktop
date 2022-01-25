@@ -4,14 +4,12 @@ import { EnvelopePlus } from './types';
 import { getEnvelopeId } from './common';
 
 import { PubKey } from '../session/types';
-import { handleMessageJob } from './queuedJob';
+import { handleMessageJob, toRegularMessage } from './queuedJob';
 import { downloadAttachment } from './attachments';
 import _ from 'lodash';
 import { StringUtils, UserUtils } from '../session/utils';
 import { getConversationController } from '../session/conversations';
 import { handleClosedGroupControlMessage } from './closedGroups';
-import { MessageModel } from '../models/message';
-import { MessageAttributesOptionals, MessageModelType } from '../models/messageType';
 import {
   getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
@@ -23,6 +21,12 @@ import { toLogFormat } from '../types/attachments/Errors';
 import { processNewAttachment } from '../types/MessageAttachment';
 import { MIME } from '../types';
 import { autoScaleForIncomingAvatar } from '../util/attachmentsUtil';
+import {
+  createSwarmMessageSentFromNotUs,
+  createSwarmMessageSentFromUs,
+} from '../models/messageFactory';
+import { MessageModel } from '../models/message';
+import { isUsFromCache } from '../session/utils/User';
 
 export async function updateProfileOneAtATime(
   conversation: ConversationModel,
@@ -125,7 +129,7 @@ function cleanAttachment(attachment: any) {
   };
 }
 
-function cleanAttachments(decrypted: any) {
+function cleanAttachments(decrypted: SignalService.DataMessage) {
   const { quote, group } = decrypted;
 
   // Here we go from binary to string/base64 in all AttachmentPointer digest/key fields
@@ -170,76 +174,6 @@ function cleanAttachments(decrypted: any) {
   }
 }
 
-export async function processDecrypted(
-  envelope: EnvelopePlus,
-  decrypted: SignalService.IDataMessage
-) {
-  /* tslint:disable:no-bitwise */
-  const FLAGS = SignalService.DataMessage.Flags;
-
-  // Now that its decrypted, validate the message and clean it up for consumer
-  //   processing
-  // Note that messages may (generally) only perform one action and we ignore remaining
-  //   fields after the first action.
-
-  if (decrypted.flags == null) {
-    decrypted.flags = 0;
-  }
-  if (decrypted.expireTimer == null) {
-    decrypted.expireTimer = 0;
-  }
-  if (decrypted.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
-    decrypted.body = '';
-    decrypted.attachments = [];
-  } else if (decrypted.flags !== 0) {
-    throw new Error('Unknown flags in message');
-  }
-
-  if (decrypted.group) {
-    switch (decrypted.group.type) {
-      case SignalService.GroupContext.Type.UPDATE:
-        decrypted.body = '';
-        decrypted.attachments = [];
-        break;
-      case SignalService.GroupContext.Type.QUIT:
-        decrypted.body = '';
-        decrypted.attachments = [];
-        break;
-      case SignalService.GroupContext.Type.DELIVER:
-        decrypted.group.name = null;
-        decrypted.group.members = [];
-        decrypted.group.avatar = null;
-        break;
-      case SignalService.GroupContext.Type.REQUEST_INFO:
-        decrypted.body = '';
-        decrypted.attachments = [];
-        break;
-      default:
-        await removeFromCache(envelope);
-        throw new Error('Unknown group message type');
-    }
-  }
-
-  const attachmentCount = decrypted?.attachments?.length || 0;
-  const ATTACHMENT_MAX = 32;
-  if (attachmentCount > ATTACHMENT_MAX) {
-    await removeFromCache(envelope);
-    throw new Error(
-      `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
-    );
-  }
-
-  cleanAttachments(decrypted);
-
-  // if the decrypted dataMessage timestamp is not set, copy the one from the envelope
-  if (!_.toNumber(decrypted?.timestamp)) {
-    decrypted.timestamp = envelope.timestamp;
-  }
-
-  return decrypted as SignalService.DataMessage;
-  /* tslint:disable:no-bitwise */
-}
-
 export function isMessageEmpty(message: SignalService.DataMessage) {
   const { flags, body, attachments, group, quote, preview, openGroupInvitation } = message;
 
@@ -259,6 +193,49 @@ function isBodyEmpty(body: string) {
   return _.isEmpty(body);
 }
 
+async function cleanIncomingDataMessage(
+  envelope: EnvelopePlus,
+  rawDataMessage: SignalService.DataMessage
+) {
+  /* tslint:disable:no-bitwise */
+  const FLAGS = SignalService.DataMessage.Flags;
+
+  // Now that its decrypted, validate the message and clean it up for consumer
+  //   processing
+  // Note that messages may (generally) only perform one action and we ignore remaining
+  //   fields after the first action.
+
+  if (rawDataMessage.flags == null) {
+    rawDataMessage.flags = 0;
+  }
+  if (rawDataMessage.expireTimer == null) {
+    rawDataMessage.expireTimer = 0;
+  }
+  if (rawDataMessage.flags & FLAGS.EXPIRATION_TIMER_UPDATE) {
+    rawDataMessage.body = '';
+    rawDataMessage.attachments = [];
+  } else if (rawDataMessage.flags !== 0) {
+    throw new Error('Unknown flags in message');
+  }
+
+  const attachmentCount = rawDataMessage?.attachments?.length || 0;
+  const ATTACHMENT_MAX = 32;
+  if (attachmentCount > ATTACHMENT_MAX) {
+    await removeFromCache(envelope);
+    throw new Error(
+      `Too many attachments: ${attachmentCount} included in one message, max is ${ATTACHMENT_MAX}`
+    );
+  }
+  cleanAttachments(rawDataMessage);
+
+  // if the decrypted dataMessage timestamp is not set, copy the one from the envelope
+  if (!_.isFinite(rawDataMessage?.timestamp)) {
+    rawDataMessage.timestamp = envelope.timestamp;
+  }
+
+  return rawDataMessage;
+}
+
 /**
  * We have a few origins possible
  *    - if the message is from a private conversation with a friend and he wrote to us,
@@ -270,114 +247,124 @@ function isBodyEmpty(body: string) {
  *        * envelope.source is our pubkey (our other device has the same pubkey as us)
  *        * dataMessage.syncTarget is either the group public key OR the private conversation this message is about.
  */
-export async function handleDataMessage(
+// tslint:disable-next-line: cyclomatic-complexity
+export async function handleSwarmDataMessage(
   envelope: EnvelopePlus,
   rawDataMessage: SignalService.DataMessage,
-  messageHash: string
+  messageHash: string,
+  senderConversationModel: ConversationModel
 ): Promise<void> {
+  const cleanDataMessage = await cleanIncomingDataMessage(envelope, rawDataMessage);
   // we handle group updates from our other devices in handleClosedGroupControlMessage()
-  if (rawDataMessage.closedGroupControlMessage) {
+  if (cleanDataMessage.closedGroupControlMessage) {
     await handleClosedGroupControlMessage(
       envelope,
-      rawDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
+      cleanDataMessage.closedGroupControlMessage as SignalService.DataMessage.ClosedGroupControlMessage
     );
     return;
   }
 
-  const message = await processDecrypted(envelope, rawDataMessage);
-  const source = rawDataMessage.syncTarget || envelope.source;
-  const senderPubKey = envelope.senderIdentity || envelope.source;
-  const isMe = UserUtils.isUsFromCache(senderPubKey);
-  const isSyncMessage = Boolean(rawDataMessage.syncTarget?.length);
+  /**
+   * This is a mess, but
+   *
+   * 1. if syncTarget is set and this is a synced message, syncTarget holds the conversationId in which this message is addressed. This syncTarget can be a private conversation pubkey or a closed group pubkey
+   *
+   * 2. for a closed group message, envelope.senderIdentity is the pubkey of the sender and envelope.source is the pubkey of the closed group.
+   *
+   * 3. for a private conversation message, envelope.senderIdentity and envelope.source are probably the pubkey of the sender.
+   */
+  const isSyncedMessage = Boolean(cleanDataMessage.syncTarget?.length);
+  // no need to remove prefix here, as senderIdentity set => envelope.source is not used (and this is the one having the prefix when this is an opengroup)
+  const convoIdOfSender = envelope.senderIdentity || envelope.source;
+  const isMe = UserUtils.isUsFromCache(convoIdOfSender);
 
-  window?.log?.info(`Handle dataMessage from ${source} `);
-
-  if (isSyncMessage && !isMe) {
+  if (isSyncedMessage && !isMe) {
     window?.log?.warn('Got a sync message from someone else than me. Dropping it.');
     return removeFromCache(envelope);
-  } else if (isSyncMessage && rawDataMessage.syncTarget) {
-    // override the envelope source
-    envelope.source = rawDataMessage.syncTarget;
+  } else if (isSyncedMessage) {
+    // we should create the synTarget convo but I have no idea how to know if this is a private or closed group convo?
   }
-
-  const senderConversation = await getConversationController().getOrCreateAndWait(
-    senderPubKey,
-    ConversationTypeEnum.PRIVATE
+  const convoIdToAddTheMessageTo = PubKey.removeTextSecurePrefixIfNeeded(
+    isSyncedMessage ? cleanDataMessage.syncTarget : envelope.source
   );
 
+  const convoToAddMessageTo = await getConversationController().getOrCreateAndWait(
+    convoIdToAddTheMessageTo,
+    envelope.senderIdentity ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE
+  );
+
+  window?.log?.info(
+    `Handle dataMessage about convo ${convoIdToAddTheMessageTo} from user: ${convoIdOfSender}`
+  );
+  // remove the prefix from the source object so this is correct for all other
+
   // Check if we need to update any profile names
-  if (!isMe && senderConversation && message.profile) {
+  if (
+    !isMe &&
+    senderConversationModel &&
+    cleanDataMessage.profile &&
+    cleanDataMessage.profileKey?.length
+  ) {
     // do not await this
-    void updateProfileOneAtATime(senderConversation, message.profile, message.profileKey);
+    void updateProfileOneAtATime(
+      senderConversationModel,
+      cleanDataMessage.profile,
+      cleanDataMessage.profileKey
+    );
   }
-  if (isMessageEmpty(message)) {
+  if (isMessageEmpty(cleanDataMessage)) {
     window?.log?.warn(`Message ${getEnvelopeId(envelope)} ignored; it was empty`);
     return removeFromCache(envelope);
   }
 
-  // Data messages for medium groups don't arrive as sync messages. Instead,
-  // linked devices poll for group messages independently, thus they need
-  // to recognise some of those messages at their own.
+  const sentAtTimestamp = _.toNumber(envelope.timestamp);
 
-  if (envelope.senderIdentity) {
-    message.group = {
-      id: envelope.source as any, // FIXME Uint8Array vs string
-    };
+  if (!convoIdToAddTheMessageTo) {
+    window?.log?.error('We cannot handle a message without a conversationId');
+    confirm();
+    return;
   }
 
-  const confirm = () => removeFromCache(envelope);
+  const msgModel =
+    isSyncedMessage || (envelope.senderIdentity && isUsFromCache(envelope.senderIdentity))
+      ? createSwarmMessageSentFromUs({
+          conversationId: convoIdToAddTheMessageTo,
+          messageHash,
+          sentAt: sentAtTimestamp,
+        })
+      : createSwarmMessageSentFromNotUs({
+          conversationId: convoIdToAddTheMessageTo,
+          messageHash,
+          sender: senderConversationModel.id,
+          sentAt: sentAtTimestamp,
+        });
 
-  const data: MessageCreationData = {
-    source: senderPubKey,
-    destination: isMe ? message.syncTarget : envelope.source,
-    timestamp: _.toNumber(envelope.timestamp),
-    receivedAt: envelope.receivedAt,
+  await handleSwarmMessage(
+    msgModel,
     messageHash,
-    isPublic: false,
-    serverId: null,
-    serverTimestamp: null,
-    groupId: message.group?.id?.length
-      ? PubKey.removeTextSecurePrefixIfNeeded(toHex(message.group?.id))
-      : null,
-  };
-
-  await handleMessageEvent(!isMe, data, message, confirm);
+    sentAtTimestamp,
+    cleanDataMessage,
+    convoToAddMessageTo,
+    () => removeFromCache(envelope)
+  );
 }
 
-export type MessageId = {
+export async function isSwarmMessageDuplicate({
+  source,
+  sentAt,
+}: {
   source: string;
-  serverId?: number | null;
-  serverTimestamp?: number | null;
-  timestamp: number;
-};
-
-export async function isMessageDuplicate({ source, timestamp, serverTimestamp }: MessageId) {
-  // serverTimestamp is only used for opengroupv2
+  sentAt: number;
+}) {
   try {
-    let result;
-
-    if (serverTimestamp) {
-      // first try to find a duplicate with the same serverTimestamp from this sender
-
-      result = await getMessageBySenderAndServerTimestamp({
-        source,
-        serverTimestamp,
-      });
-
-      // if we have a result, it means a specific user sent two messages either with the same serverTimestamp.
-      // no need to do anything else, those messages must be the same
-      // Note: this test is not based on which conversation the user sent the message
-      // but we consider that a user sending two messages with the same serverTimestamp is unlikely
-      return Boolean(result);
-    }
-    result = await getMessageBySenderAndSentAt({
+    const result = await getMessageBySenderAndSentAt({
       source,
-      sentAt: timestamp,
+      sentAt,
     });
 
     return Boolean(result);
   } catch (error) {
-    window?.log?.error('isMessageDuplicate error:', toLogFormat(error));
+    window?.log?.error('isSwarmMessageDuplicate error:', toLogFormat(error));
     return false;
   }
 }
@@ -407,191 +394,39 @@ export async function isOpengroupMessageDuplicate({
   }
 }
 
-async function handleProfileUpdate(
-  profileKeyBuffer: Uint8Array,
-  convoId: string,
-  isIncoming: boolean
-) {
-  if (!isIncoming) {
-    // We update our own profileKey if it's different from what we have
-    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const me = getConversationController().getOrCreate(ourNumber, ConversationTypeEnum.PRIVATE);
-
-    // Will do the save for us if needed
-    await me.setProfileKey(profileKeyBuffer);
-  } else {
-    const senderConvo = await getConversationController().getOrCreateAndWait(
-      convoId,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    // Will do the save for us
-    await senderConvo.setProfileKey(profileKeyBuffer);
-  }
-}
-
-export type MessageCreationData = {
-  timestamp: number;
-  receivedAt: number;
-  source: string;
-  isPublic: boolean;
-  serverId: number | null;
-  serverTimestamp: number | null;
-  groupId: string | null;
-  expirationStartTimestamp?: number;
-  destination: string;
-  messageHash: string;
-};
-
-function initIncomingMessage(data: MessageCreationData): MessageModel {
-  const {
-    timestamp,
-    isPublic,
-    receivedAt,
-    source,
-    serverId,
-    serverTimestamp,
-    messageHash,
-    groupId,
-  } = data;
-
-  const messageData: MessageAttributesOptionals = {
-    source,
-    serverId: serverId || undefined,
-    sent_at: timestamp,
-    serverTimestamp: serverTimestamp || undefined,
-    received_at: receivedAt || Date.now(),
-    conversationId: groupId ?? source,
-    type: 'incoming',
-    direction: 'incoming',
-    unread: 1,
-    isPublic,
-    messageHash: messageHash || undefined,
-  };
-
-  return new MessageModel(messageData);
-}
-
-function createSentMessage(data: MessageCreationData): MessageModel {
-  const now = Date.now();
-
-  const {
-    timestamp,
-    serverTimestamp,
-    serverId,
-    isPublic,
-    receivedAt,
-    expirationStartTimestamp,
-    destination,
-    groupId,
-    messageHash,
-  } = data;
-
-  const sentSpecificFields = {
-    sent_to: [],
-    sent: true,
-    expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
-  };
-
-  const messageData: MessageAttributesOptionals = {
-    source: UserUtils.getOurPubKeyStrFromCache(),
-    serverTimestamp: serverTimestamp || undefined,
-    serverId: serverId || undefined,
-    sent_at: timestamp,
-    received_at: isPublic ? receivedAt : now,
-    isPublic,
-    conversationId: groupId ?? destination,
-    type: 'outgoing' as MessageModelType,
-    messageHash,
-    ...sentSpecificFields,
-  };
-
-  return new MessageModel(messageData);
-}
-
-export function createMessage(data: MessageCreationData, isIncoming: boolean): MessageModel {
-  if (isIncoming) {
-    return initIncomingMessage(data);
-  } else {
-    return createSentMessage(data);
-  }
-}
-
 // tslint:disable:cyclomatic-complexity max-func-body-length */
-async function handleMessageEvent(
-  isIncoming: boolean,
-  messageCreationData: MessageCreationData,
+async function handleSwarmMessage(
+  msgModel: MessageModel,
+  messageHash: string,
+  sentAt: number,
   rawDataMessage: SignalService.DataMessage,
+  convoToAddMessageTo: ConversationModel,
   confirm: () => void
 ): Promise<void> {
-  if (!messageCreationData || !rawDataMessage) {
-    window?.log?.warn('Invalid data passed to handleMessageEvent.', event);
+  if (!rawDataMessage || !msgModel) {
+    window?.log?.warn('Invalid data passed to handleSwarmMessage.');
     confirm();
     return;
   }
 
-  const { destination, messageHash } = messageCreationData;
-
-  let { source } = messageCreationData;
-
-  const isGroupMessage = Boolean(rawDataMessage.group);
-
-  const type = isGroupMessage ? ConversationTypeEnum.GROUP : ConversationTypeEnum.PRIVATE;
-
-  let conversationId = isIncoming ? source : destination || source; // for synced message
-  if (!conversationId) {
-    window?.log?.error('We cannot handle a message without a conversationId');
-    confirm();
-    return;
-  }
-  if (rawDataMessage.profileKey?.length) {
-    await handleProfileUpdate(rawDataMessage.profileKey, conversationId, isIncoming);
-  }
-
-  const msg = createMessage(messageCreationData, isIncoming);
-
-  // if the message is `sent` (from secondary device) we have to set the sender manually... (at least for now)
-  source = source || msg.get('source');
-
-  // Conversation Id is:
-  //  - primarySource if it is an incoming DM message,
-  //  - destination if it is an outgoing message,
-  //  - group.id if it is a group message
-  if (isGroupMessage) {
-    // remove the prefix from the source object so this is correct for all other
-    (rawDataMessage as any).group.id = PubKey.removeTextSecurePrefixIfNeeded(
-      (rawDataMessage as any).group.id
-    );
-
-    conversationId = (rawDataMessage as any).group.id;
-  }
-
-  if (!conversationId) {
-    window?.log?.warn('Invalid conversation id for incoming message', conversationId);
-  }
-  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-
-  // =========================================
-
-  if (!rawDataMessage.group && source !== ourNumber) {
-    // Ignore auth from our devices
-    conversationId = source;
-  }
-
-  const conversation = await getConversationController().getOrCreateAndWait(conversationId, type);
-
-  if (!conversation) {
-    window?.log?.warn('Skipping handleJob for unknown convo: ', conversationId);
-    confirm();
-    return;
-  }
-
-  void conversation.queueJob(async () => {
-    if (await isMessageDuplicate(messageCreationData)) {
+  void convoToAddMessageTo.queueJob(async () => {
+    // this call has to be made inside the queueJob!
+    const isDuplicate = await isSwarmMessageDuplicate({
+      source: msgModel.get('source'),
+      sentAt,
+    });
+    if (isDuplicate) {
       window?.log?.info('Received duplicate message. Dropping it.');
       confirm();
       return;
     }
-    await handleMessageJob(msg, conversation, rawDataMessage, confirm, source, messageHash);
+    await handleMessageJob(
+      msgModel,
+      convoToAddMessageTo,
+      toRegularMessage(rawDataMessage),
+      confirm,
+      msgModel.get('source'),
+      messageHash
+    );
   });
 }

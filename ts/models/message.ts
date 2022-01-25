@@ -960,7 +960,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // if this message needs to be synced
     if (
-      (dataMessage.body && dataMessage.body.length) ||
+      dataMessage.body?.length ||
       dataMessage.attachments.length ||
       dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {

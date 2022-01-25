@@ -168,9 +168,6 @@ function updateReadStatus(message: MessageModel, conversation: ConversationModel
 }
 
 async function handleSyncedReceipts(message: MessageModel, conversation: ConversationModel) {
-  console.warn('handleSyncedReceipts', message);
-  debugger;
-
   // If the newly received message is from us, we assume that we've seen the messages up until that point
   const sentTimestamp = message.get('sent_at');
   if (sentTimestamp) {
@@ -178,10 +175,43 @@ async function handleSyncedReceipts(message: MessageModel, conversation: Convers
   }
 }
 
+export type RegularMessageType = Pick<
+  SignalService.DataMessage,
+  | 'attachments'
+  | 'body'
+  | 'flags'
+  | 'openGroupInvitation'
+  | 'quote'
+  | 'preview'
+  | 'profile'
+  | 'profileKey'
+  | 'expireTimer'
+> & { isRegularMessage: true };
+
+/**
+ * This function is just used to make sure we do not forward things we shouldn't in the incoming message pipeline
+ */
+export function toRegularMessage(rawDataMessage: SignalService.DataMessage): RegularMessageType {
+  return {
+    ..._.pick(rawDataMessage, [
+      'attachments',
+      'preview',
+      'body',
+      'flags',
+      'profileKey',
+      'openGroupInvitation',
+      'quote',
+      'profile',
+      'expireTimer',
+    ]),
+    isRegularMessage: true,
+  };
+}
+
 async function handleRegularMessage(
   conversation: ConversationModel,
   message: MessageModel,
-  rawDataMessage: SignalService.DataMessage,
+  rawDataMessage: RegularMessageType,
   source: string,
   messageHash: string
 ) {
@@ -285,7 +315,7 @@ async function handleExpirationTimerUpdate(
   window?.log?.info("Update conversation 'expireTimer'", {
     id: conversation.idForLogging(),
     expireTimer,
-    source: 'handleDataMessage',
+    source: 'handleSwarmDataMessage',
   });
 
   await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'));
@@ -294,21 +324,21 @@ async function handleExpirationTimerUpdate(
 export async function handleMessageJob(
   messageModel: MessageModel,
   conversation: ConversationModel,
-  rawDataMessage: SignalService.DataMessage,
+  regularDataMessage: RegularMessageType,
   confirm: () => void,
   source: string,
   messageHash: string
 ) {
   window?.log?.info(
-    `Starting handleDataMessage for message ${messageModel.idForLogging()}, ${messageModel.get(
+    `Starting handleSwarmDataMessage for message ${messageModel.idForLogging()}, ${messageModel.get(
       'serverTimestamp'
     ) || messageModel.get('timestamp')} in conversation ${conversation.idForLogging()}`
   );
 
   try {
-    messageModel.set({ flags: rawDataMessage.flags });
+    messageModel.set({ flags: regularDataMessage.flags });
     if (messageModel.isExpirationTimerUpdate()) {
-      const { expireTimer } = rawDataMessage;
+      const { expireTimer } = regularDataMessage;
       const oldValue = conversation.get('expireTimer');
       if (expireTimer === oldValue) {
         confirm?.();
@@ -319,7 +349,13 @@ export async function handleMessageJob(
       }
       await handleExpirationTimerUpdate(conversation, messageModel, source, expireTimer);
     } else {
-      await handleRegularMessage(conversation, messageModel, rawDataMessage, source, messageHash);
+      await handleRegularMessage(
+        conversation,
+        messageModel,
+        regularDataMessage,
+        source,
+        messageHash
+      );
     }
 
     const id = await messageModel.commit();
@@ -359,7 +395,11 @@ export async function handleMessageJob(
         await messageModel.markRead(Date.now());
       }
     } catch (error) {
-      window?.log?.warn('handleDataMessage: Message', messageModel.idForLogging(), 'was deleted');
+      window?.log?.warn(
+        'handleSwarmDataMessage: Message',
+        messageModel.idForLogging(),
+        'was deleted'
+      );
     }
 
     // this updates the redux store.
@@ -380,7 +420,12 @@ export async function handleMessageJob(
     }
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
-    window?.log?.error('handleDataMessage', messageModel.idForLogging(), 'error:', errorForLog);
+    window?.log?.error(
+      'handleSwarmDataMessage',
+      messageModel.idForLogging(),
+      'error:',
+      errorForLog
+    );
 
     throw error;
   }

@@ -2,103 +2,67 @@ import { UserUtils } from '../session/utils';
 import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageModelType } from './messageType';
 
-export type MessageCreationData = {
-  timestamp: number;
-  receivedAt: number;
-  source: string;
-  isPublic: boolean;
-  serverId: number | null;
-  serverTimestamp: number | null;
-  groupId: string | null;
-
-  expirationStartTimestamp?: number;
-  destination: string;
-  messageHash: string;
-};
-
-function initIncomingMessage(data: MessageCreationData): MessageModel {
-  const {
-    timestamp,
-    isPublic,
-    receivedAt,
-    source,
-    serverId,
-    serverTimestamp,
-    messageHash,
-    groupId,
-  } = data;
-
-  const messageData: MessageAttributesOptionals = {
-    source,
-    serverId: serverId || undefined,
-    sent_at: timestamp,
-    serverTimestamp: serverTimestamp || undefined,
-    received_at: receivedAt || Date.now(),
-    conversationId: groupId ?? source,
-    type: 'incoming',
-    direction: 'incoming',
-    unread: 1,
-    isPublic,
-    messageHash: messageHash || undefined,
-  };
-
-  return new MessageModel(messageData);
-}
-
-/**
- * This function can be called for either a sync message or a message synced through an opengroup poll.
- * This does not save it to the db, just in memory
- */
-function createMessageSentFromOurself({
-  timestamp,
-  serverTimestamp,
-  serverId,
-  isPublic,
-  receivedAt,
-  expirationStartTimestamp,
-  destination,
-  groupId,
+function getSharedAttributesForSwarmMessage({
+  conversationId,
   messageHash,
+  sentAt,
 }: {
-  timestamp: number;
-  receivedAt: number;
-  isPublic: boolean;
-  serverId: number | null;
-  serverTimestamp: number | null;
-  groupId: string | null;
-  expirationStartTimestamp: number | null;
-  destination: string;
+  conversationId: string;
   messageHash: string;
-}): MessageModel {
-  // Omit<
-  //   MessageAttributesOptionals,
-  //   'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
-  // >
+  sentAt: number;
+}) {
   const now = Date.now();
-
-  const messageData: MessageAttributesOptionals = {
-    source: UserUtils.getOurPubKeyStrFromCache(),
-    type: 'outgoing' as MessageModelType,
-    serverTimestamp: serverTimestamp || undefined,
-    serverId: serverId || undefined,
-    sent_at: timestamp,
-    received_at: isPublic ? receivedAt : now,
-    isPublic,
-    conversationId: groupId ?? destination,
+  return {
+    sent_at: sentAt,
+    received_at: now,
+    conversationId,
     messageHash,
-    unread: 0,
-    sent_to: [],
-    sent: true,
-    expirationStartTimestamp: Math.min(expirationStartTimestamp || data.timestamp || now, now),
+  };
+}
+
+/**
+ * This function is only called when we get a message from ourself from a swarm polling event.
+ *
+ * NOTE: conversationId has to be the conversation in which this message should be added. So
+ * either syncTarget, groupId or envelope.source or senderIdentity
+ */
+export function createSwarmMessageSentFromUs(args: {
+  messageHash: string;
+  sentAt: number;
+  conversationId: string;
+}): MessageModel {
+  // for messages we did send, we mark it as read and start the expiration timer
+  const messageData: MessageAttributesOptionals = {
+    ...getSharedAttributesForSwarmMessage(args),
+    ...getSharedAttributesForOutgoingMessage(),
+    expirationStartTimestamp: Math.min(args.sentAt, Date.now()),
   };
 
   return new MessageModel(messageData);
 }
 
 /**
- * This function is only called when we get a message from ourself from an opengroup polling event
+ * This function is only called by the Receiver when we get a message
+ *  from someone else than ourself from a swarm polling event
+ * NOTE: conversationId has to be the conversation in which this message should be added. So
+ * either syncTarget, groupId or envelope.source or senderIdentity
  */
-export function createPublicMessageSentFromUs({
+export function createSwarmMessageSentFromNotUs(args: {
+  messageHash: string;
+  sentAt: number;
+  sender: string;
+  conversationId: string;
+}): MessageModel {
+  const messageData: MessageAttributesOptionals = {
+    ...getSharedAttributesForSwarmMessage(args),
+    ...getSharedAttributesForIncomingMessage(),
+    source: args.sender,
+  };
+
+  return new MessageModel(messageData);
+}
+
+function getSharedAttributesForPublicMessage({
   serverTimestamp,
   serverId,
   conversationId,
@@ -106,10 +70,8 @@ export function createPublicMessageSentFromUs({
   serverId: number;
   serverTimestamp: number;
   conversationId: string;
-}): MessageModel {
-  const messageData: MessageAttributesOptionals = {
-    source: UserUtils.getOurPubKeyStrFromCache(),
-    type: 'outgoing' as MessageModelType,
+}) {
+  return {
     serverTimestamp: serverTimestamp || undefined,
     serverId: serverId || undefined,
     sent_at: serverTimestamp,
@@ -117,10 +79,40 @@ export function createPublicMessageSentFromUs({
     isPublic: true,
     conversationId,
     messageHash: '', // we do not care of a messageHash for an opengroup message. we have serverId for that
+    expirationStartTimestamp: undefined,
+  };
+}
+
+function getSharedAttributesForOutgoingMessage() {
+  return {
+    source: UserUtils.getOurPubKeyStrFromCache(),
     unread: 0,
     sent_to: [],
     sent: true,
-    expirationStartTimestamp: undefined,
+    type: 'outgoing' as MessageModelType,
+    direction: 'outgoing' as MessageModelType,
+  };
+}
+
+function getSharedAttributesForIncomingMessage() {
+  return {
+    unread: 1,
+    type: 'incoming' as MessageModelType,
+    direction: 'incoming' as MessageModelType,
+  };
+}
+
+/**
+ * This function is only called when we get a message from ourself from an opengroup polling event
+ */
+export function createPublicMessageSentFromUs(args: {
+  serverId: number;
+  serverTimestamp: number;
+  conversationId: string;
+}): MessageModel {
+  const messageData: MessageAttributesOptionals = {
+    ...getSharedAttributesForPublicMessage(args),
+    ...getSharedAttributesForOutgoingMessage(),
   };
 
   return new MessageModel(messageData);
@@ -130,29 +122,16 @@ export function createPublicMessageSentFromUs({
  * This function is only called by the Receiver when we get a message
  *  from someone else than ourself from an opengroup polling event
  */
-export function createPublicMessageSentFromNotUs({
-  serverTimestamp,
-  serverId,
-  conversationId,
-  sender,
-}: {
+export function createPublicMessageSentFromNotUs(args: {
   serverId: number;
   sender: string;
   serverTimestamp: number;
   conversationId: string;
 }): MessageModel {
   const messageData: MessageAttributesOptionals = {
-    source: sender,
-    conversationId,
-    type: 'incoming' as MessageModelType,
-    serverTimestamp: serverTimestamp,
-    sent_at: serverTimestamp,
-    received_at: serverTimestamp,
-    serverId,
-    isPublic: true,
-    messageHash: '', // we do not care of a messageHash for an opengroup message. we have serverId for that
-    unread: 1,
-    expirationStartTimestamp: undefined,
+    ...getSharedAttributesForPublicMessage(args),
+    ...getSharedAttributesForIncomingMessage(),
+    source: args.sender,
   };
 
   return new MessageModel(messageData);

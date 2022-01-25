@@ -13,7 +13,7 @@ import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { UserUtils } from '../session/utils';
 import { fromBase64ToArray } from '../session/utils/String';
 import { isOpengroupMessageDuplicate } from './dataMessage';
-import { handleMessageJob } from './queuedJob';
+import { handleMessageJob, toRegularMessage } from './queuedJob';
 
 export async function handleOpenGroupV2Message(
   message: OpenGroupMessageV2,
@@ -79,7 +79,7 @@ export async function handleOpenGroupV2Message(
     await handleMessageJob(
       msgModel,
       conversation,
-      decoded?.dataMessage as SignalService.DataMessage,
+      toRegularMessage(decoded?.dataMessage as SignalService.DataMessage),
       noop,
       sender,
       ''
