@@ -1568,15 +1568,13 @@ export async function startApp(): Promise<void> {
 
   window.Whisper.events.on('powerMonitorSuspend', () => {
     log.info('powerMonitor: suspend');
-    messageReceiver?.pause();
     suspendTasksWithTimeout();
   });
 
   window.Whisper.events.on('powerMonitorResume', () => {
     log.info('powerMonitor: resume');
-    messageReceiver?.resume();
-    resumeTasksWithTimeout();
     server?.checkSockets();
+    resumeTasksWithTimeout();
   });
 
   const reconnectToWebSocketQueue = new LatestQueue();
