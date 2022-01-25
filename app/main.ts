@@ -1729,6 +1729,7 @@ app.on('before-quit', () => {
     shouldQuit: windowState.shouldQuit(),
   });
 
+  systemTrayService?.markShouldQuit();
   windowState.markShouldQuit();
 
   if (mainWindow) {
