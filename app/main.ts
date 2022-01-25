@@ -1387,13 +1387,6 @@ ipc.on('database-error', (_event: Electron.Event, error: string) => {
 });
 
 function getAppLocale(): string {
-  const { env } = process;
-  const envLocale = env.LC_ALL || env.LC_MESSAGES || env.LANG || env.LANGUAGE;
-
-  if (envLocale) {
-    return envLocale.replace(/_/g, '-');
-  }
-
   return getEnvironment() === Environment.Test ? 'en' : app.getLocale();
 }
 
