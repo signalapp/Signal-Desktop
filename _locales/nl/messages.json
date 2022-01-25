@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ heeft zijn of haar telefoonnummer veranderd",
+        "message": "$sender$ heeft zijn of haar telefoonnummer gewijzigd",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "nu",
+        "message": "Nu",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",

@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "agora",
+        "message": "Agora",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6598,7 +6598,7 @@
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "Ver o meu número de telemóvel",
+        "message": "Ver o meu número de telefone",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Novidades",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",

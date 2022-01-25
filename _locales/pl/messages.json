@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "teraz",
+        "message": "Teraz",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Aplikacja Signal została ponownie uruchomiona po napotkaniu błędu. Możesz przesłać raport o błędzie, aby pomóc Signal zbadać ten problem.",
+        "message": "Aplikacja Signal odzyskała sprawność po napotkaniu błędu. Możesz przesłać raport o błędzie, aby pomóc Signal zbadać ten problem.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Co nowego",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",

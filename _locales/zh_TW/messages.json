@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "剛剛",
+        "message": "現在",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal 在當掉後重新啟動。你可以提交當機報告以幫助 Signal 研究問題。",
+        "message": "Signal 在當掉後重新啟動。你可以提交當機報告以協助 Signal 調查問題。",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "有甚麼新的",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",

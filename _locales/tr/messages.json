@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "şimdi",
+        "message": "Şimdi",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal bir hata sonrası yeniden başlatıldı. Bir hata raporu gönderek Signal'in sorunu incelemesine yardımcı olabilirsin.",
+        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Neler Yeni",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",

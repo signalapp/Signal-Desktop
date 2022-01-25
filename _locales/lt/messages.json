@@ -1478,7 +1478,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Microphone muted due to the size of the call",
+        "message": "Mikrofonas nutildytas dėl skambutyje dalyvaujančių žmonių skaičiaus",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "dabar",
+        "message": "Dabar",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+        "message": "Signal buvo paleista iš naujo po strigties. Galite pateikti pranešimą apie strigtį, kad padėtumėte Signal ištirti problemą.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6763,6 @@
         "message": "Kas naujo",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6802,7 +6798,7 @@
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
+        "message": "Dabar, nebereikia ieškoti, kas garsiai rašo klaviatūra ar čepsi! Programa automatiškai išjungs garsą laukimo salėje, jei skambutyje dalyvaus aštuoni ar daugiau kaip aštuoni žmonės.",
         "description": "Release notes for v5.28"
     }
 }

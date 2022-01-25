@@ -230,7 +230,7 @@
         "description": "Shown in menu for conversation, and marks conversation as unread"
     },
     "moveConversationToInbox": {
-        "message": "In Eingang verschieben",
+        "message": "Rückgängig",
         "description": "Undoes Archive Conversation action, and moves archived conversation back to the main conversation list"
     },
     "pinConversation": {
@@ -1050,7 +1050,7 @@
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Stummschalten",
+        "message": "Stumm",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "jetzt",
+        "message": "Jetzt",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -3628,7 +3628,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren Gruppe",
+        "message": "Mitglied von $group1$, $group2$, $group3$ und $remainingCount$ weiteren Gruppen",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -6688,7 +6688,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Zuschneiden und Drehen",
+        "message": "Zuschneiden und drehen",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Was ist neu",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",

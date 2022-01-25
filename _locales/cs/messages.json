@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "teď",
+        "message": "Teď",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal se po havárii znovu spustil. Můžete odeslat hlášení o pádu a pomoci tak společnosti Signal problém prošetřit.",
+        "message": "Signal se restartoval po selhání. Můžete odeslat zprávu o selhání a pomoci tím daný problém vyřešit.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Co je nového",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",

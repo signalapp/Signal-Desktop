@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "כעת",
+        "message": "עכשיו",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "מה חדש",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",

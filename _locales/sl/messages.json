@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "ravnokar",
+        "message": "Ravnokar",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Kaj je novega",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "сейчас",
+        "message": "Сейчас",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Что нового",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
