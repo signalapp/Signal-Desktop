@@ -3058,8 +3058,6 @@ export async function startApp(): Promise<void> {
             {
               uuid: destinationUuid,
               e164: destination,
-              highTrust: true,
-              reason: `unidentifiedStatus(${timestamp})`,
             }
           );
           if (!conversationId || conversationId === ourId) {
