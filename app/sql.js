@@ -1853,9 +1853,10 @@ function searchConversations(query, { limit } = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function searchMessages(query, limit) {
-  // order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
+// order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
+const orderByMessageCoalesceClause = `ORDER BY COALESCE(${MESSAGES_TABLE}.serverTimestamp, ${MESSAGES_TABLE}.sent_at, ${MESSAGES_TABLE}.received_at) DESC`;
 
+function searchMessages(query, limit) {
   const rows = globalInstance
     .prepare(
       `SELECT
@@ -1865,7 +1866,7 @@ function searchMessages(query, limit) {
     INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
      ${MESSAGES_FTS_TABLE} match $query
-    ORDER BY ${MESSAGES_TABLE}.serverTimestamp DESC, ${MESSAGES_TABLE}.serverId DESC, ${MESSAGES_TABLE}.sent_at DESC, ${MESSAGES_TABLE}.received_at DESC
+    ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
     .all({
@@ -1890,7 +1891,7 @@ function searchMessagesInConversation(query, conversationId, limit) {
     WHERE
     ${MESSAGES_FTS_TABLE} match $query AND
       ${MESSAGES_TABLE}.conversationId = $conversationId
-    ORDER BY ${MESSAGES_TABLE}.serverTimestamp DESC, ${MESSAGES_TABLE}.serverId DESC, ${MESSAGES_TABLE}.sent_at DESC, ${MESSAGES_TABLE}.received_at DESC
+    ${orderByMessageCoalesceClause}
       LIMIT $limit;`
     )
     .all({
@@ -2233,8 +2234,7 @@ function getUnreadCountByConversation(conversationId) {
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
-const orderByClause =
-  'ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC';
+const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
 
 function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   const absLimit = 20;
