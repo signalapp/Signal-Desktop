@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "зараз",
+        "message": "Зараз",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal запущено знов після аварійного завершення роботи. Ви можете подати звіт про це, щоб допомогти Signal з'ясувати обставини цієї проблеми.",
+        "message": "Signal запущено знов після аварійного завершення роботи. Ви можете подати звіт про це, щоб допомогти Signal розібратись у цій проблемі.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Що нового",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок, щоб забезпечити безперебійну роботу Signal.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",

@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "ahora",
+        "message": "Ahora",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal se ha reiniciado tras un fallo. Puedes enviarnos un informe del fallo para que investiguemos el problema.",
+        "message": "Signal se ha reiniciado tras un fallo. Puedes enviarnos un informe del fallo para ayudarnos a investigar el problema.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Novedades",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Esta versión contiene un par de pequeñas mejoras para que Signal funcione sin problemas.",

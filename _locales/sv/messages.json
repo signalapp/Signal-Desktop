@@ -1348,7 +1348,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "Tryck på $settings$, tryck sedan på $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "nu",
+        "message": "Nu",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -3628,7 +3628,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ fler",
+        "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ till",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal startade om efter en krasch. Du kan skicka en kraschrapport för att hjälpa Signal att undersöka problemet.",
+        "message": "Signal startade om efter en krasch. Du kan skicka in en kraschrapport för att hjälpa Signal att undersöka problemet.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6763,6 @@
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6776,7 +6772,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Har du någonsin känt att du behöver fler pixlar på den högra rutan i ditt liv? Är du ett fan av avatarer, men bara avatarer och inget annat? Har du en \"Save the screen real estate\"-dekal på din bil? Om du svarade ja eller nej på någon av dessa frågor, så har den här uppdateringen en hopfällbar vänstra ruta för dig.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
@@ -6798,7 +6794,7 @@
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.28--1": {
-        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "message": "Nytt år, ny inledande inställningsskärm. Vi har gjort om de första inställningsskärmarna lagom till 2022.",
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {

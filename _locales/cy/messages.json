@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "nawr",
+        "message": "Nawr",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -6652,7 +6652,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Ailgychwynnodd Signal ar ôl chwalu. Gallwch ddarparu adroddiad chwalu i Signal archwilio rhesymau dros y chwalu.",
+        "message": "Ailgychwynnodd Signal ar ôl chwalu. Gallwch ddarparu adroddiad chwalu i Signal archwilio'r mater.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6762,10 +6762,6 @@
     "WhatsNew__modal-title": {
         "message": "Be sy'n Newydd",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "Mae'r fersiwn hon yn cynnwys nifer o drydariadau bach a chywiriadau gwallau i gadw Signal yn rhedeg yn llyfn.",

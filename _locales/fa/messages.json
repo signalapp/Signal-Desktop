@@ -8,7 +8,7 @@
         "description": "Shown in the about box for the link to https://signal.org/legal"
     },
     "copyErrorAndQuit": {
-        "message": "کپی خطا و خروج",
+        "message": "کپی از خطا و خروج",
         "description": "Shown in the top-level error popup, allowing user to copy the error text and close the app"
     },
     "unknownContact": {
@@ -474,7 +474,7 @@
         "description": ""
     },
     "debugLogError": {
-        "message": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
+        "message": "مشکلی در آپلود رخ داد. لطفا گزارش خود را بعنوان یک فایل متنی به support@signal.org ایمیل کنید.",
         "description": ""
     },
     "debugLogSuccess": {
@@ -482,7 +482,7 @@
         "description": "Title of the success page for submitting a debug log"
     },
     "debugLogSuccessNextSteps": {
-        "message": "Debug log uploaded. When you contact support, copy the link below and attach it along with a description of the problem you saw and steps to reproduce it.",
+        "message": "گزارش رفع عیب آپلود شد. هنگام ارتباط با پشتیبانی، لینک زیر را کپی کنید و آن را همراه با تشریح مشکل دیده شده و اقداماتی که منجر به تکرار آن می شود را پیوست کنید.",
         "description": "Explanation of next steps to take when submitting debug log"
     },
     "debugLogCopy": {
@@ -648,7 +648,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop ran into a decryption error from $name$, device $deviceId$",
+        "message": "برنامه دسکتاپ در رمزگشایی از سمت $name$، دستگاه $deviceId$ دچار خطا شد.",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -1170,7 +1170,7 @@
         "description": "This is a menu item for viewing all media (images + video) in a conversation, using the imperative case, as in a command."
     },
     "verifyHelp": {
-        "message": "To verify the security of your end-to-end encryption with $name$, compare the numbers above with their device.",
+        "message": "برای بررسی امنیت رمزنگاری دوطرفه شما با $name$، شماره های فوق را با دستگاه ایشان مقایسه کنید.",
         "description": "",
         "placeholders": {
             "name": {
@@ -1282,7 +1282,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ changed their phone number",
+        "message": "$sender$شماره تلفن خود را تغییر داد",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -1340,15 +1340,15 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "این کد را در برنامه سیگنال روی گوشی خود اسکن کنید",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "باز کردن سیگنال روی گوشی",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "روی $settings$کلیک کنید، سپس روی $linkedDevices$کلیک کنید.",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1366,7 +1366,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "message": "روی $plusButton$ (اندروید) یا $linkNewDevice$(آیفون) کلیک کنید.",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1380,7 +1380,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "message": "کد QR بارگزاری نشد. اینترنت خود را بررسی کنید و مجددا سعی کنید. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1398,11 +1398,11 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "message": "این نام را زیر \"دستگاه های متصل\" روی گوشی خود خواهید دید.",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "My Computer",
+        "message": "کامپیوتر من",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1422,7 +1422,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Note: Your chat history will not be synced to this device",
+        "message": "نکته: تاریخچه گفتگوی شما با این دستگاه همگام‌سازی نخواهد شد.",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1442,7 +1442,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "An unexpected error occurred. Please try again.",
+        "message": "خطای غیرمنتظره ای رخ داد. لطفا مجددا تلاش کنید.",
         "description": ""
     },
     "installTryAgain": {
@@ -1478,7 +1478,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Microphone muted due to the size of the call",
+        "message": "میکروفون بدلیل حجم تماس، بسته شد.",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -2110,7 +2110,7 @@
         }
     },
     "justNow": {
-        "message": "اکنون",
+        "message": "حالا",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
@@ -2350,11 +2350,11 @@
         "description": "Label shown when there are no conversations to compose to"
     },
     "Toast--failed-to-fetch-username": {
-        "message": "Failed to fetch username. Check your connection and try again.",
+        "message": "خطا در دریافت نام کاربری. اینترنت خود را بررسی کنید و مجددا تلاش کنید.",
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "User not found. $atUsername$ is not a Signal user; make sure you’ve entered the complete username.",
+        "message": "کاربر یافت نشد. ‌$atUsername$کاربر سیگنال نیست. مطمئن شوید که نام کاربری را کامل وارد کرده اید.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2506,7 +2506,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignore update",
+        "message": "رد بروزرسانی",
         "description": ""
     },
     "leftTheGroup": {
@@ -2582,7 +2582,7 @@
         }
     },
     "ConversationList__aria-label": {
-        "message": "Conversation with $title$, $unreadCount$ new messages, last message: $lastMessage$.",
+        "message": "مکالمه با $title$، $unreadCount$ پیام جدید، آخرین پیام: $lastMessage$.",
         "description": "Aria label for the conversation list item",
         "placeholders": {
             "title": {
@@ -2600,11 +2600,11 @@
         }
     },
     "ConversationList__last-message-undefined": {
-        "message": "The last message may have been deleted.",
+        "message": "آخرین پیام ممکن است حذف شده باشد",
         "description": "For aria-label within conversation list. Describes if last message is not defined."
     },
     "BaseConversationListItem__aria-label": {
-        "message": "Go to conversation with $title$",
+        "message": "برو به مکالمه با $title$",
         "description": "Aria label for the conversation list item button",
         "placeholders": {
             "title": {
@@ -3190,11 +3190,11 @@
         "description": "Title for the drop stage of the sticker creator"
     },
     "StickerCreator--DropStage--removeSticker": {
-        "message": "Remove sticker",
+        "message": "حذف استیکر",
         "description": "Label for the X button used to remove a staged sticker"
     },
     "StickerCreator--DropStage--dragDrop": {
-        "message": "Click or drag/drop a file to add a sticker",
+        "message": "برای افزودن یک استیکر کلیک کنید یا یک فایل را اینجا بکشید",
         "description": "Shown on the + section of the file addition stage of sticker pack creation"
     },
     "StickerCreator--DropStage--help": {
@@ -3610,7 +3610,7 @@
         }
     },
     "member-of-more-than-3-groups--one-more": {
-        "message": "Member of $group1$, $group2$, $group3$ and one more",
+        "message": "عضو $group1$، $group2$، $group3$ و یک گروه دیگر",
         "description": "Shown in the conversation hero to indicate this user is a member of four mutual groups",
         "placeholders": {
             "group1": {
@@ -3924,7 +3924,7 @@
         "description": "Title for the select your screen sharing sources modal"
     },
     "calling__SelectPresentingSourcesModal--confirm": {
-        "message": "Start sharing",
+        "message": "شروع اشتراک گذاری",
         "description": "Confirm button for sharing screen modal"
     },
     "calling__SelectPresentingSourcesModal--entireScreen": {
@@ -5392,11 +5392,11 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "فدرت سیگنال در حضور افرادی چون شماست. مشارکت کنید و یک نشان دریافت کنید.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "باز کردن سیگنال روی گوشی",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5404,7 +5404,7 @@
         "description": "In the instructions for becoming a sustainer. Second instruction."
     },
     "BadgeSustainerInstructions__instructions__3": {
-        "message": "Tap on \"Become a Sustainer\" and subscribe",
+        "message": "روی \"حامی شدن\" کلیک کنید و اشتراک بگیرید.",
         "description": "In the instructions for becoming a sustainer. Third instruction."
     },
     "CompositionArea--expand": {
@@ -5454,7 +5454,7 @@
         }
     },
     "ContactModal--rm-admin-info": {
-        "message": "Remove $contact$ as group admin?",
+        "message": "حذف $contact$بعنوان مدیر گروه؟",
         "description": "Shown in a confirmation dialog when you are about to remove admin privileges from someone",
         "placeholders": {
             "contact": {
@@ -5480,7 +5480,7 @@
         "description": "This is a button in the conversation context menu to show chat settings"
     },
     "ConversationDetails__unmute--title": {
-        "message": "Unmute this chat?",
+        "message": "این گفتگو صدادار بشود؟",
         "description": "Title for the modal to unmute a chat"
     },
     "ConversationDetails--group-link": {
@@ -5496,7 +5496,7 @@
         "description": "This is the info about the disappearing messages setting, in groups"
     },
     "ConversationDetails--disappearing-messages-info--direct": {
-        "message": "When enabled, messages sent and received in this 1:1 chat will disappear after they've been seen.",
+        "message": "وقتی فعال بشود، پیام های ارسالی و دریافتی در این گفتگوی 1به1 پس از دیده شدن ناپدید خواهند شد",
         "description": "This is the info about the disappearing messages setting, for direct conversations"
     },
     "ConversationDetails--notifications": {
@@ -5740,7 +5740,7 @@
         }
     },
     "PendingInvites--revoke-from-plural": {
-        "message": "Revoke $number$ invites sent by \"$name$\"?",
+        "message": "لغو $number$دعوت ارسالی از \"$name$\"؟",
         "description": "This is the modal content when confirming revoking multiple invites",
         "placeholders": {
             "number": {
@@ -5892,7 +5892,7 @@
         "description": "The text of the button to create new groups"
     },
     "selectContact": {
-        "message": "Select contact $name$",
+        "message": "انتخاب $name$",
         "description": "The label for contact checkboxes that are non-selected (clicking them should select the contact)",
         "placeholders": {
             "name": {
@@ -5902,7 +5902,7 @@
         }
     },
     "deselectContact": {
-        "message": "De-select contact $name$",
+        "message": "عدم انتخاب $name$",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5912,7 +5912,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Cannot select contact $name$",
+        "message": "امکان انتخاب $name$ ممکن نیست",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -6332,7 +6332,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "نام کاربری فقط میتواند شامل حروف، 0-9 و _ باشد",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6340,7 +6340,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "نام کاربری حتما باید دارای حداقل $min$کاراکتر باشد",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6350,7 +6350,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "نام کاربری حتما باید دارای حداکثر $max$کاراکتر باشد",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6364,19 +6364,19 @@
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "نام کاربری شما ذخیره نشد. ارتباط خود را چک کنید و مجددا تلاش کنید",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "نام کاربری شما حذف نشد. ارتباط خود را چک کنید و مجددا تلاش کنید",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "حذف نام کاربری",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "این کار، نام کاربری شما را حذف خواهد کرد و منجر می شود دیگران بتوانند از آن استفاده بکنند. آیا مطمئن هستید؟",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6446,7 +6446,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "آواتار شما",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6640,19 +6640,19 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "سیگنال بسته نمی شود",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "لطفاً آن را بصورت دستی ببندید و برای ادامه روی تلاش مجدد کلیک کنید",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "برنامه خراب شد",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+        "message": "سیگنال بعد از خرابی ریستارت شد. شما میتوانید گزارش خرابی را برای کمک به سیگنال جهت تحقیق روی این موضوع ثبت کنید.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6660,7 +6660,7 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "ارسال نکن",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
@@ -6668,11 +6668,11 @@
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "برای جایگزینی یک ایموجی کلیک کنید",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "خطایی در زمان ذخیره‌سازی تنظیمات شما رخ داد. لطفاً مجددا تلاش کنید",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
@@ -6680,7 +6680,7 @@
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "افزودن متن",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6688,7 +6688,7 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "برش و چرخش",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
@@ -6700,35 +6700,35 @@
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "معمولی",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
-        "message": "Highlight",
+        "message": "هایلایت",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "خط بیرونی",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "خط زیرین",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
-        "message": "Pen",
+        "message": "قلم",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--highlighter": {
-        "message": "Highlighter",
+        "message": "ماژیک",
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "نازک",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "معمولی",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6736,7 +6736,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "ضخیم",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6744,7 +6744,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "چرخش",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6756,31 +6756,27 @@
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "برش",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
         "message": "تازه‌ها",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Tired: Sending plain un-edited images on Signal. Wired: Adding cat stickers, neon text, and drawing happy trees on your images before sending them on Signal.",
+        "message": "اگر از ارسال تصاویر ساده ویرایش نشده روی سیگنال خسته شده اید، میتوانید استیکر گربه، متن چراغانی، و نقاشی درختان شاد رو قبل از ارسال روی سیگنال اضافه بکنید",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "آیا تا به حال احساس کرده اید که در زندگی خود به پیکسل های بیشتری در صفحه سمت راست نیاز دارید؟ آیا شما طرفدار آواتارها هستید، اما فقط آواتارها و نه چیز دیگری؟ آیا برچسب \"کاکام ممد\" روی سپر ماشین خود دارید؟ اگر به هر یک از این سؤالات پاسخ مثبت یا خیر داده اید، این به روز رسانی برای شما یک صفحه جمع شونده سمت چپ  دارد.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "message": "اپ سیگنال دسکتاپ هم اکنون برای چیپست M1 اپل بهینه سازی شده است که در کامپیوترهای جدیدشان استفاده می شود. اگر شما هم یکی از آن دستگاه ها را دارید،  اپ سیگنال باید بسیار سریع تر باشد. اگر هم نه، به کاربرانی که آن را دارند خوش آمد بگویید. با تشکر فراوان از $dennis$بابت کار هایی که اینجا کرد.",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6790,19 +6786,19 @@
         }
     },
     "WhatsNew__v5.27--1": {
-        "message": "On a long call? Your system should stay awake the whole time, instead of falling asleep while you're in the middle of an important discussion.",
+        "message": "تماس طولانی دارید؟ سیستم شما بجای خوابیدن در زمانی که وسط یک مباحثه مهم هستید، باید در تمام مدت روشن باشد.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.27--2": {
-        "message": "There are also a number of small tweaks and bug fixes to keep Signal running smoothly, including several calling-related improvements.",
+        "message": "همچنین شماری از بهینه سازی های کوچک و رفع عیب هایی برای حفظ اجرای راحت سیگنال وجود دارند، همانند: چندین بهینه سازی مرتبط با تماس ها.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.28--1": {
-        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "message": "سال نو هست و تنظیمات صفحه رو جدید کن. ما تنظیمات صفحه اولیه رو برای سال 2022 بازطراحی کردیم",
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
+        "message": "الان، انگار سروصدا زیاد هست. توی لابی تماس، اگر هشت نفر یا بیشتر توی تماس باشن، اپ دسکتاپ بصورت خودکار صدا را غیرفعال خواهد کرد.",
         "description": "Release notes for v5.28"
     }
 }
