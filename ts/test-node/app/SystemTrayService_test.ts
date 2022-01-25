@@ -8,6 +8,7 @@ import { BrowserWindow, Tray, nativeImage } from 'electron';
 import * as path from 'path';
 import { MINUTE } from '../../util/durations';
 
+import type { SystemTrayServiceOptionsType } from '../../../app/SystemTrayService';
 import { SystemTrayService } from '../../../app/SystemTrayService';
 
 describe('SystemTrayService', function thisNeeded() {
@@ -23,7 +24,9 @@ describe('SystemTrayService', function thisNeeded() {
    *
    * This only affects these tests, not the "real" code.
    */
-  function newService(): SystemTrayService {
+  function newService(
+    options?: Partial<SystemTrayServiceOptionsType>
+  ): SystemTrayService {
     const result = new SystemTrayService({
       messages: {
         hide: { message: 'Hide' },
@@ -31,6 +34,7 @@ describe('SystemTrayService', function thisNeeded() {
         show: { message: 'Show' },
         signalDesktop: { message: 'Signal' },
       },
+      ...options,
     });
     servicesCreated.add(result);
     return result;
@@ -257,5 +261,17 @@ describe('SystemTrayService', function thisNeeded() {
     sinon.assert.calledTwice(setImageStub);
     sinon.assert.calledWith(setImageStub, sinon.match.string);
     sinon.assert.calledWith(setImageStub, sinon.match.instanceOf(NativeImage));
+  });
+
+  it('should not create new Tray after markShouldQuit', () => {
+    const createTrayInstance = sandbox.stub();
+
+    const service = newService({ createTrayInstance });
+
+    service.setMainWindow(new BrowserWindow({ show: false }));
+    service.markShouldQuit();
+    service.setEnabled(true);
+
+    sinon.assert.notCalled(createTrayInstance);
   });
 });
