@@ -20,6 +20,7 @@ import { UUID, isValidUuid } from './types/UUID';
 import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
+import { sleep } from './util/sleep';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -782,6 +783,36 @@ export class ConversationController {
   load(): Promise<void> {
     this._initialPromise ||= this.doLoad();
     return this._initialPromise;
+  }
+
+  // A number of things outside conversation.attributes affect conversation re-rendering.
+  //   If it's scoped to a given conversation, it's easy to trigger('change'). There are
+  //   important values in storage and the storage service which change rendering pretty
+  //   radically, so this function is necessary to force regeneration of props.
+  async forceRerender(): Promise<void> {
+    let count = 0;
+    const conversations = this._conversations.models.slice();
+    log.info(
+      `forceRerender: Starting to loop through ${conversations.length} conversations`
+    );
+
+    for (let i = 0, max = conversations.length; i < max; i += 1) {
+      const conversation = conversations[i];
+
+      if (conversation.cachedProps) {
+        conversation.oldCachedProps = conversation.cachedProps;
+        conversation.cachedProps = null;
+
+        conversation.trigger('props-change', conversation, false);
+        count += 1;
+      }
+
+      if (count % 10 === 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await sleep(300);
+      }
+    }
+    log.info(`forceRerender: Updated ${count} conversations`);
   }
 
   onConvoOpenStart(conversationId: string): void {

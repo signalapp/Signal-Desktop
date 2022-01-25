@@ -182,6 +182,11 @@ export async function toAccountRecord(
   );
   accountRecord.linkPreviews = Boolean(window.Events.getLinkPreviewSetting());
 
+  const preferContactAvatars = window.storage.get('preferContactAvatars');
+  if (preferContactAvatars !== undefined) {
+    accountRecord.preferContactAvatars = Boolean(preferContactAvatars);
+  }
+
   const primarySendsSms = window.storage.get('primarySendsSms');
   if (primarySendsSms !== undefined) {
     accountRecord.primarySendsSms = Boolean(primarySendsSms);
@@ -855,6 +860,7 @@ export async function mergeAccountRecord(
     readReceipts,
     sealedSenderIndicators,
     typingIndicators,
+    preferContactAvatars,
     primarySendsSms,
     universalExpireTimer,
     e164: accountE164,
@@ -876,6 +882,15 @@ export async function mergeAccountRecord(
 
   if (typeof linkPreviews === 'boolean') {
     window.storage.put('linkPreviews', linkPreviews);
+  }
+
+  if (typeof preferContactAvatars === 'boolean') {
+    const previous = window.storage.get('preferContactAvatars');
+    window.storage.put('preferContactAvatars', preferContactAvatars);
+
+    if (Boolean(previous) !== Boolean(preferContactAvatars)) {
+      window.ConversationController.forceRerender();
+    }
   }
 
   if (typeof primarySendsSms === 'boolean') {

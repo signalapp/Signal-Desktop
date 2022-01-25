@@ -105,6 +105,7 @@ import {
   GroupSyncEvent,
 } from './messageReceiverEvents';
 import * as log from '../logging/log';
+import { areArraysMatchingSets } from '../util/areArraysMatchingSets';
 
 const GROUPV1_ID_LENGTH = 16;
 const GROUPV2_ID_LENGTH = 32;
@@ -2629,19 +2630,32 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     blocked: Proto.SyncMessage.IBlocked
   ): Promise<void> {
+    let changed = false;
+
     if (blocked.numbers) {
+      const previous = this.storage.get('blocked', []);
       log.info('handleBlocked: Blocking these numbers:', blocked.numbers);
       await this.storage.put('blocked', blocked.numbers);
+
+      if (!areArraysMatchingSets(previous, blocked.numbers)) {
+        changed = true;
+      }
     }
     if (blocked.uuids) {
+      const previous = this.storage.get('blocked-uuids', []);
       const uuids = blocked.uuids.map((uuid, index) => {
         return normalizeUuid(uuid, `handleBlocked.uuids.${index}`);
       });
       log.info('handleBlocked: Blocking these uuids:', uuids);
       await this.storage.put('blocked-uuids', uuids);
+
+      if (!areArraysMatchingSets(previous, uuids)) {
+        changed = true;
+      }
     }
 
     if (blocked.groupIds) {
+      const previous = this.storage.get('blocked-groups', []);
       const groupV1Ids: Array<string> = [];
       const groupIds: Array<string> = [];
 
@@ -2661,10 +2675,21 @@ export default class MessageReceiver
         'v1:',
         groupV1Ids.map(groupId => `group(${groupId})`)
       );
-      await this.storage.put('blocked-groups', [...groupIds, ...groupV1Ids]);
+
+      const ids = [...groupIds, ...groupV1Ids];
+      await this.storage.put('blocked-groups', ids);
+
+      if (!areArraysMatchingSets(previous, ids)) {
+        changed = true;
+      }
     }
 
     this.removeFromCache(envelope);
+
+    if (changed) {
+      log.info('handleBlocked: Block list changed, forcing re-render.');
+      window.ConversationController.forceRerender();
+    }
   }
 
   private isBlocked(number: string): boolean {

@@ -4896,7 +4896,10 @@ export class ConversationModel extends window.Backbone
   }
 
   private getAvatarPath(): undefined | string {
-    const avatar = isMe(this.attributes)
+    const shouldShowProfileAvatar =
+      isMe(this.attributes) ||
+      window.storage.get('preferContactAvatars') === false;
+    const avatar = shouldShowProfileAvatar
       ? this.get('profileAvatar') || this.get('avatar')
       : this.get('avatar') || this.get('profileAvatar');
     return avatar?.path || undefined;
