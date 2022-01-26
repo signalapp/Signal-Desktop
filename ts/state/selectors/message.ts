@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -670,6 +670,7 @@ export const getBubblePropsForMessage = createSelectorCreator(memoizeByRoot)(
   (_, data): TimelineItemType => ({
     type: 'message' as const,
     data,
+    timestamp: data.timestamp,
   })
 );
 
@@ -678,94 +679,113 @@ export function getPropsForBubble(
   message: MessageWithUIFieldsType,
   options: GetPropsForBubbleOptions
 ): TimelineItemType {
+  // eslint-disable-next-line camelcase
+  const { received_at_ms: receivedAt, timestamp: messageTimestamp } = message;
+  const timestamp = receivedAt || messageTimestamp;
+
   if (isUnsupportedMessage(message)) {
     return {
       type: 'unsupportedMessage',
       data: getPropsForUnsupportedMessage(message, options),
+      timestamp,
     };
   }
   if (isGroupV2Change(message)) {
     return {
       type: 'groupV2Change',
       data: getPropsForGroupV2Change(message, options),
+      timestamp,
     };
   }
   if (isGroupV1Migration(message)) {
     return {
       type: 'groupV1Migration',
       data: getPropsForGroupV1Migration(message, options),
+      timestamp,
     };
   }
   if (isMessageHistoryUnsynced(message)) {
     return {
       type: 'linkNotification',
       data: null,
+      timestamp,
     };
   }
   if (isExpirationTimerUpdate(message)) {
     return {
       type: 'timerNotification',
       data: getPropsForTimerNotification(message, options),
+      timestamp,
     };
   }
   if (isKeyChange(message)) {
     return {
       type: 'safetyNumberNotification',
       data: getPropsForSafetyNumberNotification(message, options),
+      timestamp,
     };
   }
   if (isVerifiedChange(message)) {
     return {
       type: 'verificationNotification',
       data: getPropsForVerificationNotification(message, options),
+      timestamp,
     };
   }
   if (isGroupUpdate(message)) {
     return {
       type: 'groupNotification',
       data: getPropsForGroupNotification(message, options),
+      timestamp,
     };
   }
   if (isEndSession(message)) {
     return {
       type: 'resetSessionNotification',
       data: null,
+      timestamp,
     };
   }
   if (isCallHistory(message)) {
     return {
       type: 'callHistory',
       data: getPropsForCallHistory(message, options),
+      timestamp,
     };
   }
   if (isProfileChange(message)) {
     return {
       type: 'profileChange',
       data: getPropsForProfileChange(message, options),
+      timestamp,
     };
   }
   if (isUniversalTimerNotification(message)) {
     return {
       type: 'universalTimerNotification',
       data: null,
+      timestamp,
     };
   }
   if (isChangeNumberNotification(message)) {
     return {
       type: 'changeNumberNotification',
       data: getPropsForChangeNumberNotification(message, options),
+      timestamp,
     };
   }
   if (isChatSessionRefreshed(message)) {
     return {
       type: 'chatSessionRefreshed',
       data: null,
+      timestamp,
     };
   }
   if (isDeliveryIssue(message)) {
     return {
       type: 'deliveryIssue',
       data: getPropsForDeliveryIssue(message, options),
+      timestamp,
     };
   }
 

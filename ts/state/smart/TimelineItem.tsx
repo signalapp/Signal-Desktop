@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RefObject } from 'react';
@@ -23,6 +23,7 @@ import { SmartUniversalTimerNotification } from './UniversalTimerNotification';
 type ExternalProps = {
   containerElementRef: RefObject<HTMLElement>;
   conversationId: string;
+  isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
@@ -40,6 +41,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const {
     containerElementRef,
     conversationId,
+    isOldestTimelineItem,
     messageId,
     nextMessageId,
     previousMessageId,
@@ -70,6 +72,7 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     conversationColor: conversation?.conversationColor,
     customColor: conversation?.customColor,
     getPreferredBadge: getPreferredBadgeSelector(state),
+    isOldestTimelineItem,
     isSelected,
     renderContact,
     renderUniversalTimerNotification,

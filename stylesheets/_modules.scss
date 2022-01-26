@@ -4902,25 +4902,19 @@ button.module-image__border-overlay:focus {
           }
 
           &__date {
+            @include font-caption;
             display: inline-block;
             flex-shrink: 0;
+            margin-left: 6px;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-            &__timestamp {
-              flex-shrink: 0;
-              margin-left: 6px;
-
-              @include font-caption;
-
-              overflow-x: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-
-              @include light-theme {
-                color: $color-gray-60;
-              }
-              @include dark-theme {
-                color: $color-gray-25;
-              }
+            @include light-theme {
+              color: $color-gray-60;
+            }
+            @include dark-theme {
+              color: $color-gray-25;
             }
           }
         }
@@ -5458,26 +5452,6 @@ button.module-image__border-overlay:focus {
   top: 0;
   z-index: $z-index-above-base;
   cursor: col-resize;
-}
-
-// Module: Timeline Loading Row
-
-.module-timeline-loading-row {
-  height: 48px;
-  padding: 12px;
-
-  display: flex;
-  flex-direction: columns;
-  justify-content: center;
-  align-items: center;
-
-  @include light-theme {
-    color: $color-gray-75;
-  }
-
-  @include dark-theme {
-    color: $color-gray-25;
-  }
 }
 
 // Module: Timeline
@@ -6883,41 +6857,6 @@ button.module-image__border-overlay:focus {
   @include emoji-size(48px);
   @include emoji-size(64px);
   @include emoji-size(66px);
-}
-
-// Module: Countdown
-
-.module-countdown {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-// Note: the colors here should match the module-spinner's on-background colors
-.module-countdown__front-path {
-  fill-opacity: 0;
-  stroke-width: 2;
-
-  @include light-theme {
-    stroke: $color-gray-60;
-  }
-
-  @include dark-theme {
-    stroke: $color-gray-25;
-  }
-}
-
-.module-countdown__back-path {
-  fill-opacity: 0;
-  stroke-width: 2;
-
-  @include light-theme {
-    stroke: $color-gray-05;
-  }
-
-  @include dark-theme {
-    stroke: $color-gray-75;
-  }
 }
 
 // Module: CompositionInput

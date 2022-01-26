@@ -1,17 +1,16 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import { formatRelativeTime } from '../../util/formatRelativeTime';
+import { formatTime } from '../../util/timestamp';
 
 import type { LocalizerType } from '../../types/Util';
 
 export type Props = {
   timestamp?: number;
-  extended?: boolean;
   module?: string;
   withImageNoCaption?: boolean;
   withSticker?: boolean;
@@ -22,7 +21,7 @@ export type Props = {
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
-export class Timestamp extends React.Component<Props> {
+export class MessageTimestamp extends React.Component<Props> {
   private interval: NodeJS.Timeout | null;
 
   constructor(props: Props) {
@@ -57,7 +56,6 @@ export class Timestamp extends React.Component<Props> {
       withImageNoCaption,
       withSticker,
       withTapToViewExpired,
-      extended,
     } = this.props;
     const moduleName = module || 'module-timestamp';
 
@@ -78,7 +76,7 @@ export class Timestamp extends React.Component<Props> {
         )}
         title={moment(timestamp).format('llll')}
       >
-        {formatRelativeTime(timestamp, { i18n, extended })}
+        {formatTime(i18n, timestamp)}
       </span>
     );
   }

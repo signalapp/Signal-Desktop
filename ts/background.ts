@@ -949,6 +949,7 @@ export async function startApp(): Promise<void> {
         i18n: window.i18n,
         interactionMode: window.getInteractionMode(),
         theme,
+        version: window.getVersion(),
       },
     };
 

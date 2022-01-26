@@ -1,4 +1,4 @@
-// Copyright 2016-2021 Signal Messenger, LLC
+// Copyright 2016-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 // Fonts
@@ -684,5 +684,17 @@
   h2 {
     @include font-body-1;
     font-weight: normal;
+  }
+}
+
+@mixin timeline-floating-header-node {
+  @include rounded-corners;
+  box-shadow: 0 1px 4px $color-black-alpha-20;
+
+  @include light-theme {
+    background: $color-white;
+  }
+  @include dark-theme {
+    background: $color-gray-80;
   }
 }

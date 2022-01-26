@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEmpty, mapValues, pick } from 'lodash';
@@ -18,6 +18,7 @@ import { Timeline } from '../../components/conversation/Timeline';
 import type { StateType } from '../reducer';
 import type { ConversationType } from '../ducks/conversations';
 
+import { getAreFloatingDateHeadersEnabled } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getConversationByUuidSelector,
@@ -25,6 +26,7 @@ import {
   getConversationSelector,
   getConversationsByTitleSelector,
   getInvitedContactsForNewlyCreatedGroup,
+  getMessageSelector,
   getSelectedMessage,
 } from '../selectors/conversations';
 
@@ -32,13 +34,12 @@ import { SmartTimelineItem } from './TimelineItem';
 import { SmartTypingBubble } from './TypingBubble';
 import { SmartLastSeenIndicator } from './LastSeenIndicator';
 import { SmartHeroRow } from './HeroRow';
-import { SmartTimelineLoadingRow } from './TimelineLoadingRow';
 import { renderAudioAttachment } from './renderAudioAttachment';
 import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
-import { assert } from '../../util/assert';
+import { assert, strictAssert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import {
@@ -114,6 +115,7 @@ function renderItem({
   containerElementRef,
   containerWidthBreakpoint,
   conversationId,
+  isOldestTimelineItem,
   messageId,
   nextMessageId,
   onHeightChange,
@@ -123,6 +125,7 @@ function renderItem({
   containerElementRef: RefObject<HTMLElement>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
+  isOldestTimelineItem: boolean;
   messageId: string;
   nextMessageId: undefined | string;
   onHeightChange: (messageId: string) => unknown;
@@ -134,6 +137,7 @@ function renderItem({
       containerElementRef={containerElementRef}
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
+      isOldestTimelineItem={isOldestTimelineItem}
       messageId={messageId}
       previousMessageId={previousMessageId}
       nextMessageId={nextMessageId}
@@ -163,9 +167,6 @@ function renderHeroRow(
       updateSharedGroups={updateSharedGroups}
     />
   );
-}
-function renderLoadingRow(id: string): JSX.Element {
-  return <SmartTimelineLoadingRow id={id} />;
 }
 function renderTypingBubble(id: string): JSX.Element {
   return <SmartTypingBubble id={id} />;
@@ -294,6 +295,13 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const conversationMessages = getConversationMessagesSelector(state)(id);
   const selectedMessage = getSelectedMessage(state);
 
+  const messageSelector = getMessageSelector(state);
+  const getTimestampForMessage = (messageId: string): number => {
+    const result = messageSelector(messageId)?.timestamp;
+    strictAssert(result, 'Expected a message');
+    return result;
+  };
+
   return {
     id,
     ...pick(conversation, [
@@ -314,13 +322,15 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
     warning: getWarning(conversation, state),
     contactSpoofingReview: getContactSpoofingReview(id, state),
 
+    areFloatingDateHeadersEnabled: getAreFloatingDateHeadersEnabled(state),
+
+    getTimestampForMessage,
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     theme: getTheme(state),
     renderItem,
     renderLastSeenIndicator,
     renderHeroRow,
-    renderLoadingRow,
     renderTypingBubble,
     ...actions,
   };

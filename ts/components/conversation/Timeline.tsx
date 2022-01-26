@@ -1,7 +1,7 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce, get, isNumber, pick } from 'lodash';
+import { debounce, get, isEqual, isNumber, pick } from 'lodash';
 import classNames from 'classnames';
 import type { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
@@ -38,6 +38,7 @@ import { ContactSpoofingType } from '../../util/contactSpoofing';
 import { ContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog';
 import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions';
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
+import { TimelineFloatingHeader } from './TimelineFloatingHeader';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
@@ -104,15 +105,19 @@ type PropsHousekeepingType = {
   warning?: WarningType;
   contactSpoofingReview?: ContactSpoofingReviewPropType;
 
+  getTimestampForMessage: (_: string) => number;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
+
+  areFloatingDateHeadersEnabled?: boolean;
 
   renderItem: (props: {
     actionProps: PropsActionsType;
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
+    isOldestTimelineItem: boolean;
     messageId: string;
     nextMessageId: undefined | string;
     onHeightChange: (messageId: string) => unknown;
@@ -125,7 +130,6 @@ type PropsHousekeepingType = {
     unblurAvatar: () => void,
     updateSharedGroups: () => unknown
   ) => JSX.Element;
-  renderLoadingRow: (id: string) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
 };
 
@@ -195,23 +199,22 @@ type OnScrollParamsType = {
   _hasScrolledToRowTarget?: boolean;
 };
 
-type VisibleRowsType = {
-  newest?: {
-    id: string;
-    offsetTop: number;
-    row: number;
-  };
-  oldest?: {
-    id: string;
-    offsetTop: number;
-    row: number;
-  };
+type VisibleRowType = {
+  id: string;
+  offsetTop: number;
+  row: number;
 };
 
 type StateType = {
   atBottom: boolean;
   atTop: boolean;
+  hasRecentlyScrolled: boolean;
   oneTimeScrollRow?: number;
+  visibleRows?: {
+    newestFullyVisible?: VisibleRowType;
+    oldestPartiallyVisible?: VisibleRowType;
+    oldestFullyVisible?: VisibleRowType;
+  };
 
   widthBreakpoint: WidthBreakpoint;
 
@@ -295,26 +298,26 @@ const getActions = createSelector(
 );
 
 export class Timeline extends React.PureComponent<PropsType, StateType> {
-  public cellSizeCache = new CellMeasurerCache({
+  private cellSizeCache = new CellMeasurerCache({
     defaultHeight: 64,
     fixedWidth: true,
   });
 
-  public mostRecentWidth = 0;
+  private mostRecentWidth = 0;
 
-  public mostRecentHeight = 0;
+  private mostRecentHeight = 0;
 
-  public offsetFromBottom: number | undefined = 0;
+  private offsetFromBottom: number | undefined = 0;
 
-  public resizeFlag = false;
+  private resizeFlag = false;
 
   private readonly containerRef = React.createRef<HTMLDivElement>();
 
   private readonly listRef = React.createRef<List>();
 
-  public visibleRows: VisibleRowsType | undefined;
+  private loadCountdownTimeout: NodeJS.Timeout | null = null;
 
-  public loadCountdownTimeout: NodeJS.Timeout | null = null;
+  private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
 
   private containerRefMerger = createRefMerger();
 
@@ -332,6 +335,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.state = {
       atBottom,
       atTop: false,
+      hasRecentlyScrolled: true,
       oneTimeScrollRow,
       propScrollToIndex: scrollToIndex,
       prevPropScrollToIndex: scrollToIndex,
@@ -364,7 +368,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return state;
   }
 
-  public getList = (): List | null => {
+  private getList = (): List | null => {
     if (!this.listRef) {
       return null;
     }
@@ -374,7 +378,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return current;
   };
 
-  public getGrid = (): Grid | undefined => {
+  private getGrid = (): Grid | undefined => {
     const list = this.getList();
     if (!list) {
       return;
@@ -383,9 +387,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return list.Grid;
   };
 
-  public getScrollContainer = (): HTMLDivElement | undefined => {
+  private getScrollContainer = (): HTMLDivElement | undefined => {
     // We're using an internal variable (_scrollingContainer)) here,
-    // so cannot rely on the public type.
+    // so cannot rely on the private type.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const grid: any = this.getGrid();
     if (!grid) {
@@ -395,16 +399,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return grid._scrollingContainer as HTMLDivElement;
   };
 
-  public scrollToRow = (row: number): void => {
-    const list = this.getList();
-    if (!list) {
-      return;
-    }
-
-    list.scrollToRow(row);
-  };
-
-  public recomputeRowHeights = (row?: number): void => {
+  private recomputeRowHeights = (row?: number): void => {
     const list = this.getList();
     if (!list) {
       return;
@@ -413,7 +408,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     list.recomputeRowHeights(row);
   };
 
-  public onHeightOnlyChange = (): void => {
+  private onHeightOnlyChange = (): void => {
     const grid = this.getGrid();
     const scrollContainer = this.getScrollContainer();
     if (!grid || !scrollContainer) {
@@ -438,7 +433,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     });
   };
 
-  public resize = (row?: number): void => {
+  private resize = (row?: number): void => {
     this.offsetFromBottom = undefined;
     this.resizeFlag = false;
     if (isNumber(row) && row > 0) {
@@ -452,11 +447,11 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.recomputeRowHeights(row || 0);
   };
 
-  public resizeHeroRow = (): void => {
+  private resizeHeroRow = (): void => {
     this.resize(0);
   };
 
-  public resizeMessage = (messageId: string): void => {
+  private resizeMessage = (messageId: string): void => {
     const { items } = this.props;
 
     if (!items || !items.length) {
@@ -472,7 +467,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.resize(row);
   };
 
-  public onScroll = (data: OnScrollParamsType): void => {
+  private onScroll = (data: OnScrollParamsType): void => {
     // Ignore scroll events generated as react-virtualized recursively scrolls and
     //   re-measures to get us where we want to go.
     if (
@@ -492,11 +487,28 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
+    this.setState({ hasRecentlyScrolled: true });
+    if (this.hasRecentlyScrolledTimeout) {
+      clearTimeout(this.hasRecentlyScrolledTimeout);
+    }
+    this.hasRecentlyScrolledTimeout = setTimeout(() => {
+      this.setState({ hasRecentlyScrolled: false });
+    }, 1000);
+
     this.updateScrollMetrics(data);
     this.updateWithVisibleRows();
   };
 
-  public updateScrollMetrics = debounce(
+  private onRowsRendered = (): void => {
+    // React Virtualized doesn't respect `scrollToIndex` in some cases, likely
+    //   because it hasn't rendered that row yet.
+    const { oneTimeScrollRow } = this.state;
+    if (isNumber(oneTimeScrollRow)) {
+      this.getList()?.scrollToRow(oneTimeScrollRow);
+    }
+  };
+
+  private updateScrollMetrics = debounce(
     (data: OnScrollParamsType) => {
       const { clientHeight, clientWidth, scrollHeight, scrollTop } = data;
 
@@ -576,10 +588,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     { maxWait: 50 }
   );
 
-  public updateVisibleRows = (): void => {
-    let newest;
-    let oldest;
-
+  private updateVisibleRows = (): void => {
     const scrollContainer = this.getScrollContainer();
     if (!scrollContainer) {
       return;
@@ -589,15 +598,18 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    const visibleTop = scrollContainer.scrollTop;
-    const visibleBottom = visibleTop + scrollContainer.clientHeight;
-
     const innerScrollContainer = scrollContainer.children[0];
     if (!innerScrollContainer) {
       return;
     }
 
+    let newestFullyVisible: undefined | VisibleRowType;
+    let oldestPartiallyVisible: undefined | VisibleRowType;
+    let oldestFullyVisible: undefined | VisibleRowType;
+
     const { children } = innerScrollContainer;
+    const visibleTop = scrollContainer.scrollTop;
+    const visibleBottom = visibleTop + scrollContainer.clientHeight;
 
     for (let i = children.length - 1; i >= 0; i -= 1) {
       const child = children[i] as HTMLDivElement;
@@ -611,7 +623,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
       if (bottom - AT_BOTTOM_THRESHOLD <= visibleBottom) {
         const row = parseInt(child.getAttribute('data-row') || '-1', 10);
-        newest = { offsetTop, row, id };
+        newestFullyVisible = { offsetTop, row, id };
 
         break;
       }
@@ -620,24 +632,45 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const max = children.length;
     for (let i = 0; i < max; i += 1) {
       const child = children[i] as HTMLDivElement;
-      const { offsetTop, id } = child;
+      const { id, offsetTop, offsetHeight } = child;
 
       if (!id) {
         continue;
       }
 
-      if (offsetTop + AT_TOP_THRESHOLD >= visibleTop) {
-        const row = parseInt(child.getAttribute('data-row') || '-1', 10);
-        oldest = { offsetTop, row, id };
+      const thisRow = {
+        offsetTop,
+        row: parseInt(child.getAttribute('data-row') || '-1', 10),
+        id,
+      };
 
+      const bottom = offsetTop + offsetHeight;
+
+      if (bottom >= visibleTop && !oldestPartiallyVisible) {
+        oldestPartiallyVisible = thisRow;
+      }
+
+      if (offsetTop + AT_TOP_THRESHOLD >= visibleTop) {
+        oldestFullyVisible = thisRow;
         break;
       }
     }
 
-    this.visibleRows = { newest, oldest };
+    this.setState(oldState => {
+      const visibleRows = {
+        newestFullyVisible,
+        oldestPartiallyVisible,
+        oldestFullyVisible,
+      };
+
+      // This avoids a render loop.
+      return isEqual(oldState.visibleRows, visibleRows)
+        ? null
+        : { visibleRows };
+    });
   };
 
-  public updateWithVisibleRows = debounce(
+  private updateWithVisibleRows = debounce(
     () => {
       const {
         unreadCount,
@@ -654,16 +687,17 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       }
 
       this.updateVisibleRows();
-      if (!this.visibleRows) {
+      const { visibleRows } = this.state;
+      if (!visibleRows) {
         return;
       }
 
-      const { newest, oldest } = this.visibleRows;
-      if (!newest) {
+      const { newestFullyVisible, oldestFullyVisible } = visibleRows;
+      if (!newestFullyVisible) {
         return;
       }
 
-      markMessageRead(newest.id);
+      markMessageRead(newestFullyVisible.id);
 
       const newestRow = this.getRowCount() - 1;
       const oldestRow = this.fromItemIndexToRow(0);
@@ -673,7 +707,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       if (
         !isLoadingMessages &&
         !haveNewest &&
-        newest.row > newestRow - LOAD_MORE_THRESHOLD
+        newestFullyVisible.row > newestRow - LOAD_MORE_THRESHOLD
       ) {
         const lastId = items[items.length - 1];
         loadNewerMessages(lastId);
@@ -684,8 +718,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       //   Generally we hid this behind a countdown spinner at the top of the window, but
       //   this is a special-case for the situation where the window is so large and that
       //   all the messages are visible.
-      const oldestVisible = Boolean(oldest && oldestRow === oldest.row);
-      const newestVisible = newestRow === newest.row;
+      const oldestVisible = Boolean(
+        oldestFullyVisible && oldestRow === oldestFullyVisible.row
+      );
+      const newestVisible = newestRow === newestFullyVisible.row;
       if (oldestVisible && newestVisible && !haveOldest) {
         this.loadOlderMessages();
       }
@@ -695,13 +731,13 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       const areUnreadBelowCurrentPosition = Boolean(
         isNumber(unreadCount) &&
           unreadCount > 0 &&
-          (!haveNewest || newest.row < lastItemRow)
+          (!haveNewest || newestFullyVisible.row < lastItemRow)
       );
 
       const shouldShowScrollDownButton = Boolean(
         !haveNewest ||
           areUnreadBelowCurrentPosition ||
-          newest.row < newestRow - SCROLL_DOWN_BUTTON_THRESHOLD
+          newestFullyVisible.row < newestRow - SCROLL_DOWN_BUTTON_THRESHOLD
       );
 
       this.setState({
@@ -713,7 +749,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     { maxWait: 500 }
   );
 
-  public loadOlderMessages = (): void => {
+  private loadOlderMessages = (): void => {
     const { haveOldest, isLoadingMessages, items, loadOlderMessages } =
       this.props;
 
@@ -730,7 +766,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     loadOlderMessages(oldestId);
   };
 
-  public rowRenderer = ({
+  private rowRenderer = ({
     index,
     key,
     parent,
@@ -743,7 +779,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       items,
       renderItem,
       renderHeroRow,
-      renderLoadingRow,
       renderLastSeenIndicator,
       renderTypingBubble,
       unblurAvatar,
@@ -772,12 +807,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
             unblurAvatar,
             updateSharedGroups
           )}
-        </div>
-      );
-    } else if (!haveOldest && row === 0) {
-      rowContents = (
-        <div data-row={row} style={styleWithWidth} role="row">
-          {renderLoadingRow(id)}
         </div>
       );
     } else if (oldestUnreadRow === row) {
@@ -824,6 +853,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               containerElementRef: this.containerRef,
               containerWidthBreakpoint: widthBreakpoint,
               conversationId: id,
+              isOldestTimelineItem: haveOldest && itemIndex === 0,
               messageId,
               nextMessageId,
               onHeightChange: this.resizeMessage,
@@ -848,62 +878,73 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     );
   };
 
-  public fromItemIndexToRow(index: number): number {
-    const { oldestUnreadIndex } = this.props;
+  private fromItemIndexToRow(index: number): number {
+    const { haveOldest, oldestUnreadIndex } = this.props;
 
-    // We will always render either the hero row or the loading row
-    let addition = 1;
+    let result = index;
 
+    // Hero row
+    if (haveOldest) {
+      result += 1;
+    }
+
+    // Unread indicator
     if (isNumber(oldestUnreadIndex) && index >= oldestUnreadIndex) {
-      addition += 1;
+      result += 1;
     }
 
-    return index + addition;
+    return result;
   }
 
-  public getRowCount(): number {
-    const { oldestUnreadIndex, typingContactId } = this.props;
-    const { items } = this.props;
-    const itemsCount = items && items.length ? items.length : 0;
+  private getRowCount(): number {
+    const { haveOldest, items, oldestUnreadIndex, typingContactId } =
+      this.props;
 
-    // We will always render either the hero row or the loading row
-    let extraRows = 1;
+    let result = items?.length || 0;
 
+    // Hero row
+    if (haveOldest) {
+      result += 1;
+    }
+
+    // Unread indicator
     if (isNumber(oldestUnreadIndex)) {
-      extraRows += 1;
+      result += 1;
     }
 
+    // Typing indicator
     if (typingContactId) {
-      extraRows += 1;
+      result += 1;
     }
 
-    return itemsCount + extraRows;
+    return result;
   }
 
-  public fromRowToItemIndex(
-    row: number,
-    props?: PropsType
-  ): number | undefined {
-    const { items } = props || this.props;
+  private fromRowToItemIndex(row: number): number | undefined {
+    const { haveOldest, items } = this.props;
 
-    // We will always render either the hero row or the loading row
-    let subtraction = 1;
+    let result = row;
 
+    // Hero row
+    if (haveOldest) {
+      result -= 1;
+    }
+
+    // Unread indicator
     const oldestUnreadRow = this.getLastSeenIndicatorRow();
     if (isNumber(oldestUnreadRow) && row > oldestUnreadRow) {
-      subtraction += 1;
+      result -= 1;
     }
 
-    const index = row - subtraction;
-    if (index < 0 || index >= items.length) {
+    if (result < 0 || result >= items.length) {
       return;
     }
 
-    return index;
+    return result;
   }
 
-  public getLastSeenIndicatorRow(props?: PropsType): number | undefined {
-    const { oldestUnreadIndex } = props || this.props;
+  private getLastSeenIndicatorRow(): number | undefined {
+    const { oldestUnreadIndex } = this.props;
     if (!isNumber(oldestUnreadIndex)) {
       return;
     }
@@ -911,7 +952,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return this.fromItemIndexToRow(oldestUnreadIndex) - 1;
   }
 
-  public getTypingBubbleRow(): number | undefined {
+  private getTypingBubbleRow(): number | undefined {
     const { items } = this.props;
     if (!items || items.length < 0) {
       return;
@@ -922,23 +963,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return this.fromItemIndexToRow(last) + 1;
   }
 
-  public onScrollToMessage = (messageId: string): void => {
-    const { isLoadingMessages, items, loadAndScroll } = this.props;
-    const index = items.findIndex(item => item === messageId);
-
-    if (index >= 0) {
-      const row = this.fromItemIndexToRow(index);
-      this.setState({
-        oneTimeScrollRow: row,
-      });
-    }
-
-    if (!isLoadingMessages) {
-      loadAndScroll(messageId);
-    }
-  };
-
-  public scrollToBottom = (setFocus?: boolean): void => {
+  private scrollToBottom = (setFocus?: boolean): void => {
     const { selectMessage, id, items } = this.props;
 
     if (setFocus && items && items.length > 0) {
@@ -956,11 +981,11 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     });
   };
 
-  public onClickScrollDownButton = (): void => {
+  private onClickScrollDownButton = (): void => {
     this.scrollDown(false);
   };
 
-  public scrollDown = (setFocus?: boolean): void => {
+  private scrollDown = (setFocus?: boolean): void => {
     const {
       haveNewest,
       id,
@@ -977,7 +1002,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const lastId = items[items.length - 1];
     const lastSeenIndicatorRow = this.getLastSeenIndicatorRow();
 
-    if (!this.visibleRows) {
+    const { visibleRows } = this.state;
+    if (!visibleRows) {
       if (haveNewest) {
         this.scrollToBottom(setFocus);
       } else if (!isLoadingMessages) {
@@ -987,12 +1013,12 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       return;
     }
 
-    const { newest } = this.visibleRows;
+    const { newestFullyVisible } = visibleRows;
 
     if (
-      newest &&
+      newestFullyVisible &&
       isNumber(lastSeenIndicatorRow) &&
-      newest.row < lastSeenIndicatorRow
+      newestFullyVisible.row < lastSeenIndicatorRow
     ) {
       if (setFocus && isNumber(oldestUnreadIndex)) {
         const messageId = items[oldestUnreadIndex];
@@ -1112,8 +1138,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         }
 
         const newRow = this.fromItemIndexToRow(newFirstIndex);
-        const delta = newFirstIndex - oldFirstIndex;
-        if (delta > 0) {
+        if (newRow > 0) {
           // We're loading more new messages at the top; we want to stay at the top
           this.resize();
           // TODO: DESKTOP-688
@@ -1188,7 +1213,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.updateWithVisibleRows();
   }
 
-  public getScrollTarget = (): number | undefined => {
+  private getScrollTarget = (): number | undefined => {
     const { oneTimeScrollRow, atBottom, propScrollToIndex } = this.state;
 
     const rowCount = this.getRowCount();
@@ -1208,7 +1233,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     return scrollToBottom;
   };
 
-  public handleBlur = (event: React.FocusEvent): void => {
+  private handleBlur = (event: React.FocusEvent): void => {
     const { clearSelectedMessage } = this.props;
 
     const { currentTarget } = event;
@@ -1232,7 +1257,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }, 0);
   };
 
-  public handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+  private handleKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ): void => {
     const { selectMessage, selectedMessageId, items, id } = this.props;
     const commandKey = get(window, 'platform') === 'darwin' && event.metaKey;
     const controlKey = get(window, 'platform') !== 'darwin' && event.ctrlKey;
@@ -1309,15 +1336,19 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   public override render(): JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
+      areFloatingDateHeadersEnabled = true,
       areWeAdmin,
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       contactSpoofingReview,
       getPreferredBadge,
+      getTimestampForMessage,
+      haveOldest,
       i18n,
       id,
       invitedContactsForNewlyCreatedGroup,
       isGroupV1AndDisabled,
+      isLoadingMessages,
       items,
       onBlock,
       onBlockAndReportSpam,
@@ -1332,6 +1363,9 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const {
       shouldShowScrollDownButton,
       areUnreadBelowCurrentPosition,
+      hasRecentlyScrolled,
+      lastMeasuredWarningHeight,
+      visibleRows,
       widthBreakpoint,
     } = this.state;
 
@@ -1340,6 +1374,27 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     if (!items || rowCount === 0) {
       return null;
+    }
+
+    let floatingHeader: ReactNode;
+    const oldestPartiallyVisibleRow = visibleRows?.oldestPartiallyVisible;
+    if (areFloatingDateHeadersEnabled && oldestPartiallyVisibleRow) {
+      floatingHeader = (
+        <TimelineFloatingHeader
+          i18n={i18n}
+          isLoading={isLoadingMessages}
+          style={
+            lastMeasuredWarningHeight
+              ? { marginTop: lastMeasuredWarningHeight }
+              : undefined
+          }
+          timestamp={getTimestampForMessage(oldestPartiallyVisibleRow.id)}
+          visible={
+            (hasRecentlyScrolled || isLoadingMessages) &&
+            (!haveOldest || oldestPartiallyVisibleRow.id !== items[0])
+          }
+        />
+      );
     }
 
     const autoSizer = (
@@ -1366,6 +1421,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onScroll={this.onScroll as any}
               overscanRowCount={10}
+              onRowsRendered={this.onRowsRendered}
               ref={this.listRef}
               rowCount={rowCount}
               rowHeight={this.cellSizeCache.rowHeight}
@@ -1548,6 +1604,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               ref={this.containerRefMerger(measureRef)}
             >
               {timelineWarning}
+
+              {floatingHeader}
 
               {autoSizer}
 

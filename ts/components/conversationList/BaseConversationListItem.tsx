@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, FunctionComponent } from 'react';
@@ -9,12 +9,12 @@ import { v4 as uuid } from 'uuid';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import type { BadgeType } from '../../badges/types';
-import { Timestamp } from '../conversation/Timestamp';
 import { isConversationUnread } from '../../util/isConversationUnread';
 import { cleanId } from '../_util';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Spinner } from '../Spinner';
+import { formatDateTimeShort } from '../../util/timestamp';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -24,7 +24,6 @@ const HEADER_CLASS_NAME = `${CONTENT_CLASS_NAME}__header`;
 export const HEADER_NAME_CLASS_NAME = `${HEADER_CLASS_NAME}__name`;
 export const HEADER_CONTACT_NAME_CLASS_NAME = `${HEADER_NAME_CLASS_NAME}__contact-name`;
 export const DATE_CLASS_NAME = `${HEADER_CLASS_NAME}__date`;
-const TIMESTAMP_CLASS_NAME = `${DATE_CLASS_NAME}__timestamp`;
 const MESSAGE_CLASS_NAME = `${CONTENT_CLASS_NAME}__message`;
 export const MESSAGE_TEXT_CLASS_NAME = `${MESSAGE_CLASS_NAME}__text`;
 const CHECKBOX_CLASS_NAME = `${BASE_CLASS_NAME}__checkbox`;
@@ -175,16 +174,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
         >
           <div className={HEADER_CLASS_NAME}>
             <div className={`${HEADER_CLASS_NAME}__name`}>{headerName}</div>
-            {isNumber(headerDate) && (
-              <div className={DATE_CLASS_NAME}>
-                <Timestamp
-                  timestamp={headerDate}
-                  extended={false}
-                  module={TIMESTAMP_CLASS_NAME}
-                  i18n={i18n}
-                />
-              </div>
-            )}
+            <Timestamp timestamp={headerDate} i18n={i18n} />
           </div>
           {messageText || isUnread ? (
             <div className={MESSAGE_CLASS_NAME}>
@@ -257,6 +247,22 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       </div>
     );
   });
+
+function Timestamp({
+  i18n,
+  timestamp,
+}: Readonly<{ i18n: LocalizerType; timestamp?: number }>) {
+  if (!isNumber(timestamp)) {
+    return null;
+  }
+
+  const date = new Date(timestamp);
+  return (
+    <time className={DATE_CLASS_NAME} dateTime={date.toISOString()}>
+      {formatDateTimeShort(i18n, date)}
+    </time>
+  );
+}
 
 function UnreadIndicator({
   count = 0,

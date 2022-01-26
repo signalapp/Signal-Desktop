@@ -571,11 +571,11 @@
   },
   "today": {
     "message": "Today",
-    "description": "Section header in the media gallery"
+    "description": "The string \"today\""
   },
   "yesterday": {
     "message": "Yesterday",
-    "description": "Section header in the media gallery"
+    "description": "The string \"yesterday\""
   },
   "thisWeek": {
     "message": "This Week",
@@ -2084,6 +2084,14 @@
   "timestampFormat_M": {
     "message": "MMM D",
     "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+  },
+  "timestampFormat__long__today": {
+    "message": "[Today] LT",
+    "description": "Timestamp format string for displaying \"Today\" and the time"
+  },
+  "timestampFormat__long__yesterday": {
+    "message": "[Yesterday] LT",
+    "description": "Timestamp format string for displaying \"Yesterday\" and the time"
   },
   "messageBodyTooLong": {
     "message": "Message body is too long.",
@@ -5940,6 +5948,14 @@
   "ForwardMessageModal--continue": {
     "message": "Continue",
     "description": "aria-label for the 'next' button in the forward a message modal dialog"
+  },
+  "TimelineDateHeader--date-in-last-6-months": {
+    "message": "ddd, MMM D",
+    "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+  },
+  "TimelineDateHeader--date-older-than-6-months": {
+    "message": "MMM D, YYYY",
+    "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
   },
   "MessageRequestWarning__learn-more": {
     "message": "Learn more",

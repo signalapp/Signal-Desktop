@@ -4,11 +4,11 @@
 import type { ReactChild, ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { noop } from 'lodash';
 
 import { Avatar, AvatarSize } from '../Avatar';
 import { ContactName } from './ContactName';
+import { Time } from '../Time';
 import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
@@ -22,7 +22,7 @@ import type { ContactNameColorType } from '../../types/Colors';
 import { SendStatus } from '../../messages/MessageSendState';
 import { WidthBreakpoint } from '../_util';
 import * as log from '../../logging/log';
-import { Timestamp } from './Timestamp';
+import { formatDateTimeLong } from '../../util/timestamp';
 
 export type Contact = Pick<
   ConversationType,
@@ -194,12 +194,12 @@ export class MessageDetail extends React.Component<Props> {
         {errorComponent}
         {unidentifiedDeliveryComponent}
         {contact.statusTimestamp && (
-          <Timestamp
-            extended
-            i18n={i18n}
-            module="module-message-detail__status-timestamp"
+          <Time
+            className="module-message-detail__status-timestamp"
             timestamp={contact.statusTimestamp}
-          />
+          >
+            {formatDateTimeLong(i18n, contact.statusTimestamp)}
+          </Time>
         )}
       </div>
     );
@@ -379,7 +379,9 @@ export class MessageDetail extends React.Component<Props> {
             <tr>
               <td className="module-message-detail__label">{i18n('sent')}</td>
               <td>
-                {moment(sentAt).format('LLLL')}{' '}
+                <Time timestamp={sentAt}>
+                  {formatDateTimeLong(i18n, sentAt)}
+                </Time>{' '}
                 <span className="module-message-detail__unix-timestamp">
                   ({sentAt})
                 </span>
@@ -391,7 +393,9 @@ export class MessageDetail extends React.Component<Props> {
                   {i18n('received')}
                 </td>
                 <td>
-                  {moment(receivedAt).format('LLLL')}{' '}
+                  <Time timestamp={receivedAt}>
+                    {formatDateTimeLong(i18n, receivedAt)}
+                  </Time>{' '}
                   <span className="module-message-detail__unix-timestamp">
                     ({receivedAt})
                   </span>

@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { trigger } from '../../shims/events';
@@ -23,6 +23,7 @@ export type UserStateType = {
   i18n: LocalizerType;
   interactionMode: 'mouse' | 'keyboard';
   theme: ThemeType;
+  version: string;
 };
 
 // Actions
@@ -98,6 +99,7 @@ export function getEmptyState(): UserStateType {
         },
       }
     ),
+    version: '0.0.0',
   };
 }
 

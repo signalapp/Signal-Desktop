@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -8,7 +8,7 @@ import type { LocalizerType } from '../../types/Util';
 import { Intl } from '../Intl';
 
 import { SystemMessage } from './SystemMessage';
-import { Timestamp } from './Timestamp';
+import { MessageTimestamp } from './MessageTimestamp';
 import { Emojify } from './Emojify';
 
 export type PropsData = {
@@ -37,7 +37,7 @@ export const ChangeNumberNotification: React.FC<Props> = props => {
             i18n={i18n}
           />
           &nbsp;·&nbsp;
-          <Timestamp i18n={i18n} timestamp={timestamp} />
+          <MessageTimestamp i18n={i18n} timestamp={timestamp} />
         </>
       }
       icon="phone"

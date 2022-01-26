@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -8,7 +8,7 @@ import { noop } from 'lodash';
 
 import { SystemMessage } from './SystemMessage';
 import { Button, ButtonSize, ButtonVariant } from '../Button';
-import { Timestamp } from './Timestamp';
+import { MessageTimestamp } from './MessageTimestamp';
 import type { LocalizerType } from '../../types/Util';
 import { CallMode } from '../../types/Calling';
 import type { CallingNotificationType } from '../../util/callingNotification';
@@ -91,9 +91,8 @@ export const CallingNotification: React.FC<PropsType> = React.memo(props => {
           contents={
             <>
               {getCallingNotificationText(props, i18n)} &middot;{' '}
-              <Timestamp
+              <MessageTimestamp
                 direction="outgoing"
-                extended
                 i18n={i18n}
                 timestamp={timestamp}
                 withImageNoCaption={false}

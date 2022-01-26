@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent, ReactChild } from 'react';
@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../../types/Util';
 import type { DirectionType, MessageStatusType } from './Message';
 import { ExpireTimer } from './ExpireTimer';
-import { Timestamp } from './Timestamp';
+import { MessageTimestamp } from './MessageTimestamp';
 import { Spinner } from '../Spinner';
 
 type PropsType = {
@@ -94,10 +94,9 @@ export const MessageMetadata: FunctionComponent<PropsType> = props => {
       );
     } else {
       timestampNode = (
-        <Timestamp
+        <MessageTimestamp
           i18n={i18n}
           timestamp={timestamp}
-          extended
           direction={metadataDirection}
           withImageNoCaption={withImageNoCaption}
           withSticker={isSticker}

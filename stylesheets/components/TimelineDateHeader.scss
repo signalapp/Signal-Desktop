@@ -1,0 +1,25 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.TimelineDateHeader {
+  @include font-body-2;
+  display: block;
+  text-align: center;
+  user-select: none;
+
+  @include light-theme {
+    color: $color-gray-60;
+  }
+  @include dark-theme {
+    color: $color-gray-05;
+  }
+
+  &--inline {
+    padding: 20px;
+  }
+
+  &--floating {
+    @include timeline-floating-header-node;
+    padding: 5px 10px;
+  }
+}

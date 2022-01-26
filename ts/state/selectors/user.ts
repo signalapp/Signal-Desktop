@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { createSelector } from 'reselect';
@@ -8,6 +8,8 @@ import type { UUIDStringType } from '../../types/UUID';
 
 import type { StateType } from '../reducer';
 import type { UserStateType } from '../ducks/user';
+
+import { isAlpha, isBeta } from '../../util/version';
 
 export const getUser = (state: StateType): UserStateType => state.user;
 
@@ -70,3 +72,12 @@ export const getTheme = createSelector(
   getUser,
   (state: UserStateType): ThemeType => state.theme
 );
+
+const getVersion = createSelector(
+  getUser,
+  (state: UserStateType) => state.version
+);
+
+export const getIsAlpha = createSelector(getVersion, isAlpha);
+
+export const getIsBeta = createSelector(getVersion, isBeta);

@@ -1,11 +1,11 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties } from 'react';
 import React from 'react';
 import type { ConversationColorType } from '../types/Colors';
 import type { LocalizerType } from '../types/Util';
-import { formatRelativeTime } from '../util/formatRelativeTime';
+import { formatTime } from '../util/timestamp';
 
 export type PropsType = {
   backgroundStyle?: CSSProperties;
@@ -51,7 +51,7 @@ const SampleMessage = ({
           <span
             className={`module-message__metadata__date module-message__metadata__date--${direction}`}
           >
-            {formatRelativeTime(timestamp, { extended: true, i18n })}
+            {formatTime(i18n, timestamp)}
           </span>
           {direction === 'outgoing' && (
             <div
