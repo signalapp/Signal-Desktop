@@ -684,10 +684,8 @@ export async function startApp(): Promise<void> {
       }
 
       if (
-        (window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
-          window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')) ||
-        // 5.30 introduced understanding of new storage service AccountRecord fields
-        window.isBeforeVersion(lastVersion, 'v5.30.0-alpha')
+        window.isBeforeVersion(lastVersion, 'v1.36.0-beta.1') &&
+        window.isAfterVersion(lastVersion, 'v1.35.0-beta.1')
       ) {
         await window.Signal.Services.eraseAllStorageServiceState();
       }

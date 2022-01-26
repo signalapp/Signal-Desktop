@@ -2680,15 +2680,19 @@ export default class MessageReceiver
     envelope: ProcessedEnvelope,
     blocked: Proto.SyncMessage.IBlocked
   ): Promise<void> {
+    const allIdentifiers = [];
     let changed = false;
 
     if (blocked.numbers) {
       const previous = this.storage.get('blocked', []);
+
       log.info('handleBlocked: Blocking these numbers:', blocked.numbers);
       await this.storage.put('blocked', blocked.numbers);
 
       if (!areArraysMatchingSets(previous, blocked.numbers)) {
         changed = true;
+        allIdentifiers.push(...previous);
+        allIdentifiers.push(...blocked.numbers);
       }
     }
     if (blocked.uuids) {
@@ -2701,6 +2705,8 @@ export default class MessageReceiver
 
       if (!areArraysMatchingSets(previous, uuids)) {
         changed = true;
+        allIdentifiers.push(...previous);
+        allIdentifiers.push(...blocked.uuids);
       }
     }
 
@@ -2731,6 +2737,8 @@ export default class MessageReceiver
 
       if (!areArraysMatchingSets(previous, ids)) {
         changed = true;
+        allIdentifiers.push(...previous);
+        allIdentifiers.push(...ids);
       }
     }
 
@@ -2738,7 +2746,8 @@ export default class MessageReceiver
 
     if (changed) {
       log.info('handleBlocked: Block list changed, forcing re-render.');
-      window.ConversationController.forceRerender();
+      const uniqueIdentifiers = Array.from(new Set(allIdentifiers));
+      window.ConversationController.forceRerender(uniqueIdentifiers);
     }
   }
 

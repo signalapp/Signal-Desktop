@@ -21,6 +21,7 @@ import { Address } from './types/Address';
 import { QualifiedAddress } from './types/QualifiedAddress';
 import * as log from './logging/log';
 import { sleep } from './util/sleep';
+import { isNotNil } from './util/isNotNil';
 
 const MAX_MESSAGE_BODY_LENGTH = 64 * 1024;
 
@@ -789,9 +790,11 @@ export class ConversationController {
   //   If it's scoped to a given conversation, it's easy to trigger('change'). There are
   //   important values in storage and the storage service which change rendering pretty
   //   radically, so this function is necessary to force regeneration of props.
-  async forceRerender(): Promise<void> {
+  async forceRerender(identifiers?: Array<string>): Promise<void> {
     let count = 0;
-    const conversations = this._conversations.models.slice();
+    const conversations = identifiers
+      ? identifiers.map(identifier => this.get(identifier)).filter(isNotNil)
+      : this._conversations.models.slice();
     log.info(
       `forceRerender: Starting to loop through ${conversations.length} conversations`
     );
