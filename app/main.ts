@@ -73,7 +73,7 @@ import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
 import { createBrowserWindow } from '../ts/util/createBrowserWindow';
-import { isProduction } from '../ts/util/version';
+import { isProduction, isAlpha } from '../ts/util/version';
 import {
   isSgnlHref,
   isCaptchaHref,
@@ -116,6 +116,8 @@ function getMainWindow() {
 const development =
   getEnvironment() === Environment.Development ||
   getEnvironment() === Environment.Staging;
+
+const isThrottlingEnabled = development || isAlpha(app.getVersion());
 
 const enableCI = config.get<boolean>('enableCI');
 
@@ -479,10 +481,7 @@ async function createWindow() {
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
-      // We are evaluating background throttling in development. If we decide to
-      //   move forward, we can remove this line (as `backgroundThrottling` is true by
-      //   default).
-      backgroundThrottling: development,
+      backgroundThrottling: isThrottlingEnabled,
       enablePreferredSizeMode: true,
     },
     icon: windowIcon,
@@ -774,9 +773,7 @@ ipc.on('set-is-call-active', (_event, isCallActive) => {
     return;
   }
 
-  // We are evaluating background throttling in development. If we decide to move
-  //   forward, we can remove this check.
-  if (!development) {
+  if (!isThrottlingEnabled) {
     return;
   }
 
