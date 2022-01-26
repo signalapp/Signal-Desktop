@@ -3,12 +3,14 @@
 
 import dataInterface from '../sql/Client';
 import type { ConversationType } from '../state/ducks/conversations';
+import * as Errors from '../types/errors';
+import * as log from '../logging/log';
 import { computeHash } from '../Crypto';
 import { encryptProfileData } from '../util/encryptProfileData';
 import { getProfile } from '../util/getProfile';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
-import * as Errors from '../types/errors';
-import * as log from '../logging/log';
+import { strictAssert } from '../util/assert';
+import { isWhitespace } from '../util/whitespaceStringUtil';
 
 export async function writeProfile(
   conversation: ConversationType,
@@ -31,6 +33,11 @@ export async function writeProfile(
     familyName,
     firstName,
   } = conversation;
+
+  strictAssert(
+    !isWhitespace(String(conversation.firstName)),
+    'writeProfile: Cannot set an empty profile name'
+  );
 
   const [profileData, encryptedAvatarData] = await encryptProfileData(
     conversation,

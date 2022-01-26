@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -37,6 +37,7 @@ import {
 import { Spinner } from './Spinner';
 import { UsernameSaveState } from '../state/ducks/conversationsEnums';
 import { MAX_USERNAME, MIN_USERNAME } from '../types/Username';
+import { isWhitespace, trim } from '../util/whitespaceStringUtil';
 
 export enum EditState {
   None = 'None',
@@ -286,7 +287,16 @@ export const ProfileEditor = ({
     (avatar: Uint8Array | undefined) => {
       setAvatarBuffer(avatar);
       setEditState(EditState.None);
-      onProfileChanged(stagedProfile, avatar);
+      onProfileChanged(
+        {
+          ...stagedProfile,
+          firstName: trim(stagedProfile.firstName),
+          familyName: stagedProfile.familyName
+            ? trim(stagedProfile.familyName)
+            : undefined,
+        },
+        avatar
+      );
     },
     [onProfileChanged, stagedProfile]
   );
@@ -422,7 +432,8 @@ export const ProfileEditor = ({
     const shouldDisableSave =
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
-        stagedProfile.familyName === fullName.familyName);
+        stagedProfile.familyName === fullName.familyName) ||
+      isWhitespace(stagedProfile.firstName);
 
     content = (
       <>
