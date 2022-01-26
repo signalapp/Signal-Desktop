@@ -12,9 +12,11 @@ type TaskType = {
 };
 
 const tasks = new Set<TaskType>();
+let shouldStartTimers = true;
 
 export function suspendTasksWithTimeout(): void {
   log.info(`TaskWithTimeout: suspending ${tasks.size} tasks`);
+  shouldStartTimers = false;
   for (const task of tasks) {
     task.suspend();
   }
@@ -22,6 +24,7 @@ export function suspendTasksWithTimeout(): void {
 
 export function resumeTasksWithTimeout(): void {
   log.info(`TaskWithTimeout: resuming ${tasks.size} tasks`);
+  shouldStartTimers = true;
   for (const task of tasks) {
     task.resume();
   }
@@ -75,7 +78,9 @@ export default function createTaskWithTimeout<T, Args extends Array<unknown>>(
     };
 
     tasks.add(entry);
-    startTimer();
+    if (shouldStartTimers) {
+      startTimer();
+    }
 
     let result: unknown;
 
