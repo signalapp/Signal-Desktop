@@ -2946,11 +2946,6 @@ async function getGroupUpdates({
         group,
         serverPublicParamsBase64,
         newRevision,
-
-        // If we just linked and this is a group where we have been a member
-        // from the beggining - applying all changes since the start is the best
-        // case scenario.
-        fallbackRevision: 0,
       });
 
       return result;
@@ -2971,36 +2966,6 @@ async function getGroupUpdates({
         );
       } else {
         throw error;
-      }
-    }
-
-    // Fetch of logs starting from the revision 0 failed, so we probably were
-    // just invited to the group. Try fetching logs from the same revision as in
-    // this message.
-    if (isFirstFetch) {
-      try {
-        const result = await updateGroupViaLogs({
-          group,
-          serverPublicParamsBase64,
-          newRevision,
-          fallbackRevision: newRevision,
-        });
-
-        return result;
-      } catch (error) {
-        if (error.code === TEMPORAL_AUTH_REJECTED_CODE) {
-          // We will fail over to the updateGroupViaState call below
-          log.info(
-            `getGroupUpdates/${logId}: Temporal credential failure, now fetching full state`
-          );
-        } else if (error.code === GROUP_ACCESS_DENIED_CODE) {
-          // We will fail over to the updateGroupViaState call below
-          log.info(
-            `getGroupUpdates/${logId}: Log access denied, now fetching full state`
-          );
-        } else {
-          throw error;
-        }
       }
     }
   }
@@ -3120,11 +3085,9 @@ async function updateGroupViaSingleChange({
 async function updateGroupViaLogs({
   group,
   serverPublicParamsBase64,
-  fallbackRevision,
   newRevision,
 }: {
   group: ConversationAttributesType;
-  fallbackRevision: number;
   newRevision: number;
   serverPublicParamsBase64: string;
 }): Promise<UpdatesResultType> {
@@ -3137,7 +3100,6 @@ async function updateGroupViaLogs({
   const groupCredentials = getCredentialsForToday(data);
   const deltaOptions = {
     group,
-    fallbackRevision,
     newRevision,
     serverPublicParamsBase64,
     authCredentialBase64: groupCredentials.today.credential,
@@ -3261,13 +3223,11 @@ function getGroupCredentials({
 async function getGroupDelta({
   group,
   newRevision,
-  fallbackRevision,
   serverPublicParamsBase64,
   authCredentialBase64,
 }: {
   group: ConversationAttributesType;
   newRevision: number;
-  fallbackRevision: number;
   serverPublicParamsBase64: string;
   authCredentialBase64: string;
 }): Promise<UpdatesResultType> {
@@ -3292,7 +3252,7 @@ async function getGroupDelta({
   const currentRevision = group.revision;
   let revisionToFetch = isNumber(currentRevision)
     ? currentRevision + 1
-    : fallbackRevision;
+    : undefined;
 
   let response;
   const changes: Array<Proto.IGroupChanges> = [];

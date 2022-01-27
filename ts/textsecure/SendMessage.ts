@@ -2134,7 +2134,7 @@ export default class MessageSender {
   }
 
   async getGroupLog(
-    startVersion: number,
+    startVersion: number | undefined,
     options: Readonly<GroupCredentialsType>
   ): Promise<GroupLogResponseType> {
     return this.server.getGroupLog(startVersion, options);

@@ -538,6 +538,7 @@ const URL_CALLS = {
   getIceServers: 'v1/accounts/turn',
   getStickerPackUpload: 'v1/sticker/pack/form',
   groupLog: 'v1/groups/logs',
+  groupJoinedAtVersion: 'v1/groups/joined_at_version',
   groups: 'v1/groups',
   groupsViaLink: 'v1/groups/join',
   groupToken: 'v1/groups/token',
@@ -803,7 +804,7 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<Proto.GroupExternalCredential>;
   getGroupLog: (
-    startVersion: number,
+    startVersion: number | undefined,
     options: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
   getIceServers: () => Promise<GetIceServersResultType>;
@@ -2590,13 +2591,29 @@ export function initialize({
     }
 
     async function getGroupLog(
-      startVersion: number,
+      startVersion: number | undefined,
       options: GroupCredentialsType
     ): Promise<GroupLogResponseType> {
       const basicAuth = generateGroupAuth(
         options.groupPublicParamsHex,
         options.authCredentialPresentationHex
       );
+
+      // If we don't know starting revision - fetch it from the server
+      if (startVersion === undefined) {
+        const { data: joinedData } = await _ajax({
+          basicAuth,
+          call: 'groupJoinedAtVersion',
+          contentType: 'application/x-protobuf',
+          host: storageUrl,
+          httpType: 'GET',
+          responseType: 'byteswithdetails',
+        });
+
+        const { joinedAtVersion } = Proto.Member.decode(joinedData);
+
+        return getGroupLog(joinedAtVersion, options);
+      }
 
       const withDetails = await _ajax({
         basicAuth,
