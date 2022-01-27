@@ -18,7 +18,6 @@ import { Timeline } from '../../components/conversation/Timeline';
 import type { StateType } from '../reducer';
 import type { ConversationType } from '../ducks/conversations';
 
-import { getAreFloatingDateHeadersEnabled } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import {
   getConversationByUuidSelector,
@@ -321,8 +320,6 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
 
     warning: getWarning(conversation, state),
     contactSpoofingReview: getContactSpoofingReview(id, state),
-
-    areFloatingDateHeadersEnabled: getAreFloatingDateHeadersEnabled(state),
 
     getTimestampForMessage,
     getPreferredBadge: getPreferredBadgeSelector(state),

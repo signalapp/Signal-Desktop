@@ -15,7 +15,6 @@ import type {
 } from '../../types/Colors';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors';
 import { getPreferredReactionEmoji as getPreferredReactionEmojiFromStoredValue } from '../../reactions/preferredReactionEmoji';
-import { getIsAlpha, getIsBeta } from './user';
 
 const DEFAULT_PREFERRED_LEFT_PANE_WIDTH = 320;
 
@@ -57,25 +56,6 @@ export const getUsernamesEnabled = createSelector(
   getRemoteConfig,
   (remoteConfig: ConfigMapType): boolean =>
     isRemoteConfigFlagEnabled(remoteConfig, 'desktop.usernames')
-);
-
-export const getAreFloatingDateHeadersEnabled = createSelector(
-  getRemoteConfig,
-  getIsAlpha,
-  getIsBeta,
-  (remoteConfig: ConfigMapType, isAlpha, isBeta): boolean => {
-    if (
-      isAlpha ||
-      isRemoteConfigFlagEnabled(remoteConfig, 'desktop.internalUser')
-    ) {
-      return true;
-    }
-
-    const remoteConfigKey: ConfigKeyType = isBeta
-      ? 'desktop.floatingDateHeaders.beta'
-      : 'desktop.floatingDateHeaders.production';
-    return isRemoteConfigFlagEnabled(remoteConfig, remoteConfigKey);
-  }
 );
 
 export const getDefaultConversationColor = createSelector(

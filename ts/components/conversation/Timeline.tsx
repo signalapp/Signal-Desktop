@@ -120,8 +120,6 @@ type PropsHousekeepingType = {
   i18n: LocalizerType;
   theme: ThemeType;
 
-  areFloatingDateHeadersEnabled?: boolean;
-
   renderItem: (props: {
     actionProps: PropsActionsType;
     containerElementRef: RefObject<HTMLElement>;
@@ -1251,7 +1249,6 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   public override render(): JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
-      areFloatingDateHeadersEnabled = true,
       areWeAdmin,
       clearInvitedUuidsForNewlyCreatedGroup,
       closeContactSpoofingReview,
@@ -1293,7 +1290,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
     let floatingHeader: ReactNode;
     const oldestPartiallyVisibleRow = visibleRows?.oldestPartiallyVisible;
-    if (areFloatingDateHeadersEnabled && oldestPartiallyVisibleRow) {
+    if (oldestPartiallyVisibleRow) {
       floatingHeader = (
         <TimelineFloatingHeader
           i18n={i18n}

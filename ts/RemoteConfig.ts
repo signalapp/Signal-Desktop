@@ -10,8 +10,6 @@ export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
   | 'desktop.disableGV1'
-  | 'desktop.floatingDateHeaders.beta'
-  | 'desktop.floatingDateHeaders.production'
   | 'desktop.groupCallOutboundRing'
   | 'desktop.groupCalling'
   | 'desktop.gv2'
