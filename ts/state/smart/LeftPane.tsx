@@ -118,12 +118,18 @@ const getModeSpecificProps = (
         return {
           mode: LeftPaneMode.Search,
           primarySendsSms,
+          searchConversation: getSearchConversation(state),
+          searchDisabled: state.network.challengeStatus !== 'idle',
+          startSearchCounter: getStartSearchCounter(state),
           ...getSearchResults(state),
         };
       }
       return {
         mode: LeftPaneMode.Inbox,
         isAboutToSearchInAConversation: getIsSearchingInAConversation(state),
+        searchConversation: getSearchConversation(state),
+        searchDisabled: state.network.challengeStatus !== 'idle',
+        searchTerm: getQuery(state),
         startSearchCounter: getStartSearchCounter(state),
         ...getLeftPaneLists(state),
       };

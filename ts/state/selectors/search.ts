@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
@@ -95,7 +95,14 @@ export const getSearchResults = createSelector(
     state: SearchStateType,
     searchConversationName,
     conversationLookup: ConversationLookupType
-  ): Omit<LeftPaneSearchPropsType, 'primarySendsSms'> => {
+  ): Pick<
+    LeftPaneSearchPropsType,
+    | 'conversationResults'
+    | 'contactResults'
+    | 'messageResults'
+    | 'searchConversationName'
+    | 'searchTerm'
+  > => {
     const {
       contactIds,
       conversationIds,

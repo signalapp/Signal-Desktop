@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -12,10 +12,13 @@ import { LeftPaneInboxHelper } from '../../../components/leftPane/LeftPaneInboxH
 
 describe('LeftPaneInboxHelper', () => {
   const defaultProps: LeftPaneInboxPropsType = {
-    conversations: [],
-    pinnedConversations: [],
     archivedConversations: [],
+    conversations: [],
     isAboutToSearchInAConversation: false,
+    pinnedConversations: [],
+    searchConversation: undefined,
+    searchDisabled: false,
+    searchTerm: '',
     startSearchCounter: 0,
   };
 

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ChangeEvent } from 'react';
@@ -105,21 +105,37 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     return startComposing;
   }
 
+  override getSearchInput({
+    i18n,
+    onChangeComposeSearchTerm,
+  }: Readonly<{
+    i18n: LocalizerType;
+    onChangeComposeSearchTerm: (
+      event: ChangeEvent<HTMLInputElement>
+    ) => unknown;
+  }>): ReactChild {
+    return (
+      <SearchInput
+        moduleClassName="module-left-pane__compose-search-form"
+        onChange={onChangeComposeSearchTerm}
+        placeholder={i18n('contactSearchPlaceholder')}
+        ref={focusRef}
+        value={this.searchTerm}
+      />
+    );
+  }
+
   override getPreRowsNode({
     closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
     i18n,
-    onChangeComposeSearchTerm,
     removeSelectedContact,
   }: Readonly<{
     closeCantAddContactToGroupModal: () => unknown;
     closeMaximumGroupSizeModal: () => unknown;
     closeRecommendedGroupSizeModal: () => unknown;
     i18n: LocalizerType;
-    onChangeComposeSearchTerm: (
-      event: ChangeEvent<HTMLInputElement>
-    ) => unknown;
     removeSelectedContact: (conversationId: string) => unknown;
   }>): ReactChild {
     let modalNode: undefined | ReactChild;
@@ -154,14 +170,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
 
     return (
       <>
-        <SearchInput
-          moduleClassName="module-left-pane__compose-search-form"
-          onChange={onChangeComposeSearchTerm}
-          placeholder={i18n('contactSearchPlaceholder')}
-          ref={focusRef}
-          value={this.searchTerm}
-        />
-
         {Boolean(this.selectedContacts.length) && (
           <ContactPills>
             {this.selectedContacts.map(contact => (

@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -10,39 +10,25 @@ import { Avatar } from './Avatar';
 import { AvatarPopup } from './AvatarPopup';
 import type { LocalizerType, ThemeType } from '../types/Util';
 import type { AvatarColorType } from '../types/Colors';
-import type { ConversationType } from '../state/ducks/conversations';
-import { LeftPaneSearchInput } from './LeftPaneSearchInput';
 import type { BadgeType } from '../badges/types';
 
 export type PropsType = {
-  searchTerm: string;
-  searchConversation: undefined | ConversationType;
-  startSearchCounter: number;
-  selectedConversation: undefined | ConversationType;
-
-  // For display
-  phoneNumber?: string;
-  isMe?: boolean;
-  name?: string;
-  color?: AvatarColorType;
-  disabled?: boolean;
-  isVerified?: boolean;
-  profileName?: string;
-  title: string;
   avatarPath?: string;
   badge?: BadgeType;
+  color?: AvatarColorType;
   hasPendingUpdate: boolean;
-  theme: ThemeType;
-
   i18n: LocalizerType;
-
-  updateSearchTerm: (searchTerm: string) => void;
-  startUpdate: () => unknown;
-  clearConversationSearch: () => void;
-  clearSearch: () => void;
+  isMe?: boolean;
+  isVerified?: boolean;
+  name?: string;
+  phoneNumber?: string;
+  profileName?: string;
+  theme: ThemeType;
+  title: string;
 
   showArchivedConversations: () => void;
   startComposing: () => void;
+  startUpdate: () => unknown;
   toggleProfileEditor: () => void;
 };
 
@@ -52,33 +38,13 @@ type StateType = {
 };
 
 export class MainHeader extends React.Component<PropsType, StateType> {
-  private readonly inputRef: React.RefObject<HTMLInputElement>;
-
   constructor(props: PropsType) {
     super(props);
-
-    this.inputRef = React.createRef();
 
     this.state = {
       showingAvatarPopup: false,
       popperRoot: null,
     };
-  }
-
-  public override componentDidUpdate(prevProps: PropsType): void {
-    const { searchConversation, startSearchCounter } = this.props;
-
-    // When user chooses to search in a given conversation we focus the field for them
-    if (
-      searchConversation &&
-      searchConversation.id !== prevProps.searchConversation?.id
-    ) {
-      this.setFocus();
-    }
-    // When user chooses to start a new search, we focus the field
-    if (startSearchCounter !== prevProps.startSearchCounter) {
-      this.setSelected();
-    }
   }
 
   public handleOutsideClick = ({ target }: MouseEvent): void => {
@@ -134,42 +100,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   }
 
-  private updateSearch = (searchTerm: string): void => {
-    const {
-      updateSearchTerm,
-      clearConversationSearch,
-      clearSearch,
-      searchConversation,
-    } = this.props;
-
-    if (!searchTerm) {
-      if (searchConversation) {
-        clearConversationSearch();
-      } else {
-        clearSearch();
-      }
-
-      return;
-    }
-
-    if (updateSearchTerm) {
-      updateSearchTerm(searchTerm);
-    }
-  };
-
-  public clearSearch = (): void => {
-    const { clearSearch } = this.props;
-    clearSearch();
-    this.setFocus();
-  };
-
-  private handleInputBlur = (): void => {
-    const { clearSearch, searchConversation, searchTerm } = this.props;
-    if (!searchConversation && !searchTerm) {
-      clearSearch();
-    }
-  };
-
   public handleGlobalKeyDown = (event: KeyboardEvent): void => {
     const { showingAvatarPopup } = this.state;
     const { key } = event;
@@ -179,31 +109,16 @@ export class MainHeader extends React.Component<PropsType, StateType> {
     }
   };
 
-  public setFocus = (): void => {
-    if (this.inputRef.current) {
-      this.inputRef.current.focus();
-    }
-  };
-
-  public setSelected = (): void => {
-    if (this.inputRef.current) {
-      this.inputRef.current.select();
-    }
-  };
-
   public override render(): JSX.Element {
     const {
       avatarPath,
       badge,
       color,
-      disabled,
       hasPendingUpdate,
       i18n,
       name,
       phoneNumber,
       profileName,
-      searchConversation,
-      searchTerm,
       showArchivedConversations,
       startComposing,
       startUpdate,
@@ -212,8 +127,6 @@ export class MainHeader extends React.Component<PropsType, StateType> {
       toggleProfileEditor,
     } = this.props;
     const { showingAvatarPopup, popperRoot } = this.state;
-
-    const isSearching = Boolean(searchConversation || searchTerm.trim().length);
 
     return (
       <div className="module-main-header">
@@ -291,25 +204,13 @@ export class MainHeader extends React.Component<PropsType, StateType> {
               )
             : null}
         </Manager>
-        <LeftPaneSearchInput
-          disabled={disabled}
-          i18n={i18n}
-          onBlur={this.handleInputBlur}
-          onChangeValue={this.updateSearch}
-          onClear={this.clearSearch}
-          ref={this.inputRef}
-          searchConversation={searchConversation}
-          value={searchTerm}
+        <button
+          aria-label={i18n('newConversation')}
+          className="module-main-header__compose-icon"
+          onClick={startComposing}
+          title={i18n('newConversation')}
+          type="button"
         />
-        {!isSearching && (
-          <button
-            aria-label={i18n('newConversation')}
-            className="module-main-header__compose-icon"
-            onClick={startComposing}
-            title={i18n('newConversation')}
-            type="button"
-          />
-        )}
       </div>
     );
   }

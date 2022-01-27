@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -23,6 +23,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: [] },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.isUndefined(
@@ -44,6 +47,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }).getRowCount(),
         100
       );
@@ -57,6 +63,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }).getRowCount(),
         100
       );
@@ -67,6 +76,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: false, results: [fakeMessage()] },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }).getRowCount(),
         100
       );
@@ -79,6 +91,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: [] },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.strictEqual(helper.getRowCount(), 0);
@@ -94,6 +109,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: [fakeMessage()] },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.strictEqual(helper.getRowCount(), 5);
@@ -109,6 +127,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
         new LeftPaneSearchHelper({
           conversationResults: {
@@ -119,6 +140,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
         new LeftPaneSearchHelper({
           conversationResults: { isLoading: true },
@@ -126,6 +150,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: false, results: [fakeMessage()] },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
       ];
 
@@ -159,6 +186,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: messages },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -208,6 +238,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: messages },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -248,6 +281,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: messages },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.deepEqual(helper.getRow(0), {
@@ -290,6 +326,9 @@ describe('LeftPaneSearchHelper', () => {
       messageResults: { isLoading: false, results: [] },
       searchTerm: 'foo',
       primarySendsSms: false,
+      searchConversation: undefined,
+      searchDisabled: false,
+      startSearchCounter: 0,
     });
 
     assert.deepEqual(helper.getRow(0), {
@@ -324,6 +363,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
         new LeftPaneSearchHelper({
           conversationResults: {
@@ -334,6 +376,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
         new LeftPaneSearchHelper({
           conversationResults: { isLoading: true },
@@ -341,6 +386,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: false, results: [fakeMessage()] },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         }),
       ];
 
@@ -362,6 +410,9 @@ describe('LeftPaneSearchHelper', () => {
         },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
       assert.isTrue(helper.isScrollable());
     });
@@ -381,6 +432,9 @@ describe('LeftPaneSearchHelper', () => {
         },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.isFalse(
@@ -396,6 +450,9 @@ describe('LeftPaneSearchHelper', () => {
           },
           searchTerm: 'bar',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         })
       );
     });
@@ -407,6 +464,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: true },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.isFalse(
@@ -419,6 +479,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'bar',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         })
       );
     });
@@ -430,6 +493,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: [fakeMessage()] },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.isTrue(
@@ -442,6 +508,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: false, results: [fakeMessage()] },
           searchTerm: 'foo',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         })
       );
     });
@@ -456,6 +525,9 @@ describe('LeftPaneSearchHelper', () => {
         messageResults: { isLoading: false, results: [] },
         searchTerm: 'foo',
         primarySendsSms: false,
+        searchConversation: undefined,
+        searchDisabled: false,
+        startSearchCounter: 0,
       });
 
       assert.isTrue(
@@ -468,6 +540,9 @@ describe('LeftPaneSearchHelper', () => {
           messageResults: { isLoading: true },
           searchTerm: 'bar',
           primarySendsSms: false,
+          searchConversation: undefined,
+          searchDisabled: false,
+          startSearchCounter: 0,
         })
       );
     });

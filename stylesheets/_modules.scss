@@ -2660,13 +2660,18 @@ button.ConversationDetails__action-button {
   height: calc(#{$header-height} + var(--title-bar-drag-area-height));
   width: 100%;
 
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
   padding-top: var(--title-bar-drag-area-height);
 
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   align-items: center;
+
+  .module-left-pane--width-narrow & {
+    justify-content: center;
+  }
 
   & > * {
     margin-right: 12px;
@@ -2681,6 +2686,10 @@ button.ConversationDetails__action-button {
 
     &--container {
       position: relative;
+
+      .module-left-pane--width-narrow & {
+        display: none;
+      }
     }
 
     &--badged {
@@ -2693,14 +2702,10 @@ button.ConversationDetails__action-button {
       top: 0;
       right: 0;
     }
-
-    .module-left-pane--width-narrow & {
-      display: none;
-    }
   }
 
   &__compose-icon {
-    $icon: '../images/icons/v2/compose-outline-24.svg';
+    $icon: '../images/icons/v2/compose-24.svg';
 
     width: 24px;
     height: 24px;

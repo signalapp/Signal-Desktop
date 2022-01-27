@@ -49,15 +49,11 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   }
 
   override getHeaderContents({
-    clearSearch,
     i18n,
     showInbox,
-    updateSearchTerm,
   }: Readonly<{
-    clearSearch: () => void;
     i18n: LocalizerType;
     showInbox: () => void;
-    updateSearchTerm: (query: string) => void;
   }>): ReactChild {
     return (
       <div className="module-left-pane__header__contents">
@@ -69,26 +65,41 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
           type="button"
         />
         <div className="module-left-pane__header__contents__text">
-          {this.searchConversation ? (
-            <LeftPaneSearchInput
-              i18n={i18n}
-              onChangeValue={newValue => {
-                updateSearchTerm(newValue);
-              }}
-              onClear={() => {
-                clearSearch();
-              }}
-              ref={el => {
-                el?.focus();
-              }}
-              searchConversation={this.searchConversation}
-              value={this.searchTerm}
-            />
-          ) : (
-            i18n('archivedConversations')
-          )}
+          {i18n('archivedConversations')}
         </div>
       </div>
+    );
+  }
+
+  override getSearchInput({
+    clearSearch,
+    i18n,
+    updateSearchTerm,
+  }: Readonly<{
+    clearConversationSearch: () => unknown;
+    clearSearch: () => unknown;
+    i18n: LocalizerType;
+    updateSearchTerm: (searchTerm: string) => unknown;
+  }>): ReactChild | null {
+    if (!this.searchConversation) {
+      return null;
+    }
+
+    return (
+      <LeftPaneSearchInput
+        i18n={i18n}
+        onChangeValue={newValue => {
+          updateSearchTerm(newValue);
+        }}
+        onClear={() => {
+          clearSearch();
+        }}
+        ref={el => {
+          el?.focus();
+        }}
+        searchConversation={this.searchConversation}
+        value={this.searchTerm}
+      />
     );
   }
 

@@ -96,6 +96,7 @@ export type PropsType = {
 
   // Action Creators
   cantAddContactToGroup: (conversationId: string) => void;
+  clearConversationSearch: () => void;
   clearGroupCreationError: () => void;
   clearSearch: () => void;
   closeCantAddContactToGroupModal: () => void;
@@ -151,6 +152,7 @@ export const LeftPane: React.FC<PropsType> = ({
   cantAddContactToGroup,
   challengeStatus,
   crashReportCount,
+  clearConversationSearch,
   clearGroupCreationError,
   clearSearch,
   closeCantAddContactToGroupModal,
@@ -461,7 +463,9 @@ export const LeftPane: React.FC<PropsType> = ({
   ]);
 
   const preRowsNode = helper.getPreRowsNode({
+    clearConversationSearch,
     clearGroupCreationError,
+    clearSearch,
     closeCantAddContactToGroupModal,
     closeMaximumGroupSizeModal,
     closeRecommendedGroupSizeModal,
@@ -470,14 +474,11 @@ export const LeftPane: React.FC<PropsType> = ({
     composeSaveAvatarToDisk,
     createGroup,
     i18n,
-    setComposeGroupAvatar,
-    setComposeGroupName,
-    setComposeGroupExpireTimer,
-    toggleComposeEditingAvatar,
-    onChangeComposeSearchTerm: event => {
-      setComposeSearchTerm(event.target.value);
-    },
     removeSelectedContact: toggleConversationInChooseMembers,
+    setComposeGroupAvatar,
+    setComposeGroupExpireTimer,
+    setComposeGroupName,
+    toggleComposeEditingAvatar,
   });
   const footerContents = helper.getFooterContents({
     createGroup,
@@ -550,14 +551,21 @@ export const LeftPane: React.FC<PropsType> = ({
       {/* eslint-enable jsx-a11y/no-static-element-interactions */}
       <div className="module-left-pane__header">
         {helper.getHeaderContents({
-          clearSearch,
           i18n,
           showInbox,
           startComposing,
           showChooseGroupMembers,
-          updateSearchTerm,
         }) || renderMainHeader()}
       </div>
+      {helper.getSearchInput({
+        clearConversationSearch,
+        clearSearch,
+        i18n,
+        onChangeComposeSearchTerm: event => {
+          setComposeSearchTerm(event.target.value);
+        },
+        updateSearchTerm,
+      })}
       {renderExpiredBuildDialog({ containerWidthBreakpoint: widthBreakpoint })}
       {renderRelinkDialog({ containerWidthBreakpoint: widthBreakpoint })}
       {renderNetworkStatus({ containerWidthBreakpoint: widthBreakpoint })}

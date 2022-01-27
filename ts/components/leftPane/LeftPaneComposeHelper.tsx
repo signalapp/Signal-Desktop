@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild, ChangeEvent } from 'react';
@@ -94,7 +94,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     return showInbox;
   }
 
-  override getPreRowsNode({
+  override getSearchInput({
     i18n,
     onChangeComposeSearchTerm,
   }: Readonly<{
@@ -104,21 +104,25 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     ) => unknown;
   }>): ReactChild {
     return (
-      <>
-        <SearchInput
-          moduleClassName="module-left-pane__compose-search-form"
-          onChange={onChangeComposeSearchTerm}
-          placeholder={i18n('contactSearchPlaceholder')}
-          ref={focusRef}
-          value={this.searchTerm}
-        />
+      <SearchInput
+        moduleClassName="module-left-pane__compose-search-form"
+        onChange={onChangeComposeSearchTerm}
+        placeholder={i18n('contactSearchPlaceholder')}
+        ref={focusRef}
+        value={this.searchTerm}
+      />
+    );
+  }
 
-        {this.getRowCount() ? null : (
-          <div className="module-left-pane__compose-no-contacts">
-            {i18n('noConversationsFound')}
-          </div>
-        )}
-      </>
+  override getPreRowsNode({
+    i18n,
+  }: Readonly<{
+    i18n: LocalizerType;
+  }>): ReactChild | null {
+    return this.getRowCount() ? null : (
+      <div className="module-left-pane__compose-no-contacts">
+        {i18n('noConversationsFound')}
+      </div>
     );
   }
 

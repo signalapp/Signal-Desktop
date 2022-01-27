@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -39,7 +39,6 @@ import {
   getNumberOfMessagesPendingBecauseOfVerification,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
-  getSelectedConversation,
   getSelectedConversationId,
   hasGroupCreationError,
   isCreatingGroup,
@@ -1741,36 +1740,6 @@ describe('both/state/selectors/conversations', () => {
         },
       };
       assert.strictEqual(getSelectedConversationId(state), 'abc123');
-    });
-  });
-
-  describe('#getSelectedConversation', () => {
-    it('returns undefined if no conversation is selected', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          conversationLookup: {
-            abc123: makeConversation('abc123'),
-          },
-        },
-      };
-      assert.isUndefined(getSelectedConversation(state));
-    });
-
-    it('returns the selected conversation', () => {
-      const conversation = makeConversation('abc123');
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          conversationLookup: {
-            abc123: conversation,
-          },
-          selectedConversationId: 'abc123',
-        },
-      };
-      assert.strictEqual(getSelectedConversation(state), conversation);
     });
   });
 

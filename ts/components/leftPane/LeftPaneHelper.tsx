@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ChangeEvent, ReactChild } from 'react';
@@ -24,12 +24,24 @@ export type ToFindType = {
 export abstract class LeftPaneHelper<T> {
   getHeaderContents(
     _: Readonly<{
-      clearSearch: () => void;
       i18n: LocalizerType;
       showInbox: () => void;
       startComposing: () => void;
       showChooseGroupMembers: () => void;
-      updateSearchTerm: (query: string) => void;
+    }>
+  ): null | ReactChild {
+    return null;
+  }
+
+  getSearchInput(
+    _: Readonly<{
+      clearConversationSearch: () => unknown;
+      clearSearch: () => unknown;
+      i18n: LocalizerType;
+      onChangeComposeSearchTerm: (
+        event: ChangeEvent<HTMLInputElement>
+      ) => unknown;
+      updateSearchTerm: (searchTerm: string) => unknown;
     }>
   ): null | ReactChild {
     return null;
@@ -47,7 +59,9 @@ export abstract class LeftPaneHelper<T> {
 
   getPreRowsNode(
     _: Readonly<{
+      clearConversationSearch: () => unknown;
       clearGroupCreationError: () => void;
+      clearSearch: () => unknown;
       closeCantAddContactToGroupModal: () => unknown;
       closeMaximumGroupSizeModal: () => unknown;
       closeRecommendedGroupSizeModal: () => unknown;
@@ -56,13 +70,10 @@ export abstract class LeftPaneHelper<T> {
       composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
       createGroup: () => unknown;
       i18n: LocalizerType;
-      setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
-      setComposeGroupName: (_: string) => unknown;
-      setComposeGroupExpireTimer: (_: number) => void;
-      onChangeComposeSearchTerm: (
-        event: ChangeEvent<HTMLInputElement>
-      ) => unknown;
       removeSelectedContact: (_: string) => unknown;
+      setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
+      setComposeGroupExpireTimer: (_: number) => void;
+      setComposeGroupName: (_: string) => unknown;
       toggleComposeEditingAvatar: () => unknown;
     }>
   ): null | ReactChild {

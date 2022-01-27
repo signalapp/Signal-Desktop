@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
@@ -130,25 +130,6 @@ export const getSelectedConversationId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => {
     return state.selectedConversationId;
-  }
-);
-
-export const getSelectedConversation = createSelector(
-  getSelectedConversationId,
-  getConversationLookup,
-  (
-    selectedConversationId: string | undefined,
-    conversationLookup: ConversationLookupType
-  ): undefined | ConversationType => {
-    if (!selectedConversationId) {
-      return undefined;
-    }
-    const conversation = getOwn(conversationLookup, selectedConversationId);
-    assert(
-      conversation,
-      'getSelectedConversation: could not find selected conversation in lookup; returning undefined'
-    );
-    return conversation;
   }
 );
 

@@ -7488,20 +7488,11 @@
     "updated": "2021-10-11T21:21:08.188Z"
   },
   {
-    "rule": "React-createRef",
-    "path": "ts/components/MainHeader.js",
-    "line": "        this.inputRef = react_1.default.createRef();",
+    "rule": "React-useRef",
+    "path": "ts/components/LeftPaneMainSearchInput.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Used only to set focus"
-  },
-  {
-    "rule": "React-createRef",
-    "path": "ts/components/MainHeader.tsx",
-    "line": "    this.inputRef = React.createRef();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-02-14T20:02:37.507Z",
-    "reasonDetail": "Used only to set focus"
+    "updated": "2022-01-26T23:11:05.369Z"
   },
   {
     "rule": "React-useRef",

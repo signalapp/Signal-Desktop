@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,7 +10,6 @@ import { setupI18n } from '../util/setupI18n';
 import enMessages from '../../_locales/en/messages.json';
 import type { PropsType } from './MainHeader';
 import { MainHeader } from './MainHeader';
-import { getDefaultConversation } from '../test-both/helpers/getDefaultConversation';
 import { ThemeType } from '../types/Util';
 
 const i18n = setupI18n('en', enMessages);
@@ -23,10 +22,6 @@ const optionalText = (name: string, value: string | undefined) =>
   text(name, value || '') || undefined;
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
-  searchTerm: requiredText('searchTerm', overrideProps.searchTerm),
-  searchConversation: overrideProps.searchConversation,
-  selectedConversation: undefined,
-  startSearchCounter: 0,
   theme: ThemeType.light,
 
   phoneNumber: optionalText('phoneNumber', overrideProps.phoneNumber),
@@ -37,9 +32,6 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 
   i18n,
 
-  updateSearchTerm: action('updateSearchTerm'),
-  clearConversationSearch: action('clearConversationSearch'),
-  clearSearch: action('clearSearch'),
   startUpdate: action('startUpdate'),
 
   showArchivedConversations: action('showArchivedConversations'),
@@ -66,35 +58,6 @@ story.add('Phone Number', () => {
   const props = createProps({
     name: 'John Smith',
     phoneNumber: '+15553004000',
-  });
-
-  return <MainHeader {...props} />;
-});
-
-story.add('Search Term', () => {
-  const props = createProps({
-    name: 'John Smith',
-    searchTerm: 'Hewwo?',
-    title: 'John Smith',
-  });
-
-  return <MainHeader {...props} />;
-});
-
-story.add('Searching Conversation', () => {
-  const props = createProps({
-    name: 'John Smith',
-    searchConversation: getDefaultConversation(),
-  });
-
-  return <MainHeader {...props} />;
-});
-
-story.add('Searching Conversation with Term', () => {
-  const props = createProps({
-    name: 'John Smith',
-    searchTerm: 'address',
-    searchConversation: getDefaultConversation(),
   });
 
   return <MainHeader {...props} />;

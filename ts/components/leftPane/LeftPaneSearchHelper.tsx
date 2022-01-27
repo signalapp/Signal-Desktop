@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild } from 'react';
@@ -11,6 +11,8 @@ import type { Row } from '../ConversationList';
 import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
+import type { ConversationType } from '../../state/ducks/conversations';
+import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
 
 import { Intl } from '../Intl';
 import { Emojify } from '../conversation/Emojify';
@@ -37,6 +39,9 @@ export type LeftPaneSearchPropsType = {
   searchConversationName?: string;
   primarySendsSms: boolean;
   searchTerm: string;
+  startSearchCounter: number;
+  searchDisabled: boolean;
+  searchConversation: undefined | ConversationType;
 };
 
 const searchResultKeys: Array<
@@ -61,30 +66,70 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
 
   private readonly searchTerm: string;
 
+  private readonly startSearchCounter: number;
+
+  private readonly searchDisabled: boolean;
+
+  private readonly searchConversation: undefined | ConversationType;
+
   constructor({
-    conversationResults,
     contactResults,
+    conversationResults,
     messageResults,
-    searchConversationName,
     primarySendsSms,
+    searchConversation,
+    searchConversationName,
+    searchDisabled,
     searchTerm,
+    startSearchCounter,
   }: Readonly<LeftPaneSearchPropsType>) {
     super();
 
-    this.conversationResults = conversationResults;
     this.contactResults = contactResults;
+    this.conversationResults = conversationResults;
     this.messageResults = messageResults;
-    this.searchConversationName = searchConversationName;
     this.primarySendsSms = primarySendsSms;
+    this.searchConversation = searchConversation;
+    this.searchConversationName = searchConversationName;
+    this.searchDisabled = searchDisabled;
     this.searchTerm = searchTerm;
+    this.startSearchCounter = startSearchCounter;
+  }
+
+  override getSearchInput({
+    clearConversationSearch,
+    clearSearch,
+    i18n,
+    updateSearchTerm,
+  }: Readonly<{
+    clearConversationSearch: () => unknown;
+    clearSearch: () => unknown;
+    i18n: LocalizerType;
+    updateSearchTerm: (searchTerm: string) => unknown;
+  }>): ReactChild {
+    return (
+      <LeftPaneMainSearchInput
+        clearConversationSearch={clearConversationSearch}
+        clearSearch={clearSearch}
+        disabled={this.searchDisabled}
+        i18n={i18n}
+        searchConversation={this.searchConversation}
+        searchTerm={this.searchTerm}
+        startSearchCounter={this.startSearchCounter}
+        updateSearchTerm={updateSearchTerm}
+      />
+    );
   }
 
   override getPreRowsNode({
     i18n,
-  }: Readonly<{ i18n: LocalizerType }>): null | ReactChild {
+  }: Readonly<{
+    i18n: LocalizerType;
+  }>): ReactChild | null {
     const mightHaveSearchResults = this.allResults().some(
       searchResult => searchResult.isLoading || searchResult.results.length
     );
+
     if (mightHaveSearchResults) {
       return null;
     }

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { last } from 'lodash';
@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Intl } from '../Intl';
 import type { ToFindType } from './LeftPaneHelper';
+import type { ConversationType } from '../../state/ducks/conversations';
 import { LeftPaneHelper } from './LeftPaneHelper';
 import { getConversationInDirection } from './getConversationInDirection';
 import type { Row } from '../ConversationList';
@@ -14,6 +15,7 @@ import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
+import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
@@ -21,6 +23,9 @@ export type LeftPaneInboxPropsType = {
   pinnedConversations: ReadonlyArray<ConversationListItemPropsType>;
   isAboutToSearchInAConversation: boolean;
   startSearchCounter: number;
+  searchDisabled: boolean;
+  searchTerm: string;
+  searchConversation: undefined | ConversationType;
 };
 
 export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> {
@@ -34,12 +39,21 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
 
   private readonly startSearchCounter: number;
 
+  private readonly searchDisabled: boolean;
+
+  private readonly searchTerm: string;
+
+  private readonly searchConversation: undefined | ConversationType;
+
   constructor({
     conversations,
     archivedConversations,
     pinnedConversations,
     isAboutToSearchInAConversation,
     startSearchCounter,
+    searchDisabled,
+    searchTerm,
+    searchConversation,
   }: Readonly<LeftPaneInboxPropsType>) {
     super();
 
@@ -48,6 +62,9 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     this.pinnedConversations = pinnedConversations;
     this.isAboutToSearchInAConversation = isAboutToSearchInAConversation;
     this.startSearchCounter = startSearchCounter;
+    this.searchDisabled = searchDisabled;
+    this.searchTerm = searchTerm;
+    this.searchConversation = searchConversation;
   }
 
   getRowCount(): number {
@@ -61,9 +78,36 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     );
   }
 
+  override getSearchInput({
+    clearConversationSearch,
+    clearSearch,
+    i18n,
+    updateSearchTerm,
+  }: Readonly<{
+    clearConversationSearch: () => unknown;
+    clearSearch: () => unknown;
+    i18n: LocalizerType;
+    updateSearchTerm: (searchTerm: string) => unknown;
+  }>): ReactChild {
+    return (
+      <LeftPaneMainSearchInput
+        clearConversationSearch={clearConversationSearch}
+        clearSearch={clearSearch}
+        disabled={this.searchDisabled}
+        i18n={i18n}
+        searchConversation={this.searchConversation}
+        searchTerm={this.searchTerm}
+        startSearchCounter={this.startSearchCounter}
+        updateSearchTerm={updateSearchTerm}
+      />
+    );
+  }
+
   override getPreRowsNode({
     i18n,
-  }: Readonly<{ i18n: LocalizerType }>): null | ReactChild {
+  }: Readonly<{
+    i18n: LocalizerType;
+  }>): ReactChild | null {
     if (this.getRowCount() === 0) {
       return (
         <div className="module-left-pane__empty">

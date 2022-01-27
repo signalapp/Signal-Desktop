@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-SearchInput {
@@ -12,14 +12,14 @@
     @include font-body-2;
 
     @include light-theme {
-      background-color: $color-black-alpha-08;
-      border: solid 1px $color-gray-02;
+      background-color: $color-gray-15;
+      border: solid 1px $color-gray-15;
       color: $color-gray-90;
     }
 
     @include dark-theme {
-      background: $color-gray-90;
-      border: solid 1px $color-gray-90;
+      background-color: $color-gray-65;
+      border: solid 1px $color-gray-65;
       color: $color-gray-05;
     }
 

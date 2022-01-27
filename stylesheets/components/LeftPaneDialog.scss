@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @keyframes progress-animation {
@@ -21,12 +21,12 @@
   align-items: center;
   background: $default-background-color;
   color: $default-text-color;
+  cursor: inherit;
   display: flex;
-  width: 100%;
   min-height: 64px;
   padding: 12px 18px;
   user-select: none;
-  cursor: inherit;
+  width: 100%;
 
   .module-left-pane--width-narrow & {
     padding-left: 36px;
