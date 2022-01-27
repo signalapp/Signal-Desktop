@@ -216,6 +216,8 @@ export class ConversationModel extends window.Backbone
   // This number is recorded as an optimization and may be out of date.
   private newestReceivedAtMarkedRead?: number;
 
+  private _activeProfileFetch?: Promise<void>;
+
   override defaults(): Partial<ConversationAttributesType> {
     return {
       unreadCount: 0,
@@ -4648,12 +4650,29 @@ export class ConversationModel extends window.Backbone
     const queue = new PQueue({
       concurrency: 3,
     });
-    await queue.addAll(
-      conversations.map(
-        conversation => () =>
-          getProfile(conversation.get('uuid'), conversation.get('e164'))
-      )
-    );
+
+    // Convert Promise<void[]> that is returned by addAll() to Promise<void>
+    const promise = (async () => {
+      await queue.addAll(
+        conversations.map(
+          conversation => () =>
+            getProfile(conversation.get('uuid'), conversation.get('e164'))
+        )
+      );
+    })();
+
+    this._activeProfileFetch = promise;
+    try {
+      await promise;
+    } finally {
+      if (this._activeProfileFetch === promise) {
+        this._activeProfileFetch = undefined;
+      }
+    }
+  }
+
+  getActiveProfileFetch(): Promise<void> | undefined {
+    return this._activeProfileFetch;
   }
 
   async setEncryptedProfileName(encryptedName: string): Promise<void> {

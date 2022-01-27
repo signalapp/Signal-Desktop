@@ -12,6 +12,7 @@ import {
 import type { ClientZkGroupCipher } from '@signalapp/signal-client/zkgroup';
 import { v4 as getGuid } from 'uuid';
 import LRU from 'lru-cache';
+import PQueue from 'p-queue';
 import * as log from './logging/log';
 import {
   getCredentialsForToday,
@@ -2794,6 +2795,8 @@ async function updateGroup(
   },
   { viaSync = false } = {}
 ): Promise<void> {
+  const logId = conversation.idForLogging();
+
   const { newAttributes, groupChangeMessages, members } = updates;
   const ourUuid = window.textsecure.storage.user.getCheckedUuid();
 
@@ -2859,6 +2862,38 @@ async function updateGroup(
     };
   });
 
+  const contactsWithoutProfileKey = new Array<ConversationModel>();
+
+  // Capture profile key for each member in the group, if we don't have it yet
+  members.forEach(member => {
+    const contact = window.ConversationController.getOrCreate(
+      member.uuid,
+      'private'
+    );
+
+    if (member.profileKey && !contact.get('profileKey')) {
+      contactsWithoutProfileKey.push(contact);
+      contact.setProfileKey(member.profileKey);
+    }
+  });
+
+  if (contactsWithoutProfileKey.length !== 0) {
+    log.info(
+      `updateGroup/${logId}: fetching ` +
+        `${contactsWithoutProfileKey.length} missing profiles`
+    );
+
+    const profileFetchQueue = new PQueue({
+      concurrency: 3,
+    });
+    await profileFetchQueue.addAll(
+      contactsWithoutProfileKey.map(contact => () => {
+        const active = contact.getActiveProfileFetch();
+        return active || contact.getProfiles();
+      })
+    );
+  }
+
   if (changeMessagesToSave.length > 0) {
     await window.Signal.Data.saveMessages(changeMessagesToSave, {
       forceSave: true,
@@ -2870,15 +2905,6 @@ async function updateGroup(
       conversation.trigger('newmessage', model);
     });
   }
-
-  // Capture profile key for each member in the group, if we don't have it yet
-  members.forEach(member => {
-    const contact = window.ConversationController.get(member.uuid);
-
-    if (member.profileKey && contact && !contact.get('profileKey')) {
-      contact.setProfileKey(member.profileKey);
-    }
-  });
 
   // No need for convo.updateLastMessage(), 'newmessage' handler does that
 }
