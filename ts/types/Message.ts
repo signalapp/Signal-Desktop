@@ -13,7 +13,6 @@ export type IncomingMessage = Readonly<
 
     // Optional
     body?: string;
-    decrypted_at?: number;
     errors?: Array<any>;
     expireTimer?: number;
     flags?: number;

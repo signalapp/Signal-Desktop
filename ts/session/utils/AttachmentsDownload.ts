@@ -244,7 +244,7 @@ async function _runJob(job: any) {
 
     logger.error(
       `_runJob: Failed to download attachment type ${type} for message ${found?.idForLogging()}, attempt ${currentAttempt}:`,
-      error && error.stack ? error.stack : error
+      error && error.message ? error.message : error
     );
 
     const failedJob = {

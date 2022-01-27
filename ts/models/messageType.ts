@@ -19,7 +19,6 @@ export interface MessageAttributes {
   body?: string;
   expirationStartTimestamp: number;
   read_by: Array<string>;
-  decrypted_at: number;
   expires_at?: number;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
@@ -135,7 +134,6 @@ export interface MessageAttributesOptionals {
   body?: string;
   expirationStartTimestamp?: number;
   read_by?: Array<string>;
-  decrypted_at?: number;
   expires_at?: number;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;

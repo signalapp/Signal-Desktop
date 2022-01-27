@@ -233,7 +233,6 @@ async function handleRegularMessage(
     attachments: rawDataMessage.attachments,
     body: rawDataMessage.body,
     conversationId: conversation.id,
-    decrypted_at: now,
     messageHash,
     errors: [],
   });
