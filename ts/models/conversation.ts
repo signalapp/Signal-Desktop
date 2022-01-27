@@ -890,35 +890,27 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     messageAttributes: Omit<
       MessageAttributesOptionals,
       'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
-    >,
-    setToExpire = true
+    >
   ) {
-    return this.addSingleMessage(
-      {
-        ...messageAttributes,
-        conversationId: this.id,
-        source: UserUtils.getOurPubKeyStrFromCache(),
-        type: 'outgoing',
-        direction: 'outgoing',
-        received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
-      },
-      setToExpire
-    );
+    return this.addSingleMessage({
+      ...messageAttributes,
+      conversationId: this.id,
+      source: UserUtils.getOurPubKeyStrFromCache(),
+      type: 'outgoing',
+      direction: 'outgoing',
+      received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
+    });
   }
 
   public async addSingleIncomingMessage(
-    messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>,
-    setToExpire = true
+    messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
   ) {
-    return this.addSingleMessage(
-      {
-        ...messageAttributes,
-        conversationId: this.id,
-        type: 'incoming',
-        direction: 'outgoing',
-      },
-      setToExpire
-    );
+    return this.addSingleMessage({
+      ...messageAttributes,
+      conversationId: this.id,
+      type: 'incoming',
+      direction: 'outgoing',
+    });
   }
 
   public async leaveClosedGroup() {
@@ -1470,10 +1462,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  private async addSingleMessage(
-    messageAttributes: MessageAttributesOptionals,
-    setToExpire = true
-  ) {
+  private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
     const model = new MessageModel(messageAttributes);
 
     const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
@@ -1490,9 +1479,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageId = await model.commit(false);
     model.set({ id: messageId });
 
-    if (setToExpire) {
-      await model.setToExpire();
-    }
+    await model.setToExpire();
+
     window.inboxStore?.dispatch(
       conversationActions.messagesAdded([
         {

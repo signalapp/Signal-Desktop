@@ -309,12 +309,6 @@ async function handleExpirationTimerUpdate(
   });
   conversation.set({ expireTimer });
 
-  window?.log?.info("Update conversation 'expireTimer'", {
-    id: conversation.idForLogging(),
-    expireTimer,
-    source: 'handleSwarmDataMessage',
-  });
-
   await conversation.updateExpireTimer(expireTimer, source, message.get('received_at'));
 }
 
@@ -412,9 +406,7 @@ export async function handleMessageJob(
       conversation.throttledNotify(messageModel);
     }
 
-    if (confirm) {
-      confirm();
-    }
+    confirm?.();
   } catch (error) {
     const errorForLog = error && error.stack ? error.stack : error;
     window?.log?.error(
