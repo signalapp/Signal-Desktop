@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
@@ -20,6 +20,7 @@ import { SessionIconButton } from '../icon';
 import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { sanitizeSessionUsername } from '../../session/utils/String';
 
 interface State {
   profileName: string;
@@ -232,8 +233,8 @@ export class EditProfileDialog extends React.Component<{}, State> {
     );
   }
 
-  private onNameEdited(event: any) {
-    const newName = event.target.value.replace(window.displayNameRegex, '');
+  private onNameEdited(event: ChangeEvent<HTMLInputElement>) {
+    const newName = sanitizeSessionUsername(event.target.value);
     this.setState({
       profileName: newName,
     });

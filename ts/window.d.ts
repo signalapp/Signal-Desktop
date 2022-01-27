@@ -30,10 +30,6 @@ declare global {
     clearLocalData: any;
     clipboard: any;
     dcodeIO: any;
-    displayNameRegex: any;
-    friends: any;
-    getConversations: any;
-    getFriendsFromContacts: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
     setSettingValue: (id: string, value: any) => void;
 
