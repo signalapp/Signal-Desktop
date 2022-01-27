@@ -9,6 +9,7 @@ import {
   getMessageContentSelectorProps,
   getMessageTextProps,
   getQuotedMessageToAnimate,
+  getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
 import {
   canDisplayImage,
@@ -98,6 +99,7 @@ export const IsMessageVisibleContext = createContext(false);
 
 export const MessageContent = (props: Props) => {
   const [flashGreen, setFlashGreen] = useState(false);
+  const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
@@ -123,19 +125,27 @@ export const MessageContent = (props: Props) => {
   }, [setImageBroken]);
 
   const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+  const shouldHighlightMessage = useSelector(getShouldHighlightMessage);
   const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
 
   useLayoutEffect(() => {
     if (isQuotedMessageToAnimate) {
-      if (!flashGreen) {
+      if (!flashGreen && !didScroll) {
         //scroll to me and flash me
         scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
-        setFlashGreen(true);
+        setDidScroll(true);
+        if (shouldHighlightMessage) {
+          setFlashGreen(true);
+        }
       }
       return;
     }
     if (flashGreen) {
       setFlashGreen(false);
+    }
+
+    if (didScroll) {
+      setDidScroll(false);
     }
     return;
   });

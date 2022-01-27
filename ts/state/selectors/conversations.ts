@@ -612,6 +612,12 @@ export const getQuotedMessageToAnimate = createSelector(
   (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
 );
 
+export const getShouldHighlightMessage = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean =>
+    Boolean(state.animateQuotedMessageId && state.shouldHighlightMessage)
+);
+
 export const getNextMessageToPlayId = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => state.nextMessageToPlayId || undefined

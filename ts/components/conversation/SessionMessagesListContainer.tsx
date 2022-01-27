@@ -23,7 +23,6 @@ import {
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
-  getShowScrollButton,
   getSortedMessagesOfSelectedConversation,
   isFirstUnreadMessageIdAbove,
 } from '../../state/selectors/conversations';
@@ -76,9 +75,9 @@ type Props = SessionMessageListProps & {
   messagesProps: Array<SortedMessageModelProps>;
 
   conversation?: ReduxConversationType;
-  showScrollButton: boolean;
   animateQuotedMessageId: string | undefined;
   firstUnreadOnOpen: string | undefined;
+  scrollToNow: () => Promise<void>;
 };
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
@@ -162,7 +161,10 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           />
         </ScrollToLoadedMessageContext.Provider>
 
-        <SessionScrollButton onClick={this.scrollToMostRecentMessage} key="scroll-down-button" />
+        <SessionScrollButton
+          onClickScrollBottom={this.props.scrollToNow}
+          key="scroll-down-button"
+        />
       </div>
     );
   }
@@ -249,14 +251,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMostRecentMessage() {
-    const messageContainer = this.props.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
-    }
-    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
-  }
-
   private scrollPgUp() {
     const messageContainer = this.props.messageContainerRef.current;
     if (!messageContainer) {
@@ -326,7 +320,6 @@ const mapStateToProps = (state: StateType) => {
     conversationKey: getSelectedConversationKey(state),
     conversation: getSelectedConversation(state),
     messagesProps: getSortedMessagesOfSelectedConversation(state),
-    showScrollButton: getShowScrollButton(state),
     animateQuotedMessageId: getQuotedMessageToAnimate(state),
     firstUnreadOnOpen: getFirstUnreadMessageId(state),
   };

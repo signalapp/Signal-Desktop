@@ -18,10 +18,11 @@ import autoBind from 'auto-bind';
 import { InConversationCallContainer } from '../calling/InConversationCallContainer';
 import { SplitViewContainer } from '../SplitViewContainer';
 import { LightboxGallery, MediaItemType } from '../lightbox/LightboxGallery';
-import { getPubkeysInPublicConversation } from '../../data/data';
+import { getLastMessageInConversation, getPubkeysInPublicConversation } from '../../data/data';
 import { getConversationController } from '../../session/conversations';
 import { ToastUtils, UserUtils } from '../../session/utils';
 import {
+  openConversationToSpecificMessage,
   quoteMessage,
   ReduxConversationType,
   resetSelectedMessageIds,
@@ -168,12 +169,9 @@ export class SessionConversation extends React.Component<Props, State> {
       return;
     }
 
-    const sendAndScroll = () => {
+    const sendAndScroll = async () => {
       void conversationModel.sendMessage(msg);
-      if (this.messageContainerRef.current) {
-        (this.messageContainerRef
-          .current as any).scrollTop = this.messageContainerRef.current?.scrollHeight;
-      }
+      await this.scrollToNow();
     };
 
     // const recoveryPhrase = window.textsecure.storage.get('mnemonic');
@@ -245,7 +243,10 @@ export class SessionConversation extends React.Component<Props, State> {
             <SplitViewContainer
               top={<InConversationCallContainer />}
               bottom={
-                <SessionMessagesListContainer messageContainerRef={this.messageContainerRef} />
+                <SessionMessagesListContainer
+                  messageContainerRef={this.messageContainerRef}
+                  scrollToNow={this.scrollToNow}
+                />
               }
               disableTop={!this.props.hasOngoingCallWithFocusedConvo}
             />
@@ -266,6 +267,26 @@ export class SessionConversation extends React.Component<Props, State> {
         </div>
       </SessionTheme>
     );
+  }
+
+  private async scrollToNow() {
+    if (!this.props.selectedConversationKey) {
+      return;
+    }
+    const mostNowMessage = await getLastMessageInConversation(this.props.selectedConversationKey);
+
+    if (mostNowMessage) {
+      await openConversationToSpecificMessage({
+        conversationKey: this.props.selectedConversationKey,
+        messageIdToNavigateTo: mostNowMessage.id,
+        shouldHighlightMessage: false,
+      });
+      const messageContainer = this.messageContainerRef.current;
+      if (!messageContainer) {
+        return;
+      }
+      messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+    }
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

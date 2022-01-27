@@ -218,8 +218,6 @@ async function handleRegularMessage(
   const type = message.get('type');
   await copyFromQuotedMessage(message, rawDataMessage.quote);
 
-  const now = Date.now();
-
   if (rawDataMessage.openGroupInvitation) {
     message.set({ groupInvitation: rawDataMessage.openGroupInvitation });
   }

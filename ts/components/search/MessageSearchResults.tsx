@@ -140,6 +140,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
         void openConversationToSpecificMessage({
           conversationKey: conversationId,
           messageIdToNavigateTo: id,
+          shouldHighlightMessage: true,
         });
       }}
       className={classNames('module-message-search-result')}

@@ -72,6 +72,7 @@ module.exports = {
   getNextExpiringMessage,
   getMessagesByConversation,
   getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   trimMessages,
@@ -2235,6 +2236,7 @@ function getUnreadCountByConversation(conversationId) {
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
+const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
 function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   const absLimit = 20;
@@ -2313,6 +2315,23 @@ function getLastMessagesByConversation(conversationId, limit) {
     .all({
       conversationId,
       limit,
+    });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function getOldestMessageInConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClauseASC}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
+      limit: 1,
     });
   return map(rows, row => jsonToObject(row.json));
 }

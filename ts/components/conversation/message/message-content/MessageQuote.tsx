@@ -71,6 +71,7 @@ export const MessageQuote = (props: Props) => {
       void openConversationToSpecificMessage({
         conversationKey: foundInDb.get('conversationId'),
         messageIdToNavigateTo: foundInDb.get('id'),
+        shouldHighlightMessage: true,
       });
     },
     [quote, multiSelectMode, props.messageId]

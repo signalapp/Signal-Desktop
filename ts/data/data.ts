@@ -128,6 +128,7 @@ const channelsToMake = {
   getNextExpiringMessage,
   getMessagesByConversation,
   getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
@@ -797,6 +798,26 @@ export async function getLastMessagesByConversation(
     }
   }
   return new MessageCollection(messages);
+}
+
+export async function getLastMessageInConversation(conversationId: string) {
+  const messages = await channels.getLastMessagesByConversation(conversationId, 1);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
+}
+
+export async function getOldestMessageInConversation(conversationId: string) {
+  const messages = await channels.getOldestMessageInConversation(conversationId);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
 }
 
 /**

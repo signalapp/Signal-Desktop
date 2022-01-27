@@ -825,6 +825,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         : undefined;
 
     try {
+      // this does not call call removeAllStagedAttachmentsInConvers
       const { attachments, previews } = await this.getFiles(linkPreview);
       this.props.sendMessage({
         body: messagePlaintext,
@@ -898,11 +899,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
       }
     }
 
-    window.inboxStore?.dispatch(
-      removeAllStagedAttachmentsInConversation({
-        conversationKey: this.props.selectedConversationKey,
-      })
-    );
     return { attachments, previews };
   }
 
