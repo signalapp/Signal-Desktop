@@ -18,7 +18,7 @@
 
   &--hidden {
     opacity: 0;
-    transition: opacity 0.5s ease-out;
+    transition: opacity 0.25s ease-out;
   }
 
   &__spinner-container {
@@ -32,7 +32,7 @@
 
     &--hidden {
       opacity: 0;
-      transition: opacity 0.1s ease-out 0.3s;
+      transition: opacity 0.25s ease-out 0.3s;
     }
   }
 }
