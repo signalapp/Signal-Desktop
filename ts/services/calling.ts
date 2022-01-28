@@ -1483,6 +1483,7 @@ export class CallingClass {
       remoteDeviceId,
       this.localDeviceId,
       messageAgeSec,
+      envelope.receivedAtCounter,
       protoToCallingMessage(callingMessage),
       Buffer.from(senderIdentityKey),
       Buffer.from(receiverIdentityKey)
@@ -1763,7 +1764,9 @@ export class CallingClass {
   private handleAutoEndedIncomingCallRequest(
     remoteUserId: UserId,
     reason: CallEndedReason,
-    ageInSeconds: number
+    ageInSeconds: number,
+    wasVideoCall: boolean,
+    receivedAtCounter: number | undefined
   ) {
     const conversation = window.ConversationController.get(remoteUserId);
     if (!conversation) {
@@ -1781,7 +1784,9 @@ export class CallingClass {
     this.addCallHistoryForAutoEndedIncomingCall(
       conversation,
       reason,
-      endedTime
+      endedTime,
+      wasVideoCall,
+      receivedAtCounter
     );
   }
 
@@ -1975,14 +1980,17 @@ export class CallingClass {
       acceptedTime = Date.now();
     }
 
-    conversation.addCallHistory({
-      callMode: CallMode.Direct,
-      wasIncoming: call.isIncoming,
-      wasVideoCall: call.isVideoCall,
-      wasDeclined,
-      acceptedTime,
-      endedTime: Date.now(),
-    });
+    conversation.addCallHistory(
+      {
+        callMode: CallMode.Direct,
+        wasIncoming: call.isIncoming,
+        wasVideoCall: call.isVideoCall,
+        wasDeclined,
+        acceptedTime,
+        endedTime: Date.now(),
+      },
+      undefined
+    );
   }
 
   private addCallHistoryForFailedIncomingCall(
@@ -1990,33 +1998,48 @@ export class CallingClass {
     wasVideoCall: boolean,
     timestamp: number
   ) {
-    conversation.addCallHistory({
-      callMode: CallMode.Direct,
-      wasIncoming: true,
-      wasVideoCall,
-      // Since the user didn't decline, make sure it shows up as a missed call instead
-      wasDeclined: false,
-      acceptedTime: undefined,
-      endedTime: timestamp,
-    });
+    conversation.addCallHistory(
+      {
+        callMode: CallMode.Direct,
+        wasIncoming: true,
+        wasVideoCall,
+        // Since the user didn't decline, make sure it shows up as a missed call instead
+        wasDeclined: false,
+        acceptedTime: undefined,
+        endedTime: timestamp,
+      },
+      undefined
+    );
   }
 
   private addCallHistoryForAutoEndedIncomingCall(
     conversation: ConversationModel,
-    _reason: CallEndedReason,
-    endedTime: number
+    reason: CallEndedReason,
+    endedTime: number,
+    wasVideoCall: boolean,
+    receivedAtCounter: number | undefined
   ) {
-    conversation.addCallHistory({
-      callMode: CallMode.Direct,
-      wasIncoming: true,
-      // We don't actually know, but it doesn't seem that important in this case,
-      // but we could maybe plumb this info through RingRTC
-      wasVideoCall: false,
-      // Since the user didn't decline, make sure it shows up as a missed call instead
-      wasDeclined: false,
-      acceptedTime: undefined,
-      endedTime,
-    });
+    let wasDeclined = false;
+    let acceptedTime;
+
+    if (reason === CallEndedReason.AcceptedOnAnotherDevice) {
+      acceptedTime = endedTime;
+    } else if (reason === CallEndedReason.DeclinedOnAnotherDevice) {
+      wasDeclined = true;
+    }
+    // Otherwise it will show up as a missed call.
+
+    conversation.addCallHistory(
+      {
+        callMode: CallMode.Direct,
+        wasIncoming: true,
+        wasVideoCall,
+        wasDeclined,
+        acceptedTime,
+        endedTime,
+      },
+      receivedAtCounter
+    );
   }
 
   public async updateCallHistoryForGroupCall(

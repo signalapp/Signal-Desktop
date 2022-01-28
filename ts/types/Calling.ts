@@ -75,7 +75,7 @@ export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;
 
 // Must be kept in sync with RingRTC.CallState
 export enum CallState {
-  Prering = 'init',
+  Prering = 'idle',
   Ringing = 'ringing',
   Accepted = 'connected',
   Reconnecting = 'connecting',

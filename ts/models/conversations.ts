@@ -3009,7 +3009,8 @@ export class ConversationModel extends window.Backbone
   }
 
   async addCallHistory(
-    callHistoryDetails: CallHistoryDetailsType
+    callHistoryDetails: CallHistoryDetailsType,
+    receivedAtCounter: number | undefined
   ): Promise<void> {
     let timestamp: number;
     let unread: boolean;
@@ -3038,7 +3039,8 @@ export class ConversationModel extends window.Backbone
       conversationId: this.id,
       type: 'call-history',
       sent_at: timestamp,
-      received_at: window.Signal.Util.incrementMessageCounter(),
+      received_at:
+        receivedAtCounter || window.Signal.Util.incrementMessageCounter(),
       received_at_ms: timestamp,
       readStatus: unread ? ReadStatus.Unread : ReadStatus.Read,
       callHistoryDetails: detailsToSave,
@@ -3081,12 +3083,15 @@ export class ConversationModel extends window.Backbone
       return false;
     }
 
-    await this.addCallHistory({
-      callMode: CallMode.Group,
-      creatorUuid,
-      eraId,
-      startedTime: Date.now(),
-    });
+    await this.addCallHistory(
+      {
+        callMode: CallMode.Group,
+        creatorUuid,
+        eraId,
+        startedTime: Date.now(),
+      },
+      undefined
+    );
     return true;
   }
 
