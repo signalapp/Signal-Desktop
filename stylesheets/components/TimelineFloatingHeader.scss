@@ -9,6 +9,7 @@
   pointer-events: none;
   position: absolute;
   top: 10px;
+  transition: opacity 0.25s ease-out;
   width: 100%;
   z-index: $z-index-above-base;
 
@@ -18,7 +19,6 @@
 
   &--hidden {
     opacity: 0;
-    transition: opacity 0.25s ease-out;
   }
 
   &__spinner-container {

@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import type { CSSProperties, ReactElement } from 'react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { LocalizerType } from '../../types/Util';
 import { TimelineDateHeader } from './TimelineDateHeader';
 import { Spinner } from '../Spinner';
@@ -20,24 +20,34 @@ export const TimelineFloatingHeader = ({
   style?: CSSProperties;
   timestamp: number;
   visible: boolean;
-}>): ReactElement => (
-  <div
-    className={classNames(
-      'TimelineFloatingHeader',
-      `TimelineFloatingHeader--${visible ? 'visible' : 'hidden'}`
-    )}
-    style={style}
-  >
-    <TimelineDateHeader floating i18n={i18n} timestamp={timestamp} />
+}>): ReactElement => {
+  const [hasRendered, setHasRendered] = useState(false);
+
+  useEffect(() => {
+    setHasRendered(true);
+  }, []);
+
+  return (
     <div
       className={classNames(
-        'TimelineFloatingHeader__spinner-container',
-        `TimelineFloatingHeader__spinner-container--${
-          isLoading ? 'visible' : 'hidden'
+        'TimelineFloatingHeader',
+        `TimelineFloatingHeader--${
+          visible && hasRendered ? 'visible' : 'hidden'
         }`
       )}
+      style={style}
     >
-      <Spinner direction="on-background" size="20px" svgSize="small" />
+      <TimelineDateHeader floating i18n={i18n} timestamp={timestamp} />
+      <div
+        className={classNames(
+          'TimelineFloatingHeader__spinner-container',
+          `TimelineFloatingHeader__spinner-container--${
+            isLoading ? 'visible' : 'hidden'
+          }`
+        )}
+      >
+        <Spinner direction="on-background" size="20px" svgSize="small" />
+      </div>
     </div>
-  </div>
-);
+  );
+};

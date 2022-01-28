@@ -501,7 +501,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
     this.hasRecentlyScrolledTimeout = setTimeout(() => {
       this.setState({ hasRecentlyScrolled: false });
-    }, 1000);
+    }, 3000);
 
     this.updateScrollMetrics(data);
     this.updateWithVisibleRows();
