@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Signal Messenger, LLC
+// Copyright 2015-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -1138,16 +1138,9 @@ describe('SignalProtocolStore', () => {
 
     describe('When invalid direction is given', () => {
       it('should fail', async () => {
-        try {
-          await store.isTrustedIdentity(
-            identifier,
-            testKey.pubKey,
-            'dir' as any
-          );
-          throw new Error('isTrustedIdentity should have failed');
-        } catch (error) {
-          // good
-        }
+        await assert.isRejected(
+          store.isTrustedIdentity(identifier, testKey.pubKey, 'dir' as any)
+        );
       });
     });
     describe('When direction is RECEIVING', () => {
