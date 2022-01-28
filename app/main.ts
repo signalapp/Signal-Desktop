@@ -1,4 +1,4 @@
-// Copyright 2017-2021 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { join, normalize } from 'path';
@@ -11,19 +11,20 @@ import normalizePath from 'normalize-path';
 import fastGlob from 'fast-glob';
 import PQueue from 'p-queue';
 import { get, pick, isNumber, isBoolean, some, debounce, noop } from 'lodash';
-import type { BrowserWindow } from 'electron';
 import {
   app,
+  BrowserWindow,
   clipboard,
+  desktopCapturer,
   dialog,
   ipcMain as ipc,
   Menu,
   powerSaveBlocker,
   protocol as electronProtocol,
   screen,
+  session,
   shell,
   systemPreferences,
-  desktopCapturer,
 } from 'electron';
 import { z } from 'zod';
 
@@ -55,6 +56,7 @@ import * as attachments from './attachments';
 import * as attachmentChannel from './attachment_channel';
 import * as bounce from '../ts/services/bounce';
 import * as updater from '../ts/updater/index';
+import { updateDefaultSession } from './updateDefaultSession';
 import { PreventDisplaySleepService } from './PreventDisplaySleepService';
 import { SystemTrayService } from './SystemTrayService';
 import { SystemTraySettingCache } from './SystemTraySettingCache';
@@ -72,7 +74,6 @@ import type { MenuOptionsType } from './menu';
 import { createTemplate } from './menu';
 import { installFileHandler, installWebHandler } from './protocol_filter';
 import * as OS from '../ts/OS';
-import { createBrowserWindow } from '../ts/util/createBrowserWindow';
 import { isProduction, isAlpha } from '../ts/util/version';
 import {
   isSgnlHref,
@@ -137,6 +138,7 @@ const defaultWebPrefs = {
     process.argv.some(arg => arg === '--enable-dev-tools') ||
     getEnvironment() !== Environment.Production ||
     !isProduction(app.getVersion()),
+  spellcheck: false,
 };
 
 function showWindow() {
@@ -529,7 +531,7 @@ async function createWindow() {
   );
 
   // Create the browser window.
-  mainWindow = createBrowserWindow(windowOptions);
+  mainWindow = new BrowserWindow(windowOptions);
   if (settingsChannel) {
     settingsChannel.setMainWindow(mainWindow);
   }
@@ -965,7 +967,7 @@ function showScreenShareWindow(sourceName: string) {
     y: 24,
   };
 
-  screenShareWindow = createBrowserWindow(options);
+  screenShareWindow = new BrowserWindow(options);
 
   handleCommonWindowEvents(screenShareWindow);
 
@@ -1011,7 +1013,7 @@ function showAbout() {
     },
   };
 
-  aboutWindow = createBrowserWindow(options);
+  aboutWindow = new BrowserWindow(options);
 
   handleCommonWindowEvents(aboutWindow);
 
@@ -1054,7 +1056,7 @@ function showSettingsWindow() {
     },
   };
 
-  settingsWindow = createBrowserWindow(options);
+  settingsWindow = new BrowserWindow(options);
 
   handleCommonWindowEvents(settingsWindow);
 
@@ -1125,7 +1127,7 @@ async function showStickerCreator() {
     },
   };
 
-  stickerCreatorWindow = createBrowserWindow(options);
+  stickerCreatorWindow = new BrowserWindow(options);
   setupSpellChecker(stickerCreatorWindow, getLocale());
 
   handleCommonWindowEvents(stickerCreatorWindow);
@@ -1190,7 +1192,7 @@ async function showDebugLogWindow() {
     fullscreenable: !OS.isMacOS(),
   };
 
-  debugLogWindow = createBrowserWindow(options);
+  debugLogWindow = new BrowserWindow(options);
 
   handleCommonWindowEvents(debugLogWindow);
 
@@ -1250,7 +1252,7 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
       parent: mainWindow,
     };
 
-    permissionsPopupWindow = createBrowserWindow(options);
+    permissionsPopupWindow = new BrowserWindow(options);
 
     handleCommonWindowEvents(permissionsPopupWindow);
 
@@ -1392,6 +1394,8 @@ function getAppLocale(): string {
 // Some APIs can only be used after this event occurs.
 let ready = false;
 app.on('ready', async () => {
+  updateDefaultSession(session.defaultSession);
+
   const [userDataPath, crashDumpsPath] = await Promise.all([
     realpath(app.getPath('userData')),
     realpath(app.getPath('crashDumps')),
@@ -1496,7 +1500,7 @@ app.on('ready', async () => {
       'sql.initialize is taking more than three seconds; showing loading dialog'
     );
 
-    loadingWindow = createBrowserWindow({
+    loadingWindow = new BrowserWindow({
       show: false,
       width: 300,
       height: 265,

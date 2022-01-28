@@ -123,12 +123,6 @@ const typescriptRules = {
     {
       paths: [
         {
-          name: 'electron',
-          importNames: ['BrowserWindow'],
-          message: 'Please use createBrowserWindow',
-          allowTypeImports: true,
-        },
-        {
           name: 'chai',
           importNames: ['expect', 'should', 'Should'],
           message: 'Please use assert',
