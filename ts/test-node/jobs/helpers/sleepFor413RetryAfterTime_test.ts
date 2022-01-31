@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -39,19 +39,19 @@ describe('sleepFor413RetryAfterTimeIfApplicable', () => {
     sinon.assert.notCalled(log.info);
   });
 
-  it('waits for 1 second if the error lacks Retry-After info', async () => {
+  it('waits for 1 minute if the error lacks Retry-After info', async () => {
     let done = false;
 
     (async () => {
       await sleepFor413RetryAfterTime({
         err: {},
         log: createLogger(),
-        timeRemaining: 1234,
+        timeRemaining: 12345678,
       });
       done = true;
     })();
 
-    await clock.tickAsync(999);
+    await clock.tickAsync(durations.MINUTE - 1);
     assert.isFalse(done);
 
     await clock.tickAsync(2);
