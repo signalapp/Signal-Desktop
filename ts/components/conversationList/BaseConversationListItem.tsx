@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode, FunctionComponent } from 'react';
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { isBoolean, isNumber } from 'lodash';
 import { v4 as uuid } from 'uuid';
@@ -14,7 +14,9 @@ import { cleanId } from '../_util';
 import type { LocalizerType, ThemeType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
 import { Spinner } from '../Spinner';
+import { Time } from '../Time';
 import { formatDateTimeShort } from '../../util/timestamp';
+import * as durations from '../../util/durations';
 
 const BASE_CLASS_NAME =
   'module-conversation-list__item--contact-or-conversation';
@@ -252,15 +254,30 @@ function Timestamp({
   i18n,
   timestamp,
 }: Readonly<{ i18n: LocalizerType; timestamp?: number }>) {
+  const getText = useCallback(
+    () => (isNumber(timestamp) ? formatDateTimeShort(i18n, timestamp) : ''),
+    [i18n, timestamp]
+  );
+
+  const [text, setText] = useState(getText());
+
+  useEffect(() => {
+    const update = () => setText(getText());
+    update();
+    const interval = setInterval(update, durations.MINUTE);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [getText]);
+
   if (!isNumber(timestamp)) {
     return null;
   }
 
-  const date = new Date(timestamp);
   return (
-    <time className={DATE_CLASS_NAME} dateTime={date.toISOString()}>
-      {formatDateTimeShort(i18n, date)}
-    </time>
+    <Time className={DATE_CLASS_NAME} timestamp={timestamp}>
+      {text}
+    </Time>
   );
 }
 
