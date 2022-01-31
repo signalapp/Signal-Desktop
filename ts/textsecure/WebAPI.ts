@@ -1381,17 +1381,29 @@ export function initialize({
     ): Promise<Uint8Array> {
       const { credentials, greaterThanVersion } = options;
 
-      return _ajax({
+      const { data, response } = await _ajax({
         call: 'storageManifest',
         contentType: 'application/x-protobuf',
         host: storageUrl,
         httpType: 'GET',
-        responseType: 'bytes',
+        responseType: 'byteswithdetails',
         urlParameters: greaterThanVersion
           ? `/version/${greaterThanVersion}`
           : '',
         ...credentials,
       });
+
+      if (response.status === 204) {
+        throw makeHTTPError(
+          'promiseAjax: error response',
+          response.status,
+          response.headers.raw(),
+          data,
+          new Error().stack
+        );
+      }
+
+      return data;
     }
 
     async function getStorageRecords(

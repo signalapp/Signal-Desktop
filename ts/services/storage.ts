@@ -682,6 +682,11 @@ async function fetchManifest(
       return;
     }
   } catch (err) {
+    if (err.code === 204) {
+      log.info('storageService.fetchManifest: no newer manifest, ok');
+      return;
+    }
+
     log.error(
       'storageService.fetchManifest: failed!',
       err && err.stack ? err.stack : String(err)
@@ -689,10 +694,6 @@ async function fetchManifest(
 
     if (err.code === 404) {
       await createNewManifest();
-      return;
-    }
-    if (err.code === 204) {
-      // noNewerManifest we're ok
       return;
     }
 

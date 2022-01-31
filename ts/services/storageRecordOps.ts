@@ -423,7 +423,12 @@ function doRecordsConflict(
 
     // If both types are Long we can use Long's equals to compare them
     if (Long.isLong(localValue) || typeof localValue === 'number') {
-      if (!Long.isLong(remoteValue) || typeof remoteValue !== 'number') {
+      if (!Long.isLong(remoteValue) && typeof remoteValue !== 'number') {
+        log.info(
+          'storageService.doRecordsConflict: Conflict found, remote value ' +
+            'is not a number',
+          key
+        );
         return true;
       }
 
