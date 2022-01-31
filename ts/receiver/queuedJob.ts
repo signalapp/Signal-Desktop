@@ -349,8 +349,8 @@ export async function handleMessageJob(
       );
     }
 
+    // save the message model to the db and it save the messageId generated to our copy
     const id = await messageModel.commit();
-
     messageModel.set({ id });
 
     // Note that this can save the message again, if jobs were queued. We need to

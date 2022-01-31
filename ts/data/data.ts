@@ -800,6 +800,11 @@ export async function getLastMessagesByConversation(
   return new MessageCollection(messages);
 }
 
+export async function getLastMessageIdInConversation(conversationId: string) {
+  const collection = await getLastMessagesByConversation(conversationId, 1, true);
+  return collection.models.length ? collection.models[0].id : null;
+}
+
 export async function getLastMessageInConversation(conversationId: string) {
   const messages = await channels.getLastMessagesByConversation(conversationId, 1);
   for (const message of messages) {

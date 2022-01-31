@@ -160,12 +160,15 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
   }
 );
 
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
+const getFirstUnreadMessageId = createSelector(getConversations, (state: ConversationsStateType):
+  | string
+  | undefined => {
+  return state.firstUnreadMessageId;
+});
+
+export const getConversationHasUnread = createSelector(getFirstUnreadMessageId, unreadId => {
+  return Boolean(unreadId);
+});
 
 export type MessagePropsType =
   | 'group-notification'
@@ -592,14 +595,9 @@ export const getQuotedMessage = createSelector(
   (state: ConversationsStateType): ReplyingToMessageProps | undefined => state.quotedMessage
 );
 
-export const areMoreTopMessagesBeingFetched = createSelector(
+export const areMoreMessagesBeingFetched = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => state.areMoreTopMessagesBeingFetched || false
-);
-
-export const areMoreBottomMessagesBeingFetched = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.areMoreBottomMessagesBeingFetched || false
+  (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
 );
 
 export const getShowScrollButton = createSelector(
@@ -685,10 +683,14 @@ function sortMessages(
   return messagesSorted;
 }
 
+/**
+ * This returns the most recent message id in the database. This is not the most recent message shown,
+ * but the most recent one, which could still not be loaded.
+ */
 export const getMostRecentMessageId = createSelector(
-  getSortedMessagesOfSelectedConversation,
-  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
-    return messages.length ? messages[0].propsForMessage.id : undefined;
+  getConversations,
+  (state: ConversationsStateType): string | null => {
+    return state.mostRecentMessageId;
   }
 );
 

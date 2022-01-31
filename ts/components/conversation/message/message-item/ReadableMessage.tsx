@@ -11,9 +11,8 @@ import {
   showScrollToBottomButton,
 } from '../../../../state/ducks/conversations';
 import {
-  areMoreBottomMessagesBeingFetched,
-  areMoreTopMessagesBeingFetched,
-  getFirstUnreadMessageId,
+  areMoreMessagesBeingFetched,
+  getConversationHasUnread,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
@@ -68,9 +67,8 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
   const youngestMessageId = useSelector(getYoungestMessageId);
-  const fetchingTopMore = useSelector(areMoreTopMessagesBeingFetched);
-  const fetchingBottomMore = useSelector(areMoreBottomMessagesBeingFetched);
-  const conversationHasUnread = Boolean(useSelector(getFirstUnreadMessageId));
+  const fetchingMoreInProgress = useSelector(areMoreMessagesBeingFetched);
+  const conversationHasUnread = useSelector(getConversationHasUnread);
   const shouldMarkReadWhenVisible = isUnread;
 
   const [didScroll, setDidScroll] = useState(false);
@@ -118,7 +116,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         oldestMessageId === messageId &&
-        !fetchingTopMore &&
+        !fetchingMoreInProgress &&
         selectedConversationKey
       ) {
         debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
@@ -128,7 +126,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
         inView === true &&
         isAppFocused &&
         youngestMessageId === messageId &&
-        !fetchingBottomMore &&
+        !fetchingMoreInProgress &&
         selectedConversationKey
       ) {
         debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
@@ -155,8 +153,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       selectedConversationKey,
       mostRecentMessageId,
       oldestMessageId,
-      fetchingTopMore,
-      fetchingBottomMore,
+      fetchingMoreInProgress,
       isAppFocused,
       loadedMessagesLength,
       receivedAt,

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getConversationController } from '../../session/conversations';
 import {
   getFirstUnreadMessageIdInConversation,
+  getLastMessageIdInConversation,
   getLastMessageInConversation,
   getMessagesByConversation,
   getOldestMessageInConversation,
@@ -277,8 +278,7 @@ export type ConversationsStateType = {
   selectedMessageIds: Array<string>;
   lightBox?: LightBoxOptions;
   quotedMessage?: ReplyingToMessageProps;
-  areMoreTopMessagesBeingFetched: boolean;
-  areMoreBottomMessagesBeingFetched: boolean;
+  areMoreMessagesBeingFetched: boolean;
 
   /**
    * oldTopMessageId should only be set when, as the user scroll up we trigger a load of more top messages.
@@ -297,6 +297,12 @@ export type ConversationsStateType = {
    * Once the view scrolled, this value is reseted by resetOldBottomMessageId
    */
   oldBottomMessageId: string | null;
+
+  /**
+   * Contains the most recent message id for this conversation.
+   * This is the one at the bottom, if the most recent page of the conversation was loaded
+   */
+  mostRecentMessageId: string | null;
 
   showScrollButton: boolean;
   animateQuotedMessageId?: string;
@@ -424,14 +430,14 @@ export function getEmptyConversationState(): ConversationsStateType {
     messageDetailProps: undefined,
     showRightPanel: false,
     selectedMessageIds: [],
-    areMoreTopMessagesBeingFetched: false,
-    areMoreBottomMessagesBeingFetched: false,
+    areMoreMessagesBeingFetched: false, // top or bottom
     showScrollButton: false,
     mentionMembers: [],
     firstUnreadMessageId: undefined,
     oldTopMessageId: null,
     oldBottomMessageId: null,
     shouldHighlightMessage: false,
+    mostRecentMessageId: null,
   };
 }
 
@@ -739,6 +745,7 @@ const conversationsSlice = createSlice({
       action: PayloadAction<{
         conversationKey: string;
         firstUnreadIdOnOpen: string | undefined;
+        mostRecentMessageIdOnOpen: string | null;
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
       }>
     ) {
@@ -748,25 +755,26 @@ const conversationsSlice = createSlice({
 
       return {
         conversationLookup: state.conversationLookup,
-
+        mostRecentMessageId: action.payload.mostRecentMessageIdOnOpen,
         selectedConversation: action.payload.conversationKey,
-        areMoreTopMessagesBeingFetched: false,
-        areMoreBottomMessagesBeingFetched: false,
+        firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
         messages: action.payload.initialMessages,
+
+        areMoreMessagesBeingFetched: false,
         showRightPanel: false,
         selectedMessageIds: [],
+
         lightBox: undefined,
         messageDetailProps: undefined,
         quotedMessage: undefined,
 
         nextMessageToPlay: undefined,
-        showScrollButton: false,
+        showScrollButton: Boolean(action.payload.firstUnreadIdOnOpen),
         animateQuotedMessageId: undefined,
         shouldHighlightMessage: false,
         oldTopMessageId: null,
         oldBottomMessageId: null,
         mentionMembers: [],
-        firstUnreadMessageId: action.payload.firstUnreadIdOnOpen,
       };
     },
     openConversationToSpecificMessage(
@@ -775,14 +783,16 @@ const conversationsSlice = createSlice({
         conversationKey: string;
         messageIdToNavigateTo: string;
         shouldHighlightMessage: boolean;
+        mostRecentMessageIdOnOpen: string | null;
+
         initialMessages: Array<MessageModelPropsWithoutConvoProps>;
       }>
     ) {
       return {
         ...state,
         selectedConversation: action.payload.conversationKey,
-        areMoreTopMessagesBeingFetched: false,
-        areMoreBottomMessagesBeingFetched: false,
+        mostRecentMessageIdOnOpen: action.payload.mostRecentMessageIdOnOpen,
+        areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
         showScrollButton: true,
         animateQuotedMessageId: action.payload.messageIdToNavigateTo,
@@ -845,9 +855,12 @@ const conversationsSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(
       fetchTopMessagesForConversation.fulfilled,
-      (state: ConversationsStateType, action: PayloadAction<FetchedTopMessageResults>) => {
+      (
+        state: ConversationsStateType,
+        action: PayloadAction<FetchedTopMessageResults>
+      ): ConversationsStateType => {
         if (!action.payload) {
-          return state;
+          return { ...state, areMoreMessagesBeingFetched: false };
         }
         // this is called once the messages are loaded from the db for the currently selected conversation
         const { messagesProps, conversationKey, oldTopMessageId } = action.payload;
@@ -857,23 +870,34 @@ const conversationsSlice = createSlice({
             ...state,
             oldTopMessageId,
             messages: messagesProps,
-            areMoreTopMessagesBeingFetched: false,
+            areMoreMessagesBeingFetched: false,
           };
         }
         return state;
       }
     );
-    builder.addCase(fetchTopMessagesForConversation.pending, (state: ConversationsStateType) => {
-      state.areMoreTopMessagesBeingFetched = true;
-    });
-    builder.addCase(fetchTopMessagesForConversation.rejected, (state: ConversationsStateType) => {
-      state.areMoreTopMessagesBeingFetched = false;
-    });
+    builder.addCase(
+      fetchTopMessagesForConversation.pending,
+      (state: ConversationsStateType): ConversationsStateType => {
+        state.areMoreMessagesBeingFetched = true;
+        return state;
+      }
+    );
+    builder.addCase(
+      fetchTopMessagesForConversation.rejected,
+      (state: ConversationsStateType): ConversationsStateType => {
+        state.areMoreMessagesBeingFetched = false;
+        return state;
+      }
+    );
     builder.addCase(
       fetchBottomMessagesForConversation.fulfilled,
-      (state: ConversationsStateType, action: PayloadAction<FetchedBottomMessageResults>) => {
+      (
+        state: ConversationsStateType,
+        action: PayloadAction<FetchedBottomMessageResults>
+      ): ConversationsStateType => {
         if (!action.payload) {
-          return state;
+          return { ...state, areMoreMessagesBeingFetched: false };
         }
         // this is called once the messages are loaded from the db for the currently selected conversation
         const { messagesProps, conversationKey, oldBottomMessageId } = action.payload;
@@ -883,19 +907,24 @@ const conversationsSlice = createSlice({
             ...state,
             oldBottomMessageId,
             messages: messagesProps,
-            areMoreBottomMessagesBeingFetched: false,
+            areMoreMessagesBeingFetched: false,
           };
         }
         return state;
       }
     );
-    builder.addCase(fetchBottomMessagesForConversation.pending, (state: ConversationsStateType) => {
-      state.areMoreBottomMessagesBeingFetched = true;
-    });
+    builder.addCase(
+      fetchBottomMessagesForConversation.pending,
+      (state: ConversationsStateType): ConversationsStateType => {
+        state.areMoreMessagesBeingFetched = true;
+        return state;
+      }
+    );
     builder.addCase(
       fetchBottomMessagesForConversation.rejected,
-      (state: ConversationsStateType) => {
-        state.areMoreBottomMessagesBeingFetched = false;
+      (state: ConversationsStateType): ConversationsStateType => {
+        state.areMoreMessagesBeingFetched = false;
+        return state;
       }
     );
   },
@@ -963,6 +992,7 @@ export async function openConversationWithMessages(args: {
 }) {
   const { conversationKey, messageId } = args;
   const firstUnreadIdOnOpen = await getFirstUnreadMessageIdInConversation(conversationKey);
+  const mostRecentMessageIdOnOpen = await getLastMessageIdInConversation(conversationKey);
 
   const initialMessages = await getMessages({
     conversationKey,
@@ -973,6 +1003,7 @@ export async function openConversationWithMessages(args: {
     actions.openConversationExternal({
       conversationKey,
       firstUnreadIdOnOpen,
+      mostRecentMessageIdOnOpen,
       initialMessages,
     })
   );
@@ -990,10 +1021,14 @@ export async function openConversationToSpecificMessage(args: {
     messageId: messageIdToNavigateTo,
   });
 
+  const mostRecentMessageIdOnOpen = await getLastMessageIdInConversation(conversationKey);
+
+  // we do not care about the firstunread message id when opening to a specific message
   window.inboxStore?.dispatch(
     actions.openConversationToSpecificMessage({
       conversationKey,
       messageIdToNavigateTo,
+      mostRecentMessageIdOnOpen,
       shouldHighlightMessage,
       initialMessages: messagesAroundThisMessage,
     })
