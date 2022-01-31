@@ -5,15 +5,18 @@ import { assert } from 'chai';
 
 import { findRetryAfterTimeFromError } from '../../../jobs/helpers/findRetryAfterTimeFromError';
 import { HTTPError } from '../../../textsecure/Errors';
+import { MINUTE } from '../../../util/durations';
 
 describe('findRetryAfterTimeFromError', () => {
-  it('returns 1 second if no Retry-After time is found', () => {
+  it('returns 1 minute if no Retry-After time is found', () => {
     [
       undefined,
       null,
       {},
       { responseHeaders: {} },
       { responseHeaders: { 'retry-after': 'garbage' } },
+      { responseHeaders: { 'retry-after': '0.5' } },
+      { responseHeaders: { 'retry-after': '12.34' } },
       {
         httpError: new HTTPError('Slow down', {
           code: 413,
@@ -29,20 +32,20 @@ describe('findRetryAfterTimeFromError', () => {
         }),
       },
     ].forEach(input => {
-      assert.strictEqual(findRetryAfterTimeFromError(input), 1000);
+      assert.strictEqual(findRetryAfterTimeFromError(input), MINUTE);
     });
   });
 
   it("returns 1 second if a Retry-After time is found, but it's less than 1 second", () => {
-    ['0', '-99', '0.5'].forEach(headerValue => {
+    ['0', '-99'].forEach(headerValue => {
       const input = { responseHeaders: { 'retry-after': headerValue } };
       assert.strictEqual(findRetryAfterTimeFromError(input), 1000);
     });
   });
 
-  it('returns 1 second for extremely large numbers', () => {
+  it('returns 1 minute for extremely large numbers', () => {
     const input = { responseHeaders: { 'retry-after': '999999999999999999' } };
-    assert.strictEqual(findRetryAfterTimeFromError(input), 1000);
+    assert.strictEqual(findRetryAfterTimeFromError(input), MINUTE);
   });
 
   it('finds the retry-after time on top-level response headers', () => {
