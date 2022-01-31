@@ -3,9 +3,24 @@
 
 import { assert } from 'chai';
 
-import { _analyzeSenderKeyDevices, _waitForAll } from '../../util/sendToGroup';
+import {
+  _analyzeSenderKeyDevices,
+  _waitForAll,
+  _shouldFailSend,
+} from '../../util/sendToGroup';
 
 import type { DeviceType } from '../../textsecure/Types.d';
+import {
+  ConnectTimeoutError,
+  HTTPError,
+  MessageError,
+  OutgoingIdentityKeyError,
+  OutgoingMessageError,
+  SendMessageChallengeError,
+  SendMessageNetworkError,
+  SendMessageProtoError,
+  UnregisteredUserError,
+} from '../../textsecure/Errors';
 
 describe('sendToGroup', () => {
   describe('#_analyzeSenderKeyDevices', () => {
@@ -135,7 +150,7 @@ describe('sendToGroup', () => {
   });
 
   describe('#_waitForAll', () => {
-    it('returns nothing if new and previous lists are the same', async () => {
+    it('returns result of provided tasks', async () => {
       const task1 = () => Promise.resolve(1);
       const task2 = () => Promise.resolve(2);
       const task3 = () => Promise.resolve(3);
@@ -146,6 +161,160 @@ describe('sendToGroup', () => {
       });
 
       assert.deepEqual(result, [1, 2, 3]);
+    });
+  });
+
+  describe('#_shouldFailSend', () => {
+    it('returns false for a generic error', async () => {
+      const error = new Error('generic');
+      assert.isFalse(_shouldFailSend(error, 'testing generic'));
+    });
+
+    it("returns true for any error with 'untrusted' identity", async () => {
+      const error = new Error('This was an untrusted identity.');
+      assert.isTrue(_shouldFailSend(error, 'logId'));
+    });
+
+    it('returns true for certain types of error subclasses', async () => {
+      assert.isTrue(
+        _shouldFailSend(
+          new OutgoingIdentityKeyError(
+            'something',
+            new Uint8Array(),
+            200,
+            new Uint8Array()
+          ),
+          'testing OutgoingIdentityKeyError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new UnregisteredUserError(
+            'something',
+            new HTTPError('something', {
+              code: 400,
+              headers: {},
+            })
+          ),
+          'testing UnregisteredUserError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new ConnectTimeoutError('something'),
+          'testing ConnectTimeoutError'
+        )
+      );
+    });
+
+    it('returns false for unspecified error codes', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error: any = new Error('generic');
+
+      error.code = 422;
+      assert.isFalse(_shouldFailSend(error, 'testing generic 422'));
+
+      error.code = 204;
+      assert.isFalse(_shouldFailSend(error, 'testing generic 204'));
+    });
+
+    it('returns true for a specified error codes', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error: any = new Error('generic');
+      error.code = 401;
+
+      assert.isTrue(_shouldFailSend(error, 'testing generic'));
+      assert.isTrue(
+        _shouldFailSend(
+          new HTTPError('something', {
+            code: 404,
+            headers: {},
+          }),
+          'testing HTTPError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new OutgoingMessageError(
+            'something',
+            null,
+            null,
+            new HTTPError('something', {
+              code: 413,
+              headers: {},
+            })
+          ),
+          'testing OutgoingMessageError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new SendMessageNetworkError(
+            'something',
+            null,
+            new HTTPError('something', {
+              code: 428,
+              headers: {},
+            })
+          ),
+          'testing SendMessageNetworkError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new SendMessageChallengeError(
+            'something',
+            new HTTPError('something', {
+              code: 500,
+              headers: {},
+            })
+          ),
+          'testing SendMessageChallengeError'
+        )
+      );
+      assert.isTrue(
+        _shouldFailSend(
+          new MessageError(
+            'something',
+            new HTTPError('something', {
+              code: 508,
+              headers: {},
+            })
+          ),
+          'testing MessageError'
+        )
+      );
+    });
+    it('returns true for errors inside of SendMessageProtoError', () => {
+      assert.isTrue(
+        _shouldFailSend(
+          new SendMessageProtoError({}),
+          'testing missing errors list'
+        )
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error: any = new Error('generic');
+      error.code = 401;
+
+      assert.isTrue(
+        _shouldFailSend(
+          new SendMessageProtoError({ errors: [error] }),
+          'testing one error with code'
+        )
+      );
+
+      assert.isTrue(
+        _shouldFailSend(
+          new SendMessageProtoError({
+            errors: [
+              new Error('something'),
+              new ConnectTimeoutError('something'),
+            ],
+          }),
+          'testing ConnectTimeoutError'
+        )
+      );
     });
   });
 });

@@ -23,12 +23,19 @@ import { Address } from '../types/Address';
 import { QualifiedAddress } from '../types/QualifiedAddress';
 import { UUID } from '../types/UUID';
 import { isEnabled } from '../RemoteConfig';
+import { isRecord } from './isRecord';
 
 import { isOlderThan } from './timestamp';
 import type {
   GroupSendOptionsType,
   SendOptionsType,
 } from '../textsecure/SendMessage';
+import {
+  ConnectTimeoutError,
+  OutgoingIdentityKeyError,
+  SendMessageProtoError,
+  UnregisteredUserError,
+} from '../textsecure/Errors';
 import type { HTTPError } from '../textsecure/Errors';
 import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores';
 import type { ConversationModel } from '../models/conversations';
@@ -188,10 +195,7 @@ export async function sendContentMessageToGroup({
         throw error;
       }
 
-      if (error.name.includes('untrusted identity')) {
-        log.error(
-          `sendToGroup/${logId}: Failed with 'untrusted identity' error, re-throwing`
-        );
+      if (_shouldFailSend(error, logId)) {
         throw error;
       }
 
@@ -652,6 +656,86 @@ export async function sendToGroupViaSenderKey(options: {
 }
 
 // Utility Methods
+
+export function _shouldFailSend(error: unknown, logId: string): boolean {
+  const logError = (message: string) => {
+    log.error(`_shouldFailSend/${logId}: ${message}`);
+  };
+
+  if (error instanceof Error && error.message.includes('untrusted identity')) {
+    logError("'untrusted identity' error, failing.");
+    return true;
+  }
+
+  if (error instanceof OutgoingIdentityKeyError) {
+    logError('OutgoingIdentityKeyError error, failing.');
+    return true;
+  }
+
+  if (error instanceof UnregisteredUserError) {
+    logError('UnregisteredUserError error, failing.');
+    return true;
+  }
+
+  if (error instanceof ConnectTimeoutError) {
+    logError('ConnectTimeoutError error, failing.');
+    return true;
+  }
+
+  // Known error types captured here:
+  //   HTTPError
+  //   OutgoingMessageError
+  //   SendMessageNetworkError
+  //   SendMessageChallengeError
+  //   MessageError
+  if (isRecord(error) && typeof error.code === 'number') {
+    if (error.code === 401) {
+      logError('Permissions error, failing.');
+      return true;
+    }
+
+    if (error.code === 404) {
+      logError('Missing user or endpoint error, failing.');
+      return true;
+    }
+
+    if (error.code === 413) {
+      logError('Rate limit error, failing.');
+      return true;
+    }
+
+    if (error.code === 428) {
+      logError('Challenge error, failing.');
+      return true;
+    }
+
+    if (error.code === 500) {
+      logError('Server error, failing.');
+      return true;
+    }
+
+    if (error.code === 508) {
+      logError('Fail job error, failing.');
+      return true;
+    }
+  }
+
+  if (error instanceof SendMessageProtoError) {
+    if (!error.errors || !error.errors.length) {
+      logError('SendMessageProtoError had no errors, failing.');
+      return true;
+    }
+
+    for (const innerError of error.errors) {
+      const shouldFail = _shouldFailSend(innerError, logId);
+      if (shouldFail) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
 
 export async function _waitForAll<T>({
   tasks,
