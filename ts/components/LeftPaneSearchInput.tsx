@@ -19,6 +19,7 @@ type PropsType = {
   value: string;
 };
 
+// TODO DESKTOP-3068: merge with <SearchInput />
 export const LeftPaneSearchInput = forwardRef<HTMLInputElement, PropsType>(
   (
     {

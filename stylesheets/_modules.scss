@@ -2705,21 +2705,69 @@ button.ConversationDetails__action-button {
   }
 
   &__compose-icon {
-    $icon: '../images/icons/v2/compose-24.svg';
-
-    width: 24px;
-    height: 24px;
     -webkit-app-region: no-drag;
+    align-items: center;
+    background: none;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    padding: 2px;
+    width: 32px;
 
     @include light-theme {
-      @include color-svg($icon, $color-gray-90);
+      &:hover,
+      &:focus {
+        background: $color-gray-15;
+      }
+      &:active {
+        background: $color-gray-05;
+      }
     }
     @include dark-theme {
-      @include color-svg($icon, $color-gray-02);
+      &:hover,
+      &:focus {
+        background: $color-gray-75;
+      }
+      &:active {
+        background: $color-gray-65;
+      }
     }
 
-    &:focus {
-      @include color-svg($icon, $color-ultramarine);
+    @include keyboard-mode {
+      &:focus {
+        border-color: $color-ultramarine;
+      }
+    }
+    @include dark-keyboard-mode {
+      &:focus {
+        border-color: $color-ultramarine-light;
+      }
+    }
+
+    &::before {
+      $icon: '../images/icons/v2/compose-24.svg';
+      width: 24px;
+      height: 24px;
+      content: '';
+
+      @include light-theme {
+        @include color-svg($icon, $color-gray-75);
+        &:hover,
+        &:active,
+        &:focus {
+          @include color-svg($icon, $color-gray-90);
+        }
+      }
+      @include dark-theme {
+        @include color-svg($icon, $color-gray-15);
+        &:hover,
+        &:active,
+        &:focus {
+          @include color-svg($icon, $color-gray-02);
+        }
+      }
     }
   }
 }
@@ -5241,6 +5289,12 @@ button.module-image__border-overlay:focus {
       .module-conversation-list__item--contact-or-conversation__unread-indicator {
       border-color: mix($color-white, $background-color, 6%);
     }
+  }
+}
+
+.module-left-pane__dialogs {
+  &:first-child {
+    margin-top: 8px;
   }
 }
 

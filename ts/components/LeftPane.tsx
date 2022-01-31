@@ -566,10 +566,14 @@ export const LeftPane: React.FC<PropsType> = ({
         },
         updateSearchTerm,
       })}
-      {renderExpiredBuildDialog({ containerWidthBreakpoint: widthBreakpoint })}
-      {renderRelinkDialog({ containerWidthBreakpoint: widthBreakpoint })}
-      {renderNetworkStatus({ containerWidthBreakpoint: widthBreakpoint })}
-      {renderUpdateDialog({ containerWidthBreakpoint: widthBreakpoint })}
+      <div className="module-left-pane__dialogs">
+        {renderExpiredBuildDialog({
+          containerWidthBreakpoint: widthBreakpoint,
+        })}
+        {renderRelinkDialog({ containerWidthBreakpoint: widthBreakpoint })}
+        {renderNetworkStatus({ containerWidthBreakpoint: widthBreakpoint })}
+        {renderUpdateDialog({ containerWidthBreakpoint: widthBreakpoint })}
+      </div>
       {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
       <Measure bounds>
         {({ contentRect, measureRef }: MeasuredComponentProps) => (
