@@ -185,7 +185,7 @@ export class SessionConversation extends React.Component<Props, State> {
           message: window.i18n('sendRecoveryPhraseMessage'),
           okTheme: SessionButtonColor.Danger,
           onClickOk: () => {
-            sendAndScroll();
+            void sendAndScroll();
           },
           onClickClose: () => {
             window.inboxStore?.dispatch(updateConfirmModal(null));
@@ -193,7 +193,7 @@ export class SessionConversation extends React.Component<Props, State> {
         })
       );
     } else {
-      sendAndScroll();
+      void sendAndScroll();
     }
 
     window.inboxStore?.dispatch(quoteMessage(undefined));

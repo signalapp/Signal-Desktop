@@ -54,7 +54,8 @@ export function getLatestTimestampOffset() {
 }
 
 export function getNowWithNetworkOffset() {
-  return Date.now() - getLatestTimestampOffset();
+  // make sure to call exports here, as we stub the exported one for testing.
+  return Date.now() - exports.getLatestTimestampOffset();
 }
 
 export type SendParams = {
