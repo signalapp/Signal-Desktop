@@ -261,6 +261,7 @@ export const ConversationList: React.FC<PropsType> = ({
             'id',
             'isMe',
             'isSelected',
+            'isPinned',
             'lastMessage',
             'lastUpdated',
             'markedUnread',

@@ -42,6 +42,7 @@ export type PropsData = Pick<
   | 'draftPreview'
   | 'id'
   | 'isMe'
+  // NOTE: Passed for CI, not used for rendering
   | 'isPinned'
   | 'isSelected'
   | 'lastMessage'
