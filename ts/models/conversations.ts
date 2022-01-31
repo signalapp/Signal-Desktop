@@ -213,9 +213,6 @@ export class ConversationModel extends window.Backbone
 
   private isInReduxBatch = false;
 
-  // This number is recorded as an optimization and may be out of date.
-  private newestReceivedAtMarkedRead?: number;
-
   private _activeProfileFetch?: Promise<void>;
 
   override defaults(): Partial<ConversationAttributesType> {
@@ -4582,15 +4579,6 @@ export class ConversationModel extends window.Backbone
       sendReadReceipts: true,
     }
   ): Promise<void> {
-    // This early return is an optimization, not a guarantee.
-    const { newestReceivedAtMarkedRead } = this;
-    if (
-      typeof newestReceivedAtMarkedRead === 'number' &&
-      newestUnreadAt <= newestReceivedAtMarkedRead
-    ) {
-      return;
-    }
-
     await markConversationRead(this.attributes, newestUnreadAt, options);
 
     const unreadCount = await window.Signal.Data.getTotalUnreadForConversation(
@@ -4602,8 +4590,6 @@ export class ConversationModel extends window.Backbone
       this.set({ unreadCount });
       window.Signal.Data.updateConversation(this.attributes);
     }
-
-    this.newestReceivedAtMarkedRead = newestUnreadAt;
   }
 
   // This is an expensive operation we use to populate the message request hero row. It

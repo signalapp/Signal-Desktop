@@ -29,6 +29,7 @@ import type {
   MessageAttributesType as MediaItemMessageType,
 } from '../types/MediaItem';
 import type { MessageModel } from '../models/messages';
+import { getMessageById } from '../messages/getMessageById';
 import { getContactId } from '../messages/helpers';
 import { strictAssert } from '../util/assert';
 import { maybeParseUrl } from '../util/url';
@@ -137,7 +138,7 @@ const {
   upgradeMessageSchema,
 } = window.Signal.Migrations;
 
-const { getMessageById, getMessagesBySentAt } = window.Signal.Data;
+const { getMessagesBySentAt } = window.Signal.Data;
 
 type MessageActionsType = {
   deleteMessage: (messageId: string) => unknown;
@@ -475,7 +476,7 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
         throw new Error(`markMessageRead: failed to load message ${messageId}`);
       }
 
-      await this.model.markRead(message.received_at);
+      await this.model.markRead(message.get('received_at'));
     };
 
     const createMessageRequestResponseHandler =
@@ -1250,18 +1251,10 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
   }
 
   async showForwardMessageModal(messageId: string): Promise<void> {
-    const messageFromCache = window.MessageController.getById(messageId);
-    if (!messageFromCache) {
-      log.info('showForwardMessageModal: Fetching message from database');
-    }
-    const found =
-      messageFromCache || (await window.Signal.Data.getMessageById(messageId));
-
-    if (!found) {
+    const message = await getMessageById(messageId);
+    if (!message) {
       throw new Error(`showForwardMessageModal: Message ${messageId} missing!`);
     }
-
-    const message = window.MessageController.register(found.id, found);
     const attachments = getAttachmentsForMessage(message.attributes);
 
     this.forwardMessageModal = new Whisper.ReactWrapperView({
@@ -2673,15 +2666,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   async setQuoteMessage(messageId: null | string): Promise<void> {
     const { model } = this;
-    const found = messageId ? await getMessageById(messageId) : undefined;
-    const message = found
-      ? window.MessageController.register(found.id, found)
-      : undefined;
+    const message = messageId ? await getMessageById(messageId) : undefined;
 
     if (
-      found &&
+      message &&
       !canReply(
-        found,
+        message.attributes,
         window.ConversationController.getOurConversationIdOrThrow(),
         findAndFormatContact
       )
