@@ -196,6 +196,7 @@ export async function autoScale<T extends { contentType: string; blob: Blob }>(
   let i = 4;
   do {
     i -= 1;
+    window.log.info('autoscale of ', attachment, i);
     readAndResizedBlob = dataURLToBlob(
       (canvas.image as HTMLCanvasElement).toDataURL('image/jpeg', quality)
     );

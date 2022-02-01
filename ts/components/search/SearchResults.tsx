@@ -20,8 +20,8 @@ const StyledSeparatorSection = styled.div`
 
   color: var(--color-text);
 
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 400;
   letter-spacing: 0;
 `;
 
@@ -41,7 +41,7 @@ const NoResults = styled.div`
 export const SearchResults = (props: SearchResultsProps) => {
   const { contactsAndGroups, messages, searchTerm } = props;
 
-  const haveContactsAndGroup = contactsAndGroups?.length;
+  const haveContactsAndGroup = Boolean(contactsAndGroups?.length);
   const haveMessages = Boolean(messages?.length);
   const noResults = !haveContactsAndGroup && !haveMessages;
 

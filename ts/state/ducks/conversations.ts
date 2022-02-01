@@ -465,7 +465,6 @@ function handleMessageChangedOrAdded(
   if (state.showScrollButton) {
     return state;
   }
-  console.warn('messages should be added at the bottom only if it is in the current view');
   // sorting happens in the selector
 
   state.messages.push(changedOrAddedMessageProps);

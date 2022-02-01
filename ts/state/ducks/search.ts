@@ -8,6 +8,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 import _ from 'lodash';
 import { getConversationController } from '../../session/conversations';
 import { MessageResultProps } from '../../components/search/MessageSearchResults';
+import { UserUtils } from '../../session/utils';
 
 // State
 
@@ -59,14 +60,18 @@ export const actions = {
   updateSearchTerm,
 };
 
-export function search(query: string, options: SearchOptions): SearchResultsKickoffActionType {
+export function search(query: string): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
-    payload: doSearch(query, options), // this uses redux-promise-middleware
+    payload: doSearch(query), // this uses redux-promise-middleware
   };
 }
 
-async function doSearch(query: string, options: SearchOptions): Promise<SearchResultsPayloadType> {
+async function doSearch(query: string): Promise<SearchResultsPayloadType> {
+  const options: SearchOptions = {
+    noteToSelf: window.i18n('noteToSelf').toLowerCase(),
+    ourNumber: UserUtils.getOurPubKeyStrFromCache(),
+  };
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
   // const isAdvancedQuery = query !== processedQuery;
