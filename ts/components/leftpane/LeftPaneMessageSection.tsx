@@ -41,7 +41,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     super(props);
 
     autoBind(this);
-    this.debouncedSearch = _.debounce(this.search.bind(this), 20);
+    this.debouncedSearch = _.debounce(this.search.bind(this), 50);
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
@@ -62,10 +62,9 @@ export class LeftPaneMessageSection extends React.Component<Props> {
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const { conversations, searchResults } = this.props;
-    const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
-      return <SearchResults {...searchResults} contacts={contacts} />;
+      return <SearchResults {...searchResults} />;
     }
 
     if (!conversations) {
@@ -160,11 +159,11 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     this.debouncedSearch(cleanedTerm);
   }
 
-  public clearSearch() {
+  private clearSearch() {
     window.inboxStore?.dispatch(clearSearch());
   }
 
-  public search() {
+  private search() {
     const { searchTerm } = this.props;
     window.inboxStore?.dispatch(
       search(searchTerm, {

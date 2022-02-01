@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
 import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
@@ -30,8 +29,43 @@ const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)
   font-size: 12px;
   line-height: 14px;
   overflow-x: hidden;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--color-text-subtle);
+`;
+
+const StyledSearchResulsts = styled.div`
+  padding: 8px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
+  min-height: 64px;
+  max-width: 300px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-clickable-hovered);
+  }
+`;
+
+const StyledResultText = styled.div`
+  flex-grow: 1;
+  margin-inline-start: 12px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const ResultsHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledMessageResultsHeaderName = styled.span`
+  font-weight: 300;
 `;
 
 const FromName = (props: { source: string; conversationId: string }) => {
@@ -41,14 +75,12 @@ const FromName = (props: { source: string; conversationId: string }) => {
 
   if (isNoteToSelf) {
     return (
-      <span className="module-message-search-result__header__name">
-        {window.i18n('noteToSelf')}
-      </span>
+      <StyledMessageResultsHeaderName>{window.i18n('noteToSelf')}</StyledMessageResultsHeaderName>
     );
   }
 
   if (source === getOurPubKeyStrFromCache()) {
-    return <span className="module-message-search-result__header__name">{window.i18n('you')}</span>;
+    return <StyledMessageResultsHeaderName>{window.i18n('you')}</StyledMessageResultsHeaderName>;
   }
 
   return (
@@ -68,9 +100,9 @@ const ConversationHeader = (props: { source: string; conversationId: string }) =
   if (conversationId !== ourKey) {
     return (
       <StyledConversationTitleResults>
-        <span className="module-messages-search-result__header__group">
+        <StyledMessageResultsHeaderName>
           <ContactName pubkey={conversationId} shouldShowPubkey={false} boldProfileName={true} />
-        </span>
+        </StyledMessageResultsHeaderName>
       </StyledConversationTitleResults>
     );
   }
@@ -121,6 +153,23 @@ const ResultBody = styled.div`
   -webkit-box-orient: vertical;
 `;
 
+const StyledTimestampContaimer = styled.div`
+  flex-shrink: 0;
+  margin-inline-start: 6px;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-transform: uppercase;
+
+  color: var(--color-text-subtle);
+`;
+
 export const MessageSearchResult = (props: MessageResultProps) => {
   const {
     id,
@@ -156,7 +205,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
   }
 
   return (
-    <div
+    <StyledSearchResulsts
       key={`div-msg-searchresult-${id}`}
       role="button"
       onClick={() => {
@@ -166,24 +215,23 @@ export const MessageSearchResult = (props: MessageResultProps) => {
           shouldHighlightMessage: true,
         });
       }}
-      className={classNames('module-message-search-result')}
     >
       <AvatarItem source={conversationId} />
-      <div className="module-message-search-result__text">
-        <div className="module-message-search-result__header">
+      <StyledResultText>
+        <ResultsHeader>
           <ConversationHeader source={destination} conversationId={conversationId} />
-          <div className="module-message-search-result__header__timestamp">
+          <StyledTimestampContaimer>
             <Timestamp
               timestamp={serverTimestamp || timestamp || sent_at || received_at}
               momentFromNow={false}
             />
-          </div>
-        </div>
+          </StyledTimestampContaimer>
+        </ResultsHeader>
         <ResultBody>
           <FromUserInGroup authorPubkey={source} conversationId={conversationId} />
           <MessageBodyHighlight text={snippet || ''} />
         </ResultBody>
-      </div>
-    </div>
+      </StyledResultText>
+    </StyledSearchResulsts>
   );
 };

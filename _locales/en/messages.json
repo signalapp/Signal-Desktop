@@ -85,7 +85,7 @@
   "sessionMessenger": "Session",
   "search": "Search",
   "noSearchResults": "No results found for \"$searchTerm$\"",
-  "conversationsHeader": "Conversations",
+  "conversationsHeader": "Contacts and Groups",
   "contactsHeader": "Contacts",
   "messagesHeader": "Messages",
   "settingsHeader": "Settings",

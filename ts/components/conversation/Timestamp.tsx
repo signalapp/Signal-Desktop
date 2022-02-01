@@ -7,24 +7,9 @@ import styled from 'styled-components';
 
 type Props = {
   timestamp?: number;
-  module?: string;
-  withImageNoCaption?: boolean;
   isConversationListItem?: boolean;
   momentFromNow: boolean;
 };
-
-const TimestampContainerListItem = styled.div`
-  flex-shrink: 0;
-  margin-inline-start: 6px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  color: var(--color-text);
-`;
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
@@ -34,7 +19,15 @@ const TimestampContainerNotListItem = styled.div`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: var(--color-text);
+  color: var(--color-text-subtle);
+`;
+
+const TimestampContainerListItem = styled(TimestampContainerNotListItem)`
+  flex-shrink: 0;
+  margin-inline-start: 6px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const Timestamp = (props: Props) => {

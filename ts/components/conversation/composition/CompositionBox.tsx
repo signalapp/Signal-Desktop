@@ -750,6 +750,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     } else if (event.key === 'PageUp' || event.key === 'PageDown') {
       // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
       event.preventDefault();
+      event.stopPropagation();
     }
   }
 

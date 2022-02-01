@@ -21,22 +21,8 @@ export const getSearchResults = createSelector(
   [getSearch, getConversationLookup, getSelectedConversationKey],
   (searchState: SearchStateType, lookup: ConversationLookupType, selectedConversation?: string) => {
     return {
-      contacts: compact(
-        searchState.contacts.map(id => {
-          const value = lookup[id];
-
-          if (value && id === selectedConversation) {
-            return {
-              ...value,
-              isSelected: true,
-            };
-          }
-
-          return value;
-        })
-      ),
-      conversations: compact(
-        searchState.conversations.map(id => {
+      contactsAndGroups: compact(
+        searchState.contactsAndGroups.map(id => {
           const value = lookup[id];
 
           // Don't return anything when activeAt is unset (i.e. no current conversations with this user)
