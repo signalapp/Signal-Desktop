@@ -2,38 +2,40 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
-import {
-  FindAndFormatContactType,
-  openConversationToSpecificMessage,
-} from '../../state/ducks/conversations';
+import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
 import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
 import styled from 'styled-components';
 import { MessageAttributes } from '../../models/messageType';
-import { useIsPrivate } from '../../hooks/useParamSelector';
+import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
 import { UserUtils } from '../../session/utils';
-
-export type PropsForSearchResults = {
-  from: FindAndFormatContactType;
-  to: FindAndFormatContactType;
-  id: string;
-  conversationId: string;
-  destination: string;
-  source: string;
-
-  direction?: string;
-  snippet?: string; //not sure about the type of snippet
-  receivedAt?: number;
-};
 
 export type MessageResultProps = MessageAttributes & { snippet: string };
 
-const FromName = (props: { source: string; destination: string }) => {
-  const { source, destination } = props;
+const StyledConversationTitleResults = styled.div`
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  line-height: 18px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-text);
+`;
 
-  const isNoteToSelf = destination === getOurPubKeyStrFromCache() && source === destination;
+const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)`
+  display: inline;
+  font-size: 12px;
+  line-height: 14px;
+  overflow-x: hidden;
+`;
+
+const FromName = (props: { source: string; conversationId: string }) => {
+  const { conversationId, source } = props;
+
+  const isNoteToSelf = conversationId === getOurPubKeyStrFromCache() && source === conversationId;
 
   if (isNoteToSelf) {
     return (
@@ -48,33 +50,50 @@ const FromName = (props: { source: string; destination: string }) => {
   }
 
   return (
-    // tslint:disable: use-simple-attributes
     <ContactName
-      pubkey={source}
+      pubkey={conversationId}
       module="module-message-search-result__header__name"
       shouldShowPubkey={false}
     />
   );
 };
 
-const From = (props: { source: string; destination: string }) => {
-  const { source, destination } = props;
-  const fromName = <FromName source={source} destination={destination} />;
+const ConversationHeader = (props: { source: string; conversationId: string }) => {
+  const { source, conversationId } = props;
+  const fromName = <FromName source={source} conversationId={conversationId} />;
 
   const ourKey = getOurPubKeyStrFromCache();
 
-  if (destination !== ourKey) {
+  if (conversationId !== ourKey) {
     return (
-      <div className="module-message-search-result__header__from">
-        {fromName} {window.i18n('to')}
+      <StyledConversationTitleResults>
         <span className="module-messages-search-result__header__group">
-          <ContactName pubkey={destination} shouldShowPubkey={false} />
+          <ContactName pubkey={conversationId} shouldShowPubkey={false} />
         </span>
-      </div>
+      </StyledConversationTitleResults>
     );
   }
 
-  return <div className="module-message-search-result__header__from">{fromName}</div>;
+  return <StyledConversationTitleResults>{fromName}</StyledConversationTitleResults>;
+};
+
+const FromUserInGroup = (props: { authorPubkey: string; conversationId: string }) => {
+  const { authorPubkey, conversationId } = props;
+
+  const ourKey = getOurPubKeyStrFromCache();
+  const convoIsPrivate = useIsPrivate(conversationId);
+  const authorConvoName = useConversationUsername(authorPubkey);
+
+  if (convoIsPrivate) {
+    return null;
+  }
+
+  if (authorPubkey === ourKey) {
+    return (
+      <StyledConversationFromUserInGroup>{window.i18n('you')}: </StyledConversationFromUserInGroup>
+    );
+  }
+  return <StyledConversationFromUserInGroup>{authorConvoName}: </StyledConversationFromUserInGroup>;
 };
 
 const AvatarItem = (props: { source: string }) => {
@@ -83,7 +102,6 @@ const AvatarItem = (props: { source: string }) => {
 
 const ResultBody = styled.div`
   margin-top: 1px;
-  flex-grow: 1;
   flex-shrink: 1;
 
   font-size: 13px;
@@ -94,7 +112,7 @@ const ResultBody = styled.div`
 
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
 
@@ -123,8 +141,8 @@ export const MessageSearchResult = (props: MessageResultProps) => {
    *    - the conversationID for a public group
    */
   const me = UserUtils.getOurPubKeyStrFromCache();
-
   const convoIsPrivate = useIsPrivate(conversationId);
+
   const destination =
     direction === 'incoming' ? conversationId : convoIsPrivate ? me : conversationId;
 
@@ -145,15 +163,16 @@ export const MessageSearchResult = (props: MessageResultProps) => {
       }}
       className={classNames('module-message-search-result')}
     >
-      <AvatarItem source={source || me} />
+      <AvatarItem source={conversationId} />
       <div className="module-message-search-result__text">
         <div className="module-message-search-result__header">
-          <From source={source} destination={destination} />
+          <ConversationHeader source={destination} conversationId={conversationId} />
           <div className="module-message-search-result__header__timestamp">
             <Timestamp timestamp={serverTimestamp || timestamp || sent_at || received_at} />
           </div>
         </div>
         <ResultBody>
+          <FromUserInGroup authorPubkey={source} conversationId={conversationId} />
           <MessageBodyHighlight text={snippet || ''} />
         </ResultBody>
       </div>

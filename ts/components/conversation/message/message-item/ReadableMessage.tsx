@@ -172,7 +172,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onContextMenu={onContextMenu}
       className={className}
       as="div"
-      threshold={0.5}
+      threshold={0.8}
       delay={isAppFocused ? 100 : 200}
       onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
