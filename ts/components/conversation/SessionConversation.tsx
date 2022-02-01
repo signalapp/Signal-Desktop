@@ -238,7 +238,6 @@ export class SessionConversation extends React.Component<Props, State> {
           <div className={classNames('conversation-info-panel', showMessageDetails && 'show')}>
             <MessageDetail />
           </div>
-
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">

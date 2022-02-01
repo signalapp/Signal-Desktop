@@ -5,7 +5,6 @@ import { getConversationRequests } from '../../state/selectors/conversations';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 
 const StyledMessageRequestBanner = styled.div`
-  border-left: var(--border-unread);
   height: 64px;
   width: 100%;
   max-width: 300px;
@@ -14,6 +13,8 @@ const StyledMessageRequestBanner = styled.div`
   padding: 8px 12px; // adjusting for unread border always being active
   align-items: center;
   cursor: pointer;
+
+  background: var(--color-request-banner-background);
 
   transition: var(--session-transition-duration);
 
@@ -42,7 +43,7 @@ const StyledCircleIcon = styled.div`
 const StyledUnreadCounter = styled.div`
   font-weight: bold;
   border-radius: var(--margins-sm);
-  background-color: var(--color-clickable-hovered);
+  background-color: var(--color-request-banner-unread-background);
   margin-left: 10px;
   min-width: 20px;
   height: 20px;
@@ -55,14 +56,13 @@ const StyledUnreadCounter = styled.div`
 `;
 
 const StyledGridContainer = styled.div`
-  border: solid 1px black;
   display: flex;
   width: 36px;
   height: 36px;
   align-items: center;
   border-radius: 50%;
   justify-content: center;
-  background-color: var(--color-conversation-item-has-unread);
+  background-color: var(--color-request-banner-icon-background);
 `;
 
 export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: SessionIconSize }) => {
@@ -74,7 +74,7 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
         <SessionIcon
           iconType={iconType}
           iconSize={iconSize}
-          iconColor={'var(--color-text-subtle)'}
+          iconColor="var(--color-request-banner-icon)"
         />
       </StyledGridContainer>
     </StyledCircleIcon>
