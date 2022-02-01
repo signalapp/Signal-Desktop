@@ -129,6 +129,12 @@
     }
   }
 
+  &__zoomable-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
   &__zoom-button {
     @include button-reset;
     cursor: zoom-in;

@@ -427,28 +427,30 @@ export function Lightbox({
     if (isImageTypeSupported) {
       if (objectURL) {
         content = (
-          <button
-            className="Lightbox__zoom-button"
-            onClick={zoomButtonHandler}
-            type="button"
-          >
-            <img
-              alt={i18n('lightboxImageAlt')}
-              className="Lightbox__object"
-              onContextMenu={(ev: React.MouseEvent<HTMLImageElement>) => {
-                // These are the only image types supported by Electron's NativeImage
-                if (
-                  ev &&
-                  contentType !== IMAGE_PNG &&
-                  !/image\/jpe?g/g.test(contentType)
-                ) {
-                  ev.preventDefault();
-                }
-              }}
-              src={objectURL}
-              ref={imageRef}
-            />
-          </button>
+          <div className="Lightbox__zoomable-container">
+            <button
+              className="Lightbox__zoom-button"
+              onClick={zoomButtonHandler}
+              type="button"
+            >
+              <img
+                alt={i18n('lightboxImageAlt')}
+                className="Lightbox__object"
+                onContextMenu={(ev: React.MouseEvent<HTMLImageElement>) => {
+                  // These are the only image types supported by Electron's NativeImage
+                  if (
+                    ev &&
+                    contentType !== IMAGE_PNG &&
+                    !/image\/jpe?g/g.test(contentType)
+                  ) {
+                    ev.preventDefault();
+                  }
+                }}
+                src={objectURL}
+                ref={imageRef}
+              />
+            </button>
+          </div>
         );
       } else {
         content = (
