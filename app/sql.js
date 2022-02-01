@@ -1862,7 +1862,7 @@ function searchMessages(query, limit) {
     .prepare(
       `SELECT
       ${MESSAGES_TABLE}.json,
-      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
     INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE

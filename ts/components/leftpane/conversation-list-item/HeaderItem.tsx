@@ -110,7 +110,7 @@ export const ConversationListItemHeaderItem = () => {
           unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
         )}
       >
-        <Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />
+        <Timestamp timestamp={activeAt} isConversationListItem={true} momentFromNow={true} />
       </div>
     </div>
   );

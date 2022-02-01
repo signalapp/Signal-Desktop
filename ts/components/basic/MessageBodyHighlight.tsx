@@ -12,6 +12,7 @@ const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
 
 const SnippetHighlight = styled.span`
   font-weight: bold;
+  color: var(--color-text);
 `;
 
 const renderEmoji = ({
@@ -29,6 +30,7 @@ const renderEmoji = ({
 export const MessageBodyHighlight = (props: { text: string }) => {
   const { text } = props;
   const results: Array<JSX.Element> = [];
+  // this is matching what sqlite fts5 is giving us back
   const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;
 
   let match = FIND_BEGIN_END.exec(text);

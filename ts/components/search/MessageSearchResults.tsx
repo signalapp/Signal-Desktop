@@ -30,6 +30,8 @@ const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)
   font-size: 12px;
   line-height: 14px;
   overflow-x: hidden;
+  font-weight: 400;
+  color: var(--color-text-subtle);
 `;
 
 const FromName = (props: { source: string; conversationId: string }) => {
@@ -60,7 +62,6 @@ const FromName = (props: { source: string; conversationId: string }) => {
 
 const ConversationHeader = (props: { source: string; conversationId: string }) => {
   const { source, conversationId } = props;
-  const fromName = <FromName source={source} conversationId={conversationId} />;
 
   const ourKey = getOurPubKeyStrFromCache();
 
@@ -68,13 +69,17 @@ const ConversationHeader = (props: { source: string; conversationId: string }) =
     return (
       <StyledConversationTitleResults>
         <span className="module-messages-search-result__header__group">
-          <ContactName pubkey={conversationId} shouldShowPubkey={false} />
+          <ContactName pubkey={conversationId} shouldShowPubkey={false} boldProfileName={true} />
         </span>
       </StyledConversationTitleResults>
     );
   }
 
-  return <StyledConversationTitleResults>{fromName}</StyledConversationTitleResults>;
+  return (
+    <StyledConversationTitleResults>
+      <FromName source={source} conversationId={conversationId} />;
+    </StyledConversationTitleResults>
+  );
 };
 
 const FromUserInGroup = (props: { authorPubkey: string; conversationId: string }) => {
@@ -168,7 +173,10 @@ export const MessageSearchResult = (props: MessageResultProps) => {
         <div className="module-message-search-result__header">
           <ConversationHeader source={destination} conversationId={conversationId} />
           <div className="module-message-search-result__header__timestamp">
-            <Timestamp timestamp={serverTimestamp || timestamp || sent_at || received_at} />
+            <Timestamp
+              timestamp={serverTimestamp || timestamp || sent_at || received_at}
+              momentFromNow={false}
+            />
           </div>
         </div>
         <ResultBody>
