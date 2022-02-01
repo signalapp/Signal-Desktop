@@ -18,6 +18,7 @@ import {
   getOldestMessageId,
   getQuotedMessageToAnimate,
   getSelectedConversationKey,
+  getShowScrollButton,
   getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
@@ -69,6 +70,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
   const youngestMessageId = useSelector(getYoungestMessageId);
   const fetchingMoreInProgress = useSelector(areMoreMessagesBeingFetched);
   const conversationHasUnread = useSelector(getConversationHasUnread);
+  const scrollButtonVisible = useSelector(getShowScrollButton);
   const shouldMarkReadWhenVisible = isUnread;
 
   const [didScroll, setDidScroll] = useState(false);
@@ -83,6 +85,7 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
     if (
       props.messageId === youngestMessageId &&
       !quotedMessageToAnimate &&
+      !scrollButtonVisible &&
       !didScroll &&
       !conversationHasUnread
     ) {

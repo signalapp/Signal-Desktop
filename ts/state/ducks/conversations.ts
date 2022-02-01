@@ -16,7 +16,6 @@ import {
   MessageModelType,
   PropsForDataExtractionNotification,
 } from '../../models/messageType';
-import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { QuotedAttachmentType } from '../../components/conversation/message/message-content/Quote';
@@ -300,7 +299,8 @@ export type ConversationsStateType = {
 
   /**
    * Contains the most recent message id for this conversation.
-   * This is the one at the bottom, if the most recent page of the conversation was loaded
+   * This is the one at the bottom, if the most recent page of the conversation was loaded.
+   * But this might also be a message not visible (like if the user scrolled up, the most recent message is not rendered)
    */
   mostRecentMessageId: string | null;
 
@@ -387,6 +387,7 @@ type FetchedBottomMessageResults = {
   conversationKey: string;
   messagesProps: Array<MessageModelPropsWithoutConvoProps>;
   oldBottomMessageId: string | null;
+  newMostRecentMessageIdInConversation: string | null;
 } | null;
 
 export const fetchBottomMessagesForConversation = createAsyncThunk(
@@ -417,6 +418,7 @@ export const fetchBottomMessagesForConversation = createAsyncThunk(
       conversationKey,
       messagesProps,
       oldBottomMessageId,
+      newMostRecentMessageIdInConversation: mostRecentMessage.id,
     };
   }
 );
@@ -441,77 +443,42 @@ export function getEmptyConversationState(): ConversationsStateType {
   };
 }
 
-function handleMessageAdded(
+function handleMessageChangedOrAdded(
   state: ConversationsStateType,
-  payload: {
-    conversationKey: string;
-    messageModelProps: MessageModelPropsWithoutConvoProps;
-  }
+  changedOrAddedMessageProps: MessageModelPropsWithoutConvoProps
 ) {
-  const { messages } = state;
-
-  const { conversationKey, messageModelProps: addedMessageProps } = payload;
-  if (conversationKey !== state.selectedConversation) {
+  if (changedOrAddedMessageProps.propsForMessage.convoId !== state.selectedConversation) {
     return state;
   }
 
   const messageInStoreIndex = state.messages.findIndex(
-    m => m.propsForMessage.id === addedMessageProps.propsForMessage.id
+    m => m.propsForMessage.id === changedOrAddedMessageProps.propsForMessage.id
   );
   if (messageInStoreIndex >= 0) {
-    // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
-    const editedMessages = [
-      ...state.messages.slice(0, messageInStoreIndex),
-      addedMessageProps,
-      ...state.messages.slice(messageInStoreIndex + 1),
-    ];
+    state.messages[messageInStoreIndex] = changedOrAddedMessageProps;
 
-    return {
-      ...state,
-      messages: editedMessages,
-    };
-  }
-
-  return {
-    ...state,
-    messages: [...messages, addedMessageProps], // sorting happens in the selector
-  };
-}
-
-function handleMessageChanged(
-  state: ConversationsStateType,
-  changedMessage: MessageModelPropsWithoutConvoProps
-) {
-  if (state.selectedConversation !== changedMessage.propsForMessage.convoId) {
     return state;
   }
-  const messageInStoreIndex = state?.messages?.findIndex(
-    m => m.propsForMessage.id === changedMessage.propsForMessage.id
-  );
-  if (messageInStoreIndex >= 0) {
-    // we cannot edit the array directly, so slice the first part, insert our edited message, and slice the second part
-    const editedMessages = [
-      ...state.messages.slice(0, messageInStoreIndex),
-      changedMessage,
-      ...state.messages.slice(messageInStoreIndex + 1),
-    ];
 
-    return {
-      ...state,
-      messages: editedMessages,
-    };
+  // this message was not present before in the state, and we assume it was added at the bottom.
+  // as showScrollButton is set, it means we are not scrolled down, hence, that message is not visible
+  if (state.showScrollButton) {
+    return state;
   }
+  console.warn('messages should be added at the bottom only if it is in the current view');
+  // sorting happens in the selector
 
+  state.messages.push(changedOrAddedMessageProps);
   return state;
 }
 
-function handleMessagesChanged(
+function handleMessagesChangedOrAdded(
   state: ConversationsStateType,
   payload: Array<MessageModelPropsWithoutConvoProps>
 ) {
   payload.forEach(element => {
     // tslint:disable-next-line: no-parameter-reassignment
-    state = handleMessageChanged(state, element);
+    state = handleMessageChangedOrAdded(state, element);
   });
 
   return state;
@@ -678,29 +645,11 @@ const conversationsSlice = createSlice({
       return getEmptyConversationState();
     },
 
-    messagesAdded(
-      state: ConversationsStateType,
-      action: PayloadAction<
-        Array<{
-          conversationKey: string;
-          messageModelProps: MessageModelPropsWithoutConvoProps;
-        }>
-      >
-    ) {
-      perfStart('messagesAdded');
-      action.payload.forEach(added => {
-        // tslint:disable-next-line: no-parameter-reassignment
-        state = handleMessageAdded(state, added);
-      });
-      perfEnd('messagesAdded', 'messagesAdded');
-
-      return state;
-    },
     messagesChanged(
       state: ConversationsStateType,
       action: PayloadAction<Array<MessageModelPropsWithoutConvoProps>>
     ) {
-      return handleMessagesChanged(state, action.payload);
+      return handleMessagesChangedOrAdded(state, action.payload);
     },
 
     messageExpired(
@@ -794,7 +743,9 @@ const conversationsSlice = createSlice({
         mostRecentMessageIdOnOpen: action.payload.mostRecentMessageIdOnOpen,
         areMoreMessagesBeingFetched: false,
         messages: action.payload.initialMessages,
-        showScrollButton: true,
+        showScrollButton: Boolean(
+          action.payload.messageIdToNavigateTo !== action.payload.mostRecentMessageIdOnOpen
+        ),
         animateQuotedMessageId: action.payload.messageIdToNavigateTo,
         shouldHighlightMessage: action.payload.shouldHighlightMessage,
         oldTopMessageId: null,
@@ -900,7 +851,12 @@ const conversationsSlice = createSlice({
           return { ...state, areMoreMessagesBeingFetched: false };
         }
         // this is called once the messages are loaded from the db for the currently selected conversation
-        const { messagesProps, conversationKey, oldBottomMessageId } = action.payload;
+        const {
+          messagesProps,
+          conversationKey,
+          oldBottomMessageId,
+          newMostRecentMessageIdInConversation,
+        } = action.payload;
         // double check that this update is for the shown convo
         if (conversationKey === state.selectedConversation) {
           return {
@@ -908,6 +864,7 @@ const conversationsSlice = createSlice({
             oldBottomMessageId,
             messages: messagesProps,
             areMoreMessagesBeingFetched: false,
+            mostRecentMessageId: newMostRecentMessageIdInConversation,
           };
         }
         return state;
@@ -963,7 +920,6 @@ export const {
   conversationRemoved,
   removeAllConversations,
   messageExpired,
-  messagesAdded,
   messageDeleted,
   conversationReset,
   messagesChanged,

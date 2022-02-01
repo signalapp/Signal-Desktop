@@ -836,6 +836,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       });
     }
 
+    if (this.isActive()) {
+      this.set('active_at', timestamp);
+    }
+
     // tell the UI this conversation was updated
     await this.commit();
 
@@ -1481,14 +1485,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     await model.setToExpire();
 
-    window.inboxStore?.dispatch(
-      conversationActions.messagesAdded([
-        {
-          conversationKey: this.id,
-          messageModelProps: model.getMessageModelProps(),
-        },
-      ])
-    );
+    const messageModelProps = model.getMessageModelProps();
+    window.inboxStore?.dispatch(conversationActions.messagesChanged([messageModelProps]));
     const unreadCount = await this.getUnreadCount();
     this.set({ unreadCount });
     this.updateLastMessage();
