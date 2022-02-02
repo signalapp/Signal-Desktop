@@ -2549,7 +2549,7 @@ export class ConversationModel extends window.Backbone
     const uuid = this.getUuid();
     const beginningVerified = this.get('verified');
     let keyChange = false;
-    if (options.viaSyncMessage) {
+    if (options.viaSyncMessage || options.viaStorageServiceSync) {
       strictAssert(
         uuid,
         `Sync message didn't update uuid for conversation: ${this.id}`
