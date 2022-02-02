@@ -508,6 +508,7 @@ type ShallowPropsType = Pick<
   PropsForMessage,
   | 'canDeleteForEveryone'
   | 'canDownload'
+  | 'canReact'
   | 'canReply'
   | 'contact'
   | 'contactNameColor'
@@ -589,6 +590,7 @@ const getShallowPropsForMessage = createSelectorCreator(memoizeByRoot, isEqual)(
     return {
       canDeleteForEveryone: canDeleteForEveryone(message),
       canDownload: canDownload(message, conversationSelector),
+      canReact: canReact(message, ourConversationId, conversationSelector),
       canReply: canReply(message, ourConversationId, conversationSelector),
       contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
       contactNameColor,

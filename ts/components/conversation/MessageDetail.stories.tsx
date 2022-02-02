@@ -27,6 +27,7 @@ const defaultMessage: MessageDataPropsType = {
     id: 'some-id',
     title: 'Max',
   }),
+  canReact: true,
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,

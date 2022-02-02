@@ -37,6 +37,7 @@ const defaultMessageProps: MessagesProps = {
     id: 'some-id',
     title: 'Person X',
   }),
+  canReact: true,
   canReply: true,
   canDeleteForEveryone: true,
   canDownload: true,

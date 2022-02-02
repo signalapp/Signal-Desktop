@@ -99,6 +99,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   author: overrideProps.author || getDefaultConversation(),
   reducedMotion: boolean('reducedMotion', false),
   bodyRanges: overrideProps.bodyRanges,
+  canReact: true,
   canReply: true,
   canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
