@@ -18,6 +18,7 @@ describe('LeftPaneArchiveHelper', () => {
     archivedConversations: [],
     searchConversation: undefined,
     searchTerm: '',
+    startSearchCounter: 0,
   };
 
   const searchingDefaults = {

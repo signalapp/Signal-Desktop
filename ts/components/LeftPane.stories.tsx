@@ -423,6 +423,7 @@ story.add('Archive: no archived conversations', () => (
         archivedConversations: [],
         searchConversation: undefined,
         searchTerm: '',
+        startSearchCounter: 0,
       },
     })}
   />
@@ -436,6 +437,7 @@ story.add('Archive: archived conversations', () => (
         archivedConversations: defaultConversations,
         searchConversation: undefined,
         searchTerm: '',
+        startSearchCounter: 0,
       },
     })}
   />
@@ -449,6 +451,7 @@ story.add('Archive: searching a conversation', () => (
         archivedConversations: defaultConversations,
         searchConversation: undefined,
         searchTerm: '',
+        startSearchCounter: 0,
       },
     })}
   />

@@ -107,6 +107,7 @@ const getModeSpecificProps = (
           archivedConversations,
           searchConversation,
           searchTerm,
+          startSearchCounter: getStartSearchCounter(state),
           ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
         };
       }

@@ -13,7 +13,7 @@ import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
+import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper';
 
@@ -21,6 +21,7 @@ type LeftPaneArchiveBasePropsType = {
   archivedConversations: ReadonlyArray<ConversationListItemPropsType>;
   searchConversation: undefined | ConversationType;
   searchTerm: string;
+  startSearchCounter: number;
 };
 
 export type LeftPaneArchivePropsType =
@@ -36,12 +37,15 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   private readonly searchHelper: undefined | LeftPaneSearchHelper;
 
+  private readonly startSearchCounter: number;
+
   constructor(props: Readonly<LeftPaneArchivePropsType>) {
     super();
 
     this.archivedConversations = props.archivedConversations;
     this.searchConversation = props.searchConversation;
     this.searchTerm = props.searchTerm;
+    this.startSearchCounter = props.startSearchCounter;
 
     if ('conversationResults' in props) {
       this.searchHelper = new LeftPaneSearchHelper(props);
@@ -72,6 +76,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   }
 
   override getSearchInput({
+    clearConversationSearch,
     clearSearch,
     i18n,
     updateSearchTerm,
@@ -86,19 +91,14 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     }
 
     return (
-      <LeftPaneSearchInput
+      <LeftPaneMainSearchInput
+        clearConversationSearch={clearConversationSearch}
+        clearSearch={clearSearch}
         i18n={i18n}
-        onChangeValue={newValue => {
-          updateSearchTerm(newValue);
-        }}
-        onClear={() => {
-          clearSearch();
-        }}
-        ref={el => {
-          el?.focus();
-        }}
         searchConversation={this.searchConversation}
-        value={this.searchTerm}
+        searchTerm={this.searchTerm}
+        startSearchCounter={this.startSearchCounter}
+        updateSearchTerm={updateSearchTerm}
       />
     );
   }
