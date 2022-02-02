@@ -31,10 +31,10 @@ export function toDayMillis(timestamp: number): number {
   return timestamp - (timestamp % DAY);
 }
 
-const isSameDay = (a: RawTimestamp, b: RawTimestamp): boolean =>
+export const isSameDay = (a: RawTimestamp, b: RawTimestamp): boolean =>
   moment(a).isSame(b, 'day');
 
-const isToday = (rawTimestamp: RawTimestamp): boolean =>
+export const isToday = (rawTimestamp: RawTimestamp): boolean =>
   isSameDay(rawTimestamp, Date.now());
 
 const isYesterday = (rawTimestamp: RawTimestamp): boolean =>

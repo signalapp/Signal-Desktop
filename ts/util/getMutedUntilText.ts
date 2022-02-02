@@ -1,8 +1,9 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import moment from 'moment';
 import type { LocalizerType } from '../types/Util';
+import { isToday } from './timestamp';
 
 /**
  * Returns something like "Muted until 6:09 PM", localized.
@@ -18,7 +19,7 @@ export function getMutedUntilText(
   }
 
   const expires = moment(muteExpiresAt);
-  const muteExpirationUntil = moment().isSame(expires, 'day')
+  const muteExpirationUntil = isToday(expires)
     ? expires.format('LT')
     : expires.format('L, LT');
 

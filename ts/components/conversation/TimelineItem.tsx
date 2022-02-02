@@ -4,9 +4,9 @@
 import type { ReactChild, RefObject } from 'react';
 import React from 'react';
 import { omit } from 'lodash';
-import moment from 'moment';
 
 import type { LocalizerType, ThemeType } from '../../types/Util';
+import { isSameDay } from '../../util/timestamp';
 
 import type { InteractionModeType } from '../../state/ducks/conversations';
 import { TimelineDateHeader } from './TimelineDateHeader';
@@ -344,7 +344,7 @@ export class TimelineItem extends React.PureComponent<PropsType> {
         previousItem &&
           // This comparison avoids strange header behavior for out-of-order messages.
           item.timestamp > previousItem.timestamp &&
-          !moment(previousItem.timestamp).isSame(item.timestamp, 'day')
+          !isSameDay(previousItem.timestamp, item.timestamp)
       );
     if (shouldRenderDateHeader) {
       return (
