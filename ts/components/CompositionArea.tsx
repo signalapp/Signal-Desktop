@@ -641,6 +641,7 @@ export const CompositionArea = ({
           <div className="CompositionArea__attachment-list">
             <AttachmentList
               attachments={draftAttachments}
+              canEditImages
               i18n={i18n}
               onAddAttachment={launchAttachmentPicker}
               onClickAttachment={maybeEditAttachment}
