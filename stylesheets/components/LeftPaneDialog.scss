@@ -32,6 +32,11 @@
     padding-left: 36px;
   }
 
+  &__retry {
+    @include button-reset;
+    @include font-body-1-bold;
+  }
+
   &--clickable {
     cursor: pointer;
   }

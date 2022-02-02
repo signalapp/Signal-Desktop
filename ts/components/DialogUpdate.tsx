@@ -68,16 +68,38 @@ export const DialogUpdate = ({
       >
         <span>
           <Intl
-            components={[
-              <a
-                key="signal-download"
-                href={url}
-                rel="noreferrer"
-                target="_blank"
-              >
-                {url}
-              </a>,
-            ]}
+            components={{
+              retry: (
+                <button
+                  className="LeftPaneDialog__retry"
+                  key="signal-retry"
+                  onClick={startUpdate}
+                  type="button"
+                >
+                  {i18n('autoUpdateRetry')}
+                </button>
+              ),
+              url: (
+                <a
+                  key="signal-download"
+                  href={url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {url}
+                </a>
+              ),
+              support: (
+                <a
+                  key="signal-support"
+                  href="https://support.signal.org/hc/en-us/requests/new?desktop"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {i18n('autoUpdateContactSupport')}
+                </a>
+              ),
+            }}
             i18n={i18n}
             id="cannotUpdateDetail"
           />
@@ -89,12 +111,12 @@ export const DialogUpdate = ({
   if (dialogType === DialogType.MacOS_Read_Only) {
     return (
       <LeftPaneDialog
-        containerWidthBreakpoint={containerWidthBreakpoint}
-        type="warning"
-        title={i18n('cannotUpdate')}
-        hasXButton
         closeLabel={i18n('close')}
+        containerWidthBreakpoint={containerWidthBreakpoint}
+        hasXButton
         onClose={dismissDialog}
+        title={i18n('cannotUpdate')}
+        type="warning"
       >
         <span>
           <Intl

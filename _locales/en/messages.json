@@ -1042,12 +1042,20 @@
     "description": "Shown in a button when a conversation is unmuted and can be muted"
   },
   "cannotUpdateDetail": {
-    "message": "Signal Desktop failed to update, but there is a new version available. Please go to $url$ and install the new version manually, then either contact support or file a bug about this problem.",
+    "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
     "description": "Shown if a general error happened while trying to install update package",
     "placeholders": {
+      "retry": {
+        "content": "$2",
+        "example": "retry update"
+      },
       "url": {
-        "content": "$1",
+        "content": "$2",
         "example": "https://signal.org/download"
+      },
+      "support": {
+        "content": "$3",
+        "example": "contact support"
       }
     }
   },
@@ -2456,6 +2464,12 @@
   },
   "autoUpdateNewVersionTitle": {
     "message": "Update available"
+  },
+  "autoUpdateRetry": {
+    "message": "Retry update"
+  },
+  "autoUpdateContactSupport": {
+    "message": "contact support"
   },
   "autoUpdateNewVersionMessage": {
     "message": "Click to restart Signal"
