@@ -79,26 +79,38 @@ jobs:
         set -o pipefail
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node Mock-Server/scripts/load-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-startup.log || \
-          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+          ./node_modules/.bin/electron . | tee benchmark-startup.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
 
+    - name: Upload startup benchmark logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: startup-logs
+        path: /tmp/mock/logs
+
     - name: Run send benchmarks
       run: |
         set -o pipefail
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node Mock-Server/scripts/send-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-send.log || \
-          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+          ./node_modules/.bin/electron . | tee benchmark-send.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+
+    - name: Upload send benchmark logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: send-logs
+        path: /tmp/mock/logs
 
     - name: Run group send benchmarks
       run: |
@@ -106,13 +118,19 @@ jobs:
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node \
           Mock-Server/scripts/group-send-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-group-send.log || \
-          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+          ./node_modules/.bin/electron . | tee benchmark-group-send.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+
+    - name: Upload group send benchmark logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: group-send-logs
+        path: /tmp/mock/logs
 
     - name: Run conversation open benchmarks
       run: |
@@ -120,13 +138,19 @@ jobs:
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node \
           Mock-Server/scripts/convo-open-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-convo-open.log || \
-          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+          ./node_modules/.bin/electron . | tee benchmark-convo-open.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
+
+    - name: Upload conversation open benchmark logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: convo-open-logs
+        path: /tmp/mock/logs
 
     - name: Clone benchmark repo
       uses: actions/checkout@v2

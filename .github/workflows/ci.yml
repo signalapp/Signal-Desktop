@@ -220,9 +220,15 @@ jobs:
         set -o pipefail
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node Mock-Server/scripts/storage-service-test.js \
-          ./node_modules/.bin/electron . || \
-          (cat /tmp/mock/logs/{app,main}.log && exit 1)
+          ./node_modules/.bin/electron .
       timeout-minutes: 10
       env:
         NODE_ENV: production
         DEBUG: mock:scripts:*
+
+    - name: Upload logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: logs
+        path: /tmp/mock/logs
