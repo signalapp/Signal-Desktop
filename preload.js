@@ -221,7 +221,6 @@ setInterval(() => {
 
 window.loadImage = require('blueimp-load-image');
 window.filesize = require('filesize');
-window.profileImages = require('./app/profile_images');
 
 window.React = require('react');
 window.ReactDOM = require('react-dom');

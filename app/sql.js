@@ -1858,6 +1858,9 @@ function searchConversations(query, { limit } = {}) {
 const orderByMessageCoalesceClause = `ORDER BY COALESCE(${MESSAGES_TABLE}.serverTimestamp, ${MESSAGES_TABLE}.sent_at, ${MESSAGES_TABLE}.received_at) DESC`;
 
 function searchMessages(query, limit) {
+  if (!limit) {
+    throw new Error('searchMessages limit must be set');
+  }
   const rows = globalInstance
     .prepare(
       `SELECT
@@ -1872,7 +1875,7 @@ function searchMessages(query, limit) {
     )
     .all({
       query,
-      limit: limit || 100,
+      limit,
     });
 
   return map(rows, row => ({

@@ -18,7 +18,6 @@ import {
   ConversationTypeEnum,
 } from '../../../../models/conversation';
 import { PubKey } from '../../../../session/types';
-import { noop } from 'lodash';
 import { generateFakeSnodes } from '../../../test-utils/utils';
 // tslint:disable: chai-vague-errors
 
@@ -52,7 +51,6 @@ describe('SwarmPolling', () => {
 
     sandbox.stub(SnodePool, 'getSwarmFor').resolves(generateFakeSnodes(5));
     sandbox.stub(SNodeAPI, 'retrieveNextMessages').resolves([]);
-    TestUtils.stubWindow('profileImages', { removeImagesNotInArray: noop, hasImage: noop });
     TestUtils.stubWindow('inboxStore', undefined);
     TestUtils.stubWindow('getGlobalOnlineStatus', () => true);
     TestUtils.stubWindowLog();

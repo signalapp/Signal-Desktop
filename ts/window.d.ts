@@ -60,7 +60,6 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getConversations: () => ConversationCollection;
-    profileImages: any;
     MediaRecorder: any;
 
     contextMenuShown: boolean;

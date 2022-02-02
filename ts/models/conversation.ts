@@ -292,19 +292,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async cleanup() {
     await deleteExternalFilesOfConversation(this.attributes);
-    window.profileImages.removeImage(this.id);
-  }
-
-  public async updateProfileAvatar() {
-    if (this.isPublic()) {
-      return;
-    }
-
-    // Remove old identicons
-    if (window.profileImages.hasImage(this.id)) {
-      window.profileImages.removeImage(this.id);
-      await this.setProfileAvatar(null);
-    }
   }
 
   public async onExpired(_message: MessageModel) {
@@ -1147,13 +1134,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setGroupName(name: string) {
-    const profileName = this.get('name');
-    if (profileName !== name) {
-      this.set({ name });
-      await this.commit();
-    }
-  }
   public async setSubscriberCount(count: number) {
     if (this.get('subscriberCount') !== count) {
       this.set({ subscriberCount: count });
