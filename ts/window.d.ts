@@ -285,7 +285,9 @@ declare global {
       Services: {
         calling: CallingClass;
         enableStorageService: () => boolean;
-        eraseAllStorageServiceState: () => Promise<void>;
+        eraseAllStorageServiceState: (options?: {
+          keepUnknownFields?: boolean;
+        }) => Promise<void>;
         initializeGroupCredentialFetcher: () => void;
         initializeNetworkObserver: (network: ReduxActions['network']) => void;
         initializeUpdateListener: (updates: ReduxActions['updates']) => void;

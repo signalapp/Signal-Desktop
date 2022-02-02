@@ -1195,11 +1195,15 @@ export function enableStorageService(): void {
 
 // Note: this function is meant to be called before ConversationController is hydrated.
 //   It goes directly to the database, so in-memory conversations will be out of date.
-export async function eraseAllStorageServiceState(): Promise<void> {
+export async function eraseAllStorageServiceState({
+  keepUnknownFields = false,
+}: { keepUnknownFields?: boolean } = {}): Promise<void> {
   log.info('storageService.eraseAllStorageServiceState: starting...');
   await Promise.all([
     window.storage.remove('manifestVersion'),
-    window.storage.remove('storage-service-unknown-records'),
+    keepUnknownFields
+      ? Promise.resolve()
+      : window.storage.remove('storage-service-unknown-records'),
     window.storage.remove('storageCredentials'),
   ]);
   await eraseStorageServiceStateFromConversations();

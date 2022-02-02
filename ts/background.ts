@@ -3539,9 +3539,21 @@ export async function startApp(): Promise<void> {
     }
 
     if (storageServiceKey) {
-      log.info('onKeysSync: received keys');
       const storageServiceKeyBase64 = Bytes.toBase64(storageServiceKey);
-      window.storage.put('storageKey', storageServiceKeyBase64);
+      if (window.storage.get('storageKey') === storageServiceKeyBase64) {
+        log.info(
+          "onKeysSync: storage service key didn't change, " +
+            'fetching manifest anyway'
+        );
+      } else {
+        log.info(
+          'onKeysSync: updated storage service key, erasing state and fetching'
+        );
+        await window.storage.put('storageKey', storageServiceKeyBase64);
+        await window.Signal.Services.eraseAllStorageServiceState({
+          keepUnknownFields: true,
+        });
+      }
 
       await window.Signal.Services.runStorageServiceSyncJob();
     }
