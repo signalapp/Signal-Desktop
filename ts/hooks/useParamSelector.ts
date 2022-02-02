@@ -37,7 +37,7 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 export function useConversationRealName(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
 
-  return convoProps?.name;
+  return convoProps?.isPrivate ? convoProps?.name : undefined;
 }
 
 /**

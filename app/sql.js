@@ -1837,15 +1837,13 @@ function searchConversations(query, { limit } = {}) {
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
-        id LIKE $id OR
         name LIKE $name OR
         profileName LIKE $profileName
       ) AND active_at IS NOT NULL AND active_at > 0
-     ORDER BY id ASC
+     ORDER BY active_at DESC
      LIMIT $limit`
     )
     .all({
-      id: `%${query}%`,
       name: `%${query}%`,
       profileName: `%${query}%`,
       limit: limit || 50,
@@ -2322,6 +2320,9 @@ function getLastMessagesByConversation(conversationId, limit) {
   return map(rows, row => jsonToObject(row.json));
 }
 
+/**
+ * This is the oldest message so we cannot reuse getLastMessagesByConversation
+ */
 function getOldestMessageInConversation(conversationId) {
   const rows = globalInstance
     .prepare(
