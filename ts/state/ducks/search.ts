@@ -198,9 +198,13 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 
 async function queryMessages(query: string): Promise<Array<MessageResultProps>> {
   try {
-    const normalized = cleanSearchTerm(query);
-    return searchMessages(normalized, 150);
+    const trimmedQuery = query.trim();
+    const normalized = cleanSearchTerm(trimmedQuery);
+    // 200 on a large database is already pretty slow
+    const limit = Math.min((trimmedQuery.length || 2) * 50, 200);
+    return searchMessages(normalized, limit);
   } catch (e) {
+    window.log.warn('queryMessages failed with', e.message);
     return [];
   }
 }

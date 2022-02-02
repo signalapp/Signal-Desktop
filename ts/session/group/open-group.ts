@@ -57,7 +57,6 @@ export async function initiateOpenGroupUpdate(
         data: downloaded.buffer,
         isRaw: true,
         contentType: MIME.IMAGE_UNKNOWN, // contentType is mostly used to generate previews and screenshot. We do not care for those in this case.
-        // url: pathname,
       });
       const newHash = sha256(fromArrayBufferToBase64(downloaded.buffer));
       await convo.setLokiProfile({

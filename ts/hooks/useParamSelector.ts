@@ -32,6 +32,15 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
+ * Returns either the nickname, profileName, or the shorten pubkey
+ */
+export function useConversationRealName(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+
+  return convoProps?.name;
+}
+
+/**
  * Returns either the nickname, the profileName, in '"' or the full pubkeys given
  */
 export function useConversationsUsernameWithQuoteOrFullPubkey(pubkeys: Array<string>) {

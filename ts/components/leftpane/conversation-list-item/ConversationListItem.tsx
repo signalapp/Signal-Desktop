@@ -85,8 +85,9 @@ const ConversationListItem = (props: Props) => {
     mentionedUs,
     isMessageRequest,
   } = props;
-  const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
+
+  const triggerId = `${key}-ctxmenu`;
 
   const openConvo = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -108,7 +109,7 @@ const ConversationListItem = (props: Props) => {
             e.stopPropagation();
             e.preventDefault();
           }}
-          onContextMenu={(e: any) => {
+          onContextMenu={e => {
             contextMenu.show({
               id: triggerId,
               event: e,

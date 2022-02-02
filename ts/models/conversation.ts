@@ -334,8 +334,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
 
-    // to reduce the redux store size, only set fields which cannot be undefined
-    // for instance, a boolean can usually be not set if false, etc
+    // To reduce the redux store size, only set fields which cannot be undefined.
+    // For instance, a boolean can usually be not set if false, etc
     const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
@@ -394,6 +394,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (hasNickname) {
       toRet.hasNickname = hasNickname;
     }
+
     if (isKickedFromGroup) {
       toRet.isKickedFromGroup = isKickedFromGroup;
     }
@@ -1027,14 +1028,25 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  // LOKI PROFILES
-  public async setNickname(nickname: string) {
+  public async setNickname(nickname?: string) {
+    if (!this.isPrivate()) {
+      window.log.info('cannot setNickname to a non private conversation.');
+      return;
+    }
     const trimmed = nickname && nickname.trim();
     if (this.get('nickname') === trimmed) {
       return;
     }
+    // make sure to save the lokiDisplayName as name in the db. so a search of conversation returns it.
+    // (we look for matches in name too)
+    const realUserName = this.getLokiProfile()?.displayName;
 
-    this.set({ nickname: trimmed });
+    if (!trimmed || !trimmed.length) {
+      this.set({ nickname: undefined, name: realUserName });
+    } else {
+      this.set({ nickname: trimmed, name: realUserName });
+    }
+
     await this.commit();
 
     await this.updateProfileName();
@@ -1060,8 +1072,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async updateProfileName() {
     // Prioritise nickname over the profile display name
     const nickname = this.getNickname();
-    const profile = this.getLokiProfile();
-    const displayName = profile && profile.displayName;
+    const displayName = this.getLokiProfile()?.displayName;
 
     const profileName = nickname || displayName || null;
     await this.setProfileName(profileName);
@@ -1270,7 +1281,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getProfileName() {
-    if (this.isPrivate() && !this.get('name')) {
+    if (this.isPrivate()) {
       return this.get('profileName');
     }
     return undefined;
