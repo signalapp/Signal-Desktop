@@ -82,6 +82,7 @@ import {
   parseSgnlHref,
   parseCaptchaHref,
   parseSignalHttpsLink,
+  rewriteSignalHrefsIfNecessary,
 } from '../ts/util/sgnlHref';
 import { toggleMaximizedBrowserWindow } from '../ts/util/toggleMaximizedBrowserWindow';
 import {
@@ -334,12 +335,14 @@ function prepareUrl(
   }).href;
 }
 
-async function handleUrl(event: Electron.Event, target: string) {
+async function handleUrl(event: Electron.Event, rawTarget: string) {
   event.preventDefault();
-  const parsedUrl = maybeParseUrl(target);
+  const parsedUrl = maybeParseUrl(rawTarget);
   if (!parsedUrl) {
     return;
   }
+
+  const target = rewriteSignalHrefsIfNecessary(rawTarget);
 
   const { protocol, hostname } = parsedUrl;
   const isDevServer =
