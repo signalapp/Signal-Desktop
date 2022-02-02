@@ -68,15 +68,10 @@ export const OverlayMessageRequest = () => {
 
   const messageRequestSetting = useSelector(getIsMessageRequestsEnabled);
 
-  const title = window.i18n('messageRequests');
-  const subtitle = window.i18n('requestsSubtitle');
   const buttonText = window.i18n('blockAll');
 
   return (
     <div className="module-left-pane-overlay">
-      <OverlayHeader title={title} subtitle={subtitle} />
-
-      <SpacerLG />
       <MessageRequestList />
       <SpacerLG />
 

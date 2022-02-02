@@ -5,11 +5,11 @@ import { disableRecoveryPhrasePrompt } from '../../state/ducks/userConfig';
 import { getShowRecoveryPhrasePrompt } from '../../state/selectors/userConfig';
 import { recoveryPhraseModal } from '../../state/ducks/modalDialog';
 import { Flex } from '../basic/Flex';
-import { getFocusedSection } from '../../state/selectors/section';
-import { SectionType } from '../../state/ducks/section';
+import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
+import { SectionType, setOverlayMode } from '../../state/ducks/section';
 import { UserUtils } from '../../session/utils';
 import { SessionButton, SessionButtonType } from '../basic/SessionButton';
-import { SessionIcon } from '../icon';
+import { SessionIcon, SessionIconButton } from '../icon';
 
 const SectionTitle = styled.h1`
   padding: 0 var(--margins-sm);
@@ -20,10 +20,13 @@ const SectionTitle = styled.h1`
 export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   const showRecoveryPhrasePrompt = useSelector(getShowRecoveryPhrasePrompt);
   const focusedSection = useSelector(getFocusedSection);
+  const overlayMode = useSelector(getOverlayMode);
+  const dispatch = useDispatch();
 
   let label: string | undefined;
 
   const isMessageSection = focusedSection === SectionType.Message;
+  const isMessageRequestOverlay = overlayMode === 'message-requests';
 
   switch (focusedSection) {
     case SectionType.Contact:
@@ -33,7 +36,9 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
       label = window.i18n('settingsHeader');
       break;
     case SectionType.Message:
-      label = window.i18n('messagesHeader');
+      label = isMessageRequestOverlay
+        ? window.i18n('messageRequests')
+        : window.i18n('messagesHeader');
       break;
     default:
   }
@@ -41,8 +46,19 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   return (
     <Flex flexDirection="column">
       <div className="module-left-pane__header">
+        {isMessageRequestOverlay && (
+          <SessionIconButton
+            onClick={() => {
+              dispatch(setOverlayMode(undefined));
+            }}
+            iconType="chevron"
+            iconRotation={90}
+            iconSize="medium"
+            margin="0 0 var(--margins-xs) 0"
+          />
+        )}
         <SectionTitle>{label}</SectionTitle>
-        {isMessageSection && (
+        {isMessageSection && !isMessageRequestOverlay && (
           <SessionButton onClick={props.buttonClicked} dataTestId="new-conversation-button">
             <SessionIcon iconType="plus" iconSize="small" iconColor="white" />
           </SessionButton>
