@@ -130,15 +130,14 @@
   }
 
   &__zoomable-container {
-    align-items: center;
     display: flex;
     justify-content: center;
+    margin: 0 40px;
   }
 
   &__zoom-button {
     @include button-reset;
     cursor: zoom-in;
-    margin: 0 40px;
   }
 
   &__object--container--zoom,
