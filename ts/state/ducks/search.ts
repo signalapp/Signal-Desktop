@@ -199,7 +199,7 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
 async function queryMessages(query: string): Promise<Array<MessageResultProps>> {
   try {
     const normalized = cleanSearchTerm(query);
-    return searchMessages(normalized, 1000);
+    return searchMessages(normalized, 150);
   } catch (e) {
     return [];
   }
