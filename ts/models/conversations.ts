@@ -17,6 +17,7 @@ import type {
   WhatIsThis,
 } from '../model-types.d';
 import { getInitials } from '../util/getInitials';
+import { normalizeUuid } from '../util/normalizeUuid';
 import type { AttachmentType } from '../types/Attachment';
 import { isGIF } from '../types/Attachment';
 import type { CallHistoryDetailsType } from '../types/Calling';
@@ -259,6 +260,17 @@ export class ConversationModel extends window.Backbone
   override initialize(
     attributes: Partial<ConversationAttributesType> = {}
   ): void {
+    const uuid = this.get('uuid');
+    const normalizedUuid =
+      uuid && normalizeUuid(uuid, 'ConversationModel.initialize');
+    if (uuid && normalizedUuid !== uuid) {
+      log.warn(
+        'ConversationModel.initialize: normalizing uuid from ' +
+          `${uuid} to ${normalizedUuid}`
+      );
+      this.set('uuid', normalizedUuid);
+    }
+
     if (isValidE164(attributes.id, false)) {
       this.set({ id: UUID.generate().toString(), e164: attributes.id });
     }

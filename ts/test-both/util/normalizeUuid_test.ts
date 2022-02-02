@@ -15,8 +15,9 @@ describe('normalizeUuid', () => {
 
   it("throws if passed a string that's not a UUID", () => {
     assert.throws(
-      () => normalizeUuid('not-uuid-at-all', 'context 3'),
-      'Normalizing invalid uuid: not-uuid-at-all in context "context 3"'
+      () => normalizeUuid('not-UUID-at-all', 'context 3'),
+      'Normalizing invalid uuid: not-UUID-at-all to not-uuid-at-all in ' +
+        'context "context 3"'
     );
   });
 });
