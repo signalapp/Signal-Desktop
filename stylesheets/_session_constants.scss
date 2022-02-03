@@ -34,17 +34,6 @@ $session-font-mono: 'SpaceMono';
   font-weight: 600;
   font-style: italic;
 }
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/Roboto-Light.ttf') format('truetype');
-  font-weight: 200;
-}
-@font-face {
-  font-family: $session-font-default;
-  src: url('../fonts/Roboto-LightItalic.ttf') format('truetype');
-  font-weight: 200;
-  font-style: italic;
-}
 
 // Accented font
 @font-face {
