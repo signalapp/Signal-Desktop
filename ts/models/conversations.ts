@@ -4159,9 +4159,7 @@ export class ConversationModel extends window.Backbone
 
     if (Boolean(before) !== Boolean(after)) {
       if (after) {
-        // we're capturing a storage sync below so
-        // we don't need to capture it twice
-        this.unpin({ stopStorageSync: true });
+        this.unpin();
       }
       this.captureChange('isArchived');
     }
@@ -5274,7 +5272,7 @@ export class ConversationModel extends window.Backbone
     window.Signal.Data.updateConversation(this.attributes);
   }
 
-  unpin({ stopStorageSync = false } = {}): void {
+  unpin(): void {
     if (!this.get('isPinned')) {
       return;
     }
@@ -5287,9 +5285,7 @@ export class ConversationModel extends window.Backbone
 
     pinnedConversationIds.delete(this.id);
 
-    if (!stopStorageSync) {
-      this.writePinnedConversations([...pinnedConversationIds]);
-    }
+    this.writePinnedConversations([...pinnedConversationIds]);
 
     this.set('isPinned', false);
     window.Signal.Data.updateConversation(this.attributes);
