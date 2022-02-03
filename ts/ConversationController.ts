@@ -832,6 +832,25 @@ export class ConversationController {
     this.get(conversationId)?.onOpenComplete(loadStart);
   }
 
+  repairPinnedConversations(): void {
+    const pinnedIds = window.storage.get('pinnedConversationIds', []);
+
+    for (const id of pinnedIds) {
+      const convo = this.get(id);
+
+      if (!convo || convo.get('isPinned')) {
+        continue;
+      }
+
+      log.warn(
+        `ConversationController: Repairing ${convo.idForLogging()}'s isPinned`
+      );
+      convo.set('isPinned', true);
+
+      window.Signal.Data.updateConversation(convo.attributes);
+    }
+  }
+
   private async doLoad(): Promise<void> {
     log.info('ConversationController: starting initial fetch');
 

@@ -459,6 +459,7 @@ export async function startApp(): Promise<void> {
   log.info('environment:', window.getEnvironment());
 
   let newVersion = false;
+  let lastVersion: string | undefined;
 
   window.document.title = window.getTitle();
 
@@ -640,7 +641,7 @@ export async function startApp(): Promise<void> {
     );
 
     const currentVersion = window.getVersion();
-    const lastVersion = window.storage.get('version');
+    lastVersion = window.storage.get('version');
     newVersion = !lastVersion || currentVersion !== lastVersion;
     await window.storage.put('version', currentVersion);
 
@@ -1676,6 +1677,12 @@ export async function startApp(): Promise<void> {
       if (ourE164) {
         log.warn('Restoring E164 from our conversation');
         window.storage.user.setNumber(ourE164);
+      }
+    }
+
+    if (newVersion && lastVersion) {
+      if (window.isBeforeVersion(lastVersion, 'v5.31.0')) {
+        window.ConversationController.repairPinnedConversations();
       }
     }
 
