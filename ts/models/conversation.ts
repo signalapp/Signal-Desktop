@@ -9,10 +9,10 @@ import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
-import { MessageAttributesOptionals, MessageModelType } from './messageType';
+import { MessageAttributesOptionals } from './messageType';
 import autoBind from 'auto-bind';
 import {
-  getMessagesByConversation,
+  getLastMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
   removeMessage as dataRemoveMessage,
@@ -47,7 +47,7 @@ import { ed25519Str } from '../session/onions/onionPath';
 import { getDecryptedMediaUrl } from '../session/crypto/DecryptedAttachmentsManager';
 import { IMAGE_JPEG } from '../types/MIME';
 import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { getLatestTimestampOffset } from '../session/apis/snode_api/SNodeAPI';
+import { getNowWithNetworkOffset } from '../session/apis/snode_api/SNodeAPI';
 import { createLastMessageUpdate } from '../types/Conversation';
 import {
   ReplyingToMessageProps,
@@ -292,19 +292,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async cleanup() {
     await deleteExternalFilesOfConversation(this.attributes);
-    window.profileImages.removeImage(this.id);
-  }
-
-  public async updateProfileAvatar() {
-    if (this.isPublic()) {
-      return;
-    }
-
-    // Remove old identicons
-    if (window.profileImages.hasImage(this.id)) {
-      window.profileImages.removeImage(this.id);
-      await this.setProfileAvatar(null);
-    }
   }
 
   public async onExpired(_message: MessageModel) {
@@ -347,8 +334,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireTimer = this.get('expireTimer');
     const currentNotificationSetting = this.get('triggerNotificationsFor');
 
-    // to reduce the redux store size, only set fields which cannot be undefined
-    // for instance, a boolean can usually be not set if false, etc
+    // To reduce the redux store size, only set fields which cannot be undefined.
+    // For instance, a boolean can usually be not set if false, etc
     const toRet: ReduxConversationType = {
       id: this.id as string,
       activeAt: this.get('active_at'),
@@ -407,6 +394,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (hasNickname) {
       toRet.hasNickname = hasNickname;
     }
+
     if (isKickedFromGroup) {
       toRet.isKickedFromGroup = isKickedFromGroup;
     }
@@ -513,13 +501,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     });
 
     return current;
-  }
-  public getRecipients() {
-    if (this.isPrivate()) {
-      return [this.id];
-    }
-    const me = UserUtils.getOurPubKeyStrFromCache();
-    return _.without(this.get('members'), me);
   }
 
   public async getQuoteAttachment(attachments: any, preview: any) {
@@ -708,14 +689,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async sendMessage(msg: SendMessageType) {
     const { attachments, body, groupInvitation, preview, quote } = msg;
     this.clearTypingTimers();
-
-    const destination = this.id;
-    const isPrivate = this.isPrivate();
     const expireTimer = this.get('expireTimer');
-    const recipients = this.getRecipients();
-
-    const now = Date.now();
-    const networkTimestamp = now - getLatestTimestampOffset();
+    const networkTimestamp = getNowWithNetworkOffset();
 
     window?.log?.info(
       'Sending message to conversation',
@@ -724,38 +699,16 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       networkTimestamp
     );
 
-    const editedQuote = _.isEmpty(quote) ? undefined : quote;
-
-    const messageObject: MessageAttributesOptionals = {
-      type: 'outgoing',
+    const messageModel = await this.addSingleOutgoingMessage({
       body,
-      conversationId: destination,
-      quote: editedQuote,
+      quote: _.isEmpty(quote) ? undefined : quote,
       preview,
       attachments,
       sent_at: networkTimestamp,
-      received_at: now,
       expireTimer,
-      recipients,
-      isDeleted: false,
-      source: UserUtils.getOurPubKeyStrFromCache(),
-    };
-
-    if (!this.isPublic()) {
-      messageObject.destination = destination;
-    } else {
-      // set the serverTimestamp only if this conversation is a public one.
-      messageObject.serverTimestamp = Date.now();
-    }
-
-    const attributes: MessageAttributesOptionals = {
-      ...messageObject,
+      serverTimestamp: this.isPublic() ? Date.now() : undefined,
       groupInvitation,
-      conversationId: this.id,
-      destination: isPrivate ? destination : undefined,
-    };
-
-    const messageModel = await this.addSingleMessage(attributes);
+    });
 
     // We're offline!
     if (!window.textsecure.messaging) {
@@ -771,7 +724,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     this.set({
       lastMessage: messageModel.getNotificationText(),
       lastMessageStatus: 'sending',
-      active_at: now,
+      active_at: networkTimestamp,
     });
     await this.commit();
 
@@ -787,10 +740,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (!this.get('active_at')) {
       return;
     }
-    const messages = await getMessagesByConversation(this.id, {
-      limit: 1,
-      skipTimerInit: true,
-    });
+    const messages = await getLastMessagesByConversation(this.id, 1, true);
     const lastMessageModel = messages.at(0);
     const lastMessageJSON = lastMessageModel ? lastMessageModel.toJSON() : null;
     const lastMessageStatusModel = lastMessageModel
@@ -809,7 +759,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async updateExpireTimer(
-    providedExpireTimer: any,
+    providedExpireTimer: number | null,
     providedSource?: string,
     receivedAt?: number, // is set if it comes from outside
     options: {
@@ -844,15 +794,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     this.set({ expireTimer });
 
-    const messageAttributes = {
-      // Even though this isn't reflected to the user, we want to place the last seen
-      //   indicator above it. We set it to 'unread' to trigger that placement.
-      unread: isOutgoing ? 0 : 1,
-      conversationId: this.id,
-      source,
-      // No type; 'incoming' messages are specially treated by conversation.markRead()
-      sent_at: timestamp,
-      received_at: timestamp,
+    const commonAttributes = {
       flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
       expirationTimerUpdate: {
         expireTimer,
@@ -860,11 +802,31 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         fromSync: options.fromSync,
       },
       expireTimer: 0,
-      type: isOutgoing ? 'outgoing' : ('incoming' as MessageModelType),
-      destination: this.id,
-      recipients: isOutgoing ? this.getRecipients() : undefined,
     };
-    const message = await this.addSingleMessage(messageAttributes);
+
+    let message: MessageModel | undefined;
+
+    if (isOutgoing) {
+      message = await this.addSingleOutgoingMessage({
+        ...commonAttributes,
+        unread: 0,
+        sent_at: timestamp,
+      });
+    } else {
+      message = await this.addSingleIncomingMessage({
+        ...commonAttributes,
+        // Even though this isn't reflected to the user, we want to place the last seen
+        //   indicator above it. We set it to 'unread' to trigger that placement.
+        unread: 1,
+        source,
+        sent_at: timestamp,
+        received_at: timestamp,
+      });
+    }
+
+    if (this.isActive()) {
+      this.set('active_at', timestamp);
+    }
 
     // tell the UI this conversation was updated
     await this.commit();
@@ -877,12 +839,8 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const expireUpdate = {
       identifier: message.id,
       timestamp,
-      expireTimer,
+      expireTimer: expireTimer ? expireTimer : (null as number | null),
     };
-
-    if (!expireUpdate.expireTimer) {
-      delete expireUpdate.expireTimer;
-    }
 
     if (this.isMe()) {
       const expirationTimerMessage = new ExpirationTimerUpdateMessage(expireUpdate);
@@ -920,38 +878,31 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     perfEnd(`conversationCommit-${this.attributes.id}`, 'conversationCommit');
   }
 
-  public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
-    const model = new MessageModel(messageAttributes);
+  public async addSingleOutgoingMessage(
+    messageAttributes: Omit<
+      MessageAttributesOptionals,
+      'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
+    >
+  ) {
+    return this.addSingleMessage({
+      ...messageAttributes,
+      conversationId: this.id,
+      source: UserUtils.getOurPubKeyStrFromCache(),
+      type: 'outgoing',
+      direction: 'outgoing',
+      received_at: messageAttributes.sent_at, // make sure to set an received_at timestamp for an outgoing message, so the order are right.
+    });
+  }
 
-    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
-
-    if (
-      isMe &&
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
-      await this.setIsApproved(true);
-    }
-
-    // no need to trigger a UI update now, we trigger a messageAdded just below
-    const messageId = await model.commit(false);
-    model.set({ id: messageId });
-
-    if (setToExpire) {
-      await model.setToExpire();
-    }
-    window.inboxStore?.dispatch(
-      conversationActions.messageAdded({
-        conversationKey: this.id,
-        messageModelProps: model.getMessageModelProps(),
-      })
-    );
-    const unreadCount = await this.getUnreadCount();
-    this.set({ unreadCount });
-    this.updateLastMessage();
-
-    await this.commit();
-    return model;
+  public async addSingleIncomingMessage(
+    messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
+  ) {
+    return this.addSingleMessage({
+      ...messageAttributes,
+      conversationId: this.id,
+      type: 'incoming',
+      direction: 'outgoing',
+    });
   }
 
   public async leaveClosedGroup() {
@@ -1077,14 +1028,25 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  // LOKI PROFILES
-  public async setNickname(nickname: string) {
+  public async setNickname(nickname?: string) {
+    if (!this.isPrivate()) {
+      window.log.info('cannot setNickname to a non private conversation.');
+      return;
+    }
     const trimmed = nickname && nickname.trim();
     if (this.get('nickname') === trimmed) {
       return;
     }
+    // make sure to save the lokiDisplayName as name in the db. so a search of conversation returns it.
+    // (we look for matches in name too)
+    const realUserName = this.getLokiProfile()?.displayName;
 
-    this.set({ nickname: trimmed });
+    if (!trimmed || !trimmed.length) {
+      this.set({ nickname: undefined, name: realUserName });
+    } else {
+      this.set({ nickname: trimmed, name: realUserName });
+    }
+
     await this.commit();
 
     await this.updateProfileName();
@@ -1110,8 +1072,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async updateProfileName() {
     // Prioritise nickname over the profile display name
     const nickname = this.getNickname();
-    const profile = this.getLokiProfile();
-    const displayName = profile && profile.displayName;
+    const displayName = this.getLokiProfile()?.displayName;
 
     const profileName = nickname || displayName || null;
     await this.setProfileName(profileName);
@@ -1184,13 +1145,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setGroupName(name: string) {
-    const profileName = this.get('name');
-    if (profileName !== name) {
-      this.set({ name });
-      await this.commit();
-    }
-  }
   public async setSubscriberCount(count: number) {
     if (this.get('subscriberCount') !== count) {
       this.set({ subscriberCount: count });
@@ -1327,7 +1281,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public getProfileName() {
-    if (this.isPrivate() && !this.get('name')) {
+    if (this.isPrivate()) {
       return this.get('profileName');
     }
     return undefined;
@@ -1503,6 +1457,35 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
+  private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
+    const model = new MessageModel(messageAttributes);
+
+    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
+
+    if (
+      isMe &&
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests
+    ) {
+      await this.setIsApproved(true);
+    }
+
+    // no need to trigger a UI update now, we trigger a messagesAdded just below
+    const messageId = await model.commit(false);
+    model.set({ id: messageId });
+
+    await model.setToExpire();
+
+    const messageModelProps = model.getMessageModelProps();
+    window.inboxStore?.dispatch(conversationActions.messagesChanged([messageModelProps]));
+    const unreadCount = await this.getUnreadCount();
+    this.set({ unreadCount });
+    this.updateLastMessage();
+
+    await this.commit();
+    return model;
+  }
+
   private async clearContactTypingTimer(_sender: string) {
     if (!!this.typingTimer) {
       global.clearTimeout(this.typingTimer);
@@ -1520,7 +1503,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
     const { expireTimer } = json;
 
-    return typeof expireTimer === 'number' && expireTimer > 0;
+    return isFinite(expireTimer) && expireTimer > 0;
   }
 
   private shouldDoTyping() {

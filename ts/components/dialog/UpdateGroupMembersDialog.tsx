@@ -103,13 +103,6 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
     </>
   );
 };
-//   // Return members that would comprise the group given the
-//   // current state in `users`
-//   private getWouldBeMembers(users: Array<ContactType>) {
-//     return users.filter(d => {
-//       return (d.existingMember && !d.checkmarked) || (!d.existingMember && d.checkmarked);
-//     });
-//   }
 
 // tslint:disable-next-line: max-func-body-length
 async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {

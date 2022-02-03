@@ -71,6 +71,8 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   trimMessages,
@@ -204,7 +206,7 @@ function getUserVersion(db) {
   try {
     return db.pragma('user_version', { simple: true });
   } catch (e) {
-    console.warn('getUserVersion error', e);
+    console.error('getUserVersion error', e);
     return 0;
   }
 }
@@ -299,9 +301,9 @@ function vacuumDatabase(db) {
     throw new Error('vacuum: db is not initialized');
   }
   console.time('vaccumming db');
-  console.warn('Vacuuming DB. This might take a while.');
+  console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
-  console.warn('Vacuuming DB Finished');
+  console.info('Vacuuming DB Finished');
   console.timeEnd('vaccumming db');
 }
 
@@ -1835,15 +1837,13 @@ function searchConversations(query, { limit } = {}) {
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
-        id LIKE $id OR
         name LIKE $name OR
         profileName LIKE $profileName
-      )
-     ORDER BY id ASC
+      ) AND active_at IS NOT NULL AND active_at > 0
+     ORDER BY active_at DESC
      LIMIT $limit`
     )
     .all({
-      id: `%${query}%`,
       name: `%${query}%`,
       profileName: `%${query}%`,
       limit: limit || 50,
@@ -1852,22 +1852,28 @@ function searchConversations(query, { limit } = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function searchMessages(query, { limit } = {}) {
+// order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
+const orderByMessageCoalesceClause = `ORDER BY COALESCE(${MESSAGES_TABLE}.serverTimestamp, ${MESSAGES_TABLE}.sent_at, ${MESSAGES_TABLE}.received_at) DESC`;
+
+function searchMessages(query, limit) {
+  if (!limit) {
+    throw new Error('searchMessages limit must be set');
+  }
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query
-    ORDER BY messages.received_at DESC
+     ${MESSAGES_FTS_TABLE} match $query
+    ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
     .all({
       query,
-      limit: limit || 100,
+      limit,
     });
 
   return map(rows, row => ({
@@ -1876,19 +1882,19 @@ function searchMessages(query, { limit } = {}) {
   }));
 }
 
-function searchMessagesInConversation(query, conversationId, { limit } = {}) {
+function searchMessagesInConversation(query, conversationId, limit) {
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+    FROM ${MESSAGES_FTS_TABLE}
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query AND
-      messages.conversationId = $conversationId
-    ORDER BY messages.received_at DESC
-    LIMIT $limit;`
+    ${MESSAGES_FTS_TABLE} match $query AND
+      ${MESSAGES_TABLE}.conversationId = $conversationId
+    ${orderByMessageCoalesceClause}
+      LIMIT $limit;`
     )
     .all({
       query,
@@ -2067,7 +2073,7 @@ function saveSeenMessageHash(data) {
         hash,
       });
   } catch (e) {
-    console.warn('saveSeenMessageHash failed:', e);
+    console.error('saveSeenMessageHash failed:', e.message);
   }
 }
 
@@ -2230,27 +2236,106 @@ function getUnreadCountByConversation(conversationId) {
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
+const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
+const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(
-  conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
-) {
+function getMessagesByConversation(conversationId, { messageId = null } = {}) {
+  const absLimit = 20;
+  // If messageId is given it means we are opening the conversation to that specific messageId,
+  // or that we just scrolled to it by a quote click and needs to load around it.
+  // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
+  const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
+
+  if (messageId || firstUnread) {
+    const messageFound = getMessageById(messageId || firstUnread);
+
+    if (messageFound && messageFound.conversationId === conversationId) {
+      const rows = globalInstance
+        .prepare(
+          `WITH cte AS (
+            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
+              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
+          ), current AS (
+          SELECT row_number
+            FROM cte
+          WHERE id = $messageId
+
+        )
+        SELECT cte.*
+          FROM cte, current
+            WHERE ABS(cte.row_number - current.row_number) <= $limit
+          ORDER BY cte.row_number;
+          `
+        )
+        .all({
+          conversationId,
+          messageId: messageId || firstUnread,
+          limit: absLimit,
+        });
+
+      return map(rows, row => jsonToObject(row.json));
+    }
+    console.info(
+      `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
+    );
+  }
+
+  const limit = 2 * absLimit;
+
   const rows = globalInstance
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId AND
-      received_at < $received_at AND
-      type LIKE $type
-      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC
+      conversationId = $conversationId
+      ${orderByClause}
     LIMIT $limit;
     `
     )
     .all({
       conversationId,
-      received_at: receivedAt,
       limit,
-      type,
+    });
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function getLastMessagesByConversation(conversationId, limit) {
+  if (!isNumber(limit)) {
+    throw new Error('limit must be a number');
+  }
+
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClause}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
+      limit,
+    });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+/**
+ * This is the oldest message so we cannot reuse getLastMessagesByConversation
+ */
+function getOldestMessageInConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClauseASC}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
+      limit: 1,
     });
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2958,7 +3043,7 @@ function updateExistingClosedGroupV1ToClosedGroupV2(db) {
       };
       addClosedGroupEncryptionKeyPair(groupId, keyPair, db);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   });
 }
@@ -3110,7 +3195,7 @@ function removeOneOpenGroupV1Message() {
   if (toRemoveCount <= 0) {
     return 0;
   }
-  console.warn('left opengroupv1 message to remove: ', toRemoveCount);
+  console.info('left opengroupv1 message to remove: ', toRemoveCount);
   const rowMessageIds = globalInstance
     .prepare(
       `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
@@ -3176,8 +3261,8 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     'count(*)'
   ];
 
-  console.warn('==== fillWithTestData ====');
-  console.warn({
+  console.info('==== fillWithTestData ====');
+  console.info({
     convoBeforeCount,
     msgBeforeCount,
     convoToAdd: numConvosToAdd,
@@ -3203,7 +3288,6 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
       // eslint-disable-next-line no-empty
     } catch (e) {}
   }
-  console.warn('convosIdsAdded', convosIdsAdded);
   // eslint-disable-next-line no-plusplus
   for (let index = 0; index < numMsgsToAdd; index++) {
     const activeAt = Date.now() - index;
@@ -3247,7 +3331,7 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
       saveMessage(msgObjToAdd);
       // eslint-disable-next-line no-empty
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   }
 
@@ -3259,6 +3343,6 @@ function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
     'count(*)'
   ];
 
-  console.warn({ convoAfterCount, msgAfterCount });
+  console.info({ convoAfterCount, msgAfterCount });
   return convosIdsAdded;
 }

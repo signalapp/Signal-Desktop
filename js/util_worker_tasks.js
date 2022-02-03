@@ -86,13 +86,13 @@ async function verifySignature(senderPubKey, messageBase64, signatureBase64) {
       signature
     );
     if (verifyRet) {
-      console.warn('Invalid signature');
+      console.error('Invalid signature');
       return false;
     }
 
     return true;
   } catch (e) {
-    console.warn('verifySignature got an error:', e);
+    console.error('verifySignature got an error:', e);
     return false;
   }
 }
@@ -156,7 +156,7 @@ async function encryptForPubkey(pubkeyX25519str, payloadBytes) {
 
     return { ciphertext, symmetricKey, ephemeralKey: ephemeral.pubKey };
   } catch (e) {
-    console.warn('encryptForPubkey got an error:', e);
+    console.error('encryptForPubkey got an error:', e);
     return null;
   }
 }
@@ -229,7 +229,7 @@ async function decryptAttachmentBuffer(encryptingKey, bufferIn) {
       return messageTag.message;
     }
   } catch (e) {
-    console.warn('Failed to load the file as an encrypted one', e);
+    console.error('Failed to load the file as an encrypted one', e);
   }
   return new Uint8Array();
 }
@@ -257,7 +257,7 @@ async function encryptAttachmentBuffer(encryptingKey, bufferIn) {
 
     return { encryptedBufferWithHeader, header };
   } catch (e) {
-    console.warn('encryptAttachmentBuffer error: ', e);
+    console.error('encryptAttachmentBuffer error: ', e);
 
     return null;
   }

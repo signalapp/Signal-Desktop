@@ -15,14 +15,11 @@ export interface MessageAttributes {
   expireTimer: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp: number;
   read_by: Array<string>;
-  decrypted_at: number;
   expires_at?: number;
-  recipients: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -30,9 +27,9 @@ export interface MessageAttributes {
   conversationId: string;
   errors?: any;
   flags?: number;
-  hasAttachments: boolean;
-  hasFileAttachments: boolean;
-  hasVisualMediaAttachments: boolean;
+  hasAttachments: 1 | 0;
+  hasFileAttachments: 1 | 0;
+  hasVisualMediaAttachments: 1 | 0;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -48,8 +45,7 @@ export interface MessageAttributes {
    */
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  // dataMessage: any;
-  sent_to: any;
+  sent_to: Array<string>;
   sent: boolean;
 
   /**
@@ -86,11 +82,7 @@ export interface MessageAttributes {
   synced: boolean;
   sync: boolean;
 
-  /**
-   * This field is used for search only
-   */
-  snippet?: any;
-  direction: any;
+  direction: MessageModelType;
 
   /**
    * This is used for when a user screenshots or saves an attachment you sent.
@@ -117,11 +109,6 @@ export interface DataExtractionNotificationMsg {
   referencedAttachmentTimestamp: number; // the attachment timestamp he screenshot
 }
 
-export enum MessageDirection {
-  outgoing = 'outgoing',
-  incoming = 'incoming',
-}
-
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {
   name: string;
   messageId: string;
@@ -143,14 +130,11 @@ export interface MessageAttributesOptionals {
   expireTimer?: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp?: number;
   read_by?: Array<string>;
-  decrypted_at?: number;
   expires_at?: number;
-  recipients?: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -176,7 +160,6 @@ export interface MessageAttributesOptionals {
   group?: any;
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  dataMessage?: any;
   sent_to?: Array<string>;
   sent?: boolean;
   serverId?: number;
@@ -185,8 +168,7 @@ export interface MessageAttributesOptionals {
   sentSync?: boolean;
   synced?: boolean;
   sync?: boolean;
-  snippet?: any;
-  direction?: any;
+  direction?: MessageModelType;
   messageHash?: string;
   isDeleted?: boolean;
   callNotificationType?: CallNotificationType;
@@ -216,12 +198,6 @@ export const fillMessageAttributesWithDefaults = (
   return defaulted;
 };
 
-export type QuoteClickOptions = {
-  quoteAuthor: string;
-  quoteId: number;
-  referencedMessageNotFound: boolean;
-};
-
 /**
  * Those props are the one generated from a single Message improved by the one by the app itself.
  * Some of the one added comes from the MessageList, some from redux, etc..
@@ -235,5 +211,4 @@ export type MessageRenderingProps = PropsForMessageWithConvoProps & {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   lastMessageOfSeries: boolean;
-  onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 };

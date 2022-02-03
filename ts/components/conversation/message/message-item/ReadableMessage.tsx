@@ -1,24 +1,28 @@
 import _, { noop } from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMessageById } from '../../../../data/data';
-import { Constants } from '../../../../session';
 import { getConversationController } from '../../../../session/conversations';
 import {
-  fetchMessagesForConversation,
+  fetchBottomMessagesForConversation,
+  fetchTopMessagesForConversation,
   markConversationFullyRead,
   showScrollToBottomButton,
 } from '../../../../state/ducks/conversations';
 import {
   areMoreMessagesBeingFetched,
-  getHaveDoneFirstScroll,
+  getConversationHasUnread,
   getLoadedMessagesLength,
   getMostRecentMessageId,
   getOldestMessageId,
+  getQuotedMessageToAnimate,
   getSelectedConversationKey,
+  getShowScrollButton,
+  getYoungestMessageId,
 } from '../../../../state/selectors/conversations';
 import { getIsAppFocused } from '../../../../state/selectors/section';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 type ReadableMessageProps = {
   children: React.ReactNode;
@@ -29,13 +33,24 @@ type ReadableMessageProps = {
   onContextMenu?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-const debouncedTriggerLoadMore = _.debounce(
-  (loadedMessagesLength: number, selectedConversationKey: string | undefined) => {
-    const numMessages = loadedMessagesLength + Constants.CONVERSATION.DEFAULT_MESSAGE_FETCH_COUNT;
+const debouncedTriggerLoadMoreTop = _.debounce(
+  (selectedConversationKey: string, oldestMessageId: string) => {
     (window.inboxStore?.dispatch as any)(
-      fetchMessagesForConversation({
-        conversationKey: selectedConversationKey as string,
-        count: numMessages,
+      fetchTopMessagesForConversation({
+        conversationKey: selectedConversationKey,
+        oldTopMessageId: oldestMessageId,
+      })
+    );
+  },
+  100
+);
+
+const debouncedTriggerLoadMoreBottom = _.debounce(
+  (selectedConversationKey: string, youngestMessageId: string) => {
+    (window.inboxStore?.dispatch as any)(
+      fetchBottomMessagesForConversation({
+        conversationKey: selectedConversationKey,
+        oldBottomMessageId: youngestMessageId,
       })
     );
   },
@@ -50,41 +65,74 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
 
   const selectedConversationKey = useSelector(getSelectedConversationKey);
   const loadedMessagesLength = useSelector(getLoadedMessagesLength);
-  const haveDoneFirstScroll = useSelector(getHaveDoneFirstScroll);
   const mostRecentMessageId = useSelector(getMostRecentMessageId);
   const oldestMessageId = useSelector(getOldestMessageId);
-  const fetchingMore = useSelector(areMoreMessagesBeingFetched);
+  const youngestMessageId = useSelector(getYoungestMessageId);
+  const fetchingMoreInProgress = useSelector(areMoreMessagesBeingFetched);
+  const conversationHasUnread = useSelector(getConversationHasUnread);
+  const scrollButtonVisible = useSelector(getShowScrollButton);
   const shouldMarkReadWhenVisible = isUnread;
+
+  const [didScroll, setDidScroll] = useState(false);
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+
+  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+
+  // if this unread-indicator is rendered,
+  // we want to scroll here only if the conversation was not opened to a specific message
+
+  useLayoutEffect(() => {
+    if (
+      props.messageId === youngestMessageId &&
+      !quotedMessageToAnimate &&
+      !scrollButtonVisible &&
+      !didScroll &&
+      !conversationHasUnread
+    ) {
+      scrollToLoadedMessage(props.messageId, 'go-to-bottom');
+      setDidScroll(true);
+    } else if (quotedMessageToAnimate) {
+      setDidScroll(true);
+    }
+  });
 
   const onVisible = useCallback(
     // tslint:disable-next-line: cyclomatic-complexity
     async (inView: boolean | Object) => {
-      // when the view first loads, it needs to scroll to the unread messages.
-      // we need to disable the inview on the first loading
-      if (!haveDoneFirstScroll) {
-        if (inView === true) {
-          window.log.info('onVisible but waiting for first scroll event');
-        }
-        return;
-      }
       // we are the most recent message
-      if (mostRecentMessageId === messageId) {
+      if (mostRecentMessageId === messageId && selectedConversationKey) {
         // make sure the app is focused, because we mark message as read here
         if (inView === true && isAppFocused) {
           dispatch(showScrollToBottomButton(false));
           void getConversationController()
-            .get(selectedConversationKey as string)
+            .get(selectedConversationKey)
             ?.markRead(receivedAt || 0)
             .then(() => {
-              dispatch(markConversationFullyRead(selectedConversationKey as string));
+              dispatch(markConversationFullyRead(selectedConversationKey));
             });
         } else if (inView === false) {
           dispatch(showScrollToBottomButton(true));
         }
       }
 
-      if (inView === true && isAppFocused && oldestMessageId === messageId && !fetchingMore) {
-        debouncedTriggerLoadMore(loadedMessagesLength, selectedConversationKey);
+      if (
+        inView === true &&
+        isAppFocused &&
+        oldestMessageId === messageId &&
+        !fetchingMoreInProgress &&
+        selectedConversationKey
+      ) {
+        debouncedTriggerLoadMoreTop(selectedConversationKey, oldestMessageId);
+      }
+
+      if (
+        inView === true &&
+        isAppFocused &&
+        youngestMessageId === messageId &&
+        !fetchingMoreInProgress &&
+        selectedConversationKey
+      ) {
+        debouncedTriggerLoadMoreBottom(selectedConversationKey, youngestMessageId);
       }
 
       // this part is just handling the marking of the message as read if needed
@@ -106,16 +154,14 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
     },
     [
       selectedConversationKey,
-      haveDoneFirstScroll,
       mostRecentMessageId,
       oldestMessageId,
-      fetchingMore,
+      fetchingMoreInProgress,
       isAppFocused,
       loadedMessagesLength,
       receivedAt,
       shouldMarkReadWhenVisible,
       messageId,
-      debouncedTriggerLoadMore,
     ]
   );
 
@@ -126,9 +172,9 @@ export const ReadableMessage = (props: ReadableMessageProps) => {
       onContextMenu={onContextMenu}
       className={className}
       as="div"
-      threshold={0.5}
-      delay={haveDoneFirstScroll && isAppFocused ? 100 : 200}
-      onChange={haveDoneFirstScroll && isAppFocused ? onVisible : noop}
+      threshold={0.8}
+      delay={isAppFocused ? 100 : 200}
+      onChange={isAppFocused ? onVisible : noop}
       triggerOnce={false}
       trackVisibility={true}
       key={`inview-msg-${messageId}`}

@@ -6,14 +6,11 @@ import {
 } from './conversation-list-item/ConversationListItem';
 import { ReduxConversationType } from '../../state/ducks/conversations';
 import { SearchResults, SearchResultsProps } from '../search/SearchResults';
-import { UserUtils } from '../../session/utils';
 import { LeftPaneSectionHeader } from './LeftPaneSectionHeader';
 import autoBind from 'auto-bind';
-import { clearSearch, search, updateSearchTerm } from '../../state/ducks/search';
 import _ from 'lodash';
 import { MessageRequestsBanner } from './MessageRequestsBanner';
 
-import { cleanSearchTerm } from '../../util/cleanSearchTerm';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSearchInput } from '../SessionSearchInput';
 import { RowRendererParamsType } from './LeftPane';
@@ -24,8 +21,6 @@ import { OverlayClosedGroup } from './overlay/OverlayClosedGroup';
 import { OverlayMode, setOverlayMode } from '../../state/ducks/section';
 
 export interface Props {
-  searchTerm: string;
-
   contacts: Array<ReduxConversationType>;
   conversations?: Array<ConversationListItemProps>;
   searchResults?: SearchResultsProps;
@@ -35,13 +30,10 @@ export interface Props {
 }
 
 export class LeftPaneMessageSection extends React.Component<Props> {
-  private readonly debouncedSearch: (searchTerm: string) => void;
-
   public constructor(props: Props) {
     super(props);
 
     autoBind(this);
-    this.debouncedSearch = _.debounce(this.search.bind(this), 20);
   }
 
   public renderRow = ({ index, key, style }: RowRendererParamsType): JSX.Element | null => {
@@ -62,10 +54,9 @@ export class LeftPaneMessageSection extends React.Component<Props> {
 
   public renderList(): JSX.Element | Array<JSX.Element | null> {
     const { conversations, searchResults } = this.props;
-    const contacts = searchResults?.contacts || [];
 
     if (searchResults) {
-      return <SearchResults {...searchResults} contacts={contacts} />;
+      return <SearchResults {...searchResults} />;
     }
 
     if (!conversations) {
@@ -118,11 +109,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
   public renderConversations() {
     return (
       <div className="module-conversations-list-content">
-        <SessionSearchInput
-          searchString={this.props.searchTerm}
-          onChange={this.updateSearch}
-          placeholder={window.i18n('searchFor...')}
-        />
+        <SessionSearchInput />
         {window.lokiFeatureFlags.useMessageRequests ? (
           <MessageRequestsBanner
             handleOnClick={() => {
@@ -133,44 +120,6 @@ export class LeftPaneMessageSection extends React.Component<Props> {
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>
-    );
-  }
-
-  public updateSearch(searchTerm: string) {
-    if (!searchTerm) {
-      window.inboxStore?.dispatch(clearSearch());
-
-      return;
-    }
-
-    // reset our pubKeyPasted, we can either have a pasted sessionID or a sessionID got from a search
-    this.setState({ valuePasted: '' });
-
-    window.inboxStore?.dispatch(updateSearchTerm(searchTerm));
-
-    if (searchTerm.length < 2) {
-      return;
-    }
-
-    const cleanedTerm = cleanSearchTerm(searchTerm);
-    if (!cleanedTerm) {
-      return;
-    }
-
-    this.debouncedSearch(cleanedTerm);
-  }
-
-  public clearSearch() {
-    window.inboxStore?.dispatch(clearSearch());
-  }
-
-  public search() {
-    const { searchTerm } = this.props;
-    window.inboxStore?.dispatch(
-      search(searchTerm, {
-        noteToSelf: window.i18n('noteToSelf').toLowerCase(),
-        ourNumber: UserUtils.getOurPubKeyStrFromCache(),
-      })
     );
   }
 

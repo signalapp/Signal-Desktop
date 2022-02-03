@@ -1,146 +1,237 @@
 import React from 'react';
-import classNames from 'classnames';
 
-import { MessageDirection } from '../../models/messageType';
 import { getOurPubKeyStrFromCache } from '../../session/utils/User';
-import {
-  FindAndFormatContactType,
-  openConversationWithMessages,
-} from '../../state/ducks/conversations';
+import { openConversationToSpecificMessage } from '../../state/ducks/conversations';
 import { ContactName } from '../conversation/ContactName';
 import { Avatar, AvatarSize } from '../avatar/Avatar';
 import { Timestamp } from '../conversation/Timestamp';
 import { MessageBodyHighlight } from '../basic/MessageBodyHighlight';
+import styled from 'styled-components';
+import { MessageAttributes } from '../../models/messageType';
+import { useConversationUsername, useIsPrivate } from '../../hooks/useParamSelector';
+import { UserUtils } from '../../session/utils';
 
-type PropsHousekeeping = {
-  isSelected?: boolean;
-};
+export type MessageResultProps = MessageAttributes & { snippet: string };
 
-export type PropsForSearchResults = {
-  from: FindAndFormatContactType;
-  to: FindAndFormatContactType;
-  id: string;
-  conversationId: string;
-  destination: string;
-  source: string;
+const StyledConversationTitleResults = styled.div`
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-size: 14px;
+  line-height: 18px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-text);
+`;
 
-  direction?: string;
-  snippet?: string; //not sure about the type of snippet
-  receivedAt?: number;
-};
+const StyledConversationFromUserInGroup = styled(StyledConversationTitleResults)`
+  display: inline;
+  font-size: 12px;
+  line-height: 14px;
+  overflow-x: hidden;
+  font-weight: 700;
+  color: var(--color-text-subtle);
+`;
 
-export type MessageResultProps = PropsForSearchResults & PropsHousekeeping;
+const StyledSearchResulsts = styled.div`
+  padding: 8px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
+  min-height: 64px;
+  max-width: 300px;
 
-const FromName = (props: { source: string; destination: string }) => {
-  const { source, destination } = props;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 
-  const isNoteToSelf = destination === getOurPubKeyStrFromCache() && source === destination;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-clickable-hovered);
+  }
+`;
+
+const StyledResultText = styled.div`
+  flex-grow: 1;
+  margin-inline-start: 12px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const ResultsHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledMessageResultsHeaderName = styled.span`
+  font-weight: 300;
+`;
+
+const FromName = (props: { source: string; conversationId: string }) => {
+  const { conversationId, source } = props;
+
+  const isNoteToSelf = conversationId === getOurPubKeyStrFromCache() && source === conversationId;
 
   if (isNoteToSelf) {
     return (
-      <span className="module-message-search-result__header__name">
-        {window.i18n('noteToSelf')}
-      </span>
+      <StyledMessageResultsHeaderName>{window.i18n('noteToSelf')}</StyledMessageResultsHeaderName>
     );
   }
 
   if (source === getOurPubKeyStrFromCache()) {
-    return <span className="module-message-search-result__header__name">{window.i18n('you')}</span>;
+    return <StyledMessageResultsHeaderName>{window.i18n('you')}</StyledMessageResultsHeaderName>;
   }
 
   return (
-    // tslint:disable: use-simple-attributes
     <ContactName
-      pubkey={source}
+      pubkey={conversationId}
       module="module-message-search-result__header__name"
       shouldShowPubkey={false}
     />
   );
 };
 
-const From = (props: { source: string; destination: string }) => {
-  const { source, destination } = props;
-  const fromName = <FromName source={source} destination={destination} />;
+const ConversationHeader = (props: { source: string; conversationId: string }) => {
+  const { source, conversationId } = props;
 
   const ourKey = getOurPubKeyStrFromCache();
 
-  if (destination !== ourKey) {
+  if (conversationId !== ourKey) {
     return (
-      <div className="module-message-search-result__header__from">
-        {fromName} {window.i18n('to')}
-        <span className="module-mesages-search-result__header__group">
-          <ContactName pubkey={destination} shouldShowPubkey={false} />
-        </span>
-      </div>
+      <StyledConversationTitleResults>
+        <StyledMessageResultsHeaderName>
+          <ContactName pubkey={conversationId} shouldShowPubkey={false} boldProfileName={true} />
+        </StyledMessageResultsHeaderName>
+      </StyledConversationTitleResults>
     );
   }
 
-  return <div className="module-message-search-result__header__from">{fromName}</div>;
+  return (
+    <StyledConversationTitleResults>
+      <FromName source={source} conversationId={conversationId} />;
+    </StyledConversationTitleResults>
+  );
 };
 
-const AvatarItem = (props: { source: string }) => {
-  const { source } = props;
-  return <Avatar size={AvatarSize.S} pubkey={source} />;
-};
+const FromUserInGroup = (props: { authorPubkey: string; conversationId: string }) => {
+  const { authorPubkey, conversationId } = props;
 
-export const MessageSearchResult = (props: MessageResultProps) => {
-  const {
-    isSelected,
-    id,
-    conversationId,
-    receivedAt,
-    snippet,
-    destination,
-    source,
-    direction,
-  } = props;
+  const ourKey = getOurPubKeyStrFromCache();
+  const convoIsPrivate = useIsPrivate(conversationId);
+  const authorConvoName = useConversationUsername(authorPubkey);
 
-  // Some messages miss a source or destination. Doing checks to see if the fields can be derived from other sources.
-  // E.g. if the source is missing but the message is outgoing, the source will be our pubkey
-  const sourceOrDestinationDerivable =
-    (destination && direction === MessageDirection.outgoing) ||
-    !destination ||
-    !source ||
-    (source && direction === MessageDirection.incoming);
-
-  if (!sourceOrDestinationDerivable) {
+  if (convoIsPrivate) {
     return null;
   }
 
-  const effectiveSource =
-    !source && direction === MessageDirection.outgoing ? getOurPubKeyStrFromCache() : source;
-  const effectiveDestination =
-    !destination && direction === MessageDirection.incoming
-      ? getOurPubKeyStrFromCache()
-      : destination;
+  if (authorPubkey === ourKey) {
+    return (
+      <StyledConversationFromUserInGroup>{window.i18n('you')}: </StyledConversationFromUserInGroup>
+    );
+  }
+  return <StyledConversationFromUserInGroup>{authorConvoName}: </StyledConversationFromUserInGroup>;
+};
+
+const AvatarItem = (props: { source: string }) => {
+  return <Avatar size={AvatarSize.S} pubkey={props.source} />;
+};
+
+const ResultBody = styled.div`
+  margin-top: 1px;
+  flex-shrink: 1;
+
+  font-size: 13px;
+
+  color: var(--color-text-subtle);
+
+  max-height: 3.6em;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+`;
+
+const StyledTimestampContaimer = styled.div`
+  flex-shrink: 0;
+  margin-inline-start: 6px;
+
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-transform: uppercase;
+
+  color: var(--color-text-subtle);
+`;
+
+export const MessageSearchResult = (props: MessageResultProps) => {
+  const {
+    id,
+    conversationId,
+    received_at,
+    snippet,
+    source,
+    sent_at,
+    serverTimestamp,
+    timestamp,
+    direction,
+  } = props;
+
+  /** destination is only used for search results (showing the `from:` and `to`)
+   *  1.  for messages we sent or synced from another of our devices
+   *    - the conversationId for a private convo
+   *    - the conversationId for a closed group convo
+   *    - the conversationId for an opengroup
+   *
+   *  2. for messages we received
+   *    - our own pubkey for a private conversation
+   *    - the conversationID for a closed group
+   *    - the conversationID for a public group
+   */
+  const me = UserUtils.getOurPubKeyStrFromCache();
+  const convoIsPrivate = useIsPrivate(conversationId);
+
+  const destination =
+    direction === 'incoming' ? conversationId : convoIsPrivate ? me : conversationId;
+
+  if (!source && !destination) {
+    return null;
+  }
 
   return (
-    <div
+    <StyledSearchResulsts
       key={`div-msg-searchresult-${id}`}
       role="button"
-      onClick={async () => {
-        await openConversationWithMessages({
+      onClick={() => {
+        void openConversationToSpecificMessage({
           conversationKey: conversationId,
-          messageId: id,
+          messageIdToNavigateTo: id,
+          shouldHighlightMessage: true,
         });
       }}
-      className={classNames(
-        'module-message-search-result',
-        isSelected ? 'module-message-search-result--is-selected' : null
-      )}
     >
-      <AvatarItem source={effectiveSource} />
-      <div className="module-message-search-result__text">
-        <div className="module-message-search-result__header">
-          <From source={effectiveSource} destination={effectiveDestination} />
-          <div className="module-message-search-result__header__timestamp">
-            <Timestamp timestamp={receivedAt} />
-          </div>
-        </div>
-        <div className="module-message-search-result__body">
+      <AvatarItem source={conversationId} />
+      <StyledResultText>
+        <ResultsHeader>
+          <ConversationHeader source={destination} conversationId={conversationId} />
+          <StyledTimestampContaimer>
+            <Timestamp
+              timestamp={serverTimestamp || timestamp || sent_at || received_at}
+              momentFromNow={false}
+            />
+          </StyledTimestampContaimer>
+        </ResultsHeader>
+        <ResultBody>
+          <FromUserInGroup authorPubkey={source} conversationId={conversationId} />
           <MessageBodyHighlight text={snippet || ''} />
-        </div>
-      </div>
-    </div>
+        </ResultBody>
+      </StyledResultText>
+    </StyledSearchResulsts>
   );
 };

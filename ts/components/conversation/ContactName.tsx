@@ -27,23 +27,20 @@ export const ContactName = (props: Props) => {
       }
     : {}) as React.CSSProperties;
   const textProfile = profileName || name || convoName || window.i18n('anonymous');
-  const profileElement = shouldShowProfile ? (
-    <span style={styles as any} className={`${prefix}__profile-name`}>
-      <Emojify text={textProfile} />
-    </span>
-  ) : null;
-
-  const pubKeyElement = shouldShowPubkey ? (
-    <span className={`${prefix}__profile-number`}>
-      <Emojify text={pubkey} />
-    </span>
-  ) : null;
 
   return (
     <span className={classNames(prefix, compact && 'compact')} dir="auto">
-      {profileElement}
+      {shouldShowProfile ? (
+        <span style={styles as any} className={`${prefix}__profile-name`}>
+          <Emojify text={textProfile} />
+        </span>
+      ) : null}
       {shouldShowProfile ? ' ' : null}
-      {pubKeyElement}
+      {shouldShowPubkey ? (
+        <span className={`${prefix}__profile-number`}>
+          <Emojify text={pubkey} />
+        </span>
+      ) : null}
     </span>
   );
 };

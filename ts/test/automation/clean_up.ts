@@ -1,5 +1,4 @@
-import test, { _electron, Page } from '@playwright/test';
-import { getAppDataPath } from './open';
+import { _electron, Page } from '@playwright/test';
 
 export const cleanUp = async (window: Page) => {
   await window.click('[data-testid=settings-section]');

@@ -1,32 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 
-import { formatRelativeTime } from '../../util/formatRelativeTime';
-
 // tslint:disable-next-line: no-submodule-imports
 import useInterval from 'react-use/lib/useInterval';
 import styled from 'styled-components';
 
 type Props = {
   timestamp?: number;
-  extended?: boolean;
-  module?: string;
-  withImageNoCaption?: boolean;
   isConversationListItem?: boolean;
+  momentFromNow: boolean;
 };
-
-const TimestampContainerListItem = styled.div`
-  flex-shrink: 0;
-  margin-inline-start: 6px;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-  color: var(--color-text);
-`;
 
 const UPDATE_FREQUENCY = 60 * 1000;
 
@@ -36,7 +19,15 @@ const TimestampContainerNotListItem = styled.div`
   letter-spacing: 0.3px;
   text-transform: uppercase;
   user-select: none;
-  color: var(--color-text);
+  color: var(--color-text-subtle);
+`;
+
+const TimestampContainerListItem = styled(TimestampContainerNotListItem)`
+  flex-shrink: 0;
+  margin-inline-start: 6px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const Timestamp = (props: Props) => {
@@ -45,33 +36,25 @@ export const Timestamp = (props: Props) => {
   // formatRelativeTime() will print the correct moment.
   const update = useCallback(() => {
     setLastUpdated(Date.now());
-  }, []);
+  }, [setLastUpdated]);
 
   useInterval(update, UPDATE_FREQUENCY);
 
-  const { timestamp, extended } = props;
+  const { timestamp, momentFromNow } = props;
 
   if (timestamp === null || timestamp === undefined) {
     return null;
   }
 
-  // Use relative time for under 24hrs ago.
-  const now = Math.floor(Date.now());
-  const messageAgeInDays = (now - timestamp) / (1000 * 60 * 60 * 24);
-  const daysBeforeRelativeTiming = 1;
-
-  let dateString;
-  if (messageAgeInDays > daysBeforeRelativeTiming) {
-    dateString = formatRelativeTime(timestamp, { extended });
+  const momentValue = moment(timestamp);
+  let dateString: string = '';
+  if (momentFromNow) {
+    dateString = momentValue.fromNow();
   } else {
-    dateString = moment(timestamp).fromNow();
-    // Prevent times reading "NOW AGO"
-    if (dateString.startsWith('now') || dateString.startsWith('Now')) {
-      dateString = 'now';
-    }
-
-    dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
+    dateString = momentValue.format('lll');
   }
+
+  dateString = dateString.replace('minutes', 'mins').replace('minute', 'min');
 
   const title = moment(timestamp).format('llll');
   if (props.isConversationListItem) {

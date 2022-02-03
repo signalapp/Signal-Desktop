@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import {
   ConversationListItemProps,
   MemoConversationListItemWithDetails,
@@ -6,65 +7,71 @@ import {
 import { MessageResultProps, MessageSearchResult } from './MessageSearchResults';
 
 export type SearchResultsProps = {
-  contacts: Array<ConversationListItemProps>;
-  conversations: Array<ConversationListItemProps>;
+  contactsAndGroups: Array<ConversationListItemProps>;
   messages: Array<MessageResultProps>;
-  hideMessagesHeader: boolean;
   searchTerm: string;
 };
 
-const ContactsItem = (props: { header: string; items: Array<ConversationListItemProps> }) => {
-  return (
-    <div className="module-search-results__contacts">
-      <div className="module-search-results__contacts-header">{props.header}</div>
-      {props.items.map(contact => (
-        <MemoConversationListItemWithDetails {...contact} />
-      ))}
-    </div>
-  );
-};
+const StyledSeparatorSection = styled.div`
+  height: 36px;
+  line-height: 36px;
+
+  margin-inline-start: 16px;
+
+  color: var(--color-text);
+
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+`;
+
+const SearchResultsContainer = styled.div`
+  overflow-y: auto;
+  max-height: 100%;
+  color: var(--color-text);
+  flex-grow: 1;
+  width: -webkit-fill-available;
+`;
+const NoResults = styled.div`
+  margin-top: 27px;
+  width: 100%;
+  text-align: center;
+`;
 
 export const SearchResults = (props: SearchResultsProps) => {
-  const { conversations, contacts, messages, searchTerm, hideMessagesHeader } = props;
+  const { contactsAndGroups, messages, searchTerm } = props;
 
-  const haveConversations = conversations && conversations.length;
-  const haveContacts = contacts && contacts.length;
-  const haveMessages = messages && messages.length;
-  const noResults = !haveConversations && !haveContacts && !haveMessages;
+  const haveContactsAndGroup = Boolean(contactsAndGroups?.length);
+  const haveMessages = Boolean(messages?.length);
+  const noResults = !haveContactsAndGroup && !haveMessages;
 
   return (
-    <div className="module-search-results">
-      {noResults ? (
-        <div className="module-search-results__no-results">
-          {window.i18n('noSearchResults', [searchTerm])}
-        </div>
-      ) : null}
-      {haveConversations ? (
-        <div className="module-search-results__conversations">
-          <div className="module-search-results__conversations-header">
-            {window.i18n('conversationsHeader')}
-          </div>
-          {conversations.map(conversation => (
-            <MemoConversationListItemWithDetails {...conversation} />
+    <SearchResultsContainer>
+      {noResults ? <NoResults>{window.i18n('noSearchResults', [searchTerm])}</NoResults> : null}
+      {haveContactsAndGroup ? (
+        <div>
+          <StyledSeparatorSection>{window.i18n('conversationsHeader')}</StyledSeparatorSection>
+          {contactsAndGroups.map(contactOrGroup => (
+            <MemoConversationListItemWithDetails
+              {...contactOrGroup}
+              mentionedUs={false}
+              isBlocked={false}
+              key={`search-result-convo-${contactOrGroup.id}`}
+            />
           ))}
         </div>
-      ) : null}
-      {haveContacts ? (
-        <ContactsItem header={window.i18n('contactsHeader')} items={contacts} />
       ) : null}
 
-      {haveMessages ? (
-        <div className="module-search-results__messages">
-          {hideMessagesHeader ? null : (
-            <div className="module-search-results__messages-header">
-              {window.i18n('messagesHeader')}
-            </div>
-          )}
+      {haveMessages && (
+        <div>
+          <StyledSeparatorSection>
+            {`${window.i18n('messagesHeader')}: ${messages.length}`}
+          </StyledSeparatorSection>
           {messages.map(message => (
-            <MessageSearchResult key={`search-result-${message.id}`} {...message} />
+            <MessageSearchResult key={`search-result-message-${message.id}`} {...message} />
           ))}
         </div>
-      ) : null}
-    </div>
+      )}
+    </SearchResultsContainer>
   );
 };

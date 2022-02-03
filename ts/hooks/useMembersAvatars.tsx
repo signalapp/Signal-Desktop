@@ -16,7 +16,7 @@ export function useMembersAvatars(closedGroupPubkey: string | undefined) {
       return undefined;
     }
     // this must be a closed group
-    const originalMembers = groupConvo.members;
+    const originalMembers = _.cloneDeep(groupConvo.members);
     if (!originalMembers || originalMembers.length === 0) {
       return undefined;
     }

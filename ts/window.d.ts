@@ -30,10 +30,6 @@ declare global {
     clearLocalData: any;
     clipboard: any;
     dcodeIO: any;
-    displayNameRegex: any;
-    friends: any;
-    getConversations: any;
-    getFriendsFromContacts: any;
     getSettingValue: (id: string, comparisonValue?: any) => any;
     setSettingValue: (id: string, value: any) => void;
 
@@ -64,14 +60,13 @@ declare global {
     userConfig: any;
     versionInfo: any;
     getConversations: () => ConversationCollection;
-    profileImages: any;
     MediaRecorder: any;
 
     contextMenuShown: boolean;
     inboxStore?: Store;
     openConversationWithMessages: (args: {
       conversationKey: string;
-      messageId?: string | undefined;
+      messageId: string | null;
     }) => Promise<void>;
     LokiPushNotificationServer: any;
     getGlobalOnlineStatus: () => boolean;

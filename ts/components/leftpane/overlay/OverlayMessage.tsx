@@ -47,7 +47,7 @@ export const OverlayMessage = () => {
         ConversationTypeEnum.PRIVATE
       );
 
-      await openConversationWithMessages({ conversationKey: pubkeyorOnsTrimmed });
+      await openConversationWithMessages({ conversationKey: pubkeyorOnsTrimmed, messageId: null });
       closeOverlay();
     } else {
       // this might be an ONS, validate the regex first
@@ -68,7 +68,7 @@ export const OverlayMessage = () => {
           ConversationTypeEnum.PRIVATE
         );
 
-        await openConversationWithMessages({ conversationKey: resolvedSessionID });
+        await openConversationWithMessages({ conversationKey: resolvedSessionID, messageId: null });
 
         closeOverlay();
       } catch (e) {

@@ -1,15 +1,17 @@
 import { ipcRenderer } from 'electron';
 
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
+// tslint:disable: function-name
 
 import _ from 'lodash';
+import { MessageResultProps } from '../components/search/MessageSearchResults';
 import {
   ConversationCollection,
   ConversationModel,
   ConversationTypeEnum,
 } from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
-import { MessageAttributes, MessageDirection } from '../models/messageType';
+import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
 import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
@@ -125,6 +127,8 @@ const channelsToMake = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
@@ -586,9 +590,14 @@ export async function searchConversations(query: string): Promise<Array<any>> {
   return conversations;
 }
 
-export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
-  const messages = await channels.searchMessages(query, { limit });
-  return messages;
+export async function searchMessages(
+  query: string,
+  limit: number
+): Promise<Array<MessageResultProps>> {
+  const messages = (await channels.searchMessages(query, limit)) as Array<MessageResultProps>;
+  return _.uniqWith(messages, (left: { id: string }, right: { id: string }) => {
+    return left.id === right.id;
+  });
 }
 
 /**
@@ -597,11 +606,11 @@ export async function searchMessages(query: string, { limit }: any = {}): Promis
 export async function searchMessagesInConversation(
   query: string,
   conversationId: string,
-  options: { limit: number } | undefined
-): Promise<Object> {
-  const messages = await channels.searchMessagesInConversation(query, conversationId, {
-    limit: options?.limit,
-  });
+  limit: number
+): Promise<Array<MessageAttributes>> {
+  const messages = (await channels.searchMessagesInConversation(query, conversationId, {
+    limit,
+  })) as Array<MessageAttributes>;
   return messages;
 }
 
@@ -753,12 +762,10 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%', skipTimerInit = false }
+  { skipTimerInit = false, messageId = null }: { skipTimerInit?: false; messageId: string | null }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
-    limit,
-    receivedAt,
-    type,
+    messageId,
   });
   if (skipTimerInit) {
     for (const message of messages) {
@@ -766,6 +773,56 @@ export async function getMessagesByConversation(
     }
   }
   return new MessageCollection(messages);
+}
+
+/**
+ * This function should only be used when you don't want to render the messages.
+ * It just grabs the last messages of a conversation.
+ *
+ * To be used when you want for instance to remove messages from a conversations, in order.
+ * Or to trigger downloads of a attachments from a just approved contact (clicktotrustSender)
+ * @param conversationId the conversationId to fetch messages from
+ * @param limit the maximum number of messages to return
+ * @param skipTimerInit  see MessageModel.skipTimerInit
+ * @returns the fetched messageModels
+ */
+export async function getLastMessagesByConversation(
+  conversationId: string,
+  limit: number,
+  skipTimerInit: boolean
+): Promise<MessageCollection> {
+  const messages = await channels.getLastMessagesByConversation(conversationId, limit);
+  if (skipTimerInit) {
+    for (const message of messages) {
+      message.skipTimerInit = skipTimerInit;
+    }
+  }
+  return new MessageCollection(messages);
+}
+
+export async function getLastMessageIdInConversation(conversationId: string) {
+  const collection = await getLastMessagesByConversation(conversationId, 1, true);
+  return collection.models.length ? collection.models[0].id : null;
+}
+
+export async function getLastMessageInConversation(conversationId: string) {
+  const messages = await channels.getLastMessagesByConversation(conversationId, 1);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
+}
+
+export async function getOldestMessageInConversation(conversationId: string) {
+  const messages = await channels.getOldestMessageInConversation(conversationId);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
 }
 
 /**
@@ -795,12 +852,10 @@ export async function getSeenMessagesByHashList(hashes: Array<string>): Promise<
 export async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
   let messages;
   do {
-    // Yes, we really want the await in the loop. We're deleting 100 at a
+    // Yes, we really want the await in the loop. We're deleting 500 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getMessagesByConversation(conversationId, {
-      limit: 500,
-    });
+    messages = await getLastMessagesByConversation(conversationId, 500, false);
     if (!messages.length) {
       return;
     }
@@ -1006,18 +1061,19 @@ export async function fillWithTestData(convs: number, msgs: number) {
   }
 
   for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
-    if (msgsAddedCount % 100 === 0) {
-      console.warn(msgsAddedCount);
-    }
     // tslint:disable: insecure-random
     const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
-    await convoToChoose.addSingleMessage({
-      source: convoToChoose.id,
-      type: MessageDirection.outgoing,
-      conversationId: convoToChoose.id,
-      body: `spongebob ${new Date().toString()}`,
-      // tslint:disable: insecure-random
-      direction: Math.random() > 0.5 ? 'outgoing' : 'incoming',
-    });
+    const direction = Math.random() > 0.5 ? 'outgoing' : 'incoming';
+    const body = `spongebob ${new Date().toString()}`;
+    if (direction === 'outgoing') {
+      await convoToChoose.addSingleOutgoingMessage({
+        body,
+      });
+    } else {
+      await convoToChoose.addSingleIncomingMessage({
+        source: convoToChoose.id,
+        body,
+      });
+    }
   }
 }

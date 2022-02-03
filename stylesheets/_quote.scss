@@ -271,19 +271,26 @@
   }
 }
 
-// animate when user is scrolling to a quoted message
-@keyframes blinker {
+$session-highlight-message-shadow: 0px 0px 10px 1px $session-color-green;
+
+@keyframes remove-box-shadow {
   0% {
-    background-color: subtle($session-color-green);
+    box-shadow: none;
   }
-  50% {
-    background-color: subtle($session-color-green);
+  10% {
+    box-shadow: $session-highlight-message-shadow;
+  }
+  75% {
+    box-shadow: $session-highlight-message-shadow;
   }
   100% {
-    background-color: none;
+    box-shadow: none;
   }
 }
 
 .flash-green-once {
-  animation: blinker 2s 1 normal forwards;
+  animation-name: remove-box-shadow;
+  animation-timing-function: linear;
+  animation-duration: 2s;
+  box-shadow: $session-highlight-message-shadow;
 }

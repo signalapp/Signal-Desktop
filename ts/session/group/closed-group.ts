@@ -28,7 +28,7 @@ import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessag
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
-import { getLatestTimestampOffset } from '../apis/snode_api/SNodeAPI';
+import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
 
 export type GroupInfo = {
   id: string;
@@ -156,18 +156,10 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const now = Date.now();
-
   const unread = type === 'incoming';
 
-  const source = UserUtils.getOurPubKeyStrFromCache();
-
-  const message = await convo.addSingleMessage({
-    conversationId: convo.get('id'),
-    source,
-    type,
+  const message = await convo.addSingleOutgoingMessage({
     sent_at: sentAt,
-    received_at: now,
     group_update: groupUpdate,
     unread: unread ? 1 : 0,
     expireTimer: 0,
@@ -278,7 +270,6 @@ export async function leaveClosedGroup(groupId: string) {
   const ourNumber = UserUtils.getOurPubKeyFromCache();
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 
-  const now = Date.now();
   let members: Array<string> = [];
   let admins: Array<string> = [];
 
@@ -299,20 +290,16 @@ export async function leaveClosedGroup(groupId: string) {
   await convo.commit();
 
   const source = UserUtils.getOurPubKeyStrFromCache();
-  const diffTimestamp = Date.now() - getLatestTimestampOffset();
+  const networkTimestamp = getNowWithNetworkOffset();
 
-  const dbMessage = await convo.addSingleMessage({
+  const dbMessage = await convo.addSingleOutgoingMessage({
     group_update: { left: [source] },
-    conversationId: groupId,
-    source,
-    type: 'outgoing',
-    sent_at: diffTimestamp,
-    received_at: now,
+    sent_at: networkTimestamp,
     expireTimer: 0,
   });
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-    timestamp: Date.now(),
+    timestamp: networkTimestamp,
     groupId,
     identifier: dbMessage.id as string,
   });

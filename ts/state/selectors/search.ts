@@ -11,11 +11,6 @@ export const getSearch = (state: StateType): SearchStateType => state.search;
 
 export const getQuery = createSelector(getSearch, (state: SearchStateType): string => state.query);
 
-export const getSelectedMessage = createSelector(
-  getSearch,
-  (state: SearchStateType): string | undefined => state.selectedMessage
-);
-
 export const isSearching = createSelector(getSearch, (state: SearchStateType) => {
   const { query } = state;
 
@@ -23,30 +18,11 @@ export const isSearching = createSelector(getSearch, (state: SearchStateType) =>
 });
 
 export const getSearchResults = createSelector(
-  [getSearch, getConversationLookup, getSelectedConversationKey, getSelectedMessage],
-  (
-    searchState: SearchStateType,
-    lookup: ConversationLookupType,
-    selectedConversation?: string,
-    selectedMessage?: string
-  ) => {
+  [getSearch, getConversationLookup, getSelectedConversationKey],
+  (searchState: SearchStateType, lookup: ConversationLookupType, selectedConversation?: string) => {
     return {
-      contacts: compact(
-        searchState.contacts.map(id => {
-          const value = lookup[id];
-
-          if (value && id === selectedConversation) {
-            return {
-              ...value,
-              isSelected: true,
-            };
-          }
-
-          return value;
-        })
-      ),
-      conversations: compact(
-        searchState.conversations.map(id => {
+      contactsAndGroups: compact(
+        searchState.contactsAndGroups.map(id => {
           const value = lookup[id];
 
           // Don't return anything when activeAt is unset (i.e. no current conversations with this user)
@@ -65,20 +41,7 @@ export const getSearchResults = createSelector(
           return value;
         })
       ),
-      messages: compact(
-        searchState.messages?.map(message => {
-          if (message.id === selectedMessage) {
-            return {
-              ...message,
-              isSelected: true,
-            };
-          }
-
-          return message;
-        })
-      ),
-      hideMessagesHeader: false,
-
+      messages: compact(searchState.messages),
       searchTerm: searchState.query,
     };
   }

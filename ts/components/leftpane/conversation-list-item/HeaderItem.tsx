@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { useConversationPropsById, useIsPinned } from '../../../hooks/useParamSelector';
 import { SectionType } from '../../../state/ducks/section';
+import { isSearching } from '../../../state/selectors/search';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
@@ -76,6 +77,8 @@ const ListItemIcons = () => {
 export const ConversationListItemHeaderItem = () => {
   const conversationId = useContext(ContextConversationId);
 
+  const isSearchingMode = useSelector(isSearching);
+
   const convoProps = useHeaderItemProps(conversationId);
   if (!convoProps) {
     return null;
@@ -104,14 +107,16 @@ export const ConversationListItemHeaderItem = () => {
       {unreadCountDiv}
       {atSymbol}
 
-      <div
-        className={classNames(
-          'module-conversation-list-item__header__date',
-          unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
-        )}
-      >
-        <Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />
-      </div>
+      {!isSearchingMode && (
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__date',
+            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
+          )}
+        >
+          <Timestamp timestamp={activeAt} isConversationListItem={true} momentFromNow={true} />
+        </div>
+      )}
     </div>
   );
 };

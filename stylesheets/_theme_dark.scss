@@ -48,26 +48,6 @@
     }
   }
 
-  .recipients-input {
-    .recipients-container {
-      background-color: white;
-      border-bottom: 1px solid #f2f2f2;
-    }
-
-    .recipient {
-      background-color: $blue;
-      color: white;
-
-      &.error {
-        background-color: #f00;
-      }
-    }
-
-    .results {
-      box-shadow: 0px 0px 1px rgba(#aaa, 0.8);
-    }
-  }
-
   .loading {
     position: relative;
     &::before {
@@ -403,40 +383,12 @@
     @include color-svg('../images/x-16.svg', $color-gray-25);
   }
 
-  // Module: Spinner
-
-  .module-search-results__conversations-header {
-    color: $color-gray-05;
-  }
-  .module-search-results__contacts-header {
-    color: $color-gray-05;
-  }
-  .module-search-results__messages-header {
-    color: $color-gray-05;
-  }
-
   // Module: Message Search Result
 
   .module-message-search-result {
     &:hover {
       background-color: $color-dark-70;
     }
-  }
-
-  .module-message-search-result--is-selected {
-    background-color: $color-dark-70;
-  }
-
-  .module-message-search-result__header__from {
-    color: $color-gray-05;
-  }
-
-  .module-message-search-result__header__timestamp {
-    color: $color-gray-25;
-  }
-
-  .module-message-search-result__body {
-    color: $color-gray-05;
   }
 
   .module-message__link-preview__icon-container__circle-background {
