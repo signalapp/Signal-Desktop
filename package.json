@@ -120,7 +120,6 @@
     "sanitize.css": "^12.0.1",
     "semver": "5.4.1",
     "styled-components": "5.1.1",
-    "underscore": "^1.13.2",
     "uuid": "3.3.2"
   },
   "devDependencies": {
