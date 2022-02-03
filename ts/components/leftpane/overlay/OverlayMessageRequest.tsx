@@ -7,7 +7,6 @@ import { getConversationRequests } from '../../../state/selectors/conversations'
 import { MemoConversationListItemWithDetails } from '../conversation-list-item/ConversationListItem';
 import styled from 'styled-components';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../../basic/SessionButton';
-import { OverlayHeader } from './OverlayHeader';
 import { setOverlayMode } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
@@ -76,7 +75,7 @@ export const OverlayMessageRequest = () => {
       <SpacerLG />
 
       <SessionButton
-        buttonColor={SessionButtonColor.Green}
+        buttonColor={SessionButtonColor.Danger}
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
         onClick={() => {

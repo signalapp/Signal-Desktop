@@ -465,5 +465,7 @@
   "answeredACall": "Call with $name$",
   "trimDatabase": "Trim Database",
   "trimDatabaseDescription": "Reduces your message database size to your last 10,000 messages.",
-  "trimDatabaseConfirmationBody": "Are you sure you want to delete your $deleteAmount$ oldest received messages?"
+  "trimDatabaseConfirmationBody": "Are you sure you want to delete your $deleteAmount$ oldest received messages?",
+  "reportAsSpam": "REPORT AS SPAM",
+  "respondingToRequestWarning": "Sending a message to this user will automatically accept their message request and reveal your Session ID."
 }

@@ -465,4 +465,6 @@ export type LocalizerKeys =
   | 'trimDatabase'
   | 'trimDatabaseDescription'
   | 'trimDatabaseConfirmationBody'
+  | 'reportAsSpam'
+  | 'respondingToRequestWarning'
   | 'reportIssue';

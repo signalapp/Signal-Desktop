@@ -34,7 +34,7 @@ import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAtta
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
-import { SessionButtonColor } from '../basic/SessionButton';
+import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
@@ -47,6 +47,11 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
+import { useSelector } from 'react-redux';
+import { getOverlayMode } from '../../state/selectors/section';
+import styled from 'styled-components';
+import { Flex } from '../basic/Flex';
+import { blockConvoById } from '../../interactions/conversationInteractions';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -221,6 +226,12 @@ export class SessionConversation extends React.Component<Props, State> {
       return <MessageView />;
     }
 
+    // // TODO: refactor component and use overlay hook
+    // const overlayMode = useSelector(getOverlayMode);
+    // // either use overlayMode == messageRequest or use Conversation.isAPproved === false;
+    const conversation = getConversationController().get(selectedConversation.id);
+    const isApproved = conversation.isApproved();
+
     const selectionMode = selectedMessages.length > 0;
 
     return (
@@ -241,6 +252,36 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
+            {!isApproved && (
+              <ConversationRequestBanner>
+                <div className="conversation-request-banner__row">
+                  <SessionButton
+                    buttonColor={SessionButtonColor.Green}
+                    buttonType={SessionButtonType.BrandOutline}
+                    onClick={() => {
+                      getConversationController()
+                        .get(selectedConversation.id)
+                        .setIsApproved(true);
+                    }}
+                    text={window.i18n('accept')}
+                  />
+                  <SessionButton
+                    buttonColor={SessionButtonColor.Danger}
+                    buttonType={SessionButtonType.BrandOutline}
+                    text={window.i18n('decline')}
+                    onClick={async () => {
+                      getConversationController();
+                      blockConvoById(selectedConversation.id);
+                    }}
+                  />
+                </div>
+                <SessionButton
+                  buttonColor={SessionButtonColor.Danger}
+                  buttonType={SessionButtonType.Simple}
+                  text={window.i18n('reportAsSpam')}
+                />
+              </ConversationRequestBanner>
+            )}
             <SplitViewContainer
               top={<InConversationCallContainer />}
               bottom={
@@ -251,6 +292,14 @@ export class SessionConversation extends React.Component<Props, State> {
 
             {isDraggingFile && <SessionFileDropzone />}
           </div>
+
+          {!isApproved && (
+            <ConversationRequestTextBottom>
+              <ConversationRequestTextInner>
+                {window.i18n('respondingToRequestWarning')}
+              </ConversationRequestTextInner>
+            </ConversationRequestTextBottom>
+          )}
 
           <CompositionBox
             sendMessage={this.sendMessageFn}
@@ -505,6 +554,34 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
     throw error;
   }
 };
+
+const ConversationRequestTextBottom = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: var(--margins-lg);
+`;
+
+const ConversationRequestTextInner = styled.div`
+  color: var(--color-text-subtle);
+  text-align: center;
+  max-width: 390px;
+`;
+
+const ConversationRequestBanner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--margins-lg);
+  gap: var(--margins-lg);
+
+  .conversation-request-banner__row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--margins-lg);
+    justify-content: center;
+  }
+`;
 
 const renderImagePreview = async (contentType: string, file: File, fileName: string) => {
   if (!MIME.isJPEG(contentType)) {
