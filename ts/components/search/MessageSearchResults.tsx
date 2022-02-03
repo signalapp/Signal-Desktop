@@ -101,7 +101,7 @@ const ConversationHeader = (props: { source: string; conversationId: string }) =
     return (
       <StyledConversationTitleResults>
         <StyledMessageResultsHeaderName>
-          <ContactName pubkey={conversationId} shouldShowPubkey={false} boldProfileName={true} />
+          <ContactName pubkey={conversationId} shouldShowPubkey={false} boldProfileName={false} />
         </StyledMessageResultsHeaderName>
       </StyledConversationTitleResults>
     );
@@ -109,7 +109,7 @@ const ConversationHeader = (props: { source: string; conversationId: string }) =
 
   return (
     <StyledConversationTitleResults>
-      <FromName source={source} conversationId={conversationId} />;
+      <FromName source={source} conversationId={conversationId} />
     </StyledConversationTitleResults>
   );
 };
@@ -203,6 +203,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
   if (!source && !destination) {
     return null;
   }
+  // tslint:disable: use-simple-attributes
 
   return (
     <StyledSearchResulsts
