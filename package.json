@@ -95,7 +95,6 @@
     "p-retry": "^4.2.0",
     "pify": "3.0.0",
     "protobufjs": "^6.11.2",
-
     "rc-slider": "^8.7.1",
     "react": "^17.0.2",
     "react-contexify": "5.0.0",
@@ -121,6 +120,7 @@
     "sanitize.css": "^12.0.1",
     "semver": "5.4.1",
     "styled-components": "5.1.1",
+    "underscore": "^1.13.2",
     "uuid": "3.3.2"
   },
   "devDependencies": {
