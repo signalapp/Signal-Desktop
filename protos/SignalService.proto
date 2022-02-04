@@ -35,6 +35,12 @@ message Unsend {
   required string author    = 2;
 }
 
+message MessageRequestResponse {
+  // @required
+  required bytes   publicKey         = 1; // The public key of the contact that was approved
+  // @required
+  required bool    isApproved        = 2;
+}
 
 message Content {
   optional DataMessage                dataMessage                = 1;
@@ -44,6 +50,7 @@ message Content {
   optional ConfigurationMessage       configurationMessage       = 7;
   optional DataExtractionNotification dataExtractionNotification = 8;
   optional Unsend                     unsendMessage              = 9;
+  optional MessageRequestResponse     messageRequestResponse     = 10;
 }
 
 message KeyPair {
@@ -195,6 +202,7 @@ message ConfigurationMessage {
     optional bytes  profileKey        = 4;
     optional bool   isApproved        = 5;
     optional bool   isBlocked         = 6;
+    optional bool   didApproveMe      = 7;
   }
 
   repeated ClosedGroup closedGroups    = 1;
