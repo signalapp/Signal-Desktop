@@ -842,6 +842,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion17,
   updateToLokiSchemaVersion18,
   updateToLokiSchemaVersion19,
+  updateToLokiSchemaVersion20,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1337,6 +1338,43 @@ function updateToLokiSchemaVersion19(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
+function updateToLokiSchemaVersion20(currentVersion, db) {
+  const targetVersion = 20;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    // looking for all private conversations, with a nickname set
+    const rowsToUpdate = db
+      .prepare(
+        `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
+      )
+      .all();
+    (rowsToUpdate || []).forEach(r => {
+      const obj = jsonToObject(r.json);
+
+      // obj.profile.displayName is the display as this user set it.
+      if (
+        obj &&
+        obj.nickname &&
+        obj.nickname.length &&
+        obj.profile &&
+        obj.profile.displayName &&
+        obj.profile.displayName.length
+      ) {
+        // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
+        obj.name = obj.profile.displayName;
+        updateConversation(obj, db);
+      }
+    });
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
 function writeLokiSchemaVersion(newVersion, db) {
   db.prepare(
     `INSERT INTO loki_schema(
@@ -1665,10 +1703,10 @@ function getConversationCount() {
   return row['count(*)'];
 }
 
-function saveConversation(data) {
+function saveConversation(data, instance) {
   const { id, active_at, type, members, name, profileName } = data;
 
-  globalInstance
+  (globalInstance || instance)
     .prepare(
       `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
@@ -1702,7 +1740,7 @@ function saveConversation(data) {
     });
 }
 
-function updateConversation(data) {
+function updateConversation(data, instance) {
   const {
     id,
     // eslint-disable-next-line camelcase
@@ -1713,7 +1751,8 @@ function updateConversation(data) {
     profileName,
   } = data;
 
-  globalInstance
+  (globalInstance || instance)
+
     .prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
