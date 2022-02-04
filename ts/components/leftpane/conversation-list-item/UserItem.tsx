@@ -26,7 +26,7 @@ export const UserItem = () => {
   const displayedPubkey = username ? shortenedPubkey : conversationId;
   const displayName = isMe
     ? window.i18n('noteToSelf')
-    : isSearchResultsMode && hasNickname
+    : isSearchResultsMode && hasNickname && realName
     ? `${realName} (${username})`
     : username;
 

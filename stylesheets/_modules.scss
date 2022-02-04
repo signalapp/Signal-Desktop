@@ -6,17 +6,7 @@
   flex-direction: column;
   align-items: flex-start;
   overflow-x: hidden;
-}
-
-.create-group-button {
-  background-color: #383c46;
-  color: #ffffff;
-  margin: 4px;
-  padding: 4px;
-}
-
-.create-group-button:focus {
-  outline: 0;
+  font-weight: 400;
 }
 
 .module-contact-name span {
@@ -348,7 +338,7 @@
   min-width: 0;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--color-text);
 
   // width of avatar (28px) and our 6px left margin

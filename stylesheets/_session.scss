@@ -277,7 +277,7 @@ textarea {
   &-text {
     @include session-color-subtle(var(--color-text));
 
-    font-weight: 300;
+    font-weight: 400;
     font-size: $session-font-sm;
     line-height: $session-font-sm;
   }

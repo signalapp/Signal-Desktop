@@ -32,11 +32,11 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
- * Returns either the nickname, profileName, or the shorten pubkey
+ * Returns the name if that conversation.
+ * This is the group name, or the realName of a user for a private conversation with a recent nickname set
  */
 export function useConversationRealName(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-
   return convoProps?.isPrivate ? convoProps?.name : undefined;
 }
 
