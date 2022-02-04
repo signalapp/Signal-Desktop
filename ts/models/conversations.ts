@@ -5039,14 +5039,6 @@ export class ConversationModel extends window.Backbone
   // [X] markedUnread
   // [X] dontNotifyForMentionsIfMuted
   captureChange(logMessage: string): void {
-    if (!window.Signal.RemoteConfig.isEnabled('desktop.storageWrite3')) {
-      log.info(
-        'conversation.captureChange: Returning early; desktop.storageWrite3 is falsey'
-      );
-
-      return;
-    }
-
     log.info('storageService[captureChange]', logMessage, this.idForLogging());
     this.set({ needsStorageServiceSync: true });
 

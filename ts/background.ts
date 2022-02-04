@@ -1838,55 +1838,6 @@ export async function startApp(): Promise<void> {
       }
     );
 
-    // Listen for changes to the `desktop.gv2` remote configuration flag
-    const removeGv2Listener = window.Signal.RemoteConfig.onChange(
-      'desktop.gv2',
-      async ({ enabled }) => {
-        if (!enabled) {
-          return;
-        }
-
-        // Erase current manifest version so we re-process storage service data
-        await window.storage.remove('manifestVersion');
-
-        // Kick off window.storage service fetch to grab GroupV2 information
-        await window.Signal.Services.runStorageServiceSyncJob();
-
-        // This is a one-time thing
-        removeGv2Listener();
-      }
-    );
-
-    window.Signal.RemoteConfig.onChange(
-      'desktop.storage',
-      async ({ enabled }) => {
-        if (!enabled) {
-          await window.storage.remove('storageKey');
-          return;
-        }
-
-        await window.storage.remove('manifestVersion');
-
-        if (window.ConversationController.areWePrimaryDevice()) {
-          log.warn(
-            'onChange/desktop.storage: We are primary device; not sending key sync request'
-          );
-          return;
-        }
-
-        try {
-          await singleProtoJobQueue.add(
-            window.textsecure.messaging.getRequestKeySyncMessage()
-          );
-        } catch (error) {
-          log.error(
-            'desktop.storage/onChange: Failed to queue sync message',
-            Errors.toLogFormat(error)
-          );
-        }
-      }
-    );
-
     if (resolveOnAppView) {
       resolveOnAppView();
       resolveOnAppView = undefined;
@@ -2236,6 +2187,17 @@ export async function startApp(): Promise<void> {
               Errors.toLogFormat(error)
             );
           }
+        }
+
+        try {
+          await singleProtoJobQueue.add(
+            window.textsecure.messaging.getRequestKeySyncMessage()
+          );
+        } catch (error) {
+          log.error(
+            'Failed to queue request key sync message',
+            Errors.toLogFormat(error)
+          );
         }
       }
 
