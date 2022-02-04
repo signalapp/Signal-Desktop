@@ -219,6 +219,12 @@ textarea {
   & > *:hover:not(svg) {
     filter: brightness(80%);
   }
+
+  &.simple {
+    &.danger {
+      color: var(--color-destructive);
+    }
+  }
 }
 
 .session-label {
@@ -226,7 +232,8 @@ textarea {
   padding: $session-margin-sm;
   width: 100%;
   border-radius: 2px;
-  text-align: center;
+  text-align: centere
+  ;
 
   &.primary {
     background-color: $session-color-primary;
