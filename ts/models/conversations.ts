@@ -5472,7 +5472,7 @@ window.Whisper.ConversationCollection = window.Backbone.Collection.extend({
   },
 
   comparator(m: WhatIsThis) {
-    return -m.get('timestamp');
+    return -(m.get('active_at') || 0);
   },
 });
 
