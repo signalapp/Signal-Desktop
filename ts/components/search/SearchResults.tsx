@@ -49,7 +49,7 @@ export const SearchResults = (props: SearchResultsProps) => {
     <SearchResultsContainer>
       {noResults ? <NoResults>{window.i18n('noSearchResults', [searchTerm])}</NoResults> : null}
       {haveContactsAndGroup ? (
-        <div>
+        <>
           <StyledSeparatorSection>{window.i18n('conversationsHeader')}</StyledSeparatorSection>
           {contactsAndGroups.map(contactOrGroup => (
             <MemoConversationListItemWithDetails
@@ -59,18 +59,18 @@ export const SearchResults = (props: SearchResultsProps) => {
               key={`search-result-convo-${contactOrGroup.id}`}
             />
           ))}
-        </div>
+        </>
       ) : null}
 
       {haveMessages && (
-        <div>
+        <>
           <StyledSeparatorSection>
             {`${window.i18n('messagesHeader')}: ${messages.length}`}
           </StyledSeparatorSection>
           {messages.map(message => (
             <MessageSearchResult key={`search-result-message-${message.id}`} {...message} />
           ))}
-        </div>
+        </>
       )}
     </SearchResultsContainer>
   );

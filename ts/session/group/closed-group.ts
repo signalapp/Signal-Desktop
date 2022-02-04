@@ -15,7 +15,6 @@ import { UserUtils } from '../utils';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
-import { MessageModelType } from '../../models/messageType';
 import {
   addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
@@ -107,20 +106,35 @@ export async function initiateClosedGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = _.pick(diff, 'newName');
 
-    const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
+    const dbMessageName = await addUpdateMessage(
+      convo,
+      nameOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = _.pick(diff, 'joiningMembers');
 
-    const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
+    const dbMessageAdded = await addUpdateMessage(
+      convo,
+      joiningOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { kickedMembers: diff.leavingMembers };
-    const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
+    const dbMessageLeaving = await addUpdateMessage(
+      convo,
+      leavingOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -135,7 +149,7 @@ export async function initiateClosedGroupUpdate(
 export async function addUpdateMessage(
   convo: ConversationModel,
   diff: GroupDiff,
-  type: MessageModelType,
+  sender: string,
   sentAt: number
 ): Promise<MessageModel> {
   const groupUpdate: any = {};
@@ -156,25 +170,28 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const unread = type === 'incoming';
-
-  const message = await convo.addSingleOutgoingMessage({
+  if (UserUtils.isUsFromCache(sender)) {
+    const outgoingMessage = await convo.addSingleOutgoingMessage({
+      sent_at: sentAt,
+      group_update: groupUpdate,
+      unread: 1,
+      expireTimer: 0,
+    });
+    return outgoingMessage;
+  }
+  const incomingMessage = await convo.addSingleIncomingMessage({
     sent_at: sentAt,
     group_update: groupUpdate,
-    unread: unread ? 1 : 0,
     expireTimer: 0,
+    source: sender,
   });
-
-  if (unread) {
-    // update the unreadCount for this convo
-    const unreadCount = await convo.getUnreadCount();
-    convo.set({
-      unreadCount,
-    });
-    await convo.commit();
-  }
-
-  return message;
+  // update the unreadCount for this convo
+  const unreadCount = await convo.getUnreadCount();
+  convo.set({
+    unreadCount,
+  });
+  await convo.commit();
+  return incomingMessage;
 }
 
 function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {

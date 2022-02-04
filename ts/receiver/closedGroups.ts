@@ -285,7 +285,7 @@ export async function handleNewClosedGroup(
   await ClosedGroup.addUpdateMessage(
     convo,
     { newName: name, joiningMembers: members },
-    'incoming',
+    envelope.senderIdentity || envelope.source, // new group message are coming as session messages
     envelopeTimestamp
   );
 
@@ -560,7 +560,7 @@ async function handleClosedGroupNameChanged(
     await ClosedGroup.addUpdateMessage(
       convo,
       groupDiff,
-      'incoming',
+      envelope.senderIdentity,
       _.toNumber(envelope.timestamp)
     );
     convo.set({ name: newName });
@@ -613,7 +613,12 @@ async function handleClosedGroupMembersAdded(
   const groupDiff: ClosedGroup.GroupDiff = {
     joiningMembers: membersNotAlreadyPresent,
   };
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    envelope.senderIdentity,
+    _.toNumber(envelope.timestamp)
+  );
 
   convo.set({ members });
 
@@ -686,7 +691,7 @@ async function handleClosedGroupMembersRemoved(
     await ClosedGroup.addUpdateMessage(
       convo,
       groupDiff,
-      'incoming',
+      envelope.senderIdentity,
       _.toNumber(envelope.timestamp)
     );
     convo.updateLastMessage();
@@ -763,7 +768,12 @@ async function handleClosedGroupAdminMemberLeft(
   };
   convo.set('members', []);
 
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    envelope.senderIdentity,
+    _.toNumber(envelope.timestamp)
+  );
   convo.updateLastMessage();
 
   await convo.commit();
@@ -779,7 +789,12 @@ async function handleClosedGroupLeftOurself(
   const groupDiff: ClosedGroup.GroupDiff = {
     leavingMembers: [envelope.senderIdentity],
   };
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    envelope.senderIdentity,
+    _.toNumber(envelope.timestamp)
+  );
   convo.updateLastMessage();
   // remove ourself from the list of members
   convo.set(
@@ -828,7 +843,12 @@ async function handleClosedGroupMemberLeft(envelope: EnvelopePlus, convo: Conver
     leavingMembers: [sender],
   };
 
-  await ClosedGroup.addUpdateMessage(convo, groupDiff, 'incoming', _.toNumber(envelope.timestamp));
+  await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    envelope.senderIdentity,
+    _.toNumber(envelope.timestamp)
+  );
   convo.updateLastMessage();
   // if a user just left and we are the admin, we remove him right away for everyone by sending a MEMBERS_REMOVED message so no need to add him as a zombie
   if (oldMembers.includes(sender)) {
@@ -918,7 +938,12 @@ export async function createClosedGroup(groupName: string, members: Array<string
     joiningMembers: listOfMembers,
   };
 
-  const dbMessage = await ClosedGroup.addUpdateMessage(convo, groupDiff, 'outgoing', Date.now());
+  const dbMessage = await ClosedGroup.addUpdateMessage(
+    convo,
+    groupDiff,
+    UserUtils.getOurPubKeyStrFromCache(),
+    Date.now()
+  );
 
   // be sure to call this before sending the message.
   // the sending pipeline needs to know from GroupUtils when a message is for a medium group

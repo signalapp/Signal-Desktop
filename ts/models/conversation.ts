@@ -1094,29 +1094,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const groupAdmins = this.getGroupAdmins();
     return Array.isArray(groupAdmins) && groupAdmins.includes(pubKey);
   }
-  // SIGNAL PROFILES
-  public async getProfiles() {
-    // request all conversation members' keys
-    let ids = [];
-    if (this.isPrivate()) {
-      ids = [this.id];
-    } else {
-      ids = this.get('members');
-    }
-    return Promise.all(_.map(ids, this.getProfile));
-  }
 
-  // This function is wrongly named by signal
-  // This is basically an `update` function and thus we have overwritten it with such
-  public async getProfile(id: string) {
-    const c = await getConversationController().getOrCreateAndWait(
-      id,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    // We only need to update the profile as they are all stored inside the conversation
-    await c.updateProfileName();
-  }
   public async setProfileName(name: string) {
     const profileName = this.get('profileName');
     if (profileName !== name) {
