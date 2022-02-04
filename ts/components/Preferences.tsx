@@ -10,6 +10,7 @@ import type { AudioDevice } from 'ringrtc';
 import type { MediaDeviceSettings } from '../types/Calling';
 import type {
   ZoomFactorType,
+  SentMediaQualitySettingType,
   ThemeSettingType,
   NotificationSettingType,
 } from '../types/Storage.d';
@@ -24,7 +25,11 @@ import type {
   DefaultConversationColorType,
 } from '../types/Colors';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog';
-import type { LocalizerType, ThemeType } from '../types/Util';
+import type {
+  LocalizerType,
+  SentMediaQualityType,
+  ThemeType,
+} from '../types/Util';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability';
 import { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import { Select } from './Select';
@@ -70,6 +75,7 @@ export type PropsType = {
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
   selectedSpeaker?: AudioDevice;
+  sentMediaQualitySetting: SentMediaQualitySettingType;
   themeSetting: ThemeSettingType;
   universalExpireTimer: number;
   whoCanFindMe: PhoneNumberDiscoverability;
@@ -130,6 +136,7 @@ export type PropsType = {
   onSelectedCameraChange: SelectChangeHandlerType<string | undefined>;
   onSelectedMicrophoneChange: SelectChangeHandlerType<AudioDevice | undefined>;
   onSelectedSpeakerChange: SelectChangeHandlerType<AudioDevice | undefined>;
+  onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
@@ -245,6 +252,7 @@ export const Preferences = ({
   onSelectedCameraChange,
   onSelectedMicrophoneChange,
   onSelectedSpeakerChange,
+  onSentMediaQualityChange,
   onSpellCheckChange,
   onThemeChange,
   onUniversalExpireTimerChange,
@@ -256,6 +264,7 @@ export const Preferences = ({
   selectedCamera,
   selectedMicrophone,
   selectedSpeaker,
+  sentMediaQualitySetting,
   setGlobalDefaultConversationColor,
   themeSetting,
   universalExpireTimer = 0,
@@ -495,6 +504,25 @@ export const Preferences = ({
             moduleClassName="Preferences__checkbox"
             name="linkPreviews"
             onChange={noop}
+          />
+          <Control
+            left={i18n('Preferences__sent-media-quality')}
+            right={
+              <Select
+                onChange={onSentMediaQualityChange}
+                options={[
+                  {
+                    text: i18n('sentMediaQualityStandard'),
+                    value: 'standard',
+                  },
+                  {
+                    text: i18n('sentMediaQualityHigh'),
+                    value: 'high',
+                  },
+                ]}
+                value={sentMediaQualitySetting}
+              />
+            }
           />
         </SettingsRow>
         {isSyncSupported && (

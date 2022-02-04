@@ -32,6 +32,7 @@ import { isPhoneNumberSharingEnabled } from './isPhoneNumberSharingEnabled';
 import { parseE164FromSignalDotMeHash } from './sgnlHref';
 import * as log from '../logging/log';
 
+type SentMediaQualityType = 'standard' | 'high';
 type ThemeType = 'light' | 'dark' | 'system';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 
@@ -51,6 +52,7 @@ export type IPCEventsValuesType = {
   preferredAudioInputDevice: AudioDevice | undefined;
   preferredAudioOutputDevice: AudioDevice | undefined;
   preferredVideoInputDevice: string | undefined;
+  sentMediaQualitySetting: SentMediaQualityType;
   spellCheck: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
@@ -258,6 +260,10 @@ export function createIPCEvents(
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
       window.storage.put('auto-download-update', value),
+    getSentMediaQualitySetting: () =>
+      window.storage.get('sent-media-quality', 'standard'),
+    setSentMediaQualitySetting: value =>
+      window.storage.put('sent-media-quality', value),
     getThemeSetting: () => window.storage.get('theme-setting', 'system'),
     setThemeSetting: value => {
       const promise = window.storage.put('theme-setting', value);

@@ -303,7 +303,7 @@ export function getEmptyState(): ComposerStateType {
   return {
     attachments: [],
     linkPreviewLoading: false,
-    shouldSendHighQualityAttachments: false,
+    shouldSendHighQualityAttachments: window.storage.get('sent-media-quality') === 'high',
   };
 }
 

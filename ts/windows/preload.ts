@@ -57,6 +57,7 @@ installSetting('notificationSetting');
 installSetting('spellCheck');
 installSetting('lastSyncTime');
 installSetting('systemTraySetting');
+installSetting('sentMediaQualitySetting');
 installSetting('themeSetting');
 installSetting('universalExpireTimer');
 installSetting('zoomFactor');
