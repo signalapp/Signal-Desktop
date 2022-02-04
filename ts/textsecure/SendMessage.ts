@@ -28,6 +28,7 @@ import type * as Attachment from '../types/Attachment';
 import type { UUID, UUIDStringType } from '../types/UUID';
 import type {
   ChallengeType,
+  GetGroupLogOptionsType,
   GroupCredentialsType,
   GroupLogResponseType,
   MultiRecipient200ResponseType,
@@ -2134,10 +2135,10 @@ export default class MessageSender {
   }
 
   async getGroupLog(
-    startVersion: number | undefined,
-    options: Readonly<GroupCredentialsType>
+    options: GetGroupLogOptionsType,
+    credentials: GroupCredentialsType
   ): Promise<GroupLogResponseType> {
-    return this.server.getGroupLog(startVersion, options);
+    return this.server.getGroupLog(options, credentials);
   }
 
   async getGroupAvatar(key: string): Promise<Uint8Array> {

@@ -681,6 +681,12 @@ export type GroupCredentialsType = {
   groupPublicParamsHex: string;
   authCredentialPresentationHex: string;
 };
+export type GetGroupLogOptionsType = Readonly<{
+  startVersion: number | undefined;
+  includeFirstState: boolean;
+  includeLastState: boolean;
+  maxSupportedChangeEpoch: number;
+}>;
 export type GroupLogResponseType = {
   currentRevision?: number;
   start?: number;
@@ -804,8 +810,8 @@ export type WebAPIType = {
     options: GroupCredentialsType
   ) => Promise<Proto.GroupExternalCredential>;
   getGroupLog: (
-    startVersion: number | undefined,
-    options: GroupCredentialsType
+    options: GetGroupLogOptionsType,
+    credentials: GroupCredentialsType
   ) => Promise<GroupLogResponseType>;
   getIceServers: () => Promise<GetIceServersResultType>;
   getKeysForIdentifier: (
@@ -1071,7 +1077,7 @@ export function initialize({
     let password = initialPassword;
     const PARSE_RANGE_HEADER = /\/(\d+)$/;
     const PARSE_GROUP_LOG_RANGE_HEADER =
-      /$versions (\d{1,10})-(\d{1,10})\/(d{1,10})/;
+      /^versions\s+(\d{1,10})-(\d{1,10})\/(\d{1,10})/;
 
     let activeRegistration: ExplodePromiseResultType<void> | undefined;
 
@@ -2603,13 +2609,20 @@ export function initialize({
     }
 
     async function getGroupLog(
-      startVersion: number | undefined,
-      options: GroupCredentialsType
+      options: GetGroupLogOptionsType,
+      credentials: GroupCredentialsType
     ): Promise<GroupLogResponseType> {
       const basicAuth = generateGroupAuth(
-        options.groupPublicParamsHex,
-        options.authCredentialPresentationHex
+        credentials.groupPublicParamsHex,
+        credentials.authCredentialPresentationHex
       );
+
+      const {
+        startVersion,
+        includeFirstState,
+        includeLastState,
+        maxSupportedChangeEpoch,
+      } = options;
 
       // If we don't know starting revision - fetch it from the server
       if (startVersion === undefined) {
@@ -2624,7 +2637,13 @@ export function initialize({
 
         const { joinedAtVersion } = Proto.Member.decode(joinedData);
 
-        return getGroupLog(joinedAtVersion, options);
+        return getGroupLog(
+          {
+            ...options,
+            startVersion: joinedAtVersion,
+          },
+          credentials
+        );
       }
 
       const withDetails = await _ajax({
@@ -2634,7 +2653,11 @@ export function initialize({
         host: storageUrl,
         httpType: 'GET',
         responseType: 'byteswithdetails',
-        urlParameters: `/${startVersion}`,
+        urlParameters:
+          `/${startVersion}?` +
+          `includeFirstState=${Boolean(includeFirstState)}&` +
+          `includeLastState=${Boolean(includeLastState)}&` +
+          `maxSupportedChangeEpoch=${Number(maxSupportedChangeEpoch)}`,
       });
       const { data, response } = withDetails;
       const changes = Proto.GroupChanges.decode(data);
@@ -2643,9 +2666,9 @@ export function initialize({
         const range = response.headers.get('Content-Range');
         const match = PARSE_GROUP_LOG_RANGE_HEADER.exec(range || '');
 
-        const start = match ? parseInt(match[0], 10) : undefined;
-        const end = match ? parseInt(match[1], 10) : undefined;
-        const currentRevision = match ? parseInt(match[2], 10) : undefined;
+        const start = match ? parseInt(match[1], 10) : undefined;
+        const end = match ? parseInt(match[2], 10) : undefined;
+        const currentRevision = match ? parseInt(match[3], 10) : undefined;
 
         if (
           match &&
