@@ -2826,7 +2826,7 @@ async function updateGroup(
   //   Unknown Group in the left pane.
   let activeAt = null;
   if (viaSync) {
-    activeAt = null;
+    activeAt = conversation.get('active_at') || null;
   } else if ((isInitialDataFetch || justJoinedGroup) && newAttributes.name) {
     activeAt = initialSentAt;
   } else {
