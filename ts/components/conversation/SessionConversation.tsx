@@ -123,7 +123,7 @@ export class SessionConversation extends React.Component<Props, State> {
       // if the newConversation changed, and is public, start our refresh members list
       if (newConversation.isPublic) {
         // this is a debounced call.
-        void this.updateMemberList();
+        void this.updateMemberListBouncy();
         // run this only once every minute if we don't change the visible conversation.
         // this is a heavy operation (like a few thousands members can be here)
         this.publicMembersRefreshTimeout = global.setInterval(this.updateMemberList, 60000);
