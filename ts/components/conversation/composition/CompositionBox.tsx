@@ -14,7 +14,7 @@ import {
 } from '../SessionStagedLinkPreview';
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
-import { Mention, MentionsInput } from 'react-mentions';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import { MemberListItem } from '../../MemberListItem';
 import autoBind from 'auto-bind';
 import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
@@ -467,7 +467,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
     );
   }
 
-  private fetchUsersForOpenGroup(query: any, callback: any) {
+  private fetchUsersForOpenGroup(
+    query: string,
+    callback: (data: Array<SuggestionDataItem>) => void
+  ) {
     const mentionsInput = getMentionsInput(window?.inboxStore?.getState() || []);
     const filtered =
       mentionsInput
@@ -481,10 +484,11 @@ class CompositionBoxInner extends React.Component<Props, State> {
             id: user.id,
           };
         }) || [];
+
     callback(filtered);
   }
 
-  private fetchUsersForGroup(query: any, callback: any) {
+  private fetchUsersForGroup(query: string, callback: (data: Array<SuggestionDataItem>) => void) {
     let overridenQuery = query;
     if (!query) {
       overridenQuery = '';

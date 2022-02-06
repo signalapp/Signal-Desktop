@@ -1012,18 +1012,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         window.storage.get(SettingsKey.settingsReadReceipt) || false
       );
       if (window.storage.get(SettingsKey.settingsReadReceipt)) {
-        await Promise.all(
-          _.map(_.groupBy(read, 'sender'), async (receipts, sender) => {
-            const timestamps = _.map(receipts, 'timestamp').filter(t => !!t) as Array<number>;
-            const receiptMessage = new ReadReceiptMessage({
-              timestamp: Date.now(),
-              timestamps,
-            });
+        const timestamps = _.map(read, 'timestamp').filter(t => !!t) as Array<number>;
+        const receiptMessage = new ReadReceiptMessage({
+          timestamp: Date.now(),
+          timestamps,
+        });
 
-            const device = new PubKey(sender);
-            await getMessageQueue().sendToPubKey(device, receiptMessage);
-          })
-        );
+        const device = new PubKey(this.id);
+        await getMessageQueue().sendToPubKey(device, receiptMessage);
       }
     }
   }
