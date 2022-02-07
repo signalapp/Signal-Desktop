@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,6 +10,7 @@ import type {
 import { AutoSizer, Grid } from 'react-virtualized';
 import {
   chunk,
+  clamp,
   debounce,
   findLast,
   flatMap,
@@ -99,8 +100,8 @@ export const EmojiPicker = React.memo(
       const debounceSearchChange = React.useMemo(
         () =>
           debounce((query: string) => {
-            setSearchText(query);
             setScrollToRow(0);
+            setSearchText(query);
           }, 200),
         [setSearchText, setScrollToRow]
       );
@@ -155,9 +156,9 @@ export const EmojiPicker = React.memo(
       React.useEffect(() => {
         const handler = (event: KeyboardEvent) => {
           if (searchMode && event.key === 'Escape') {
+            setScrollToRow(0);
             setSearchText('');
             setSearchMode(false);
-            setScrollToRow(0);
 
             event.preventDefault();
             event.stopPropagation();
@@ -209,6 +210,8 @@ export const EmojiPicker = React.memo(
 
         return [...chunk(firstRecent, COL_COUNT), ...chunks];
       }, [firstRecent, renderableCategories, searchText]);
+
+      const rowCount = emojiGrid.length;
 
       const catRowEnds = React.useMemo(() => {
         const rowEnds: Array<number> = [
@@ -354,7 +357,7 @@ export const EmojiPicker = React.memo(
                 )
               )}
             </header>
-            {emojiGrid.length > 0 ? (
+            {rowCount > 0 ? (
               <div>
                 <AutoSizer>
                   {({ width, height }) => (
@@ -366,9 +369,12 @@ export const EmojiPicker = React.memo(
                       columnCount={COL_COUNT}
                       columnWidth={38}
                       rowHeight={getRowHeight}
-                      rowCount={emojiGrid.length}
+                      rowCount={rowCount}
                       cellRenderer={cellRenderer}
-                      scrollToRow={scrollToRow}
+                      // In some cases, `scrollToRow` can be too high for a short period
+                      //   during state changes. This ensures that the value is never too
+                      //   large.
+                      scrollToRow={clamp(scrollToRow, 0, rowCount - 1)}
                       scrollToAlignment="start"
                       onSectionRendered={onSectionRendered}
                     />
