@@ -38,7 +38,7 @@ import { renderEmojiPicker } from './renderEmojiPicker';
 import { renderReactionPicker } from './renderReactionPicker';
 
 import { getOwn } from '../../util/getOwn';
-import { assert, strictAssert } from '../../util/assert';
+import { assert } from '../../util/assert';
 import { missingCaseError } from '../../util/missingCaseError';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
 import {
@@ -295,11 +295,8 @@ const mapStateToProps = (state: StateType, props: ExternalProps) => {
   const selectedMessage = getSelectedMessage(state);
 
   const messageSelector = getMessageSelector(state);
-  const getTimestampForMessage = (messageId: string): number => {
-    const result = messageSelector(messageId)?.timestamp;
-    strictAssert(result, 'Expected a message');
-    return result;
-  };
+  const getTimestampForMessage = (messageId: string): undefined | number =>
+    messageSelector(messageId)?.timestamp;
 
   return {
     id,
