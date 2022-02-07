@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -10,6 +10,7 @@ import type {
 import { AutoSizer, Grid } from 'react-virtualized';
 import {
   chunk,
+  clamp,
   debounce,
   findLast,
   flatMap,
@@ -368,7 +369,7 @@ export const EmojiPicker = React.memo(
                       rowHeight={getRowHeight}
                       rowCount={emojiGrid.length}
                       cellRenderer={cellRenderer}
-                      scrollToRow={scrollToRow}
+                      scrollToRow={clamp(scrollToRow, 0, emojiGrid.length - 1)}
                       scrollToAlignment="start"
                       onSectionRendered={onSectionRendered}
                     />
