@@ -3,7 +3,6 @@
 /* global window: false */
 const path = require('path');
 const { webFrame, remote, clipboard, ipcRenderer } = require('electron');
-const semver = require('semver');
 
 const { app } = remote;
 
@@ -20,7 +19,6 @@ if (config.appInstance) {
 global.dcodeIO = global.dcodeIO || {};
 global.dcodeIO.ByteBuffer = require('bytebuffer');
 
-window.semver = semver;
 window.platform = process.platform;
 window.getTitle = () => title;
 window.getEnvironment = () => config.environment;
@@ -29,25 +27,11 @@ window.getVersion = () => config.version;
 window.isDev = () => config.environment === 'development';
 window.getCommitHash = () => config.commitHash;
 window.getNodeVersion = () => config.node_version;
-window.getHostName = () => config.hostname;
-window.isBehindProxy = () => Boolean(config.proxyUrl);
 
 window.lokiFeatureFlags = {
   useOnionRequests: true,
   useMessageRequests: false,
-  useCallMessage: false,
-};
-
-window.isBeforeVersion = (toCheck, baseVersion) => {
-  try {
-    return semver.lt(toCheck, baseVersion);
-  } catch (error) {
-    window.log.error(
-      `isBeforeVersion error: toCheck: ${toCheck}, baseVersion: ${baseVersion}`,
-      error && error.stack ? error.stack : error
-    );
-    return true;
-  }
+  useCallMessage: true,
 };
 
 window.versionInfo = {
