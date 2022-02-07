@@ -2,8 +2,6 @@
 
 import React, { useRef } from 'react';
 
-import is from '@sindresorhus/is';
-
 // useCss has some issues on our setup. so import it directly
 // tslint:disable-next-line: no-submodule-imports
 import useUnmount from 'react-use/lib/useUnmount';
@@ -15,6 +13,7 @@ import { GoogleChrome } from '../../util';
 import { Flex } from '../basic/Flex';
 import { SessionIconButton, SessionIconType } from '../icon';
 import * as MIME from '../../types/MIME';
+import { isUndefined } from 'lodash';
 
 const Colors = {
   TEXT_SECONDARY: '#bbb',
@@ -288,7 +287,7 @@ export const Lightbox = (props: Props) => {
         <div style={styles.controlsOffsetPlaceholder} />
         <div style={styles.objectParentContainer} role="button">
           <div style={styles.objectContainer as any}>
-            {!is.undefined(contentType) ? (
+            {!isUndefined(contentType) ? (
               <LightboxObject
                 objectURL={objectURL}
                 contentType={contentType}

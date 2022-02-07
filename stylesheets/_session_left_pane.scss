@@ -184,10 +184,6 @@ $session-compose-margin: 20px;
       width: -webkit-fill-available;
     }
 
-    .module-search-results {
-      width: -webkit-fill-available;
-    }
-
     .session-description-long {
       font-size: $session-font-sm;
       line-height: $session-font-h3;
@@ -216,9 +212,6 @@ $session-compose-margin: 20px;
       flex-shrink: 0;
     }
   }
-}
-.module-search-results {
-  flex-grow: 1;
 }
 
 .module-conversations-list-content {

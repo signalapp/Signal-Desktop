@@ -7,6 +7,7 @@ type TextProps = {
   maxWidth?: string;
   padding?: string;
   textAlign?: 'center';
+  ellipsisOverflow?: boolean;
 };
 
 const StyledDefaultText = styled.div<TextProps>`
@@ -16,6 +17,9 @@ const StyledDefaultText = styled.div<TextProps>`
   text-align: ${props => (props.textAlign ? props.textAlign : '')};
   font-family: var(--font-default);
   color: ${props => (props.subtle ? 'var(--color-text-subtle)' : 'var(--color-text)')};
+  white-space: ${props => (props.ellipsisOverflow ? 'nowrap' : null)};
+  overflow: ${props => (props.ellipsisOverflow ? 'hidden' : null)};
+  text-overflow: ${props => (props.ellipsisOverflow ? 'ellipsis' : null)};
 `;
 
 export const Text = (props: TextProps) => {

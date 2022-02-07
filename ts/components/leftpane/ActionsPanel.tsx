@@ -34,7 +34,7 @@ import { conversationChanged, conversationRemoved } from '../../state/ducks/conv
 import { editProfileModal, onionPathModal } from '../../state/ducks/modalDialog';
 import { uploadOurAvatar } from '../../interactions/conversationInteractions';
 import { ModalContainer } from '../dialog/ModalContainer';
-import { debounce } from 'underscore';
+import { debounce } from 'lodash';
 
 // tslint:disable-next-line: no-import-side-effect no-submodule-imports
 
@@ -234,6 +234,7 @@ const doAppStartUp = () => {
   // init the messageQueue. In the constructor, we add all not send messages
   // this call does nothing except calling the constructor, which will continue sending message in the pipeline
   void getMessageQueue().processAllPending();
+
   void setupTheme();
 
   // keep that one to make sure our users upgrade to new sessionIDS

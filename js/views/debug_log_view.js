@@ -58,6 +58,7 @@
         return;
       }
       window.saveLog(text);
+      window.closeDebugLog();
     },
   });
 })();

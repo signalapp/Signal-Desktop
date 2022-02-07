@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInterval from 'react-use/lib/useInterval';
 import _ from 'lodash';
 import { removeMessage } from '../../../../data/data';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import { getConversationController } from '../../../../session/conversations';
 import { messageExpired } from '../../../../state/ducks/conversations';
 import {
   getGenericReadableMessageSelectorProps,
   getIsMessageSelected,
-  getQuotedMessageToAnimate,
   isMessageSelectionMode,
 } from '../../../../state/selectors/conversations';
 import { getIncrement } from '../../../../util/timer';
@@ -56,7 +55,8 @@ function useIsExpired(props: ExpiringProps) {
   const dispatch = useDispatch();
 
   const [isExpired] = useState(isExpiredProps);
-  async function checkExpired() {
+
+  const checkExpired = useCallback(async () => {
     const now = Date.now();
 
     if (!expirationTimestamp || !expirationLength) {
@@ -76,10 +76,13 @@ function useIsExpired(props: ExpiringProps) {
         convo?.updateLastMessage();
       }
     }
-  }
+  }, [expirationTimestamp, expirationLength, isExpired, messageId, convoId]);
 
-  const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
-  const checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+  let checkFrequency: number | null = null;
+  if (expirationLength) {
+    const increment = getIncrement(expirationLength || EXPIRATION_CHECK_MINIMUM);
+    checkFrequency = Math.max(EXPIRATION_CHECK_MINIMUM, increment);
+  }
 
   useEffect(() => {
     void checkExpired();
@@ -91,7 +94,6 @@ function useIsExpired(props: ExpiringProps) {
 
 type Props = {
   messageId: string;
-  onQuoteClick: (quote: QuoteClickOptions) => void;
   ctxMenuID: string;
   isDetailView?: boolean;
 };
@@ -111,7 +113,6 @@ export const GenericReadableMessage = (props: Props) => {
   };
   const { isExpired } = useIsExpired(expiringProps);
 
-  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
   const isMessageSelected = useSelector(state =>
     getIsMessageSelected(state as any, props.messageId)
   );
@@ -152,7 +153,6 @@ export const GenericReadableMessage = (props: Props) => {
 
   const selected = isMessageSelected || false;
   const isGroup = conversationType === 'group';
-  const isQuotedMessageToAnimate = quotedMessageToAnimate === messageId;
   const isIncoming = direction === 'incoming';
 
   return (
@@ -162,7 +162,6 @@ export const GenericReadableMessage = (props: Props) => {
         'session-message-wrapper',
         selected && 'message-selected',
         isGroup && 'public-chat-message-wrapper',
-        isQuotedMessageToAnimate && 'flash-green-once',
         isIncoming ? 'session-message-wrapper-incoming' : 'session-message-wrapper-outgoing'
       )}
       onContextMenu={handleContextMenu}
@@ -171,22 +170,26 @@ export const GenericReadableMessage = (props: Props) => {
       key={`readable-message-${messageId}`}
     >
       <MessageAvatar messageId={messageId} />
-      <ExpireTimer
-        isCorrectSide={!isIncoming}
-        expirationLength={expirationLength || 0}
-        expirationTimestamp={expirationTimestamp || null}
-      />
+      {expirationLength && expirationTimestamp && (
+        <ExpireTimer
+          isCorrectSide={!isIncoming}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+        />
+      )}
       <MessageContentWithStatuses
         ctxMenuID={props.ctxMenuID}
         messageId={messageId}
-        onQuoteClick={props.onQuoteClick}
         isDetailView={isDetailView}
+        dataTestId={`message-content-${messageId}`}
       />
-      <ExpireTimer
-        isCorrectSide={isIncoming}
-        expirationLength={expirationLength || 0}
-        expirationTimestamp={expirationTimestamp || null}
-      />
+      {expirationLength && expirationTimestamp && (
+        <ExpireTimer
+          isCorrectSide={isIncoming}
+          expirationLength={expirationLength}
+          expirationTimestamp={expirationTimestamp}
+        />
+      )}
     </ReadableMessage>
   );
 };

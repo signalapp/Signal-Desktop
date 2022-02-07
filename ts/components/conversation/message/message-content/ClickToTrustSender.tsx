@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMessageById, getMessagesByConversation } from '../../../../data/data';
+import { getLastMessagesByConversation, getMessageById } from '../../../../data/data';
 import { getConversationController } from '../../../../session/conversations';
 import { AttachmentDownloads } from '../../../../session/utils';
 import { updateConfirmModal } from '../../../../state/ducks/modalDialog';
@@ -42,9 +42,7 @@ export const ClickToTrustSender = (props: { messageId: string }) => {
         onClickOk: async () => {
           convo.set({ isTrustedForAttachmentDownload: true });
           await convo.commit();
-          const messagesInConvo = await getMessagesByConversation(convo.id, {
-            limit: 100,
-          });
+          const messagesInConvo = await getLastMessagesByConversation(convo.id, 100, false);
 
           await Promise.all(
             messagesInConvo.map(async message => {

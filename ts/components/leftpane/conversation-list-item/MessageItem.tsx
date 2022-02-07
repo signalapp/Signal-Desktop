@@ -1,12 +1,14 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
-import { isEmpty } from 'underscore';
+import { isEmpty } from 'lodash';
 import { useConversationPropsById } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { ContextConversationId } from './ConversationListItem';
 import { MessageRequestButtons } from './MessageRequest';
+import { useSelector } from 'react-redux';
+import { isSearching } from '../../../state/selectors/search';
 
 function useMessageItemProps(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
@@ -23,6 +25,8 @@ function useMessageItemProps(convoId: string) {
 export const MessageItem = (props: { isMessageRequest: boolean }) => {
   const conversationId = useContext(ContextConversationId);
   const convoProps = useMessageItemProps(conversationId);
+
+  const isSearchingMode = useSelector(isSearching);
   if (!convoProps) {
     return null;
   }
@@ -52,7 +56,7 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
         )}
       </div>
       <MessageRequestButtons isMessageRequest={props.isMessageRequest} />
-      {lastMessage && lastMessage.status && !props.isMessageRequest ? (
+      {!isSearchingMode && lastMessage && lastMessage.status && !props.isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}
     </div>

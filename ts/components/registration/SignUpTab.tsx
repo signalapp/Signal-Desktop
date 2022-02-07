@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIdEditable } from '../basic/SessionIdEditable';
@@ -70,7 +71,7 @@ const SignUpSessionIDShown = (props: { continueSignUp: () => void }) => {
           {window.i18n('yourUniqueSessionID')}
         </div>
       </Flex>
-      <SessionIdEditable editable={false} placeholder={undefined} />
+      <SessionIdEditable editable={false} placeholder={undefined} dataTestId="session-id-signup" />
       <div className="session-description-long">{window.i18n('allUsersAreRandomly...')}</div>
       <ContinueSignUpButton continueSignUp={props.continueSignUp} />
       <TermsAndConditions />
@@ -143,7 +144,7 @@ export const SignUpTab = () => {
         displayName={displayName}
         handlePressEnter={signUpWithDetails}
         onDisplayNameChanged={(name: string) => {
-          const sanitizedName = name.replace(window.displayNameRegex, '');
+          const sanitizedName = sanitizeSessionUsername(name);
           const trimName = sanitizedName.trim();
           setDisplayName(sanitizedName);
           setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);

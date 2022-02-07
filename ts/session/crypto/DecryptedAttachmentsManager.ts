@@ -6,10 +6,11 @@
  *
  */
 
-import toArrayBuffer from 'to-arraybuffer';
 import * as fse from 'fs-extra';
 import { decryptAttachmentBuffer } from '../../types/Attachment';
 import { DURATION } from '../constants';
+import { makeObjectUrl, urlToBlob } from '../../types/attachments/VisualAttachment';
+import { getAttachmentPath } from '../../types/MessageAttachment';
 
 const urlToDecryptedBlobMap = new Map<
   string,
@@ -56,10 +57,7 @@ export const getDecryptedMediaUrl = async (
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (
-    window.Signal.Migrations.attachmentsPath &&
-    url.startsWith(window.Signal.Migrations.attachmentsPath)
-  ) {
+  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
     // this is a file encoded by session on our current attachments path.
     // we consider the file is encrypted.
     // if it's not, the hook caller has to fallback to setting the img src as an url to the file instead and load it
@@ -84,31 +82,36 @@ export const getDecryptedMediaUrl = async (
       urlToDecryptingPromise.set(
         url,
         new Promise(async resolve => {
-          const encryptedFileContent = await fse.readFile(url);
-          const decryptedContent = await decryptAttachmentBuffer(
-            toArrayBuffer(encryptedFileContent)
-          );
-          if (decryptedContent?.length) {
-            const arrayBuffer = decryptedContent.buffer;
-            const { makeObjectUrl } = window.Signal.Types.VisualAttachment;
-            const obj = makeObjectUrl(arrayBuffer, contentType);
+          window.log.info('about to read and decrypt file :', url);
+          try {
+            const encryptedFileContent = await fse.readFile(url);
+            const decryptedContent = await decryptAttachmentBuffer(encryptedFileContent.buffer);
+            if (decryptedContent?.length) {
+              const arrayBuffer = decryptedContent.buffer;
+              const obj = makeObjectUrl(arrayBuffer, contentType);
 
-            if (!urlToDecryptedBlobMap.has(url)) {
-              urlToDecryptedBlobMap.set(url, {
-                decrypted: obj,
-                lastAccessTimestamp: Date.now(),
-                forceRetain: isAvatar,
-              });
+              if (!urlToDecryptedBlobMap.has(url)) {
+                urlToDecryptedBlobMap.set(url, {
+                  decrypted: obj,
+                  lastAccessTimestamp: Date.now(),
+                  forceRetain: isAvatar,
+                });
+              }
+              window.log.info(' file decrypted :', url, ' as ', obj);
+              urlToDecryptingPromise.delete(url);
+              resolve(obj);
+              return;
+            } else {
+              // failed to decrypt, fallback to url image loading
+              // it might be a media we received before the update encrypting attachments locally.
+              urlToDecryptingPromise.delete(url);
+              window.log.info('error decrypting file :', url);
+              resolve(url);
+
+              return;
             }
-            urlToDecryptingPromise.delete(url);
-            resolve(obj);
-            return;
-          } else {
-            // failed to decrypt, fallback to url image loading
-            // it might be a media we received before the update encrypting attachments locally.
-            urlToDecryptingPromise.delete(url);
-            resolve(url);
-            return;
+          } catch (e) {
+            window.log.warn(e);
           }
         })
       );
@@ -132,14 +135,16 @@ export const getAlreadyDecryptedMediaUrl = (url: string): string | null => {
   }
   if (url.startsWith('blob:')) {
     return url;
-  } else if (
-    window.Signal.Migrations.attachmentsPath &&
-    url.startsWith(window.Signal.Migrations.attachmentsPath)
-  ) {
+  } else if (getAttachmentPath() && url.startsWith(getAttachmentPath())) {
     if (urlToDecryptedBlobMap.has(url)) {
       const existingObjUrl = urlToDecryptedBlobMap.get(url)?.decrypted as string;
       return existingObjUrl;
     }
   }
   return null;
+};
+
+export const getDecryptedBlob = async (url: string, contentType: string): Promise<Blob> => {
+  const decryptedUrl = await getDecryptedMediaUrl(url, contentType, false);
+  return urlToBlob(decryptedUrl);
 };

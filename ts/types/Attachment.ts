@@ -1,6 +1,5 @@
-import is from '@sindresorhus/is';
 import moment from 'moment';
-import { isArrayBuffer, padStart } from 'lodash';
+import { isArrayBuffer, isUndefined, padStart } from 'lodash';
 
 import * as MIME from './MIME';
 import { saveURLAsFile } from '../util/saveURLAsFile';
@@ -108,13 +107,13 @@ export function canDisplayImage(attachments?: Array<AttachmentType>) {
   const { height, width } =
     attachments && attachments[0] ? attachments[0] : { height: 0, width: 0 };
 
-  return (
+  return Boolean(
     height &&
-    height > 0 &&
-    height <= ATTACHMENT_DEFAULT_MAX_SIDE &&
-    width &&
-    width > 0 &&
-    width <= ATTACHMENT_DEFAULT_MAX_SIDE
+      height > 0 &&
+      height <= ATTACHMENT_DEFAULT_MAX_SIDE &&
+      width &&
+      width > 0 &&
+      width <= ATTACHMENT_DEFAULT_MAX_SIDE
   );
 }
 
@@ -162,10 +161,9 @@ export function isVideoAttachment(attachment?: AttachmentType): boolean {
   );
 }
 
-export function hasVideoScreenshot(attachments?: Array<AttachmentType>) {
+export function hasVideoScreenshot(attachments?: Array<AttachmentType>): boolean {
   const firstAttachment = attachments ? attachments[0] : null;
-
-  return firstAttachment && firstAttachment.screenshot && firstAttachment.screenshot.url;
+  return Boolean(firstAttachment?.screenshot?.url);
 }
 
 type DimensionsType = {
@@ -185,7 +183,7 @@ export async function arrayBufferFromFile(file: any): Promise<ArrayBuffer> {
   });
 }
 
-export function getImageDimensions(attachment: AttachmentType): DimensionsType {
+export function getImageDimensionsInAttachment(attachment: AttachmentType): DimensionsType {
   const { height, width } = attachment;
   if (!height || !width) {
     return {
@@ -230,7 +228,7 @@ export function getGridDimensions(attachments?: Array<AttachmentType>): null | D
   }
 
   if (attachments.length === 1) {
-    return getImageDimensions(attachments[0]);
+    return getImageDimensionsInAttachment(attachments[0]);
   }
 
   if (attachments.length === 2) {
@@ -268,15 +266,6 @@ export type Attachment = {
   contentType?: MIME.MIMEType;
   size?: number;
   data: ArrayBuffer;
-
-  // // Omit unused / deprecated keys:
-  // schemaVersion?: number;
-  // id?: string;
-  // width?: number;
-  // height?: number;
-  // thumbnail?: ArrayBuffer;
-  // key?: ArrayBuffer;
-  // digest?: ArrayBuffer;
 } & Partial<AttachmentSchemaVersion3>;
 
 interface AttachmentSchemaVersion3 {
@@ -286,7 +275,7 @@ interface AttachmentSchemaVersion3 {
 export const isVisualMedia = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
 
-  if (is.undefined(contentType)) {
+  if (isUndefined(contentType)) {
     return false;
   }
 
@@ -300,7 +289,7 @@ export const isVisualMedia = (attachment: Attachment): boolean => {
 export const isFile = (attachment: Attachment): boolean => {
   const { contentType } = attachment;
 
-  if (is.undefined(contentType)) {
+  if (isUndefined(contentType)) {
     return false;
   }
 
@@ -319,13 +308,13 @@ export const isVoiceMessage = (attachment: Attachment): boolean => {
   const flag = SignalService.AttachmentPointer.Flags.VOICE_MESSAGE;
   const hasFlag =
     // tslint:disable-next-line no-bitwise
-    !is.undefined(attachment.flags) && (attachment.flags & flag) === flag;
+    !isUndefined(attachment.flags) && (attachment.flags & flag) === flag;
   if (hasFlag) {
     return true;
   }
 
   const isLegacyAndroidVoiceMessage =
-    !is.undefined(attachment.contentType) &&
+    !isUndefined(attachment.contentType) &&
     MIME.isAudio(attachment.contentType) &&
     !attachment.fileName;
   if (isLegacyAndroidVoiceMessage) {
@@ -347,7 +336,7 @@ export const save = ({
   getAbsolutePath: (relativePath: string) => string;
   timestamp?: number;
 }): void => {
-  const isObjectURLRequired = is.undefined(attachment.fileName);
+  const isObjectURLRequired = isUndefined(attachment.fileName);
   const filename = getSuggestedFilename({ attachment, timestamp, index });
   saveURLAsFile({ url: attachment.url, filename, document });
   if (isObjectURLRequired) {

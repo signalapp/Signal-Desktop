@@ -13,12 +13,11 @@ import { fromUInt8ArrayToBase64 } from '../utils/String';
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { addMessagePadding } from '../crypto/BufferPadding';
 import _ from 'lodash';
-import { storeOnNode } from '../apis/snode_api/SNodeAPI';
+import { getNowWithNetworkOffset, storeOnNode } from '../apis/snode_api/SNodeAPI';
 import { getSwarmFor } from '../apis/snode_api/snodePool';
 import { firstTrue } from '../utils/Promise';
 import { MessageSender } from '.';
 import { getMessageById } from '../../../ts/data/data';
-import { SNodeAPI } from '../apis/snode_api';
 import { getConversationController } from '../conversations';
 import { ed25519Str } from '../onions/onionPath';
 
@@ -27,7 +26,7 @@ const DEFAULT_CONNECTIONS = 1;
 // ================ SNODE STORE ================
 
 function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
-  const diffTimestamp = Date.now() - SNodeAPI.getLatestTimestampOffset();
+  const networkTimestamp = getNowWithNetworkOffset();
 
   const { plainTextBuffer } = message;
   const contentDecoded = SignalService.Content.decode(plainTextBuffer);
@@ -37,23 +36,23 @@ function overwriteOutgoingTimestampWithNetworkTimestamp(message: RawMessage) {
     if (dataMessage.syncTarget) {
       return {
         overRiddenTimestampBuffer: plainTextBuffer,
-        diffTimestamp: _.toNumber(dataMessage.timestamp),
+        networkTimestamp: _.toNumber(dataMessage.timestamp),
       };
     }
-    dataMessage.timestamp = diffTimestamp;
+    dataMessage.timestamp = networkTimestamp;
   }
   if (
     dataExtractionNotification &&
     dataExtractionNotification.timestamp &&
     dataExtractionNotification.timestamp > 0
   ) {
-    dataExtractionNotification.timestamp = diffTimestamp;
+    dataExtractionNotification.timestamp = networkTimestamp;
   }
   if (typingMessage && typingMessage.timestamp && typingMessage.timestamp > 0) {
-    typingMessage.timestamp = diffTimestamp;
+    typingMessage.timestamp = networkTimestamp;
   }
   const overRiddenTimestampBuffer = SignalService.Content.encode(contentDecoded).finish();
-  return { overRiddenTimestampBuffer, diffTimestamp };
+  return { overRiddenTimestampBuffer, networkTimestamp };
 }
 
 export function getMinRetryTimeout() {
@@ -79,7 +78,7 @@ export async function send(
 
       const {
         overRiddenTimestampBuffer,
-        diffTimestamp,
+        networkTimestamp,
       } = overwriteOutgoingTimestampWithNetworkTimestamp(message);
 
       const { envelopeType, cipherText } = await MessageEncrypter.encrypt(
@@ -88,7 +87,7 @@ export async function send(
         encryption
       );
 
-      const envelope = await buildEnvelope(envelopeType, device.key, diffTimestamp, cipherText);
+      const envelope = await buildEnvelope(envelopeType, device.key, networkTimestamp, cipherText);
 
       const data = wrapEnvelope(envelope);
       // make sure to update the local sent_at timestamp, because sometimes, we will get the just pushed message in the receiver side
@@ -96,20 +95,20 @@ export async function send(
       // and the isDuplicate messages relies on sent_at timestamp to be valid.
       const found = await getMessageById(message.identifier);
 
-      // make sure to not update the send timestamp if this a currently syncing message
+      // make sure to not update the sent timestamp if this a currently syncing message
       if (found && !found.get('sentSync')) {
-        found.set({ sent_at: diffTimestamp });
+        found.set({ sent_at: networkTimestamp });
         await found.commit();
       }
       await MessageSender.TEST_sendMessageToSnode(
         device.key,
         data,
         ttl,
-        diffTimestamp,
+        networkTimestamp,
         isSyncMessage,
         message.identifier
       );
-      return { wrappedEnvelope: data, effectiveTimestamp: diffTimestamp };
+      return { wrappedEnvelope: data, effectiveTimestamp: networkTimestamp };
     },
     {
       retries: Math.max(attempts - 1, 0),
@@ -119,6 +118,7 @@ export async function send(
   );
 }
 
+// tslint:disable-next-line: function-name
 export async function TEST_sendMessageToSnode(
   pubKey: string,
   data: Uint8Array,

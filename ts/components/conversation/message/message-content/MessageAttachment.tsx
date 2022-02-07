@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'underscore';
+import { clone } from 'lodash';
 import { getMessageById } from '../../../../data/data';
 import { MessageRenderingProps } from '../../../../models/messageType';
 import {
@@ -38,7 +38,7 @@ export type MessageAttachmentSelectorProps = Pick<
   | 'direction'
   | 'timestamp'
   | 'serverTimestamp'
-  | 'authorPhoneNumber'
+  | 'sender'
   | 'convoId'
 > & {
   attachments: Array<PropsForAttachment>;
@@ -81,11 +81,11 @@ export const MessageAttachment = (props: Props) => {
       }
 
       const messageTimestamp = attachmentProps?.timestamp || attachmentProps?.serverTimestamp || 0;
-      if (attachmentProps?.authorPhoneNumber && attachmentProps?.convoId) {
+      if (attachmentProps?.sender && attachmentProps?.convoId) {
         void saveAttachmentToDisk({
           attachment: attachments[0],
           messageTimestamp,
-          messageSender: attachmentProps?.authorPhoneNumber,
+          messageSender: attachmentProps?.sender,
           conversationId: attachmentProps?.convoId,
         });
       }
@@ -94,7 +94,7 @@ export const MessageAttachment = (props: Props) => {
       attachmentProps?.attachments,
       attachmentProps?.timestamp,
       attachmentProps?.serverTimestamp,
-      attachmentProps?.authorPhoneNumber,
+      attachmentProps?.sender,
       attachmentProps?.convoId,
     ]
   );
@@ -130,7 +130,7 @@ export const MessageAttachment = (props: Props) => {
         />
       </div>
     );
-  } else if (!firstAttachment.pending && isAudio(attachments)) {
+  } else if (!firstAttachment.pending && !firstAttachment.error && isAudio(attachments)) {
     return (
       <div
         role="main"
@@ -155,7 +155,7 @@ export const MessageAttachment = (props: Props) => {
       <div className={classNames('module-message__generic-attachment')}>
         {pending ? (
           <div className="module-message__generic-attachment__spinner-container">
-            <Spinner size="small" direction={direction} />
+            <Spinner size="small" />
           </div>
         ) : (
           <div className="module-message__generic-attachment__icon-container">
@@ -223,7 +223,7 @@ const onClickAttachment = async (onClickProps: {
       found.get('timestamp') || found.get('serverTimestamp') || found.get('received_at');
 
     return {
-      index: _.clone(index),
+      index: clone(index),
       objectURL: attachmentForMedia.url || undefined,
       contentType: attachmentForMedia.contentType,
       attachment: attachmentForMedia,

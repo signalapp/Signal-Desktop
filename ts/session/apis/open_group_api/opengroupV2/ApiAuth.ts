@@ -84,35 +84,6 @@ export async function getAuthToken({
   return oneAtATimeGetAuth({ roomId, serverUrl });
 }
 
-export type DeleteAuthTokenRequest = OpenGroupRequestCommonType & { token: string };
-export const deleteAuthToken = async ({
-  serverUrl,
-  roomId,
-  token,
-}: DeleteAuthTokenRequest): Promise<void> => {
-  const request: OpenGroupV2Request = {
-    method: 'DELETE',
-    room: roomId,
-    server: serverUrl,
-    isAuthRequired: true,
-    endpoint: 'auth_token',
-    forcedTokenToUse: token,
-  };
-  try {
-    const result = await sendApiV2Request(request);
-    const statusCode = parseStatusCodeFromOnionRequest(result);
-    if (statusCode !== 200) {
-      // FIXME not yet sure why this call always return 401
-      // window?.log?.warn(`Could not deleteAuthToken, status code: ${statusCode}`);
-      return;
-    }
-    return;
-  } catch (e) {
-    window?.log?.error('deleteAuthToken failed:', e);
-    return;
-  }
-};
-
 // tslint:disable: member-ordering
 export async function requestNewAuthToken({
   serverUrl,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import classNames from 'classnames';
 import { QRCode } from 'react-qr-svg';
 
@@ -9,7 +9,6 @@ import { SyncUtils, ToastUtils, UserUtils } from '../../session/utils';
 
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 
-import { AttachmentUtil } from '../../util';
 import { getConversationController } from '../../session/conversations';
 import { SpacerLG, SpacerMD } from '../basic/Text';
 import autoBind from 'auto-bind';
@@ -20,17 +19,27 @@ import { SessionSpinner } from '../basic/SessionSpinner';
 import { SessionIconButton } from '../icon';
 import { MAX_USERNAME_LENGTH } from '../registration/RegistrationStages';
 import { SessionWrapperModal } from '../SessionWrapperModal';
+import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
+import { sanitizeSessionUsername } from '../../session/utils/String';
 
 interface State {
   profileName: string;
   setProfileName: string;
-  avatar: string;
+  oldAvatarPath: string;
+  newAvatarObjectUrl: string | null;
   mode: 'default' | 'edit' | 'qr';
   loading: boolean;
 }
 
+const QRView = ({ sessionID }: { sessionID: string }) => {
+  return (
+    <div className="qr-image">
+      <QRCode value={sessionID} bgColor="#FFFFFF" fgColor="#1B1B1B" level="L" />
+    </div>
+  );
+};
+
 export class EditProfileDialog extends React.Component<{}, State> {
-  private readonly inputEl: any;
   private readonly convo: ConversationModel;
 
   constructor(props: any) {
@@ -43,12 +52,11 @@ export class EditProfileDialog extends React.Component<{}, State> {
     this.state = {
       profileName: this.convo.getProfileName() || '',
       setProfileName: this.convo.getProfileName() || '',
-      avatar: this.convo.getAvatarPath() || '',
+      oldAvatarPath: this.convo.getAvatarPath() || '',
+      newAvatarObjectUrl: null,
       mode: 'default',
       loading: false,
     };
-
-    this.inputEl = React.createRef();
   }
 
   public componentDidMount() {
@@ -91,7 +99,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
         >
           <SpacerMD />
 
-          {viewQR && this.renderQRView(sessionID)}
+          {viewQR && <QRView sessionID={sessionID} />}
           {viewDefault && this.renderDefaultView()}
           {viewEdit && this.renderEditView()}
 
@@ -113,7 +121,7 @@ export class EditProfileDialog extends React.Component<{}, State> {
                 buttonType={SessionButtonType.BrandOutline}
                 buttonColor={SessionButtonColor.Green}
                 onClick={() => {
-                  this.copySessionID(sessionID);
+                  copySessionID(sessionID);
                 }}
               />
             ) : (
@@ -142,14 +150,6 @@ export class EditProfileDialog extends React.Component<{}, State> {
           <div className="avatar-center-inner">
             {this.renderAvatar()}
             <div className="image-upload-section" role="button" onClick={this.fireInputEvent} />
-            <input
-              type="file"
-              ref={this.inputEl}
-              className="input-file"
-              placeholder="input file"
-              name="name"
-              onChange={this.onFileSelected}
-            />
             <div
               className="qr-view-button"
               onClick={() => {
@@ -165,16 +165,15 @@ export class EditProfileDialog extends React.Component<{}, State> {
     );
   }
 
-  private fireInputEvent() {
-    this.setState(
-      state => ({ ...state, mode: 'edit' }),
-      () => {
-        const el = this.inputEl.current;
-        if (el) {
-          el.click();
-        }
-      }
-    );
+  private async fireInputEvent() {
+    const scaledAvatarUrl = await pickFileForAvatar();
+
+    if (scaledAvatarUrl) {
+      this.setState({
+        newAvatarObjectUrl: scaledAvatarUrl,
+        mode: 'edit',
+      });
+    }
   }
 
   private renderDefaultView() {
@@ -220,33 +219,13 @@ export class EditProfileDialog extends React.Component<{}, State> {
     );
   }
 
-  private renderQRView(sessionID: string) {
-    const bgColor = '#FFFFFF';
-    const fgColor = '#1B1B1B';
-
-    return (
-      <div className="qr-image">
-        <QRCode value={sessionID} bgColor={bgColor} fgColor={fgColor} level="L" />
-      </div>
-    );
-  }
-
-  private onFileSelected() {
-    const file = this.inputEl.current.files[0];
-    const url = window.URL.createObjectURL(file);
-
-    this.setState({
-      avatar: url,
-    });
-  }
-
   private renderAvatar() {
-    const { avatar, profileName } = this.state;
+    const { oldAvatarPath, newAvatarObjectUrl, profileName } = this.state;
     const userName = profileName || this.convo.id;
 
     return (
       <Avatar
-        forcedAvatarPath={avatar}
+        forcedAvatarPath={newAvatarObjectUrl || oldAvatarPath}
         forcedName={userName}
         size={AvatarSize.XL}
         pubkey={this.convo.id}
@@ -254,13 +233,10 @@ export class EditProfileDialog extends React.Component<{}, State> {
     );
   }
 
-  private onNameEdited(event: any) {
-    const newName = event.target.value.replace(window.displayNameRegex, '');
-    this.setState(state => {
-      return {
-        ...state,
-        profileName: newName,
-      };
+  private onNameEdited(event: ChangeEvent<HTMLInputElement>) {
+    const newName = sanitizeSessionUsername(event.target.value);
+    this.setState({
+      profileName: newName,
     });
   }
 
@@ -279,35 +255,23 @@ export class EditProfileDialog extends React.Component<{}, State> {
     }
   }
 
-  private copySessionID(sessionID: string) {
-    window.clipboard.writeText(sessionID);
-    ToastUtils.pushCopiedToClipBoard();
-  }
-
   /**
    * Tidy the profile name input text and save the new profile name and avatar
    */
   private onClickOK() {
-    const newName = this.state.profileName ? this.state.profileName.trim() : '';
+    const { newAvatarObjectUrl, profileName } = this.state;
+    const newName = profileName ? profileName.trim() : '';
 
     if (newName.length === 0 || newName.length > MAX_USERNAME_LENGTH) {
       return;
     }
-
-    const avatar =
-      this.inputEl &&
-      this.inputEl.current &&
-      this.inputEl.current.files &&
-      this.inputEl.current.files.length > 0
-        ? this.inputEl.current.files[0]
-        : null;
 
     this.setState(
       {
         loading: true,
       },
       async () => {
-        await this.commitProfileEdits(newName, avatar);
+        await commitProfileEdits(newName, newAvatarObjectUrl);
         this.setState({
           loading: false,
 
@@ -320,60 +284,46 @@ export class EditProfileDialog extends React.Component<{}, State> {
 
   private closeDialog() {
     window.removeEventListener('keyup', this.onKeyUp);
-
     window.inboxStore?.dispatch(editProfileModal(null));
   }
+}
 
-  private async commitProfileEdits(newName: string, avatar: any) {
-    const ourNumber = UserUtils.getOurPubKeyStrFromCache();
-    const conversation = await getConversationController().getOrCreateAndWait(
-      ourNumber,
-      ConversationTypeEnum.PRIVATE
-    );
+async function commitProfileEdits(newName: string, scaledAvatarUrl: string | null) {
+  const ourNumber = UserUtils.getOurPubKeyStrFromCache();
+  const conversation = await getConversationController().getOrCreateAndWait(
+    ourNumber,
+    ConversationTypeEnum.PRIVATE
+  );
 
-    if (avatar) {
-      const data = await AttachmentUtil.readFile({ file: avatar });
-      // Ensure that this file is either small enough or is resized to meet our
-      //   requirements for attachments
-      try {
-        const withBlob = await AttachmentUtil.autoScale(
-          {
-            contentType: avatar.type,
-            file: new Blob([data.data], {
-              type: avatar.contentType,
-            }),
-          },
-          {
-            maxSide: 640,
-            maxSize: 1000 * 1024,
-          }
-        );
-        const dataResized = await window.Signal.Types.Attachment.arrayBufferFromFile(withBlob.file);
-
-        // For simplicity we use the same attachment pointer that would send to
-        // others, which means we need to wait for the database response.
-        // To avoid the wait, we create a temporary url for the local image
-        // and use it until we the the response from the server
-        // const tempUrl = window.URL.createObjectURL(avatar);
-        // await conversation.setLokiProfile({ displayName: newName });
-        // conversation.set('avatar', tempUrl);
-
-        await uploadOurAvatar(dataResized);
-      } catch (error) {
-        window.log.error(
-          'showEditProfileDialog Error ensuring that image is properly sized:',
-          error && error.stack ? error.stack : error
-        );
+  if (scaledAvatarUrl?.length) {
+    try {
+      const blobContent = await (await fetch(scaledAvatarUrl)).blob();
+      if (!blobContent || !blobContent.size) {
+        throw new Error('Failed to fetch blob content from scaled avatar');
       }
-      return;
+      await uploadOurAvatar(await blobContent.arrayBuffer());
+    } catch (error) {
+      if (error.message && error.message.length) {
+        ToastUtils.pushToastError('edit-profile', error.message);
+      }
+      window.log.error(
+        'showEditProfileDialog Error ensuring that image is properly sized:',
+        error && error.stack ? error.stack : error
+      );
     }
-    // do not update the avatar if it did not change
-    await conversation.setLokiProfile({
-      displayName: newName,
-    });
-    // might be good to not trigger a sync if the name did not change
-    await conversation.commit();
-    UserUtils.setLastProfileUpdateTimestamp(Date.now());
-    await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+    return;
   }
+  // do not update the avatar if it did not change
+  await conversation.setLokiProfile({
+    displayName: newName,
+  });
+  // might be good to not trigger a sync if the name did not change
+  await conversation.commit();
+  UserUtils.setLastProfileUpdateTimestamp(Date.now());
+  await SyncUtils.forceSyncConfigurationNowIfNeeded(true);
+}
+
+function copySessionID(sessionID: string) {
+  window.clipboard.writeText(sessionID);
+  ToastUtils.pushCopiedToClipBoard();
 }

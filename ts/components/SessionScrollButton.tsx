@@ -5,10 +5,6 @@ import { getShowScrollButton } from '../state/selectors/conversations';
 
 import { SessionIconButton } from './icon';
 
-type Props = {
-  onClick?: () => any;
-};
-
 const SessionScrollButtonDiv = styled.div`
   position: fixed;
   z-index: 2;
@@ -16,7 +12,7 @@ const SessionScrollButtonDiv = styled.div`
   animation: fadein var(--default-duration);
 `;
 
-export const SessionScrollButton = (props: Props) => {
+export const SessionScrollButton = (props: { onClickScrollBottom: () => void }) => {
   const show = useSelector(getShowScrollButton);
 
   return (
@@ -25,7 +21,7 @@ export const SessionScrollButton = (props: Props) => {
         iconType="chevron"
         iconSize={'huge'}
         isHidden={!show}
-        onClick={props.onClick}
+        onClick={props.onClickScrollBottom}
       />
     </SessionScrollButtonDiv>
   );

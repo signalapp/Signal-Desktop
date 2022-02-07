@@ -9,13 +9,12 @@ import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
 import { MemberListItem } from '../MemberListItem';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { useDispatch } from 'react-redux';
-import { useConversationPropsById } from '../../hooks/useParamSelector';
+import { useConversationPropsById, useWeAreAdmin } from '../../hooks/useParamSelector';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
-import { useWeAreAdmin } from '../../hooks/useWeAreAdmin';
 import { useSet } from '../../hooks/useSet';
-import { ClosedGroup } from '../../session';
 import { getConversationController } from '../../session/conversations';
+import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
 
 type Props = {
   conversationId: string;
@@ -104,13 +103,6 @@ const ZombiesList = ({ convoId }: { convoId: string }) => {
     </>
   );
 };
-//   // Return members that would comprise the group given the
-//   // current state in `users`
-//   private getWouldBeMembers(users: Array<ContactType>) {
-//     return users.filter(d => {
-//       return (d.existingMember && !d.checkmarked) || (!d.existingMember && d.checkmarked);
-//     });
-//   }
 
 // tslint:disable-next-line: max-func-body-length
 async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
@@ -164,15 +156,7 @@ async function onSubmit(convoId: string, membersAfterUpdate: Array<string>) {
     memberAfterUpdate => !_.includes(membersToRemove, memberAfterUpdate)
   );
 
-  const avatarPath = convoProps.avatarPath || '';
-  const groupName = convoProps.name;
-
-  void ClosedGroup.initiateGroupUpdate(
-    convoId,
-    groupName || 'Unknown',
-    filteredMembers,
-    avatarPath
-  );
+  void initiateClosedGroupUpdate(convoId, convoProps.name || 'Unknown', filteredMembers);
 }
 
 export const UpdateGroupMembersDialog = (props: Props) => {

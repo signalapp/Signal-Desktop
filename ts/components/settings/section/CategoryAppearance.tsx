@@ -131,6 +131,28 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('translation')}
         />
+        {/* <SessionSettingButtonItem
+          title={window.i18n('trimDatabase')}
+          description={window.i18n('trimDatabaseDescription')}
+          onClick={async () => {
+            const msgCount = await getMessageCount();
+            const deleteAmount = Math.max(msgCount - 10000, 0);
+
+            dispatch(
+              updateConfirmModal({
+                onClickOk: () => {
+                  void trimMessages();
+                },
+                onClickClose: () => {
+                  updateConfirmModal(null);
+                },
+                message: window.i18n('trimDatabaseConfirmationBody', [`${deleteAmount}`]),
+              })
+            );
+          }}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={window.i18n('trimDatabase')}
+        /> */}
         <SessionSettingButtonItem
           onClick={() => {
             ipcRenderer.send('show-debug-log');
@@ -138,6 +160,13 @@ export const SettingsCategoryAppearance = (props: { hasPassword: boolean | null 
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('showDebugLog')}
         />
+        {/* <SessionSettingButtonItem
+          onClick={async () => {
+            await fillWithTestData(100, 1000);
+          }}
+          buttonColor={SessionButtonColor.Primary}
+          buttonText={'Spam fill DB using cached'}
+        /> */}
       </>
     );
   }

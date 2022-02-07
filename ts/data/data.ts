@@ -1,12 +1,19 @@
 import { ipcRenderer } from 'electron';
 
 // tslint:disable: no-require-imports no-var-requires one-variable-per-declaration no-void-expression
+// tslint:disable: function-name
 
 import _ from 'lodash';
-import { ConversationCollection, ConversationModel } from '../models/conversation';
+import { MessageResultProps } from '../components/search/MessageSearchResults';
+import {
+  ConversationCollection,
+  ConversationModel,
+  ConversationTypeEnum,
+} from '../models/conversation';
 import { MessageCollection, MessageModel } from '../models/message';
 import { MessageAttributes } from '../models/messageType';
 import { HexKeyPair } from '../receiver/keypairs';
+import { getConversationController } from '../session/conversations';
 import { getSodium } from '../session/crypto';
 import { PubKey } from '../session/types';
 import { fromArrayBufferToBase64, fromBase64ToArrayBuffer } from '../session/utils/String';
@@ -109,7 +116,8 @@ const channelsToMake = {
 
   removeAllMessagesInConversation,
 
-  getMessageBySender,
+  getMessageCount,
+  getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
@@ -119,10 +127,14 @@ const channelsToMake = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
   getLastHashBySnode,
+  trimMessages,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -155,6 +167,9 @@ const channelsToMake = {
   addClosedGroupEncryptionKeyPair,
   removeAllClosedGroupEncryptionKeyPairs,
   removeOneOpenGroupV1Message,
+
+  // dev performance testing
+  fillWithTestData,
 
   // open group v2
   ...channelstoMakeOpenGroupV2,
@@ -191,8 +206,11 @@ export function init() {
   });
 }
 
-// When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
-// We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
+/**
+ * When IPC arguments are prepared for the cross-process send, they are JSON.stringified.
+ * We can't send ArrayBuffers or BigNumbers (what we get from proto library for dates).
+ * @param data - data to be cleaned
+ */
 function _cleanData(data: any): any {
   const keys = Object.keys(data);
 
@@ -573,9 +591,14 @@ export async function searchConversations(query: string): Promise<Array<any>> {
   return conversations;
 }
 
-export async function searchMessages(query: string, { limit }: any = {}): Promise<Array<any>> {
-  const messages = await channels.searchMessages(query, { limit });
-  return messages;
+export async function searchMessages(
+  query: string,
+  limit: number
+): Promise<Array<MessageResultProps>> {
+  const messages = (await channels.searchMessages(query, limit)) as Array<MessageResultProps>;
+  return _.uniqWith(messages, (left: { id: string }, right: { id: string }) => {
+    return left.id === right.id;
+  });
 }
 
 /**
@@ -584,11 +607,11 @@ export async function searchMessages(query: string, { limit }: any = {}): Promis
 export async function searchMessagesInConversation(
   query: string,
   conversationId: string,
-  options: { limit: number } | undefined
-): Promise<Object> {
-  const messages = await channels.searchMessagesInConversation(query, conversationId, {
-    limit: options?.limit,
-  });
+  limit: number
+): Promise<Array<MessageAttributes>> {
+  const messages = (await channels.searchMessagesInConversation(query, conversationId, {
+    limit,
+  })) as Array<MessageAttributes>;
   return messages;
 }
 
@@ -669,18 +692,15 @@ export async function getMessageById(
   return new MessageModel(message);
 }
 
-export async function getMessageBySender({
+export async function getMessageBySenderAndSentAt({
   source,
-  sourceDevice,
   sentAt,
 }: {
   source: string;
-  sourceDevice: number;
   sentAt: number;
 }): Promise<MessageModel | null> {
-  const messages = await channels.getMessageBySender({
+  const messages = await channels.getMessageBySenderAndSentAt({
     source,
-    sourceDevice,
     sentAt,
   });
   if (!messages || !messages.length) {
@@ -743,12 +763,10 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
 
 export async function getMessagesByConversation(
   conversationId: string,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%', skipTimerInit = false }
+  { skipTimerInit = false, messageId = null }: { skipTimerInit?: false; messageId: string | null }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
-    limit,
-    receivedAt,
-    type,
+    messageId,
   });
   if (skipTimerInit) {
     for (const message of messages) {
@@ -758,10 +776,74 @@ export async function getMessagesByConversation(
   return new MessageCollection(messages);
 }
 
+/**
+ * This function should only be used when you don't want to render the messages.
+ * It just grabs the last messages of a conversation.
+ *
+ * To be used when you want for instance to remove messages from a conversations, in order.
+ * Or to trigger downloads of a attachments from a just approved contact (clicktotrustSender)
+ * @param conversationId the conversationId to fetch messages from
+ * @param limit the maximum number of messages to return
+ * @param skipTimerInit  see MessageModel.skipTimerInit
+ * @returns the fetched messageModels
+ */
+export async function getLastMessagesByConversation(
+  conversationId: string,
+  limit: number,
+  skipTimerInit: boolean
+): Promise<MessageCollection> {
+  const messages = await channels.getLastMessagesByConversation(conversationId, limit);
+  if (skipTimerInit) {
+    for (const message of messages) {
+      message.skipTimerInit = skipTimerInit;
+    }
+  }
+  return new MessageCollection(messages);
+}
+
+export async function getLastMessageIdInConversation(conversationId: string) {
+  const collection = await getLastMessagesByConversation(conversationId, 1, true);
+  return collection.models.length ? collection.models[0].id : null;
+}
+
+export async function getLastMessageInConversation(conversationId: string) {
+  const messages = await channels.getLastMessagesByConversation(conversationId, 1);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
+}
+
+export async function getOldestMessageInConversation(conversationId: string) {
+  const messages = await channels.getOldestMessageInConversation(conversationId);
+  for (const message of messages) {
+    message.skipTimerInit = true;
+  }
+
+  const collection = new MessageCollection(messages);
+  return collection.length ? collection.models[0] : null;
+}
+
+/**
+ * @returns Returns count of all messages in the database
+ */
+export async function getMessageCount() {
+  return channels.getMessageCount();
+}
+
 export async function getFirstUnreadMessageIdInConversation(
   conversationId: string
 ): Promise<string | undefined> {
   return channels.getFirstUnreadMessageIdInConversation(conversationId);
+}
+
+export async function getFirstUnreadMessageWithMention(
+  conversationId: string,
+  ourPubkey: string
+): Promise<string | undefined> {
+  return channels.getFirstUnreadMessageWithMention(conversationId, ourPubkey);
 }
 
 export async function hasConversationOutgoingMessage(conversationId: string): Promise<boolean> {
@@ -778,12 +860,10 @@ export async function getSeenMessagesByHashList(hashes: Array<string>): Promise<
 export async function removeAllMessagesInConversation(conversationId: string): Promise<void> {
   let messages;
   do {
-    // Yes, we really want the await in the loop. We're deleting 100 at a
+    // Yes, we really want the await in the loop. We're deleting 500 at a
     //   time so we don't use too much memory.
     // eslint-disable-next-line no-await-in-loop
-    messages = await getMessagesByConversation(conversationId, {
-      limit: 500,
-    });
+    messages = await getLastMessagesByConversation(conversationId, 500, false);
     if (!messages.length) {
       return;
     }
@@ -799,6 +879,11 @@ export async function removeAllMessagesInConversation(conversationId: string): P
     // eslint-disable-next-line no-await-in-loop
     await channels.removeMessage(ids);
   } while (messages.length > 0);
+}
+
+export async function trimMessages(): Promise<void> {
+  await channels.trimMessages(1000);
+  return;
 }
 
 export async function getMessagesBySentAt(sentAt: number): Promise<MessageCollection> {
@@ -827,11 +912,11 @@ export async function getUnprocessedCount(): Promise<number> {
   return channels.getUnprocessedCount();
 }
 
-export async function getAllUnprocessed(): Promise<any> {
+export async function getAllUnprocessed(): Promise<Array<UnprocessedParameter>> {
   return channels.getAllUnprocessed();
 }
 
-export async function getUnprocessedById(id: string): Promise<any> {
+export async function getUnprocessedById(id: string): Promise<UnprocessedParameter | undefined> {
   return channels.getUnprocessedById(id);
 }
 
@@ -843,6 +928,8 @@ export type UnprocessedParameter = {
   attempts: number;
   messageHash: string;
   senderIdentity?: string;
+  decrypted?: string; // added once the envelopes's content is decrypted with updateCache
+  source?: string; // added once the envelopes's content is decrypted with updateCache
 };
 
 export async function saveUnprocessed(data: UnprocessedParameter): Promise<string> {
@@ -963,4 +1050,38 @@ export async function updateSnodePoolOnDb(snodesAsJsonString: string): Promise<v
 /** Returns the number of message left to remove (opengroupv1) */
 export async function removeOneOpenGroupV1Message(): Promise<number> {
   return channels.removeOneOpenGroupV1Message();
+}
+
+/**
+ * Generates fake conversations and distributes messages amongst the conversations randomly
+ * @param numConvosToAdd Amount of fake conversations to generate
+ * @param numMsgsToAdd Number of fake messages to generate
+ */
+export async function fillWithTestData(convs: number, msgs: number) {
+  const newConvos = [];
+  for (let convsAddedCount = 0; convsAddedCount < convs; convsAddedCount++) {
+    const convoId = `${Date.now()} + ${convsAddedCount}`;
+    const newConvo = await getConversationController().getOrCreateAndWait(
+      convoId,
+      ConversationTypeEnum.PRIVATE
+    );
+    newConvos.push(newConvo);
+  }
+
+  for (let msgsAddedCount = 0; msgsAddedCount < msgs; msgsAddedCount++) {
+    // tslint:disable: insecure-random
+    const convoToChoose = newConvos[Math.floor(Math.random() * newConvos.length)];
+    const direction = Math.random() > 0.5 ? 'outgoing' : 'incoming';
+    const body = `spongebob ${new Date().toString()}`;
+    if (direction === 'outgoing') {
+      await convoToChoose.addSingleOutgoingMessage({
+        body,
+      });
+    } else {
+      await convoToChoose.addSingleIncomingMessage({
+        source: convoToChoose.id,
+        body,
+      });
+    }
+  }
 }

@@ -1,9 +1,8 @@
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'underscore';
 import { replyToMessage } from '../../../../interactions/conversationInteractions';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import { toggleSelectedMessageId } from '../../../../state/ducks/conversations';
 import {
   getMessageContentWithStatusesSelectorProps,
@@ -22,9 +21,9 @@ export type MessageContentWithStatusSelectorProps = Pick<
 
 type Props = {
   messageId: string;
-  onQuoteClick: (quote: QuoteClickOptions) => void;
   ctxMenuID: string;
   isDetailView?: boolean;
+  dataTestId?: string;
 };
 
 export const MessageContentWithStatuses = (props: Props) => {
@@ -64,7 +63,7 @@ export const MessageContentWithStatuses = (props: Props) => {
     }
   };
 
-  const { messageId, onQuoteClick, ctxMenuID, isDetailView } = props;
+  const { messageId, ctxMenuID, isDetailView, dataTestId } = props;
   if (!contentProps) {
     return null;
   }
@@ -78,18 +77,23 @@ export const MessageContentWithStatuses = (props: Props) => {
       onClick={onClickOnMessageOuterContainer}
       onDoubleClickCapture={onDoubleClickReplyToMessage}
       style={{ width: hasAttachments && isTrustedForAttachmentDownload ? 'min-content' : 'auto' }}
+      data-testid={dataTestId}
     >
-      <MessageStatus messageId={messageId} isCorrectSide={isIncoming} />
+      <MessageStatus
+        dataTestId="msg-status-incoming"
+        messageId={messageId}
+        isCorrectSide={isIncoming}
+      />
       <div>
         <MessageAuthorText messageId={messageId} />
 
-        <MessageContent
-          messageId={messageId}
-          isDetailView={isDetailView}
-          onQuoteClick={onQuoteClick}
-        />
+        <MessageContent messageId={messageId} isDetailView={isDetailView} />
       </div>
-      <MessageStatus messageId={messageId} isCorrectSide={!isIncoming} />
+      <MessageStatus
+        dataTestId="msg-status-outgoing"
+        messageId={messageId}
+        isCorrectSide={!isIncoming}
+      />
       {!isDeleted && <MessageContextMenu messageId={messageId} contextMenuId={ctxMenuID} />}
     </div>
   );

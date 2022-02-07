@@ -7,9 +7,11 @@ import { updateGroupNameModal } from '../../state/ducks/modalDialog';
 import autoBind from 'auto-bind';
 import { ConversationModel } from '../../models/conversation';
 import { getConversationController } from '../../session/conversations';
-import { ClosedGroup } from '../../session';
 import { SessionWrapperModal } from '../SessionWrapperModal';
 import { SessionButton, SessionButtonColor } from '../basic/SessionButton';
+import { initiateOpenGroupUpdate } from '../../session/group/open-group';
+import { initiateClosedGroupUpdate } from '../../session/group/closed-group';
+import { pickFileForAvatar } from '../../types/attachments/VisualAttachment';
 
 type Props = {
   conversationId: string;
@@ -19,11 +21,11 @@ interface State {
   groupName: string | undefined;
   errorDisplayed: boolean;
   errorMessage: string;
-  avatar: string | null;
+  oldAvatarPath: string | null;
+  newAvatarObjecturl: string | null;
 }
 
 export class UpdateGroupNameDialog extends React.Component<Props, State> {
-  private readonly inputEl: any;
   private readonly convo: ConversationModel;
 
   constructor(props: Props) {
@@ -36,9 +38,9 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
       groupName: this.convo.getName(),
       errorDisplayed: false,
       errorMessage: 'placeholder',
-      avatar: this.convo.getAvatarPath(),
+      oldAvatarPath: this.convo.getAvatarPath(),
+      newAvatarObjecturl: null,
     };
-    this.inputEl = React.createRef();
   }
 
   public componentDidMount() {
@@ -50,24 +52,24 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
   }
 
   public onClickOK() {
-    if (!this.state.groupName?.trim()) {
+    const { groupName, newAvatarObjecturl, oldAvatarPath } = this.state;
+    const trimmedGroupName = groupName?.trim();
+    if (!trimmedGroupName) {
       this.onShowError(window.i18n('emptyGroupNameError'));
 
       return;
     }
 
-    const newAvatarPath =
-      this?.inputEl?.current?.files?.length > 0 ? this.inputEl.current.files[0] : null; // otherwise use the current avatar
+    if (trimmedGroupName !== this.convo.getName() || newAvatarObjecturl !== oldAvatarPath) {
+      if (this.convo.isPublic()) {
+        void initiateOpenGroupUpdate(this.convo.id, trimmedGroupName, {
+          objectUrl: newAvatarObjecturl,
+        });
+      } else {
+        const members = this.convo.get('members') || [];
 
-    if (this.state.groupName !== this.convo.getName() || newAvatarPath !== this.state.avatar) {
-      const members = this.convo.get('members') || [];
-
-      void ClosedGroup.initiateGroupUpdate(
-        this.convo.id,
-        this.state.groupName,
-        members,
-        newAvatarPath
-      );
+        void initiateClosedGroupUpdate(this.convo.id, trimmedGroupName, members);
+      }
     }
 
     this.closeDialog();
@@ -183,6 +185,8 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     const isPublic = this.convo.isPublic();
     const pubkey = this.convo.id;
 
+    const { newAvatarObjecturl, oldAvatarPath } = this.state;
+
     if (!isPublic) {
       return undefined;
     }
@@ -191,36 +195,21 @@ export class UpdateGroupNameDialog extends React.Component<Props, State> {
     return (
       <div className="avatar-center">
         <div className="avatar-center-inner">
-          <Avatar forcedAvatarPath={this.state.avatar || ''} size={AvatarSize.XL} pubkey={pubkey} />
-          <div
-            className="image-upload-section"
-            role="button"
-            onClick={() => {
-              const el = this.inputEl.current;
-              if (el) {
-                el.click();
-              }
-            }}
+          <Avatar
+            forcedAvatarPath={newAvatarObjecturl || oldAvatarPath}
+            size={AvatarSize.XL}
+            pubkey={pubkey}
           />
-          <input
-            type="file"
-            ref={this.inputEl}
-            className="input-file"
-            placeholder="input file"
-            name="name"
-            onChange={this.onFileSelected}
-          />
+          <div className="image-upload-section" role="button" onClick={this.fireInputEvent} />
         </div>
       </div>
     );
   }
 
-  private onFileSelected() {
-    const file = this.inputEl.current.files[0];
-    const url = window.URL.createObjectURL(file);
-
-    this.setState({
-      avatar: url,
-    });
+  private async fireInputEvent() {
+    const scaledObjectUrl = await pickFileForAvatar();
+    if (scaledObjectUrl) {
+      this.setState({ newAvatarObjecturl: scaledObjectUrl });
+    }
   }
 }

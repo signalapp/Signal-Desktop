@@ -14,12 +14,9 @@ import {
 
 import { getIntl, getOurNumber } from './user';
 import { BlockedNumberController } from '../../util';
-import { ConversationNotificationSetting, ConversationTypeEnum } from '../../models/conversation';
+import { ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
-import {
-  ConversationHeaderProps,
-  ConversationHeaderTitleProps,
-} from '../../components/conversation/ConversationHeader';
+import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
 import { getIsMessageRequestsEnabled } from './userConfig';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
@@ -163,12 +160,15 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
   }
 );
 
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
+const getFirstUnreadMessageId = createSelector(getConversations, (state: ConversationsStateType):
+  | string
+  | undefined => {
+  return state.firstUnreadMessageId;
+});
+
+export const getConversationHasUnread = createSelector(getFirstUnreadMessageId, unreadId => {
+  return Boolean(unreadId);
+});
 
 export type MessagePropsType =
   | 'group-notification'
@@ -189,9 +189,11 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
     return sortedMessages.map((msg, index) => {
       const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
       const messageTimestamp = msg.propsForMessage.serverTimestamp || msg.propsForMessage.timestamp;
+      // do not show the date break if we are the oldest message (no previous)
+      // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? 0
+          ? Number.MAX_SAFE_INTEGER
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 
@@ -532,57 +534,24 @@ export const getCurrentNotificationSettingText = createSelector(getSelectedConve
   }
 });
 
-export const getConversationHeaderProps = createSelector(getSelectedConversation, (state):
-  | ConversationHeaderProps
-  | undefined => {
-  if (!state) {
-    return undefined;
-  }
-
-  const expirationSettingName = state.expireTimer
-    ? window.Whisper.ExpirationTimerOptions.getName(state.expireTimer || 0)
-    : null;
-
-  return {
-    conversationKey: state.id,
-    isPrivate: !!state.isPrivate,
-    currentNotificationSetting:
-      state.currentNotificationSetting || ConversationNotificationSetting[0], // if undefined, it is 'all'
-    isBlocked: !!state.isBlocked,
-    left: !!state.left,
-    avatarPath: state.avatarPath || null,
-    expirationSettingName: expirationSettingName,
-    hasNickname: !!state.hasNickname,
-    weAreAdmin: !!state.weAreAdmin,
-    isKickedFromGroup: !!state.isKickedFromGroup,
-    isMe: !!state.isMe,
-    members: state.members || [],
-    isPublic: !!state.isPublic,
-    profileName: state.profileName,
-    name: state.name,
-    subscriberCount: state.subscriberCount,
-    isGroup: !!state.isGroup,
-  };
-});
-
 export const getIsSelectedPrivate = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isPrivate || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isPrivate || false;
   }
 );
 
 export const getIsSelectedBlocked = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isBlocked || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isBlocked || false;
   }
 );
 
 export const getIsSelectedNoteToSelf = createSelector(
-  getConversationHeaderProps,
-  (headerProps): boolean => {
-    return headerProps?.isMe || false;
+  getSelectedConversation,
+  (selectedProps): boolean => {
+    return selectedProps?.isMe || false;
   }
 );
 
@@ -631,11 +600,6 @@ export const areMoreMessagesBeingFetched = createSelector(
   (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
 );
 
-export const getHaveDoneFirstScroll = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.haveDoneFirstScroll
-);
-
 export const getShowScrollButton = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.showScrollButton || false
@@ -644,6 +608,12 @@ export const getShowScrollButton = createSelector(
 export const getQuotedMessageToAnimate = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
+);
+
+export const getShouldHighlightMessage = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean =>
+    Boolean(state.animateQuotedMessageId && state.shouldHighlightMessage)
 );
 
 export const getNextMessageToPlayId = createSelector(
@@ -667,14 +637,13 @@ function updateFirstMessageOfSeries(
   const sortedMessageProps: Array<SortedMessageModelProps> = [];
 
   for (let i = 0; i < messageModelsProps.length; i++) {
-    const currentSender = messageModelsProps[i].propsForMessage?.authorPhoneNumber;
+    const currentSender = messageModelsProps[i].propsForMessage?.sender;
     // most recent message is at index 0, so the previous message sender is 1+index
     const previousSender =
       i < messageModelsProps.length - 1
-        ? messageModelsProps[i + 1].propsForMessage?.authorPhoneNumber
+        ? messageModelsProps[i + 1].propsForMessage?.sender
         : undefined;
-    const nextSender =
-      i > 0 ? messageModelsProps[i - 1].propsForMessage?.authorPhoneNumber : undefined;
+    const nextSender = i > 0 ? messageModelsProps[i - 1].propsForMessage?.sender : undefined;
     // Handle firstMessageOfSeries for conditional avatar rendering
 
     sortedMessageProps.push({
@@ -714,10 +683,14 @@ function sortMessages(
   return messagesSorted;
 }
 
+/**
+ * This returns the most recent message id in the database. This is not the most recent message shown,
+ * but the most recent one, which could still not be loaded.
+ */
 export const getMostRecentMessageId = createSelector(
-  getSortedMessagesOfSelectedConversation,
-  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
-    return messages.length ? messages[0].propsForMessage.id : undefined;
+  getConversations,
+  (state: ConversationsStateType): string | null => {
+    return state.mostRecentMessageId;
   }
 );
 
@@ -728,6 +701,15 @@ export const getOldestMessageId = createSelector(
       messages.length > 0 ? messages[messages.length - 1].propsForMessage.id : undefined;
 
     return oldest;
+  }
+);
+
+export const getYoungestMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    const youngest = messages.length > 0 ? messages[0].propsForMessage.id : undefined;
+
+    return youngest;
   }
 );
 
@@ -773,14 +755,14 @@ export const getMessagePropsByMessageId = createSelector(
     if (!foundMessageProps || !foundMessageProps.propsForMessage.convoId) {
       return undefined;
     }
-    const authorPhoneNumber = foundMessageProps?.propsForMessage?.authorPhoneNumber;
+    const sender = foundMessageProps?.propsForMessage?.sender;
 
     const foundMessageConversation = conversations[foundMessageProps.propsForMessage.convoId];
-    if (!foundMessageConversation || !authorPhoneNumber) {
+    if (!foundMessageConversation || !sender) {
       return undefined;
     }
 
-    const foundSenderConversation = conversations[authorPhoneNumber];
+    const foundSenderConversation = conversations[sender];
     if (!foundSenderConversation) {
       return undefined;
     }
@@ -795,16 +777,15 @@ export const getMessagePropsByMessageId = createSelector(
     // either we sent it,
     // or the convo is not a public one (in this case, we will only be able to delete for us)
     // or the convo is public and we are an admin
-    const isDeletable = authorPhoneNumber === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
+    const isDeletable = sender === ourPubkey || !isPublic || (isPublic && !!weAreAdmin);
 
     // A message is deletable for everyone if
     // either we sent it no matter what the conversation type,
     // or the convo is public and we are an admin
-    const isDeletableForEveryone =
-      authorPhoneNumber === ourPubkey || (isPublic && !!weAreAdmin) || false;
+    const isDeletableForEveryone = sender === ourPubkey || (isPublic && !!weAreAdmin) || false;
 
-    const isSenderAdmin = groupAdmins.includes(authorPhoneNumber);
-    const senderIsUs = authorPhoneNumber === ourPubkey;
+    const isSenderAdmin = groupAdmins.includes(sender);
+    const senderIsUs = sender === ourPubkey;
 
     const authorName = foundSenderConversation.name || null;
     const authorProfileName = senderIsUs ? window.i18n('you') : foundSenderConversation.profileName;
@@ -821,7 +802,7 @@ export const getMessagePropsByMessageId = createSelector(
         isDeletableForEveryone,
         weAreAdmin,
         conversationType: foundMessageConversation.type,
-        authorPhoneNumber,
+        sender,
         authorAvatarPath: foundSenderConversation.avatarPath || null,
         isKickedFromGroup: foundMessageConversation.isKickedFromGroup || false,
         authorProfileName: authorProfileName || 'Unknown',
@@ -843,7 +824,7 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
   const {
     authorAvatarPath,
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     conversationType,
     direction,
@@ -856,7 +837,7 @@ export const getMessageAvatarProps = createSelector(getMessagePropsByMessageId, 
   const messageAvatarProps: MessageAvatarSelectorProps = {
     authorAvatarPath,
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     conversationType,
     direction,
@@ -949,7 +930,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 
   const {
     attachments,
-    authorPhoneNumber,
+    sender,
     convoId,
     direction,
     status,
@@ -967,7 +948,7 @@ export const getMessageContextMenuProps = createSelector(getMessagePropsByMessag
 
   const msgProps: MessageContextMenuSelectorProps = {
     attachments,
-    authorPhoneNumber,
+    sender,
     convoId,
     direction,
     status,
@@ -993,12 +974,12 @@ export const getMessageAuthorProps = createSelector(getMessagePropsByMessageId, 
     return undefined;
   }
 
-  const { authorName, authorPhoneNumber, authorProfileName, direction } = props.propsForMessage;
+  const { authorName, sender, authorProfileName, direction } = props.propsForMessage;
   const { firstMessageOfSeries } = props;
 
   const msgProps: MessageAuthorSelectorProps = {
     authorName,
-    authorPhoneNumber,
+    sender,
     authorProfileName,
     direction,
     firstMessageOfSeries,
@@ -1031,7 +1012,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     isTrustedForAttachmentDownload,
     timestamp,
     serverTimestamp,
-    authorPhoneNumber,
+    sender,
     convoId,
   } = props.propsForMessage;
   const msgProps: MessageAttachmentSelectorProps = {
@@ -1040,7 +1021,7 @@ export const getMessageAttachmentProps = createSelector(getMessagePropsByMessage
     isTrustedForAttachmentDownload,
     timestamp,
     serverTimestamp,
-    authorPhoneNumber,
+    sender,
     convoId,
   };
 
@@ -1153,4 +1134,14 @@ export const getGenericReadableMessageSelectorProps = createSelector(
 
     return msgProps;
   }
+);
+
+export const getOldTopMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldTopMessageId || null
+);
+
+export const getOldBottomMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
 );

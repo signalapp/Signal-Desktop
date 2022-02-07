@@ -1,5 +1,4 @@
 import { Attachment } from './Attachment';
-import { IndexableBoolean, IndexablePresence } from './IndexedDB';
 
 export type Message = UserMessage;
 export type UserMessage = IncomingMessage;
@@ -14,14 +13,12 @@ export type IncomingMessage = Readonly<
 
     // Optional
     body?: string;
-    decrypted_at?: number;
     errors?: Array<any>;
     expireTimer?: number;
     flags?: number;
     source?: string;
     sourceDevice?: number;
   } & SharedMessageProperties &
-    MessageSchemaVersion5 &
     ExpirationTimerUpdate
 >;
 
@@ -38,14 +35,6 @@ type ExpirationTimerUpdate = Partial<
       fromSync: boolean;
       source: string;
     }>;
-  }>
->;
-
-type MessageSchemaVersion5 = Partial<
-  Readonly<{
-    hasAttachments: IndexableBoolean;
-    hasVisualMediaAttachments: IndexablePresence;
-    hasFileAttachments: IndexablePresence;
   }>
 >;
 

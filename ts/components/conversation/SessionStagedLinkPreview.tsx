@@ -6,6 +6,7 @@ import { arrayBufferFromFile } from '../../types/Attachment';
 import { AttachmentUtil, LinkPreviewUtil } from '../../util';
 import { fetchLinkPreviewImage } from '../../util/linkPreviewFetch';
 import { StagedLinkPreview } from './StagedLinkPreview';
+import { getImageDimensions } from '../../types/attachments/VisualAttachment';
 
 export interface StagedLinkPreviewProps extends StagedLinkPreviewData {
   onClose: (url: string) => void;
@@ -24,7 +25,6 @@ export interface GetLinkPreviewResult {
   title: string;
   url: string;
   image?: GetLinkPreviewResultImage;
-  description: string | null;
   date: number | null;
 }
 
@@ -47,7 +47,7 @@ export const getPreview = async (
   if (!linkPreviewMetadata) {
     throw new Error('Could not fetch link preview metadata');
   }
-  const { title, imageHref, description, date } = linkPreviewMetadata;
+  const { title, imageHref, date } = linkPreviewMetadata;
 
   let image;
   if (imageHref && window.Signal.LinkPreviews.isLinkSafeToPreview(imageHref)) {
@@ -62,29 +62,25 @@ export const getPreview = async (
 
       // Ensure that this file is either small enough or is resized to meet our
       //   requirements for attachments
-      const withBlob = await AttachmentUtil.autoScale(
-        {
-          contentType: fullSizeImage.contentType,
-          file: new Blob([fullSizeImage.data], {
-            type: fullSizeImage.contentType,
-          }),
-        },
-        { maxSize: 100 * 1000 } // this is a preview image. No need for it to be crazy big. 100k is big enough
-      );
+      const withBlob = await AttachmentUtil.autoScaleForThumbnail({
+        contentType: fullSizeImage.contentType,
+        blob: new Blob([fullSizeImage.data], {
+          type: fullSizeImage.contentType,
+        }),
+      });
 
-      const data = await arrayBufferFromFile(withBlob.file);
-      objectUrl = URL.createObjectURL(withBlob.file);
+      const data = await arrayBufferFromFile(withBlob.blob);
+      objectUrl = URL.createObjectURL(withBlob.blob);
 
-      const dimensions = await window.Signal.Types.VisualAttachment.getImageDimensions({
+      const dimensions = await getImageDimensions({
         objectUrl,
-        logger: window.log,
       });
 
       image = {
         data,
         size: data.byteLength,
         ...dimensions,
-        contentType: withBlob.file.type,
+        contentType: withBlob.blob.type,
       };
     } catch (error) {
       // We still want to show the preview if we failed to get an image
@@ -100,7 +96,6 @@ export const getPreview = async (
     title,
     url,
     image,
-    description,
     date,
   };
 };
@@ -117,8 +112,7 @@ export const SessionStagedLinkPreview = (props: StagedLinkPreviewProps) => {
       title={props.title}
       domain={props.domain}
       url={props.url}
-      image={props.image as any}
-      description={props.description}
+      image={props.image}
     />
   );
 };

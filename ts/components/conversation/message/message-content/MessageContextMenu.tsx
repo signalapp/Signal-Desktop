@@ -26,7 +26,7 @@ import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
 export type MessageContextMenuSelectorProps = Pick<
   MessageRenderingProps,
   | 'attachments'
-  | 'authorPhoneNumber'
+  | 'sender'
   | 'convoId'
   | 'direction'
   | 'status'
@@ -54,7 +54,7 @@ export const MessageContextMenu = (props: Props) => {
   }
   const {
     attachments,
-    authorPhoneNumber,
+    sender,
     convoId,
     direction,
     status,
@@ -103,12 +103,12 @@ export const MessageContextMenu = (props: Props) => {
   const unsendMessageText = window.i18n('deleteForEveryone');
 
   const addModerator = useCallback(() => {
-    void addSenderAsModerator(authorPhoneNumber, convoId);
-  }, [authorPhoneNumber, convoId]);
+    void addSenderAsModerator(sender, convoId);
+  }, [sender, convoId]);
 
   const removeModerator = useCallback(() => {
-    void removeSenderFromModerator(authorPhoneNumber, convoId);
-  }, [authorPhoneNumber, convoId]);
+    void removeSenderFromModerator(sender, convoId);
+  }, [sender, convoId]);
 
   const onReply = useCallback(() => {
     if (isBlocked) {
@@ -128,11 +128,11 @@ export const MessageContextMenu = (props: Props) => {
       void saveAttachmentToDisk({
         attachment: attachments[0],
         messageTimestamp,
-        messageSender: authorPhoneNumber,
+        messageSender: sender,
         conversationId: convoId,
       });
     },
-    [convoId, authorPhoneNumber, timestamp, serverTimestamp, convoId, attachments]
+    [convoId, sender, timestamp, serverTimestamp, convoId, attachments]
   );
 
   const copyText = useCallback(() => {
@@ -147,12 +147,12 @@ export const MessageContextMenu = (props: Props) => {
   }, [messageId]);
 
   const onBan = useCallback(() => {
-    MessageInteraction.banUser(authorPhoneNumber, convoId);
-  }, [authorPhoneNumber, convoId]);
+    MessageInteraction.banUser(sender, convoId);
+  }, [sender, convoId]);
 
   const onUnban = useCallback(() => {
-    MessageInteraction.unbanUser(authorPhoneNumber, convoId);
-  }, [authorPhoneNumber, convoId]);
+    MessageInteraction.unbanUser(sender, convoId);
+  }, [sender, convoId]);
 
   const onSelect = useCallback(() => {
     dispatch(toggleSelectedMessageId(messageId));

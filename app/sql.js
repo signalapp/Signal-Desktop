@@ -59,7 +59,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getUnreadCountByConversation,
-  getMessageBySender,
+  getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
   getMessageIdsFromServerIds,
@@ -71,8 +71,13 @@ module.exports = {
   getOutgoingWithoutExpiresAt,
   getNextExpiringMessage,
   getMessagesByConversation,
+  getLastMessagesByConversation,
+  getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
+  trimMessages,
+  fillWithTestData,
 
   getUnprocessedCount,
   getAllUnprocessed,
@@ -202,7 +207,7 @@ function getUserVersion(db) {
   try {
     return db.pragma('user_version', { simple: true });
   } catch (e) {
-    console.warn('getUserVersion error', e);
+    console.error('getUserVersion error', e);
     return 0;
   }
 }
@@ -297,9 +302,9 @@ function vacuumDatabase(db) {
     throw new Error('vacuum: db is not initialized');
   }
   console.time('vaccumming db');
-  console.warn('Vacuuming DB. This might take a while.');
+  console.info('Vacuuming DB. This might take a while.');
   db.exec('VACUUM;');
-  console.warn('Vacuuming DB Finished');
+  console.info('Vacuuming DB Finished');
   console.timeEnd('vaccumming db');
 }
 
@@ -836,6 +841,9 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion15,
   updateToLokiSchemaVersion16,
   updateToLokiSchemaVersion17,
+  updateToLokiSchemaVersion18,
+  updateToLokiSchemaVersion19,
+  updateToLokiSchemaVersion20,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1251,6 +1259,123 @@ function updateToLokiSchemaVersion17(currentVersion, db) {
   console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
+function updateToLokiSchemaVersion18(currentVersion, db) {
+  const targetVersion = 18;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  // Dropping all pre-existing schema relating to message searching.
+  // Recreating the full text search and related triggers
+  db.transaction(() => {
+    db.exec(`
+      DROP TRIGGER IF EXISTS messages_on_insert;
+      DROP TRIGGER IF EXISTS messages_on_delete;
+      DROP TRIGGER IF EXISTS messages_on_update;
+      DROP TABLE IF EXISTS ${MESSAGES_FTS_TABLE};
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
+  db.transaction(() => {
+    db.exec(`
+    -- Then we create our full-text search table and populate it
+    CREATE VIRTUAL TABLE ${MESSAGES_FTS_TABLE}
+      USING fts5(id UNINDEXED, body);
+    INSERT INTO ${MESSAGES_FTS_TABLE}(id, body)
+      SELECT id, body FROM ${MESSAGES_TABLE};
+    -- Then we set up triggers to keep the full-text search table up to date
+    CREATE TRIGGER messages_on_insert AFTER INSERT ON ${MESSAGES_TABLE} BEGIN
+      INSERT INTO ${MESSAGES_FTS_TABLE} (
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+    CREATE TRIGGER messages_on_delete AFTER DELETE ON ${MESSAGES_TABLE} BEGIN
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+    END;
+    CREATE TRIGGER messages_on_update AFTER UPDATE ON ${MESSAGES_TABLE} BEGIN
+      DELETE FROM ${MESSAGES_FTS_TABLE} WHERE id = old.id;
+      INSERT INTO ${MESSAGES_FTS_TABLE}(
+        id,
+        body
+      ) VALUES (
+        new.id,
+        new.body
+      );
+    END;
+    `);
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion19(currentVersion, db) {
+  const targetVersion = 19;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+      DROP INDEX messages_schemaVersion;
+      ALTER TABLE ${MESSAGES_TABLE} DROP COLUMN schemaVersion;
+    `);
+    // this is way to slow for now...
+    // db.exec(`
+    //   UPDATE ${MESSAGES_TABLE} SET
+    //   json = json_remove(json, '$.schemaVersion')
+    // `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion20(currentVersion, db) {
+  const targetVersion = 20;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    // looking for all private conversations, with a nickname set
+    const rowsToUpdate = db
+      .prepare(
+        `SELECT * FROM ${CONVERSATIONS_TABLE} WHERE type = 'private' AND (name IS NULL or name = '') AND json_extract(json, '$.nickname') <> '';`
+      )
+      .all();
+    (rowsToUpdate || []).forEach(r => {
+      const obj = jsonToObject(r.json);
+
+      // obj.profile.displayName is the display as this user set it.
+      if (
+        obj &&
+        obj.nickname &&
+        obj.nickname.length &&
+        obj.profile &&
+        obj.profile.displayName &&
+        obj.profile.displayName.length
+      ) {
+        // this one has a nickname set, but name is unset, set it to the displayName in the lokiProfile if it's exisitng
+        obj.name = obj.profile.displayName;
+        updateConversation(obj, db);
+      }
+    });
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
 function writeLokiSchemaVersion(newVersion, db) {
   db.prepare(
     `INSERT INTO loki_schema(
@@ -1579,10 +1704,10 @@ function getConversationCount() {
   return row['count(*)'];
 }
 
-function saveConversation(data) {
+function saveConversation(data, instance) {
   const { id, active_at, type, members, name, profileName } = data;
 
-  globalInstance
+  (globalInstance || instance)
     .prepare(
       `INSERT INTO ${CONVERSATIONS_TABLE} (
     id,
@@ -1616,7 +1741,7 @@ function saveConversation(data) {
     });
 }
 
-function updateConversation(data) {
+function updateConversation(data, instance) {
   const {
     id,
     // eslint-disable-next-line camelcase
@@ -1627,7 +1752,8 @@ function updateConversation(data) {
     profileName,
   } = data;
 
-  globalInstance
+  (globalInstance || instance)
+
     .prepare(
       `UPDATE ${CONVERSATIONS_TABLE} SET
     json = $json,
@@ -1751,15 +1877,13 @@ function searchConversations(query, { limit } = {}) {
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       (
-        id LIKE $id OR
         name LIKE $name OR
         profileName LIKE $profileName
-      )
-     ORDER BY id ASC
+      ) AND active_at IS NOT NULL AND active_at > 0
+     ORDER BY active_at DESC
      LIMIT $limit`
     )
     .all({
-      id: `%${query}%`,
       name: `%${query}%`,
       profileName: `%${query}%`,
       limit: limit || 50,
@@ -1768,22 +1892,28 @@ function searchConversations(query, { limit } = {}) {
   return map(rows, row => jsonToObject(row.json));
 }
 
-function searchMessages(query, { limit } = {}) {
+// order by clause is the same as orderByClause but with a table prefix so we cannot reuse it
+const orderByMessageCoalesceClause = `ORDER BY COALESCE(${MESSAGES_TABLE}.serverTimestamp, ${MESSAGES_TABLE}.sent_at, ${MESSAGES_TABLE}.received_at) DESC`;
+
+function searchMessages(query, limit) {
+  if (!limit) {
+    throw new Error('searchMessages limit must be set');
+  }
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 5) as snippet
     FROM ${MESSAGES_FTS_TABLE}
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query
-    ORDER BY messages.received_at DESC
+     ${MESSAGES_FTS_TABLE} match $query
+    ${orderByMessageCoalesceClause}
     LIMIT $limit;`
     )
     .all({
       query,
-      limit: limit || 100,
+      limit,
     });
 
   return map(rows, row => ({
@@ -1792,19 +1922,19 @@ function searchMessages(query, { limit } = {}) {
   }));
 }
 
-function searchMessagesInConversation(query, conversationId, { limit } = {}) {
+function searchMessagesInConversation(query, conversationId, limit) {
   const rows = globalInstance
     .prepare(
       `SELECT
-      messages.json,
-      snippet(messages_fts, -1, '<<left>>', '<<right>>', '...', 15) as snippet
-    FROM messages_fts
-    INNER JOIN ${MESSAGES_TABLE} on messages_fts.id = messages.id
+      ${MESSAGES_TABLE}.json,
+      snippet(${MESSAGES_FTS_TABLE}, -1, '<<left>>', '<<right>>', '...', 15) as snippet
+    FROM ${MESSAGES_FTS_TABLE}
+    INNER JOIN ${MESSAGES_TABLE} on ${MESSAGES_FTS_TABLE}.id = ${MESSAGES_TABLE}.id
     WHERE
-      messages_fts match $query AND
-      messages.conversationId = $conversationId
-    ORDER BY messages.received_at DESC
-    LIMIT $limit;`
+    ${MESSAGES_FTS_TABLE} match $query AND
+      ${MESSAGES_TABLE}.conversationId = $conversationId
+    ${orderByMessageCoalesceClause}
+      LIMIT $limit;`
     )
     .all({
       query,
@@ -1841,7 +1971,6 @@ function saveMessage(data) {
     serverTimestamp,
     // eslint-disable-next-line camelcase
     received_at,
-    schemaVersion,
     sent,
     // eslint-disable-next-line camelcase
     sent_at,
@@ -1876,7 +2005,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1901,7 +2029,6 @@ function saveMessage(data) {
     hasFileAttachments,
     hasVisualMediaAttachments,
     received_at,
-    schemaVersion,
     sent,
     sent_at,
     source,
@@ -1922,7 +2049,6 @@ function saveMessage(data) {
     $hasFileAttachments,
     $hasVisualMediaAttachments,
     $received_at,
-    $schemaVersion,
     $sent,
     $sent_at,
     $source,
@@ -1987,7 +2113,7 @@ function saveSeenMessageHash(data) {
         hash,
       });
   } catch (e) {
-    console.warn('saveSeenMessageHash failed:', e);
+    console.error('saveSeenMessageHash failed:', e.message);
   }
 }
 
@@ -2065,17 +2191,15 @@ function getMessageById(id) {
   return jsonToObject(row.json);
 }
 
-function getMessageBySender({ source, sourceDevice, sentAt }) {
+function getMessageBySenderAndSentAt({ source, sentAt }) {
   const rows = globalInstance
     .prepare(
       `SELECT json FROM ${MESSAGES_TABLE} WHERE
       source = $source AND
-      sourceDevice = $sourceDevice AND
       sent_at = $sent_at;`
     )
     .all({
       source,
-      sourceDevice,
       sent_at: sentAt,
     });
 
@@ -2152,27 +2276,106 @@ function getUnreadCountByConversation(conversationId) {
 
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
+const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
+const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(
-  conversationId,
-  { limit = 100, receivedAt = Number.MAX_VALUE, type = '%' } = {}
-) {
+function getMessagesByConversation(conversationId, { messageId = null } = {}) {
+  const absLimit = 30;
+  // If messageId is given it means we are opening the conversation to that specific messageId,
+  // or that we just scrolled to it by a quote click and needs to load around it.
+  // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
+  const firstUnread = getFirstUnreadMessageIdInConversation(conversationId);
+
+  if (messageId || firstUnread) {
+    const messageFound = getMessageById(messageId || firstUnread);
+
+    if (messageFound && messageFound.conversationId === conversationId) {
+      const rows = globalInstance
+        .prepare(
+          `WITH cte AS (
+            SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
+              FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
+          ), current AS (
+          SELECT row_number
+            FROM cte
+          WHERE id = $messageId
+
+        )
+        SELECT cte.*
+          FROM cte, current
+            WHERE ABS(cte.row_number - current.row_number) <= $limit
+          ORDER BY cte.row_number;
+          `
+        )
+        .all({
+          conversationId,
+          messageId: messageId || firstUnread,
+          limit: absLimit,
+        });
+
+      return map(rows, row => jsonToObject(row.json));
+    }
+    console.info(
+      `getMessagesByConversation: Could not find messageId ${messageId} in db with conversationId: ${conversationId}. Just fetching the convo as usual.`
+    );
+  }
+
+  const limit = 2 * absLimit;
+
   const rows = globalInstance
     .prepare(
       `
     SELECT json FROM ${MESSAGES_TABLE} WHERE
-      conversationId = $conversationId AND
-      received_at < $received_at AND
-      type LIKE $type
-      ORDER BY serverTimestamp DESC, serverId DESC, sent_at DESC, received_at DESC
+      conversationId = $conversationId
+      ${orderByClause}
     LIMIT $limit;
     `
     )
     .all({
       conversationId,
-      received_at: receivedAt,
       limit,
-      type,
+    });
+
+  return map(rows, row => jsonToObject(row.json));
+}
+
+function getLastMessagesByConversation(conversationId, limit) {
+  if (!isNumber(limit)) {
+    throw new Error('limit must be a number');
+  }
+
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClause}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
+      limit,
+    });
+  return map(rows, row => jsonToObject(row.json));
+}
+
+/**
+ * This is the oldest message so we cannot reuse getLastMessagesByConversation
+ */
+function getOldestMessageInConversation(conversationId) {
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId
+      ${orderByClauseASC}
+    LIMIT $limit;
+    `
+    )
+    .all({
+      conversationId,
+      limit: 1,
     });
   return map(rows, row => jsonToObject(row.json));
 }
@@ -2192,8 +2395,6 @@ function hasConversationOutgoingMessage(conversationId) {
   if (!row) {
     throw new Error('hasConversationOutgoingMessage: Unable to get coun');
   }
-
-  console.warn('hasConversationOutgoingMessage', row);
 
   return Boolean(row['count(*)']);
 }
@@ -2218,6 +2419,164 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
     return undefined;
   }
   return rows[0].id;
+}
+
+function getFirstUnreadMessageWithMention(conversationId, ourpubkey) {
+  if (!ourpubkey || !ourpubkey.length) {
+    throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
+  }
+  const likeMatch = `%@${ourpubkey}%`;
+
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT id, json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId AND
+      unread = $unread AND
+      body LIKE $likeMatch
+      ORDER BY serverTimestamp ASC, serverId ASC, sent_at ASC, received_at ASC
+    LIMIT 1;
+    `
+    )
+    .all({
+      conversationId,
+      unread: 1,
+      likeMatch,
+    });
+
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return rows[0].id;
+}
+
+/**
+ * Deletes all but the 10,000 last received messages.
+ */
+function trimMessages(limit) {
+  console.log(limit); // adding this for linting purposes.
+  // METHOD 1 Start - Seems to take to long and freeze
+  // const convoCount = globalInstance
+  //   .prepare(
+  //     `
+  //       SELECT COUNT(*) FROM ${MESSAGES_TABLE}
+  //       WHERE conversationId = $conversationId
+  //     `
+  //   )
+  //   .all({
+  //     conversationId,
+  //   });
+  // if (convoCount < limit) {
+  //   console.log(`Skipping conversation: ${conversationId}`);
+  //   return;
+  // } else {
+  //   console.count('convo surpassed limit');
+  // }
+  // globalInstance
+  //   .prepare(
+  //     `
+  //     DELETE FROM ${MESSAGES_TABLE}
+  //     WHERE conversationId = $conversationId
+  //     AND id NOT IN (
+  //       SELECT id FROM ${MESSAGES_TABLE}
+  //       WHERE conversationId = $conversationId
+  //       ORDER BY received_at DESC
+  //       LIMIT $limit
+  //     );
+  //   `
+  //   )
+  //   .run({
+  //     conversationId,
+  //     limit,
+  //   });
+  // METHOD 1 END
+  // METHOD 2 Start
+  // const messages = globalInstance
+  //   .prepare(
+  //     `
+  //       SELECT id, conversationId FROM ${MESSAGES_TABLE}
+  //       CREATE VIRTUAL TABLE IF NOT EXISTS temp_deletion
+  //       id STRING PRIMARY KEY ASC
+  //     `
+  //   )
+  //   .all();
+  // const idsToDelete = [];
+  // const convoCountLookup = {};
+  // for (let index = 0; index < messages.length; index + 1) {
+  //   const { conversationId, id } = messages[index];
+  //   console.log(`run ${index} - convoId: ${conversationId}, messageId: ${id}`);
+  //   if (!convoCountLookup[conversationId]) {
+  //     convoCountLookup[conversationId] = 1;
+  //   } else {
+  //     convoCountLookup[conversationId] + 1;
+  //     if (convoCountLookup[conversationId] > limit) {
+  //       idsToDelete.push(id);
+  //     }
+  //   }
+  // }
+  // // Ideally should be able to do WHERE id IN (x, y, z) with an array of IDs
+  // // the array might need to be chunked as well for performance
+  // const idSlice = [...idsToDelete].slice(0, 30);
+  // idSlice.forEach(() => {
+  //   globalInstance
+  //     .prepare(
+  //       `
+  //         DELETE FROM ${MESSAGES_TABLE}
+  //         WHERE id = $idSlice
+  //       `
+  //     )
+  //     .run({
+  //       idSlice,
+  //     });
+  // });
+  // Method 2 End
+  // Method 3 start - Audric's suggestion
+  // const largeConvos = globalInstance
+  //   .prepare(
+  //     `
+  //     SELECT conversationId, count(id) FROM ${MESSAGES_TABLE}
+  //     GROUP BY conversationId
+  //     HAVING COUNT(id) > 1000
+  //     `
+  //   )
+  //   .all();
+  // console.log({ largeConvos });
+  // // finding 1000th msg timestamp
+  // largeConvos.forEach(convo => {
+  //   const convoId = convo.conversationId;
+  //   console.log({ convoId });
+  //   const lastMsg = globalInstance
+  //     .prepare(
+  //       `
+  //         SELECT received_at, sent_at FROM ${MESSAGES_TABLE}
+  //         WHERE conversationId = $convoId
+  //         ORDER BY received_at DESC
+  //         LIMIT 1
+  //         OFFSET 999
+  //     `
+  //     )
+  //     .all({
+  //       convoId,
+  //     });
+  //   // use timestamp with lesserThan as conditional for deletion
+  //   console.log({ lastMsg });
+  //   const timestamp = lastMsg[0].received_at;
+  //   if (timestamp) {
+  //     console.log({ timestamp, convoId });
+  //     globalInstance
+  //       .prepare(
+  //         `
+  //           DELETE FROM ${MESSAGES_TABLE}
+  //           WHERE conversationId = $convoId
+  //           AND received_at < $timestamp
+  //         `
+  //       )
+  //       .run({
+  //         timestamp,
+  //         convoId,
+  //       });
+  //   }
+  // });
 }
 
 function getMessagesBySentAt(sentAt) {
@@ -2753,7 +3112,7 @@ function updateExistingClosedGroupV1ToClosedGroupV2(db) {
       };
       addClosedGroupEncryptionKeyPair(groupId, keyPair, db);
     } catch (e) {
-      console.warn(e);
+      console.error(e);
     }
   });
 }
@@ -2905,7 +3264,7 @@ function removeOneOpenGroupV1Message() {
   if (toRemoveCount <= 0) {
     return 0;
   }
-  console.warn('left opengroupv1 message to remove: ', toRemoveCount);
+  console.info('left opengroupv1 message to remove: ', toRemoveCount);
   const rowMessageIds = globalInstance
     .prepare(
       `SELECT id from ${MESSAGES_TABLE} WHERE conversationId LIKE 'publicChat:1@%' ORDER BY id LIMIT 1;`
@@ -2920,4 +3279,139 @@ function removeOneOpenGroupV1Message() {
   console.timeEnd('removeOneOpenGroupV1Message');
 
   return toRemoveCount - 1;
+}
+
+/**
+ * Only using this for development. Populate conversation and message tables.
+ * @param {*} numConvosToAdd
+ * @param {*} numMsgsToAdd
+ */
+function fillWithTestData(numConvosToAdd, numMsgsToAdd) {
+  const convoBeforeCount = globalInstance
+    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
+    .get()['count(*)'];
+
+  const lipsum =
+    // eslint:disable-next-line max-line-length
+    `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac ornare lorem,
+    non suscipit      purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Suspendisse cursus aliquet       velit a dignissim. Integer at nisi sed velit consequat
+    dictum. Phasellus congue tellus ante.        Ut rutrum hendrerit dapibus. Fusce
+    luctus, ante nec interdum molestie, purus urna volutpat         turpis, eget mattis
+    lectus velit at velit. Praesent vel tellus turpis. Praesent eget purus          at
+    nisl blandit pharetra.  Cras dapibus sem vitae rutrum dapibus. Vivamus vitae mi
+    ante.           Donec aliquam porta nibh, vel scelerisque orci condimentum sed.
+    Proin in mattis ipsum,            ac euismod sem. Donec malesuada sem nisl, at
+    vehicula ante efficitur sed. Curabitur             in sapien eros. Morbi tempor ante ut
+    metus scelerisque condimentum. Integer sit amet              tempus nulla. Vivamus
+    imperdiet dui ac luctus vulputate.  Sed a accumsan risus. Nulla               facilisi.
+    Nulla mauris dui, luctus in sagittis at, sodales id mauris. Integer efficitur
+            viverra ex, ut dignissim eros tincidunt placerat. Sed facilisis gravida
+    mauris in luctus                . Fusce dapibus, est vitae tincidunt eleifend, justo
+    odio porta dui, sed ultrices mi arcu                 vitae ante. Mauris ut libero
+    erat. Nam ut mi quis ante tincidunt facilisis sit amet id enim.
+    Vestibulum in molestie mi. In ac felis est. Vestibulum vel blandit ex. Morbi vitae
+    viverra augue                  . Ut turpis quam, cursus quis ex a, convallis
+    ullamcorper purus.  Nam eget libero arcu. Integer fermentum enim nunc, non consequat urna
+    fermentum condimentum. Nulla vitae malesuada est. Donec imperdiet tortor interdum
+    malesuada feugiat. Integer pulvinar dui ex, eget tristique arcu mattis at. Nam eu neque
+    eget mauris varius suscipit. Quisque ac enim vitae mauris laoreet congue nec sed
+    justo. Curabitur fermentum quam eget est tincidunt, at faucibus lacus maximus.  Donec
+    auctor enim dolor, faucibus egestas diam consectetur sed. Donec eget rutrum arcu, at
+    tempus mi. Fusce quis volutpat sapien. In aliquet fringilla purus. Ut eu nunc non
+    augue lacinia ultrices at eget tortor. Maecenas pulvinar odio sit amet purus
+    elementum, a vehicula lorem maximus. Pellentesque eu lorem magna. Vestibulum ut facilisis
+    lorem. Proin et enim cursus, vulputate neque sit amet, posuere enim. Praesent
+    faucibus tellus vel mi tincidunt, nec malesuada nibh malesuada. In laoreet sapien vitae
+    aliquet sollicitudin.
+    `;
+
+  const msgBeforeCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
+    'count(*)'
+  ];
+
+  console.info('==== fillWithTestData ====');
+  console.info({
+    convoBeforeCount,
+    msgBeforeCount,
+    convoToAdd: numConvosToAdd,
+    msgToAdd: numMsgsToAdd,
+  });
+
+  const convosIdsAdded = [];
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < numConvosToAdd; index++) {
+    const activeAt = Date.now() - index;
+    const id = Date.now() - 1000 * index;
+    const convoObjToAdd = {
+      active_at: activeAt,
+      members: [],
+      profileName: `${activeAt}`,
+      name: `${activeAt}`,
+      id: `05${id}`,
+      type: 'group',
+    };
+    convosIdsAdded.push(id);
+    try {
+      saveConversation(convoObjToAdd);
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  }
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < numMsgsToAdd; index++) {
+    const activeAt = Date.now() - index;
+    const id = Date.now() - 1000 * index;
+
+    const lipsumStartIdx = Math.floor(Math.random() * lipsum.length);
+    const lipsumLength = Math.floor(Math.random() * lipsum.length - lipsumStartIdx);
+    const fakeBodyText = lipsum.substring(lipsumStartIdx, lipsumStartIdx + lipsumLength);
+
+    const convoId = convosIdsAdded[Math.floor(Math.random() * convosIdsAdded.length)];
+    const msgObjToAdd = {
+      // body: `fake body ${activeAt}`,
+      body: `fakeMsgIdx-spongebob-${index} ${fakeBodyText} ${activeAt}`,
+      conversationId: `${convoId}`,
+      // eslint-disable-next-line camelcase
+      expires_at: 0,
+      hasAttachments: 0,
+      hasFileAttachments: 0,
+      hasVisualMediaAttachments: 0,
+      id: `${id}`,
+      serverId: 0,
+      serverTimestamp: 0,
+      // eslint-disable-next-line camelcase
+      received_at: Date.now(),
+      sent: 0,
+      // eslint-disable-next-line camelcase
+      sent_at: Date.now(),
+      source: `${convoId}`,
+      sourceDevice: 1,
+      type: '%',
+      unread: 1,
+      expireTimer: 0,
+      expirationStartTimestamp: 0,
+    };
+
+    if (convoId % 10 === 0) {
+      console.info('uyo , convoId ', { index, convoId });
+    }
+
+    try {
+      saveMessage(msgObjToAdd);
+      // eslint-disable-next-line no-empty
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const convoAfterCount = globalInstance
+    .prepare(`SELECT count(*) from ${CONVERSATIONS_TABLE};`)
+    .get()['count(*)'];
+
+  const msgAfterCount = globalInstance.prepare(`SELECT count(*) from ${MESSAGES_TABLE};`).get()[
+    'count(*)'
+  ];
+
+  console.info({ convoAfterCount, msgAfterCount });
+  return convosIdsAdded;
 }

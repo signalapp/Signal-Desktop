@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 
 import styled from 'styled-components';
-import _ from 'underscore';
 import { getSelectedConversationKey } from '../../state/selectors/conversations';
 import { getHasOngoingCall, getHasOngoingCallWith } from '../../state/selectors/call';
 import { openConversationWithMessages } from '../../state/ducks/conversations';
@@ -101,7 +100,7 @@ export const DraggableCallContainer = () => {
 
   const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
-      void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
+      void openConversationWithMessages({ conversationKey: ongoingCallPubkey, messageId: null });
     }
   };
 

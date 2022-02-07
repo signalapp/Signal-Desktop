@@ -12,10 +12,7 @@ import { actions as conversationActions } from '../../state/ducks/conversations'
 import { getV2OpenGroupRoom, removeV2OpenGroupRoom } from '../../data/opengroups';
 import _ from 'lodash';
 import { getOpenGroupManager } from '../apis/open_group_api/opengroupV2/OpenGroupManagerV2';
-import {
-  deleteAuthToken,
-  DeleteAuthTokenRequest,
-} from '../apis/open_group_api/opengroupV2/ApiAuth';
+
 import { deleteAllMessagesByConvoIdNoConfirmation } from '../../interactions/conversationInteractions';
 
 let instance: ConversationController | null;
@@ -113,7 +110,7 @@ export class ConversationController {
     };
 
     conversation.initialPromise = create();
-    conversation.initialPromise.then(async () => {
+    conversation.initialPromise.then(() => {
       if (window?.inboxStore) {
         window.inboxStore?.dispatch(
           conversationActions.conversationAdded({
@@ -123,11 +120,9 @@ export class ConversationController {
         );
       }
       if (!conversation.isPublic()) {
-        await Promise.all([
-          conversation.updateProfileAvatar(),
-          // NOTE: we request snodes updating the cache, but ignore the result
-          void getSwarmFor(id),
-        ]);
+        // NOTE: we request snodes updating the cache, but ignore the result
+
+        void getSwarmFor(id);
       }
     });
 
@@ -201,12 +196,6 @@ export class ConversationController {
       window?.log?.info('leaving open group v2', conversation.id);
       const roomInfos = await getV2OpenGroupRoom(conversation.id);
       if (roomInfos) {
-        if (roomInfos.token) {
-          // leave the group on the remote server
-          await deleteAuthToken(
-            _.pick(roomInfos, 'serverUrl', 'roomId', 'token') as DeleteAuthTokenRequest
-          );
-        }
         getOpenGroupManager().removeRoomFromPolledRooms(roomInfos);
 
         // remove the roomInfos locally for this open group room
@@ -283,13 +272,10 @@ export class ConversationController {
             promises.push(conversation.updateLastMessage());
           }
 
-          promises.concat([conversation.updateProfileName(), conversation.updateProfileAvatar()]);
+          promises.concat([conversation.updateProfileName()]);
         });
 
         await Promise.all(promises);
-
-        // Remove any unused images
-        window.profileImages.removeImagesNotInArray(this.conversations.map((c: any) => c.id));
         window?.log?.info('ConversationController: done with initial fetch');
       } catch (error) {
         window?.log?.error(

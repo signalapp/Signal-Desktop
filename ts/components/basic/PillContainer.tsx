@@ -15,8 +15,9 @@ const StyledPillContainerHoverable = styled.div<PillContainerProps>`
 
   position: relative;
   flex-direction: 'row';
-
-  width: 50%;
+  flex-shrink: 0;
+  min-width: 50%;
+  max-width: 100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   align-items: center;
@@ -31,7 +32,7 @@ const StyledPillInner = styled.div<PillContainerProps>`
   display: flex;
   flex-direction: 'row';
   flex-grow: 1;
-  flex: 1 1 40%;
+  flex-shrink: 0;
 
   overflow: hidden;
   white-space: nowrap;

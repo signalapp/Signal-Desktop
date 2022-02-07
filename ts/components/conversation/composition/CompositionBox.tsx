@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { debounce } from 'lodash';
+import _, { debounce, isEmpty } from 'lodash';
 
 import * as MIME from '../../../types/MIME';
 
@@ -14,7 +14,7 @@ import {
 } from '../SessionStagedLinkPreview';
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
-import { Mention, MentionsInput } from 'react-mentions';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import { MemberListItem } from '../../MemberListItem';
 import autoBind from 'auto-bind';
 import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
@@ -28,7 +28,6 @@ import {
 import { AttachmentType } from '../../../types/Attachment';
 import { connect } from 'react-redux';
 import { showLinkSharingConfirmationModalDialog } from '../../../interactions/conversationInteractions';
-import { Constants } from '../../../session';
 import { getConversationController } from '../../../session/conversations';
 import { ToastUtils } from '../../../session/utils';
 import { ReduxConversationType } from '../../../state/ducks/conversations';
@@ -41,11 +40,15 @@ import {
   getSelectedConversation,
   getSelectedConversationKey,
 } from '../../../state/selectors/conversations';
-import { getTheme } from '../../../state/selectors/theme';
 import { AttachmentUtil } from '../../../util';
 import { Flex } from '../../basic/Flex';
 import { CaptionEditor } from '../../CaptionEditor';
 import { StagedAttachmentList } from '../StagedAttachmentList';
+import { processNewAttachment } from '../../../types/MessageAttachment';
+import {
+  StagedAttachmentImportedType,
+  StagedPreviewImportedType,
+} from '../../../util/attachmentsUtil';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -56,13 +59,20 @@ export interface ReplyingToMessageProps {
   attachments?: Array<any>;
 }
 
+export type StagedLinkPreviewImage = {
+  data: ArrayBuffer;
+  size: number;
+  width: number;
+  height: number;
+  contentType: string;
+};
+
 export interface StagedLinkPreviewData {
   isLoaded: boolean;
   title: string | null;
   url: string | null;
   domain: string | null;
-  description: string | null;
-  image?: AttachmentType;
+  image?: StagedLinkPreviewImage;
 }
 
 export interface StagedAttachmentType extends AttachmentType {
@@ -72,7 +82,7 @@ export interface StagedAttachmentType extends AttachmentType {
 
 export type SendMessageType = {
   body: string;
-  attachments: Array<StagedAttachmentType> | undefined;
+  attachments: Array<StagedAttachmentImportedType> | undefined;
   quote: any | undefined;
   preview: any | undefined;
   groupInvitation: { url: string | undefined; name: string } | undefined;
@@ -200,6 +210,18 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
+// this is dirty but we have to replace all @(xxx) by @xxx manually here
+function cleanMentions(text: string): string {
+  const matches = text.match(mentionsRegex);
+  let replacedMentions = text;
+  (matches || []).forEach(match => {
+    const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
+    replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
+  });
+
+  return replacedMentions;
+}
+
 class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
@@ -232,7 +254,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.abortLinkPreviewFetch();
+    this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = undefined;
 
     const div = this.container;
@@ -373,6 +395,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
           ref={el => {
             this.container = el;
           }}
+          data-testid="message-input"
         >
           {this.renderTextArea()}
         </div>
@@ -444,7 +467,10 @@ class CompositionBoxInner extends React.Component<Props, State> {
     );
   }
 
-  private fetchUsersForOpenGroup(query: any, callback: any) {
+  private fetchUsersForOpenGroup(
+    query: string,
+    callback: (data: Array<SuggestionDataItem>) => void
+  ) {
     const mentionsInput = getMentionsInput(window?.inboxStore?.getState() || []);
     const filtered =
       mentionsInput
@@ -455,13 +481,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
         .map(user => {
           return {
             display: user.authorProfileName,
-            id: user.authorPhoneNumber,
+            id: user.id,
           };
         }) || [];
+
     callback(filtered);
   }
 
-  private fetchUsersForGroup(query: any, callback: any) {
+  private fetchUsersForGroup(query: string, callback: (data: Array<SuggestionDataItem>) => void) {
     let overridenQuery = query;
     if (!query) {
       overridenQuery = '';
@@ -498,7 +525,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
       }
       return {
         id: pubKey,
-        authorPhoneNumber: pubKey,
         authorProfileName: profileName,
       };
     });
@@ -513,7 +539,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     // Transform the users to what react-mentions expects
     const mentionsData = members.map(user => ({
       display: user.authorProfileName || window.i18n('anonymous'),
-      id: user.authorPhoneNumber,
+      id: user.id,
     }));
     callback(mentionsData);
   }
@@ -556,13 +582,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
-    const { isLoaded, title, description, domain, image } = this.state.stagedLinkPreview;
+    const { isLoaded, title, domain, image } = this.state.stagedLinkPreview;
 
     return (
       <SessionStagedLinkPreview
         isLoaded={isLoaded}
         title={title}
-        description={description}
         domain={domain}
         image={image}
         url={firstLink}
@@ -580,13 +605,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
         isLoaded: false,
         url: firstLink,
         domain: null,
-        description: null,
         image: undefined,
         title: null,
       },
     });
     const abortController = new AbortController();
-    this.abortLinkPreviewFetch();
+    this.linkPreviewAbortController?.abort();
     this.linkPreviewAbortController = abortController;
     setTimeout(() => {
       abortController.abort();
@@ -594,25 +618,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     getPreview(firstLink, abortController.signal)
       .then(ret => {
-        let image: AttachmentType | undefined;
-        if (ret) {
-          if (ret.image?.width) {
-            if (ret.image) {
-              const blob = new Blob([ret.image.data], {
-                type: ret.image.contentType,
-              });
-              const imageAttachment = {
-                ...ret.image,
-                url: URL.createObjectURL(blob),
-                fileName: 'preview',
-                fileSize: null,
-                screenshot: null,
-                thumbnail: null,
-              };
-              image = imageAttachment;
-            }
-          }
-        }
         // we finished loading the preview, and checking the abortConrtoller, we are still not aborted.
         // => update the staged preview
         if (this.linkPreviewAbortController && !this.linkPreviewAbortController.signal.aborted) {
@@ -620,10 +625,9 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: ret?.title || null,
-              description: ret?.description || '',
               url: ret?.url || null,
               domain: (ret?.url && window.Signal.LinkPreviews.getDomain(ret.url)) || '',
-              image,
+              image: ret?.image,
             },
           });
         } else if (this.linkPreviewAbortController) {
@@ -631,7 +635,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: false,
               title: null,
-              description: null,
               url: null,
               domain: null,
               image: undefined,
@@ -659,7 +662,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
             stagedLinkPreview: {
               isLoaded: true,
               title: null,
-              description: null,
               url: firstLink,
               domain: null,
               image: undefined,
@@ -752,6 +754,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     } else if (event.key === 'PageUp' || event.key === 'PageDown') {
       // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
       event.preventDefault();
+      event.stopPropagation();
     }
   }
 
@@ -773,19 +776,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
-    this.abortLinkPreviewFetch();
-
-    // this is dirty but we have to replace all @(xxx) by @xxx manually here
-    const cleanMentions = (text: string): string => {
-      const matches = text.match(mentionsRegex);
-      let replacedMentions = text;
-      (matches || []).forEach(match => {
-        const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
-        replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
-      });
-
-      return replacedMentions;
-    };
+    this.linkPreviewAbortController?.abort();
 
     const messagePlaintext = cleanMentions(parseEmojis(this.state.draft));
 
@@ -832,20 +823,20 @@ class CompositionBoxInner extends React.Component<Props, State> {
       'attachments'
     );
 
-    // we consider that a link previews without a title at least is not a preview
-    const linkPreviews =
-      (stagedLinkPreview &&
-        stagedLinkPreview.isLoaded &&
-        stagedLinkPreview.title?.length && [_.pick(stagedLinkPreview, 'url', 'image', 'title')]) ||
-      [];
+    // we consider that a link preview without a title at least is not a preview
+    const linkPreview =
+      stagedLinkPreview?.isLoaded && stagedLinkPreview.title?.length
+        ? _.pick(stagedLinkPreview, 'url', 'image', 'title')
+        : undefined;
 
     try {
-      const attachments = await this.getFiles();
+      // this does not call call removeAllStagedAttachmentsInConvers
+      const { attachments, previews } = await this.getFiles(linkPreview);
       this.props.sendMessage({
         body: messagePlaintext,
         attachments: attachments || [],
         quote: extractedQuotedMessageProps,
-        preview: linkPreviews,
+        preview: previews,
         groupInvitation: undefined,
       });
 
@@ -872,26 +863,48 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   // this function is called right before sending a message, to gather really the files behind attachments.
-  private async getFiles(): Promise<Array<any>> {
+  private async getFiles(
+    linkPreview?: Pick<StagedLinkPreviewData, 'url' | 'title' | 'image'>
+  ): Promise<{
+    attachments: Array<StagedAttachmentImportedType>;
+    previews: Array<StagedPreviewImportedType>;
+  }> {
     const { stagedAttachments } = this.props;
 
+    let attachments: Array<StagedAttachmentImportedType> = [];
+    let previews: Array<StagedPreviewImportedType> = [];
+
     if (_.isEmpty(stagedAttachments)) {
-      return [];
+      attachments = [];
+    } else {
+      // scale them down
+      const files = await Promise.all(stagedAttachments.map(AttachmentUtil.getFileAndStoreLocally));
+      attachments = _.compact(files);
     }
-    // scale them down
-    const files = await Promise.all(
-      stagedAttachments.map(attachment =>
-        AttachmentUtil.getFile(attachment, {
-          maxSize: Constants.CONVERSATION.MAX_ATTACHMENT_FILESIZE_BYTES,
-        })
-      )
-    );
-    window.inboxStore?.dispatch(
-      removeAllStagedAttachmentsInConversation({
-        conversationKey: this.props.selectedConversationKey,
-      })
-    );
-    return _.compact(files);
+
+    if (!linkPreview || _.isEmpty(linkPreview) || !linkPreview.url || !linkPreview.title) {
+      previews = [];
+    } else {
+      const sharedDetails = { url: linkPreview.url, title: linkPreview.title };
+      // store the first image preview locally and get the path and details back to include them in the message
+      const firstLinkPreviewImage = linkPreview.image;
+      if (firstLinkPreviewImage && !isEmpty(firstLinkPreviewImage)) {
+        const storedLinkPreviewAttachment = await AttachmentUtil.getFileAndStoreLocallyImageBuffer(
+          firstLinkPreviewImage.data
+        );
+        if (storedLinkPreviewAttachment) {
+          previews = [{ ...sharedDetails, image: storedLinkPreviewAttachment }];
+        } else {
+          // we couldn't save the image or whatever error happened, just return the url + title
+          previews = [sharedDetails];
+        }
+      } else {
+        // we did not fetch an image from the server
+        previews = [sharedDetails];
+      }
+    }
+
+    return { attachments, previews };
   }
 
   private async sendVoiceMessage(audioBlob: Blob) {
@@ -899,15 +912,16 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return;
     }
 
-    const savedAudioFile = await window.Signal.Migrations.processNewAttachment({
+    const savedAudioFile = await processNewAttachment({
       data: await audioBlob.arrayBuffer(),
       isRaw: true,
-      url: `session-audio-message-${Date.now()}`,
-    });
-    const audioAttachment: StagedAttachmentType = {
-      file: { ...savedAudioFile, path: savedAudioFile.path },
       contentType: MIME.AUDIO_MP3,
-      size: audioBlob.size,
+    });
+    // { ...savedAudioFile, path: savedAudioFile.path },
+    const audioAttachment: StagedAttachmentType = {
+      file: new File([], 'session-audio-message'), // this is just to emulate a file for the staged attachment type of that audio file
+      contentType: MIME.AUDIO_MP3,
+      size: savedAudioFile.size,
       fileSize: null,
       screenshot: null,
       fileName: 'session-audio-message',
@@ -988,10 +1002,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
     // Focus the textarea when user clicks anywhere in the composition box
     this.textarea.current?.focus();
   }
-
-  private abortLinkPreviewFetch() {
-    this.linkPreviewAbortController?.abort();
-  }
 }
 
 const mapStateToProps = (state: StateType) => {
@@ -1000,7 +1010,6 @@ const mapStateToProps = (state: StateType) => {
     selectedConversation: getSelectedConversation(state),
     selectedConversationKey: getSelectedConversationKey(state),
     typingEnabled: getIsTypingEnabled(state),
-    theme: getTheme(state),
   };
 };
 

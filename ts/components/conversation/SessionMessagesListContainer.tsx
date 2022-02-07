@@ -3,33 +3,25 @@ import React from 'react';
 import { SessionScrollButton } from '../SessionScrollButton';
 import { contextMenu } from 'react-contexify';
 
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { SessionMessagesList } from './SessionMessagesList';
-import styled from 'styled-components';
 import autoBind from 'auto-bind';
-import { getMessagesBySentAt } from '../../data/data';
 import { ConversationTypeEnum } from '../../models/conversation';
-import { MessageModel } from '../../models/message';
-import { QuoteClickOptions } from '../../models/messageType';
 import { getConversationController } from '../../session/conversations';
-import { ToastUtils } from '../../session/utils';
 import {
   quotedMessageToAnimate,
   ReduxConversationType,
-  showScrollToBottomButton,
+  resetOldBottomMessageId,
+  resetOldTopMessageId,
   SortedMessageModelProps,
-  updateHaveDoneFirstScroll,
 } from '../../state/ducks/conversations';
 import { StateType } from '../../state/reducer';
 import {
-  getFirstUnreadMessageId,
   getQuotedMessageToAnimate,
   getSelectedConversation,
   getSelectedConversationKey,
-  getShowScrollButton,
   getSortedMessagesOfSelectedConversation,
-  isFirstUnreadMessageIdAbove,
 } from '../../state/selectors/conversations';
 import { TypingBubble } from './TypingBubble';
 
@@ -37,38 +29,27 @@ export type SessionMessageListProps = {
   messageContainerRef: React.RefObject<HTMLDivElement>;
 };
 
-const SessionUnreadAboveIndicator = styled.div`
-  position: sticky;
-  top: 0;
-  margin: 1em;
-  display: flex;
-  justify-content: center;
-  background: var(--color-sent-message-background);
-  color: var(--color-sent-message-text);
-`;
+export const messageContainerDomID = 'messages-container';
 
-const UnreadAboveIndicator = () => {
-  const isFirstUnreadAbove = useSelector(isFirstUnreadMessageIdAbove);
-  const firstUnreadMessageId = useSelector(getFirstUnreadMessageId) as string;
+export type ScrollToLoadedReasons =
+  | 'quote-or-search-result'
+  | 'go-to-bottom'
+  | 'unread-indicator'
+  | 'load-more-top'
+  | 'load-more-bottom';
 
-  if (!isFirstUnreadAbove) {
-    return null;
-  }
-  return (
-    <SessionUnreadAboveIndicator key={`above-unread-indicator-${firstUnreadMessageId}`}>
-      {window.i18n('latestUnreadIsAbove')}
-    </SessionUnreadAboveIndicator>
-  );
-};
+export const ScrollToLoadedMessageContext = React.createContext(
+  // tslint:disable-next-line: no-empty
+  (_loadedMessageIdToScrollTo: string, _reason: ScrollToLoadedReasons) => {}
+);
 
 type Props = SessionMessageListProps & {
   conversationKey?: string;
   messagesProps: Array<SortedMessageModelProps>;
 
   conversation?: ReduxConversationType;
-  showScrollButton: boolean;
   animateQuotedMessageId: string | undefined;
-  firstUnreadOnOpen: string | undefined;
+  scrollToNow: () => Promise<void>;
 };
 
 class SessionMessagesListContainerInner extends React.Component<Props> {
@@ -83,68 +64,26 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~ LIFECYCLES ~~~~~~~~~~~~~~~~
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  public componentDidMount() {
-    this.initialMessageLoadingPosition();
-  }
-
   public componentWillUnmount() {
     if (this.timeoutResetQuotedScroll) {
       global.clearTimeout(this.timeoutResetQuotedScroll);
     }
   }
 
-  public componentDidUpdate(
-    prevProps: Props,
-    _prevState: any,
-    snapShot: { fakeScrollTop: number; realScrollTop: number; scrollHeight: number }
-  ) {
-    // this was hard to write, it should be hard to read
-    // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
-    const currentRef = this.props.messageContainerRef.current;
+  public componentDidUpdate(prevProps: Props, _prevState: any) {
+    // // If you want to mess with this, be my guest.
+    // // just make sure you don't remove that as a bug in chrome makes the column-reverse do bad things
+    // // https://bugs.chromium.org/p/chromium/issues/detail?id=1189195&q=column-reverse&can=2#makechanges
     const isSameConvo = prevProps.conversationKey === this.props.conversationKey;
-    const prevMsgLength = prevProps.messagesProps.length;
-    const newMsgLength = this.props.messagesProps.length;
 
-    const prevFirstMesssageId = prevProps.messagesProps[0]?.propsForMessage.id;
-    const newFirstMesssageId = this.props.messagesProps[0]?.propsForMessage.id;
-    const messageAddedWasMoreRecentOne = prevFirstMesssageId !== newFirstMesssageId;
-
-    if (isSameConvo && snapShot?.realScrollTop && prevMsgLength !== newMsgLength && currentRef) {
-      if (messageAddedWasMoreRecentOne) {
-        if (snapShot.scrollHeight - snapShot.realScrollTop < 50) {
-          // consider that we were scrolled to bottom
-          currentRef.scrollTop = 0;
-        } else {
-          currentRef.scrollTop = -(currentRef.scrollHeight - snapShot.realScrollTop);
-        }
-      } else {
-        currentRef.scrollTop = snapShot.fakeScrollTop;
-      }
-    }
-    if (!isSameConvo || (prevMsgLength === 0 && newMsgLength !== 0)) {
+    if (
+      !isSameConvo &&
+      this.props.messagesProps.length &&
+      this.props.messagesProps[0].propsForMessage.convoId === this.props.conversationKey
+    ) {
       this.setupTimeoutResetQuotedHighlightedMessage(this.props.animateQuotedMessageId);
-
       // displayed conversation changed. We have a bit of cleaning to do here
-      this.initialMessageLoadingPosition();
     }
-  }
-
-  public getSnapshotBeforeUpdate() {
-    const messageContainer = this.props.messageContainerRef.current;
-
-    const scrollTop = messageContainer?.scrollTop || undefined;
-    const scrollHeight = messageContainer?.scrollHeight || undefined;
-
-    // as we use column-reverse for displaying message list
-    // the top is < 0
-    // tslint:disable-next-line: restrict-plus-operands
-    const realScrollTop = scrollHeight && scrollTop ? scrollHeight + scrollTop : undefined;
-    return {
-      realScrollTop,
-      fakeScrollTop: scrollTop,
-      scrollHeight: scrollHeight,
-    };
   }
 
   public render() {
@@ -164,11 +103,11 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     return (
       <div
         className="messages-container"
+        id={messageContainerDomID}
         onScroll={this.handleScroll}
         ref={this.props.messageContainerRef}
+        data-testid="messages-container"
       >
-        <UnreadAboveIndicator />
-
         <TypingBubble
           pubkey={conversationKey}
           conversationType={conversation.type}
@@ -177,15 +116,25 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
           key="typing-bubble"
         />
 
-        <SessionMessagesList
-          scrollToQuoteMessage={this.scrollToQuoteMessage}
-          onPageDownPressed={this.scrollPgDown}
-          onPageUpPressed={this.scrollPgUp}
-          onHomePressed={this.scrollTop}
-          onEndPressed={this.scrollEnd}
-        />
+        <ScrollToLoadedMessageContext.Provider value={this.scrollToLoadedMessage}>
+          <SessionMessagesList
+            scrollAfterLoadMore={(
+              messageIdToScrollTo: string,
+              type: 'load-more-top' | 'load-more-bottom'
+            ) => {
+              this.scrollToMessage(messageIdToScrollTo, type);
+            }}
+            onPageDownPressed={this.scrollPgDown}
+            onPageUpPressed={this.scrollPgUp}
+            onHomePressed={this.scrollTop}
+            onEndPressed={this.scrollEnd}
+          />
+        </ScrollToLoadedMessageContext.Provider>
 
-        <SessionScrollButton onClick={this.scrollToBottom} key="scroll-down-button" />
+        <SessionScrollButton
+          onClickScrollBottom={this.props.scrollToNow}
+          key="scroll-down-button"
+        />
       </div>
     );
   }
@@ -195,47 +144,6 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   private handleScroll() {
     contextMenu.hideAll();
-  }
-
-  /**
-   * Position the list to the middle of the loaded list if the conversation has unread messages and we have some messages loaded
-   */
-  private initialMessageLoadingPosition() {
-    const { messagesProps, conversation, firstUnreadOnOpen } = this.props;
-    if (!conversation || !messagesProps.length) {
-      return;
-    }
-
-    if (
-      (conversation.unreadCount && conversation.unreadCount <= 0) ||
-      firstUnreadOnOpen === undefined
-    ) {
-      this.scrollToBottom();
-    } else {
-      // just assume that this need to be shown by default
-      window.inboxStore?.dispatch(showScrollToBottomButton(true));
-      const firstUnreadIndex = messagesProps.findIndex(
-        m => m.propsForMessage.id === firstUnreadOnOpen
-      );
-
-      if (firstUnreadIndex === -1) {
-        // the first unread message is not in the 30 most recent messages
-        // just scroll to the middle as we don't have enough loaded message nevertheless
-        const middle = Math.floor(messagesProps.length / 2);
-        const idToStringTo = messagesProps[middle].propsForMessage.id;
-        this.scrollToMessage(idToStringTo, 'center');
-      } else {
-        const messageElementDom = document.getElementById('unread-indicator');
-        messageElementDom?.scrollIntoView({
-          behavior: 'auto',
-          block: 'end',
-        });
-      }
-    }
-
-    setTimeout(() => {
-      window.inboxStore?.dispatch(updateHaveDoneFirstScroll());
-    }, 100);
   }
 
   /**
@@ -259,20 +167,58 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     }
   }
 
-  private scrollToMessage(messageId: string, block: 'center' | 'end' | 'nearest' | 'start') {
+  private scrollToMessage(messageId: string, reason: ScrollToLoadedReasons) {
     const messageElementDom = document.getElementById(`msg-${messageId}`);
-    messageElementDom?.scrollIntoView({
-      behavior: 'auto',
-      block,
-    });
-  }
+    // annoyingly, useLayoutEffect, which is calling this function, is run before ref are set on a react component.
+    // so the only way to scroll in the container at this time, is with the DOM itself
+    const messageContainerDom = document.getElementById(messageContainerDomID);
 
-  private scrollToBottom() {
-    const messageContainer = this.props.messageContainerRef.current;
-    if (!messageContainer) {
-      return;
+    // * if quote or search result we want to scroll to start AND do a -50px
+    // * if scroll-to-unread we want to scroll end AND do a +200px to be really at the end
+    // * if load-more-top or bottom we want to center
+
+    switch (reason) {
+      case 'load-more-bottom':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
+        // reset the oldBottomInRedux so that a refresh/new message does not scroll us back here again
+        window.inboxStore?.dispatch(resetOldBottomMessageId());
+        break;
+      case 'load-more-top':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+        });
+        // reset the oldTopInRedux so that a refresh/new message does not scroll us back here again
+        window.inboxStore?.dispatch(resetOldTopMessageId());
+        break;
+      case 'quote-or-search-result':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+        });
+        messageContainerDom?.scrollBy({ top: -50 });
+
+        break;
+      case 'go-to-bottom':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'end',
+        });
+        messageContainerDom?.scrollBy({ top: 200 });
+
+        break;
+      case 'unread-indicator':
+        messageElementDom?.scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+        });
+        messageContainerDom?.scrollBy({ top: -50 });
+        break;
+      default:
     }
-    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
 
   private scrollPgUp() {
@@ -317,56 +263,25 @@ class SessionMessagesListContainerInner extends React.Component<Props> {
     messageContainer.scrollTo(0, 0);
   }
 
-  private async scrollToQuoteMessage(options: QuoteClickOptions) {
-    const { quoteAuthor, quoteId, referencedMessageNotFound } = options;
+  private scrollToLoadedMessage(loadedMessageToScrollTo: string, reason: ScrollToLoadedReasons) {
+    if (!this.props.conversationKey || !loadedMessageToScrollTo) {
+      return;
+    }
 
     const { messagesProps } = this.props;
 
-    // For simplicity's sake, we show the 'not found' toast no matter what if we were
-    //   not able to find the referenced message when the quote was received.
-    if (referencedMessageNotFound) {
-      ToastUtils.pushOriginalNotFound();
-      return;
-    }
-    // Look for message in memory first, which would tell us if we could scroll to it
-    const targetMessage = messagesProps.find(item => {
-      const messageAuthor = item.propsForMessage?.authorPhoneNumber;
-
-      if (!messageAuthor || quoteAuthor !== messageAuthor) {
-        return false;
-      }
-      if (quoteId !== item.propsForMessage?.timestamp) {
-        return false;
-      }
-
-      return true;
-    });
-
     // If there's no message already in memory, we won't be scrolling. So we'll gather
     //   some more information then show an informative toast to the user.
-    if (!targetMessage) {
-      const collection = await getMessagesBySentAt(quoteId);
-      const found = Boolean(
-        collection.find((item: MessageModel) => {
-          const messageAuthor = item.getSource();
-
-          return Boolean(messageAuthor && quoteAuthor === messageAuthor);
-        })
-      );
-
-      if (found) {
-        ToastUtils.pushFoundButNotLoaded();
-      } else {
-        ToastUtils.pushOriginalNoLongerAvailable();
-      }
-      return;
+    if (!messagesProps.find(m => m.propsForMessage.id === loadedMessageToScrollTo)) {
+      throw new Error('this message is not loaded');
     }
 
-    const databaseId = targetMessage.propsForMessage.id;
-    this.scrollToMessage(databaseId, 'center');
+    this.scrollToMessage(loadedMessageToScrollTo, reason);
     // Highlight this message on the UI
-    window.inboxStore?.dispatch(quotedMessageToAnimate(databaseId));
-    this.setupTimeoutResetQuotedHighlightedMessage(databaseId);
+    if (reason === 'quote-or-search-result') {
+      window.inboxStore?.dispatch(quotedMessageToAnimate(loadedMessageToScrollTo));
+      this.setupTimeoutResetQuotedHighlightedMessage(loadedMessageToScrollTo);
+    }
   }
 }
 
@@ -375,9 +290,7 @@ const mapStateToProps = (state: StateType) => {
     conversationKey: getSelectedConversationKey(state),
     conversation: getSelectedConversation(state),
     messagesProps: getSortedMessagesOfSelectedConversation(state),
-    showScrollButton: getShowScrollButton(state),
     animateQuotedMessageId: getQuotedMessageToAnimate(state),
-    firstUnreadOnOpen: getFirstUnreadMessageId(state),
   };
 };
 

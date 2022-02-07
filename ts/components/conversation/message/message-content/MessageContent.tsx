@@ -1,18 +1,20 @@
 import classNames from 'classnames';
 import moment from 'moment';
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { InView } from 'react-intersection-observer';
 import { useSelector } from 'react-redux';
-import _ from 'underscore';
-import { MessageRenderingProps, QuoteClickOptions } from '../../../../models/messageType';
+import { isEmpty } from 'lodash';
+import { MessageRenderingProps } from '../../../../models/messageType';
 import {
   getMessageContentSelectorProps,
   getMessageTextProps,
+  getQuotedMessageToAnimate,
+  getShouldHighlightMessage,
 } from '../../../../state/selectors/conversations';
 import {
   canDisplayImage,
   getGridDimensions,
-  getImageDimensions,
+  getImageDimensionsInAttachment,
   hasImage,
   hasVideoScreenshot,
   isImage,
@@ -25,6 +27,7 @@ import { MessageAttachment } from './MessageAttachment';
 import { MessagePreview } from './MessagePreview';
 import { MessageQuote } from './MessageQuote';
 import { MessageText } from './MessageText';
+import { ScrollToLoadedMessageContext } from '../../SessionMessagesListContainer';
 
 export type MessageContentSelectorProps = Pick<
   MessageRenderingProps,
@@ -41,7 +44,6 @@ export type MessageContentSelectorProps = Pick<
 
 type Props = {
   messageId: string;
-  onQuoteClick?: (quote: QuoteClickOptions) => void;
   isDetailView?: boolean;
 };
 
@@ -96,10 +98,14 @@ function onClickOnMessageInnerContainer(event: React.MouseEvent<HTMLDivElement>)
 export const IsMessageVisibleContext = createContext(false);
 
 export const MessageContent = (props: Props) => {
+  const [flashGreen, setFlashGreen] = useState(false);
+  const [didScroll, setDidScroll] = useState(false);
   const contentProps = useSelector(state =>
     getMessageContentSelectorProps(state as any, props.messageId)
   );
   const [isMessageVisible, setMessageIsVisible] = useState(false);
+
+  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
 
   const [imageBroken, setImageBroken] = useState(false);
 
@@ -118,6 +124,32 @@ export const MessageContent = (props: Props) => {
     setImageBroken(true);
   }, [setImageBroken]);
 
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+  const shouldHighlightMessage = useSelector(getShouldHighlightMessage);
+  const isQuotedMessageToAnimate = quotedMessageToAnimate === props.messageId;
+
+  useLayoutEffect(() => {
+    if (isQuotedMessageToAnimate) {
+      if (!flashGreen && !didScroll) {
+        //scroll to me and flash me
+        scrollToLoadedMessage(props.messageId, 'quote-or-search-result');
+        setDidScroll(true);
+        if (shouldHighlightMessage) {
+          setFlashGreen(true);
+        }
+      }
+      return;
+    }
+    if (flashGreen) {
+      setFlashGreen(false);
+    }
+
+    if (didScroll) {
+      setDidScroll(false);
+    }
+    return;
+  });
+
   if (!contentProps) {
     return null;
   }
@@ -135,6 +167,7 @@ export const MessageContent = (props: Props) => {
   } = contentProps;
 
   const selectedMsg = useSelector(state => getMessageTextProps(state as any, props.messageId));
+
   let isDeleted = false;
   if (selectedMsg && selectedMsg.isDeleted !== undefined) {
     isDeleted = selectedMsg.isDeleted;
@@ -143,8 +176,8 @@ export const MessageContent = (props: Props) => {
   const width = getWidth({ previews, attachments });
   const isShowingImage = getIsShowingImage({ attachments, imageBroken, previews, text });
   const hasText = Boolean(text);
-  const hasQuote = !_.isEmpty(quote);
-  const hasContentAfterAttachmentAndQuote = !_.isEmpty(previews) || !_.isEmpty(text);
+  const hasQuote = !isEmpty(quote);
+  const hasContentAfterAttachmentAndQuote = !isEmpty(previews) || !isEmpty(text);
 
   const bgShouldBeTransparent = isShowingImage && !hasText && !hasQuote;
   const toolTipTitle = moment(serverTimestamp || timestamp).format('llll');
@@ -162,7 +195,8 @@ export const MessageContent = (props: Props) => {
           : '',
         lastMessageOfSeries || props.isDetailView
           ? `module-message__container--${direction}--last-of-series`
-          : ''
+          : '',
+        flashGreen && 'flash-green-once'
       )}
       style={{
         width: isShowingImage ? width : undefined,
@@ -181,7 +215,7 @@ export const MessageContent = (props: Props) => {
         <IsMessageVisibleContext.Provider value={isMessageVisible}>
           {!isDeleted && (
             <>
-              <MessageQuote messageId={props.messageId} onQuoteClick={props.onQuoteClick} />
+              <MessageQuote messageId={props.messageId} />
               <MessageAttachment
                 messageId={props.messageId}
                 imageBroken={imageBroken}
@@ -226,7 +260,7 @@ function getWidth(
     const { width } = first.image;
 
     if (isImageAttachment(first.image) && width && width >= MINIMUM_LINK_PREVIEW_IMAGE_WIDTH) {
-      const dimensions = getImageDimensions(first.image);
+      const dimensions = getImageDimensionsInAttachment(first.image);
       if (dimensions) {
         return dimensions.width;
       }

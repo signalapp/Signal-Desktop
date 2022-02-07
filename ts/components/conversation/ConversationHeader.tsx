@@ -6,7 +6,6 @@ import { contextMenu } from 'react-contexify';
 import styled from 'styled-components';
 import { ConversationNotificationSettingType } from '../../models/conversation';
 import {
-  getConversationHeaderProps,
   getConversationHeaderTitleProps,
   getCurrentNotificationSettingText,
   getIsSelectedBlocked,
@@ -33,10 +32,14 @@ import {
 } from '../../state/ducks/conversations';
 import { callRecipient } from '../../interactions/conversationInteractions';
 import { getHasIncomingCall, getHasOngoingCall } from '../../state/selectors/call';
-import { useConversationUsername } from '../../hooks/useParamSelector';
+import {
+  useConversationUsername,
+  useExpireTimer,
+  useIsKickedFromGroup,
+} from '../../hooks/useParamSelector';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionIconButton } from '../icon';
-import { MemoConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
+import { ConversationHeaderMenu } from '../menu/ConversationHeaderMenu';
 
 export interface TimerOption {
   name: string;
@@ -328,33 +331,20 @@ export const ConversationHeaderSubtitle = (props: { text?: string | null }): JSX
 };
 
 export const ConversationHeaderWithDetails = () => {
-  const headerProps = useSelector(getConversationHeaderProps);
-
   const isSelectionMode = useSelector(isMessageSelectionMode);
   const isMessageDetailOpened = useSelector(isMessageDetailView);
-
+  const selectedConvoKey = useSelector(getSelectedConversationKey);
   const dispatch = useDispatch();
 
-  if (!headerProps) {
+  if (!selectedConvoKey) {
     return null;
   }
-  const {
-    isKickedFromGroup,
-    expirationSettingName,
-    avatarPath,
-    name,
-    profileName,
-    isMe,
-    isPublic,
-    currentNotificationSetting,
-    hasNickname,
-    weAreAdmin,
-    isBlocked,
-    left,
-    conversationKey,
-    isPrivate,
-    isGroup,
-  } = headerProps;
+
+  const isKickedFromGroup = useIsKickedFromGroup(selectedConvoKey);
+  const expireTimerSetting = useExpireTimer(selectedConvoKey);
+  const expirationSettingName = expireTimerSetting
+    ? window.Whisper.ExpirationTimerOptions.getName(expireTimerSetting || 0)
+    : null;
 
   const triggerId = 'conversation-header';
 
@@ -383,29 +373,13 @@ export const ConversationHeaderWithDetails = () => {
               onAvatarClick={() => {
                 dispatch(openRightPanel());
               }}
-              pubkey={conversationKey}
+              pubkey={selectedConvoKey}
               showBackButton={isMessageDetailOpened}
             />
           </>
         )}
 
-        <MemoConversationHeaderMenu
-          conversationId={conversationKey}
-          triggerId={triggerId}
-          isMe={isMe}
-          isPublic={isPublic}
-          isGroup={isGroup}
-          isKickedFromGroup={isKickedFromGroup}
-          weAreAdmin={weAreAdmin}
-          isBlocked={isBlocked}
-          isPrivate={isPrivate}
-          left={left}
-          hasNickname={hasNickname}
-          currentNotificationSetting={currentNotificationSetting}
-          avatarPath={avatarPath}
-          name={name}
-          profileName={profileName}
-        />
+        <ConversationHeaderMenu triggerId={triggerId} />
       </div>
 
       {isSelectionMode && <SelectionOverlay />}

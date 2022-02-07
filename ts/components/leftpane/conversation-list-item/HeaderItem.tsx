@@ -1,9 +1,16 @@
 import classNames from 'classnames';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getFirstUnreadMessageWithMention } from '../../../data/data';
 import { useConversationPropsById, useIsPinned } from '../../../hooks/useParamSelector';
+import { UserUtils } from '../../../session/utils';
+import {
+  openConversationToSpecificMessage,
+  openConversationWithMessages,
+} from '../../../state/ducks/conversations';
 import { SectionType } from '../../../state/ducks/section';
+import { isSearching } from '../../../state/selectors/search';
 import { getFocusedSection } from '../../../state/selectors/section';
 import { Timestamp } from '../../conversation/Timestamp';
 import { SessionIcon } from '../../icon';
@@ -73,10 +80,72 @@ const ListItemIcons = () => {
   );
 };
 
-export const HeaderItem = () => {
+const MentionAtSymbol = styled.span`
+  background-color: var(--color-accent);
+
+  color: black;
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 1px;
+  padding-inline-start: 3px;
+  padding-inline-end: 3px;
+
+  position: static;
+  margin-inline-start: 5px;
+
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 0.25px;
+
+  height: 16px;
+  min-width: 16px;
+  border-radius: 8px;
+  /* transition: filter 0.25s linear; */
+  cursor: pointer;
+
+  :hover {
+    filter: grayscale(0.7);
+  }
+`;
+
+export const ConversationListItemHeaderItem = () => {
   const conversationId = useContext(ContextConversationId);
 
+  const isSearchingMode = useSelector(isSearching);
+
   const convoProps = useHeaderItemProps(conversationId);
+
+  const openConvoToLastMention = useCallback(
+    async (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      // mousedown is invoked sooner than onClick, but for both right and left click
+      if (e.button === 0) {
+        const oldestMessageUnreadWithMention =
+          (await getFirstUnreadMessageWithMention(
+            conversationId,
+            UserUtils.getOurPubKeyStrFromCache()
+          )) || null;
+        if (oldestMessageUnreadWithMention) {
+          await openConversationToSpecificMessage({
+            conversationKey: conversationId,
+            messageIdToNavigateTo: oldestMessageUnreadWithMention,
+            shouldHighlightMessage: true,
+          });
+        } else {
+          window.log.info('cannot open to latest mention as no unread mention are found');
+          await openConversationWithMessages({
+            conversationKey: conversationId,
+            messageId: null,
+          });
+        }
+      }
+    },
+    [conversationId]
+  );
+
   if (!convoProps) {
     return null;
   }
@@ -85,7 +154,11 @@ export const HeaderItem = () => {
   let atSymbol = null;
   let unreadCountDiv = null;
   if (unreadCount > 0) {
-    atSymbol = mentionedUs ? <p className="at-symbol">@</p> : null;
+    atSymbol = mentionedUs ? (
+      <MentionAtSymbol title="Open to latest mention" onMouseDown={openConvoToLastMention}>
+        @
+      </MentionAtSymbol>
+    ) : null;
     unreadCountDiv = <p className="module-conversation-list-item__unread-count">{unreadCount}</p>;
   }
 
@@ -104,14 +177,16 @@ export const HeaderItem = () => {
       {unreadCountDiv}
       {atSymbol}
 
-      <div
-        className={classNames(
-          'module-conversation-list-item__header__date',
-          unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
-        )}
-      >
-        <Timestamp timestamp={activeAt} extended={false} isConversationListItem={true} />
-      </div>
+      {!isSearchingMode && (
+        <div
+          className={classNames(
+            'module-conversation-list-item__header__date',
+            unreadCount > 0 ? 'module-conversation-list-item__header__date--has-unread' : null
+          )}
+        >
+          <Timestamp timestamp={activeAt} isConversationListItem={true} momentFromNow={true} />
+        </div>
+      )}
     </div>
   );
 };

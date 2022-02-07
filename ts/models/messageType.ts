@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import { defaultsDeep } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { CallNotificationType, PropsForMessageWithConvoProps } from '../state/ducks/conversations';
 import { AttachmentTypeWithPath } from '../types/Attachment';
@@ -15,14 +15,11 @@ export interface MessageAttributes {
   expireTimer: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp: number;
   read_by: Array<string>;
-  decrypted_at: number;
   expires_at?: number;
-  recipients: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -30,10 +27,9 @@ export interface MessageAttributes {
   conversationId: string;
   errors?: any;
   flags?: number;
-  hasAttachments: boolean;
-  hasFileAttachments: boolean;
-  hasVisualMediaAttachments: boolean;
-  schemaVersion: number;
+  hasAttachments: 1 | 0;
+  hasFileAttachments: 1 | 0;
+  hasVisualMediaAttachments: 1 | 0;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -49,8 +45,7 @@ export interface MessageAttributes {
    */
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  // dataMessage: any;
-  sent_to: any;
+  sent_to: Array<string>;
   sent: boolean;
 
   /**
@@ -87,11 +82,7 @@ export interface MessageAttributes {
   synced: boolean;
   sync: boolean;
 
-  /**
-   * This field is used for search only
-   */
-  snippet?: any;
-  direction: any;
+  direction: MessageModelType;
 
   /**
    * This is used for when a user screenshots or saves an attachment you sent.
@@ -139,14 +130,11 @@ export interface MessageAttributesOptionals {
   expireTimer?: number;
   received_at?: number;
   sent_at?: number;
-  destination?: string;
   preview?: any;
   body?: string;
   expirationStartTimestamp?: number;
   read_by?: Array<string>;
-  decrypted_at?: number;
   expires_at?: number;
-  recipients?: Array<string>;
   type: MessageModelType;
   group_update?: MessageGroupUpdate;
   groupInvitation?: any;
@@ -158,7 +146,6 @@ export interface MessageAttributesOptionals {
   hasAttachments?: boolean;
   hasFileAttachments?: boolean;
   hasVisualMediaAttachments?: boolean;
-  schemaVersion?: number;
   expirationTimerUpdate?: {
     expireTimer: number;
     source: string;
@@ -173,7 +160,6 @@ export interface MessageAttributesOptionals {
   group?: any;
   timestamp?: number;
   status?: MessageDeliveryStatus;
-  dataMessage?: any;
   sent_to?: Array<string>;
   sent?: boolean;
   serverId?: number;
@@ -182,8 +168,7 @@ export interface MessageAttributesOptionals {
   sentSync?: boolean;
   synced?: boolean;
   sync?: boolean;
-  snippet?: any;
-  direction?: any;
+  direction?: MessageModelType;
   messageHash?: string;
   isDeleted?: boolean;
   callNotificationType?: CallNotificationType;
@@ -196,10 +181,9 @@ export interface MessageAttributesOptionals {
 export const fillMessageAttributesWithDefaults = (
   optAttributes: MessageAttributesOptionals
 ): MessageAttributes => {
-  const defaulted = _.defaults(optAttributes, {
+  const defaulted = defaultsDeep(optAttributes, {
     expireTimer: 0, // disabled
     id: uuidv4(),
-    schemaVersion: window.Signal.Types.Message.CURRENT_SCHEMA_VERSION,
     unread: 0, // if nothing is set, this message is considered read
   });
   // this is just to cleanup a bit the db. delivered and delivered_to were removed, so everytime we load a message
@@ -212,12 +196,6 @@ export const fillMessageAttributesWithDefaults = (
     delete defaulted.delivered_to;
   }
   return defaulted;
-};
-
-export type QuoteClickOptions = {
-  quoteAuthor: string;
-  quoteId: number;
-  referencedMessageNotFound: boolean;
 };
 
 /**
@@ -233,5 +211,4 @@ export type MessageRenderingProps = PropsForMessageWithConvoProps & {
   multiSelectMode: boolean;
   firstMessageOfSeries: boolean;
   lastMessageOfSeries: boolean;
-  onQuoteClick?: (options: QuoteClickOptions) => Promise<void>;
 };

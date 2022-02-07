@@ -6,7 +6,7 @@ import * as GoogleChrome from '../../../../../ts/util/GoogleChrome';
 
 import { useSelector } from 'react-redux';
 
-import { noop } from 'underscore';
+import { noop } from 'lodash';
 import { useDisableDrag } from '../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';
@@ -20,7 +20,7 @@ import { MessageBody } from './MessageBody';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
-  authorPhoneNumber: string;
+  sender: string;
   authorProfileName?: string;
   authorName?: string;
   isFromMe: boolean;
@@ -269,7 +269,7 @@ export const QuoteText = (
 };
 
 type QuoteAuthorProps = {
-  authorPhoneNumber: string;
+  author: string;
   authorProfileName?: string;
   authorName?: string;
   isFromMe: boolean;
@@ -278,7 +278,7 @@ type QuoteAuthorProps = {
 };
 
 const QuoteAuthor = (props: QuoteAuthorProps) => {
-  const { authorProfileName, authorPhoneNumber, authorName, isFromMe, isIncoming } = props;
+  const { authorProfileName, author, authorName, isFromMe, isIncoming } = props;
 
   return (
     <div
@@ -291,7 +291,7 @@ const QuoteAuthor = (props: QuoteAuthorProps) => {
         window.i18n('you')
       ) : (
         <ContactName
-          pubkey={PubKey.shorten(authorPhoneNumber)}
+          pubkey={PubKey.shorten(author)}
           name={authorName}
           profileName={authorProfileName}
           compact={true}
@@ -365,7 +365,7 @@ export const Quote = (props: QuotePropsWithListener) => {
         <div className="module-quote__primary">
           <QuoteAuthor
             authorName={props.authorName}
-            authorPhoneNumber={props.authorPhoneNumber}
+            author={props.sender}
             authorProfileName={props.authorProfileName}
             isFromMe={props.isFromMe}
             isIncoming={props.isIncoming}

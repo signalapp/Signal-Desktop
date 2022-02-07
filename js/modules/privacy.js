@@ -1,10 +1,9 @@
 /* eslint-env node */
 
-const is = require('@sindresorhus/is');
 const path = require('path');
 
 const { compose } = require('lodash/fp');
-const { escapeRegExp } = require('lodash');
+const { escapeRegExp, isRegExp, isString } = require('lodash');
 
 const APP_ROOT_PATH = path.join(__dirname, '..', '..', '..');
 const SESSION_ID_PATTERN = /\b((05)?[0-9a-f]{64})\b/gi;
@@ -15,18 +14,18 @@ const REDACTION_PLACEHOLDER = '[REDACTED]';
 
 //      _redactPath :: Path -> String -> String
 exports._redactPath = filePath => {
-  if (!is.string(filePath)) {
+  if (!filePath) {
     throw new TypeError("'filePath' must be a string");
   }
 
   const filePathPattern = exports._pathToRegExp(filePath);
 
   return text => {
-    if (!is.string(text)) {
+    if (!isString(text)) {
       throw new TypeError("'text' must be a string");
     }
 
-    if (!is.regExp(filePathPattern)) {
+    if (!isRegExp(filePathPattern)) {
       return text;
     }
 
@@ -59,7 +58,7 @@ exports._pathToRegExp = filePath => {
 // Public API
 //      redactSessionID :: String -> String
 exports.redactSessionID = text => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
@@ -67,7 +66,7 @@ exports.redactSessionID = text => {
 };
 
 exports.redactSnodeIP = text => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
@@ -75,7 +74,7 @@ exports.redactSnodeIP = text => {
 };
 
 exports.redactServerUrl = text => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 
@@ -84,7 +83,7 @@ exports.redactServerUrl = text => {
 
 //      redactGroupIds :: String -> String
 exports.redactGroupIds = text => {
-  if (!is.string(text)) {
+  if (!isString(text)) {
     throw new TypeError("'text' must be a string");
   }
 

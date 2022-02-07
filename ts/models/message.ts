@@ -19,7 +19,7 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
-import { saveMessage } from '../../ts/data/data';
+import { getFirstUnreadMessageWithMention, saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
   FindAndFormatContactType,
@@ -49,8 +49,16 @@ import { OpenGroupVisibleMessage } from '../session/messages/outgoing/visibleMes
 import { getV2OpenGroupRoom } from '../data/opengroups';
 import { isUsFromCache } from '../session/utils/User';
 import { perfEnd, perfStart } from '../session/utils/Performance';
-import { AttachmentTypeWithPath } from '../types/Attachment';
+import { AttachmentTypeWithPath, isVoiceMessage } from '../types/Attachment';
 import _ from 'lodash';
+import { SettingsKey } from '../data/settings-key';
+import {
+  deleteExternalMessageFiles,
+  getAbsoluteAttachmentPath,
+  loadAttachmentData,
+  loadPreviewData,
+  loadQuoteData,
+} from '../types/MessageAttachment';
 // tslint:disable: cyclomatic-complexity
 
 /**
@@ -73,13 +81,6 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   constructor(attributes: MessageAttributesOptionals & { skipTimerInit?: boolean }) {
     const filledAttrs = fillMessageAttributesWithDefaults(attributes);
     super(filledAttrs);
-
-    this.set(
-      window.Signal.Types.Message.initializeSchemaVersion({
-        message: filledAttrs,
-        logger: window.log,
-      })
-    );
 
     if (!this.attributes.id) {
       throw new Error('A message always needs to have an id.');
@@ -218,7 +219,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
   }
 
   public async cleanup() {
-    await window.Signal.Migrations.deleteExternalMessageFiles(this.attributes);
+    await deleteExternalMessageFiles(this.attributes);
   }
 
   public getPropsForTimerNotification(): PropsForExpirationTimer | null {
@@ -393,7 +394,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     }
 
     const readBy = this.get('read_by') || [];
-    if (window.storage.get('read-receipt-setting') && readBy.length > 0) {
+    if (window.storage.get(SettingsKey.settingsReadReceipt) && readBy.length > 0) {
       return 'read';
     }
     const sent = this.get('sent');
@@ -420,7 +421,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       id: this.id,
       direction: (this.isIncoming() ? 'incoming' : 'outgoing') as MessageModelType,
       timestamp: this.get('sent_at') || 0,
-      authorPhoneNumber: sender,
+      sender,
       convoId: this.get('conversationId'),
     };
     if (body) {
@@ -471,9 +472,8 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (status) {
       props.status = status;
     }
-    const attachmentsProps = attachments
-      .filter((attachment: any) => !attachment.error)
-      .map((attachment: any) => this.getPropsForAttachment(attachment));
+
+    const attachmentsProps = attachments.map(this.getPropsForAttachment);
     if (attachmentsProps && attachmentsProps.length) {
       props.attachments = attachmentsProps;
     }
@@ -493,10 +493,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
   public processQuoteAttachment(attachment: any) {
     const { thumbnail } = attachment;
-    const path =
-      thumbnail &&
-      thumbnail.path &&
-      window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path);
+    const path = thumbnail && thumbnail.path && getAbsoluteAttachmentPath(thumbnail.path);
     const objectUrl = thumbnail && thumbnail.objectUrl;
 
     const thumbnailWithObjectUrl =
@@ -508,7 +505,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
           });
 
     return Object.assign({}, attachment, {
-      isVoiceMessage: window.Signal.Types.Attachment.isVoiceMessage(attachment),
+      isVoiceMessage: isVoiceMessage(attachment),
       thumbnail: thumbnailWithObjectUrl,
     });
     // tslint:enable: prefer-object-spread
@@ -556,14 +553,14 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     const firstAttachment = quote.attachments && quote.attachments[0];
     const quoteProps: {
       referencedMessageNotFound?: boolean;
-      authorPhoneNumber: string;
+      sender: string;
       messageId: string;
       authorName: string;
       text?: string;
       attachment?: any;
       isFromMe?: boolean;
     } = {
-      authorPhoneNumber: author,
+      sender: author,
       messageId: id,
       authorName: authorName || 'Unknown',
     };
@@ -614,9 +611,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       caption,
     } = attachment;
 
-    const isVoiceMessage =
+    const isVoiceMessageBool =
       // tslint:disable-next-line: no-bitwise
       Boolean(flags && flags & SignalService.AttachmentPointer.Flags.VOICE_MESSAGE) || false;
+
     return {
       id,
       contentType,
@@ -627,19 +625,19 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       path,
       fileName,
       fileSize: size ? filesize(size) : null,
-      isVoiceMessage,
+      isVoiceMessage: isVoiceMessageBool,
       pending: Boolean(pending),
-      url: path ? window.Signal.Migrations.getAbsoluteAttachmentPath(path) : null,
+      url: path ? getAbsoluteAttachmentPath(path) : '',
       screenshot: screenshot
         ? {
             ...screenshot,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(screenshot.path),
+            url: getAbsoluteAttachmentPath(screenshot.path),
           }
         : null,
       thumbnail: thumbnail
         ? {
             ...thumbnail,
-            url: window.Signal.Migrations.getAbsoluteAttachmentPath(thumbnail.path),
+            url: getAbsoluteAttachmentPath(thumbnail.path),
           }
         : null,
     };
@@ -649,12 +647,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
-    const phoneNumbers = this.isIncoming()
+    const phoneNumbers: Array<string> = this.isIncoming()
       ? [this.get('source')]
-      : _.union(
-          this.get('sent_to') || [],
-          this.get('recipients') || this.getConversation()?.getRecipients() || []
-        );
+      : this.get('sent_to') || [];
 
     // This will make the error message for outgoing key errors a bit nicer
     const allErrors = (this.get('errors') || []).map((error: any) => {
@@ -712,14 +707,13 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // TODO: In the future it might be best if we cache the upload results if possible.
     // This way we don't upload duplicated data.
 
-    const attachmentsWithData = await Promise.all(
-      (this.get('attachments') || []).map(window.Signal.Migrations.loadAttachmentData)
+    const finalAttachments = await Promise.all(
+      (this.get('attachments') || []).map(loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData as Array<any>;
 
-    const quoteWithData = await window.Signal.Migrations.loadQuoteData(this.get('quote'));
-    const previewWithData = await window.Signal.Migrations.loadPreviewData(this.get('preview'));
+    const quoteWithData = await loadQuoteData(this.get('quote'));
+    const previewWithData = await loadPreviewData(this.get('preview'));
 
     const conversation = this.getConversation();
 
@@ -747,6 +741,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       linkPreviewPromise,
       quotePromise,
     ]);
+    window.log.info(`Upload of message data for message ${this.idForLogging()} is finished.`);
 
     return {
       body,
@@ -767,8 +762,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       quote: undefined,
       groupInvitation: undefined,
       dataExtractionNotification: undefined,
-      hasAttachments: false,
-      hasVisualMediaAttachments: false,
+      hasAttachments: 0,
+      hasFileAttachments: 0,
+      hasVisualMediaAttachments: 0,
       attachments: undefined,
       preview: undefined,
     });
@@ -964,7 +960,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // if this message needs to be synced
     if (
-      (dataMessage.body && dataMessage.body.length) ||
+      dataMessage.body?.length ||
       dataMessage.attachments.length ||
       dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
@@ -1034,7 +1030,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (convo) {
       const beforeUnread = convo.get('unreadCount');
       const unreadCount = await convo.getUnreadCount();
-      if (beforeUnread !== unreadCount) {
+
+      const nextMentionedUs = await getFirstUnreadMessageWithMention(
+        convo.id,
+        UserUtils.getOurPubKeyStrFromCache()
+      );
+      let mentionedUsChange = false;
+      if (convo.get('mentionedUs') && !nextMentionedUs) {
+        convo.set('mentionedUs', false);
+        mentionedUsChange = true;
+      }
+      if (beforeUnread !== unreadCount || mentionedUsChange) {
         convo.set({ unreadCount });
         await convo.commit();
       }

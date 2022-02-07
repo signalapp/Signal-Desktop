@@ -32,6 +32,15 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
+ * Returns the name if that conversation.
+ * This is the group name, or the realName of a user for a private conversation with a recent nickname set
+ */
+export function useConversationRealName(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return convoProps?.isPrivate ? convoProps?.name : undefined;
+}
+
+/**
  * Returns either the nickname, the profileName, in '"' or the full pubkeys given
  */
 export function useConversationsUsernameWithQuoteOrFullPubkey(pubkeys: Array<string>) {
@@ -52,7 +61,7 @@ export function useOurConversationUsername() {
 }
 
 export function useIsMe(pubkey?: string) {
-  return pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache();
+  return Boolean(pubkey && pubkey === UserUtils.getOurPubKeyStrFromCache());
 }
 
 export function useIsClosedGroup(convoId?: string) {
@@ -63,6 +72,45 @@ export function useIsClosedGroup(convoId?: string) {
 export function useIsPrivate(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
   return Boolean(convoProps && convoProps.isPrivate);
+}
+
+export function useHasNickname(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.hasNickname);
+}
+
+export function useNotificationSetting(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return convoProps?.currentNotificationSetting || 'all';
+}
+export function useIsPublic(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isPublic);
+}
+
+export function useIsBlocked(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isBlocked);
+}
+
+export function useIsLeft(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.left);
+}
+
+export function useIsKickedFromGroup(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.isKickedFromGroup);
+}
+
+export function useWeAreAdmin(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return Boolean(convoProps && convoProps.weAreAdmin);
+}
+
+export function useExpireTimer(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return convoProps && convoProps.expireTimer;
 }
 
 export function useIsPinned(convoId?: string) {

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { sanitizeSessionUsername } from '../../session/utils/String';
 import { Flex } from '../basic/Flex';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 import { SessionSpinner } from '../basic/SessionSpinner';
@@ -55,6 +56,7 @@ const ContinueYourSessionButton = (props: {
       buttonColor={SessionButtonColor.Green}
       text={window.i18n('continueYourSession')}
       disabled={props.disabled}
+      dataTestId="continue-session-button;"
     />
   );
 };
@@ -145,7 +147,7 @@ export const SignInTab = () => {
             displayName={displayName}
             handlePressEnter={continueYourSession}
             onDisplayNameChanged={(name: string) => {
-              const sanitizedName = name.replace(window.displayNameRegex, '');
+              const sanitizedName = sanitizeSessionUsername(name);
               const trimName = sanitizedName.trim();
               setDisplayName(sanitizedName);
               setDisplayNameError(!trimName ? window.i18n('displayNameEmpty') : undefined);

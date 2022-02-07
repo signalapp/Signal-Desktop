@@ -27,7 +27,7 @@ const Subtle = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   display: -webkit-box;
   color: var(--color-text);

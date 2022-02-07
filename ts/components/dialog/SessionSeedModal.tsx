@@ -71,9 +71,8 @@ const Password = (props: PasswordProps) => {
       <SpacerLG />
 
       <div className="session-modal__button-group">
-        <SessionButton text={i18n('ok')} onClick={confirmPassword} />
-
         <SessionButton text={i18n('cancel')} onClick={onClose} />
+        <SessionButton text={i18n('ok')} onClick={confirmPassword} />
       </div>
     </>
   );
@@ -108,7 +107,7 @@ const Seed = (props: SeedProps) => {
         <p className="session-modal__description">{i18n('recoveryPhraseSavePromptMain')}</p>
         <SpacerXS />
 
-        <i data-test-id="recovery-phrase-seed-modal" className="session-modal__text-highlight">
+        <i data-testid="recovery-phrase-seed-modal" className="session-modal__text-highlight">
           {recoveryPhrase}
         </i>
       </div>

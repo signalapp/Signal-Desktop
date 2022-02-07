@@ -18,7 +18,6 @@ js/components.js
 js/util_worker.js
 js/libtextsecure.js
 libtextsecure/components.js
-libtextsecure/test/test.js
 stylesheets/*.css
 test/test.js
 
@@ -28,6 +27,8 @@ ts/protobuf/*.d.ts
 ts/**/*.js.map
 test/ts/**/*.js.map
 test/ts/**/*.js
+ts/test/automation/**/*.js
+ts/test/automation/**/*.js.map
 
 
 # Swapfiles
@@ -46,3 +47,6 @@ yarn-error.log
 .vscode/
 
 libloki/test/test.js
+
+playwright.config.js
+playwright.config.js.map

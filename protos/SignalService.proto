@@ -227,7 +227,6 @@ message AttachmentPointer {
   optional string  contentType = 2;
   optional bytes   key         = 3;
   optional uint32  size        = 4;
-  optional bytes   thumbnail   = 5;
   optional bytes   digest      = 6;
   optional string  fileName    = 7;
   optional uint32  flags       = 8;

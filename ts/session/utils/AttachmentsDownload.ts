@@ -8,11 +8,12 @@ import {
   removeAttachmentDownloadJob,
   resetAttachmentDownloadPending,
   saveAttachmentDownloadJob,
-  saveMessage,
   setAttachmentDownloadJobPending,
 } from '../../../ts/data/data';
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
+import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
+import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 
 // this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -30,6 +31,8 @@ let enabled = false;
 let timeout: any;
 let logger: any;
 const _activeAttachmentDownloadJobs: any = {};
+
+// FIXME audric, type those `any` field
 
 export async function start(options: any = {}) {
   ({ logger } = options);
@@ -194,17 +197,32 @@ async function _runJob(job: any) {
         await _finishJob(found, id);
         found = await getMessageById(messageId);
 
-        await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
+        _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
         return;
       }
       throw error;
     }
 
-    const upgradedAttachment = await window.Signal.Migrations.processNewAttachment(downloaded);
+    if (!attachment.contentType) {
+      window.log.warn('incoming attachment has no contentType');
+    }
+    const upgradedAttachment = await processNewAttachment({
+      ...downloaded,
+      fileName: attachment.fileName,
+      contentType: attachment.contentType,
+    });
     found = await getMessageById(messageId);
+    if (found) {
+      const {
+        hasAttachments,
+        hasVisualMediaAttachments,
+        hasFileAttachments,
+      } = await getAttachmentMetadata(found);
+      found.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
+    }
 
-    await _addAttachmentToMessage(found, upgradedAttachment, { type, index });
+    _addAttachmentToMessage(found, upgradedAttachment, { type, index });
 
     await _finishJob(found, id);
   } catch (error) {
@@ -218,15 +236,15 @@ async function _runJob(job: any) {
       );
       found = await getMessageById(messageId);
 
+      _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
       await _finishJob(found || null, id);
-      await _addAttachmentToMessage(found, _markAttachmentAsError(attachment), { type, index });
 
       return;
     }
 
     logger.error(
       `_runJob: Failed to download attachment type ${type} for message ${found?.idForLogging()}, attempt ${currentAttempt}:`,
-      error && error.stack ? error.stack : error
+      error && error.message ? error.message : error
     );
 
     const failedJob = {
@@ -245,7 +263,6 @@ async function _runJob(job: any) {
 
 async function _finishJob(message: MessageModel | null, id: string) {
   if (message) {
-    await saveMessage(message.attributes);
     const conversation = message.getConversation();
     if (conversation) {
       await message.commit();
@@ -266,11 +283,12 @@ function _markAttachmentAsError(attachment: any) {
   return {
     ...omit(attachment, ['key', 'digest', 'id']),
     error: true,
+    pending: false,
   };
 }
 
 // tslint:disable-next-line: cyclomatic-complexity
-async function _addAttachmentToMessage(
+function _addAttachmentToMessage(
   message: MessageModel | null | undefined,
   attachment: any,
   { type, index }: any
@@ -289,6 +307,7 @@ async function _addAttachmentToMessage(
       );
     }
     _replaceAttachment(attachments, index, attachment, logPrefix);
+
     return;
   }
 
@@ -322,6 +341,7 @@ async function _addAttachmentToMessage(
       throw new Error(`_addAttachmentToMessage: attachment ${index} was falsey`);
     }
     _replaceAttachment(item, 'thumbnail', attachment, logPrefix);
+
     return;
   }
 
@@ -341,3 +361,5 @@ function _replaceAttachment(object: any, key: any, newAttachment: any, logPrefix
   // eslint-disable-next-line no-param-reassign
   object[key] = newAttachment;
 }
+
+export const initAttachmentPaths = initializeAttachmentLogic;
