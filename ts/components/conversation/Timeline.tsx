@@ -115,7 +115,7 @@ type PropsHousekeepingType = {
   warning?: WarningType;
   contactSpoofingReview?: ContactSpoofingReviewPropType;
 
-  getTimestampForMessage: (_: string) => number;
+  getTimestampForMessage: (messageId: string) => undefined | number;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
@@ -220,7 +220,7 @@ type StateType = {
   oneTimeScrollRow?: number;
   visibleRows?: {
     newestFullyVisible?: VisibleRowType;
-    oldestPartiallyVisible?: VisibleRowType;
+    oldestPartiallyVisibleMessageId?: string;
     oldestFullyVisible?: VisibleRowType;
   };
 
@@ -612,7 +612,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
 
     let newestFullyVisible: undefined | VisibleRowType;
-    let oldestPartiallyVisible: undefined | VisibleRowType;
+    let oldestPartiallyVisibleMessageId: undefined | string;
     let oldestFullyVisible: undefined | VisibleRowType;
 
     const { children } = innerScrollContainer;
@@ -646,20 +646,18 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
         continue;
       }
 
-      const thisRow = {
-        offsetTop,
-        row: parseInt(child.getAttribute('data-row') || '-1', 10),
-        id,
-      };
-
       const bottom = offsetTop + offsetHeight;
 
-      if (bottom >= visibleTop && !oldestPartiallyVisible) {
-        oldestPartiallyVisible = thisRow;
+      if (bottom >= visibleTop && !oldestPartiallyVisibleMessageId) {
+        oldestPartiallyVisibleMessageId = id;
       }
 
       if (offsetTop + AT_TOP_THRESHOLD >= visibleTop) {
-        oldestFullyVisible = thisRow;
+        oldestFullyVisible = {
+          offsetTop,
+          row: parseInt(child.getAttribute('data-row') || '-1', 10),
+          id,
+        };
         break;
       }
     }
@@ -667,7 +665,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.setState(oldState => {
       const visibleRows = {
         newestFullyVisible,
-        oldestPartiallyVisible,
+        oldestPartiallyVisibleMessageId,
         oldestFullyVisible,
       };
 
@@ -1289,8 +1287,15 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     }
 
     let floatingHeader: ReactNode;
-    const oldestPartiallyVisibleRow = visibleRows?.oldestPartiallyVisible;
-    if (oldestPartiallyVisibleRow) {
+    const oldestPartiallyVisibleMessageId =
+      visibleRows?.oldestPartiallyVisibleMessageId;
+    // It's possible that a message was removed from `items` but we still have its ID in
+    //   state. `getTimestampForMessage` might return undefined in that case.
+    const oldestPartiallyVisibleMessageTimestamp =
+      oldestPartiallyVisibleMessageId
+        ? getTimestampForMessage(oldestPartiallyVisibleMessageId)
+        : undefined;
+    if (oldestPartiallyVisibleMessageTimestamp) {
       floatingHeader = (
         <TimelineFloatingHeader
           i18n={i18n}
@@ -1300,10 +1305,10 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               ? { marginTop: lastMeasuredWarningHeight }
               : undefined
           }
-          timestamp={getTimestampForMessage(oldestPartiallyVisibleRow.id)}
+          timestamp={oldestPartiallyVisibleMessageTimestamp}
           visible={
             (hasRecentlyScrolled || isLoadingMessages) &&
-            (!haveOldest || oldestPartiallyVisibleRow.id !== items[0])
+            (!haveOldest || oldestPartiallyVisibleMessageId !== items[0])
           }
         />
       );
