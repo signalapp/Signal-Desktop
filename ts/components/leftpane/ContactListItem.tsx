@@ -36,7 +36,7 @@ export const ContactListItem = (props: Props) => {
       <AvatarItem pubkey={pubkey} />
       <div className="module-contact-list-item__text">
         <div className="module-contact-list-item__text__name">
-          <Emojify text={displayName} />
+          <Emojify text={displayName} sizeClass="small" renderNonEmoji={({ text }) => text || ''} />
         </div>
       </div>
     </div>

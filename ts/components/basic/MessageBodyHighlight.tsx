@@ -4,10 +4,13 @@ import { RenderTextCallbackType } from '../../types/Util';
 import { SizeClassType } from '../../util/emoji';
 import { AddNewLines } from '../conversation/AddNewLines';
 import { Emojify } from '../conversation/Emojify';
-import { MessageBody } from '../conversation/message/message-content/MessageBody';
+import {
+  MessageBody,
+  renderTextDefault,
+} from '../conversation/message/message-content/MessageBody';
 
 const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
-  <AddNewLines key={key} text={text} />
+  <AddNewLines key={key} text={text} renderNonNewLine={renderTextDefault} />
 );
 
 const SnippetHighlight = styled.span`
@@ -23,7 +26,7 @@ const renderEmoji = ({
 }: {
   text: string;
   key: number;
-  sizeClass?: SizeClassType;
+  sizeClass: SizeClassType;
   renderNonEmoji: RenderTextCallbackType;
 }) => <Emojify key={key} text={text} sizeClass={sizeClass} renderNonEmoji={renderNonEmoji} />;
 
@@ -41,7 +44,7 @@ export const MessageBodyHighlight = (props: { text: string }) => {
     return <MessageBody disableJumbomoji={true} disableLinks={true} text={text} />;
   }
 
-  const sizeClass = '';
+  const sizeClass = 'default';
 
   while (match) {
     if (last < match.index) {

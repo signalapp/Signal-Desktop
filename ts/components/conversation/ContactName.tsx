@@ -32,15 +32,11 @@ export const ContactName = (props: Props) => {
     <span className={classNames(prefix, compact && 'compact')} dir="auto">
       {shouldShowProfile ? (
         <span style={styles as any} className={`${prefix}__profile-name`}>
-          <Emojify text={textProfile} />
+          <Emojify text={textProfile} sizeClass="small" />
         </span>
       ) : null}
       {shouldShowProfile ? ' ' : null}
-      {shouldShowPubkey ? (
-        <span className={`${prefix}__profile-number`}>
-          <Emojify text={pubkey} />
-        </span>
-      ) : null}
+      {shouldShowPubkey ? <span className={`${prefix}__profile-number`}>{pubkey}</span> : null}
     </span>
   );
 };

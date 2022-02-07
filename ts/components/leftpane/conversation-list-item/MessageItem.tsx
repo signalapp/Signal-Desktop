@@ -52,7 +52,7 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
         {isTyping ? (
           <TypingAnimation />
         ) : (
-          <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
+          <MessageBody text={text} disableJumbomoji={true} disableLinks={true} />
         )}
       </div>
       <MessageRequestButtons isMessageRequest={props.isMessageRequest} />

@@ -2,7 +2,6 @@
 
 const Crypto = require('./crypto');
 const Data = require('../../ts/data/data');
-const Emoji = require('../../ts/util/emoji');
 const Notifications = require('../../ts/notifications');
 const OS = require('../../ts/OS');
 const Settings = require('./settings');
@@ -44,7 +43,6 @@ exports.setup = () => {
     Components,
     Crypto,
     Data,
-    Emoji,
     LinkPreviews,
     Notifications,
     OS,

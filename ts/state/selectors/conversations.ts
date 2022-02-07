@@ -907,11 +907,9 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { conversationType, convoId, direction, status, text, isDeleted } = props.propsForMessage;
+  const { direction, status, text, isDeleted } = props.propsForMessage;
 
   const msgProps: MessageTextSelectorProps = {
-    conversationType,
-    convoId,
     direction,
     status,
     text,

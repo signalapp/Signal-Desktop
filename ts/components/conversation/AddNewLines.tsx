@@ -1,28 +1,17 @@
 import React from 'react';
-
 import { RenderTextCallbackType } from '../../types/Util';
 
-interface Props {
+type Props = {
   text: string;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
-  renderNonNewLine?: RenderTextCallbackType;
-  convoId: string;
-}
+  renderNonNewLine: RenderTextCallbackType;
+};
 
-export class AddNewLines extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderNonNewLine: ({ text }) => text,
-  };
-
-  public render() {
-    const { text, renderNonNewLine, convoId } = this.props;
-
-    // We have to do this, because renderNonNewLine is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderNonNewLine) {
-      return;
-    }
-
-    return renderNonNewLine({ text, key: 0, convoId });
+export const AddNewLines = (props: Props) => {
+  const { text, renderNonNewLine } = props;
+  const rendered = renderNonNewLine({ text, key: 0 });
+  if (typeof rendered === 'string') {
+    return <>{rendered}</>;
   }
-}
+  return rendered;
+};

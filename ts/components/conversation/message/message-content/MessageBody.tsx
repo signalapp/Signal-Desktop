@@ -1,43 +1,29 @@
 import React from 'react';
 import { RenderTextCallbackType } from '../../../../types/Util';
-import { getSizeClass, SizeClassType } from '../../../../util/emoji';
+import { getEmojiSizeClass, SizeClassType } from '../../../../util/emoji';
 import { AddMentions } from '../../AddMentions';
 import { AddNewLines } from '../../AddNewLines';
 import { Emojify } from '../../Emojify';
 import { Linkify } from '../../Linkify';
 
-interface Props {
+type Props = {
   text: string;
   /** If set, all emoji will be the same size. Otherwise, just one emoji will be large. */
-  disableJumbomoji?: boolean;
+  disableJumbomoji: boolean;
   /** If set, links will be left alone instead of turned into clickable `<a>` tags. */
-  disableLinks?: boolean;
-  isGroup?: boolean;
-  convoId: string;
-}
+  disableLinks: boolean;
+};
 
-const renderMentions: RenderTextCallbackType = ({ text, key, convoId }) => (
-  <AddMentions key={key} text={text} convoId={convoId || ''} />
+const renderMentions: RenderTextCallbackType = ({ text, key }) => (
+  <AddMentions key={key} text={text} />
 );
 
-const renderDefault: RenderTextCallbackType = ({ text }) => text;
+export const renderTextDefault: RenderTextCallbackType = ({ text }) => text;
 
-const renderNewLines: RenderTextCallbackType = ({
-  text: textWithNewLines,
-  key,
-  isGroup,
-  convoId,
-}) => {
-  const renderOther = isGroup ? renderMentions : renderDefault;
+const renderNewLines: RenderTextCallbackType = ({ text: textWithNewLines, key, isGroup }) => {
+  const renderOther = isGroup ? renderMentions : renderTextDefault;
 
-  return (
-    <AddNewLines
-      key={key}
-      text={textWithNewLines}
-      renderNonNewLine={renderOther}
-      convoId={convoId}
-    />
-  );
+  return <AddNewLines key={key} text={textWithNewLines} renderNonNewLine={renderOther} />;
 };
 
 const renderEmoji = ({
@@ -45,25 +31,12 @@ const renderEmoji = ({
   key,
   sizeClass,
   renderNonEmoji,
-  isGroup,
-  convoId,
 }: {
   text: string;
   key: number;
-  sizeClass?: SizeClassType;
+  sizeClass: SizeClassType;
   renderNonEmoji: RenderTextCallbackType;
-  isGroup?: boolean;
-  convoId?: string;
-}) => (
-  <Emojify
-    key={key}
-    text={text}
-    sizeClass={sizeClass}
-    renderNonEmoji={renderNonEmoji}
-    isGroup={isGroup}
-    convoId={convoId}
-  />
-);
+}) => <Emojify key={key} text={text} sizeClass={sizeClass} renderNonEmoji={renderNonEmoji} />;
 
 /**
  * This component makes it very easy to use all three of our message formatting
@@ -71,62 +44,52 @@ const renderEmoji = ({
  * configurable with their `renderXXX` props, this component will assemble all three of
  * them for you.
  */
-export class MessageBody extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    isGroup: false,
-  };
 
-  public renderJsxSelectable(jsx: JSX.Element): JSX.Element {
-    return (
-      <span
-        className="text-selectable"
-        onDragStart={(e: any) => {
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        }}
-      >
-        {jsx}
-      </span>
+const JsxSelectable = (jsx: JSX.Element): JSX.Element => {
+  return (
+    <span
+      className="text-selectable"
+      onDragStart={(e: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }}
+    >
+      {jsx}
+    </span>
+  );
+};
+export const MessageBody = (props: Props) => {
+  const { text, disableJumbomoji, disableLinks } = props;
+  const sizeClass: SizeClassType = disableJumbomoji ? 'default' : getEmojiSizeClass(text);
+
+  if (disableLinks) {
+    return JsxSelectable(
+      renderEmoji({
+        text,
+        sizeClass,
+        key: 0,
+        renderNonEmoji: renderNewLines,
+      })
     );
   }
 
-  public render() {
-    const { text, disableJumbomoji, disableLinks, isGroup, convoId } = this.props;
-    const sizeClass = disableJumbomoji ? undefined : getSizeClass(text);
+  if (text && text.startsWith('```') && text.endsWith('```')) {
+    const length = text.length;
+    return <pre className="text-selectable">{text.substring(4, length - 3)}</pre>;
+  }
 
-    if (disableLinks) {
-      return this.renderJsxSelectable(
-        renderEmoji({
-          text,
+  return JsxSelectable(
+    <Linkify
+      text={text}
+      renderNonLink={({ key, text: nonLinkText }) => {
+        return renderEmoji({
+          text: nonLinkText,
           sizeClass,
-          key: 0,
+          key,
           renderNonEmoji: renderNewLines,
-          isGroup,
-          convoId,
-        })
-      );
-    }
-
-    if (text && text.startsWith('```') && text.endsWith('```')) {
-      const length = text.length;
-      return <pre className="text-selectable">{text.substring(4, length - 3)}</pre>;
-    }
-
-    return this.renderJsxSelectable(
-      <Linkify
-        text={text}
-        renderNonLink={({ key, text: nonLinkText }) => {
-          return renderEmoji({
-            text: nonLinkText,
-            sizeClass,
-            key,
-            renderNonEmoji: renderNewLines,
-            isGroup,
-            convoId,
-          });
-        }}
-      />
-    );
-  }
-}
+        });
+      }}
+    />
+  );
+};
