@@ -130,6 +130,7 @@ const channelsToMake = {
   getLastMessagesByConversation,
   getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
   getSeenMessagesByHashList,
   getLastHashBySnode,
@@ -836,6 +837,13 @@ export async function getFirstUnreadMessageIdInConversation(
   conversationId: string
 ): Promise<string | undefined> {
   return channels.getFirstUnreadMessageIdInConversation(conversationId);
+}
+
+export async function getFirstUnreadMessageWithMention(
+  conversationId: string,
+  ourPubkey: string
+): Promise<string | undefined> {
+  return channels.getFirstUnreadMessageWithMention(conversationId, ourPubkey);
 }
 
 export async function hasConversationOutgoingMessage(conversationId: string): Promise<boolean> {
