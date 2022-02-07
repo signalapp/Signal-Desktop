@@ -19,7 +19,7 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
-import { saveMessage } from '../../ts/data/data';
+import { getFirstUnreadMessageWithMention, saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
   FindAndFormatContactType,
@@ -1030,7 +1030,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (convo) {
       const beforeUnread = convo.get('unreadCount');
       const unreadCount = await convo.getUnreadCount();
-      if (beforeUnread !== unreadCount) {
+
+      const nextMentionedUs = await getFirstUnreadMessageWithMention(
+        convo.id,
+        UserUtils.getOurPubKeyStrFromCache()
+      );
+      let mentionedUsChange = false;
+      if (convo.get('mentionedUs') && !nextMentionedUs) {
+        convo.set('mentionedUs', false);
+        mentionedUsChange = true;
+      }
+      if (beforeUnread !== unreadCount || mentionedUsChange) {
         convo.set({ unreadCount });
         await convo.commit();
       }

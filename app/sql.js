@@ -74,6 +74,7 @@ module.exports = {
   getLastMessagesByConversation,
   getOldestMessageInConversation,
   getFirstUnreadMessageIdInConversation,
+  getFirstUnreadMessageWithMention,
   hasConversationOutgoingMessage,
   trimMessages,
   fillWithTestData,
@@ -2279,7 +2280,7 @@ const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) 
 const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
 function getMessagesByConversation(conversationId, { messageId = null } = {}) {
-  const absLimit = 20;
+  const absLimit = 30;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
   // If messageId is null, it means we are just opening the convo to the last unread message, or at the bottom
@@ -2412,6 +2413,35 @@ function getFirstUnreadMessageIdInConversation(conversationId) {
     .all({
       conversationId,
       unread: 1,
+    });
+
+  if (rows.length === 0) {
+    return undefined;
+  }
+  return rows[0].id;
+}
+
+function getFirstUnreadMessageWithMention(conversationId, ourpubkey) {
+  if (!ourpubkey || !ourpubkey.length) {
+    throw new Error('getFirstUnreadMessageWithMention needs our pubkey but nothing was given');
+  }
+  const likeMatch = `%@${ourpubkey}%`;
+
+  const rows = globalInstance
+    .prepare(
+      `
+    SELECT id, json FROM ${MESSAGES_TABLE} WHERE
+      conversationId = $conversationId AND
+      unread = $unread AND
+      body LIKE $likeMatch
+      ORDER BY serverTimestamp ASC, serverId ASC, sent_at ASC, received_at ASC
+    LIMIT 1;
+    `
+    )
+    .all({
+      conversationId,
+      unread: 1,
+      likeMatch,
     });
 
   if (rows.length === 0) {
