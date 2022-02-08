@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { Emojify } from './Emojify';
-import { useConversationUsernameOrShorten } from '../../hooks/useParamSelector';
+import { useConversationUsernameOrShorten, useIsPrivate } from '../../hooks/useParamSelector';
 
 type Props = {
   pubkey: string;
@@ -19,7 +19,7 @@ export const ContactName = (props: Props) => {
   const prefix = module ? module : 'module-contact-name';
 
   const convoName = useConversationUsernameOrShorten(pubkey);
-
+  const isPrivate = useIsPrivate(pubkey);
   const shouldShowProfile = Boolean(convoName || profileName || name);
   const styles = (boldProfileName
     ? {
@@ -32,7 +32,7 @@ export const ContactName = (props: Props) => {
     <span className={classNames(prefix, compact && 'compact')} dir="auto">
       {shouldShowProfile ? (
         <span style={styles as any} className={`${prefix}__profile-name`}>
-          <Emojify text={textProfile} sizeClass="small" />
+          <Emojify text={textProfile} sizeClass="small" isGroup={!isPrivate} />
         </span>
       ) : null}
       {shouldShowProfile ? ' ' : null}

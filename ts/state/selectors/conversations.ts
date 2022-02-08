@@ -577,7 +577,7 @@ export const isRightPanelShowing = createSelector(
 
 export const isMessageSelectionMode = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => state.selectedMessageIds.length > 0
+  (state: ConversationsStateType): boolean => Boolean(state.selectedMessageIds.length > 0)
 );
 
 export const getSelectedMessageIds = createSelector(
@@ -907,13 +907,14 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { direction, status, text, isDeleted } = props.propsForMessage;
+  const { direction, status, text, isDeleted, conversationType } = props.propsForMessage;
 
   const msgProps: MessageTextSelectorProps = {
     direction,
     status,
     text,
     isDeleted,
+    conversationType,
   };
 
   return msgProps;

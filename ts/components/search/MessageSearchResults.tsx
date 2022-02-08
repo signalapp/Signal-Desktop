@@ -230,7 +230,7 @@ export const MessageSearchResult = (props: MessageResultProps) => {
         </ResultsHeader>
         <ResultBody>
           <FromUserInGroup authorPubkey={source} conversationId={conversationId} />
-          <MessageBodyHighlight text={snippet || ''} />
+          <MessageBodyHighlight text={snippet || ''} isGroup={!convoIsPrivate} />
         </ResultBody>
       </StyledResultText>
     </StyledSearchResulsts>

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useContext } from 'react';
 import { isEmpty } from 'lodash';
-import { useConversationPropsById } from '../../../hooks/useParamSelector';
+import { useConversationPropsById, useIsPrivate } from '../../../hooks/useParamSelector';
 import { MessageBody } from '../../conversation/message/message-content/MessageBody';
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
@@ -25,6 +25,8 @@ function useMessageItemProps(convoId: string) {
 export const MessageItem = (props: { isMessageRequest: boolean }) => {
   const conversationId = useContext(ContextConversationId);
   const convoProps = useMessageItemProps(conversationId);
+
+  const isGroup = !!useIsPrivate(conversationId);
 
   const isSearchingMode = useSelector(isSearching);
   if (!convoProps) {
@@ -52,7 +54,7 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
         {isTyping ? (
           <TypingAnimation />
         ) : (
-          <MessageBody text={text} disableJumbomoji={true} disableLinks={true} />
+          <MessageBody text={text} disableJumbomoji={true} disableLinks={true} isGroup={isGroup} />
         )}
       </div>
       <MessageRequestButtons isMessageRequest={props.isMessageRequest} />

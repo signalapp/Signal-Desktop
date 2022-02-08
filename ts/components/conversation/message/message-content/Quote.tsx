@@ -10,9 +10,13 @@ import { noop } from 'lodash';
 import { useDisableDrag } from '../../../../hooks/useDisableDrag';
 import { useEncryptedFileFetch } from '../../../../hooks/useEncryptedFileFetch';
 import { PubKey } from '../../../../session/types';
-import { isPublicGroupConversation } from '../../../../state/selectors/conversations';
+import {
+  getSelectedConversationKey,
+  isPublicGroupConversation,
+} from '../../../../state/selectors/conversations';
 import { ContactName } from '../../ContactName';
 import { MessageBody } from './MessageBody';
+import { useIsPrivate } from '../../../../hooks/useParamSelector';
 
 export type QuotePropsWithoutListener = {
   attachment?: QuotedAttachmentType;
@@ -225,6 +229,9 @@ export const QuoteText = (
 ) => {
   const { text, attachment, isIncoming } = props;
 
+  const convoId = useSelector(getSelectedConversationKey);
+  const isGroup = useIsPrivate(convoId);
+
   if (text) {
     return (
       <div
@@ -234,7 +241,7 @@ export const QuoteText = (
           isIncoming ? 'module-quote__primary__text--incoming' : null
         )}
       >
-        <MessageBody text={text} disableLinks={true} disableJumbomoji={true} />
+        <MessageBody text={text} disableLinks={true} disableJumbomoji={true} isGroup={isGroup} />
       </div>
     );
   }
