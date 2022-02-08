@@ -19,12 +19,12 @@ function hasNormalCharacters(str: string) {
 
 export function getEmojiSizeClass(str: string): SizeClassType {
   if (hasNormalCharacters(str)) {
-    return 'default';
+    return 'small';
   }
 
   const emojiCount = getCountOfAllMatches(str);
   if (emojiCount > 8) {
-    return 'default';
+    return 'small';
   } else if (emojiCount > 6) {
     return 'small';
   } else if (emojiCount > 4) {

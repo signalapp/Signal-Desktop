@@ -14,7 +14,6 @@ import {
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
-import { MemberListItem } from '../../MemberListItem';
 import autoBind from 'auto-bind';
 import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
 import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
@@ -48,27 +47,13 @@ import {
   StagedAttachmentImportedType,
   StagedPreviewImportedType,
 } from '../../../util/attachmentsUtil';
-import { BaseEmoji, emojiIndex } from 'emoji-mart';
-import styled from 'styled-components';
-
-const queryEmojis = (query: string, _callback: any): Array<SuggestionDataItem> => {
-  if (query.length === 0 || !emojiIndex) {
-    return [];
-  }
-  const results = emojiIndex.search(query);
-  if (!results || !results.length) {
-    return [];
-  }
-  return results
-    .map(o => {
-      const onlyBaseEmokji = o as BaseEmoji;
-      return {
-        id: onlyBaseEmokji.native,
-        display: `${onlyBaseEmokji.native} ${onlyBaseEmokji.colons}`,
-      };
-    })
-    .slice(0, 8);
-};
+import {
+  cleanMentions,
+  mentionsRegex,
+  renderUserMentionRow,
+  styleForCompositionBoxSuggestions,
+} from './UserMentions';
+import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -146,23 +131,7 @@ const sendMessageStyle = {
   flexGrow: 1,
   minHeight: '24px',
   width: '100%',
-
-  suggestions: {
-    list: {
-      fontSize: 14,
-      boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-      backgroundColor: 'var(--color-cell-background)',
-    },
-    item: {
-      height: '100%',
-      paddingTop: '5px',
-      paddingBottom: '5px',
-
-      '&focused': {
-        backgroundColor: 'var(--color-clickable-hovered)',
-      },
-    },
-  },
+  ...styleForCompositionBoxSuggestions,
 };
 
 const getDefaultState = (newConvoId?: string) => {
@@ -175,8 +144,6 @@ const getDefaultState = (newConvoId?: string) => {
     showCaptionEditor: undefined,
   };
 };
-
-const mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
 
 const getSelectionBasedOnMentions = (draft: string, index: number) => {
   // we have to get the real selectionStart/end of an index in the mentions box.
@@ -234,23 +201,6 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   // for now, just append it to the end
   return Number.MAX_SAFE_INTEGER;
 };
-
-// this is dirty but we have to replace all @(xxx) by @xxx manually here
-function cleanMentions(text: string): string {
-  const matches = text.match(mentionsRegex);
-  let replacedMentions = text;
-  (matches || []).forEach(match => {
-    const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
-    replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
-  });
-
-  return replacedMentions;
-}
-
-const EmojiQuickResult = styled.span<{ focused: boolean }>`
-  height: 30px;
-  width: 100%;
-`;
 
 class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
@@ -490,24 +440,15 @@ class CompositionBoxInner extends React.Component<Props, State> {
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
           displayTransform={(_id, display) => `@${display}`}
           data={this.fetchUsersForGroup}
-          renderSuggestion={suggestion => (
-            <MemberListItem
-              isSelected={false}
-              key={suggestion.id}
-              pubkey={`${suggestion.id}`}
-              disableBg={true}
-            />
-          )}
+          renderSuggestion={renderUserMentionRow}
         />
         <Mention
           trigger=":"
           markup="__id__"
           appendSpaceOnAdd={true}
           regex={neverMatchingRegex}
-          data={queryEmojis}
-          renderSuggestion={(suggestion, _search, _highlightedDisplay, _index, focused) => (
-            <EmojiQuickResult focused={focused}>{suggestion.display}</EmojiQuickResult>
-          )}
+          data={searchEmojiForQuery}
+          renderSuggestion={renderEmojiQuickResultRow}
         />
       </MentionsInput>
     );
