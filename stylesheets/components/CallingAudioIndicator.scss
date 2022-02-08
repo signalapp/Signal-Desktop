@@ -1,0 +1,14 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+.CallingAudioIndicator {
+  $size: 14px;
+  height: $size;
+  min-width: $size;
+  width: $size;
+  z-index: $z-index-base;
+
+  &--muted {
+    @include color-svg('../images/icons/v2/mic-off-solid-28.svg', $color-white);
+  }
+}

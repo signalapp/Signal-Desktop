@@ -27,8 +27,9 @@ js/curve/**
 js/Mp3LameEncoder.min.js
 js/WebAudioRecorderMp3.js
 
-# Test fixtures
-test/fixtures.js
+# Assets
+/images/
+/fixtures/
 
 # Github workflows
 .github/**

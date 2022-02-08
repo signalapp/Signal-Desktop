@@ -39,6 +39,7 @@ import type { UUIDStringType } from '../../types/UUID';
 import type { ConversationChangedActionType } from './conversations';
 import * as log from '../../logging/log';
 import { strictAssert } from '../../util/assert';
+import * as setUtil from '../../util/setUtil';
 
 // State
 
@@ -89,6 +90,7 @@ export type GroupCallStateType = {
   joinState: GroupCallJoinState;
   peekInfo: GroupCallPeekInfoType;
   remoteParticipants: Array<GroupCallParticipantInfoType>;
+  speakingDemuxIds?: Set<number>;
 } & GroupCallRingStateType;
 
 export type ActiveCallStateType = {
@@ -305,6 +307,7 @@ const CALL_STATE_CHANGE_FULFILLED = 'calling/CALL_STATE_CHANGE_FULFILLED';
 const CHANGE_IO_DEVICE_FULFILLED = 'calling/CHANGE_IO_DEVICE_FULFILLED';
 const CLOSE_NEED_PERMISSION_SCREEN = 'calling/CLOSE_NEED_PERMISSION_SCREEN';
 const DECLINE_DIRECT_CALL = 'calling/DECLINE_DIRECT_CALL';
+const GROUP_CALL_AUDIO_LEVELS_CHANGE = 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
 const GROUP_CALL_STATE_CHANGE = 'calling/GROUP_CALL_STATE_CHANGE';
 const HANG_UP = 'calling/HANG_UP';
 const INCOMING_DIRECT_CALL = 'calling/INCOMING_DIRECT_CALL';
@@ -368,6 +371,16 @@ type CloseNeedPermissionScreenActionType = {
 type DeclineCallActionType = {
   type: 'calling/DECLINE_DIRECT_CALL';
   payload: DeclineCallType;
+};
+
+type GroupCallAudioLevelsChangeActionPayloadType = Readonly<{
+  conversationId: string;
+  remoteDeviceStates: ReadonlyArray<{ audioLevel: number; demuxId: number }>;
+}>;
+
+type GroupCallAudioLevelsChangeActionType = {
+  type: 'calling/GROUP_CALL_AUDIO_LEVELS_CHANGE';
+  payload: GroupCallAudioLevelsChangeActionPayloadType;
 };
 
 export type GroupCallStateChangeActionType = {
@@ -500,6 +513,7 @@ export type CallingActionType =
   | CloseNeedPermissionScreenActionType
   | ConversationChangedActionType
   | DeclineCallActionType
+  | GroupCallAudioLevelsChangeActionType
   | GroupCallStateChangeActionType
   | HangUpActionType
   | IncomingDirectCallActionType
@@ -704,6 +718,12 @@ function getPresentingSources(): ThunkAction<
       payload: sources,
     });
   };
+}
+
+function groupCallAudioLevelsChange(
+  payload: GroupCallAudioLevelsChangeActionPayloadType
+): GroupCallAudioLevelsChangeActionType {
+  return { type: GROUP_CALL_AUDIO_LEVELS_CHANGE, payload };
 }
 
 function groupCallStateChange(
@@ -1242,6 +1262,7 @@ export const actions = {
   closeNeedPermissionScreen,
   declineCall,
   getPresentingSources,
+  groupCallAudioLevelsChange,
   groupCallStateChange,
   hangUp,
   hangUpActiveCall,
@@ -1628,6 +1649,40 @@ export function reducer(
         },
       },
       activeCallState,
+    };
+  }
+
+  if (action.type === GROUP_CALL_AUDIO_LEVELS_CHANGE) {
+    const { conversationId, remoteDeviceStates } = action.payload;
+
+    const existingCall = getGroupCall(conversationId, state);
+    if (!existingCall) {
+      return state;
+    }
+
+    const speakingDemuxIds = new Set<number>();
+    remoteDeviceStates.forEach(({ audioLevel, demuxId }) => {
+      // We expect `audioLevel` to be a number but have this check just in case.
+      if (typeof audioLevel === 'number' && audioLevel > 0.25) {
+        speakingDemuxIds.add(demuxId);
+      }
+    });
+
+    // This action is dispatched frequently. This equality check helps avoid re-renders.
+    const oldSpeakingDemuxIds = existingCall.speakingDemuxIds;
+    if (
+      oldSpeakingDemuxIds &&
+      setUtil.isEqual(oldSpeakingDemuxIds, speakingDemuxIds)
+    ) {
+      return state;
+    }
+
+    return {
+      ...state,
+      callsByConversation: {
+        ...callsByConversation,
+        [conversationId]: { ...existingCall, speakingDemuxIds },
+      },
     };
   }
 

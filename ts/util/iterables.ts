@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable max-classes-per-file */
@@ -44,6 +44,18 @@ class ConcatIterable<T> implements Iterable<T> {
       yield* iterable;
     }
   }
+}
+
+export function every<T>(
+  iterable: Iterable<T>,
+  predicate: (value: T) => boolean
+): boolean {
+  for (const value of iterable) {
+    if (!predicate(value)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 export function filter<T, S extends T>(

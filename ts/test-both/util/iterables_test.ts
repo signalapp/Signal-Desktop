@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -6,6 +6,7 @@ import * as sinon from 'sinon';
 
 import {
   concat,
+  every,
   filter,
   find,
   groupBy,
@@ -167,6 +168,30 @@ describe('iterable utilities', () => {
 
       iterator.next();
       sinon.assert.calledOnce(oneTwoThree[Symbol.iterator]);
+    });
+  });
+
+  describe('every', () => {
+    const isOdd = (n: number): boolean => Boolean(n % 2);
+
+    it('returns true for empty iterables and never checks the predicate', () => {
+      const fn = sinon.fake();
+
+      assert.isTrue(every([], fn));
+      assert.isTrue(every(new Set(), fn));
+      assert.isTrue(every(new Map(), fn));
+
+      sinon.assert.notCalled(fn);
+    });
+
+    it('returns false if any values make the predicate return false', () => {
+      assert.isFalse(every([2], isOdd));
+      assert.isFalse(every([1, 2, 3], isOdd));
+    });
+
+    it('returns true if all values make the predicate return true', () => {
+      assert.isTrue(every([1], isOdd));
+      assert.isTrue(every([1, 3, 5], isOdd));
     });
   });
 

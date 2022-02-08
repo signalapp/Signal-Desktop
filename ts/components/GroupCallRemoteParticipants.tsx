@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useCallback, useState, useMemo, useEffect } from 'react';
@@ -48,6 +48,7 @@ type PropsType = {
   isInSpeakerView: boolean;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
+  speakingDemuxIds: Set<number>;
 };
 
 enum VideoRequestMode {
@@ -85,6 +86,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
   isInSpeakerView,
   remoteParticipants,
   setGroupCallVideoRequest,
+  speakingDemuxIds,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState<Dimensions>({
     width: 0,
@@ -266,8 +268,12 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 
       let rowWidthSoFar = 0;
       return remoteParticipantsInRow.map(remoteParticipant => {
+        const { demuxId, videoAspectRatio } = remoteParticipant;
+
+        const isSpeaking = speakingDemuxIds.has(demuxId);
+
         const renderedWidth = Math.floor(
-          remoteParticipant.videoAspectRatio * gridParticipantHeight
+          videoAspectRatio * gridParticipantHeight
         );
         const left = rowWidthSoFar + leftOffset;
 
@@ -275,11 +281,12 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
 
         return (
           <GroupCallRemoteParticipant
-            key={remoteParticipant.demuxId}
+            key={demuxId}
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             height={gridParticipantHeight}
             i18n={i18n}
+            isSpeaking={isSpeaking}
             left={left}
             remoteParticipant={remoteParticipant}
             top={top}
@@ -411,6 +418,7 @@ export const GroupCallRemoteParticipants: React.FC<PropsType> = ({
             i18n={i18n}
             onParticipantVisibilityChanged={onParticipantVisibilityChanged}
             overflowedParticipants={overflowedParticipants}
+            speakingDemuxIds={speakingDemuxIds}
           />
         </div>
       )}

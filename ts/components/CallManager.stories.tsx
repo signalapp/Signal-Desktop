@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -144,6 +144,7 @@ story.add('Ongoing Group Call', () => (
         groupMembers: [],
         peekedParticipants: [],
         remoteParticipants: [],
+        speakingDemuxIds: new Set<number>(),
       },
     })}
   />
@@ -218,6 +219,7 @@ story.add('Group call - Safety Number Changed', () => (
         groupMembers: [],
         peekedParticipants: [],
         remoteParticipants: [],
+        speakingDemuxIds: new Set<number>(),
       },
     })}
   />

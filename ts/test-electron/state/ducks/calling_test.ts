@@ -776,6 +776,67 @@ describe('calling duck', () => {
       });
     });
 
+    describe('groupCallAudioLevelsChange', () => {
+      const { groupCallAudioLevelsChange } = actions;
+
+      const remoteDeviceStates = [
+        { audioLevel: 0.3, demuxId: 1 },
+        { audioLevel: 0.4, demuxId: 2 },
+        { audioLevel: 0.5, demuxId: 3 },
+        { audioLevel: 0.2, demuxId: 7 },
+        { audioLevel: 0.1, demuxId: 8 },
+        { audioLevel: 0, demuxId: 9 },
+      ];
+
+      it("does nothing if there's no relevant call", () => {
+        const action = groupCallAudioLevelsChange({
+          conversationId: 'garbage',
+          remoteDeviceStates,
+        });
+
+        const result = reducer(stateWithActiveGroupCall, action);
+
+        assert.strictEqual(result, stateWithActiveGroupCall);
+      });
+
+      it('does nothing if the state change would be a no-op', () => {
+        const state = {
+          ...stateWithActiveGroupCall,
+          callsByConversation: {
+            'fake-group-call-conversation-id': {
+              ...stateWithActiveGroupCall.callsByConversation[
+                'fake-group-call-conversation-id'
+              ],
+              speakingDemuxIds: new Set([3, 2, 1]),
+            },
+          },
+        };
+        const action = groupCallAudioLevelsChange({
+          conversationId: 'fake-group-call-conversation-id',
+          remoteDeviceStates,
+        });
+
+        const result = reducer(state, action);
+
+        assert.strictEqual(result, state);
+      });
+
+      it('updates the set of speaking participants', () => {
+        const action = groupCallAudioLevelsChange({
+          conversationId: 'fake-group-call-conversation-id',
+          remoteDeviceStates,
+        });
+        const result = reducer(stateWithActiveGroupCall, action);
+
+        const call =
+          result.callsByConversation['fake-group-call-conversation-id'];
+        if (call?.callMode !== CallMode.Group) {
+          throw new Error('Expected a group call to be found');
+        }
+        assert.deepStrictEqual(call.speakingDemuxIds, new Set([1, 2, 3]));
+      });
+    });
+
     describe('groupCallStateChange', () => {
       const { groupCallStateChange } = actions;
 

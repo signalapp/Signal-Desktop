@@ -133,6 +133,41 @@
     "updated": "2021-04-05T20:48:36.065Z"
   },
   {
+    "rule": "jQuery-append(",
+    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
+    "line": "      this._elementHelper.append(img);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-01-27T20:06:59.988Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
+    "line": "    this.layerElement.insertBefore(newElement, nextElement);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-01-27T20:06:59.988Z"
+  },
+  {
+    "rule": "jQuery-insertBefore(",
+    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
+    "line": "    parentNode.insertBefore(useElem, nextChild);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-01-27T20:06:59.988Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
+    "line": "          _workerSelf.assetLoader.load(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-01-27T20:06:59.988Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@evanhahn/lottie-web-light/index.js",
+    "line": "          _workerSelf.assetLoader.load(",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-01-27T20:06:59.988Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -7493,6 +7528,14 @@
     "line": "  const zoomCacheRef = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/Lottie.tsx",
+    "line": "  const containerRef = useRef<null | HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-27T20:06:59.988Z",
+    "reasonDetail": "Doesn't manipulate the DOM."
   },
   {
     "rule": "React-useRef",

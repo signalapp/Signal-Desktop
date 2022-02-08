@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -36,6 +36,7 @@ const createProps = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getGroupCallVideoFrameSource: noop as any,
   i18n,
+  isSpeaking: false,
   remoteParticipant: {
     demuxId: 123,
     hasRemoteAudio: false,
@@ -51,6 +52,7 @@ const createProps = (
     }),
   },
   ...overrideProps,
+  ...(overrideProps.isInPip ? {} : { isSpeaking: false }),
 });
 
 const story = storiesOf('Components/GroupCallRemoteParticipant', module);

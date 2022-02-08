@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC } from 'react';
@@ -39,6 +39,7 @@ const defaultProps = {
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   i18n,
   onParticipantVisibilityChanged: action('onParticipantVisibilityChanged'),
+  speakingDemuxIds: new Set<number>(),
 };
 
 // This component is usually rendered on a call screen.

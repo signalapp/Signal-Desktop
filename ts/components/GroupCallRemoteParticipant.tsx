@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CSSProperties } from 'react';
@@ -16,6 +16,7 @@ import type { GroupCallRemoteParticipantType } from '../types/Calling';
 import type { LocalizerType } from '../types/Util';
 import { AvatarColors } from '../types/Colors';
 import { CallBackgroundBlur } from './CallBackgroundBlur';
+import { CallingAudioIndicator } from './CallingAudioIndicator';
 import { Avatar, AvatarSize } from './Avatar';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { Intl } from './Intl';
@@ -41,6 +42,7 @@ type InPipPropsType = {
 type InOverflowAreaPropsType = {
   height: number;
   isInPip?: false;
+  isSpeaking: boolean;
   width: number;
 };
 
@@ -281,6 +283,10 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
               <ContactName
                 module="module-ongoing-call__group-call-remote-participant__info__contact-name"
                 title={title}
+              />
+              <CallingAudioIndicator
+                hasRemoteAudio={hasRemoteAudio}
+                isSpeaking={props.isSpeaking}
               />
             </div>
           )}

@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
@@ -299,6 +299,7 @@ export const CallScreen: React.FC<PropsType> = ({
           isInSpeakerView={isInSpeakerView}
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
+          speakingDemuxIds={activeCall.speakingDemuxIds}
         />
       );
       break;

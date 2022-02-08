@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FC, ReactElement } from 'react';
@@ -24,6 +24,7 @@ type PropsType = {
     isVisible: boolean
   ) => unknown;
   overflowedParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
+  speakingDemuxIds: Set<number>;
 };
 
 export const GroupCallOverflowArea: FC<PropsType> = ({
@@ -32,6 +33,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
   i18n,
   onParticipantVisibilityChanged,
   overflowedParticipants,
+  speakingDemuxIds,
 }) => {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
@@ -114,6 +116,7 @@ export const GroupCallOverflowArea: FC<PropsType> = ({
             getFrameBuffer={getFrameBuffer}
             getGroupCallVideoFrameSource={getGroupCallVideoFrameSource}
             i18n={i18n}
+            isSpeaking={speakingDemuxIds.has(remoteParticipant.demuxId)}
             onVisibilityChanged={onParticipantVisibilityChanged}
             width={OVERFLOW_PARTICIPANT_WIDTH}
             height={Math.floor(

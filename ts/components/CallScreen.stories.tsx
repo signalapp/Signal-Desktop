@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
@@ -103,6 +103,7 @@ const createActiveGroupCallProp = (overrideProps: GroupCallOverrideProps) => ({
   peekedParticipants:
     overrideProps.peekedParticipants || overrideProps.remoteParticipants || [],
   remoteParticipants: overrideProps.remoteParticipants || [],
+  speakingDemuxIds: new Set<number>(),
 });
 
 const createActiveCallProp = (

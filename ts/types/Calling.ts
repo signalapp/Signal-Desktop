@@ -65,6 +65,7 @@ type ActiveGroupCallType = ActiveCallBaseType & {
   groupMembers: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   peekedParticipants: Array<ConversationType>;
   remoteParticipants: Array<GroupCallRemoteParticipantType>;
+  speakingDemuxIds: Set<number>;
 };
 
 export type ActiveCallType = ActiveDirectCallType | ActiveGroupCallType;

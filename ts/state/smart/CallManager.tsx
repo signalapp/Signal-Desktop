@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
@@ -251,6 +251,7 @@ const mapStateToActiveCallProp = (
         maxDevices: call.peekInfo.maxDevices,
         peekedParticipants,
         remoteParticipants,
+        speakingDemuxIds: call.speakingDemuxIds || new Set<number>(),
       };
     }
     default:

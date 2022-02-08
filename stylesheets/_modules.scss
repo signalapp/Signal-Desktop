@@ -4208,20 +4208,6 @@ button.module-image__border-overlay:focus {
         visibility: hidden;
         white-space: nowrap;
       }
-
-      &--audio-muted::after {
-        $size: 14px;
-        @include color-svg(
-          '../images/icons/v2/mic-off-solid-28.svg',
-          $color-white
-        );
-        content: '';
-        height: $size;
-        min-width: $size;
-        right: 6px;
-        width: $size;
-        z-index: $z-index-base;
-      }
     }
 
     &:hover {

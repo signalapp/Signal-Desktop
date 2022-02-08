@@ -627,6 +627,7 @@ export class CallingClass {
       groupIdBuffer,
       this.sfuUrl,
       Buffer.alloc(0),
+      500,
       {
         onLocalDeviceStateChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
@@ -674,8 +675,16 @@ export class CallingClass {
         onRemoteDeviceStatesChanged: groupCall => {
           this.syncGroupCallToRedux(conversationId, groupCall);
         },
-        onAudioLevels: _groupCall => {
-          // TODO: Implement audio level handling for group calls.
+        onAudioLevels: groupCall => {
+          const remoteDeviceStates = groupCall.getRemoteDeviceStates();
+          if (!remoteDeviceStates) {
+            return;
+          }
+
+          this.uxActions?.groupCallAudioLevelsChange({
+            conversationId,
+            remoteDeviceStates,
+          });
         },
         onPeekChanged: groupCall => {
           const localDeviceState = groupCall.getLocalDeviceState();
@@ -1955,6 +1964,8 @@ export class CallingClass {
       },
       hideIp: shouldRelayCalls || isContactUnknown,
       bandwidthMode: BandwidthMode.Normal,
+      // TODO: DESKTOP-3101
+      // audioLevelsIntervalMillis: 500,
     };
   }
 
