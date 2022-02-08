@@ -273,6 +273,7 @@ export type ConversationAttributesType = {
   needsVerification?: boolean;
   profileSharing: boolean;
   storageID?: string;
+  storageVersion?: number;
   storageUnknownFields?: string;
   unreadCount?: number;
   version: number;

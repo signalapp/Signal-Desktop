@@ -144,6 +144,7 @@ const ATTRIBUTES_THAT_DONT_INVALIDATE_PROPS_CACHE = new Set([
   'profileLastFetchedAt',
   'needsStorageServiceSync',
   'storageID',
+  'storageVersion',
   'storageUnknownFields',
 ]);
 
@@ -5047,7 +5048,7 @@ export class ConversationModel extends window.Backbone
     });
   }
 
-  startMuteTimer(): void {
+  startMuteTimer({ viaStorageServiceSync = false } = {}): void {
     if (this.muteTimer !== undefined) {
       clearTimeout(this.muteTimer);
       this.muteTimer = undefined;
@@ -5057,7 +5058,7 @@ export class ConversationModel extends window.Backbone
     if (isNumber(muteExpiresAt) && muteExpiresAt < Number.MAX_SAFE_INTEGER) {
       const delay = muteExpiresAt - Date.now();
       if (delay <= 0) {
-        this.setMuteExpiration(0);
+        this.setMuteExpiration(0, { viaStorageServiceSync });
         return;
       }
 
@@ -5076,7 +5077,10 @@ export class ConversationModel extends window.Backbone
     }
 
     this.set({ muteExpiresAt });
-    this.startMuteTimer();
+
+    // Don't cause duplicate captureChange
+    this.startMuteTimer({ viaStorageServiceSync: true });
+
     if (!viaStorageServiceSync) {
       this.captureChange('mutedUntilTimestamp');
     }
