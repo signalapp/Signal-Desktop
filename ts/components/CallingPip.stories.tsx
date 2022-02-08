@@ -60,7 +60,7 @@ const defaultCall: ActiveCallType = {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   activeCall: overrideProps.activeCall || defaultCall,
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
-  hangUp: action('hang-up'),
+  hangUpActiveCall: action('hang-up-active-call'),
   hasLocalVideo: boolean('hasLocalVideo', overrideProps.hasLocalVideo || false),
   i18n,
   setGroupCallVideoRequest: action('set-group-call-video-request'),

@@ -148,7 +148,7 @@ const createProps = (
   activeCall: createActiveCallProp(overrideProps),
   getGroupCallVideoFrameSource: fakeGetGroupCallVideoFrameSource,
   getPresentingSources: action('get-presenting-sources'),
-  hangUp: action('hang-up'),
+  hangUpActiveCall: action('hang-up'),
   i18n,
   me: {
     color: AvatarColors[1],

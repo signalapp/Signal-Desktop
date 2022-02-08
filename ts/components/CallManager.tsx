@@ -31,7 +31,6 @@ import type {
   AcceptCallType,
   CancelCallType,
   DeclineCallType,
-  HangUpType,
   KeyChangeOkType,
   SetGroupCallVideoRequestType,
   SetLocalAudioType,
@@ -97,7 +96,7 @@ export type PropsType = {
   setPresenting: (_?: PresentedSource) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stopRingtone: () => unknown;
-  hangUp: (_: HangUpType) => void;
+  hangUpActiveCall: () => void;
   theme: ThemeType;
   togglePip: () => void;
   toggleScreenRecordingPermissionsDialog: () => unknown;
@@ -114,7 +113,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
   availableCameras,
   cancelCall,
   closeNeedPermissionScreen,
-  hangUp,
+  hangUpActiveCall,
   i18n,
   isGroupCallOutboundRingEnabled,
   keyChangeOk,
@@ -270,7 +269,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
       <CallingPip
         activeCall={activeCall}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
-        hangUp={hangUp}
+        hangUpActiveCall={hangUpActiveCall}
         hasLocalVideo={hasLocalVideo}
         i18n={i18n}
         setGroupCallVideoRequest={setGroupCallVideoRequestForConversation}
@@ -307,7 +306,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
         getPresentingSources={getPresentingSources}
         getGroupCallVideoFrameSource={getGroupCallVideoFrameSourceForActiveCall}
         groupMembers={groupMembers}
-        hangUp={hangUp}
+        hangUpActiveCall={hangUpActiveCall}
         i18n={i18n}
         joinedAt={joinedAt}
         me={me}
@@ -350,9 +349,7 @@ const ActiveCallManager: React.FC<ActiveCallManagerPropsType> = ({
           contacts={activeCall.conversationsWithSafetyNumberChanges}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
-          onCancel={() => {
-            hangUp({ conversationId: activeCall.conversation.id });
-          }}
+          onCancel={hangUpActiveCall}
           onConfirm={() => {
             keyChangeOk({ conversationId: activeCall.conversation.id });
           }}

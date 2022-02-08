@@ -7,7 +7,6 @@ import { noop } from 'lodash';
 import classNames from 'classnames';
 import type { VideoFrameSource } from 'ringrtc';
 import type {
-  HangUpType,
   SetLocalAudioType,
   SetLocalPreviewType,
   SetLocalVideoType,
@@ -47,7 +46,7 @@ export type PropsType = {
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   getPresentingSources: () => void;
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
-  hangUp: (_: HangUpType) => void;
+  hangUpActiveCall: () => void;
   i18n: LocalizerType;
   joinedAt?: number;
   me: {
@@ -115,7 +114,7 @@ export const CallScreen: React.FC<PropsType> = ({
   getGroupCallVideoFrameSource,
   getPresentingSources,
   groupMembers,
-  hangUp,
+  hangUpActiveCall,
   i18n,
   joinedAt,
   me,
@@ -510,9 +509,7 @@ export const CallScreen: React.FC<PropsType> = ({
             i18n={i18n}
             onMouseEnter={onControlsMouseEnter}
             onMouseLeave={onControlsMouseLeave}
-            onClick={() => {
-              hangUp({ conversationId: conversation.id });
-            }}
+            onClick={hangUpActiveCall}
           />
         </div>
         <div

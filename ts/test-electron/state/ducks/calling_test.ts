@@ -26,7 +26,6 @@ import {
   GroupCallJoinState,
 } from '../../../types/Calling';
 import { UUID } from '../../../types/UUID';
-import type { UUIDStringType } from '../../../types/UUID';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 import type { UnwrapPromise } from '../../../types/Util';
 
@@ -607,35 +606,7 @@ describe('calling duck', () => {
         assert.strictEqual(result, stateWithIncomingGroupCall);
       });
 
-      it("removes the call from the state if it's not connected", () => {
-        const state = {
-          ...stateWithGroupCall,
-          callsByConversation: {
-            ...stateWithGroupCall.callsByConversation,
-            'fake-group-call-conversation-id': {
-              ...stateWithGroupCall.callsByConversation[
-                'fake-group-call-conversation-id'
-              ],
-              connectionState: GroupCallConnectionState.NotConnected,
-              ringId: BigInt(123),
-              ringerUuid: UUID.generate().toString(),
-            },
-          },
-        };
-        const action = cancelIncomingGroupCallRing({
-          conversationId: 'fake-group-call-conversation-id',
-          ringId: BigInt(123),
-        });
-
-        const result = reducer(state, action);
-
-        assert.notProperty(
-          result.callsByConversation,
-          'fake-group-call-conversation-id'
-        );
-      });
-
-      it("removes the ring state, but not the call, if it's connected", () => {
+      it('removes the ring state, but not the call', () => {
         const action = cancelIncomingGroupCallRing({
           conversationId: 'fake-group-call-conversation-id',
           ringId: BigInt(123),
@@ -850,117 +821,6 @@ describe('calling duck', () => {
         return dispatch.getCall(0).args[0];
       }
 
-      it('ignores non-connected calls with no peeked participants', () => {
-        const result = reducer(
-          getEmptyState(),
-          getAction({
-            conversationId: 'abc123',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [],
-              maxDevices: 16,
-              deviceCount: 0,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.deepEqual(result, getEmptyState());
-      });
-
-      it('removes the call from the map of conversations if the call is not connected and has no peeked participants or ringer', () => {
-        const result = reducer(
-          stateWithGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [],
-              maxDevices: 16,
-              deviceCount: 0,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.notProperty(
-          result.callsByConversation,
-          'fake-group-call-conversation-id'
-        );
-      });
-
-      it('removes the call from the map of conversations if the call is not connected and has 1 peeked participant: you', () => {
-        const result = reducer(
-          stateWithGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [ourUuid],
-              maxDevices: 16,
-              deviceCount: 1,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.notProperty(
-          result.callsByConversation,
-          'fake-group-call-conversation-id'
-        );
-      });
-
-      it('drops the active call if it is disconnected with no peeked participants', () => {
-        const result = reducer(
-          stateWithActiveGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [],
-              maxDevices: 16,
-              deviceCount: 0,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.isUndefined(result.activeCallState);
-      });
-
-      it('drops the active call if it is disconnected with 1 peeked participant (you)', () => {
-        const result = reducer(
-          stateWithActiveGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [ourUuid],
-              maxDevices: 16,
-              deviceCount: 1,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.isUndefined(result.activeCallState);
-      });
-
       it('saves a new call to the map of conversations', () => {
         const result = reducer(
           getEmptyState(),
@@ -1017,64 +877,6 @@ describe('calling duck', () => {
               },
             ],
           }
-        );
-      });
-
-      it('saves a new call to the map of conversations if the call is disconnected by has peeked participants that are not you', () => {
-        const result = reducer(
-          stateWithGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
-              maxDevices: 16,
-              deviceCount: 1,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.deepEqual(
-          result.callsByConversation['fake-group-call-conversation-id'],
-          {
-            callMode: CallMode.Group,
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            peekInfo: {
-              uuids: ['1b9e4d42-1f56-45c5-b6f4-d1be5a54fefa'],
-              maxDevices: 16,
-              deviceCount: 1,
-            },
-            remoteParticipants: [],
-          }
-        );
-      });
-
-      it('saves a call to the map of conversations if the call had a ringer, even if it was otherwise ignorable', () => {
-        const result = reducer(
-          stateWithIncomingGroupCall,
-          getAction({
-            conversationId: 'fake-group-call-conversation-id',
-            connectionState: GroupCallConnectionState.NotConnected,
-            joinState: GroupCallJoinState.NotJoined,
-            hasLocalAudio: false,
-            hasLocalVideo: false,
-            peekInfo: {
-              uuids: [],
-              maxDevices: 16,
-              deviceCount: 0,
-            },
-            remoteParticipants: [],
-          })
-        );
-
-        assert.isDefined(
-          result.callsByConversation['fake-group-call-conversation-id']
         );
       });
 
@@ -2225,32 +2027,30 @@ describe('calling duck', () => {
     });
 
     describe('isAnybodyElseInGroupCall', () => {
-      const fakePeekInfo = (uuids: Array<UUIDStringType>) => ({
-        uuids,
-        maxDevices: 5,
-        deviceCount: uuids.length,
+      it('returns false with no peek info', () => {
+        assert.isFalse(isAnybodyElseInGroupCall(undefined, remoteUuid));
       });
 
       it('returns false if the peek info has no participants', () => {
-        assert.isFalse(isAnybodyElseInGroupCall(fakePeekInfo([]), remoteUuid));
+        assert.isFalse(isAnybodyElseInGroupCall({ uuids: [] }, remoteUuid));
       });
 
       it('returns false if the peek info has one participant, you', () => {
         assert.isFalse(
-          isAnybodyElseInGroupCall(fakePeekInfo([creatorUuid]), creatorUuid)
+          isAnybodyElseInGroupCall({ uuids: [creatorUuid] }, creatorUuid)
         );
       });
 
       it('returns true if the peek info has one participant, someone else', () => {
         assert.isTrue(
-          isAnybodyElseInGroupCall(fakePeekInfo([creatorUuid]), remoteUuid)
+          isAnybodyElseInGroupCall({ uuids: [creatorUuid] }, remoteUuid)
         );
       });
 
       it('returns true if the peek info has two participants, you and someone else', () => {
         assert.isTrue(
           isAnybodyElseInGroupCall(
-            fakePeekInfo([creatorUuid, remoteUuid]),
+            { uuids: [creatorUuid, remoteUuid] },
             remoteUuid
           )
         );

@@ -175,6 +175,17 @@ const mapStateToActiveCallProp = (
       const peekedParticipants: Array<ConversationType> = [];
 
       const { memberships = [] } = conversation;
+
+      // Active calls should have peek info, but TypeScript doesn't know that so we have a
+      //   fallback.
+      const {
+        peekInfo = {
+          deviceCount: 0,
+          maxDevices: Infinity,
+          uuids: [],
+        },
+      } = call;
+
       for (let i = 0; i < memberships.length; i += 1) {
         const { uuid } = memberships[i];
 
@@ -226,8 +237,8 @@ const mapStateToActiveCallProp = (
         conversationsWithSafetyNumberChanges.push(remoteConversation);
       }
 
-      for (let i = 0; i < call.peekInfo.uuids.length; i += 1) {
-        const peekedParticipantUuid = call.peekInfo.uuids[i];
+      for (let i = 0; i < peekInfo.uuids.length; i += 1) {
+        const peekedParticipantUuid = peekInfo.uuids[i];
 
         const peekedConversation = conversationSelectorByUuid(
           peekedParticipantUuid
@@ -245,10 +256,10 @@ const mapStateToActiveCallProp = (
         callMode: CallMode.Group,
         connectionState: call.connectionState,
         conversationsWithSafetyNumberChanges,
-        deviceCount: call.peekInfo.deviceCount,
+        deviceCount: peekInfo.deviceCount,
         groupMembers,
         joinState: call.joinState,
-        maxDevices: call.peekInfo.maxDevices,
+        maxDevices: peekInfo.maxDevices,
         peekedParticipants,
         remoteParticipants,
         speakingDemuxIds: call.speakingDemuxIds || new Set<number>(),

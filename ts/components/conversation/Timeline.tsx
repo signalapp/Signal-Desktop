@@ -170,6 +170,7 @@ export type PropsActionsType = {
   onBlockAndReportSpam: (conversationId: string) => unknown;
   onDelete: (conversationId: string) => unknown;
   onUnblock: (conversationId: string) => unknown;
+  peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
   removeMember: (conversationId: string) => unknown;
   selectMessage: (messageId: string, conversationId: string) => unknown;
   clearSelectedMessage: () => unknown;
@@ -263,6 +264,7 @@ const getActions = createSelector(
       'onBlockAndReportSpam',
       'onDelete',
       'onUnblock',
+      'peekGroupCallForTheFirstTime',
       'removeMember',
       'selectMessage',
       'clearSelectedMessage',
@@ -326,6 +328,8 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   private loadCountdownTimeout: NodeJS.Timeout | null = null;
 
   private hasRecentlyScrolledTimeout?: NodeJS.Timeout;
+
+  private delayedPeekTimeout?: NodeJS.Timeout;
 
   private containerRefMerger = createRefMerger();
 
@@ -958,10 +962,21 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
   public override componentDidMount(): void {
     this.updateWithVisibleRows();
     window.registerForActive(this.updateWithVisibleRows);
+
+    this.delayedPeekTimeout = setTimeout(() => {
+      const { id, peekGroupCallForTheFirstTime } = this.props;
+      peekGroupCallForTheFirstTime(id);
+    }, 500);
   }
 
   public override componentWillUnmount(): void {
+    const { delayedPeekTimeout } = this;
+
     window.unregisterForActive(this.updateWithVisibleRows);
+
+    if (delayedPeekTimeout) {
+      clearTimeout(delayedPeekTimeout);
+    }
   }
 
   public override componentDidUpdate(

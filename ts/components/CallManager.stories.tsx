@@ -70,7 +70,7 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
     fakeGetGroupCallVideoFrameSource(demuxId),
   getPreferredBadge: () => undefined,
   getPresentingSources: action('get-presenting-sources'),
-  hangUp: action('hang-up'),
+  hangUpActiveCall: action('hang-up-active-call'),
   i18n,
   isGroupCallOutboundRingEnabled: true,
   keyChangeOk: action('key-change-ok'),

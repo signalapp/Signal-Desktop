@@ -392,6 +392,8 @@ const actions = () => ({
   removeMember: action('removeMember'),
 
   unblurAvatar: action('unblurAvatar'),
+
+  peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
 });
 
 const renderItem = ({

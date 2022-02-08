@@ -1,4 +1,4 @@
-// Copyright 2019-2021 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable camelcase */
@@ -480,7 +480,7 @@ export type ConversationChangedActionType = {
     data: ConversationType;
   };
 };
-type ConversationRemovedActionType = {
+export type ConversationRemovedActionType = {
   type: 'CONVERSATION_REMOVED';
   payload: {
     id: string;

@@ -8,7 +8,6 @@ import { CallingPipRemoteVideo } from './CallingPipRemoteVideo';
 import type { LocalizerType } from '../types/Util';
 import type { ActiveCallType, GroupCallVideoRequest } from '../types/Calling';
 import type {
-  HangUpType,
   SetLocalPreviewType,
   SetRendererCanvasType,
 } from '../state/ducks/calling';
@@ -52,7 +51,7 @@ type SnapCandidate = {
 export type PropsType = {
   activeCall: ActiveCallType;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
-  hangUp: (_: HangUpType) => void;
+  hangUpActiveCall: () => void;
   hasLocalVideo: boolean;
   i18n: LocalizerType;
   setGroupCallVideoRequest: (_: Array<GroupCallVideoRequest>) => void;
@@ -70,7 +69,7 @@ const PIP_PADDING = 8;
 export const CallingPip = ({
   activeCall,
   getGroupCallVideoFrameSource,
-  hangUp,
+  hangUpActiveCall,
   hasLocalVideo,
   i18n,
   setGroupCallVideoRequest,
@@ -293,9 +292,7 @@ export const CallingPip = ({
         <button
           aria-label={i18n('calling__hangup')}
           className="module-calling-pip__button--hangup"
-          onClick={() => {
-            hangUp({ conversationId: activeCall.conversation.id });
-          }}
+          onClick={hangUpActiveCall}
           type="button"
         />
         <button
