@@ -1363,18 +1363,31 @@ export default class MessageSender {
   }
 
   async syncViewOnceOpen(
-    sender: string | undefined,
-    senderUuid: string,
-    timestamp: number,
+    viewOnceOpens: ReadonlyArray<{
+      senderUuid?: string;
+      senderE164?: string;
+      timestamp: number;
+    }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
+    if (viewOnceOpens.length !== 1) {
+      throw new Error(
+        `syncViewOnceOpen: ${viewOnceOpens.length} opens provided. Can only handle one.`
+      );
+    }
+    const { senderE164, senderUuid, timestamp } = viewOnceOpens[0];
+
+    if (!senderUuid) {
+      throw new Error('syncViewOnceOpen: Missing senderUuid');
+    }
+
     const myUuid = window.textsecure.storage.user.getCheckedUuid();
 
     const syncMessage = this.createSyncMessage();
 
     const viewOnceOpen = new Proto.SyncMessage.ViewOnceOpen();
-    if (sender !== undefined) {
-      viewOnceOpen.sender = sender;
+    if (senderE164 !== undefined) {
+      viewOnceOpen.sender = senderE164;
     }
     viewOnceOpen.senderUuid = senderUuid;
     viewOnceOpen.timestamp = timestamp;
@@ -1862,8 +1875,12 @@ export default class MessageSender {
   }
 
   async getSenderKeyDistributionMessage(
-    distributionId: string
-  ): Promise<SenderKeyDistributionMessage> {
+    distributionId: string,
+    {
+      throwIfNotInDatabase,
+      timestamp,
+    }: { throwIfNotInDatabase?: boolean; timestamp: number }
+  ): Promise<Proto.Content> {
     const ourUuid = window.textsecure.storage.user.getCheckedUuid();
     const ourDeviceId = parseIntOrThrow(
       window.textsecure.storage.user.getDeviceId(),
@@ -1878,17 +1895,41 @@ export default class MessageSender {
       ourUuid,
       new Address(ourUuid, ourDeviceId)
     );
-    const senderKeyStore = new SenderKeys({ ourUuid, zone: GLOBAL_ZONE });
 
-    return window.textsecure.storage.protocol.enqueueSenderKeyJob(
-      address,
-      async () =>
-        SenderKeyDistributionMessage.create(
-          protocolAddress,
-          distributionId,
-          senderKeyStore
-        )
+    const senderKeyDistributionMessage =
+      await window.textsecure.storage.protocol.enqueueSenderKeyJob(
+        address,
+        async () => {
+          const senderKeyStore = new SenderKeys({ ourUuid, zone: GLOBAL_ZONE });
+
+          if (throwIfNotInDatabase) {
+            const key = await senderKeyStore.getSenderKey(
+              protocolAddress,
+              distributionId
+            );
+            if (!key) {
+              throw new Error(
+                `getSenderKeyDistributionMessage: Distribution ${distributionId} was not in database as expected`
+              );
+            }
+          }
+
+          return SenderKeyDistributionMessage.create(
+            protocolAddress,
+            distributionId,
+            senderKeyStore
+          );
+        }
+      );
+
+    log.info(
+      `getSenderKeyDistributionMessage: Building ${distributionId} with timestamp ${timestamp}`
     );
+    const contentMessage = new Proto.Content();
+    contentMessage.senderKeyDistributionMessage =
+      senderKeyDistributionMessage.serialize();
+
+    return contentMessage;
   }
 
   // The one group send exception - a message that should never be sent via sender key
@@ -1898,24 +1939,24 @@ export default class MessageSender {
       distributionId,
       groupId,
       identifiers,
+      throwIfNotInDatabase,
     }: Readonly<{
       contentHint: number;
       distributionId: string;
       groupId: string | undefined;
       identifiers: ReadonlyArray<string>;
+      throwIfNotInDatabase?: boolean;
     }>,
     options?: Readonly<SendOptionsType>
   ): Promise<CallbackResultType> {
-    const contentMessage = new Proto.Content();
     const timestamp = Date.now();
-    log.info(
-      `sendSenderKeyDistributionMessage: Sending ${distributionId} with timestamp ${timestamp}`
+    const contentMessage = await this.getSenderKeyDistributionMessage(
+      distributionId,
+      {
+        throwIfNotInDatabase,
+        timestamp,
+      }
     );
-
-    const senderKeyDistributionMessage =
-      await this.getSenderKeyDistributionMessage(distributionId);
-    contentMessage.senderKeyDistributionMessage =
-      senderKeyDistributionMessage.serialize();
 
     const sendLogCallback =
       identifiers.length > 1

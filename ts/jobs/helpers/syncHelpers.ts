@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
@@ -12,6 +12,7 @@ import { isRecord } from '../../util/isRecord';
 
 import { commonShouldJobContinue } from './commonShouldJobContinue';
 import { handleCommonJobRequestError } from './handleCommonJobRequestError';
+import { missingCaseError } from '../../util/missingCaseError';
 
 const CHUNK_SIZE = 100;
 
@@ -21,6 +22,11 @@ export type SyncType = {
   senderUuid?: string;
   timestamp: number;
 };
+export enum SyncTypeList {
+  Read = 'Read',
+  View = 'View',
+  ViewOnceOpen = 'ViewOnceOpen',
+}
 
 /**
  * Parse what _should_ be an array of `SyncType`s.
@@ -55,16 +61,16 @@ function parseOptionalString(name: string, value: unknown): undefined | string {
   throw new Error(`${name} was not a string`);
 }
 
-export async function runReadOrViewSyncJob({
+export async function runSyncJob({
   attempt,
-  isView,
+  type,
   log,
   maxRetryTime,
   syncs,
   timestamp,
 }: Readonly<{
   attempt: number;
-  isView: boolean;
+  type: SyncTypeList;
   log: LoggerType;
   maxRetryTime: number;
   syncs: ReadonlyArray<SyncType>;
@@ -76,10 +82,19 @@ export async function runReadOrViewSyncJob({
   }
 
   let sendType: SendTypesType;
-  if (isView) {
-    sendType = 'viewSync';
-  } else {
-    sendType = 'readSync';
+  switch (type) {
+    case SyncTypeList.View:
+      sendType = 'viewSync';
+      break;
+    case SyncTypeList.Read:
+      sendType = 'readSync';
+      break;
+    case SyncTypeList.ViewOnceOpen:
+      sendType = 'viewOnceSync';
+      break;
+    default: {
+      throw missingCaseError(type);
+    }
   }
 
   const syncTimestamps = syncs.map(sync => sync.timestamp);
@@ -108,15 +123,27 @@ export async function runReadOrViewSyncJob({
 
   let doSync:
     | typeof window.textsecure.messaging.syncReadMessages
-    | typeof window.textsecure.messaging.syncView;
-  if (isView) {
-    doSync = window.textsecure.messaging.syncView.bind(
-      window.textsecure.messaging
-    );
-  } else {
-    doSync = window.textsecure.messaging.syncReadMessages.bind(
-      window.textsecure.messaging
-    );
+    | typeof window.textsecure.messaging.syncView
+    | typeof window.textsecure.messaging.syncViewOnceOpen;
+  switch (type) {
+    case SyncTypeList.View:
+      doSync = window.textsecure.messaging.syncView.bind(
+        window.textsecure.messaging
+      );
+      break;
+    case SyncTypeList.Read:
+      doSync = window.textsecure.messaging.syncReadMessages.bind(
+        window.textsecure.messaging
+      );
+      break;
+    case SyncTypeList.ViewOnceOpen:
+      doSync = window.textsecure.messaging.syncViewOnceOpen.bind(
+        window.textsecure.messaging
+      );
+      break;
+    default: {
+      throw missingCaseError(type);
+    }
   }
 
   try {

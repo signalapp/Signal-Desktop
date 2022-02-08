@@ -1,4 +1,4 @@
-// Copyright 2021-2022 Signal Messenger, LLC
+// Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as durations from '../util/durations';
@@ -18,33 +18,36 @@ import { jobQueueDatabaseStore } from './JobQueueDatabaseStore';
 
 const MAX_RETRY_TIME = durations.DAY;
 
-export type ReadSyncJobData = {
-  readSyncs: Array<SyncType>;
+export type ViewOnceOpenJobData = {
+  viewOnceOpens: Array<SyncType>;
 };
 
-export class ReadSyncJobQueue extends JobQueue<ReadSyncJobData> {
-  protected parseData(data: unknown): ReadSyncJobData {
+export class ViewOnceOpenJobQueue extends JobQueue<ViewOnceOpenJobData> {
+  protected parseData(data: unknown): ViewOnceOpenJobData {
     strictAssert(isRecord(data), 'data is not an object');
-    return { readSyncs: parseRawSyncDataArray(data.readSyncs) };
+    return { viewOnceOpens: parseRawSyncDataArray(data.viewOnceOpens) };
   }
 
   protected async run(
-    { data, timestamp }: Readonly<{ data: ReadSyncJobData; timestamp: number }>,
+    {
+      data,
+      timestamp,
+    }: Readonly<{ data: ViewOnceOpenJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<void> {
     await runSyncJob({
       attempt,
       log,
       maxRetryTime: MAX_RETRY_TIME,
-      syncs: data.readSyncs,
+      syncs: data.viewOnceOpens,
       timestamp,
-      type: SyncTypeList.Read,
+      type: SyncTypeList.ViewOnceOpen,
     });
   }
 }
 
-export const readSyncJobQueue = new ReadSyncJobQueue({
+export const viewOnceOpenJobQueue = new ViewOnceOpenJobQueue({
   store: jobQueueDatabaseStore,
-  queueType: 'read sync',
+  queueType: 'view once open sync',
   maxAttempts: exponentialBackoffMaxAttempts(MAX_RETRY_TIME),
 });

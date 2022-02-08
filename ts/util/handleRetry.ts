@@ -7,6 +7,7 @@ import {
 } from '@signalapp/signal-client';
 import { isNumber } from 'lodash';
 
+import * as Bytes from '../Bytes';
 import { isProduction } from './version';
 import { strictAssert } from './assert';
 import { getSendOptions } from './getSendOptions';
@@ -31,9 +32,13 @@ import type {
 
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 
 const RETRY_LIMIT = 5;
+
+// Note: Neither of the the two functions onRetryRequest and onDecrytionError use a job
+//   queue to make sure sends are reliable. That's unnecessary because these tasks are
+//   tied to incoming message processing queue, and will only confirm() completion on
+//   successful send.
 
 // Entrypoints
 
@@ -128,6 +133,7 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     messageIds,
     requestGroupId,
     requesterUuid,
+    timestamp,
   });
 
   const recipientConversation = window.ConversationController.getOrCreate(
@@ -252,6 +258,7 @@ async function sendDistributionMessageOrNullMessage(
   options: RetryRequestEventData,
   didArchive: boolean
 ): Promise<void> {
+  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
   const { groupId, requesterUuid } = options;
   let sentDistributionMessage = false;
   log.info(`sendDistributionMessageOrNullMessage/${logId}: Starting...`);
@@ -260,6 +267,7 @@ async function sendDistributionMessageOrNullMessage(
     requesterUuid,
     'private'
   );
+  const sendOptions = await getSendOptions(conversation.attributes);
 
   if (groupId) {
     const group = window.ConversationController.get(groupId);
@@ -277,20 +285,19 @@ async function sendDistributionMessageOrNullMessage(
       );
 
       try {
-        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-        const result = await handleMessageSend(
-          window.textsecure.messaging.sendSenderKeyDistributionMessage({
-            contentHint: ContentHint.RESENDABLE,
-            distributionId,
-            groupId,
-            identifiers: [requesterUuid],
-          }),
+        await handleMessageSend(
+          window.textsecure.messaging.sendSenderKeyDistributionMessage(
+            {
+              contentHint: ContentHint.RESENDABLE,
+              distributionId,
+              groupId,
+              identifiers: [requesterUuid],
+              throwIfNotInDatabase: true,
+            },
+            sendOptions
+          ),
           { messageIds: [], sendType: 'senderKeyDistributionMessage' }
         );
-        if (result && result.errors && result.errors.length > 0) {
-          throw result.errors[0];
-        }
         sentDistributionMessage = true;
       } catch (error) {
         log.error(
@@ -315,14 +322,23 @@ async function sendDistributionMessageOrNullMessage(
 
     // Enqueue a null message using the newly-created session
     try {
-      await singleProtoJobQueue.add(
-        window.textsecure.messaging.getNullMessage({
-          uuid: requesterUuid,
-        })
+      const nullMessage = window.textsecure.messaging.getNullMessage({
+        uuid: requesterUuid,
+      });
+      await handleMessageSend(
+        window.textsecure.messaging.sendIndividualProto({
+          ...nullMessage,
+          options: sendOptions,
+          proto: Proto.Content.decode(
+            Bytes.fromBase64(nullMessage.protoBase64)
+          ),
+          timestamp: Date.now(),
+        }),
+        { messageIds: [], sendType: nullMessage.type }
       );
     } catch (error) {
       log.error(
-        'sendDistributionMessageOrNullMessage: Failed to queue null message',
+        'sendDistributionMessageOrNullMessage: Failed to send null message',
         Errors.toLogFormat(error)
       );
     }
@@ -363,12 +379,14 @@ async function maybeAddSenderKeyDistributionMessage({
   messageIds,
   requestGroupId,
   requesterUuid,
+  timestamp,
 }: {
   contentProto: Proto.IContent;
   logId: string;
   messageIds: Array<string>;
   requestGroupId?: string;
   requesterUuid: string;
+  timestamp: number;
 }): Promise<{
   contentProto: Proto.IContent;
   groupId?: string;
@@ -402,15 +420,17 @@ async function maybeAddSenderKeyDistributionMessage({
 
   const senderKeyInfo = conversation.get('senderKeyInfo');
   if (senderKeyInfo && senderKeyInfo.distributionId) {
-    const senderKeyDistributionMessage =
+    const protoWithDistributionMessage =
       await window.textsecure.messaging.getSenderKeyDistributionMessage(
-        senderKeyInfo.distributionId
+        senderKeyInfo.distributionId,
+        { throwIfNotInDatabase: true, timestamp }
       );
 
     return {
       contentProto: {
         ...contentProto,
-        senderKeyDistributionMessage: senderKeyDistributionMessage.serialize(),
+        senderKeyDistributionMessage:
+          protoWithDistributionMessage.senderKeyDistributionMessage,
       },
       groupId: conversation.get('groupId'),
     };

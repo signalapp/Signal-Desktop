@@ -143,6 +143,7 @@ import {
   isQuoteAMatch,
 } from '../messages/helpers';
 import type { ReplacementValuesType } from '../types/I18N';
+import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue';
 
 /* eslint-disable camelcase */
 /* eslint-disable more/no-then */
@@ -843,19 +844,13 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     await this.eraseContents();
 
     if (!fromSync) {
-      const sender = getSource(this.attributes);
+      const senderE164 = getSource(this.attributes);
       const senderUuid = getSourceUuid(this.attributes);
+      const timestamp = this.get('sent_at');
 
       if (senderUuid === undefined) {
-        throw new Error('senderUuid is undefined');
+        throw new Error('markViewOnceMessageViewed: senderUuid is undefined');
       }
-
-      const timestamp = this.get('sent_at');
-      const ourConversation =
-        window.ConversationController.getOurConversationOrThrow();
-      const sendOptions = await getSendOptions(ourConversation.attributes, {
-        syncMessage: true,
-      });
 
       if (window.ConversationController.areWePrimaryDevice()) {
         log.warn(
@@ -864,15 +859,22 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
         return;
       }
 
-      await handleMessageSend(
-        window.textsecure.messaging.syncViewOnceOpen(
-          sender,
-          senderUuid,
-          timestamp,
-          sendOptions
-        ),
-        { messageIds: [this.id], sendType: 'viewOnceSync' }
-      );
+      try {
+        await viewOnceOpenJobQueue.add({
+          viewOnceOpens: [
+            {
+              senderE164,
+              senderUuid,
+              timestamp,
+            },
+          ],
+        });
+      } catch (error) {
+        log.error(
+          'markViewOnceMessageViewed: Failed to queue view once open sync',
+          Errors.toLogFormat(error)
+        );
+      }
     }
   }
 

@@ -7446,6 +7446,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/LeftPaneMainSearchInput.tsx",
+    "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-01-26T23:11:05.369Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/LeftPaneSearchInput.tsx",
     "line": "    const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -7486,13 +7493,6 @@
     "line": "  const zoomCacheRef = useRef<",
     "reasonCategory": "usageTrusted",
     "updated": "2021-10-11T21:21:08.188Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/LeftPaneMainSearchInput.tsx",
-    "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-01-26T23:11:05.369Z"
   },
   {
     "rule": "React-useRef",
@@ -7879,17 +7879,17 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/jobs/helpers/readAndViewSyncHelpers.js",
+    "path": "ts/jobs/helpers/syncHelpers.js",
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-12-15T19:58:28.089Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/jobs/helpers/readAndViewSyncHelpers.ts",
+    "path": "ts/jobs/helpers/syncHelpers.ts",
     "line": "  await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
-    "updated": "2021-12-15T19:58:28.089Z"
+    "updated": "2021-11-04T16:14:03.477Z"
   },
   {
     "rule": "jQuery-load(",
@@ -7903,7 +7903,7 @@
     "path": "ts/jobs/normalMessageSendJobQueue.ts",
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
-    "updated": "2021-11-04T16:14:03.477Z"
+    "updated": "2021-12-15T19:58:28.089Z"
   },
   {
     "rule": "jQuery-load(",

@@ -2968,9 +2968,9 @@ export async function startApp(): Promise<void> {
     }
 
     log.info(
-      'onProfileKeyUpdate: updating profileKey',
-      data.source,
-      data.sourceUuid
+      'onProfileKeyUpdate: updating profileKey for',
+      data.sourceUuid,
+      data.source
     );
 
     await conversation.setProfileKey(data.profileKey);

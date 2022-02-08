@@ -1,4 +1,4 @@
-// Copyright 2017-2021 Signal Messenger, LLC
+// Copyright 2017-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* global Whisper, window */
@@ -18,6 +18,7 @@ try {
 
   // It is important to call this as early as possible
   const { SignalContext } = require('./ts/windows/context');
+  window.i18n = SignalContext.i18n;
 
   const { getEnvironment, Environment } = require('./ts/environment');
   const ipc = electron.ipcRenderer;
@@ -421,7 +422,6 @@ try {
   const Attachments = require('./ts/windows/attachments');
 
   const { locale } = config;
-  window.i18n = SignalContext.i18n;
   window.moment.updateLocale(locale, {
     relativeTime: {
       s: window.i18n('timestamp_s'),
