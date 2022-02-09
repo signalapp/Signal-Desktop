@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Vandaag",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Gisteren",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Deze week",
@@ -932,7 +932,7 @@
         "description": "Shown in a message's triple-dot menu if there isn't room for a dedicated download button"
     },
     "reactToMessage": {
-        "message": "Op bericht reageren",
+        "message": "Met emoji reageren",
         "description": "Shown in triple-dot menu next to message to allow user to react to the associated message"
     },
     "replyToMessage": {
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Het is Signal-Desktop niet gelukt om bij te werken, maar er is wel een nieuwe versie beschikbaar. Surf naar  $url$ en installeer zelf de nieuwe versie. Neem daarna ofwel contact op met onze ondersteuning, of schijf een foutrapportage op GitHub om dit probleem te melden.",
+        "message": "Signal kon niet worden bijgewerkt. $retry$ of bezoek $url$ om Signal handmatig te installeren. Neem vervolgens $support$ over dit probleem zodat we het in de toekomst kunnen voorkomen.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1126,7 +1134,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Dit bericht wordt voor iedere deelnemer aan dit gesprek die een recente versie van Signal gebruikt gewist. Ze zullen wel een bericht zien waarin staat dat je een bericht hebt gewist.",
+        "message": "Dit bericht wordt voor iedere deelnemer aan dit gesprek gewist. Ze zullen wel een bericht zien waarin staat dat je een bericht hebt gewist.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1282,7 +1290,7 @@
         }
     },
     "ChangeNumber--notification": {
-        "message": "$sender$ heeft zijn of haar telefoonnummer veranderd",
+        "message": "$sender$ heeft zijn of haar telefoonnummer gewijzigd",
         "description": "Shown in timeline when a member of a conversation changes their phone number",
         "placeholders": {
             "sender": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "nu",
+        "message": "Nu",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Vandaag] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Gisteren] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Berichtinhoud is te lang",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Nieuwe versie beschikbaar",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Probeer Signal opnieuw bij te werken",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contact op met ondersteuning",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Doorgaan",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd D MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D MMM YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Meer leren hierover",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6194,7 +6226,7 @@
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Zelfgekozen tijdspanne …",
+        "message": "Zelfgekozen tijdspanne",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
@@ -6763,10 +6795,6 @@
         "message": "wat er nieuw is",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Als er in een groepsoproep acht of meer deelnemers zijn dan worden microfoons vanaf nu automatisch gedempt om te voorkomen dat iedereen steeds op zoek moet gaan naar die ene persoon die zo luid typt.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Verbeterde weergave van datums als je omhoog scrolt in je gespreksgeschiedenis.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "We hebben de ruimte in het linker paneel beter ingedeeld.",
+        "description": "Release notes for v5.31"
     }
 }

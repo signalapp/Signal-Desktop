@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Idag",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Igår",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Denna vecka",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Det gick inte att uppdatera Signal Desktop, men det finns en ny version tillgänglig. Vänligen gå till  $url$ och installera den nya versionen manuellt, kontakta antingen sedan supporten eller skicka en felrapport om detta problem.",
+        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1348,7 +1356,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "Tryck på $settings$, tryck sedan på $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "nu",
+        "message": "Nu",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Meddelandekroppen är för lång.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Uppdatering tillgänglig",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Retry update",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contact support",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -3628,7 +3652,7 @@
         }
     },
     "member-of-more-than-3-groups--multiple-more": {
-        "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ fler",
+        "message": "Medlem i $group1$, $group2$, $group3$ och $remainingCount$ till",
         "description": "Shown in the conversation hero to indicate this user is a member of 5+ mutual groups.",
         "placeholders": {
             "group1": {
@@ -5963,6 +5987,14 @@
         "message": "Fortsätt",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Läs mer",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal startade om efter en krasch. Du kan skicka en kraschrapport för att hjälpa Signal att undersöka problemet.",
+        "message": "Signal startade om efter en krasch. Du kan skicka in en kraschrapport för att hjälpa Signal att undersöka problemet.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6795,6 @@
         "message": "Vad är nytt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6776,7 +6804,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
-        "message": "Ever feel like you need more pixels on the right pane in your life? Are you a fan of avatars, but only avatars and nothing else? Do you have a \"Save the screen real estate\" bumper sticker on your car? If you answered yes or no to any of those questions, then this update has got some collapsible left pane for you.",
+        "message": "Har du någonsin känt att du behöver fler pixlar på den högra rutan i ditt liv? Är du ett fan av avatarer, men bara avatarer och inget annat? Har du en \"Save the screen real estate\"-dekal på din bil? Om du svarade ja eller nej på någon av dessa frågor, så har den här uppdateringen en hopfällbar vänstra ruta för dig.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
@@ -6798,11 +6826,19 @@
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.28--1": {
-        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "message": "Nytt år, ny inledande inställningsskärm. Vi har gjort om de första inställningsskärmarna lagom till 2022.",
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
         "message": "Nu, med färre frenetiska sökningar efter den högljudda maskinskrivaren eller tungtuggaren! I samtalslobbyn kommer Desktop nu automatiskt att inaktivera ljudet om det finns åtta eller fler personer i samtalet.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }

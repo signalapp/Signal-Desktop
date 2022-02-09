@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Hoje",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Ontem",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Esta semana",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Ocorreu um erro ao tentar atualizar o Signal Desktop para a versão mais recente. Por favor, vá até  $url$ e instale manualmente a nova versão. Depois, ou contacte a nossa equipa de suporte ou envie-nos um ficheiro de erro com este problema.",
+        "message": "O Signal não conseguiu atualizar. $retry$ ou visite $url$ para o instalar manualmente. Depois, $support$ acerca deste problema",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "agora",
+        "message": "Agora",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM ",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Hoje] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Ontem] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "O corpo da mensagem é demasiado longo.",
@@ -2485,6 +2501,14 @@
         "message": "Atualização disponível",
         "description": ""
     },
+    "autoUpdateRetry": {
+        "message": "Retomar atualização",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contactar o suporte",
+        "description": ""
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Clique para reiniciar o Signal",
         "description": ""
@@ -2506,7 +2530,7 @@
         "description": ""
     },
     "autoUpdateIgnoreButtonLabel": {
-        "message": "Ignorar update",
+        "message": "Ignorar atualização",
         "description": ""
     },
     "leftTheGroup": {
@@ -5963,6 +5987,14 @@
         "message": "Continuar",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Saber mais",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6598,7 +6630,7 @@
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "Ver o meu número de telemóvel",
+        "message": "Ver o meu número de telefone",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
@@ -6763,10 +6795,6 @@
         "message": "Novidades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Esta versão contém um número de pequenas funcionalidades e correções de erros de forma a manter o Signal a correr suavemente.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Agora, com menos pesquisas frenéticas pelo digitador barulhento ou mastigador pesado! Durante as chamadas, o Desktop desativará automaticamente o áudio se existirem oito ou mais pessoas na chamada. ",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Percorra as suas conversas sem parar e sinta-se confiante de que, onde quer que esteja na conversa, você saberá quando e onde está.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Estava embaralhado em torno do espaçamento no cabeçalho do painel esquerdo e da área de pesquisa mas, agora há muito espaço para atividades! ",
+        "description": "Release notes for v5.31"
     }
 }

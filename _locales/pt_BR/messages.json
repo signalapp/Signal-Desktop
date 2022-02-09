@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Hoje",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Ontem",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Essa semana",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "A atualização do Signal Desktop falhou. Há uma nova versão disponível. Por favor, vá para $url$ e instale a nova versão manualmente. Em seguida, entre em contato com o suporte ou reporte esse problema.",
+        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1478,7 +1486,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Microphone muted due to the size of the call",
+        "message": "Microfone silenciado devido à quantidade de pessoas na chamada",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "agora",
+        "message": "Agora",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Mensagem muito longa.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Atualização disponível",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Retry update",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contact support",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Continuar",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Saiba mais",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6648,11 +6680,11 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "Erro no aplicativo",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+        "message": "Signal reiniciou após a ocorrência de um erro. Você pode enviar um relatório de erro para ajudar a equipe do Signal a investigar o problema.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6660,7 +6692,7 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "Não enviar",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
@@ -6763,10 +6795,6 @@
         "message": "Novidades",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6802,7 +6830,15 @@
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.28"
+        "message": "A partir de agora, Signal desliga automaticamente o seu microfone quando você adentra em uma chamada que já reúne oito ou mais pessoas.",
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }

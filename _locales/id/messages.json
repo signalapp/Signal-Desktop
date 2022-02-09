@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Hari ini",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Kemarin",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Minggu ini",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Gagal memperbarui Signal Desktop, namun versi baru telah tersedia. Mohon buka$url$ dan pasang aplikasi versi barunya secara manual, lalu kontak bagian dukungan atau lampirkan bug mengenai masalah ini.",
+        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1348,7 +1356,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Tap into $settings$, then tap $linkedDevices$",
+        "message": "Ketuk pada $settings$, kemudian ketuk $linkedDevices$ ",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -1366,7 +1374,7 @@
         "description": "Part of the 2nd instruction on the device link screen"
     },
     "Install__instructions__3": {
-        "message": "Tap $plusButton$ (Android) or $linkNewDevice$ (iPhone)",
+        "message": "Ketuk $plusButton$ (Android) atau $linkNewDevice$ (iPhone)",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "plusButton": {
@@ -1380,7 +1388,7 @@
         }
     },
     "Install__qr-failed": {
-        "message": "The QR code couldn't load. Check your internet and try again. $learnMore$",
+        "message": "Tidak dapat memuat kode QR. Periksa internet Anda dan coba lagi. $learnMore$",
         "description": "Shown on the install screen if the QR code fails to load",
         "placeholders": {
             "learnMore": {
@@ -1398,11 +1406,11 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "You'll see this name under \"Linked Devices\" on your phone",
+        "message": "Anda akan melihat nama ini di bagian \"Perangkat Terhubung\" pada ponsel Anda",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
-        "message": "My Computer",
+        "message": "Komputer Saya",
         "description": "The placeholder for the 'choose device name' input"
     },
     "Preferences--device-name": {
@@ -1422,7 +1430,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Note: Your chat history will not be synced to this device",
+        "message": "Catatan: Riwayat percakapan Anda tidak akan disinkronisasikan ke perangkat ini",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1442,7 +1450,7 @@
         "description": ""
     },
     "installUnknownError": {
-        "message": "An unexpected error occurred. Please try again.",
+        "message": "Terjadi kesalahan tak terduga. Mohon coba lagi.",
         "description": ""
     },
     "installTryAgain": {
@@ -1478,7 +1486,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Microphone muted due to the size of the call",
+        "message": "Mikrofon disenyapkan karena ukurang panggilan",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "sekarang",
+        "message": "Sekarang",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Pesan terlalu panjang.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Pembaruan tersedia",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Retry update",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contact support",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Lanjut",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Pelajari lebih lanjut",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6648,11 +6680,11 @@
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "Aplikasi macet",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+        "message": "Signal dimulai ulang setelah macet. Anda dapat mengirimkan laporan untuk membantu Signal menginvestigasi masalahnya.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6660,7 +6692,7 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "Jangan Kirim",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
@@ -6763,10 +6795,6 @@
         "message": "Yang Baru",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6780,7 +6808,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal Desktop is now optimized for Apple's M1 chip which is used in their newer computers. If you're on one of those new-fangled devices, the app should be much snappier. If you're not, give a warm welcome to the users that are. Huge thanks to $dennis$ for his hard work here!",
+        "message": "Signal Desktop sekarang dioptimalkan untuk chip M1 dari Apple yang digunakan pada komputer terbaru mereka. Jika Anda memakai perangkat buatan baru tersebut, Signal bekerja lebih cepat. Jika tidak, berikan sambutan hangat untuk penggunanya. Terima kasih banyak untuk $dennis$ untuk kerja kerasnya dalam hal ini!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6790,7 +6818,7 @@
         }
     },
     "WhatsNew__v5.27--1": {
-        "message": "On a long call? Your system should stay awake the whole time, instead of falling asleep while you're in the middle of an important discussion.",
+        "message": "Dalam panggilan panjang? Sistem Anda harus tetap menyala sepanjang waktu, dari pada mati ketika Anda sedang dalam diskusi yang penting.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.27--2": {
@@ -6798,11 +6826,19 @@
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.28--1": {
-        "message": "New year, new initial setup screen. We've redesigned the initial setup screens just in time for 2022.",
+        "message": "Tahun baru, layar pengaturan awal baru. Kami telah mendesain ulang layar pengaturan awal tepat pada tahun 2022.",
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.28"
+        "message": "Sekarang, dengan lebih sedikit pencarian tergesa-gesa untuk pengetik yang lantang atau pengunyah kelas berat! Dalam lobi panggilan, Desktop akan secara otomatis menonaktifkan audio jika ada delapan orang atau lebih di dalam panggilan. ",
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }

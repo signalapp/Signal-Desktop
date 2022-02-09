@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Azi",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Ieri",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Săptămâna asta",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop nu a putut fi actualizat, dar există o versiune nouă disponibilă. Accesează $url$ și instalează noua versiune manual, după care contactează serviciul de asistență sau raportează această problemă on-line.",
+        "message": "Signal nu a putut fi actualizat. $retry$ sau mergi la $url$ pentru a o instala manual. Apoi, $support$ în legătură cu această problemă",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "acum",
+        "message": "Acum",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Azi] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Ieri] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Conținutul mesajului este prea lung.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Actualizare disponibilă",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Reîncearcă actualizarea",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "Contactează asistența",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Continuă",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, D MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D MMM YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Află mai multe",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Ce este nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "De acum, nu vei mai fi nevoit să-l cauți în grabă pe cel ce tastează sau mestecă zgomotos, Desktop v-a opri automat microfonul dacă sunt opt sau mai multe persoane în apel.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Derulează la nesfârșit prin conversațiile tale și fii sigur că oriunde te-ai afla în conversație vei știi și data acesteia.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Am modificat spațierea ce tine de căutare și profil a panoului din stânga, iar acum există mai mult spațiu pentru alte activități.",
+        "description": "Release notes for v5.31"
     }
 }

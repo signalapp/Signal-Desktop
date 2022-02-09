@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Aujourd’hui",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Hier",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Cette semaine",
@@ -984,7 +984,7 @@
         "description": "Shown in a dialog to inform user that we experienced an unrecoverable error"
     },
     "attachmentSaved": {
-        "message": "Fichier joint enregistré.",
+        "message": "Le fichier joint a été enregistré.",
         "description": "Shown after user selects to save to downloads"
     },
     "attachmentSavedShow": {
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "La mise à jour de Signal Desktop pour ordinateur a échoué, mais une nouvelle version est proposée. Veuillez vous rendre sur $url$ et installez manuellement la nouvelle version. Ensuite, contactez l’assistance ou remplissez un relevé de bogue au sujet de ce problème.",
+        "message": "Signal n’a pas pu être mis à jour. $retry$ ou visitez $url$ pour l’installer manuellement. Puis, $support$ au sujet de ce problème",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1340,7 +1348,7 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Balayez ce code dans l’application Signal sur votre téléphone",
+        "message": "Lisez ce code dans l’appli Signal sur votre téléphone",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "maintenant",
+        "message": "À l’instant",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Aujourd’hui] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Hier] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Le corps du message est trop long.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Mise à jour disponible",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Retenter la mise à jour",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contactez l’assistance",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Poursuivre",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "jjj, MMM J",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM J, AAAA",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "En apprendre davantage",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Les nouveautés",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Cette version contient un certain nombre de petits ajustements et de corrections de bogues pour assurer le bon fonctionnement de Signal.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6802,7 +6830,15 @@
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.28"
+        "message": "Maintenant, avec moins de recherches frénétiques pour les bruyants ! En rejoignant un appel, l'audio sera automatiquement désactivé s'il y a déjà huit personnes ou plus.",
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Faites défiler vos conversations à l'infini et soyez sûr que de savoir, où que vous soyez dans la conversation, à quel moment vous vous trouvez.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }

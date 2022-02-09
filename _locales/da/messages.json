@@ -188,15 +188,15 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
-        "message": "Indlæser...",
+        "message": "Indlæser ...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
-        "message": "Optimerer applikationen...",
+        "message": "Optimerer applikation ...",
         "description": "Message shown on the loading screen while we are doing application optimizations"
     },
     "migratingToSQLCipher": {
-        "message": "Optimering af beskeder... $status$ fuldført.",
+        "message": "Optimering af beskeder ... $status$ fuldført.",
         "description": "Message shown on the loading screen while we are doing application optimizations",
         "placeholders": {
             "status": {
@@ -302,11 +302,11 @@
         "description": "Message shown as the export location if we didn't capture the target directory"
     },
     "upgradingDatabase": {
-        "message": "Opgraderer database. Det kan godt tage lidt tid...",
+        "message": "Opgraderer database. Det kan godt tage lidt tid ...",
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Indlæser beskeder. $count$ indtil videre...",
+        "message": "Indlæser beskeder. $count$ indtil videre ...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -470,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Denne log vil blive offentliggjort online, så bidragsydere kan se den. Du kan downloade hele loggen, inden du indsender den.",
+        "message": "Denne log vil blive offentliggjort online, så bidragsydere kan se den. Du kan hente hele loggen, inden du indsender den.",
         "description": ""
     },
     "debugLogError": {
@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "I dag",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "I går",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Denne uge",
@@ -614,7 +614,7 @@
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
-        "message": "Indlæser forhåndsvisning...",
+        "message": "Indlæser forhåndsvisning ...",
         "description": "Shown while Signal Desktop is fetching metadata for a url in composition area"
     },
     "stagedPreviewThumbnail": {
@@ -690,7 +690,7 @@
         "description": "Displayed when the desktop client cannot connect to the server."
     },
     "connecting": {
-        "message": "Forbinder...",
+        "message": "Forbinder ...",
         "description": "Displayed when the desktop client is currently connecting to the server."
     },
     "connect": {
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop kunne ikke opdateres, men der er en ny version tilgængelig. Gå til $url$ og installer den nye version manuelt, derefter kontakt enten support eller indrapportér problemet.",
+        "message": "Signal kunne ikke opdatere. $retry$ eller besøg $url$ for at installere det manuelt. Dernæst, $support$ om dette problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2070,7 +2078,7 @@
         "description": "Label for a button that syncs contacts and groups from your phone"
     },
     "syncing": {
-        "message": "Importerer...",
+        "message": "Importerer ...",
         "description": "Label for a disabled sync button while sync is in progress."
     },
     "syncFailed": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "nu",
+        "message": "Nu",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D. MMM.",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[I dag] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[I går] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Beskeden er for langt.",
@@ -2330,7 +2346,7 @@
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
-        "message": "Start ny samtale...",
+        "message": "Start ny samtale ...",
         "description": "Label underneath number a user enters that is not an existing contact"
     },
     "newConversation": {
@@ -2485,12 +2501,20 @@
         "message": "Opdatering tilgængelig",
         "description": ""
     },
+    "autoUpdateRetry": {
+        "message": "Forsøg opdatering igen",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "kontakt support",
+        "description": ""
+    },
     "autoUpdateNewVersionMessage": {
         "message": "Klik for at genstarte Signal",
         "description": ""
     },
     "downloadNewVersionMessage": {
-        "message": "Klik for at downloade opdatering",
+        "message": "Klik for at hente opdatering",
         "description": ""
     },
     "autoUpdateNewVersionInstructions": {
@@ -2760,7 +2784,7 @@
         "description": "Shown in the sticker picker when one or more stickers could not be downloaded."
     },
     "stickers--StickerPicker--DownloadPending": {
-        "message": "Installerer klistermærkepakke...",
+        "message": "Installerer klistermærkepakke ...",
         "description": "Shown in the sticker picker when one or more stickers are still downloading."
     },
     "stickers--StickerPicker--Empty": {
@@ -3224,7 +3248,7 @@
         "description": "Help text for the drop stage of the sticker creator"
     },
     "StickerCreator--MetaStage--title": {
-        "message": "Lige et par detaljer mere...",
+        "message": "Lige et par detaljer mere ...",
         "description": "Title for the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--Field--title": {
@@ -3720,11 +3744,11 @@
         "description": "Shown in conversation history when your video call is missed or declined"
     },
     "incomingAudioCall": {
-        "message": "Indgående lydopkald...",
+        "message": "Indgående lydopkald ...",
         "description": "Shown in both the incoming call bar and notification for an incoming audio call"
     },
     "incomingVideoCall": {
-        "message": "Indgående videoopkald...",
+        "message": "Indgående videoopkald ...",
         "description": "Shown in both the incoming call bar and notification for an incoming video call"
     },
     "incomingGroupCall__ringing-you": {
@@ -3810,7 +3834,7 @@
         }
     },
     "outgoingCallRinging": {
-        "message": "Ringer...",
+        "message": "Ringer ...",
         "description": "Shown in the call screen when placing an outgoing call that is now ringing"
     },
     "makeOutgoingCall": {
@@ -3836,7 +3860,7 @@
         }
     },
     "callReconnecting": {
-        "message": "Forbinder igen...",
+        "message": "Forbinder igen ...",
         "description": "Shown in the call screen when the call is reconnecting due to network issues"
     },
     "callDuration": {
@@ -4156,7 +4180,7 @@
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Opdaterer...",
+        "message": "Opdaterer ...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
@@ -5938,7 +5962,7 @@
         "description": "Aria label for audio attachment's Download button"
     },
     "MessageAudio--pending": {
-        "message": "Henter vedhæftet lydfil...",
+        "message": "Henter vedhæftet lydfil ...",
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
@@ -5962,6 +5986,14 @@
     "ForwardMessageModal--continue": {
         "message": "Fortsæt",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, D. MMM ",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D. MMM, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
         "message": "Læs mere",
@@ -6194,7 +6226,7 @@
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Tilpas udløbstid...",
+        "message": "Tilpas udløbstid ...",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
@@ -6264,7 +6296,7 @@
         "description": "Label text shown when editing group description"
     },
     "ConversationDetailsHeader--add-group-description": {
-        "message": "Tilføj gruppebeskrivelse...",
+        "message": "Tilføj gruppebeskrivelse ...",
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
@@ -6384,7 +6416,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Skriv lidt om dig selv...",
+        "message": "Skriv lidt om dig selv ...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6574,7 +6606,7 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Hvem kan...",
+        "message": "Hvem kan ...",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
@@ -6763,10 +6795,6 @@
         "message": "Nyheder",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Nu med færre hektiske søgninger efter den, som larmer med sin tastning eller tygger højlydt! I opkaldslobbyen vil Desktop nu automatisk deaktivere lyd, hvis der er otte eller flere personer i opkaldet.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Du kan scrolle uendeligt gennem dine samtaler og være sikker på, at uanset hvor du er i samtalen, ved du hvornår.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Vi har ændret på afstanden i venstre rudes sidehoved og søgeområde, så der nu er masser af plads til aktiviteter!",
+        "description": "Release notes for v5.31"
     }
 }

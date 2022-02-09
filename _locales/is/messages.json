@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Í dag",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Í gær",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Í þessari viku",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop uppfærðist ekki, en það er ný útgáfa til taks. Farðu á $url$ og settu nýju útgáfuna upp handvirkt, síðan skaltu annað hvort hafa samband við aðstoðarteymið eða senda inn verkbeiðni vegna þessa vandamáls.",
+        "message": "Signal gat ekki uppfærst. $retry$ eða skoðaðu $url$ til að setja það upp handvirkt. Síðan ættirðu að $support$ varðandi þetta vandamál",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "núna",
+        "message": "Núna",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Texti skilaboðanna er of langur.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Uppfærsla er tiltæk",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Prófaðu að uppfæra",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "hafðu samband",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Áfram",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd. D. MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D. MMM, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Kanna nánar",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Hvað er nýtt",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Þessi útgáfa inniheldur nokkrar villuleiðréttingar og fínstillingar til að Signal keyri sem áreiðanlegast.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Núna þarf að leita á færri stöðum að þessum sem hamast á lyklaborðinu eða tyggur hátt. Forritið slekkur núna sjálfvirkt á hljóðnemum ef það eru fleiri en átta manns í samtalinu.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Skrunaðu endalaust í gegnum samtölin þín en hafðu samt á tilfinninguni að þú sért nákvæmlega með á nótunum.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Við stokkuðum upp bilin vinstra megin efst, og nú er svo mikið pláss fyrir virkni!",
+        "description": "Release notes for v5.31"
     }
 }

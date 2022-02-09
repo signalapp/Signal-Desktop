@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Hodiaŭ",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Hieraŭ",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Ĉisemajne",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop ne sukcesis ĝisdatiĝi, sed nova versio disponeblas. Bv. iri al  $url$ kaj instali la novan version permane; poste, kontaktu helpservon, aŭ raportu problemon pri tio.",
+        "message": "Signal ne povis ĝisdatiĝi. $retry$ aŭ iru al $url$ por instali ĝin permane. Poste, $support$ pri la problemo.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "nun",
+        "message": "Nun",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Hodiaŭ] H[h]mm",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Hieraŭ] H[h]mm",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "La mesaĝokorpo estas tro longa.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Ĝisdatigo disponeblas",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Reprovu ĝisdatigon",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "kontaktu la subtenon",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Daŭrigi",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd D[-an de] MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D[-an de] MMM YYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Scii pli",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Kio novas",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Tiu versio enhavas kelkajn optimumaĵojn kaj riparetojn, por ke Signal plu funkciu bone.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Tiu versio enhavas kelkajn optimumaĵojn kaj riparetojn, por ke Signal plu funkciu bone.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Nun, malpli da serĉoj pri la laŭt-tajpanto aŭ la bru-maĉanto! Dum alvoko, Signal Desktop nun aŭtomate malŝaltos la mikrofonon, se estas almenaŭ ok homoj en al alvoko. ",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Rulumu senfini tra viaj interparoloj, kaj sciu certe, kiam ili okazis.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Pli agrabla spaco en la maldekstra panelo ĉirkaŭ la serĉa areo. Bone!",
+        "description": "Release notes for v5.31"
     }
 }

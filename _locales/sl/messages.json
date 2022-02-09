@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Danes",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Včeraj",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Ta teden",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Posodobitev aplikacije Signal Desktop ni bila uspešna, čeprav je na voljo nova različica. Prosimo pojdite na  $url$ in ročno namestite novo različico, nato pa o problemu obvestite podporno službo oz. prijavite hrošča.",
+        "message": "Signal se ni mogel posodobiti. $retry$ ali obiščite $url$ za ročno namestitev. Nato, $support$ o tem problemu",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "ravnokar",
+        "message": "Ravnokar",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Danes] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Včeraj] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Sporočilo je predolgo.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Na voljo je posodobitev",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Ponovno poskusite s posodobitvijo",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "obvestite podporni center",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Nadaljuj",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, LLLL",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Izvedite več",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Kaj je novega",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }
