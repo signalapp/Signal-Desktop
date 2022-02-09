@@ -120,46 +120,51 @@ let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
+/**
+ * This array holds all of the ice servers Session can contact.
+ * They are all contacted at the same time, so before triggering the request, we get only a subset of those, randomly
+ */
+const iceServersFullArray = [
+  {
+    urls: 'turn:freyr.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:fenrir.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:frigg.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:angus.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:hereford.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:holstein.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:brahman.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+];
+
 const configuration: RTCConfiguration = {
   bundlePolicy: 'max-bundle',
   rtcpMuxPolicy: 'require',
-  iceServers: [
-    {
-      urls: 'turn:freyr.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:fenrir.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:frigg.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:angus.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:hereford.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:holstein.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:brahman.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-  ],
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
 };
 
@@ -701,7 +706,8 @@ function createOrGetPeerConnection(withPubkey: string) {
     return peerConnection;
   }
   remoteStream = new MediaStream();
-  peerConnection = new RTCPeerConnection(configuration);
+  const sampleOfICeServers = _.sampleSize(iceServersFullArray, 2);
+  peerConnection = new RTCPeerConnection({ ...configuration, iceServers: sampleOfICeServers });
   dataChannel = peerConnection.createDataChannel('session-datachannel', {
     ordered: true,
     negotiated: true,
