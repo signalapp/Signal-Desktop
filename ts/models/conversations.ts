@@ -4031,6 +4031,10 @@ export class ConversationModel extends window.Backbone
           timestamp: now,
           isArchived: false,
         });
+
+        if (enableProfileSharing) {
+          this.captureChange('mandatoryProfileSharing');
+        }
       } finally {
         this.isInReduxBatch = false;
       }
