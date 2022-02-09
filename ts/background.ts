@@ -1696,7 +1696,11 @@ export async function startApp(): Promise<void> {
     log.info(
       `Expiration start timestamp cleanup: Found ${messagesUnexpectedlyMissingExpirationStartTimestamp.length} messages for cleanup`
     );
-    if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
+    if (!window.textsecure.storage.user.getUuid()) {
+      log.info(
+        "Expiration start timestamp cleanup: Cancelling update; we don't have our own UUID"
+      );
+    } else if (messagesUnexpectedlyMissingExpirationStartTimestamp.length) {
       const newMessageAttributes =
         messagesUnexpectedlyMissingExpirationStartTimestamp.map(message => {
           const expirationStartTimestamp = Math.min(
@@ -1714,7 +1718,7 @@ export async function startApp(): Promise<void> {
             )
           );
           log.info(
-            `Expiration start timestamp cleanup: starting timer for ${message.type} message sent at ${message.sent_at}. Starting timer at ${message.expirationStartTimestamp}`
+            `Expiration start timestamp cleanup: starting timer for ${message.type} message sent at ${message.sent_at}. Starting timer at ${expirationStartTimestamp}`
           );
           return {
             ...message,
