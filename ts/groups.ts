@@ -4734,6 +4734,13 @@ async function applyGroupState({
   if (groupState.membersPendingAdminApproval) {
     result.pendingAdminApprovalV2 = groupState.membersPendingAdminApproval.map(
       member => {
+        if (member.profileKey) {
+          newProfileKeys.push({
+            profileKey: member.profileKey,
+            uuid: UUID.cast(member.userId),
+          });
+        }
+
         return {
           uuid: UUID.cast(member.userId),
           timestamp: member.timestamp,
