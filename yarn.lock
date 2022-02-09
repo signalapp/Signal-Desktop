@@ -2021,10 +2021,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/google-libphonenumber@7.4.14":
-  version "7.4.14"
-  resolved "https://registry.yarnpkg.com/@types/google-libphonenumber/-/google-libphonenumber-7.4.14.tgz#3625d7aed0c16df920588428c86f0538bd0612ec"
-  integrity sha512-HGQobTn8CGn0/j7lezIHlGTE1czxQU6NeT7TYtC3OWcbyyUUSfdt4tXSTEGbXmNZlE+xczTDbyR8P6aYGPzG1A==
+"@types/google-libphonenumber@7.4.23":
+  version "7.4.23"
+  resolved "https://registry.yarnpkg.com/@types/google-libphonenumber/-/google-libphonenumber-7.4.23.tgz#c44c9125d45f042943694d605fd8d8d796cafc3b"
+  integrity sha512-C3ydakLTQa8HxtYf9ge4q6uT9krDX8smSIxmmW3oACFi5g5vv6T068PRExF7UyWbWpuYiDG8Nm24q2X5XhcZWw==
 
 "@types/history@*", "@types/history@4.7.2":
   version "4.7.2"
@@ -7779,10 +7779,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-google-libphonenumber@3.2.17:
-  version "3.2.17"
-  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.17.tgz#6146ca39da98f9ddd20851b1ced2fb7b5b3f543d"
-  integrity sha512-T1fBQ3ujlpo4VUe0palZVHxBkY1zsfCShkS3l1rNq/d5C6C1SIijo8aXzgpJeGQFB8Bk+C36o6jhLl05NtfQ3w==
+google-libphonenumber@3.2.27:
+  version "3.2.27"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.27.tgz#06a0c1d42be712a6fd4189e2e3b07fc36cacee01"
+  integrity sha512-et3QlrfWemNPhyUfXZmJG8TfzitfAN71ygNI15+B35zNge/7vyZxkpDsc13oninkf8RAtN2kNEzvMr4L1n3vfQ==
 
 got@11.8.2:
   version "11.8.2"
