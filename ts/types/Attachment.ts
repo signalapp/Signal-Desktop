@@ -228,7 +228,7 @@ export async function autoOrientJPEG(
   // All images go through handleImageAttachment before being sent and thus have
   // already been scaled to level, oriented, stripped of exif data, and saved
   // in high quality format. If we want to send the image in HQ we can return
-  // the attachement as-is. Otherwise we'll have to further scale it down.
+  // the attachment as-is. Otherwise we'll have to further scale it down.
   if (!attachment.data || sendHQImages) {
     return attachment;
   }

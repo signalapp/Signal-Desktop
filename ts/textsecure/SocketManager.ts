@@ -170,7 +170,7 @@ export class SocketManager extends EventListener {
         await this.authenticate(this.credentials);
       } catch (error) {
         log.info(
-          'SocketManager: authenticated socket failed to reconect ' +
+          'SocketManager: authenticated socket failed to reconnect ' +
             `due to error ${Errors.toLogFormat(error)}`
         );
         return reconnect();

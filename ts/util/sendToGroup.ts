@@ -1003,7 +1003,7 @@ async function encryptForSenderKey({
     SenderCertificateMode.WithoutE164
   );
   if (!senderCertificateObject) {
-    throw new Error('encryptForSenderKey: Unable to fetch sender certifiate!');
+    throw new Error('encryptForSenderKey: Unable to fetch sender certificate!');
   }
 
   const senderCertificate = SenderCertificate.deserialize(

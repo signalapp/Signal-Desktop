@@ -433,7 +433,7 @@ export default class OutgoingMessage {
             );
             if (!activeSession) {
               throw new Error(
-                'OutgoingMessage.doSendMessage: No active sesssion!'
+                'OutgoingMessage.doSendMessage: No active session!'
               );
             }
 

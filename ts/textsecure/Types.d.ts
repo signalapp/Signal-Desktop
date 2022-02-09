@@ -239,7 +239,7 @@ export interface CallbackResultType {
   unidentifiedDeliveries?: Array<string>;
   dataMessage?: Uint8Array;
 
-  // Fields necesary for send log save
+  // Fields necessary for send log save
   contentHint?: number;
   contentProto?: Uint8Array;
   timestamp?: number;
