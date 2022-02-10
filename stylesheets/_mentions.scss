@@ -11,14 +11,6 @@
     margin: 4px;
     min-width: 20px;
   }
-
-  .existing-member {
-    color: green;
-  }
-
-  .existing-member-kicked {
-    color: red;
-  }
 }
 
 .member-list-container {
@@ -30,31 +22,6 @@
 
   .check-mark {
     display: none;
-  }
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.member-item {
-  background-color: var(--color-cell-background);
-  color: var(--color-text);
-
-  padding: 4px;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  .name-part {
-    font-weight: 300;
-    margin-inline-start: 12px;
-  }
-
-  .pubkey-part {
-    margin-inline-start: 10px;
-    opacity: 0.6;
   }
 }
 

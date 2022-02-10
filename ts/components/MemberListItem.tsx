@@ -25,20 +25,34 @@ export const MemberListItem = (props: {
   isSelected: boolean;
   // this bool is used to make a zombie appear with less opacity than a normal member
   isZombie?: boolean;
+  disableBg?: boolean;
   isAdmin?: boolean; // if true,  we add a small crown on top of their avatar
   onSelect?: (pubkey: string) => void;
   onUnselect?: (pubkey: string) => void;
 }) => {
-  const { isSelected, pubkey, isZombie, isAdmin, onSelect, onUnselect } = props;
+  const { isSelected, pubkey, isZombie, isAdmin, onSelect, onUnselect, disableBg } = props;
 
   const memberName = useConversationUsernameOrShorten(pubkey);
 
   return (
+    // tslint:disable-next-line: use-simple-attributes
     <div
-      className={classNames('session-member-item', isSelected && 'selected', isZombie && 'zombie')}
+      className={classNames(
+        'session-member-item',
+        isSelected && 'selected',
+        isZombie && 'zombie',
+        disableBg && 'compact'
+      )}
       onClick={() => {
         isSelected ? onUnselect?.(pubkey) : onSelect?.(pubkey);
       }}
+      style={
+        !disableBg
+          ? {
+              backgroundColor: 'var(--color-cell-background)',
+            }
+          : {}
+      }
       role="button"
     >
       <div className="session-member-item__info">
