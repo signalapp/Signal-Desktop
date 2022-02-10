@@ -986,15 +986,15 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     // update our selection because updating text programmatically
     // will put the selection at the end of the textarea
-    const selectionStart = currentSelectionStart + Number(colons.length);
-    messageBox.selectionStart = selectionStart;
-    messageBox.selectionEnd = selectionStart;
+    // const selectionStart = currentSelectionStart + Number(1);
+    // messageBox.selectionStart = selectionStart;
+    // messageBox.selectionEnd = selectionStart;
 
-    // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
-    setTimeout(() => {
-      messageBox.selectionStart = selectionStart;
-      messageBox.selectionEnd = selectionStart;
-    }, 20);
+    // // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
+    // setTimeout(() => {
+    //   messageBox.selectionStart = selectionStart;
+    //   messageBox.selectionEnd = selectionStart;
+    // }, 20);
   }
 
   private focusCompositionBox() {
