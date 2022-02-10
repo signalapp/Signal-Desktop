@@ -1228,7 +1228,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       });
 
       if (!this.isApproved() && value) {
-        // if it's false or hasnt been set, send approval msg
+        // if convo hasn't been approved until now, send approval msg
         this.sendMessageRequestResponse(true);
         void forceSyncConfigurationNowIfNeeded();
       }
