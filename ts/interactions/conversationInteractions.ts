@@ -121,9 +121,9 @@ export async function unblockConvoById(conversationId: string) {
 }
 
 /**
- * marks the conversation as approved.
+ * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
-export const approveConversation = async (conversationId: string) => {
+export const acceptConversation = async (conversationId: string, syncToDevices: boolean = true) => {
   const conversationToApprove = getConversationController().get(conversationId);
 
   if (!conversationToApprove || conversationToApprove.isApproved()) {
@@ -131,10 +131,38 @@ export const approveConversation = async (conversationId: string) => {
     return;
   }
 
-  await conversationToApprove.setIsApproved(true);
+  Promise.all([
+    await conversationToApprove.setIsApproved(true),
+    await conversationToApprove.setDidApproveMe(true),
+  ]);
+  await conversationToApprove.sendMessageRequestResponse(true);
 
   // Conversation was not approved before so a sync is needed
-  await forceSyncConfigurationNowIfNeeded();
+  if (syncToDevices) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
+};
+
+/**
+ * Sets the approval fields to false for conversation. Sends decline message.
+ */
+export const declineConversation = async (
+  conversationId: string,
+  syncToDevices: boolean = true
+) => {
+  const conversationToDecline = getConversationController().get(conversationId);
+
+  if (!conversationToDecline || conversationToDecline.isApproved()) {
+    window?.log?.info('Conversation is already declined.');
+    return;
+  }
+
+  await conversationToDecline.setIsApproved(false);
+
+  // Conversation was not approved before so a sync is needed
+  if (syncToDevices) {
+    await forceSyncConfigurationNowIfNeeded();
+  }
 };
 
 export async function showUpdateGroupNameByConvoId(conversationId: string) {

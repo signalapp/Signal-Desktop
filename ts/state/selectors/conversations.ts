@@ -171,6 +171,7 @@ export type MessagePropsType =
   | 'group-notification'
   | 'group-invitation'
   | 'data-extraction'
+  | 'message-request-response'
   | 'timer-notification'
   | 'regular-message'
   | 'unread-indicator'
@@ -204,6 +205,17 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
           message: {
             messageType: 'data-extraction',
             props: { ...msg.propsForDataExtractionNotification, messageId: msg.propsForMessage.id },
+          },
+        };
+      }
+
+      if (msg.propsForMessageRequestResponse) {
+        return {
+          showUnreadIndicator: isFirstUnread,
+          showDateBreak,
+          message: {
+            messageType: 'message-request-response',
+            props: { ...msg.propsForMessageRequestResponse, messageId: msg.propsForMessage.id },
           },
         };
       }
@@ -412,6 +424,12 @@ export const getSortedConversations = createSelector(
   _getSortedConversations
 );
 
+/**
+ *
+ * @param sortedConversations List of conversations that are valid for both requests and regular conversation inbox
+ * @param isMessageRequestEnabled Apply message request filtering.
+ * @returns A list of message request conversations.
+ */
 const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>,
   isMessageRequestEnabled?: boolean
@@ -419,7 +437,14 @@ const _getConversationRequests = (
   const pushToMessageRequests =
     isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
-    return pushToMessageRequests && !conversation.isApproved && !conversation.isBlocked;
+    console.warn({ conversation });
+    return (
+      pushToMessageRequests &&
+      !conversation.isApproved &&
+      !conversation.isBlocked &&
+      conversation.isPrivate &&
+      !conversation.isMe
+    );
   });
 };
 
@@ -442,6 +467,7 @@ const _getPrivateContactsPubkeys = (
       conversation.isPrivate &&
       !conversation.isBlocked &&
       !conversation.isMe &&
+      (conversation.didApproveMe || !pushToMessageRequests) &&
       (conversation.isApproved || !pushToMessageRequests) &&
       Boolean(conversation.activeAt)
     );

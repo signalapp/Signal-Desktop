@@ -47,11 +47,13 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
-import { useSelector } from 'react-redux';
-import { getOverlayMode } from '../../state/selectors/section';
 import styled from 'styled-components';
-import { Flex } from '../basic/Flex';
-import { blockConvoById } from '../../interactions/conversationInteractions';
+import {
+  acceptConversation,
+  blockConvoById,
+  declineConversation,
+} from '../../interactions/conversationInteractions';
+import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -226,13 +228,39 @@ export class SessionConversation extends React.Component<Props, State> {
       return <MessageView />;
     }
 
-    // // TODO: refactor component and use overlay hook
-    // const overlayMode = useSelector(getOverlayMode);
-    // // either use overlayMode == messageRequest or use Conversation.isAPproved === false;
     const conversation = getConversationController().get(selectedConversation.id);
     const isApproved = conversation.isApproved();
-
     const selectionMode = selectedMessages.length > 0;
+    const useMsgRequests =
+      window.lokiFeatureFlags.useMessageRequests &&
+      window.inboxStore?.getState().userConfig.messageRequests;
+    const showMsgRequestUI = useMsgRequests && !isApproved && messagesProps.length > 0;
+
+    const handleDeclineConversationRequest = async () => {
+      window.inboxStore?.dispatch(
+        updateConfirmModal({
+          okText: window.i18n('decline'),
+          cancelText: window.i18n('cancel'),
+          message: window.i18n('declineRequestMessage'),
+          onClickOk: async () => {
+            declineConversation(selectedConversation.id, false);
+            blockConvoById(selectedConversation.id);
+            forceSyncConfigurationNowIfNeeded();
+          },
+          onClickCancel: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+          onClickClose: () => {
+            window.inboxStore?.dispatch(updateConfirmModal(null));
+          },
+        })
+      );
+    };
+
+    const handleAcceptConversationRequest = async () => {
+      const { id } = selectedConversation;
+      await acceptConversation(id, true);
+    };
 
     return (
       <SessionTheme>
@@ -252,34 +280,29 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            {!isApproved && (
+            {showMsgRequestUI && (
               <ConversationRequestBanner>
                 <div className="conversation-request-banner__row">
                   <SessionButton
                     buttonColor={SessionButtonColor.Green}
                     buttonType={SessionButtonType.BrandOutline}
-                    onClick={() => {
-                      getConversationController()
-                        .get(selectedConversation.id)
-                        .setIsApproved(true);
-                    }}
+                    onClick={handleAcceptConversationRequest}
                     text={window.i18n('accept')}
                   />
                   <SessionButton
                     buttonColor={SessionButtonColor.Danger}
                     buttonType={SessionButtonType.BrandOutline}
                     text={window.i18n('decline')}
-                    onClick={async () => {
-                      getConversationController();
-                      blockConvoById(selectedConversation.id);
-                    }}
+                    onClick={handleDeclineConversationRequest}
                   />
                 </div>
+                {/* 
+                  Disabling for now until report as spam is added in
                 <SessionButton
                   buttonColor={SessionButtonColor.Danger}
                   buttonType={SessionButtonType.Simple}
                   text={window.i18n('reportAsSpam')}
-                />
+                /> */}
               </ConversationRequestBanner>
             )}
             <SplitViewContainer
@@ -293,7 +316,7 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
-          {!isApproved && (
+          {showMsgRequestUI && (
             <ConversationRequestTextBottom>
               <ConversationRequestTextInner>
                 {window.i18n('respondingToRequestWarning')}

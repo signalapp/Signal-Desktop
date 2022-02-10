@@ -3,11 +3,11 @@ import { handleDataMessage } from './dataMessage';
 
 import { removeFromCache, updateCache } from './cache';
 import { SignalService } from '../protobuf';
-import * as Lodash from 'lodash';
+import _, * as Lodash from 'lodash';
 import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils, UserUtils } from '../session/utils';
+import { GroupUtils, ToastUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
@@ -17,12 +17,7 @@ import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
-import { getMessageBySenderAndTimestamp } from '../data/data';
 import { handleCallMessage } from './callMessage';
-import {
-  deleteMessagesFromSwarmAndCompletelyLocally,
-  deleteMessagesFromSwarmAndMarkAsDeletedLocally,
-} from '../interactions/conversations/unsendingInteractions';
 import { SettingsKey } from '../data/settings-key';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash: string) {
@@ -406,6 +401,13 @@ export async function innerHandleContentMessage(
     if (content.callMessage && window.lokiFeatureFlags?.useCallMessage) {
       await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
+    if (content.messageRequestResponse) {
+      console.warn('received message request response');
+      await handleMessageRequestResponse(
+        envelope,
+        content.messageRequestResponse as SignalService.MessageRequestResponse
+      );
+    }
   } catch (e) {
     window?.log?.warn(e);
   }
@@ -509,7 +511,6 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
     return;
   }
   if (!unsendMessage) {
-    //#region early exit conditions
     window?.log?.error('handleUnsendMessage: Invalid parameters -- dropping message.');
     await removeFromCache(envelope);
 
@@ -521,40 +522,63 @@ async function handleUnsendMessage(envelope: EnvelopePlus, unsendMessage: Signal
 
     return;
   }
+}
 
-  const messageToDelete = await getMessageBySenderAndTimestamp({
-    source: messageAuthor,
-    timestamp: Lodash.toNumber(timestamp),
-  });
-  const messageHash = messageToDelete?.get('messageHash');
-  //#endregion
+/**
+ * Sets approval fields for conversation depending on response's values. If request is approving, pushes notification and
+ */
+async function handleMessageRequestResponse(
+  envelope: EnvelopePlus,
+  messageRequestResponse: SignalService.MessageRequestResponse
+) {
+  const { isApproved, publicKey } = messageRequestResponse;
 
-  //#region executing deletion
-  if (messageHash && messageToDelete) {
-    window.log.info('handleUnsendMessage: got a request to delete ', messageHash);
-    const conversation = getConversationController().get(messageToDelete.get('conversationId'));
-    if (!conversation) {
-      await removeFromCache(envelope);
-
-      return;
-    }
-    if (messageToDelete.getSource() === UserUtils.getOurPubKeyStrFromCache()) {
-      // a message we sent is completely removed when we get a unsend request
-      void deleteMessagesFromSwarmAndCompletelyLocally(conversation, [messageToDelete]);
-    } else {
-      void deleteMessagesFromSwarmAndMarkAsDeletedLocally(conversation, [messageToDelete]);
-    }
-  } else {
-    window.log.info(
-      'handleUnsendMessage: got a request to delete an unknown messageHash:',
-      messageHash,
-      ' and found messageToDelete:',
-      messageToDelete?.id
-    );
+  if (!messageRequestResponse) {
+    window?.log?.error('handleMessageRequestResponse: Invalid parameters -- dropping message.');
+    await removeFromCache(envelope);
+    return;
   }
-  await removeFromCache(envelope);
 
-  //#endregion
+  const convoId = toHex(publicKey);
+
+  // TODO: commenting out, including in one larger function for now
+  // await updateConversationDidApproveMe(toHex(publicKey), isApproved);
+
+  const conversationToApprove = getConversationController().get(convoId);
+
+  if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
+    window?.log?.info(
+      'Conversation already contains the correct value for the didApproveMe field.'
+    );
+    return;
+  }
+
+  // TODO: Maybe move this to conversation interactions
+  await conversationToApprove.setIsApproved(isApproved);
+  await conversationToApprove.setDidApproveMe(isApproved);
+  if (isApproved === true) {
+    ToastUtils.pushMessageRequestAccepted();
+
+    // Conversation was not approved before so a sync is needed
+    conversationToApprove.addSingleMessage({
+      conversationId: conversationToApprove.get('id'),
+      source: envelope.source,
+      type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+      sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+      received_at: Date.now(),
+      messageRequestResponse: {
+        isApproved: 1,
+        publicKey: convoId,
+      },
+      unread: 1, // 1 means unread
+      expireTimer: 0,
+    });
+    conversationToApprove.updateLastMessage();
+  }
+
+  // await forceSyncConfigurationNowIfNeeded();
+
+  await removeFromCache(envelope);
 }
 
 /**

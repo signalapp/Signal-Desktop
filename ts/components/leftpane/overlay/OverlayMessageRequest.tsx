@@ -35,20 +35,21 @@ async function handleBlockAllRequestsClick(messageRequestSetting: boolean) {
     return;
   }
 
-  const conversationRequests = conversations.filter(
+  const convoRequestsToBlock = conversations.filter(
     c => c.isPrivate() && c.get('active_at') && c.get('isApproved')
   );
 
   let syncRequired = false;
 
-  if (!conversationRequests) {
+  if (!convoRequestsToBlock) {
     window?.log?.info('No conversation requests to block.');
     return;
   }
 
   await Promise.all(
-    conversationRequests.map(async convo => {
+    convoRequestsToBlock.map(async convo => {
       await BlockedNumberController.block(convo.id);
+      await convo.setIsApproved(false);
       syncRequired = true;
     })
   );
@@ -67,7 +68,7 @@ export const OverlayMessageRequest = () => {
 
   const messageRequestSetting = useSelector(getIsMessageRequestsEnabled);
 
-  const buttonText = window.i18n('blockAll');
+  const buttonText = window.i18n('clearAll');
 
   return (
     <div className="module-left-pane-overlay">

@@ -840,6 +840,7 @@ const LOKI_SCHEMA_VERSIONS = [
   updateToLokiSchemaVersion17,
   updateToLokiSchemaVersion18,
   updateToLokiSchemaVersion19,
+  updateToLokiSchemaVersion20,
 ];
 
 function updateToLokiSchemaVersion1(currentVersion, db) {
@@ -1329,6 +1330,55 @@ function updateToLokiSchemaVersion19(currentVersion, db) {
     //   UPDATE ${MESSAGES_TABLE} SET
     //   json = json_remove(json, '$.schemaVersion')
     // `);
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion20(currentVersion, db) {
+  const targetVersion = 20;
+  // if (currentVersion >= targetVersion) {
+  //   return;
+  // }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+  db.transaction(() => {
+    db.exec(`
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = 'private';
+      `);
+
+    // all closed group admins
+    const closedGroupRows = db
+      .prepare(
+        `
+        SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
+        type = 'group' AND
+        id NOT LIKE 'publicChat:%';
+      `
+      )
+      .all();
+
+    console.warn({ closedGroupRows });
+
+    const adminIds = closedGroupRows.map(json => {
+      return jsonToObject(json).groupAdmins;
+    });
+    console.warn({ adminIds });
+    forEach(adminIds, id => {
+      db.exec(
+        `
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = id 
+        values ($id);
+      `
+      ).run({
+        id,
+      });
+    });
+
     writeLokiSchemaVersion(targetVersion, db);
   })();
 

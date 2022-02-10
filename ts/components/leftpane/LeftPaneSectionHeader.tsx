@@ -28,6 +28,8 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   const isMessageSection = focusedSection === SectionType.Message;
   const isMessageRequestOverlay = overlayMode === 'message-requests';
 
+  const showBackButton = isMessageRequestOverlay && isMessageSection;
+
   switch (focusedSection) {
     case SectionType.Contact:
       label = window.i18n('contactsHeader');
@@ -46,7 +48,7 @@ export const LeftPaneSectionHeader = (props: { buttonClicked?: any }) => {
   return (
     <Flex flexDirection="column">
       <div className="module-left-pane__header">
-        {isMessageRequestOverlay && (
+        {showBackButton && (
           <SessionIconButton
             onClick={() => {
               dispatch(setOverlayMode(undefined));

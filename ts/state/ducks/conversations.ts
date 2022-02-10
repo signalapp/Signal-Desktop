@@ -10,6 +10,7 @@ import {
   MessageDeliveryStatus,
   MessageModelType,
   PropsForDataExtractionNotification,
+  PropsForMessageRequestResponse,
 } from '../../models/messageType';
 import { perfEnd, perfStart } from '../../session/utils/Performance';
 import { omit } from 'lodash';
@@ -32,6 +33,7 @@ export type MessageModelPropsWithoutConvoProps = {
   propsForDataExtractionNotification?: PropsForDataExtractionNotification;
   propsForGroupUpdateMessage?: PropsForGroupUpdate;
   propsForCallNotification?: PropsForCallNotification;
+  propsForMessageRequestResponse?: PropsForMessageRequestResponse;
 };
 
 export type MessageModelPropsWithConvoProps = SortedMessageModelProps & {
@@ -252,6 +254,7 @@ export interface ReduxConversationType {
 
   isPinned?: boolean;
   isApproved?: boolean;
+  didApproveMe?: boolean;
 }
 
 export interface NotificationForConvoOption {

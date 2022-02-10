@@ -212,6 +212,10 @@ export function pushTooManyMembers() {
   pushToastError('tooManyMembers', window.i18n('closedGroupMaxSize'));
 }
 
+export function pushMessageRequestPending() {
+  pushToastInfo('messageRequestPending', window.i18n('messageRequestPending'));
+}
+
 export function pushUnblockToSend() {
   pushToastInfo('unblockToSend', window.i18n('unblockToSend'));
 }
@@ -230,6 +234,11 @@ export function someDeletionsFailed() {
 
 export function pushDeleted() {
   pushToastSuccess('deleted', window.i18n('deleted'), undefined, 'check');
+}
+
+export function pushMessageRequestAccepted() {
+  // TODO: translation
+  pushToastSuccess('requestAccepted', 'message request accepted', undefined, undefined);
 }
 
 export function pushCannotRemoveCreatorFromGroup() {

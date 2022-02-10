@@ -146,6 +146,26 @@ const handleContactReceived = async (
     ) {
       if (contactReceived.isApproved) {
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+
+        if (contactReceived.didApproveMe) {
+          await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
+
+          // if source of the sync matches conversationId
+          contactConvo.addSingleMessage({
+            conversationId: contactConvo.get('id'),
+            source: envelope.source,
+            type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+            sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+            received_at: Date.now(),
+            messageRequestResponse: {
+              isApproved: 1,
+              publicKey: UserUtils.getOurPubKeyStrFromCache(), // it's a sync therefore the pubkey would be ours
+            },
+            unread: 1, // 1 means unread
+            expireTimer: 0,
+          });
+          contactConvo.updateLastMessage();
+        }
       }
 
       if (contactReceived.isBlocked) {

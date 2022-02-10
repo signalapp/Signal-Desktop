@@ -435,7 +435,7 @@
   "notificationSubtitle": "Notifications - $setting$",
   "surveyTitle": "Take our Session Survey",
   "goToOurSurvey": "Go to our survey",
-  "blockAll": "Block All",
+  "clearAll": "Clear All",
   "messageRequests": "Message Requests",
   "requestsSubtitle": "Pending Requests",
   "requestsPlaceholder": "No requests",
@@ -467,5 +467,9 @@
   "trimDatabaseDescription": "Reduces your message database size to your last 10,000 messages.",
   "trimDatabaseConfirmationBody": "Are you sure you want to delete your $deleteAmount$ oldest received messages?",
   "reportAsSpam": "REPORT AS SPAM",
+  "messageRequestPending": "Your message request is currently pending",
+  "messageRequestAccepted": "Your message request has been accepted",
+  "messageRequestAcceptedOurs": "You have accepted $name$'s message request",
+  "declineRequestMessage": "Are you sure you want to decline this message request?",
   "respondingToRequestWarning": "Sending a message to this user will automatically accept their message request and reveal your Session ID."
 }

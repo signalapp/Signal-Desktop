@@ -424,16 +424,27 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
-    const { isKickedFromGroup, left, isPrivate, isBlocked } = this.props.selectedConversation;
-    const messagePlaceHolder = isKickedFromGroup
-      ? i18n('youGotKickedFromGroup')
-      : left
-      ? i18n('youLeftTheGroup')
-      : isBlocked && isPrivate
-      ? i18n('unblockToSend')
-      : isBlocked && !isPrivate
-      ? i18n('unblockGroupToSend')
-      : i18n('sendMessage');
+    const {
+      isKickedFromGroup,
+      left,
+      isPrivate,
+      isBlocked,
+      didApproveMe,
+      isApproved,
+    } = this.props.selectedConversation;
+    const messagePlaceHolder =
+      // isApproved && !didApproveMe && isPrivate
+      isApproved && !didApproveMe && isPrivate
+        ? i18n('messageRequestPending')
+        : isKickedFromGroup
+        ? i18n('youGotKickedFromGroup')
+        : left
+        ? i18n('youLeftTheGroup')
+        : isBlocked && isPrivate
+        ? i18n('unblockToSend')
+        : isBlocked && !isPrivate
+        ? i18n('unblockGroupToSend')
+        : i18n('sendMessage');
     const { typingEnabled } = this.props;
 
     return (
@@ -783,6 +794,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     if (selectedConversation.isBlocked && selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSend();
+      return;
+    }
+    if (
+      selectedConversation.isApproved &&
+      !selectedConversation.didApproveMe &&
+      selectedConversation.isPrivate
+    ) {
+      ToastUtils.pushMessageRequestPending();
       return;
     }
     if (selectedConversation.isBlocked && !selectedConversation.isPrivate) {

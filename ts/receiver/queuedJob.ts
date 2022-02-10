@@ -223,10 +223,10 @@ async function handleRegularMessage(
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
 
-    if (window.lokiFeatureFlags.useMessageRequests) {
-      // assumes sync receipts are always from linked device outgoings
-      await conversation.setIsApproved(true);
-    }
+    // if (window.lokiFeatureFlags.useMessageRequests) {
+    //   // assumes sync receipts are always from linked device outgoings
+    //   await conversation.setIsApproved(true);
+    // }
   }
 
   const conversationActiveAt = conversation.get('active_at');

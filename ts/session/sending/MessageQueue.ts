@@ -22,6 +22,7 @@ import { OpenGroupRequestCommonType } from '../apis/open_group_api/opengroupV2/A
 import { OpenGroupVisibleMessage } from '../messages/outgoing/visibleMessage/OpenGroupVisibleMessage';
 import { UnsendMessage } from '../messages/outgoing/controlMessage/UnsendMessage';
 import { CallMessage } from '../messages/outgoing/controlMessage/CallMessage';
+import { MessageRequestResponse } from '../messages/outgoing/controlMessage/MessageRequestResponse';
 
 type ClosedGroupMessageType =
   | ClosedGroupVisibleMessage
@@ -32,7 +33,8 @@ type ClosedGroupMessageType =
   | ExpirationTimerUpdateMessage
   | ClosedGroupEncryptionPairMessage
   | UnsendMessage
-  | ClosedGroupEncryptionPairRequestMessage;
+  | ClosedGroupEncryptionPairRequestMessage
+  | MessageRequestResponse;
 
 // ClosedGroupEncryptionPairReplyMessage must be sent to a user pubkey. Not a group.
 

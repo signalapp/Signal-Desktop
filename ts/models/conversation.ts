@@ -4,12 +4,12 @@ import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { UserUtils } from '../session/utils';
+import { ToastUtils, UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
 import { MessageModel } from './message';
-import { MessageAttributesOptionals, MessageModelType } from './messageType';
+import { MessageAttributesOptionals, MessageDirection, MessageModelType } from './messageType';
 import autoBind from 'auto-bind';
 import {
   getMessagesByConversation,
@@ -19,7 +19,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { toHex } from '../session/utils/String';
+import { fromHexToArray, toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,
@@ -59,6 +59,8 @@ import {
   getAbsoluteAttachmentPath,
   loadAttachmentData,
 } from '../types/MessageAttachment';
+import { getOurPubKeyStrFromCache } from '../session/utils/User';
+import { MessageRequestResponse } from '../session/messages/outgoing/controlMessage/MessageRequestResponse';
 
 export enum ConversationTypeEnum {
   GROUP = 'group',
@@ -112,6 +114,7 @@ export interface ConversationAttributes {
   isTrustedForAttachmentDownload: boolean;
   isPinned: boolean;
   isApproved: boolean;
+  didApproveMe: boolean;
 }
 
 export interface ConversationAttributesOptionals {
@@ -151,6 +154,7 @@ export interface ConversationAttributesOptionals {
   isTrustedForAttachmentDownload?: boolean;
   isPinned: boolean;
   isApproved?: boolean;
+  didApproveMe?: boolean;
 }
 
 /**
@@ -180,6 +184,7 @@ export const fillConvoAttributesWithDefaults = (
     isTrustedForAttachmentDownload: false, // we don't trust a contact until we say so
     isPinned: false,
     isApproved: false,
+    didApproveMe: false,
   });
 };
 
@@ -341,6 +346,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const subscriberCount = this.get('subscriberCount');
     const isPinned = this.isPinned();
     const isApproved = this.isApproved();
+    const didApproveMe = this.didApproveMe();
     const hasNickname = !!this.getNickname();
     const isKickedFromGroup = !!this.get('isKickedFromGroup');
     const left = !!this.get('left');
@@ -415,6 +421,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     if (isPinned) {
       toRet.isPinned = isPinned;
+    }
+    if (isApproved) {
+      toRet.didApproveMe = didApproveMe;
     }
     if (isApproved) {
       toRet.isApproved = isApproved;
@@ -634,11 +643,28 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         lokiProfile: UserUtils.getOurProfile(),
       };
 
-      const updateApprovalNeeded =
-        !this.isApproved() && (this.isPrivate() || this.isMediumGroup() || this.isClosedGroup());
-      if (updateApprovalNeeded) {
+      const shouldApprove = !this.isApproved() && this.isPrivate();
+      const hasMsgsFromOther =
+        (await getMessagesByConversation(this.id, { type: MessageDirection.incoming })).length > 0;
+      console.warn(hasMsgsFromOther);
+      if (shouldApprove) {
         await this.setIsApproved(true);
-        void forceSyncConfigurationNowIfNeeded();
+        if (!this.didApproveMe() && hasMsgsFromOther) {
+          console.warn('This is a reply message sending message request acceptance response.');
+          // TODO: if this is a reply, send messageRequestAccept
+
+          await this.setDidApproveMe(true);
+          await this.sendMessageRequestResponse(true);
+          void forceSyncConfigurationNowIfNeeded();
+        }
+        // void forceSyncConfigurationNowIfNeeded();
+      }
+
+      // TODO: remove once dev-tested
+      if (chatMessageParams.body?.includes('unapprove')) {
+        await this.setIsApproved(false);
+        await this.setDidApproveMe(false);
+        // void forceSyncConfigurationNowIfNeeded();
       }
 
       if (this.isOpenGroupV2()) {
@@ -703,6 +729,37 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       await message.saveErrors(e);
       return null;
     }
+  }
+
+  public async sendMessageRequestResponse(isApproved: boolean) {
+    const publicKey = fromHexToArray(getOurPubKeyStrFromCache());
+    // const msgRequestResponseParams:
+    const timestamp = Date.now();
+
+    const messageRequestResponseParams = {
+      timestamp,
+      publicKey,
+      isApproved,
+    };
+
+    const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
+
+    if (this.isPrivate()) {
+      // 1-1 conversations
+      const pubkeyForSending = new PubKey(this.id);
+      await getMessageQueue()
+        .sendToPubKey(pubkeyForSending, messageRequestResponse)
+        .catch(window?.log?.error);
+    }
+    // TODO: may be removable as group invites are implied to be friends.
+    // else if (this.isClosedGroup()) {
+    //   // group conversations
+    //   await getMessageQueue()
+    //     .sendToGroup(messageRequestResponse, undefined, new PubKey(this.id))
+    //     .catch(window?.log?.error);
+    // }
+
+    console.warn('Sent message request response', isApproved);
   }
 
   public async sendMessage(msg: SendMessageType) {
@@ -922,16 +979,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public async addSingleMessage(messageAttributes: MessageAttributesOptionals, setToExpire = true) {
     const model = new MessageModel(messageAttributes);
-
-    const isMe = messageAttributes.source === UserUtils.getOurPubKeyStrFromCache();
-
-    if (
-      isMe &&
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
-      await this.setIsApproved(true);
-    }
 
     // no need to trigger a UI update now, we trigger a messageAdded just below
     const messageId = await model.commit(false);
@@ -1180,6 +1227,23 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         isApproved: value,
       });
 
+      if (!this.isApproved() && value) {
+        // if it's false or hasnt been set, send approval msg
+        this.sendMessageRequestResponse(true);
+        void forceSyncConfigurationNowIfNeeded();
+      }
+
+      await this.commit();
+    }
+  }
+
+  public async setDidApproveMe(value: boolean) {
+    if (value !== this.didApproveMe()) {
+      window?.log?.info(`Setting ${this.attributes.profileName} didApproveMe to:: ${value}`);
+      this.set({
+        didApproveMe: value,
+      });
+
       await this.commit();
     }
   }
@@ -1269,6 +1333,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
 
   public isPinned() {
     return Boolean(this.get('isPinned'));
+  }
+
+  public didApproveMe() {
+    return Boolean(this.get('didApproveMe'));
   }
 
   public isApproved() {
@@ -1378,6 +1446,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       return;
     }
     const conversationId = this.id;
+
+    if (!this.isApproved()) {
+      window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
+      return;
+    }
 
     // make sure the notifications are not muted for this convo (and not the source convo)
     const convNotif = this.get('triggerNotificationsFor');

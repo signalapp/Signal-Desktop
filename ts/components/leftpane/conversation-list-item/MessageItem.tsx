@@ -6,7 +6,6 @@ import { MessageBody } from '../../conversation/message/message-content/MessageB
 import { OutgoingMessageStatus } from '../../conversation/message/message-content/OutgoingMessageStatus';
 import { TypingAnimation } from '../../conversation/TypingAnimation';
 import { ContextConversationId } from './ConversationListItem';
-import { MessageRequestButtons } from './MessageRequest';
 
 function useMessageItemProps(convoId: string) {
   const convoProps = useConversationPropsById(convoId);
@@ -51,7 +50,6 @@ export const MessageItem = (props: { isMessageRequest: boolean }) => {
           <MessageBody isGroup={true} text={text} disableJumbomoji={true} disableLinks={true} />
         )}
       </div>
-      <MessageRequestButtons isMessageRequest={props.isMessageRequest} />
       {lastMessage && lastMessage.status && !props.isMessageRequest ? (
         <OutgoingMessageStatus status={lastMessage.status} />
       ) : null}

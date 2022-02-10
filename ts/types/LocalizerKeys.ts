@@ -254,7 +254,7 @@ export type LocalizerKeys =
   | 'editMenuDeleteContact'
   | 'hideMenuBarTitle'
   | 'imageCaptionIconAlt'
-  | 'blockAll'
+  | 'clearAll'
   | 'sendRecoveryPhraseTitle'
   | 'multipleJoinedTheGroup'
   | 'databaseError'
@@ -467,4 +467,8 @@ export type LocalizerKeys =
   | 'trimDatabaseConfirmationBody'
   | 'reportAsSpam'
   | 'respondingToRequestWarning'
+  | 'messageRequestPending'
+  | 'messageRequestAccepted'
+  | 'messageRequestAcceptedOurs'
+  | 'declineRequestMessage'
   | 'reportIssue';
