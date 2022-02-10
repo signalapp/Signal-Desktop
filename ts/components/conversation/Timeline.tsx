@@ -3,10 +3,10 @@
 
 import { debounce, get, isEqual, isNumber, pick } from 'lodash';
 import classNames from 'classnames';
-import type { CSSProperties, ReactChild, ReactNode, RefObject } from 'react';
+import type { ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
 import { createSelector } from 'reselect';
-import type { Grid } from 'react-virtualized';
+import type { Grid, ListRowProps } from 'react-virtualized';
 import {
   AutoSizer,
   CellMeasurer,
@@ -185,15 +185,6 @@ export type PropsType = PropsDataType &
   PropsHousekeepingType &
   PropsActionsType;
 
-// from https://github.com/bvaughn/react-virtualized/blob/fb3484ed5dcc41bffae8eab029126c0fb8f7abc0/source/List/types.js#L5
-type RowRendererParamsType = {
-  index: number;
-  isScrolling: boolean;
-  isVisible: boolean;
-  key: string;
-  parent: Record<string, unknown>;
-  style: CSSProperties;
-};
 type OnScrollParamsType = {
   scrollTop: number;
   clientHeight: number;
@@ -781,7 +772,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     key,
     parent,
     style,
-  }: Readonly<RowRendererParamsType>): JSX.Element => {
+  }: Readonly<ListRowProps>): JSX.Element => {
     const {
       id,
       i18n,
