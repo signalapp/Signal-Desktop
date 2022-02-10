@@ -148,8 +148,7 @@ const handleContactReceived = async (
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
 
         if (contactReceived.didApproveMe) {
-          await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
-
+          // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
           // if source of the sync matches conversationId
           contactConvo.addSingleMessage({
             conversationId: contactConvo.get('id'),
@@ -165,6 +164,7 @@ const handleContactReceived = async (
             expireTimer: 0,
           });
           contactConvo.updateLastMessage();
+          await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
         }
       }
 

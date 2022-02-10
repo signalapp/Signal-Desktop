@@ -124,18 +124,18 @@ export async function unblockConvoById(conversationId: string) {
  * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
 export const acceptConversation = async (conversationId: string, syncToDevices: boolean = true) => {
-  const conversationToApprove = getConversationController().get(conversationId);
+  const convoToApprove = getConversationController().get(conversationId);
 
-  if (!conversationToApprove || conversationToApprove.isApproved()) {
+  if (!convoToApprove || convoToApprove.isApproved()) {
     window?.log?.info('Conversation is already approved.');
     return;
   }
 
   Promise.all([
-    await conversationToApprove.setIsApproved(true),
-    await conversationToApprove.setDidApproveMe(true),
+    await convoToApprove.setIsApproved(true),
+    await convoToApprove.setDidApproveMe(true),
   ]);
-  await conversationToApprove.sendMessageRequestResponse(true);
+  await convoToApprove.sendMessageRequestResponse(true);
 
   // Conversation was not approved before so a sync is needed
   if (syncToDevices) {
