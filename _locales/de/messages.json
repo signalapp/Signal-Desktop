@@ -3122,7 +3122,7 @@
         "description": "Header of the keyboard shortcuts guide - calling section"
     },
     "Keyboard--toggle-audio": {
-        "message": "Stummschaltung ein-/ausschalten",
+        "message": "Stumm ein-/ausschalten",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--toggle-video": {
@@ -3990,7 +3990,7 @@
         "description": "Shown when the device is the default device"
     },
     "muteNotificationsTitle": {
-        "message": "Benachrichtigungen stummschalten",
+        "message": "Stumm",
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {

@@ -1054,7 +1054,7 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Päivitys ei onnistunut. $retry$ tai käy osoitteessa $url$ asentaaksesi päivityksen käsin. Sen jälkeen $support$ ongelmasta.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -2126,11 +2126,11 @@
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[Tänään] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[Eilen] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -2502,11 +2502,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "Yritä päivitystä uudelleen",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "Ota yhteyttä tukeen",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5988,11 +5988,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd, MMM D",
+        "message": "ddd D. MMMMta",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM D, YYYY",
+        "message": "ddd D. MMMMta YYYY",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6834,11 +6834,11 @@
         "description": "Release notes for v5.29"
     },
     "WhatsNew__v5.31--1": {
-        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "message": " Vieritä keskustelujasi loputtomasti ja ole varma siitä, milloin mikäkin viesti on saapunut tai lähetetty.",
         "description": "Release notes for v5.31"
     },
     "WhatsNew__v5.31--2": {
-        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "message": "Säädetty vasemman sivupalkin otsikkoa ja hakukenttää niin, että nyt on paljon enemmän tilaa puuhastella!",
         "description": "Release notes for v5.31"
     }
 }
