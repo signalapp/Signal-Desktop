@@ -236,11 +236,6 @@ export function pushDeleted() {
   pushToastSuccess('deleted', window.i18n('deleted'), undefined, 'check');
 }
 
-export function pushMessageRequestAccepted() {
-  // TODO: translation
-  pushToastSuccess('requestAccepted', 'message request accepted', undefined, undefined);
-}
-
 export function pushCannotRemoveCreatorFromGroup() {
   pushToastWarning(
     'cannotRemoveCreatorFromGroup',

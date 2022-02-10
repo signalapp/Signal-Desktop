@@ -557,8 +557,6 @@ async function handleMessageRequestResponse(
   await conversationToApprove.setIsApproved(isApproved);
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {
-    ToastUtils.pushMessageRequestAccepted();
-
     // Conversation was not approved before so a sync is needed
     conversationToApprove.addSingleMessage({
       conversationId: conversationToApprove.get('id'),
