@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Tänään",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Huomenna",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Tämä viikko",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktopin päivitys epäonnistui, mutta uusi versio on saatavilla. Siirry osoitteeseen  $url$ ja asenna uusi versio manuaalisesti, ota sitten yhteyttä tukeen tai kirjoita virheraportti tästä ongelmasta.",
+        "message": "Päivitys ei onnistunut. $retry$ tai käy osoitteessa $url$ asentaaksesi päivityksen käsin. Sen jälkeen $support$ ongelmasta.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "nyt",
+        "message": "Nyt",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Tänään] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Eilen] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Viestin runko on liian pitkä.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Päivitys saatavilla",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Yritä päivitystä uudelleen",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "Ota yhteyttä tukeen",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Jatka",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd D. MMMMta",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "ddd D. MMMMta YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Lue lisää",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6610,7 +6642,7 @@
         "description": "Label for the read receipts setting"
     },
     "Preferences--typing-indicators": {
-        "message": "Kirjoittamisen ilmaisin",
+        "message": "Kirjoitusilmaisimet",
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
@@ -6763,10 +6795,6 @@
         "message": "Uudet ominaisuudet",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Tämä versio sisältää useita pieniä parannuksia ja virhekorjauksia, jotka pitävät Signalin toiminnan sujuvana.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Uutta: vähemmän näppäimistön hakkaajan tai äänekkään purukuminsyöjän jahtaamista! Signal Desktop mykistää nyt mikrofonisi automaattisesti, mikäli puhelussa on vähintään kahdeksan osallistujaa.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": " Vieritä keskustelujasi loputtomasti ja ole varma siitä, milloin mikäkin viesti on saapunut tai lähetetty.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Säädetty vasemman sivupalkin otsikkoa ja hakukenttää niin, että nyt on paljon enemmän tilaa puuhastella!",
+        "description": "Release notes for v5.31"
     }
 }

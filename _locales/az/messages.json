@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Bu gün",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Dünən",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Bu həftə",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Masaüstü yenilənmədi, ancaq yeni bir versiya mövcuddur. Zəhmət olmasa $url$ ünvanına gedərək yeni versiyanı əllə quraşdırın, daha sonra dəstəklə əlaqə saxlayın və ya bu problemlə əlaqədar bir xəta bildirin.",
+        "message": "Signal yenilənə bilmədi. $retry$ və ya əllə quraşdırmaq üçün $url$ ünvanını ziyarət edin. Daha sonra bu problem barədə $support$",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "indi",
+        "message": "İndicə",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "AAA G",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Bu gün] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Dünən] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Mesaj gövdəsi çox uzundur.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Yeniləmə mövcuddur",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Yenidən sınayın",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "dəstəklə əlaqə saxlayın",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Davam et",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ggg, AAA G",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "AAA G, İİİİ",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Daha ətraflı",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Yeni nə var",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "İndi, yüksək səsli makinaçı və ya ağır çeynənən üçün daha az çılğın axtarışlarla! Zəng lobbisində səkkiz və ya daha çox adam varsa, Masaüstü səsi avtomatik bağlayacaq.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Söhbətlərinizin arasında istədiyiniz qədər gəzin.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Sol bölmə başlığında və axtarış sahəsində boşluqlar qarışdırıldı, artıq fəaliyyətlər üçün daha çox yer var!",
+        "description": "Release notes for v5.31"
     }
 }

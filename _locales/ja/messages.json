@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "今日",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "昨日",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "今週",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop はアップデートに失敗しましたが、新しいバージョンが利用可能です。$url$ から手動で新しいバージョンをインストールしてからサポートに問い合わせるか、このバグを報告してください。",
+        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2117,6 +2125,14 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
+    },
     "messageBodyTooLong": {
         "message": "メッセージが長すぎます。",
         "description": "Shown if the user tries to send more than 64kb of text"
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "アップデートがあります",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "アップデートを再試行",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "お問い合わせ",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "続ける",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "MMMD日（ddd）",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "YYYY年MMMD日",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "さらに詳しく",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signalはクラッシュ後に再起動しました。クラッシュレポートをSignalに送信いただくと、この問題の解決に役立ちます。",
+        "message": "Signalがクラッシュ後に再起動しました。クラッシュレポートを提出いただくと、Signalの問題の調査に役立てられます。",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6795,6 @@
         "message": "更新情報",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "このバージョンではSignalをより良くするために、細かい変更とバグ修正を行いました。",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Signalをスムーズに動作させるための微調整とバグ修正を行いました。",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "通話ロビーで8人以上が通話中の場合、自動的にマイクをミュートするようになりました。",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "過去のチャットをスクロールして見るときに、常に画面上部に日付が出るようになりました。",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "左ペインのヘッダと検索エリアの間隔をシャッフルし、アクティビティのためのスペースがとても広くなりました。",
+        "description": "Release notes for v5.31"
     }
 }

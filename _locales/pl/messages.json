@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Dzisiaj",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Wczoraj",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "W tym tygodniu",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Dostępna jest nowa wersja Signal Desktop, ale automatyczna aktualizacja nie powiodła się. Przejdź do  $url$ i zainstaluj nową wersję ręcznie, a następnie skontaktuj się z pomocą techniczną lub zgłoś błąd dotyczący tego problemu.",
+        "message": "Aktualizacja Signal nie powiodła się. $retry$ lub odwiedź $url$, aby zainstalować ręcznie. Następnie, $support$ w sprawie tego problemu",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "teraz",
+        "message": "Teraz",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Wiadomość jest za długa.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Dostępna aktualizacja",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Ponów aktualizację",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "skontaktuj się z pomocą techniczną",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -3530,7 +3554,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Kontynuować konwersację z $firstName$i udostępnić swoje imię i zdjęcie temu kontaktowi? $learnMore$",
+        "message": "Kontynuować konwersację z $firstName$ i udostępnić swoje imię i zdjęcie temu kontaktowi? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -5963,6 +5987,14 @@
         "message": "Kontynuuj",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd D MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D MMM YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Dowiedz się więcej",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Aplikacja Signal została ponownie uruchomiona po napotkaniu błędu. Możesz przesłać raport o błędzie, aby pomóc Signal zbadać ten problem.",
+        "message": "Aplikacja Signal odzyskała sprawność po napotkaniu błędu. Możesz przesłać raport o błędzie, aby pomóc Signal zbadać ten problem.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6795,6 @@
         "message": "Co nowego",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Ta wersja zawiera wiele drobnych ulepszeń i poprawek błędów, zapewniających płynne działanie aplikacji Signal.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Teraz nie będziesz tak często szukać głośnych stukaczy w klawiaturę i jeszcze głośniejszych przeżuwaczy! Aplikacja Desktop automatycznie wyłączy audio w lobby, jeśli w rozmowie uczestniczy osiem lub więcej osób.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Przewijaj konwersację, mając pewność, że wiesz, kiedy się ona odbywała.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Popracowaliśmy trochę nad nagłówkiem lewego panelu i polem wyszukiwania, aby dać mu więcej miejsca.",
+        "description": "Release notes for v5.31"
     }
 }

@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "ഇന്ന്",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "ഇന്നലെ",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "ഈ ആഴ്ച",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop അപ്ഡേറ്റ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു, പക്ഷേ ഒരു പുതിയ പതിപ്പ് ലഭ്യമാണ്. ദയവായി $url$ എന്നതിലേക്ക് പോയി പുതിയ പതിപ്പ് സ്വമേധയാ ഇൻസ്റ്റാൾ ചെയ്യുക, തുടർന്ന് പിന്തുണയുമായി ബന്ധപ്പെടുക അല്ലെങ്കിൽ ഈ പ്രശ്നത്തെക്കുറിച്ച് ഒരു ബഗ് ഫയൽ ചെയ്യുക.",
+        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1340,11 +1348,11 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Scan this code in the Signal app on your phone",
+        "message": "നിങ്ങളുടെ ഫോണിലെ Signal ആപ്പിൽ ഈ കോഡ് സ്കാൻ ചെയ്യുക",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "നിങ്ങളുടെ ഫോണിൽ Signal തുറക്കുക",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -1534,11 +1542,11 @@
         "description": "Button tooltip label for stopping screen sharing"
     },
     "calling__button--ring__label": {
-        "message": "Ring",
+        "message": "റിംഗ്",
         "description": "Label under the ring button"
     },
     "calling__button--ring__disabled-because-group-is-too-large": {
-        "message": "Group is too large to ring the participants.",
+        "message": "പങ്കെടുക്കുന്നവരെ വിളിക്കാൻ കഴിയാത്തത്ര വലുതാണ് ഗ്രൂപ്പ്.",
         "description": "Button tooltip label when you can't ring because the group is too large"
     },
     "calling__button--ring__off": {
@@ -2117,6 +2125,14 @@
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
+    },
     "messageBodyTooLong": {
         "message": "സന്ദേശം ഉള്ളടക്കം വളരെ ദൈർഘ്യമേറിയതാണ്.",
         "description": "Shown if the user tries to send more than 64kb of text"
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Update available",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Retry update",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contact support",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5384,11 +5408,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "പരിപാലകര്‍ ആകുക",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "പരിപാലകര്‍ ആകുക",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5396,7 +5420,7 @@
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open Signal on your phone",
+        "message": "നിങ്ങളുടെ ഫോണിൽ Signal തുറക്കുക",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5962,6 +5986,14 @@
     "ForwardMessageModal--continue": {
         "message": "തുടരുക",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
         "message": "കൂടുതൽ അറിയുക",
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash a report to help Signal investigate the issue.",
+        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6676,7 +6708,7 @@
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "വരയ്ക്കുക",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
@@ -6748,7 +6780,7 @@
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
-        "message": "Flip",
+        "message": "തിരിക്കൂ",
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
@@ -6762,10 +6794,6 @@
     "WhatsNew__modal-title": {
         "message": "What's New",
         "description": "Title for the whats new modal"
-    },
-    "WhatsNew__v5.25--1": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
-        "description": "Release notes for v5.25"
     },
     "WhatsNew__bugfixes": {
         "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Now, with fewer frantic searches for the loud typist or heavy chewer! In the call lobby, Desktop will now automatically disable audio if there are eight or more people in the call.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Endlessly scroll through your conversations and feel confident that wherever you are in the conversation you will know when.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
+        "description": "Release notes for v5.31"
     }
 }

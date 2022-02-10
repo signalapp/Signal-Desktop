@@ -188,7 +188,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "loading": {
-        "message": "Es carrega...",
+        "message": "S'està carregant...",
         "description": "Message shown on the loading screen before we've loaded any messages"
     },
     "optimizingApplication": {
@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Avui",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Ahir",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Aquesta setmana",
@@ -856,7 +856,7 @@
         "description": ""
     },
     "whatsNew": {
-        "message": "Vegeu $whatsNew$d'aquesta actualització.",
+        "message": "Vegeu $whatsNew$ d'aquesta actualització.",
         "description": "Shown in the main window",
         "placeholders": {
             "name": {
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "El Signal Desktop no es pot actualitzar, però n'hi ha una versió nova disponible. Aneu a  $url$ i instal·leu-ne la versió nova manualment. Després o bé contacteu amb el personal de suport o bé feu un informe d'error sobre aquest problema.",
+        "message": "El Signal Desktop no es pot actualitzar. $retry$ o visiteu $url$ per a instal·lar la versió nova manualment. Després, $support$ sobre aquest problema.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -1348,7 +1356,7 @@
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
-        "message": "Toqueu$settings$ i després $linkedDevices$",
+        "message": "Toqueu $settings$ i després $linkedDevices$",
         "description": "Instructions on the device link screen",
         "placeholders": {
             "settings": {
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "ara",
+        "message": "Ara",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Today] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Yesterday] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "El cos del missatge és massa llarg.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Actualització disponible",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Torneu a intentar d'actualitzar",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "contacteu amb l'assistència",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5946,7 +5970,7 @@
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Cliqueu  $composeIcon$ i cerqueu contactes i grups a qui enviar missatges.",
+        "message": "Cliqueu el $composeIcon$ i cerqueu contactes i grups a qui enviar missatges.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5962,6 +5986,14 @@
     "ForwardMessageModal--continue": {
         "message": "Continua",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
+    },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D MMM, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
         "message": "Més informació",
@@ -6763,10 +6795,6 @@
         "message": "Què hi ha de nou",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Ara, amb menys cerques frenètiques per al mecanògraf fort o el mastegador pesat! Al vestíbul de trucades, el Desktop ara desactivarà automàticament l'àudio si hi ha vuit o més persones a la trucada.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Desplaceu-vos sense fi a través de les converses i sentiu-vos segurs que allà on estigueu en la conversa sabreu quan va ser.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Hem reorganitzat l'espai en la capçalera del panell esquerre i l'àrea de cerca i ara hi ha molt d'espai per a les activitats!",
+        "description": "Release notes for v5.31"
     }
 }

@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Dnes",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Včera",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Tento týden",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop se nepodařilo aktualizovat, ale je již k dispozici novější verze. Jděte na $url$ a nainstalujte novou verzi ručně. Poté případně kontaktujte podporu či nahlaste chybu.",
+        "message": "Signal se nepodařilo aktualizavoat. $retry$ nebo navštivte $url$ pro manuální instalaci. A pak o svém problému napište na $support$.",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "teď",
+        "message": "Teď",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D. MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Dnes] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Včera] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Tělo zprávy je příliš dlouhé.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "K dispozici je aktualizace",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Znovu aktualizovat",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "kontaktovat podporu",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Pokračovat",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, D MMM",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "D MMM, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Zjistit více",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal se po havárii znovu spustil. Můžete odeslat hlášení o pádu a pomoci tak společnosti Signal problém prošetřit.",
+        "message": "Signal se restartoval po selhání. Můžete odeslat zprávu o selhání a pomoci tím daný problém vyřešit.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6795,6 @@
         "message": "Co je nového",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Tato verze obsahuje řadu drobných úprav a oprav chyb, aby Signal fungoval hladce.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Nyní už nebudete muset zběsile hledat hlasitého písaře nebo přežvýkavce! Při připojování k hovoru Signal Desktop automaticky vypne zvuk, pokud se účastní osm nebo více osob.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Nekonečně dlouho můžete procházet konverzace a mít jistotu, že ať už jste v konverzaci kdekoli, budete vědět kdy.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Promíchali jsme rozmístění v záhlaví levého panelu a v oblasti vyhledávání, takže teď máte mnohem více místa pro své aktivity!",
+        "description": "Release notes for v5.31"
     }
 }

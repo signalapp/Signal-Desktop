@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Сьогодні",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Учора",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Цей тиждень",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal Desktop не вдалося оновитись, але нова версія доступна. Будь ласка, перейдіть на $url$ і встановіть нову версію вручну, потім зв'яжіться з підтримкою або подайте файл помилки щодо цієї проблеми.",
+        "message": "Не вдалось оновити Signal. $retry$ чи перейдіть на $url$ для встановлення оновлення вручну. А потім $support$ про цю проблему",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "зараз",
+        "message": "Зараз",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "D MMM",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Сьогодні] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Учора] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Тіло повідомлення завелике.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Наявне оновлення",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Спробувати ще раз",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "зверніться до служби підтримки",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Продовжити",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "ddd, MMM D",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "MMM D, YYYY",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Дізнатись більше",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6652,7 +6684,7 @@
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal запущено знов після аварійного завершення роботи. Ви можете подати звіт про це, щоб допомогти Signal з'ясувати обставини цієї проблеми.",
+        "message": "Signal запущено знов після аварійного завершення роботи. Ви можете подати звіт про це, щоб допомогти Signal розібратись у цій проблемі.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6763,10 +6795,6 @@
         "message": "Що нового",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок, щоб забезпечити безперебійну роботу Signal.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Ця версія містить ряд невеликих налаштувань і виправлень помилок для забезпечення безперебійної роботи Signal.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Відтепер можна не розпочинати шалений пошук того, хто гучно друкує на клавіатурі, чи голосно плямкає прямо у мікрофон! У лобі виклику застосунок автоматично блокуватиме мікрофон, якщо у виклику присутні вісім чи більше осіб.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Нескінченно гортайте свої бесіди та почувайтесь впевнено, бо завжди знатимете, де ви у бесіді та коли.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Погрались з місцем у лівій верхній частині вікна та у зоні пошуку, і тепер там стільки місця для різних речей!",
+        "description": "Release notes for v5.31"
     }
 }

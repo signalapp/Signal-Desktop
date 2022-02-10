@@ -579,11 +579,11 @@
     },
     "today": {
         "message": "Ma",
-        "description": "Section header in the media gallery"
+        "description": "The string \"today\""
     },
     "yesterday": {
         "message": "Tegnap",
-        "description": "Section header in the media gallery"
+        "description": "The string \"yesterday\""
     },
     "thisWeek": {
         "message": "Ezen a héten",
@@ -1054,12 +1054,20 @@
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "A Signal Desktop frissítése nem sikerült, pedig újabb verzió érhető el. Kérlek látogass el a $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba a szoftvertámogatással, vagy nyiss egy hibajegyet az eseményről!",
+        "message": "A Signal Desktop frissítése nem sikerült. $retry$ vagy látogass el a $url$ címre és telepítsd az új verziót kézzel, majd lépj kapcsolatba velünk a tapasztalt problémával kapcsolatban: $support$. ",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
+            "retry": {
+                "content": "$2",
+                "example": "retry update"
+            },
             "url": {
-                "content": "$1",
+                "content": "$2",
                 "example": "https://signal.org/download"
+            },
+            "support": {
+                "content": "$3",
+                "example": "contact support"
             }
         }
     },
@@ -2110,12 +2118,20 @@
         }
     },
     "justNow": {
-        "message": "mostanában",
+        "message": "Most",
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
         "message": "MMM D",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
+    },
+    "timestampFormat__long__today": {
+        "message": "[Ma] LT",
+        "description": "Timestamp format string for displaying \"Today\" and the time"
+    },
+    "timestampFormat__long__yesterday": {
+        "message": "[Tegnap] LT",
+        "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
         "message": "Az üzenet szövege túl hosszú.",
@@ -2483,6 +2499,14 @@
     },
     "autoUpdateNewVersionTitle": {
         "message": "Frissítés érhető el",
+        "description": ""
+    },
+    "autoUpdateRetry": {
+        "message": "Frissítés újra",
+        "description": ""
+    },
+    "autoUpdateContactSupport": {
+        "message": "Kapcsolatfelvétel a támogatással",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5963,6 +5987,14 @@
         "message": "Folytatás",
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
+    "TimelineDateHeader--date-in-last-6-months": {
+        "message": "MMM. D., ddd.",
+        "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
+    "TimelineDateHeader--date-older-than-6-months": {
+        "message": "YYYY. MMM. D.",
+        "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
+    },
     "MessageRequestWarning__learn-more": {
         "message": "Tudj meg többet!",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
@@ -6763,10 +6795,6 @@
         "message": "Újdonságok",
         "description": "Title for the whats new modal"
     },
-    "WhatsNew__v5.25--1": {
-        "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
-        "description": "Release notes for v5.25"
-    },
     "WhatsNew__bugfixes": {
         "message": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
         "description": "Release notes for releases that only include bug fixes"
@@ -6803,6 +6831,14 @@
     },
     "WhatsNew__v5.29--1": {
         "message": "Megőrültél, míg megtaláltad, hogy ki gépel vagy épp eszik elviselhetetlen hangerővel? A hívásba lépés előtt mostantól az új résztvevők mikrofonjait automatikusan lenémítjuk 8 vagy több fős csoporthívások esetén.",
-        "description": "Release notes for v5.28"
+        "description": "Release notes for v5.29"
+    },
+    "WhatsNew__v5.31--1": {
+        "message": "Görgess végig beszélgetéseiden úgy, hogy közben mindig tudni fogod, merre jársz az időben.",
+        "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.31--2": {
+        "message": "Átrendeztük a baloldali sáv fejléce és keresője körüli területet, így rengeteg hely áll rendelkezésre a tevékenységek megjelenítéséhez.",
+        "description": "Release notes for v5.31"
     }
 }
