@@ -5,21 +5,26 @@
   @include install-screen;
 
   &__contents {
+    $base-max-width: 760px;
+
     align-items: center;
+    background: $color-white;
     border-radius: 8px;
+    color: $color-black;
     display: flex;
     flex-direction: row;
-    max-width: 760px;
-    padding: 22px;
-    margin: 20px;
     animation: 500ms module-InstallScreenQrCodeNotScannedStep__slide-in;
     position: relative;
 
     @include light-theme {
-      background: $color-white;
+      max-width: $base-max-width;
+      padding: 22px;
     }
+
     @include dark-theme {
-      background: $color-gray-80;
+      max-width: $base-max-width + 44px;
+      padding: 44px;
+      margin-top: 44px; // Avoids overlap with the Signal logo
     }
   }
 
@@ -43,16 +48,9 @@
 
     &--load-failed {
       @include font-subtitle;
+      border-color: $color-gray-05;
       border-radius: 4px;
-
-      @include light-theme {
-        color: $color-gray-60;
-        border-color: $color-gray-05;
-      }
-      @include dark-theme {
-        color: $color-gray-25;
-        border-color: $color-gray-60;
-      }
+      color: $color-gray-60;
     }
 
     &__code {
@@ -91,6 +89,11 @@
     padding-inline-start: 0;
   }
 
+  a {
+    // We want the right link color in dark mode. This is a no-op in light mode.
+    color: $color-ultramarine;
+  }
+
   &__android-plus {
     background: $color-gray-25;
     border-radius: 100%;
@@ -99,22 +102,11 @@
     vertical-align: middle;
 
     &::before {
+      @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
       content: '';
       display: block;
       height: 12px;
       width: 12px;
-    }
-
-    @include light-theme {
-      &::before {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-white);
-      }
-    }
-
-    @include dark-theme {
-      &::before {
-        @include color-svg('../images/icons/v2/plus-24.svg', $color-gray-80);
-      }
     }
   }
 }
