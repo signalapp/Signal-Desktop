@@ -15,6 +15,8 @@ import {
 } from 'react-virtualized';
 import Measure from 'react-measure';
 
+import * as log from '../../logging/log';
+
 import { ScrollDownButton } from './ScrollDownButton';
 
 import type { AssertProps, LocalizerType, ThemeType } from '../../types/Util';
@@ -1283,6 +1285,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     const scrollToIndex = this.getScrollTarget();
 
     if (!items || rowCount === 0) {
+      log.error('<Timeline> row count is 0');
       return null;
     }
 
