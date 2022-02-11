@@ -168,6 +168,27 @@
     "updated": "2022-01-27T20:06:59.988Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@malept/flatpak-bundler/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@malept/flatpak-bundler/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/@malept/flatpak-bundler/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
     "rule": "eval",
     "path": "node_modules/@protobufjs/inquire/index.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -594,6 +615,28 @@
     "reasonCategory": "falseMatch",
     "updated": "2020-08-28T16:12:19.904Z",
     "reasonDetail": "isn't jquery"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agent-base/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agent-base/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch|testCode|exampleCode|otherUtilityCode|regexMatchedSafeCode|notExercisedByOurApp|ruleNeeded|usageTrusted",
+    "updated": "2022-02-11T21:58:24.827Z",
+    "reasonDetail": "<optional>"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/agent-base/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
   },
   {
     "rule": "jQuery-wrap(",
@@ -1256,6 +1299,27 @@
     "updated": "2018-09-19T18:13:29.628Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/electron-notarize/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/enquirer/lib/prompts/autocomplete.js",
     "line": "    return this.append(ch);",
@@ -1545,6 +1609,27 @@
     "updated": "2020-09-11T17:24:56.124Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/get-uri/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
     "rule": "jQuery-$(",
     "path": "node_modules/global-dirs/index.js",
     "line": "\t// Homebrew special case: `$(brew --prefix)/lib/node_modules/npm/npmrc`",
@@ -1669,6 +1754,48 @@
     "line": "  return wrap(str, width, indent);",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/http-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/https-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
   },
   {
     "rule": "jQuery-$(",
@@ -4304,6 +4431,13 @@
     "updated": "2019-03-09T00:08:44.242Z"
   },
   {
+    "rule": "eval",
+    "path": "node_modules/micro/node_modules/depd/index.js",
+    "line": "  var deprecatedfn = eval('(function (' + args + ') {\\n' +",
+    "reasonCategory": "usageTrusted",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/min-document/serialize.js",
     "line": "        } else if (elem.innerHTML) {",
@@ -4468,6 +4602,27 @@
     "line": "\t\t\t\theaders.append('Content-Type', contentType);",
     "reasonCategory": "falseMatch",
     "updated": "2020-09-14T16:19:54.461Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/pac-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -5137,6 +5292,27 @@
     "line": "    return this.load(filename, options, SYNC);",
     "reasonCategory": "falseMatch",
     "updated": "2018-09-15T00:38:04.183Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
   },
   {
     "rule": "DOM-document.write(",
@@ -6293,6 +6469,27 @@
     "updated": "2018-09-15T00:38:04.183Z"
   },
   {
+    "rule": "jQuery-load(",
+    "path": "node_modules/socks-proxy-agent/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/socks-proxy-agent/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/socks-proxy-agent/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
     "rule": "jQuery-append(",
     "path": "node_modules/socks/build/client/socksclient.js",
     "line": "        this.receiveBuffer.append(data);",
@@ -6394,6 +6591,27 @@
     "line": "function wrap(txt, len) {",
     "reasonCategory": "falseMatch",
     "updated": "2020-04-25T01:47:02.583Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/browser.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/common.js",
+    "line": "\tcreateDebug.enable(createDebug.load());",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
+  },
+  {
+    "rule": "jQuery-load(",
+    "path": "node_modules/sumchecker/node_modules/debug/src/node.js",
+    "line": "function load() {",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T21:58:24.827Z"
   },
   {
     "rule": "jQuery-append(",

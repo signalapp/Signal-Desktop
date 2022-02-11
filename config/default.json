@@ -17,6 +17,7 @@
   "sfuUrl": "https://sfu.voip.signal.org/",
   "updatesEnabled": false,
   "enableCI": false,
+  "forcePreloadBundle": false,
   "openDevTools": false,
   "buildCreation": 0,
   "buildExpiration": 0,

@@ -122,6 +122,7 @@ const development =
 const isThrottlingEnabled = development || isAlpha(app.getVersion());
 
 const enableCI = config.get<boolean>('enableCI');
+const forcePreloadBundle = config.get<boolean>('forcePreloadBundle');
 
 const preventDisplaySleepService = new PreventDisplaySleepService(
   powerSaveBlocker
@@ -458,6 +459,9 @@ if (OS.isWindows()) {
 }
 
 async function createWindow() {
+  const usePreloadBundle =
+    !isTestEnvironment(getEnvironment()) || forcePreloadBundle;
+
   const windowOptions: Electron.BrowserWindowConstructorOptions = {
     show: false,
     width: DEFAULT_WIDTH,
@@ -480,9 +484,7 @@ async function createWindow() {
       contextIsolation: false,
       preload: join(
         __dirname,
-        isTestEnvironment(getEnvironment())
-          ? '../preload.js'
-          : '../preload.bundle.js'
+        usePreloadBundle ? '../preload.bundle.js' : '../preload.js'
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),

@@ -20,18 +20,8 @@ jobs:
     - name: Get other system specs
       run: uname -a
 
-    - name: Configure git to use HTTPS
-      run: git config --global url."https://${{ secrets.AUTOMATED_GITHUB_PAT }}:x-oauth-basic@github.com".insteadOf ssh://git@github.com
-
     - name: Clone Desktop repo
       uses: actions/checkout@v2
-    - name: Clone Mock-Server repo
-      uses: actions/checkout@v2
-      with:
-        repository: 'signalapp/Mock-Signal-Server-Private'
-        path: 'Mock-Server'
-        ref: 'gamma'
-        token: ${{ secrets.AUTOMATED_GITHUB_PAT }}
 
     - name: Setup node.js
       uses: actions/setup-node@v2
@@ -54,22 +44,10 @@ jobs:
       if: steps.cache-desktop-modules.outputs.cache-hit != 'true'
       run: yarn install --frozen-lockfile
 
-    - name: Install Mock-Server node_modules
-      run: yarn install --frozen-lockfile
-      working-directory: Mock-Server
-      env:
-        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-
     - name: Build typescript
       run: yarn generate
     - name: Bundle
       run: yarn build:webpack
-
-    - name: Copy CI configuration
-      run: |
-        cp -rf ./Mock-Server/config/local-development.json \
-          ./config/local-development.json
-        cp -rf ./config/local-development.json ./config/local-production.json
 
     - name: Setup hosts
       run: sudo echo "127.0.0.1 mock.signal.org" | sudo tee -a /etc/hosts
@@ -77,80 +55,51 @@ jobs:
     - name: Run startup benchmarks
       run: |
         set -o pipefail
-        rm -rf /tmp/mock
-        xvfb-run --auto-servernum node Mock-Server/scripts/load-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-startup.log
+        xvfb-run --auto-servernum node ts/test-mock/benchmarks/startup_bench.js |
+          tee benchmark-startup.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 10
         ELECTRON_ENABLE_STACK_DUMPING: on
 
-    - name: Upload startup benchmark logs on failure
-      if: failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: startup-logs
-        path: /tmp/mock/logs
-
     - name: Run send benchmarks
       run: |
         set -o pipefail
         rm -rf /tmp/mock
-        xvfb-run --auto-servernum node Mock-Server/scripts/send-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-send.log
+        xvfb-run --auto-servernum node ts/test-mock/benchmarks/send_bench.js |
+          tee benchmark-send.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
-
-    - name: Upload send benchmark logs on failure
-      if: failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: send-logs
-        path: /tmp/mock/logs
 
     - name: Run group send benchmarks
       run: |
         set -o pipefail
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node \
-          Mock-Server/scripts/group-send-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-group-send.log
+          ts/test-mock/benchmarks/group_send_bench.js | \
+          tee benchmark-group-send.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
-
-    - name: Upload group send benchmark logs on failure
-      if: failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: group-send-logs
-        path: /tmp/mock/logs
 
     - name: Run conversation open benchmarks
       run: |
         set -o pipefail
         rm -rf /tmp/mock
         xvfb-run --auto-servernum node \
-          Mock-Server/scripts/convo-open-test.js \
-          ./node_modules/.bin/electron . | tee benchmark-convo-open.log
+          ts/test-mock/benchmarks/convo_open_bench.js | \
+          tee benchmark-convo-open.log
       timeout-minutes: 10
       env:
         NODE_ENV: production
         RUN_COUNT: 100
         ELECTRON_ENABLE_STACK_DUMPING: on
-
-    - name: Upload conversation open benchmark logs on failure
-      if: failure()
-      uses: actions/upload-artifact@v2
-      with:
-        name: convo-open-logs
-        path: /tmp/mock/logs
 
     - name: Clone benchmark repo
       uses: actions/checkout@v2

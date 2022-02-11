@@ -111,6 +111,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/esbuild/.+',
     '^node_modules/@babel/.+',
     '^node_modules/@chanzuckerberg/axe-storybook-testing/.+',
+    '^node_modules/@signalapp/mock-server/.+',
     '^node_modules/@svgr/.+',
     '^node_modules/@types/.+',
     '^node_modules/@webassemblyjs/.+',
