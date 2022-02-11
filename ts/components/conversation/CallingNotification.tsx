@@ -114,6 +114,7 @@ function renderCallingNotificationButton(
   props: Readonly<PropsType>
 ): ReactNode {
   const {
+    activeCallConversationId,
     conversationId,
     i18n,
     nextItem,
@@ -135,16 +136,23 @@ function renderCallingNotificationButton(
       buttonText = wasIncoming
         ? i18n('calling__call-back')
         : i18n('calling__call-again');
-      onClick = () => {
-        startCallingLobby({ conversationId, isVideoCall: wasVideoCall });
-      };
+      if (activeCallConversationId) {
+        disabledTooltipText = i18n(
+          'calling__call-notification__button__in-another-call-tooltip'
+        );
+        onClick = noop;
+      } else {
+        onClick = () => {
+          startCallingLobby({ conversationId, isVideoCall: wasVideoCall });
+        };
+      }
       break;
     }
     case CallMode.Group: {
       if (props.ended) {
         return null;
       }
-      const { activeCallConversationId, deviceCount, maxDevices } = props;
+      const { deviceCount, maxDevices } = props;
       if (activeCallConversationId) {
         if (activeCallConversationId === conversationId) {
           buttonText = i18n('calling__return');

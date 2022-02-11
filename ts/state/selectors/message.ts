@@ -1124,12 +1124,15 @@ export function getPropsForCallHistory(
     throw new Error('getPropsForCallHistory: Missing callHistoryDetails');
   }
 
+  const activeCallConversationId = activeCall?.conversationId;
+
   switch (callHistoryDetails.callMode) {
     // Old messages weren't saved with a call mode.
     case undefined:
     case CallMode.Direct:
       return {
         ...callHistoryDetails,
+        activeCallConversationId,
         callMode: CallMode.Direct,
       };
     case CallMode.Group: {
@@ -1150,7 +1153,7 @@ export function getPropsForCallHistory(
       const deviceCount = call?.peekInfo?.deviceCount ?? 0;
 
       return {
-        activeCallConversationId: activeCall?.conversationId,
+        activeCallConversationId,
         callMode: CallMode.Group,
         conversationId,
         creator,
