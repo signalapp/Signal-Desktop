@@ -36,11 +36,9 @@ import {
 import { ourProfileKeyService } from './ourProfileKey';
 import { isGroupV1, isGroupV2 } from '../util/whatTypeOfConversation';
 import { isValidUuid } from '../types/UUID';
-import type { ConversationAttributesType } from '../model-types.d';
 import * as preferredReactionEmoji from '../reactions/preferredReactionEmoji';
 import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
-import type { WhatIsThis } from '../window.d';
 
 const { updateConversation } = dataInterface;
 
@@ -52,6 +50,7 @@ type RecordClass =
 
 export type MergeResultType = Readonly<{
   hasConflict: boolean;
+  shouldDrop?: boolean;
   conversation?: ConversationModel;
   oldStorageID?: string;
   oldStorageVersion?: number;
@@ -555,6 +554,19 @@ export async function mergeGroupV1Record(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
+  if (!isGroupV1(conversation.attributes)) {
+    details.push('GV1 record for GV2 group, dropping');
+
+    return {
+      hasConflict: true,
+      shouldDrop: true,
+      conversation,
+      oldStorageID,
+      oldStorageVersion,
+      details,
+    };
+  }
+
   conversation.set({
     isArchived: Boolean(groupV1Record.archived),
     markedUnread: Boolean(groupV1Record.markedUnread),
@@ -764,20 +776,6 @@ export async function mergeContactRecord(
 
   if (!isValidUuid(uuid)) {
     return { hasConflict: false, details: ['invalid uuid'] };
-  }
-
-  const c = new window.Whisper.Conversation({
-    e164,
-    uuid,
-    type: 'private',
-  } as Partial<ConversationAttributesType> as WhatIsThis);
-
-  const validationError = c.validate();
-  if (validationError) {
-    return {
-      hasConflict: false,
-      details: [`validation error=${validationError}`],
-    };
   }
 
   const id = window.ConversationController.ensureContactIds({
