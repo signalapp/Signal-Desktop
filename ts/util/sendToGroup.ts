@@ -289,7 +289,7 @@ export async function sendToGroupViaSenderKey(options: {
   );
 
   // 1. Add sender key info if we have none, or clear out if it's too old
-  const THIRTY_DAYS = 30 * DAY;
+  const EXPIRE_DURATION = getSenderKeyExpireDuration();
 
   // Note: From here on, generally need to recurse if we change senderKeyInfo
   const senderKeyInfo = sendTarget.getSenderKeyInfo();
@@ -310,7 +310,7 @@ export async function sendToGroupViaSenderKey(options: {
       recursionCount: recursionCount + 1,
     });
   }
-  if (isOlderThan(senderKeyInfo.createdAtDate, THIRTY_DAYS)) {
+  if (isOlderThan(senderKeyInfo.createdAtDate, EXPIRE_DURATION)) {
     const { createdAtDate } = senderKeyInfo;
     log.info(
       `sendToGroupViaSenderKey/${logId}: Resetting sender key; ${createdAtDate} is too old`
@@ -656,6 +656,30 @@ export async function sendToGroupViaSenderKey(options: {
 }
 
 // Utility Methods
+
+const MAX_SENDER_KEY_EXPIRE_DURATION = 90 * DAY;
+
+function getSenderKeyExpireDuration(): number {
+  try {
+    const parsed = parseIntOrThrow(
+      window.Signal.RemoteConfig.getValue('desktop.senderKeyMaxAge'),
+      'getSenderKeyExpireDuration'
+    );
+
+    const duration = Math.min(parsed, MAX_SENDER_KEY_EXPIRE_DURATION);
+    log.info(
+      `getSenderKeyExpireDuration: using expire duration of ${duration}`
+    );
+
+    return duration;
+  } catch (error) {
+    log.warn(
+      `getSenderKeyExpireDuration: Failed to parse integer. Using default of ${MAX_SENDER_KEY_EXPIRE_DURATION}.`,
+      error && error.stack ? error.stack : error
+    );
+    return MAX_SENDER_KEY_EXPIRE_DURATION;
+  }
+}
 
 export function _shouldFailSend(error: unknown, logId: string): boolean {
   const logError = (message: string) => {
