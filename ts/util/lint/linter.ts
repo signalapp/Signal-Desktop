@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-console */
@@ -195,8 +195,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/needle/.+',
     '^node_modules/nise/.+',
     '^node_modules/node-gyp/.+',
-    '^node_modules/node-sass-import-once/.+',
-    '^node_modules/node-sass/.+',
     '^node_modules/npm-run-all/.+',
     '^node_modules/nsp/.+',
     '^node_modules/nyc/.+',
@@ -222,6 +220,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/resolve/.+',
     '^node_modules/sass-graph/.+',
     '^node_modules/sass-loader/.+',
+    '^node_modules/sass/.+',
     '^node_modules/schema-utils/.+',
     '^node_modules/scss-tokenizer/.+',
     '^node_modules/send/.+',

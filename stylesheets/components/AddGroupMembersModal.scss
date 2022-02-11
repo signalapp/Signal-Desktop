@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .module-AddGroupMembersModal {
@@ -51,7 +51,7 @@
     height: 60vh;
     min-height: 400px;
 
-    '#{$root-selector}__header' {
+    #{$root-selector}__header {
       padding: $padding;
     }
   }
@@ -59,7 +59,7 @@
   &--confirm-adds {
     @include modal-reset;
 
-    '#{$root-selector}__button-container' {
+    #{$root-selector}__button-container {
       margin-top: 12px;
       padding: 0;
     }

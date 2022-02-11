@@ -1,4 +1,4 @@
-// Copyright 2019-2020 Signal Messenger, LLC
+// Copyright 2019-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { resolve } from 'path';
@@ -20,7 +20,6 @@ const EXTERNAL_MODULE = new Set([
   'jquery',
   'mac-screen-capture-permissions',
   'node-fetch',
-  'node-sass',
   'pino',
   'proxy-agent',
   'ringrtc',

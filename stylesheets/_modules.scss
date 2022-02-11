@@ -4770,14 +4770,14 @@ button.module-image__border-overlay:focus {
         @include light-theme {
           $background-color: $color-gray-15;
           background-color: $background-color;
-          '#{$avatar-container-unread-indicator-selector}' {
+          #{$avatar-container-unread-indicator-selector} {
             border-color: $background-color;
           }
         }
         @include dark-theme {
           $background-color: $color-gray-65;
           background-color: $background-color;
-          '#{$avatar-container-unread-indicator-selector}' {
+          #{$avatar-container-unread-indicator-selector} {
             border-color: $background-color;
           }
         }
@@ -4786,7 +4786,7 @@ button.module-image__border-overlay:focus {
       &__avatar-container {
         position: relative;
 
-        '#{$unread-indicator-selector}' {
+        #{$unread-indicator-selector} {
           $border-width: 3px;
           $size: 21px + $border-width;
 
@@ -4819,7 +4819,7 @@ button.module-image__border-overlay:focus {
       }
 
       // We want this to just be the unread indicator selector, not a child of the parent.
-      @at-root '#{$unread-indicator-selector}' {
+      @at-root #{$unread-indicator-selector} {
         $size: 18px;
 
         @include font-caption-bold;

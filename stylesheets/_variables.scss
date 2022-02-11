@@ -1,4 +1,4 @@
-// Copyright 2015-2021 Signal Messenger, LLC
+// Copyright 2015-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 $inter: Inter, 'Helvetica Neue', 'Source Sans Pro', 'Source Han Sans SC',
@@ -192,31 +192,31 @@ $avatar-colors: (
 );
 
 $conversation-colors: (
-  blue: $color-blue,
-  burlap: $color-burlap,
-  crimson: $color-crimson,
-  forest: $color-forest,
-  indigo: $color-indigo,
-  plum: $color-plum,
-  steel: $color-steel,
-  taupe: $color-taupe,
-  teal: $color-teal,
-  vermilion: $color-vermilion,
-  violet: $color-violet,
-  wintergreen: $color-wintergreen,
+  'blue': $color-blue,
+  'burlap': $color-burlap,
+  'crimson': $color-crimson,
+  'forest': $color-forest,
+  'indigo': $color-indigo,
+  'plum': $color-plum,
+  'steel': $color-steel,
+  'taupe': $color-taupe,
+  'teal': $color-teal,
+  'vermilion': $color-vermilion,
+  'violet': $color-violet,
+  'wintergreen': $color-wintergreen,
 );
 
 $conversation-colors-gradient: (
-  ultramarine: $color-ultramarine-gradient,
-  basil: $color-basil,
-  ember: $color-ember,
-  fluorescent: $color-fluorescent,
-  infrared: $color-infrared,
-  lagoon: $color-lagoon,
-  midnight: $color-midnight,
-  sea: $color-sea,
-  sublime: $color-sublime,
-  tangerine: $color-tangerine,
+  'ultramarine': $color-ultramarine-gradient,
+  'basil': $color-basil,
+  'ember': $color-ember,
+  'fluorescent': $color-fluorescent,
+  'infrared': $color-infrared,
+  'lagoon': $color-lagoon,
+  'midnight': $color-midnight,
+  'sea': $color-sea,
+  'sublime': $color-sublime,
+  'tangerine': $color-tangerine,
 );
 
 // Used for the safety number change warning banner

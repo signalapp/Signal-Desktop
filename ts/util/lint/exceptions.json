@@ -1552,55 +1552,6 @@
     "updated": "2021-11-13T01:24:25.496Z"
   },
   {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "        result.push(append(value, stash, enclose));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "        result.push(Array.isArray(ele) ? append(item, ele, enclose) : (item + ele));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "      q.push(append(q.pop(), stringify(node, options)));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "      q.push(append(q.pop(), ['{}']));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "      q.push(append(q.pop(), range));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "        q.push(append(q.pop(), queue, enclose));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
-    "rule": "jQuery-append(",
-    "path": "node_modules/globby/node_modules/braces/lib/expand.js",
-    "line": "        queue.push(append(queue.pop(), child.value));",
-    "reasonCategory": "falseMatch",
-    "updated": "2021-12-11T01:13:16.250Z"
-  },
-  {
     "rule": "DOM-innerHTML",
     "path": "node_modules/google-libphonenumber/dist/libphonenumber.js",
     "reasonCategory": "notExercisedByOurApp",
@@ -1718,6 +1669,12 @@
     "line": "  return wrap(str, width, indent);",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-13T01:38:33.299Z"
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/immutable/dist/immutable.min.js",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T16:23:37.435Z"
   },
   {
     "rule": "DOM-innerHTML",
@@ -1896,21 +1853,6 @@
     "line": "    load: function load(path) {",
     "reasonCategory": "falseMatch",
     "updated": "2021-04-06T04:01:59.934Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/js-base64/base64.js",
-    "line": "            buffer = eval(\"require('buffer').Buffer\");",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-25T16:58:28.474Z",
-    "reasonDetail": "Hard coded string"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/js-base64/base64.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2020-08-25T16:58:28.474Z",
-    "reasonDetail": "Hard coded string"
   },
   {
     "rule": "jQuery-$(",
@@ -6363,6 +6305,13 @@
     "line": "    append(data) {",
     "reasonCategory": "falseMatch",
     "updated": "2018-11-27T18:02:26.186Z"
+  },
+  {
+    "rule": "jQuery-prepend(",
+    "path": "node_modules/source-map-js/lib/source-node.js",
+    "line": "      this.prepend(aChunk[i]);",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-11T16:23:37.435Z"
   },
   {
     "rule": "jQuery-prepend(",
