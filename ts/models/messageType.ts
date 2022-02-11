@@ -146,7 +146,6 @@ export type PropsForMessageRequestResponse = MessageRequestResponseMsg & {
   receivedAt?: number;
   isUnread: boolean;
   isApproved?: boolean;
-  publicKey?: string;
   source?: string;
 };
 
@@ -196,7 +195,6 @@ export interface MessageAttributesOptionals {
   messageRequestResponse?: {
     /** 1 means approved, 0 means unapproved. */
     isApproved?: number;
-    publicKey?: string;
   };
   unread?: number;
   group?: any;

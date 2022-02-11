@@ -656,6 +656,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         // void forceSyncConfigurationNowIfNeeded();
       }
 
+      // TODO: remove once dev-tested
+      // if (chatMessageParams.body?.includes('unapprove')) {
+      //   await this.setIsApproved(false);
+      //   await this.setDidApproveMe(false);
+      //   // void forceSyncConfigurationNowIfNeeded();
+      // }
+
       if (this.isOpenGroupV2()) {
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);
         const roomInfos = this.toOpenGroupV2();
@@ -1198,7 +1205,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setIsApproved(value: boolean, commit: boolean = true) {
+  public async setIsApproved(value: boolean, shouldCommit: boolean = true) {
     if (value !== this.isApproved()) {
       window?.log?.info(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
@@ -1211,18 +1218,22 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         void forceSyncConfigurationNowIfNeeded();
       }
 
-      await this.commit();
+      if (shouldCommit) {
+        await this.commit();
+      }
     }
   }
 
-  public async setDidApproveMe(value: boolean, commit: boolean = false) {
+  public async setDidApproveMe(value: boolean, shouldCommit: boolean = true) {
     if (value !== this.didApproveMe()) {
       window?.log?.info(`Setting ${this.attributes.profileName} didApproveMe to:: ${value}`);
       this.set({
         didApproveMe: value,
       });
 
-      await this.commit();
+      if (shouldCommit) {
+        await this.commit();
+      }
     }
   }
 

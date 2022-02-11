@@ -37,9 +37,7 @@ message Unsend {
 
 message MessageRequestResponse {
   // @required
-  required bytes   publicKey         = 1; // The public key of the contact that was approved
-  // @required
-  required bool    isApproved        = 2;
+  required bool isApproved = 1;
 }
 
 message Content {

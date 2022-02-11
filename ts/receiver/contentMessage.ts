@@ -531,7 +531,7 @@ async function handleMessageRequestResponse(
   envelope: EnvelopePlus,
   messageRequestResponse: SignalService.MessageRequestResponse
 ) {
-  const { isApproved, publicKey } = messageRequestResponse;
+  const { isApproved } = messageRequestResponse;
 
   if (!messageRequestResponse) {
     window?.log?.error('handleMessageRequestResponse: Invalid parameters -- dropping message.');
@@ -539,7 +539,7 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  const convoId = toHex(publicKey);
+  const convoId = envelope.source;
 
   // TODO: commenting out, including in one larger function for now
   // await updateConversationDidApproveMe(toHex(publicKey), isApproved);
@@ -566,7 +566,6 @@ async function handleMessageRequestResponse(
       received_at: Date.now(),
       messageRequestResponse: {
         isApproved: 1,
-        publicKey: convoId,
       },
       unread: 1, // 1 means unread
       expireTimer: 0,

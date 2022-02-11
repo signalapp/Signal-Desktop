@@ -158,7 +158,6 @@ const handleContactReceived = async (
             received_at: Date.now(),
             messageRequestResponse: {
               isApproved: 1,
-              publicKey: UserUtils.getOurPubKeyStrFromCache(), // it's a sync therefore the pubkey would be ours
             },
             unread: 1, // 1 means unread
             expireTimer: 0,
