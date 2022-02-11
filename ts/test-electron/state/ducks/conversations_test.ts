@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -31,7 +31,6 @@ import { ReadStatus } from '../../../messages/MessageReadStatus';
 import { ContactSpoofingType } from '../../../util/contactSpoofing';
 import { CallMode } from '../../../types/Calling';
 import { UUID } from '../../../types/UUID';
-import * as groups from '../../../groups';
 import {
   getDefaultConversation,
   getDefaultConversationWithUuid,
@@ -42,6 +41,7 @@ import {
   defaultChooseGroupMembersComposerState,
   defaultSetGroupMetadataComposerState,
 } from '../../../test-both/helpers/defaultComposerStates';
+import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
 
 const {
   cantAddContactToGroup,
@@ -83,7 +83,7 @@ describe('both/state/ducks/conversations', () => {
 
     sinonSandbox.stub(window.Whisper.events, 'trigger');
 
-    createGroupStub = sinonSandbox.stub(groups, 'createGroupV2');
+    createGroupStub = sinon.stub();
   });
 
   afterEach(() => {
@@ -686,7 +686,7 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it('calls groups.createGroupV2', async () => {
-        await createGroup()(
+        await createGroup(createGroupStub)(
           sinon.spy(),
           () => ({
             ...getEmptyRootState(),
@@ -706,7 +706,7 @@ describe('both/state/ducks/conversations', () => {
       });
 
       it("trims the group's title before calling groups.createGroupV2", async () => {
-        await createGroup()(
+        await createGroup(createGroupStub)(
           sinon.spy(),
           () => ({
             ...getEmptyRootState(),
@@ -732,7 +732,7 @@ describe('both/state/ducks/conversations', () => {
 
         const dispatch = sinon.spy();
 
-        const createGroupPromise = createGroup()(
+        const createGroupPromise = createGroup(createGroupStub)(
           dispatch,
           () => ({
             ...getEmptyRootState(),
@@ -764,7 +764,7 @@ describe('both/state/ducks/conversations', () => {
 
         const dispatch = sinon.spy();
 
-        const createGroupPromise = createGroup()(
+        const createGroupPromise = createGroup(createGroupStub)(
           dispatch,
           () => ({
             ...getEmptyRootState(),
@@ -796,7 +796,7 @@ describe('both/state/ducks/conversations', () => {
 
         const dispatch = sinon.spy();
 
-        await createGroup()(
+        await createGroup(createGroupStub)(
           dispatch,
           () => ({
             ...getEmptyRootState(),
@@ -1572,15 +1572,15 @@ describe('both/state/ducks/conversations', () => {
         return dispatch.getCall(0).args[0];
       }
 
-      let remoteConfigGetValueStub: sinon.SinonStub;
-
-      beforeEach(() => {
-        remoteConfigGetValueStub = sinonSandbox
-          .stub(window.Signal.RemoteConfig, 'getValue')
-          .withArgs('global.groupsv2.maxGroupSize')
-          .returns('22')
-          .withArgs('global.groupsv2.groupSizeHardLimit')
-          .returns('33');
+      beforeEach(async () => {
+        await updateRemoteConfig([
+          { name: 'global.groupsv2.maxGroupSize', value: '22', enabled: true },
+          {
+            name: 'global.groupsv2.groupSizeHardLimit',
+            value: '33',
+            enabled: true,
+          },
+        ]);
       });
 
       it('adds conversation IDs to the list', () => {
@@ -1657,11 +1657,21 @@ describe('both/state/ducks/conversations', () => {
         });
       });
 
-      it('defaults the maximum recommended size to 151', () => {
-        [undefined, 'xyz'].forEach(value => {
-          remoteConfigGetValueStub
-            .withArgs('global.groupsv2.maxGroupSize')
-            .returns(value);
+      it('defaults the maximum recommended size to 151', async () => {
+        for (const value of [null, 'xyz']) {
+          // eslint-disable-next-line no-await-in-loop
+          await updateRemoteConfig([
+            {
+              name: 'global.groupsv2.maxGroupSize',
+              value,
+              enabled: true,
+            },
+            {
+              name: 'global.groupsv2.groupSizeHardLimit',
+              value: '33',
+              enabled: true,
+            },
+          ]);
 
           const state = {
             ...getEmptyState(),
@@ -1670,7 +1680,7 @@ describe('both/state/ducks/conversations', () => {
           const action = getAction(uuid(), state);
 
           assert.strictEqual(action.payload.maxRecommendedGroupSize, 151);
-        });
+        }
       });
 
       it('shows the maximum group size modal when first reaching the maximum group size', () => {
@@ -1735,13 +1745,17 @@ describe('both/state/ducks/conversations', () => {
         assert.deepEqual(result, state);
       });
 
-      it('defaults the maximum group size to 1001 if the recommended maximum is smaller', () => {
-        [undefined, 'xyz'].forEach(value => {
-          remoteConfigGetValueStub
-            .withArgs('global.groupsv2.maxGroupSize')
-            .returns('2')
-            .withArgs('global.groupsv2.groupSizeHardLimit')
-            .returns(value);
+      it('defaults the maximum group size to 1001 if the recommended maximum is smaller', async () => {
+        for (const value of [null, 'xyz']) {
+          // eslint-disable-next-line no-await-in-loop
+          await updateRemoteConfig([
+            { name: 'global.groupsv2.maxGroupSize', value: '2', enabled: true },
+            {
+              name: 'global.groupsv2.groupSizeHardLimit',
+              value,
+              enabled: true,
+            },
+          ]);
 
           const state = {
             ...getEmptyState(),
@@ -1750,15 +1764,22 @@ describe('both/state/ducks/conversations', () => {
           const action = getAction(uuid(), state);
 
           assert.strictEqual(action.payload.maxGroupSize, 1001);
-        });
+        }
       });
 
-      it('defaults the maximum group size to (recommended maximum + 1) if the recommended maximum is more than 1001', () => {
-        remoteConfigGetValueStub
-          .withArgs('global.groupsv2.maxGroupSize')
-          .returns('1234')
-          .withArgs('global.groupsv2.groupSizeHardLimit')
-          .returns('2');
+      it('defaults the maximum group size to (recommended maximum + 1) if the recommended maximum is more than 1001', async () => {
+        await updateRemoteConfig([
+          {
+            name: 'global.groupsv2.maxGroupSize',
+            value: '1234',
+            enabled: true,
+          },
+          {
+            name: 'global.groupsv2.groupSizeHardLimit',
+            value: '2',
+            enabled: true,
+          },
+        ]);
 
         const state = {
           ...getEmptyState(),

@@ -42,3 +42,4 @@ sticker-creator/dist/*
 /.idea
 /.vscode
 *.sublime*
+*.map

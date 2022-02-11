@@ -1,4 +1,4 @@
-// Copyright 2018-2021 Signal Messenger, LLC
+// Copyright 2018-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import is from '@sindresorhus/is';
@@ -323,7 +323,7 @@ export function removeSchemaVersion({
   attachment: AttachmentType;
   logger: LoggerType;
 }): AttachmentType {
-  if (!exports.isValid(attachment)) {
+  if (!isValid(attachment)) {
     logger.error(
       'Attachment.removeSchemaVersion: Invalid input attachment:',
       attachment

@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import AbortController from 'abort-controller';
 import { IMAGE_JPEG, stringToMIMEType } from '../../types/MIME';
-import * as log from '../../logging/log';
+import type { LoggerType } from '../../types/Logging';
 
 import {
   fetchLinkPreviewImage,
@@ -24,16 +24,12 @@ describe('link preview fetching', () => {
     return sinon.stub();
   }
 
-  let sandbox: sinon.SinonSandbox;
   let warn: sinon.SinonStub;
+  let logger: Pick<LoggerType, 'warn'>;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    warn = sandbox.stub(log, 'warn');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    warn = sinon.stub();
+    logger = { warn };
   });
 
   describe('fetchLinkPreviewMetadata', () => {
@@ -196,7 +192,8 @@ describe('link preview fetching', () => {
       await fetchLinkPreviewMetadata(
         fakeFetch,
         'https://example.com',
-        new AbortController().signal
+        new AbortController().signal,
+        logger
       );
 
       sinon.assert.notCalled(warn);
@@ -229,7 +226,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -249,7 +247,8 @@ describe('link preview fetching', () => {
             await fetchLinkPreviewMetadata(
               fakeFetch,
               'https://example.com',
-              new AbortController().signal
+              new AbortController().signal,
+              logger
             )
           );
 
@@ -434,7 +433,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -451,7 +451,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -473,7 +474,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -517,7 +519,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -798,7 +801,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         ),
         'title',
         'foo bar'
@@ -893,7 +897,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewMetadata(
           fakeFetch,
           'https://example.com',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -1166,7 +1171,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewImage(
           fakeFetch,
           'https://example.com/img',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -1196,7 +1202,8 @@ describe('link preview fetching', () => {
             await fetchLinkPreviewImage(
               fakeFetch,
               'https://example.com/img',
-              new AbortController().signal
+              new AbortController().signal,
+              logger
             )
           );
 
@@ -1264,7 +1271,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewImage(
           fakeFetch,
           'https://example.com/img',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -1289,7 +1297,8 @@ describe('link preview fetching', () => {
         await fetchLinkPreviewImage(
           fakeFetch,
           'https://example.com/img',
-          new AbortController().signal
+          new AbortController().signal,
+          logger
         )
       );
 
@@ -1319,7 +1328,8 @@ describe('link preview fetching', () => {
               await fetchLinkPreviewImage(
                 fakeFetch,
                 'https://example.com/img',
-                new AbortController().signal
+                new AbortController().signal,
+                logger
               )
             );
 

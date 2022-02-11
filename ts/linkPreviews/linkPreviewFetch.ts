@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { RequestInit, Response } from 'node-fetch';
@@ -13,6 +13,7 @@ import {
   IMAGE_WEBP,
   stringToMIMEType,
 } from '../types/MIME';
+import type { LoggerType } from '../types/Logging';
 import * as log from '../logging/log';
 
 const USER_AGENT = 'WhatsApp/2';
@@ -76,14 +77,15 @@ type ParsedContentType =
 async function fetchWithRedirects(
   fetchFn: FetchFn,
   href: string,
-  options: RequestInit
+  options: RequestInit,
+  logger: Pick<LoggerType, 'warn'> = log
 ): Promise<Response> {
   const urlsSeen = new Set<string>();
 
   let nextHrefToLoad = href;
   for (let i = 0; i < MAX_REQUEST_COUNT_WITH_REDIRECTS; i += 1) {
     if (urlsSeen.has(nextHrefToLoad)) {
-      log.warn('fetchWithRedirects: found a redirect loop');
+      logger.warn('fetchWithRedirects: found a redirect loop');
       throw new Error('redirect loop');
     }
     urlsSeen.add(nextHrefToLoad);
@@ -101,7 +103,7 @@ async function fetchWithRedirects(
 
     const location = response.headers.get('location');
     if (!location) {
-      log.warn(
+      logger.warn(
         'fetchWithRedirects: got a redirect status code but no Location header; bailing'
       );
       throw new Error('no location with redirect');
@@ -109,7 +111,7 @@ async function fetchWithRedirects(
 
     const newUrl = maybeParseUrl(location, nextHrefToLoad);
     if (newUrl?.protocol !== 'https:') {
-      log.warn(
+      logger.warn(
         'fetchWithRedirects: got a redirect status code and an invalid Location header'
       );
       throw new Error('invalid location');
@@ -118,7 +120,7 @@ async function fetchWithRedirects(
     nextHrefToLoad = newUrl.href;
   }
 
-  log.warn('fetchWithRedirects: too many redirects');
+  logger.warn('fetchWithRedirects: too many redirects');
   throw new Error('too many redirects');
 }
 
@@ -284,7 +286,8 @@ const parseHtmlBytes = (
 const getHtmlDocument = async (
   body: AsyncIterable<string | Uint8Array>,
   httpCharset: string | null,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
+  logger: Pick<LoggerType, 'warn'> = log
 ): Promise<HTMLDocument> => {
   let result: HTMLDocument = emptyHtmlDocument();
 
@@ -317,7 +320,7 @@ const getHtmlDocument = async (
       }
     }
   } catch (err) {
-    log.warn(
+    logger.warn(
       'getHtmlDocument: error when reading body; continuing with what we got'
     );
   }
@@ -361,12 +364,13 @@ const getLinkHrefAttribute = (
 
 const parseMetadata = (
   document: HTMLDocument,
-  href: string
+  href: string,
+  logger: Pick<LoggerType, 'warn'> = log
 ): LinkPreviewMetadata | null => {
   const title =
     getOpenGraphContent(document, ['og:title']) || document.title.trim();
   if (!title) {
-    log.warn("parseMetadata: HTML document doesn't have a title; bailing");
+    logger.warn("parseMetadata: HTML document doesn't have a title; bailing");
     return null;
   }
 
@@ -431,40 +435,46 @@ const parseMetadata = (
 export async function fetchLinkPreviewMetadata(
   fetchFn: FetchFn,
   href: string,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
+  logger: Pick<LoggerType, 'warn'> = log
 ): Promise<null | LinkPreviewMetadata> {
   let response: Response;
   try {
-    response = await fetchWithRedirects(fetchFn, href, {
-      headers: {
-        Accept: 'text/html,application/xhtml+xml',
-        'User-Agent': USER_AGENT,
+    response = await fetchWithRedirects(
+      fetchFn,
+      href,
+      {
+        headers: {
+          Accept: 'text/html,application/xhtml+xml',
+          'User-Agent': USER_AGENT,
+        },
+        signal: abortSignal as AbortSignalForNodeFetch,
       },
-      signal: abortSignal as AbortSignalForNodeFetch,
-    });
+      logger
+    );
   } catch (err) {
-    log.warn(
+    logger.warn(
       'fetchLinkPreviewMetadata: failed to fetch link preview HTML; bailing'
     );
     return null;
   }
 
   if (!response.ok) {
-    log.warn(
+    logger.warn(
       `fetchLinkPreviewMetadata: got a ${response.status} status code; bailing`
     );
     return null;
   }
 
   if (!response.body) {
-    log.warn('fetchLinkPreviewMetadata: no response body; bailing');
+    logger.warn('fetchLinkPreviewMetadata: no response body; bailing');
     return null;
   }
 
   if (
     !isInlineContentDisposition(response.headers.get('Content-Disposition'))
   ) {
-    log.warn(
+    logger.warn(
       'fetchLinkPreviewMetadata: Content-Disposition header is not inline; bailing'
     );
     return null;
@@ -478,20 +488,23 @@ export async function fetchLinkPreviewMetadata(
     response.headers.get('Content-Length')
   );
   if (contentLength < MIN_HTML_CONTENT_LENGTH) {
-    log.warn('fetchLinkPreviewMetadata: Content-Length is too short; bailing');
+    logger.warn(
+      'fetchLinkPreviewMetadata: Content-Length is too short; bailing'
+    );
     return null;
   }
 
   const contentType = parseContentType(response.headers.get('Content-Type'));
   if (contentType.type !== 'text/html') {
-    log.warn('fetchLinkPreviewMetadata: Content-Type is not HTML; bailing');
+    logger.warn('fetchLinkPreviewMetadata: Content-Type is not HTML; bailing');
     return null;
   }
 
   const document = await getHtmlDocument(
     response.body,
     contentType.charset,
-    abortSignal
+    abortSignal,
+    logger
   );
 
   // [The Node docs about `ReadableStream.prototype[Symbol.asyncIterator]`][0] say that
@@ -511,7 +524,7 @@ export async function fetchLinkPreviewMetadata(
     return null;
   }
 
-  return parseMetadata(document, response.url);
+  return parseMetadata(document, response.url, logger);
 }
 
 /**
@@ -523,19 +536,25 @@ export async function fetchLinkPreviewMetadata(
 export async function fetchLinkPreviewImage(
   fetchFn: FetchFn,
   href: string,
-  abortSignal: AbortSignal
+  abortSignal: AbortSignal,
+  logger: Pick<LoggerType, 'warn'> = log
 ): Promise<null | LinkPreviewImage> {
   let response: Response;
   try {
-    response = await fetchWithRedirects(fetchFn, href, {
-      headers: {
-        'User-Agent': USER_AGENT,
+    response = await fetchWithRedirects(
+      fetchFn,
+      href,
+      {
+        headers: {
+          'User-Agent': USER_AGENT,
+        },
+        size: MAX_IMAGE_CONTENT_LENGTH,
+        signal: abortSignal as AbortSignalForNodeFetch,
       },
-      size: MAX_IMAGE_CONTENT_LENGTH,
-      signal: abortSignal as AbortSignalForNodeFetch,
-    });
+      logger
+    );
   } catch (err) {
-    log.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
+    logger.warn('fetchLinkPreviewImage: failed to fetch image; bailing');
     return null;
   }
 
@@ -544,7 +563,7 @@ export async function fetchLinkPreviewImage(
   }
 
   if (!response.ok) {
-    log.warn(
+    logger.warn(
       `fetchLinkPreviewImage: got a ${response.status} status code; bailing`
     );
     return null;
@@ -554,11 +573,11 @@ export async function fetchLinkPreviewImage(
     response.headers.get('Content-Length')
   );
   if (contentLength < MIN_IMAGE_CONTENT_LENGTH) {
-    log.warn('fetchLinkPreviewImage: Content-Length is too short; bailing');
+    logger.warn('fetchLinkPreviewImage: Content-Length is too short; bailing');
     return null;
   }
   if (contentLength > MAX_IMAGE_CONTENT_LENGTH) {
-    log.warn(
+    logger.warn(
       'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
     );
     return null;
@@ -568,7 +587,7 @@ export async function fetchLinkPreviewImage(
     response.headers.get('Content-Type')
   );
   if (!contentType || !VALID_IMAGE_MIME_TYPES.has(contentType)) {
-    log.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
+    logger.warn('fetchLinkPreviewImage: Content-Type is not an image; bailing');
     return null;
   }
 
@@ -576,7 +595,7 @@ export async function fetchLinkPreviewImage(
   try {
     data = await response.buffer();
   } catch (err) {
-    log.warn('fetchLinkPreviewImage: failed to read body; bailing');
+    logger.warn('fetchLinkPreviewImage: failed to read body; bailing');
     return null;
   }
 

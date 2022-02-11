@@ -70,7 +70,7 @@ index 262776b..156cf0f 100644
        this._cellHeightCache[key] = height;
        this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
-index e1b959a..97d6ef9 100644
+index e1b959a..09c16c5 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 +++ b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 @@ -132,6 +132,9 @@ var Grid = function (_React$PureComponent) {
@@ -442,3 +442,13 @@ index b5ad0eb..efb2cd7 100644
      }, _this._onSectionRendered = function (_ref4) {
        var rowOverscanStartIndex = _ref4.rowOverscanStartIndex,
            rowOverscanStopIndex = _ref4.rowOverscanStopIndex,
+diff --git a/node_modules/react-virtualized/dist/es/WindowScroller/utils/onScroll.js b/node_modules/react-virtualized/dist/es/WindowScroller/utils/onScroll.js
+index 6418a78..afbc3c3 100644
+--- a/node_modules/react-virtualized/dist/es/WindowScroller/utils/onScroll.js
++++ b/node_modules/react-virtualized/dist/es/WindowScroller/utils/onScroll.js
+@@ -72,4 +72,3 @@ export function unregisterScrollListener(component, element) {
+     }
+   }
+ }
+-import { bpfrpt_proptype_WindowScroller } from '../WindowScroller.js';
+\ No newline at end of file

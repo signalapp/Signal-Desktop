@@ -37,8 +37,11 @@ if (getEnvironment() === Environment.Production) {
 }
 
 // We load config after we've made our modifications to NODE_ENV
-// eslint-disable-next-line import/order, import/first
-import config from 'config';
+// Note: we use `require()` because esbuild moves the imports to the top of
+// the module regardless of their actual placement in the file.
+// See: https://github.com/evanw/esbuild/issues/2011
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const config: IConfig = require('config');
 
 // Log resulting env vars in use by config
 [

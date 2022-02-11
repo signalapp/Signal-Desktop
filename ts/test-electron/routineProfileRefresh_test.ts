@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as sinon from 'sinon';
@@ -8,14 +8,14 @@ import type { ConversationAttributesType } from '../model-types.d';
 import { UUID } from '../types/UUID';
 
 import { routineProfileRefresh } from '../routineProfileRefresh';
-import * as getProfileStub from '../util/getProfile';
 
 describe('routineProfileRefresh', () => {
   let sinonSandbox: sinon.SinonSandbox;
+  let getProfileFn: sinon.SinonStub;
 
   beforeEach(() => {
     sinonSandbox = sinon.createSandbox();
-    sinonSandbox.stub(getProfileStub, 'getProfile').resolves(undefined);
+    getProfileFn = sinon.stub();
   });
 
   afterEach(() => {
@@ -87,9 +87,10 @@ describe('routineProfileRefresh', () => {
       allConversations: [conversation1, conversation2],
       ourConversationId: UUID.generate().toString(),
       storage,
+      getProfileFn,
     });
 
-    sinon.assert.notCalled(getProfileStub.getProfile as sinon.SinonStub);
+    sinon.assert.notCalled(getProfileFn);
     sinon.assert.notCalled(storage.put);
   });
 
@@ -101,15 +102,16 @@ describe('routineProfileRefresh', () => {
       allConversations: [conversation1, conversation2],
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
+      getProfileFn,
     });
 
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       conversation1.get('uuid'),
       conversation1.get('e164')
     );
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       conversation2.get('uuid'),
       conversation2.get('e164')
     );
@@ -126,21 +128,22 @@ describe('routineProfileRefresh', () => {
       allConversations: [recentlyActive, inactive, neverActive],
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
+      getProfileFn,
     });
 
-    sinon.assert.calledOnce(getProfileStub.getProfile as sinon.SinonStub);
+    sinon.assert.calledOnce(getProfileFn);
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       recentlyActive.get('uuid'),
       recentlyActive.get('e164')
     );
     sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       inactive.get('uuid'),
       inactive.get('e164')
     );
     sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       neverActive.get('uuid'),
       neverActive.get('e164')
     );
@@ -154,18 +157,11 @@ describe('routineProfileRefresh', () => {
       allConversations: [notMe, me],
       ourConversationId: me.id,
       storage: makeStorage(),
+      getProfileFn,
     });
 
-    sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
-      notMe.get('uuid'),
-      notMe.get('e164')
-    );
-    sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
-      me.get('uuid'),
-      me.get('e164')
-    );
+    sinon.assert.calledWith(getProfileFn, notMe.get('uuid'), notMe.get('e164'));
+    sinon.assert.neverCalledWith(getProfileFn, me.get('uuid'), me.get('e164'));
   });
 
   it('skips conversations that were refreshed in the last hour', async () => {
@@ -178,16 +174,17 @@ describe('routineProfileRefresh', () => {
       allConversations: [neverRefreshed, recentlyFetched],
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
+      getProfileFn,
     });
 
-    sinon.assert.calledOnce(getProfileStub.getProfile as sinon.SinonStub);
+    sinon.assert.calledOnce(getProfileFn);
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       neverRefreshed.get('uuid'),
       neverRefreshed.get('e164')
     );
     sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       recentlyFetched.get('uuid'),
       recentlyFetched.get('e164')
     );
@@ -220,30 +217,31 @@ describe('routineProfileRefresh', () => {
       ],
       ourConversationId: UUID.generate().toString(),
       storage: makeStorage(),
+      getProfileFn,
     });
 
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       privateConversation.get('uuid'),
       privateConversation.get('e164')
     );
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       recentlyActiveGroupMember.get('uuid'),
       recentlyActiveGroupMember.get('e164')
     );
     sinon.assert.calledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       inactiveGroupMember.get('uuid'),
       inactiveGroupMember.get('e164')
     );
     sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       memberWhoHasRecentlyRefreshed.get('uuid'),
       memberWhoHasRecentlyRefreshed.get('e164')
     );
     sinon.assert.neverCalledWith(
-      getProfileStub.getProfile as sinon.SinonStub,
+      getProfileFn,
       groupConversation.get('uuid'),
       groupConversation.get('e164')
     );
@@ -288,11 +286,12 @@ describe('routineProfileRefresh', () => {
       ],
       ourConversationId: me.id,
       storage: makeStorage(),
+      getProfileFn,
     });
 
     [...activeConversations, ...inactiveGroupMembers].forEach(conversation => {
       sinon.assert.calledWith(
-        getProfileStub.getProfile as sinon.SinonStub,
+        getProfileFn,
         conversation.get('uuid'),
         conversation.get('e164')
       );
@@ -300,7 +299,7 @@ describe('routineProfileRefresh', () => {
 
     [me, ...shouldNotBeIncluded].forEach(conversation => {
       sinon.assert.neverCalledWith(
-        getProfileStub.getProfile as sinon.SinonStub,
+        getProfileFn,
         conversation.get('uuid'),
         conversation.get('e164')
       );

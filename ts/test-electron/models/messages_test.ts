@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -580,7 +580,12 @@ describe('Message', () => {
     });
 
     it("shows a notification's emoji on non-Linux", function test() {
-      this.sandbox.stub(window.Signal.OS, 'isLinux').returns(false);
+      this.sandbox.replace(window.Signal, 'OS', {
+        ...window.Signal.OS,
+        isLinux() {
+          return false;
+        },
+      });
 
       assert.strictEqual(
         createMessage({
@@ -597,7 +602,12 @@ describe('Message', () => {
     });
 
     it('hides emoji on Linux', function test() {
-      this.sandbox.stub(window.Signal.OS, 'isLinux').returns(true);
+      this.sandbox.replace(window.Signal, 'OS', {
+        ...window.Signal.OS,
+        isLinux() {
+          return true;
+        },
+      });
 
       assert.strictEqual(
         createMessage({

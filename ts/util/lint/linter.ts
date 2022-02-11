@@ -31,6 +31,9 @@ const excludedFilesRegexp = RegExp(
     '.+\\.stories\\.js',
     '.+\\.stories\\.tsx',
 
+    // Compiled files
+    '^ts/.+\\.js',
+
     // High-traffic files in our project
     '^app/.+(ts|js)',
     '^ts/models/messages.js',
@@ -74,6 +77,7 @@ const excludedFilesRegexp = RegExp(
     '^.github/.+',
 
     // Modules we trust
+    '^node_modules/@signalapp/signal-client/.+',
     '^node_modules/core-js-pure/.+',
     '^node_modules/core-js/.+',
     '^node_modules/fbjs/.+',
@@ -104,6 +108,7 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/react-color/.+/(?:core-js|fbjs|lodash)/.+',
 
     // Modules used only in test/development scenarios
+    '^node_modules/esbuild/.+',
     '^node_modules/@babel/.+',
     '^node_modules/@chanzuckerberg/axe-storybook-testing/.+',
     '^node_modules/@svgr/.+',

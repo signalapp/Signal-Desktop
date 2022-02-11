@@ -1,15 +1,15 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { times } from 'lodash';
 import { RowType } from '../../../components/ConversationList';
-import * as remoteConfig from '../../../RemoteConfig';
 import { ContactCheckboxDisabledReason } from '../../../components/conversationList/ContactCheckbox';
 import { getDefaultConversation } from '../../../test-both/helpers/getDefaultConversation';
 
 import { LeftPaneChooseGroupMembersHelper } from '../../../components/leftPane/LeftPaneChooseGroupMembersHelper';
+import { updateRemoteConfig } from '../../../test-both/helpers/RemoteConfigStub';
 
 describe('LeftPaneChooseGroupMembersHelper', () => {
   const defaults = {
@@ -21,21 +21,15 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     selectedContacts: [],
   };
 
-  let sinonSandbox: sinon.SinonSandbox;
-
-  beforeEach(() => {
-    sinonSandbox = sinon.createSandbox();
-
-    sinonSandbox
-      .stub(remoteConfig, 'getValue')
-      .withArgs('global.groupsv2.maxGroupSize')
-      .returns('22')
-      .withArgs('global.groupsv2.groupSizeHardLimit')
-      .returns('33');
-  });
-
-  afterEach(() => {
-    sinonSandbox.restore();
+  beforeEach(async () => {
+    await updateRemoteConfig([
+      { name: 'global.groupsv2.maxGroupSize', value: '22', enabled: true },
+      {
+        name: 'global.groupsv2.groupSizeHardLimit',
+        value: '33',
+        enabled: true,
+      },
+    ]);
   });
 
   describe('getBackAction', () => {

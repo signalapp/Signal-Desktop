@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isNil, sortBy } from 'lodash';
@@ -12,8 +12,7 @@ import { take } from './util/iterables';
 import { isOlderThan } from './util/timestamp';
 import type { ConversationModel } from './models/conversations';
 import type { StorageInterface } from './types/Storage.d';
-// Imported this way so that sinon.sandbox can stub this properly
-import * as profileGetter from './util/getProfile';
+import { getProfile } from './util/getProfile';
 
 const STORAGE_KEY = 'lastAttemptedToRefreshProfilesAt';
 const MAX_AGE_TO_BE_CONSIDERED_ACTIVE = 30 * 24 * 60 * 60 * 1000;
@@ -25,10 +24,14 @@ export async function routineProfileRefresh({
   allConversations,
   ourConversationId,
   storage,
+
+  // Only for tests
+  getProfileFn = getProfile,
 }: {
   allConversations: Array<ConversationModel>;
   ourConversationId: string;
   storage: Pick<StorageInterface, 'get' | 'put'>;
+  getProfileFn?: typeof getProfile;
 }): Promise<void> {
   log.info('routineProfileRefresh: starting');
 
@@ -59,10 +62,7 @@ export async function routineProfileRefresh({
 
     totalCount += 1;
     try {
-      await profileGetter.getProfile(
-        conversation.get('uuid'),
-        conversation.get('e164')
-      );
+      await getProfileFn(conversation.get('uuid'), conversation.get('e164'));
       log.info(
         `routineProfileRefresh: refreshed profile for ${conversation.idForLogging()}`
       );

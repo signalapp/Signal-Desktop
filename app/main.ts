@@ -480,9 +480,9 @@ async function createWindow() {
       contextIsolation: false,
       preload: join(
         __dirname,
-        enableCI || getEnvironment() === Environment.Production
-          ? '../preload.bundle.js'
-          : '../preload.js'
+        isTestEnvironment(getEnvironment())
+          ? '../preload.js'
+          : '../preload.bundle.js'
       ),
       nativeWindowOpen: true,
       spellcheck: await getSpellCheckSetting(),
