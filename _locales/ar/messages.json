@@ -60,7 +60,6 @@
   "thisWeek": "This Week",
   "thisMonth": "هذا الشهر",
   "voiceMessage": "رسالة صوتية",
-  "dangerousFileType": "Attachment type not allowed for security reasons",
   "stagedPreviewThumbnail": "معاينة رابط الصورة المصغرة للمسودة من اجل $domain$",
   "previewThumbnail": "معاينة رابط الصورة المصغرة لـ $domain$",
   "stagedImageAttachment": "مرفق صورة المسودة: $path$",

@@ -24,7 +24,6 @@ import {
   isImage,
   isVideo,
 } from '../../../../types/Attachment';
-import { isFileDangerous } from '../../../../util';
 import { saveAttachmentToDisk } from '../../../../util/attachmentsUtil';
 import { Spinner } from '../../../basic/Spinner';
 import { AudioPlayerWithEncryptedFile } from '../../H5AudioPlayer';
@@ -149,7 +148,6 @@ export const MessageAttachment = (props: Props) => {
   } else {
     const { pending, fileName, fileSize, contentType } = firstAttachment;
     const extension = getExtensionForDisplay({ contentType, fileName });
-    const isDangerous = isFileDangerous(fileName || '');
 
     return (
       <div className={classNames('module-message__generic-attachment')}>
@@ -170,11 +168,6 @@ export const MessageAttachment = (props: Props) => {
                 </div>
               ) : null}
             </div>
-            {isDangerous ? (
-              <div className="module-message__generic-attachment__icon-dangerous-container">
-                <div className="module-message__generic-attachment__icon-dangerous" />
-              </div>
-            ) : null}
           </div>
         )}
         <div className="module-message__generic-attachment__text">

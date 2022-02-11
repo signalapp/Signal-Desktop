@@ -60,7 +60,6 @@
   "thisWeek": "Ta teden",
   "thisMonth": "Ta mesec",
   "voiceMessage": "Glasovno sporočilo",
-  "dangerousFileType": "Ta vrsta priponke iz varnostnih razlogov ni dovoljena",
   "stagedPreviewThumbnail": "Osnutek predogledne sličice povezave na: $domain$",
   "previewThumbnail": "Predogledna sličica povezave na: $domain$",
   "stagedImageAttachment": "Osnutek slikovne priponke: $path$",

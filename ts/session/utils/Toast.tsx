@@ -63,10 +63,6 @@ export function pushLoadAttachmentFailure(message?: string) {
   }
 }
 
-export function pushDangerousFileError() {
-  pushToastError('dangerousFileType', window.i18n('dangerousFileType'));
-}
-
 export function pushFileSizeError(limit: number, units: string) {
   pushToastError('fileSizeWarning', window.i18n('fileSizeWarning'), `Max size: ${limit} ${units}`);
 }

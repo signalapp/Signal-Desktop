@@ -60,7 +60,6 @@
   "thisWeek": "Ova nedelja",
   "thisMonth": "Ovog meseca",
   "voiceMessage": "Гласовна порука",
-  "dangerousFileType": "Attachment type not allowed for security reasons",
   "stagedPreviewThumbnail": "Pregled nacrta linka za $domain$",
   "previewThumbnail": "Pregled linka za $domain$",
   "stagedImageAttachment": "Nacrt priloga fotografje: $path$",

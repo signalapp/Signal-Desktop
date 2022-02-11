@@ -60,7 +60,6 @@
   "thisWeek": "Tuần này",
   "thisMonth": "Tháng này",
   "voiceMessage": "Tin nhắn thoại",
-  "dangerousFileType": "Attachment type not allowed for security reasons",
   "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
   "previewThumbnail": "Thumbnail link preview for $domain$",
   "stagedImageAttachment": "Draft image attachment: $path$",

@@ -60,7 +60,6 @@
   "thisWeek": "Tämä viikko",
   "thisMonth": "Tämä kuukausi",
   "voiceMessage": "Ääniviesti",
-  "dangerousFileType": "Turvallisuussyistä tätä tiedostotyyppiä ei voida liittää.",
   "stagedPreviewThumbnail": "Linkin $domain$esikatselukuvan luonnos",
   "previewThumbnail": "Linkin $domain$ esikatselukuva",
   "stagedImageAttachment": "Kuvaliitteen $path$ luonnos",

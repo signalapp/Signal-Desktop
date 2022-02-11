@@ -60,7 +60,6 @@
   "thisWeek": "See nädal",
   "thisMonth": "See kuu",
   "voiceMessage": "Häälsõnum",
-  "dangerousFileType": "Manuse tüüp pole turvakaalutlustel lubatud.",
   "stagedPreviewThumbnail": "Lingi eelvaate pisipildi mustand: $domain$",
   "previewThumbnail": "Lingi eelvaate pisipilt: $domain$",
   "stagedImageAttachment": "Piltmanuse mustand: $path$",

@@ -60,7 +60,6 @@
   "thisWeek": "本週",
   "thisMonth": "本月",
   "voiceMessage": "語音訊息",
-  "dangerousFileType": "因安全考量無法傳送此類附件\n",
   "stagedPreviewThumbnail": "$domain$ 的草稿縮圖連結預覽",
   "previewThumbnail": "$domain$ 的縮圖連結預覽",
   "stagedImageAttachment": "草稿圖片附檔: $path$",

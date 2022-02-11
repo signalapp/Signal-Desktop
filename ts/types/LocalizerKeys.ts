@@ -390,7 +390,6 @@ export type LocalizerKeys =
   | 'timerOption_30_seconds'
   | 'createAccount'
   | 'timerOption_1_minute_abbreviated'
-  | 'dangerousFileType'
   | 'timerOption_12_hours'
   | 'unblockToSend'
   | 'timerOption_1_minute'
