@@ -23,52 +23,6 @@ index d9716a0..e7a9f9f 100644
            });
          }
        }
-diff --git a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
-index 262776b..156cf0f 100644
---- a/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
-+++ b/node_modules/react-virtualized/dist/commonjs/CellMeasurer/CellMeasurerCache.js
-@@ -65,6 +65,7 @@ var CellMeasurerCache = function () {
-         minWidth = params.minWidth;
- 
- 
-+    this._highWaterMark = 0;
-     this._hasFixedHeight = fixedHeight === true;
-     this._hasFixedWidth = fixedWidth === true;
-     this._minHeight = minHeight || 0;
-@@ -101,6 +102,24 @@ var CellMeasurerCache = function () {
- 
-       this._updateCachedColumnAndRowSizes(rowIndex, columnIndex);
-     }
-+  }, {
-+    key: 'clearPlus',
-+    value: function clearPlus(rowIndex) {
-+      var columnIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-+
-+      if (this._highWaterMark <= rowIndex) {
-+        this.clear(rowIndex, columnIndex);
-+        return;
-+      }
-+
-+      for (let i = rowIndex, max = this._highWaterMark; i <= max; i += 1) {
-+        var key = this._keyMapper(i, columnIndex);
-+        delete this._cellHeightCache[key];
-+        delete this._cellWidthCache[key];
-+      }
-+
-+      this._highWaterMark = Math.max(0, rowIndex - 1);
-+    }
-   }, {
-     key: 'clearAll',
-     value: function clearAll() {
-@@ -168,6 +187,8 @@ var CellMeasurerCache = function () {
-         this._rowCount = rowIndex + 1;
-       }
- 
-+      this._highWaterMark = Math.max(this._highWaterMark, rowIndex);
-+
-       // Size is cached per cell so we don't have to re-measure if cells are re-ordered.
-       this._cellHeightCache[key] = height;
-       this._cellWidthCache[key] = width;
 diff --git a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js b/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js
 index e1b959a..09c16c5 100644
 --- a/node_modules/react-virtualized/dist/commonjs/Grid/Grid.js

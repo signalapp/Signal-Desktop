@@ -1,9 +1,71 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { CellMeasurerCacheInterface } from 'react-virtualized/dist/es/CellMeasurer';
+
 import { isNumber } from 'lodash';
 import type { PropsType } from '../components/conversation/Timeline';
 import { WidthBreakpoint } from '../components/_util';
+
+export class RowHeightCache implements CellMeasurerCacheInterface {
+  private readonly cache = new Map<number, number>();
+
+  private highestRowIndexSeen = 0;
+
+  constructor(private readonly estimatedRowHeight: number) {}
+
+  hasFixedWidth(): boolean {
+    return true;
+  }
+
+  getWidth(): number {
+    // If the cache has a fixed width, we can just return a fixed value. See [the
+    //   React Virtualized source code][0] for an example.
+    // [0]: https://github.com/bvaughn/react-virtualized/blob/abe0530a512639c042e74009fbf647abdb52d661/source/CellMeasurer/CellMeasurerCache.js#L6
+    return 100;
+  }
+
+  hasFixedHeight(): boolean {
+    return false;
+  }
+
+  getHeight(rowIndex: number): number {
+    return this.cache.get(rowIndex) ?? this.estimatedRowHeight;
+  }
+
+  has(rowIndex: number): boolean {
+    return this.cache.has(rowIndex);
+  }
+
+  set(
+    rowIndex: number,
+    _columnIndex: number,
+    _width: number,
+    height: number
+  ): void {
+    this.cache.set(rowIndex, height);
+    this.highestRowIndexSeen = Math.max(this.highestRowIndexSeen, rowIndex);
+  }
+
+  clearPlus(rowIndex: number): void {
+    if (rowIndex <= 0) {
+      this.clearAll();
+    } else {
+      for (let i = rowIndex; i <= this.highestRowIndexSeen; i += 1) {
+        this.cache.delete(i);
+      }
+      this.highestRowIndexSeen = Math.min(
+        this.highestRowIndexSeen,
+        rowIndex - 1
+      );
+    }
+  }
+
+  clearAll(): void {
+    this.cache.clear();
+    this.highestRowIndexSeen = 0;
+  }
+}
 
 export function fromItemIndexToRow(
   itemIndex: number,

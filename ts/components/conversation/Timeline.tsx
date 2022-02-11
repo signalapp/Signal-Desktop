@@ -7,12 +7,7 @@ import type { ReactChild, ReactNode, RefObject } from 'react';
 import React from 'react';
 import { createSelector } from 'reselect';
 import type { Grid, ListRowProps } from 'react-virtualized';
-import {
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-} from 'react-virtualized';
+import { AutoSizer, CellMeasurer, List } from 'react-virtualized';
 import Measure from 'react-measure';
 
 import * as log from '../../logging/log';
@@ -42,6 +37,7 @@ import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNa
 import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader';
 import {
+  RowHeightCache,
   fromItemIndexToRow,
   fromRowToItemIndex,
   getEphemeralRows,
@@ -52,6 +48,7 @@ import {
   getWidthBreakpoint,
 } from '../../util/timelineUtil';
 
+const ESTIMATED_ROW_HEIGHT = 64;
 const AT_BOTTOM_THRESHOLD = 15;
 const NEAR_BOTTOM_THRESHOLD = 15;
 const AT_TOP_THRESHOLD = 10;
@@ -301,10 +298,7 @@ const getActions = createSelector(
 );
 
 export class Timeline extends React.PureComponent<PropsType, StateType> {
-  private cellSizeCache = new CellMeasurerCache({
-    defaultHeight: 64,
-    fixedWidth: true,
-  });
+  private cellSizeCache = new RowHeightCache(ESTIMATED_ROW_HEIGHT);
 
   private mostRecentWidth = 0;
 
@@ -442,9 +436,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
     this.offsetFromBottom = undefined;
     this.resizeFlag = false;
     if (isNumber(row) && row > 0) {
-      // This is a private interface we want to use.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (this.cellSizeCache as any).clearPlus(row, 0);
+      this.cellSizeCache.clearPlus(row);
     } else {
       this.cellSizeCache.clearAll();
     }
@@ -880,6 +872,11 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
       </CellMeasurer>
     );
   };
+
+  private getRowHeightFromCache = ({
+    index,
+  }: Readonly<{ index: number }>): number =>
+    this.cellSizeCache.getHeight(index);
 
   private scrollToBottom = (setFocus?: boolean): void => {
     const { selectMessage, id, items } = this.props;
@@ -1342,7 +1339,11 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
 
           return (
             <List
-              deferredMeasurementCache={this.cellSizeCache}
+              // React Virtualized has an incorrect type for this prop. Until [a fix][0]
+              //   is merged, we have to do this cast.
+              // [0]: https://github.com/DefinitelyTyped/DefinitelyTyped/pull/58705
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              deferredMeasurementCache={this.cellSizeCache as any}
               height={height}
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onScroll={this.onScroll as any}
@@ -1350,7 +1351,7 @@ export class Timeline extends React.PureComponent<PropsType, StateType> {
               onRowsRendered={this.onRowsRendered}
               ref={this.listRef}
               rowCount={rowCount}
-              rowHeight={this.cellSizeCache.rowHeight}
+              rowHeight={this.getRowHeightFromCache}
               rowRenderer={this.rowRenderer}
               scrollToAlignment="start"
               scrollToIndex={scrollToIndex}
