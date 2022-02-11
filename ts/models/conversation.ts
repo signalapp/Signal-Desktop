@@ -646,24 +646,13 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       const shouldApprove = !this.isApproved() && this.isPrivate();
       const hasMsgsFromOther =
         (await getMessagesByConversation(this.id, { type: MessageDirection.incoming })).length > 0;
-      console.warn(hasMsgsFromOther);
       if (shouldApprove) {
         await this.setIsApproved(true);
         if (!this.didApproveMe() && hasMsgsFromOther) {
-          console.warn('This is a reply message sending message request acceptance response.');
-          // TODO: if this is a reply, send messageRequestAccept
-
           await this.setDidApproveMe(true);
           await this.sendMessageRequestResponse(true);
           void forceSyncConfigurationNowIfNeeded();
         }
-        // void forceSyncConfigurationNowIfNeeded();
-      }
-
-      // TODO: remove once dev-tested
-      if (chatMessageParams.body?.includes('unapprove')) {
-        await this.setIsApproved(false);
-        await this.setDidApproveMe(false);
         // void forceSyncConfigurationNowIfNeeded();
       }
 
@@ -1209,7 +1198,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setIsApproved(value: boolean) {
+  public async setIsApproved(value: boolean, commit: boolean = true) {
     if (value !== this.isApproved()) {
       window?.log?.info(`Setting ${this.attributes.profileName} isApproved to:: ${value}`);
       this.set({
@@ -1226,7 +1215,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async setDidApproveMe(value: boolean) {
+  public async setDidApproveMe(value: boolean, commit: boolean = false) {
     if (value !== this.didApproveMe()) {
       window?.log?.info(`Setting ${this.attributes.profileName} didApproveMe to:: ${value}`);
       this.set({

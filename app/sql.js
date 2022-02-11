@@ -1338,9 +1338,9 @@ function updateToLokiSchemaVersion19(currentVersion, db) {
 
 function updateToLokiSchemaVersion20(currentVersion, db) {
   const targetVersion = 20;
-  // if (currentVersion >= targetVersion) {
-  //   return;
-  // }
+  if (currentVersion >= targetVersion) {
+    return;
+  }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
   db.transaction(() => {
     db.exec(`
@@ -1350,22 +1350,11 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
       `);
 
     // all closed group admins
-    const closedGroupRows = db
-      .prepare(
-        `
-        SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
-        type = 'group' AND
-        id NOT LIKE 'publicChat:%';
-      `
-      )
-      .all();
-
-    console.warn({ closedGroupRows });
+    const closedGroupRows = getAllClosedGroupConversations(db, false) || [];
 
     const adminIds = closedGroupRows.map(json => {
       return jsonToObject(json).groupAdmins;
     });
-    console.warn({ adminIds });
     forEach(adminIds, id => {
       db.exec(
         `
@@ -2959,13 +2948,13 @@ function getMessagesCountByConversation(instance, conversationId) {
   return row ? row['count(*)'] : 0;
 }
 
-function getAllClosedGroupConversationsV1(instance) {
+function getAllClosedGroupConversations(instance, order = true) {
   const rows = (globalInstance || instance)
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id NOT LIKE 'publicChat:%'
-     ORDER BY id ASC;`
+     ${order ? 'ORDER BY id ASC' : ''};`
     )
     .all();
 
@@ -2981,7 +2970,7 @@ function remove05PrefixFromStringIfNeeded(str) {
 
 function updateExistingClosedGroupV1ToClosedGroupV2(db) {
   // the migration is called only once, so all current groups not being open groups are v1 closed group.
-  const allClosedGroupV1 = getAllClosedGroupConversationsV1(db) || [];
+  const allClosedGroupV1 = getAllClosedGroupConversations(db) || [];
 
   allClosedGroupV1.forEach(groupV1 => {
     const groupId = groupV1.id;

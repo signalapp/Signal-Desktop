@@ -132,9 +132,10 @@ export const acceptConversation = async (conversationId: string, syncToDevices: 
   }
 
   Promise.all([
-    await convoToApprove.setIsApproved(true),
-    await convoToApprove.setDidApproveMe(true),
+    await convoToApprove.setIsApproved(true, false),
+    await convoToApprove.setDidApproveMe(true, false),
   ]);
+  convoToApprove.commit();
   await convoToApprove.sendMessageRequestResponse(true);
 
   // Conversation was not approved before so a sync is needed
