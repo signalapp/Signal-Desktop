@@ -1,25 +1,25 @@
 import React from 'react';
+import { useConversationUsername } from '../../../../hooks/useParamSelector';
 import { PropsForMessageRequestResponse } from '../../../../models/messageType';
-import { getConversationController } from '../../../../session/conversations';
 import { UserUtils } from '../../../../session/utils';
 import { Flex } from '../../../basic/Flex';
 import { SpacerSM, Text } from '../../../basic/Text';
 import { ReadableMessage } from './ReadableMessage';
 
 export const MessageRequestResponse = (props: PropsForMessageRequestResponse) => {
-  const { messageId, isUnread, receivedAt, conversationId, source } = props;
+  const { messageId, isUnread, receivedAt, conversationId } = props;
 
-  let profileName = '';
-  if (conversationId) {
-    profileName =
-      getConversationController()
-        .get(conversationId)
-        .getProfileName() + '';
-  }
-  const msgText =
-    profileName && props.source === UserUtils.getOurPubKeyStrFromCache()
+  const profileName = useConversationUsername(conversationId);
+  const isFromSync = props.source === UserUtils.getOurPubKeyStrFromCache();
+
+  let msgText = '';
+  if (isFromSync) {
+    msgText = profileName
       ? window.i18n('messageRequestAcceptedOurs', [profileName])
-      : window.i18n('messageRequestAccepted');
+      : window.i18n('messageRequestAcceptedOursNoName');
+  } else {
+    msgText = window.i18n('messageRequestAccepted');
+  }
 
   return (
     <ReadableMessage

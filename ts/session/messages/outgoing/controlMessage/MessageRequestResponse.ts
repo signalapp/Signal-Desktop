@@ -1,9 +1,10 @@
 import { SignalService } from '../../../../protobuf';
+import { fromHexToArray } from '../../../utils/String';
 import { ContentMessage } from '../ContentMessage';
 import { MessageParams } from '../Message';
 
 interface MessageRequestResponseParams extends MessageParams {
-  publicKey: Uint8Array;
+  publicKey: string;
   isApproved: boolean;
 }
 
@@ -17,7 +18,7 @@ export class MessageRequestResponse extends ContentMessage {
       publicKey: params.publicKey,
       isApproved: params.isApproved,
     } as MessageRequestResponseParams);
-    this.publicKey = params.publicKey;
+    this.publicKey = fromHexToArray(params.publicKey);
     this.isApproved = params.isApproved;
   }
 

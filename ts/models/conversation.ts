@@ -732,8 +732,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async sendMessageRequestResponse(isApproved: boolean) {
-    const publicKey = fromHexToArray(getOurPubKeyStrFromCache());
-    // const msgRequestResponseParams:
+    const publicKey = getOurPubKeyStrFromCache();
     const timestamp = Date.now();
 
     const messageRequestResponseParams = {
@@ -745,21 +744,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
 
     if (this.isPrivate()) {
-      // 1-1 conversations
       const pubkeyForSending = new PubKey(this.id);
       await getMessageQueue()
         .sendToPubKey(pubkeyForSending, messageRequestResponse)
         .catch(window?.log?.error);
     }
-    // TODO: may be removable as group invites are implied to be friends.
-    // else if (this.isClosedGroup()) {
-    //   // group conversations
-    //   await getMessageQueue()
-    //     .sendToGroup(messageRequestResponse, undefined, new PubKey(this.id))
-    //     .catch(window?.log?.error);
-    // }
-
-    console.warn('Sent message request response', isApproved);
   }
 
   public async sendMessage(msg: SendMessageType) {

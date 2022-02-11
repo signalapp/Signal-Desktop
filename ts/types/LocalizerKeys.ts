@@ -465,10 +465,10 @@ export type LocalizerKeys =
   | 'trimDatabase'
   | 'trimDatabaseDescription'
   | 'trimDatabaseConfirmationBody'
-  | 'reportAsSpam'
   | 'respondingToRequestWarning'
   | 'messageRequestPending'
   | 'messageRequestAccepted'
   | 'messageRequestAcceptedOurs'
+  | 'messageRequestAcceptedOursNoName'
   | 'declineRequestMessage'
   | 'reportIssue';

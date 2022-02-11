@@ -574,8 +574,6 @@ async function handleMessageRequestResponse(
     conversationToApprove.updateLastMessage();
   }
 
-  // await forceSyncConfigurationNowIfNeeded();
-
   await removeFromCache(envelope);
 }
 

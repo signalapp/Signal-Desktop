@@ -437,7 +437,6 @@ const _getConversationRequests = (
   const pushToMessageRequests =
     isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
-    console.warn({ conversation });
     return (
       pushToMessageRequests &&
       !conversation.isApproved &&

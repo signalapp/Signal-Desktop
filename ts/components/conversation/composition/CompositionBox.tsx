@@ -424,6 +424,25 @@ class CompositionBoxInner extends React.Component<Props, State> {
       return null;
     }
 
+    const makeMessagePlaceHolderText = () => {
+      if (isApproved && !didApproveMe && isPrivate) {
+        return i18n('messageRequestPending');
+      }
+      if (isKickedFromGroup) {
+        return i18n('youGotKickedFromGroup');
+      }
+      if (left) {
+        return i18n('youLeftTheGroup');
+      }
+      if (isBlocked && isPrivate) {
+        return i18n('unblockToSend');
+      }
+      if (isBlocked && !isPrivate) {
+        return i18n('unblockGroupToSend');
+      }
+      return i18n('sendMessage');
+    };
+
     const {
       isKickedFromGroup,
       left,
@@ -432,19 +451,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
       didApproveMe,
       isApproved,
     } = this.props.selectedConversation;
-    const messagePlaceHolder =
-      // isApproved && !didApproveMe && isPrivate
-      isApproved && !didApproveMe && isPrivate
-        ? i18n('messageRequestPending')
-        : isKickedFromGroup
-        ? i18n('youGotKickedFromGroup')
-        : left
-        ? i18n('youLeftTheGroup')
-        : isBlocked && isPrivate
-        ? i18n('unblockToSend')
-        : isBlocked && !isPrivate
-        ? i18n('unblockGroupToSend')
-        : i18n('sendMessage');
+    const messagePlaceHolder = makeMessagePlaceHolderText();
     const { typingEnabled } = this.props;
 
     return (

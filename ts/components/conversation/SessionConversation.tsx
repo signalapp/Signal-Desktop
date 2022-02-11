@@ -228,8 +228,7 @@ export class SessionConversation extends React.Component<Props, State> {
       return <MessageView />;
     }
 
-    const conversation = getConversationController().get(selectedConversation.id);
-    const isApproved = conversation.isApproved();
+    const isApproved = selectedConversation.isApproved;
     const selectionMode = selectedMessages.length > 0;
     const useMsgRequests =
       window.lokiFeatureFlags.useMessageRequests &&
@@ -243,9 +242,9 @@ export class SessionConversation extends React.Component<Props, State> {
           cancelText: window.i18n('cancel'),
           message: window.i18n('declineRequestMessage'),
           onClickOk: async () => {
-            declineConversation(selectedConversation.id, false);
-            blockConvoById(selectedConversation.id);
-            forceSyncConfigurationNowIfNeeded();
+            await declineConversation(selectedConversation.id, false);
+            await blockConvoById(selectedConversation.id);
+            await forceSyncConfigurationNowIfNeeded();
           },
           onClickCancel: () => {
             window.inboxStore?.dispatch(updateConfirmModal(null));
@@ -282,7 +281,7 @@ export class SessionConversation extends React.Component<Props, State> {
           <div className="conversation-messages">
             {showMsgRequestUI && (
               <ConversationRequestBanner>
-                <div className="conversation-request-banner__row">
+                <ConversationBannerRow>
                   <SessionButton
                     buttonColor={SessionButtonColor.Green}
                     buttonType={SessionButtonType.BrandOutline}
@@ -295,14 +294,7 @@ export class SessionConversation extends React.Component<Props, State> {
                     text={window.i18n('decline')}
                     onClick={handleDeclineConversationRequest}
                   />
-                </div>
-                {/* 
-                  Disabling for now until report as spam is added in
-                <SessionButton
-                  buttonColor={SessionButtonColor.Danger}
-                  buttonType={SessionButtonType.Simple}
-                  text={window.i18n('reportAsSpam')}
-                /> */}
+                </ConversationBannerRow>
               </ConversationRequestBanner>
             )}
             <SplitViewContainer
@@ -577,6 +569,13 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
     throw error;
   }
 };
+
+const ConversationBannerRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: var(--margins-lg);
+  justify-content: center;
+`;
 
 const ConversationRequestTextBottom = styled.div`
   display: flex;

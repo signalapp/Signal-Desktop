@@ -57,7 +57,7 @@ const darkButtonGreen = accentDarkTheme;
 const darkModalBackground = '#101011';
 
 const grey67 = '#434343';
-const darkMessageRequestBannerBackground = '#2c2c2c';
+const darkMessageRequestBannerBackground = darkConversationItemHasUnread;
 const darkMessageRequestBannerIconBackground = grey67;
 const darkMessageRequestBannerUnreadBackground = grey67;
 const darkMessageRequestBannerIcon = '#adadad';
@@ -208,9 +208,9 @@ const lightBackgroundPrimary = '#272726';
 const lightButtonGreen = '#272726';
 const lightModalBackground = '#fcfcfc';
 
-const lightMessageRequestBannerBackground = '#f0f0f0';
+const lightMessageRequestBannerBackground = lightColorQuoteBottomBarBg;
 const lightMessageRequestBannerIconBackground = '#585858';
-const lightMessageRequestBannerUnreadBackground = '#dfdfdf';
+const lightMessageRequestBannerUnreadBackground = lightColorClickableHovered;
 const lightMessageRequestBannerIcon = white;
 
 export const switchHtmlToLightTheme = () => {
