@@ -11,10 +11,8 @@ import type {
   LocalizerType,
   ThemeType,
 } from '../types/Util';
-import type {
-  ErrorDialogAudioRecorderType,
-  RecordingState,
-} from '../state/ducks/audioRecorder';
+import type { ErrorDialogAudioRecorderType } from '../state/ducks/audioRecorder';
+import { RecordingState } from '../state/ducks/audioRecorder';
 import type { HandleAttachmentsProcessingArgsType } from '../util/handleAttachmentsProcessing';
 import { Spinner } from './Spinner';
 import type { Props as EmojiButtonProps } from './emoji/EmojiButton';
@@ -399,16 +397,18 @@ export const CompositionArea = ({
     />
   ) : null;
 
-  const attButton = linkPreviewResult ? undefined : (
-    <div className="CompositionArea__button-cell">
-      <button
-        type="button"
-        className="CompositionArea__attach-file"
-        onClick={launchAttachmentPicker}
-        aria-label={i18n('CompositionArea--attach-file')}
-      />
-    </div>
-  );
+  const isRecording = recordingState === RecordingState.Recording;
+  const attButton =
+    linkPreviewResult || isRecording ? undefined : (
+      <div className="CompositionArea__button-cell">
+        <button
+          type="button"
+          className="CompositionArea__attach-file"
+          onClick={launchAttachmentPicker}
+          aria-label={i18n('CompositionArea--attach-file')}
+        />
+      </div>
+    );
 
   const sendButtonFragment = (
     <div

@@ -110,6 +110,7 @@ import { resolveAttachmentDraftData } from '../util/resolveAttachmentDraftData';
 import { showToast } from '../util/showToast';
 import { viewSyncJobQueue } from '../jobs/viewSyncJobQueue';
 import { viewedReceiptsJobQueue } from '../jobs/viewedReceiptsJobQueue';
+import { RecordingState } from '../state/ducks/audioRecorder';
 
 type AttachmentOptions = {
   messageId: string;
@@ -964,7 +965,12 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
   // TODO DESKTOP-2426
   async processAttachments(files: Array<File>): Promise<void> {
-    if (this.preview) {
+    const state = window.reduxStore.getState();
+
+    const isRecording =
+      state.audioRecorder.recordingState === RecordingState.Recording;
+
+    if (this.preview || isRecording) {
       return;
     }
 
