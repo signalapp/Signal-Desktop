@@ -951,6 +951,7 @@ export function isMissingRequiredProfileSharing(
   conversation: ConversationType
 ): boolean {
   const doesConversationRequireIt =
+    !conversation.isMe &&
     !conversation.left &&
     (isGroupV1(conversation) || isDirectConversation(conversation));
 
