@@ -1134,7 +1134,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "សារនេះ នឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នា នៅក្នុងការសន្ទនា បើសិនពួកគេកំពុងប្រើប្រាស់ Signal ជំនាន់ថ្មីៗ។ ពួកគេនឹងអាចឃើញថា អ្នកបានលុបសារមួយ។",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -3470,7 +3470,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Reported as spam and blocked.",
+        "message": "បានរាយការណ៍សារឥតបានការ និងបានហាមឃាត់។",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -5304,15 +5304,15 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "តើអ្វីជាក្រុមថ្មី?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "ដំឡើងទៅក្រុមថ្មី",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "ក្រុមថ្មី មានមុខងារដូចជា @រៀបរាប់ និងអ្នកគ្រប់គ្រងក្រុម ហើយនឹងគាំទ្រមុខងារបន្ថែមនៅពេលអនាគត។",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -5320,7 +5320,7 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "ប្រវត្តិសារ​ និងឯកសារមេឌាទាំងអស់ នឹងត្រូវរក្សាទុកមុនពេលដំឡើង។",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
@@ -6048,7 +6048,7 @@
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
-        "message": "Request",
+        "message": "ស្នើសុំ",
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
@@ -6622,7 +6622,7 @@
         "description": "Option for who can see my X select"
     },
     "Preferences__who-can--nobody": {
-        "message": "Nobody",
+        "message": "គ្មាននរណា",
         "description": "Option for who can see my X select"
     },
     "Preferences--messaging": {
@@ -6630,7 +6630,7 @@
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "See my phone number",
+        "message": "មើលលេខទូរស័ព្ទរបស់ខ្ញុំ",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "description": "Release notes for v5.32"
     }
 }

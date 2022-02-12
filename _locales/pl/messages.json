@@ -3554,7 +3554,7 @@
         }
     },
     "MessageRequests--profile-sharing--direct": {
-        "message": "Kontynuować konwersację z $firstName$i udostępnić swoje imię i zdjęcie temu kontaktowi? $learnMore$",
+        "message": "Kontynuować konwersację z $firstName$ i udostępnić swoje imię i zdjęcie temu kontaktowi? $learnMore$",
         "description": "Shown when user hasn't shared their profile in a 1:1 conversation yet",
         "placeholders": {
             "firstName": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Popracowaliśmy trochę nad nagłówkiem lewego panelu i polem wyszukiwania, aby dać mu więcej miejsca.",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Teraz z łatwością znajdziesz głośnych stukaczy w klawiaturę i jeszcze głośniejszych przeżuwaczy - wprowadziliśmy do połączeń grupowych nowy, animowany wskaźnik osób mówiących.",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Lista dostępnych języków została rozszerzona. Jesteśmy wdzięczni tłumaczom ochotnikom, którzy to umożliwili.",
+        "description": "Release notes for v5.32"
     }
 }

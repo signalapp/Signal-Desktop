@@ -2122,15 +2122,15 @@
         "description": "Shown if a message is very recent, less than 60 seconds old"
     },
     "timestampFormat_M": {
-        "message": "MMM D",
+        "message": "MMMD日",
         "description": "Timestamp format string for displaying month and day (but not the year) of a date within the current year, ex: use 'MMM D' for 'Aug 8', or 'D MMM' for '8 Aug'."
     },
     "timestampFormat__long__today": {
-        "message": "[Today] LT",
+        "message": "[今日] LT",
         "description": "Timestamp format string for displaying \"Today\" and the time"
     },
     "timestampFormat__long__yesterday": {
-        "message": "[Yesterday] LT",
+        "message": "[昨日] LT",
         "description": "Timestamp format string for displaying \"Yesterday\" and the time"
     },
     "messageBodyTooLong": {
@@ -5988,7 +5988,7 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "MMMD日（ddd）",
+        "message": "MMMD日 (ddd)",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "左ペインのヘッダと検索エリアの間隔をシャッフルし、アクティビティのためのスペースがとても広くなりました。",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "新しい音声インジケータを導入しました。グループ通話で、大声でタイピングする人やクチャクチャする人を簡単に見つけることができます。",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "対応言語が増えました。ボランティア翻訳者の皆様のご尽力に心から感謝いたします。",
+        "description": "Release notes for v5.32"
     }
 }

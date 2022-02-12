@@ -1430,7 +1430,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Nota: Tus chats previos no se sincronizarán con este dispositivo",
+        "message": "Aviso: Tus chats previos no se sincronizarán con este dispositivo",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1486,7 +1486,7 @@
         "description": "Button label in the call lobby for returning to a call"
     },
     "calling__lobby-automatically-muted-because-there-are-a-lot-of-people": {
-        "message": "Micrófono silenciado por llamada con bastantes participantes",
+        "message": "Micrófono silenciado debido a llamada de grupo",
         "description": "Shown in a call lobby toast if there are a lot of people already on the call"
     },
     "calling__call-is-full": {
@@ -6808,7 +6808,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Ahora, Signal Desktop está optimizada para los procesadores M1 que Apple usa en sus nuevos Macs. Si utilizas uno de esos Macs, Signal funciona de manera más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
+        "message": "Ahora, Signal Desktop está optimizada para los procesadores M1 en los nuevos Mac de Apple. Si utilizas uno de esos Macs, Signal funciona de manera más ligera. Si no, dale la bienvenida a la gente que los usa. ¡Los agradecimientos son para $dennis$ por su duro trabajo!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6818,7 +6818,7 @@
         }
     },
     "WhatsNew__v5.27--1": {
-        "message": "¿La llamada dura demasiado? Tu sistema permanecerá despierto durante todo el tiempo de la llamada, en lugar de entrar en hibernación en medio de esa conversación tan importante.",
+        "message": "¿La llamada dura demasiado? Tu sistema permanecerá activo durante todo el tiempo que dure la llamada, en lugar de entrar en hibernación en medio de esa conversación tan importante.",
         "description": "Release notes for v5.27"
     },
     "WhatsNew__v5.27--2": {
@@ -6830,7 +6830,7 @@
         "description": "Release notes for v5.28"
     },
     "WhatsNew__v5.29--1": {
-        "message": "¡Ahora, con menos ruido por búsquedas de mecanógrafos frenéticos o masticadores compulsivos! En la sala de espera, Desktop desactivará el audio automáticamente si hay ocho o más personas en la llamada.",
+        "message": "¡Ahora, con menos ruido por teclados frenéticos o masticadores compulsivos! En la sala de espera, Desktop desactivará el audio automáticamente si hay ocho o más personas en la llamada.",
         "description": "Release notes for v5.29"
     },
     "WhatsNew__v5.31--1": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "¡Modifica el panel de la izquierda y el área de búsqueda para dejar más espacio para tus actividades!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Indentifica quién es esa persona que no deja de teclear o suspirar durante la llamada en grupo. ¡Hemos introducido un indicador de ruidos!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Hemos expandido la lista de lenguages soportados. ¡Gracias a traductores voluntari@s que lo hacen posible!",
+        "description": "Release notes for v5.32"
     }
 }
