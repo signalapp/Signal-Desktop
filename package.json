@@ -127,7 +127,7 @@
     "mkdirp": "0.5.2",
     "moment": "2.29.1",
     "mustache": "2.3.0",
-    "node-fetch": "2.6.1",
+    "node-fetch": "2.6.7",
     "node-forge": "0.10.0",
     "normalize-path": "3.0.0",
     "p-map": "2.1.0",
