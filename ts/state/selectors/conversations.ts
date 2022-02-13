@@ -340,14 +340,11 @@ export const _getLeftPaneLists = (
 
   let unreadCount = 0;
   for (const conversation of sortedConversations) {
-    const excludeUnapproved =
-      isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
-
     if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
       directConversations.push(conversation);
     }
 
-    if (excludeUnapproved && !conversation.isApproved && !conversation.isBlocked) {
+    if (isMessageRequestEnabled && !conversation.isApproved && !conversation.isBlocked) {
       // dont increase unread counter, don't push to convo list.
       continue;
     }
@@ -434,11 +431,9 @@ const _getConversationRequests = (
   sortedConversations: Array<ReduxConversationType>,
   isMessageRequestEnabled?: boolean
 ): Array<ReduxConversationType> => {
-  const pushToMessageRequests =
-    isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
     return (
-      pushToMessageRequests &&
+      isMessageRequestEnabled &&
       !conversation.isApproved &&
       !conversation.isBlocked &&
       conversation.isPrivate &&
@@ -457,17 +452,13 @@ const _getPrivateContactsPubkeys = (
   sortedConversations: Array<ReduxConversationType>,
   isMessageRequestEnabled?: boolean
 ): Array<string> => {
-  const pushToMessageRequests =
-    (isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests) ||
-    !isMessageRequestEnabled;
-
   return _.filter(sortedConversations, conversation => {
     return (
       conversation.isPrivate &&
       !conversation.isBlocked &&
       !conversation.isMe &&
-      (conversation.didApproveMe || !pushToMessageRequests) &&
-      (conversation.isApproved || !pushToMessageRequests) &&
+      (conversation.didApproveMe || !isMessageRequestEnabled) &&
+      (conversation.isApproved || !isMessageRequestEnabled) &&
       Boolean(conversation.activeAt)
     );
   }).map(convo => convo.id);

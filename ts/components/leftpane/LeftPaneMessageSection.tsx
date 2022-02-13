@@ -123,13 +123,11 @@ export class LeftPaneMessageSection extends React.Component<Props> {
           onChange={this.updateSearch}
           placeholder={window.i18n('searchFor...')}
         />
-        {window.lokiFeatureFlags.useMessageRequests ? (
-          <MessageRequestsBanner
-            handleOnClick={() => {
-              window.inboxStore?.dispatch(setOverlayMode('message-requests'));
-            }}
-          />
-        ) : null}
+        <MessageRequestsBanner
+          handleOnClick={() => {
+            window.inboxStore?.dispatch(setOverlayMode('message-requests'));
+          }}
+        />
         {this.renderList()}
         {this.renderBottomButtons()}
       </div>

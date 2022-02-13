@@ -230,9 +230,7 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const isApproved = selectedConversation.isApproved;
     const selectionMode = selectedMessages.length > 0;
-    const useMsgRequests =
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests;
+    const useMsgRequests = window.inboxStore?.getState().userConfig.messageRequests;
     const showMsgRequestUI = useMsgRequests && !isApproved && messagesProps.length > 0;
 
     const handleDeclineConversationRequest = async () => {

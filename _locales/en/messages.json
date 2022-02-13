@@ -439,7 +439,7 @@
   "messageRequests": "Message Requests",
   "requestsSubtitle": "Pending Requests",
   "requestsPlaceholder": "No requests",
-  "messageRequestsDescription": "Enable Message Request Inbox",
+  "messageRequestsDescription": "Always show the Message Request inbox",
   "incomingCallFrom": "Incoming call from '$name$'",
   "ringing": "Ringing...",
   "establishingConnection": "Establishing connection...",
@@ -471,5 +471,8 @@
   "messageRequestAcceptedOurs": "You have accepted $name$'s message request",
   "messageRequestAcceptedOursNoName": "You have accepted the message request",
   "declineRequestMessage": "Are you sure you want to decline this message request?",
-  "respondingToRequestWarning": "Sending a message to this user will automatically accept their message request and reveal your Session ID."
+  "respondingToRequestWarning": "Sending a message to this user will automatically accept their message request and reveal your Session ID.",
+  "alwaysShowMessageRequests": "Always show Message Requests",
+  "openMessageRequestInbox": "View Message Requests",
+  "openMessageRequestInboxDescription": "View your Message Request inbox"
 }

@@ -18,14 +18,7 @@ import useKey from 'react-use/lib/useKey';
  * Blocks all message request conversations and synchronizes across linked devices
  * @returns void
  */
-async function handleBlockAllRequestsClick(messageRequestSetting: boolean) {
-  const messageRequestsEnabled =
-    messageRequestSetting && window?.lokiFeatureFlags?.useMessageRequests;
-
-  if (!messageRequestsEnabled) {
-    return;
-  }
-
+async function handleBlockAllRequestsClick() {
   // block all convo requests. Force sync if there were changes.
   window?.log?.info('Blocking all conversations');
   const conversations = getConversationController().getConversations();

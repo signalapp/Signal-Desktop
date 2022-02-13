@@ -471,4 +471,7 @@ export type LocalizerKeys =
   | 'messageRequestAcceptedOurs'
   | 'messageRequestAcceptedOursNoName'
   | 'declineRequestMessage'
+  | 'openMessageRequestInbox'
+  | 'openMessageRequestInboxDescription'
+  | 'alwaysShowMessageRequests'
   | 'reportIssue';

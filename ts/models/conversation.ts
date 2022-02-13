@@ -1595,9 +1595,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     ) {
       return false;
     }
-    const msgRequestsEnabled =
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests;
+    const msgRequestsEnabled = window.inboxStore?.getState().userConfig.messageRequests;
 
     // if msg requests are unused, we have to send typing (this is already a private active unblocked convo)
     if (!msgRequestsEnabled) {

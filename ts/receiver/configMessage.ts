@@ -140,10 +140,7 @@ const handleContactReceived = async (
       contactConvo.set('active_at', _.toNumber(envelope.timestamp));
     }
 
-    if (
-      window.lokiFeatureFlags.useMessageRequests &&
-      window.inboxStore?.getState().userConfig.messageRequests
-    ) {
+    if (window.inboxStore?.getState().userConfig.messageRequests) {
       if (contactReceived.isApproved) {
         await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
 
