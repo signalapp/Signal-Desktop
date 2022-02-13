@@ -657,11 +657,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       }
 
       // TODO: remove once dev-tested
-      // if (chatMessageParams.body?.includes('unapprove')) {
-      //   await this.setIsApproved(false);
-      //   await this.setDidApproveMe(false);
-      //   // void forceSyncConfigurationNowIfNeeded();
-      // }
+      if (chatMessageParams.body?.includes('unapprove')) {
+        await this.setIsApproved(false);
+        await this.setDidApproveMe(false);
+        // void forceSyncConfigurationNowIfNeeded();
+      }
 
       if (this.isOpenGroupV2()) {
         const chatMessageOpenGroupV2 = new OpenGroupVisibleMessage(chatMessageParams);

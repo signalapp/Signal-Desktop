@@ -328,8 +328,7 @@ export const getConversationComparator = createSelector(getIntl, _getConversatio
 // export only because we use it in some of our tests
 // tslint:disable-next-line: cyclomatic-complexity
 export const _getLeftPaneLists = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
+  sortedConversations: Array<ReduxConversationType>
 ): {
   conversations: Array<ReduxConversationType>;
   contacts: Array<ReduxConversationType>;
@@ -344,7 +343,7 @@ export const _getLeftPaneLists = (
       directConversations.push(conversation);
     }
 
-    if (isMessageRequestEnabled && !conversation.isApproved && !conversation.isBlocked) {
+    if (!conversation.isApproved && !conversation.isBlocked) {
       // dont increase unread counter, don't push to convo list.
       continue;
     }
@@ -424,16 +423,13 @@ export const getSortedConversations = createSelector(
 /**
  *
  * @param sortedConversations List of conversations that are valid for both requests and regular conversation inbox
- * @param isMessageRequestEnabled Apply message request filtering.
  * @returns A list of message request conversations.
  */
 const _getConversationRequests = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
+  sortedConversations: Array<ReduxConversationType>
 ): Array<ReduxConversationType> => {
   return _.filter(sortedConversations, conversation => {
     return (
-      isMessageRequestEnabled &&
       !conversation.isApproved &&
       !conversation.isBlocked &&
       conversation.isPrivate &&
@@ -449,16 +445,15 @@ export const getConversationRequests = createSelector(
 );
 
 const _getPrivateContactsPubkeys = (
-  sortedConversations: Array<ReduxConversationType>,
-  isMessageRequestEnabled?: boolean
+  sortedConversations: Array<ReduxConversationType>
 ): Array<string> => {
   return _.filter(sortedConversations, conversation => {
     return (
       conversation.isPrivate &&
       !conversation.isBlocked &&
       !conversation.isMe &&
-      (conversation.didApproveMe || !isMessageRequestEnabled) &&
-      (conversation.isApproved || !isMessageRequestEnabled) &&
+      conversation.didApproveMe &&
+      conversation.isApproved &&
       Boolean(conversation.activeAt)
     );
   }).map(convo => convo.id);

@@ -34,7 +34,7 @@ import { addStagedAttachmentsInConversation } from '../../state/ducks/stagedAtta
 import { MIME } from '../../types';
 import { AttachmentTypeWithPath } from '../../types/Attachment';
 import { arrayBufferToObjectURL, AttachmentUtil, GoogleChrome } from '../../util';
-import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
+import { SessionButtonColor } from '../basic/SessionButton';
 import { MessageView } from '../MainViewController';
 import { ConversationHeaderWithDetails } from './ConversationHeader';
 import { MessageDetail } from './message/message-item/MessageDetail';
@@ -47,13 +47,8 @@ import {
 } from '../../types/attachments/VisualAttachment';
 import { blobToArrayBuffer } from 'blob-util';
 import { MAX_ATTACHMENT_FILESIZE_BYTES } from '../../session/constants';
-import styled from 'styled-components';
-import {
-  acceptConversation,
-  blockConvoById,
-  declineConversation,
-} from '../../interactions/conversationInteractions';
-import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
+import { ConversationMessageRequestButtons } from './ConversationRequestButtons';
+import { ConversationRequestinfo } from './ConversationRequestInfo';
 // tslint:disable: jsx-curly-spacing
 
 interface State {
@@ -228,36 +223,7 @@ export class SessionConversation extends React.Component<Props, State> {
       return <MessageView />;
     }
 
-    const isApproved = selectedConversation.isApproved;
     const selectionMode = selectedMessages.length > 0;
-    const useMsgRequests = window.inboxStore?.getState().userConfig.messageRequests;
-    const showMsgRequestUI = useMsgRequests && !isApproved && messagesProps.length > 0;
-
-    const handleDeclineConversationRequest = async () => {
-      window.inboxStore?.dispatch(
-        updateConfirmModal({
-          okText: window.i18n('decline'),
-          cancelText: window.i18n('cancel'),
-          message: window.i18n('declineRequestMessage'),
-          onClickOk: async () => {
-            await declineConversation(selectedConversation.id, false);
-            await blockConvoById(selectedConversation.id);
-            await forceSyncConfigurationNowIfNeeded();
-          },
-          onClickCancel: () => {
-            window.inboxStore?.dispatch(updateConfirmModal(null));
-          },
-          onClickClose: () => {
-            window.inboxStore?.dispatch(updateConfirmModal(null));
-          },
-        })
-      );
-    };
-
-    const handleAcceptConversationRequest = async () => {
-      const { id } = selectedConversation;
-      await acceptConversation(id, true);
-    };
 
     return (
       <SessionTheme>
@@ -277,24 +243,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            {showMsgRequestUI && (
-              <ConversationRequestBanner>
-                <ConversationBannerRow>
-                  <SessionButton
-                    buttonColor={SessionButtonColor.Green}
-                    buttonType={SessionButtonType.BrandOutline}
-                    onClick={handleAcceptConversationRequest}
-                    text={window.i18n('accept')}
-                  />
-                  <SessionButton
-                    buttonColor={SessionButtonColor.Danger}
-                    buttonType={SessionButtonType.BrandOutline}
-                    text={window.i18n('decline')}
-                    onClick={handleDeclineConversationRequest}
-                  />
-                </ConversationBannerRow>
-              </ConversationRequestBanner>
-            )}
+            <ConversationMessageRequestButtons selectedConversation={selectedConversation} />
             <SplitViewContainer
               top={<InConversationCallContainer />}
               bottom={
@@ -306,14 +255,7 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
-          {showMsgRequestUI && (
-            <ConversationRequestTextBottom>
-              <ConversationRequestTextInner>
-                {window.i18n('respondingToRequestWarning')}
-              </ConversationRequestTextInner>
-            </ConversationRequestTextBottom>
-          )}
-
+          <ConversationRequestinfo selectedConversation={selectedConversation} />
           <CompositionBox
             sendMessage={this.sendMessageFn}
             stagedAttachments={this.props.stagedAttachments}
@@ -567,41 +509,6 @@ const renderVideoPreview = async (contentType: string, file: File, fileName: str
     throw error;
   }
 };
-
-const ConversationBannerRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: var(--margins-lg);
-  justify-content: center;
-`;
-
-const ConversationRequestTextBottom = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: var(--margins-lg);
-`;
-
-const ConversationRequestTextInner = styled.div`
-  color: var(--color-text-subtle);
-  text-align: center;
-  max-width: 390px;
-`;
-
-const ConversationRequestBanner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--margins-lg);
-  gap: var(--margins-lg);
-
-  .conversation-request-banner__row {
-    display: flex;
-    flex-direction: row;
-    gap: var(--margins-lg);
-    justify-content: center;
-  }
-`;
 
 const renderImagePreview = async (contentType: string, file: File, fileName: string) => {
   if (!MIME.isJPEG(contentType)) {

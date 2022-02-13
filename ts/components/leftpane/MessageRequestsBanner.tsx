@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getConversationRequests } from '../../state/selectors/conversations';
+import { getIsMessageRequestsEnabled } from '../../state/selectors/userConfig';
 import { SessionIcon, SessionIconSize, SessionIconType } from '../icon';
 
 const StyledMessageRequestBanner = styled.div`
@@ -84,8 +85,9 @@ export const CirclularIcon = (props: { iconType: SessionIconType; iconSize: Sess
 export const MessageRequestsBanner = (props: { handleOnClick: () => any }) => {
   const { handleOnClick } = props;
   const conversationRequests = useSelector(getConversationRequests);
+  const showRequestBannerEnabled = useSelector(getIsMessageRequestsEnabled);
 
-  if (!conversationRequests.length) {
+  if (!conversationRequests.length || !showRequestBannerEnabled) {
     return null;
   }
 
