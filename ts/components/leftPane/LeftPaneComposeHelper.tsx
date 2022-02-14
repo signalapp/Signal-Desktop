@@ -105,6 +105,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }>): ReactChild {
     return (
       <SearchInput
+        i18n={i18n}
         moduleClassName="module-left-pane__compose-search-form"
         onChange={onChangeComposeSearchTerm}
         placeholder={i18n('contactSearchPlaceholder')}

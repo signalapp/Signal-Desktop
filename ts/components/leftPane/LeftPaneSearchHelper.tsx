@@ -12,7 +12,7 @@ import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
 import { Intl } from '../Intl';
 import { Emojify } from '../conversation/Emojify';
@@ -108,7 +108,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     updateSearchTerm: (searchTerm: string) => unknown;
   }>): ReactChild {
     return (
-      <LeftPaneMainSearchInput
+      <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
         disabled={this.searchDisabled}

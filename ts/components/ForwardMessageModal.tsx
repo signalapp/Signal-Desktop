@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
@@ -372,6 +372,7 @@ export const ForwardMessageModal: FunctionComponent<PropsType> = ({
             <div className="module-ForwardMessageModal__main-body">
               <SearchInput
                 disabled={candidateConversations.length === 0}
+                i18n={i18n}
                 placeholder={i18n('contactSearchPlaceholder')}
                 onChange={event => {
                   setSearchTerm(event.target.value);

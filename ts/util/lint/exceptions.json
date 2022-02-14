@@ -7517,18 +7517,10 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/LeftPaneMainSearchInput.tsx",
-    "line": "  const inputRef = useRef<HTMLInputElement | null>(null);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-01-26T23:11:05.369Z"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/LeftPaneSearchInput.tsx",
-    "line": "    const inputRef = useRef<null | HTMLInputElement>(null);",
+    "line": "  const inputRef = useRef<null | HTMLInputElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-10-29T22:48:58.354Z",
-    "reasonDetail": "Only used to focus the input."
+    "updated": "2022-02-11T20:49:03.879Z"
   },
   {
     "rule": "React-useRef",

@@ -2,64 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 .LeftPaneSearchInput {
-  position: relative;
-  margin: 0 16px;
-  margin-bottom: 8px;
-
-  &__input {
-    @include font-body-2;
-    border: solid 1px transparent;
-    border-radius: 8px;
-    height: 28px;
-    padding-left: 30px;
-    padding-right: 5px;
-    width: 100%;
-
-    @include light-theme {
-      background-color: $color-black-alpha-08;
-      color: $color-gray-90;
-
-      &:placeholder {
-        color: $color-gray-45;
-      }
-    }
-    @include dark-theme {
-      background-color: $color-white-alpha-12;
-      color: $color-gray-05;
-
-      &:placeholder {
-        color: $color-gray-25;
-      }
-    }
-
-    &:focus {
-      border: solid 1px $color-ultramarine;
-      outline: none;
-    }
-
-    &--with-text {
-      padding-right: 30px;
-    }
-
-    &--in-conversation {
-      padding-left: 50px;
-    }
-  }
-
-  &__icon {
-    height: 16px;
-    left: 8px;
-    pointer-events: none;
-    position: absolute;
-    top: 6px;
-    width: 16px;
-
-    @include light-theme {
-      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-45);
-    }
-    @include dark-theme {
-      @include color-svg('../images/icons/v2/search-16.svg', $color-gray-25);
-    }
+  &__input--with-children.module-SearchInput__input--with-children {
+    padding-left: 50px;
   }
 
   &__in-conversation-pill {
@@ -110,22 +54,9 @@
     }
   }
 
-  &__cancel {
-    height: 18px;
-    position: absolute;
-    right: 8px;
-    top: 5px;
-    width: 18px;
-
-    @include light-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-60);
-    }
-    @include dark-theme {
-      @include color-svg('../images/icons/v2/x-24.svg', $color-gray-25);
-    }
-  }
-
   .module-left-pane--width-narrow & {
-    display: none;
+    &__container {
+      display: none;
+    }
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactChild } from 'react';
@@ -13,7 +13,7 @@ import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import type { ConversationType } from '../../state/ducks/conversations';
-import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 import type { LeftPaneSearchPropsType } from './LeftPaneSearchHelper';
 import { LeftPaneSearchHelper } from './LeftPaneSearchHelper';
 
@@ -91,7 +91,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     }
 
     return (
-      <LeftPaneMainSearchInput
+      <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
         i18n={i18n}

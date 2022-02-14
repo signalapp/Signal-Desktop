@@ -15,7 +15,7 @@ import { RowType } from '../ConversationList';
 import type { PropsData as ConversationListItemPropsType } from '../conversationList/ConversationListItem';
 import type { LocalizerType } from '../../types/Util';
 import { handleKeydownForSearch } from './handleKeydownForSearch';
-import { LeftPaneMainSearchInput } from '../LeftPaneMainSearchInput';
+import { LeftPaneSearchInput } from '../LeftPaneSearchInput';
 
 export type LeftPaneInboxPropsType = {
   conversations: ReadonlyArray<ConversationListItemPropsType>;
@@ -90,7 +90,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     updateSearchTerm: (searchTerm: string) => unknown;
   }>): ReactChild {
     return (
-      <LeftPaneMainSearchInput
+      <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
         clearSearch={clearSearch}
         disabled={this.searchDisabled}

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { FunctionComponent } from 'react';
@@ -139,6 +139,7 @@ export const ChooseGroupMembersModal: FunctionComponent<PropsType> = ({
         </h1>
         <SearchInput
           disabled={candidateContacts.length === 0}
+          i18n={i18n}
           placeholder={i18n('contactSearchPlaceholder')}
           onChange={event => {
             setSearchTerm(event.target.value);
