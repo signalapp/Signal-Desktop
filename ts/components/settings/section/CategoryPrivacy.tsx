@@ -5,6 +5,7 @@ import useUpdate from 'react-use/lib/useUpdate';
 import { SettingsKey } from '../../../data/settings-key';
 import { CallManager } from '../../../session/utils';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
+import { SectionType, setOverlayMode, showLeftPaneSection } from '../../../state/ducks/section';
 import { toggleMessageRequests } from '../../../state/ducks/userConfig';
 import { getIsMessageRequestsEnabled } from '../../../state/selectors/userConfig';
 import { SessionButtonColor } from '../../basic/SessionButton';
@@ -122,7 +123,8 @@ export const SettingsCategoryPrivacy = (props: {
           title={window.i18n('openMessageRequestInbox')}
           description={window.i18n('openMessageRequestInboxDescription')}
           onClick={() => {
-            // TODO: open msg request inbox
+            dispatch(showLeftPaneSection(SectionType.Message));
+            dispatch(setOverlayMode('message-requests'));
           }}
           buttonColor={SessionButtonColor.Primary}
           buttonText={window.i18n('openMessageRequestInbox')}
