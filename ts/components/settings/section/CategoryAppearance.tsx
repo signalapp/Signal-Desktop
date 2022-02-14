@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import useUpdate from 'react-use/lib/useUpdate';
 import {
   createOrUpdateItem,
-  fillWithTestData,
   hasLinkPreviewPopupBeenDisplayed,
 } from '../../../data/data';
 import { ToastUtils } from '../../../session/utils';

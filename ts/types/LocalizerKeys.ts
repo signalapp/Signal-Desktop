@@ -50,7 +50,7 @@ export type LocalizerKeys =
   | 'viewMenuToggleDevTools'
   | 'fileSizeWarning'
   | 'openGroupURL'
-  | 'messageRequestsDescription'
+  | 'hideRequestBannerDescription'
   | 'hideMenuBarDescription'
   | 'search'
   | 'pickClosedGroupMember'
@@ -473,5 +473,5 @@ export type LocalizerKeys =
   | 'declineRequestMessage'
   | 'openMessageRequestInbox'
   | 'openMessageRequestInboxDescription'
-  | 'alwaysShowMessageRequests'
+  | 'hideRequestBanner'
   | 'reportIssue';

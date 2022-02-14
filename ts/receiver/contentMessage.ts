@@ -19,6 +19,8 @@ import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
+import { showMessageRequestBanner } from '../state/ducks/userConfig';
+import { useUpdate } from 'react-use';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -345,10 +347,18 @@ export async function innerHandleContentMessage(
       }
     }
 
-    await getConversationController().getOrCreateAndWait(
+    const newConvo = await getConversationController().getOrCreateAndWait(
       envelope.source,
       ConversationTypeEnum.PRIVATE
     );
+
+    if (
+      newConvo.isPrivate() &&
+      !newConvo.isApproved() &&
+      window.inboxStore?.getState().userConfig.hideMessageRequests
+    ) {
+      window.inboxStore?.dispatch(showMessageRequestBanner());
+    }
 
     if (content.dataMessage) {
       if (content.dataMessage.profileKey && content.dataMessage.profileKey.length === 0) {
@@ -532,7 +542,6 @@ async function handleMessageRequestResponse(
   messageRequestResponse: SignalService.MessageRequestResponse
 ) {
   const { isApproved } = messageRequestResponse;
-
   if (!messageRequestResponse) {
     window?.log?.error('handleMessageRequestResponse: Invalid parameters -- dropping message.');
     await removeFromCache(envelope);
@@ -540,12 +549,7 @@ async function handleMessageRequestResponse(
   }
 
   const convoId = envelope.source;
-
-  // TODO: commenting out, including in one larger function for now
-  // await updateConversationDidApproveMe(toHex(publicKey), isApproved);
-
   const conversationToApprove = getConversationController().get(convoId);
-
   if (!conversationToApprove || conversationToApprove.didApproveMe() === isApproved) {
     window?.log?.info(
       'Conversation already contains the correct value for the didApproveMe field.'
@@ -553,7 +557,6 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  // TODO: Maybe move this to conversation interactions
   await conversationToApprove.setIsApproved(isApproved);
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {

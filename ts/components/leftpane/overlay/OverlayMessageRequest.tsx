@@ -11,7 +11,6 @@ import { setOverlayMode } from '../../../state/ducks/section';
 import { getConversationController } from '../../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../../session/utils/syncUtils';
 import { BlockedNumberController } from '../../../util';
-import { getIsMessageRequestsEnabled } from '../../../state/selectors/userConfig';
 import useKey from 'react-use/lib/useKey';
 
 /**
@@ -59,8 +58,6 @@ export const OverlayMessageRequest = () => {
     dispatch(setOverlayMode(undefined));
   }
 
-  const messageRequestSetting = useSelector(getIsMessageRequestsEnabled);
-
   const buttonText = window.i18n('clearAll');
 
   return (
@@ -73,7 +70,7 @@ export const OverlayMessageRequest = () => {
         buttonType={SessionButtonType.BrandOutline}
         text={buttonText}
         onClick={() => {
-          void handleBlockAllRequestsClick(messageRequestSetting);
+          void handleBlockAllRequestsClick();
         }}
       />
     </div>

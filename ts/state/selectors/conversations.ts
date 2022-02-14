@@ -18,7 +18,7 @@ import { ConversationTypeEnum } from '../../models/conversation';
 import { LocalizerType } from '../../types/Util';
 import { ConversationHeaderTitleProps } from '../../components/conversation/ConversationHeader';
 import _ from 'lodash';
-import { getIsMessageRequestsEnabled } from './userConfig';
+import { getHideMessageRequestBanner } from './userConfig';
 import { ReplyingToMessageProps } from '../../components/conversation/composition/CompositionBox';
 import { MessageAttachmentSelectorProps } from '../../components/conversation/message/message-content/MessageAttachment';
 import { MessageAuthorSelectorProps } from '../../components/conversation/message/message-content/MessageAuthorText';
@@ -444,7 +444,7 @@ const _getConversationRequests = (
 
 export const getConversationRequests = createSelector(
   getSortedConversations,
-  getIsMessageRequestsEnabled,
+  getHideMessageRequestBanner,
   _getConversationRequests
 );
 
@@ -473,15 +473,10 @@ const _getPrivateContactsPubkeys = (
  */
 export const getPrivateContactsPubkeys = createSelector(
   getSortedConversations,
-  getIsMessageRequestsEnabled,
   _getPrivateContactsPubkeys
 );
 
-export const getLeftPaneLists = createSelector(
-  getSortedConversations,
-  getIsMessageRequestsEnabled,
-  _getLeftPaneLists
-);
+export const getLeftPaneLists = createSelector(getSortedConversations, _getLeftPaneLists);
 
 export const getMe = createSelector(
   [getConversationLookup, getOurNumber],

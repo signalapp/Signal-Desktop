@@ -4,7 +4,7 @@ import { getMessageQueue } from '../session';
 import { getConversationController } from '../session/conversations';
 import { ClosedGroupVisibleMessage } from '../session/messages/outgoing/visibleMessage/ClosedGroupVisibleMessage';
 import { PubKey } from '../session/types';
-import { ToastUtils, UserUtils } from '../session/utils';
+import { UserUtils } from '../session/utils';
 import { BlockedNumberController } from '../util';
 import { leaveClosedGroup } from '../session/group/closed-group';
 import { SignalService } from '../protobuf';
@@ -19,7 +19,7 @@ import {
   saveMessages,
   updateConversation,
 } from '../../ts/data/data';
-import { fromHexToArray, toHex } from '../session/utils/String';
+import { toHex } from '../session/utils/String';
 import {
   actions as conversationActions,
   conversationChanged,

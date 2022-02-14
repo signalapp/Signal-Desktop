@@ -7,7 +7,7 @@ import { CallManager } from '../../../session/utils';
 import { sessionPassword, updateConfirmModal } from '../../../state/ducks/modalDialog';
 import { SectionType, setOverlayMode, showLeftPaneSection } from '../../../state/ducks/section';
 import { toggleMessageRequests } from '../../../state/ducks/userConfig';
-import { getIsMessageRequestsEnabled } from '../../../state/selectors/userConfig';
+import { getHideMessageRequestBanner } from '../../../state/selectors/userConfig';
 import { SessionButtonColor } from '../../basic/SessionButton';
 import { PasswordAction } from '../../dialog/SessionPasswordDialog';
 
@@ -115,9 +115,9 @@ export const SettingsCategoryPrivacy = (props: {
           onClickToggle={() => {
             dispatch(toggleMessageRequests());
           }}
-          title={window.i18n('alwaysShowMessageRequests')}
-          description={window.i18n('messageRequestsDescription')}
-          active={useSelector(getIsMessageRequestsEnabled)}
+          title={window.i18n('hideRequestBanner')}
+          description={window.i18n('hideRequestBannerDescription')}
+          active={useSelector(getHideMessageRequestBanner)}
         />
         <SessionSettingButtonItem
           title={window.i18n('openMessageRequestInbox')}
