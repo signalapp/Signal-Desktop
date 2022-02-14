@@ -227,7 +227,12 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     i18n: LocalizerType;
   }>): ReactChild {
     return (
-      <Button disabled={!this.canCreateGroup()} onClick={createGroup}>
+      <Button
+        disabled={!this.canCreateGroup()}
+        onClick={() => {
+          createGroup();
+        }}
+      >
         {this.isCreating ? (
           <Spinner size="20px" svgSize="small" direction="on-avatar" />
         ) : (
