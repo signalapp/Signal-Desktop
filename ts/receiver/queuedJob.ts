@@ -10,6 +10,8 @@ import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 import { MessageModelPropsWithoutConvoProps, messagesAdded } from '../state/ducks/conversations';
 import { updateProfileOneAtATime } from './dataMessage';
 import Long from 'long';
+import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
+import { showMessageRequestBanner } from '../state/ducks/userConfig';
 
 function contentTypeSupported(type: string): boolean {
   const Chrome = window.Signal.Util.GoogleChrome;
@@ -223,6 +225,19 @@ async function handleRegularMessage(
   if (type === 'outgoing') {
     await handleSyncedReceipts(message, conversation);
   }
+
+    if (
+      conversation.isPrivate() &&
+      !conversation.isApproved() &&
+      window.inboxStore?.getState().userConfig.hideMessageRequests
+    ) {
+      window.inboxStore?.dispatch(showMessageRequestBanner());
+    }
+
+    if (!conversation.didApproveMe()) {
+      conversation.setDidApproveMe(true);
+      await forceSyncConfigurationNowIfNeeded();
+    }
 
   const conversationActiveAt = conversation.get('active_at');
   if (!conversationActiveAt || (message.get('sent_at') || 0) > conversationActiveAt) {

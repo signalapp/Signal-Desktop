@@ -7,20 +7,17 @@ import _, * as Lodash from 'lodash';
 import { PubKey } from '../session/types';
 
 import { BlockedNumberController } from '../util/blockedNumberController';
-import { GroupUtils, ToastUtils, UserUtils } from '../session/utils';
+import { GroupUtils, UserUtils } from '../session/utils';
 import { fromHexToArray, toHex } from '../session/utils/String';
 import { concatUInt8Array, getSodium } from '../session/crypto';
 import { getConversationController } from '../session/conversations';
 import { ECKeyPair } from './keypairs';
 import { handleConfigurationMessage } from './configMessage';
-import { ConversationTypeEnum } from '../models/conversation';
 import { removeMessagePadding } from '../session/crypto/BufferPadding';
 import { perfEnd, perfStart } from '../session/utils/Performance';
 import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
-import { showMessageRequestBanner } from '../state/ducks/userConfig';
-import { useUpdate } from 'react-use';
 
 export async function handleContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -345,19 +342,6 @@ export async function innerHandleContentMessage(
       } else {
         window?.log?.info('Allowing group-control message only from blocked user');
       }
-    }
-
-    const newConvo = await getConversationController().getOrCreateAndWait(
-      envelope.source,
-      ConversationTypeEnum.PRIVATE
-    );
-
-    if (
-      newConvo.isPrivate() &&
-      !newConvo.isApproved() &&
-      window.inboxStore?.getState().userConfig.hideMessageRequests
-    ) {
-      window.inboxStore?.dispatch(showMessageRequestBanner());
     }
 
     if (content.dataMessage) {
