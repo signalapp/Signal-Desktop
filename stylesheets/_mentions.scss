@@ -11,14 +11,6 @@
     margin: 4px;
     min-width: 20px;
   }
-
-  .existing-member {
-    color: green;
-  }
-
-  .existing-member-kicked {
-    color: red;
-  }
 }
 
 .member-list-container {
@@ -30,31 +22,6 @@
 
   .check-mark {
     display: none;
-  }
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.member-item {
-  background-color: var(--color-cell-background);
-  color: var(--color-text);
-
-  padding: 4px;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  .name-part {
-    font-weight: 300;
-    margin-inline-start: 12px;
-  }
-
-  .pubkey-part {
-    margin-inline-start: 10px;
-    opacity: 0.6;
   }
 }
 
@@ -73,29 +40,4 @@
 
 .module-conversation-list-item--mentioned-us {
   border-left: 4px solid $session-color-green !important;
-}
-
-.at-symbol {
-  background-color: var(--color-accent);
-
-  color: $color-black;
-  text-align: center;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 1px;
-  padding-inline-start: 3px;
-  padding-inline-end: 3px;
-
-  position: static;
-  margin-inline-start: 5px;
-
-  font-weight: 300;
-  font-size: 11px;
-  letter-spacing: 0.25px;
-
-  height: 16px;
-  min-width: 16px;
-  border-radius: 8px;
-
-  box-shadow: 0px 0px 0px 1px $color-dark-85;
 }

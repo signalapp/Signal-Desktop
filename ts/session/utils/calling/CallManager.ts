@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { MessageUtils, ToastUtils, UserUtils } from '../';
-import { MessageModelType } from '../../../models/messageType';
 import { SignalService } from '../../../protobuf';
 import { openConversationWithMessages } from '../../../state/ducks/conversations';
 import {
@@ -26,6 +25,7 @@ import { DURATION } from '../../constants';
 import { hasConversationOutgoingMessage } from '../../../data/data';
 import { getCallMediaPermissionsSettings } from '../../../components/settings/SessionSettings';
 import { PnServer } from '../../apis/push_notification_api';
+import { getNowWithNetworkOffset } from '../../apis/snode_api/SNodeAPI';
 
 // tslint:disable: function-name
 
@@ -120,46 +120,51 @@ let ignoreOffer = false;
 let isSettingRemoteAnswerPending = false;
 let lastOutgoingOfferTimestamp = -Infinity;
 
+/**
+ * This array holds all of the ice servers Session can contact.
+ * They are all contacted at the same time, so before triggering the request, we get only a subset of those, randomly
+ */
+const iceServersFullArray = [
+  {
+    urls: 'turn:freyr.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:fenrir.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:frigg.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:angus.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:hereford.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:holstein.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+  {
+    urls: 'turn:brahman.getsession.org',
+    username: 'session202111',
+    credential: '053c268164bc7bd7',
+  },
+];
+
 const configuration: RTCConfiguration = {
   bundlePolicy: 'max-bundle',
   rtcpMuxPolicy: 'require',
-  iceServers: [
-    {
-      urls: 'turn:freyr.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:fenrir.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:frigg.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:angus.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:hereford.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:holstein.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-    {
-      urls: 'turn:brahman.getsession.org',
-      username: 'session202111',
-      credential: '053c268164bc7bd7',
-    },
-  ],
   // iceTransportPolicy: 'relay', // for now, this cause the connection to break after 30-40 sec if we enable this
 };
 
@@ -491,14 +496,10 @@ export async function USER_callRecipient(recipient: string) {
 
   window.log.info('Sending preOffer message to ', ed25519Str(recipient));
   const calledConvo = getConversationController().get(recipient);
-  calledConvo.set('active_at', Date.now()); // addSingleMessage does the commit for us on the convo
+  calledConvo.set('active_at', Date.now()); // addSingleOutgoingMessage does the commit for us on the convo
 
-  await calledConvo?.addSingleMessage({
-    conversationId: calledConvo.id,
-    source: UserUtils.getOurPubKeyStrFromCache(),
-    type: 'outgoing',
+  await calledConvo?.addSingleOutgoingMessage({
     sent_at: now,
-    received_at: now,
     expireTimer: 0,
     callNotificationType: 'started-call',
     unread: 0,
@@ -705,7 +706,8 @@ function createOrGetPeerConnection(withPubkey: string) {
     return peerConnection;
   }
   remoteStream = new MediaStream();
-  peerConnection = new RTCPeerConnection(configuration);
+  const sampleOfICeServers = _.sampleSize(iceServersFullArray, 2);
+  peerConnection = new RTCPeerConnection({ ...configuration, iceServers: sampleOfICeServers });
   dataChannel = peerConnection.createDataChannel('session-datachannel', {
     ordered: true,
     negotiated: true,
@@ -780,7 +782,7 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
     return;
   }
   window.inboxStore?.dispatch(answerCall({ pubkey: fromSender }));
-  await openConversationWithMessages({ conversationKey: fromSender });
+  await openConversationWithMessages({ conversationKey: fromSender, messageId: null });
   if (peerConnection) {
     throw new Error('USER_acceptIncomingCallRequest: peerConnection is already set.');
   }
@@ -820,15 +822,13 @@ export async function USER_acceptIncomingCallRequest(fromSender: string) {
       await peerConnection.addIceCandidate(candicate);
     }
   }
-  const now = Date.now();
+  const networkTimestamp = getNowWithNetworkOffset();
   const callerConvo = getConversationController().get(fromSender);
-  callerConvo.set('active_at', now);
-  await callerConvo?.addSingleMessage({
-    conversationId: callerConvo.id,
+  callerConvo.set('active_at', networkTimestamp);
+  await callerConvo?.addSingleIncomingMessage({
     source: UserUtils.getOurPubKeyStrFromCache(),
-    type: 'incoming',
-    sent_at: now,
-    received_at: now,
+    sent_at: networkTimestamp,
+    received_at: networkTimestamp,
     expireTimer: 0,
     callNotificationType: 'answered-a-call',
     unread: 0,
@@ -1134,15 +1134,13 @@ async function addMissedCallMessage(callerPubkey: string, sentAt: number) {
   const incomingCallConversation = getConversationController().get(callerPubkey);
 
   if (incomingCallConversation.isActive()) {
-    incomingCallConversation.set('active_at', Date.now());
+    incomingCallConversation.set('active_at', getNowWithNetworkOffset());
   }
 
-  await incomingCallConversation?.addSingleMessage({
-    conversationId: callerPubkey,
+  await incomingCallConversation?.addSingleIncomingMessage({
     source: callerPubkey,
-    type: 'incoming' as MessageModelType,
     sent_at: sentAt,
-    received_at: Date.now(),
+    received_at: getNowWithNetworkOffset(),
     expireTimer: 0,
     callNotificationType: 'missed-call',
     unread: 1,

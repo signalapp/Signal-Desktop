@@ -3,7 +3,7 @@ import { animation, contextMenu, Item, Menu } from 'react-contexify';
 import { InputItem } from '../../session/utils/calling/CallManager';
 import { setFullScreenCall } from '../../state/ducks/call';
 import { CallManager, ToastUtils } from '../../session/utils';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHasOngoingCallWithPubkey } from '../../state/selectors/call';
 import { DropDownAndToggleButton } from '../icon/DropDownAndToggleButton';
@@ -317,7 +317,7 @@ const handleSpeakerToggle = async (
   }
 };
 
-const StyledCallWindowControls = styled.div`
+const StyledCallWindowControls = styled.div<{ makeVisible: boolean }>`
   position: absolute;
 
   bottom: 0px;
@@ -335,10 +335,7 @@ const StyledCallWindowControls = styled.div`
   display: flex;
 
   justify-content: center;
-  opacity: 0;
-  &:hover {
-    opacity: 1;
-  }
+  opacity: ${props => (props.makeVisible ? 1 : 0)};
 `;
 
 export const CallWindowControls = ({
@@ -360,8 +357,27 @@ export const CallWindowControls = ({
   currentConnectedCameras: Array<InputItem>;
   isFullScreen: boolean;
 }) => {
+  const [makeVisible, setMakeVisible] = useState(true);
+
+  const setMakeVisibleTrue = () => {
+    setMakeVisible(true);
+  };
+  const setMakeVisibleFalse = () => {
+    setMakeVisible(false);
+  };
+
+  useEffect(() => {
+    setMakeVisibleTrue();
+    document.addEventListener('mouseenter', setMakeVisibleTrue);
+    document.addEventListener('mouseleave', setMakeVisibleFalse);
+
+    return () => {
+      document.removeEventListener('mouseenter', setMakeVisibleTrue);
+      document.removeEventListener('mouseleave', setMakeVisibleFalse);
+    };
+  }, [isFullScreen]);
   return (
-    <StyledCallWindowControls>
+    <StyledCallWindowControls makeVisible={makeVisible}>
       {!remoteStreamVideoIsMuted && <ShowInFullScreenButton isFullScreen={isFullScreen} />}
 
       <VideoInputButton

@@ -25,7 +25,7 @@ import _ from 'lodash';
 // tslint:disable-next-line: no-empty-interface
 export type ConversationListItemProps = Pick<
   ReduxConversationType,
-  'unreadCount' | 'id' | 'isSelected' | 'isBlocked' | 'mentionedUs' | 'unreadCount' | 'profileName'
+  'id' | 'isSelected' | 'isBlocked' | 'mentionedUs' | 'unreadCount' | 'profileName'
 >;
 
 /**
@@ -85,14 +85,15 @@ const ConversationListItem = (props: Props) => {
     mentionedUs,
     isMessageRequest,
   } = props;
-  const triggerId = `conversation-item-${conversationId}-ctxmenu`;
   const key = `conversation-item-${conversationId}`;
+
+  const triggerId = `${key}-ctxmenu`;
 
   const openConvo = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       // mousedown is invoked sooner than onClick, but for both right and left click
       if (e.button === 0) {
-        await openConversationWithMessages({ conversationKey: conversationId });
+        await openConversationWithMessages({ conversationKey: conversationId, messageId: null });
       }
     },
     [conversationId]
@@ -108,7 +109,7 @@ const ConversationListItem = (props: Props) => {
             e.stopPropagation();
             e.preventDefault();
           }}
-          onContextMenu={(e: any) => {
+          onContextMenu={e => {
             contextMenu.show({
               id: triggerId,
               event: e,

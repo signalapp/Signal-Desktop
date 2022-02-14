@@ -31,6 +31,7 @@ libtextsecure/libsignal-protocol.js
 js/util_worker.js
 libtextsecure/test/blanket_mocha.js
 mnemonic_languages/**
+playwright.config.js
 
 # Managed by package manager (`yarn`/`npm`):
 /package.json

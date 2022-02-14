@@ -276,7 +276,7 @@ textarea {
   &-text {
     @include session-color-subtle(var(--color-text));
 
-    font-weight: 300;
+    font-weight: 400;
     font-size: $session-font-sm;
     line-height: $session-font-sm;
   }
@@ -1052,29 +1052,6 @@ input {
   user-select: text;
 }
 
-.dark-theme .invite-friends-dialog .member-item {
-  height: 64px;
-  background-color: $session-shade-4;
-  border: var(--border-session);
-
-  display: flex;
-  align-items: center;
-  transition: $session-transition-duration;
-
-  .module-avatar,
-  .name-part {
-    margin: auto $session-margin-md;
-  }
-
-  .check-mark {
-    margin: auto $session-margin-xs;
-  }
-
-  .name-part {
-    flex-grow: 1;
-  }
-}
-
 .contact-selection-list {
   width: 20vw;
 }
@@ -1223,6 +1200,10 @@ input {
   }
 }
 
+.session-member-item.compact {
+  height: 40px;
+}
+
 .session-member-item {
   cursor: pointer;
   font-family: $session-font-default;
@@ -1231,14 +1212,9 @@ input {
   display: flex;
   justify-content: space-between;
   transition: $session-transition-duration;
-  background: var(--color-cell-background);
 
   &:not(:last-child) {
     border-bottom: var(--border-session);
-  }
-
-  &:hover {
-    background-color: var(--color-clickable-hovered);
   }
 
   &.selected {
@@ -1290,15 +1266,6 @@ input {
 
 .module-message__text {
   white-space: pre-wrap;
-}
-
-.session-info-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: $session-shade-6;
-  padding: $session-margin-sm $session-margin-lg;
-  border-radius: 4px;
 }
 
 .speedButton {

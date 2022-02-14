@@ -110,7 +110,7 @@ export class ConversationController {
     };
 
     conversation.initialPromise = create();
-    conversation.initialPromise.then(async () => {
+    conversation.initialPromise.then(() => {
       if (window?.inboxStore) {
         window.inboxStore?.dispatch(
           conversationActions.conversationAdded({
@@ -120,11 +120,9 @@ export class ConversationController {
         );
       }
       if (!conversation.isPublic()) {
-        await Promise.all([
-          conversation.updateProfileAvatar(),
-          // NOTE: we request snodes updating the cache, but ignore the result
-          void getSwarmFor(id),
-        ]);
+        // NOTE: we request snodes updating the cache, but ignore the result
+
+        void getSwarmFor(id);
       }
     });
 
@@ -274,13 +272,10 @@ export class ConversationController {
             promises.push(conversation.updateLastMessage());
           }
 
-          promises.concat([conversation.updateProfileName(), conversation.updateProfileAvatar()]);
+          promises.concat([conversation.updateProfileName()]);
         });
 
         await Promise.all(promises);
-
-        // Remove any unused images
-        window.profileImages.removeImagesNotInArray(this.conversations.map((c: any) => c.id));
         window?.log?.info('ConversationController: done with initial fetch');
       } catch (error) {
         window?.log?.error(

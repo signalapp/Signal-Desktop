@@ -1,29 +1,49 @@
 import React from 'react';
+import styled from 'styled-components';
 import { RenderTextCallbackType } from '../../types/Util';
 import { SizeClassType } from '../../util/emoji';
 import { AddNewLines } from '../conversation/AddNewLines';
 import { Emojify } from '../conversation/Emojify';
-import { MessageBody } from '../conversation/message/message-content/MessageBody';
+import {
+  MessageBody,
+  renderTextDefault,
+} from '../conversation/message/message-content/MessageBody';
 
-const renderNewLines: RenderTextCallbackType = ({ text, key }) => (
-  <AddNewLines key={key} text={text} />
+const renderNewLines: RenderTextCallbackType = ({ text, key, isGroup }) => (
+  <AddNewLines key={key} text={text} renderNonNewLine={renderTextDefault} isGroup={isGroup} />
 );
+
+const SnippetHighlight = styled.span`
+  font-weight: bold;
+  color: var(--color-text);
+`;
 
 const renderEmoji = ({
   text,
   key,
   sizeClass,
   renderNonEmoji,
+  isGroup,
 }: {
   text: string;
   key: number;
-  sizeClass?: SizeClassType;
+  isGroup: boolean;
+  sizeClass: SizeClassType;
   renderNonEmoji: RenderTextCallbackType;
-}) => <Emojify key={key} text={text} sizeClass={sizeClass} renderNonEmoji={renderNonEmoji} />;
+}) => (
+  <Emojify
+    key={key}
+    text={text}
+    sizeClass={sizeClass}
+    renderNonEmoji={renderNonEmoji}
+    isGroup={isGroup}
+  />
+);
 
-export const MessageBodyHighlight = (props: { text: string }) => {
-  const { text } = props;
+export const MessageBodyHighlight = (props: { text: string; isGroup: boolean }) => {
+  const { text, isGroup } = props;
   const results: Array<JSX.Element> = [];
+  // this is matching what sqlite fts5 is giving us back
   const FIND_BEGIN_END = /<<left>>(.+?)<<right>>/g;
 
   let match = FIND_BEGIN_END.exec(text);
@@ -31,10 +51,12 @@ export const MessageBodyHighlight = (props: { text: string }) => {
   let count = 1;
 
   if (!match) {
-    return <MessageBody disableJumbomoji={true} disableLinks={true} text={text} />;
+    return (
+      <MessageBody disableJumbomoji={true} disableLinks={true} text={text} isGroup={isGroup} />
+    );
   }
 
-  const sizeClass = '';
+  const sizeClass = 'default';
 
   while (match) {
     if (last < match.index) {
@@ -45,20 +67,22 @@ export const MessageBodyHighlight = (props: { text: string }) => {
           sizeClass,
           key: count++,
           renderNonEmoji: renderNewLines,
+          isGroup,
         })
       );
     }
 
     const [, toHighlight] = match;
     results.push(
-      <span className="module-message-body__highlight" key={count++}>
+      <SnippetHighlight key={count++}>
         {renderEmoji({
           text: toHighlight,
           sizeClass,
           key: count++,
           renderNonEmoji: renderNewLines,
+          isGroup,
         })}
-      </span>
+      </SnippetHighlight>
     );
 
     // @ts-ignore
@@ -73,6 +97,7 @@ export const MessageBodyHighlight = (props: { text: string }) => {
         sizeClass,
         key: count++,
         renderNonEmoji: renderNewLines,
+        isGroup,
       })
     );
   }

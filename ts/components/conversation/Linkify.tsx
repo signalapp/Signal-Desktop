@@ -7,71 +7,31 @@ import { isLinkSneaky } from '../../../js/modules/link_previews';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { shell } from 'electron';
 import { MessageInteraction } from '../../interactions';
+import { useDispatch } from 'react-redux';
 
 const linkify = LinkifyIt();
 
-interface Props {
+type Props = {
   text: string;
   /** Allows you to customize now non-links are rendered. Simplest is just a <span>. */
   renderNonLink?: RenderTextCallbackType;
-}
+  isGroup: boolean;
+};
 
 const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
-export class Linkify extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderNonLink: ({ text }) => text,
-  };
+const defaultRenderNonLink = ({ text }: { text: string }) => <>{text}</>;
 
-  public render() {
-    const { text, renderNonLink } = this.props;
-    const results: Array<any> = [];
-    let count = 1;
-
-    const matchData = linkify.match(text) || [];
-    let last = 0;
-
-    // We have to do this, because renderNonLink is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderNonLink) {
-      return;
-    }
-
-    if (matchData.length === 0) {
-      return renderNonLink({ text, key: 0 });
-    }
-
-    matchData.forEach((match: { index: number; url: string; lastIndex: number; text: string }) => {
-      if (last < match.index) {
-        const textWithNoLink = text.slice(last, match.index);
-        results.push(renderNonLink({ text: textWithNoLink, key: count++ }));
-      }
-
-      const { url, text: originalText } = match;
-      const isLink = SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url);
-      if (isLink) {
-        results.push(
-          <a key={count++} href={url} onClick={this.handleClick}>
-            {originalText}
-          </a>
-        );
-      } else {
-        results.push(renderNonLink({ text: originalText, key: count++ }));
-      }
-
-      last = match.lastIndex;
-    });
-
-    if (last < text.length) {
-      results.push(renderNonLink({ text: text.slice(last), key: count++ }));
-    }
-
-    return results;
-  }
-
+export const Linkify = (props: Props): JSX.Element => {
+  const { text, isGroup, renderNonLink } = props;
+  const results: Array<any> = [];
+  let count = 1;
+  const dispatch = useDispatch();
+  const matchData = linkify.match(text) || [];
+  let last = 0;
   // disable click on <a> elements so clicking a message containing a link doesn't
   // select the message.The link will still be opened in the browser.
-  public handleClick = (e: any) => {
+  const handleClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -81,7 +41,7 @@ export class Linkify extends React.Component<Props> {
       void shell.openExternal(url);
     };
 
-    window.inboxStore?.dispatch(
+    dispatch(
       updateConfirmModal({
         title: window.i18n('linkVisitWarningTitle'),
         message: window.i18n('linkVisitWarningMessage', url),
@@ -90,7 +50,7 @@ export class Linkify extends React.Component<Props> {
         showExitIcon: true,
         onClickOk: openLink,
         onClickClose: () => {
-          window.inboxStore?.dispatch(updateConfirmModal(null));
+          dispatch(updateConfirmModal(null));
         },
 
         onClickCancel: () => {
@@ -99,4 +59,37 @@ export class Linkify extends React.Component<Props> {
       })
     );
   };
-}
+
+  const renderWith = renderNonLink || defaultRenderNonLink;
+
+  if (matchData.length === 0) {
+    return renderWith({ text, key: 0, isGroup });
+  }
+
+  matchData.forEach((match: { index: number; url: string; lastIndex: number; text: string }) => {
+    if (last < match.index) {
+      const textWithNoLink = text.slice(last, match.index);
+      results.push(renderWith({ text: textWithNoLink, isGroup, key: count++ }));
+    }
+
+    const { url, text: originalText } = match;
+    const isLink = SUPPORTED_PROTOCOLS.test(url) && !isLinkSneaky(url);
+    if (isLink) {
+      results.push(
+        <a key={count++} href={url} onClick={handleClick}>
+          {originalText}
+        </a>
+      );
+    } else {
+      results.push(renderWith({ text: originalText, isGroup, key: count++ }));
+    }
+
+    last = match.lastIndex;
+  });
+
+  if (last < text.length) {
+    results.push(renderWith({ text: text.slice(last), isGroup, key: count++ }));
+  }
+
+  return <>{results}</>;
+};

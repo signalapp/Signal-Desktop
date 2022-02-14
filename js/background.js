@@ -326,10 +326,11 @@
       window.setCallMediaPermissions(enabled);
     };
 
-    Whisper.Notifications.on('click', async (id, messageId) => {
+    Whisper.Notifications.on('click', async conversationKey => {
       window.showWindow();
-      if (id) {
-        await window.openConversationWithMessages({ conversationKey: id, messageId });
+      if (conversationKey) {
+        // do not put the messageId here so the conversation is loaded on the last unread instead
+        await window.openConversationWithMessages({ conversationKey, messageId: null });
       } else {
         appView.openInbox({
           initialLoadComplete,

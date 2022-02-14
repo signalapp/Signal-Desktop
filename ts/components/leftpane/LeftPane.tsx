@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { SectionType } from '../../state/ducks/section';
 import { SessionTheme } from '../../state/ducks/SessionTheme';
 import { getLeftPaneLists } from '../../state/selectors/conversations';
-import { getQuery, getSearchResults, isSearching } from '../../state/selectors/search';
+import { getSearchResults, isSearching } from '../../state/selectors/search';
 import { getFocusedSection, getOverlayMode } from '../../state/selectors/section';
 import { getHideMessageRequestBanner } from '../../state/selectors/userConfig';
 import { ActionsPanel } from './ActionsPanel';
@@ -24,7 +24,6 @@ export type RowRendererParamsType = {
 
 const InnerLeftPaneMessageSection = () => {
   const showSearch = useSelector(isSearching);
-  const searchTerm = useSelector(getQuery);
 
   const searchResults = showSearch ? useSelector(getSearchResults) : undefined;
 
@@ -38,7 +37,6 @@ const InnerLeftPaneMessageSection = () => {
       conversations={lists?.conversations || []}
       contacts={lists?.contacts || []}
       searchResults={searchResults}
-      searchTerm={searchTerm}
       messageRequestsEnabled={messageRequestsEnabled}
       overlayMode={overlayMode}
     />

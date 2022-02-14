@@ -52,7 +52,8 @@ jobs:
         run: yarn generate
 
       - name: Lint Files
-        if: runner.os != 'Windows'
+        # no need to lint files on all platforms. Just do it once on the quicker one
+        if: runner.os == 'Linux'
         run: yarn lint-full
 
       - name: Build windows production binaries

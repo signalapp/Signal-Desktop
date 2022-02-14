@@ -32,6 +32,15 @@ export function useConversationUsernameOrShorten(convoId?: string) {
 }
 
 /**
+ * Returns the name if that conversation.
+ * This is the group name, or the realName of a user for a private conversation with a recent nickname set
+ */
+export function useConversationRealName(convoId?: string) {
+  const convoProps = useConversationPropsById(convoId);
+  return convoProps?.isPrivate ? convoProps?.name : undefined;
+}
+
+/**
  * Returns either the nickname, the profileName, in '"' or the full pubkeys given
  */
 export function useConversationsUsernameWithQuoteOrFullPubkey(pubkeys: Array<string>) {
@@ -101,7 +110,7 @@ export function useWeAreAdmin(convoId?: string) {
 
 export function useExpireTimer(convoId?: string) {
   const convoProps = useConversationPropsById(convoId);
-  return Boolean(convoProps && convoProps.expireTimer);
+  return convoProps && convoProps.expireTimer;
 }
 
 export function useIsPinned(convoId?: string) {

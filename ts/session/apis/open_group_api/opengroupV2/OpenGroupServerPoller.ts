@@ -16,12 +16,12 @@ import { ConversationModel } from '../../../../models/conversation';
 import { getMessageIdsFromServerIds, removeMessage } from '../../../../data/data';
 import { getV2OpenGroupRoom, saveV2OpenGroupRoom } from '../../../../data/opengroups';
 import { OpenGroupMessageV2 } from './OpenGroupMessageV2';
-import { handleOpenGroupV2Message } from '../../../../receiver/receiver';
 import autoBind from 'auto-bind';
 import { sha256 } from '../../../crypto';
 import { DURATION } from '../../../constants';
 import { processNewAttachment } from '../../../../types/MessageAttachment';
 import { MIME } from '../../../../types';
+import { handleOpenGroupV2Message } from '../../../../receiver/opengroup';
 
 const pollForEverythingInterval = DURATION.SECONDS * 10;
 const pollForRoomAvatarInterval = DURATION.DAYS * 1;

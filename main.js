@@ -663,12 +663,12 @@ async function removeDB() {
   await sql.removeDB(userDir);
 
   try {
-    console.warn('Remove DB: removing.', userDir);
+    console.error('Remove DB: removing.', userDir);
 
     userConfig.remove();
     ephemeralConfig.remove();
   } catch (e) {
-    console.warn('Remove DB: Failed to remove configs.', e);
+    console.error('Remove DB: Failed to remove configs.', e);
   }
 }
 

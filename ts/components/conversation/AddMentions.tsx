@@ -8,7 +8,6 @@ import React from 'react';
 interface MentionProps {
   key: string;
   text: string;
-  convoId: string;
 }
 
 const Mention = (props: MentionProps) => {
@@ -29,55 +28,48 @@ const Mention = (props: MentionProps) => {
   }
 };
 
-interface Props {
+type Props = {
   text: string;
   renderOther?: RenderTextCallbackType;
-  convoId: string;
-}
+  isGroup: boolean;
+};
 
-export class AddMentions extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
-    renderOther: ({ text }) => text,
-  };
+const defaultRenderOther = ({ text }: { text: string }) => <>{text}</>;
 
-  public render() {
-    const { text, renderOther, convoId } = this.props;
-    const results: Array<any> = [];
-    const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
+export const AddMentions = (props: Props): JSX.Element => {
+  const { text, renderOther, isGroup } = props;
 
-    // We have to do this, because renderOther is not required in our Props object,
-    //  but it is always provided via defaultProps.
-    if (!renderOther) {
-      return;
-    }
+  const results: Array<JSX.Element> = [];
+  const FIND_MENTIONS = new RegExp(`@${PubKey.regexForPubkeys}`, 'g');
 
-    let match = FIND_MENTIONS.exec(text);
-    let last = 0;
-    let count = 1000;
+  const renderWith = renderOther || defaultRenderOther;
 
-    if (!match) {
-      return renderOther({ text, key: 0 });
-    }
+  let match = FIND_MENTIONS.exec(text);
+  let last = 0;
+  let count = 1000;
 
-    while (match) {
-      count++;
-      const key = count;
-      if (last < match.index) {
-        const otherText = text.slice(last, match.index);
-        results.push(renderOther({ text: otherText, key }));
-      }
-
-      const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
-      results.push(<Mention text={pubkey} key={`${key}`} convoId={convoId} />);
-
-      last = FIND_MENTIONS.lastIndex;
-      match = FIND_MENTIONS.exec(text);
-    }
-
-    if (last < text.length) {
-      results.push(renderOther({ text: text.slice(last), key: count++ }));
-    }
-
-    return results;
+  if (!match) {
+    return renderWith({ text, key: 0, isGroup });
   }
-}
+
+  while (match) {
+    count++;
+    const key = count;
+    if (last < match.index) {
+      const otherText = text.slice(last, match.index);
+      results.push(renderWith({ text: otherText, key, isGroup }));
+    }
+
+    const pubkey = text.slice(match.index, FIND_MENTIONS.lastIndex);
+    results.push(<Mention text={pubkey} key={`${key}`} />);
+
+    last = FIND_MENTIONS.lastIndex;
+    match = FIND_MENTIONS.exec(text);
+  }
+
+  if (last < text.length) {
+    results.push(renderWith({ text: text.slice(last), key: count++, isGroup }));
+  }
+
+  return <>{results}</>;
+};

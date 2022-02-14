@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 // tslint:disable-next-line: no-submodule-imports
 import useKey from 'react-use/lib/useKey';
 import {
   PropsForDataExtractionNotification,
   PropsForMessageRequestResponse,
-  QuoteClickOptions,
 } from '../../models/messageType';
 import {
   PropsForCallNotification,
@@ -13,7 +12,11 @@ import {
   PropsForGroupInvitation,
   PropsForGroupUpdate,
 } from '../../state/ducks/conversations';
-import { getSortedMessagesTypesOfSelectedConversation } from '../../state/selectors/conversations';
+import {
+  getOldBottomMessageId,
+  getOldTopMessageId,
+  getSortedMessagesTypesOfSelectedConversation,
+} from '../../state/selectors/conversations';
 import { GroupUpdateMessage } from './message/message-item/GroupUpdateMessage';
 import { MessageRequestResponse } from './message/message-item/MessageRequestResponse';
 import { MessageDateBreak } from './message/message-item/DateBreak';
@@ -30,13 +33,36 @@ function isNotTextboxEvent(e: KeyboardEvent) {
 }
 
 export const SessionMessagesList = (props: {
-  scrollToQuoteMessage: (options: QuoteClickOptions) => Promise<void>;
+  scrollAfterLoadMore: (
+    messageIdToScrollTo: string,
+    type: 'load-more-top' | 'load-more-bottom'
+  ) => void;
   onPageUpPressed: () => void;
   onPageDownPressed: () => void;
   onHomePressed: () => void;
   onEndPressed: () => void;
 }) => {
   const messagesProps = useSelector(getSortedMessagesTypesOfSelectedConversation);
+  const oldTopMessageId = useSelector(getOldTopMessageId);
+  const oldBottomMessageId = useSelector(getOldBottomMessageId);
+
+  useLayoutEffect(() => {
+    const newTopMessageId = messagesProps.length
+      ? messagesProps[messagesProps.length - 1].message.props.messageId
+      : undefined;
+
+    if (oldTopMessageId !== newTopMessageId && oldTopMessageId && newTopMessageId) {
+      props.scrollAfterLoadMore(oldTopMessageId, 'load-more-top');
+    }
+
+    const newBottomMessageId = messagesProps.length
+      ? messagesProps[0].message.props.messageId
+      : undefined;
+
+    if (newBottomMessageId !== oldBottomMessageId && oldBottomMessageId && newBottomMessageId) {
+      props.scrollAfterLoadMore(oldBottomMessageId, 'load-more-bottom');
+    }
+  });
 
   useKey('PageUp', () => {
     props.onPageUpPressed();
@@ -63,7 +89,7 @@ export const SessionMessagesList = (props: {
       {messagesProps.map(messageProps => {
         const messageId = messageProps.message.props.messageId;
         const unreadIndicator = messageProps.showUnreadIndicator ? (
-          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} />
+          <SessionLastSeenIndicator key={`unread-indicator-${messageId}`} messageId={messageId} />
         ) : null;
 
         const dateBreak =
@@ -120,15 +146,7 @@ export const SessionMessagesList = (props: {
           return null;
         }
 
-        return [
-          <Message
-            messageId={messageId}
-            onQuoteClick={props.scrollToQuoteMessage}
-            key={messageId}
-          />,
-          dateBreak,
-          unreadIndicator,
-        ];
+        return [<Message messageId={messageId} key={messageId} />, dateBreak, unreadIndicator];
       })}
     </>
   );

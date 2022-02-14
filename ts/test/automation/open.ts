@@ -34,7 +34,6 @@ test.beforeEach(() => {
       throw new Error('parentFolderOfAllDataPath unset');
     }
     const pathToRemove = path.join(parentFolderOfAllDataPath, folder);
-    console.warn('Removing old test data left at: ', pathToRemove);
     rmdirSync(pathToRemove, { recursive: true });
   });
 });

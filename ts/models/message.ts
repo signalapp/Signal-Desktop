@@ -20,7 +20,7 @@ import {
 } from './messageType';
 
 import autoBind from 'auto-bind';
-import { saveMessage } from '../../ts/data/data';
+import { getFirstUnreadMessageWithMention, saveMessage } from '../../ts/data/data';
 import { ConversationModel, ConversationTypeEnum } from './conversation';
 import {
   FindAndFormatContactType,
@@ -680,12 +680,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // We include numbers we didn't successfully send to so we can display errors.
     // Older messages don't have the recipients included on the message, so we fall
     //   back to the conversation's current recipients
-    const phoneNumbers = this.isIncoming()
+    const phoneNumbers: Array<string> = this.isIncoming()
       ? [this.get('source')]
-      : _.union(
-          this.get('sent_to') || [],
-          this.get('recipients') || this.getConversation()?.getRecipients() || []
-        );
+      : this.get('sent_to') || [];
 
     // This will make the error message for outgoing key errors a bit nicer
     const allErrors = (this.get('errors') || []).map((error: any) => {
@@ -743,11 +740,10 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     // TODO: In the future it might be best if we cache the upload results if possible.
     // This way we don't upload duplicated data.
 
-    const attachmentsWithData = await Promise.all(
+    const finalAttachments = await Promise.all(
       (this.get('attachments') || []).map(loadAttachmentData)
     );
     const body = this.get('body');
-    const finalAttachments = attachmentsWithData;
 
     const quoteWithData = await loadQuoteData(this.get('quote'));
     const previewWithData = await loadPreviewData(this.get('preview'));
@@ -799,8 +795,9 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
       quote: undefined,
       groupInvitation: undefined,
       dataExtractionNotification: undefined,
-      hasAttachments: false,
-      hasVisualMediaAttachments: false,
+      hasAttachments: 0,
+      hasFileAttachments: 0,
+      hasVisualMediaAttachments: 0,
       attachments: undefined,
       preview: undefined,
     });
@@ -996,7 +993,7 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
 
     // if this message needs to be synced
     if (
-      (dataMessage.body && dataMessage.body.length) ||
+      dataMessage.body?.length ||
       dataMessage.attachments.length ||
       dataMessage.flags === SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE
     ) {
@@ -1066,7 +1063,17 @@ export class MessageModel extends Backbone.Model<MessageAttributes> {
     if (convo) {
       const beforeUnread = convo.get('unreadCount');
       const unreadCount = await convo.getUnreadCount();
-      if (beforeUnread !== unreadCount) {
+
+      const nextMentionedUs = await getFirstUnreadMessageWithMention(
+        convo.id,
+        UserUtils.getOurPubKeyStrFromCache()
+      );
+      let mentionedUsChange = false;
+      if (convo.get('mentionedUs') && !nextMentionedUs) {
+        convo.set('mentionedUs', false);
+        mentionedUsChange = true;
+      }
+      if (beforeUnread !== unreadCount || mentionedUsChange) {
         convo.set({ unreadCount });
         await convo.commit();
       }

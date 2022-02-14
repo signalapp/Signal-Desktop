@@ -15,7 +15,6 @@ import { UserUtils } from '../utils';
 import { ClosedGroupMemberLeftMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupMemberLeftMessage';
 import { ConversationModel, ConversationTypeEnum } from '../../models/conversation';
 import { MessageModel } from '../../models/message';
-import { MessageModelType } from '../../models/messageType';
 import {
   addKeyPairToCacheAndDBIfNeeded,
   distributingClosedGroupEncryptionKeyPairs,
@@ -28,7 +27,7 @@ import { ClosedGroupNameChangeMessage } from '../messages/outgoing/controlMessag
 import { ClosedGroupNewMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupNewMessage';
 import { ClosedGroupRemovedMembersMessage } from '../messages/outgoing/controlMessage/group/ClosedGroupRemovedMembersMessage';
 import { getSwarmPollingInstance } from '../apis/snode_api';
-import { getLatestTimestampOffset } from '../apis/snode_api/SNodeAPI';
+import { getNowWithNetworkOffset } from '../apis/snode_api/SNodeAPI';
 
 export type GroupInfo = {
   id: string;
@@ -107,20 +106,35 @@ export async function initiateClosedGroupUpdate(
   if (diff.newName?.length) {
     const nameOnlyDiff: GroupDiff = _.pick(diff, 'newName');
 
-    const dbMessageName = await addUpdateMessage(convo, nameOnlyDiff, 'outgoing', Date.now());
+    const dbMessageName = await addUpdateMessage(
+      convo,
+      nameOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     await sendNewName(convo, diff.newName, dbMessageName.id as string);
   }
 
   if (diff.joiningMembers?.length) {
     const joiningOnlyDiff: GroupDiff = _.pick(diff, 'joiningMembers');
 
-    const dbMessageAdded = await addUpdateMessage(convo, joiningOnlyDiff, 'outgoing', Date.now());
+    const dbMessageAdded = await addUpdateMessage(
+      convo,
+      joiningOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     await sendAddedMembers(convo, diff.joiningMembers, dbMessageAdded.id as string, updateObj);
   }
 
   if (diff.leavingMembers?.length) {
     const leavingOnlyDiff: GroupDiff = { kickedMembers: diff.leavingMembers };
-    const dbMessageLeaving = await addUpdateMessage(convo, leavingOnlyDiff, 'outgoing', Date.now());
+    const dbMessageLeaving = await addUpdateMessage(
+      convo,
+      leavingOnlyDiff,
+      UserUtils.getOurPubKeyStrFromCache(),
+      Date.now()
+    );
     const stillMembers = members;
     await sendRemovedMembers(
       convo,
@@ -135,7 +149,7 @@ export async function initiateClosedGroupUpdate(
 export async function addUpdateMessage(
   convo: ConversationModel,
   diff: GroupDiff,
-  type: MessageModelType,
+  sender: string,
   sentAt: number
 ): Promise<MessageModel> {
   const groupUpdate: any = {};
@@ -156,33 +170,28 @@ export async function addUpdateMessage(
     groupUpdate.kicked = diff.kickedMembers;
   }
 
-  const now = Date.now();
-
-  const unread = type === 'incoming';
-
-  const source = UserUtils.getOurPubKeyStrFromCache();
-
-  const message = await convo.addSingleMessage({
-    conversationId: convo.get('id'),
-    source,
-    type,
-    sent_at: sentAt,
-    received_at: now,
-    group_update: groupUpdate,
-    unread: unread ? 1 : 0,
-    expireTimer: 0,
-  });
-
-  if (unread) {
-    // update the unreadCount for this convo
-    const unreadCount = await convo.getUnreadCount();
-    convo.set({
-      unreadCount,
+  if (UserUtils.isUsFromCache(sender)) {
+    const outgoingMessage = await convo.addSingleOutgoingMessage({
+      sent_at: sentAt,
+      group_update: groupUpdate,
+      unread: 1,
+      expireTimer: 0,
     });
-    await convo.commit();
+    return outgoingMessage;
   }
-
-  return message;
+  const incomingMessage = await convo.addSingleIncomingMessage({
+    sent_at: sentAt,
+    group_update: groupUpdate,
+    expireTimer: 0,
+    source: sender,
+  });
+  // update the unreadCount for this convo
+  const unreadCount = await convo.getUnreadCount();
+  convo.set({
+    unreadCount,
+  });
+  await convo.commit();
+  return incomingMessage;
 }
 
 function buildGroupDiff(convo: ConversationModel, update: GroupInfo): GroupDiff {
@@ -278,7 +287,6 @@ export async function leaveClosedGroup(groupId: string) {
   const ourNumber = UserUtils.getOurPubKeyFromCache();
   const isCurrentUserAdmin = convo.get('groupAdmins')?.includes(ourNumber.key);
 
-  const now = Date.now();
   let members: Array<string> = [];
   let admins: Array<string> = [];
 
@@ -299,20 +307,16 @@ export async function leaveClosedGroup(groupId: string) {
   await convo.commit();
 
   const source = UserUtils.getOurPubKeyStrFromCache();
-  const diffTimestamp = Date.now() - getLatestTimestampOffset();
+  const networkTimestamp = getNowWithNetworkOffset();
 
-  const dbMessage = await convo.addSingleMessage({
+  const dbMessage = await convo.addSingleOutgoingMessage({
     group_update: { left: [source] },
-    conversationId: groupId,
-    source,
-    type: 'outgoing',
-    sent_at: diffTimestamp,
-    received_at: now,
+    sent_at: networkTimestamp,
     expireTimer: 0,
   });
   // Send the update to the group
   const ourLeavingMessage = new ClosedGroupMemberLeftMessage({
-    timestamp: Date.now(),
+    timestamp: networkTimestamp,
     groupId,
     identifier: dbMessage.id as string,
   });
@@ -339,7 +343,7 @@ async function sendNewName(convo: ConversationModel, name: string, messageId: st
   // Send the update to the group
   const nameChangeMessage = new ClosedGroupNameChangeMessage({
     timestamp: Date.now(),
-    groupId: groupId as string,
+    groupId,
     identifier: messageId,
     name,
   });
@@ -409,7 +413,7 @@ export async function sendRemovedMembers(
   }
   const ourNumber = UserUtils.getOurPubKeyFromCache();
   const admins = convo.get('groupAdmins') || [];
-  const groupId = convo.get('id') as string;
+  const groupId = convo.get('id');
 
   const isCurrentUserAdmin = admins.includes(ourNumber.key);
   const isUserLeaving = removedMembers.includes(ourNumber.key);

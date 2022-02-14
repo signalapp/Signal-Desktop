@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getQuotedMessageToAnimate } from '../../state/selectors/conversations';
+import { ScrollToLoadedMessageContext } from './SessionMessagesListContainer';
 
 const LastSeenBarContainer = styled.div`
   padding-bottom: 35px;
@@ -26,14 +29,29 @@ const LastSeenText = styled.div`
   color: var(--color-last-seen-indicator-text);
 `;
 
-export const SessionLastSeenIndicator = () => {
-  const { i18n } = window;
-  const text = i18n('unreadMessages');
+export const SessionLastSeenIndicator = (props: { messageId: string }) => {
   // if this unread-indicator is not unique it's going to cause issues
+  const [didScroll, setDidScroll] = useState(false);
+  const quotedMessageToAnimate = useSelector(getQuotedMessageToAnimate);
+
+  const scrollToLoadedMessage = useContext(ScrollToLoadedMessageContext);
+
+  // if this unread-indicator is rendered,
+  // we want to scroll here only if the conversation was not opened to a specific message
+
+  useLayoutEffect(() => {
+    if (!quotedMessageToAnimate && !didScroll) {
+      scrollToLoadedMessage(props.messageId, 'unread-indicator');
+      setDidScroll(true);
+    } else if (quotedMessageToAnimate) {
+      setDidScroll(true);
+    }
+  });
+
   return (
     <LastSeenBarContainer id="unread-indicator">
       <LastSeenBar>
-        <LastSeenText>{text}</LastSeenText>
+        <LastSeenText>{window.i18n('unreadMessages')}</LastSeenText>
       </LastSeenBar>
     </LastSeenBarContainer>
   );

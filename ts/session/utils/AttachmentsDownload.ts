@@ -13,6 +13,7 @@ import {
 import { MessageModel } from '../../models/message';
 import { downloadAttachment, downloadAttachmentOpenGroupV2 } from '../../receiver/attachments';
 import { initializeAttachmentLogic, processNewAttachment } from '../../types/MessageAttachment';
+import { getAttachmentMetadata } from '../../types/message/initializeAttachmentMetadata';
 
 // this cause issues if we increment that value to > 1.
 const MAX_ATTACHMENT_JOB_PARALLELISM = 3;
@@ -212,6 +213,14 @@ async function _runJob(job: any) {
       contentType: attachment.contentType,
     });
     found = await getMessageById(messageId);
+    if (found) {
+      const {
+        hasAttachments,
+        hasVisualMediaAttachments,
+        hasFileAttachments,
+      } = await getAttachmentMetadata(found);
+      found.set({ hasAttachments, hasVisualMediaAttachments, hasFileAttachments });
+    }
 
     _addAttachmentToMessage(found, upgradedAttachment, { type, index });
 
@@ -235,7 +244,7 @@ async function _runJob(job: any) {
 
     logger.error(
       `_runJob: Failed to download attachment type ${type} for message ${found?.idForLogging()}, attempt ${currentAttempt}:`,
-      error && error.stack ? error.stack : error
+      error && error.message ? error.message : error
     );
 
     const failedJob = {

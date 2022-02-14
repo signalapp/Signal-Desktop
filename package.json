@@ -2,7 +2,7 @@
   "name": "session-desktop",
   "productName": "Session",
   "description": "Private messaging from your desktop",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "license": "GPL-3.0",
   "author": {
     "name": "Loki Project",
@@ -42,7 +42,7 @@
     "tslint": "tslint --format stylish --project .",
     "format-full": "prettier --list-different --write \"*.{css,js,json,scss,ts,tsx}\" \"./**/*.{css,js,json,scss,ts,tsx}\"",
     "transpile": "tsc --incremental",
-    "transpile:watch": "tsc -w",
+    "transpile:watch": "yarn grunt  --force; tsc -w",
     "integration-test": "mocha --recursive --exit --timeout 30000  \"./ts/test-integration/**/*.test.js\" \"./ts/test/*.test.js\"",
     "clean-transpile": "rimraf 'ts/**/*.js' 'ts/*.js' 'ts/*.js.map' 'ts/**/*.js.map' && rimraf tsconfig.tsbuildinfo;",
     "ready": "yarn clean-transpile; yarn grunt && yarn lint-full && yarn test",
@@ -71,7 +71,6 @@
     "electron-is-dev": "^1.1.0",
     "electron-localshortcut": "^3.2.1",
     "electron-updater": "^4.2.2",
-    "emoji-js": "3.4.0",
     "emoji-mart": "^2.11.2",
     "filesize": "3.6.1",
     "firstline": "1.2.1",
@@ -94,12 +93,12 @@
     "os-locale": "2.1.0",
     "p-retry": "^4.2.0",
     "pify": "3.0.0",
+    "protobufjs": "^6.11.2",
     "rc-slider": "^8.7.1",
     "react": "^17.0.2",
     "react-contexify": "5.0.0",
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.4",
-    "react-emoji-render": "^1.2.4",
     "react-h5-audio-player": "^3.2.0",
     "react-intersection-observer": "^8.30.3",
     "react-mentions": "^4.2.0",
@@ -188,7 +187,6 @@
     "playwright": "^1.16.3",
     "postinstall-prepare": "^1.0.1",
     "prettier": "1.19.0",
-    "protobufjs": "^6.11.2",
     "run-script-os": "^1.1.6",
     "sinon": "9.0.2",
     "ts-loader": "4.1.0",
@@ -252,11 +250,7 @@
         "StartupWMClass": "Session"
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
-      "target": [
-        "deb",
-        "rpm",
-        "freebsd"
-      ],
+      "target": ["deb", "rpm", "freebsd"],
       "icon": "build/icon.icns"
     },
     "asarUnpack": [

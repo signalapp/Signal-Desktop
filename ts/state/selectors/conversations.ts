@@ -160,12 +160,15 @@ export const getSortedMessagesOfSelectedConversation = createSelector(
   }
 );
 
-export const getFirstUnreadMessageId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.firstUnreadMessageId;
-  }
-);
+const getFirstUnreadMessageId = createSelector(getConversations, (state: ConversationsStateType):
+  | string
+  | undefined => {
+  return state.firstUnreadMessageId;
+});
+
+export const getConversationHasUnread = createSelector(getFirstUnreadMessageId, unreadId => {
+  return Boolean(unreadId);
+});
 
 export type MessagePropsType =
   | 'group-notification'
@@ -187,9 +190,11 @@ export const getSortedMessagesTypesOfSelectedConversation = createSelector(
     return sortedMessages.map((msg, index) => {
       const isFirstUnread = Boolean(firstUnreadId === msg.propsForMessage.id);
       const messageTimestamp = msg.propsForMessage.serverTimestamp || msg.propsForMessage.timestamp;
+      // do not show the date break if we are the oldest message (no previous)
+      // this is to smooth a bit the loading of older message (to avoid a jump once new messages are rendered)
       const previousMessageTimestamp =
         index + 1 >= sortedMessages.length
-          ? 0
+          ? Number.MAX_SAFE_INTEGER
           : sortedMessages[index + 1].propsForMessage.serverTimestamp ||
             sortedMessages[index + 1].propsForMessage.timestamp;
 
@@ -582,7 +587,7 @@ export const isRightPanelShowing = createSelector(
 
 export const isMessageSelectionMode = createSelector(
   getConversations,
-  (state: ConversationsStateType): boolean => state.selectedMessageIds.length > 0
+  (state: ConversationsStateType): boolean => Boolean(state.selectedMessageIds.length > 0)
 );
 
 export const getSelectedMessageIds = createSelector(
@@ -605,11 +610,6 @@ export const areMoreMessagesBeingFetched = createSelector(
   (state: ConversationsStateType): boolean => state.areMoreMessagesBeingFetched || false
 );
 
-export const getHaveDoneFirstScroll = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => state.haveDoneFirstScroll
-);
-
 export const getShowScrollButton = createSelector(
   getConversations,
   (state: ConversationsStateType): boolean => state.showScrollButton || false
@@ -618,6 +618,12 @@ export const getShowScrollButton = createSelector(
 export const getQuotedMessageToAnimate = createSelector(
   getConversations,
   (state: ConversationsStateType): string | undefined => state.animateQuotedMessageId || undefined
+);
+
+export const getShouldHighlightMessage = createSelector(
+  getConversations,
+  (state: ConversationsStateType): boolean =>
+    Boolean(state.animateQuotedMessageId && state.shouldHighlightMessage)
 );
 
 export const getNextMessageToPlayId = createSelector(
@@ -687,10 +693,14 @@ function sortMessages(
   return messagesSorted;
 }
 
+/**
+ * This returns the most recent message id in the database. This is not the most recent message shown,
+ * but the most recent one, which could still not be loaded.
+ */
 export const getMostRecentMessageId = createSelector(
-  getSortedMessagesOfSelectedConversation,
-  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
-    return messages.length ? messages[0].propsForMessage.id : undefined;
+  getConversations,
+  (state: ConversationsStateType): string | null => {
+    return state.mostRecentMessageId;
   }
 );
 
@@ -701,6 +711,15 @@ export const getOldestMessageId = createSelector(
       messages.length > 0 ? messages[messages.length - 1].propsForMessage.id : undefined;
 
     return oldest;
+  }
+);
+
+export const getYoungestMessageId = createSelector(
+  getSortedMessagesOfSelectedConversation,
+  (messages: Array<MessageModelPropsWithoutConvoProps>): string | undefined => {
+    const youngest = messages.length > 0 ? messages[0].propsForMessage.id : undefined;
+
+    return youngest;
   }
 );
 
@@ -898,15 +917,14 @@ export const getMessageTextProps = createSelector(getMessagePropsByMessageId, (p
     return undefined;
   }
 
-  const { conversationType, convoId, direction, status, text, isDeleted } = props.propsForMessage;
+  const { direction, status, text, isDeleted, conversationType } = props.propsForMessage;
 
   const msgProps: MessageTextSelectorProps = {
-    conversationType,
-    convoId,
     direction,
     status,
     text,
     isDeleted,
+    conversationType,
   };
 
   return msgProps;
@@ -1125,4 +1143,14 @@ export const getGenericReadableMessageSelectorProps = createSelector(
 
     return msgProps;
   }
+);
+
+export const getOldTopMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldTopMessageId || null
+);
+
+export const getOldBottomMessageId = createSelector(
+  getConversations,
+  (state: ConversationsStateType): string | null => state.oldBottomMessageId || null
 );

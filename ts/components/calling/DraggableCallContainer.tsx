@@ -53,11 +53,6 @@ const CenteredAvatarInDraggable = styled.div`
   align-items: center;
 `;
 
-// TODO:
-/**
- * Add mute input, deafen, end call, possibly add person to call
- * duration - look at how duration calculated for recording.
- */
 export const DraggableCallContainer = () => {
   const ongoingCallProps = useSelector(getHasOngoingCallWith);
   const selectedConversationKey = useSelector(getSelectedConversationKey);
@@ -100,7 +95,7 @@ export const DraggableCallContainer = () => {
 
   const openCallingConversation = () => {
     if (ongoingCallPubkey && ongoingCallPubkey !== selectedConversationKey) {
-      void openConversationWithMessages({ conversationKey: ongoingCallPubkey });
+      void openConversationWithMessages({ conversationKey: ongoingCallPubkey, messageId: null });
     }
   };
 

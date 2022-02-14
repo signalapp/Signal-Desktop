@@ -6,7 +6,6 @@ import * as MIME from '../../../types/MIME';
 import { SessionEmojiPanel } from '../SessionEmojiPanel';
 import { SessionRecording } from '../SessionRecording';
 
-import { toArray } from 'react-emoji-render';
 import {
   getPreview,
   LINK_PREVIEW_TIMEOUT,
@@ -14,8 +13,7 @@ import {
 } from '../SessionStagedLinkPreview';
 import { AbortController } from 'abort-controller';
 import { SessionQuotedMessageComposition } from '../SessionQuotedMessageComposition';
-import { Mention, MentionsInput } from 'react-mentions';
-import { MemberListItem } from '../../MemberListItem';
+import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 import autoBind from 'auto-bind';
 import { getMediaPermissionsSettings } from '../../settings/SessionSettings';
 import { getDraftForConversation, updateDraftForConversation } from '../SessionConversationDrafts';
@@ -49,6 +47,13 @@ import {
   StagedAttachmentImportedType,
   StagedPreviewImportedType,
 } from '../../../util/attachmentsUtil';
+import {
+  cleanMentions,
+  mentionsRegex,
+  renderUserMentionRow,
+  styleForCompositionBoxSuggestions,
+} from './UserMentions';
+import { renderEmojiQuickResultRow, searchEmojiForQuery } from './EmojiQuickResult';
 
 export interface ReplyingToMessageProps {
   convoId: string;
@@ -90,7 +95,7 @@ export type SendMessageType = {
 
 interface Props {
   sendMessage: (msg: SendMessageType) => void;
-  selectedConversationKey: string;
+  selectedConversationKey?: string;
   selectedConversation: ReduxConversationType | undefined;
   typingEnabled: boolean;
   quotedMessageProps?: ReplyingToMessageProps;
@@ -126,6 +131,7 @@ const sendMessageStyle = {
   flexGrow: 1,
   minHeight: '24px',
   width: '100%',
+  ...styleForCompositionBoxSuggestions,
 };
 
 const getDefaultState = (newConvoId?: string) => {
@@ -138,20 +144,6 @@ const getDefaultState = (newConvoId?: string) => {
     showCaptionEditor: undefined,
   };
 };
-
-function parseEmojis(value: string) {
-  const emojisArray = toArray(value);
-
-  // toArray outputs React elements for emojis and strings for other
-  return emojisArray.reduce((previous: string, current: any) => {
-    if (typeof current === 'string') {
-      return previous + current;
-    }
-    return previous + (current.props.children as string);
-  }, '');
-}
-
-const mentionsRegex = /@\uFFD205[0-9a-f]{64}\uFFD7[^\uFFD2]+\uFFD2/gu;
 
 const getSelectionBasedOnMentions = (draft: string, index: number) => {
   // we have to get the real selectionStart/end of an index in the mentions box.
@@ -210,18 +202,6 @@ const getSelectionBasedOnMentions = (draft: string, index: number) => {
   return Number.MAX_SAFE_INTEGER;
 };
 
-// this is dirty but we have to replace all @(xxx) by @xxx manually here
-function cleanMentions(text: string): string {
-  const matches = text.match(mentionsRegex);
-  let replacedMentions = text;
-  (matches || []).forEach(match => {
-    const replacedMention = match.substring(2, match.indexOf('\uFFD7'));
-    replacedMentions = replacedMentions.replace(match, `@${replacedMention}`);
-  });
-
-  return replacedMentions;
-}
-
 class CompositionBoxInner extends React.Component<Props, State> {
   private readonly textarea: React.RefObject<any>;
   private readonly fileInput: React.RefObject<HTMLInputElement>;
@@ -231,7 +211,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
   private container: HTMLDivElement | null;
   private lastBumpTypingMessageLength: number = 0;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = getDefaultState();
 
@@ -453,6 +433,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     } = this.props.selectedConversation;
     const messagePlaceHolder = makeMessagePlaceHolderText();
     const { typingEnabled } = this.props;
+    const neverMatchingRegex = /($a)/;
 
     return (
       <MentionsInput
@@ -477,15 +458,24 @@ class CompositionBoxInner extends React.Component<Props, State> {
           // this is only for the composition box visible content. The real stuff on the backend box is the @markup
           displayTransform={(_id, display) => `@${display}`}
           data={this.fetchUsersForGroup}
-          renderSuggestion={(suggestion, _search, _highlightedDisplay, _index, focused) => (
-            <MemberListItem isSelected={focused} key={suggestion.id} pubkey={`${suggestion.id}`} />
-          )}
+          renderSuggestion={renderUserMentionRow}
+        />
+        <Mention
+          trigger=":"
+          markup="__id__"
+          appendSpaceOnAdd={true}
+          regex={neverMatchingRegex}
+          data={searchEmojiForQuery}
+          renderSuggestion={renderEmojiQuickResultRow}
         />
       </MentionsInput>
     );
   }
 
-  private fetchUsersForOpenGroup(query: any, callback: any) {
+  private fetchUsersForOpenGroup(
+    query: string,
+    callback: (data: Array<SuggestionDataItem>) => void
+  ) {
     const mentionsInput = getMentionsInput(window?.inboxStore?.getState() || []);
     const filtered =
       mentionsInput
@@ -499,10 +489,11 @@ class CompositionBoxInner extends React.Component<Props, State> {
             id: user.id,
           };
         }) || [];
+
     callback(filtered);
   }
 
-  private fetchUsersForGroup(query: any, callback: any) {
+  private fetchUsersForGroup(query: string, callback: (data: Array<SuggestionDataItem>) => void) {
     let overridenQuery = query;
     if (!query) {
       overridenQuery = '';
@@ -768,10 +759,14 @@ class CompositionBoxInner extends React.Component<Props, State> {
     } else if (event.key === 'PageUp' || event.key === 'PageDown') {
       // swallow pageUp events if they occurs on the composition box (it breaks the app layout)
       event.preventDefault();
+      event.stopPropagation();
     }
   }
 
   private async onKeyUp() {
+    if (!this.props.selectedConversationKey) {
+      throw new Error('selectedConversationKey is needed');
+    }
     const { draft } = this.state;
     // Called whenever the user changes the message composition field. But only
     //   fires if there's content in the message field after the change.
@@ -789,9 +784,12 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
   // tslint:disable-next-line: cyclomatic-complexity
   private async onSendMessage() {
+    if (!this.props.selectedConversationKey) {
+      throw new Error('selectedConversationKey is needed');
+    }
     this.linkPreviewAbortController?.abort();
 
-    const messagePlaintext = cleanMentions(parseEmojis(this.state.draft));
+    const messagePlaintext = cleanMentions(this.state.draft);
 
     const { selectedConversation } = this.props;
 
@@ -851,6 +849,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
         : undefined;
 
     try {
+      // this does not call call removeAllStagedAttachmentsInConvers
       const { attachments, previews } = await this.getFiles(linkPreview);
       this.props.sendMessage({
         body: messagePlaintext,
@@ -924,11 +923,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
       }
     }
 
-    window.inboxStore?.dispatch(
-      removeAllStagedAttachmentsInConversation({
-        conversationKey: this.props.selectedConversationKey,
-      })
-    );
     return { attachments, previews };
   }
 
@@ -983,12 +977,18 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   private onChange(event: any) {
+    if (!this.props.selectedConversationKey) {
+      throw new Error('selectedConversationKey is needed');
+    }
     const draft = event.target.value ?? '';
     this.setState({ draft });
     updateDraftForConversation({ conversationKey: this.props.selectedConversationKey, draft });
   }
 
-  private onEmojiClick({ colons }: { colons: string }) {
+  private onEmojiClick({ native }: any) {
+    if (!this.props.selectedConversationKey) {
+      throw new Error('selectedConversationKey is needed');
+    }
     const messageBox = this.textarea.current;
     if (!messageBox) {
       return;
@@ -1003,7 +1003,7 @@ class CompositionBoxInner extends React.Component<Props, State> {
     const before = draft.slice(0, realSelectionStart);
     const end = draft.slice(realSelectionStart);
 
-    const newMessage = `${before}${colons}${end}`;
+    const newMessage = `${before}${native}${end}`;
     this.setState({ draft: newMessage });
     updateDraftForConversation({
       conversationKey: this.props.selectedConversationKey,
@@ -1012,15 +1012,15 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     // update our selection because updating text programmatically
     // will put the selection at the end of the textarea
-    const selectionStart = currentSelectionStart + Number(colons.length);
-    messageBox.selectionStart = selectionStart;
-    messageBox.selectionEnd = selectionStart;
+    // const selectionStart = currentSelectionStart + Number(1);
+    // messageBox.selectionStart = selectionStart;
+    // messageBox.selectionEnd = selectionStart;
 
-    // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
-    setTimeout(() => {
-      messageBox.selectionStart = selectionStart;
-      messageBox.selectionEnd = selectionStart;
-    }, 20);
+    // // Sometimes, we have to repeat the set of the selection position with a timeout to be effective
+    // setTimeout(() => {
+    //   messageBox.selectionStart = selectionStart;
+    //   messageBox.selectionEnd = selectionStart;
+    // }, 20);
   }
 
   private focusCompositionBox() {

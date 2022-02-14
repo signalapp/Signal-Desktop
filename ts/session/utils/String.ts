@@ -52,3 +52,18 @@ export const stringToArrayBuffer = (str: string): ArrayBuffer => {
 export const stringToUint8Array = (str: string): Uint8Array => {
   return new Uint8Array(stringToArrayBuffer(str));
 };
+
+// Regex to match all characters which are forbidden in display names
+const forbiddenDisplayCharRegex = /\uFFD2*/g;
+
+/**
+ *
+ * This function removes any forbidden char from a given display name.
+ * This does not trim it as otherwise, a user cannot type User A as when he hits the space, it gets trimmed right away.
+ * The trimming should hence happen after calling this and on saving the display name
+ * @param inputName the input to sanitize
+ * @returns a sanitized string, untrimmed
+ */
+export const sanitizeSessionUsername = (inputName: string) => {
+  return inputName.replace(forbiddenDisplayCharRegex, '');
+};

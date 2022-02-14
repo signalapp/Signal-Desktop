@@ -15,7 +15,7 @@ type Props = {
 
 export type MessageTextSelectorProps = Pick<
   MessageRenderingProps,
-  'text' | 'direction' | 'status' | 'conversationType' | 'convoId' | 'isDeleted'
+  'text' | 'direction' | 'status' | 'isDeleted' | 'conversationType'
 >;
 
 export const MessageText = (props: Props) => {
@@ -25,7 +25,7 @@ export const MessageText = (props: Props) => {
   if (!selected) {
     return null;
   }
-  const { text, direction, status, conversationType, convoId, isDeleted } = selected;
+  const { text, direction, status, isDeleted, conversationType } = selected;
 
   const contents = isDeleted
     ? window.i18n('messageDeletedPlaceholder')
@@ -49,9 +49,9 @@ export const MessageText = (props: Props) => {
       {isDeleted && <SessionIcon iconType="delete" iconSize="small" />}
       <MessageBody
         text={contents || ''}
-        isGroup={conversationType === 'group'}
-        convoId={convoId}
         disableLinks={multiSelectMode}
+        disableJumbomoji={false}
+        isGroup={conversationType === 'group'}
       />
     </div>
   );

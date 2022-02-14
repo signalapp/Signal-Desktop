@@ -6,17 +6,7 @@
   flex-direction: column;
   align-items: flex-start;
   overflow-x: hidden;
-}
-
-.create-group-button {
-  background-color: #383c46;
-  color: #ffffff;
-  margin: 4px;
-  padding: 4px;
-}
-
-.create-group-button:focus {
-  outline: 0;
+  font-weight: 400;
 }
 
 .module-contact-name span {
@@ -348,7 +338,7 @@
   min-width: 0;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--color-text);
 
   // width of avatar (28px) and our 6px left margin
@@ -1358,153 +1348,6 @@
   width: 16px;
 
   @include color-svg('../images/x-16.svg', $color-gray-60);
-}
-
-// Module: Search Results
-
-.module-search-results {
-  overflow-y: auto;
-  max-height: 100%;
-  color: var(--color-text);
-}
-
-.module-search-results__conversations-header {
-  height: 36px;
-  line-height: 36px;
-
-  margin-inline-start: 16px;
-
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
-}
-
-.module-search-results__no-results {
-  margin-top: 27px;
-  width: 100%;
-  text-align: center;
-}
-
-.module-search-results__contacts-header {
-  height: 36px;
-  line-height: 36px;
-
-  margin-inline-start: 16px;
-
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
-}
-
-.module-search-results__messages-header {
-  height: 36px;
-  line-height: 36px;
-
-  margin-inline-start: 16px;
-
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0;
-}
-
-// Module: Message Search Result
-
-.module-message-search-result {
-  padding: 8px;
-  padding-inline-start: 16px;
-  padding-inline-end: 16px;
-  min-height: 64px;
-  max-width: 300px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-
-  cursor: pointer;
-  &:hover {
-    background-color: $color-gray-05;
-  }
-}
-
-.module-message-search-result--is-selected {
-  background-color: $color-gray-05;
-}
-
-.module-message-search-result__text {
-  flex-grow: 1;
-  margin-inline-start: 12px;
-  // parent - 48px (for avatar) - 16px (our right margin)
-  max-width: calc(100% - 64px);
-
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.module-message-search-result__header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.module-message-search-result__header__from {
-  flex-grow: 1;
-  flex-shrink: 1;
-  font-size: 14px;
-  line-height: 18px;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  color: var(--color-text);
-}
-
-.module-message-search-result__header__timestamp {
-  flex-shrink: 0;
-  margin-inline-start: 6px;
-
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.3px;
-
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  text-transform: uppercase;
-
-  color: $color-gray-60;
-}
-
-.module-message-search-result__header__name {
-  font-weight: 300;
-}
-.module-mesages-search-result__header__group {
-  font-weight: 300;
-}
-
-.module-message-search-result__body {
-  margin-top: 1px;
-  flex-grow: 1;
-  flex-shrink: 1;
-
-  font-size: 13px;
-
-  color: var(--color-text-subtle);
-
-  max-height: 3.6em;
-
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-
-  // Note: -webkit-line-clamp doesn't work for RTL text, and it forces you to use
-  //   ... as the truncation indicator. That's not a solution that works well for
-  //   all languages. More resources:
-  //     - http://hackingui.com/front-end/a-pure-css-solution-for-multiline-text-truncation/
-  //     - https://medium.com/mofed/css-line-clamp-the-good-the-bad-and-the-straight-up-broken-865413f16e5
 }
 
 // Module: Left Pane

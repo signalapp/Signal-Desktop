@@ -6,31 +6,26 @@ import { ReduxConversationType } from './conversations';
 import { PubKey } from '../../session/types';
 import { ConversationTypeEnum } from '../../models/conversation';
 import _ from 'lodash';
+import { getConversationController } from '../../session/conversations';
+import { MessageResultProps } from '../../components/search/MessageSearchResults';
+import { UserUtils } from '../../session/utils';
 
 // State
 
 export type SearchStateType = {
   query: string;
   normalizedPhoneNumber?: string;
-  // We need to store messages here, because they aren't anywhere else in state
-  selectedMessage?: string;
   // For conversations we store just the id, and pull conversation props in the selector
-  conversations: Array<string>;
-  contacts: Array<string>;
-
-  // TODO: ww typing
-  messages?: Array<any>;
-  messagesLookup?: any;
+  contactsAndGroups: Array<string>;
+  messages?: Array<MessageResultProps>;
 };
 
 // Actions
 type SearchResultsPayloadType = {
   query: string;
   normalizedPhoneNumber?: string;
-  conversations: Array<string>;
-  contacts: Array<string>;
-
-  messages?: Array<string>;
+  contactsAndGroups: Array<string>;
+  messages?: Array<MessageResultProps>;
 };
 
 type SearchResultsKickoffActionType = {
@@ -65,41 +60,44 @@ export const actions = {
   updateSearchTerm,
 };
 
-export function search(query: string, options: SearchOptions): SearchResultsKickoffActionType {
+export function search(query: string): SearchResultsKickoffActionType {
   return {
     type: 'SEARCH_RESULTS',
-    payload: doSearch(query, options), // this uses redux-promise-middleware
+    payload: doSearch(query), // this uses redux-promise-middleware
   };
 }
 
-async function doSearch(query: string, options: SearchOptions): Promise<SearchResultsPayloadType> {
+async function doSearch(query: string): Promise<SearchResultsPayloadType> {
+  const options: SearchOptions = {
+    noteToSelf: window.i18n('noteToSelf').toLowerCase(),
+    ourNumber: UserUtils.getOurPubKeyStrFromCache(),
+  };
   const advancedSearchOptions = getAdvancedSearchOptionsFromQuery(query);
   const processedQuery = advancedSearchOptions.query;
-  const isAdvancedQuery = query !== processedQuery;
+  // const isAdvancedQuery = query !== processedQuery;
 
   const [discussions, messages] = await Promise.all([
     queryConversationsAndContacts(processedQuery, options),
     queryMessages(processedQuery),
   ]);
   const { conversations, contacts } = discussions;
-  let filteredMessages = _.compact(messages);
-
-  if (isAdvancedQuery) {
-    let senderFilter: Array<string> = [];
-    if (advancedSearchOptions.from && advancedSearchOptions.from.length > 0) {
-      const senderFilterQuery = await queryConversationsAndContacts(
-        advancedSearchOptions.from,
-        options
-      );
-      senderFilter = senderFilterQuery.contacts;
-    }
-    filteredMessages = filterMessages(filteredMessages, advancedSearchOptions, senderFilter);
-  }
+  const contactsAndGroups = _.uniq([...conversations, ...contacts]);
+  const filteredMessages = _.compact(messages);
+  // if (isAdvancedQuery) {
+  //   const senderFilterQuery =
+  //     advancedSearchOptions.from && advancedSearchOptions.from.length > 0
+  //       ? await queryConversationsAndContacts(advancedSearchOptions.from, options)
+  //       : undefined;
+  //   filteredMessages = advancedFilterMessages(
+  //     filteredMessages,
+  //     advancedSearchOptions,
+  //     senderFilterQuery?.contacts || []
+  //   );
+  // }
   return {
     query,
     normalizedPhoneNumber: PubKey.normalize(query),
-    conversations,
-    contacts,
+    contactsAndGroups,
     messages: filteredMessages,
   };
 }
@@ -120,35 +118,35 @@ export function updateSearchTerm(query: string): UpdateSearchTermActionType {
 
 // Helper functions for search
 
-function filterMessages(
-  messages: Array<any>,
-  filters: AdvancedSearchOptions,
-  contacts: Array<string>
-) {
-  let filteredMessages = messages;
-  if (filters.from && filters.from.length > 0) {
-    if (filters.from === '@me') {
-      filteredMessages = filteredMessages.filter(message => message.sent);
-    } else {
-      filteredMessages = [];
-      for (const contact of contacts) {
-        for (const message of messages) {
-          if (message.source === contact) {
-            filteredMessages.push(message);
-          }
-        }
-      }
-    }
-  }
-  if (filters.before > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at < filters.before);
-  }
-  if (filters.after > 0) {
-    filteredMessages = filteredMessages.filter(message => message.received_at > filters.after);
-  }
+// function advancedFilterMessages(
+//   messages: Array<MessageResultProps>,
+//   filters: AdvancedSearchOptions,
+//   contacts: Array<string>
+// ): Array<MessageResultProps> {
+//   let filteredMessages = messages;
+//   if (filters.from && filters.from.length > 0) {
+//     if (filters.from === '@me') {
+//       filteredMessages = filteredMessages.filter(message => message.sent);
+//     } else {
+//       filteredMessages = [];
+//       for (const contact of contacts) {
+//         for (const message of messages) {
+//           if (message.source === contact) {
+//             filteredMessages.push(message);
+//           }
+//         }
+//       }
+//     }
+//   }
+//   if (filters.before > 0) {
+//     filteredMessages = filteredMessages.filter(message => message.received_at < filters.before);
+//   }
+//   if (filters.after > 0) {
+//     filteredMessages = filteredMessages.filter(message => message.received_at > filters.after);
+//   }
 
-  return filteredMessages;
-}
+//   return filteredMessages;
+// }
 
 function getUnixMillisecondsTimestamp(timestamp: string): number {
   const timestampInt = parseInt(timestamp, 10);
@@ -198,11 +196,15 @@ function getAdvancedSearchOptionsFromQuery(query: string): AdvancedSearchOptions
   return filters;
 }
 
-async function queryMessages(query: string) {
+async function queryMessages(query: string): Promise<Array<MessageResultProps>> {
   try {
-    const normalized = cleanSearchTerm(query);
-    return searchMessages(normalized);
+    const trimmedQuery = query.trim();
+    const normalized = cleanSearchTerm(trimmedQuery);
+    // 200 on a large database is already pretty slow
+    const limit = Math.min((trimmedQuery.length || 2) * 50, 200);
+    return searchMessages(normalized, limit);
   } catch (e) {
+    window.log.warn('queryMessages failed with', e.message);
     return [];
   }
 }
@@ -219,13 +221,12 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   const max = searchResults.length;
   for (let i = 0; i < max; i += 1) {
     const conversation = searchResults[i];
-    const primaryDevice = searchResults[i].id;
 
-    if (primaryDevice) {
-      if (primaryDevice === ourNumber) {
+    if (conversation.id && conversation.activeAt) {
+      if (conversation.id === ourNumber) {
         conversations.push(ourNumber);
       } else {
-        conversations.push(primaryDevice);
+        conversations.push(conversation.id);
       }
     } else if (conversation.type === ConversationTypeEnum.PRIVATE) {
       contacts.push(conversation.id);
@@ -237,11 +238,14 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
   }
   // Inject synthetic Note to Self entry if query matches localized 'Note to Self'
   if (noteToSelf.indexOf(providedQuery.toLowerCase()) !== -1) {
-    // ensure that we don't have duplicates in our results
-    contacts = contacts.filter(id => id !== ourNumber);
-    conversations = conversations.filter(id => id !== ourNumber);
+    const ourConvo = getConversationController().get(ourNumber);
+    if (ourConvo && ourConvo.isActive()) {
+      // ensure that we don't have duplicates in our results
+      contacts = contacts.filter(id => id !== ourNumber);
+      conversations = conversations.filter(id => id !== ourNumber);
 
-    contacts.unshift(ourNumber);
+      contacts.unshift(ourNumber);
+    }
   }
 
   return { conversations, contacts };
@@ -251,10 +255,8 @@ async function queryConversationsAndContacts(providedQuery: string, options: Sea
 
 export const initialSearchState: SearchStateType = {
   query: '',
-  conversations: [],
-  contacts: [],
+  contactsAndGroups: [],
   messages: [],
-  messagesLookup: {},
 };
 
 function getEmptyState(): SearchStateType {
@@ -282,7 +284,7 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
 
   if (action.type === 'SEARCH_RESULTS_FULFILLED') {
     const { payload } = action;
-    const { query, normalizedPhoneNumber, conversations, contacts, messages } = payload;
+    const { query, normalizedPhoneNumber, contactsAndGroups, messages } = payload;
     // Reject if the associated query is not the most recent user-provided query
     if (state.query !== query) {
       return state;
@@ -292,45 +294,10 @@ export function reducer(state: SearchStateType | undefined, action: SEARCH_TYPES
       ...state,
       query,
       normalizedPhoneNumber,
-      conversations,
-      contacts,
+      contactsAndGroups,
       messages,
     };
   }
-
-  // if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
-  //   return getEmptyState();
-  // }
-
-  // if (action.type === openConversationExternal.name) {
-  //   const { payload } = action;
-  //   const { messageId } = payload;
-
-  //   if (!messageId) {
-  //     return state;
-  //   }
-
-  //   return {
-  //     ...state,
-  //     selectedMessage: messageId,
-  //   };
-  // }
-
-  // if (action.type === 'MESSAGE_EXPIRED') {
-  //   const { messages, messageLookup } = state;
-  //   if (!messages.length) {
-  //     return state;
-  //   }
-
-  //   const { payload } = action;
-  //   const { messageId } = payload;
-
-  //   return {
-  //     ...state,
-  //     messages: reject(messages, message => messageId === message.id),
-  //     messageLookup: omit(messageLookup, ['id']),
-  //   };
-  // }
 
   return state;
 }
