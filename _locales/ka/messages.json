@@ -60,7 +60,6 @@
   "thisWeek": "ამ კვირაში",
   "thisMonth": "ამ თვეს",
   "voiceMessage": "ხმოვანი შეტყობინება",
-  "dangerousFileType": "უსაფრთხოების მიზნით, ამ ტიპის ფაილის გაგზავნა შეუძლებელია",
   "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
   "previewThumbnail": "Thumbnail link preview for $domain$",
   "stagedImageAttachment": "Draft image attachment: $path$",

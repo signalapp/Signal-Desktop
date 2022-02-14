@@ -60,7 +60,6 @@
   "thisWeek": "Cette semaine",
   "thisMonth": "Ce mois",
   "voiceMessage": "Message vocal",
-  "dangerousFileType": "Le type de fichier joint n’est pas autorisé pour des raisons de sécurité",
   "stagedPreviewThumbnail": "Brouillon d’imagette d’aperçu de lien pour $domain$",
   "previewThumbnail": "Imagette d’aperçu de lien pour $domain$",
   "stagedImageAttachment": "Brouillon d’image jointe : $path$",

@@ -60,7 +60,6 @@
   "thisWeek": "สัปดาห์นี้",
   "thisMonth": "เดือนนี้",
   "voiceMessage": "ข้อความเสียง",
-  "dangerousFileType": "Attachment type not allowed for security reasons",
   "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
   "previewThumbnail": "Thumbnail link preview for $domain$",
   "stagedImageAttachment": "Draft image attachment: $path$",

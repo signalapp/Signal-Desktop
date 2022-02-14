@@ -60,7 +60,6 @@
   "thisWeek": "Aquesta setmana",
   "thisMonth": "Aquest mes",
   "voiceMessage": "Missatge de veu",
-  "dangerousFileType": "Per raons de seguretat, el tipus d'adjunt no es permès ",
   "stagedPreviewThumbnail": "Previsualització de l'esborrany de la vista en miniatura de l'enllaç $domain$",
   "previewThumbnail": "Previsualització de la vista en miniatura de l'enllaç $domain$",
   "stagedImageAttachment": "Esborrany de la imatge adjuntada: $path$",

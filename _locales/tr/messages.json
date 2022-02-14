@@ -60,7 +60,6 @@
   "thisWeek": "Bu Hafta",
   "thisMonth": "Bu Ay",
   "voiceMessage": "Sesli İleti",
-  "dangerousFileType": "Eklenti türüne güvenlik sebeplerinden dolayı izin verilmemektedir",
   "stagedPreviewThumbnail": "$domain$ için bağlantı ön izlemesi küçük resim taslağı",
   "previewThumbnail": "$domain$ için bağlantı ön izlemesi küçük resmi",
   "stagedImageAttachment": "Resim eklentisi taslağı: $path$",

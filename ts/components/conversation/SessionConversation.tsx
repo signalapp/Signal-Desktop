@@ -337,11 +337,6 @@ export class SessionConversation extends React.Component<Props, State> {
 
     const { stagedAttachments } = this.props;
 
-    if (window.Signal.Util.isFileDangerous(fileName)) {
-      ToastUtils.pushDangerousFileError();
-      return;
-    }
-
     if (stagedAttachments.length >= 32) {
       ToastUtils.pushMaximumAttachmentsError();
       return;
