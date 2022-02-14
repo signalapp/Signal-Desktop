@@ -638,14 +638,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           await this.sendMessageRequestResponse(true);
           void forceSyncConfigurationNowIfNeeded();
         }
-        // void forceSyncConfigurationNowIfNeeded();
-      }
-
-      // TODO: remove once dev-tested
-      if (chatMessageParams.body?.includes('unapprove')) {
-        await this.setIsApproved(false);
-        await this.setDidApproveMe(false);
-        // void forceSyncConfigurationNowIfNeeded();
       }
 
       if (this.isOpenGroupV2()) {
