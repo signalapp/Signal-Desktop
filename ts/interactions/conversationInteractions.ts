@@ -298,6 +298,7 @@ export async function deleteAllMessagesByConvoIdNoConfirmation(conversationId: s
     lastMessage: null,
     unreadCount: 0,
     mentionedUs: false,
+    isApproved: false,
   });
 
   await conversation.commit();

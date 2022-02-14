@@ -371,17 +371,36 @@ export async function innerHandleSwarmContentMessage(
       );
     }
 
-    const newConvo = await getConversationController().getOrCreateAndWait(
+    const convo = await getConversationController().getOrCreateAndWait(
       envelope.source,
       ConversationTypeEnum.PRIVATE
     );
 
     if (
-      newConvo.isPrivate() &&
-      !newConvo.isApproved() &&
+      convo.isPrivate() &&
+      !convo.isApproved() &&
       window.inboxStore?.getState().userConfig.hideMessageRequests
     ) {
       window.inboxStore?.dispatch(showMessageRequestBanner());
+    }
+
+    // For edge case when messaging a client that's unable to explicitly send request approvals
+    if (!convo.didApproveMe() && convo.isPrivate() && convo.isApproved()) {
+      convo.setDidApproveMe(true);
+      // Conversation was not approved before so a sync is needed
+      convo.addSingleMessage({
+        conversationId: convo.get('id'),
+        source: envelope.source,
+        type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+        sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
+        received_at: Date.now(),
+        messageRequestResponse: {
+          isApproved: 1,
+        },
+        unread: 1, // 1 means unread
+        expireTimer: 0,
+      });
+      convo.updateLastMessage();
     }
 
     if (content.dataMessage) {
