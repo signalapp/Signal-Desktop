@@ -41,6 +41,11 @@ import { SignalService as Proto } from '../protobuf';
 import * as log from '../logging/log';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue';
 import * as Errors from '../types/errors';
+import type {
+  ExtendedStorageID,
+  RemoteRecord,
+  UnknownRecord,
+} from '../types/StorageService.d';
 
 type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
 
@@ -80,23 +85,10 @@ function redactStorageID(
   return `${version ?? '?'}:${storageID.substring(0, 3)}${convoId}`;
 }
 
-type RemoteRecord = {
-  itemType: number;
-  storageID: string;
-  storageVersion?: number;
-};
-
-type UnknownRecord = RemoteRecord;
-
-type ProcessRemoteRecordsResultType = Readonly<{
-  conflictCount: number;
-  deleteKeys: Array<string>;
-}>;
-
-function unknownRecordToRedactedID({
+function redactExtendedStorageID({
   storageID,
   storageVersion,
-}: UnknownRecord): string {
+}: ExtendedStorageID): string {
   return redactStorageID(storageID, storageVersion);
 }
 
@@ -148,12 +140,11 @@ type GeneratedManifestType = {
 async function generateManifest(
   version: number,
   previousManifest?: Proto.IManifestRecord,
-  isNewManifest = false,
-  extraDeleteKeys = new Array<string>()
+  isNewManifest = false
 ): Promise<GeneratedManifestType> {
   log.info(
     `storageService.upload(${version}): generating manifest ` +
-      `new=${isNewManifest} extraDeleteKeys=${extraDeleteKeys.length}`
+      `new=${isNewManifest}`
   );
 
   await window.ConversationController.checkForConflicts();
@@ -165,10 +156,6 @@ async function generateManifest(
   const deleteKeys: Array<Uint8Array> = [];
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
   const newItems: Set<Proto.IStorageItem> = new Set();
-
-  for (const key of extraDeleteKeys) {
-    deleteKeys.push(Bytes.fromBase64(key));
-  }
 
   const conversations = window.getConversations();
   for (let i = 0; i < conversations.length; i += 1) {
@@ -300,7 +287,7 @@ async function generateManifest(
     window.storage.get('storage-service-unknown-records') || []
   ).filter((record: UnknownRecord) => !validRecordTypes.has(record.itemType));
 
-  const redactedUnknowns = unknownRecordsArray.map(unknownRecordToRedactedID);
+  const redactedUnknowns = unknownRecordsArray.map(redactExtendedStorageID);
 
   log.info(
     `storageService.upload(${version}): adding unknown ` +
@@ -322,7 +309,7 @@ async function generateManifest(
     'storage-service-error-records',
     new Array<UnknownRecord>()
   );
-  const redactedErrors = recordsWithErrors.map(unknownRecordToRedactedID);
+  const redactedErrors = recordsWithErrors.map(redactExtendedStorageID);
 
   log.info(
     `storageService.upload(${version}): adding error ` +
@@ -338,6 +325,24 @@ async function generateManifest(
 
     manifestRecordKeys.add(identifier);
   });
+
+  // Delete keys that we wanted to drop during the processing of the manifest.
+  const storedPendingDeletes = window.storage.get(
+    'storage-service-pending-deletes',
+    []
+  );
+  const redactedPendingDeletes = storedPendingDeletes.map(
+    redactExtendedStorageID
+  );
+  log.info(
+    `storageService.upload(${version}): ` +
+      `deleting extra keys=${JSON.stringify(redactedPendingDeletes)} ` +
+      `count=${redactedPendingDeletes.length}`
+  );
+
+  for (const { storageID } of storedPendingDeletes) {
+    deleteKeys.push(Bytes.fromBase64(storageID));
+  }
 
   // Validate before writing
 
@@ -827,7 +832,7 @@ async function mergeRecord(
 async function processManifest(
   manifest: Proto.IManifestRecord,
   version: number
-): Promise<ProcessRemoteRecordsResultType> {
+): Promise<number> {
   if (!window.textsecure.messaging) {
     throw new Error('storageService.processManifest: We are offline!');
   }
@@ -907,12 +912,8 @@ async function processManifest(
   });
 
   let conflictCount = 0;
-  let deleteKeys = new Array<string>();
   if (remoteOnlyRecords.size) {
-    ({ conflictCount, deleteKeys } = await processRemoteRecords(
-      version,
-      remoteOnlyRecords
-    ));
+    conflictCount = await processRemoteRecords(version, remoteOnlyRecords);
   }
 
   // Post-merge, if our local records contain any storage IDs that were not
@@ -940,17 +941,16 @@ async function processManifest(
   });
 
   log.info(
-    `storageService.process(${version}): conflictCount=${conflictCount} ` +
-      `deleteKeys=${deleteKeys.length}`
+    `storageService.process(${version}): conflictCount=${conflictCount}`
   );
 
-  return { conflictCount, deleteKeys };
+  return conflictCount;
 }
 
 async function processRemoteRecords(
   storageVersion: number,
   remoteOnlyRecords: Map<string, RemoteRecord>
-): Promise<ProcessRemoteRecordsResultType> {
+): Promise<number> {
   const storageKeyBase64 = window.storage.get('storageKey');
   if (!storageKeyBase64) {
     throw new Error('No storage key');
@@ -1102,7 +1102,7 @@ async function processRemoteRecords(
         });
       }
 
-      if (mergedRecord.hasConflict || mergedRecord.shouldDrop) {
+      if (mergedRecord.hasConflict) {
         conflictCount += 1;
       }
 
@@ -1116,7 +1116,7 @@ async function processRemoteRecords(
     );
     log.info(
       `storageService.process(${storageVersion}): ` +
-        `droppedKeys=${JSON.stringify(redactedDroppedKeys)} ` +
+        `dropped keys=${JSON.stringify(redactedDroppedKeys)} ` +
         `count=${redactedDroppedKeys.length}`
     );
 
@@ -1124,9 +1124,7 @@ async function processRemoteRecords(
     const newUnknownRecords = Array.from(unknownRecords.values()).filter(
       (record: UnknownRecord) => !validRecordTypes.has(record.itemType)
     );
-    const redactedNewUnknowns = newUnknownRecords.map(
-      unknownRecordToRedactedID
-    );
+    const redactedNewUnknowns = newUnknownRecords.map(redactExtendedStorageID);
 
     log.info(
       `storageService.process(${storageVersion}): ` +
@@ -1139,7 +1137,7 @@ async function processRemoteRecords(
     );
 
     const redactedErrorRecords = newRecordsWithErrors.map(
-      unknownRecordToRedactedID
+      redactExtendedStorageID
     );
     log.info(
       `storageService.process(${storageVersion}): ` +
@@ -1154,14 +1152,25 @@ async function processRemoteRecords(
       newRecordsWithErrors
     );
 
+    // Store/overwrite keys pending deletion, but use them only when we have to
+    // upload a new manifest to avoid oscillation.
+    const pendingDeletes = [...missingKeys, ...droppedKeys].map(storageID => ({
+      storageID,
+      storageVersion,
+    }));
+    const redactedPendingDeletes = pendingDeletes.map(redactExtendedStorageID);
+    log.info(
+      `storageService.process(${storageVersion}): ` +
+        `pending deletes=${JSON.stringify(redactedPendingDeletes)} ` +
+        `count=${redactedPendingDeletes.length}`
+    );
+    await window.storage.put('storage-service-pending-deletes', pendingDeletes);
+
     if (conflictCount === 0) {
       conflictBackOff.reset();
     }
 
-    return {
-      conflictCount,
-      deleteKeys: [...missingKeys, ...droppedKeys],
-    };
+    return conflictCount;
   } catch (err) {
     log.error(
       `storageService.process(${storageVersion}): ` +
@@ -1170,7 +1179,8 @@ async function processRemoteRecords(
     );
   }
 
-  return { conflictCount: 0, deleteKeys: [] };
+  // conflictCount
+  return 0;
 }
 
 async function sync(
@@ -1218,21 +1228,18 @@ async function sync(
         `version=${localManifestVersion}`
     );
 
-    const { conflictCount, deleteKeys } = await processManifest(
-      manifest,
-      version
-    );
+    const conflictCount = await processManifest(manifest, version);
 
     log.info(
       `storageService.sync: updated to version=${version} ` +
-        `conflicts=${conflictCount} deleteKeys=${deleteKeys.length}`
+        `conflicts=${conflictCount}`
     );
 
     await window.storage.put('manifestVersion', version);
 
-    const hasConflicts = conflictCount !== 0 || deleteKeys.length !== 0;
+    const hasConflicts = conflictCount !== 0;
     if (hasConflicts && !ignoreConflicts) {
-      await upload(true, deleteKeys);
+      await upload(true);
     }
 
     // We now know that we've successfully completed a storage service fetch
@@ -1249,10 +1256,7 @@ async function sync(
   return manifest;
 }
 
-async function upload(
-  fromSync = false,
-  extraDeleteKeys = new Array<string>()
-): Promise<void> {
+async function upload(fromSync = false): Promise<void> {
   if (!window.textsecure.messaging) {
     throw new Error('storageService.upload: We are offline!');
   }
@@ -1322,8 +1326,7 @@ async function upload(
     const generatedManifest = await generateManifest(
       version,
       previousManifest,
-      false,
-      extraDeleteKeys
+      false
     );
     await uploadManifest(version, generatedManifest);
   } catch (err) {
