@@ -12,8 +12,8 @@ import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
 import {
+  getIncomingMessagesCountByConversation,
   getLastMessagesByConversation,
-  getMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
   removeMessage as dataRemoveMessage,
@@ -626,16 +626,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
-      const hasMsgsFromOther =
-        (
-          await getMessagesByConversation(this.id, {
-            messageId: null,
-            type: MessageDirection.incoming,
-          })
-        ).length > 0;
+      const incomingMessages = await getIncomingMessagesCountByConversation(
+        this.id,
+        MessageDirection.incoming
+      );
+      const hasIncomingMessages = incomingMessages > 0;
       if (shouldApprove) {
         await this.setIsApproved(true);
-        if (!this.didApproveMe() && hasMsgsFromOther) {
+        if (!this.didApproveMe() && hasIncomingMessages) {
           await this.setDidApproveMe(true);
           await this.sendMessageRequestResponse(true);
           void forceSyncConfigurationNowIfNeeded();
@@ -1163,12 +1161,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
         isApproved: value,
       });
 
-      if (!this.isApproved() && value) {
-        // if convo hasn't been approved until now, send approval msg
-        this.sendMessageRequestResponse(true);
-        void forceSyncConfigurationNowIfNeeded();
-      }
-
       if (shouldCommit) {
         await this.commit();
       }
@@ -1509,7 +1501,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
+  public async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
     const model = new MessageModel(messageAttributes);
 
     // no need to trigger a UI update now, we trigger a messagesAdded just below

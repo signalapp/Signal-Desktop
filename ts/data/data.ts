@@ -113,6 +113,7 @@ const channelsToMake = {
   _removeMessages,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  getIncomingMessagesCountByConversation,
 
   removeAllMessagesInConversation,
 
@@ -761,17 +762,19 @@ export async function getUnreadCountByConversation(conversationId: string): Prom
   return channels.getUnreadCountByConversation(conversationId);
 }
 
+export async function getIncomingMessagesCountByConversation(
+  conversationId: string,
+  type: string = '%'
+): Promise<number> {
+  return channels.getIncomingMessagesCountByConversation(conversationId, type);
+}
+
 export async function getMessagesByConversation(
   conversationId: string,
-  {
-    type = '%',
-    skipTimerInit = false,
-    messageId = null,
-  }: { type?: string; skipTimerInit?: false; messageId: string | null }
+  { skipTimerInit = false, messageId = null }: { skipTimerInit?: false; messageId: string | null }
 ): Promise<MessageCollection> {
   const messages = await channels.getMessagesByConversation(conversationId, {
     messageId,
-    type,
   });
   if (skipTimerInit) {
     for (const message of messages) {

@@ -256,19 +256,6 @@ async function handleRegularMessage(
     await handleSyncedReceipts(message, conversation);
   }
 
-  if (
-    conversation.isPrivate() &&
-    !conversation.isApproved() &&
-    window.inboxStore?.getState().userConfig.hideMessageRequests
-  ) {
-    window.inboxStore?.dispatch(showMessageRequestBanner());
-  }
-
-  if (!conversation.didApproveMe()) {
-    conversation.setDidApproveMe(true);
-    await forceSyncConfigurationNowIfNeeded();
-  }
-
   const conversationActiveAt = conversation.get('active_at');
   if (!conversationActiveAt || (message.get('sent_at') || 0) > conversationActiveAt) {
     conversation.set({

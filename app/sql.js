@@ -59,6 +59,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getUnreadCountByConversation,
+  getIncomingMessagesCountByConversation,
   getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
@@ -2312,6 +2313,27 @@ function getUnreadCountByConversation(conversationId) {
   return row['count(*)'];
 }
 
+function getIncomingMessagesCountByConversation(conversationId, type = '%') {
+  const row = globalInstance
+    .prepare(
+      `SELECT count(*) from ${MESSAGES_TABLE} 
+      WHERE conversationId = $conversationId 
+      AND type = $type;`
+    )
+    .get({
+      conversationId,
+      type,
+    });
+
+  if (!row) {
+    throw new Error(
+      `getIncomingMessagesCountByConversation: Unable to get incoming messages count of ${conversationId}`
+    );
+  }
+
+  return row['count(*)'];
+}
+
 // Note: Sorting here is necessary for getting the last message (with limit 1)
 // be sure to update the sorting order to sort messages on redux too (sortMessages)
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
@@ -2333,7 +2355,6 @@ function getMessagesByConversation(conversationId, { messageId = null, type = '%
           `WITH cte AS (
             SELECT id, conversationId, json, row_number() OVER (${orderByClause}) as row_number
               FROM ${MESSAGES_TABLE} WHERE conversationId = $conversationId
-              AND type LIKE $type
           ), current AS (
           SELECT row_number
             FROM cte

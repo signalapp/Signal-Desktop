@@ -19,6 +19,7 @@ import { getAllCachedECKeyPair } from './closedGroups';
 import { handleCallMessage } from './callMessage';
 import { SettingsKey } from '../data/settings-key';
 import { ConversationTypeEnum } from '../models/conversation';
+import { showMessageRequestBanner } from '../state/ducks/userConfig';
 
 export async function handleSwarmContentMessage(envelope: EnvelopePlus, messageHash: string) {
   try {
@@ -368,6 +369,19 @@ export async function innerHandleSwarmContentMessage(
         envelope.source,
         ConversationTypeEnum.GROUP
       );
+    }
+
+    const newConvo = await getConversationController().getOrCreateAndWait(
+      envelope.source,
+      ConversationTypeEnum.PRIVATE
+    );
+
+    if (
+      newConvo.isPrivate() &&
+      !newConvo.isApproved() &&
+      window.inboxStore?.getState().userConfig.hideMessageRequests
+    ) {
+      window.inboxStore?.dispatch(showMessageRequestBanner());
     }
 
     if (content.dataMessage) {
