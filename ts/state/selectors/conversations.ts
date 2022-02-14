@@ -339,7 +339,11 @@ export const _getLeftPaneLists = (
 
   let unreadCount = 0;
   for (const conversation of sortedConversations) {
-    if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
+    if (
+      conversation.activeAt !== undefined &&
+      conversation.type === ConversationTypeEnum.PRIVATE &&
+      conversation.isApproved
+    ) {
       directConversations.push(conversation);
     }
 
