@@ -558,7 +558,9 @@ export async function mergeGroupV1Record(
     details.push('GV1 record for GV2 group, dropping');
 
     return {
-      hasConflict: true,
+      // Note: conflicts cause immediate uploads, but we should upload
+      // only in response to user's action.
+      hasConflict: false,
       shouldDrop: true,
       conversation,
       oldStorageID,
@@ -771,11 +773,11 @@ export async function mergeContactRecord(
 
   // All contacts must have UUID
   if (!uuid) {
-    return { hasConflict: false, details: ['no uuid'] };
+    return { hasConflict: false, shouldDrop: true, details: ['no uuid'] };
   }
 
   if (!isValidUuid(uuid)) {
-    return { hasConflict: false, details: ['invalid uuid'] };
+    return { hasConflict: false, shouldDrop: true, details: ['invalid uuid'] };
   }
 
   const id = window.ConversationController.ensureContactIds({

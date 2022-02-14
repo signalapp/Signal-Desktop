@@ -11,7 +11,12 @@ import type { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverabil
 import type { PhoneNumberSharingMode } from '../util/phoneNumberSharingMode';
 import type { RetryItemType } from '../util/retryPlaceholders';
 import type { ConfigMapType as RemoteConfigType } from '../RemoteConfig';
-import { SystemTraySetting } from './SystemTraySetting';
+import type { SystemTraySetting } from './SystemTraySetting';
+import type {
+  ExtendedStorageID,
+  RemoteRecord,
+  UnknownRecord,
+} from './StorageService';
 
 import type { GroupCredentialType } from '../textsecure/WebAPI';
 import type {
@@ -105,14 +110,9 @@ export type StorageAccessType = {
   avatarUrl: string;
   manifestVersion: number;
   storageCredentials: StorageServiceCredentials;
-  'storage-service-error-records': Array<{
-    itemType: number;
-    storageID: string;
-  }>;
-  'storage-service-unknown-records': Array<{
-    itemType: number;
-    storageID: string;
-  }>;
+  'storage-service-error-records': Array<UnknownRecord>;
+  'storage-service-unknown-records': Array<UnknownRecord>;
+  'storage-service-pending-deletes': Array<ExtendedStorageID>;
   'preferred-video-input-device': string;
   'preferred-audio-input-device': AudioDevice;
   'preferred-audio-output-device': AudioDevice;

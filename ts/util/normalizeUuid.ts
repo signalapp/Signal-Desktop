@@ -3,15 +3,24 @@
 
 import type { UUIDStringType } from '../types/UUID';
 import { isValidUuid } from '../types/UUID';
-import { assert } from './assert';
+import type { LoggerType } from '../types/Logging';
+import * as log from '../logging/log';
 
-export function normalizeUuid(uuid: string, context: string): UUIDStringType {
+export function normalizeUuid(
+  uuid: string,
+  context: string,
+  logger: Pick<LoggerType, 'warn'> = log
+): UUIDStringType {
   const result = uuid.toLowerCase();
 
-  assert(
-    isValidUuid(uuid) && isValidUuid(result),
-    `Normalizing invalid uuid: ${uuid} to ${result} in context "${context}"`
-  );
+  if (!isValidUuid(uuid) || !isValidUuid(result)) {
+    logger.warn(
+      `Normalizing invalid uuid: ${uuid} to ${result} in context "${context}"`
+    );
+
+    // Cast anyway we don't want to throw here
+    return result as unknown as UUIDStringType;
+  }
 
   return result;
 }
