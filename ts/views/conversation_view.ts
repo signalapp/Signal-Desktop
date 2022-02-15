@@ -54,6 +54,7 @@ import {
   getConversationSelector,
   getMessagesByConversation,
 } from '../state/selectors/conversations';
+import { getActiveCallState } from '../state/selectors/calling';
 import { ConversationDetailsMembershipList } from '../components/conversation/conversation-details/ConversationDetailsMembershipList';
 import { showSafetyNumberChangeDialog } from '../shims/showSafetyNumberChangeDialog';
 import type {
@@ -469,6 +470,11 @@ export class ConversationView extends window.Backbone.View<ConversationModel> {
 
     const markMessageRead = async (messageId: string) => {
       if (!window.isActive()) {
+        return;
+      }
+
+      const activeCall = getActiveCallState(window.reduxStore.getState());
+      if (activeCall && !activeCall.pip) {
         return;
       }
 
