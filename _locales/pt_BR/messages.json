@@ -60,7 +60,6 @@
   "thisWeek": "Esta Semana",
   "thisMonth": "Este Mês",
   "voiceMessage": "Mensagem de Voz",
-  "dangerousFileType": "Tipo de anexo não permitido por motivos de segurança",
   "stagedPreviewThumbnail": "Pré-visualização em miniatura do link $domain$ (rascunho)",
   "previewThumbnail": "Pré-visualização em miniatura do link $domain$",
   "stagedImageAttachment": "Rascunho de imagem anexa: $path$",

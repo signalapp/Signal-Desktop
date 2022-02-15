@@ -60,7 +60,6 @@
   "thisWeek": "Denna vecka",
   "thisMonth": "Denna månad",
   "voiceMessage": "Röstmeddelande",
-  "dangerousFileType": "Bilagor av denna typ tillåts inte på grund av säkerhetsskäl",
   "stagedPreviewThumbnail": "Utkast av länkförhandsvisning i miniatyrbild för $domain$",
   "previewThumbnail": "Länkförhandsvisning i miniatyrbild för $domain$",
   "stagedImageAttachment": "Utkast till bildbilaga: $path$",

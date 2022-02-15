@@ -60,7 +60,6 @@
   "thisWeek": "Esta semana",
   "thisMonth": "This Month",
   "voiceMessage": "Voice Message",
-  "dangerousFileType": "For security reasons, this file type cannot be sent",
   "stagedPreviewThumbnail": "Draft thumbnail link preview for $domain$",
   "previewThumbnail": "Thumbnail link preview for $domain$",
   "stagedImageAttachment": "Draft image attachment: $path$",

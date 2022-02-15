@@ -60,7 +60,6 @@
   "thisWeek": "Ezen a héten",
   "thisMonth": "Ebben a hónapban",
   "voiceMessage": "Hangüzenet",
-  "dangerousFileType": "A csatolmánytípus biztonsági okokból nincs engedélyezve",
   "stagedPreviewThumbnail": "A $domain$ hivatkozás előnézeti képének vázlata",
   "previewThumbnail": "A $domain$ hivatkozás előnézeti képe",
   "stagedImageAttachment": "Képcsatolmány vázlat: $path$",

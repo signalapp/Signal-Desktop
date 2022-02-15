@@ -60,7 +60,6 @@
   "thisWeek": "Denne uken",
   "thisMonth": "Denne måneden",
   "voiceMessage": "Talebeskjed",
-  "dangerousFileType": "Av sikkerhetsårsaker kan denne filtypen ikke sendes",
   "stagedPreviewThumbnail": "Miniatyrlenkeforhåndsvisningskladd for $domain$",
   "previewThumbnail": "Miniatyrlenkeforhåndsvisning for $domain$",
   "stagedImageAttachment": "Bildevedleggskladd: $path$",

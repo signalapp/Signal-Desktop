@@ -9,8 +9,6 @@ import { MessageModel } from '../models/message';
 import { getMessageById, getMessagesBySentAt } from '../../ts/data/data';
 
 import { updateProfileOneAtATime } from './dataMessage';
-import { forceSyncConfigurationNowIfNeeded } from '../session/utils/syncUtils';
-import { showMessageRequestBanner } from '../state/ducks/userConfig';
 import { SignalService } from '../protobuf';
 import { UserUtils } from '../session/utils';
 

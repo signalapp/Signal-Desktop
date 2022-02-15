@@ -60,7 +60,6 @@
   "thisWeek": "این هفته",
   "thisMonth": "این ماه",
   "voiceMessage": "پیام صوتی",
-  "dangerousFileType": "نوع پیوست به دلایل امنیتی مجاز نیست.",
   "stagedPreviewThumbnail": "پیش نویس پیوند پیش نمایش پیوند برای $domain$",
   "previewThumbnail": "پیش نمایش لینک برای $domain$",
   "stagedImageAttachment": "تصویر پیوست پیش نویس: $path$",

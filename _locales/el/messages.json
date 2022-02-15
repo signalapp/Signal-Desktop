@@ -60,7 +60,6 @@
   "thisWeek": "Αυτή την εβδομάδα",
   "thisMonth": "Αυτό τον μήνα",
   "voiceMessage": "Φωνητικό Μήνυμα",
-  "dangerousFileType": "Ο τύπος του συνημμένου δεν επιτρέπεται για λόγους ασφαλείας",
   "stagedPreviewThumbnail": "Πρόχειρη μικρή προεσκόπιση συνδέσμου για $domain$",
   "previewThumbnail": "Μικρή προεσκόπιση συνδέσμου για $domain$",
   "stagedImageAttachment": "Πρόχειρη συνημμένη εικόνα: $path$",

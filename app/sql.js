@@ -2339,7 +2339,7 @@ function getIncomingMessagesCountByConversation(conversationId, type = '%') {
 const orderByClause = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) DESC';
 const orderByClauseASC = 'ORDER BY COALESCE(serverTimestamp, sent_at, received_at) ASC';
 
-function getMessagesByConversation(conversationId, { messageId = null, type = '%' } = {}) {
+function getMessagesByConversation(conversationId, { messageId = null } = {}) {
   const absLimit = 30;
   // If messageId is given it means we are opening the conversation to that specific messageId,
   // or that we just scrolled to it by a quote click and needs to load around it.
@@ -2371,7 +2371,6 @@ function getMessagesByConversation(conversationId, { messageId = null, type = '%
           conversationId,
           messageId: messageId || firstUnread,
           limit: absLimit,
-          type,
         });
 
       return map(rows, row => jsonToObject(row.json));

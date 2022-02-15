@@ -411,7 +411,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     if (isPinned) {
       toRet.isPinned = isPinned;
     }
-    if (isApproved) {
+    if (didApproveMe) {
       toRet.didApproveMe = didApproveMe;
     }
     if (isApproved) {
