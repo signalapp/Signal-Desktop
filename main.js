@@ -1011,19 +1011,19 @@ function getThemeFromMainWindow() {
   });
 }
 
-function askForMediaAccess() {
+async function askForMediaAccess() {
   // Microphone part
   let status = systemPreferences.getMediaAccessStatus('microphone');
   if (status !== 'granted') {
-    systemPreferences.askForMediaAccess('microphone');
+    await systemPreferences.askForMediaAccess('microphone');
   }
   // Camera part
   status = systemPreferences.getMediaAccessStatus('camera');
   if (status !== 'granted') {
-    systemPreferences.askForMediaAccess('camera');
+    await systemPreferences.askForMediaAccess('camera');
   }
 }
 
-ipc.on('media-access', () => {
+ipc.on('media-access', async () => {
   askForMediaAccess();
 });
