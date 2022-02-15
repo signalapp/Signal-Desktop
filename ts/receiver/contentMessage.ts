@@ -461,7 +461,6 @@ export async function innerHandleSwarmContentMessage(
       await handleCallMessage(envelope, content.callMessage as SignalService.CallMessage);
     }
     if (content.messageRequestResponse) {
-      console.warn('received message request response');
       await handleMessageRequestResponse(
         envelope,
         content.messageRequestResponse as SignalService.MessageRequestResponse

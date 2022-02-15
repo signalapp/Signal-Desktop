@@ -1347,41 +1347,6 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
     return;
   }
   console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
-  db.transaction(() => {
-    db.exec(`
-        UPDATE ${CONVERSATIONS_TABLE} SET
-        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
-        WHERE type = 'private';
-      `);
-
-    // all closed group admins
-    const closedGroupRows = getAllClosedGroupConversations(db, false) || [];
-
-    const adminIds = closedGroupRows.map(json => jsonToObject(json).groupAdmins);
-    forEach(adminIds, id => {
-      db.exec(
-        `
-        UPDATE ${CONVERSATIONS_TABLE} SET
-        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
-        WHERE type = id 
-        values ($id);
-      `
-      ).run({
-        id,
-      });
-    });
-
-    writeLokiSchemaVersion(targetVersion, db);
-  })();
-  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
-}
-
-function updateToLokiSchemaVersion21(currentVersion, db) {
-  const targetVersion = 21;
-  if (currentVersion >= targetVersion) {
-    return;
-  }
-  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
 
   db.transaction(() => {
     // looking for all private conversations, with a nickname set
@@ -1408,9 +1373,44 @@ function updateToLokiSchemaVersion21(currentVersion, db) {
       }
       writeLokiSchemaVersion(targetVersion, db);
     })();
-
-    console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
   });
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
+}
+
+function updateToLokiSchemaVersion21(currentVersion, db) {
+  const targetVersion = 21;
+  if (currentVersion >= targetVersion) {
+    return;
+  }
+  console.log(`updateToLokiSchemaVersion${targetVersion}: starting...`);
+
+  db.transaction(() => {
+    db.exec(`
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = 'private';
+      `);
+
+    // all closed group admins
+    const closedGroupRows = getAllClosedGroupConversations(db) || [];
+
+    const adminIds = closedGroupRows.map(json => jsonToObject(json).groupAdmins);
+    forEach(adminIds, id => {
+      db.exec(
+        `
+        UPDATE ${CONVERSATIONS_TABLE} SET
+        json = json_set(json, '$.didApproveMe', 1, '$.isApproved', 1)
+        WHERE type = id 
+        values ($id);
+      `
+      ).run({
+        id,
+      });
+    });
+
+    writeLokiSchemaVersion(targetVersion, db);
+  })();
+  console.log(`updateToLokiSchemaVersion${targetVersion}: success!`);
 }
 
 function writeLokiSchemaVersion(newVersion, db) {
@@ -2311,16 +2311,15 @@ function getUnreadCountByConversation(conversationId) {
   return row['count(*)'];
 }
 
-function getIncomingMessagesCountByConversation(conversationId, type = '%') {
+function getIncomingMessagesCountByConversation(conversationId) {
   const row = globalInstance
     .prepare(
       `SELECT count(*) from ${MESSAGES_TABLE} 
       WHERE conversationId = $conversationId 
-      AND type = $type;`
+      AND type = "incoming";`
     )
     .get({
       conversationId,
-      type,
     });
 
   if (!row) {
@@ -3121,13 +3120,13 @@ function getMessagesCountByConversation(instance, conversationId) {
   return row ? row['count(*)'] : 0;
 }
 
-function getAllClosedGroupConversations(instance, order = true) {
+function getAllClosedGroupConversations(instance) {
   const rows = (globalInstance || instance)
     .prepare(
       `SELECT json FROM ${CONVERSATIONS_TABLE} WHERE
       type = 'group' AND
       id NOT LIKE 'publicChat:%'
-     ${order ? 'ORDER BY id ASC' : ''};`
+      ORDER BY id ASC;`
     )
     .all();
 

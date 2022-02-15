@@ -241,7 +241,7 @@ export class SessionConversation extends React.Component<Props, State> {
           {lightBoxOptions?.media && this.renderLightBox(lightBoxOptions)}
 
           <div className="conversation-messages">
-            <ConversationMessageRequestButtons selectedConversation={selectedConversation} />
+            <ConversationMessageRequestButtons />
             <SplitViewContainer
               top={<InConversationCallContainer />}
               bottom={
@@ -256,7 +256,7 @@ export class SessionConversation extends React.Component<Props, State> {
             {isDraggingFile && <SessionFileDropzone />}
           </div>
 
-          <ConversationRequestinfo selectedConversation={selectedConversation} />
+          <ConversationRequestinfo />
           <CompositionBox
             sendMessage={this.sendMessageFn}
             stagedAttachments={this.props.stagedAttachments}

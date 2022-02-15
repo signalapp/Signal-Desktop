@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
   acceptConversation,
@@ -8,14 +9,19 @@ import {
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { ReduxConversationType } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
+import { getSelectedConversation } from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';
 
-export const ConversationMessageRequestButtons = (props: {
-  selectedConversation: ReduxConversationType;
-}) => {
-  const { selectedConversation } = props;
-  const { isApproved, type } = selectedConversation;
-  const showMsgRequestUI = !isApproved && type === 'private';
+export const ConversationMessageRequestButtons = () => {
+  const selectedConversation = useSelector(getSelectedConversation);
+
+  if (!selectedConversation) {
+    return null;
+  }
+
+  const showMsgRequestUI =
+    !selectedConversation.isApproved && selectedConversation.type === 'private';
+  const dispatch = useDispatch();
 
   const handleDeclineConversationRequest = () => {
     window.inboxStore?.dispatch(
@@ -29,10 +35,10 @@ export const ConversationMessageRequestButtons = (props: {
           await forceSyncConfigurationNowIfNeeded();
         },
         onClickCancel: () => {
-          window.inboxStore?.dispatch(updateConfirmModal(null));
+          dispatch(updateConfirmModal(null));
         },
         onClickClose: () => {
-          window.inboxStore?.dispatch(updateConfirmModal(null));
+          dispatch(updateConfirmModal(null));
         },
       })
     );

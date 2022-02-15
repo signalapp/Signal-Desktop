@@ -1,11 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { ReduxConversationType } from '../../state/ducks/conversations';
+import { getSelectedConversation } from '../../state/selectors/conversations';
 
-export const ConversationRequestinfo = (props: { selectedConversation: ReduxConversationType }) => {
-  const { selectedConversation } = props;
-  const { isApproved, type } = selectedConversation;
-  const showMsgRequestUI = !isApproved && type === 'private';
+export const ConversationRequestinfo = () => {
+  const selectedConversation = useSelector(getSelectedConversation);
+  const showMsgRequestUI =
+    !selectedConversation?.isApproved && selectedConversation?.type === 'private';
 
   if (!showMsgRequestUI) {
     return null;

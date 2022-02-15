@@ -626,11 +626,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
-      const incomingMessages = await getIncomingMessagesCountByConversation(
+      const incomingMessageCount = await getIncomingMessagesCountByConversation(
         this.id,
         MessageDirection.incoming
       );
-      const hasIncomingMessages = incomingMessages > 0;
+      const hasIncomingMessages = incomingMessageCount > 0;
       if (shouldApprove) {
         await this.setIsApproved(true);
         if (!this.didApproveMe() && hasIncomingMessages) {
@@ -1542,13 +1542,6 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     ) {
       return false;
     }
-    const msgRequestsEnabled = window.inboxStore?.getState().userConfig.messageRequests;
-
-    // if msg requests are unused, we have to send typing (this is already a private active unblocked convo)
-    if (!msgRequestsEnabled) {
-      return true;
-    }
-    // with message requests in use, we just need to check for isApproved
     return Boolean(this.get('isApproved'));
   }
 
