@@ -705,6 +705,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   }
 
   public async sendMessageRequestResponse(isApproved: boolean) {
+    if (!this.isPrivate()) {
+      return;
+    }
+
     const publicKey = getOurPubKeyStrFromCache();
     const timestamp = Date.now();
 
@@ -715,13 +719,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     };
 
     const messageRequestResponse = new MessageRequestResponse(messageRequestResponseParams);
-
-    if (this.isPrivate()) {
-      const pubkeyForSending = new PubKey(this.id);
-      await getMessageQueue()
-        .sendToPubKey(pubkeyForSending, messageRequestResponse)
-        .catch(window?.log?.error);
-    }
+    const pubkeyForSending = new PubKey(this.id);
+    await getMessageQueue()
+      .sendToPubKey(pubkeyForSending, messageRequestResponse)
+      .catch(window?.log?.error);
   }
 
   public async sendMessage(msg: SendMessageType) {

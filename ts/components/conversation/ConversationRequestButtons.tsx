@@ -23,7 +23,7 @@ export const ConversationMessageRequestButtons = () => {
   const dispatch = useDispatch();
 
   const handleDeclineConversationRequest = () => {
-    window.inboxStore?.dispatch(
+    dispatch(
       updateConfirmModal({
         okText: window.i18n('decline'),
         cancelText: window.i18n('cancel'),
