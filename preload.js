@@ -415,7 +415,10 @@ try {
 
   window.React = require('react');
   window.ReactDOM = require('react-dom');
+
   window.moment = require('moment');
+  require('moment/min/locales.min');
+
   window.PQueue = require('p-queue').default;
 
   const Signal = require('./js/modules/signal');
