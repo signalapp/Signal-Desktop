@@ -1,5 +1,5 @@
 diff --git a/node_modules/node-fetch/lib/index.es.js b/node_modules/node-fetch/lib/index.es.js
-index 4852f7c..ae9611f 100644
+index 4852f7c..8a6bee9 100644
 --- a/node_modules/node-fetch/lib/index.es.js
 +++ b/node_modules/node-fetch/lib/index.es.js
 @@ -1253,6 +1253,9 @@ class Request {
@@ -21,7 +21,29 @@ index 4852f7c..ae9611f 100644
  }
  
  /**
-@@ -1556,7 +1559,8 @@ function fetch(url, opts) {
+@@ -1406,11 +1409,20 @@ const URL$1 = Url.URL || whatwgUrl.URL;
+ // fix an issue where "PassThrough", "resolve" aren't a named export for node <10
+ const PassThrough$1 = Stream.PassThrough;
+ 
++function isSignalVoipUrl(hostname) {
++	return hostname.endsWith('.voip.signal.org');
++}
++
+ const isDomainOrSubdomain = function isDomainOrSubdomain(destination, original) {
+ 	const orig = new URL$1(original).hostname;
+ 	const dest = new URL$1(destination).hostname;
+ 
+-	return orig === dest || orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest);
++	return (
++		orig === dest ||
++		(orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest)) ||
++		// An additional check to keep Authorization for Signal's voip URLs.
++		(isSignalVoipUrl(orig) && isSignalVoipUrl(dest))
++	);
+ };
+ 
+ /**
+@@ -1556,7 +1568,8 @@ function fetch(url, opts) {
  							body: request.body,
  							signal: request.signal,
  							timeout: request.timeout,
@@ -32,7 +54,7 @@ index 4852f7c..ae9611f 100644
  
  						if (!isDomainOrSubdomain(request.url, locationURL)) {
 diff --git a/node_modules/node-fetch/lib/index.js b/node_modules/node-fetch/lib/index.js
-index e5b04f1..ed8d34a 100644
+index e5b04f1..5153530 100644
 --- a/node_modules/node-fetch/lib/index.js
 +++ b/node_modules/node-fetch/lib/index.js
 @@ -1257,6 +1257,9 @@ class Request {
@@ -54,7 +76,29 @@ index e5b04f1..ed8d34a 100644
  }
  
  /**
-@@ -1560,7 +1563,8 @@ function fetch(url, opts) {
+@@ -1410,11 +1413,20 @@ const URL$1 = Url.URL || whatwgUrl.URL;
+ // fix an issue where "PassThrough", "resolve" aren't a named export for node <10
+ const PassThrough$1 = Stream.PassThrough;
+ 
++function isSignalVoipUrl(hostname) {
++	return hostname.endsWith('.voip.signal.org');
++}
++
+ const isDomainOrSubdomain = function isDomainOrSubdomain(destination, original) {
+ 	const orig = new URL$1(original).hostname;
+ 	const dest = new URL$1(destination).hostname;
+ 
+-	return orig === dest || orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest);
++	return (
++		orig === dest ||
++		(orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest)) ||
++		// An additional check to keep Authorization for Signal's voip URLs.
++		(isSignalVoipUrl(orig) && isSignalVoipUrl(dest))
++	);
+ };
+ 
+ /**
+@@ -1560,7 +1572,8 @@ function fetch(url, opts) {
  							body: request.body,
  							signal: request.signal,
  							timeout: request.timeout,
@@ -65,7 +109,7 @@ index e5b04f1..ed8d34a 100644
  
  						if (!isDomainOrSubdomain(request.url, locationURL)) {
 diff --git a/node_modules/node-fetch/lib/index.mjs b/node_modules/node-fetch/lib/index.mjs
-index 49ee05e..bc639aa 100644
+index 49ee05e..ec12540 100644
 --- a/node_modules/node-fetch/lib/index.mjs
 +++ b/node_modules/node-fetch/lib/index.mjs
 @@ -1251,6 +1251,9 @@ class Request {
@@ -87,7 +131,29 @@ index 49ee05e..bc639aa 100644
  }
  
  /**
-@@ -1554,7 +1557,8 @@ function fetch(url, opts) {
+@@ -1404,11 +1407,20 @@ const URL$1 = Url.URL || whatwgUrl.URL;
+ // fix an issue where "PassThrough", "resolve" aren't a named export for node <10
+ const PassThrough$1 = Stream.PassThrough;
+ 
++function isSignalVoipUrl(hostname) {
++	return hostname.endsWith('.voip.signal.org');
++}
++
+ const isDomainOrSubdomain = function isDomainOrSubdomain(destination, original) {
+ 	const orig = new URL$1(original).hostname;
+ 	const dest = new URL$1(destination).hostname;
+ 
+-	return orig === dest || orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest);
++	return (
++		orig === dest ||
++		(orig[orig.length - dest.length - 1] === '.' && orig.endsWith(dest)) ||
++		// An additional check to keep Authorization for Signal's voip URLs.
++		(isSignalVoipUrl(orig) && isSignalVoipUrl(dest))
++	);
+ };
+ 
+ /**
+@@ -1554,7 +1566,8 @@ function fetch(url, opts) {
  							body: request.body,
  							signal: request.signal,
  							timeout: request.timeout,
