@@ -104,7 +104,7 @@ export class ConfigurationMessageContact {
     profileKey,
     isApproved,
     isBlocked,
-    didApproveMe
+    didApproveMe,
   }: {
     publicKey: string;
     displayName: string;
@@ -145,7 +145,7 @@ export class ConfigurationMessageContact {
       profileKey: this.profileKey,
       isApproved: this.isApproved,
       isBlocked: this.isBlocked,
-      didApproveMe: this.didApproveMe
+      didApproveMe: this.didApproveMe,
     });
   }
 }

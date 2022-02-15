@@ -17,7 +17,7 @@ export const ConversationMessageRequestButtons = (props: {
   const { isApproved, type } = selectedConversation;
   const showMsgRequestUI = !isApproved && type === 'private';
 
-  const handleDeclineConversationRequest = async () => {
+  const handleDeclineConversationRequest = () => {
     window.inboxStore?.dispatch(
       updateConfirmModal({
         okText: window.i18n('decline'),

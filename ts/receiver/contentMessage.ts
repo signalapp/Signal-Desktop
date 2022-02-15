@@ -303,7 +303,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   // first check that dataMessage is the only field set in the Content
   let msgWithoutDataMessage = Lodash.pickBy(
     content,
-    (_, key) => key !== 'dataMessage' && key !== 'toJSON'
+    (_value, key) => key !== 'dataMessage' && key !== 'toJSON'
   );
   msgWithoutDataMessage = Lodash.pickBy(msgWithoutDataMessage, Lodash.identity);
 
@@ -322,6 +322,7 @@ function shouldDropBlockedUserMessage(content: SignalService.Content): boolean {
   return !isControlDataMessageOnly;
 }
 
+// tslint:disable-next-line: cyclomatic-complexity
 export async function innerHandleSwarmContentMessage(
   envelope: EnvelopePlus,
   plaintext: ArrayBuffer,
@@ -386,9 +387,9 @@ export async function innerHandleSwarmContentMessage(
 
     // For edge case when messaging a client that's unable to explicitly send request approvals
     if (!convo.didApproveMe() && convo.isPrivate() && convo.isApproved()) {
-      convo.setDidApproveMe(true);
+      await convo.setDidApproveMe(true);
       // Conversation was not approved before so a sync is needed
-      convo.addSingleMessage({
+      await convo.addSingleMessage({
         conversationId: convo.get('id'),
         source: envelope.source,
         type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
@@ -609,7 +610,7 @@ async function handleMessageRequestResponse(
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {
     // Conversation was not approved before so a sync is needed
-    conversationToApprove.addSingleMessage({
+    await conversationToApprove.addSingleMessage({
       conversationId: conversationToApprove.get('id'),
       source: envelope.source,
       type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment

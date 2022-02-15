@@ -147,7 +147,7 @@ const handleContactReceived = async (
         if (contactReceived.didApproveMe) {
           // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
           // if source of the sync matches conversationId
-          contactConvo.addSingleMessage({
+          await contactConvo.addSingleMessage({
             conversationId: contactConvo.get('id'),
             source: envelope.source,
             type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
