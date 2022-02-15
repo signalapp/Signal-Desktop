@@ -7,7 +7,6 @@ import {
   declineConversation,
 } from '../../interactions/conversationInteractions';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
-import { ReduxConversationType } from '../../state/ducks/conversations';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSelectedConversation } from '../../state/selectors/conversations';
 import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/SessionButton';

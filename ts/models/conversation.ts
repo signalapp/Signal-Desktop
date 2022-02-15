@@ -1493,7 +1493,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
   }
 
-  public async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
+  private async addSingleMessage(messageAttributes: MessageAttributesOptionals) {
     const model = new MessageModel(messageAttributes);
 
     // no need to trigger a UI update now, we trigger a messagesAdded just below

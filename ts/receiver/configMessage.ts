@@ -146,13 +146,8 @@ const handleContactReceived = async (
 
         if (contactReceived.didApproveMe) {
           // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
-          // if source of the sync matches conversationId
-          await contactConvo.addSingleMessage({
-            conversationId: contactConvo.get('id'),
-            source: envelope.source,
-            type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
-            sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
-            received_at: Date.now(),
+          await contactConvo.addSingleOutgoingMessage({
+            sent_at: _.toNumber(envelope.timestamp),
             messageRequestResponse: {
               isApproved: 1,
             },

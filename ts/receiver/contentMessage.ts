@@ -389,12 +389,9 @@ export async function innerHandleSwarmContentMessage(
     if (!convo.didApproveMe() && convo.isPrivate() && convo.isApproved()) {
       await convo.setDidApproveMe(true);
       // Conversation was not approved before so a sync is needed
-      await convo.addSingleMessage({
-        conversationId: convo.get('id'),
+      await convo.addSingleIncomingMessage({
+        sent_at: _.toNumber(envelope.timestamp),
         source: envelope.source,
-        type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
-        sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
-        received_at: Date.now(),
         messageRequestResponse: {
           isApproved: 1,
         },
@@ -609,12 +606,9 @@ async function handleMessageRequestResponse(
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {
     // Conversation was not approved before so a sync is needed
-    await conversationToApprove.addSingleMessage({
-      conversationId: conversationToApprove.get('id'),
-      source: envelope.source,
-      type: 'outgoing', // mark it as outgoing just so it appears below our sent attachment
+    await conversationToApprove.addSingleIncomingMessage({
       sent_at: _.toNumber(envelope.timestamp), // TODO: maybe add timestamp to messageRequestResponse? confirm it doesn't exist first
-      received_at: Date.now(),
+      source: envelope.source,
       messageRequestResponse: {
         isApproved: 1,
       },
