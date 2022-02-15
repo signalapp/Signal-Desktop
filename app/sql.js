@@ -1357,9 +1357,7 @@ function updateToLokiSchemaVersion20(currentVersion, db) {
     // all closed group admins
     const closedGroupRows = getAllClosedGroupConversations(db, false) || [];
 
-    const adminIds = closedGroupRows.map(json => {
-      return jsonToObject(json).groupAdmins;
-    });
+    const adminIds = closedGroupRows.map(json => jsonToObject(json).groupAdmins);
     forEach(adminIds, id => {
       db.exec(
         `
