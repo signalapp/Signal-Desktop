@@ -14,6 +14,7 @@ import type {
   UnidentifiedSenderMessageContent,
 } from '@signalapp/signal-client';
 import {
+  CiphertextMessageType,
   DecryptionErrorMessage,
   groupDecrypt,
   PlaintextContent,
@@ -116,7 +117,8 @@ type UnsealedEnvelope = Readonly<
     unidentifiedDeliveryReceived?: boolean;
     contentHint?: number;
     groupId?: string;
-    usmc?: UnidentifiedSenderMessageContent;
+    cipherTextBytes?: Uint8Array;
+    cipherTextType?: number;
     certificate?: SenderCertificate;
     unsealedContent?: UnidentifiedSenderMessageContent;
   }
@@ -1128,7 +1130,11 @@ export default class MessageReceiver
     }
 
     if (envelope.type !== Proto.Envelope.Type.UNIDENTIFIED_SENDER) {
-      return envelope;
+      return {
+        ...envelope,
+        cipherTextBytes: envelope.content,
+        cipherTextType: envelopeTypeToCiphertextType(envelope.type),
+      };
     }
 
     if (uuidKind === UUIDKind.PNI) {
@@ -1160,6 +1166,9 @@ export default class MessageReceiver
     const newEnvelope: UnsealedEnvelope = {
       ...envelope,
 
+      cipherTextBytes: messageContent.contents(),
+      cipherTextType: messageContent.msgType(),
+
       // Overwrite Envelope fields
       source: dropNull(certificate.senderE164()),
       sourceUuid: normalizeUuid(
@@ -1172,7 +1181,6 @@ export default class MessageReceiver
       unidentifiedDeliveryReceived: !(originalSource || originalSourceUuid),
       contentHint: messageContent.contentHint(),
       groupId: messageContent.groupId()?.toString('base64'),
-      usmc: messageContent,
       certificate,
       unsealedContent: messageContent,
     };
@@ -1660,11 +1668,11 @@ export default class MessageReceiver
       }
 
       if (uuid && deviceId) {
-        const { usmc } = envelope;
+        const { cipherTextBytes, cipherTextType } = envelope;
         const event = new DecryptionErrorEvent(
           {
-            cipherTextBytes: usmc ? usmc.contents() : undefined,
-            cipherTextType: usmc ? usmc.msgType() : undefined,
+            cipherTextBytes,
+            cipherTextType,
             contentHint: envelope.contentHint,
             groupId: envelope.groupId,
             receivedAtCounter: envelope.receivedAtCounter,
@@ -2781,4 +2789,17 @@ export default class MessageReceiver
   ): Promise<ProcessedDataMessage> {
     return processDataMessage(decrypted, envelope.timestamp);
   }
+}
+
+function envelopeTypeToCiphertextType(type: number | undefined): number {
+  if (type === Proto.Envelope.Type.CIPHERTEXT) {
+    return CiphertextMessageType.Whisper;
+  }
+  if (type === Proto.Envelope.Type.PLAINTEXT_CONTENT) {
+    return CiphertextMessageType.Plaintext;
+  }
+  if (type === Proto.Envelope.Type.PREKEY_BUNDLE) {
+    return CiphertextMessageType.PreKey;
+  }
+  throw new Error(`envelopeTypeToCiphertextType: Unknown type ${type}`);
 }
