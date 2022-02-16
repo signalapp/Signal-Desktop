@@ -6969,24 +6969,34 @@
   },
   {
     "rule": "eval",
-    "path": "node_modules/vm2/lib/main.js",
+    "path": "node_modules/vm2/lib/nodevm.js",
     "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
-    "reasonCategory": "exampleCode",
-    "updated": "2021-09-02T23:51:29.928Z"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/vm2/lib/main.js",
-    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
-    "reasonCategory": "exampleCode",
-    "updated": "2021-09-02T23:51:29.928Z"
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-16T15:30:35.122Z",
+    "reasonDetail": "falseMatch"
   },
   {
     "rule": "jQuery-wrap(",
-    "path": "node_modules/vm2/lib/main.js",
+    "path": "node_modules/vm2/lib/script.js",
     "line": "\twrap(prefix, suffix) {",
     "reasonCategory": "falseMatch",
-    "updated": "2021-09-02T23:51:29.928Z"
+    "updated": "2022-02-16T15:30:35.122Z"
+  },
+  {
+    "rule": "eval",
+    "path": "node_modules/vm2/lib/vm.js",
+    "line": "\t * @param {boolean} [options.eval=true] - Allow the dynamic evaluation of code via eval(code) or Function(code)().<br>",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-16T15:30:35.122Z",
+    "reasonDetail": "This is a comment."
+  },
+  {
+    "rule": "jQuery-$(",
+    "path": "node_modules/vm2/node_modules/acorn/dist/acorn.js",
+    "line": "  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)",
+    "reasonCategory": "falseMatch",
+    "updated": "2022-02-16T15:30:35.122Z",
+    "reasonDetail": "This is a comment."
   },
   {
     "rule": "jQuery-wrap(",
