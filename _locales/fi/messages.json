@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Säädetty vasemman sivupalkin otsikkoa ja hakukenttää niin, että nyt on paljon enemmän tilaa puuhastella!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Voit jäljittää ryhmäpuheluista häiritsevän kovaäänisen kirjoittajan tai pureskelijan  helposti – olemme esitelleet uuden animoidun puheilmaisimen!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Tuettujen kielten luettelo on laajentunut. Kiitämme vilpittömästi vapaaehtoiskääntäjiä, joiden ponnistelut mahdollistivat tämän.",
+        "description": "Release notes for v5.32"
     }
 }

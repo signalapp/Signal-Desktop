@@ -180,7 +180,7 @@
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuChatColors": {
-        "message": "Chat Color",
+        "message": "ពណ៌នៃការសន្ទនា",
         "description": "One of the menu options available in the Avatar popup menu"
     },
     "avatarMenuUpdateAvailable": {
@@ -1038,7 +1038,7 @@
         "description": "Shown in a quotation of a message containing a photo if no text was originally provided with that image"
     },
     "text": {
-        "message": "Text",
+        "message": "អក្សរ",
         "description": "Label for the word 'text'"
     },
     "cannotUpdate": {
@@ -1046,7 +1046,7 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
-        "message": "Muted",
+        "message": "បានបិទសម្លេង",
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
@@ -1134,7 +1134,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "This message will be deleted for everyone in the conversation if they’re on a recent version of Signal. They will be able to see that you deleted a message.",
+        "message": "សារនេះ នឹងត្រូវលុបចោលសម្រាប់អ្នករាល់គ្នា នៅក្នុងការសន្ទនា បើសិនពួកគេកំពុងប្រើប្រាស់ Signal ជំនាន់ថ្មីៗ។ ពួកគេនឹងអាចឃើញថា អ្នកបានលុបសារមួយ។",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1232,7 +1232,7 @@
         "description": "This is a past tense, informational message. In other words, your secure session has been reset."
     },
     "ChatRefresh--notification": {
-        "message": "Chat session refreshed",
+        "message": "វគ្គជជែកត្រូវបានផ្ទុកឡើងវិញ",
         "description": "Shown in timeline when a error happened, and the session was automatically reset."
     },
     "ChatRefresh--learnMore": {
@@ -2834,7 +2834,7 @@
         "description": "Label for recents emoji picker button"
     },
     "EmojiPicker__button--emoji": {
-        "message": "Emoji",
+        "message": "រូបតំណាងអារម្មណ៍",
         "description": "Label for emoji emoji picker button"
     },
     "EmojiPicker__button--animal": {
@@ -3470,7 +3470,7 @@
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
-        "message": "Reported as spam and blocked.",
+        "message": "បានរាយការណ៍សារឥតបានការ និងបានហាមឃាត់។",
         "description": "Shown in a toast when you successfully block a user and report them as spam"
     },
     "MessageRequests--block-direct-confirm-title": {
@@ -4036,7 +4036,7 @@
         }
     },
     "EmojiButton__label": {
-        "message": "Emoji",
+        "message": "រូបតំណាងអារម្មណ៍",
         "description": "Label for emoji button"
     },
     "ErrorModal--title": {
@@ -5246,7 +5246,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "You changed the group settings to only allow admins to send messages.",
+        "message": "អ្នកបានផ្លាស់ប្តូរការកំណត់ក្រុម ដើម្បីអនុញ្ញាតតែអ្នកគ្រប់គ្រងផ្ញើសារ។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
@@ -5264,7 +5264,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "You changed the group settings to allow all members to send messages.",
+        "message": "អ្នកបានផ្លាស់ប្តូរការកំណត់ក្រុម ដើម្បីអនុញ្ញាតសមាជិកទាំងអស់ផ្ញើសារ។",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
@@ -5304,27 +5304,27 @@
         "description": "Shown on Migrate dialog to kick off the process"
     },
     "GroupV1--Migration--info--title": {
-        "message": "What are New Groups?",
+        "message": "តើអ្វីជាក្រុមថ្មី?",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--title": {
-        "message": "Upgrade to New Group",
+        "message": "ដំឡើងទៅក្រុមថ្មី",
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "New Groups have features like @mentions and group admins, and will support more features in the future.",
+        "message": "ក្រុមថ្មី មានមុខងារដូចជា @រៀបរាប់ និងអ្នកគ្រប់គ្រងក្រុម ហើយនឹងគាំទ្រមុខងារបន្ថែមនៅពេលអនាគត។",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
-        "message": "All message history and media has been kept from before the upgrade.",
+        "message": "ប្រវត្តិសារ​ និងឯកសារមេឌាទាំងអស់ ត្រូវបានរក្សាទុកមុនពេលដំឡើង។",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--migrate--keep-history": {
-        "message": "All message history and media will be kept from before the upgrade.",
+        "message": "ប្រវត្តិសារ​ និងឯកសារមេឌាទាំងអស់ នឹងត្រូវរក្សាទុកមុនពេលដំឡើង។",
         "description": "Shown on Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--you": {
-        "message": "You will need to accept an invite to join this group again, and will not receive group messages until you accept.",
+        "message": "អ្នកនឹងត្រូវយល់ព្រមការអញ្ជើញចួលរួមក្រុមនេះម្តងទៀត ហើយនឹងមិនអាចទទួលសារក្នុងក្រុម រហូតដល់អ្នកយល់ព្រម។",
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
@@ -5336,7 +5336,7 @@
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "These members are not capable of joining New Groups, and will be removed from the group:",
+        "message": "សមាជិកក្រុមទាំងនេះ មិនអាចចូលរួមក្រុមថ្មី ហើយនឹងត្រូវលុបចេញពីក្រុម៖",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
@@ -5408,11 +5408,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Become a Sustainer",
+        "message": "ក្លាយជា Sustainer​ ម្នាក់",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Become a Sustainer",
+        "message": "ក្លាយជា Sustainer​ ម្នាក់",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5464,7 +5464,7 @@
         "description": "Button text for removing as admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin": {
-        "message": "Make admin",
+        "message": "តម្លើងជាអ្នកគ្រប់គ្រងក្រុម",
         "description": "Button text for make admin button in Group Contact Details modal"
     },
     "ContactModal--make-admin-info": {
@@ -5642,7 +5642,7 @@
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
-        "message": "Always notify",
+        "message": "តែងតែជូនដំណឹង",
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
@@ -6000,7 +6000,7 @@
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
-        "message": "You have no groups in common with this person. Review requests carefully before accepting to avoid unwanted messages.",
+        "message": "អ្នកមិនមានក្រុមជាមួយបុគ្គលនេះទេ។ សូមពិនិត្យសំណើរអោយបានច្បាស់មុនពេលទទួល ដើម្បីចៀសវាងទទួលបានសារដែលអ្នកមិនចង់ទទួល។",
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
@@ -6044,15 +6044,15 @@
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "If you're not sure who the request is from, review the contacts below and take action.",
+        "message": "ប្រសិនបើអ្នកមិនច្បាស់ថាសំណើរនេះមកពីណាទេ សូមពិនិត្យលេខទំនាក់ទំនងនៅខាងក្រោមហើយចាត់វិធានការ",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
-        "message": "Request",
+        "message": "ស្នើសុំ",
         "description": "Header in the contact spoofing review dialog, shown above the potentially-unsafe user"
     },
     "ContactSpoofingReviewDialog__safe-title": {
-        "message": "Your contact",
+        "message": "លេខទំនាក់ទំនងរបស់អ្នក",
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
@@ -6132,7 +6132,7 @@
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Delete color",
+        "message": "លុបពណ៌",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
@@ -6150,15 +6150,15 @@
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
-        "message": "Chat Color",
+        "message": "ពណ៌នៃការសន្ទនា",
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
-        "message": "Reset Chat Colors",
+        "message": "កំណត់ពណ៌ការសន្ទនាឡើងវិញ",
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
@@ -6174,7 +6174,7 @@
         "description": "Confirm button label for resetting chat colors"
     },
     "ChatColorPicker__confirm-reset-message": {
-        "message": "Would you like to override all chat colors?",
+        "message": "តើអ្នកចង់លុបពណ៌តំណាងការសន្ទនាទាំងអស់មែនទេ?",
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
@@ -6182,7 +6182,7 @@
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "នេះជាការពិនិត្យម្ដងទៀតនូវពណ៌នៃការសន្ទនា",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
@@ -6190,15 +6190,15 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
-        "message": "The color is visible to only you.",
+        "message": "ពណ៌នេះមើលឃើញតែអ្នកប៉ុណ្ណោះ",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Edit color",
+        "message": "កែរពណ៌",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
-        "message": "Duplicate",
+        "message": "ស្ទួន",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--delete": {
@@ -6230,7 +6230,7 @@
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "Custom time",
+        "message": "ថេរវេលាកំណត់ខ្លួនឯង",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
@@ -6242,7 +6242,7 @@
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
-        "message": "Set",
+        "message": "កំណត់",
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
@@ -6266,11 +6266,11 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Set a default disappearing message timer for all new chats started by you.",
+        "message": "កំណត់ថេរវេលានៃការលុបសារសម្រាប់រាល់ការសន្ទនាថ្មីៗដែលចាប់ផ្ដើមដោយអ្នក",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Default timer for new chats",
+        "message": "ពេលវេលាតាមលំនាំដើមសម្រាប់ការសន្ទនាថ្មីៗ",
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
@@ -6308,11 +6308,11 @@
         "description": "Popup selector title"
     },
     "MediaQualitySelector--standard-quality-title": {
-        "message": "Standard",
+        "message": "ស្ដង់ដារ",
         "description": "Title for option for standard quality"
     },
     "MediaQualitySelector--standard-quality-description": {
-        "message": "Faster, less data",
+        "message": "លឿនជាងមុន ទិន្នន៏យតិចជាងមុន",
         "description": "Description of standard quality selector"
     },
     "MediaQualitySelector--high-quality-title": {
@@ -6320,7 +6320,7 @@
         "description": "Title for option for high quality"
     },
     "MediaQualitySelector--high-quality-description": {
-        "message": "Slower, more data",
+        "message": "យឺតជាងមុន ទិន្នន័យច្រើនជាងមុន",
         "description": "Description of high quality selector"
     },
     "MessageDetailsHeader--Failed": {
@@ -6420,11 +6420,11 @@
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
-        "message": "First Name (Required)",
+        "message": "ឈ្មោះ (ទាមទារ)",
         "description": "Placeholder text for first name field"
     },
     "ProfileEditor--last-name": {
-        "message": "Last Name (Optional)",
+        "message": "ត្រកូល (ទាមទារ)",
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
@@ -6508,7 +6508,7 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Select an avatar",
+        "message": "ជ្រើសរើសរូបតំណាង",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
@@ -6622,15 +6622,15 @@
         "description": "Option for who can see my X select"
     },
     "Preferences__who-can--nobody": {
-        "message": "Nobody",
+        "message": "គ្មាននរណា",
         "description": "Option for who can see my X select"
     },
     "Preferences--messaging": {
-        "message": "Messaging",
+        "message": "ការផ្ញើសារ",
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "See my phone number",
+        "message": "មើលលេខទូរស័ព្ទរបស់ខ្ញុំ",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
@@ -6696,7 +6696,7 @@
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
-        "message": "Customize reactions",
+        "message": "ដាក់រូបប្រតិកម្មតាមចំនូលចិត្ត",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
@@ -6708,7 +6708,7 @@
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "គូរ",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "description": "Release notes for v5.32"
     }
 }

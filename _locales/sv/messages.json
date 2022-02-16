@@ -790,7 +790,7 @@
         "description": "Aria label for clear search button"
     },
     "searchIn": {
-        "message": "Sök chatt",
+        "message": "Sök i chatt",
         "description": "Shown in the search box before text is entered when searching in a specific conversation"
     },
     "noSearchResults": {
@@ -1046,15 +1046,15 @@
         "description": "Shown as the title of our update error dialogs on windows"
     },
     "muted": {
-        "message": "Ljud av",
+        "message": "Tystad",
         "description": "Shown in a button when a conversation is muted"
     },
     "mute": {
-        "message": "Ljud av",
+        "message": "Tysta",
         "description": "Shown in a button when a conversation is unmuted and can be muted"
     },
     "cannotUpdateDetail": {
-        "message": "Signal couldn't update. $retry$ or visit $url$ to install it manually. Then, $support$ about this problem",
+        "message": "Det gick inte att uppdatera Signal. $retry$ eller besök $url$ för att installera det manuellt. Därefter, $support$ om detta problem",
         "description": "Shown if a general error happened while trying to install update package",
         "placeholders": {
             "retry": {
@@ -1510,7 +1510,7 @@
         "description": "Button tooltip label for turning on the camera"
     },
     "calling__button--audio__label": {
-        "message": "Ljud av",
+        "message": "Tysta",
         "description": "Label under the audio button"
     },
     "calling__button--audio-disabled": {
@@ -2502,11 +2502,11 @@
         "description": ""
     },
     "autoUpdateRetry": {
-        "message": "Retry update",
+        "message": "Försök att uppdatera igen",
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "contact support",
+        "message": "kontakta supporten",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -5992,7 +5992,7 @@
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM D, YYYY",
+        "message": "MMM D, ÅÅÅÅ",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Listan över språk som stöds har utökats. Vi uppskattar uppriktigt de frivilliga översättare vars ansträngningar gjorde detta möjligt.",
+        "description": "Release notes for v5.32"
     }
 }

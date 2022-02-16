@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Vi har ændret på afstanden i venstre rudes sidehoved og søgeområde, så der nu er masser af plads til aktiviteter!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Nu er det nemt at opspore personen, der højlydt taster eller smasker i gruppeopkald - vi har indført en ny animeret taleindikator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Listen med understøttede sprog er blevet udvidet. Vi sætter stor pris på de frivillige oversættere, hvis indsats har gjort dette muligt.",
+        "description": "Release notes for v5.32"
     }
 }

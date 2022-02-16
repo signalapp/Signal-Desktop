@@ -2506,7 +2506,7 @@
         "description": ""
     },
     "autoUpdateContactSupport": {
-        "message": "Kapcsolatfelvétel a támogatással",
+        "message": "kapcsolatfelvétel a támogatással",
         "description": ""
     },
     "autoUpdateNewVersionMessage": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Átrendeztük a baloldali sáv fejléce és keresője körüli területet, így rengeteg hely áll rendelkezésre a tevékenységek megjelenítéséhez.",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Találd meg könnyedén, hogy ki gépel túl zajosan vagy nyammog a mikrofonba egy-egy csoporthívás alatt - bevezettük az új, animált aktív beszéd-indikátort",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "A támogatott nyelvek listája kibővült. Hálásan köszönjük az önkéntes fordítóknak, akik munkája ezt lehetővé tette!",
+        "description": "Release notes for v5.32"
     }
 }

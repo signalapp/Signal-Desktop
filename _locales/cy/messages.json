@@ -32,7 +32,7 @@
         "description": "The label that is used for the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuCreateStickers": {
-        "message": "Creu/uwchlwytho pecyn sticeri",
+        "message": "Creu/llwytho pecyn sticeri",
         "description": "The label that is used for the Create/upload sticker pack option in the File menu in the program main menu. The '&' indicates that the following letter will be used as the keyboard 'shortcut letter' for accessing the menu with the Alt-<letter> combination."
     },
     "mainMenuEdit": {
@@ -306,7 +306,7 @@
         "description": "Message shown on the loading screen when we're changing database structure on first run of a new version"
     },
     "loadingMessages": {
-        "message": "Yn llwytho negeseuon. $count$ hyd yma...",
+        "message": "Wedi llwytho negeseuon. $count$ hyd yma...",
         "description": "Message shown on the loading screen when we're catching up on the backlog of messages",
         "placeholders": {
             "count": {
@@ -328,7 +328,7 @@
         "description": "Displayed when a user can't send a message because something has gone wrong in the conversation."
     },
     "scrollDown": {
-        "message": "Sgrolio lawr i waelod y sgwrs",
+        "message": "Sgroliwch i waelod y sgwrs",
         "description": "Alt text for button to take user down to bottom of conversation, shown when user scrolls up"
     },
     "messagesBelow": {
@@ -398,7 +398,7 @@
         "description": "When there are multiple previously-verified group members with safety number changes, a banner will be shown. The list of contacts with safety number changes is shown, and this text introduces that list."
     },
     "changedRightAfterVerify": {
-        "message": "Mae'r rhif diogelwch yr ydych in ceisio dilysu wedi newid. Arolygwch eich rhif diogelwch newydd â $name1$. Cofiwch, gall y newid hwn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebiad neu – yn syml – bod $name2$ wedi ailosod Signal.",
+        "message": "Mae'r rhif diogelwch rydych yn ceisio ei ddilysu wedi newid. Adolygwch eich rhif diogelwch newydd â $name1$. Cofiwch, gall y newid hwn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebiad neu – yn syml – bod $name2$ wedi ailosod Signal.",
         "description": "Shown on the safety number screen when the user has selected to verify/unverify a contact's safety number, and we immediately discover a safety number change",
         "placeholders": {
             "name1": {
@@ -412,15 +412,15 @@
         }
     },
     "changedVerificationWarning": {
-        "message": "Gall fod y bobl ganlynol fod wedi ailosod neu newid dyfeisiau. Gwiriwch eich rhif diogelwch gyda nhw i sicrhau preifatrwydd.",
+        "message": "Mae'n bosib fod y bobl canlynol wedi ailosod neu newid eu dyfeisiau. Gwiriwch eich rhif diogelwch gyda nhw i sicrhau preifatrwydd.",
         "description": "Shown on confirmation dialog when user attempts to send a message"
     },
     "safetyNumberChangeDialog__pending-messages--1": {
-        "message": "Anfon negeseuon sydd o dan ystyriaeth",
+        "message": "Anfon negeseuon sy'n disgwyl",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
     },
     "safetyNumberChangeDialog__pending-messages--many": {
-        "message": "Anfon $count$ neges sydd o dan ystyriaeth",
+        "message": "Yn anfon $count$ neges sy'n disgwyl",
         "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
         "placeholders": {
             "count": {
@@ -430,7 +430,7 @@
         }
     },
     "identityKeyErrorOnSend": {
-        "message": "Mae'ch rhif diogelwch gyda $name1$ wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu – yn syml – bod $name2$ wedi ail-osod Signal. Efallai hoffech wirio'r rhif diogelwch gyda'r cysylltiad hwn.",
+        "message": "Mae'ch rhif diogelwch gyda $name1$ wedi newid. Gall hyn olygu bod rhywun yn ceisio rhyng-gipio eich cyfathrebu, neu – yn syml – bod $name2$ wedi ail-osod Signal. Efallai hoffech chi wirio'r rhif diogelwch gyda'r cysylltiad hwn.",
         "description": "Shown when user clicks on a failed recipient in the message detail view after an identity key change",
         "placeholders": {
             "name1": {
@@ -456,7 +456,7 @@
         "description": "Used on a warning dialog to make it clear that it might be risky to continue the group call."
     },
     "noLongerVerified": {
-        "message": "Mae'ch rhif diogelwch gyda $name$ wedi newid ac nid yw wedi'i dilysu bellach. Cliciwch i'w ddangos.",
+        "message": "Mae'ch rhif diogelwch gyda $name$ wedi newid ac nid yw wedi'i ddilysu bellach. Cliciwch i'w ddangos.",
         "description": "Shown in conversation banner when user's safety number has changed, but they were previously verified.",
         "placeholders": {
             "name": {
@@ -470,7 +470,7 @@
         "description": "Shown in conversation banner when more than one group member's safety number has changed, but they were previously verified."
     },
     "debugLogExplanation": {
-        "message": "Bydd y cofnod hwn yn cael ei gofnodi'n gyhoeddus ar-lein i gyfranwyr ei weld. Gallwch lawrlwytho'r log llawn cyn ei gyflwyno.",
+        "message": "Bydd y cofnod hwn yn cael ei gofnodi'n gyhoeddus ar-lein i gyfranwyr ei weld. Gallwch lwytho'r cofnod llawn cyn ei gyflwyno.",
         "description": ""
     },
     "debugLogError": {
@@ -586,11 +586,11 @@
         "description": "The string \"yesterday\""
     },
     "thisWeek": {
-        "message": "Wythnos Hon",
+        "message": "Yr Wythnos Hon",
         "description": "Section header in the media gallery"
     },
     "thisMonth": {
-        "message": "Mis Yma",
+        "message": "Y Mis Yma",
         "description": "Section header in the media gallery"
     },
     "unsupportedAttachment": {
@@ -610,7 +610,7 @@
         "description": "Name for a voice message attachment"
     },
     "dangerousFileType": {
-        "message": "Nid oes caniatâd i atodiad o'r math am resymau diogelwch",
+        "message": "Nid oes caniatâd i atodiad o'r math yma am resymau diogelwch",
         "description": "Shown in toast when user attempts to send .exe file, for example"
     },
     "loadingPreview": {
@@ -648,7 +648,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Cafodd y bwrdd gwaith wall dadgryptio o $name$, device $deviceId$",
+        "message": "Cafodd y bwrdd gwaith wall dadgryptio o $name$, dyfais $deviceId$",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -666,7 +666,7 @@
         "description": "Label for the decryption error toast button"
     },
     "oneNonImageAtATimeToast": {
-        "message": "Wrth gynnwys atodiad heb ddelwedd, dim ond un atodiad i bob neges.",
+        "message": "Wrth gynnwys atodiad heb ddelwedd, y terfyn yw ond un atodiad i bob neges.",
         "description": "An error popup when the user has attempted to add an attachment"
     },
     "cannotMixImageAndNonImageAttachments": {
@@ -698,7 +698,7 @@
         "description": "Shown to allow the user to manually attempt a reconnect."
     },
     "connectingHangOn": {
-        "message": "Dylai ddim fod yn hir...",
+        "message": "Dylai ddim fod yn hir",
         "description": "Subtext description for when the client is connecting to the server."
     },
     "offline": {
@@ -758,7 +758,7 @@
         "description": "Item under the Help menu, which opens a small about window"
     },
     "screenShareWindow": {
-        "message": "Yn rhannu sgrîn",
+        "message": "Yn rhannu sgrin",
         "description": "Title for screen sharing window"
     },
     "speech": {
@@ -1134,7 +1134,7 @@
         "description": "Text shown in the confirmation dialog for deleting a message locally"
     },
     "deleteForEveryoneWarning": {
-        "message": "Bydd y neges hon yn cael ei dileu i bawb sydd yn y sgwrs os ydynt yn defnyddio fersiwn diweddar o Signal. Byddant yn gallu gweld eich bod wedi dileu neges.",
+        "message": "Bydd y neges hon yn cael ei dileu i bawb sydd yn y sgwrs os ydynt yn defnyddio fersiwn diweddar o Signal. Byddan nhw'n gallu gweld eich bod wedi dileu neges.",
         "description": "Text shown in the confirmation dialog for deleting a message for everyone"
     },
     "from": {
@@ -1196,7 +1196,7 @@
         "description": "Generic label for back"
     },
     "goBack": {
-        "message": "Nôl",
+        "message": "Ewch nôl",
         "description": "Label for back button in a conversation"
     },
     "moreInfo": {
@@ -1208,7 +1208,7 @@
         "description": "Shown on the drop-down menu for an individual message, but only if it is an outgoing message that failed to send"
     },
     "forwardMessage": {
-        "message": "Anfon ymlaen",
+        "message": "Anfon neges ymlaen",
         "description": "Shown on the drop-down menu for an individual message, forwards a message"
     },
     "deleteMessage": {
@@ -1240,7 +1240,7 @@
         "description": "Shown in timeline when session is automatically reset, to provide access to a popup info dialog"
     },
     "ChatRefresh--summary": {
-        "message": "Defnyddir Signal amgryptio dechrau-i'r-diwedd ac efallai bydd rhaid iddo adnewyddu eich sesiwn sgwrsio o dro i dro. Nid yw hyn yn cael effaith ar ddiogelwch eich sgyrsiau ond efallai byddwch wedi methu neges gan y cysylltiad yma a gallwch ofyn iddynt ail-anfon.",
+        "message": "Mae Signal yn defnyddio amgryptio dechrau-i'r-diwedd ac efallai bydd rhaid iddo adnewyddu eich sesiwn sgwrsio o dro i dro. Nid yw hyn yn cael effaith ar ddiogelwch eich sgyrsiau ond efallai byddwch wedi methu neges gan y cysylltiad yma a gallwch ofyn iddyn nhw ei hail-anfon.",
         "description": "Shown on explainer dialog available from chat session refreshed timeline events"
     },
     "ChatRefresh--contactSupport": {
@@ -1328,7 +1328,7 @@
         "description": "Used on reset buttons"
     },
     "fileIconAlt": {
-        "message": "Eicon Ffeil",
+        "message": "Eicon ffeil",
         "description": "Used in the media gallery documents tab to visually represent a file"
     },
     "installWelcome": {
@@ -1430,7 +1430,7 @@
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "initialSync__subtitle": {
-        "message": "Sylw: Ni fydd eich hanes sgwrsio yn cael ei gydweddu a'r ddyfais hon",
+        "message": "Sylw: Ni fydd eich hanes sgwrsio yn cael ei gydweddu â'r ddyfais hon",
         "description": "Shown during initial link while contacts and groups are being pulled from mobile device"
     },
     "installConnectionFailed": {
@@ -1454,7 +1454,7 @@
         "description": ""
     },
     "installTryAgain": {
-        "message": "Ceisio eto",
+        "message": "Ceisiwch eto",
         "description": ""
     },
     "Preferences--theme": {
@@ -1530,11 +1530,11 @@
         "description": "Label under the share screen button"
     },
     "calling__button--presenting-disabled": {
-        "message": "Diffoddir cyflwyno",
+        "message": "Cyflwyno wedi'i analluogi",
         "description": "Button tooltip label for when screen sharing is disabled"
     },
     "calling__button--presenting-on": {
-        "message": "Dechrau rhannu",
+        "message": "Dechrau cyflwyno",
         "description": "Button tooltip label for starting to share screen"
     },
     "calling__button--presenting-off": {
@@ -1558,7 +1558,7 @@
         "description": "Button tooltip label for turning ringing on"
     },
     "calling__your-video-is-off": {
-        "message": "Mae'ch fideo wedi'i ddiffodd",
+        "message": "Mae'ch camera i ffwrdd",
         "description": "Label in the calling lobby indicating that your camera is off"
     },
     "calling__pre-call-info--empty-group": {
@@ -1808,11 +1808,11 @@
         }
     },
     "calling__presenting--stop": {
-        "message": "Peidio rhannu",
+        "message": "Peidio â rhannu",
         "description": "Button for stopping screen sharing"
     },
     "calling__presenting--you-stopped": {
-        "message": "Peidiasoch â chyflwyno",
+        "message": "Rydych wedi peidio â chyflwyno",
         "description": "Toast that appears when someone stops presenting"
     },
     "calling__presenting--person-ongoing": {
@@ -1836,7 +1836,7 @@
         }
     },
     "calling__presenting--permission-title": {
-        "message": "Angen caniatâd",
+        "message": "Mae angen caniatâd",
         "description": "Shown as the title for the modal that requests screen recording permissions"
     },
     "calling__presenting--macos-permission-description": {
@@ -1868,7 +1868,7 @@
         "description": "Description of the always relay calls setting"
     },
     "alwaysRelayCallsDetail": {
-        "message": "Ail-alw pob galwad drwy'r gweinydd Signal i osgoi datgelu eich cyfeiriad IP i'ch cyswllt. Bydd galluogi yn lleihau ansawdd galwadau.",
+        "message": "Ail-alw pob galwad drwy'r gweinydd Signal i osgoi datgelu eich cyfeiriad IP i'ch cyswllt. Bydd ei alluogi yn lleihau ansawdd galwadau.",
         "description": "Details describing the always relay calls setting"
     },
     "permissions": {
@@ -2026,7 +2026,7 @@
         "description": "Shown on outgoing message if it fails to send"
     },
     "sendPaused": {
-        "message": "Oedwyd anfon",
+        "message": "Oedwyd yr anfon",
         "description": "Shown on outgoing message if it cannot be sent immediately"
     },
     "partiallySent": {
@@ -2202,11 +2202,11 @@
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disappearingMessagesDisabledByMember": {
-        "message": "Diffoddodd aelod negeseuon byrhoedlog.",
+        "message": "Diffoddodd aelod y negeseuon byrhoedlog.",
         "description": "Displayed in the left pane when the timer is turned off"
     },
     "disabledDisappearingMessages": {
-        "message": "Diffoddodd $name$ negeseuon byrhoedlog.",
+        "message": "Diffoddodd $name$ y negeseuon byrhoedlog.",
         "description": "Displayed in the conversation list when the timer is turned off",
         "placeholders": {
             "name": {
@@ -2216,7 +2216,7 @@
         }
     },
     "youDisabledDisappearingMessages": {
-        "message": "Diffoddasoch negeseuon byrhoedlog.",
+        "message": "Rydych chi wedi diffodd y negeseuon byrhoedlog.",
         "description": "Displayed in the conversation list when the timer is turned off"
     },
     "timerSetTo": {
@@ -2230,7 +2230,7 @@
         }
     },
     "audioNotificationDescription": {
-        "message": "Canu synau hysbysu",
+        "message": "Chwarae synau hysbysu",
         "description": "Description for audio notification setting"
     },
     "callRingtoneNotificationDescription": {
@@ -2342,7 +2342,7 @@
         "description": "Label text for the setting that controls whether new notifications draw attention to the window"
     },
     "hideMenuBar": {
-        "message": "Cuddio bar dewislen",
+        "message": "Cuddio'r bar dewislen",
         "description": "Label text for menu bar visibility setting"
     },
     "startConversation": {
@@ -2370,7 +2370,7 @@
         "description": "Shown if request to Signal servers to find username fails"
     },
     "startConversation--username-not-found": {
-        "message": "Heb ganfod y defnyddiwr. Nid yw $atUsername$ yn ddefnyddiwr Signal; gwnewch yn siŵr eich bod wedi nodi'r enw defnyddiwr cyflawn.",
+        "message": "Heb ganfod y defnyddiwr. Nid yw $atUsername$ yn ddefnyddiwr Signal; gwnewch yn siŵr eich bod wedi rhoi'r enw defnyddiwr llawn.",
         "description": "Shown in dialog if username is not found. Note that 'username' will be the output of at-username",
         "placeholders": {
             "atUsername": {
@@ -2396,7 +2396,7 @@
         "description": "The 'next' button text in the 'choose group members' left pane screen"
     },
     "chooseGroupMembers__maximum-group-size__title": {
-        "message": "Uchafswm maint y grŵp wedi'i gyrraedd",
+        "message": "Mae uchafswm maint y grŵp wedi'i gyrraedd",
         "description": "Shown in the alert when you add the maximum number of group members"
     },
     "chooseGroupMembers__maximum-group-size__body": {
@@ -2410,7 +2410,7 @@
         }
     },
     "chooseGroupMembers__maximum-recommended-group-size__title": {
-        "message": "Mae'r terfyn aelodaeth a argymhellir wedi'i gyrraedd",
+        "message": "Wedi cyrraedd terfyn aelodaeth sy'n cael ei argymhell",
         "description": "Shown in the alert when you add the maximum recommended number of group members"
     },
     "chooseGroupMembers__maximum-recommended-group-size__body": {
@@ -2466,7 +2466,7 @@
         "description": "Shown in the modal when we can't create a group"
     },
     "updateGroupAttributes__title": {
-        "message": "Golygu grŵp",
+        "message": "Golygu'r grŵp",
         "description": "Shown in the modal when we want to update a group"
     },
     "updateGroupAttributes__error-message": {
@@ -2894,7 +2894,7 @@
         }
     },
     "Message--from-me-unsupported-message": {
-        "message": "Anfonodd un o'ch dyfeisiau neges na ellir ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd.",
+        "message": "Anfonodd un o'ch dyfeisiau neges nad oes modd ei phrosesu na'i harddangos oherwydd ei bod yn defnyddio nodwedd Signal newydd.",
         "description": ""
     },
     "Message--from-me-unsupported-message-ask-to-resend": {
@@ -3010,7 +3010,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--default-message-action": {
-        "message": "Gweithred rhagosodedig ar gyfer y neges hon",
+        "message": "Gweithred rhagosodedig y neges hon",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--view-details-for-selected-message": {
@@ -3042,7 +3042,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--send-in-expanded-composer": {
-        "message": "Anfon (mewn cyfansoddwr estynedig)",
+        "message": "Anfon (yn y cyfansoddwr estynedig)",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--attach-file": {
@@ -3050,7 +3050,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-link-preview": {
-        "message": "Dileu rhagolwg dolen ddrafft",
+        "message": "Tynnu rhagolwg dolen ddrafft",
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--remove-draft-attachments": {
@@ -3058,7 +3058,7 @@
         "description": "Shown in the shortcuts guide"
     },
     "Keyboard--conversation-by-index": {
-        "message": "Neidio i sgwrs",
+        "message": "Symud i sgwrs",
         "description": "A shortcut allowing direct navigation to conversations 1 to 9 in list"
     },
     "Keyboard--Key--ctrl": {
@@ -3272,7 +3272,7 @@
         "description": "Title for the confirm dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--confirm": {
-        "message": "Uwchlwytho",
+        "message": "Llwytho i fyny",
         "description": "Text for the upload button in the confirmation dialog on the meta stage of the sticker creator"
     },
     "StickerCreator--MetaStage--ConfirmDialog--text": {
@@ -3284,7 +3284,7 @@
         "description": "Title for the upload stage of the sticker creator"
     },
     "StickerCreator--UploadStage-uploaded": {
-        "message": "$count$ o $total$ wedi'i uwchlwytho",
+        "message": "$count$ o $total$ wedi'u llwytho i fyny",
         "description": "Title for the upload stage of the sticker creator",
         "placeholders": {
             "count": {
@@ -3306,7 +3306,7 @@
         "description": "Help text for the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--callToAction": {
-        "message": "Defnyddiwch yr hashnod $hashtag$ i helpu pobl eraill i ddod o hyd i'r URLau ar gyfer unrhyw becynnau sticeri cyfaddas yr hoffech eu gwneud yn hygyrch i'r cyhoedd.",
+        "message": "Defnyddiwch yr hashnod $hashtag$ i helpu pobl eraill i ddod o hyd i URLau unrhyw becynnau sticeri cyfaddas yr hoffech eu gwneud yn hygyrch i'r cyhoedd.",
         "description": "Call to action text for the share stage of the sticker creator",
         "placeholders": {
             "hashtag": {
@@ -3328,7 +3328,7 @@
         "description": "Text for the create another sticker pack button on the share stage of the sticker creator"
     },
     "StickerCreator--ShareStage--socialMessage": {
-        "message": "Edrychwch ar y pecyn sticeri newydd hwn a greais ar gyfer Signal. #makeprivacystick",
+        "message": "Edrychwch ar y pecyn sticeri newydd hwn rwyf wedi'u creu ar gyfer Signal. #makeprivacystick",
         "description": "Text which is shared to social media platforms for sticker packs"
     },
     "StickerCreator--Toasts--imagesAdded": {
@@ -3346,7 +3346,7 @@
         "description": "Text for the toast when an image that is animated was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--tooLarge": {
-        "message": "Delwedd wedi'i gollwng yn rhy fawr",
+        "message": "Mae'r ddelwedd yn rhy fawr",
         "description": "Text for the toast when an image that is too large was dropped on the sticker creator"
     },
     "StickerCreator--Toasts--errorProcessing": {
@@ -3466,7 +3466,7 @@
         "description": "Shown as the body in the confirmation modal for unblocking a group message request"
     },
     "MessageRequests--block-and-report-spam": {
-        "message": "Adrodd ar Sothach a'i Rwystro",
+        "message": "Adrodd ar Sbam a'i Rwystro",
         "description": "Shown as a button to let the user block a message request and report spam"
     },
     "MessageRequests--block-and-report-spam-success-toast": {
@@ -3994,7 +3994,7 @@
         "description": "Label for the mute notifications drop-down selector"
     },
     "notMuted": {
-        "message": "Heb ei ddistewi",
+        "message": "Heb eu distewi",
         "description": "Label when the conversation is not muted"
     },
     "muteHour": {
@@ -4116,11 +4116,11 @@
         "description": "The button to join the group, if approval is required"
     },
     "GroupV2--join--cancel-request-to-join": {
-        "message": "Canslo Cais",
+        "message": "Diddymu'r Cais",
         "description": "The button to cancel request to join the group"
     },
     "GroupV2--join--cancel-request-to-join--confirmation": {
-        "message": "Canslo eich cais i ymuno â'r grwp?",
+        "message": "Diddymu eich cais i ymuno â'r grŵp?",
         "description": "A confirmation message that shows after you click the button"
     },
     "GroupV2--join--cancel-request-to-join--yes": {
@@ -4180,11 +4180,11 @@
         "description": "Label for describing the general non-privileged members of a group"
     },
     "updating": {
-        "message": "Diweddaru...",
+        "message": "Yn diweddaru...",
         "description": "Shown along with a spinner when an update operation takes longer than one second"
     },
     "GroupV2--create--you": {
-        "message": "Rydych wedi creu'r grŵp",
+        "message": "Rydych wedi creu'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--create--other": {
@@ -4236,7 +4236,7 @@
         }
     },
     "GroupV2--title--remove--other": {
-        "message": "Tynnodd $memberName$ enw'r grŵp.",
+        "message": "Mae $memberName$ wedi tynnu enw'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4246,11 +4246,11 @@
         }
     },
     "GroupV2--title--remove--you": {
-        "message": "Rydych wedi dileu enw'r grŵp.",
+        "message": "Rydych wedi tynnu enw'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--title--remove--unknown": {
-        "message": "Tynnodd aelod enw'r grŵp.",
+        "message": "Mae aelod wedi tynnu enw'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--change--other": {
@@ -4282,7 +4282,7 @@
         }
     },
     "GroupV2--avatar--remove--you": {
-        "message": "Rydych wedi tynnu avatar y grŵp.",
+        "message": "Rydych wedi tynnu afatar y grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--avatar--remove--unknown": {
@@ -4304,7 +4304,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--admins--unknown": {
-        "message": "Newidiodd gweinyddwr pwy sy'n gallu golygu manylion y grŵp i \"Dim ond gweinyddwyr.\"",
+        "message": "Newidiodd y gweinyddwr pwy sy'n gallu golygu manylion y grŵp i \"Dim ond gweinyddwyr.\"",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--access-attributes--all--other": {
@@ -4514,7 +4514,7 @@
         }
     },
     "GroupV2--member-add--you--other": {
-        "message": "Ychwanegodd $memberName$ chi y grŵp.",
+        "message": "Ychwanegodd $memberName$ chi i'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "memberName": {
@@ -4532,7 +4532,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--you--you": {
-        "message": "Ymunasoch â'r grŵp trwy'r ddolen grŵp.",
+        "message": "Rydych wedi ymuno â'r grŵp trwy'r ddolen grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-add-from-link--other": {
@@ -4652,7 +4652,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-remove--you--unknown": {
-        "message": "Rydych wedi'ch dileu o'r grŵp.",
+        "message": "Rydych wedi'ch tynnu o'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--member-privilege--promote--other--other": {
@@ -4976,7 +4976,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--other": {
-        "message": "Dirymodd $adminName$ y gwahoddiad i'r grŵp a anfonoch at $inviteeName$.",
+        "message": "Dirymodd $adminName$ y gwahoddiad i'r grŵp wnaethoch chi ei anfon at $inviteeName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -4996,7 +4996,7 @@
         }
     },
     "GroupV2--pending-remove--revoke-invite-from-you--one--unknown": {
-        "message": "Dirymodd gweinyddwr y gwahoddiad i'r grŵp a anfonoch at $inveName$.",
+        "message": "Dirymodd gweinyddwr y gwahoddiad i'r grŵp wnaethoch chi ei anfon at $inveName$.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "inviteeName": {
@@ -5082,7 +5082,7 @@
         }
     },
     "GroupV2--admin-approval-add-one--you": {
-        "message": "Anfonasoch gais i ymuno â'r grŵp.",
+        "message": "Rydych wedi anfon cais i ymuno â'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-add-one--other": {
@@ -5096,7 +5096,7 @@
         }
     },
     "GroupV2--admin-approval-remove-one--you--you": {
-        "message": "Fe wnaethoch chi ganslo eich cais i ymuno â'r grŵp.",
+        "message": "Fe wnaethoch chi ddiddymu eich cais i ymuno â'r grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--admin-approval-remove-one--you--unknown": {
@@ -5174,7 +5174,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--you": {
-        "message": "Diffoddasoch y ddolen grŵp.",
+        "message": "Rydych wedi diffodd y ddolen grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-remove--other": {
@@ -5192,7 +5192,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--you": {
-        "message": "Ailosodasoch y ddolen grŵp.",
+        "message": "Rydych wedi ailosod y ddolen grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--group-link-reset--other": {
@@ -5210,11 +5210,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--you": {
-        "message": "Dileasoch disgrifiad y grŵp.",
+        "message": "Rydych wedi tynnu disgrifiad y grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--remove--other": {
-        "message": "Dilëwyd disgrifiad y grŵp gan $memberName$.",
+        "message": "Mae $memberName$ wedi tynnu disgrifiad y grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5224,7 +5224,7 @@
         }
     },
     "GroupV2--description--remove--unknown": {
-        "message": "Dilëwyd disgrifiad y grŵp.",
+        "message": "Mae disgrifiad y grŵp wedi ei dynnu.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--you": {
@@ -5232,7 +5232,7 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--description--change--other": {
-        "message": "Newidiodd $memberName$ disgrifiad y grŵp.",
+        "message": "Newidiodd $memberName$ ddisgrifiad y grŵp.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5246,11 +5246,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--you": {
-        "message": "Newidiasoch gosodiadau'r grŵp i ganiatáu gweinyddwyr un unig i anfon negeseuon.",
+        "message": "Rydych wedi newid gosodiadau'r grŵp i ganiatáu i'r gweinyddwyr yn unig i anfon negeseuon.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--admin--other": {
-        "message": "Newidiodd $memberName$ gosodiadau'r grŵp i ganiatáu gweinyddwyr un unig i anfon negeseuon.",
+        "message": "Newidiodd $memberName$ gosodiadau'r grŵp i ganiatáu i'r gweinyddwyr yn unig anfon negeseuon.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5264,11 +5264,11 @@
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--you": {
-        "message": "Newidiasoch gosodiadau'r grŵp i ganiatáu pob aelod i anfon negeseuon.",
+        "message": "Rydych wedi newid gosodiadau'r grŵp i ganiatáu i bob aelod anfon negeseuon.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV2--announcements--member--other": {
-        "message": "Newidiodd $memberName$ gosodiadau'r grŵp i ganiatáu pob aelod i anfon negeseuon.",
+        "message": "Newidiodd $memberName$ osodiadau'r grŵp i ganiatáu i bob aelod anfon negeseuon.",
         "description": "Shown in timeline or conversation preview when v2 group changes",
         "placeholders": {
             "adminName": {
@@ -5278,7 +5278,7 @@
         }
     },
     "GroupV2--announcements--member--unknown": {
-        "message": "Newidiwyd gosodiadau'r grŵp i ganiatáu pob aelod i anfon negeseuon.",
+        "message": "Newidiwyd gosodiadau'r grŵp i ganiatáu i bob aelod anfon negeseuon.",
         "description": "Shown in timeline or conversation preview when v2 group changes"
     },
     "GroupV1--Migration--disabled": {
@@ -5312,7 +5312,7 @@
         "description": "Shown on Migration popup after choosing to migrate group"
     },
     "GroupV1--Migration--info--summary": {
-        "message": "Mae gan Grwpiau Newydd nodweddion fel @crybwyll a gweinyddwyr grwpiau, a byddant â nodweddion ychwanegol yn y dyfodol.",
+        "message": "Mae gan Grwpiau Newydd nodweddion fel @mentions a gweinyddwyr grwpiau, a byddant â nodweddion ychwanegol yn y dyfodol.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--keep-history": {
@@ -5328,27 +5328,27 @@
         "description": "Shown on Learn More popup after GV1 migration"
     },
     "GroupV1--Migration--info--invited--many": {
-        "message": "Bydd angen i'r aelodau hyn dderbyn gwahoddiad i ymuno â'r grŵp hwn eto, a ni fyddant yn derbyn negeseuon grŵp nes eu bod yn derbyn:",
+        "message": "Bydd angen i'r aelodau hyn dderbyn gwahoddiad i ymuno â'r grŵp hwn eto, a byddan nhw ddim yn derbyn negeseuon grŵp nes eu bod yn derbyn:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--invited--one": {
-        "message": "Bydd angen i'r aelod hwn dderbyn gwahoddiad i ymuno â'r grŵp hwn eto, a ni fydd yn derbyn negeseuon grŵp nes ei fod wedi derbyn:",
+        "message": "Bydd angen i'r aelod hwn dderbyn gwahoddiad i ymuno â'r grŵp hwn eto, a byddan nhw ddim yn derbyn negeseuon grŵp nes ei fod wedi derbyn:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--many": {
-        "message": "Nid yw'r aelodau hyn yn gallu ymuno â Grwpiau Newydd, a chânt eu tynnu o'r grŵp:",
+        "message": "Nid yw'r aelodau hyn yn gallu ymuno â Grwpiau Newydd, byddan nhw'n cael eu tynnu o'r grŵp:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--before--one": {
-        "message": "Nid yw'r aelod hwn yn gallu ymuno â Grwpiau Newydd, a chaiff ei dynnu o'r grŵp.",
+        "message": "Nid yw'r aelod hwn yn gallu ymuno â Grwpiau Newydd, a bydd yn cael ei dynnu o'r grŵp.",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--many": {
-        "message": "Nid oedd yr aelodau hyn yn gallu ymuno â Grwpiau Newydd, a chawsant eu tynnu o'r grŵp:",
+        "message": "Nid oedd yr aelodau hyn yn gallu ymuno â Grwpiau Newydd ac mae nhw wedi cael eu tynnu o'r grŵp:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--info--removed--after--one": {
-        "message": "Nid oedd yr aelod hwn yn gallu ymuno â Grwpiau Newydd, a chafodd ei dynnu o'r grŵp:",
+        "message": "Nid oedd yr aelod hwn yn gallu ymuno â Grwpiau Newydd, ac mae wedi ei thynnu/dynnu o'r grŵp:",
         "description": "Shown on Learn More popup after or Migration popup before GV1 migration"
     },
     "GroupV1--Migration--invited--you": {
@@ -5366,7 +5366,7 @@
         }
     },
     "GroupV1--Migration--invited--many": {
-        "message": "Nid oedd modd ychwanegu $count$ aelod at y Grŵp Newydd ac fe'u gwahoddwyd i ymuno.",
+        "message": "Nid oedd modd ychwanegu $count$ aelod at y Grŵp Newydd ac mae wedi cael gwahoddiad i ymuno.",
         "description": "Shown in timeline when a group is upgraded and some people were invited, instead of added",
         "placeholders": {
             "contact": {
@@ -5408,11 +5408,11 @@
         "description": "Generic next label"
     },
     "BadgeDialog__become-a-sustainer-button": {
-        "message": "Dod yn Gynhaliwr",
+        "message": "Dod yn Gefnogwr",
         "description": "In the badge dialog. This button is shown under sustainer badges, taking users to some instructions"
     },
     "BadgeSustainerInstructions__header": {
-        "message": "Dod yn Gynhaliwr",
+        "message": "Dod yn Gefnogwr",
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
@@ -5496,7 +5496,7 @@
         "description": "This is a button in the conversation context menu to show the chat color editor"
     },
     "showConversationDetails": {
-        "message": "Gosodiadau grŵp",
+        "message": "Gosodiadau'r grŵp",
         "description": "This is a button in the conversation context menu to show group settings"
     },
     "showConversationDetails--direct": {
@@ -5572,7 +5572,7 @@
         "description": "This is the modal title for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-content": {
-        "message": "Ni fyddwch yn gallu anfon na derbyn negeseuon yn y grŵp hwn mwyach.",
+        "message": "Fyddwch chi ddim yn gallu anfon na derbyn negeseuon yn y grŵp hwn mwyach.",
         "description": "This is the modal content for confirming leaving a group"
     },
     "ConversationDetailsActions--leave-group-modal-confirm": {
@@ -5590,7 +5590,7 @@
         }
     },
     "ConversationDetailsActions--block-group-modal-content": {
-        "message": "Ni fyddwch bellach yn derbyn negeseuon na diweddariadau gan y grŵp hwn.",
+        "message": "Fyddwch chi ddim bellach yn derbyn negeseuon na diweddariadau gan y grŵp hwn.",
         "description": "This is the modal content for confirming blocking a group"
     },
     "ConversationDetailsActions--block-group-modal-confirm": {
@@ -5638,7 +5638,7 @@
         "description": "In the conversation notifications settings, this is the label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__info": {
-        "message": "Derbyn hysbysiadau pan sonir amdanoch mewn sgyrsiau wedi'u tewi?",
+        "message": "Derbyn hysbysiadau pan mae sôn amdanoch mewn sgyrsiau wedi'u tewi?",
         "description": "In the conversation notifications settings, this is the sub-label for the mentions option"
     },
     "ConversationNotificationsSettings__mentions__select__always-notify": {
@@ -5646,7 +5646,7 @@
         "description": "In the conversation notifications settings, this is the option that always notifies you for @mentions"
     },
     "ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-        "message": "Paid hysbysu os ddistewyd",
+        "message": "Peidio hysbysu os wedi distewi",
         "description": "In the conversation notifications settings, this is the option that doesn't notify you for @mentions if the conversation is muted"
     },
     "GroupLinkManagement--clipboard": {
@@ -5658,7 +5658,7 @@
         "description": "This lets users share their group link"
     },
     "GroupLinkManagement--confirm-reset": {
-        "message": "Ydych chi'n siŵr eich bod am ailosod y ddolen grŵp? Ni fydd pobl bellach yn gallu ymuno â'r grŵp gan ddefnyddio'r ddolen gyfredol.",
+        "message": "Ydych chi'n siŵr eich bod am ailosod y ddolen grŵp? Fydd dim modd i bobl ymuno â'r grŵp gan ddefnyddio'r ddolen gyfredol.",
         "description": "Shown in the confirmation dialog when an admin is about to reset the group link"
     },
     "GroupLinkManagement--reset": {
@@ -5800,7 +5800,7 @@
         }
     },
     "PendingInvites--info": {
-        "message": "Nid yw manylion am bobl sydd wedi'u gwahodd i'r grŵp hwn nes iddyn nhw ymuno. Dim ond ar ôl iddyn nhw ymuno â'r grŵp y bydd gwahoddedigion yn gweld negeseuon.",
+        "message": "Nid yw manylion am bobl sydd wedi'u gwahodd i'r grŵp hwn yn cael eu dangos nes iddyn nhw ymuno. Dim ond ar ôl iddyn nhw ymuno â'r grŵp y bydd gwahoddedigion yn gweld negeseuon.",
         "description": "Information shown below the invite list"
     },
     "AvatarInput--no-photo-label--group": {
@@ -5816,7 +5816,7 @@
         "description": "The label for the avatar uploader when a photo is selected"
     },
     "AvatarInput--upload-photo-choice": {
-        "message": "Uwchlwytho llun",
+        "message": "Llwytho llun i fyny",
         "description": "The button text when you click on an uploaded avatar and want to upload a new one"
     },
     "AvatarInput--remove-photo-choice": {
@@ -5846,7 +5846,7 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
-        "message": "Nid oes modd i ti ychwanegu $name$ yn awtomatig i'r grŵp.",
+        "message": "Nid oes modd ychwanegu $name$ yn awtomatig i'r grŵp.",
         "description": "When creating a new group and inviting users, this is shown in the dialog",
         "placeholders": {
             "name": {
@@ -5856,11 +5856,11 @@
         }
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-        "message": "Nid oes modd i ti ychwanegu'r defnyddiwr hwn i'r grŵp yn awtomatig.",
+        "message": "Nid oes modd ychwanegu'r defnyddiwr hwn i'r grŵp yn awtomatig.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-        "message": "Maent nhw wedi eu gwahodd, a ni fyddent yn gweld unrhyw negeseuon grŵp nes iddynt dderbyn.",
+        "message": "Maen nhw wedi eu gwahodd, a fyddan nhw ddim yn gweld unrhyw negeseuon grŵp nes iddyn nhw dderbyn.",
         "description": "When creating a new group and inviting users, this is shown in the dialog"
     },
     "NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
@@ -5926,7 +5926,7 @@
         }
     },
     "deselectContact": {
-        "message": "Dad-ddewiswch $name$ cyswllt",
+        "message": "Dad-ddewiswch cyswllt $name$ ",
         "description": "The label for contact checkboxes that are selected (clicking them should de-select the contact)",
         "placeholders": {
             "name": {
@@ -5936,7 +5936,7 @@
         }
     },
     "cannotSelectContact": {
-        "message": "Methu dewis $name$ cyswllt",
+        "message": "Methu dewis cyswllt $name$",
         "description": "The label for contact checkboxes that are disabled",
         "placeholders": {
             "name": {
@@ -5946,7 +5946,7 @@
         }
     },
     "alreadyAMember": {
-        "message": "Rydyn nhw eisoes yn aelod",
+        "message": "Eisoes yn aelod",
         "description": "The label for contact checkboxes that are disabled because they're already a member"
     },
     "MessageAudio--play": {
@@ -5954,7 +5954,7 @@
         "description": "Aria label for audio attachment's Play button"
     },
     "MessageAudio--pause": {
-        "message": "Seibi atodiad sain",
+        "message": "Oedi atodiad sain",
         "description": "Aria label for audio attachment's Pause button"
     },
     "MessageAudio--download": {
@@ -5966,11 +5966,11 @@
         "description": "Aria label for pending audio attachment spinner"
     },
     "MessageAudio--slider": {
-        "message": "Amser chwarae nôl atodiad sain",
+        "message": "Amser chwarae'r atodiad sain",
         "description": "Aria label for audio attachment's playback time slider"
     },
     "emptyInboxMessage": {
-        "message": "Cliciwch y $composeIcon$ uchod a chwilio am gysylltiadau neu grwpiau i anfon negeseuon atynt.",
+        "message": "Cliciwch y $composeIcon$ uchod a chwilio am gysylltiadau neu grwpiau i anfon negeseuon atyn nhw.",
         "description": "Shown in the left-pane when the inbox is empty",
         "placeholders": {
             "composeIcon": {
@@ -5980,7 +5980,7 @@
         }
     },
     "composeIcon": {
-        "message": "botwm cyfansoddi",
+        "message": "y botwm cyfansoddi",
         "description": "Shown in the left-pane when the inbox is empty. Describes the button that composes a new message."
     },
     "ForwardMessageModal--continue": {
@@ -6004,7 +6004,7 @@
         "description": "Shown in the message request warning dialog. Gives more information about message requests"
     },
     "MessageRequestWarning__dialog__learn-even-more": {
-        "message": "Ychylch Ceisiadau Neges",
+        "message": "Ynghylch Ceisiadau Neges",
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
@@ -6100,7 +6100,7 @@
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "I helpu atal sothach ar Signal cwblhewch gwirio os gwelwch yn dda.",
+        "message": "I helpu atal sbam ar Signal cwblhewch y gwirio, os gwelwch yn dda.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
@@ -6112,23 +6112,23 @@
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
-        "message": "Os byddwch yn dewis hepgor y gwiriad, efallai byddwch yn methu negeseuon gan bobl eraill ac efallai bydd eich negeseuon chi yn methu ag anfon.",
+        "message": "Os byddwch yn dewis hepgor y gwiriad, efallai byddwch yn colli negeseuon gan bobl eraill ac efallai bydd eich negeseuon yn methu a'u hanfon.",
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
-        "message": "Hepgor gwiriad",
+        "message": "Hepgor y gwirio",
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
-        "message": "Cwblhawyd gwirio.",
+        "message": "Cwblhawyd y gwirio.",
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Methwyd gwirio, rhowch gynnig arall arni nes ymlaen.",
+        "message": "Methwyd gwirio, rhowch gynnig arall arni, yn nes ymlaen.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Methwyd dileu y neges i bawb. Rhowch gynnig arall arni nes ymlaen.",
+        "message": "Methwyd dileu y neges i bawb. Rhowch gynnig arall arni, yn nes ymlaen.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
@@ -6146,7 +6146,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Lliw Sgwrs Eang",
+        "message": "Lliw Sgwrs Cyffredin",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -6166,7 +6166,7 @@
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "Ailosod lliwau diofyn",
+        "message": "Ailosod lliwiau rhagosodedig",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -6230,11 +6230,11 @@
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "Amser cyfaddas:",
+        "message": "Amser cyfaddas",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
-        "message": "Dewis Amser",
+        "message": "Amser Cyfaddas",
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
@@ -6266,7 +6266,7 @@
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
-        "message": "Gosod cyfnod negeseuon byrhoedlog rhagosodedig ar gyfer holl sgyrsiau newydd a sydd wedi'u dechrau gennych.",
+        "message": "Gosod cyfnod negeseuon byrhoedlog rhagosodedig ar gyfer pob sgwrs newydd sydd wedi'u dechrau gennych.",
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
@@ -6328,7 +6328,7 @@
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "Dan ystyriaeth",
+        "message": "Yn disgwyl",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
@@ -6368,7 +6368,7 @@
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
-        "message": "Ni all enw defnyddiwr gychwyn gyda rhif.",
+        "message": "Nid yw enw defnyddiwr yn gallu gychwyn gyda rhif.",
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
@@ -6408,7 +6408,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Bydd hyn yn dileu eich enw defnyddiwr, gan ganiatáu i ddefnyddwyr eraill ei hawlio. Ydych chi'n siŵr?",
+        "message": "Bydd hyn yn tynnu eich enw defnyddiwr, gan ganiatáu i ddefnyddwyr eraill ei hawlio. Ydych chi'n siŵr?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6416,7 +6416,7 @@
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Ysgrifennwch rhywbeth amdanoch",
+        "message": "Ysgrifennwch rhywbeth amdanoch chi...",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6432,7 +6432,7 @@
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Mae'ch proffil wedi'u amgryptio. Bydd eich proffil i'w weld gan eich cysylltiadau a pan fyddwch yn dechrau neu derbyn sgyrsiau newydd. $learnMore$",
+        "message": "Mae'ch proffil wedi'u hamgryptio. Bydd eich proffil i'w weld gan eich cysylltiadau a pan fyddwch yn dechrau neu dderbyn sgyrsiau newydd. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6446,7 +6446,7 @@
         "description": "Text that links to a support article"
     },
     "Bio--speak-freely": {
-        "message": "Siarad heb Rwystr",
+        "message": "Siarad yn Rhydd",
         "description": "A default bio option"
     },
     "Bio--encrypted": {
@@ -6458,7 +6458,7 @@
         "description": "A default bio option"
     },
     "Bio--coffee-lover": {
-        "message": "Carwr Coffi",
+        "message": "Carwr coffi",
         "description": "A default bio option"
     },
     "Bio--taking-break": {
@@ -6478,7 +6478,7 @@
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Eich Avatar",
+        "message": "Eich Afatar",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6508,7 +6508,7 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Dewis avatar",
+        "message": "Dewis afatar",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
@@ -6516,7 +6516,7 @@
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Rhithffurf y Grŵp",
+        "message": "Afatar y Grŵp",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
@@ -6610,7 +6610,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "I newid y gosodiadau hyn, agorwch yr app Signal ar eich dyfais symudol a llywio i Gosodiadau > Preifatrwydd",
+        "message": "I newid y gosodiadau hyn, agorwch yr ap Signal ar eich dyfais symudol a llywio i Gosodiadau > Preifatrwydd",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Wedi symud y bylchu ym mhennyn y cwarel chwith a'r ardal chwilio, mae nawr mwy o le i weithgareddau!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Mae nawdd yn hawdd dod o hyd i'r person sy'n teipio'n swnllyd neu'n cnoi'n drwm mewn galwad grŵp - rydym yn cyflwyno’n dangosydd siaradwr animeiddiedig!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Mae'r rhestr o ieithoedd sy'n cael eu cefnogi wedi ehangu. Rydym yn gwerthfawrogi'n fawr y cyfieithwyr gwirfoddol sydd wedi gwneud hyn yn bosib.",
+        "description": "Release notes for v5.32"
     }
 }
