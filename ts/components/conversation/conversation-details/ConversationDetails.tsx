@@ -1,10 +1,11 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button';
+import { Tooltip } from '../../Tooltip';
 import type { ConversationType } from '../../../state/ducks/conversations';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges';
 import { assert } from '../../../util/assert';
@@ -62,6 +63,7 @@ export type StateProps = {
   conversation?: ConversationType;
   hasGroupLink: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
+  hasActiveCall: boolean;
   i18n: LocalizerType;
   isAdmin: boolean;
   isGroup: boolean;
@@ -118,6 +120,7 @@ export const ConversationDetails: React.ComponentType<Props> = ({
   deleteAvatarFromDisk,
   hasGroupLink,
   getPreferredBadge,
+  hasActiveCall,
   i18n,
   isAdmin,
   isGroup,
@@ -339,21 +342,19 @@ export const ConversationDetails: React.ComponentType<Props> = ({
       <div className="ConversationDetails__header-buttons">
         {!conversation.isMe && (
           <>
-            <Button
-              icon={ButtonIconType.video}
+            <ConversationDetailsCallButton
+              disabled={hasActiveCall}
+              i18n={i18n}
               onClick={onOutgoingVideoCallInConversation}
-              variant={ButtonVariant.Details}
-            >
-              {i18n('video')}
-            </Button>
+              type="video"
+            />
             {!isGroup && (
-              <Button
-                icon={ButtonIconType.audio}
+              <ConversationDetailsCallButton
+                disabled={hasActiveCall}
+                i18n={i18n}
                 onClick={onOutgoingAudioCallInConversation}
-                variant={ButtonVariant.Details}
-              >
-                {i18n('audio')}
-              </Button>
+                type="audio"
+              />
             )}
           </>
         )}
@@ -546,3 +547,36 @@ export const ConversationDetails: React.ComponentType<Props> = ({
     </div>
   );
 };
+
+function ConversationDetailsCallButton({
+  disabled,
+  i18n,
+  onClick,
+  type,
+}: Readonly<{
+  disabled: boolean;
+  i18n: LocalizerType;
+  onClick: () => unknown;
+  type: 'audio' | 'video';
+}>) {
+  const button = (
+    <Button
+      disabled={disabled}
+      icon={ButtonIconType[type]}
+      onClick={onClick}
+      variant={ButtonVariant.Details}
+    >
+      {i18n(type)}
+    </Button>
+  );
+
+  if (disabled) {
+    return (
+      <Tooltip content={i18n('calling__in-another-call-tooltip')}>
+        {button}
+      </Tooltip>
+    );
+  }
+
+  return button;
+}

@@ -1176,6 +1176,11 @@ function startCallingLobby({
       "startCallingLobby: can't start lobby without a conversation"
     );
 
+    strictAssert(
+      !state.calling.activeCallState,
+      "startCallingLobby: can't start lobby if a call is active"
+    );
+
     // The group call device count is considered 0 for a direct call.
     const groupCall = getGroupCall(conversationId, state.calling);
     const groupCallDeviceCount =

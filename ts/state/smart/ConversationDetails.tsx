@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import {
   getConversationByUuidSelector,
 } from '../selectors/conversations';
 import { getGroupMemberships } from '../../util/getGroupMemberships';
+import { getActiveCallState } from '../selectors/calling';
 import { getAreWeASubscriber } from '../selectors/items';
 import { getIntl, getTheme } from '../selectors/user';
 import type { MediaItemType } from '../../types/MediaItem';
@@ -93,6 +94,7 @@ const mapStateToProps = (
       ...getConversationColorAttributes(conversation),
     },
     getPreferredBadge: getPreferredBadgeSelector(state),
+    hasActiveCall: Boolean(getActiveCallState(state)),
     i18n: getIntl(state),
     isAdmin,
     ...groupMemberships,

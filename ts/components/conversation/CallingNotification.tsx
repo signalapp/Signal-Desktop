@@ -137,9 +137,7 @@ function renderCallingNotificationButton(
         ? i18n('calling__call-back')
         : i18n('calling__call-again');
       if (activeCallConversationId) {
-        disabledTooltipText = i18n(
-          'calling__call-notification__button__in-another-call-tooltip'
-        );
+        disabledTooltipText = i18n('calling__in-another-call-tooltip');
         onClick = noop;
       } else {
         onClick = () => {
@@ -159,9 +157,7 @@ function renderCallingNotificationButton(
           onClick = returnToActiveCall;
         } else {
           buttonText = i18n('calling__join');
-          disabledTooltipText = i18n(
-            'calling__call-notification__button__in-another-call-tooltip'
-          );
+          disabledTooltipText = i18n('calling__in-another-call-tooltip');
           onClick = noop;
         }
       } else if (deviceCount >= maxDevices) {
