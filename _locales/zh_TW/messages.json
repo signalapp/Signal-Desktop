@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "在左窗格標題和搜尋區域間距的任何地方，現在有很多活動空間！",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "在群組通話中輕鬆追踪錯誤的大聲打字員或多話碎碎念的人 - 我們引入了一個新的動畫說話指示器！",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "支援的語言清單已增加。 我們衷心感謝那些努力使這一切成為可能的翻譯志願者。",
+        "description": "Release notes for v5.32"
     }
 }

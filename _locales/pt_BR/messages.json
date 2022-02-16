@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "O cabeçalho estava muito apertado na nossa barra lateral. Encaixamos as peças com maior folga. Agora há muito espaço para mais atividades!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "The list of supported languages has expanded. We sincerely appreciate the volunteer translators whose efforts made this possible.",
+        "description": "Release notes for v5.32"
     }
 }

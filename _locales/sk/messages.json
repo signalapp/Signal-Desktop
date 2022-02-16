@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Pendlovať okolo medzier v hlavičke ľavého panela a oblasti vyhľadávania a teraz je tu toľko priestoru na aktivity!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "V skupinových hovoroch jednoducho vystopujte tú pochabú hlasnú pisárku alebo silného žvanila – zaviedli sme nový animovaný indikátor rozprávania!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Zoznam podporovaných jazykov sa rozšíril. Úprimne si vážime dobrovoľných prekladateľov, ktorých úsilie to umožnilo.",
+        "description": "Release notes for v5.32"
     }
 }

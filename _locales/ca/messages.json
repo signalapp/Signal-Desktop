@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Hem reorganitzat l'espai en la capçalera del panell esquerre i l'àrea de cerca i ara hi ha molt d'espai per a les activitats!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Localitzeu fàcilment aquest mecanògraf sorollós errant o el mastegador pesat a les trucades de grup: hem introduït un nou indicador animat de parla!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "La llista de llengües compatibles s'ha ampliat. Un agraïment sincer per als traductors voluntaris els esforços dels quals ho han fet possible.",
+        "description": "Release notes for v5.32"
     }
 }

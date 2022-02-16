@@ -5416,7 +5416,7 @@
         "description": "In the instructions for becoming a sustainer. The heading."
     },
     "BadgeSustainerInstructions__subheader": {
-        "message": "Signal is powered by people like you. Contribute and receive a badge.",
+        "message": "Signal word deur mense soos u aangedryf. Dra by en verdien ’n wapen.",
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
@@ -5996,7 +5996,7 @@
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
-        "message": "Kom meer te wete",
+        "message": "Leer meer",
         "description": "Shown on the message request warning. Clicking this button will open a dialog with more information"
     },
     "MessageRequestWarning__dialog__details": {
@@ -6008,7 +6008,7 @@
         "description": "Shown in the message request warning dialog. Clicking this button will open a page on Signal's support site"
     },
     "ContactSpoofing__same-name": {
-        "message": "Review requests carefully. Signal found another contact with the same name. $link$",
+        "message": "Hersien versoeke met sorg. Signal het ’n ander kontak met dieselfde naam gevind. $link$",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else",
         "placeholders": {
             "link": {
@@ -6018,7 +6018,7 @@
         }
     },
     "ContactSpoofing__same-name-in-group": {
-        "message": "$count$ group members have the same name. $link$",
+        "message": "$count$ groeplede het dieselfde naam. $link$",
         "description": "Shown in the timeline warning when you multiple group members have the same name",
         "placeholders": {
             "count": {
@@ -6032,19 +6032,19 @@
         }
     },
     "ContactSpoofing__same-name__link": {
-        "message": "Review request",
+        "message": "Hersien versoek",
         "description": "Shown in the timeline warning when you have a message request from someone with the same name as someone else"
     },
     "ContactSpoofing__same-name-in-group__link": {
-        "message": "Click to review",
+        "message": "Klik om te hersien",
         "description": "Shown in the timeline warning when you multiple group members have the same name"
     },
     "ContactSpoofingReviewDialog__title": {
-        "message": "Review request",
+        "message": "Hersien versoek",
         "description": "Title for the contact name spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__description": {
-        "message": "If you're not sure who the request is from, review the contacts below and take action.",
+        "message": "Indien u onseker is oor die sender van die versoek, kan u die kontakte hieronder nagaan en aksie neem.",
         "description": "Description for the contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__possibly-unsafe-title": {
@@ -6056,11 +6056,11 @@
         "description": "Header in the contact spoofing review dialog, shown above the \"safe\" user"
     },
     "ContactSpoofingReviewDialog__group__title": {
-        "message": "Review members",
+        "message": "Hersien lede",
         "description": "Title for the contact name spoofing review dialog in groups"
     },
     "ContactSpoofingReviewDialog__group__description": {
-        "message": "$count$ group members have similar names. Review the members below or choose to take action.",
+        "message": "$count$ groeplede het soortgelyke name. Hersien die lede hier onder of kies ’n aksie om te neem.",
         "description": "Description for the group contact spoofing review dialog"
     },
     "ContactSpoofingReviewDialog__group__members-header": {
@@ -6068,7 +6068,7 @@
         "description": "Header in the group contact spoofing review dialog. After this header, there will be a list of members"
     },
     "ContactSpoofingReviewDialog__group__name-change-info": {
-        "message": "Recently changed their profile name from $oldName$ to $newName$",
+        "message": "Het onlangs hul profielaam van $oldName$ na $newName$ verander.",
         "description": "In the group contact spoofing review dialog, this text is shown when someone has changed their name recently",
         "placeholders": {
             "oldName": {
@@ -6086,7 +6086,7 @@
         "description": "When confirming the removal of a group member, show this text in the button"
     },
     "RemoveGroupMemberConfirmation__description": {
-        "message": "Remove \"$name$\" from the group?",
+        "message": "Verwyder “$name$” uit die groep?",
         "description": "When confirming the removal of a group member, show this text in the dialog",
         "placeholders": {
             "name": {
@@ -6096,19 +6096,19 @@
         }
     },
     "CaptchaDialog__title": {
-        "message": "Verify to continue messaging",
+        "message": "Verifieer om voort te klets",
         "description": "Header in the captcha dialog"
     },
     "CaptchaDialog__first-paragraph": {
-        "message": "To help prevent spam on Signal, please complete verification.",
+        "message": "Voltooi asb. verifikasie om gemorspos op Signal te help voorkom.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog__second-paragraph": {
-        "message": "After verifying, you can continue messaging. Any paused messages will automatically be sent.",
+        "message": "Na verifikasie kan u boodskappe stuur. Enige wagtende boodskappe sal outomaties verstuur word.",
         "description": "First paragraph in the captcha dialog"
     },
     "CaptchaDialog--can-close__title": {
-        "message": "Continue without verifying?",
+        "message": "Gaan voort sonder verifikasie?",
         "description": "Header in the captcha dialog that can be closed"
     },
     "CaptchaDialog--can-close__body": {
@@ -6116,7 +6116,7 @@
         "description": "Body of the captcha dialog that can be closed"
     },
     "CaptchaDialog--can_close__skip-verification": {
-        "message": "Skip verification",
+        "message": "Slaan verifikasie oor",
         "description": "Skip button of the captcha dialog that can be closed"
     },
     "verificationComplete": {
@@ -6124,19 +6124,19 @@
         "description": "Displayed after successful captcha"
     },
     "verificationFailed": {
-        "message": "Verification failed. Please retry later.",
+        "message": "Verifikasie het misluk. Probeer later weer.",
         "description": "Displayed after unsuccessful captcha"
     },
     "deleteForEveryoneFailed": {
-        "message": "Failed to delete message for everyone. Please retry later.",
+        "message": "Kon nie boodskap vir almal skrap nie. Probeer later weer.",
         "description": "Displayed when delete-for-everyone has failed to send to all recipients"
     },
     "ChatColorPicker__delete--title": {
-        "message": "Delete color",
+        "message": "Skrap kleur",
         "description": "Confirm title for deleting custom color"
     },
     "ChatColorPicker__delete--message": {
-        "message": "This custom color is used in $num$ chats. Do you want to delete it for all chats?",
+        "message": "Hierdie pasgemaakte kleur word in $num$ kletse gebruik. Wil u dit vir alle kletse skrap?",
         "description": "Confirm message for deleting custom color",
         "placeholders": {
             "num": {
@@ -6146,7 +6146,7 @@
         }
     },
     "ChatColorPicker__global-chat-color": {
-        "message": "Global Chat Color",
+        "message": "Algehele kletskleur",
         "description": "Modal title for the chat color picker and editor for all conversations"
     },
     "ChatColorPicker__menu-title": {
@@ -6154,7 +6154,7 @@
         "description": "View title for the chat color picker and editor"
     },
     "ChatColorPicker__reset": {
-        "message": "Reset chat color",
+        "message": "Stel kletskleur terug",
         "description": "Button label for resetting chat colors"
     },
     "ChatColorPicker__resetDefault": {
@@ -6162,11 +6162,11 @@
         "description": "Confirmation dialog title for resetting all chat colors or only the global default one"
     },
     "ChatColorPicker__resetAll": {
-        "message": "Reset all chat colors",
+        "message": "Stel alle kletskleure terug",
         "description": "Button label for resetting all chat colors"
     },
     "ChatColorPicker__confirm-reset-default": {
-        "message": "Reset default",
+        "message": "Herstel verstek",
         "description": "Button label for resetting only global chat color"
     },
     "ChatColorPicker__confirm-reset": {
@@ -6178,15 +6178,15 @@
         "description": "Modal message text for confirming resetting of chat colors"
     },
     "ChatColorPicker__custom-color--label": {
-        "message": "Show custom color editor",
+        "message": "Toon kleurpasmaakredigeerder",
         "description": "aria-label for custom color editor button"
     },
     "ChatColorPicker__sampleBubble1": {
-        "message": "Here's a preview of the chat color.",
+        "message": "Hier is ’n voorskou van die kletskleur.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble2": {
-        "message": "Another bubble.",
+        "message": "Nog ’n bel.",
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__sampleBubble3": {
@@ -6194,7 +6194,7 @@
         "description": "An example message bubble for selecting the chat color"
     },
     "ChatColorPicker__context--edit": {
-        "message": "Edit color",
+        "message": "Wysig kleur",
         "description": "Option in the custom color bubble context menu"
     },
     "ChatColorPicker__context--duplicate": {
@@ -6226,11 +6226,11 @@
         "description": "Modal title for the custom color editor"
     },
     "customDisappearingTimeOption": {
-        "message": "Custom time...",
+        "message": "Pasgemaakte tyd…",
         "description": "Text for an option in Disappearing Messages menu and Conversation Details Disappearing Messages setting when no user value is available"
     },
     "selectedCustomDisappearingTimeOption": {
-        "message": "Custom time",
+        "message": "Pasgemaakte tyd",
         "description": "Text for an option in Conversation Details Disappearing Messages setting when user previously selected custom time"
     },
     "DisappearingTimeDialog__title": {
@@ -6238,7 +6238,7 @@
         "description": "Title for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__body": {
-        "message": "Choose a custom time for disappearing messages.",
+        "message": "Kies ’n pasgemaakte tyd vir verdwynboodskappe.",
         "description": "Body for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__set": {
@@ -6246,23 +6246,23 @@
         "description": "Text for the dialog button confirming the custom disappearing message timeout"
     },
     "DisappearingTimeDialog__seconds": {
-        "message": "Seconds",
+        "message": "Sekondes",
         "description": "Name of the 'seconds' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__minutes": {
-        "message": "Minutes",
+        "message": "Minute",
         "description": "Name of the 'minutes' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__hours": {
-        "message": "Hours",
+        "message": "Uur",
         "description": "Name of the 'hours' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__days": {
-        "message": "Days",
+        "message": "Dae",
         "description": "Name of the 'days' unit select for the custom disappearing message timeout dialog"
     },
     "DisappearingTimeDialog__weeks": {
-        "message": "Weeks",
+        "message": "Weke",
         "description": "Name of the 'weeks' unit select for the custom disappearing message timeout dialog"
     },
     "settings__DisappearingMessages__footer": {
@@ -6270,11 +6270,11 @@
         "description": "Footer for the Disappearing Messages settings section"
     },
     "settings__DisappearingMessages__timer__label": {
-        "message": "Default timer for new chats",
+        "message": "Verstekteller vir nuwe kletse",
         "description": "Label for the Disappearing Messages default timer setting"
     },
     "UniversalTimerNotification__text": {
-        "message": "The disappearing message time will be set to $timeValue$ when you message them.",
+        "message": "Die verdwynboodskaptyd sal op $timeValue$ gestel word wanneer u ’n boodskap aan hulle stuur.",
         "description": "A message displayed when default disappearing message timeout is about to be applied",
         "placeholders": {
             "timeValue": {
@@ -6284,11 +6284,11 @@
         }
     },
     "ErrorBoundaryNotification__text": {
-        "message": "Couldn't display this message. Click to submit a debug log.",
+        "message": "Kon nie die boodskap vertoon nie. Klik om ’n ontfoutlog in te dien.",
         "description": "An error notification displayed when message fails to render due to an internal error"
     },
     "GroupDescription__read-more": {
-        "message": "read more",
+        "message": "lees meer",
         "description": "Button text when the group description is too long"
     },
     "EditConversationAttributesModal__description-warning": {
@@ -6300,7 +6300,7 @@
         "description": "Placeholder text in the details header for those that can edit the group description"
     },
     "MediaQualitySelector--button": {
-        "message": "Select media quality",
+        "message": "Kies mediakwaliteit",
         "description": "aria-label for the media quality selector button"
     },
     "MediaQualitySelector--title": {
@@ -6328,7 +6328,7 @@
         "description": "In the message details screen, shown above contacts where the message failed to deliver"
     },
     "MessageDetailsHeader--Pending": {
-        "message": "Pending",
+        "message": "Hangend",
         "description": "In the message details screen, shown above contacts where the message is still sending"
     },
     "MessageDetailsHeader--Sent": {
@@ -6364,7 +6364,7 @@
         "description": "Shown on the edit username screen"
     },
     "ProfileEditor--username--check-characters": {
-        "message": "Usernames may only contain a-z, 0-9 and _",
+        "message": "Gebruikername mag slegs a-z, 0-9 en _ bevat",
         "description": "Shown if user has attempted to use forbidden characters"
     },
     "ProfileEditor--username--check-starting-character": {
@@ -6372,7 +6372,7 @@
         "description": "Shown if user has attempted to begin their username with a number"
     },
     "ProfileEditor--username--check-character-min": {
-        "message": "Usernames must have a least $min$ characters.",
+        "message": "Gebruikersname moet minstens $min$ karakters bevat.",
         "description": "Shown if user has attempted to enter a username with too few characters - currently min is 3",
         "placeholders": {
             "min": {
@@ -6382,7 +6382,7 @@
         }
     },
     "ProfileEditor--username--check-character-max": {
-        "message": "Usernames must have at most $max$ characters.",
+        "message": "Gebruikername moet hoogstens $max$ karakters bevat.",
         "description": "Shown if user has attempted to enter a username with too many characters - currently min is 25",
         "placeholders": {
             "max": {
@@ -6392,31 +6392,31 @@
         }
     },
     "ProfileEditor--username--check-username-taken": {
-        "message": "Hierdie gebruikersnaam is reeds in gebruik.",
+        "message": "Hierdie gebruikernaam is reeds in gebruik.",
         "description": "Shown if user has attempted to save a username which is not available"
     },
     "ProfileEditor--username--general-error": {
-        "message": "Your username couldn’t be saved. Check your connection and try again.",
+        "message": "U gebruikernaam kon nie bewaar word nie. Gaan u verbinding na en probeer weer.",
         "description": "Shown if something unknown has gone wrong with username save."
     },
     "ProfileEditor--username--delete-general-error": {
-        "message": "Your username couldn’t be removed. Check your connection and try again.",
+        "message": "U gebruikernaam kon nie verwyder word nie. Gaan u verbinding na en probeer weer.",
         "description": "Shown if something unknown has gone wrong with username delete."
     },
     "ProfileEditor--username--delete-username": {
-        "message": "Delete username",
+        "message": "Skrap gebruikernaam",
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "This will remove your username, allowing other users to claim it. Are you sure?",
+        "message": "Dit sal u gebruikernaam verwyder en ander mense sal dit kan gebruik. Is u seker?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
-        "message": "Wis",
+        "message": "Skrap",
         "description": "Shown in dialog button if user has saved an empty string to delete their username"
     },
     "ProfileEditor--about-placeholder": {
-        "message": "Write something about yourself...",
+        "message": "Skryf ’n paar woorde oor uself…",
         "description": "Placeholder text for about input field"
     },
     "ProfileEditor--first-name": {
@@ -6428,11 +6428,11 @@
         "description": "Placeholder text for last name field"
     },
     "ConfirmDiscardDialog--discard": {
-        "message": "Wil jy hierdie veranderinge weggooi?",
+        "message": "Wil u hierdie veranderinge weggooi?",
         "description": "ConfirmationDialog text for discarding changes"
     },
     "ProfileEditor--info": {
-        "message": "Your profile is encrypted. Your profile and changes to it will be visible to your contacts and when you start or accept new chats. $learnMore$",
+        "message": "U profiel is geënkripteer. U profiel en veranderinge daaraan sal aan u kontakte sigbaar wees wanneer u nuwe kletse begin of aanvaar. $learnMore$",
         "description": "Information shown at the bottom of the profile editor section",
         "placeholders": {
             "learnMore": {
@@ -6474,11 +6474,11 @@
         "description": "Title for editing your name"
     },
     "ProfileEditorModal--about": {
-        "message": "Meer oor",
+        "message": "Oor",
         "description": "Title for about editing"
     },
     "ProfileEditorModal--avatar": {
-        "message": "Your Avatar",
+        "message": "U avatar",
         "description": "Title for profile avatar editing"
     },
     "ProfileEditorModal--username": {
@@ -6486,15 +6486,15 @@
         "description": "Title for username editing"
     },
     "ProfileEditorModal--error": {
-        "message": "Your profile could not be updated. Please try again.",
+        "message": "U profiel kan nie bygewerk word nie. Probeer asb. weer.",
         "description": "Error message when something goes wrong updating your profile."
     },
     "AnnouncementsOnlyGroupBanner--modal": {
-        "message": "Message an admin",
+        "message": "Stuur ’n boodskap aan beheerder",
         "description": "Modal title for the list of admins in a group"
     },
     "AnnouncementsOnlyGroupBanner--announcements-only": {
-        "message": "Only $admins$ can send messages",
+        "message": "Slegs $admins$ kan boodskappe stuur",
         "description": "Displayed if sending of messages is disabled to non-admins",
         "placeholders": {
             "admins": {
@@ -6508,19 +6508,19 @@
         "description": "Clickable text describing administrators of a group, used in the message an admin label"
     },
     "AvatarEditor--choose": {
-        "message": "Select an avatar",
+        "message": "Kies ’n avatar",
         "description": "Label for the avatar selector"
     },
     "AvatarColorPicker--choose": {
-        "message": "Choose a color",
+        "message": "Kies ’n kleur",
         "description": "Label for when you need to choose your fighter, err color"
     },
     "LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
-        "message": "Group Avatar",
+        "message": "Groepavatar",
         "description": "Title for the avatar picker in the group creation flow"
     },
     "Preferences__button--general": {
-        "message": "Algemene",
+        "message": "Algemeen",
         "description": "Button to switch the settings view"
     },
     "Preferences__button--appearance": {
@@ -6544,7 +6544,7 @@
         "description": "Button to switch the settings view"
     },
     "Preferences--lastSynced": {
-        "message": "Last import at $date$ $time$",
+        "message": "Laaste invoer om $date$ $time$",
         "description": "Label for date and time of last sync operation",
         "placeholders": {
             "date": {
@@ -6562,7 +6562,7 @@
         "description": "Title for system type settings"
     },
     "Preferences--zoom": {
-        "message": "Zoom level",
+        "message": "Zoemvlak",
         "description": "Label for changing the zoom level"
     },
     "Preferences__link-previews--title": {
@@ -6570,7 +6570,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "To change this setting, open the Signal app on your mobile device and navigate to Settings > Chats",
+        "message": "Open die Signal-toep op u mobiele toestel en gaan na Instellings > Kletse om hierdie instellings te verander",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6578,15 +6578,15 @@
         "description": "Title for advanced settings"
     },
     "Preferences--notification-content": {
-        "message": "Notification content",
+        "message": "Kennisgewinginhoud",
         "description": "Label for the notification content setting select box"
     },
     "Preferences--blocked": {
-        "message": "Geblokkeer",
+        "message": "Versper",
         "description": "Label for blocked contacts setting"
     },
     "Preferences--blocked-count-singular": {
-        "message": "$num$ contact",
+        "message": "$num$ kontak",
         "description": "Number of contacts blocked singular",
         "placeholders": {
             "num": {
@@ -6596,7 +6596,7 @@
         }
     },
     "Preferences--blocked-count-plural": {
-        "message": "$num$ contacts",
+        "message": "$num$ kontakte",
         "description": "Number of contacts blocked plural",
         "placeholders": {
             "num": {
@@ -6606,11 +6606,11 @@
         }
     },
     "Preferences__who-can--title": {
-        "message": "Who can...",
+        "message": "Wie kan…",
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "To change these settings, open the Signal app on your mobile device and navigate to Settings > Privacy",
+        "message": "Open die Signal-toep op u mobiele toestel en gaan na Instellings > Privaatheid om hierdie instellings te verander",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6626,43 +6626,43 @@
         "description": "Option for who can see my X select"
     },
     "Preferences--messaging": {
-        "message": "Messaging",
+        "message": "Boodskappe",
         "description": "Title for the messaging settings"
     },
     "Preferences--see-me": {
-        "message": "See my phone number",
+        "message": "Sien my telefoonnommer",
         "description": "Label for the see my phone number setting"
     },
     "Preferences--find-me": {
-        "message": "Find me by my phone number",
+        "message": "Vind my op my telefoonnommer",
         "description": "Label for the find me by my phone number setting"
     },
     "Preferences--read-receipts": {
-        "message": "Read receipts",
+        "message": "Leesbewyse",
         "description": "Label for the read receipts setting"
     },
     "Preferences--typing-indicators": {
-        "message": "Typing indicators",
+        "message": "Tikaanduiders",
         "description": "Label for the typing indicators setting"
     },
     "Preferences--updates": {
-        "message": "Updates",
+        "message": "Bywerkings",
         "description": "Header for settings having to do with updates"
     },
     "Preferences__download-update": {
-        "message": "Automatically download updates",
+        "message": "Laai bywerkings outomaties af",
         "description": "Label for checkbox for the auto download updates setting"
     },
     "Preferences__enable-notifications": {
-        "message": "Enable notifications",
+        "message": "Aktiveer kennisgewings",
         "description": "Label for checkbox for the notifications setting"
     },
     "Preferences__devices": {
-        "message": "Devices",
+        "message": "Toestelle",
         "description": "Label for Device list in call settings pane"
     },
     "DialogUpdate--version-available": {
-        "message": "Update to version $version$ available",
+        "message": "Bywerking na weergawe $version$ is beskikbaar",
         "description": "Tooltip for new update available",
         "placeholders": {
             "status": {
@@ -6672,19 +6672,19 @@
         }
     },
     "NSIS__retry-dialog--first-line": {
-        "message": "Signal cannot be closed.",
+        "message": "Signal kan nie toegemaak word nie.",
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Please close it manually and click Retry to continue.",
+        "message": "Maak dit asb. handmatig toe en klik Probeer weer om voort te gaan.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
-        "message": "Application crashed",
+        "message": "Toepassing het uitgebom",
         "description": "A title of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__body": {
-        "message": "Signal restarted after a crash. You can submit a crash report to help Signal investigate the issue.",
+        "message": "Signal het uitgebom en moes weer begin. U kan ’n uitbomverslag stuur om Signal te help om die probleem te ondersoek.",
         "description": "The body of the dialog displayed when starting an application after a recent crash"
     },
     "CrashReportDialog__submit": {
@@ -6692,27 +6692,27 @@
         "description": "A button label for submission of the crash reporter data after a recent crash"
     },
     "CrashReportDialog__erase": {
-        "message": "Don't Send",
+        "message": "Moenie stuur nie",
         "description": "A button label for erasure of the crash reporter data after a recent crash and continuing to start the app"
     },
     "CustomizingPreferredReactions__title": {
-        "message": "Customize reactions",
+        "message": "Pas reaksies aan",
         "description": "Shown in the header of the modal for customizing the preferred reactions. Also shown in the tooltip for the button that opens this modal."
     },
     "CustomizingPreferredReactions__subtitle": {
-        "message": "Click to replace an emoji",
+        "message": "Klik om ’n emoji te vervang",
         "description": "Instructions in the modal for customizing the preferred reactions."
     },
     "CustomizingPreferredReactions__had-save-error": {
-        "message": "There was an error when saving your settings. Please try again.",
+        "message": "U instellings kon nie bewaar word nie. Probeer asb. weer.",
         "description": "Shown if there is an error when saving your preferred reaction settings. Should be very rare to see this message."
     },
     "MediaEditor__control--draw": {
-        "message": "Draw",
+        "message": "Skets",
         "description": "Label for the draw button in the media editor"
     },
     "MediaEditor__control--text": {
-        "message": "Add text",
+        "message": "Voeg teks toe",
         "description": "Label for the text button in the media editor"
     },
     "MediaEditor__control--sticker": {
@@ -6720,19 +6720,19 @@
         "description": "Label for the sticker button in the media editor"
     },
     "MediaEditor__control--crop": {
-        "message": "Crop and rotate",
+        "message": "Snoei en roteer",
         "description": "Label for the crop & rotate button in the media editor"
     },
     "MediaEditor__control--undo": {
-        "message": "Ongedaan",
+        "message": "Ontdoen",
         "description": "Label for the undo button in the media editor"
     },
     "MediaEditor__control--redo": {
-        "message": "Weer",
+        "message": "Herdoen",
         "description": "Label for the redo button in the media editor"
     },
     "MediaEditor__text--regular": {
-        "message": "Regular",
+        "message": "Gewoon",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--highlight": {
@@ -6740,11 +6740,11 @@
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--outline": {
-        "message": "Outline",
+        "message": "Buitelyn",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__text--underline": {
-        "message": "Underline",
+        "message": "Onderstreep",
         "description": "Describes what attribute the color picker will change on the text"
     },
     "MediaEditor__draw--pen": {
@@ -6756,11 +6756,11 @@
         "description": "Type of brush to free draw"
     },
     "MediaEditor__draw--thin": {
-        "message": "Thin",
+        "message": "Dun",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--regular": {
-        "message": "Regular",
+        "message": "Gewoon",
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--medium": {
@@ -6768,7 +6768,7 @@
         "description": "Tip width of the brush"
     },
     "MediaEditor__draw--heavy": {
-        "message": "Heavy",
+        "message": "Swaar",
         "description": "Tip width of the brush"
     },
     "MediaEditor__crop--reset": {
@@ -6776,7 +6776,7 @@
         "description": "Reset the crop state"
     },
     "MediaEditor__crop--rotate": {
-        "message": "Rotate",
+        "message": "Roteer",
         "description": "Rotate the canvas"
     },
     "MediaEditor__crop--flip": {
@@ -6784,19 +6784,19 @@
         "description": "Flip/mirror the canvas"
     },
     "MediaEditor__crop--lock": {
-        "message": "Sluit",
+        "message": "Vergrendel",
         "description": "Lock the aspect ratio"
     },
     "MediaEditor__crop--crop": {
-        "message": "Crop",
+        "message": "Snoei",
         "description": "Performs the crop"
     },
     "WhatsNew__modal-title": {
-        "message": "What's New",
+        "message": "Wat is nuut",
         "description": "Title for the whats new modal"
     },
     "WhatsNew__bugfixes": {
-        "message": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
+        "message": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Easily track down that errant loud typist or heavy chewer in group calls - we've introduced a new animated speaking indicator!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Die lys van ondersteunde tale is uitgebrei. Ons is innig dankbaar teenoor die vrywilligers wat moeite gedoen het om dit moontlik te maak.",
+        "description": "Release notes for v5.32"
     }
 }

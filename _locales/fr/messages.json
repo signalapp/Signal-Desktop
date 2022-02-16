@@ -5988,11 +5988,11 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "jjj, MMM J",
+        "message": "ddd D MMM",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
-        "message": "MMM J, AAAA",
+        "message": "LL",
         "description": "Moment.js format for date headers in the message timeline, for dates >=6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "MessageRequestWarning__learn-more": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Shuffled around the spacing in the left pane header and search area and now there is so much room for activities!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Repérez facilement le dactylo bruyant ou le gros mâcheur dans les appels de groupe – nous avons introduit un nouvel indicateur de parole animé !",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "La liste des langues prises en charge s’est agrandie. Nous remercions sincèrement les traducteurs bénévoles dont les efforts ont rendu cela possible.",
+        "description": "Release notes for v5.32"
     }
 }

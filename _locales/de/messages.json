@@ -648,7 +648,7 @@
         }
     },
     "decryptionErrorToast": {
-        "message": "Desktop hat einen Entschlüsselungsfehler von $name$, Gerät $deviceId$ festgestellt. ",
+        "message": "Signal Desktop hat einen Entschlüsselungsfehler von $name$, Gerät $deviceId$ festgestellt. ",
         "description": "An error popup when we haven't added an in-timeline error for decryption error, only for beta/internal users.",
         "placeholders": {
             "name": {
@@ -838,7 +838,7 @@
         "description": "Shown to separate the types of search results"
     },
     "findByUsernameHeader": {
-        "message": "Nutzernamen suchen",
+        "message": "Nach Nutzernamen suchen",
         "description": "Shown to separate the types of search results"
     },
     "at-username": {
@@ -5988,7 +5988,7 @@
         "description": "aria-label for the 'next' button in the forward a message modal dialog"
     },
     "TimelineDateHeader--date-in-last-6-months": {
-        "message": "ddd D. MMM",
+        "message": "ddd, D. MMM",
         "description": "Moment.js format for date headers in the message timeline, for dates <6 months old. See https://momentjs.com/docs/#/displaying/format/."
     },
     "TimelineDateHeader--date-older-than-6-months": {
@@ -6408,7 +6408,7 @@
         "description": "Shown as aria label for trash icon next to username"
     },
     "ProfileEditor--username--confirm-delete-body": {
-        "message": "Dies löscht deinen Nutzernamen, sodass andere Nutzer ihn übernehmen können. Bist du sicher?",
+        "message": "Dies löscht deinen Nutzernamen, was dazu führt, dass andere Nutzer ihn übernehmen können. Bist du sicher?",
         "description": "Shown in dialog body if user has saved an empty string to delete their username"
     },
     "ProfileEditor--username--confirm-delete-button": {
@@ -6800,7 +6800,7 @@
         "description": "Release notes for releases that only include bug fixes"
     },
     "WhatsNew__v5.26--1": {
-        "message": "Langweilig: unbearbeitete Bilder über Signal senden.\nAufregend: Ergänze Katzensticker, Neonschrift und male glückliche Bäume auf deine Bilder, bevor du sie über Signal verschickst.",
+        "message": "Langweilig: Unbearbeitete Bilder über Signal senden.\nAufregend: Ergänze Katzensticker, Neonschrift und male glückliche Bäume auf deine Bilder, bevor du sie über Signal verschickst.",
         "description": "Release notes for v5.26"
     },
     "WhatsNew__v5.26--2": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "Die Abstände in der Kopfzeile des linken Fensters und im Suchbereich wurden verändert, und jetzt gibt es so viel Platz für Aktivitäten!",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Mache nun ganz leicht den noch verbliebenen lauten Tipper oder Schwerkauenden in Gruppenanrufen ausfindig – wir haben ein neuen animierten Sprechenindikator eingeführt!",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Die Liste der unterstützten Sprachen wurde erweitert. Wir bedanken uns von ganzem Herzen bei den ehrenamtlichen Übersetzern, die dies ermöglicht haben.",
+        "description": "Release notes for v5.32"
     }
 }

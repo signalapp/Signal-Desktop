@@ -1348,11 +1348,11 @@
         "description": "The menu option shown in Signal iOS to add a new linked device"
     },
     "Install__scan-this-code": {
-        "message": "Scan deze code met de Signal app op je telefoon",
+        "message": "Scan deze code met de Signal-app op je telefoon",
         "description": "Title of the device link screen. Also used as alt text for the QR code on the device link screen"
     },
     "Install__instructions__1": {
-        "message": "Open de Signal app op je telefoon",
+        "message": "Open de Signal-app op je telefoon",
         "description": "Instructions on the device link screen"
     },
     "Install__instructions__2": {
@@ -1406,7 +1406,7 @@
         "description": "Shown on the install screen. Link takes users to a support page"
     },
     "Install__choose-device-name__description": {
-        "message": "Je zult deze naam zien in het menu ‘Gekoppelde apparaten’ in de Signal app op je telefoon.",
+        "message": "Je zult deze naam zien in het menu ‘Gekoppelde apparaten’ in de Signal-app op je telefoon.",
         "description": "The subheader shown on the 'choose device name' screen in the device linking process"
     },
     "Install__choose-device-name__placeholder": {
@@ -2486,7 +2486,7 @@
         "description": "When a person inputs a number that is invalid"
     },
     "unlinkedWarning": {
-        "message": "Klik hier om Signal-Desktop te koppelen aan de Signal app op je telefoon. Dit is nodig om Signal-Desktop te kunnen gebruiken.",
+        "message": "Klik hier om Signal-Desktop te koppelen aan de Signal-app op je telefoon. Dit is nodig om Signal-Desktop te kunnen gebruiken.",
         "description": ""
     },
     "unlinked": {
@@ -4060,7 +4060,7 @@
         "description": "Shown in toast when you attempt to forward a message to an announcement only group"
     },
     "GroupV2--add--missing-capability": {
-        "message": "Deze personen kunnen niet aan de groep worden toegevoegd totdat ze hun Signal app hebben bijgewerkt.",
+        "message": "Deze personen kunnen niet aan de groep worden toegevoegd totdat ze hun Signal-app hebben bijgewerkt.",
         "description": "Shown in a confirmation dialog when members who cannot view announcement only group cannot be added"
     },
     "GroupV2--cannot-start-group-call": {
@@ -5420,7 +5420,7 @@
         "description": "In the instructions for becoming a sustainer. The subheading."
     },
     "BadgeSustainerInstructions__instructions__1": {
-        "message": "Open de Signal app op je telefoon",
+        "message": "Open de Signal-app op je telefoon",
         "description": "In the instructions for becoming a sustainer. First instruction."
     },
     "BadgeSustainerInstructions__instructions__2": {
@@ -5440,7 +5440,7 @@
         "description": "Aria label for file attachment button in composition area"
     },
     "CompositionArea--sms-only__title": {
-        "message": "Deze persoon maakt geen gebruik van de Signal app",
+        "message": "Deze persoon maakt geen gebruik van de Signal-app",
         "description": "Title for the composition area for the SMS-only contact"
     },
     "CompositionArea--sms-only__body": {
@@ -6570,7 +6570,7 @@
         "description": "Title for the generate link previews setting"
     },
     "Preferences__link-previews--description": {
-        "message": "Open de Signal app op je mobiele telefoon en navigeer naar Instellingen > Gesprekken om deze instellingen te veranderen",
+        "message": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Gesprekken om deze instellingen te veranderen",
         "description": "Description for the generate link previews setting"
     },
     "Preferences--advanced": {
@@ -6610,7 +6610,7 @@
         "description": "Title for the 'who can do X' setting"
     },
     "Preferences__privacy--description": {
-        "message": "Open de Signal app op je mobiele telefoon en navigeer naar Instellingen > Privacy om deze instellingen te veranderen",
+        "message": "Open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Privacy om deze instellingen te veranderen",
         "description": "Description for the 'who can do X' setting"
     },
     "Preferences__who-can--everybody": {
@@ -6676,7 +6676,7 @@
         "description": "First line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "NSIS__retry-dialog--second-line": {
-        "message": "Sluit zelf de Signal app en klik vervolgens op ‘Opnieuw proberen’.",
+        "message": "Sluit zelf de Signal-app en klik vervolgens op ‘Opnieuw proberen’.",
         "description": "Second line of the dialog displayed when Windows installer can't close application automatically and needs user intervention to complete the installation."
     },
     "CrashReportDialog__title": {
@@ -6808,7 +6808,7 @@
         "description": "Release notes for v5.26"
     },
     "WhatsNew__macos-m1": {
-        "message": "Signal-Desktop is nu geoptimaliseerd voor Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
+        "message": "Signal-Desktop is nu geoptimaliseerd voor Apples M1-chip die in hun nieuwere computers wordt gebruikt. Als je een van deze nieuwe apparaten gebruikt, zou de Signal-app vanaf nu veel sneller moeten zijn. Veel dank aan $dennis$ voor zijn harde werk aan deze verbetering!",
         "description": "Release note for the macOS M1 release",
         "placeholders": {
             "dennis": {
@@ -6840,5 +6840,13 @@
     "WhatsNew__v5.31--2": {
         "message": "We hebben de ruimte in het linker paneel beter ingedeeld.",
         "description": "Release notes for v5.31"
+    },
+    "WhatsNew__v5.32--1": {
+        "message": "Met een nieuw spreker-pictogram kun je vanaf nu in een groepsoproep duidelijk zien wie er op dit moment spreekt, of wie er lawaai maakt.",
+        "description": "Release notes for v5.32"
+    },
+    "WhatsNew__v5.32--2": {
+        "message": "Signal is nu in nog meer talen beschikbaar, waaronder Fries! Veel dank aan de vertalers die dit mogelijk maken.",
+        "description": "Release notes for v5.32"
     }
 }
