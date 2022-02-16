@@ -76,11 +76,8 @@ import { getOwn } from '../util/getOwn';
 import { isNormalNumber } from '../util/isNormalNumber';
 import * as durations from '../util/durations';
 import { handleMessageSend } from '../util/handleMessageSend';
-import {
-  fetchMembershipProof,
-  getMembershipList,
-  wrapWithSyncMessageSend,
-} from '../groups';
+import { fetchMembershipProof, getMembershipList } from '../groups';
+import { wrapWithSyncMessageSend } from '../util/wrapWithSyncMessageSend';
 import type { ProcessedEnvelope } from '../textsecure/Types.d';
 import { missingCaseError } from '../util/missingCaseError';
 import { normalizeGroupCallTimestamp } from '../util/ringrtc/normalizeGroupCallTimestamp';

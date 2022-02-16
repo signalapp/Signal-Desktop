@@ -4,10 +4,34 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import { noop, omit } from 'lodash';
-import { HTTPError } from '../../../textsecure/Errors';
+import { HTTPError, SendMessageProtoError } from '../../../textsecure/Errors';
 import { SECOND } from '../../../util/durations';
 
-import { handleMultipleSendErrors } from '../../../jobs/helpers/handleMultipleSendErrors';
+import {
+  handleMultipleSendErrors,
+  maybeExpandErrors,
+} from '../../../jobs/helpers/handleMultipleSendErrors';
+
+describe('maybeExpandErrors', () => {
+  // This returns a readonly array, but Chai wants a mutable one.
+  const expand = (input: unknown) => maybeExpandErrors(input) as Array<unknown>;
+
+  it("wraps the provided value if it's not a SendMessageProtoError with errors", () => {
+    const input = { foo: 123 };
+    assert.sameMembers(expand(input), [input]);
+  });
+
+  it('wraps the provided value if a SendMessageProtoError with no errors', () => {
+    const input = new SendMessageProtoError({});
+    assert.sameMembers(expand(input), [input]);
+  });
+
+  it("uses a SendMessageProtoError's errors", () => {
+    const errors = [new Error('one'), new Error('two')];
+    const input = new SendMessageProtoError({ errors });
+    assert.strictEqual(expand(input), errors);
+  });
+});
 
 describe('handleMultipleSendErrors', () => {
   const make413 = (retryAfter: number): HTTPError =>
@@ -43,8 +67,9 @@ describe('handleMultipleSendErrors', () => {
       handleMultipleSendErrors({
         ...defaultOptions,
         errors: [new Error('first'), new Error('second')],
+        toThrow: new Error('to throw'),
       }),
-      'first'
+      'to throw'
     );
   });
 
@@ -57,6 +82,7 @@ describe('handleMultipleSendErrors', () => {
         errors: [new Error('uh oh')],
         markFailed,
         isFinalAttempt: true,
+        toThrow: new Error('to throw'),
       })
     );
 
@@ -69,8 +95,9 @@ describe('handleMultipleSendErrors', () => {
         ...omit(defaultOptions, 'markFailed'),
         errors: [new Error('Test message')],
         isFinalAttempt: true,
+        toThrow: new Error('to throw'),
       }),
-      'Test message'
+      'to throw'
     );
   });
 
@@ -89,6 +116,7 @@ describe('handleMultipleSendErrors', () => {
               make413(20),
             ],
             timeRemaining: 99999999,
+            toThrow: new Error('to throw'),
           });
         } catch (err) {
           // No-op
@@ -112,6 +140,7 @@ describe('handleMultipleSendErrors', () => {
             ...defaultOptions,
             errors: [make413(9999)],
             timeRemaining: 99,
+            toThrow: new Error('to throw'),
           });
         } catch (err) {
           // No-op
@@ -130,6 +159,7 @@ describe('handleMultipleSendErrors', () => {
           ...defaultOptions,
           errors: [new Error('uh oh')],
           isFinalAttempt: true,
+          toThrow: new Error('to throw'),
         })
       );
     });
@@ -142,6 +172,7 @@ describe('handleMultipleSendErrors', () => {
           ...defaultOptions,
           errors: [new Error('uh oh'), { code: 508 }, make413(99999)],
           markFailed: noop,
+          toThrow: new Error('to throw'),
         })
       );
     });
@@ -153,6 +184,7 @@ describe('handleMultipleSendErrors', () => {
         ...defaultOptions,
         errors: [{ code: 508 }],
         markFailed,
+        toThrow: new Error('to throw'),
       });
 
       sinon.assert.calledOnceWithExactly(markFailed);

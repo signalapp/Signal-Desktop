@@ -415,19 +415,9 @@
     "message": "The following people may have reinstalled or changed devices. Verify your safety number with them to ensure privacy.",
     "description": "Shown on confirmation dialog when user attempts to send a message"
   },
-  "safetyNumberChangeDialog__pending-messages--1": {
-    "message": "Send pending message",
+  "safetyNumberChangeDialog__pending-messages": {
+    "message": "Send pending messages",
     "description": "Shown on confirmation dialog when user attempts to send a message in the outbox"
-  },
-  "safetyNumberChangeDialog__pending-messages--many": {
-    "message": "Send $count$ pending messages",
-    "description": "Shown on confirmation dialog when user attempts to send a message in the outbox",
-    "placeholders": {
-      "count": {
-        "content": "$1",
-        "example": "123"
-      }
-    }
   },
   "identityKeyErrorOnSend": {
     "message": "Your safety number with $name1$ has changed. This could either mean that someone is trying to intercept your communication or that $name2$ has simply reinstalled Signal. You may wish to verify your safety number with this contact.",

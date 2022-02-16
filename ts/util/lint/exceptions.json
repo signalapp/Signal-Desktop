@@ -7826,15 +7826,15 @@
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/jobs/normalMessageSendJobQueue.ts",
+    "path": "ts/jobs/conversationJobQueue.ts",
     "line": "    await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-12-15T19:58:28.089Z"
   },
   {
     "rule": "jQuery-load(",
-    "path": "ts/jobs/reactionJobQueue.ts",
-    "line": "    await window.ConversationController.load();",
+    "path": "ts/jobs/helpers/sendReaction.ts",
+    "line": "  await window.ConversationController.load();",
     "reasonCategory": "falseMatch",
     "updated": "2021-11-04T16:14:03.477Z"
   },

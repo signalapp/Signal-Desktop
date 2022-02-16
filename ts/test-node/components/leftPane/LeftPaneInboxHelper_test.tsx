@@ -425,7 +425,7 @@ describe('LeftPaneInboxHelper', () => {
   });
 
   describe('getConversationAndMessageAtIndex', () => {
-    it('returns pinned converastions, then non-pinned conversations', () => {
+    it('returns pinned conversations, then non-pinned conversations', () => {
       const conversations = [
         getDefaultConversation(),
         getDefaultConversation(),

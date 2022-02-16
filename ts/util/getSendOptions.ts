@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationAttributesType } from '../model-types.d';
@@ -19,6 +19,7 @@ import {
 } from './phoneNumberSharingMode';
 import type { SerializedCertificateType } from '../textsecure/OutgoingMessage';
 import { SenderCertificateMode } from '../textsecure/OutgoingMessage';
+import { isNotNil } from './isNotNil';
 
 const SEALED_SENDER = {
   UNKNOWN: 0,
@@ -26,6 +27,39 @@ const SEALED_SENDER = {
   DISABLED: 2,
   UNRESTRICTED: 3,
 };
+
+export async function getSendOptionsForRecipients(
+  recipients: ReadonlyArray<string>
+): Promise<SendOptionsType> {
+  const conversations = recipients
+    .map(identifier => window.ConversationController.get(identifier))
+    .filter(isNotNil);
+
+  const metadataList = await Promise.all(
+    conversations.map(conversation => getSendOptions(conversation.attributes))
+  );
+
+  return metadataList.reduce(
+    (acc, current): SendOptionsType => {
+      const { sendMetadata: accMetadata } = acc;
+      const { sendMetadata: currentMetadata } = current;
+
+      if (!currentMetadata) {
+        return acc;
+      }
+      if (!accMetadata) {
+        return current;
+      }
+
+      Object.assign(accMetadata, currentMetadata);
+
+      return acc;
+    },
+    {
+      sendMetadata: {},
+    }
+  );
+}
 
 export async function getSendOptions(
   conversationAttrs: ConversationAttributesType,

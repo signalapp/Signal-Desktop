@@ -30,13 +30,12 @@ type PropsType = {
 
 export const App = ({
   appView,
-  cancelMessagesPendingConversationVerification,
-  conversationsStoppingMessageSendBecauseOfVerification,
+  cancelConversationVerification,
+  conversationsStoppingSend,
   hasInitialLoadCompleted,
   getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
-  numberOfMessagesPendingBecauseOfVerification,
   renderCallManager,
   renderCustomizingPreferredReactionsModal,
   renderGlobalModalContainer,
@@ -45,7 +44,7 @@ export const App = ({
   requestVerification,
   registerSingleDevice,
   theme,
-  verifyConversationsStoppingMessageSend,
+  verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   let contents;
 
@@ -66,27 +65,18 @@ export const App = ({
   } else if (appView === AppViewType.Inbox) {
     contents = (
       <Inbox
-        cancelMessagesPendingConversationVerification={
-          cancelMessagesPendingConversationVerification
-        }
-        conversationsStoppingMessageSendBecauseOfVerification={
-          conversationsStoppingMessageSendBecauseOfVerification
-        }
+        cancelConversationVerification={cancelConversationVerification}
+        conversationsStoppingSend={conversationsStoppingSend}
         hasInitialLoadCompleted={hasInitialLoadCompleted}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
         isCustomizingPreferredReactions={isCustomizingPreferredReactions}
-        numberOfMessagesPendingBecauseOfVerification={
-          numberOfMessagesPendingBecauseOfVerification
-        }
         renderCustomizingPreferredReactionsModal={
           renderCustomizingPreferredReactionsModal
         }
         renderSafetyNumber={renderSafetyNumber}
         theme={theme}
-        verifyConversationsStoppingMessageSend={
-          verifyConversationsStoppingMessageSend
-        }
+        verifyConversationsStoppingSend={verifyConversationsStoppingSend}
       />
     );
   }

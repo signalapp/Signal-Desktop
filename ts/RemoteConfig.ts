@@ -9,7 +9,6 @@ import * as log from './logging/log';
 export type ConfigKeyType =
   | 'desktop.announcementGroup'
   | 'desktop.clientExpiration'
-  | 'desktop.disableGV1'
   | 'desktop.groupCallOutboundRing'
   | 'desktop.internalUser'
   | 'desktop.mandatoryProfileSharing'

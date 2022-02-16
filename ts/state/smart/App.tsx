@@ -12,10 +12,7 @@ import { SmartSafetyNumberViewer } from './SafetyNumberViewer';
 import type { StateType } from '../reducer';
 import { getPreferredBadgeSelector } from '../selectors/badges';
 import { getIntl, getTheme } from '../selectors/user';
-import {
-  getConversationsStoppingMessageSendBecauseOfVerification,
-  getNumberOfMessagesPendingBecauseOfVerification,
-} from '../selectors/conversations';
+import { getConversationsStoppingSend } from '../selectors/conversations';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
 import { mapDispatchToProps } from '../actions';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog';
@@ -23,13 +20,10 @@ import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialo
 const mapStateToProps = (state: StateType) => {
   return {
     ...state.app,
-    conversationsStoppingMessageSendBecauseOfVerification:
-      getConversationsStoppingMessageSendBecauseOfVerification(state),
+    conversationsStoppingSend: getConversationsStoppingSend(state),
     getPreferredBadge: getPreferredBadgeSelector(state),
     i18n: getIntl(state),
     isCustomizingPreferredReactions: getIsCustomizingPreferredReactions(state),
-    numberOfMessagesPendingBecauseOfVerification:
-      getNumberOfMessagesPendingBecauseOfVerification(state),
     renderCallManager: () => <SmartCallManager />,
     renderCustomizingPreferredReactionsModal: () => (
       <SmartCustomizingPreferredReactionsModal />

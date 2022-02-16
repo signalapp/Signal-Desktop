@@ -12,12 +12,17 @@ import type {
   ConversationMessageType,
   ConversationsStateType,
   ConversationType,
+  ConversationVerificationData,
   MessageLookupType,
   MessagesByConversationType,
   PreJoinConversationType,
 } from '../ducks/conversations';
 import type { UsernameSaveState } from '../ducks/conversationsEnums';
-import { ComposerStep, OneTimeModalState } from '../ducks/conversationsEnums';
+import {
+  ComposerStep,
+  OneTimeModalState,
+  ConversationVerificationState,
+} from '../ducks/conversationsEnums';
 import { getOwn } from '../../util/getOwn';
 import { isNotNil } from '../../util/isNotNil';
 import { deconstructLookup } from '../../util/deconstructLookup';
@@ -995,52 +1000,59 @@ export const getGroupAdminsSelector = createSelector(
   }
 );
 
-const getOutboundMessagesPendingConversationVerification = createSelector(
+const getConversationVerificationData = createSelector(
   getConversations,
   (
     conversations: Readonly<ConversationsStateType>
-  ): Record<string, Array<string>> =>
-    conversations.outboundMessagesPendingConversationVerification
+  ): Record<string, ConversationVerificationData> =>
+    conversations.verificationDataByConversation
 );
 
-const getConversationIdsStoppingMessageSendBecauseOfVerification =
-  createSelector(
-    getOutboundMessagesPendingConversationVerification,
-    (outboundMessagesPendingConversationVerification): Array<string> =>
-      Object.keys(outboundMessagesPendingConversationVerification)
-  );
+export const getConversationIdsStoppedForVerification = createSelector(
+  getConversationVerificationData,
+  (verificationDataByConversation): Array<string> =>
+    Object.keys(verificationDataByConversation)
+);
 
-export const getConversationsStoppingMessageSendBecauseOfVerification =
-  createSelector(
-    getConversationByIdSelector,
-    getConversationIdsStoppingMessageSendBecauseOfVerification,
-    (
-      conversationSelector: (id: string) => undefined | ConversationType,
-      conversationIds: ReadonlyArray<string>
-    ): Array<ConversationType> => {
-      const conversations = conversationIds
-        .map(conversationId => conversationSelector(conversationId))
-        .filter(isNotNil);
-      return sortByTitle(conversations);
-    }
-  );
-
-export const getMessageIdsPendingBecauseOfVerification = createSelector(
-  getOutboundMessagesPendingConversationVerification,
-  (outboundMessagesPendingConversationVerification): Set<string> => {
-    const result = new Set<string>();
-    Object.values(outboundMessagesPendingConversationVerification).forEach(
-      messageGroup => {
-        messageGroup.forEach(messageId => {
-          result.add(messageId);
-        });
-      }
-    );
-    return result;
+export const getConversationsStoppedForVerification = createSelector(
+  getConversationByIdSelector,
+  getConversationIdsStoppedForVerification,
+  (
+    conversationSelector: (id: string) => undefined | ConversationType,
+    conversationIds: ReadonlyArray<string>
+  ): Array<ConversationType> => {
+    const conversations = conversationIds
+      .map(conversationId => conversationSelector(conversationId))
+      .filter(isNotNil);
+    return sortByTitle(conversations);
   }
 );
 
-export const getNumberOfMessagesPendingBecauseOfVerification = createSelector(
-  getMessageIdsPendingBecauseOfVerification,
-  (messageIds: Readonly<Set<string>>): number => messageIds.size
+export const getConversationIdsStoppingSend = createSelector(
+  getConversationVerificationData,
+  (pendingData): Array<string> => {
+    const result = new Set<string>();
+    Object.values(pendingData).forEach(item => {
+      if (item.type === ConversationVerificationState.PendingVerification) {
+        item.conversationsNeedingVerification.forEach(conversationId => {
+          result.add(conversationId);
+        });
+      }
+    });
+    return Array.from(result);
+  }
+);
+
+export const getConversationsStoppingSend = createSelector(
+  getConversationByIdSelector,
+  getConversationIdsStoppingSend,
+  (
+    conversationSelector: (id: string) => undefined | ConversationType,
+    conversationIds: ReadonlyArray<string>
+  ): Array<ConversationType> => {
+    const conversations = conversationIds
+      .map(conversationId => conversationSelector(conversationId))
+      .filter(isNotNil);
+    return sortByTitle(conversations);
+  }
 );

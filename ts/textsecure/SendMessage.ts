@@ -195,6 +195,7 @@ export type MessageOptionsType = {
 export type GroupSendOptionsType = {
   attachments?: Array<AttachmentType>;
   expireTimer?: number;
+  flags?: number;
   groupV2?: GroupV2InfoType;
   groupV1?: GroupV1InfoType;
   messageText?: string;
@@ -764,20 +765,21 @@ export default class MessageSender {
     options: Readonly<GroupSendOptionsType>
   ): MessageOptionsType {
     const {
-      messageText,
-      timestamp,
       attachments,
-      quote,
-      preview,
-      sticker,
-      reaction,
-      expireTimer,
-      profileKey,
       deletedForEveryoneTimestamp,
-      groupV2,
-      groupV1,
-      mentions,
+      expireTimer,
+      flags,
       groupCallUpdate,
+      groupV1,
+      groupV2,
+      mentions,
+      messageText,
+      preview,
+      profileKey,
+      quote,
+      reaction,
+      sticker,
+      timestamp,
     } = options;
 
     if (!groupV1 && !groupV2) {
@@ -815,6 +817,7 @@ export default class MessageSender {
       body: messageText,
       deletedForEveryoneTimestamp,
       expireTimer,
+      flags,
       groupCallUpdate,
       groupV2,
       group: groupV1
@@ -970,12 +973,14 @@ export default class MessageSender {
 
   async sendIndividualProto({
     contentHint,
+    groupId,
     identifier,
     options,
     proto,
     timestamp,
   }: Readonly<{
     contentHint: number;
+    groupId?: string;
     identifier: string | undefined;
     options?: SendOptionsType;
     proto: Proto.DataMessage | Proto.Content | PlaintextContent;
@@ -993,7 +998,7 @@ export default class MessageSender {
       this.sendMessageProto({
         callback,
         contentHint,
-        groupId: undefined,
+        groupId,
         options,
         proto,
         recipients: [identifier],
@@ -1534,35 +1539,6 @@ export default class MessageSender {
 
   // Sending messages to contacts
 
-  async sendProfileKeyUpdate(
-    profileKey: Readonly<Uint8Array>,
-    recipients: ReadonlyArray<string>,
-    options: Readonly<SendOptionsType>,
-    groupId?: string
-  ): Promise<CallbackResultType> {
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return this.sendMessage({
-      messageOptions: {
-        recipients,
-        timestamp: Date.now(),
-        profileKey,
-        flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
-        ...(groupId
-          ? {
-              group: {
-                id: groupId,
-                type: Proto.GroupContext.Type.DELIVER,
-              },
-            }
-          : {}),
-      },
-      contentHint: ContentHint.RESENDABLE,
-      groupId: undefined,
-      options,
-    });
-  }
-
   async sendCallingMessage(
     recipientId: string,
     callingMessage: Readonly<Proto.ICallingMessage>,
@@ -1697,29 +1673,6 @@ export default class MessageSender {
       ),
       type: 'nullMessage',
     };
-  }
-
-  async sendExpirationTimerUpdateToIdentifier(
-    identifier: string,
-    expireTimer: number | undefined,
-    timestamp: number,
-    profileKey?: Readonly<Uint8Array>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-    return this.sendMessage({
-      messageOptions: {
-        recipients: [identifier],
-        timestamp,
-        expireTimer,
-        profileKey,
-        flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      },
-      contentHint: ContentHint.RESENDABLE,
-      groupId: undefined,
-      options,
-    });
   }
 
   async sendRetryRequest({
@@ -2015,65 +1968,6 @@ export default class MessageSender {
       options,
       proto,
       recipients: groupIdentifiers,
-      sendLogCallback,
-      timestamp,
-    });
-  }
-
-  async sendExpirationTimerUpdateToGroup(
-    groupId: string,
-    groupIdentifiers: ReadonlyArray<string>,
-    expireTimer: number | undefined,
-    timestamp: number,
-    profileKey?: Readonly<Uint8Array>,
-    options?: Readonly<SendOptionsType>
-  ): Promise<CallbackResultType> {
-    const myNumber = window.textsecure.storage.user.getNumber();
-    const myUuid = window.textsecure.storage.user.getUuid()?.toString();
-    const recipients = groupIdentifiers.filter(
-      identifier => identifier !== myNumber && identifier !== myUuid
-    );
-    const messageOptions = {
-      recipients,
-      timestamp,
-      expireTimer,
-      profileKey,
-      flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-      group: {
-        id: groupId,
-        type: Proto.GroupContext.Type.DELIVER,
-      },
-    };
-    const proto = await this.getContentMessage(messageOptions);
-
-    if (recipients.length === 0) {
-      return Promise.resolve({
-        successfulIdentifiers: [],
-        failoverIdentifiers: [],
-        errors: [],
-        unidentifiedDeliveries: [],
-        dataMessage: await this.getDataMessage(messageOptions),
-      });
-    }
-
-    const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-    const contentHint = ContentHint.RESENDABLE;
-    const sendLogCallback =
-      groupIdentifiers.length > 1
-        ? this.makeSendLogCallback({
-            contentHint,
-            proto: Buffer.from(Proto.Content.encode(proto).finish()),
-            sendType: 'expirationTimerUpdate',
-            timestamp,
-          })
-        : undefined;
-
-    return this.sendGroupProto({
-      contentHint,
-      groupId: undefined, // only for GV2 ids
-      options,
-      proto,
-      recipients,
       sendLogCallback,
       timestamp,
     });

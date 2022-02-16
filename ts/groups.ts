@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import {
@@ -59,24 +59,25 @@ import type {
   GroupLogResponseType,
 } from './textsecure/WebAPI';
 import type MessageSender from './textsecure/SendMessage';
-import type { CallbackResultType } from './textsecure/Types.d';
 import { CURRENT_SCHEMA_VERSION as MAX_MESSAGE_SCHEMA } from '../js/modules/types/message';
 import type { ConversationModel } from './models/conversations';
 import { getGroupSizeHardLimit } from './groups/limits';
-import { ourProfileKeyService } from './services/ourProfileKey';
 import {
   isGroupV1 as getIsGroupV1,
   isGroupV2 as getIsGroupV2,
   isMe,
 } from './util/whatTypeOfConversation';
-import type { SendTypesType } from './util/handleMessageSend';
-import { handleMessageSend } from './util/handleMessageSend';
-import { getSendOptions } from './util/getSendOptions';
 import * as Bytes from './Bytes';
 import type { AvatarDataType } from './types/Avatar';
 import { UUID, isValidUuid } from './types/UUID';
 import type { UUIDStringType } from './types/UUID';
 import { SignalService as Proto } from './protobuf';
+
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from './jobs/conversationJobQueue';
+
 import AccessRequiredEnum = Proto.AccessControl.AccessRequired;
 
 export { joinViaLink } from './groups/joinViaLink';
@@ -1234,11 +1235,11 @@ export async function modifyGroupV2({
   inviteLinkPassword?: string;
   name: string;
 }): Promise<void> {
-  const idLog = `${name}/${conversation.idForLogging()}`;
+  const logId = `${name}/${conversation.idForLogging()}`;
 
   if (!getIsGroupV2(conversation.attributes)) {
     throw new Error(
-      `modifyGroupV2/${idLog}: Called for non-GroupV2 conversation`
+      `modifyGroupV2/${logId}: Called for non-GroupV2 conversation`
     );
   }
 
@@ -1248,21 +1249,21 @@ export async function modifyGroupV2({
   const MAX_ATTEMPTS = 5;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
-    log.info(`modifyGroupV2/${idLog}: Starting attempt ${attempt}`);
+    log.info(`modifyGroupV2/${logId}: Starting attempt ${attempt}`);
     try {
       // eslint-disable-next-line no-await-in-loop
       await window.waitForEmptyEventQueue();
 
-      log.info(`modifyGroupV2/${idLog}: Queuing attempt ${attempt}`);
+      log.info(`modifyGroupV2/${logId}: Queuing attempt ${attempt}`);
 
       // eslint-disable-next-line no-await-in-loop
       await conversation.queueJob('modifyGroupV2', async () => {
-        log.info(`modifyGroupV2/${idLog}: Running attempt ${attempt}`);
+        log.info(`modifyGroupV2/${logId}: Running attempt ${attempt}`);
 
         const actions = await createGroupChange();
         if (!actions) {
           log.warn(
-            `modifyGroupV2/${idLog}: No change actions. Returning early.`
+            `modifyGroupV2/${logId}: No change actions. Returning early.`
           );
           return;
         }
@@ -1274,7 +1275,7 @@ export async function modifyGroupV2({
 
         if ((currentRevision || 0) + 1 !== newRevision) {
           throw new Error(
-            `modifyGroupV2/${idLog}: Revision mismatch - ${currentRevision} to ${newRevision}.`
+            `modifyGroupV2/${logId}: Revision mismatch - ${currentRevision} to ${newRevision}.`
           );
         }
 
@@ -1297,76 +1298,44 @@ export async function modifyGroupV2({
           newRevision,
         });
 
-        // Send message to notify group members (including pending members) of change
-        const profileKey = conversation.get('profileSharing')
-          ? await ourProfileKeyService.get()
-          : undefined;
+        const groupV2Info = conversation.getGroupV2Info({
+          includePendingMembers: true,
+          extraConversationsForSend,
+        });
+        strictAssert(groupV2Info, 'missing groupV2Info');
 
-        const sendOptions = await getSendOptions(conversation.attributes);
-        const timestamp = Date.now();
-        const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-
-        const promise = handleMessageSend(
-          window.Signal.Util.sendToGroup({
-            groupSendOptions: {
-              groupV2: conversation.getGroupV2Info({
-                groupChange: groupChangeBuffer,
-                includePendingMembers: true,
-                extraConversationsForSend,
-              }),
-              timestamp,
-              profileKey,
-            },
-            contentHint: ContentHint.RESENDABLE,
-            messageId: undefined,
-            sendOptions,
-            sendTarget: conversation.toSenderKeyTarget(),
-            sendType: 'groupChange',
-          }),
-          { messageIds: [], sendType: 'groupChange' }
-        );
-
-        // We don't save this message; we just use it to ensure that a sync message is
-        //   sent to our linked devices.
-        const m = new window.Whisper.Message({
+        await conversationJobQueue.add({
+          type: conversationQueueJobEnum.enum.GroupUpdate,
           conversationId: conversation.id,
-          type: 'not-to-save',
-          sent_at: timestamp,
-          received_at: timestamp,
-          // TODO: DESKTOP-722
-          // this type does not fully implement the interface it is expected to
-        } as unknown as MessageAttributesType);
-
-        // This is to ensure that the functions in send() and sendSyncMessage()
-        //   don't save anything to the database.
-        m.doNotSave = true;
-
-        await m.send(promise);
+          groupChangeBase64: Bytes.toBase64(groupChangeBuffer),
+          recipients: groupV2Info.members,
+          revision: groupV2Info.revision,
+        });
       });
 
       // If we've gotten here with no error, we exit!
       log.info(
-        `modifyGroupV2/${idLog}: Update complete, with attempt ${attempt}!`
+        `modifyGroupV2/${logId}: Update complete, with attempt ${attempt}!`
       );
       break;
     } catch (error) {
       if (error.code === 409 && Date.now() <= timeoutTime) {
         log.info(
-          `modifyGroupV2/${idLog}: Conflict while updating. Trying again...`
+          `modifyGroupV2/${logId}: Conflict while updating. Trying again...`
         );
 
         // eslint-disable-next-line no-await-in-loop
         await conversation.fetchLatestGroupV2Data({ force: true });
       } else if (error.code === 409) {
         log.error(
-          `modifyGroupV2/${idLog}: Conflict while updating. Timed out; not retrying.`
+          `modifyGroupV2/${logId}: Conflict while updating. Timed out; not retrying.`
         );
         // We don't wait here because we're breaking out of the loop immediately.
         conversation.fetchLatestGroupV2Data({ force: true });
         throw error;
       } else {
         const errorString = error && error.stack ? error.stack : error;
-        log.error(`modifyGroupV2/${idLog}: Error updating: ${errorString}`);
+        log.error(`modifyGroupV2/${logId}: Error updating: ${errorString}`);
         throw error;
       }
     }
@@ -1673,33 +1642,16 @@ export async function createGroupV2({
   });
 
   const timestamp = Date.now();
-  const profileKey = await ourProfileKeyService.get();
-
   const groupV2Info = conversation.getGroupV2Info({
     includePendingMembers: true,
   });
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const sendOptions = await getSendOptions(conversation.attributes);
+  strictAssert(groupV2Info, 'missing groupV2Info');
 
-  await wrapWithSyncMessageSend({
-    conversation,
-    logId: `sendToGroup/${logId}`,
-    messageIds: [],
-    send: async () =>
-      window.Signal.Util.sendToGroup({
-        contentHint: ContentHint.RESENDABLE,
-        groupSendOptions: {
-          groupV2: groupV2Info,
-          timestamp,
-          profileKey,
-        },
-        messageId: undefined,
-        sendOptions,
-        sendTarget: conversation.toSenderKeyTarget(),
-        sendType: 'groupChange',
-      }),
-    sendType: 'groupChange',
-    timestamp,
+  await conversationJobQueue.add({
+    type: conversationQueueJobEnum.enum.GroupUpdate,
+    conversationId: conversation.id,
+    recipients: groupV2Info.members,
+    revision: groupV2Info.revision,
   });
 
   const createdTheGroupMessage: MessageAttributesType = {
@@ -2199,119 +2151,17 @@ export async function initiateMigrationToGroupV2(
     return;
   }
 
-  // We've migrated the group, now we need to let all other group members know about it
-  const logId = conversation.idForLogging();
-  const timestamp = Date.now();
-
-  const ourProfileKey = await ourProfileKeyService.get();
-
-  const { ContentHint } = Proto.UnidentifiedSenderMessage.Message;
-  const sendOptions = await getSendOptions(conversation.attributes);
-
-  await wrapWithSyncMessageSend({
-    conversation,
-    logId: `sendToGroup/${logId}`,
-    messageIds: [],
-    send: async () =>
-      // Minimal message to notify group members about migration
-      window.Signal.Util.sendToGroup({
-        contentHint: ContentHint.RESENDABLE,
-        groupSendOptions: {
-          groupV2: conversation.getGroupV2Info({
-            includePendingMembers: true,
-          }),
-          timestamp,
-          profileKey: ourProfileKey,
-        },
-        messageId: undefined,
-        sendOptions,
-        sendTarget: conversation.toSenderKeyTarget(),
-        sendType: 'groupChange',
-      }),
-    sendType: 'groupChange',
-    timestamp,
+  const groupV2Info = conversation.getGroupV2Info({
+    includePendingMembers: true,
   });
-}
+  strictAssert(groupV2Info, 'missing groupV2Info');
 
-export async function wrapWithSyncMessageSend({
-  conversation,
-  logId,
-  messageIds,
-  send,
-  sendType,
-  timestamp,
-}: {
-  conversation: ConversationModel;
-  logId: string;
-  messageIds: Array<string>;
-  send: (sender: MessageSender) => Promise<CallbackResultType>;
-  sendType: SendTypesType;
-  timestamp: number;
-}): Promise<void> {
-  const sender = window.textsecure.messaging;
-  if (!sender) {
-    throw new Error(
-      `initiateMigrationToGroupV2/${logId}: textsecure.messaging is not available!`
-    );
-  }
-
-  let response: CallbackResultType | undefined;
-  try {
-    response = await handleMessageSend(send(sender), { messageIds, sendType });
-  } catch (error) {
-    if (conversation.processSendResponse(error)) {
-      response = error;
-    }
-  }
-
-  if (!response) {
-    throw new Error(
-      `wrapWithSyncMessageSend/${logId}: message send didn't return result!!`
-    );
-  }
-
-  // Minimal implementation of sending same message to linked devices
-  const { dataMessage } = response;
-  if (!dataMessage) {
-    throw new Error(
-      `wrapWithSyncMessageSend/${logId}: dataMessage was not returned by send!`
-    );
-  }
-
-  const ourConversationId =
-    window.ConversationController.getOurConversationId();
-  if (!ourConversationId) {
-    throw new Error(
-      `wrapWithSyncMessageSend/${logId}: Cannot get our conversationId!`
-    );
-  }
-
-  const ourConversation = window.ConversationController.get(ourConversationId);
-  if (!ourConversation) {
-    throw new Error(
-      `wrapWithSyncMessageSend/${logId}: Cannot get our conversation!`
-    );
-  }
-
-  if (window.ConversationController.areWePrimaryDevice()) {
-    log.warn(
-      `wrapWithSyncMessageSend/${logId}: We are primary device; not sync message`
-    );
-    return;
-  }
-
-  const options = await getSendOptions(ourConversation.attributes);
-  await handleMessageSend(
-    sender.sendSyncMessage({
-      destination: ourConversation.get('e164'),
-      destinationUuid: ourConversation.get('uuid'),
-      encodedDataMessage: dataMessage,
-      expirationStartTimestamp: null,
-      options,
-      timestamp,
-    }),
-    { messageIds, sendType }
-  );
+  await conversationJobQueue.add({
+    type: conversationQueueJobEnum.enum.GroupUpdate,
+    conversationId: conversation.id,
+    recipients: groupV2Info.members,
+    revision: groupV2Info.revision,
+  });
 }
 
 export async function waitThenRespondToGroupV2Migration(

@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { Database } from 'better-sqlite3';
@@ -26,6 +26,7 @@ import updateToSchemaVersion47 from './47-further-optimize';
 import updateToSchemaVersion48 from './48-fix-user-initiated-index';
 import updateToSchemaVersion49 from './49-fix-preview-index';
 import updateToSchemaVersion50 from './50-fix-messages-unread-index';
+import updateToSchemaVersion51 from './51-centralize-conversation-jobs';
 
 function updateToSchemaVersion1(
   currentVersion: number,
@@ -1915,6 +1916,7 @@ export const SCHEMA_VERSIONS = [
   updateToSchemaVersion48,
   updateToSchemaVersion49,
   updateToSchemaVersion50,
+  updateToSchemaVersion51,
 ];
 
 export function updateSchema(db: Database, logger: LoggerType): void {

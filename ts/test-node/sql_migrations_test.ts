@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
@@ -8,6 +8,7 @@ import { v4 as generateGuid } from 'uuid';
 
 import { SCHEMA_VERSIONS } from '../sql/migrations';
 import { consoleLogger } from '../util/consoleLogger';
+import { getJobsInQueueSync, insertJobSync } from '../sql/Server';
 
 const OUR_UUID = generateGuid();
 
@@ -1325,7 +1326,7 @@ describe('SQL migrations test', () => {
     });
   });
 
-  describe('updateToSchemaVersion49', () => {
+  describe('updateToSchemaVersion50', () => {
     it('creates usable index for messages_unread', () => {
       updateToVersion(50);
 
@@ -1349,6 +1350,254 @@ describe('SQL migrations test', () => {
       assert.include(details, 'USING INDEX messages_unread');
       assert.notInclude(details, 'TEMP B-TREE');
       assert.notInclude(details, 'SCAN');
+    });
+  });
+
+  describe('updateToSchemaVersion51', () => {
+    it('moves reactions/normal send jobs over to conversation queue', () => {
+      updateToVersion(50);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const CONVERSATION_ID_1 = generateGuid();
+
+      db.exec(
+        `
+        INSERT INTO messages
+        (id, json)
+        VALUES ('${MESSAGE_ID_1}', '${JSON.stringify({
+          conversationId: CONVERSATION_ID_1,
+        })}')
+        `
+      );
+
+      db.exec(
+        `
+        INSERT INTO jobs
+          (id, timestamp, queueType, data)
+          VALUES
+          ('id-1', 1, 'random job', '{}'),
+          ('id-2', 2, 'normal send', '{}'),
+          ('id-3', 3, 'reactions', '{"messageId":"${MESSAGE_ID_1}"}'),
+          ('id-4', 4, 'conversation', '{}');
+        `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const normalSendJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';")
+        .pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+      const reactionJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';")
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 4, 'before total');
+      assert.strictEqual(normalSendJobs.get(), 1, 'before normal');
+      assert.strictEqual(conversationJobs.get(), 1, 'before conversation');
+      assert.strictEqual(reactionJobs.get(), 1, 'before reaction');
+
+      updateToVersion(51);
+
+      assert.strictEqual(totalJobs.get(), 4, 'after total');
+      assert.strictEqual(normalSendJobs.get(), 0, 'after normal');
+      assert.strictEqual(conversationJobs.get(), 3, 'after conversation');
+      assert.strictEqual(reactionJobs.get(), 0, 'after reaction');
+    });
+
+    it('updates reactions jobs with their conversationId', () => {
+      updateToVersion(50);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+      const MESSAGE_ID_3 = generateGuid();
+
+      const CONVERSATION_ID_1 = generateGuid();
+      const CONVERSATION_ID_2 = generateGuid();
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'reactions',
+        data: {
+          messageId: MESSAGE_ID_1,
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'reactions',
+        data: {
+          messageId: MESSAGE_ID_2,
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3-missing-data',
+        timestamp: 3,
+        queueType: 'reactions',
+      });
+      insertJobSync(db, {
+        id: 'id-4-non-string-messageId',
+        timestamp: 1,
+        queueType: 'reactions',
+        data: {
+          messageId: 4,
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-5-missing-message',
+        timestamp: 5,
+        queueType: 'reactions',
+        data: {
+          messageId: 'missing',
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-6-missing-conversation',
+        timestamp: 6,
+        queueType: 'reactions',
+        data: {
+          messageId: MESSAGE_ID_3,
+        },
+      });
+
+      const messageJson1 = JSON.stringify({
+        conversationId: CONVERSATION_ID_1,
+      });
+      const messageJson2 = JSON.stringify({
+        conversationId: CONVERSATION_ID_2,
+      });
+      db.exec(
+        `
+        INSERT INTO messages
+          (id, conversationId, json)
+          VALUES
+          ('${MESSAGE_ID_1}', '${CONVERSATION_ID_1}', '${messageJson1}'),
+          ('${MESSAGE_ID_2}', '${CONVERSATION_ID_2}', '${messageJson2}'),
+          ('${MESSAGE_ID_3}', null, '{}');
+        `
+      );
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const reactionJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'reactions';")
+        .pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 6, 'total jobs before');
+      assert.strictEqual(reactionJobs.get(), 6, 'reaction jobs before');
+      assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
+
+      updateToVersion(51);
+
+      assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
+      assert.strictEqual(reactionJobs.get(), 0, 'reaction jobs after');
+      assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
+
+      const jobs = getJobsInQueueSync(db, 'conversation');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-1',
+          timestamp: 1,
+          queueType: 'conversation',
+          data: {
+            type: 'Reaction',
+            conversationId: CONVERSATION_ID_1,
+            messageId: MESSAGE_ID_1,
+          },
+        },
+        {
+          id: 'id-2',
+          timestamp: 2,
+          queueType: 'conversation',
+          data: {
+            type: 'Reaction',
+            conversationId: CONVERSATION_ID_2,
+            messageId: MESSAGE_ID_2,
+          },
+        },
+      ]);
+    });
+
+    it('updates normal send jobs with their conversationId', () => {
+      updateToVersion(50);
+
+      const MESSAGE_ID_1 = generateGuid();
+      const MESSAGE_ID_2 = generateGuid();
+
+      const CONVERSATION_ID_1 = generateGuid();
+      const CONVERSATION_ID_2 = generateGuid();
+
+      insertJobSync(db, {
+        id: 'id-1',
+        timestamp: 1,
+        queueType: 'normal send',
+        data: {
+          conversationId: CONVERSATION_ID_1,
+          messageId: MESSAGE_ID_1,
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-2',
+        timestamp: 2,
+        queueType: 'normal send',
+        data: {
+          conversationId: CONVERSATION_ID_2,
+          messageId: MESSAGE_ID_2,
+        },
+      });
+      insertJobSync(db, {
+        id: 'id-3-missing-data',
+        timestamp: 3,
+        queueType: 'normal send',
+      });
+
+      const totalJobs = db.prepare('SELECT COUNT(*) FROM jobs;').pluck();
+      const normalSend = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'normal send';")
+        .pluck();
+      const conversationJobs = db
+        .prepare("SELECT COUNT(*) FROM jobs WHERE queueType = 'conversation';")
+        .pluck();
+
+      assert.strictEqual(totalJobs.get(), 3, 'total jobs before');
+      assert.strictEqual(normalSend.get(), 3, 'normal send jobs before');
+      assert.strictEqual(conversationJobs.get(), 0, 'conversation jobs before');
+
+      updateToVersion(51);
+
+      assert.strictEqual(totalJobs.get(), 2, 'total jobs after');
+      assert.strictEqual(normalSend.get(), 0, 'normal send jobs after');
+      assert.strictEqual(conversationJobs.get(), 2, 'conversation jobs after');
+
+      const jobs = getJobsInQueueSync(db, 'conversation');
+
+      assert.deepEqual(jobs, [
+        {
+          id: 'id-1',
+          timestamp: 1,
+          queueType: 'conversation',
+          data: {
+            type: 'NormalMessage',
+            conversationId: CONVERSATION_ID_1,
+            messageId: MESSAGE_ID_1,
+          },
+        },
+        {
+          id: 'id-2',
+          timestamp: 2,
+          queueType: 'conversation',
+          data: {
+            type: 'NormalMessage',
+            conversationId: CONVERSATION_ID_2,
+            messageId: MESSAGE_ID_2,
+          },
+        },
+      ]);
     });
   });
 });

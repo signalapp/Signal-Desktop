@@ -30,6 +30,15 @@ export function isMe(conversationAttrs: ConversationAttributesType): boolean {
   return Boolean((e164 && e164 === ourNumber) || (uuid && uuid === ourUuid));
 }
 
+export function isGroup(
+  conversationAttrs: Pick<
+    ConversationAttributesType,
+    'groupId' | 'groupVersion'
+  >
+): boolean {
+  return isGroupV2(conversationAttrs) || isGroupV1(conversationAttrs);
+}
+
 export function isGroupV1(
   conversationAttrs: Pick<ConversationAttributesType, 'groupId'>
 ): boolean {

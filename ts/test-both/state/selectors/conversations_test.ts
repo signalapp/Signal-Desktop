@@ -4,8 +4,9 @@
 import { assert } from 'chai';
 
 import {
-  OneTimeModalState,
   ComposerStep,
+  ConversationVerificationState,
+  OneTimeModalState,
 } from '../../../state/ducks/conversationsEnums';
 import type {
   ConversationLookupType,
@@ -27,16 +28,17 @@ import {
   getComposeSelectedContacts,
   getContactNameColorSelector,
   getConversationByIdSelector,
+  getConversationIdsStoppingSend,
+  getConversationIdsStoppedForVerification,
   getConversationsByTitleSelector,
   getConversationSelector,
-  getConversationsStoppingMessageSendBecauseOfVerification,
+  getConversationsStoppingSend,
+  getConversationsStoppedForVerification,
   getFilteredCandidateContactsForNewGroup,
   getFilteredComposeContacts,
   getFilteredComposeGroups,
   getInvitedContactsForNewlyCreatedGroup,
   getMaximumGroupSizeModalState,
-  getMessageIdsPendingBecauseOfVerification,
-  getNumberOfMessagesPendingBecauseOfVerification,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
   getSelectedConversationId,
@@ -289,19 +291,17 @@ describe('both/state/selectors/conversations', () => {
     });
   });
 
-  describe('#getConversationsStoppingMessageSendBecauseOfVerification', () => {
+  describe('#getConversationsStoppingSend', () => {
     it('returns an empty array if there are no conversations stopping send', () => {
       const state = getEmptyRootState();
 
-      assert.isEmpty(
-        getConversationsStoppingMessageSendBecauseOfVerification(state)
-      );
+      assert.isEmpty(getConversationsStoppingSend(state));
     });
 
-    it('returns all conversations stopping message send', () => {
+    it('returns all conversations stopping send', () => {
       const convo1 = makeConversation('abc');
       const convo2 = makeConversation('def');
-      const state = {
+      const state: StateType = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
@@ -309,77 +309,71 @@ describe('both/state/selectors/conversations', () => {
             def: convo2,
             abc: convo1,
           },
-          outboundMessagesPendingConversationVerification: {
-            def: ['message 2', 'message 3'],
-            abc: ['message 1', 'message 2'],
+          verificationDataByConversation: {
+            'convo a': {
+              type: ConversationVerificationState.PendingVerification as const,
+              conversationsNeedingVerification: ['abc'],
+            },
+            'convo b': {
+              type: ConversationVerificationState.PendingVerification as const,
+              conversationsNeedingVerification: ['def', 'abc'],
+            },
           },
         },
       };
 
-      assert.deepEqual(
-        getConversationsStoppingMessageSendBecauseOfVerification(state),
-        [convo1, convo2]
-      );
+      assert.sameDeepMembers(getConversationIdsStoppingSend(state), [
+        'abc',
+        'def',
+      ]);
+
+      assert.sameDeepMembers(getConversationsStoppingSend(state), [
+        convo1,
+        convo2,
+      ]);
     });
   });
 
-  describe('#getMessageIdsPendingBecauseOfVerification', () => {
-    it('returns an empty set if there are no conversations stopping send', () => {
+  describe('#getConversationStoppedForVerification', () => {
+    it('returns an empty array if there are no conversations stopping send', () => {
       const state = getEmptyRootState();
 
-      assert.deepEqual(
-        getMessageIdsPendingBecauseOfVerification(state),
-        new Set()
-      );
+      assert.isEmpty(getConversationsStoppingSend(state));
     });
 
-    it('returns a set of unique pending messages', () => {
-      const state = {
+    it('returns all conversations stopping send', () => {
+      const convoA = makeConversation('convo a');
+      const convoB = makeConversation('convo b');
+      const state: StateType = {
         ...getEmptyRootState(),
         conversations: {
           ...getEmptyState(),
-          outboundMessagesPendingConversationVerification: {
-            abc: ['message 2', 'message 3'],
-            def: ['message 1', 'message 2'],
-            ghi: ['message 4'],
+          conversationLookup: {
+            'convo a': convoA,
+            'convo b': convoB,
+          },
+          verificationDataByConversation: {
+            'convo a': {
+              type: ConversationVerificationState.PendingVerification as const,
+              conversationsNeedingVerification: ['abc'],
+            },
+            'convo b': {
+              type: ConversationVerificationState.PendingVerification as const,
+              conversationsNeedingVerification: ['def', 'abc'],
+            },
           },
         },
       };
 
-      assert.deepEqual(
-        getMessageIdsPendingBecauseOfVerification(state),
-        new Set(['message 1', 'message 2', 'message 3', 'message 4'])
-      );
-    });
-  });
+      assert.sameDeepMembers(getConversationIdsStoppedForVerification(state), [
+        'convo a',
+        'convo b',
+      ]);
 
-  describe('#getNumberOfMessagesPendingBecauseOfVerification', () => {
-    it('returns 0 if there are no conversations stopping send', () => {
-      const state = getEmptyRootState();
-
-      assert.strictEqual(
-        getNumberOfMessagesPendingBecauseOfVerification(state),
-        0
-      );
-    });
-
-    it('returns a count of unique pending messages', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          outboundMessagesPendingConversationVerification: {
-            abc: ['message 2', 'message 3'],
-            def: ['message 1', 'message 2'],
-            ghi: ['message 4'],
-          },
-        },
-      };
-
-      assert.strictEqual(
-        getNumberOfMessagesPendingBecauseOfVerification(state),
-        4
-      );
+      assert.sameDeepMembers(getConversationsStoppedForVerification(state), [
+        convoA,
+        convoB,
+      ]);
     });
   });
 

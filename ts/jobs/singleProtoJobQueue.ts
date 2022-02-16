@@ -16,8 +16,10 @@ import { handleMessageSend } from '../util/handleMessageSend';
 import { getSendOptions } from '../util/getSendOptions';
 import type { SingleProtoJobData } from '../textsecure/SendMessage';
 import { singleProtoJobDataSchema } from '../textsecure/SendMessage';
-import { handleMultipleSendErrors } from './helpers/handleMultipleSendErrors';
-import { SendMessageProtoError } from '../textsecure/Errors';
+import {
+  handleMultipleSendErrors,
+  maybeExpandErrors,
+} from './helpers/handleMultipleSendErrors';
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;
@@ -91,16 +93,12 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
         { messageIds, sendType: type }
       );
     } catch (error: unknown) {
-      const errors =
-        error instanceof SendMessageProtoError
-          ? error.errors || [error]
-          : [error];
-
       await handleMultipleSendErrors({
-        errors,
+        errors: maybeExpandErrors(error),
         isFinalAttempt,
         log,
         timeRemaining,
+        toThrow: error,
       });
     }
   }

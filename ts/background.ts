@@ -897,10 +897,12 @@ export async function startApp(): Promise<void> {
     const ourUuid = window.textsecure.storage.user.getUuid()?.toString();
     const ourConversationId =
       window.ConversationController.getOurConversationId();
+    const ourDeviceId = window.textsecure.storage.user.getDeviceId();
 
     const themeSetting = window.Events.getThemeSetting();
     const theme = themeSetting === 'system' ? window.systemTheme : themeSetting;
 
+    // TODO: DESKTOP-3125
     const initialState = {
       badges: initialBadgesState,
       conversations: {
@@ -923,7 +925,7 @@ export async function startApp(): Promise<void> {
         ),
         messagesByConversation: {},
         messagesLookup: {},
-        outboundMessagesPendingConversationVerification: {},
+        verificationDataByConversation: {},
         selectedConversationId: undefined,
         selectedMessage: undefined,
         selectedMessageCounter: 0,
@@ -942,6 +944,7 @@ export async function startApp(): Promise<void> {
         tempPath: window.baseTempPath,
         regionCode: window.storage.get('regionCode'),
         ourConversationId,
+        ourDeviceId,
         ourNumber,
         ourUuid,
         platform: window.platform,

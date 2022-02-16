@@ -20,31 +20,29 @@ type InboxViewOptionsType = Backbone.ViewOptions & {
 };
 
 export type PropsType = {
-  cancelMessagesPendingConversationVerification: () => void;
-  conversationsStoppingMessageSendBecauseOfVerification: Array<ConversationType>;
+  cancelConversationVerification: () => void;
+  conversationsStoppingSend: Array<ConversationType>;
   hasInitialLoadCompleted: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   isCustomizingPreferredReactions: boolean;
-  numberOfMessagesPendingBecauseOfVerification: number;
   renderCustomizingPreferredReactionsModal: () => JSX.Element;
   renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
   theme: ThemeType;
-  verifyConversationsStoppingMessageSend: () => void;
+  verifyConversationsStoppingSend: () => void;
 };
 
 export const Inbox = ({
-  cancelMessagesPendingConversationVerification,
-  conversationsStoppingMessageSendBecauseOfVerification,
+  cancelConversationVerification,
+  conversationsStoppingSend,
   hasInitialLoadCompleted,
   getPreferredBadge,
   i18n,
   isCustomizingPreferredReactions,
-  numberOfMessagesPendingBecauseOfVerification,
   renderCustomizingPreferredReactionsModal,
   renderSafetyNumber,
   theme,
-  verifyConversationsStoppingMessageSend,
+  verifyConversationsStoppingSend,
 }: PropsType): JSX.Element => {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<InboxViewType | undefined>(undefined);
@@ -76,21 +74,15 @@ export const Inbox = ({
   }, [hasInitialLoadCompleted, viewRef]);
 
   let activeModal: ReactNode;
-  if (conversationsStoppingMessageSendBecauseOfVerification.length) {
-    const confirmText: string =
-      numberOfMessagesPendingBecauseOfVerification === 1
-        ? i18n('safetyNumberChangeDialog__pending-messages--1')
-        : i18n('safetyNumberChangeDialog__pending-messages--many', [
-            numberOfMessagesPendingBecauseOfVerification.toString(),
-          ]);
+  if (conversationsStoppingSend.length) {
     activeModal = (
       <SafetyNumberChangeDialog
-        confirmText={confirmText}
-        contacts={conversationsStoppingMessageSendBecauseOfVerification}
+        confirmText={i18n('safetyNumberChangeDialog__pending-messages')}
+        contacts={conversationsStoppingSend}
         getPreferredBadge={getPreferredBadge}
         i18n={i18n}
-        onCancel={cancelMessagesPendingConversationVerification}
-        onConfirm={verifyConversationsStoppingMessageSend}
+        onCancel={cancelConversationVerification}
+        onConfirm={verifyConversationsStoppingSend}
         renderSafetyNumber={renderSafetyNumber}
         theme={theme}
       />

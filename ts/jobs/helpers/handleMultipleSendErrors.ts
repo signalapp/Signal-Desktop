@@ -7,19 +7,32 @@ import { sleepFor413RetryAfterTime } from './sleepFor413RetryAfterTime';
 import { getHttpErrorCode } from './getHttpErrorCode';
 import { strictAssert } from '../../util/assert';
 import { findRetryAfterTimeFromError } from './findRetryAfterTimeFromError';
+import { SendMessageProtoError } from '../../textsecure/Errors';
 
+export function maybeExpandErrors(error: unknown): ReadonlyArray<unknown> {
+  if (error instanceof SendMessageProtoError) {
+    return error.errors || [error];
+  }
+
+  return [error];
+}
+
+// Note: toThrow is very important to preserve the full error for outer handlers. For
+//   example, the catch handler check for Safety Number Errors in conversationJobQueue.
 export async function handleMultipleSendErrors({
   errors,
   isFinalAttempt,
   log,
   markFailed,
   timeRemaining,
+  toThrow,
 }: Readonly<{
   errors: ReadonlyArray<unknown>;
   isFinalAttempt: boolean;
   log: Pick<LoggerType, 'info'>;
   markFailed?: (() => void) | (() => Promise<void>);
   timeRemaining: number;
+  toThrow: unknown;
 }>): Promise<void> {
   strictAssert(errors.length, 'Expected at least one error');
 
@@ -66,5 +79,5 @@ export async function handleMultipleSendErrors({
     });
   }
 
-  throw errors[0];
+  throw toThrow;
 }

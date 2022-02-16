@@ -28,3 +28,8 @@ export enum OneTimeModalState {
   Showing,
   Shown,
 }
+
+export enum ConversationVerificationState {
+  PendingVerification = 'PendingVerification',
+  VerificationCancelled = 'VerificationCancelled',
+}
