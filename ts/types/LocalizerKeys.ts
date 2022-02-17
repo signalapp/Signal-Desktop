@@ -477,4 +477,5 @@ export type LocalizerKeys =
   | 'hideRequestBanner'
   | 'noMessageRequestsPending'
   | 'noMediaUntilApproved'
+  | 'mustBeApproved'
   | 'reportIssue';

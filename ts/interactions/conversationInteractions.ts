@@ -334,6 +334,11 @@ export async function setDisappearingMessagesByConvoId(
 ) {
   const conversation = getConversationController().get(conversationId);
 
+  if (!conversation.didApproveMe()) {
+    ToastUtils.pushMustBeApproved();
+    return;
+  }
+
   if (!seconds || seconds <= 0) {
     await conversation.updateExpireTimer(null);
   } else {

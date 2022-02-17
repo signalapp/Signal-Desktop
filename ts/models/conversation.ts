@@ -928,11 +928,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     // for handling edge case for syncing/linking devices.
     // if convo has a message by us, we have replied - which is considered as approved
     // if (!this.isMe()) {
-    if (!this.isMe()) {
-      if (!this.isApproved() && this.isPrivate()) {
-        this.setIsApproved(true);
-      }
-    }
+    //   if (!this.isApproved() && this.isPrivate()) {
     //     this.setIsApproved(true);
     //   }
     // }

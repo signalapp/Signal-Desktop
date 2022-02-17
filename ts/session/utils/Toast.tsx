@@ -283,3 +283,7 @@ export function pushNoAudioOutputFound() {
 export function pushNoMediaUntilApproved() {
   pushToastError('noMediaUntilApproved', window.i18n('noMediaUntilApproved'));
 }
+
+export function pushMustBeApproved() {
+  pushToastError('mustBeApproved', window.i18n('mustBeApproved'));
+}
