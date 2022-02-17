@@ -140,30 +140,25 @@ const handleContactReceived = async (
       contactConvo.set('active_at', _.toNumber(envelope.timestamp));
     }
 
-    if (window.inboxStore?.getState().userConfig.messageRequests) {
-      if (contactReceived.isApproved) {
-        await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+    if (contactReceived.isApproved) {
+      await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
+      // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
+      await contactConvo.addSingleOutgoingMessage({
+        sent_at: _.toNumber(envelope.timestamp),
+        messageRequestResponse: {
+          isApproved: 1,
+        },
+        unread: 1, // 1 means unread
+        expireTimer: 0,
+      });
+      contactConvo.updateLastMessage();
+      await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
+    }
 
-        if (contactReceived.didApproveMe) {
-          // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
-          await contactConvo.addSingleOutgoingMessage({
-            sent_at: _.toNumber(envelope.timestamp),
-            messageRequestResponse: {
-              isApproved: 1,
-            },
-            unread: 1, // 1 means unread
-            expireTimer: 0,
-          });
-          contactConvo.updateLastMessage();
-          await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
-        }
-      }
-
-      if (contactReceived.isBlocked) {
-        await BlockedNumberController.block(contactConvo.id);
-      } else {
-        await BlockedNumberController.unblock(contactConvo.id);
-      }
+    if (contactReceived.isBlocked) {
+      await BlockedNumberController.block(contactConvo.id);
+    } else {
+      await BlockedNumberController.unblock(contactConvo.id);
     }
 
     void updateProfileOneAtATime(contactConvo, profile, contactReceived.profileKey);

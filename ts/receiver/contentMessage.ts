@@ -602,7 +602,6 @@ async function handleMessageRequestResponse(
     return;
   }
 
-  await conversationToApprove.setIsApproved(isApproved);
   await conversationToApprove.setDidApproveMe(isApproved);
   if (isApproved === true) {
     // Conversation was not approved before so a sync is needed

@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { getMessageCountByType } from '../../data/data';
 import {
-  acceptConversation,
+  approveConvoAndSendResponse,
   blockConvoById,
   declineConversation,
 } from '../../interactions/conversationInteractions';
 import { MessageDirection } from '../../models/messageType';
+import { getConversationController } from '../../session/conversations';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSelectedConversation } from '../../state/selectors/conversations';
@@ -67,7 +68,9 @@ export const ConversationMessageRequestButtons = () => {
 
   const handleAcceptConversationRequest = async () => {
     const { id } = selectedConversation;
-    await acceptConversation(id, true);
+    const convo = await getConversationController().get(selectedConversation.id);
+    await convo.setDidApproveMe(true);
+    await approveConvoAndSendResponse(id, true);
   };
 
   if (!showMsgRequestUI) {
