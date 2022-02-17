@@ -4086,7 +4086,7 @@ button.module-image__border-overlay:focus {
         position: absolute;
         transition: opacity 200ms ease-out;
         width: 100%;
-        z-index: $z-index-base;
+        z-index: $z-index-above-above-base;
 
         &--hidden {
           opacity: 0;
