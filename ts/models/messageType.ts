@@ -122,6 +122,7 @@ export interface MessageRequestResponseMsg {
 export enum MessageDirection {
   outgoing = 'outgoing',
   incoming = 'incoming',
+  any = '%',
 }
 
 export type PropsForDataExtractionNotification = DataExtractionNotificationMsg & {

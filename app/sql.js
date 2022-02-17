@@ -59,7 +59,7 @@ module.exports = {
   removeMessage,
   getUnreadByConversation,
   getUnreadCountByConversation,
-  getIncomingMessagesCountByConversation,
+  getMessageCountByType,
   getMessageBySenderAndSentAt,
   getMessageBySenderAndServerTimestamp,
   getMessageBySenderAndTimestamp,
@@ -2311,15 +2311,16 @@ function getUnreadCountByConversation(conversationId) {
   return row['count(*)'];
 }
 
-function getIncomingMessagesCountByConversation(conversationId) {
+function getMessageCountByType(conversationId, type = '%') {
   const row = globalInstance
     .prepare(
       `SELECT count(*) from ${MESSAGES_TABLE} 
       WHERE conversationId = $conversationId 
-      AND type = "incoming";`
+      AND type = $type;`
     )
     .get({
       conversationId,
+      type,
     });
 
   if (!row) {

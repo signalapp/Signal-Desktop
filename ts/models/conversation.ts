@@ -12,7 +12,7 @@ import { MessageModel } from './message';
 import { MessageAttributesOptionals, MessageDirection } from './messageType';
 import autoBind from 'auto-bind';
 import {
-  getIncomingMessagesCountByConversation,
+  getMessageCountByType,
   getLastMessagesByConversation,
   getUnreadByConversation,
   getUnreadCountByConversation,
@@ -626,10 +626,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       };
 
       const shouldApprove = !this.isApproved() && this.isPrivate();
-      const incomingMessageCount = await getIncomingMessagesCountByConversation(
-        this.id,
-        MessageDirection.incoming
-      );
+      const incomingMessageCount = await getMessageCountByType(this.id, MessageDirection.incoming);
       const hasIncomingMessages = incomingMessageCount > 0;
       if (shouldApprove) {
         await this.setIsApproved(true);
@@ -638,6 +635,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
           await this.sendMessageRequestResponse(true);
           void forceSyncConfigurationNowIfNeeded();
         }
+      }
+
+      if (uploads.body?.includes('unapprove')) {
+        this.setIsApproved(false);
+        this.setDidApproveMe(false);
       }
 
       if (this.isOpenGroupV2()) {
@@ -925,11 +927,15 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   ) {
     // for handling edge case for syncing/linking devices.
     // if convo has a message by us, we have replied - which is considered as approved
+    // if (!this.isMe()) {
     if (!this.isMe()) {
       if (!this.isApproved() && this.isPrivate()) {
         this.setIsApproved(true);
       }
     }
+    //     this.setIsApproved(true);
+    //   }
+    // }
 
     return this.addSingleMessage({
       ...messageAttributes,

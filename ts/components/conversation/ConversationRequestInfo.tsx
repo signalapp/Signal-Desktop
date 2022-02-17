@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getMessageCountByType } from '../../data/data';
+import { MessageDirection } from '../../models/messageType';
 import { getSelectedConversation } from '../../state/selectors/conversations';
 
 export const ConversationRequestinfo = () => {
@@ -8,7 +10,25 @@ export const ConversationRequestinfo = () => {
   const showMsgRequestUI =
     !selectedConversation?.isApproved && selectedConversation?.type === 'private';
 
-  if (!showMsgRequestUI) {
+  const [hasIncomingMessages, setHasIncomingMessages] = useState(false);
+
+  useEffect(() => {
+    async function getIncomingMessages() {
+      const id = selectedConversation?.id;
+      if (id) {
+        const msgCount = await getMessageCountByType(
+          selectedConversation?.id,
+          MessageDirection.incoming
+        );
+        if (msgCount > 0) {
+          setHasIncomingMessages(true);
+        }
+      }
+    }
+    getIncomingMessages();
+  });
+
+  if (!showMsgRequestUI || !hasIncomingMessages) {
     return null;
   }
 

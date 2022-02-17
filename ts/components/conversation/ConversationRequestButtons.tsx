@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getMessageCountByType } from '../../data/data';
 import {
   acceptConversation,
   blockConvoById,
   declineConversation,
 } from '../../interactions/conversationInteractions';
+import { MessageDirection } from '../../models/messageType';
 import { forceSyncConfigurationNowIfNeeded } from '../../session/utils/syncUtils';
 import { updateConfirmModal } from '../../state/ducks/modalDialog';
 import { getSelectedConversation } from '../../state/selectors/conversations';
@@ -14,12 +16,32 @@ import { SessionButton, SessionButtonColor, SessionButtonType } from '../basic/S
 export const ConversationMessageRequestButtons = () => {
   const selectedConversation = useSelector(getSelectedConversation);
 
-  if (!selectedConversation) {
+  const [hasIncoming, setHasIncomingMsg] = useState(false);
+
+  useEffect(() => {
+    async function getIncomingMessages() {
+      const id = selectedConversation?.id;
+      if (id) {
+        const msgCount = await getMessageCountByType(
+          selectedConversation?.id,
+          MessageDirection.incoming
+        );
+        if (msgCount > 0) {
+          setHasIncomingMsg(true);
+        }
+      }
+    }
+    getIncomingMessages();
+  });
+
+  if (!selectedConversation || !hasIncoming) {
     return null;
   }
 
   const showMsgRequestUI =
-    !selectedConversation.isApproved && selectedConversation.type === 'private';
+    !selectedConversation.isApproved &&
+    !selectedConversation.isApproved &&
+    selectedConversation.type === 'private';
   const dispatch = useDispatch();
 
   const handleDeclineConversationRequest = () => {
