@@ -476,4 +476,5 @@ export type LocalizerKeys =
   | 'openMessageRequestInboxDescription'
   | 'hideRequestBanner'
   | 'noMessageRequestsPending'
+  | 'noMediaUntilApproved'
   | 'reportIssue';

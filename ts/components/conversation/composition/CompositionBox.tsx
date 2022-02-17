@@ -729,6 +729,13 @@ class CompositionBoxInner extends React.Component<Props, State> {
   }
 
   private onChooseAttachment() {
+    if (
+      !this.props.selectedConversation?.didApproveMe &&
+      this.props.selectedConversation?.isPrivate
+    ) {
+      ToastUtils.pushNoMediaUntilApproved();
+      return;
+    }
     this.fileInput.current?.click();
   }
 

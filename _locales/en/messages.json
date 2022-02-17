@@ -473,5 +473,6 @@
   "hideRequestBanner": "Hide Message Request Banner",
   "openMessageRequestInbox": "View Message Requests",
   "noMessageRequestsPending": "No pending message requests",
+  "noMediaUntilApproved": "You cannot send attachments until the conversation is approved",
   "openMessageRequestInboxDescription": "View your Message Request inbox"
 }

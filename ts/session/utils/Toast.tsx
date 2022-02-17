@@ -279,3 +279,7 @@ export function pushNoAudioInputFound() {
 export function pushNoAudioOutputFound() {
   pushToastWarning('noAudioInputFound', window.i18n('noAudioOutputFound'));
 }
+
+export function pushNoMediaUntilApproved() {
+  pushToastError('noMediaUntilApproved', window.i18n('noMediaUntilApproved'));
+}
