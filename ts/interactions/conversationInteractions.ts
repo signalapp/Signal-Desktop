@@ -120,8 +120,6 @@ export async function unblockConvoById(conversationId: string) {
   await conversation.commit();
 }
 
-
-
 /**
  * marks the conversation's approval fields, sends messageRequestResponse, syncs to linked devices
  */
@@ -334,7 +332,7 @@ export async function setDisappearingMessagesByConvoId(
 ) {
   const conversation = getConversationController().get(conversationId);
 
-  if (!conversation.didApproveMe()) {
+  if (!conversation.didApproveMe() && conversation.isPrivate()) {
     ToastUtils.pushMustBeApproved();
     return;
   }
