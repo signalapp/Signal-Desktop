@@ -472,5 +472,6 @@
   "respondingToRequestWarning": "Sending a message to this user will automatically accept their message request and reveal your Session ID.",
   "hideRequestBanner": "Hide Message Request Banner",
   "openMessageRequestInbox": "View Message Requests",
+  "noMessageRequestsPending": "No pending message requests",
   "openMessageRequestInboxDescription": "View your Message Request inbox"
 }

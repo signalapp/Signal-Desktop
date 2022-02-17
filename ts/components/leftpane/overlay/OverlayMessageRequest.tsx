@@ -57,25 +57,40 @@ export const OverlayMessageRequest = () => {
   function closeOverlay() {
     dispatch(setOverlayMode(undefined));
   }
+  const hasRequests = useSelector(getConversationRequests).length > 0;
 
   const buttonText = window.i18n('clearAll');
 
   return (
     <div className="module-left-pane-overlay">
-      <MessageRequestList />
-      <SpacerLG />
-
-      <SessionButton
-        buttonColor={SessionButtonColor.Danger}
-        buttonType={SessionButtonType.BrandOutline}
-        text={buttonText}
-        onClick={() => {
-          void handleBlockAllRequestsClick();
-        }}
-      />
+      {hasRequests ? (
+        <>
+          <MessageRequestList />
+          <SpacerLG />
+          <SessionButton
+            buttonColor={SessionButtonColor.Danger}
+            buttonType={SessionButtonType.BrandOutline}
+            text={buttonText}
+            onClick={() => {
+              void handleBlockAllRequestsClick();
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <SpacerLG />
+          <MessageRequestListPlaceholder>
+            {window.i18n('noMessageRequestsPending')}
+          </MessageRequestListPlaceholder>
+        </>
+      )}
     </div>
   );
 };
+
+const MessageRequestListPlaceholder = styled.div`
+  color: var(--color-text);
+`;
 
 const MessageRequestListContainer = styled.div`
   width: 100%;
