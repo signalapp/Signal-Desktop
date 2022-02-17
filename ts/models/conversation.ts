@@ -923,6 +923,14 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       'conversationId' | 'source' | 'type' | 'direction' | 'received_at'
     >
   ) {
+    // for handling edge case for syncing/linking devices.
+    // if convo has a message by us, we have replied - which is considered as approved
+    if (!this.isMe()) {
+      if (!this.isApproved() && this.isPrivate()) {
+        this.setIsApproved(true);
+      }
+    }
+
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
@@ -936,6 +944,11 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
   public async addSingleIncomingMessage(
     messageAttributes: Omit<MessageAttributesOptionals, 'conversationId' | 'type' | 'direction'>
   ) {
+    // if there's a message by the other user, they've replied to us which we consider an accepted convo
+    if (!this.didApproveMe() && this.isPrivate()) {
+      this.setDidApproveMe(true);
+    }
+
     return this.addSingleMessage({
       ...messageAttributes,
       conversationId: this.id,
