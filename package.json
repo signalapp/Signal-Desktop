@@ -259,7 +259,7 @@
     "cross-env": "5.2.0",
     "css-loader": "3.2.0",
     "debug": "4.3.3",
-    "electron": "16.0.8",
+    "electron": "17.0.1",
     "electron-builder": "22.14.5",
     "electron-mocha": "11.0.2",
     "electron-notarize": "0.1.1",
@@ -303,7 +303,7 @@
     "sharp/color/color-string": "1.7.4"
   },
   "engines": {
-    "node": "16.9.1"
+    "node": "16.13.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",

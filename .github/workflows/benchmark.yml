@@ -1,4 +1,4 @@
-# Copyright 2020-2021 Signal Messenger, LLC
+# Copyright 2020-2022 Signal Messenger, LLC
 # SPDX-License-Identifier: AGPL-3.0-only
 
 name: Benchmark
@@ -26,7 +26,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16.9.1'
+        node-version: '16.13.0'
     - name: Install global dependencies
       run: npm install -g yarn@1.22.10
 
