@@ -1059,24 +1059,33 @@ export class CallingClass {
   hangup(conversationId: string): void {
     log.info('CallingClass.hangup()');
 
-    const call = getOwn(this.callsByConversation, conversationId);
-    if (!call) {
-      log.warn('Trying to hang up a non-existent call');
-      return;
+    const specificCall = getOwn(this.callsByConversation, conversationId);
+    if (!specificCall) {
+      log.error(
+        `hangup: Trying to hang up a non-existent call for conversation ${conversationId}`
+      );
     }
 
     ipcRenderer.send('close-screen-share-controller');
 
-    if (call instanceof Call) {
-      RingRTC.hangup(call.callId);
-    } else if (call instanceof GroupCall) {
-      // This ensures that we turn off our devices.
-      call.setOutgoingAudioMuted(true);
-      call.setOutgoingVideoMuted(true);
-      call.disconnect();
-    } else {
-      throw missingCaseError(call);
-    }
+    const entries = Object.entries(this.callsByConversation);
+    log.info(`hangup: ${entries.length} call(s) to hang up...`);
+
+    entries.forEach(([callConversationId, call]) => {
+      log.info(`hangup: Hanging up conversation ${callConversationId}`);
+      if (call instanceof Call) {
+        RingRTC.hangup(call.callId);
+      } else if (call instanceof GroupCall) {
+        // This ensures that we turn off our devices.
+        call.setOutgoingAudioMuted(true);
+        call.setOutgoingVideoMuted(true);
+        call.disconnect();
+      } else {
+        throw missingCaseError(call);
+      }
+    });
+
+    log.info('hangup: Done.');
   }
 
   setOutgoingAudio(conversationId: string, enabled: boolean): void {
