@@ -420,7 +420,7 @@ export async function getGuardNodeOrSelectNewOnes() {
 
     if (guardNodesFromDb.length === 0) {
       window?.log?.warn(
-        'LokiSnodeAPI::getGuardNodeOrSelectNewOnes - no guard nodes in DB. Will be selecting new guards nodes...'
+        'SessionSnodeAPI::getGuardNodeOrSelectNewOnes - no guard nodes in DB. Will be selecting new guards nodes...'
       );
     } else {
       const allNodes = await SnodePool.getSnodePoolFromDBOrFetchFromSeed();
@@ -429,7 +429,7 @@ export async function getGuardNodeOrSelectNewOnes() {
       guardNodes = allNodes.filter(x => edKeys.indexOf(x.pubkey_ed25519) !== -1);
       if (guardNodes.length < edKeys.length) {
         window?.log?.warn(
-          `LokiSnodeAPI::getGuardNodeOrSelectNewOnes - could not find some guard nodes: ${guardNodes.length}/${edKeys.length} left`
+          `SessionSnodeAPI::getGuardNodeOrSelectNewOnes - could not find some guard nodes: ${guardNodes.length}/${edKeys.length} left`
         );
       }
     }
@@ -444,7 +444,7 @@ export async function getGuardNodeOrSelectNewOnes() {
 async function buildNewOnionPathsWorker() {
   return pRetry(
     async () => {
-      window?.log?.info('LokiSnodeAPI::buildNewOnionPaths - building new onion paths...');
+      window?.log?.info('SessionSnodeAPI::buildNewOnionPaths - building new onion paths...');
 
       // get an up to date list of snodes from cache, from db, or from the a seed node.
       let allNodes = await SnodePool.getSnodePoolFromDBOrFetchFromSeed();
@@ -459,7 +459,9 @@ async function buildNewOnionPathsWorker() {
 
       // be sure to fetch again as that list might have been refreshed by selectGuardNodes
       allNodes = await SnodePool.getSnodePoolFromDBOrFetchFromSeed();
-      window?.log?.info(`LokiSnodeAPI::buildNewOnionPaths, snodePool length: ${allNodes.length}`);
+      window?.log?.info(
+        `SessionSnodeAPI::buildNewOnionPaths, snodePool length: ${allNodes.length}`
+      );
       // get all snodes minus the selected guardNodes
       if (allNodes.length <= SnodePool.minSnodePoolCount) {
         throw new Error('Too few nodes to build an onion path. Even after fetching from seed.');

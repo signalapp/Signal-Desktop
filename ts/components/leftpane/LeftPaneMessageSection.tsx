@@ -110,7 +110,7 @@ export class LeftPaneMessageSection extends React.Component<Props> {
     return (
       <div className="module-conversations-list-content">
         <SessionSearchInput />
-        {window.lokiFeatureFlags.useMessageRequests ? (
+        {window.sessionFeatureFlags.useMessageRequests ? (
           <MessageRequestsBanner
             handleOnClick={() => {
               window.inboxStore?.dispatch(setOverlayMode('message-requests'));

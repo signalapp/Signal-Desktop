@@ -1,5 +1,4 @@
 {
-  "privacyPolicy": "Terms & Privacy Policy",
   "copyErrorAndQuit": "Copy error and quit",
   "unknown": "Unknown",
   "databaseError": "Database Error",
@@ -17,7 +16,6 @@
   "editMenuCut": "Cut",
   "editMenuCopy": "Copy",
   "editMenuPaste": "Paste",
-  "editMenuPasteAndMatchStyle": "Paste and Match Style",
   "editMenuDelete": "Delete",
   "editMenuDeleteContact": "Delete Contact",
   "editMenuDeleteGroup": "Delete Group",
@@ -25,7 +23,6 @@
   "windowMenuClose": "Close Window",
   "windowMenuMinimize": "Minimize",
   "windowMenuZoom": "Zoom",
-  "windowMenuBringAllToFront": "Bring All to Front",
   "viewMenuResetZoom": "Actual Size",
   "viewMenuZoomIn": "Zoom In",
   "viewMenuZoomOut": "Zoom Out",

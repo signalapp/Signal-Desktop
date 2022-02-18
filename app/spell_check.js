@@ -65,13 +65,6 @@ exports.setup = (browserWindow, messages) => {
         template.push({ label: messages.editMenuPaste, role: 'paste' });
       }
 
-      if (editFlags.canPaste) {
-        template.push({
-          label: messages.editMenuPasteAndMatchStyle,
-          role: 'pasteAndMatchStyle',
-        });
-      }
-
       // Only enable select all in editors because select all in non-editors
       // results in all the UI being selected
       if (editFlags.canSelectAll && params.isEditable) {

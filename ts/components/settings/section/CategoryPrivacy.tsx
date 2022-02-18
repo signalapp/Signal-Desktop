@@ -57,7 +57,7 @@ export const SettingsCategoryPrivacy = (props: {
   const forceUpdate = useUpdate();
   const dispatch = useDispatch();
 
-  const hasMessageRequestFlag = window.lokiFeatureFlags.useMessageRequests;
+  const hasMessageRequestFlag = window.sessionFeatureFlags.useMessageRequests;
 
   if (props.hasPassword !== null) {
     return (
@@ -71,7 +71,7 @@ export const SettingsCategoryPrivacy = (props: {
           description={window.i18n('mediaPermissionsDescription')}
           active={Boolean(window.getSettingValue('media-permissions'))}
         />
-        {window.lokiFeatureFlags.useCallMessage && (
+        {window.sessionFeatureFlags.useCallMessage && (
           <SessionToggleWithDescription
             onClickToggle={async () => {
               await toggleCallMediaPermissions(forceUpdate);

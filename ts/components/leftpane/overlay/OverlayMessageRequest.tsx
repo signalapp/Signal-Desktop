@@ -21,7 +21,7 @@ import useKey from 'react-use/lib/useKey';
  */
 async function handleBlockAllRequestsClick(messageRequestSetting: boolean) {
   const messageRequestsEnabled =
-    messageRequestSetting && window?.lokiFeatureFlags?.useMessageRequests;
+    messageRequestSetting && window?.sessionFeatureFlags?.useMessageRequests;
 
   if (!messageRequestsEnabled) {
     return;

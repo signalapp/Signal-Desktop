@@ -28,11 +28,11 @@ describe('MessageSender', () => {
   // tslint:disable-next-line: max-func-body-length
   describe('send', () => {
     const ourNumber = '0123456789abcdef';
-    let lokiMessageAPISendStub: sinon.SinonStub<any>;
+    let sessionMessageAPISendStub: sinon.SinonStub<any>;
     let encryptStub: sinon.SinonStub<[PubKey, Uint8Array, EncryptionType]>;
 
     beforeEach(() => {
-      lokiMessageAPISendStub = sandbox.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
+      sessionMessageAPISendStub = sandbox.stub(MessageSender, 'TEST_sendMessageToSnode').resolves();
 
       sandbox.stub(Data, 'getMessageById').resolves();
 
@@ -58,29 +58,29 @@ describe('MessageSender', () => {
         encryptStub.throws(new Error('Failed to encrypt.'));
         const promise = MessageSender.send(rawMessage, 3, 10);
         await expect(promise).is.rejectedWith('Failed to encrypt.');
-        expect(lokiMessageAPISendStub.callCount).to.equal(0);
+        expect(sessionMessageAPISendStub.callCount).to.equal(0);
       });
 
       it('should only call lokiMessageAPI once if no errors occured', async () => {
         await MessageSender.send(rawMessage, 3, 10);
-        expect(lokiMessageAPISendStub.callCount).to.equal(1);
+        expect(sessionMessageAPISendStub.callCount).to.equal(1);
       });
 
       it('should only retry the specified amount of times before throwing', async () => {
         // const clock = sinon.useFakeTimers();
 
-        lokiMessageAPISendStub.throws(new Error('API error'));
+        sessionMessageAPISendStub.throws(new Error('API error'));
         const attempts = 2;
         const promise = MessageSender.send(rawMessage, attempts, 10);
         await expect(promise).is.rejectedWith('API error');
         // clock.restore();
-        expect(lokiMessageAPISendStub.callCount).to.equal(attempts);
+        expect(sessionMessageAPISendStub.callCount).to.equal(attempts);
       });
 
       it('should not throw error if successful send occurs within the retry limit', async () => {
-        lokiMessageAPISendStub.onFirstCall().throws(new Error('API error'));
+        sessionMessageAPISendStub.onFirstCall().throws(new Error('API error'));
         await MessageSender.send(rawMessage, 3, 10);
-        expect(lokiMessageAPISendStub.callCount).to.equal(2);
+        expect(sessionMessageAPISendStub.callCount).to.equal(2);
       });
     });
 
@@ -102,7 +102,7 @@ describe('MessageSender', () => {
 
         await MessageSender.send(rawMessage, 3, 10);
 
-        const args = lokiMessageAPISendStub.getCall(0).args;
+        const args = sessionMessageAPISendStub.getCall(0).args;
         expect(args[0]).to.equal(device.key);
         // expect(args[3]).to.equal(visibleMessage.timestamp); the timestamp is overwritten on sending by the network clock offset
         expect(args[2]).to.equal(visibleMessage.ttl());
@@ -120,7 +120,7 @@ describe('MessageSender', () => {
         sandbox.stub(SNodeAPI, 'getLatestTimestampOffset').returns(offset);
         await MessageSender.send(rawMessage, 3, 10);
 
-        const data = lokiMessageAPISendStub.getCall(0).args[1];
+        const data = sessionMessageAPISendStub.getCall(0).args[1];
         const webSocketMessage = SignalService.WebSocketMessage.decode(data);
         expect(webSocketMessage.request?.body).to.not.equal(
           undefined,
@@ -163,7 +163,7 @@ describe('MessageSender', () => {
           const rawMessage = await MessageUtils.toRawMessage(device, visibleMessage);
           await MessageSender.send(rawMessage, 3, 10);
 
-          const data = lokiMessageAPISendStub.getCall(0).args[1];
+          const data = sessionMessageAPISendStub.getCall(0).args[1];
           const webSocketMessage = SignalService.WebSocketMessage.decode(data);
           expect(webSocketMessage.request?.body).to.not.equal(
             undefined,

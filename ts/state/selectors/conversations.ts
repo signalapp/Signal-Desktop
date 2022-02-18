@@ -334,7 +334,7 @@ export const _getLeftPaneLists = (
   let unreadCount = 0;
   for (const conversation of sortedConversations) {
     const excludeUnapproved =
-      isMessageRequestEnabled && window.lokiFeatureFlags?.useMessageRequests;
+      isMessageRequestEnabled && window.sessionFeatureFlags?.useMessageRequests;
 
     if (conversation.activeAt !== undefined && conversation.type === ConversationTypeEnum.PRIVATE) {
       directConversations.push(conversation);
@@ -422,7 +422,7 @@ const _getConversationRequests = (
   isMessageRequestEnabled?: boolean
 ): Array<ReduxConversationType> => {
   const pushToMessageRequests =
-    isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests;
+    isMessageRequestEnabled && window?.sessionFeatureFlags?.useMessageRequests;
   return _.filter(sortedConversations, conversation => {
     return pushToMessageRequests && !conversation.isApproved && !conversation.isBlocked;
   });
@@ -439,7 +439,7 @@ const _getPrivateContactsPubkeys = (
   isMessageRequestEnabled?: boolean
 ): Array<string> => {
   const pushToMessageRequests =
-    (isMessageRequestEnabled && window?.lokiFeatureFlags?.useMessageRequests) ||
+    (isMessageRequestEnabled && window?.sessionFeatureFlags?.useMessageRequests) ||
     !isMessageRequestEnabled;
 
   return _.filter(sortedConversations, conversation => {
