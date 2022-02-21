@@ -140,7 +140,7 @@ const handleContactReceived = async (
       contactConvo.set('active_at', _.toNumber(envelope.timestamp));
     }
 
-    if (contactReceived.isApproved) {
+    if (contactReceived.isApproved) { // checking for existence of field on protobuf
       await contactConvo.setIsApproved(Boolean(contactReceived.isApproved));
       // TODO: add message search in convo for pre-existing msgRequestResponse msg only happens once per convo
       await contactConvo.addSingleOutgoingMessage({
@@ -152,10 +152,13 @@ const handleContactReceived = async (
         expireTimer: 0,
       });
       contactConvo.updateLastMessage();
-      await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
+
+      if (contactReceived.didApproveMe) { // checking for existence of field on message
+        await contactConvo.setDidApproveMe(Boolean(contactReceived.didApproveMe));
+      }
     }
 
-    if (contactReceived.isBlocked) {
+    if (contactReceived.isBlocked) { // checking for existence of field on protobuf
       await BlockedNumberController.block(contactConvo.id);
     } else {
       await BlockedNumberController.unblock(contactConvo.id);
