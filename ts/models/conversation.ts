@@ -1649,6 +1649,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       throw new Error('Need to provide either recipientId');
     }
 
+    if (!this.isApproved()) {
+      return;
+    }
+
     if (this.isMe()) {
       // note to self
       return;
