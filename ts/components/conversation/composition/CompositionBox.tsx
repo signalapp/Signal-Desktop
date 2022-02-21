@@ -405,9 +405,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
     }
 
     const makeMessagePlaceHolderText = () => {
-      if (isApproved && !didApproveMe && isPrivate) {
-        return i18n('messageRequestPending');
-      }
       if (isKickedFromGroup) {
         return i18n('youGotKickedFromGroup');
       }
@@ -806,14 +803,6 @@ class CompositionBoxInner extends React.Component<Props, State> {
 
     if (selectedConversation.isBlocked && selectedConversation.isPrivate) {
       ToastUtils.pushUnblockToSend();
-      return;
-    }
-    if (
-      selectedConversation.isApproved &&
-      !selectedConversation.didApproveMe &&
-      selectedConversation.isPrivate
-    ) {
-      ToastUtils.pushMessageRequestPending();
       return;
     }
     if (selectedConversation.isBlocked && !selectedConversation.isPrivate) {

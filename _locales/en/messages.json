@@ -475,5 +475,6 @@
   "noMessageRequestsPending": "No pending message requests",
   "noMediaUntilApproved": "You cannot send attachments until the conversation is approved",
   "mustBeApproved": "This conversation must be accepted to use this feature",
+  "youHaveANewFriendRequest": "You have a new friend request",
   "openMessageRequestInboxDescription": "View your Message Request inbox"
 }

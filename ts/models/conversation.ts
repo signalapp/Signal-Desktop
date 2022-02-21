@@ -1380,9 +1380,29 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     }
     const conversationId = this.id;
 
+    let friendRequestText;
     if (!this.isApproved()) {
       window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
-      return;
+      const showRequestNotification =
+        getConversationController()
+          .getConversations()
+          .filter(conversation => {
+            return (
+              !conversation.isApproved() &&
+              !conversation.isBlocked() &&
+              conversation.isPrivate() &&
+              !conversation.isMe()
+            );
+          }).length === 1;
+      if (showRequestNotification) {
+        friendRequestText = window.i18n('youHaveANewFriendRequest');
+      } else {
+        window?.log?.info(
+          'notification cancelled for as pending requests already exist',
+          this.idForLogging()
+        );
+        return;
+      }
     }
 
     // make sure the notifications are not muted for this convo (and not the source convo)
@@ -1433,10 +1453,10 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
       conversationId,
       iconUrl,
       isExpiringMessage,
-      message: message.getNotificationText(),
+      message: friendRequestText ? friendRequestText : message.getNotificationText(),
       messageId,
       messageSentAt,
-      title: convo.getTitle(),
+      title: friendRequestText ? '' : convo.getTitle(),
     });
   }
 

@@ -478,4 +478,5 @@ export type LocalizerKeys =
   | 'noMessageRequestsPending'
   | 'noMediaUntilApproved'
   | 'mustBeApproved'
+  | 'youHaveANewFriendRequest'
   | 'reportIssue';
