@@ -19,6 +19,7 @@ import {
   removeMessage as dataRemoveMessage,
   saveMessages,
   updateConversation,
+  getMessagesByConversation,
 } from '../../ts/data/data';
 import { toHex } from '../session/utils/String';
 import {
@@ -1383,7 +1384,7 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
     let friendRequestText;
     if (!this.isApproved()) {
       window?.log?.info('notification cancelled for unapproved convo', this.idForLogging());
-      const showRequestNotification =
+      const hadNoRequestsPrior =
         getConversationController()
           .getConversations()
           .filter(conversation => {
@@ -1394,7 +1395,9 @@ export class ConversationModel extends Backbone.Model<ConversationAttributes> {
               !conversation.isMe()
             );
           }).length === 1;
-      if (showRequestNotification) {
+      const isFirstMessageOfConvo =
+        (await (await getMessagesByConversation(this.id, { messageId: null })).length) === 1;
+      if (hadNoRequestsPrior && isFirstMessageOfConvo) {
         friendRequestText = window.i18n('youHaveANewFriendRequest');
       } else {
         window?.log?.info(
