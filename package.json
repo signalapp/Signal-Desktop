@@ -212,7 +212,7 @@
     },
     "mac": {
       "category": "public.app-category.social-networking",
-      "icon": "build/icon.icns",
+      "icon": "build/icon-mac.icns",
       "target": [
         "dmg",
         "zip"
@@ -251,7 +251,7 @@
       },
       "asarUnpack": "node_modules/spellchecker/vendor/hunspell_dictionaries",
       "target": ["deb", "rpm", "freebsd"],
-      "icon": "build/icon.icns"
+      "icon": "build/icon-linux.icns"
     },
     "asarUnpack": [
       "node_modules/better-sqlite3/build/Release/better_sqlite3.node"
