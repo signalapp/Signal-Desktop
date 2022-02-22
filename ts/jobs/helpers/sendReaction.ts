@@ -31,6 +31,8 @@ import type {
   ConversationQueueJobBundle,
   ReactionJobData,
 } from '../conversationJobQueue';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
 export async function sendReaction(
   conversation: ConversationModel,
@@ -180,6 +182,21 @@ export async function sendReaction(
 
       let promise: Promise<CallbackResultType>;
       if (isDirectConversation(conversation.attributes)) {
+        if (!isConversationAccepted(conversation.attributes)) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+          );
+          markReactionFailed(message, pendingReaction);
+          return;
+        }
+        if (isConversationUnregistered(conversation.attributes)) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+          );
+          markReactionFailed(message, pendingReaction);
+          return;
+        }
+
         log.info('sending direct reaction message');
         promise = window.textsecure.messaging.sendMessageToIdentifier({
           identifier: recipientIdentifiersWithoutMe[0],

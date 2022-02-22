@@ -4624,7 +4624,7 @@ export class ConversationModel extends window.Backbone
   }
 
   async setProfileKey(
-    profileKey: string,
+    profileKey: string | undefined,
     { viaStorageServiceSync = false } = {}
   ): Promise<void> {
     // profileKey is a string so we can compare it directly
@@ -4643,7 +4643,10 @@ export class ConversationModel extends window.Backbone
         sealedSender: SEALED_SENDER.UNKNOWN,
       });
 
-      if (!viaStorageServiceSync) {
+      // If our profile key was cleared above, we don't tell our linked devices about it.
+      //   We want linked devices to tell us what it should be, instead of telling them to
+      //   erase their local value.
+      if (!viaStorageServiceSync && profileKey) {
         this.captureChange('profileKey');
       }
 
@@ -4686,6 +4689,12 @@ export class ConversationModel extends window.Backbone
       profileKey,
       uuid
     );
+    if (!profileKeyVersion) {
+      log.warn(
+        'deriveProfileKeyVersionIfNeeded: Failed to derive profile key version, clearing profile key.'
+      );
+      this.setProfileKey(undefined);
+    }
 
     this.set({ profileKeyVersion });
   }

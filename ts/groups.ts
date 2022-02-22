@@ -2730,7 +2730,11 @@ async function updateGroup(
       'private'
     );
 
-    if (member.profileKey && !contact.get('profileKey')) {
+    if (
+      member.profileKey &&
+      member.profileKey.length > 0 &&
+      !contact.get('profileKey')
+    ) {
       contactsWithoutProfileKey.push(contact);
       contact.setProfileKey(member.profileKey);
     }

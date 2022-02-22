@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ProfileKeyCredentialRequestContext } from '@signalapp/signal-client/zkgroup';
@@ -244,12 +244,27 @@ export async function getProfile(
     }
   } catch (error) {
     switch (error?.code) {
+      case 401:
       case 403:
-        throw error;
+        if (
+          c.get('sealedSender') === SEALED_SENDER.ENABLED ||
+          c.get('sealedSender') === SEALED_SENDER.UNRESTRICTED
+        ) {
+          log.warn(
+            `getProfile: Got 401/403 when using accessKey for ${c.idForLogging()}, removing profileKey`
+          );
+          c.setProfileKey(undefined);
+        }
+        if (c.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
+          log.warn(
+            `getProfile: Got 401/403 when using accessKey for ${c.idForLogging()}, setting sealedSender = DISABLED`
+          );
+          c.set('sealedSender', SEALED_SENDER.DISABLED);
+        }
+        return;
       case 404:
-        log.warn(
-          `getProfile failure: failed to find a profile for ${c.idForLogging()}`,
-          error && error.stack ? error.stack : error
+        log.info(
+          `getProfile: failed to find a profile for ${c.idForLogging()}`
         );
         c.setUnregistered();
         return;

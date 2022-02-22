@@ -24,6 +24,8 @@ import type {
 import type { CallbackResultType } from '../../textsecure/Types.d';
 import { getUntrustedConversationIds } from './getUntrustedConversationIds';
 import { areAllErrorsUnregistered } from './areAllErrorsUnregistered';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
 // Note: because we don't have a recipient map, we will resend this message to folks that
 //   got it on the first go-round, if some sends fail. This is okay, because a recipient
@@ -83,6 +85,19 @@ export async function sendProfileKey(
   }
 
   if (isDirectConversation(conversation.attributes)) {
+    if (!isConversationAccepted(conversation.attributes)) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+      );
+      return;
+    }
+    if (isConversationUnregistered(conversation.attributes)) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+      );
+      return;
+    }
+
     const proto = await window.textsecure.messaging.getContentMessage({
       flags: Proto.DataMessage.Flags.PROFILE_KEY_UPDATE,
       profileKey,

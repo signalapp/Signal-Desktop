@@ -7,6 +7,7 @@ import { getSendOptions } from '../../util/getSendOptions';
 import {
   isDirectConversation,
   isGroupV2,
+  isMe,
 } from '../../util/whatTypeOfConversation';
 import { SignalService as Proto } from '../../protobuf';
 import {
@@ -22,6 +23,9 @@ import type {
   DeleteForEveryoneJobData,
 } from '../conversationJobQueue';
 import { getUntrustedConversationIds } from './getUntrustedConversationIds';
+import { handleMessageSend } from '../../util/handleMessageSend';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
 // Note: because we don't have a recipient map, if some sends fail, we will resend this
 //   message to folks that got it on the first go-round. This is okay, because a delete
@@ -78,7 +82,48 @@ export async function sendDeleteForEveryone(
       const sendOptions = await getSendOptions(conversation.attributes);
 
       try {
-        if (isDirectConversation(conversation.attributes)) {
+        if (isMe(conversation.attributes)) {
+          const proto = await window.textsecure.messaging.getContentMessage({
+            deletedForEveryoneTimestamp: targetTimestamp,
+            profileKey,
+            recipients: conversation.getRecipients(),
+            timestamp,
+          });
+
+          if (!proto.dataMessage) {
+            log.error(
+              "ContentMessage proto didn't have a data message; cancelling job."
+            );
+            return;
+          }
+
+          await handleMessageSend(
+            window.textsecure.messaging.sendSyncMessage({
+              encodedDataMessage: Proto.DataMessage.encode(
+                proto.dataMessage
+              ).finish(),
+              destination: conversation.get('e164'),
+              destinationUuid: conversation.get('uuid'),
+              expirationStartTimestamp: null,
+              options: sendOptions,
+              timestamp,
+            }),
+            { messageIds, sendType }
+          );
+        } else if (isDirectConversation(conversation.attributes)) {
+          if (!isConversationAccepted(conversation.attributes)) {
+            log.info(
+              `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+            );
+            return;
+          }
+          if (isConversationUnregistered(conversation.attributes)) {
+            log.info(
+              `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+            );
+            return;
+          }
+
           await wrapWithSyncMessageSend({
             conversation,
             logId,

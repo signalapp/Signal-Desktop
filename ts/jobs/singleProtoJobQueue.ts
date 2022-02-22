@@ -20,6 +20,8 @@ import {
   handleMultipleSendErrors,
   maybeExpandErrors,
 } from './helpers/handleMultipleSendErrors';
+import { isConversationUnregistered } from '../util/isConversationUnregistered';
+import { isConversationAccepted } from '../util/isConversationAccepted';
 
 const MAX_RETRY_TIME = DAY;
 const MAX_PARALLEL_JOBS = 5;
@@ -74,6 +76,19 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       throw new Error(
         `Failed to get conversation for identifier ${identifier}`
       );
+    }
+
+    if (!isConversationAccepted(conversation.attributes)) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+      );
+      return;
+    }
+    if (isConversationUnregistered(conversation.attributes)) {
+      log.info(
+        `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+      );
+      return;
     }
 
     const proto = Proto.Content.decode(Bytes.fromBase64(protoBase64));

@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { isEqual, isNumber } from 'lodash';
@@ -796,7 +796,7 @@ export async function mergeContactRecord(
     'private'
   );
 
-  if (contactRecord.profileKey) {
+  if (contactRecord.profileKey && contactRecord.profileKey.length > 0) {
     await conversation.setProfileKey(Bytes.toBase64(contactRecord.profileKey), {
       viaStorageServiceSync: true,
     });
@@ -1102,7 +1102,7 @@ export async function mergeAccountRecord(
     storageVersion,
   });
 
-  if (accountRecord.profileKey) {
+  if (accountRecord.profileKey && accountRecord.profileKey.length > 0) {
     await conversation.setProfileKey(Bytes.toBase64(accountRecord.profileKey));
   }
 

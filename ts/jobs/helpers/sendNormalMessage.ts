@@ -29,6 +29,8 @@ import type {
 
 import { handleMultipleSendErrors } from './handleMultipleSendErrors';
 import { ourProfileKeyService } from '../../services/ourProfileKey';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
 
 export async function sendNormalMessage(
   conversation: ConversationModel,
@@ -209,6 +211,25 @@ export async function sendNormalMessage(
             })
         );
       } else {
+        if (!isConversationAccepted(conversation.attributes)) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+          );
+          markMessageFailed(message, [
+            new Error('Message request was not accepted'),
+          ]);
+          return;
+        }
+        if (isConversationUnregistered(conversation.attributes)) {
+          log.info(
+            `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+          );
+          markMessageFailed(message, [
+            new Error('Contact no longer has a Signal account'),
+          ]);
+          return;
+        }
+
         log.info('sending direct message');
         innerPromise = window.textsecure.messaging.sendMessageToIdentifier({
           identifier: recipientIdentifiersWithoutMe[0],

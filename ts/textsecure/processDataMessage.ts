@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import Long from 'long';
@@ -263,9 +263,10 @@ export async function processDataMessage(
     groupV2: processGroupV2Context(message.groupV2),
     flags: message.flags ?? 0,
     expireTimer: message.expireTimer ?? 0,
-    profileKey: message.profileKey
-      ? Bytes.toBase64(message.profileKey)
-      : undefined,
+    profileKey:
+      message.profileKey && message.profileKey.length > 0
+        ? Bytes.toBase64(message.profileKey)
+        : undefined,
     timestamp,
     quote: processQuote(message.quote),
     contact: processContact(message.contact),

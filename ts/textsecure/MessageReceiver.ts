@@ -1,4 +1,4 @@
-// Copyright 2020-2021 Signal Messenger, LLC
+// Copyright 2020-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /* eslint-disable no-bitwise */
@@ -1824,7 +1824,10 @@ export default class MessageReceiver
     }
 
     if (msg.flags && msg.flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) {
-      strictAssert(msg.profileKey, 'PROFILE_KEY_UPDATE without profileKey');
+      strictAssert(
+        msg.profileKey && msg.profileKey.length > 0,
+        'PROFILE_KEY_UPDATE without profileKey'
+      );
 
       const ev = new ProfileKeyUpdateEvent(
         {

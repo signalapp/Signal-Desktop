@@ -34,11 +34,11 @@ export function initializeAllJobQueues({
   deliveryReceiptsJobQueue.streamJobs();
   readReceiptsJobQueue.streamJobs();
   viewedReceiptsJobQueue.streamJobs();
-  viewOnceOpenJobQueue.streamJobs();
 
   // Syncs to ourselves
   readSyncJobQueue.streamJobs();
   viewSyncJobQueue.streamJobs();
+  viewOnceOpenJobQueue.streamJobs();
 
   // Other queues
   removeStorageKeyJobQueue.streamJobs();

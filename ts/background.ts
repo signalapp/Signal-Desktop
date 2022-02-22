@@ -2590,7 +2590,7 @@ export async function startApp(): Promise<void> {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const conversation = window.ConversationController.get(detailsId)!;
 
-      if (details.profileKey) {
+      if (details.profileKey && details.profileKey.length > 0) {
         const profileKey = Bytes.toBase64(details.profileKey);
         conversation.setProfileKey(profileKey);
       }

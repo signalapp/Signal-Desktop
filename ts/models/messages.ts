@@ -19,6 +19,7 @@ import {
   repeat,
   zipObject,
 } from '../util/iterables';
+import type { SentEventData } from '../textsecure/messageReceiverEvents';
 import { isNotNil } from '../util/isNotNil';
 import { isNormalNumber } from '../util/isNormalNumber';
 import { strictAssert } from '../util/assert';
@@ -72,6 +73,7 @@ import { markRead, markViewed } from '../services/MessageUpdater';
 import { isMessageUnread } from '../util/isMessageUnread';
 import {
   isDirectConversation,
+  isGroup,
   isGroupV1,
   isGroupV2,
   isMe,
@@ -1376,7 +1378,9 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           break;
         }
         case 'UnregisteredUserError':
-          shouldSaveError = false;
+          if (conversation && isGroup(conversation.attributes)) {
+            shouldSaveError = false;
+          }
           // If we just found out that we couldn't send to a user because they are no
           //   longer registered, we will update our unregistered flag. In groups we
           //   will not event try to send to them for 6 hours. And we will never try
@@ -2171,11 +2175,11 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
     }
   }
 
-  handleDataMessage(
+  async handleDataMessage(
     initialMessage: ProcessedDataMessage,
     confirm: () => void,
-    options: { data?: typeof window.WhatIsThis } = {}
-  ): WhatIsThis {
+    options: { data?: SentEventData } = {}
+  ): Promise<void> {
     const { data } = options;
 
     // This function is called from the background script in a few scenarios:
@@ -2198,7 +2202,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const conversation = window.ConversationController.get(conversationId)!;
-    return conversation.queueJob('handleDataMessage', async () => {
+    await conversation.queueJob('handleDataMessage', async () => {
       log.info(
         `Starting handleDataMessage for message ${message.idForLogging()} in conversation ${conversation.idForLogging()}`
       );
@@ -2243,7 +2247,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           };
 
           const unidentifiedStatus: Array<ProcessedUnidentifiedDeliveryStatus> =
-            Array.isArray(data.unidentifiedStatus)
+            data && Array.isArray(data.unidentifiedStatus)
               ? data.unidentifiedStatus
               : [];
 
@@ -2265,9 +2269,10 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
                 return;
               }
 
-              const updatedAt: number = isNormalNumber(data.timestamp)
-                ? data.timestamp
-                : Date.now();
+              const updatedAt: number =
+                data && isNormalNumber(data.timestamp)
+                  ? data.timestamp
+                  : Date.now();
 
               const previousSendState = getOwn(
                 sendStateByConversationId,
@@ -2747,7 +2752,7 @@ export class MessageModel extends window.Backbone.Model<MessageAttributesType> {
           }
 
           if (dataMessage.profileKey) {
-            const profileKey = dataMessage.profileKey.toString('base64');
+            const { profileKey } = dataMessage;
             if (
               source === window.textsecure.storage.user.getNumber() ||
               sourceUuid ===

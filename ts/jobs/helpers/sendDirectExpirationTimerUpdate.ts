@@ -16,6 +16,9 @@ import type {
   ExpirationTimerUpdateJobData,
   ConversationQueueJobBundle,
 } from '../conversationJobQueue';
+import { handleMessageSend } from '../../util/handleMessageSend';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -86,17 +89,33 @@ export async function sendDirectExpirationTimerUpdate(
 
   try {
     if (isMe(conversation.attributes)) {
-      await window.textsecure.messaging.sendSyncMessage({
-        encodedDataMessage: Proto.DataMessage.encode(
-          proto.dataMessage
-        ).finish(),
-        destination: conversation.get('e164'),
-        destinationUuid: conversation.get('uuid'),
-        expirationStartTimestamp: null,
-        options: sendOptions,
-        timestamp,
-      });
+      await handleMessageSend(
+        window.textsecure.messaging.sendSyncMessage({
+          encodedDataMessage: Proto.DataMessage.encode(
+            proto.dataMessage
+          ).finish(),
+          destination: conversation.get('e164'),
+          destinationUuid: conversation.get('uuid'),
+          expirationStartTimestamp: null,
+          options: sendOptions,
+          timestamp,
+        }),
+        { messageIds: [], sendType }
+      );
     } else if (isDirectConversation(conversation.attributes)) {
+      if (!isConversationAccepted(conversation.attributes)) {
+        log.info(
+          `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
+        );
+        return;
+      }
+      if (isConversationUnregistered(conversation.attributes)) {
+        log.info(
+          `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
+        );
+        return;
+      }
+
       await wrapWithSyncMessageSend({
         conversation,
         logId,

@@ -6,15 +6,15 @@ import { isNumber } from 'lodash';
 import type { CallbackResultType } from '../textsecure/Types.d';
 import dataInterface from '../sql/Client';
 import * as log from '../logging/log';
+import {
+  OutgoingMessageError,
+  SendMessageNetworkError,
+  SendMessageProtoError,
+  UnregisteredUserError,
+} from '../textsecure/Errors';
+import { SEALED_SENDER } from '../types/SealedSender';
 
-const { insertSentProto } = dataInterface;
-
-export const SEALED_SENDER = {
-  UNKNOWN: 0,
-  ENABLED: 1,
-  DISABLED: 2,
-  UNRESTRICTED: 3,
-};
+const { insertSentProto, updateConversation } = dataInterface;
 
 export const sendTypesEnum = z.enum([
   'blockSyncRequest',
@@ -72,6 +72,53 @@ export function shouldSaveProto(sendType: SendTypesType): boolean {
   return true;
 }
 
+function processError(error: unknown): void {
+  if (
+    error instanceof OutgoingMessageError ||
+    error instanceof SendMessageNetworkError
+  ) {
+    const conversation = window.ConversationController.getOrCreate(
+      error.identifier,
+      'private'
+    );
+    if (error.code === 401 || error.code === 403) {
+      if (
+        conversation.get('sealedSender') === SEALED_SENDER.ENABLED ||
+        conversation.get('sealedSender') === SEALED_SENDER.UNRESTRICTED
+      ) {
+        log.warn(
+          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, removing profile key`
+        );
+
+        conversation.setProfileKey(undefined);
+      }
+      if (conversation.get('sealedSender') === SEALED_SENDER.UNKNOWN) {
+        log.warn(
+          `handleMessageSend: Got 401/403 for ${conversation.idForLogging()}, setting sealedSender = DISABLED`
+        );
+        conversation.set('sealedSender', SEALED_SENDER.DISABLED);
+        updateConversation(conversation.attributes);
+      }
+    }
+    if (error.code === 404) {
+      log.warn(
+        `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+      );
+      conversation.setUnregistered();
+    }
+  }
+  if (error instanceof UnregisteredUserError) {
+    const conversation = window.ConversationController.getOrCreate(
+      error.identifier,
+      'private'
+    );
+    log.warn(
+      `handleMessageSend: Got 404 for ${conversation.idForLogging()}, marking unregistered.`
+    );
+    conversation.setUnregistered();
+  }
+}
+
 export async function handleMessageSend(
   promise: Promise<CallbackResultType>,
   options: {
@@ -91,12 +138,17 @@ export async function handleMessageSend(
 
     return result;
   } catch (err) {
-    if (err) {
+    processError(err);
+
+    if (err instanceof SendMessageProtoError) {
       await handleMessageSendResult(
         err.failoverIdentifiers,
         err.unidentifiedDeliveries
       );
+
+      err.errors?.forEach(processError);
     }
+
     throw err;
   }
 }

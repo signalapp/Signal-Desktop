@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { differenceWith, omit, partition } from 'lodash';
@@ -46,11 +46,8 @@ import type {
   SenderKeyInfoType,
 } from '../model-types.d';
 import type { SendTypesType } from './handleMessageSend';
-import {
-  handleMessageSend,
-  SEALED_SENDER,
-  shouldSaveProto,
-} from './handleMessageSend';
+import { handleMessageSend, shouldSaveProto } from './handleMessageSend';
+import { SEALED_SENDER } from '../types/SealedSender';
 import { parseIntOrThrow } from './parseIntOrThrow';
 import {
   multiRecipient200ResponseSchema,

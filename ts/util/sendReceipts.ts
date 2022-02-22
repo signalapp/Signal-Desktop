@@ -1,4 +1,4 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2021-2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { chunk } from 'lodash';
@@ -8,6 +8,7 @@ import { ReceiptType } from '../types/Receipt';
 import { getSendOptions } from './getSendOptions';
 import { handleMessageSend } from './handleMessageSend';
 import { isConversationAccepted } from './isConversationAccepted';
+import { isConversationUnregistered } from './isConversationUnregistered';
 import { map } from './iterables';
 import { missingCaseError } from './missingCaseError';
 
@@ -91,6 +92,15 @@ export async function sendReceipts({
       }
 
       if (!isConversationAccepted(sender.attributes)) {
+        log.info(
+          `conversation ${sender.idForLogging()} is not accepted; refusing to send`
+        );
+        return;
+      }
+      if (isConversationUnregistered(sender.attributes)) {
+        log.info(
+          `conversation ${sender.idForLogging()} is unregistered; refusing to send`
+        );
         return;
       }
 
